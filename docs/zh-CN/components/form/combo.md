@@ -967,9 +967,9 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 | reset    | -                                                                                                         | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                            |
 | setValue | `value: object \| Array<object>` 更新的值<br/>`index?: number` 指定更新的数据索引， 1.10.1 及以上版本引入 | 更新数据，对象数组针对开启`multiple`模式, `multiple`模式下可以通过指定`index`来更新指定索引的数据 |
 
-## 动作示例
+### setValue
 
-### 复制数值
+#### 复制数值
 
 > 1.10.1 及以上版本
 
@@ -1052,6 +1052,193 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
               }
             ]
           }
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### 修改列表嵌套结构的行记录的字段
+
+下面的示例中，combo 内包含一个表格编辑框，即 combo 数据是一个列表结构，它的记录中嵌套了另一个列表结构（inpu-table）。想要实现【修改】操作只更新所在 combo 行记录中的 input-table 中对应的行记录。通过`componentName`来指定所需更新的字段名，它将帮你定位到当前操作行；
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "data": {
+    "combo": [
+      {
+        "table": [{
+          "name": "amis",
+          "age": "18"
+        }]
+      },
+      {
+        "table": [{
+          "name": "boss",
+          "age": "10"
+        }]
+      }
+    ]
+  },
+  "mode": "horizontal",
+  "api": "/amis/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "combo",
+      "name": "combo",
+      "id": "comboId",
+      "label": false,
+      "strictMode": false,
+      "multiple": true,
+      "addBtn": {
+        "type": "button",
+        "label": "增加",
+        "level": "default",
+        "block": true
+      },
+      "items": [
+        {
+          "type": "input-table",
+          "name": "table",
+          "strictMode": false,
+          "label": false,
+          "needConfirm": false,
+          "addable": true,
+          "removable": true,
+          "columns": [
+            {
+              "label": "姓名",
+              "name": "name",
+              "quickEdit": false
+            },
+            {
+              "label": "年龄",
+              "name": "age"
+            },
+            {
+              "type": "operation",
+              "label": "操作",
+              "quickEdit": false,
+              "buttons": [
+                {
+                  "type": "button",
+                  "level": "link",
+                  "onEvent": {
+                    "click": {
+                      "weight": 0,
+                      "actions": [
+                        {
+                          "dialog": {
+                            "data": {
+                              "&": "$$",
+                              "index": "$index",
+                              "__index": "$__index"
+                            },
+                            "closeOnEsc": false,
+                            "className": "app-popover",
+                            "body": [
+                              {
+                                "onEvent": {
+                                  "validateSucc": {
+                                    "weight": 0,
+                                    "actions": [
+                                      {
+                                        "actionType": "closeDialog"
+                                      },
+                                      {
+                                        "args": {
+                                          "index": "$index",
+                                          "value": {
+                                            "name": "$name",
+                                            "age": "$age"
+                                          }
+                                        },
+                                        "actionType": "setValue",
+                                        "componentName": "table"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "id": "u:c6f5190b3e79",
+                                "body": [
+                                  {
+                                    "label": "姓名",
+                                    "name": "name",
+                                    "type": "input-text",
+                                    "required": true
+                                  },
+                                  {
+                                    "label": "年龄",
+                                    "name": "age",
+                                    "type": "input-text",
+                                    "required": true
+                                  }
+                                ],
+                                "type": "form",
+                                "title": "表单"
+                              }
+                            ],
+                            "type": "dialog",
+                            "title": "行记录",
+                            "showLoading": true,
+                            "withDefaultData": true,
+                            "dataMapSwitch": true,
+                            "size": "lg",
+                            "dataMap": {
+                              "index": "$index",
+                              "items": "$items"
+                            },
+                            "showErrorMsg": true,
+                            "showCloseButton": true,
+                            "id": "u:c02c4a3a9896",
+                            "actions": [
+                              {
+                                "level": "primary",
+                                "onEvent": {
+                                  "click": {
+                                    "actions": [
+                                      {
+                                        "actionType": "validate",
+                                        "groupType": "component",
+                                        "componentId": "u:c6f5190b3e79"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "id": "u:93f0098bcda0",
+                                "label": "提交",
+                                "type": "button"
+                              },
+                              {
+                                "onEvent": {
+                                  "click": {
+                                    "actions": [
+                                      {
+                                        "actionType": "closeDialog"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "id": "u:ca36246070b5",
+                                "label": "关闭",
+                                "type": "button"
+                              }
+                            ]
+                          },
+                          "actionType": "dialog"
+                        }
+                      ]
+                    }
+                  },
+                  "id": "u:fe240f4c3aa8",
+                  "label": "修改"
+                }
+              ]
+            }
+          ]
         }
       ]
     }
