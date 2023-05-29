@@ -77,16 +77,8 @@ export interface TagSchema extends BaseSchema {
 export interface TagProps
   extends RendererProps,
     Omit<TagSchema, 'type' | 'className'> {
-  onClick?: (params: {
-    [propName: string]: any;
-    nativeEvent: React.MouseEvent<any>;
-    label: string;
-  }) => void;
-  onClose?: (params: {
-    [propName: string]: any;
-    nativeEvent: React.MouseEvent<any>;
-    label: string;
-  }) => void;
+  onClick?: (params: {[propName: string]: any}) => void;
+  onClose?: (params: {[propName: string]: any}) => void;
 }
 
 export class TagField extends React.Component<TagProps, object> {
@@ -97,7 +89,7 @@ export class TagField extends React.Component<TagProps, object> {
   @autobind
   handleClick(nativeEvent: React.MouseEvent<any>) {
     const {dispatchEvent, onClick} = this.props;
-    const params = this.getResolvedEventParams(nativeEvent);
+    const params = this.getResolvedEventParams();
 
     dispatchEvent(nativeEvent, params);
     onClick?.(params);
@@ -106,7 +98,7 @@ export class TagField extends React.Component<TagProps, object> {
   @autobind
   handleMouseEnter(e: React.MouseEvent<any>) {
     const {dispatchEvent} = this.props;
-    const params = this.getResolvedEventParams(e);
+    const params = this.getResolvedEventParams();
 
     dispatchEvent(e, params);
   }
@@ -114,7 +106,7 @@ export class TagField extends React.Component<TagProps, object> {
   @autobind
   handleMouseLeave(e: React.MouseEvent<any>) {
     const {dispatchEvent} = this.props;
-    const params = this.getResolvedEventParams(e);
+    const params = this.getResolvedEventParams();
 
     dispatchEvent(e, params);
   }
@@ -122,7 +114,7 @@ export class TagField extends React.Component<TagProps, object> {
   @autobind
   handleClose(nativeEvent: React.MouseEvent<HTMLElement>) {
     const {dispatchEvent, onClose} = this.props;
-    const params = this.getResolvedEventParams(nativeEvent);
+    const params = this.getResolvedEventParams();
 
     dispatchEvent(
       {
@@ -185,7 +177,7 @@ export class TagField extends React.Component<TagProps, object> {
     );
   }
 
-  private getResolvedEventParams<T>(nativeEvent: T) {
+  private getResolvedEventParams<T>() {
     const {data} = this.props;
 
     return createObject(data, {
