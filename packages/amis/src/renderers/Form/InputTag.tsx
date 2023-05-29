@@ -669,7 +669,7 @@ export default class TagControl extends React.PureComponent<
                       {mobileUI && !this.isReachMaxFromState() ? (
                         <div className={cx('ListMenu-add-wrap')}>
                           <ResultBox
-                            placeholder={__('SubForm.add')}
+                            placeholder={__('placeholder.enter') + '...'}
                             allowInput
                             value={this.state.inputValue}
                             useMobileUI={useMobileUI}

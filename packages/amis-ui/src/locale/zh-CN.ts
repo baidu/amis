@@ -44,7 +44,7 @@ register('zh-CN', {
   'CRUD.loadMore': '加载更多',
   'CRUD.loadMoreDisableTip': '无数据或最后一页',
   'CRUD.perPage': '每页显示',
-  'CRUD.stat': '{{page}}/{{lastPage}} 总共：{{total}} 项',
+  'CRUD.stat': '{{page}}/{{lastPage}} 共：{{total}} 项',
   'CRUD.paginationGoText': '前往',
   'CRUD.paginationPageText': '页',
   'PaginationWrapper.placeholder': '请配置内容',

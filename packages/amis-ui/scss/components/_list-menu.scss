@@ -94,14 +94,18 @@
 .#{$ns}ListMenu-add-wrap {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  margin: px2rem(20px) 0;
-  text-align: center;
+  margin: var(--ListMenu-item-mobile-margin);
+  text-align: left;
+
+  .#{$ns}ResultBox {
+    width: 100%;
+  }
 
   input {
-    &::-webkit-input-placeholder {
-      text-align: center;
-    }
+    width: 100%;
+    padding: var(--Form-item-mobile-gap) 0;
+    border-bottom: 1px solid var(--borderColor);
+    border-radius: 0;
   }
 }
 

@@ -42,7 +42,7 @@
 
   @include input-border();
 
-  &:not(.is-disabled) {
+  &:not(.is-disabled):not(.is-mobile) {
     cursor: pointer;
 
     &:hover {
@@ -238,10 +238,6 @@
   .#{$ns}DatePicker-placeholder {
     flex-grow: unset;
     flex-basis: unset;
-  }
-
-  .#{$ns}DatePicker-toggler {
-    margin-top: -3px;
   }
 }
 

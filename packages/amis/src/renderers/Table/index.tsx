@@ -1175,9 +1175,15 @@ export default class Table extends React.Component<TableProps, object> {
       clip.top - headerHeight - headingHeight < offsetY &&
       clip.top + clip.height - 40 > offsetY;
 
-    affixedDom.style.cssText += `top: ${offsetY}px;width: ${
-      (this.table.parentNode as HTMLElement).offsetWidth
-    }px`;
+    if (isMobile()) {
+      affixedDom.style.cssText += `top: 0;width: ${
+        (this.table.parentNode as HTMLElement).offsetWidth
+      }px`;
+    } else {
+      affixedDom.style.cssText += `top: ${offsetY}px;width: ${
+        (this.table.parentNode as HTMLElement).offsetWidth
+      }px`;
+    }
 
     affixed
       ? affixedDom.classList.add('in')

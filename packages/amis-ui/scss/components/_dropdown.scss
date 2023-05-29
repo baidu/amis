@@ -75,11 +75,6 @@
     color: var(--DropDown-menuItem-color);
     text-decoration: var(--link-decoration);
 
-    &:hover {
-      background: var(--DropDown-menuItem-onHover-bg);
-      color: var(--DropDown-menuItem-onHover-color);
-    }
-
     &.is-active {
       background: var(--DropDown-menuItem-onHover-bg);
       color: var(--DropDown-menuItem-onActive-color);
@@ -125,6 +120,14 @@
       & ~ .#{$ns}DropDown-button {
         padding-left: var(--gap-lg);
       }
+    }
+  }
+
+  &-menuItem,
+  &-menu:not(.is-mobile) > li {
+    &:hover {
+      background: var(--DropDown-menuItem-onHover-bg);
+      color: var(--DropDown-menuItem-onHover-color);
     }
   }
 

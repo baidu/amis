@@ -1788,8 +1788,7 @@ export class DateRangePicker extends React.Component<
                 `${ns}CalendarMobile-pop--${viewMode}`
               )}
               onHide={this.close}
-              showClose={false}
-              // header={CalendarMobileTitle}
+              header={CalendarMobileTitle}
             >
               {useCalendarMobile ? calendarMobile : this.renderCalendar()}
             </PopUp>

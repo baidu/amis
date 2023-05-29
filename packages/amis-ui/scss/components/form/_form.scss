@@ -511,7 +511,7 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 0;
-    padding: var(--Form-item-gap) 0;
+    padding: var(--Form-item-mobile-gap) 0;
     position: relative;
 
     &::after {
@@ -540,6 +540,11 @@
       margin-right: 0;
       margin-bottom: 0;
       font-size: var(--fontSizeLg);
+
+      > span {
+        line-height: px2rem(32px);
+        display: inline-block;
+      }
     }
 
     .#{$ns}Form-description {
@@ -618,7 +623,23 @@
       flex: 1;
       flex-wrap: wrap;
       font-size: var(--fontSizeLg);
-      overflow-x: auto;
+
+      .#{$ns}ColorPicker {
+        height: 100%;
+
+        > input {
+          height: 100%;
+        }
+      }
+
+      .#{$ns}ResultBox {
+        height: 100%;
+
+        .#{$ns}ResultBox-value-wrap {
+          justify-content: flex-end;
+          text-align: right;
+        }
+      }
 
       &.is-disabled > .#{$ns}TextControl-input {
         background: transparent;

@@ -12,6 +12,7 @@ import {LocationPicker, Alert2, BaiduMapPicker, Icon} from 'amis-ui';
 import {filter} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
+import {isMobile} from 'amis-core';
 /**
  * Location 选点组件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/location
@@ -100,7 +101,9 @@ export class LocationControl extends React.Component<LocationControlProps> {
 
     return (
       <div
-        className={this.props.classnames('LocationControl')}
+        className={this.props.classnames('LocationControl', {
+          'is-mobile': isMobile()
+        })}
         ref={this.domRef}
       >
         <span>{value.address}</span>
@@ -141,7 +144,11 @@ export class LocationControl extends React.Component<LocationControlProps> {
   render() {
     const {style} = this.props;
     return (
-      <div className={this.props.classnames('LocationControl')}>
+      <div
+        className={this.props.classnames('LocationControl', {
+          'is-mobile': isMobile()
+        })}
+      >
         <LocationPicker
           {...this.props}
           ak={filter(this.props.ak, this.props.data)}

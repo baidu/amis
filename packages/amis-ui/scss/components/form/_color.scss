@@ -10,10 +10,6 @@
   color: var(--ColorPicker-color);
   border-radius: var(--borderRadius);
 
-  &-popup {
-    height: px2rem(460px);
-  }
-
   &:not(.is-disabled) {
     cursor: pointer;
 
@@ -124,6 +120,8 @@
 }
 
 .#{$ns}ColorPicker-popup {
+  height: px2rem(500px);
+
   .sketch-picker {
     width: 80% !important;
     box-shadow: none !important;

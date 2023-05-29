@@ -211,6 +211,7 @@
     overflow-y: scroll;
 
     table {
+      padding: 0;
       border-spacing: 0 px2rem(4px);
     }
 
@@ -245,8 +246,8 @@
     }
 
     .calendar-wrap {
-      position: relative;
       width: px2rem(50px);
+      position: relative;
       height: 100%;
       text-align: center;
       display: inline-flex;
@@ -261,6 +262,12 @@
     .calendar-wrap {
       width: auto;
       max-width: px2rem(50px);
+    }
+  }
+
+  &-embed {
+    .#{$ns}CalendarMobile-footer {
+      width: 90vw;
     }
   }
 

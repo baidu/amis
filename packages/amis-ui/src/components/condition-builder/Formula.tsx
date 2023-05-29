@@ -30,6 +30,7 @@ export class Formula extends React.Component<FormulaProps> {
               {__('Condition.expression')}
             </span>
           }
+          useMobileUI
         />
       </div>
     );

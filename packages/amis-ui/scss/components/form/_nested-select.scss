@@ -11,6 +11,11 @@
 .#{$ns}NestedSelect {
   position: relative;
   @include input-border();
+
+  &.is-mobile {
+    text-align: right;
+  }
+
   &-optionArrowRight {
     display: inline-block;
     padding-right: var(--Form-select-icon-rigin);

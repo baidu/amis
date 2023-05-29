@@ -189,7 +189,7 @@
       var(--transfer-search-paddingRight) var(--transfer-search-paddingBottom)
       var(--transfer-search-paddingLeft);
     width: 100%;
-    .#{$ns}InputBox {
+    .#{$ns}InputBox:not(.is-mobile) {
       font-size: var(--transfer-search-fontSize);
       font-weight: var(--transfer-search-fontWeight);
       line-height: var(--transfer-search-lineHeight);
@@ -254,6 +254,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    &.is-mobile {
+      display: none;
+    }
   }
 
   &-arrow {
@@ -568,6 +572,10 @@
   &.is-mobile {
     width: 100%;
     min-width: auto;
+
+    .#{$ns}Table-table > thead > tr > th:first-child.#{$ns}Table-checkCell {
+      padding-left: var(--select-table-option-paddingLeft);
+    }
   }
 
   & > .#{$ns}Transfer-selection {

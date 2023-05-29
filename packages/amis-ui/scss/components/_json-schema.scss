@@ -32,6 +32,17 @@
         border-bottom: var(--Form-input-borderWidth) solid
           var(--Form-input-borderColor);
       }
+
+      .#{$ns}InputBox {
+        height: 100%;
+        line-height: 1;
+
+        > .#{$ns}InputBox-caret {
+          svg {
+            top: 0.125em;
+          }
+        }
+      }
     }
   }
 
