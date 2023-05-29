@@ -343,7 +343,8 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
     if (
       ret.headers &&
       contentType.startsWith('text/') &&
-      !contentType.includes('markdown')
+      !contentType.includes('markdown') &&
+      api.responseType !== 'blob'
     ) {
       try {
         data = JSON.parse(data);
