@@ -183,13 +183,14 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                           })
                         ];
                       });
-                      items = items.filter((item: any) => arrItems.find(a => a === item));
+                      items = items.filter((item: any) =>
+                        arrItems.find(a => a === item)
+                      );
                     }
-                  }
-                  else {
+                  } else {
                     items = matchSorter(items, value, {
                       keys: [key]
-                    })
+                    });
                   }
                 }
               }
@@ -349,11 +350,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                           })
                         ];
                       });
-                      filteredItems = filteredItems.filter(
-                        item => arrItems.find(a => a === item));
+                      filteredItems = filteredItems.filter(item =>
+                        arrItems.find(a => a === item)
+                      );
                     }
-                  }
-                  else {
+                  } else {
                     filteredItems = matchSorter(filteredItems, value, {
                       keys: [key]
                     });
@@ -644,6 +645,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       self.columns = columns;
     };
 
+    const updateTotal = (total: number) => {
+      self.total = total || 0;
+    };
+
     return {
       getData,
       updateSelectData,
@@ -661,7 +666,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       setInnerModalOpened,
       initFromScope,
       exportAsCSV,
-      updateColumns
+      updateColumns,
+      updateTotal
     };
   });
 

@@ -43,10 +43,14 @@ export class CmptAction implements RendererAction {
      * 根据唯一ID查找指定组件
      * 触发组件未指定id或未指定响应组件componentId，则使用触发组件响应
      */
-    const component =
-      action.componentId && renderer.props.$schema.id !== action.componentId
-        ? event.context.scoped?.getComponentById(action.componentId)
+    const key = action.componentId || action.componentName;
+    let component =
+      key && renderer.props.$schema[action.componentId ? 'id' : 'name'] !== key
+        ? event.context.scoped?.[
+            action.componentId ? 'getComponentById' : 'getComponentByName'
+          ](key)
         : renderer;
+
     const dataMergeMode = action.dataMergeMode || 'merge';
 
     // 显隐&状态控制
