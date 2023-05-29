@@ -2551,7 +2551,7 @@ popOver 的其它配置请参考 [popover](./popover)
 | selectAll | -                                                                                                                | 设置表格全部项选中   |
 | clearAll  | -                                                                                                                | 清空表格所有选中项   |
 | initDrag  | -                                                                                                                | 开启表格拖拽排序功能 |
-| setValue  | `value: object`                                                                                                  | 设置 CRUD 数据记录   |
+| setValue  | `value: object`                                                                                                  | 更新列表记录         |
 
 value 结构说明：
 
