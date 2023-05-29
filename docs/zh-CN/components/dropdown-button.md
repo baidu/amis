@@ -279,12 +279,78 @@ order: 44
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
 | 事件名称   | 事件参数                     | 说明                                    |
 | ---------- | ---------------------------- | --------------------------------------- |
 | mouseenter | items: Array<DropdownButton> | 触发方式为 hover 模式下，鼠标移入时触发 |
 | mouseleave | items: Array<DropdownButton> | 触发方式为 hover 模式下，鼠标移出时触发 |
+
+### mouseenter
+
+```schema: scope="body"
+{
+    "type": "dropdown-button",
+    "label": "下拉按钮",
+    "trigger": "hover",
+    "onEvent": {
+        "mouseenter": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                    "msgType": "info",
+                    "msg": "mouseenter ${event.data.items.length}"
+                    }
+                }
+            ]
+        }
+    },
+    "buttons": [
+        {
+            "type": "button",
+            "label": "按钮1"
+        },
+        {
+            "type": "button",
+            "label": "按钮2"
+        }
+    ]
+}
+```
+
+### mouseleave
+
+```schema: scope="body"
+{
+    "type": "dropdown-button",
+    "label": "下拉按钮",
+    "trigger": "hover",
+    "onEvent": {
+        "mouseleave": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                    "msgType": "info",
+                    "msg": "mouseleave ${event.data.items.length}"
+                    }
+                }
+            ]
+        }
+    },
+    "buttons": [
+        {
+            "type": "button",
+            "label": "按钮1"
+        },
+        {
+            "type": "button",
+            "label": "按钮2"
+        }
+    ]
+}
+```
 
 ## 动作表
 

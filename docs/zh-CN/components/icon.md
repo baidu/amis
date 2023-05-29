@@ -211,10 +211,82 @@ v6 用 fa-regular / fa-solid 等表示前缀，可参考官网[示例](https://f
 
 > 2.6.1 及以上版本
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称   | 事件参数                               | 说明           |
-| ---------- | -------------------------------------- | -------------- |
-| click      | `nativeEvent: MouseEvent` 鼠标事件对象 | 点击时触发     |
-| mouseenter | `nativeEvent: MouseEvent` 鼠标事件对象 | 鼠标移入时触发 |
-| mouseleave | `nativeEvent: MouseEvent` 鼠标事件对象 | 鼠标移出时触发 |
+| 事件名称   | 事件参数 | 说明           |
+| ---------- | -------- | -------------- |
+| click      | -        | 点击时触发     |
+| mouseenter | -        | 鼠标移入时触发 |
+| mouseleave | -        | 鼠标移出时触发 |
+
+### click
+
+鼠标点击。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+  "type": "icon",
+  "icon": "cloud",
+  "onEvent": {
+    "click": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.context.nativeEvent.target.className}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### mouseenter
+
+鼠标移入。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+  "type": "icon",
+  "icon": "cloud",
+  "onEvent": {
+    "mouseenter": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.context.nativeEvent.type}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### mouseleave
+
+鼠标移出。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+  "type": "icon",
+  "icon": "cloud",
+  "onEvent": {
+    "mouseleave": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.context.nativeEvent.type}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
