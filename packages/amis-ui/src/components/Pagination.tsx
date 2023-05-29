@@ -226,7 +226,9 @@ export class Pagination extends React.Component<
   }
 
   getLastPage() {
-    const {total, perPage, lastPage, activePage, hasNext} = this.props;
+    const {total, lastPage, activePage, hasNext} = this.props;
+    const perPage = this.state.perPage;
+
     // 输入total，重新计算lastPage
     if (total && perPage) {
       return Math.ceil(total / (perPage as number));
@@ -245,7 +247,7 @@ export class Pagination extends React.Component<
     const lastPage = this.getLastPage();
     let value = e.currentTarget.value;
 
-    if (/^\d+$/.test(value) && parseInt(value, 10) < lastPage) {
+    if (/^\d+$/.test(value) && parseInt(value, 10) > lastPage) {
       value = String(lastPage);
     }
 

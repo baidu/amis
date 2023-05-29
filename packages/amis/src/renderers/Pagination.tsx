@@ -90,7 +90,7 @@ export interface PaginationProps
     Omit<PaginationSchema, 'type' | 'className'> {}
 
 export default class Pagination extends React.Component<PaginationProps> {
-  formatNumber(num: number | string | undefined, defaultValue: number = 0) {
+  formatNumber(num: number | string | undefined, defaultValue?: number) {
     let result: number | undefined = undefined;
     if (typeof num === 'string') {
       num = isPureVariable(num) ? resolveVariableAndFilter(num) : num;
@@ -106,10 +106,10 @@ export default class Pagination extends React.Component<PaginationProps> {
     return (
       <BasicPagination
         {...this.props}
-        maxButtons={this.formatNumber(maxButtons, 5)}
-        activePage={this.formatNumber(activePage, 1)}
-        total={this.formatNumber(total, 0)}
-        perPage={this.formatNumber(perPage, 10)}
+        maxButtons={this.formatNumber(maxButtons)}
+        activePage={this.formatNumber(activePage)}
+        total={this.formatNumber(total)}
+        perPage={this.formatNumber(perPage)}
       />
     );
   }
@@ -117,7 +117,6 @@ export default class Pagination extends React.Component<PaginationProps> {
 
 @Renderer({
   test: /(^|\/)(?:pagination|pager)$/,
-  name: 'pagination',
-  autoVar: true
+  name: 'pagination'
 })
 export class PaginationRenderer extends Pagination {}
