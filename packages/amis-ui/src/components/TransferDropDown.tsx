@@ -71,7 +71,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
   @autobind
   onConfirm() {
     const {onChange} = this.props;
-    onChange?.(this.state.tempValue as typeof Option[]);
+    onChange?.(this.state.tempValue as (typeof Option)[]);
   }
 
   render() {
@@ -124,6 +124,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
                   placeholder={placeholder ?? __('Transfer.searchKeyword')}
                   clearable={false}
                   onKeyDown={this.handleSearchKeyDown}
+                  useMobileUI
                 >
                   {searchResult !== null ? (
                     <a onClick={this.handleSeachCancel}>

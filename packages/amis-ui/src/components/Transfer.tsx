@@ -450,6 +450,7 @@ export class Transfer<
               clearable={false}
               onKeyDown={this.handleSearchKeyDown}
               placeholder={searchPlaceholder}
+              useMobileUI
             >
               {this.state.searchResult !== null ? (
                 <a onClick={this.handleSeachCancel}>
@@ -848,7 +849,7 @@ export class Transfer<
         <div className={cx('Transfer-select')}>
           {this.renderSelect(this.props)}
         </div>
-        <div className={cx('Transfer-mid')}>
+        <div className={cx('Transfer-mid', {'is-mobile': mobileUI})}>
           {showArrow /*todo 需要改成确认模式，即：点了按钮才到右边 */ ? (
             <div className={cx('Transfer-arrow')}>
               <Icon icon="right-arrow" className="icon" />

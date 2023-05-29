@@ -254,8 +254,6 @@ export class ResultBox extends React.Component<ResultBoxProps> {
     const isFocused = this.state.isFocused;
     const mobileUI = useMobileUI && isMobile();
 
-    console.log('onResultClick-----', onResultClick);
-
     return (
       <div
         className={cx('ResultBox', className, {

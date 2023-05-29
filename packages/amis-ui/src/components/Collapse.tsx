@@ -56,6 +56,7 @@ export interface CollapseProps {
   partial?: boolean;
   children?: React.ReactNode | Array<React.ReactNode>;
   useMobileUI?: boolean;
+  divideLine?: boolean;
 }
 
 export interface CollapseState {

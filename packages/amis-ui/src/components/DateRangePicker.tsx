@@ -1385,11 +1385,7 @@ export class DateRangePicker extends React.Component<
           </div>
         ) : null}
         {this.renderRanges(ranges)}
-        <div
-          className={cx(`${ns}DateRangePicker-picker-wrap`, {
-            'is-vertical': embed
-          })}
-        >
+        <div className={cx(`${ns}DateRangePicker-picker-wrap`)}>
           {(!isTimeRange ||
             (editState === 'start' && !embed) ||
             (mobileUI && isTimeRange)) && (
@@ -1734,8 +1730,7 @@ export class DateRangePicker extends React.Component<
                 `${ns}CalendarMobile-pop--${viewMode}`
               )}
               onHide={this.close}
-              showClose={false}
-              // header={CalendarMobileTitle}
+              header={CalendarMobileTitle}
             >
               {useCalendarMobile ? calendarMobile : this.renderCalendar()}
             </PopUp>

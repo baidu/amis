@@ -188,10 +188,6 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
 
   @autobind
   onTouchEnd() {
-    const {isDrag} = this.state;
-    if (isDrag) {
-      return;
-    }
     this.setState({
       labelActive: false
     });
@@ -503,7 +499,8 @@ export class Range extends React.Component<RangeItemProps, any> {
    */
   @autobind
   getMarkMaxWidth(value: keyof MarksType, marks: MarksType) {
-    const {max, min} = this.props;
+    const {max, min, useMobileUI} = this.props;
+    const mobileUI = useMobileUI && isMobile();
     const curNum = isString(value) ? parseInt(value, 10) : value;
     // 给最大宽度赋初始值 默认最大
     let maxWidth = Math.abs(max - min);
@@ -515,7 +512,9 @@ export class Range extends React.Component<RangeItemProps, any> {
       }
     });
     // 差值的1/2 即为此刻度标记的最大宽度
-    return Math.floor(maxWidth / 2) + '%';
+    return mobileUI
+      ? Math.floor(maxWidth) + '%'
+      : Math.floor(maxWidth / 2) + '%';
   }
 
   render() {

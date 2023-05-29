@@ -165,7 +165,7 @@ export class PopOverContainer extends React.Component<
         {mobileUI ? (
           <PopUp
             isShow={this.state.isOpened}
-            container={popOverContainer}
+            container={document.body}
             className={popOverClassName}
             showConfirm={showConfirm}
             onHide={this.close}

@@ -101,7 +101,7 @@ export class BaiduMapPicker extends React.Component<
 
   componentWillUnmount() {
     this.ac?.dispose?.();
-    document.body.removeChild(this.placeholderInput!);
+    this.placeholderInput && document.body.removeChild(this.placeholderInput!);
 
     delete this.placeholderInput;
     delete this.map;

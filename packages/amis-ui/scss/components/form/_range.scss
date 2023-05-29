@@ -302,6 +302,13 @@
     }
   }
 
+  &.is-mobile {
+    .#{$ns}InputRange-label {
+      display: block;
+      white-space: nowrap;
+    }
+  }
+
   // marks
   &-marks {
     position: relative;

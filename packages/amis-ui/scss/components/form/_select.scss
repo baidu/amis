@@ -269,7 +269,7 @@
   }
 
   &.is-mobile {
-    min-height: calc(var(--Form-input-lineHeight) * var(--fontSizeLg));
+    min-height: var(--Form-select-height);
     border: none;
     padding: 0;
     font-size: var(--fontSizeLg);

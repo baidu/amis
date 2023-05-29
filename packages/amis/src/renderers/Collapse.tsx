@@ -156,8 +156,6 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       divideLine
     } = this.props;
 
-    console.log('cooooooo', divideLine);
-
     return (
       <BasicCollapse
         id={id}
