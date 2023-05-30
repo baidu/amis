@@ -1,4 +1,5 @@
-import {AsyncEvaluator, parse} from 'amis-formula';
+import {AsyncEvaluator} from 'amis-formula';
+import {memoryParse} from './memoryParse';
 
 let formulaEvalErrorHandler: (
   path: string,
@@ -28,7 +29,7 @@ export const resolveVariableAndFilterForAsync = async (
   }
 
   try {
-    const ast = parse(path, {
+    const ast = memoryParse(path, {
       evalMode: false,
       allowFilter: true
     });
