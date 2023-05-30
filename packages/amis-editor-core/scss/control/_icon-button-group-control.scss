@@ -11,11 +11,16 @@
       margin: 0 !important;
       padding: 0 !important;
       width: 20px;
+      min-height: 20px;
     }
 
     &.is-active {
       svg {
         fill: $Editor-theme-color;
+        color: $Editor-theme-color;
+      }
+      i {
+        color: $Editor-theme-color;
       }
     }
   }
