@@ -60,5 +60,5 @@ export {
   ContainerWrapper,
   AvailableRenderersPlugin,
   ShortcutKey,
-  WidthDraggableContainer,
+  WidthDraggableContainer
 };

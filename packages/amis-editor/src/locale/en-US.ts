@@ -3968,5 +3968,29 @@ extendLocale('en-US', {
   '2c7fe494c99c94ba5965f963fd7d3a4c': 'Inline element',
   '39353c2b258e4bc73d8dd6a46f0a7955': 'Flexible layout (flex)',
   '553333a72dec41b54e8ed18d49453a76': 'Select the first item by default',
-  '86bf16f0cb7fd8b1fef2e1439e06b632': 'Style source code'
+  '86bf16f0cb7fd8b1fef2e1439e06b632': 'Style source code',
+  '7893f221dae53be8e3bfe72d2eb8a240': 'Icon size',
+  'f36616e35765ac3d5c9c7646e50a305d':
+    'Initialize data interface request completed',
+  '48c43999cf3908d9f5100a6d5f0b4404':
+    'Triggered when the remote initialization data interface request is completed',
+  'aa6070a7f454f554fc1c7d8b1d2d935f': 'Response data',
+  '23d861e4b6635508eb877a50a9333a9b': 'Response status (0 indicates success)',
+  'a303669d47440ed05558efbf3d5d0592': 'Response message',
+  '31769d6063c5ab0cfee842b395916fd4': 'Total number of rows',
+  '092798b39c21e4f73dea5107fef3a61c': 'Response status',
+  'a556b5535b6b0e5925d59bbc54b58946':
+    'Initialize Schema interface request completed',
+  '2cfbb19c3e801c5f4a11dafa1ec7884d':
+    'Triggered when the remote initialization of the Schema interface request is completed',
+  '7bb4a8abc423086dbd1edeed4cd3f718': 'Current row data',
+  'f74fd69ce55e3f96fe9a032c0da42330': 'Current row index',
+  '5db079b140feffa84c84d1b51d824dea': 'Mouse in row event',
+  '90a5608bcd85a3cfcfbb5263a229915c':
+    'Triggered when moving into the entire row',
+  'e8bf039de5dc6751c4045f55930e0c83': 'Mouse movement travel event',
+  'f1ca0d305f3251a81f361a2dc8e11fff':
+    'Triggered when moving out the entire row',
+  '41c5c859a80b635c23b3b4d1d8b44efb': 'Selected row',
+  'f87912f19be48f36e4e261e585764d6e': 'Unselected row'
 });
