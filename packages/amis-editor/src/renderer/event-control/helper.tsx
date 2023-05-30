@@ -514,34 +514,37 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               )
             },
             {
-              name: 'confirmDialog',
-              type: 'container',
+              name: 'args',
+              label: '弹框内容',
+              mode: 'horizontal',
+              required: true,
+              pipeIn: defaultValue({
+                title: '弹框标题',
+                confirmText: '确认',
+                cancelText: '取消',
+                confirmBtnLevel: 'primary',
+                body: '对，你刚刚点击了',
+                dialogType: 'confirm'
+              }),
+              asFormItem: true,
               visibleOn: 'data.groupType === "confirmDialog"',
-              body: [
-                getArgsWrapper({
-                  type: 'wrapper',
-                  className: 'p-none',
-                  body: [
-                    {
-                      name: 'msg',
-                      label: '消息内容',
-                      type: 'ae-textareaFormulaControl',
-                      mode: 'horizontal',
-                      variables: '${variables}',
-                      size: 'lg',
-                      required: true
-                    },
-                    {
-                      name: 'title',
-                      label: '标题内容',
-                      type: 'ae-textareaFormulaControl',
-                      variables: '${variables}',
-                      mode: 'horizontal',
-                      size: 'lg'
-                    }
-                  ]
-                })
-              ]
+              children: ({value, onChange, data}: any) => (
+                <Button
+                  size="sm"
+                  className="action-btn-width"
+                  onClick={() =>
+                    manager.openSubEditor({
+                      title: '配置弹框内容',
+                      value: {type: 'dialog', ...value},
+                      onChange: (value: any) => onChange(value)
+                    })
+                  }
+                  block
+                >
+                  {/* 翻译未生效，临时方案 */}
+                  {_i18n('a532be3ad5f3fda70d228b8542e81835')}
+                </Button>
+              )
             }
           ]
         },
@@ -2891,7 +2894,6 @@ export const getEventControlConfig = (
       }
     ) => {
       let config = {...action};
-
       if (['link', 'url'].includes(action.actionType) && action.args?.params) {
         config.args = {
           ...config.args,
