@@ -137,9 +137,9 @@ test('Renderer: input-table with default value column', async () => {
     expect(onSubmitCallbackFn).toHaveBeenCalledTimes(1);
     expect(onSubmitCallbackFn.mock.calls[0][0]).toEqual({
       table: [
-        {a: 'a1', b: 'b1' /* c: 'a1' */},
-        {a: 'a2', b: 'b2' /* c: 'a2' */},
-        {a: 'a3', b: 'b3' /* c: 'a3' */}
+        {a: 'a1', b: 'b1', c: 'a1'},
+        {a: 'a2', b: 'b2', c: 'a2'},
+        {a: 'a3', b: 'b3', c: 'a3'}
       ]
     });
   });
