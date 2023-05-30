@@ -147,13 +147,13 @@ test('Renderer:Carousel with name & option config', async () => {
   );
   expect(item).toHaveTextContent('这是标题');
 
-  fireEvent.click(container.querySelector('.cxd-Carousel-dot:nth-child(2')!);
+  fireEvent.click(container.querySelector('.cxd-Carousel-dot:nth-child(2)')!);
 
-  await wait(600);
-
-  expect(container.querySelector('.cxd-Carousel-item')!).toHaveTextContent(
-    'carousel data'
-  );
+  await waitFor(() => {
+    expect(container.querySelector('.cxd-Carousel-item')!).toHaveTextContent(
+      'carousel data'
+    );
+  });
 });
 
 test('Renderer:Carousel with controls & controlsTheme & thumbMode', async () => {

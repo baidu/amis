@@ -1139,6 +1139,9 @@ export function spliceTree<T extends TreeItem>(
  * @param tree
  */
 export function getTreeDepth<T extends TreeItem>(tree: Array<T>): number {
+  if (Array.isArray(tree) && tree.length === 0) {
+    return 0;
+  }
   return Math.max(
     ...tree.map(item => {
       if (Array.isArray(item.children)) {

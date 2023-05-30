@@ -130,7 +130,9 @@ class Remark extends React.Component<RemarkProps> {
         {finalLabel ? <span>{finalLabel}</span> : null}
         {finalIcon ? (
           typeof finalIcon === 'object' ? (
-            generateIcon(cx, finalIcon)
+            <span className={cx('Remark-icon', shapeClass)}>
+              {generateIcon(cx, finalIcon)}
+            </span>
           ) : hasIcon(finalIcon) ? (
             <span className={cx('Remark-icon', shapeClass)}>
               <Icon icon={finalIcon} />

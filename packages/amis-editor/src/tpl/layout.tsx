@@ -1498,10 +1498,10 @@ setSchemaTpl(
 // 子配置项包裹容器
 setSchemaTpl(
   'layout:wrapper-contanier',
-  (config: {visibleOn?: string; body: Array<any>}) => {
+  (config: {visibleOn?: string; className?: string; body: Array<any>}) => {
     return {
       type: 'container',
-      className: 'config-wrapper-contanier',
+      className: `config-wrapper-contanier ${config.className || ''}`,
       body: config.body,
       visibleOn: config?.visibleOn
     };

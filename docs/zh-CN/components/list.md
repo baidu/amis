@@ -292,17 +292,62 @@ interface ListBodyField {
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
 
-| 事件名称  | 事件参数      | 说明                                                                                                                                         | 版本    |
-| --------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| itemClick | `item: IItem` | 单行被点击时触发，[`IItem`](./list#iitem)为点击行的信息。注意`itemAction`和`onEvent`是互斥的，List 组件中的`onEvent`会覆盖`itemAction`的行为 | `2.4.0` |
+| 事件名称  | 事件参数      | 说明                                                                                                                         | 版本    |
+| --------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------- |
+| itemClick | `item: IItem` | 单行被点击时触发，`IItem`为点击行的信息。注意`itemAction`和`onEvent`是互斥的，List 组件中的`onEvent`会覆盖`itemAction`的行为 | `2.4.0` |
 
-### IItem
+**IItem**
 
 | 属性名 | 类型                  | 默认值 | 说明                |
 | ------ | --------------------- | ------ | ------------------- |
 | data   | `Record<string, any>` |        | 当前行所在数据域    |
 | index  | `number`              |        | 行索引值，从 0 开始 |
+
+### itemClick
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/sample?perPage=5",
+  "body": [
+    {
+      "type": "list",
+      "source": "$rows",
+      "listItem": {
+        "body": [
+          {
+            "type": "hbox",
+            "columns": [
+              {
+                "label": "Engine",
+                "name": "engine"
+              },
+              {
+                "name": "version",
+                "label": "Version"
+              }
+            ]
+          }
+        ]
+      },
+      "onEvent": {
+        "itemClick": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "${event.data.item.index} ${event.data.item.data.engine}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```

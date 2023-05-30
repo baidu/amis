@@ -305,7 +305,7 @@ export const resolveArrayDatasource = (
       );
 
 export const schemaToArray = (value: any) => {
-  return value && Array.isArray(value)? value : [value];
+  return value && Array.isArray(value) ? value : [value];
 };
 
 export const schemaArrayFormat = (value: any) => {

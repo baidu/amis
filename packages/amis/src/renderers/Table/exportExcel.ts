@@ -2,7 +2,7 @@
  * 导出 Excel 功能
  */
 
-import {filter} from 'amis-core';
+import {filter, isEffectiveApi} from 'amis-core';
 import './ColumnToggler';
 import {TableStore} from 'amis-core';
 import {saveAs} from 'file-saver';
@@ -359,27 +359,22 @@ export async function exportExcel(
           hyperlink: absoluteURL
         };
       } else if (type === 'mapping' || (type as any) === 'static-mapping') {
-        // 拷贝自 Mapping.tsx
         let map = column.pristine.map;
         const source = column.pristine.source;
         if (source) {
           let sourceValue = source;
           if (isPureVariable(source)) {
-            sourceValue = resolveVariableAndFilter(
-              source as string,
-              rowData,
-              '| raw'
-            );
-          }
-
-          const mapKey = JSON.stringify(source);
-          if (mapKey in remoteMappingCache) {
-            map = remoteMappingCache[mapKey];
-          } else {
-            const res = await env.fetcher(sourceValue, rowData);
-            if (res.data) {
-              remoteMappingCache[mapKey] = res.data;
-              map = res.data;
+            map = resolveVariableAndFilter(source as string, rowData, '| raw');
+          } else if (isEffectiveApi(source, data)) {
+            const mapKey = JSON.stringify(source);
+            if (mapKey in remoteMappingCache) {
+              map = remoteMappingCache[mapKey];
+            } else {
+              const res = await env.fetcher(sourceValue, rowData);
+              if (res.data) {
+                remoteMappingCache[mapKey] = res.data;
+                map = res.data;
+              }
             }
           }
         }

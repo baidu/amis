@@ -23,6 +23,7 @@ import {reaction} from 'mobx';
 import {resolveVariableAndFilter} from './utils/tpl-builtin';
 import {buildStyle} from './utils/style';
 import {StatusScopedProps} from './StatusScoped';
+import {filter} from './utils/tpl';
 
 interface SchemaRendererProps
   extends Partial<Omit<RendererProps, 'statusStore'>>,
@@ -89,10 +90,20 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     // 监听statusStore更新
     this.reaction = reaction(
-      () =>
-        `${props.statusStore.visibleState[props.schema.id || props.$path]}${
-          props.statusStore.disableState[props.schema.id || props.$path]
-        }${props.statusStore.staticState[props.schema.id || props.$path]}`,
+      () => {
+        const id = filter(props.schema.id, props.data);
+        const name = filter(props.schema.name, props.data);
+        return `${
+          props.statusStore.visibleState[id] ??
+          props.statusStore.visibleState[name]
+        }${
+          props.statusStore.disableState[id] ??
+          props.statusStore.disableState[name]
+        }${
+          props.statusStore.staticState[id] ??
+          props.statusStore.staticState[name]
+        }`;
+      },
       () => this.forceUpdate()
     );
   }
@@ -280,14 +291,16 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       : {};
 
     // 控制显隐
+    const id = filter(schema.id, rest.data);
+    const name = filter(schema.name, rest.data);
     const visible = isAlive(statusStore)
-      ? statusStore.visibleState[schema.id || $path]
+      ? statusStore.visibleState[id] ?? statusStore.visibleState[name]
       : undefined;
     const disable = isAlive(statusStore)
-      ? statusStore.disableState[schema.id || $path]
+      ? statusStore.disableState[id] ?? statusStore.disableState[name]
       : undefined;
     const isStatic = isAlive(statusStore)
-      ? statusStore.staticState[schema.id || $path]
+      ? statusStore.staticState[id] ?? statusStore.staticState[name]
       : undefined;
 
     if (

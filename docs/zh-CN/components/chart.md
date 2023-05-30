@@ -697,7 +697,7 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
 
 > 2.4.1 及以上版本
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
 | 事件名称            | 事件参数                                                                             | 说明                                                |
 | ------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------- |
@@ -705,6 +705,388 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
 | click               | 查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/) | 鼠标点击时触发                                      |
 | mouseover           | 查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/) | 鼠标悬浮时触发                                      |
 | legendselectchanged | 查看[ECharst 事件与行为文档](https://echarts.apache.org/handbook/zh/concepts/event/) | 切换图例选中状态时触发                              |
+
+### init
+
+```schema: scope="body"
+{
+    "type": "chart",
+    "id": "chart01",
+    "api": "/api/mock2/chart/chartData",
+    "config": {
+      "xAxis": {
+        "type": "category",
+        "data": [
+          "Mon",
+          "Tue",
+          "Wed",
+          "Thu",
+          "Fri",
+          "Sat"
+        ]
+      },
+      "yAxis": {
+        "type": "value"
+      },
+      "series": [
+        {
+          "data": "${line || []}",
+          "type": "line"
+        }
+      ]
+    },
+    "onEvent": {
+        "init": {
+            "actions": [
+            {
+                "actionType": "toast",
+                "args": {
+                    "msg": "init"
+                }
+            }
+            ]
+        }
+    }
+}
+```
+
+### click
+
+用户鼠标操作点击时触发，例如点击下图蓝色线条上的数据点，将弹出详情。
+
+```schema: scope="body"
+{
+    "type": "chart",
+    "onEvent": {
+    "click": {
+        "actions": [
+        {
+            "actionType": "dialog",
+            "dialog": {
+            "title": "详情",
+            "body": [
+                {
+                "type": "tpl",
+                "tpl": "<span>当前选中值 ${value|json}<span>"
+                },
+                {
+                "type": "chart",
+                "api": "/api/mock2/chart/chart1"
+                }
+            ]
+            }
+        }
+        ]
+    }
+    },
+    "config": {
+    "title": {
+        "text": "极坐标双数值轴"
+    },
+    "legend": {
+        "data": [
+        "line"
+        ]
+    },
+    "polar": {
+        "center": [
+        "50%",
+        "54%"
+        ]
+    },
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+        "type": "cross"
+        }
+    },
+    "angleAxis": {
+        "type": "value",
+        "startAngle": 0
+    },
+    "radiusAxis": {
+        "min": 0
+    },
+    "series": [
+        {
+        "coordinateSystem": "polar",
+        "name": "line",
+        "type": "line",
+        "showSymbol": false,
+        "data": [
+            [
+            0,
+            0
+            ],
+            [
+            0.03487823687206265,
+            1
+            ],
+            [
+            0.06958655048003272,
+            2
+            ],
+            [
+            0.10395584540887964,
+            3
+            ],
+            [
+            0.13781867790849958,
+            4
+            ],
+            [
+            0.17101007166283433,
+            5
+            ],
+            [
+            0.2033683215379001,
+            6
+            ],
+            [
+            0.2347357813929454,
+            7
+            ],
+            [
+            0.26495963211660245,
+            8
+            ],
+            [
+            0.2938926261462365,
+            9
+            ],
+            [
+            0.3213938048432697,
+            10
+            ]
+        ]
+        }
+    ],
+    "animationDuration": 2000
+    }
+}
+```
+
+### mouseover
+
+用户鼠标悬浮时触发，例如炫富到下图蓝色线条上的数据点，将弹出详情。
+
+```schema: scope="body"
+{
+    "type": "chart",
+    "onEvent": {
+    "mouseover": {
+        "actions": [
+        {
+            "actionType": "dialog",
+            "dialog": {
+            "title": "详情",
+            "body": [
+                {
+                "type": "tpl",
+                "tpl": "<span>当前选中值 ${value|json}<span>"
+                },
+                {
+                "type": "chart",
+                "api": "/api/mock2/chart/chart1"
+                }
+            ]
+            }
+        }
+        ]
+    }
+    },
+    "config": {
+    "title": {
+        "text": "极坐标双数值轴"
+    },
+    "legend": {
+        "data": [
+        "line"
+        ]
+    },
+    "polar": {
+        "center": [
+        "50%",
+        "54%"
+        ]
+    },
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+        "type": "cross"
+        }
+    },
+    "angleAxis": {
+        "type": "value",
+        "startAngle": 0
+    },
+    "radiusAxis": {
+        "min": 0
+    },
+    "series": [
+        {
+        "coordinateSystem": "polar",
+        "name": "line",
+        "type": "line",
+        "showSymbol": false,
+        "data": [
+            [
+            0,
+            0
+            ],
+            [
+            0.03487823687206265,
+            1
+            ],
+            [
+            0.06958655048003272,
+            2
+            ],
+            [
+            0.10395584540887964,
+            3
+            ],
+            [
+            0.13781867790849958,
+            4
+            ],
+            [
+            0.17101007166283433,
+            5
+            ],
+            [
+            0.2033683215379001,
+            6
+            ],
+            [
+            0.2347357813929454,
+            7
+            ],
+            [
+            0.26495963211660245,
+            8
+            ],
+            [
+            0.2938926261462365,
+            9
+            ],
+            [
+            0.3213938048432697,
+            10
+            ]
+        ]
+        }
+    ],
+    "animationDuration": 2000
+    }
+}
+```
+
+### legendselectchanged
+
+图例开关的行为会触发 legendselectchanged 事件。
+
+```schema: scope="body"
+{
+    "type": "chart",
+    "onEvent": {
+    "legendselectchanged": {
+        "actions": [
+        {
+            "actionType": "toast",
+            "args": {
+            "msg": "${event.data|json}"
+            }
+        }
+        ]
+    }
+    },
+    "config": {
+    "title": {
+        "text": "极坐标双数值轴"
+    },
+    "legend": {
+        "data": [
+        "line"
+        ]
+    },
+    "polar": {
+        "center": [
+        "50%",
+        "54%"
+        ]
+    },
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+        "type": "cross"
+        }
+    },
+    "angleAxis": {
+        "type": "value",
+        "startAngle": 0
+    },
+    "radiusAxis": {
+        "min": 0
+    },
+    "series": [
+        {
+        "coordinateSystem": "polar",
+        "name": "line",
+        "type": "line",
+        "showSymbol": false,
+        "data": [
+            [
+            0,
+            0
+            ],
+            [
+            0.03487823687206265,
+            1
+            ],
+            [
+            0.06958655048003272,
+            2
+            ],
+            [
+            0.10395584540887964,
+            3
+            ],
+            [
+            0.13781867790849958,
+            4
+            ],
+            [
+            0.17101007166283433,
+            5
+            ],
+            [
+            0.2033683215379001,
+            6
+            ],
+            [
+            0.2347357813929454,
+            7
+            ],
+            [
+            0.26495963211660245,
+            8
+            ],
+            [
+            0.2938926261462365,
+            9
+            ],
+            [
+            0.3213938048432697,
+            10
+            ]
+        ]
+        }
+    ],
+    "animationDuration": 2000
+    }
+}
+```
 
 ## 动作表
 
@@ -716,3 +1098,217 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
 | setValue | `value: object` 更新的数据 | 更新数据，等于更新图表所依赖数据域中的变量 |
 
 2.4.1 及以上版本，除了以上动作，还支持直接触发[ECharts 组件行为](https://echarts.apache.org/handbook/zh/concepts/event/#%E4%BB%A3%E7%A0%81%E8%A7%A6%E5%8F%91-echarts-%E4%B8%AD%E7%BB%84%E4%BB%B6%E7%9A%84%E8%A1%8C%E4%B8%BA)，即通过`actionType`指定行为名称，行为配置通过`args: {动作配置项名称: xxx}`来配置具体的参数。
+
+### reload
+
+```schema: scope="body"
+[
+    {
+      "type": "button",
+      "label": "刷新请求",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "chart01",
+              "actionType": "reload"
+            }
+          ]
+        }
+      }
+    },
+    {
+    "type": "chart",
+    "id": "chart01",
+    "api": "/api/mock2/chart/chartData",
+    "config": {
+      "xAxis": {
+        "type": "category",
+        "data": [
+          "Mon",
+          "Tue",
+          "Wed",
+          "Thu",
+          "Fri",
+          "Sat"
+        ]
+      },
+      "yAxis": {
+        "type": "value"
+      },
+      "series": [
+        {
+          "data": "${line || []}",
+          "type": "line"
+        }
+      ]
+    }
+  }
+]
+```
+
+### setValue
+
+```schema: scope="body"
+[
+    {
+      "type": "button",
+      "label": "更新数据",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "chart02",
+              "actionType": "setValue",
+              "args": {
+                "value": {"line":[98,41,51,2,90,40]}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+    "type": "chart",
+    "id": "chart02",
+    "api": "/api/mock2/chart/chartData",
+    "config": {
+      "xAxis": {
+        "type": "category",
+        "data": [
+          "Mon",
+          "Tue",
+          "Wed",
+          "Thu",
+          "Fri",
+          "Sat"
+        ]
+      },
+      "yAxis": {
+        "type": "value"
+      },
+      "series": [
+        {
+          "data": "${line || []}",
+          "type": "line"
+        }
+      ]
+    }
+  }
+]
+```
+
+### 其他动作
+
+```schema: scope="body"
+[
+    {
+      "type": "button",
+      "label": "显示提示框",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "chart03",
+              "actionType": "showTip",
+              "args": {
+                "type": "showTip",
+                "seriesIndex": 0,
+                "name": "",
+                "dataIndex": 8
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "chart",
+      "id": "chart03",
+      "config": {
+        "title": {
+          "text": "极坐标双数值轴"
+        },
+        "legend": {
+          "data": [
+            "line"
+          ]
+        },
+        "polar": {
+          "center": [
+            "50%",
+            "54%"
+          ]
+        },
+        "tooltip": {
+          "trigger": "axis",
+          "axisPointer": {
+            "type": "cross"
+          }
+        },
+        "angleAxis": {
+          "type": "value",
+          "startAngle": 0
+        },
+        "radiusAxis": {
+          "min": 0
+        },
+        "series": [
+          {
+            "coordinateSystem": "polar",
+            "name": "line",
+            "type": "line",
+            "showSymbol": false,
+            "data": [
+              [
+                0,
+                0
+              ],
+              [
+                0.03487823687206265,
+                1
+              ],
+              [
+                0.06958655048003272,
+                2
+              ],
+              [
+                0.10395584540887964,
+                3
+              ],
+              [
+                0.13781867790849958,
+                4
+              ],
+              [
+                0.17101007166283433,
+                5
+              ],
+              [
+                0.2033683215379001,
+                6
+              ],
+              [
+                0.2347357813929454,
+                7
+              ],
+              [
+                0.26495963211660245,
+                8
+              ],
+              [
+                0.2938926261462365,
+                9
+              ],
+              [
+                0.3213938048432697,
+                10
+              ]
+            ]
+          }
+        ],
+        "animationDuration": 2000
+      }
+    }
+  ]
+```
