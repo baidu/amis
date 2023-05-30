@@ -41,7 +41,6 @@ export const resolveVariableAndFilterForAsync = async (
       ? fallbackValue(ret)
       : ret;
   } catch (e) {
-    console.warn(e);
     if (e.name === 'FormulaEvalError') {
       if (!skipFormulaEvalErrorHandler) {
         // 无法解析时，执行handler自定义解析逻辑
@@ -55,6 +54,7 @@ export const resolveVariableAndFilterForAsync = async (
       // 跳过自定义解析逻辑，则直接抛异常
       throw e;
     }
+    console.warn(e);
     return undefined;
   }
 };
