@@ -1084,7 +1084,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
     ]
   },
   "mode": "horizontal",
-  "api": "/amis/api/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "combo",
@@ -1128,17 +1128,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
                   "level": "link",
                   "onEvent": {
                     "click": {
-                      "weight": 0,
                       "actions": [
                         {
                           "dialog": {
-                            "data": {
-                              "&": "$$",
-                              "index": "$index",
-                              "__index": "$__index"
-                            },
                             "closeOnEsc": false,
-                            "className": "app-popover",
                             "body": [
                               {
                                 "onEvent": {
@@ -1150,7 +1143,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
                                       },
                                       {
                                         "args": {
-                                          "index": "$index",
+                                          "index": "${index}",
                                           "value": {
                                             "name": "$name",
                                             "age": "$age"
@@ -1162,7 +1155,6 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
                                     ]
                                   }
                                 },
-                                "id": "u:c6f5190b3e79",
                                 "body": [
                                   {
                                     "label": "姓名",
@@ -1187,53 +1179,14 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
                             "withDefaultData": true,
                             "dataMapSwitch": true,
                             "size": "lg",
-                            "dataMap": {
-                              "index": "$index",
-                              "items": "$items"
-                            },
                             "showErrorMsg": true,
                             "showCloseButton": true,
-                            "id": "u:c02c4a3a9896",
-                            "actions": [
-                              {
-                                "level": "primary",
-                                "onEvent": {
-                                  "click": {
-                                    "actions": [
-                                      {
-                                        "actionType": "validate",
-                                        "groupType": "component",
-                                        "componentId": "u:c6f5190b3e79"
-                                      }
-                                    ]
-                                  }
-                                },
-                                "id": "u:93f0098bcda0",
-                                "label": "提交",
-                                "type": "button"
-                              },
-                              {
-                                "onEvent": {
-                                  "click": {
-                                    "actions": [
-                                      {
-                                        "actionType": "closeDialog"
-                                      }
-                                    ]
-                                  }
-                                },
-                                "id": "u:ca36246070b5",
-                                "label": "关闭",
-                                "type": "button"
-                              }
-                            ]
                           },
                           "actionType": "dialog"
                         }
                       ]
                     }
                   },
-                  "id": "u:fe240f4c3aa8",
                   "label": "修改"
                 }
               ]
