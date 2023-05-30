@@ -75,14 +75,15 @@
     z-index: -1;
     opacity: 0;
 
-    &-shadow {
+    &:after {
+      content: '';
       position: absolute;
+      width: 100%;
       box-shadow: var(--Table-fixedTop-boxShadow);
-      z-index: -1;
-      height: 10px;
-      margin-top: -10px;
+      z-index: 10;
+      height: 1px;
+      margin-top: -3px;
       background-color: transparent;
-      opacity: 0;
     }
 
     // box-sizing: content-box;
@@ -93,8 +94,7 @@
     //   box-sizing: border-box;
     // }
 
-    &.in,
-    &.in + .#{$ns}Table-fixedTop-shadow {
+    &.in {
       position: fixed;
       opacity: 1;
       z-index: $zindex-affix;
