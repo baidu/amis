@@ -639,7 +639,11 @@ class BaseDatePicker extends React.Component<
       this.state.viewDate ||
       moment()
     ).clone();
-    const date = convertArrayValueToMoment(value, types, currentDate);
+    let date = convertArrayValueToMoment(value, types, currentDate);
+
+    if (types?.[1] === 'quarter') {
+      date = date.startOf('quarter').date(currentDate.date());
+    }
 
     if (!this.props.value) {
       this.setState({

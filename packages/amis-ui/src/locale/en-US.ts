@@ -52,6 +52,7 @@ register('en-US', {
   'Pagination.totalCount': 'total {{total}} items',
   'Date.titleYear': 'select year',
   'Date.titleMonth': 'select month and year',
+  'Date.titleQuarter': 'select quarter',
   'Date.titleDate': 'select month, year and day',
   'Date.titleTime': 'select time',
   'Date.daysago': '{{days}} day(s) ago',

@@ -55,6 +55,7 @@ register('zh-CN', {
   'Pagination.totalCount': '共 {{total}} 条',
   'Date.titleYear': '选择年',
   'Date.titleMonth': '选择年月',
+  'Date.titleQuarter': '选择季度',
   'Date.titleDate': '选择年月日',
   'Date.titleTime': '选择时间',
   'Date.daysago': '{{days}}天前',
