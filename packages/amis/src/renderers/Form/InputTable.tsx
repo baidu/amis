@@ -1733,9 +1733,10 @@ export class TableControlRenderer extends FormTable {
       const deletedItems: any = [];
 
       if (args.index) {
-        items[args.index] && deletedItems.push(items[args.index]);
-        rawItems = [...items];
-        rawItems.splice(args.index, 1);
+        const indexArr = args.index.split(',');
+        rawItems = items.filter(
+          (item, index) => !indexArr.includes(index.toString())
+        );
       } else if (args.condition) {
         const itemsLength = items.length;
         for (let i = 0; i < itemsLength; i++) {
