@@ -1646,6 +1646,8 @@ run action ajax
 - doAction() 动作执行方法，用于调用任何 actionType 指定的动作
 - event，事件对象，可以调用 setData()、stopPropagation()、preventDefault()分别实现事件上下文设置、动作干预、事件干预，可以通过 event.data 获取事件上下文
 
+自定义函数签名： `script:(context,doAction,event)=>{}`
+
 ```schema
 {
   type: 'page',
