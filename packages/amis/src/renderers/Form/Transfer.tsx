@@ -29,6 +29,7 @@ import {ResultList} from 'amis-ui';
 import {ActionObject, toNumber} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 import {supportStatic} from './StaticHoc';
+import {matchSorter} from 'match-sorter';
 
 /**
  * Transfer
@@ -386,15 +387,14 @@ export class BaseTransferRenderer<
         }
       }
 
-      const regexp = string2regExp(term);
-
       return filterTree(
         options,
-        (option: Option) => {
+        (option: Option, key: number, level: number, paths: Array<Option>) => {
           return !!(
             (Array.isArray(option.children) && option.children.length) ||
-            (option[valueKey] &&
-              (regexp.test(option[labelKey]) || regexp.test(option[valueKey])))
+            !!matchSorter([option].concat(paths), term, {
+              keys: [labelField || 'label', valueField || 'value']
+            }).length
           );
         },
         0,
