@@ -24,54 +24,6 @@ order: 68
         {
             "title": "Tab 2",
             "tab": "Content 2"
-        },
-        {
-            "title": "Tab 3",
-            "tab": "Content 2"
-        },
-        {
-            "title": "Tab 4",
-            "tab": "Content 2"
-        },
-        {
-            "title": "Tab 5",
-            "tab": "Content 2"
-        },
-        {
-            "title": "Tab 6",
-            "tab": "Content 2"
-        },
-        {
-            "title": "Tab 7",
-            "tab": "Content 2"
-        },
-        {
-            "title": "Tab 8",
-            "tab": "Content 2"
-        },
-        {
-            "title": "Tab 9",
-            "tab": "Content 2"
-        },
-         {
-            "title": "Tab 10",
-            "tab": "Content 2"
-        },
-         {
-            "title": "Tab 11",
-            "tab": "Content 2"
-        },
-         {
-            "title": "Tab 12",
-            "tab": "Content 2"
-        },
-         {
-            "title": "Tab 13",
-            "tab": "Content 2"
-        },
-         {
-            "title": "Tab 14",
-            "tab": "Content 2"
         }
     ]
 }
