@@ -1,0 +1,14 @@
+[
+  {
+    "name": "packages/amis-ui",
+    "iconPath": "packages/amis-ui/src/components/icons.tsx"
+  },
+  {
+    "name": "packages/amis-editor",
+    "iconPath": "packages/amis-editor/src/icons/index.tsx"
+  },
+  {
+    "name": "packages/amis-editor-core",
+    "iconPath": "packages/amis-editor-core/src/icons/index.tsx"
+  }
+]
