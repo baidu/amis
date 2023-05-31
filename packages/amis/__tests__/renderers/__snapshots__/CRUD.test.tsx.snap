@@ -1237,7 +1237,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                     <div
                       class="cxd-Crud-statistics"
                     >
-                      1/15 总共：144 项
+                      1/15 共：144 项
                     </div>
                   </div>
                   <div
@@ -2002,7 +2002,7 @@ exports[`Renderer: crud sortable & orderBy & orderDir & orderField 1`] = `
                     <div
                       class="cxd-Crud-statistics"
                     >
-                      1/15 总共：144 项
+                      1/15 共：144 项
                     </div>
                   </div>
                   <div
@@ -2197,7 +2197,7 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                     <div
                       class="cxd-Crud-statistics"
                     >
-                      1/72 总共：144 项
+                      1/72 共：144 项
                     </div>
                   </div>
                 </div>
@@ -2694,7 +2694,7 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                       <div
                         class="cxd-Crud-statistics"
                       >
-                        1/72 总共：144 项
+                        1/72 共：144 项
                       </div>
                     </div>
                   </div>
@@ -3832,7 +3832,7 @@ exports[`Renderer:crud cards 1`] = `
                     <div
                       class="cxd-Crud-statistics"
                     >
-                      1/24 总共：144 项
+                      1/24 共：144 项
                     </div>
                   </div>
                   <div
@@ -4235,7 +4235,7 @@ exports[`Renderer:crud list 1`] = `
                     <div
                       class="cxd-Crud-statistics"
                     >
-                      1/15 总共：144 项
+                      1/15 共：144 项
                     </div>
                   </div>
                   <div
@@ -4668,7 +4668,7 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
                     <div
                       class="cxd-Crud-statistics"
                     >
-                      1/1 总共：0 项
+                      1/1 共：0 项
                     </div>
                   </div>
                   <div

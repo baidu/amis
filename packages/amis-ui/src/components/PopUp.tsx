@@ -71,22 +71,6 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
     e.stopPropagation();
   }
 
-  getZIndex() {
-    let defaultIndex = 3000;
-    const {classnames: cx} = this.props;
-    const modals = document.querySelectorAll('.' + cx('Modal'));
-    const popups = document.querySelectorAll('.' + cx('PopUp'));
-    [...modals, ...popups].forEach((node: HTMLDialogElement) => {
-      const style = getComputedStyle(node);
-      const curIndex = parseInt(style.zIndex, 10);
-      if (curIndex > defaultIndex) {
-        defaultIndex = curIndex;
-      }
-    });
-
-    return defaultIndex;
-  }
-
   render() {
     const {
       style,
@@ -109,8 +93,7 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
     } = this.props;
 
     const outerStyle: any = {
-      ...style,
-      zIndex: this.getZIndex()
+      ...style
     };
     delete outerStyle.top;
     return (
