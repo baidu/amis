@@ -51,6 +51,8 @@ export interface ImageGalleryState {
   rotate: number;
   /** 是否开启操作栏 */
   showToolbar?: boolean;
+  /** 是否显示底部图片集 */
+  enlargeWithGallary?: boolean;
   /** 放大详情图类名 */
   imageGallaryClassName?: string;
   /** 工具栏配置 */
@@ -142,6 +144,7 @@ export class ImageGallery extends React.Component<
     showToolbar?: boolean;
     imageGallaryClassName?: string;
     toolbarActions?: ImageAction[];
+    enlargeWithGallary?: boolean;
   }) {
     const {actions} = this.props;
     const validActionKeys = Object.values(ImageActionKey);
@@ -152,6 +155,7 @@ export class ImageGallery extends React.Component<
       index: info.index || 0,
       /* children组件可以控制工具栏的展示 */
       showToolbar: !!info.showToolbar,
+      enlargeWithGallary: info.enlargeWithGallary,
       imageGallaryClassName: info.imageGallaryClassName,
       /** 外部传入合法key值的actions才会生效 */
       actions: Array.isArray(info.toolbarActions)
@@ -277,6 +281,7 @@ export class ImageGallery extends React.Component<
       rotate,
       scale,
       showToolbar,
+      enlargeWithGallary,
       actions,
       imageGallaryClassName
     } = this.state;
@@ -322,7 +327,7 @@ export class ImageGallery extends React.Component<
                   ? this.renderToolbar(actions)
                   : null}
 
-                {items.length > 1 ? (
+                {items.length > 1 && enlargeWithGallary !== false ? (
                   <>
                     <a
                       className={cx(
@@ -348,7 +353,7 @@ export class ImageGallery extends React.Component<
             </>
           ) : null}
 
-          {items.length > 1 ? (
+          {items.length > 1 && enlargeWithGallary !== false ? (
             <div className={cx('ImageGallery-footer')}>
               <a className={cx('ImageGallery-prevList is-disabled')}>
                 <Icon icon="prev" className="icon" />
