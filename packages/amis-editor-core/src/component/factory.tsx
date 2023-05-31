@@ -301,6 +301,7 @@ function SchemaFrom({
     };
   }
 
+  value = value || {};
   const finalValue = setThemeDefaultData(pipeIn ? pipeIn(value) : value);
 
   return render(
