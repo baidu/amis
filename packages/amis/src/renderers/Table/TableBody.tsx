@@ -27,6 +27,10 @@ export interface TableBodyProps extends LocaleProps {
   ) => React.ReactNode;
   onCheck: (item: IRow, value: boolean, shift?: boolean) => void;
   onRowClick: (item: IRow, index: number) => Promise<RendererEvent<any> | void>;
+  onRowDbClick: (
+    item: IRow,
+    index: number
+  ) => Promise<RendererEvent<any> | void>;
   onRowMouseEnter: (
     item: IRow,
     index: number
@@ -80,6 +84,7 @@ export class TableBody extends React.Component<TableBodyProps> {
       footableColumns,
       itemAction,
       onRowClick,
+      onRowDbClick,
       onRowMouseEnter,
       onRowMouseLeave
     } = this.props;
@@ -111,6 +116,7 @@ export class TableBody extends React.Component<TableBodyProps> {
           // todo 先注释 quickEditEnabled={item.depth === 1}
           onQuickChange={onQuickChange}
           onRowClick={onRowClick}
+          onRowDbClick={onRowDbClick}
           onRowMouseEnter={onRowMouseEnter}
           onRowMouseLeave={onRowMouseLeave}
           {...rowProps}
@@ -139,6 +145,7 @@ export class TableBody extends React.Component<TableBodyProps> {
               onAction={onAction}
               onCheck={onCheck}
               onRowClick={onRowClick}
+              onRowDbClick={onRowDbClick}
               onRowMouseEnter={onRowMouseEnter}
               onRowMouseLeave={onRowMouseLeave}
               footableMode

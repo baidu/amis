@@ -101,7 +101,7 @@ export class DateShortCutControl extends React.PureComponent<
         value: key
       })
     );
-    const defaultRanges = [
+    const defaultShortcuts = [
       'yesterday',
       '7daysago',
       'prevweek',
@@ -110,7 +110,8 @@ export class DateShortCutControl extends React.PureComponent<
       'prevquarter'
     ];
     this.state = {
-      options: (data?.ranges ?? defaultRanges).map(
+      /** amis 3.1.0之后ranges属性废弃，此处兼容 */
+      options: (data?.ranges ?? data?.shortcuts ?? defaultShortcuts).map(
         (item: string, index: number) => {
           const arr = item.match(/^(\d+)[a-zA-Z]+/);
           if (arr) {
@@ -334,7 +335,7 @@ export class DateShortCutControl extends React.PureComponent<
    */
   onChangeOptions() {
     const {options} = this.state;
-    const {onBulkChange} = this.props;
+    const {onBulkChange, name} = this.props;
     const newOptions: Array<string> = [];
     options.forEach((item, index) => {
       if (item.type === RangeType.Normal) {
@@ -344,7 +345,9 @@ export class DateShortCutControl extends React.PureComponent<
         newOptions[index] = `${item.value}${item.inputType}`;
       }
     });
-    onBulkChange && onBulkChange({ranges: newOptions});
+    /** amis 3.1.0之后ranges属性废弃 */
+    onBulkChange &&
+      onBulkChange({[name ?? 'shortcuts']: newOptions, ranges: undefined});
   }
 
   render() {

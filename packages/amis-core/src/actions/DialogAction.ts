@@ -1,4 +1,4 @@
-import {SchemaNode} from '../types';
+import {Schema, SchemaNode} from '../types';
 import {RendererEvent} from '../utils/renderer-event';
 import {
   RendererAction,
@@ -6,6 +6,7 @@ import {
   ListenerContext,
   registerAction
 } from './Action';
+import {render} from '../index';
 
 export interface IAlertAction extends ListenerAction {
   actionType: 'alert';
@@ -30,6 +31,21 @@ export interface IDialogAction extends ListenerAction {
     dialog: SchemaNode;
   };
   dialog?: SchemaNode; // 兼容历史
+}
+
+export interface IConfirmDialogAction extends ListenerAction {
+  actionType: 'confirmDialog';
+  args: {
+    msg: string;
+    title: string;
+    body?: Schema;
+    closeOnEsc?: boolean;
+    size?: '' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+    confirmText?: string;
+    cancelText?: string;
+    confirmBtnLevel?: string;
+    cancelBtnLevel?: string;
+  };
 }
 
 /**
@@ -114,13 +130,25 @@ export class AlertAction implements RendererAction {
  */
 export class ConfirmAction implements RendererAction {
   async run(
-    action: IConfirmAction,
+    action: IConfirmDialogAction,
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
+    let content = action.args?.body
+      ? render(action.args.body)
+      : action.args.msg;
+
     const confirmed = await event.context.env.confirm?.(
-      action.args?.msg,
-      action.args?.title
+      content,
+      action.args.title,
+      {
+        closeOnEsc: action.args.closeOnEsc,
+        size: action.args.size,
+        confirmText: action.args.confirmText,
+        cancelText: action.args.cancelText,
+        confirmBtnLevel: action.args.confirmBtnLevel,
+        cancelBtnLevel: action.args.cancelBtnLevel
+      }
     );
     return confirmed;
   }

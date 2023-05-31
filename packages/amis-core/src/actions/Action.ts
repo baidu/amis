@@ -23,6 +23,7 @@ export interface ListenerAction {
   actionType: string; // 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩充的组件动作
   description?: string; // 事件描述，actionType: broadcast
   componentId?: string; // 组件ID，用于直接执行指定组件的动作，指定多个组件时使用英文逗号分隔
+  componentName?: string; // 组件Name，用于直接执行指定组件的动作，指定多个组件时使用英文逗号分隔
   args?: Record<string, any>; // 动作配置，可以配置数据映射
   data?: Record<string, any> | null; // 动作数据参数，可以配置数据映射
   dataMergeMode?: 'merge' | 'override'; // 参数模式，合并或者覆盖
@@ -130,6 +131,9 @@ const getOmitActionProp = (type: string) => {
     case 'drawer':
       omitList = ['drawer'];
       break;
+    case 'confirmDialog':
+      omitList = ['confirmDialog'];
+      break;
     case 'reload':
       omitList = ['resetPage'];
       break;
@@ -150,7 +154,10 @@ export const runActions = async (
     let actionInstrance = getActionByType(actionConfig.actionType);
 
     // 如果存在指定组件ID，说明是组件专有动作
-    if (!actionInstrance && actionConfig.componentId) {
+    if (
+      !actionInstrance &&
+      (actionConfig.componentId || actionConfig.componentName)
+    ) {
       actionInstrance = getActionByType('component');
     } else if (
       actionConfig.actionType === 'url' ||
@@ -241,6 +248,11 @@ export const runAction = async (
     );
   }
 
+  let key = {
+    componentId: dataMapping(actionConfig.componentId, mergeData),
+    componentName: dataMapping(actionConfig.componentName, mergeData)
+  };
+
   // 动作配置
   const args = dataMapping(actionConfig.args, mergeData, key =>
     [
@@ -249,9 +261,7 @@ export const runAction = async (
       'requestAdaptor',
       'responseData',
       'condition'
-    ].includes(
-      key
-    )
+    ].includes(key)
   );
   const afterMappingData = dataMapping(actionConfig.data, mergeData);
 
@@ -283,7 +293,8 @@ export const runAction = async (
     {
       ...actionConfig,
       args,
-      data
+      data,
+      ...key
     },
     renderer,
     event,

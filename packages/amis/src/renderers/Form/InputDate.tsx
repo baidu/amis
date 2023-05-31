@@ -14,6 +14,8 @@ import {createObject, anyChanged, isMobile, autobind} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {supportStatic} from './StaticHoc';
 
+import type {ShortCuts} from 'amis-ui/lib/components/DatePicker';
+
 export interface InputDateBaseControlSchema extends FormBaseControlSchema {
   /**
    * 指定为日期选择控件
@@ -55,6 +57,11 @@ export interface InputDateBaseControlSchema extends FormBaseControlSchema {
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
+
+  /**
+   * 日期快捷键
+   */
+  shortcuts?: string | ShortCuts[];
 }
 
 /**
@@ -513,6 +520,8 @@ export default class DateControl extends React.PureComponent<
           timeFormat={timeFormat}
           format={valueFormat || format}
           {...this.state}
+          minDateRaw={this.props.minDate}
+          maxDateRaw={this.props.maxDate}
           classnames={cx}
           onRef={this.getRef}
           schedules={this.state.schedules}

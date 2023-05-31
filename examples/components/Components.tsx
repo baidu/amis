@@ -230,6 +230,13 @@ export const components = [
         )
       },
       {
+        label: 'Control 表单项包裹',
+        path: '/zh-CN/components/form/control',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/form/control.md').then(wrapDoc)
+        )
+      },
+      {
         label: 'Options 选择器表单项',
         path: '/zh-CN/components/form/options',
         component: React.lazy(() =>
@@ -557,6 +564,15 @@ export const components = [
           ).then(wrapDoc)
         )
       },
+
+      {
+        label: 'Radio 单选框',
+        path: '/zh-CN/components/form/radio',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/form/radio.md').then(wrapDoc)
+        )
+      },
+
       {
         label: 'Radios 单选框',
         path: '/zh-CN/components/form/radios',

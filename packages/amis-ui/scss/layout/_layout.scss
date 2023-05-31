@@ -257,6 +257,7 @@ body {
     &-main {
       flex-grow: 1;
       display: flex;
+      min-width: 0;
       flex-direction: row;
       justify-content: stretch;
       align-items: stretch;
@@ -264,6 +265,7 @@ body {
 
     &-body {
       flex-grow: 1;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       justify-content: stretch;
@@ -273,6 +275,7 @@ body {
     &-content {
       display: flex;
       flex-grow: 1;
+      min-width: 0;
       position: relative;
       min-height: 0;
       // height: 0;

@@ -1484,6 +1484,11 @@ export class CRUDPlugin extends BasePlugin {
           }),
 
           getSchemaTpl('switch', {
+            name: 'autoFillHeight',
+            label: '内容区域自适应高度'
+          }),
+
+          getSchemaTpl('switch', {
             name: 'hideCheckToggler',
             label: '隐藏选择按钮',
             visibleOn: 'data.checkOnItemClick'

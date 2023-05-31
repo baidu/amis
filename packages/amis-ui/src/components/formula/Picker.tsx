@@ -121,6 +121,8 @@ export interface FormulaPickerProps extends FormulaEditorProps {
   onConfirm?: (value?: any) => void;
 
   onRef?: (node: any) => void;
+
+  popOverContainer?: any;
 }
 
 export interface FormulaPickerState {
@@ -330,6 +332,7 @@ export class FormulaPicker extends React.Component<
       variableMode,
       mixedMode,
       evalMode,
+      popOverContainer,
       ...rest
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
@@ -466,6 +469,7 @@ export class FormulaPicker extends React.Component<
           closeOnEsc
           show={this.state.isOpened}
           onHide={this.close}
+          container={popOverContainer}
         >
           <Modal.Header onClose={this.close} className="font-bold">
             {__(title || 'FormulaEditor.title')}

@@ -132,6 +132,7 @@ import {MultilineTextSchema} from './renderers/MultilineText';
 import {DateRangeSchema} from './renderers/DateRange';
 import {PasswordSchema} from './renderers/Password';
 import {WordsSchema} from './renderers/Words';
+import {RadioControlSchema} from './renderers/Form/Radio';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -313,6 +314,7 @@ export type SchemaType =
   | 'input-number'
   | 'panel'
   | 'picker'
+  | 'radio'
   | 'radios'
   | 'input-range'
   | 'input-rating'
@@ -461,6 +463,7 @@ export type SchemaObject =
   | NumberControlSchema
   | PickerControlSchema
   | RadiosControlSchema
+  | RadioControlSchema
   | RangeControlSchema
   | RatingControlSchema
   | RichTextControlSchema

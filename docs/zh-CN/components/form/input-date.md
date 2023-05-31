@@ -247,7 +247,8 @@ order: 13
 ## 快捷键
 
 你也可以配置`shortcuts`属性支持快捷选择日期
-注：移动端 picker 的形式不支持快捷键
+
+> 注：移动端 picker 的形式不支持快捷键
 
 ```schema: scope="body"
 {
@@ -259,7 +260,7 @@ order: 13
             "type": "input-date",
             "name": "date",
             "label": "日期",
-            "shortcuts": ["yesterday" ,"today", "tomorrow"]
+            "shortcuts": ["yesterday", "today", "tomorrow"]
         }
     ]
 }
@@ -288,6 +289,33 @@ order: 13
 - `{n}monthslater`: n 月后
 - `{n}quartersago`: n 季度前
 - `{n}quarterslater`: n 季度后
+
+快捷键也支持使用表达式的写法，可以使用这种方式自定义快捷键
+
+> 3.1.0 及以上版本
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-date",
+            "name": "date",
+            "label": "日期",
+            "shortcuts": [
+                {
+                    "label": "前天",
+                    "date": "${STARTOF(DATEMODIFY(NOW(), -2, 'day'))}"
+                },
+                "yesterday",
+                "today"
+            ]
+        }
+    ]
+}
+```
 
 ## UTC
 
@@ -358,23 +386,23 @@ order: 13
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名        | 类型      | 默认值         | 说明                                                                                                        |
-| ------------- | --------- | -------------- | ----------------------------------------------------------------------------------------------------------- |
-| value         | `string`  |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
-| format        | `string`  | `X`            | 日期选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 |
-| inputFormat   | `string`  | `YYYY-MM-DD`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) |
-| closeOnSelect | `boolean` | `false`        | 点选日期后，是否马上关闭选择框                                                                              |
-| placeholder   | `string`  | `"请选择日期"` | 占位文本                                                                                                    |
-| shortcuts     | `string`  |                | 日期快捷键                                                                                                  |
-| minDate       | `string`  |                | 限制最小日期                                                                                                |
-| maxDate       | `string`  |                | 限制最大日期                                                                                                |
-| utc           | `boolean` | `false`        | 保存 utc 值                                                                                                 |
-| clearable     | `boolean` | `true`         | 是否可清除                                                                                                  |
-| embed         | `boolean` | `false`        | 是否内联模式                                                                                                |
+| 属性名        | 类型                                                           | 默认值         | 说明                                                                                                        | 版本                    |
+| ------------- | -------------------------------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------- |
+| value         | `string`                                                       |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
+| format        | `string`                                                       | `X`            | 日期选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 |
+| inputFormat   | `string`                                                       | `YYYY-MM-DD`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) |
+| closeOnSelect | `boolean`                                                      | `false`        | 点选日期后，是否马上关闭选择框                                                                              |
+| placeholder   | `string`                                                       | `"请选择日期"` | 占位文本                                                                                                    |
+| shortcuts     | `string \| string[] \| Array<{"label": string; date: string}>` |                | 日期快捷键，字符串格式为预设值，对象格式支持写表达式                                                        | `3.1.0`版本后支持表达式 |
+| minDate       | `string`                                                       |                | 限制最小日期                                                                                                |
+| maxDate       | `string`                                                       |                | 限制最大日期                                                                                                |
+| utc           | `boolean`                                                      | `false`        | 保存 utc 值                                                                                                 |
+| clearable     | `boolean`                                                      | `true`         | 是否可清除                                                                                                  |
+| embed         | `boolean`                                                      | `false`        | 是否内联模式                                                                                                |
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
 

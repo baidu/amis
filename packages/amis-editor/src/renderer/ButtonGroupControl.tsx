@@ -2,12 +2,13 @@
  * @file icon按钮组
  */
 import React from 'react';
-import {FormItem, Button, Icon, FormControlProps} from 'amis';
+import {FormItem, Button, Icon, hasIcon, FormControlProps} from 'amis';
 import cx from 'classnames';
 
 export interface ButtonGroupControlProps extends FormControlProps {
   options?: Array<{
     label: string;
+    iconFont?: string;
     icon: string;
     value: string;
     iconClassName?: string;
@@ -35,11 +36,13 @@ export default class ButtonGroupControl extends React.Component<ButtonGroupContr
               tooltip={item.label}
               active={value === item.value}
             >
-              {item.icon ? (
+              {hasIcon(item.icon) ? (
                 <Icon
                   icon={item.icon}
                   className={cx('icon', item.iconClassName)}
                 />
+              ) : item.icon ? (
+                <i className={cx(item.icon, item.iconClassName)}></i>
               ) : (
                 item.label
               )}

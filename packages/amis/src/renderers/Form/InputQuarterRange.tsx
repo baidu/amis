@@ -62,7 +62,9 @@ export class QuarterRangeControlRenderer extends QuarterRangeControl {
     joinValues: true,
     delimiter: ',',
     timeFormat: '',
+    /** shortcuts的兼容配置 */
     ranges: 'thisquarter,prevquarter',
+    shortcuts: 'thisquarter,prevquarter',
     animation: true
   };
 }

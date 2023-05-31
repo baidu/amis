@@ -5,6 +5,7 @@
 import APPSchema from './app';
 import {createHashHistory} from 'history';
 import {embed} from '../embed';
+import {match} from 'path-to-regexp';
 
 const history = createHashHistory({});
 
@@ -127,7 +128,13 @@ export function bootstrap(mountTo) {
     mountTo,
     APPSchema,
     {
-      location: history.location
+      location: history.location,
+      context: {
+        amisUser: {
+          id: 1,
+          name: 'AMIS User'
+        }
+      }
     },
     APPENV
   );

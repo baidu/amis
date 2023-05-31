@@ -991,10 +991,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
     let mergedData = data;
 
     if (action?.actionType === 'click' && isObject(action?.args)) {
-      mergedData = createObject(data, {
-        ...action.args,
-        nativeEvent: e
-      });
+      mergedData = createObject(data, action.args);
     }
 
     const hasOnEvent = $schema.onEvent && Object.keys($schema.onEvent).length;

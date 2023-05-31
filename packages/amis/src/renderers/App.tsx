@@ -1,7 +1,7 @@
 import React from 'react';
 import {AsideNav, Html, NotFound, Spinner, SpinnerExtraProps} from 'amis-ui';
 import {Layout} from 'amis-ui';
-import {Renderer, RendererProps, replaceText} from 'amis-core';
+import {Renderer, RendererProps, filter, replaceText} from 'amis-core';
 import {
   BaseSchema,
   SchemaApi,
@@ -339,7 +339,7 @@ export default class App extends React.Component<AppProps, object> {
   }
 
   renderAside() {
-    const {store, env, asideBefore, asideAfter, render} = this.props;
+    const {store, env, asideBefore, asideAfter, render, data} = this.props;
 
     return (
       <>
@@ -366,7 +366,12 @@ export default class App extends React.Component<AppProps, object> {
               );
             }
 
-            link.badge &&
+            const badge =
+              typeof link.badge === 'string'
+                ? filter(link.badge, data)
+                : link.badge;
+
+            badge != null &&
               children.push(
                 <b
                   key="badge"
@@ -375,7 +380,7 @@ export default class App extends React.Component<AppProps, object> {
                     link.badgeClassName || 'bg-info'
                   )}
                 >
-                  {link.badge}
+                  {badge}
                 </b>
               );
 
@@ -395,7 +400,9 @@ export default class App extends React.Component<AppProps, object> {
 
             children.push(
               <span className={cx('AsideNav-itemLabel')} key="label">
-                {link.label}
+                {typeof link.label === 'string'
+                  ? filter(link.label, data)
+                  : link.label}
               </span>
             );
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps, filterTarget} from 'amis-core';
+import {Renderer, RendererProps, filterTarget, ActionObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
   createObject,
@@ -21,7 +21,6 @@ import {evalExpression, filter} from 'amis-core';
 import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import findIndex from 'lodash/findIndex';
 import {Html, SpinnerExtraProps} from 'amis-ui';
-import {Action} from '../types';
 import {
   BaseSchema,
   SchemaApi,
@@ -962,7 +961,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   @autobind
-  doAction(action: Action, data: object, throwErrors: boolean = false) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean = false) {
     if (
       action.actionType &&
       [
