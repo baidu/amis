@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -36,8 +36,8 @@
     }
   ],
   "dependencies": {
-    "amis-core": "^3.0.0",
-    "amis-ui": "^3.0.0",
+    "amis-core": "^3.1.0",
+    "amis-ui": "^3.1.0",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
     "classnames": "2.3.1",
