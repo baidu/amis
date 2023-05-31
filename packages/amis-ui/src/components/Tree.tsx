@@ -874,11 +874,11 @@ export class TreeSelector extends React.Component<
     eachTree(
       props?.options || this.props.options,
       (item, index, level, paths: Option[]) => {
-        const parent = paths[paths.length - 2];
+        const parent = paths[paths.length - 1];
         if (!isVisible(item)) {
           return;
         }
-        if (paths.length === 1) {
+        if (paths.length === 0) {
           // 父节点
           flattenedOptions.push(item);
         } else if (this.isUnfolded(parent)) {

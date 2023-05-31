@@ -826,11 +826,10 @@ export function eachTree<T extends TreeItem>(
   paths: Array<T> = []
 ) {
   tree.map((item, index) => {
-    let currentPath = paths.concat(item);
-    iterator(item, index, level, currentPath);
+    iterator(item, index, level, paths);
 
     if (item.children?.splice) {
-      eachTree(item.children, iterator, level + 1, currentPath);
+      eachTree(item.children, iterator, level + 1, paths.concat(item));
     }
   });
 }
@@ -938,15 +937,22 @@ export function getTree<T extends TreeItem>(
  */
 export function filterTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number) => any,
+  iterator: (item: T, key: number, level: number, paths: Array<T>) => any,
   level: number = 1,
-  depthFirst: boolean = false
+  depthFirst: boolean = false,
+  paths: Array<T> = []
 ) {
   if (depthFirst) {
     return tree
       .map(item => {
         let children: TreeArray | undefined = item.children
-          ? filterTree(item.children, iterator, level + 1, depthFirst)
+          ? filterTree(
+              item.children,
+              iterator,
+              level + 1,
+              depthFirst,
+              paths.concat(item)
+            )
           : undefined;
 
         if (Array.isArray(children) && Array.isArray(item.children)) {
@@ -955,18 +961,19 @@ export function filterTree<T extends TreeItem>(
 
         return item;
       })
-      .filter((item, index) => iterator(item, index, level));
+      .filter((item, index) => iterator(item, index, level, paths));
   }
 
   return tree
-    .filter((item, index) => iterator(item, index, level))
+    .filter((item, index) => iterator(item, index, level, paths))
     .map(item => {
       if (item.children?.splice) {
         let children = filterTree(
           item.children,
           iterator,
           level + 1,
-          depthFirst
+          depthFirst,
+          paths.concat(item)
         );
 
         if (Array.isArray(children) && Array.isArray(item.children)) {
