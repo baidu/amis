@@ -66,6 +66,11 @@ export interface ImageSchema extends BaseSchema {
   enlargeAble?: boolean;
 
   /**
+   * 放大时是否显示图片集
+   */
+  enlargeWithGallary?: boolean;
+
+  /**
    * 是否显示尺寸。
    */
   // showDimensions?: boolean;
@@ -365,6 +370,7 @@ export interface ImageFieldProps extends RendererProps {
   thumbRatio: '1:1' | '4:3' | '16:9';
   originalSrc?: string; // 原图
   enlargeAble?: boolean;
+  enlargeWithGallary?: boolean;
   showToolbar?: boolean;
   toolbarActions?: ImageAction[];
   onImageEnlarge?: (
@@ -378,6 +384,7 @@ export interface ImageFieldProps extends RendererProps {
       showToolbar?: boolean;
       imageGallaryClassName?: string;
       toolbarActions?: ImageAction[];
+      enlargeWithGallary?: boolean;
     },
     target: any
   ) => void;
@@ -410,7 +417,8 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       enlargeCaption,
       showToolbar,
       toolbarActions,
-      imageGallaryClassName
+      imageGallaryClassName,
+      enlargeWithGallary
     } = this.props;
 
     onImageEnlarge &&
@@ -424,7 +432,8 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
           thumbRatio,
           showToolbar,
           toolbarActions,
-          imageGallaryClassName
+          imageGallaryClassName,
+          enlargeWithGallary
         },
         this.props
       );

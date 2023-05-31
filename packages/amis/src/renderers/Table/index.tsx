@@ -1573,11 +1573,17 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   @autobind
-  handleImageEnlarge(info: any, target: {rowIndex: number; colIndex: number}) {
+  handleImageEnlarge(
+    info: any,
+    target: {rowIndex: number; colIndex: number; type: string}
+  ) {
     const onImageEnlarge = this.props.onImageEnlarge;
 
     // 如果已经是多张了，直接跳过
-    if (Array.isArray(info.list)) {
+    if (
+      (Array.isArray(info.list) && info.enlargeWithGallary !== true) ||
+      info.enlargeWithGallary === false
+    ) {
       return onImageEnlarge && onImageEnlarge(info, target);
     }
 
@@ -1586,7 +1592,8 @@ export default class Table extends React.Component<TableProps, object> {
     const column = store.columns[target.colIndex].pristine;
 
     let index = target.rowIndex;
-    const list: Array<any> = [];
+    let list: Array<any> = [];
+
     store.rows.forEach((row, i) => {
       const src = resolveVariable(column.name, row.data);
 
@@ -1597,22 +1604,25 @@ export default class Table extends React.Component<TableProps, object> {
         return;
       }
 
-      list.push({
-        src,
-        originalSrc: column.originalSrc
-          ? filter(column.originalSrc, row.data)
-          : src,
-        title: column.enlargeTitle
-          ? filter(column.enlargeTitle, row.data)
-          : column.title
-          ? filter(column.title, row.data)
-          : undefined,
-        caption: column.enlargeCaption
-          ? filter(column.enlargeCaption, row.data)
-          : column.caption
-          ? filter(column.caption, row.data)
-          : undefined
-      });
+      const images = Array.isArray(src) ? src : [src];
+      list = list.concat(
+        images.map(item => ({
+          src: item,
+          originalSrc: column.originalSrc
+            ? filter(column.originalSrc, row.data)
+            : item,
+          title: column.enlargeTitle
+            ? filter(column.enlargeTitle, row.data)
+            : column.title
+            ? filter(column.title, row.data)
+            : undefined,
+          caption: column.enlargeCaption
+            ? filter(column.enlargeCaption, row.data)
+            : column.caption
+            ? filter(column.caption, row.data)
+            : undefined
+        }))
+      );
     });
 
     if (list.length > 1) {

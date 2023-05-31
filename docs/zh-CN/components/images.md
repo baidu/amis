@@ -370,6 +370,54 @@ Array<{
 }
 ```
 
+图片组件配置`"enlargeWithGallary": false`可以关闭放大模式下图片集列表的展示，表格中亦是如此。
+
+```schema: scope="body"
+{
+    "type": "page",
+    "data": {
+        "images": [
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
+                "title": "图片1",
+                "description": "图片1的描述"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
+                "title": "图片2",
+                "description": "图片2的描述"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
+                "title": "图片3",
+                "description": "图片3的描述"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
+                "title": "图片4",
+                "description": "图片4的描述"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
+                "title": "图片5",
+                "description": "图片5的描述"
+            }
+        ]
+    },
+    "body": {
+        "type": "images",
+        "source": "${images}",
+        "enlargeAble": true,
+        "enlargeWithGallary": false
+    }
+}
+```
+
 ## 用作 Field 时
 
 当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的 Static-XXX 中时，可以设置`name`属性，映射同名变量
@@ -422,13 +470,126 @@ Array<{
         {
             "name": "images",
             "label": "颜色",
-            "type": "images"
+            "type": "images",
+            "enlargeAble": true
         }
     ]
 }
 ```
 
-List 的内容、Card 卡片的内容配置同上
+Table 中图片组件配置`"enlargeWithGallary": true`可以在放大模式下预览列表中的所有图片集。
+
+```schema: scope="body"
+{
+    "type": "table",
+    "data": {
+        "items": [
+            {
+                "id": "1",
+                "images": [
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                ]
+            },
+            {
+                "id": "2",
+                "images": [
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                ]
+            },
+            {
+                "id": "3",
+                "images": [
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                ]
+            }
+        ]
+    },
+    "columns": [
+        {
+            "name": "id",
+            "label": "Id"
+        },
+
+        {
+            "name": "images",
+            "label": "颜色",
+            "type": "images",
+            "enlargeAble": true,
+            "enlargeWithGallary": true
+        }
+    ]
+}
+```
+
+Table 中图片组件配置`"enlargeWithGallary": false`可以关闭放大模式下图片集列表的展示。
+
+```schema: scope="body"
+{
+    "type": "table",
+    "data": {
+        "items": [
+            {
+                "id": "1",
+                "images": [
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                ]
+            },
+            {
+                "id": "2",
+                "images": [
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                ]
+            },
+            {
+                "id": "3",
+                "images": [
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                    "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                ]
+            }
+        ]
+    },
+    "columns": [
+        {
+            "name": "id",
+            "label": "Id"
+        },
+
+        {
+            "name": "images",
+            "label": "颜色",
+            "type": "images",
+            "enlargeAble": true,
+            "enlargeWithGallary": false
+        }
+    ]
+}
+```
+
+List 的内容、Card 卡片的内容配置同上。
 
 ### Form 中关联数据静态展示
 
@@ -503,18 +664,19 @@ List 的内容、Card 卡片的内容配置同上
 
 ## 属性表
 
-| 属性名         | 类型                                       | 默认值    | 说明                                                                                     | 版本    |
-| -------------- | ------------------------------------------ | --------- | ---------------------------------------------------------------------------------------- | ------- |
-| type           | `string`                                   | `images`  | 如果在 Table、Card 和 List 中，为`"images"`；在 Form 中用作静态展示，为`"static-images"` |
-| className      | `string`                                   |           | 外层 CSS 类名                                                                            |
-| defaultImage   | `string`                                   |           | 默认展示图片                                                                             |
-| value          | `string`或`Array<string>`或`Array<object>` |           | 图片数组                                                                                 |
-| source         | `string`                                   |           | 数据源                                                                                   |
-| delimiter      | `string`                                   | `,`       | 分隔符，当 value 为字符串时，用该值进行分隔拆分                                          |
-| src            | `string`                                   |           | 预览图地址，支持数据映射获取对象中图片变量                                               |
-| originalSrc    | `string`                                   |           | 原图地址，支持数据映射获取对象中图片变量                                                 |
-| enlargeAble    | `boolean`                                  |           | 支持放大预览                                                                             |
-| thumbMode      | `string`                                   | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                         |
-| thumbRatio     | `string`                                   | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                             |
-| showToolbar    | `boolean`                                  | `false`   | 放大模式下是否展示图片的工具栏                                                           | `2.2.0` |
-| toolbarActions | `ImageAction[]`                            |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                             | `2.2.0` |
+| 属性名             | 类型                                       | 默认值    | 说明                                                                                                                                    | 版本    |
+| ------------------ | ------------------------------------------ | --------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| type               | `string`                                   | `images`  | 如果在 Table、Card 和 List 中，为`"images"`；在 Form 中用作静态展示，为`"static-images"`                                                |
+| className          | `string`                                   |           | 外层 CSS 类名                                                                                                                           |
+| defaultImage       | `string`                                   |           | 默认展示图片                                                                                                                            |
+| value              | `string`或`Array<string>`或`Array<object>` |           | 图片数组                                                                                                                                |
+| source             | `string`                                   |           | 数据源                                                                                                                                  |
+| delimiter          | `string`                                   | `,`       | 分隔符，当 value 为字符串时，用该值进行分隔拆分                                                                                         |
+| src                | `string`                                   |           | 预览图地址，支持数据映射获取对象中图片变量                                                                                              |
+| originalSrc        | `string`                                   |           | 原图地址，支持数据映射获取对象中图片变量                                                                                                |
+| enlargeAble        | `boolean`                                  |           | 支持放大预览                                                                                                                            |
+| enlargeWithGallary | `string`                                   |           | 默认在放大功能展示图片集的所有图片信息；表格中使用时，设置为`true`将展示所有行的图片信息；设置为`false`将关闭放大模式下图片集列表的展示 |
+| thumbMode          | `string`                                   | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                                                                        |
+| thumbRatio         | `string`                                   | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                                                                            |
+| showToolbar        | `boolean`                                  | `false`   | 放大模式下是否展示图片的工具栏                                                                                                          | `2.2.0` |
+| toolbarActions     | `ImageAction[]`                            |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                                                            | `2.2.0` |
