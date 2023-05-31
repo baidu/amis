@@ -226,9 +226,11 @@ export class Pagination extends React.Component<
   }
 
   getLastPage() {
-    const {total, perPage, lastPage, activePage, hasNext} = this.props;
+    const {total, lastPage, activePage, hasNext} = this.props;
+    const perPage = this.state.perPage;
+
     // 输入total，重新计算lastPage
-    if (total || total === 0) {
+    if (total && perPage) {
       return Math.ceil(total / (perPage as number));
     }
     if (lastPage) {
