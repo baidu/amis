@@ -249,7 +249,7 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 
       .ae-Settings-actions,
       > input {
-        position: fixed;
+        position: sticky;
         left: 0;
         bottom: 0;
         margin-bottom: 0;
