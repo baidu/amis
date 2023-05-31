@@ -449,6 +449,7 @@ exports[`Renderer:input table add 1`] = `
                         class="cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
+                        style="height: 0px;"
                       >
                         <td
                           class="v-middle nowrap"
