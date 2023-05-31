@@ -1,5 +1,6 @@
-import {Evaluator, parse} from 'amis-formula';
+import {Evaluator} from 'amis-formula';
 import {getVariable} from './getVariable';
+import {memoryParse} from './memoryParse';
 
 export function resolveVariable(
   path?: string,
@@ -24,7 +25,7 @@ export function resolveVariable(
   // 主要是用公式会严格点，不能出现奇怪的变量名
   try {
     return new Evaluator(data).evalute(
-      parse(path, {
+      memoryParse(path, {
         variableMode: true,
         allowFilter: false
       })

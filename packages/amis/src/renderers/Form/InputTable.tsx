@@ -1431,29 +1431,33 @@ export default class FormTable extends React.Component<TableProps, TableState> {
    */
   @autobind
   handlePristineChange(data: Record<string, any>, rowIndex: string) {
-    const {needConfirm} = this.props;
-    const index = Number(rowIndex);
+    const {needConfirm, perPage} = this.props;
+    const indexes = rowIndex.split('.').map(item => parseInt(item, 10));
 
     this.setState(
       prevState => {
-        const items = cloneDeep(prevState.items);
+        let items = prevState.items.concat();
+        const page = prevState.page;
 
-        if (
-          Number.isInteger(index) &&
-          inRange(index, 0, items.length) &&
-          !isEqual(items[index], data)
-        ) {
-          items.splice(index, 1, data);
-
-          return {items};
+        if (page && page > 1 && typeof perPage === 'number') {
+          indexes[0] += (page - 1) * perPage;
         }
-        return null;
+        const origin = getTree(items, indexes);
+        const value = {
+          ...origin,
+          ...data
+        };
+        this.entries.set(value, this.entries.get(origin) || this.entityId++);
+        this.entries.delete(origin);
+        items = spliceTree(items, indexes, 1, value);
+
+        return {
+          items
+        };
       },
       () => {
         if (needConfirm === false) {
           this.emitValue();
-        } else {
-          Number.isInteger(index) && this.startEdit(index, true);
         }
       }
     );
@@ -1569,9 +1573,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             canAccessSuperData,
             offset,
             rowClassName,
-            rowClassNameExpr
-            // TODO: 这里是为了处理columns里使用value变量添加的，目前会影响初始化数据加载后的组件行为，先回滚
-            // onPristineChange: this.handlePristineChange
+            rowClassNameExpr,
+            onPristineChange: this.handlePristineChange
           }
         )}
         {(!isStatic &&
