@@ -230,6 +230,13 @@ export const components = [
         )
       },
       {
+        label: 'Control 表单项包裹',
+        path: '/zh-CN/components/form/control',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/form/control.md').then(wrapDoc)
+        )
+      },
+      {
         label: 'Options 选择器表单项',
         path: '/zh-CN/components/form/options',
         component: React.lazy(() =>
