@@ -46,6 +46,7 @@ import {
 } from '../../Schema';
 import {ListenerAction} from 'amis-core';
 import type {SchemaTokenizeableString} from '../../Schema';
+import isPlainObject from 'lodash/isPlainObject';
 
 export type ComboCondition = {
   test: string;
@@ -381,6 +382,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     super(props);
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleRadioChange = this.handleRadioChange.bind(this);
     this.handleSingleFormChange = this.handleSingleFormChange.bind(this);
     this.handleSingleFormInit = this.handleSingleFormInit.bind(this);
     this.handleFormInit = this.handleFormInit.bind(this);
@@ -748,6 +750,29 @@ export default class ComboControl extends React.Component<ComboProps> {
           item => item.unique && item.syncOptions(undefined, form.data)
         )
     );
+  }
+
+  handleRadioChange(
+    ctx: any,
+    {index, name, trueValue = true, falseValue = false}: any
+  ) {
+    const {onChange, submitOnChange, multiple, disabled} = this.props;
+    if (!multiple || disabled || !name) {
+      return;
+    }
+
+    let value = this.getValueAsArray();
+    if (!Array.isArray(value) || value.length < 2 || !isPlainObject(value[0])) {
+      return;
+    }
+    value = value.map((item, i) => ({
+      ...item,
+      [name]: i === index ? trueValue : falseValue
+    }));
+
+    onChange(value, submitOnChange, true);
+
+    return false;
   }
 
   handleSingleFormChange(values: object) {
@@ -1683,6 +1708,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           onChange: this.handleChange,
           onInit: this.handleFormInit,
           onAction: this.handleAction,
+          onRadioChange: this.handleRadioChange,
           ref: this.makeFormRef(index),
           canAccessSuperData,
           lazyChange: changeImmediately ? false : true,

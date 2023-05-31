@@ -764,10 +764,17 @@ export interface TreeArray extends Array<TreeItem> {}
  */
 export function mapTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number, paths: Array<T>) => T,
+  iterator: (
+    item: T,
+    key: number,
+    level: number,
+    paths: Array<T>,
+    indexes: Array<number>
+  ) => T,
   level: number = 1,
   depthFirst: boolean = false,
-  paths: Array<T> = []
+  paths: Array<T> = [],
+  indexes: Array<number> = []
 ) {
   return tree.map((item: any, index) => {
     if (depthFirst) {
@@ -777,15 +784,20 @@ export function mapTree<T extends TreeItem>(
             iterator,
             level + 1,
             depthFirst,
-            paths.concat(item)
+            paths.concat(item),
+            indexes.concat(index)
           )
         : undefined;
       children && (item = {...item, children: children});
-      item = iterator(item, index, level, paths) || {...(item as object)};
+      item = iterator(item, index, level, paths, indexes.concat(index)) || {
+        ...(item as object)
+      };
       return item;
     }
 
-    item = iterator(item, index, level, paths) || {...(item as object)};
+    item = iterator(item, index, level, paths, indexes.concat(index)) || {
+      ...(item as object)
+    };
 
     if (item.children && item.children.splice) {
       item.children = mapTree(
@@ -793,7 +805,8 @@ export function mapTree<T extends TreeItem>(
         iterator,
         level + 1,
         depthFirst,
-        paths.concat(item)
+        paths.concat(item),
+        indexes.concat(index)
       );
     }
 
