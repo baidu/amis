@@ -42,7 +42,7 @@ export default class ButtonGroupControl extends React.Component<ButtonGroupContr
                   className={cx('icon', item.iconClassName)}
                 />
               ) : item.icon ? (
-                <i className={item.icon}></i>
+                <i className={cx(item.icon, item.iconClassName)}></i>
               ) : (
                 item.label
               )}
