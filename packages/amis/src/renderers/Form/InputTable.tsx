@@ -668,6 +668,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         }
       }
     );
+
+    // 阻止触发 onAction 动作
+    // 因为 footerAddButton 的 onClick 也绑定了这个
+    // Action 会先触发 onClick，没被组织就会 onAction
+    // 而执行 onAction 的话，dialog 会监控所有的 onAction
+    // onAction 过程中会下发 disabled: true
+    // 所以重新构建 buildColumns 的结果就是表单项都不可点了
+    return false;
   }
 
   /**
@@ -1452,10 +1460,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   computedAddBtnDisabled() {
     const {disabled} = this.props;
-    if (disabled !== undefined) {
-      return disabled;
-    }
-    return !!~this.state.editIndex;
+    return disabled || !!~this.state.editIndex;
   }
 
   render() {
@@ -1506,24 +1511,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       offset = (page - 1) * perPage;
     }
 
-    const footerAddBtnDisabled = this.computedAddBtnDisabled();
-
-    let footerAddBtnSchema = {
-      type: 'button',
-      level: 'primary',
-      size: 'sm',
-      label: __('Table.add'),
-      icon: 'fa fa-plus',
-      disabled: footerAddBtnDisabled,
-      ...(footerAddBtnDisabled
-        ? {disabledTip: __('Table.addButtonDisabledTip')}
-        : {})
-    };
-
-    if (footerAddBtn !== undefined) {
-      footerAddBtnSchema = Object.assign(footerAddBtnSchema, footerAddBtn);
-    }
-
     return (
       <div className={cx('InputTable', className)}>
         {render(
@@ -1572,9 +1559,22 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         showPager ? (
           <div className={cx('InputTable-toolbar')}>
             {addable && showFooterAddBtn !== false
-              ? render('button', footerAddBtnSchema, {
-                  onClick: () => this.addItem(this.state.items.length)
-                })
+              ? render(
+                  'button',
+                  {
+                    type: 'button',
+                    level: 'primary',
+                    size: 'sm',
+                    label: __('Table.add'),
+                    icon: 'fa fa-plus',
+                    disabledTip: __('Table.addButtonDisabledTip'),
+                    ...((footerAddBtn as any) || {})
+                  },
+                  {
+                    disabled: this.computedAddBtnDisabled(),
+                    onClick: () => this.addItem(this.state.items.length)
+                  }
+                )
               : null}
 
             {showPager
