@@ -64,7 +64,9 @@ export class MonthRangeControlRenderer extends MonthRangeControl {
     joinValues: true,
     delimiter: ',',
     timeFormat: '',
+    /** shortcuts的兼容配置 */
     ranges: 'thismonth,prevmonth',
+    shortcuts: 'thismonth,prevmonth',
     animation: true
   };
 }
