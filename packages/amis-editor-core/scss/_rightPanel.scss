@@ -251,7 +251,7 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
       > input {
         position: sticky;
         left: 0;
-        bottom: 0;
+        bottom: -16px;
         margin-bottom: 0;
         width: 100%;
         line-height: 1;
