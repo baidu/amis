@@ -487,6 +487,9 @@
     padding: 0 8px;
     border-radius: 2px;
   }
+  .#{$ns}QuickWrapper a {
+    font-size: var(--button-size-sm-fontSize);
+  }
 }
 
 .#{$ns}CalendarInput {

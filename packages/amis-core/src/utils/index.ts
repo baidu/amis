@@ -20,7 +20,6 @@ export * from './grammar';
 export * from './handleAction';
 export * from './helper';
 export * from './highlight';
-export * from './icon';
 export * from './image';
 export * from './isPureVariable';
 export * from './json-schema-2-amis-schema';

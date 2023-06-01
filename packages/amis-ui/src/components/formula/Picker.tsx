@@ -9,7 +9,6 @@ import {
 import {
   autobind,
   noop,
-  generateIcon,
   themeable,
   localeable,
   parse,
@@ -336,7 +335,7 @@ export class FormulaPicker extends React.Component<
       ...rest
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
-    const iconElement = generateIcon(cx, icon, 'Icon');
+    const iconElement = <Icon cx={cx} icon={icon} className="Icon" />;
 
     return (
       <>

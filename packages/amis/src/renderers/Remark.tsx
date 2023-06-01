@@ -1,7 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
-import {filter, generateIcon} from 'amis-core';
+import {filter} from 'amis-core';
 import {ClassNamesFn, themeable} from 'amis-core';
 import {hasIcon, Icon} from 'amis-ui';
 import {BaseSchema, SchemaClassName, SchemaIcon, SchemaTpl} from '../Schema';
@@ -128,23 +128,9 @@ class Remark extends React.Component<RemarkProps> {
     return (
       <>
         {finalLabel ? <span>{finalLabel}</span> : null}
-        {finalIcon ? (
-          typeof finalIcon === 'object' ? (
-            <span className={cx('Remark-icon', shapeClass)}>
-              {generateIcon(cx, finalIcon)}
-            </span>
-          ) : hasIcon(finalIcon) ? (
-            <span className={cx('Remark-icon', shapeClass)}>
-              <Icon icon={finalIcon} />
-            </span>
-          ) : (
-            <i className={cx('Remark-icon', finalIcon)} />
-          )
-        ) : finalIcon === false && finalLabel ? null : (
-          <span className={cx('Remark-icon icon', shapeClass)}>
-            <Icon icon="question-mark" />
-          </span>
-        )}
+        <span className={cx('Remark-icon', shapeClass)}>
+          <Icon cx={cx} icon={finalIcon || 'question-mark'} />
+        </span>
       </>
     );
   }
