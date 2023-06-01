@@ -136,6 +136,7 @@ register('zh-CN', {
   'File.maxLength': '最多上传 {{maxLength}} 个文件',
   'File.maxSize':
     '{{filename}} 大小为 {{actualSize}} 超出了最大为 {{maxSize}} 的限制',
+  'File.imageAfterCrop': '裁剪后的图片',
   'File.pause': '暂停上传',
   'File.repick': '重新选择',
   'File.result': '已成功上传 {{uploaded}} 个文件，{{failed}} 个文件上传失败，',

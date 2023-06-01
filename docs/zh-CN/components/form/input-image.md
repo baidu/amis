@@ -95,7 +95,7 @@ app.listen(8080, function () {});
 
 想要限制多个类型，则用逗号分隔，例如：`.jpg,.png`
 
-## 限制文件大小
+## 限制文件宽度
 
 配置 `limit`，更多属性请参考后面的属性说明。
 
@@ -112,6 +112,27 @@ app.listen(8080, function () {});
             "limit": {
               "minWidth": 1000
             },
+            "receiver": "/api/upload/file"
+        }
+    ]
+}
+```
+
+## 限制文件大小
+
+配置 `maxSize`，限制文件大小，单位为 `B`。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-image",
+            "name": "image",
+            "label": "上传文件不能大于 1K",
+            "accept": ".jpg",
+            "maxSize": 1024,
             "receiver": "/api/upload/file"
         }
     ]

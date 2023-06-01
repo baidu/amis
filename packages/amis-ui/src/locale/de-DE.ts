@@ -143,6 +143,7 @@ register('de-DE', {
   'File.upload': 'Hochladen',
   'File.uploadFailed': 'Zurückgegebene Daten der Upload-API sind leer',
   'File.uploading': 'Wird hochgeladen...',
+  'File.imageAfterCrop': 'Beschnittenes Bild',
   'FormItem.autoFillLoadFailed':
     'Die Schnittstelle hat einen Fehler zurückgegeben, bitte sorgfältig prüfen',
   'FormItem.autoFillSuggest': 'Referenzdateneingabe',

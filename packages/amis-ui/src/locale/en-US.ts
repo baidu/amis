@@ -149,6 +149,7 @@ register('en-US', {
   'Form.unique': 'Current value is not unique',
   'Form.validateFailed': 'Form input validation failed',
   'Form.nestedError': 'Form cannot appear as a descendant of form',
+  'File.imageAfterCrop': 'Cropped image',
   'Iframe.invalid': 'Invalid iframe url',
   'Iframe.invalidProtocol': 'Can not use http url iframe in https',
   'Image.dragTip': 'Drag to sort',
