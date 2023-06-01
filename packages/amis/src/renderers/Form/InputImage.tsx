@@ -999,6 +999,18 @@ export default class ImageControl extends React.Component<
   handleDrop(files: Array<FileX>, e?: any, event?: DropEvent) {
     const {multiple, crop, dropCrop} = this.props;
 
+    if (!files.length && Array.isArray(e)) {
+      const error = e
+        .reduce((errors: Array<string>, item) => {
+          errors = errors.concat(item.errors.map((e: any) => e.message));
+          return errors;
+        }, [])
+        .join('\n');
+
+      this.props.env.alert(error);
+      return;
+    }
+
     if (crop && !multiple && dropCrop) {
       const file = files[0] as any;
       if (!file.preview || !file.url) {
@@ -1105,7 +1117,7 @@ export default class ImageControl extends React.Component<
       if (maxSize && file.size > maxSize) {
         this.props.env.alert(
           __('File.maxSize', {
-            filename: file.name,
+            filename: file.name || __('File.imageAfterCrop'),
             actualSize: prettyBytes(file.size, 1024),
             maxSize: prettyBytes(maxSize, 1024)
           })
@@ -1617,7 +1629,7 @@ export default class ImageControl extends React.Component<
             accept={accept}
             multiple={dropMultiple}
             disabled={disabled}
-            maxSize={maxSize}
+            maxSize={crop ? undefined : maxSize}
           >
             {({
               getRootProps,
