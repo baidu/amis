@@ -47,7 +47,8 @@ order: 57
 
 ## 渲染其它组件
 
-映射的值也可以是 amis schema，渲染其它组件  
+映射的值也可以是 amis schema，渲染其它组件
+
 > 配置了`itemSchema`后，映射值不会再作为`schema`渲染
 
 ```schema
@@ -81,6 +82,7 @@ order: 57
 当映射值是`非object`时，可使用`${item}`获取映射值；
 
 ### html 或字符串模板
+
 使用`${item}` 获取映射值
 
 ```schema
@@ -100,7 +102,8 @@ order: 57
 }
 ```
 
-### SchemaNode模板
+### SchemaNode 模板
+
 ```schema
 {
     "type": "page",
@@ -189,14 +192,14 @@ order: 57
 
 ```json
 {
-    "type": "mapping",
-    "value": "1",
-    "map": {
-        "1": "第一",
-        "2": "第二",
-        "3": "第三",
-        "*": "其他"
-    }
+  "type": "mapping",
+  "value": "1",
+  "map": {
+    "1": "第一",
+    "2": "第二",
+    "3": "第三",
+    "*": "其他"
+  }
 }
 ```
 
@@ -208,45 +211,37 @@ order: 57
 
 ```json
 {
-    "type": "mapping",
-    "value": "1",
-    "map": [
-        {"1": "第一"},
-        {"2": "第二"},
-        {"3": "第三"},
-        {"*": "其他"}
-    ]
+  "type": "mapping",
+  "value": "1",
+  "map": [{"1": "第一"}, {"2": "第二"}, {"3": "第三"}, {"*": "其他"}]
 }
 ```
 
-#### 多key对象数组
+#### 多 key 对象数组
 
-当映射值有多个key时，需要使用`valueField`指定字段作为`mapping`的`key`, 也就是用来匹配`value`的值  
+当映射值有多个 key 时，需要使用`valueField`指定字段作为`mapping`的`key`, 也就是用来匹配`value`的值  
 可使用`labelField`指定展示字段，不配置时，默认为`label`  
 **注意：**配置`labelField`后，映射值无法再作为`schema`渲染
 
 ```json
 {
-    "type": "mapping",
-    "value": "happy",
-    "valueField": "name",
-    "map": [
-        {
-            "name": "happy",
-            "label": "开心",
-            "color": "red"
-        },
-        {
-            "name": "sad",
-            "label": "悲伤",
-            "color": "blue"
-        },
-        {
-            "name": "*",
-            "label": "其他",
-            "color": "gray"
-        }
-    ]
+  "type": "mapping",
+  "value": "happy",
+  "valueField": "name",
+  "map": [
+    {
+      "name": "happy",
+      "label": "开心"
+    },
+    {
+      "name": "sad",
+      "label": "悲伤"
+    },
+    {
+      "name": "*",
+      "label": "其他"
+    }
+  ]
 }
 ```
 
@@ -473,12 +468,12 @@ List 的内容、Card 卡片的内容配置同上
 
 ## 属性表
 
-| 属性名      | 类型              | 默认值 | 说明                                                                              |
-| ----------- | ----------------- | ------ | --------------------------------------------------------------------------------- |
-| className   | `string`          |        | 外层 CSS 类名                                                                     |
-| placeholder | `string`          |        | 占位文本                                                                          |
-| map         | `object`或`Array<object>` |  | 映射配置                                                                          |
-| source      | `string` or `API` |        | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |
-| valueField  | `string`          | value  | `2.5.2` map或source为`Array<object>`时，用来匹配映射的字段名                                  |
-| labelField  | `string`          | label  | `2.5.2` map或source为`Array<object>`时，用来展示的字段名<br />注：配置后映射值无法作为`schema`组件渲染 |
-| itemSchema  | `string`或[SchemaNode](../../docs/types/schemanode) | | `2.5.2` 自定义渲染模板，支持`html`或`schemaNode`；<br /> 当映射值是`非object`时，可使用`${item}`获取映射值；<br />当映射值是`object`时，可使用映射语法: `${xxx}`获取`object`的值；<br /> 也可使用数据映射语法：`${xxx}`获取数据域中变量值。|
+| 属性名      | 类型                                                | 默认值 | 说明                                                                                                                                                                                                                                        |
+| ----------- | --------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| className   | `string`                                            |        | 外层 CSS 类名                                                                                                                                                                                                                               |
+| placeholder | `string`                                            |        | 占位文本                                                                                                                                                                                                                                    |
+| map         | `object`或`Array<object>`                           |        | 映射配置                                                                                                                                                                                                                                    |
+| source      | `string` or `API`                                   |        | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping)                                                                                                                                                           |
+| valueField  | `string`                                            | value  | `2.5.2` map 或 source 为`Array<object>`时，用来匹配映射的字段名                                                                                                                                                                             |
+| labelField  | `string`                                            | label  | `2.5.2` map 或 source 为`Array<object>`时，用来展示的字段名<br />注：配置后映射值无法作为`schema`组件渲染                                                                                                                                   |
+| itemSchema  | `string`或[SchemaNode](../../docs/types/schemanode) |        | `2.5.2` 自定义渲染模板，支持`html`或`schemaNode`；<br /> 当映射值是`非object`时，可使用`${item}`获取映射值；<br />当映射值是`object`时，可使用映射语法: `${xxx}`获取`object`的值；<br /> 也可使用数据映射语法：`${xxx}`获取数据域中变量值。 |
