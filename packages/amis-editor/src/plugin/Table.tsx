@@ -22,7 +22,7 @@ import {
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
-import type {SchemaObject} from 'amis/lib/Schema';
+import type {SchemaObject} from 'amis';
 import {
   getEventControlConfig,
   getArgsWrapper
