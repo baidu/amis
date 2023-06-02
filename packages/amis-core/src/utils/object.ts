@@ -42,18 +42,23 @@ export function extractObjectChain(value: any) {
 export function createObjectFromChain(chain: Array<object>) {
   return chain
     .filter(item => item)
-    .reduce((proto, value) =>
-      Object.assign(
-        Object.create(proto || Object.prototype, {
+    .reduce((proto, value) => {
+      proto = proto || Object.prototype;
+      if (Object.isFrozen(proto)) {
+        proto = cloneObject(proto);
+      }
+
+      return Object.assign(
+        Object.create(proto, {
           __super: {
-            value: proto || Object.prototype,
+            value: proto,
             writable: false,
             enumerable: false
           }
         }),
         value
-      )
-    );
+      );
+    });
 }
 
 export function cloneObject(target: any, persistOwnProps: boolean = true) {

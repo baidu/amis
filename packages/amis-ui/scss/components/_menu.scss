@@ -518,7 +518,7 @@
       text-transform: none;
       text-rendering: auto;
       line-height: px2rem(20px);
-      margin-left: 5px;
+      margin-left: px2rem(5px);
 
       & > svg {
         top: auto;
@@ -528,7 +528,7 @@
     &.#{$ns}Nav-Menu-rtl {
       .#{$ns}Nav-Menu-submenu-arrow {
         margin-left: 0;
-        margin-right: 5px;
+        margin-right: px2rem(5px);
       }
     }
 
@@ -542,30 +542,17 @@
   &-vertical-right,
   &-inline {
     .#{$ns}Nav-Menu-submenu-arrow {
-      display: inline-block;
       font-size: px2rem(10px);
-      vertical-align: baseline;
-      text-transform: none;
-      text-rendering: auto;
       margin: 0 0 0 px2rem(10px);
-
-      & > svg {
-        top: auto;
-      }
     }
 
     &.#{$ns}Nav-Menu-expand-before {
       .#{$ns}Nav-Menu-submenu-title {
-        .#{$ns}Nav-Menu-item-wrap {
-          padding-right: 0;
-          padding-left: px2rem(16px);
-        }
-      }
+        flex-direction: row-reverse;
 
-      .#{$ns}Nav-Menu-submenu-arrow {
-        right: auto;
-        position: absolute;
-        margin: 0;
+        > .#{$ns}Nav-Menu-submenu-arrow {
+          margin: 0 px2rem(10px) 0 0;
+        }
       }
     }
 
@@ -614,13 +601,17 @@
   &-inline,
   &-horizontal {
     .#{$ns}Nav-Menu-submenu-arrow {
-      transition: transform 0.3s;
-      transform: rotate(90deg);
+      svg {
+        transition: transform 0.3s;
+        transform: rotate(90deg);
+      }
     }
 
     & .#{$ns}Nav-Menu-submenu-open > .#{$ns}Nav-Menu-submenu-title {
       .#{$ns}Nav-Menu-submenu-arrow {
-        transform: rotate(270deg);
+        svg {
+          transform: rotate(270deg);
+        }
       }
     }
   }

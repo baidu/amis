@@ -1031,23 +1031,96 @@ action 还可以使用 `body` 来渲染其他组件，让那些不支持行为�
 | confirmText        | [模板](../../docs/concepts/template) | -           | 当设置后，操作在开始前会询问用户。可用 `${xxx}` 取值。                                                                                                                      |
 | reload             | `string`                             | -           | 指定此次操作完后，需要刷新的目标组件名字（组件的`name`值，自己配置的），多个请用 `,` 号隔开。                                                                               |
 | tooltip            | `string`                             | -           | 鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                                  |
-| disabledTip        | `'string' \| 'TooltipObject'`                             | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                          |
+| disabledTip        | `'string' \| 'TooltipObject'`        | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                          |
 | tooltipPlacement   | `string`                             | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                            |
 | close              | `boolean` or `string`                | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。当值为字符串，并且是祖先层弹框的名字的时候，会把祖先弹框关闭掉。 |
 | required           | `Array<string>`                      | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                                |
 
 ### TooltipObject
+
 `TooltipObject` 为 [tooltip-wrapper](./tooltip) 属性配置，但是不需要配置如下属性 `type`、`body`、`wrapperComponent`、`className`、`inline`。
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称   | 事件参数                               | 说明           |
-| ---------- | -------------------------------------- | -------------- |
-| click      | `nativeEvent: MouseEvent` 鼠标事件对象 | 点击时触发     |
-| mouseenter | `nativeEvent: MouseEvent` 鼠标事件对象 | 鼠标移入时触发 |
-| mouseleave | `nativeEvent: MouseEvent` 鼠标事件对象 | 鼠标移出时触发 |
+| 事件名称   | 事件参数 | 说明           |
+| ---------- | -------- | -------------- |
+| click      | -        | 点击时触发     |
+| mouseenter | -        | 鼠标移入时触发 |
+| mouseleave | -        | 鼠标移出时触发 |
+
+### click
+
+鼠标点击。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+  "type": "button",
+  "label": "Button",
+  "onEvent": {
+    "click": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.context.nativeEvent.type}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### mouseenter
+
+鼠标移入。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+  "type": "button",
+  "label": "Button",
+  "onEvent": {
+    "mouseenter": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.context.nativeEvent.type}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### mouseleave
+
+鼠标移出。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+  "type": "button",
+  "label": "Button",
+  "onEvent": {
+    "mouseleave": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.context.nativeEvent.type}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
 
 ## 动作表
 

@@ -101,7 +101,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
     const result = {
       ...value,
       op: op,
-      right: leftFieldSchema?.defaultValue
+      right: value.right ?? leftFieldSchema?.defaultValue
     };
 
     onChange(result, index);

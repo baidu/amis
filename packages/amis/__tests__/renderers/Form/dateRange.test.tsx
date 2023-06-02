@@ -116,13 +116,13 @@ test('Renderer:dateRange with relative default', async () => {
 });
 
 // 3. 快捷键
-test('Renderer:dateRange with ranges', async () => {
+test('Renderer:dateRange with shortcuts', async () => {
   const {container, start, end, getByText}: any = await setup([
     {
       type: 'input-date-range',
       name: 'a',
       label: 'date-range',
-      ranges: [
+      shortcuts: [
         '7daysago',
         '15dayslater',
         '2weeksago',

@@ -1,6 +1,6 @@
 import React from 'react';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps, filterTarget} from 'amis-core';
+import {Renderer, RendererProps, filterTarget, ActionObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
   createObject,
@@ -21,7 +21,6 @@ import {evalExpression, filter} from 'amis-core';
 import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import findIndex from 'lodash/findIndex';
 import {Html, SpinnerExtraProps} from 'amis-ui';
-import {Action} from '../types';
 import {
   BaseSchema,
   SchemaApi,
@@ -153,9 +152,19 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   headerToolbar?: SchemaCollection;
 
   /**
+   * 顶部区域CSS类名
+   */
+  headerToolbarClassName?: string;
+
+  /**
    * 底部区域
    */
   footerToolbar?: SchemaCollection;
+
+  /**
+   * 底部区域CSS类名
+   */
+  footerToolbarClassName?: string;
 
   /**
    * 是否将接口返回的内容自动同步到地址栏，前提是开启了同步地址栏。
@@ -235,7 +244,9 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     'onSaved',
     'onQuery',
     'autoFillHeight',
-    'showSelection'
+    'showSelection',
+    'headerToolbarClassName',
+    'footerToolbarClassName'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -950,7 +961,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   }
 
   @autobind
-  doAction(action: Action, data: object, throwErrors: boolean = false) {
+  doAction(action: ActionObject, data: object, throwErrors: boolean = false) {
     if (
       action.actionType &&
       [
@@ -1172,6 +1183,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       footerToolbar,
       // columnsTogglable 在本渲染器中渲染，不需要 table 渲染，避免重复
       columnsTogglable,
+      headerToolbarClassName,
+      footerToolbarClassName,
       ...rest
     } = this.props;
 
@@ -1184,7 +1197,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       >
         <div className={cx('Crud2-filter')}>{this.renderFilter(filter)}</div>
 
-        <div className={cx('Crud2-toolbar')}>
+        <div className={cx('Crud2-toolbar', headerToolbarClassName)}>
           {this.renderToolbar('headerToolbar', headerToolbar)}
         </div>
 
@@ -1242,7 +1255,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         {/* spinner可以交给孩子处理 */}
         {/* <Spinner overlay size="lg" key="info" show={store.loading} /> */}
 
-        <div className={cx('Crud2-toolbar')}>
+        <div className={cx('Crud2-toolbar', footerToolbarClassName)}>
           {this.renderToolbar('footerToolbar', footerToolbar)}
         </div>
       </div>

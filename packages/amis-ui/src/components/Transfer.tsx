@@ -135,13 +135,15 @@ export class Transfer<
     | 'statistics'
     | 'virtualThreshold'
     | 'checkAllLabel'
+    | 'valueField'
   > = {
     multiple: true,
     resultListModeFollowSelect: false,
     selectMode: 'list',
     statistics: true,
     virtualThreshold: 100,
-    checkAllLabel: 'Select.checkAll'
+    checkAllLabel: 'Select.checkAll',
+    valueField: 'value'
   };
 
   state: TransferState = {
@@ -230,11 +232,11 @@ export class Transfer<
 
   // 全选，给予动作全选使用
   selectAll() {
-    const {options, option2value, onChange} = this.props;
+    const {options, option2value, onChange, valueField = 'value'} = this.props;
     const availableOptions = flattenTree(options).filter(
       (option, index, list) =>
         !option.disabled &&
-        option.value !== void 0 &&
+        option[valueField] !== void 0 &&
         list.indexOf(option) === index
     );
     let newValue: string | Options = option2value
@@ -307,10 +309,11 @@ export class Transfer<
   );
 
   getFlattenArr(options: Array<Option>) {
+    const {valueField = 'value'} = this.props;
     return flattenTree(options).filter(
       (option, index, list) =>
         !option.disabled &&
-        option.value !== void 0 &&
+        option[valueField] !== void 0 &&
         list.indexOf(option) === index
     );
   }
@@ -318,29 +321,29 @@ export class Transfer<
   // 树搜索处理
   @autobind
   handleSearchTreeChange(values: Array<Option>, searchOptions: Array<Option>) {
-    const {onChange, value} = this.props;
+    const {onChange, value, valueField = 'value'} = this.props;
     const searchAvailableOptions = this.getFlattenArr(searchOptions);
 
     const useArr = intersectionWith(
       searchAvailableOptions,
       values,
-      (a, b) => a.value === b.value
+      (a, b) => a[valueField] === b[valueField]
     );
     const unuseArr = differenceWith(
       searchAvailableOptions,
       values,
-      (a, b) => a.value === b.value
+      (a, b) => a[valueField] === b[valueField]
     );
 
     const newArr: Array<Option> = [];
     Array.isArray(value) &&
       value.forEach((item: Option) => {
-        if (!unuseArr.find(v => v.value === item.value)) {
+        if (!unuseArr.find(v => v[valueField] === item[valueField])) {
           newArr.push(item);
         }
       });
     useArr.forEach(item => {
-      if (!newArr.find(v => v.value === item.value)) {
+      if (!newArr.find(v => v[valueField] === item[valueField])) {
         newArr.push(item);
       }
     });
@@ -476,6 +479,7 @@ export class Transfer<
       cellRender,
       multiple,
       labelField,
+      valueField = 'value',
       virtualThreshold,
       itemHeight,
       virtualListHeight,
@@ -500,6 +504,7 @@ export class Transfer<
         option2value={option2value}
         cellRender={cellRender}
         itemRender={optionItemRender}
+        valueField={valueField}
         multiple={multiple}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
@@ -523,6 +528,7 @@ export class Transfer<
         onlyChildren={onlyChildren ?? !isTreeDeferLoad}
         itemRender={optionItemRender}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         checkAllLabel={checkAllLabel}
@@ -540,6 +546,7 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
@@ -558,6 +565,7 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
@@ -587,6 +595,7 @@ export class Transfer<
       multiple,
       noResultsText,
       labelField,
+      valueField = 'value',
       virtualThreshold,
       itemHeight,
       virtualListHeight,
@@ -630,6 +639,7 @@ export class Transfer<
         multiple={multiple}
         cascade={true}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         loadingConfig={loadingConfig}
@@ -648,6 +658,7 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
@@ -672,6 +683,7 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
@@ -691,6 +703,7 @@ export class Transfer<
         itemRender={optionItemRender}
         multiple={multiple}
         labelField={labelField}
+        valueField={valueField}
         virtualThreshold={virtualThreshold}
         itemHeight={itemHeight}
         virtualListHeight={virtualListHeight}
@@ -804,8 +817,9 @@ export class Transfer<
       showArrow,
       resultListModeFollowSelect,
       selectMode = 'list',
-      translate: __
-    } = this.props;
+      translate: __,
+      valueField = 'value'
+    } = this.props as any;
     const {searchResult} = this.state;
 
     this.valueArray = BaseSelection.value2array(value, options, option2value);
@@ -813,7 +827,7 @@ export class Transfer<
     this.availableOptions = flattenTree(searchResult ?? options).filter(
       (option, index, list) =>
         !option.disabled &&
-        option.value !== void 0 &&
+        option[valueField] !== void 0 &&
         list.indexOf(option) === index
     );
 

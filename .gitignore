@@ -5,6 +5,7 @@ test.sass
 npm-debug.log
 yarn.lock
 
+
 # Folders
 .idea/
 .sass-cache
@@ -16,7 +17,7 @@ node_modules
 /sdk
 /public
 /gh-pages
-/.vscode
+/.vscode/*
 /output
 /toolkit/amis-renderer
 /toolkit/output
@@ -34,3 +35,6 @@ package-lock.json
 revision.json
 **/revision.json
 ~$*
+
+
+!/.vscode/iconConfig.json

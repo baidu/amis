@@ -491,6 +491,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.reload = this.reload.bind(this);
     this.silentReload = this.silentReload.bind(this);
     this.initInterval = this.initInterval.bind(this);
+    this.dispatchInited = this.dispatchInited.bind(this);
     this.blockRouting = this.blockRouting.bind(this);
     this.beforePageUnload = this.beforePageUnload.bind(this);
 
@@ -604,6 +605,7 @@ export default class Form extends React.Component<FormProps, object> {
             );
           }
         })
+        .then(this.dispatchInited)
         .then(this.initInterval)
         .then(this.onInit);
     } else {
@@ -637,7 +639,9 @@ export default class Form extends React.Component<FormProps, object> {
           successMessage: fetchSuccess,
           errorMessage: fetchFailed
         }
-      ).then(this.initInterval);
+      )
+        .then(this.dispatchInited)
+        .then(this.initInterval);
     }
   }
 
@@ -651,6 +655,27 @@ export default class Form extends React.Component<FormProps, object> {
     this.disposeRulesValidate && this.disposeRulesValidate();
     window.removeEventListener('beforeunload', this.beforePageUnload);
     this.unBlockRouting?.();
+  }
+
+  async dispatchInited(value: any) {
+    const {data, store, dispatchEvent} = this.props;
+
+    if (store.fetching) {
+      return;
+    }
+
+    // 派发init事件，参数为初始化数据
+    await dispatchEvent(
+      'inited',
+      createObject(data, {
+        ...value?.data, // 保留，兼容历史
+        responseData: value?.data ?? {},
+        responseStatus: store.error ? 1 : 0,
+        responseMsg: store.msg
+      })
+    );
+
+    return value;
   }
 
   blockRouting(): any {
@@ -708,19 +733,7 @@ export default class Form extends React.Component<FormProps, object> {
       data = cloneObject(store.data);
     }
 
-    // 派发init事件，参数为初始化数据
-    const dispatcher = await dispatchEvent(
-      'inited',
-      createObject(this.props.data, {
-        ...data, // 保留，兼容历史
-        responseData: data ?? {},
-        responseStatus: store.error ? 1 : 0,
-        responseMsg: store.msg
-      })
-    );
-    if (!dispatcher?.prevented) {
-      onInit && onInit(data, this.props);
-    }
+    onInit && onInit(data, this.props);
     submitOnInit &&
       this.handleAction(
         undefined,
@@ -770,7 +783,10 @@ export default class Form extends React.Component<FormProps, object> {
               );
             }
           })
-          .then((result: Payload) => {
+          .then(async (result: Payload) => {
+            // 派发初始化接口请求完成事件
+            await this.dispatchInited(result);
+
             if (result?.ok) {
               this.initInterval(result);
               store.reset(undefined, false);
@@ -1052,6 +1068,7 @@ export default class Form extends React.Component<FormProps, object> {
     if (data === this.props.data) {
       data = store.data;
     }
+
     if (Array.isArray(action.required) && action.required.length) {
       /** 如果是按钮指定了required，则校验前先清空一下遗留的校验报错 */
       store.clearErrors();
@@ -1085,6 +1102,14 @@ export default class Form extends React.Component<FormProps, object> {
       action.actionType === 'reset-and-submit' ||
       action.actionType === 'clear-and-submit'
     ) {
+      // 配了submit事件的表示将提交逻辑全部托管给事件
+      const {dispatchEvent, onEvent} = this.props;
+      const submitEvent = onEvent?.submit?.actions?.length;
+      const dispatcher = await dispatchEvent('submit', this.props.data);
+      if (dispatcher?.prevented || submitEvent) {
+        return;
+      }
+
       store.setCurrentAction(action);
 
       if (action.actionType === 'reset-and-submit') {
@@ -1112,7 +1137,6 @@ export default class Form extends React.Component<FormProps, object> {
           store.openDrawer(data);
         } else if (isEffectiveApi(action.api || api, values)) {
           let finnalAsyncApi = action.asyncApi || asyncApi;
-
           isEffectiveApi(finnalAsyncApi, store.data) &&
             store.updateData({
               [finishedField || 'finished']: false
@@ -1142,7 +1166,10 @@ export default class Form extends React.Component<FormProps, object> {
                   (ret: any) => ret && ret[finishedField || 'finished'],
                   cancel => (this.asyncCancel = cancel),
                   checkInterval
-                );
+                ).then((value: any) => {
+                  // 派发asyncApiFinished事件
+                  dispatchEvent('asyncApiFinished', store.data);
+                });
                 return {
                   cbResult,
                   dispatcher
@@ -1873,13 +1900,6 @@ export class FormRenderer extends Form {
     //   return;
     // }
 
-    // 配了submit事件的表示将提交逻辑全部托管给事件
-    const {dispatchEvent, onEvent} = this.props;
-    const submitEvent = onEvent?.submit?.actions?.length;
-    const dispatcher = await dispatchEvent('submit', this.props.data);
-    if (dispatcher?.prevented || submitEvent) {
-      return;
-    }
     if (action.target && action.actionType !== 'reload') {
       const scoped = this.context as IScopedContext;
 

@@ -251,6 +251,7 @@ export function embed(
     },
     richTextToken: '',
     affixOffsetBottom: 0,
+    customStyleClassPrefix: '.amis-scope',
     ...env
   };
 

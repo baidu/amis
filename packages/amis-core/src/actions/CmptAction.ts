@@ -43,10 +43,14 @@ export class CmptAction implements RendererAction {
      * 根据唯一ID查找指定组件
      * 触发组件未指定id或未指定响应组件componentId，则使用触发组件响应
      */
-    const component =
-      action.componentId && renderer.props.$schema.id !== action.componentId
-        ? event.context.scoped?.getComponentById(action.componentId)
+    const key = action.componentId || action.componentName;
+    let component =
+      key && renderer.props.$schema[action.componentId ? 'id' : 'name'] !== key
+        ? event.context.scoped?.[
+            action.componentId ? 'getComponentById' : 'getComponentByName'
+          ](key)
         : renderer;
+
     const dataMergeMode = action.dataMergeMode || 'merge';
 
     // 显隐&状态控制
@@ -55,10 +59,10 @@ export class CmptAction implements RendererAction {
         action.actionType === 'visibility'
           ? action.args?.value
           : action.actionType === 'show';
-      return renderer.props.topStore.setVisible(action.componentId, visibility);
+      return renderer.props.statusStore.setVisible(key!, visibility as any);
     } else if (['static', 'nonstatic'].includes(action.actionType)) {
-      return renderer.props.topStore.setStatic(
-        action.componentId,
+      return renderer.props.statusStore.setStatic(
+        key!,
         action.actionType === 'static'
       );
     } else if (
@@ -68,7 +72,7 @@ export class CmptAction implements RendererAction {
         action.actionType === 'usability'
           ? !action.args?.value
           : action.actionType === 'disabled';
-      return renderer.props.topStore.setDisable(action.componentId, usability);
+      return renderer.props.statusStore.setDisable(key!, usability);
     }
 
     if (action.actionType === 'setValue') {

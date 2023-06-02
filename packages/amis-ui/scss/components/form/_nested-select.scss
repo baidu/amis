@@ -2,7 +2,6 @@
   position: relative;
 
   .#{$ns}NestedSelect-menu {
-    min-width: px2rem(100px);
     padding-top: px2rem(4px);
     padding-bottom: px2rem(4px);
     box-shadow: 0 px2rem(2px) px2rem(8px) 0 rgba(7, 12, 20, 0.12);
@@ -46,6 +45,7 @@
 
   &-menu {
     width: px2rem(160px);
+    min-width: px2rem(100px);
     min-height: px2rem(32px);
     max-height: px2rem(175px);
     background: var(--Form-select-menu-bg);

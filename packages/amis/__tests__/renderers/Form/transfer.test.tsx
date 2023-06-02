@@ -15,7 +15,7 @@
  * 12. 关联模式虚拟滚动
  */
 
-import {fireEvent, render, waitFor} from '@testing-library/react';
+import {fireEvent, render, waitFor, screen} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, formatStyleObject, wait} from '../../helper';
@@ -647,6 +647,140 @@ test('Renderer:transfer follow left mode', async () => {
   expect(dom).not.toBeNull();
   expect(dom?.getAttribute('title')).toEqual('战士');
   expect(container).toMatchSnapshot();
+});
+
+test('should call the custom filterOption if it is provided', async () => {
+  const filterOption = jest.fn().mockImplementation(options => options);
+  const options = [
+    {
+      label: '法师',
+      children: [
+        {
+          label: '诸葛亮',
+          value: 'zhugeliang',
+          weapon: '翡翠仙扇'
+        }
+      ]
+    }
+  ];
+
+  render(
+    amisRender(
+      {
+        label: '树型展示',
+        type: 'transfer',
+        name: 'transfer4',
+        selectMode: 'tree',
+        searchable: true,
+        filterOption: filterOption,
+        options
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const input = screen.getByPlaceholderText('请输入关键字');
+
+  fireEvent.change(input, {
+    target: {value: '翡翠仙扇'}
+  });
+
+  await wait(300);
+
+  expect(filterOption).toBeCalledTimes(1);
+  expect(filterOption).toBeCalledWith(options, '翡翠仙扇', {
+    keys: ['label', 'value']
+  });
+});
+
+test('should call the string style custom filterOption if it is provided', async () => {
+  const options = [
+    {
+      label: '法师',
+      children: [
+        {
+          label: '诸葛亮',
+          value: 'zhugeliang',
+          weapon: '翡翠仙扇'
+        }
+      ]
+    }
+  ];
+
+  render(
+    amisRender(
+      {
+        label: '树型展示',
+        type: 'transfer',
+        name: 'transfer4',
+        selectMode: 'tree',
+        searchable: true,
+        filterOption: 'return [];',
+        options
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const input = screen.getByPlaceholderText('请输入关键字');
+
+  expect(screen.getByText('诸葛亮')).toBeInTheDocument();
+  fireEvent.change(input, {
+    target: {value: '翡翠仙扇'}
+  });
+
+  await wait(300);
+
+  expect(screen.queryByText('诸葛亮')).not.toBeInTheDocument();
+});
+
+test('should call the notify function with error message if the filterOption is not a valid function', async () => {
+  const options = [
+    {
+      label: '法师',
+      children: [
+        {
+          label: '诸葛亮',
+          value: 'zhugeliang',
+          weapon: '翡翠仙扇'
+        }
+      ]
+    }
+  ];
+
+  const mockNotify = jest.fn().mockImplementation(options => options);
+
+  render(
+    amisRender(
+      {
+        label: '树型展示',
+        type: 'transfer',
+        name: 'transfer4',
+        selectMode: 'tree',
+        searchable: true,
+        filterOption: 10086,
+        options
+      },
+      {},
+      {notify: mockNotify}
+    )
+  );
+
+  const input = screen.getByPlaceholderText('请输入关键字');
+
+  expect(screen.getByText('诸葛亮')).toBeInTheDocument();
+  fireEvent.change(input, {
+    target: {value: '翡翠仙扇'}
+  });
+
+  await wait(300);
+
+  expect(mockNotify).toBeCalledTimes(1);
+  expect(mockNotify).toBeCalledWith('error', '自定义检索函数不符合要求');
+
+  mockNotify.mockClear();
 });
 
 test('Renderer:transfer group mode with virtual', async () => {

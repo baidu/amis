@@ -82,12 +82,20 @@ export interface DateRangeControlSchema extends FormBaseControlSchema {
 
   /**
    * 日期范围快捷键
+   * @deprecated 3.1.0及以后版本废弃，建议用 shortcuts 属性。
    */
   ranges?: string | Array<ShortCuts>;
+
+  /**
+   * 日期范围快捷键
+   */
+  shortcuts?: string | Array<ShortCuts>;
+
   /**
    * 日期范围开始时间-占位符
    */
   startPlaceholder?: string;
+
   /**
    * 日期范围结束时间-占位符
    */
@@ -280,6 +288,8 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
           format={format}
           minDate={minDate ? filterDate(minDate, data, format) : undefined}
           maxDate={maxDate ? filterDate(maxDate, data, format) : undefined}
+          minDateRaw={minDate}
+          maxDateRaw={maxDate}
           minDuration={minDuration ? parseDuration(minDuration) : undefined}
           maxDuration={maxDuration ? parseDuration(maxDuration) : undefined}
           onChange={this.handleChange}
@@ -324,6 +334,8 @@ export class TimeRangeControlRenderer extends DateRangeControl {
     timeFormat: 'HH:mm',
     inputFormat: 'HH:mm',
     viewMode: 'time',
-    ranges: ''
+    /** shortcuts的兼容配置 */
+    ranges: '',
+    shortcuts: ''
   };
 }

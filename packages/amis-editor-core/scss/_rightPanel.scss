@@ -249,9 +249,9 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 
       .ae-Settings-actions,
       > input {
-        position: fixed;
+        position: sticky;
         left: 0;
-        bottom: 0;
+        bottom: -16px;
         margin-bottom: 0;
         width: 100%;
         line-height: 1;
@@ -439,7 +439,7 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 // 包裹样式
 .config-wrapper-contanier {
   position: relative;
-  margin: -8px auto 12px auto;
+  margin: 0 auto 12px auto;
   padding: 12px 8px;
   background-color: #f7f7f9;
   border-radius: 2px;

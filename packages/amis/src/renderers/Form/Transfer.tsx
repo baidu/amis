@@ -5,7 +5,8 @@ import {
   OptionsControlProps,
   OptionsControl,
   FormOptionsControl,
-  resolveEventData
+  resolveEventData,
+  str2function
 } from 'amis-core';
 import {SpinnerExtraProps, Transfer} from 'amis-ui';
 import type {Option} from 'amis-core';
@@ -28,6 +29,7 @@ import {ResultList} from 'amis-ui';
 import {ActionObject, toNumber} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 import {supportStatic} from './StaticHoc';
+import {matchSorter} from 'match-sorter';
 
 /**
  * Transfer
@@ -173,10 +175,24 @@ export interface BaseTransferProps
   resultItemRender?: (option: Option) => JSX.Element;
   virtualThreshold?: number;
   itemHeight?: number;
+  /**
+   * 检索函数
+   */
+  filterOption?: 'string';
 }
 
 type OptionsControlWithSpinnerProps = OptionsControlProps & SpinnerExtraProps;
 
+export const getCustomFilterOption = (filterOption?: string) => {
+  switch (typeof filterOption) {
+    case 'string':
+      return str2function(filterOption, 'options', 'inputValue', 'option');
+    case 'function':
+      return filterOption;
+    default:
+      return null;
+  }
+};
 export class BaseTransferRenderer<
   T extends OptionsControlWithSpinnerProps = BaseTransferProps
 > extends React.Component<T> {
@@ -314,7 +330,8 @@ export class BaseTransferRenderer<
       valueField,
       env,
       data,
-      translate: __
+      translate: __,
+      filterOption
     } = this.props;
 
     if (searchApi) {
@@ -356,16 +373,28 @@ export class BaseTransferRenderer<
         return [];
       }
     } else if (term) {
-      const regexp = string2regExp(term);
+      const labelKey = (labelField as string) || 'label';
+      const valueKey = (valueField as string) || 'value';
+      const option = {keys: [labelKey, valueKey]};
+
+      if (filterOption) {
+        const customFilterOption = getCustomFilterOption(filterOption);
+        if (customFilterOption) {
+          return customFilterOption(options, term, option);
+        } else {
+          env.notify('error', '自定义检索函数不符合要求');
+          return [];
+        }
+      }
 
       return filterTree(
         options,
-        (option: Option) => {
+        (option: Option, key: number, level: number, paths: Array<Option>) => {
           return !!(
             (Array.isArray(option.children) && option.children.length) ||
-            (option[(valueField as string) || 'value'] &&
-              (regexp.test(option[(labelField as string) || 'label']) ||
-                regexp.test(option[(valueField as string) || 'value'])))
+            !!matchSorter([option].concat(paths), term, {
+              keys: [labelField || 'label', valueField || 'value']
+            }).length
           );
         },
         0,
@@ -387,7 +416,7 @@ export class BaseTransferRenderer<
 
   @autobind
   optionItemRender(option: Option, states: ItemRenderStates) {
-    const {menuTpl, render, data} = this.props;
+    const {menuTpl, render, data, labelField = 'label'} = this.props;
 
     if (menuTpl) {
       return render(`item/${states.index}`, menuTpl, {
@@ -395,7 +424,7 @@ export class BaseTransferRenderer<
       });
     }
 
-    return BaseSelection.itemRender(option, states);
+    return BaseSelection.itemRender(option, {labelField, ...states});
   }
 
   @autobind
@@ -498,6 +527,7 @@ export class BaseTransferRenderer<
       resultSearchable = false,
       statistics,
       labelField,
+      valueField,
       virtualThreshold,
       itemHeight,
       loadingConfig,
@@ -552,6 +582,7 @@ export class BaseTransferRenderer<
           resultSearchPlaceholder={resultSearchPlaceholder}
           statistics={statistics}
           labelField={labelField}
+          valueField={valueField}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
           onSelectAll={this.onSelectAll}

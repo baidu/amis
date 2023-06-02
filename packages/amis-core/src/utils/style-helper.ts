@@ -34,6 +34,8 @@ export const inheritValueMap: PlainObject = {
 };
 
 interface extra {
+  important?: boolean;
+  inner?: string;
   pre?: string;
   suf?: string;
 }
@@ -140,7 +142,8 @@ export function formatStyle(
             .replace('-label', '')
             .replace('-description', '')
             .replace('-addOn', '')
-            .replace('-icon', '') || ''
+            .replace('-icon', '')
+            .replace('-inner', '') || ''
         )
       ) {
         classNameList.push(n);
@@ -209,14 +212,25 @@ export function formatStyle(
             }
           } else {
             const value = style;
-            value && fn(key, value);
+            if (key === 'iconSize') {
+              fn('width', value + (weights?.important ? ' !important' : ''));
+              fn('height', value + (weights?.important ? ' !important' : ''));
+              fn(
+                'font-size',
+                value + (weights?.important ? ' !important' : '')
+              );
+            } else {
+              value &&
+                fn(key, value + (weights?.important ? ' !important' : ''));
+            }
           }
         }
         if (styles.length > 0) {
           const cx = (weights?.pre || '') + className + (weights?.suf || '');
+          const inner = weights?.inner || '';
           res.push({
-            className: cx + status2string[status],
-            content: `.${cx + status2string[status]} {\n  ${styles.join(
+            className: cx + status2string[status] + inner,
+            content: `.${cx + status2string[status]} ${inner}{\n  ${styles.join(
               '\n  '
             )}\n}`
           });
@@ -237,26 +251,33 @@ export function formatStyle(
   };
 }
 
+export interface CustomStyleClassName {
+  key: string;
+  value?: string;
+  weights?: {
+    default?: extra;
+    hover?: extra;
+    active?: extra;
+    disabled?: extra;
+  };
+}
+
 export function insertCustomStyle(
   themeCss: any,
-  classNames: {
-    key: string;
-    value?: string;
-    weights?: {
-      default?: extra;
-      hover?: extra;
-      active?: extra;
-      disabled?: extra;
-    };
-  }[],
+  classNames: CustomStyleClassName[],
   id?: string,
-  defaultData?: any
+  defaultData?: any,
+  customStyleClassPrefix?: string
 ) {
   if (!themeCss) {
     return;
   }
-  const {value} = formatStyle(themeCss, classNames, id, defaultData);
+
+  let {value} = formatStyle(themeCss, classNames, id, defaultData);
   if (value) {
+    value = customStyleClassPrefix
+      ? `${customStyleClassPrefix} ${value}`
+      : value;
     insertStyle(value, id?.replace('u:', '') || uuid());
   }
 }

@@ -2455,8 +2455,26 @@ export class CRUDRenderer extends CRUD {
     scoped.close(target);
   }
 
-  setData(values: object, replace?: boolean) {
-    return this.props.store.updateData(values, undefined, replace);
+  setData(
+    values: {
+      items?: any[];
+      rows?: any[];
+      total?: number;
+      count?: number;
+    },
+    replace?: boolean
+  ) {
+    const {store} = this.props;
+    const total = values?.total || values?.count;
+    if (total !== undefined) {
+      store.updateTotal(parseInt(total as any, 10));
+    }
+
+    return store.updateData(
+      {...values, items: values.rows ?? values.items}, // 做个兼容
+      undefined,
+      replace
+    );
   }
 
   getData() {

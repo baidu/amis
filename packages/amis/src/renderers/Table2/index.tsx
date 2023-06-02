@@ -295,7 +295,7 @@ export interface TableSchema2 extends BaseSchema {
   popOverContainer?: any;
 
   /**
-   * 嵌套展开记录的唯一标识
+   * 多选、嵌套展开记录的ID字段名 默认id
    */
   keyField?: string;
 
@@ -340,11 +340,6 @@ export interface TableSchema2 extends BaseSchema {
   quickSaveItemApi?: SchemaApi;
 
   /**
-   * 快速编辑关键字段
-   */
-  primaryField?: string;
-
-  /**
    * 接口报错信息配置
    */
   messages?: SchemaMessage;
@@ -368,6 +363,21 @@ export interface TableSchema2 extends BaseSchema {
    * 翻页是否保存数据
    */
   keepItemSelectionOnPageChange?: boolean;
+
+  /**
+   * 是否可选择 作用同rowSelection 兼容原CRUD属性 默认多选
+   */
+  selectable?: boolean;
+
+  /**
+   * 是否可多选 作用同rowSelection.type 兼容原CRUD属性 不设置认为是多选 仅设置selectable才起作用
+   */
+  multiple?: boolean;
+
+  /**
+   * 设置ID字段名 作用同keyFiled 兼容原CURD属性
+   */
+  primaryField?: string;
 }
 
 // 事件调整 对应CRUD2里的事件配置也需要同步修改
@@ -420,18 +430,29 @@ export default class Table2 extends React.Component<Table2Props, object> {
   renderedToolbars: Array<string> = [];
   tableRef?: any;
 
+  static defaultProps: Partial<Table2Props> = {
+    keyField: 'id'
+  };
+
   constructor(props: Table2Props, context: IScopedContext) {
     super(props);
 
     const scoped = context;
     scoped.registerComponent(this);
 
-    const {store, columnsTogglable, columns, rowSelection, keyField} = props;
+    const {
+      store,
+      columnsTogglable,
+      columns,
+      rowSelection,
+      keyField,
+      primaryField
+    } = props;
 
     store.update({
       columnsTogglable,
       columns,
-      rowSelectionKeyField: rowSelection?.keyField || keyField || 'key'
+      rowSelectionKeyField: rowSelection?.keyField || primaryField || keyField
     });
     Table2.syncRows(store, props, undefined) && this.syncSelected();
   }
@@ -517,6 +538,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
     }
 
     let expandedRowKeys: Array<string | number> = [];
+    const expandableKeyField =
+      props.expandable?.keyField || props.primaryField || props.keyField;
     if (props.expandable && props.expandable.expandedRowKeysExpr) {
       rows.forEach((row: any, index: number) => {
         const flag = evalExpression(
@@ -527,7 +550,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
           }
         );
         if (flag) {
-          expandedRowKeys.push(row[props?.expandable?.keyField || 'key']);
+          expandedRowKeys.push(row[expandableKeyField]);
         }
       });
     } else if (props.expandable && props.expandable.expandedRowKeys) {
@@ -535,7 +558,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     }
 
     if (updateRows && expandedRowKeys.length > 0) {
-      store.updateExpanded(expandedRowKeys, props.expandable?.keyField);
+      store.updateExpanded(expandedRowKeys, expandableKeyField);
     }
 
     return updateRows;
@@ -588,7 +611,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     ) {
       store.update({
         rowSelectionKeyField:
-          props.rowSelection?.keyField || props.keyField || 'key'
+          props.rowSelection?.keyField || props.primaryField || props.keyField
       });
     }
 
@@ -911,6 +934,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       quickSaveApi,
       quickSaveItemApi,
       primaryField,
+      keyField,
       env,
       messages,
       reload
@@ -921,7 +945,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
         env && env.alert('Table2 quickSaveApi is required');
         return;
       }
-
+      const key = primaryField || keyField;
       const data: any = createObject(store.data, {
         rows,
         rowsDiff: diff,
@@ -929,10 +953,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
         rowsOrigin
       });
 
-      if (rows.length && rows[0].hasOwnProperty(primaryField || 'id')) {
-        data.ids = rows
-          .map(item => (item as any)[primaryField || 'id'])
-          .join(',');
+      if (rows.length && rows[0].hasOwnProperty(key)) {
+        data.ids = rows.map(item => (item as any)[key]).join(',');
       }
 
       if (unModifiedItems) {
@@ -987,7 +1009,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       return;
     }
 
-    const {onSave, onPristineChange, primaryField, quickSaveItemApi} =
+    const {onSave, onPristineChange, primaryField, keyField, quickSaveItemApi} =
       this.props;
 
     item.change(values, savePristine);
@@ -1017,7 +1039,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     onSave
       ? onSave(
           item.data,
-          difference(item.data, item.pristine, ['id', primaryField!]),
+          difference(item.data, item.pristine, [keyField, primaryField!]),
           item.path,
           undefined,
           item.pristine,
@@ -1025,7 +1047,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
         )
       : this.handleSave(
           quickSaveItemApi ? item.data : [item.data],
-          difference(item.data, item.pristine, ['id', primaryField!]),
+          difference(item.data, item.pristine, [keyField, primaryField!]),
           [item.path],
           undefined,
           item.pristine,
@@ -1271,7 +1293,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   doAction(action: ActionObject, args: any, throwErrors: boolean): any {
-    const {store, data, keyField: key, expandable} = this.props;
+    const {store, data, keyField: key, expandable, primaryField} = this.props;
 
     const actionType = action?.actionType as string;
     const keyField = store.keyField;
@@ -1298,7 +1320,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
         store.updateSelected(selected);
         break;
       case 'expand':
-        const expandableKey = expandable?.keyField || key || 'key';
+        const expandableKey = expandable?.keyField || primaryField || key;
         const expanded: Array<any> = [];
         const collapse: Array<any> = [];
         // value值控制展开1个
@@ -1356,6 +1378,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
       title,
       footer,
       rowSelection,
+      selectable,
+      multiple,
       columns,
       expandable,
       footSummary,
@@ -1366,6 +1390,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       rowClassNameExpr,
       itemActions,
       keyField,
+      primaryField,
       maxKeepItemSelectionLength,
       onRow,
       store,
@@ -1466,6 +1491,12 @@ export default class Table2 extends React.Component<Table2Props, object> {
           });
         });
       }
+    } else if (selectable) {
+      rowSelectionConfig = {
+        type: multiple === false ? 'radio' : '', // rowSelection.type不设置 默认为多选
+        selectedRowKeys: store.currentSelectedRowKeys,
+        maxSelectedLength: maxKeepItemSelectionLength
+      };
     }
 
     let rowClassName = undefined;
@@ -1530,7 +1561,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
         onFilter={this.handleFilter}
         onDrag={this.handleOrderChange}
         itemActions={itemActionsConfig}
-        keyField={keyField}
+        keyField={primaryField || keyField}
         onRow={{
           ...onRow,
           onRowClick: this.handleRowClick,

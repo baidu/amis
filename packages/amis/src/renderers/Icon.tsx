@@ -6,7 +6,7 @@ import {
   IconCheckedSchema,
   autobind,
   createObject,
-  insertCustomStyle
+  CustomStyle
 } from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {BadgeObject, withBadge} from 'amis-ui';
@@ -46,34 +46,19 @@ export class Icon extends React.Component<IconProps, object> {
   @autobind
   handleClick(e: React.MouseEvent<any>) {
     const {dispatchEvent, data} = this.props;
-    dispatchEvent(
-      'click',
-      createObject(data, {
-        nativeEvent: e
-      })
-    );
+    dispatchEvent(e, data);
   }
 
   @autobind
   handleMouseEnter(e: React.MouseEvent<any>) {
     const {dispatchEvent, data} = this.props;
-    dispatchEvent(
-      e,
-      createObject(data, {
-        nativeEvent: e
-      })
-    );
+    dispatchEvent(e, data);
   }
 
   @autobind
   handleMouseLeave(e: React.MouseEvent<any>) {
     const {dispatchEvent, data} = this.props;
-    dispatchEvent(
-      e,
-      createObject(data, {
-        nativeEvent: e
-      })
-    );
+    dispatchEvent(e, data);
   }
 
   render() {
@@ -83,21 +68,12 @@ export class Icon extends React.Component<IconProps, object> {
       className,
       style,
       data,
+      id,
+      themeCss,
       css,
-      id
+      env
     } = this.props;
     let icon = this.props.icon;
-
-    insertCustomStyle(
-      css,
-      [
-        {
-          key: 'className',
-          value: className
-        }
-      ],
-      id
-    );
 
     if (typeof icon !== 'string') {
       if (
@@ -153,23 +129,40 @@ export class Icon extends React.Component<IconProps, object> {
       // 如果vendor为空，则不设置前缀,这样可以支持fontawesome v5、fontawesome v6或者其他框架
       iconPrefix = `${icon}`;
     }
-    return isURLIcon ? (
-      <img
-        className={cx('Icon', className)}
-        src={icon}
-        style={style}
-        onClick={this.handleClick}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      />
-    ) : (
-      <i
-        className={cx(iconPrefix, className)}
-        style={style}
-        onClick={this.handleClick}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      />
+    return (
+      <>
+        {isURLIcon ? (
+          <img
+            className={cx('Icon', className)}
+            src={icon}
+            style={style}
+            onClick={this.handleClick}
+            onMouseEnter={this.handleMouseEnter}
+            onMouseLeave={this.handleMouseLeave}
+          />
+        ) : (
+          <i
+            className={cx(iconPrefix, className)}
+            style={style}
+            onClick={this.handleClick}
+            onMouseEnter={this.handleMouseEnter}
+            onMouseLeave={this.handleMouseLeave}
+          />
+        )}
+        <CustomStyle
+          config={{
+            themeCss: themeCss || css,
+            classNames: [
+              {
+                key: 'className',
+                value: className
+              }
+            ],
+            id
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

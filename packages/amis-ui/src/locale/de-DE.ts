@@ -143,6 +143,7 @@ register('de-DE', {
   'File.upload': 'Hochladen',
   'File.uploadFailed': 'Zurückgegebene Daten der Upload-API sind leer',
   'File.uploading': 'Wird hochgeladen...',
+  'File.imageAfterCrop': 'Beschnittenes Bild',
   'FormItem.autoFillLoadFailed':
     'Die Schnittstelle hat einen Fehler zurückgegeben, bitte sorgfältig prüfen',
   'FormItem.autoFillSuggest': 'Referenzdateneingabe',
@@ -156,6 +157,7 @@ register('de-DE', {
   'Iframe.invalid': 'Ungültige Iframe-URL',
   'Iframe.invalidProtocol':
     'HTTP-URL-Iframe kann nicht in https verwendet werden',
+  'Image.dragTip': 'Zum Sortieren ziehen',
   'Image.upload': 'Bild hochladen',
   'Image.configError':
     'Es können nur eine Beschneidung oder mehrere festgelegt werden',

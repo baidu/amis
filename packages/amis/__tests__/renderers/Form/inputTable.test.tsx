@@ -131,17 +131,15 @@ test('Renderer: input-table with default value column', async () => {
   await wait(1000);
 
   fireEvent.click(getByText('Submit'));
+  await wait(200);
 
-  // 不 await 会把错误报到本文件 别的测试中
-  await waitFor(() => {
-    expect(onSubmitCallbackFn).toHaveBeenCalledTimes(1);
-    expect(onSubmitCallbackFn.mock.calls[0][0]).toEqual({
-      table: [
-        {a: 'a1', b: 'b1' /* c: 'a1' */},
-        {a: 'a2', b: 'b2' /* c: 'a2' */},
-        {a: 'a3', b: 'b3' /* c: 'a3' */}
-      ]
-    });
+  expect(onSubmitCallbackFn).toHaveBeenCalledTimes(1);
+  expect(onSubmitCallbackFn.mock.calls[0][0]).toEqual({
+    table: [
+      {a: 'a1', b: 'b1', c: 'a1'},
+      {a: 'a2', b: 'b2', c: 'a2'},
+      {a: 'a3', b: 'b3', c: 'a3'}
+    ]
   });
 }, 10000);
 

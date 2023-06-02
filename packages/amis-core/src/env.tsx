@@ -60,7 +60,11 @@ export interface RendererEnv {
   /**
    * 捕获amis执行中的错误信息
    */
-  errorCatcher: (error: any, errorInfo: any) => void;
+  errorCatcher?: (error: any, errorInfo: any) => void;
+  /**
+   * 自定义样式前缀
+   */
+  customStyleClassPrefix?: string;
   rendererResolver?: (
     path: string,
     schema: Schema,

@@ -20,11 +20,23 @@ export function register(name: string, config: LocaleConfig) {
   extendLocale(name, config);
 }
 
-export function extendLocale(name: string, config: LocaleConfig) {
-  locales[name] = {
-    ...(locales[name] || {}),
-    ...config
-  };
+export function extendLocale(
+  name: string,
+  config: LocaleConfig,
+  cover: boolean = true
+) {
+  if (cover) {
+    // 覆盖式扩展语料
+    locales[name] = {
+      ...(locales[name] || {}),
+      ...config
+    };
+  } else {
+    locales[name] = {
+      ...config,
+      ...(locales[name] || {})
+    };
+  }
 }
 
 /** 删除语料数据 */

@@ -299,6 +299,9 @@ export default class ExcelControl extends React.PureComponent<
                 const ExcelValueType = this.ExcelJS.ValueType;
                 if (cell.type === ExcelValueType.Hyperlink) {
                   value = cell.value.hyperlink;
+                  if (value.startsWith('mailto:')) {
+                    value = value.substring(7);
+                  }
                 } else if (cell.type === ExcelValueType.Formula) {
                   value = cell.value.result;
                 } else if (cell.type === ExcelValueType.RichText) {

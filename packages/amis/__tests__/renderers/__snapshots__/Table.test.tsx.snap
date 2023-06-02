@@ -434,10 +434,6 @@ exports[`Renderer:table 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="cxd-Table-fixedTop-shadow"
-      style=""
-    />
   </div>
 </div>
 `;
@@ -893,10 +889,6 @@ exports[`Renderer:table align 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="cxd-Table-fixedTop-shadow"
-      style=""
-    />
   </div>
 </div>
 `;
@@ -1664,10 +1656,6 @@ exports[`Renderer:table children 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -2111,10 +2099,6 @@ exports[`Renderer:table classNameExpr 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="cxd-Table-fixedTop-shadow"
-      style=""
-    />
   </div>
 </div>
 `;
@@ -2173,6 +2157,7 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="1"
               data-index="0"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -2188,6 +2173,7 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="2"
               data-index="1"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -2203,6 +2189,7 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="3"
               data-index="2"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -2218,6 +2205,7 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="4"
               data-index="3"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -2233,6 +2221,7 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="5"
               data-index="4"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -2248,6 +2237,7 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="6"
               data-index="5"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -2263,6 +2253,7 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="7"
               data-index="6"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -2278,6 +2269,7 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="8"
               data-index="7"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -2293,6 +2285,7 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="9"
               data-index="8"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -2308,6 +2301,7 @@ exports[`Renderer:table column head style className 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="10"
               data-index="9"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -2769,10 +2763,6 @@ exports[`Renderer:table column head style className 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="cxd-Table-fixedTop-shadow"
-      style=""
-    />
   </div>
 </div>
 `;
@@ -3471,10 +3461,6 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -4248,10 +4234,6 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -5214,10 +5196,6 @@ exports[`Renderer:table groupName-default 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -6064,32 +6042,50 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                           </span>
                         </th>
                         <th
+                          class=""
                           colspan="1"
                           data-index="4"
+                          label="Grade"
                           rowspan="2"
                           style="width: 0px; height: 0px;"
                         >
-                          <span
-                            class="cxd-TplField"
+                          <div
+                            class="cxd-TableCell--title"
                           >
-                            <span>
-                              Grade
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                Grade
+                              </span>
                             </span>
-                          </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                          />
                         </th>
                         <th
+                          class=""
                           colspan="1"
                           data-index="5"
+                          label="Version"
                           rowspan="2"
                           style="width: 0px; height: 0px;"
                         >
-                          <span
-                            class="cxd-TplField"
+                          <div
+                            class="cxd-TableCell--title"
                           >
-                            <span>
-                              Version
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                Version
+                              </span>
                             </span>
-                          </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                          />
                         </th>
                         <th
                           colspan="2"
@@ -6172,10 +6168,6 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -6997,46 +6989,73 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                     <thead>
                       <tr>
                         <th
+                          class=""
                           colspan="1"
                           data-index="3"
+                          label="Engine"
                           rowspan="2"
                           style="width: 0px; height: 0px;"
                         >
-                          <span
-                            class="cxd-TplField"
+                          <div
+                            class="cxd-TableCell--title"
                           >
-                            <span>
-                              Engine
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                Engine
+                              </span>
                             </span>
-                          </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                          />
                         </th>
                         <th
+                          class=""
                           colspan="1"
                           data-index="4"
+                          label="Grade"
                           rowspan="2"
                           style="width: 0px; height: 0px;"
                         >
-                          <span
-                            class="cxd-TplField"
+                          <div
+                            class="cxd-TableCell--title"
                           >
-                            <span>
-                              Grade
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                Grade
+                              </span>
                             </span>
-                          </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                          />
                         </th>
                         <th
+                          class=""
                           colspan="1"
                           data-index="5"
+                          label="Version"
                           rowspan="2"
                           style="width: 0px; height: 0px;"
                         >
-                          <span
-                            class="cxd-TplField"
+                          <div
+                            class="cxd-TableCell--title"
                           >
-                            <span>
-                              Version
+                            <span
+                              class="cxd-TplField"
+                            >
+                              <span>
+                                Version
+                              </span>
                             </span>
-                          </span>
+                          </div>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                          />
                         </th>
                         <th
                           colspan="2"
@@ -7099,10 +7118,6 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -8065,10 +8080,6 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                   </table>
                 </div>
               </div>
-              <div
-                class="cxd-Table-fixedTop-shadow"
-                style=""
-              />
             </div>
           </div>
         </div>
@@ -8132,6 +8143,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="1"
               data-index="0"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -8147,6 +8159,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="2"
               data-index="1"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -8162,6 +8175,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="3"
               data-index="2"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -8177,6 +8191,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="4"
               data-index="3"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -8192,6 +8207,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="5"
               data-index="4"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -8207,6 +8223,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="6"
               data-index="5"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -8222,6 +8239,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="7"
               data-index="6"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -8237,6 +8255,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="8"
               data-index="7"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -8252,6 +8271,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="9"
               data-index="8"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -8267,6 +8287,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               class="cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="10"
               data-index="9"
+              style="height: 0px;"
             >
               <td
                 class=""
@@ -8728,10 +8749,6 @@ exports[`Renderer:table isHead fixed 1`] = `
         </table>
       </div>
     </div>
-    <div
-      class="cxd-Table-fixedTop-shadow"
-      style=""
-    />
   </div>
 </div>
 `;

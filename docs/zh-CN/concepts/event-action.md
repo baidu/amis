@@ -1378,11 +1378,11 @@ run action ajax
 | ----------- | -------- | ------ | --------------------- |
 | componentId | `string` | -      | 指定刷新的目标组件 id |
 
-### 显示与隐藏
+### 控制状态
 
 > 1.8.0 及以上版本
 
-通过配置`actionType: 'show'`或`'hidden'`实现对指定组件的显示和隐藏，且显隐动作的控制高于组件显隐属性的设置。
+通过配置`actionType: 'show'`或`'hidden'`或`'enabled'`或`'disabled'`或`'static'`或`'nostatic'`实现对指定组件的显示、隐藏、启用、禁用，仅支持实现了对应状态控制功能的数据`输入类`组件。
 
 ```schema
 {
@@ -1390,15 +1390,15 @@ run action ajax
   body: [
     {
       type: 'button',
-      label: '显示',
+      label: '显示表单',
       level: 'primary',
-      className: 'mr-2',
+      className: 'mr-2 mb-2',
       onEvent: {
         click: {
           actions: [
             {
               actionType: 'show',
-              componentId: 'input-text_001'
+              componentId: 'form_disable'
             }
           ]
         }
@@ -1406,51 +1406,24 @@ run action ajax
     },
     {
       type: 'button',
-      label: '隐藏',
+      label: '隐藏表单',
       level: 'primary',
+      className: 'mr-2 mb-2',
       onEvent: {
         click: {
           actions: [
             {
               actionType: 'hidden',
-              componentId: 'input-text_001'
+              componentId: 'form_disable'
             }
           ]
         }
       }
     },
     {
-      type: 'input-text',
-      label: '愿望',
-      className: 'mt-2',
-      id: 'input-text_001',
-      mode: 'horizontal',
-      hidden: true
-    }
-  ]
-}
-```
-
-**其他属性**
-
-| 属性名      | 类型     | 默认值 | 说明                        |
-| ----------- | -------- | ------ | --------------------------- |
-| componentId | `string` | -      | 指定显示或隐藏的目标组件 id |
-
-### 控制状态
-
-> 1.8.0 及以上版本
-
-通过配置`actionType: 'enabled'`或`actionType: 'disabled'`实现对指定组件的启用和禁用，仅支持实现了状态控制功能的数据`输入类`组件。
-
-```schema
-{
-  type: 'page',
-  body: [
-    {
       type: 'button',
       id: 'b_dis',
-      label: '禁用',
+      label: '禁用表单',
       level: 'primary',
       className: 'mr-2 mb-2',
       disabled: true,
@@ -1467,9 +1440,9 @@ run action ajax
     },
     {
       type: 'button',
-      label: '启用',
+      label: '启用表单',
       level: 'primary',
-      className: 'mb-2',
+      className: 'mr-2 mb-2',
       onEvent: {
         click: {
           actions: [
@@ -1482,22 +1455,56 @@ run action ajax
       }
     },
     {
+      type: 'button',
+      label: '静态展示表单',
+      level: 'primary',
+      className: 'mr-2 mb-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'static',
+              componentId: 'form_disable'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      label: '非静态展示表单',
+      level: 'primary',
+      className: 'mr-2 mb-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'nonstatic',
+              componentId: 'form_disable'
+            }
+          ]
+        }
+      }
+    },
+    {
       type: 'form',
       id: 'form_disable',
       title: '表单',
       body: [
+        {
+          "type": "input-text",
+          "name": "text",
+          "label": "输入框",
+          "mode": "horizontal",
+          "value": "text"
+        },
         {
           type: 'group',
           body: [
             {
               type: 'button',
               className: 'ml-2',
-              label: '我的状态变了'
-            },
-            {
-              type: 'button',
-              className: 'ml-2',
-              label: '禁用上面的按钮',
+              label: '禁用【禁用】',
               level: 'primary',
               onEvent: {
                 click: {
@@ -1513,7 +1520,7 @@ run action ajax
             {
               type: 'button',
               className: 'ml-2',
-              label: '启用用上面的按钮',
+              label: '启用【禁用】',
               level: 'primary',
               onEvent: {
                 click: {
@@ -1536,9 +1543,9 @@ run action ajax
 
 **其他属性**
 
-| 属性名      | 类型     | 默认值 | 说明                        |
-| ----------- | -------- | ------ | --------------------------- |
-| componentId | `string` | -      | 指定启用或禁用的目标组件 id |
+| 属性名      | 类型     | 默认值 | 说明                                 |
+| ----------- | -------- | ------ | ------------------------------------ |
+| componentId | `string` | -      | 指定启用/禁用/显示/隐藏的目标组件 id |
 
 ### 更新数据
 
@@ -1625,9 +1632,11 @@ run action ajax
 
 **其他属性**
 
-| 属性名      | 类型     | 默认值 | 说明                  |
-| ----------- | -------- | ------ | --------------------- |
-| componentId | `string` | -      | 指定赋值的目标组件 id |
+| 属性名                       | 类型     | 默认值 | 说明                          |
+| ---------------------------- | -------- | ------ | ----------------------------- |
+| componentId 或 componentName | `string` | -      | 指定赋值的目标组件 id 或 name |
+
+> 备注：componentId 是全局定位指定的组件，而 componentName 是就近按照层级向上查找。
 
 ### 自定义 JS
 
@@ -1636,6 +1645,8 @@ run action ajax
 - context，渲染器上下文
 - doAction() 动作执行方法，用于调用任何 actionType 指定的动作
 - event，事件对象，可以调用 setData()、stopPropagation()、preventDefault()分别实现事件上下文设置、动作干预、事件干预，可以通过 event.data 获取事件上下文
+
+自定义函数签名： `script:(context,doAction,event)=>{}`
 
 ```schema
 {

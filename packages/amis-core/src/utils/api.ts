@@ -17,7 +17,8 @@ import {
 } from './helper';
 import isPlainObject from 'lodash/isPlainObject';
 import {debug, warning} from './debug';
-import {evaluate, parse} from 'amis-formula';
+import {evaluate} from 'amis-formula';
+import {memoryParse} from './memoryParse';
 
 const rSchema =
   /(?:^|raw\:)(get|post|put|delete|patch|options|head|jsonp|js):/i;
@@ -100,7 +101,7 @@ export function buildApi(
   const raw = (api.url = api.url || '');
   let ast: any = undefined;
   try {
-    ast = parse(api.url);
+    ast = memoryParse(api.url);
   } catch (e) {
     console.warn(`api 配置语法出错：${e}`);
     return api;
@@ -343,7 +344,8 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
     if (
       ret.headers &&
       contentType.startsWith('text/') &&
-      !contentType.includes('markdown')
+      !contentType.includes('markdown') &&
+      api.responseType !== 'blob'
     ) {
       try {
         data = JSON.parse(data);

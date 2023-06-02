@@ -26,7 +26,8 @@ import {
   getRendererByName,
   resolveEventData,
   ListenerAction,
-  evalExpressionWithConditionBuilder
+  evalExpressionWithConditionBuilder,
+  mapTree
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -302,6 +303,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.cancelEdit = this.cancelEdit.bind(this);
     this.handleSaveTableOrder = this.handleSaveTableOrder.bind(this);
     this.handleTableSave = this.handleTableSave.bind(this);
+    this.handleRadioChange = this.handleRadioChange.bind(this);
     this.getEntryId = this.getEntryId.bind(this);
     this.subFormRef = this.subFormRef.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -668,6 +670,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         }
       }
     );
+
+    // 阻止触发 onAction 动作
+    // 因为 footerAddButton 的 onClick 也绑定了这个
+    // Action 会先触发 onClick，没被组织就会 onAction
+    // 而执行 onAction 的话，dialog 会监控所有的 onAction
+    // onAction 过程中会下发 disabled: true
+    // 所以重新构建 buildColumns 的结果就是表单项都不可点了
+    return false;
   }
 
   /**
@@ -802,8 +812,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   cancelEdit() {
-    let items = this.state.items.concat();
-    items.splice(this.state.editIndex, 1);
+    const items = this.state.items.concat();
+    let item = {
+      ...items[this.state.editIndex]
+    };
+    const isNew = !!item.__isPlaceholder;
+    isNew && items.splice(this.state.editIndex, 1);
 
     this.setState(
       {
@@ -1263,11 +1277,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     };
 
     if (
-      (column.type &&
-        /^input\-|(?:select|picker|checkbox|checkboxes|editor|transfer|radios)$/i.test(
-          column.type
-        )) ||
-      ~['textarea', 'combo', 'condition-builder', 'group'].indexOf(column.type)
+      getRendererByName(column?.type)?.isFormItem ||
+      ~['group'].indexOf(column.type)
     ) {
       return {
         ...column,
@@ -1378,6 +1389,29 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     );
   }
 
+  handleRadioChange(
+    cxt: any,
+    {name, row, trueValue = true, falseValue = false}: any
+  ) {
+    const path: string = row.path;
+    const items = mapTree(
+      this.state.items,
+      (item: any, index, level, paths, indexes) => ({
+        ...item,
+        [name]: path === indexes.join('.') ? trueValue : falseValue
+      })
+    );
+
+    this.setState(
+      {
+        items
+      },
+      this.state.editIndex == row.path ? undefined : this.emitValue
+    );
+
+    return false;
+  }
+
   handleSaveTableOrder(moved: Array<object>, rows: Array<object>) {
     const {onChange} = this.props;
 
@@ -1397,29 +1431,33 @@ export default class FormTable extends React.Component<TableProps, TableState> {
    */
   @autobind
   handlePristineChange(data: Record<string, any>, rowIndex: string) {
-    const {needConfirm} = this.props;
-    const index = Number(rowIndex);
+    const {needConfirm, perPage} = this.props;
+    const indexes = rowIndex.split('.').map(item => parseInt(item, 10));
 
     this.setState(
       prevState => {
-        const items = cloneDeep(prevState.items);
+        let items = prevState.items.concat();
+        const page = prevState.page;
 
-        if (
-          Number.isInteger(index) &&
-          inRange(index, 0, items.length) &&
-          !isEqual(items[index], data)
-        ) {
-          items.splice(index, 1, data);
-
-          return {items};
+        if (page && page > 1 && typeof perPage === 'number') {
+          indexes[0] += (page - 1) * perPage;
         }
-        return null;
+        const origin = getTree(items, indexes);
+        const value = {
+          ...origin,
+          ...data
+        };
+        this.entries.set(value, this.entries.get(origin) || this.entityId++);
+        this.entries.delete(origin);
+        items = spliceTree(items, indexes, 1, value);
+
+        return {
+          items
+        };
       },
       () => {
         if (needConfirm === false) {
           this.emitValue();
-        } else {
-          Number.isInteger(index) && this.startEdit(index, true);
         }
       }
     );
@@ -1448,10 +1486,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   computedAddBtnDisabled() {
     const {disabled} = this.props;
-    if (disabled !== undefined) {
-      return disabled;
-    }
-    return !!~this.state.editIndex;
+    return disabled || !!~this.state.editIndex;
   }
 
   render() {
@@ -1502,24 +1537,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       offset = (page - 1) * perPage;
     }
 
-    const footerAddBtnDisabled = this.computedAddBtnDisabled();
-
-    let footerAddBtnSchema = {
-      type: 'button',
-      level: 'primary',
-      size: 'sm',
-      label: __('Table.add'),
-      icon: 'fa fa-plus',
-      disabled: footerAddBtnDisabled,
-      ...(footerAddBtnDisabled
-        ? {disabledTip: __('Table.addButtonDisabledTip')}
-        : {})
-    };
-
-    if (footerAddBtn !== undefined) {
-      footerAddBtnSchema = Object.assign(footerAddBtnSchema, footerAddBtn);
-    }
-
     return (
       <div className={cx('InputTable', className)}>
         {render(
@@ -1545,6 +1562,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             items: items,
             getEntryId: this.getEntryId,
             onSave: this.handleTableSave,
+            onRadioChange: this.handleRadioChange,
             onSaveOrder: this.handleSaveTableOrder,
             buildItemProps: this.buildItemProps,
             quickEditFormRef: this.subFormRef,
@@ -1553,12 +1571,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             combineFromIndex: combineFromIndex,
             expandConfig,
             canAccessSuperData,
-            reUseRow: false,
             offset,
             rowClassName,
-            rowClassNameExpr
-            // TODO: 这里是为了处理columns里使用value变量添加的，目前会影响初始化数据加载后的组件行为，先回滚
-            // onPristineChange: this.handlePristineChange
+            rowClassNameExpr,
+            onPristineChange: this.handlePristineChange
           }
         )}
         {(!isStatic &&
@@ -1568,9 +1584,22 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         showPager ? (
           <div className={cx('InputTable-toolbar')}>
             {addable && showFooterAddBtn !== false
-              ? render('button', footerAddBtnSchema, {
-                  onClick: () => this.addItem(this.state.items.length)
-                })
+              ? render(
+                  'button',
+                  {
+                    type: 'button',
+                    level: 'primary',
+                    size: 'sm',
+                    label: __('Table.add'),
+                    icon: 'fa fa-plus',
+                    disabledTip: __('Table.addButtonDisabledTip'),
+                    ...((footerAddBtn as any) || {})
+                  },
+                  {
+                    disabled: this.computedAddBtnDisabled(),
+                    onClick: () => this.addItem(this.state.items.length)
+                  }
+                )
               : null}
 
             {showPager
@@ -1704,9 +1733,10 @@ export class TableControlRenderer extends FormTable {
       const deletedItems: any = [];
 
       if (args.index) {
-        items[args.index] && deletedItems.push(items[args.index]);
-        rawItems = [...items];
-        rawItems.splice(args.index, 1);
+        const indexArr = args.index.split(',');
+        rawItems = items.filter(
+          (item, index) => !indexArr.includes(index.toString())
+        );
       } else if (args.condition) {
         const itemsLength = items.length;
         for (let i = 0; i < itemsLength; i++) {

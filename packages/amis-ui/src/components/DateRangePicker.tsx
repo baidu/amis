@@ -5,23 +5,32 @@
  */
 
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import moment, {unitOfTime} from 'moment';
 import omit from 'lodash/omit';
 import kebabCase from 'lodash/kebabCase';
-import {findDOMNode} from 'react-dom';
+import {
+  PopOver,
+  Overlay,
+  isExpression,
+  FormulaExec,
+  filterDate,
+  themeable,
+  getComputedStyle,
+  isMobile,
+  noop,
+  ucFirst,
+  localeable
+} from 'amis-core';
 import {Icon} from './icons';
-import {Overlay} from 'amis-core';
 import {ShortCuts, ShortCutDateRange} from './DatePicker';
 import Calendar from './calendar/Calendar';
-import {PopOver} from 'amis-core';
 import PopUp from './PopUp';
-import {ClassNamesFn, themeable, ThemeProps, getComputedStyle} from 'amis-core';
-import type {PlainObject} from 'amis-core';
-import {isMobile, noop, ucFirst} from 'amis-core';
-import {LocaleProps, localeable} from 'amis-core';
 import CalendarMobile from './CalendarMobile';
 import Input from './Input';
 import Button from './Button';
+
+import type {PlainObject, ThemeProps, LocaleProps} from 'amis-core';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -32,10 +41,16 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   format: string;
   utc?: boolean;
   inputFormat?: string;
+  /**
+   * @deprecated 3.1.0后废弃，用shortcuts替代
+   */
   ranges?: string | Array<ShortCuts>;
+  shortcuts?: string | Array<ShortCuts>;
   clearable?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
+  minDateRaw?: string;
+  maxDateRaw?: string;
   minDuration?: moment.Duration;
   maxDuration?: moment.Duration;
   joinValues: boolean;
@@ -83,7 +98,7 @@ export interface DateRangePickerState {
   endDateOpenedFirst: boolean;
 }
 
-export const availableRanges: {[propName: string]: any} = {
+export const availableShortcuts: {[propName: string]: any} = {
   'today': {
     label: 'Date.today',
     startDate: (now: moment.Moment) => {
@@ -441,6 +456,7 @@ export class DateRangePicker extends React.Component<
     clearable: true,
     delimiter: ',',
     ranges: 'yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter',
+    shortcuts: 'yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter',
     resetValue: '',
     closeOnSelect: true,
     overlayPlacement: 'auto',
@@ -1018,56 +1034,65 @@ export class DateRangePicker extends React.Component<
     );
   }
 
-  selectRannge(range: PlainObject) {
-    const {closeOnSelect, minDate, maxDate} = this.props;
+  selectShortcut(shortcut: PlainObject) {
+    const {closeOnSelect, minDateRaw, maxDateRaw, format, data} = this.props;
     const now = moment();
+    /** minDate和maxDate要实时计算，因为用户可能设置为${NOW()}，暂时不考虑毫秒级的时间差 */
+    const minDate = minDateRaw
+      ? filterDate(minDateRaw, data, format)
+      : undefined;
+    const maxDate = maxDateRaw
+      ? filterDate(maxDateRaw, data, format)
+      : undefined;
+    const startDate = shortcut.startDate(now.clone());
+    const endDate = shortcut.endDate(now.clone());
+
     this.setState(
       {
         startDate:
-          minDate && minDate.isValid()
-            ? moment.max(range.startDate(now.clone()), minDate)
-            : range.startDate(now.clone()),
+          minDate && minDate?.isValid()
+            ? moment.max(startDate, minDate)
+            : startDate,
         endDate:
-          maxDate && maxDate.isValid()
-            ? moment.min(maxDate, range.endDate(now.clone()))
-            : range.endDate(now.clone())
+          maxDate && maxDate?.isValid() ? moment.min(maxDate, endDate) : endDate
       },
       closeOnSelect ? this.confirm : noop
     );
   }
 
-  renderRanges(ranges: string | Array<ShortCuts> | undefined) {
-    if (!ranges) {
+  renderShortcuts(shortcuts: string | Array<ShortCuts> | undefined) {
+    if (!shortcuts) {
       return null;
     }
-    const {classPrefix: ns} = this.props;
-    let rangeArr: Array<string | ShortCuts>;
-    if (typeof ranges === 'string') {
-      rangeArr = ranges.split(',');
+    const {classPrefix: ns, format, data} = this.props;
+    let shortcutArr: Array<string | ShortCuts>;
+    if (typeof shortcuts === 'string') {
+      shortcutArr = shortcuts.split(',');
     } else {
-      rangeArr = ranges;
+      shortcutArr = shortcuts;
     }
     const __ = this.props.translate;
 
     return (
       <ul className={`${ns}DateRangePicker-rangers`}>
-        {rangeArr.map(item => {
+        {shortcutArr.map((item, index) => {
           if (!item) {
             return null;
           }
-          let range: PlainObject = {};
+
+          let shortcut: PlainObject = {};
           if (typeof item === 'string') {
-            if (availableRanges[item]) {
-              range = availableRanges[item];
-              range.key = item;
+            if (availableShortcuts[item]) {
+              shortcut = availableShortcuts[item];
+              shortcut.key = item;
             } else {
               // 通过正则尝试匹配
               for (let i = 0, len = advancedRanges.length; i < len; i++) {
                 let value = advancedRanges[i];
                 const m = value.regexp.exec(item);
                 if (m) {
-                  range = value.resolve.apply(item, [__, ...m]);
-                  range.key = item;
+                  shortcut = value.resolve.apply(item, [__, ...m]);
+                  shortcut.key = item;
                 }
               }
             }
@@ -1075,20 +1100,46 @@ export class DateRangePicker extends React.Component<
             (item as ShortCutDateRange).startDate &&
             (item as ShortCutDateRange).endDate
           ) {
-            range = {
+            const shortcutRaw = {...item} as ShortCutDateRange;
+
+            shortcut = {
               ...item,
-              startDate: () => (item as ShortCutDateRange).startDate,
-              endDate: () => (item as ShortCutDateRange).endDate
+              startDate: () => {
+                const startDate = isExpression(shortcutRaw.startDate)
+                  ? moment(
+                      FormulaExec['formula'](shortcutRaw.startDate, data),
+                      format
+                    )
+                  : shortcutRaw.startDate;
+
+                return startDate &&
+                  moment.isMoment(startDate) &&
+                  startDate?.isValid()
+                  ? startDate
+                  : (item as ShortCutDateRange).startDate;
+              },
+              endDate: () => {
+                const endDate = isExpression(shortcutRaw.endDate)
+                  ? moment(
+                      FormulaExec['formula'](shortcutRaw.endDate, data),
+                      format
+                    )
+                  : shortcutRaw.startDate;
+
+                return endDate && moment.isMoment(endDate) && endDate?.isValid()
+                  ? endDate
+                  : (item as ShortCutDateRange).endDate;
+              }
             };
           }
-          if (Object.keys(range).length) {
+          if (Object.keys(shortcut).length) {
             return (
               <li
                 className={`${ns}DateRangePicker-ranger`}
-                onClick={() => this.selectRannge(range)}
-                key={range.key || range.label}
+                onClick={() => this.selectShortcut(shortcut)}
+                key={index}
               >
-                <a>{__(range.label)}</a>
+                <a>{__(shortcut.label)}</a>
               </li>
             );
           } else {
@@ -1327,6 +1378,7 @@ export class DateRangePicker extends React.Component<
       timeFormat,
       inputFormat,
       ranges,
+      shortcuts,
       locale,
       embed,
       type,
@@ -1351,7 +1403,7 @@ export class DateRangePicker extends React.Component<
 
     return (
       <div className={cx(`${ns}DateRangePicker-wrap`)} ref={this.calendarRef}>
-        {this.renderRanges(ranges)}
+        {this.renderShortcuts(shortcuts ?? ranges)}
         <div className={cx(`${ns}DateRangePicker-picker-wrap`)}>
           {(!isTimeRange || (editState === 'start' && !embed)) && (
             <Calendar
@@ -1440,9 +1492,12 @@ export class DateRangePicker extends React.Component<
   ) {
     const {endDateOpenedFirst, endDate, startDate, editState} = this.state;
     const afterEndDate =
-      editState === 'start' && currentDate.isAfter(endDate!, granularity);
+      editState === 'start' &&
+      endDate &&
+      currentDate.isAfter(endDate!, granularity);
     const beforeStartDate =
       editState === 'end' &&
+      startDate &&
       !currentDate.isSameOrAfter(startDate!, granularity);
 
     if (afterEndDate || beforeStartDate) {
@@ -1542,6 +1597,7 @@ export class DateRangePicker extends React.Component<
       dateFormat,
       viewMode = 'days',
       ranges,
+      shortcuts,
       label,
       animation
     } = this.props;
@@ -1568,7 +1624,7 @@ export class DateRangePicker extends React.Component<
         close={this.close}
         confirm={this.confirm}
         onChange={this.handleMobileChange}
-        footerExtra={this.renderRanges(ranges)}
+        footerExtra={this.renderShortcuts(shortcuts ?? ranges)}
         showViewMode={
           viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'
         }

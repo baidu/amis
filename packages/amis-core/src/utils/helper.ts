@@ -764,10 +764,17 @@ export interface TreeArray extends Array<TreeItem> {}
  */
 export function mapTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number, paths: Array<T>) => T,
+  iterator: (
+    item: T,
+    key: number,
+    level: number,
+    paths: Array<T>,
+    indexes: Array<number>
+  ) => T,
   level: number = 1,
   depthFirst: boolean = false,
-  paths: Array<T> = []
+  paths: Array<T> = [],
+  indexes: Array<number> = []
 ) {
   return tree.map((item: any, index) => {
     if (depthFirst) {
@@ -777,15 +784,20 @@ export function mapTree<T extends TreeItem>(
             iterator,
             level + 1,
             depthFirst,
-            paths.concat(item)
+            paths.concat(item),
+            indexes.concat(index)
           )
         : undefined;
       children && (item = {...item, children: children});
-      item = iterator(item, index, level, paths) || {...(item as object)};
+      item = iterator(item, index, level, paths, indexes.concat(index)) || {
+        ...(item as object)
+      };
       return item;
     }
 
-    item = iterator(item, index, level, paths) || {...(item as object)};
+    item = iterator(item, index, level, paths, indexes.concat(index)) || {
+      ...(item as object)
+    };
 
     if (item.children && item.children.splice) {
       item.children = mapTree(
@@ -793,7 +805,8 @@ export function mapTree<T extends TreeItem>(
         iterator,
         level + 1,
         depthFirst,
-        paths.concat(item)
+        paths.concat(item),
+        indexes.concat(index)
       );
     }
 
@@ -813,11 +826,10 @@ export function eachTree<T extends TreeItem>(
   paths: Array<T> = []
 ) {
   tree.map((item, index) => {
-    let currentPath = paths.concat(item);
-    iterator(item, index, level, currentPath);
+    iterator(item, index, level, paths);
 
     if (item.children?.splice) {
-      eachTree(item.children, iterator, level + 1, currentPath);
+      eachTree(item.children, iterator, level + 1, paths.concat(item));
     }
   });
 }
@@ -925,15 +937,22 @@ export function getTree<T extends TreeItem>(
  */
 export function filterTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number) => any,
+  iterator: (item: T, key: number, level: number, paths: Array<T>) => any,
   level: number = 1,
-  depthFirst: boolean = false
+  depthFirst: boolean = false,
+  paths: Array<T> = []
 ) {
   if (depthFirst) {
     return tree
       .map(item => {
         let children: TreeArray | undefined = item.children
-          ? filterTree(item.children, iterator, level + 1, depthFirst)
+          ? filterTree(
+              item.children,
+              iterator,
+              level + 1,
+              depthFirst,
+              paths.concat(item)
+            )
           : undefined;
 
         if (Array.isArray(children) && Array.isArray(item.children)) {
@@ -942,18 +961,19 @@ export function filterTree<T extends TreeItem>(
 
         return item;
       })
-      .filter((item, index) => iterator(item, index, level));
+      .filter((item, index) => iterator(item, index, level, paths));
   }
 
   return tree
-    .filter((item, index) => iterator(item, index, level))
+    .filter((item, index) => iterator(item, index, level, paths))
     .map(item => {
       if (item.children?.splice) {
         let children = filterTree(
           item.children,
           iterator,
           level + 1,
-          depthFirst
+          depthFirst,
+          paths.concat(item)
         );
 
         if (Array.isArray(children) && Array.isArray(item.children)) {
@@ -1139,6 +1159,9 @@ export function spliceTree<T extends TreeItem>(
  * @param tree
  */
 export function getTreeDepth<T extends TreeItem>(tree: Array<T>): number {
+  if (Array.isArray(tree) && tree.length === 0) {
+    return 0;
+  }
   return Math.max(
     ...tree.map(item => {
       if (Array.isArray(item.children)) {
@@ -1771,10 +1794,12 @@ export function parseQuery(
     (location && location?.search && qsparse(location.search.substring(1))) ||
     (window.location.search && qsparse(window.location.search.substring(1)));
   /* 处理hash中的query */
-  const hashQuery =
-    window.location?.hash && typeof window.location?.hash === 'string'
-      ? qsparse(window.location.hash.replace(/^#.*\?/gi, ''))
-      : {};
+  const hash = window.location?.hash;
+  let hashQuery = {};
+  let idx = -1;
+  if (typeof hash === 'string' && ~(idx = hash.indexOf('?'))) {
+    hashQuery = qsparse(hash.substring(idx + 1));
+  }
   const normalizedQuery = isPlainObject(query) ? query : {};
 
   return merge(normalizedQuery, hashQuery);

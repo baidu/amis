@@ -110,6 +110,11 @@ export interface DialogSchema extends BaseSchema {
    * 是否显示蒙层
    */
   overlay?: boolean;
+
+  /**
+   * 弹框类型 confirm 确认弹框
+   */
+  dialogType?: 'confirm';
 }
 
 export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
@@ -370,7 +375,8 @@ export default class Dialog extends React.Component<DialogProps> {
   }
 
   handleExited() {
-    const {lazySchema, store} = this.props;
+    const {lazySchema, store, statusStore} = this.props;
+    statusStore && isAlive(statusStore) && statusStore.resetAll();
     if (isAlive(store)) {
       store.reset();
       store.setEntered(false);
@@ -539,7 +545,12 @@ export default class Dialog extends React.Component<DialogProps> {
       classPrefix,
       translate: __,
       loadingConfig,
-      overlay
+      overlay,
+      dialogType,
+      cancelText,
+      confirmText,
+      confirmBtnLevel,
+      cancelBtnLevel
     } = {
       ...this.props,
       ...store.schema
@@ -568,6 +579,11 @@ export default class Dialog extends React.Component<DialogProps> {
         enforceFocus={false}
         disabled={store.loading}
         overlay={overlay}
+        dialogType={dialogType}
+        cancelText={cancelText}
+        confirmText={confirmText}
+        confirmBtnLevel={confirmBtnLevel}
+        cancelBtnLevel={cancelBtnLevel}
       >
         {title && typeof title === 'string' ? (
           <div className={cx('Modal-header', headerClassName)}>

@@ -14,16 +14,18 @@ export interface SubEditorProps {
 @observer
 export class ScaffoldModal extends React.Component<SubEditorProps> {
   @autobind
-  handleConfirm([values]: any) {
+  async handleConfirm([values]: any) {
     const store = this.props.store;
+    const pipeOutFunc = store.scaffoldForm?.pipeOut;
 
     values = {
       ...store.scaffoldForm?.value,
       ...values
     };
 
-    if (store.scaffoldForm?.pipeOut) {
-      const mapped = store.scaffoldForm.pipeOut(values);
+    if (pipeOutFunc && typeof pipeOutFunc === 'function') {
+      const mapped = await pipeOutFunc(values);
+
       values = {
         ...mapped
       };

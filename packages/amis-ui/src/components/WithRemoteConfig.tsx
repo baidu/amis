@@ -16,7 +16,7 @@ import {
 } from 'amis-core';
 import type {RendererEnv} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter, tokenize} from 'amis-core';
-import {reaction} from 'mobx';
+import {reaction, comparer} from 'mobx';
 import {createObject, findTreeIndex, isObject} from 'amis-core';
 import {Api, ApiObject, Payload} from 'amis-core';
 
@@ -254,7 +254,11 @@ export function withRemoteConfig<P = any>(
                             ignoreData: true
                           }).url;
                     },
-                    () => this.loadConfig()
+                    () => this.loadConfig(),
+                    // 当nav配置source: "${amisStore.app.portalNavs}"时，切换页面就会触发source更新
+                    // 因此这里增加这个配置 数据源完全不相等情况下再执行loadConfig
+                    // 否则数据源重置 保存不了展开状态 就会始终是手风琴模式了
+                    {equals: comparer.structural}
                   )
                 );
             }

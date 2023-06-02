@@ -74,6 +74,11 @@ export interface ImagesSchema extends BaseSchema {
   enlargeAble?: boolean;
 
   /**
+   * 放大时是否显示图片集
+   */
+  enlargetWithImages?: boolean;
+
+  /**
    * 是否显示尺寸。
    */
   showDimensions?: boolean;
@@ -179,6 +184,7 @@ export class ImagesField extends React.Component<ImagesProps> {
       source,
       delimiter,
       enlargeAble,
+      enlargeWithGallary,
       src,
       originalSrc,
       listClassName,
@@ -233,6 +239,7 @@ export class ImagesField extends React.Component<ImagesProps> {
                 thumbMode={thumbMode}
                 thumbRatio={thumbRatio}
                 enlargeAble={enlargeAble!}
+                enlargeWithGallary={enlargeWithGallary}
                 onEnlarge={this.handleEnlarge}
                 showToolbar={showToolbar}
                 imageGallaryClassName={imageGallaryClassName}

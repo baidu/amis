@@ -4,6 +4,9 @@ export default {
     type: 'crud',
     headerToolbar: ['export-excel', 'export-csv'],
     data: {
+      mapping_type: {
+        '*': '其他'
+      },
       items: [
         {
           link: 'https://www.microsoft.com/',
@@ -187,6 +190,12 @@ export default {
           C: '差',
           D: '极差'
         }
+      },
+      {
+        name: 'grade',
+        label: 'CSS grade',
+        type: 'mapping',
+        source: '${mapping_type}'
       },
       {
         name: 'date',

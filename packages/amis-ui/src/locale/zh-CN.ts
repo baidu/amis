@@ -136,6 +136,7 @@ register('zh-CN', {
   'File.maxLength': '最多上传 {{maxLength}} 个文件',
   'File.maxSize':
     '{{filename}} 大小为 {{actualSize}} 超出了最大为 {{maxSize}} 的限制',
+  'File.imageAfterCrop': '裁剪后的图片',
   'File.pause': '暂停上传',
   'File.repick': '重新选择',
   'File.result': '已成功上传 {{uploaded}} 个文件，{{failed}} 个文件上传失败，',
@@ -155,6 +156,7 @@ register('zh-CN', {
   'Form.nestedError': '表单不要直接嵌套在表单下面',
   'Iframe.invalid': 'iframe 地址不合法',
   'Iframe.invalidProtocol': '无法加载 http 协议的 iframe',
+  'Image.dragTip': '拖拽排序',
   'Image.upload': '图片上传',
   'Image.errorRetry': '上传失败，请重试',
   'Image.configError': '图片多选配置和裁剪配置只能设置一个',

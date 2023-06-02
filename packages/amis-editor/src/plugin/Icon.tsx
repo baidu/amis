@@ -111,11 +111,11 @@ export class IconPlugin extends BasePlugin {
               body: [
                 getSchemaTpl('theme:size', {
                   label: '尺寸',
-                  name: 'css.className.font.fontSize'
+                  name: 'themeCss.className.font.fontSize'
                 }),
                 getSchemaTpl('theme:colorPicker', {
                   label: '颜色',
-                  name: `css.className.font.color`,
+                  name: `themeCss.className.font.color`,
                   labelMode: 'input'
                 }),
                 getSchemaTpl('theme:paddingAndMargin', {

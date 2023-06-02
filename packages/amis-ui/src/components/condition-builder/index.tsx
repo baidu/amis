@@ -355,7 +355,7 @@ export class QueryBuilder extends React.Component<
                 </span>
               )
             }
-            onResultClick={pickerIcon ? undefined : onClick}
+            onResultClick={onClick}
           ></ResultBox>
         )}
       </PickerContainer>
