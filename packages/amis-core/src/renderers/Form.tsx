@@ -455,6 +455,15 @@ export default class Form extends React.Component<FormProps, object> {
     'multiple'
   ];
 
+  static circularEventAction: {[eventName: string]: string} = {
+    inited: 'reload',
+    submit: 'submit',
+    submitSucc: 'submit',
+    submitFail: 'submit',
+    validateSucc: 'validate',
+    validateError: 'validate'
+  };
+
   hooks: {
     [propName: string]: Array<() => Promise<any>>;
   } = {};
@@ -672,7 +681,8 @@ export default class Form extends React.Component<FormProps, object> {
         responseData: value?.data ?? {},
         responseStatus: store.error ? 1 : 0,
         responseMsg: store.msg
-      })
+      }),
+      this
     );
 
     return value;
@@ -832,9 +842,9 @@ export default class Form extends React.Component<FormProps, object> {
       .validate(this.hooks['validate'] || [], forceValidate)
       .then((result: boolean) => {
         if (result) {
-          dispatchEvent('validateSucc', data);
+          dispatchEvent('validateSucc', data, this);
         } else {
-          dispatchEvent('validateError', data);
+          dispatchEvent('validateError', data, this);
         }
         return result;
       });
@@ -866,7 +876,7 @@ export default class Form extends React.Component<FormProps, object> {
   submit(fn?: (values: object) => Promise<any>): Promise<any> {
     const {store, messages, translate: __, dispatchEvent, data} = this.props;
     this.flush();
-    const validateErrCb = () => dispatchEvent('validateError', data);
+    const validateErrCb = () => dispatchEvent('validateError', data, this);
     return store.submit(
       fn,
       this.hooks['validate'] || [],
@@ -1082,7 +1092,8 @@ export default class Form extends React.Component<FormProps, object> {
       if (!validationRes) {
         const dispatcher = await dispatchEvent(
           'validateError',
-          this.props.data
+          this.props.data,
+          this
         );
         if (!dispatcher?.prevented) {
           env.notify('error', __('Form.validateFailed'));
@@ -1105,7 +1116,7 @@ export default class Form extends React.Component<FormProps, object> {
       // 配了submit事件的表示将提交逻辑全部托管给事件
       const {dispatchEvent, onEvent} = this.props;
       const submitEvent = onEvent?.submit?.actions?.length;
-      const dispatcher = await dispatchEvent('submit', this.props.data);
+      const dispatcher = await dispatchEvent('submit', this.props.data, this);
       if (dispatcher?.prevented || submitEvent) {
         return;
       }
@@ -1123,11 +1134,15 @@ export default class Form extends React.Component<FormProps, object> {
           return Promise.resolve(false);
         }
         // 走到这里代表校验成功了
-        dispatchEvent('validateSucc', this.props.data);
+        dispatchEvent('validateSucc', this.props.data, this);
 
         if (target) {
           this.submitToTarget(filterTarget(target, values), values);
-          dispatchEvent('submitSucc', createObject(this.props.data, values));
+          dispatchEvent(
+            'submitSucc',
+            createObject(this.props.data, values),
+            this
+          );
         } else if (action.actionType === 'reload') {
           action.target &&
             this.reloadTarget(filterTarget(action.target, values), values);
@@ -1150,7 +1165,8 @@ export default class Form extends React.Component<FormProps, object> {
                 // result为提交接口返回的内容
                 const dispatcher = await dispatchEvent(
                   'submitSucc',
-                  createObject(this.props.data, {result})
+                  createObject(this.props.data, {result}),
+                  this
                 );
                 if (
                   !isEffectiveApi(finnalAsyncApi, store.data) ||
@@ -1168,7 +1184,7 @@ export default class Form extends React.Component<FormProps, object> {
                   checkInterval
                 ).then((value: any) => {
                   // 派发asyncApiFinished事件
-                  dispatchEvent('asyncApiFinished', store.data);
+                  dispatchEvent('asyncApiFinished', store.data, this);
                 });
                 return {
                   cbResult,
@@ -1178,7 +1194,8 @@ export default class Form extends React.Component<FormProps, object> {
               onFailed: async (result: Payload) => {
                 const dispatcher = await dispatchEvent(
                   'submitFail',
-                  createObject(this.props.data, {error: result})
+                  createObject(this.props.data, {error: result}),
+                  this
                 );
                 return {
                   dispatcher
@@ -1205,7 +1222,11 @@ export default class Form extends React.Component<FormProps, object> {
             });
         } else {
           // type为submit，但是没有配api以及target时，只派发事件
-          dispatchEvent('submitSucc', createObject(this.props.data, values));
+          dispatchEvent(
+            'submitSucc',
+            createObject(this.props.data, values),
+            this
+          );
         }
 
         return Promise.resolve(null);

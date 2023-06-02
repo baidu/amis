@@ -5,6 +5,7 @@ import LazyComponent from './components/LazyComponent';
 import {
   filterSchema,
   loadRenderer,
+  RendererComponent,
   RendererConfig,
   RendererEnv,
   RendererProps,
@@ -17,7 +18,12 @@ import {DebugWrapper} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents, autobind} from './utils/helper';
 import {SimpleMap} from './utils/SimpleMap';
-import {bindEvent, dispatchEvent, RendererEvent} from './utils/renderer-event';
+import {
+  bindEvent,
+  checkCircular,
+  dispatchEvent,
+  RendererEvent
+} from './utils/renderer-event';
 import {isAlive} from 'mobx-state-tree';
 import {reaction} from 'mobx';
 import {resolveVariableAndFilter} from './utils/tpl-builtin';
@@ -221,8 +227,18 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   async dispatchEvent(
     e: React.MouseEvent<any>,
     data: any,
-    renderer?: React.Component<RendererProps> // for didmount
+    renderer?: React.Component // for didmount
   ): Promise<RendererEvent<any> | void> {
+    // 检查是否存在循环调用
+    const eventName = typeof e === 'string' ? e : e.type;
+    const action = (renderer?.constructor as RendererComponent)
+      ?.circularEventAction?.[eventName];
+
+    if (action && !checkCircular(eventName, action, renderer?.props)) {
+      this.props?.env.notify('warning', '警告:事件动作配置存在循环调用!');
+      return;
+    }
+
     return await dispatchEvent(
       e,
       this.cRef || renderer,

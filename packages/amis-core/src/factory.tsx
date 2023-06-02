@@ -87,6 +87,7 @@ export interface RendererProps
 
 export type RendererComponent = React.ComponentType<RendererProps> & {
   propsList?: Array<any>;
+  circularEventAction?: {[eventName: string]: string};
 };
 
 export interface RendererConfig extends RendererBasicConfig {

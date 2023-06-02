@@ -1,16 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Renderer, RendererProps, filterTarget} from 'amis-core';
-import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from 'amis-core';
-import {
-  Api,
-  SchemaNode,
-  ActionObject,
-  Location,
-  ApiObject,
-  FunctionPropertyNames
-} from 'amis-core';
+import {Api, ActionObject, Location} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
 import {
   isVisible,
@@ -34,9 +25,6 @@ import {
   SchemaMessage
 } from '../Schema';
 import {SchemaRemark} from './Remark';
-import {onAction} from 'mobx-state-tree';
-import mapValues from 'lodash/mapValues';
-import {resolveVariable} from 'amis-core';
 import {buildStyle} from 'amis-core';
 import {PullRefresh} from 'amis-ui';
 import {scrollPosition, isMobile} from 'amis-core';
@@ -270,6 +258,10 @@ export default class Page extends React.Component<PageProps> {
     'style',
     'showErrorMsg'
   ];
+
+  static circularEventAction: {[eventName: string]: string} = {
+    inited: 'reload'
+  };
 
   constructor(props: PageProps) {
     super(props);
@@ -698,7 +690,8 @@ export default class Page extends React.Component<PageProps> {
         responseStatus:
           value?.status === undefined ? (store?.error ? 1 : 0) : value?.status,
         responseMsg: value?.msg || store?.msg
-      })
+      }),
+      this
     );
 
     interval &&

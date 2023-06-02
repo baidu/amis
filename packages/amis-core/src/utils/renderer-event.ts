@@ -275,4 +275,18 @@ export const resolveEventData = (
   );
 };
 
+export const checkCircular = (
+  eventName: string,
+  actionType: string,
+  props: any
+) => {
+  const isCircular = props?.onEvent?.[eventName]?.actions?.some(
+    (item: any) =>
+      item.actionType === actionType &&
+      (item.componentId === props?.id || item.componentName === props?.name)
+  );
+
+  return !isCircular;
+};
+
 export default {};
