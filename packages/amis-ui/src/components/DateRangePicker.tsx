@@ -455,7 +455,7 @@ export class DateRangePicker extends React.Component<
     joinValues: true,
     clearable: true,
     delimiter: ',',
-    ranges: 'yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter',
+    ranges: '',
     shortcuts: 'yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter',
     resetValue: '',
     closeOnSelect: true,
@@ -1403,7 +1403,7 @@ export class DateRangePicker extends React.Component<
 
     return (
       <div className={cx(`${ns}DateRangePicker-wrap`)} ref={this.calendarRef}>
-        {this.renderShortcuts(shortcuts ?? ranges)}
+        {this.renderShortcuts(ranges || shortcuts)}
         <div className={cx(`${ns}DateRangePicker-picker-wrap`)}>
           {(!isTimeRange || (editState === 'start' && !embed)) && (
             <Calendar
@@ -1624,7 +1624,7 @@ export class DateRangePicker extends React.Component<
         close={this.close}
         confirm={this.confirm}
         onChange={this.handleMobileChange}
-        footerExtra={this.renderShortcuts(shortcuts ?? ranges)}
+        footerExtra={this.renderShortcuts(ranges || shortcuts)}
         showViewMode={
           viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'
         }

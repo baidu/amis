@@ -483,7 +483,7 @@ export class MonthRangePicker extends React.Component<
 
     return (
       <div className={`${ns}DateRangePicker-wrap`}>
-        {this.renderShortcuts(shortcuts ?? ranges)}
+        {this.renderShortcuts(ranges || shortcuts)}
         <Calendar
           className={`${ns}DateRangePicker-start`}
           value={startDate}
@@ -614,7 +614,7 @@ export class MonthRangePicker extends React.Component<
         close={this.close}
         confirm={this.confirm}
         onChange={this.handleMobileChange}
-        footerExtra={this.renderShortcuts(shortcuts ?? ranges)}
+        footerExtra={this.renderShortcuts(ranges || shortcuts)}
         showViewMode="years"
       />
     );

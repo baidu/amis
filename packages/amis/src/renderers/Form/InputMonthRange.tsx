@@ -65,7 +65,7 @@ export class MonthRangeControlRenderer extends MonthRangeControl {
     delimiter: ',',
     timeFormat: '',
     /** shortcuts的兼容配置 */
-    ranges: 'thismonth,prevmonth',
+    ranges: '',
     shortcuts: 'thismonth,prevmonth',
     animation: true
   };
