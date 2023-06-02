@@ -399,6 +399,11 @@ export class FormPlugin extends BasePlugin {
           }
         }
       ]
+    },
+    {
+      eventName: 'asyncApiFinished',
+      eventLabel: '远程请求轮询结束',
+      description: 'asyncApi 远程请求轮询结束后触发'
     }
   ];
 
@@ -635,7 +640,7 @@ export class FormPlugin extends BasePlugin {
                   label: '异步检测接口',
                   visibleOn: 'data.asyncApi != null',
                   description:
-                    '设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
+                    '设置此属性后，表单提交发送保存接口后，还会继续轮询请求该接口，直到返回 finished 属性为 true 才 结束'
                 }),
 
                 {
@@ -729,7 +734,7 @@ export class FormPlugin extends BasePlugin {
                   label: '异步检测接口',
                   visibleOn: 'data.initAsyncApi != null',
                   description:
-                    '设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
+                    '设置此属性后，表单请求 initApi 后，还会继续轮询请求该接口，直到返回 finished 属性为 true 才 结束'
                 }),
 
                 {

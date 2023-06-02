@@ -2,6 +2,7 @@ import {toast, normalizeApiResponseData} from 'amis';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import React from 'react';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 import {
   getI18nEnabled,
@@ -115,6 +116,178 @@ export class CRUDPlugin extends BasePlugin {
           }
         }
       ]
+    },
+    {
+      eventName: 'selectedChange',
+      eventLabel: '选择表格项',
+      description: '手动选择表格项事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.selectedItems': {
+              type: 'array',
+              title: '已选择行'
+            },
+            'event.data.unSelectedItems': {
+              type: 'array',
+              title: '未选择行'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'columnSort',
+      eventLabel: '列排序',
+      description: '点击列排序事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.orderBy': {
+              type: 'string',
+              title: '列排序列名'
+            },
+            'event.data.orderDir': {
+              type: 'string',
+              title: '列排序值'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'columnFilter',
+      eventLabel: '列筛选',
+      description: '点击列筛选事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.filterName': {
+              type: 'string',
+              title: '列筛选列名'
+            },
+            'event.data.filterValue': {
+              type: 'string',
+              title: '列筛选值'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'columnSearch',
+      eventLabel: '列搜索',
+      description: '点击列搜索事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.searchName': {
+              type: 'string',
+              title: '列搜索列名'
+            },
+            'event.data.searchValue': {
+              type: 'object',
+              title: '列搜索数据'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'orderChange',
+      eventLabel: '行排序',
+      description: '手动拖拽行排序事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.movedItems': {
+              type: 'array',
+              title: '已排序数据'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'columnToggled',
+      eventLabel: '列显示变化',
+      description: '点击自定义列事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.columns': {
+              type: 'array',
+              title: '当前显示的列配置数据'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowClick',
+      eventLabel: '行单击',
+      description: '点击整行事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.item': {
+              type: 'object',
+              title: '当前行数据'
+            },
+            'event.data.index': {
+              type: 'number',
+              title: '当前行索引'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowMouseEnter',
+      eventLabel: '鼠标移入行事件',
+      description: '移入整行时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.item': {
+              type: 'object',
+              title: '当前行数据'
+            },
+            'event.data.index': {
+              type: 'number',
+              title: '当前行索引'
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowMouseLeave',
+      eventLabel: '鼠标移出行事件',
+      description: '移出整行时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.item': {
+              type: 'object',
+              title: '当前行数据'
+            },
+            'event.data.index': {
+              type: 'number',
+              title: '当前行索引'
+            }
+          }
+        }
+      ]
     }
   ];
 
@@ -123,6 +296,11 @@ export class CRUDPlugin extends BasePlugin {
       actionType: 'reload',
       actionLabel: '重新加载',
       description: '触发组件数据刷新并重新渲染'
+    },
+    {
+      actionLabel: '变量赋值',
+      actionType: 'setValue',
+      description: '更新列表记录'
     }
   ];
 
@@ -1499,6 +1677,17 @@ export class CRUDPlugin extends BasePlugin {
           getSchemaTpl('className', {
             name: 'bodyClassName',
             label: '内容 CSS 类名'
+          })
+        ]
+      },
+
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
           })
         ]
       },
