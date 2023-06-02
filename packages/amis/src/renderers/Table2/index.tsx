@@ -389,6 +389,7 @@ export type Table2RendererEvent =
   | 'columnToggled'
   | 'orderChange'
   | 'rowClick'
+  | 'rowDbClick'
   | 'rowMouseEnter'
   | 'rowMouseLeave';
 
