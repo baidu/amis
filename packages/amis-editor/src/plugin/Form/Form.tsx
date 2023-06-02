@@ -399,6 +399,11 @@ export class FormPlugin extends BasePlugin {
           }
         }
       ]
+    },
+    {
+      eventName: 'asyncApiFinished',
+      eventLabel: '远程请求轮训结束',
+      description: 'asyncApi 远程请求轮训结束后触发'
     }
   ];
 
