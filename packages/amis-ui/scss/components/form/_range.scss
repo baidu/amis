@@ -149,10 +149,12 @@
       }
     }
 
-    &-drage {
-      transform: var(--InputRange-handle-onActive-transform);
-      box-shadow: var(--InputRange-handle-onFocus-boxShadow);
-      border-width: var(--InputRange-handle-onDrage-border-width);
+    &:not(.is-mobile) {
+      .#{$ns}InputRange-handle-drage {
+        transform: var(--InputRange-handle-onActive-transform);
+        box-shadow: var(--InputRange-handle-onFocus-boxShadow);
+        border-width: var(--InputRange-handle-onDrage-border-width);
+      }
     }
 
     .input-range--disabled & {
@@ -338,10 +340,10 @@
   &.is-mobile {
     .#{$ns}InputRange-marks {
       div {
-        top: px2rem(4px);
+        top: 0;
 
         &:nth-child(2n) {
-          top: px2rem(-34px);
+          top: px2rem(-30px);
         }
       }
     }

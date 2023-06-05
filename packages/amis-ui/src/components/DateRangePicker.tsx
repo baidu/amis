@@ -1411,7 +1411,6 @@ export class DateRangePicker extends React.Component<
         className={cx(`${ns}DateRangePicker-wrap`, {'is-mobile': mobileUI})}
         ref={this.calendarRef}
       >
-        {this.renderShortcuts(shortcuts ?? ranges)}
         {mobileUI && !embed ? (
           <div className={cx('PickerColumns-header')}>
             {
@@ -1438,6 +1437,7 @@ export class DateRangePicker extends React.Component<
             }
           </div>
         ) : null}
+        {this.renderShortcuts(shortcuts ?? ranges)}
         <div
           className={cx(`${ns}DateRangePicker-picker-wrap`, {
             'is-vertical': embed
@@ -1789,6 +1789,7 @@ export class DateRangePicker extends React.Component<
               )}
               onHide={this.close}
               header={CalendarMobileTitle}
+              showClose={false}
             >
               {useCalendarMobile ? calendarMobile : this.renderCalendar()}
             </PopUp>

@@ -415,6 +415,8 @@
   background-color: rgb(250, 250, 250);
   border-radius: var(--borderRadius);
   position: relative;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 // .#{$ns}Form--quickEdit {

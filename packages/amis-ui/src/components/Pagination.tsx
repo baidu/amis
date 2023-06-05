@@ -451,8 +451,6 @@ export class Pagination extends React.Component<
       ];
     }
 
-    console.log('pageButtons-----', pageButtons, activePage);
-
     const go = (
       <div className={cx('Pagination-inputGroup Pagination-item')} key="go">
         {!mobileUI ? (

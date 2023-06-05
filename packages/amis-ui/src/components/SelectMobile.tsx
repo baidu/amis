@@ -6,11 +6,11 @@ import {autobind, highlight} from 'amis-core';
 import merge from 'lodash/merge';
 // @ts-ignore
 import {matchSorter} from 'match-sorter';
-import {Option, Options, value2array, SelectProps} from './Select';
+import {Option, value2array, SelectProps} from './Select';
 import VirtualList from './virtual-list';
 import Checkbox from './Checkbox';
 import Input from './Input';
-import {closeIcon, Icon} from './icons';
+import {Icon} from './icons';
 
 interface SelectState {
   isFocused: boolean;
@@ -46,10 +46,6 @@ export default class SelectMobile extends React.Component<Props, SelectState> {
   handleChange([item]: any) {
     const {onChange, multiple, simpleValue, valueField, options} = this.props;
     let {selection} = this.state;
-
-    if (!multiple && item === undefined) {
-      console.log('执行了');
-    }
 
     // 单选是字符串
     const selectItem = options.find((option: Option) =>
@@ -254,36 +250,24 @@ export default class SelectMobile extends React.Component<Props, SelectState> {
     const {
       popOverContainer,
       options,
-      value,
       valueField,
       labelField,
       noResultsText,
       loadOptions,
-      creatable,
       multiple,
       valuesNoWrap,
       classnames: cx,
-      popoverClassName,
-      popOverContainerSelector,
       checkAll,
       checkAllLabel,
       checkAllBySearch,
       searchable,
-      createBtnLabel,
       disabled,
       searchPromptText,
-      editable,
-      removable,
-      overlayPlacement,
       translate: __,
       hideSelected,
       renderMenu,
-      mobileClassName,
       virtualThreshold = 100,
-      useMobileUI = false,
-      overlay,
       isOpen,
-      highlightedIndex,
       onClose,
       getInputProps,
       getItemProps,
@@ -301,8 +285,12 @@ export default class SelectMobile extends React.Component<Props, SelectState> {
             keys: [labelField || 'label', valueField || 'value']
           })
         : options.concat()
-    ).filter((option: Option) => !option.hidden && option.visible !== false);
-
+    ).filter(
+      (option: Option) =>
+        !option.hidden &&
+        option.visible !== false &&
+        option[labelField || 'label']
+    );
     const enableVirtualRender =
       filtedOptions.length && filtedOptions.length > virtualThreshold;
     const selectionValues = selection.map(select => select[valueField]);
