@@ -87,7 +87,11 @@ export const Store = StoreNode.named('MappingStore')
             const data = normalizeApiResponseData(ret.data);
 
             (self as any).setMap(
-              Array.isArray(data.options) ? data.options : data
+              Array.isArray(data.options)
+                ? data.options
+                : Array.isArray(data.items)
+                ? data.items
+                : data
             );
           } else {
             throw new Error(ret.msg || 'fetch error');
