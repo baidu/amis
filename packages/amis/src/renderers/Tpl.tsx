@@ -68,7 +68,7 @@ export class Tpl extends React.Component<TplProps, TplState> {
   constructor(props: TplProps) {
     super(props);
     this.state = {
-      content: ''
+      content: this.getContent()
     };
     this.mounted = true;
   }
@@ -97,27 +97,27 @@ export class Tpl extends React.Component<TplProps, TplState> {
     this.mounted && this.setState({content});
   }
 
-  // @autobind
-  // getContent() {
-  //   const {tpl, html, text, raw, data, placeholder} = this.props;
-  //   const value = getPropValue(this.props);
+  @autobind
+  getContent() {
+    const {tpl, html, text, raw, data, placeholder} = this.props;
+    const value = getPropValue(this.props);
 
-  //   if (raw) {
-  //     return raw;
-  //   } else if (html) {
-  //     return filter(html, data);
-  //   } else if (tpl) {
-  //     return filter(tpl, data);
-  //   } else if (text) {
-  //     return escapeHtml(filter(text, data));
-  //   } else {
-  //     return value == null || value === ''
-  //       ? `<span class="text-muted">${placeholder}</span>`
-  //       : typeof value === 'string'
-  //       ? value
-  //       : JSON.stringify(value);
-  //   }
-  // }
+    if (raw) {
+      return raw;
+    } else if (html) {
+      return filter(html, data);
+    } else if (tpl) {
+      return filter(tpl, data);
+    } else if (text) {
+      return escapeHtml(filter(text, data));
+    } else {
+      return value == null || value === ''
+        ? `<span class="text-muted">${placeholder}</span>`
+        : typeof value === 'string'
+        ? value
+        : JSON.stringify(value);
+    }
+  }
 
   @autobind
   async getAsyncContent() {
