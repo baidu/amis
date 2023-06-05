@@ -281,7 +281,7 @@ const CityArea = memo<AreaProps>(props => {
         result={result}
         onResultChange={() => {}}
         onResultClick={() => setIsOpened(!isOpened)}
-        placeholder={__('Condition.cond_placeholder')}
+        placeholder={__('Select.placeholder')}
         useMobileUI={useMobileUI}
       ></ResultBox>
       {allowStreet && values[0] ? (
@@ -293,6 +293,7 @@ const CityArea = memo<AreaProps>(props => {
           }
           placeholder={__('City.street')}
           disabled={disabled}
+          readOnly={true}
         />
       ) : null}
       <PopUp

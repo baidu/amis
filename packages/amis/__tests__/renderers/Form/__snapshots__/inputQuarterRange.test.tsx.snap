@@ -77,7 +77,7 @@ exports[`Renderer:InputQuarterRange with embed 1`] = `
                   </li>
                 </ul>
                 <div
-                  class="cxd-DateRangePicker-picker-wrap"
+                  class="cxd-DateRangePicker-picker-wrap is-vertical"
                 >
                   <div
                     class="rdt rdtStatic rdtOpen cxd-DateRangePicker-start rdtTimeWithoutD"

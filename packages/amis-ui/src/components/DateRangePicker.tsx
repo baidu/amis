@@ -1035,7 +1035,9 @@ export class DateRangePicker extends React.Component<
   }
 
   selectShortcut(shortcut: PlainObject) {
-    const {closeOnSelect, minDateRaw, maxDateRaw, format, data} = this.props;
+    const {closeOnSelect, minDateRaw, maxDateRaw, format, data, useMobileUI} =
+      this.props;
+    const mobileUI = useMobileUI && isMobile();
     const now = moment();
     /** minDate和maxDate要实时计算，因为用户可能设置为${NOW()}，暂时不考虑毫秒级的时间差 */
     const minDate = minDateRaw
@@ -1056,7 +1058,7 @@ export class DateRangePicker extends React.Component<
         endDate:
           maxDate && maxDate?.isValid() ? moment.min(maxDate, endDate) : endDate
       },
-      closeOnSelect ? this.confirm : noop
+      closeOnSelect && !mobileUI ? this.confirm : noop
     );
   }
 
@@ -1382,7 +1384,9 @@ export class DateRangePicker extends React.Component<
       locale,
       embed,
       type,
-      viewMode = 'days'
+      viewMode = 'days',
+      label,
+      useMobileUI
     } = this.props;
     const __ = this.props.translate;
     const {startDate, endDate, editState} = this.state;
@@ -1400,12 +1404,48 @@ export class DateRangePicker extends React.Component<
           !endDate ||
           !startDate?.isValid() ||
           !endDate?.isValid()));
+    const mobileUI = useMobileUI && isMobile();
 
     return (
-      <div className={cx(`${ns}DateRangePicker-wrap`)} ref={this.calendarRef}>
+      <div
+        className={cx(`${ns}DateRangePicker-wrap`, {'is-mobile': mobileUI})}
+        ref={this.calendarRef}
+      >
+        {mobileUI && !embed ? (
+          <div className={cx('PickerColumns-header')}>
+            {
+              <Button
+                className="PickerColumns-cancel"
+                level="link"
+                onClick={() => this.close(false)}
+              >
+                {__('cancel')}
+              </Button>
+            }
+            {label && typeof label === 'string'
+              ? label
+              : __('Calendar.datepicker')}
+            {
+              <Button
+                className="PickerColumns-confirm"
+                level="link"
+                disabled={isConfirmBtnDisbaled || !startDate || !endDate}
+                onClick={this.confirm}
+              >
+                {__('confirm')}
+              </Button>
+            }
+          </div>
+        ) : null}
         {this.renderShortcuts(ranges || shortcuts)}
-        <div className={cx(`${ns}DateRangePicker-picker-wrap`)}>
-          {(!isTimeRange || (editState === 'start' && !embed)) && (
+        <div
+          className={cx(`${ns}DateRangePicker-picker-wrap`, {
+            'is-vertical': embed
+          })}
+        >
+          {(!isTimeRange ||
+            (editState === 'start' && !embed) ||
+            (mobileUI && isTimeRange)) && (
             <Calendar
               className={`${ns}DateRangePicker-start`}
               value={startDate}
@@ -1432,9 +1472,12 @@ export class DateRangePicker extends React.Component<
               renderYear={this.renderYear}
               locale={locale}
               timeRangeHeader="开始时间"
+              embed={embed}
             />
           )}
-          {(!isTimeRange || (editState === 'end' && !embed)) && (
+          {(!isTimeRange ||
+            (editState === 'end' && !embed) ||
+            (mobileUI && isTimeRange)) && (
             <Calendar
               className={`${ns}DateRangePicker-end`}
               value={endDate}
@@ -1461,11 +1504,12 @@ export class DateRangePicker extends React.Component<
               renderYear={this.renderYear}
               locale={locale}
               timeRangeHeader="结束时间"
+              embed={embed}
             />
           )}
         </div>
 
-        {embed ? null : (
+        {embed || mobileUI ? null : (
           <div key="button" className={`${ns}DateRangePicker-actions`}>
             {/* this.close 这里不可以传参 */}
             <Button size="sm" onClick={() => this.close()}>
@@ -1631,11 +1675,16 @@ export class DateRangePicker extends React.Component<
       />
     );
 
+    const mobileUI = useMobileUI && isMobile();
+
     if (embed) {
       return (
         <div
           className={cx(
             `${ns}DateRangeCalendar`,
+            {
+              'is-mobile': mobileUI
+            },
             {
               'is-disabled': disabled
             },
@@ -1740,6 +1789,7 @@ export class DateRangePicker extends React.Component<
               )}
               onHide={this.close}
               header={CalendarMobileTitle}
+              showClose={false}
             >
               {useCalendarMobile ? calendarMobile : this.renderCalendar()}
             </PopUp>

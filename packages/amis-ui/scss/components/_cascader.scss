@@ -12,9 +12,12 @@
 .#{$ns}Cascader-tab {
   flex: 1;
   width: calc((100vw - 20px) / 3);
-  height: px2rem(370px);
+  height: px2rem(260px);
   overflow-y: auto;
   display: inline-block;
+  padding-left: px2rem(10px);
+  border: 1px solid var(--Cascader-border-color);
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -52,13 +55,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: px2rem(6px) 0;
+    padding: px2rem(6px) 0 px2rem(6px) px2rem(10px);
     font-size: var(--fontSizeMd);
     line-height: var(--Cascader-option-lineHeight);
     cursor: pointer;
     position: relative;
+
+    &.is-active {
+      background-color: var(--Cascader-border-active-bg-color);
+    }
+
     &.selected {
-      span {
+      .#{$ns}Cascader-option--text {
         color: var(--primary);
       }
     }
@@ -68,11 +76,26 @@
       }
     }
     &--text {
+      flex: 1;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       user-select: none;
+
+      &.disabled {
+        color: var(--Cascader-option-disable-color);
+      }
     }
+
+    &-arrow {
+      flex: 1;
+      text-align: right;
+      padding-right: px2rem(6px);
+      > svg {
+        transform: scale(0.8);
+      }
+    }
+
     &-selectedNum {
       min-width: px2rem(16px);
       height: px2rem(16px);

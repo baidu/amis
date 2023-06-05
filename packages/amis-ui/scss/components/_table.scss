@@ -207,6 +207,14 @@
     }
   }
 
+  &.is-mobile {
+    .#{$ns}Table-toolbar {
+      .#{$ns}Form-item {
+        padding: 0;
+      }
+    }
+  }
+
   &-header + &-toolbar {
     padding-top: 0;
   }
@@ -653,6 +661,21 @@
     > thead > tr > th.#{$ns}TableCell--filterable {
       > .#{$ns}TableCell--title {
         display: inline-block;
+      }
+    }
+  }
+
+  &.is-mobile {
+    .#{$ns}Table-table > tbody > tr {
+      &:hover,
+      &.is-hovered {
+        background: var(--Table-bg);
+        border-color: var(--Table-borderColor);
+        color: var(--Table-color);
+
+        & + tr {
+          border-color: var(--Table-borderColor);
+        }
       }
     }
   }

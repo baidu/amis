@@ -206,3 +206,15 @@
     min-width: px2rem(150px);
   }
 }
+
+.#{$ns}PickerControl.is-mobile {
+  width: 100%;
+
+  .#{$ns}Form-item {
+    padding: 0;
+  }
+
+  .#{$ns}Picker-input {
+    border: none;
+  }
+}

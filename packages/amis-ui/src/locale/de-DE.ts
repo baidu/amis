@@ -57,6 +57,7 @@ register('de-DE', {
   'Pagination.totalCount': 'total {{total}} items',
   'Date.titleYear': '',
   'Date.titleMonth': '',
+  'Date.titleQuarter': '',
   'Date.titleDate': '',
   'Date.titleTime': '',
   'Date.daysago': 'Vor {{days}} Tag(en)',

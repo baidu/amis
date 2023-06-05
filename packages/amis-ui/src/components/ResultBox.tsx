@@ -29,16 +29,22 @@ export interface ResultBoxProps
   overflowTagPopover?: TooltipObject;
   actions?: JSX.Element | JSX.Element[];
   showInvalidMatch?: boolean;
+  showArrow?: boolean;
 }
 
 export class ResultBox extends React.Component<ResultBoxProps> {
   static defaultProps: Pick<
     ResultBoxProps,
-    'clearable' | 'placeholder' | 'itemRender' | 'inputPlaceholder'
+    | 'clearable'
+    | 'placeholder'
+    | 'itemRender'
+    | 'inputPlaceholder'
+    | 'showArrow'
   > = {
     clearable: false,
     placeholder: 'placeholder.noData',
     inputPlaceholder: 'placeholder.enter',
+    showArrow: true,
     itemRender: (option: any) => (
       <span>{`${option.scopeLabel || ''}${option.label}`}</span>
     )
@@ -68,6 +74,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
 
   @autobind
   handleFocus(e: any) {
+    console.log('eeeeeeee', e);
     const onFocus = this.props.onFocus;
     onFocus && onFocus(e);
     this.setState({
@@ -241,6 +248,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       onClear,
       maxTagCount,
       overflowTagPopover,
+      showArrow,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
@@ -326,7 +334,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               <Icon icon="right-arrow-bold" className="icon" />
             </span>
           )}
-          {!allowInput && mobileUI ? (
+          {!allowInput && mobileUI && showArrow ? (
             <span className={cx('ResultBox-arrow')}>
               <Icon icon="caret" className="icon" />
             </span>
