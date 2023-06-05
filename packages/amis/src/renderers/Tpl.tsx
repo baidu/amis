@@ -68,7 +68,7 @@ export class Tpl extends React.Component<TplProps, TplState> {
   constructor(props: TplProps) {
     super(props);
     this.state = {
-      content: this.getContent()
+      content: ''
     };
     this.mounted = true;
   }
@@ -92,46 +92,52 @@ export class Tpl extends React.Component<TplProps, TplState> {
   }
 
   @autobind
-  updateContent() {
-    const {tpl, html, text} = this.props;
-
-    if (html || tpl || text) {
-      this.getAsyncContent().then(content => {
-        this.mounted && this.setState({content});
-      });
-    }
+  async updateContent() {
+    const content = await this.getAsyncContent();
+    this.mounted && this.setState({content});
   }
 
+  // @autobind
+  // getContent() {
+  //   const {tpl, html, text, raw, data, placeholder} = this.props;
+  //   const value = getPropValue(this.props);
+
+  //   if (raw) {
+  //     return raw;
+  //   } else if (html) {
+  //     return filter(html, data);
+  //   } else if (tpl) {
+  //     return filter(tpl, data);
+  //   } else if (text) {
+  //     return escapeHtml(filter(text, data));
+  //   } else {
+  //     return value == null || value === ''
+  //       ? `<span class="text-muted">${placeholder}</span>`
+  //       : typeof value === 'string'
+  //       ? value
+  //       : JSON.stringify(value);
+  //   }
+  // }
+
   @autobind
-  getContent() {
-    const {tpl, html, text, raw, data, placeholder} = this.props;
+  async getAsyncContent() {
+    const {tpl, html, text, data, raw, placeholder} = this.props;
     const value = getPropValue(this.props);
 
     if (raw) {
       return raw;
     } else if (html) {
-      return filter(html, data);
+      return asyncFilter(html, data);
     } else if (tpl) {
-      return filter(tpl, data);
+      return asyncFilter(tpl, data);
     } else if (text) {
-      return escapeHtml(filter(text, data));
+      return escapeHtml(await asyncFilter(text, data));
     } else {
       return value == null || value === ''
         ? `<span class="text-muted">${placeholder}</span>`
         : typeof value === 'string'
         ? value
         : JSON.stringify(value);
-    }
-  }
-
-  @autobind
-  async getAsyncContent() {
-    const {tpl, html, text, data} = this.props;
-
-    if (html || tpl) {
-      return asyncFilter(html || tpl, data);
-    } else {
-      return escapeHtml(await asyncFilter(text, data));
     }
   }
 
