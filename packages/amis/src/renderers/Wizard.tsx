@@ -885,8 +885,24 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         })
         .catch(error => {});
     } else {
-      onFinished && onFinished(store.data, action);
       this.setState({completeStep: steps.length});
+
+      if (onFinished && onFinished(store.data, action) === false) {
+        return;
+      }
+
+      const finalRedirect =
+        (action.redirect || step.redirect || redirect) &&
+        filter(action.redirect || step.redirect || redirect, store.data);
+
+      if (finalRedirect) {
+        env.jumpTo(finalRedirect, action);
+      } else if (action.reload || step.reload || reload) {
+        this.reloadTarget(
+          filterTarget(action.reload || step.reload || reload!, store.data),
+          store.data
+        );
+      }
     }
   }
 
