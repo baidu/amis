@@ -9,7 +9,7 @@ import {isObject} from 'amis-core';
 // input-kv 实际上是 combo 的一种扩展
 addSchemaFilter(function (schema: Schema, renderer, props?: any) {
   if (schema && schema.type === 'input-kv') {
-    const autoConvertJSONString = schema.autoConvertJSONString ?? true;
+    const autoParseJSON = schema.autoParseJSON ?? true;
     return {
       draggable: true,
       ...schema,
@@ -42,7 +42,7 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
           const key: string = item.key ?? '';
           let value: any = item.value ?? schema.defaultValue ?? '';
           if (
-            autoConvertJSONString &&
+            autoParseJSON &&
             typeof value === 'string' &&
             value.startsWith('{')
           ) {
