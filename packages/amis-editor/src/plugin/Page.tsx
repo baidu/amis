@@ -13,6 +13,7 @@ import {tipedLabel} from 'amis-editor-core';
 import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
 
 export class PagePlugin extends BasePlugin {
+  static id = 'PagePlugin';
   // 关联渲染器名字
   rendererName = 'page';
   $schema = '/schemas/PageSchema.json';

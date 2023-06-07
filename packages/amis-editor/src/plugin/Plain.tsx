@@ -8,6 +8,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class PlainPlugin extends BasePlugin {
+  static id = 'PlainPlugin';
   // 关联渲染器名字
   rendererName = 'plain';
   $schema = '/schemas/PlainSchema.json';

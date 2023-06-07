@@ -56,6 +56,7 @@ const viewTypeToEditType = (type: string) => {
 };
 
 export class CRUDPlugin extends BasePlugin {
+  static id = 'CRUDPlugin';
   // 关联渲染器名字
   rendererName = 'crud';
   $schema = '/schemas/CRUDSchema.json';

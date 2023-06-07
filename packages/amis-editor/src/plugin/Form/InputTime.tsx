@@ -2,6 +2,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {DateControlPlugin} from './InputDate';
 
 export class TimeControlPlugin extends DateControlPlugin {
+  static id = 'TimeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-time';
   $schema = '/schemas/TimeControlSchema.json';

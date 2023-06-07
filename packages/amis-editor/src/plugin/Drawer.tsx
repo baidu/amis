@@ -13,6 +13,7 @@ import {InlineModal} from './Dialog';
 import {tipedLabel} from 'amis-editor-core';
 
 export class DrawerPlugin extends BasePlugin {
+  static id = 'DrawerPlugin';
   // 关联渲染器名字
   rendererName = 'drawer';
   $schema = '/schemas/DrawerSchema.json';

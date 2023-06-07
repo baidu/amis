@@ -4,6 +4,7 @@ import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 
 export class LocationControlPlugin extends BasePlugin {
+  static id = 'LocationControlPlugin';
   // 关联渲染器名字
   rendererName = 'location-picker';
   $schema = '/schemas/LocationControlSchema.json';

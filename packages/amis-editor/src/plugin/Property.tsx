@@ -6,6 +6,7 @@ import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 
 export class PropertyPlugin extends BasePlugin {
+  static id = 'PropertyPlugin';
   // 关联渲染器名字
   rendererName = 'property';
   $schema = '/schemas/PropertySchema.json';

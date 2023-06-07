@@ -31,6 +31,7 @@ const valueDateFormatOptions = [
   }
 ];
 export class DatePlugin extends BasePlugin {
+  static id = 'DatePlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'date';

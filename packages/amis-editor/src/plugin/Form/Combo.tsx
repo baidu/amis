@@ -23,6 +23,7 @@ import {
 } from '../../renderer/event-control/helper';
 
 export class ComboControlPlugin extends BasePlugin {
+  static id = 'ComboControlPlugin';
   // 关联渲染器名字
   rendererName = 'combo';
   $schema = '/schemas/ComboControlSchema.json';

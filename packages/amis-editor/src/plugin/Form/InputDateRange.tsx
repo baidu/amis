@@ -180,6 +180,7 @@ const sizeImmutableComponents = Object.values(DateType)
   .filter(a => a);
 
 export class DateRangeControlPlugin extends BasePlugin {
+  static id = 'DateRangeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-date-range';
   $schema = '/schemas/DateRangeControlSchema.json';

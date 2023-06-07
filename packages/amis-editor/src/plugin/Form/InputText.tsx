@@ -20,6 +20,7 @@ function isTextShow(value: string, name: boolean): boolean {
 }
 
 export class TextControlPlugin extends BasePlugin {
+  static id = 'TextControlPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-text';

@@ -85,6 +85,7 @@ function getCellRealPosition(table: TableViewSchema) {
 }
 
 export class TableViewPlugin extends BasePlugin {
+  static id = 'TableViewPlugin';
   // 关联渲染器名字
   rendererName = 'table-view';
   $schema = '/schemas/TableViewSchema.json';

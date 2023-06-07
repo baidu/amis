@@ -14,6 +14,7 @@ import {
 } from 'amis-editor-core';
 import {BUTTON_DEFAULT_ACTION} from '../component/BaseControl';
 export class DropDownButtonPlugin extends BasePlugin {
+  static id = 'DropDownButtonPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'dropdown-button';
