@@ -13,6 +13,7 @@ import {ThemeProps, themeable, findTree} from 'amis-core';
 import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';
 import {Options, Option} from './Select';
 import {uncontrollable} from 'amis-core';
+import {isMobile} from 'amis-core';
 import ResultList from './ResultList';
 import TableSelection from './TableSelection';
 import {autobind, flattenTree} from 'amis-core';
@@ -115,9 +116,11 @@ export interface TransferProps
   checkAllLabel?: string;
   /** 树形模式下，给 tree 的属性 */
   onlyChildren?: boolean;
+  useMobileUI?: boolean;
 }
 
 export interface TransferState {
+  tempValue?: Array<Option> | Option;
   inputValue: string;
   searchResult: Options | null;
   isTreeDeferLoad: boolean;
@@ -366,7 +369,8 @@ export class Transfer<
       options,
       statistics,
       translate: __,
-      searchPlaceholder = __('Transfer.searchKeyword')
+      searchPlaceholder = __('Transfer.searchKeyword'),
+      useMobileUI
     } = props;
 
     if (selectRender) {
@@ -394,6 +398,8 @@ export class Transfer<
       this.availableOptions,
       isEqual
     ).length;
+
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <>
@@ -437,13 +443,14 @@ export class Transfer<
         </div>
 
         {onSearch ? (
-          <div className={cx('Transfer-search')}>
+          <div className={cx('Transfer-search', {'is-mobile': mobileUI})}>
             <InputBox
               value={this.state.inputValue}
               onChange={this.handleSearch}
               clearable={false}
               onKeyDown={this.handleSearchKeyDown}
               placeholder={searchPlaceholder}
+              useMobileUI
             >
               {this.state.searchResult !== null ? (
                 <a onClick={this.handleSeachCancel}>
@@ -818,7 +825,8 @@ export class Transfer<
       resultListModeFollowSelect,
       selectMode = 'list',
       translate: __,
-      valueField = 'value'
+      valueField = 'value',
+      useMobileUI
     } = this.props as any;
     const {searchResult} = this.state;
 
@@ -832,6 +840,7 @@ export class Transfer<
     );
 
     const tableType = resultListModeFollowSelect && selectMode === 'table';
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
@@ -840,14 +849,14 @@ export class Transfer<
         <div className={cx('Transfer-select')}>
           {this.renderSelect(this.props)}
         </div>
-        <div className={cx('Transfer-mid')}>
+        <div className={cx('Transfer-mid', {'is-mobile': mobileUI})}>
           {showArrow /*todo 需要改成确认模式，即：点了按钮才到右边 */ ? (
             <div className={cx('Transfer-arrow')}>
               <Icon icon="right-arrow" className="icon" />
             </div>
           ) : null}
         </div>
-        <div className={cx('Transfer-result')}>
+        <div className={cx('Transfer-result', {'is-mobile': mobileUI})}>
           <div
             className={cx(
               'Transfer-title',

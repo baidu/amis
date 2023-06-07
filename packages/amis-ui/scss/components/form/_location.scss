@@ -39,6 +39,16 @@
     }
   }
 
+  &.is-mobile {
+    border: none;
+
+    .#{$ns}LocationPicker-toggler {
+      svg {
+        top: 0.125rem;
+      }
+    }
+  }
+
   &-placeholder {
     color: var(--colors-neutral-text-6);
     user-select: none;
@@ -51,6 +61,8 @@
     margin-right: var(--gap-base);
     flex-basis: 0;
     flex-grow: 1;
+    overflow-x: auto;
+    max-width: calc(100% - px2rem(20px));
   }
 
   &-toggler {
@@ -72,6 +84,27 @@
       top: 0;
     }
   }
+
+  &-popup {
+    height: px2rem(460px);
+
+    &-inner {
+      flex: 1;
+      padding: 0 px2rem(16px);
+
+      .#{$ns}MapPicker-search {
+        padding-top: 0;
+        margin-bottom: px2rem(16px);
+
+        .#{$ns}TextControl-input {
+          border-radius: 0;
+          border-top: none;
+          border-right: none;
+          border-left: none;
+        }
+      }
+    }
+  }
 }
 
 .#{$ns}LocationControl {
@@ -80,6 +113,12 @@
   .#{$ns}PopOver {
     border: none;
     box-shadow: var(--boxShadow);
+  }
+
+  &.is-mobile {
+    flex: 1;
+    text-align: right;
+    overflow: hidden;
   }
 }
 

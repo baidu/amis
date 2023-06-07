@@ -19,7 +19,7 @@
     display: none;
   }
 
-  &:not(.is-disabled) {
+  &:not(.is-disabled):not(.is-mobile) {
     &:hover {
       background: var(--DatePicker-onHover-bg);
       border-color: var(--DatePicker-onHover-borderColor);
@@ -81,6 +81,7 @@
     font-size: var(--DatePicker-fontSize);
     font-weight: var(--inputDate-default-fontWeight);
     color: var(--inputDate-default-color);
+    text-align: center;
 
     &::placeholder {
       color: var(--colors-neutral-text-6);
@@ -185,10 +186,22 @@
   width: auto;
   // padding-bottom: var(--gap-sm);
   padding: 0;
+
+  &.is-mobile {
+    flex: 1;
+
+    .#{$ns}DateRangePicker-end {
+      margin-top: 0;
+    }
+  }
 }
 
 .#{$ns}DateRangePicker-picker-wrap {
   display: flex;
+
+  &.is-vertical {
+    flex-direction: column;
+  }
 }
 
 .#{$ns}DateRangePicker-start,
@@ -214,6 +227,7 @@
   list-style: none;
   background: #f7f7f9;
   line-height: px2rem(32px);
+  overflow-x: auto;
 }
 
 .#{$ns}DateRangePicker-ranger {
@@ -274,12 +288,21 @@
   border-color: var(--DatePicker-borderColor);
   background: var(--DatePicker-bg);
   border-radius: var(--DatePicker-borderRadius);
+
+  &.is-mobile {
+    display: block;
+  }
 }
 
 // 移动端输入框样式
 .#{$ns}DateRangePicker.is-mobile {
   border: 0;
   justify-content: flex-end;
+
+  &.is-focused,
+  &:hover {
+    border: none;
+  }
 
   span,
   a {
@@ -302,9 +325,5 @@
   .#{$ns}DateRangePicker-placeholder {
     flex-grow: unset;
     flex-basis: unset;
-  }
-
-  .#{$ns}DateRangePicker-toggler {
-    margin-top: -3px;
   }
 }

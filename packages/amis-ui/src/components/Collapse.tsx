@@ -14,6 +14,7 @@ import Transition, {
 import {autobind} from 'amis-core';
 import {isClickOnInput} from 'amis-core';
 import {TranslateFn} from 'amis-core';
+import {isMobile} from 'amis-core';
 import {Icon} from './icons';
 
 const collapseStyles: {
@@ -54,6 +55,8 @@ export interface CollapseProps {
   propsUpdate?: boolean;
   partial?: boolean;
   children?: React.ReactNode | Array<React.ReactNode>;
+  useMobileUI?: boolean;
+  divideLine?: boolean;
 }
 
 export interface CollapseState {
@@ -170,19 +173,25 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       showArrow,
       expandIcon,
       disabled,
-      children
+      children,
+      useMobileUI
     } = this.props;
 
     const finalHeader = this.state.collapsed
       ? header
       : collapseHeader || header;
+    const mobileUI = useMobileUI && isMobile();
 
     let dom = [
       finalHeader ? (
         <HeadingComponent
           key="header"
           onClick={this.toggleCollapsed}
-          className={cx(`Collapse-header`, headingClassName)}
+          className={cx(
+            `Collapse-header`,
+            {'is-mobile': mobileUI},
+            headingClassName
+          )}
         >
           {showArrow && collapsable ? (
             expandIcon ? (
@@ -249,6 +258,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
         className={cx(
           `Collapse`,
           {
+            'is-mobile': mobileUI,
             'is-active': !this.state.collapsed,
             [`Collapse--${size}`]: size,
             'Collapse--disabled': disabled,

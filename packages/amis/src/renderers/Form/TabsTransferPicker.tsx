@@ -106,7 +106,8 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
       virtualThreshold,
       loadingConfig,
       labelField = 'label',
-      valueField = 'value'
+      valueField = 'value',
+      useMobileUI
     } = this.props;
 
     return (
@@ -139,6 +140,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
           virtualThreshold={virtualThreshold}
           labelField={labelField}
           valueField={valueField}
+          useMobileUI={useMobileUI}
         />
 
         <Spinner

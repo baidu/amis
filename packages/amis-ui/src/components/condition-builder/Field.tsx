@@ -11,7 +11,8 @@ import {
   localeable,
   LocaleProps,
   findTree,
-  noop
+  noop,
+  isMobile
 } from 'amis-core';
 import {Icon} from '../icons';
 import SearchBox from '../SearchBox';
@@ -109,9 +110,10 @@ export class ConditionField extends React.Component<
 
     return (
       <PopOverContainer
+        useMobileUI
         popOverContainer={popOverContainer || (() => findDOMNode(this))}
         popOverRender={({onClose}) => (
-          <>
+          <div>
             {searchable ? (
               <SearchBox mini={false} onSearch={this.onSearch} />
             ) : null}
@@ -139,7 +141,7 @@ export class ConditionField extends React.Component<
                 }
               />
             )}
-          </>
+          </div>
         )}
       >
         {({onClick, ref, isOpened}) => (
@@ -159,10 +161,13 @@ export class ConditionField extends React.Component<
               onResultClick={onClick}
               placeholder={__('Condition.field_placeholder')}
               disabled={disabled}
+              useMobileUI
             >
-              <span className={cx('CBGroup-fieldCaret')}>
-                <Icon icon="caret" className="icon" />
-              </span>
+              {!isMobile() ? (
+                <span className={cx('CBGroup-fieldCaret')}>
+                  <Icon icon="caret" className="icon" />
+                </span>
+              ) : null}
             </ResultBox>
           </div>
         )}

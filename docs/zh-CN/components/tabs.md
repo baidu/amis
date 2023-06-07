@@ -15,6 +15,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
+    "swipeable": true,
     "tabs": [
         {
             "title": "Tab 1",
@@ -789,6 +790,7 @@ order: 68
 | sidePosition          | `left` / `right`                  | `left`                              | `sidebar` 模式下，标签栏位置                                                                               |
 | collapseOnExceed      | `number`                          |                                     | 当 tabs 超出多少个时开始折叠                                                                               |
 | collapseBtnLabel      | `string`                          | `more`                              | 用来设置折叠按钮的文字                                                                                     |
+| swipeable             | `boolean`                         | false                               | 是否开启手势滑动切换（移动端生效）                                                                         |
 
 ## 事件表
 

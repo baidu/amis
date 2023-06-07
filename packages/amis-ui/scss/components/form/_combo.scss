@@ -320,6 +320,32 @@
       background: rgba(0, 0, 0, 0.1);
     }
   }
+
+  &.is-mobile {
+    .#{$ns}Form-item {
+      .#{$ns}Form-rowInner {
+        flex: 1;
+      }
+    }
+
+    .#{$ns}Combo-delBtn {
+      height: px2rem(20px);
+      padding-top: 0;
+    }
+
+    .#{$ns}Combo-item {
+      align-items: center;
+      border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+    }
+  }
+
+  &.is-mobile:not(.#{$ns}Combo--ver) {
+    .#{$ns}TextareaControl > textarea,
+    .#{$ns}Form-control > .#{$ns}TextControl-input,
+    .#{$ns}TextControl.is-focused > .#{$ns}TextControl-input {
+      border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+    }
+  }
 }
 
 .#{$ns}ComboTabs > .#{$ns}Tabs-links {
