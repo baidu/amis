@@ -47,7 +47,12 @@ import {ListSchema} from './List';
 import {TableSchema} from './Table';
 import type {TableRendererEvent} from './Table';
 import type {CardsRendererEvent} from './Cards';
-import {isPureVariable, resolveVariableAndFilter, parseQuery} from 'amis-core';
+import {
+  isPureVariable,
+  resolveVariableAndFilter,
+  parseQuery,
+  isMobile
+} from 'amis-core';
 
 import type {PaginationProps} from './Pagination';
 import {isAlive} from 'mobx-state-tree';
@@ -1925,12 +1930,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   renderSwitchPerPage(childProps: any) {
     const {
+      useMobileUI,
       store,
       perPageAvailable,
       classnames: cx,
       classPrefix: ns,
       translate: __
     } = this.props;
+    const mobileUI = useMobileUI && isMobile();
 
     const items = childProps.items;
 
@@ -1938,16 +1945,19 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
-    const perPages = (perPageAvailable || [5, 10, 20, 50, 100]).map(
-      (item: any) => ({
-        label: item,
-        value: item + ''
-      })
-    );
+    const perPages = mobileUI
+      ? (perPageAvailable || [5, 10, 20, 50, 100]).map((item: any) => ({
+          label: item + ' 条/页',
+          value: item + ''
+        }))
+      : (perPageAvailable || [5, 10, 20, 50, 100]).map((item: any) => ({
+          label: item,
+          value: item + ''
+        }));
 
     return (
       <div className={cx('Crud-pageSwitch')}>
-        <span>{__('CRUD.perPage')}</span>
+        {!mobileUI ? <span>{__('CRUD.perPage')}</span> : null}
         <Select
           classPrefix={ns}
           searchable={false}
@@ -2033,8 +2043,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
-    const {render, store, translate: __} = this.props;
+    const {render, store, useMobileUI, translate: __} = this.props;
     const type = (toolbar as Schema).type || toolbar;
+    const mobileUI = useMobileUI && isMobile();
 
     if (type === 'bulkActions' || type === 'bulk-actions') {
       return this.renderBulkActions(childProps);
@@ -2088,7 +2099,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                   key={index}
                   className={cx(
                     'Crud-toolbar-item',
-                    align ? `Crud-toolbar-item--${align}` : ''
+                    align ? `Crud-toolbar-item--${align}` : '',
+                    {
+                      'is-mobile': mobileUI
+                    }
                     // toolbar.className
                   )}
                 >
@@ -2277,7 +2291,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     return (
       <div
         className={cx('Crud', className, {
-          'is-loading': store.loading
+          'is-loading': store.loading,
+          'is-mobile': isMobile()
         })}
         style={style}
       >

@@ -6,7 +6,7 @@ import React from 'react';
 import ResultBox from './ResultBox';
 import {Icon} from './icons';
 import PickerContainer from './PickerContainer';
-import {autobind, mapTree} from 'amis-core';
+import {autobind, mapTree, isMobile} from 'amis-core';
 
 export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
   // 新的属性？
@@ -20,6 +20,7 @@ export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
   onFocus?: () => void;
 
   onBlur?: () => void;
+  useMobileUI?: boolean;
 }
 
 export class TransferPicker extends React.Component<TransferPickerProps> {
@@ -51,17 +52,21 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
       size,
       borderMode,
       labelField = 'label',
+      useMobileUI,
       ...rest
     } = this.props;
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <PickerContainer
         title={__('Select.placeholder')}
         onFocus={this.onFoucs}
         onClose={this.onBlur}
+        useMobileUI={useMobileUI}
         bodyRender={({onClose, value, onChange, setState, ...states}) => {
           return (
             <Transfer
+              useMobileUI={useMobileUI}
               {...rest}
               {...states}
               value={value}
@@ -103,10 +108,13 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
             itemRender={option => (
               <span>{(option && option[labelField]) || 'undefined'}</span>
             )}
+            useMobileUI={useMobileUI}
           >
-            <span className={cx('TransferPicker-icon')}>
-              <Icon icon="pencil" className="icon" />
-            </span>
+            {!mobileUI ? (
+              <span className={cx('TransferPicker-icon')}>
+                <Icon icon="pencil" className="icon" />
+              </span>
+            ) : null}
           </ResultBox>
         )}
       </PickerContainer>

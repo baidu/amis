@@ -67,11 +67,6 @@
     text-decoration: var(--link-decoration);
     background: var(--table-togglable-bg-color);
 
-    &:hover {
-      background: var(--table-togglable-hover-bg-color);
-      color: var(--DropDown-menuItem-onHover-color);
-    }
-
     &.is-active {
       color: var(--DropDown-menuItem-onActive-color);
     }
@@ -94,6 +89,13 @@
       overflow: hidden;
       background: var(--DropDown-menu-borderColor);
       padding: 0;
+    }
+  }
+
+  &-menu:not(.is-mobile) > li {
+    &:hover {
+      background: var(--table-togglable-hover-bg-color);
+      color: var(--DropDown-menuItem-onHover-color);
     }
   }
 

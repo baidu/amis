@@ -11,6 +11,11 @@
 .#{$ns}NestedSelect {
   position: relative;
   @include input-border();
+
+  &.is-mobile {
+    text-align: right;
+  }
+
   &-optionArrowRight {
     display: inline-block;
     padding-right: var(--Form-select-icon-rigin);
@@ -113,6 +118,6 @@
     }
   }
   &-popup {
-    height: px2rem(460px);
+    height: px2rem(340px);
   }
 }

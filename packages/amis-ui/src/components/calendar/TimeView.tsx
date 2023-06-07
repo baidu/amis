@@ -683,9 +683,11 @@ export class CustomTimeView extends React.Component<
                         <div
                           key={option.value}
                           className={cx('CalendarInput-sugsItem', {
+                            'is-mobile': isMobile(),
                             'is-highlight': selectedDate
                               ? option.value === date.format(formatMap[type])
-                              : option.value === options?.[0]?.value
+                              : option.value === options?.[0]?.value &&
+                                !isMobile()
                           })}
                           onClick={() => {
                             this.setTime(type, parseInt(option.value, 10));

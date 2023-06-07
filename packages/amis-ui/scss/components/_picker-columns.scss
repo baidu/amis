@@ -35,11 +35,11 @@
   }
 
   &-confirm {
-    color: var(--PickerColumns-confirmAction-color) !important;
+    color: var(--PickerColumns-confirmAction-color);
   }
 
   &-cancel {
-    color: var(--PickerColumns-cancelAction-color) !important;
+    color: var(--PickerColumns-cancelAction-color);
   }
 
   &-title {
@@ -93,8 +93,6 @@
       transform: scale(0.5);
     }
   }
-
-  
 
   &-mask {
     position: absolute;

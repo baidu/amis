@@ -1,4 +1,5 @@
 .#{$ns}CityArea {
+  flex: 1;
   text-align: right;
 
   &-popup {
@@ -14,6 +15,11 @@
     padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
     font-size: var(--Form-input-fontSize);
     display: inline-flex !important;
+
+    &.is-focused,
+    &:hover {
+      border: none !important;
+    }
 
     &::placeholder {
       color: var(--Form-input-placeholderColor);
