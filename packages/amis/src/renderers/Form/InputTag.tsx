@@ -608,10 +608,11 @@ export default class TagControl extends React.PureComponent<
                   placeholder: __(placeholder ?? 'Tag.placeholder'),
                   value: this.state.inputValue,
                   onKeyDown: this.handleKeyDown,
-                  onFocus: this.handleFocus,
+                  onFocus: !mobileUI ? this.handleFocus : undefined,
                   onBlur: this.handleBlur,
                   disabled
                 })}
+                onResultClick={mobileUI ? this.handleFocus : undefined}
                 inputPlaceholder={''}
                 onChange={this.handleInputChange}
                 className={cx('TagControl-input')}

@@ -109,7 +109,8 @@
 .#{$ns}CalendarMobile {
   height: 100%;
   width: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 
   &-pop {
     position: fixed;
@@ -121,6 +122,11 @@
     border-radius: px2rem(16px) px2rem(16px) 0 0;
     overflow: hidden;
     border-width: 0;
+
+    &--quarters,
+    &--months {
+      height: px2rem(400px);
+    }
 
     &--time {
       height: px2rem(360px);
@@ -262,12 +268,6 @@
     .calendar-wrap {
       width: auto;
       max-width: px2rem(50px);
-    }
-  }
-
-  &-embed {
-    .#{$ns}CalendarMobile-footer {
-      width: 90vw;
     }
   }
 

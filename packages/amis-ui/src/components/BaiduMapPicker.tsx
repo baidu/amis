@@ -323,10 +323,10 @@ export class BaiduMapPicker extends React.Component<
         const results = local.getResults();
         const poi = results.getPoi(0);
         this.setState({
-          inputValue: poi.title,
+          inputValue: poi?.title,
           sugs: []
         });
-        this.getLocations(poi.point, true);
+        this.getLocations(poi?.point, true);
       }
     });
     local.search(value);

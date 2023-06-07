@@ -41,6 +41,12 @@
 
   &.is-mobile {
     border: none;
+
+    .#{$ns}LocationPicker-toggler {
+      svg {
+        top: 0.125rem;
+      }
+    }
   }
 
   &-placeholder {
@@ -55,6 +61,8 @@
     margin-right: var(--gap-base);
     flex-basis: 0;
     flex-grow: 1;
+    overflow-x: auto;
+    max-width: calc(100% - px2rem(20px));
   }
 
   &-toggler {
@@ -110,6 +118,7 @@
   &.is-mobile {
     flex: 1;
     text-align: right;
+    overflow: hidden;
   }
 }
 

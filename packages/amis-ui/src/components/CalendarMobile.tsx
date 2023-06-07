@@ -148,6 +148,7 @@ export class CalendarMobile extends React.Component<
 
   componentDidUpdate(prevProps: CalendarMobileProps) {
     const props = this.props;
+    const {classPrefix: ns} = props;
 
     if (
       prevProps.minDate !== props.minDate ||
@@ -166,6 +167,28 @@ export class CalendarMobile extends React.Component<
           currentDate: dateRange.currentDate
         },
         () => this.initMonths()
+      );
+    }
+
+    if (
+      (prevProps.startDate !== props.startDate &&
+        props.startDate !== this.state.startDate) ||
+      (prevProps.endDate !== props.endDate &&
+        props.endDate !== this.state.endDate)
+    ) {
+      this.setState(
+        {
+          startDate: props.startDate,
+          endDate: props.endDate
+        },
+        () =>
+          requestAnimationFrame(() => {
+            document
+              .querySelector(
+                `.${ns}CalendarMobile:not(.${ns}CalendarMobile-embed) .rdtRangeStart:not(.rdtNew)`
+              )
+              ?.scrollIntoView();
+          })
       );
     }
   }

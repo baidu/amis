@@ -511,7 +511,7 @@
 
   .#{$ns}Form-item {
     display: flex;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     margin-bottom: 0;
     padding: var(--Form-item-mobile-gap) 0;
     position: relative;
@@ -625,6 +625,7 @@
       flex: 1;
       flex-wrap: wrap;
       font-size: var(--fontSizeLg);
+      overflow-x: hidden;
 
       .#{$ns}ColorPicker {
         height: 100%;
@@ -653,7 +654,7 @@
 
     .#{$ns}Form-hint,
     .#{$ns}Form-remark,
-    .#{$ns}Form-static,
+    // .#{$ns}Form-static,
     .#{$ns}Form-group--hor .#{$ns}Form-item,
     .#{$ns}SwitchControl,
     .#{$ns}CheckboxControl,
@@ -661,6 +662,20 @@
     .#{$ns}CheckboxesControl {
       padding-top: 0;
       padding-bottom: 0;
+    }
+
+    .#{$ns}CheckboxControl {
+      padding-top: px2rem(2px);
+    }
+
+    .#{$ns}Form-static {
+      .#{$ns}Progress {
+        margin-top: px2rem(3px);
+      }
+
+      .#{$ns}Field-quickEditBtn {
+        vertical-align: baseline;
+      }
     }
 
     .#{$ns}Form-group--horizontal .#{$ns}TextControl-input input {
