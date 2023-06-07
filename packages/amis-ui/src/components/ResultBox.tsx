@@ -74,7 +74,6 @@ export class ResultBox extends React.Component<ResultBoxProps> {
 
   @autobind
   handleFocus(e: any) {
-    console.log('eeeeeeee', e);
     const onFocus = this.props.onFocus;
     onFocus && onFocus(e);
     this.setState({
