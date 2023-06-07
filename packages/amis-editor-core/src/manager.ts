@@ -1632,10 +1632,12 @@ export class EditorManager {
   }
 
   async scaffold(form: any, value: any): Promise<SchemaObject> {
+    const scaffoldFormData = form.pipeIn ? await form.pipeIn(value) : value;
+
     return new Promise(resolve => {
       this.store.openScaffoldForm({
         ...form,
-        value: form.pipeIn ? form.pipeIn(value) : value,
+        value: scaffoldFormData,
         callback: resolve
       });
     });
@@ -1935,10 +1937,22 @@ export class EditorManager {
       scope = this.dataSchema.hasScope(`${from.id}-${from.type}`)
         ? this.dataSchema.getScope(`${from.id}-${from.type}`)
         : undefined;
+
+      /** Combo和InputTable作为也有自己的Scope */
+      if (!scope) {
+        if (['combo', 'input-table'].includes(from?.info?.type)) {
+          break;
+        }
+      }
+
       from = from.parent;
       if (from?.isRegion) {
         region = from;
       }
+    }
+
+    if (!scope) {
+      return from?.info.plugin.getAvailableContextFields?.(from, node);
     }
 
     while (scope) {

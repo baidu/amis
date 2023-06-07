@@ -9,9 +9,11 @@ import {
   tipedLabel,
   mockValue,
   RegionConfig,
-  getI18nEnabled
+  getI18nEnabled,
+  EditorNodeType,
+  EditorManager,
+  DSBuilderManager
 } from 'amis-editor-core';
-
 import {setVariable} from 'amis-core';
 
 import {ValidatorTag} from '../../validator';
@@ -82,6 +84,16 @@ export class ComboControlPlugin extends BasePlugin {
       }
     ]
   };
+
+  // 容器配置
+  regions: Array<RegionConfig> = [
+    {
+      key: 'items',
+      label: '内容区',
+      preferTag: '内容区',
+      renderMethod: 'renderItems'
+    }
+  ];
 
   // 事件定义
   events: RendererPluginEvent[] = [
@@ -209,6 +221,13 @@ export class ComboControlPlugin extends BasePlugin {
   notRenderFormZone = true;
 
   panelJustify = true;
+
+  dsBuilderManager: DSBuilderManager;
+
+  constructor(manager: EditorManager) {
+    super(manager);
+    this.dsBuilderManager = new DSBuilderManager('combo', 'api');
+  }
 
   panelBodyCreator = (context: BaseEventContext) => {
     const i18nEnabled = getI18nEnabled();
@@ -624,15 +643,31 @@ export class ComboControlPlugin extends BasePlugin {
     return props;
   }
 
-  // 容器配置
-  regions: Array<RegionConfig> = [
-    {
-      key: 'items',
-      label: '内容区',
-      preferTag: '内容区',
-      renderMethod: 'renderItems'
+  async getAvailableContextFields(
+    scopeNode: EditorNodeType,
+    target: EditorNodeType,
+    region?: EditorNodeType
+  ) {
+    if (target.parent.isRegion && target.parent.region === 'items') {
+      const scope = scopeNode.parent.parent;
+      const builder = this.dsBuilderManager.resolveBuilderBySchema(
+        scope.schema,
+        'api'
+      );
+
+      if (builder && scope.schema.api) {
+        return builder.getAvailableContextFileds(
+          {
+            schema: scope.schema,
+            sourceKey: 'api',
+            feat: scope.schema?.feat ?? 'List',
+            scopeNode
+          },
+          target
+        );
+      }
     }
-  ];
+  }
 }
 
 registerEditorPlugin(ComboControlPlugin);
