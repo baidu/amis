@@ -166,7 +166,6 @@ export class RichTextControlPlugin extends BasePlugin {
     type: 'input-rich-text',
     label: '富文本',
     name: 'rich-text',
-    receiver: '',
     vendor: 'tinymce'
   };
   previewSchema: any = {
