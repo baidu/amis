@@ -55,6 +55,7 @@ export class Value extends React.Component<ValueProps> {
           onChange={onChange}
           placeholder={__(field.placeholder)}
           disabled={disabled}
+          useMobileUI
         />
       );
     } else if (field.type === 'number') {
@@ -68,6 +69,7 @@ export class Value extends React.Component<ValueProps> {
           value={value ?? field.defaultValue}
           onChange={onChange}
           disabled={disabled}
+          useMobileUI
         />
       );
     } else if (field.type === 'date') {
@@ -81,6 +83,7 @@ export class Value extends React.Component<ValueProps> {
           timeFormat=""
           disabled={disabled}
           popOverContainer={popOverContainer}
+          useMobileUI
         />
       );
     } else if (field.type === 'time') {
@@ -96,6 +99,7 @@ export class Value extends React.Component<ValueProps> {
           timeFormat={field.format || 'HH:mm'}
           disabled={disabled}
           popOverContainer={popOverContainer}
+          useMobileUI
         />
       );
     } else if (field.type === 'datetime') {
@@ -109,6 +113,7 @@ export class Value extends React.Component<ValueProps> {
           timeFormat={field.timeFormat || 'HH:mm'}
           disabled={disabled}
           popOverContainer={popOverContainer}
+          useMobileUI
         />
       );
     } else if (field.type === 'select') {
@@ -128,6 +133,7 @@ export class Value extends React.Component<ValueProps> {
           multiple={op === 'select_any_in' || op === 'select_not_any_in'}
           disabled={disabled}
           popOverContainer={popOverContainer}
+          useMobileUI
         />
       );
     } else if (field.type === 'boolean') {

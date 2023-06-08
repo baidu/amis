@@ -3,7 +3,6 @@ import cx from 'classnames';
 import Preview from './Preview';
 import {autobind} from '../util';
 import {MainStore, EditorStoreType} from '../store/editor';
-import type {SchemaObject} from 'amis';
 import {EditorManager, EditorManagerConfig, PluginClass} from '../manager';
 import {reaction} from 'mobx';
 import {RenderOptions, toast} from 'amis';
@@ -17,7 +16,9 @@ import {PopOverForm} from './PopOverForm';
 import {ContextMenuPanel} from './Panel/ContextMenuPanel';
 import {LeftPanels} from './Panel/LeftPanels';
 import {RightPanels} from './Panel/RightPanels';
+import type {SchemaObject} from 'amis';
 import type {VariableGroup, VariableOptions} from '../variable';
+import type {EditorNodeType} from '../store/node';
 
 export interface EditorProps extends PluginEventListener {
   value: SchemaObject;
@@ -48,7 +49,7 @@ export interface EditorProps extends PluginEventListener {
    * Preview 预览前可以修改配置。
    * 比如把api地址替换成 proxy 地址。
    */
-  schemaFilter?: (schema: any) => any;
+  schemaFilter?: (schema: any, preview?: boolean) => any;
   amisEnv?: RenderOptions;
 
   /**
@@ -116,6 +117,17 @@ export interface EditorProps extends PluginEventListener {
   onRedo?: () => void; // 用于触发外部 redo 事件
   onSave?: () => void; // 用于触发外部 save 事件
   onPreview?: (preview: boolean) => void; // 用于触发外部 预览 事件
+
+  /** 打开公式编辑器之前触发的事件 */
+  onFormulaEditorOpen?: (
+    node: EditorNodeType,
+    manager: EditorManager,
+    ctx: Record<string, any>,
+    host?: {
+      node?: EditorNodeType;
+      manager?: EditorManager;
+    }
+  ) => Promise<void | boolean>;
 }
 
 export default class Editor extends Component<EditorProps> {

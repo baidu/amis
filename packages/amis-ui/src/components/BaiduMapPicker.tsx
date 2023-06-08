@@ -101,7 +101,7 @@ export class BaiduMapPicker extends React.Component<
 
   componentWillUnmount() {
     this.ac?.dispose?.();
-    document.body.removeChild(this.placeholderInput!);
+    this.placeholderInput && document.body.removeChild(this.placeholderInput!);
 
     delete this.placeholderInput;
     delete this.map;
@@ -165,15 +165,17 @@ export class BaiduMapPicker extends React.Component<
         if (poiLength) {
           for (let i = 0; i < poiLength; i++) {
             const poi = result.getPoi(i);
-            sugs.push(
-              [
-                poi.province,
-                poi.city,
-                poi.district,
-                poi.street,
-                poi.business
-              ].join(' ')
-            );
+            if (poi) {
+              sugs.push(
+                [
+                  poi.province,
+                  poi.city,
+                  poi.district,
+                  poi.street,
+                  poi.business
+                ].join(' ')
+              );
+            }
           }
           this.setState({
             sugs
@@ -288,21 +290,23 @@ export class BaiduMapPicker extends React.Component<
     if (this.props.coordinatesType == 'gcj02') {
       this.covertPoint(point, COORDINATES_BD09, COORDINATES_GCJ02).then(
         (convertedPoint: any) => {
-          (typeof this.props?.onChange === 'function') && this.props.onChange({
-            address: loc.address.trim() || loc.title,
-            lat: convertedPoint.lat,
-            lng: convertedPoint.lng,
-            city: loc.city
-          });
+          typeof this.props?.onChange === 'function' &&
+            this.props.onChange({
+              address: loc.address.trim() || loc.title,
+              lat: convertedPoint.lat,
+              lng: convertedPoint.lng,
+              city: loc.city
+            });
         }
       );
     } else {
-      (typeof this.props?.onChange === 'function') && this.props?.onChange({
-        address: loc.address.trim() || loc.title,
-        lat: loc.lat,
-        lng: loc.lng,
-        city: loc.city
-      });
+      typeof this.props?.onChange === 'function' &&
+        this.props?.onChange({
+          address: loc.address.trim() || loc.title,
+          lat: loc.lat,
+          lng: loc.lng,
+          city: loc.city
+        });
     }
   }
 
@@ -319,10 +323,10 @@ export class BaiduMapPicker extends React.Component<
         const results = local.getResults();
         const poi = results.getPoi(0);
         this.setState({
-          inputValue: poi.title,
+          inputValue: poi?.title,
           sugs: []
         });
-        this.getLocations(poi.point, true);
+        this.getLocations(poi?.point, true);
       }
     });
     local.search(value);

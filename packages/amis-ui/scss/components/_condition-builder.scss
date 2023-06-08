@@ -1,3 +1,6 @@
+.#{$ns}ConditionBuilderControl.is-mobile {
+  overflow-x: auto;
+}
 .#{$ns}CBGroup {
   font-size: var(--fontSizeSm);
   position: relative;
@@ -331,9 +334,31 @@
     opacity: 0;
   }
 
-  &:hover > &-body > &-body-item > &-dragbar,
-  &:hover > &-body > &-body-item > .#{$ns}CBDelete {
-    opacity: 1;
+  &:is(.is-mobile) {
+    > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-group
+      > .#{$ns}CBGroupOrItem-dragbar,
+    > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-item
+      > .#{$ns}CBGroupOrItem-dragbar,
+    > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-item
+      > .#{$ns}CBDelete {
+      opacity: 1;
+    }
+  }
+
+  &:not(.is-mobile) {
+    &:hover
+      > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-item
+      > .#{$ns}CBGroupOrItem-dragbar,
+    &:hover
+      > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-item
+      > .#{$ns}CBDelete {
+      opacity: 1;
+    }
   }
 
   &-simple {

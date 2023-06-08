@@ -24,6 +24,7 @@ import {
 } from 'amis-ui';
 
 import {IconSchema} from '../Icon';
+import {isMobile} from 'amis-core';
 
 /**
  * 条件组合控件
@@ -113,7 +114,13 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
     }
 
     return (
-      <div className={cx(`ConditionBuilderControl`, className)}>
+      <div
+        className={cx(
+          `ConditionBuilderControl`,
+          {'is-mobile': isMobile()},
+          className
+        )}
+      >
         <ConditionBuilderWithRemoteOptions
           renderEtrValue={this.renderEtrValue}
           pickerIcon={this.renderPickerIcon()}

@@ -355,6 +355,7 @@ export class QueryBuilder extends React.Component<
                 </span>
               )
             }
+            useMobileUI
             onResultClick={onClick}
           ></ResultBox>
         )}

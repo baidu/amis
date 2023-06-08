@@ -123,7 +123,7 @@ const Picker = memo<PickerProps>(props => {
           {showToolbar && (
             <Button
               className="PickerColumns-cancel"
-              level="default"
+              level="link"
               onClick={close}
             >
               {__('cancel')}
@@ -133,7 +133,7 @@ const Picker = memo<PickerProps>(props => {
           {showToolbar && (
             <Button
               className="PickerColumns-confirm"
-              level="primary"
+              level="link"
               onClick={confirm}
             >
               {__('confirm')}

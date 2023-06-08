@@ -71,6 +71,8 @@ export type SubEditorContext = {
   typeMutable?: boolean;
   memberImmutable?: boolean | Array<string>;
   props?: any;
+  /* 宿主节点的Store */
+  hostNode?: EditorNodeType;
 };
 
 export type PatchItem =
@@ -105,6 +107,7 @@ export interface PopOverFormContext extends PopOverForm {
   target: () => HTMLElement;
   value: any;
   callback: (value: any, diff: any) => void;
+  node?: EditorNodeType;
 }
 
 /**
@@ -1588,11 +1591,15 @@ export const MainStore = types
       },
 
       openSubEditor(context: SubEditorContext) {
-        if (!self.activeId) {
+        const activeId = self.activeId;
+
+        if (!activeId) {
           return;
         }
+
         self.subEditorContext = {
           ...context,
+          hostNode: self.getNodeById(activeId),
           data: extendObject(context.data, {
             __curCmptTreeWrap: {
               label: context.title,
@@ -1686,6 +1693,20 @@ export const MainStore = types
 
       setScaffoldError(msg: string = '') {
         self.scaffoldError = msg;
+      },
+
+      updateScaffoldData(value: any, replace?: boolean) {
+        if (self.scaffoldForm && value) {
+          self.scaffoldForm = {
+            ...self.scaffoldForm,
+            value: replace
+              ? value
+              : {
+                  ...self.scaffoldForm.value,
+                  ...value
+                }
+          };
+        }
       },
 
       openPopOverForm(context: PopOverFormContext) {

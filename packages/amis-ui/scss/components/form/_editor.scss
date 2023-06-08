@@ -109,6 +109,10 @@
       min-height: 500px;
     }
   }
+
+  .monaco-editor .iPadShowKeyboard {
+    display: none;
+  }
 }
 
 .monaco-inputbox > .wrapper {
