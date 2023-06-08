@@ -29,6 +29,7 @@ export interface ResultBoxProps
   overflowTagPopover?: TooltipObject;
   actions?: JSX.Element | JSX.Element[];
   showInvalidMatch?: boolean;
+  popOverContainer?: any;
 }
 
 export class ResultBox extends React.Component<ResultBoxProps> {
@@ -109,7 +110,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       overflowTagPopover,
       itemRender,
       classnames: cx,
-      showInvalidMatch
+      showInvalidMatch,
+      popOverContainer
     } = this.props;
 
     if (
@@ -139,6 +141,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         return index === maxVisibleCount ? (
           <TooltipWrapper
             key={tags.length}
+            container={popOverContainer}
             tooltip={{
               ...tooltipProps,
               children: () => (

@@ -136,6 +136,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
             clearable={clearable}
             maxTagCount={maxTagCount}
             overflowTagPopover={overflowTagPopover}
+            popOverContainer={popOverContainer}
             ref={ref}
             itemRender={itemRender}
             useMobileUI={useMobileUI}

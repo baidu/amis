@@ -679,6 +679,7 @@ export default class TreeSelectControl extends React.Component<
     return (
       <div ref={this.container} className={cx(`TreeSelectControl`, className)}>
         <ResultBox
+          popOverContainer={env.getModalContainer}
           maxTagCount={maxTagCount}
           overflowTagPopover={overflowTagPopover}
           disabled={disabled}

@@ -468,7 +468,8 @@ export default class TagControl extends React.PureComponent<
       overflowTagPopover,
       translate: __,
       loadingConfig,
-      valueField
+      valueField,
+      env
     } = this.props;
 
     const finnalOptions = Array.isArray(options)
@@ -517,6 +518,7 @@ export default class TagControl extends React.PureComponent<
                 clearable={clearable}
                 maxTagCount={maxTagCount}
                 overflowTagPopover={overflowTagPopover}
+                popOverContainer={env.getModalContainer}
                 allowInput
               >
                 {loading ? (

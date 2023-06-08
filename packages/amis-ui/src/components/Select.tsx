@@ -767,6 +767,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       overflowTagPopover,
       showInvalidMatch,
       renderValueLabel,
+      popOverContainer,
       translate: __
     } = this.props;
     const selection = this.state.selection;
@@ -806,6 +807,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           return (
             <TooltipWrapper
               key={selection.length}
+              container={popOverContainer}
               tooltip={{
                 ...tooltipProps,
                 children: () => (
@@ -865,6 +867,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
         return (
           <TooltipWrapper
+            container={popOverContainer}
             placement={'top'}
             tooltip={item[labelField || 'label']}
             trigger={'hover'}
@@ -918,6 +921,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         }`
       ) : (
         <TooltipWrapper
+          container={popOverContainer}
           placement={'top'}
           tooltip={item[labelField || 'label']}
           trigger={'hover'}
