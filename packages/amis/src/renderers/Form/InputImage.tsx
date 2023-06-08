@@ -568,6 +568,9 @@ export default class ImageControl extends React.Component<
   }
 
   getFileKey(file: FileValue | FileX) {
+    if (file.id) {
+      return file.id;
+    }
     if (this.fileKeys.has(file)) {
       return this.fileKeys.get(file);
     }
