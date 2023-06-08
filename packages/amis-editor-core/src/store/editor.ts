@@ -1695,6 +1695,20 @@ export const MainStore = types
         self.scaffoldError = msg;
       },
 
+      updateScaffoldData(value: any, replace?: boolean) {
+        if (self.scaffoldForm && value) {
+          self.scaffoldForm = {
+            ...self.scaffoldForm,
+            value: replace
+              ? value
+              : {
+                  ...self.scaffoldForm.value,
+                  ...value
+                }
+          };
+        }
+      },
+
       openPopOverForm(context: PopOverFormContext) {
         self.popOverForm = context;
       },
