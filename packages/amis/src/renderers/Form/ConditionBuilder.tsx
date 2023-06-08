@@ -75,6 +75,11 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
    * 是否显示并或切换键按钮，只在简单模式下有用
    */
   showANDOR?: boolean;
+
+  /**
+   * 是否可拖拽，默认为 true
+   */
+  draggable?: boolean;
 }
 
 export interface ConditionBuilderProps
