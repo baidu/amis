@@ -10,6 +10,7 @@ import Calendar from './calendar/Calendar';
 import {themeable, ThemeProps} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import {autobind} from 'amis-core';
+import {ShortCuts} from './DatePicker';
 
 export interface CalendarMobileProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -147,6 +148,7 @@ export class CalendarMobile extends React.Component<
 
   componentDidUpdate(prevProps: CalendarMobileProps) {
     const props = this.props;
+    const {classPrefix: ns} = props;
 
     if (
       prevProps.minDate !== props.minDate ||
@@ -165,6 +167,28 @@ export class CalendarMobile extends React.Component<
           currentDate: dateRange.currentDate
         },
         () => this.initMonths()
+      );
+    }
+
+    if (
+      (prevProps.startDate !== props.startDate &&
+        props.startDate !== this.state.startDate) ||
+      (prevProps.endDate !== props.endDate &&
+        props.endDate !== this.state.endDate)
+    ) {
+      this.setState(
+        {
+          startDate: props.startDate,
+          endDate: props.endDate
+        },
+        () =>
+          requestAnimationFrame(() => {
+            document
+              .querySelector(
+                `.${ns}CalendarMobile:not(.${ns}CalendarMobile-embed) .rdtRangeStart:not(.rdtNew)`
+              )
+              ?.scrollIntoView();
+          })
       );
     }
   }
@@ -354,22 +378,18 @@ export class CalendarMobile extends React.Component<
         dateTime: newTime,
         startDate: endDate
           ? startDate
-          : startDate
-              ?.clone()
-              .set({
-                hour: newTime[0],
-                minute: newTime[1],
-                second: newTime[2] || 0
-              }),
+          : startDate?.clone().set({
+              hour: newTime[0],
+              minute: newTime[1],
+              second: newTime[2] || 0
+            }),
         endDate: !endDate
           ? endDate
-          : endDate
-              ?.clone()
-              .set({
-                hour: newTime[0],
-                minute: newTime[1],
-                second: newTime[2] || 0
-              })
+          : endDate?.clone().set({
+              hour: newTime[0],
+              minute: newTime[1],
+              second: newTime[2] || 0
+            })
       };
       this.setState(obj, () => {
         onChange && onChange(this.state);

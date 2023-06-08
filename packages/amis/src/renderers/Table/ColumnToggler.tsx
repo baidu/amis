@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Sortable from 'sortablejs';
 import cloneDeep from 'lodash/cloneDeep';
-import {RendererProps} from 'amis-core';
+import {isMobile, RendererProps} from 'amis-core';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {Modal} from 'amis-ui';
@@ -319,8 +319,10 @@ export default class ColumnToggler extends React.Component<
       classPrefix: ns,
       children,
       closeOnClick,
-      closeOnOutside
+      closeOnOutside,
+      useMobileUI
     } = this.props;
+    const mobileUI = useMobileUI && isMobile();
     const body = (
       <RootClose
         disabled={!this.state.isOpened}
@@ -329,7 +331,7 @@ export default class ColumnToggler extends React.Component<
         {(ref: any) => {
           return (
             <ul
-              className={cx('ColumnToggler-menu')}
+              className={cx('ColumnToggler-menu', {'is-mobile': mobileUI})}
               onClick={closeOnClick ? this.close : noop}
               ref={ref}
             >
@@ -520,8 +522,10 @@ export default class ColumnToggler extends React.Component<
       isActived,
       data,
       draggable,
-      hideExpandIcon
+      hideExpandIcon,
+      useMobileUI
     } = this.props;
+    const mobileUI = useMobileUI && isMobile();
 
     const button = (
       <button
@@ -588,7 +592,7 @@ export default class ColumnToggler extends React.Component<
         ) : (
           <TooltipWrapper
             placement={placement}
-            tooltip={disabled ? disabledTip : (tooltip as any)}
+            tooltip={disabled || mobileUI ? disabledTip : (tooltip as any)}
             container={tooltipContainer}
             trigger={tooltipTrigger}
             rootClose={tooltipRootClose}

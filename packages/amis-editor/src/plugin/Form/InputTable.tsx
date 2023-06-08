@@ -1,5 +1,3 @@
-import React from 'react';
-import {Button} from 'amis';
 import {
   registerEditorPlugin,
   BaseEventContext,
@@ -16,7 +14,9 @@ import {
   getI18nEnabled,
   repeatArray,
   mockValue,
-  EditorNodeType
+  EditorNodeType,
+  EditorManager,
+  DSBuilderManager
 } from 'amis-editor-core';
 import {setVariable, someTree} from 'amis-core';
 import {ValidatorTag} from '../../validator';
@@ -741,6 +741,13 @@ export class TableControlPlugin extends BasePlugin {
     }
   ];
 
+  dsBuilderManager: DSBuilderManager;
+
+  constructor(manager: EditorManager) {
+    super(manager);
+    this.dsBuilderManager = new DSBuilderManager('input-table', 'api');
+  }
+
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
     const i18nEnabled = getI18nEnabled();
@@ -1055,6 +1062,32 @@ export class TableControlPlugin extends BasePlugin {
       title: '表格表单数据',
       items: itemsSchema
     };
+  }
+
+  async getAvailableContextFields(
+    scopeNode: EditorNodeType,
+    target: EditorNodeType,
+    region?: EditorNodeType
+  ) {
+    if (target.parent.isRegion && target.parent.region === 'columns') {
+      const scope = scopeNode.parent.parent;
+      const builder = this.dsBuilderManager.resolveBuilderBySchema(
+        scope.schema,
+        'api'
+      );
+
+      if (builder && scope.schema.api) {
+        return builder.getAvailableContextFileds(
+          {
+            schema: scope.schema,
+            sourceKey: 'api',
+            feat: scope.schema?.feat ?? 'List',
+            scopeNode
+          },
+          target
+        );
+      }
+    }
   }
 }
 

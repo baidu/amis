@@ -71,6 +71,14 @@
     box-shadow: var(--inputNumber-base-active-shadow);
   }
 
+  &.is-mobile {
+    border: none;
+
+    &-focused {
+      border: none;
+    }
+  }
+
   &-disabled {
     border-width: var(--inputNumber-base-disabled-top-border-width)
       var(--inputNumber-base-disabled-right-border-width)

@@ -344,7 +344,9 @@ export class Chart extends React.Component<ChartProps> {
         // @ts-ignore 官方没提供 type
         import('echarts/extension/dataTool'),
         // @ts-ignore 官方没提供 type
-        import('echarts/extension/bmap/bmap')
+        import('echarts/extension/bmap/bmap'),
+        // @ts-ignore 官方没提供 type
+        import('echarts-wordcloud/dist/echarts-wordcloud')
       ]).then(async ([echarts, ecStat]) => {
         (window as any).echarts = echarts;
         (window as any).ecStat = ecStat?.default || ecStat;

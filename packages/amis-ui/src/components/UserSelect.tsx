@@ -813,6 +813,7 @@ export class UserSelect extends React.Component<
               onChange={this.handleSearch}
               placeholder={searchPlaceholder}
               clearable={false}
+              useMobileUI
             >
               {this.state.isSearch ? (
                 <a onClick={this.handleSeachCancel}>

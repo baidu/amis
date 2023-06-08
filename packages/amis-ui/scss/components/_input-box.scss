@@ -72,4 +72,28 @@
   &.is-active &-caret {
     transform: rotate(180deg);
   }
+
+  &.is-mobile {
+    border: none;
+    border-radius: 0;
+    border-bottom: var(--Form-input-borderWidth) solid
+      var(--Form-input-borderColor);
+
+    &.is-error,
+    .is-error > & {
+      border-bottom-color: var(--Form-input-onError-borderColor);
+    }
+
+    &.is-focused {
+      border-bottom-color: var(--Form-input-onFocused-borderColor);
+    }
+
+    &.is-error.is-focused {
+      border-bottom-color: var(--Form-input-onError-borderColor);
+    }
+
+    &.is-disabled {
+      border-bottom-color: var(--Form-input-onDisabled-borderColor);
+    }
+  }
 }

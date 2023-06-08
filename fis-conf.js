@@ -227,7 +227,7 @@ fis.match('*.html:jsx', {
 
 // 这些用了 esm
 fis.match(
-  '{echarts/extension/**.js,zrender/**.js,markdown-it-html5-media/**.js,react-hook-form/**.js,qrcode.react/**.js,axios/**.js}',
+  '{echarts/**.js,zrender/**.js,echarts-wordcloud/**.js,markdown-it-html5-media/**.js,react-hook-form/**.js,qrcode.react/**.js,axios/**.js}',
   {
     parser: fis.plugin('typescript', {
       sourceMap: false,
@@ -464,6 +464,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!zrender/**',
         '!echarts/**',
         '!echarts-stat/**',
+        '!echarts-wordcloud/**',
         '!papaparse/**',
         '!exceljs/**',
         '!xlsx/**',
@@ -533,7 +534,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
       'barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
 
-      'charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
+      'charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**', 'echarts-wordcloud/**'],
 
       'ooxml-viewer.js': ['ooxml-viewer/**', 'fflate/**'],
 
@@ -548,6 +549,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!amis-ui/lib/components/RichText.js',
         '!zrender/**',
         '!echarts/**',
+        '!echarts-wordcloud/**',
         '!papaparse/**',
         '!exceljs/**',
         '!xlsx/**',
@@ -760,6 +762,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!zrender/**',
         '!echarts/**',
         '!echarts-stat/**',
+        '!echarts-wordcloud/**',
         '!papaparse/**',
         '!exceljs/**',
         '!xlsx/**',
@@ -835,7 +838,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
       'pkg/cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
 
-      'pkg/charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
+      'pkg/charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**', 'echarts-wordcloud/**'],
 
       'pkg/api-mock.js': ['mock/*.ts'],
 
@@ -862,6 +865,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!amis-ui/lib/components/RichText.tsx',
         '!zrender/**',
         '!echarts/**',
+        '!echarts-wordcloud/**',
         '!papaparse/**',
         '!exceljs/**',
         '!xlsx/**',

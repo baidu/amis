@@ -5,7 +5,7 @@
  */
 import React from 'react';
 import isInteger from 'lodash/isInteger';
-import {localeable, LocaleProps} from 'amis-core';
+import {isMobile, localeable, LocaleProps} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import {autobind} from 'amis-core';
 import {Icon} from './icons';
@@ -94,6 +94,8 @@ export interface BasicPaginationProps {
   popOverContainerSelector?: string;
 
   onPageChange?: (page: number, perPage?: number) => void;
+
+  useMobileUI?: boolean;
 }
 export interface PaginationProps
   extends BasicPaginationProps,
@@ -257,7 +259,6 @@ export class Pagination extends React.Component<
   render() {
     const {
       layout,
-      maxButtons,
       mode,
       activePage,
       total,
@@ -271,10 +272,13 @@ export class Pagination extends React.Component<
       hasNext,
       popOverContainer,
       popOverContainerSelector,
+      useMobileUI,
       translate: __
     } = this.props;
+    let maxButtons = this.props.maxButtons;
     const {pageNum, perPage} = this.state;
     const lastPage = this.getLastPage();
+    const mobileUI = useMobileUI && isMobile();
 
     // 简易模式
     if (mode === 'simple') {
@@ -441,11 +445,21 @@ export class Pagination extends React.Component<
       </li>
     );
 
+    if (mobileUI) {
+      pageButtons = [
+        pageButtons[0],
+        this.renderPageItem(activePage),
+        pageButtons[pageButtons.length - 1]
+      ];
+    }
+
     const go = (
       <div className={cx('Pagination-inputGroup Pagination-item')} key="go">
-        <span className={cx('Pagination-inputGroup-left')} key="go-left">
-          {__('Pagination.goto')}
-        </span>
+        {!mobileUI ? (
+          <span className={cx('Pagination-inputGroup-left')} key="go-left">
+            {__('Pagination.goto')}
+          </span>
+        ) : null}
         <input
           className={cx('Pagination-inputGroup-input')}
           key="go-input"

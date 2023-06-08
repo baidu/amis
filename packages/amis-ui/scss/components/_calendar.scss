@@ -109,7 +109,8 @@
 .#{$ns}CalendarMobile {
   height: 100%;
   width: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 
   &-pop {
     position: fixed;
@@ -122,9 +123,21 @@
     overflow: hidden;
     border-width: 0;
 
+    &--quarters,
+    &--months {
+      height: px2rem(400px);
+    }
+
     &--time {
-      height: fit-content;
+      height: px2rem(360px);
       max-height: 90vh;
+      .#{$ns}PopUp-content {
+        overflow: hidden;
+      }
+    }
+
+    &--years {
+      height: px2rem(360px);
     }
   }
 
@@ -204,6 +217,7 @@
     overflow-y: scroll;
 
     table {
+      padding: 0;
       border-spacing: 0 px2rem(4px);
     }
 
@@ -238,14 +252,15 @@
     }
 
     .calendar-wrap {
-      position: relative;
       width: px2rem(50px);
+      position: relative;
       height: 100%;
       text-align: center;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       border-radius: px2rem(4px);
+      padding: 0 px2rem(10px);
     }
   }
 
@@ -260,6 +275,7 @@
     flex-shrink: 0;
 
     .date-range-confirm {
+      width: 100%;
       height: px2rem(36px);
       margin: px2rem(7px) 0;
       border-radius: var(--borderRadiusMd);
@@ -267,13 +283,7 @@
       justify-content: center;
       align-items: center;
     }
-    .is-disabled {
-      opacity: 0.5;
-      color: var(--Button--primary-color);
-      background: var(--Button--primary-bg);
-      border-color: var(--Button--primary-bg);
-      filter: none;
-    }
+
     &-toolbar {
       padding: 0 px2rem(16px);
     }
@@ -287,11 +297,11 @@
       line-height: px2rem(48px);
     }
     .#{$ns}DateRangePicker-rangers {
-      position: absolute;
+      padding-left: revert;
       white-space: nowrap;
-      .#{$ns}DateRangePicker-ranger {
-        margin: 0 px2rem(25px);
-      }
+      line-height: inherit;
+      display: flex;
+      justify-content: space-between;
     }
     .#{$ns}DatePicker-shortcuts {
       width: auto;

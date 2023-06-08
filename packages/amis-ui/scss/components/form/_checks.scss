@@ -64,6 +64,14 @@
     }
   }
 
+  &.is-mobile {
+    > i {
+      + span {
+        vertical-align: middle;
+      }
+    }
+  }
+
   &:hover > i + span > a {
     display: inline-block;
   }

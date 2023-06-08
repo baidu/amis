@@ -135,6 +135,7 @@ export interface TreeSelectProps
 export interface TreeSelectState {
   isOpened: boolean;
   inputValue: string;
+  tempValue: string;
 }
 
 export default class TreeSelectControl extends React.Component<
@@ -182,12 +183,15 @@ export default class TreeSelectControl extends React.Component<
 
     this.state = {
       inputValue: '',
+      tempValue: '',
       isOpened: false
     };
 
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleTempChange = this.handleTempChange.bind(this);
+    this.handleConfirm = this.handleConfirm.bind(this);
     this.clearValue = this.clearValue.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
@@ -313,6 +317,22 @@ export default class TreeSelectControl extends React.Component<
         inputValue: ''
       },
       () => this.resultChangeEvent(value)
+    );
+  }
+
+  handleTempChange(value: any) {
+    this.setState({
+      tempValue: value
+    });
+  }
+
+  handleConfirm() {
+    this.close();
+    this.setState(
+      {
+        inputValue: ''
+      },
+      () => this.resultChangeEvent(this.state.tempValue)
     );
   }
 
@@ -582,13 +602,15 @@ export default class TreeSelectControl extends React.Component<
       virtualThreshold,
       itemHeight,
       menuTpl,
-      enableDefaultIcon
+      enableDefaultIcon,
+      useMobileUI
     } = this.props;
 
     let filtedOptions =
       !isEffectiveApi(autoComplete) && searchable && this.state.inputValue
         ? this.filterOptions(options, this.state.inputValue)
         : options;
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <TreeSelector
@@ -599,7 +621,7 @@ export default class TreeSelectControl extends React.Component<
         labelField={labelField}
         valueField={valueField}
         disabled={disabled}
-        onChange={this.handleChange}
+        onChange={mobileUI ? this.handleTempChange : this.handleChange}
         joinValues={joinValues}
         extractValue={extractValue}
         delimiter={delimiter}
@@ -644,6 +666,7 @@ export default class TreeSelectControl extends React.Component<
         itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
+        useMobileUI={useMobileUI}
       />
     );
   }
@@ -712,8 +735,10 @@ export default class TreeSelectControl extends React.Component<
           onBlur={this.handleBlur}
           onKeyDown={this.handleInputKeyDown}
           clearable={clearable}
-          allowInput={searchable || isEffectiveApi(autoComplete)}
+          allowInput={!mobileUI && (searchable || isEffectiveApi(autoComplete))}
           hasDropDownArrow
+          readOnly={mobileUI}
+          useMobileUI
         >
           {loading ? (
             <Spinner loadingConfig={loadingConfig} size="sm" />
@@ -746,6 +771,8 @@ export default class TreeSelectControl extends React.Component<
             className={cx(`${ns}TreeSelect-popup`)}
             isShow={isOpened}
             onHide={this.close}
+            showConfirm
+            onConfirm={this.handleConfirm}
           >
             {this.renderOuter()}
           </PopUp>

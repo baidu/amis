@@ -16,6 +16,7 @@ import type {
   Trigger
 } from 'amis-ui/lib/components/TooltipWrapper';
 import {resolveVariableAndFilter} from 'amis-core';
+import {isMobile} from 'amis-core';
 
 export type DropdownButton =
   | (ActionSchema & {children?: Array<DropdownButton>})
@@ -244,7 +245,10 @@ export default class DropDownButton extends React.Component<
 
     if (typeof button !== 'string' && Array.isArray(button?.children)) {
       return (
-        <div key={index} className={cx('DropDown-menu')}>
+        <div
+          key={index}
+          className={cx('DropDown-menu', {'is-mobile': isMobile()})}
+        >
           <li key={`${index}/0`} className={cx('DropDown-groupTitle')}>
             {button.icon ? generateIcon(cx, button.icon, 'm-r-xs') : null}
             <span>{button.label}</span>
@@ -311,6 +315,9 @@ export default class DropDownButton extends React.Component<
               className={cx(
                 'DropDown-menu-root',
                 'DropDown-menu',
+                {
+                  'is-mobile': isMobile()
+                },
                 menuClassName
               )}
               onClick={closeOnClick ? this.close : noop}
@@ -391,7 +398,8 @@ export default class DropDownButton extends React.Component<
             'DropDown--block': block,
             'DropDown--alignRight': align === 'right',
             'is-opened': this.state.isOpened,
-            'is-actived': isActived
+            'is-actived': isActived,
+            'is-mobile': isMobile()
           },
           className
         )}
