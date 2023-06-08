@@ -1,5 +1,6 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import omit from 'lodash/omit';
 import PopOverContainer from '../PopOverContainer';
 import ListSelection from '../GroupedSelection';
 import ResultBox from '../ResultBox';
@@ -12,17 +13,20 @@ import {
   LocaleProps,
   findTree,
   noop,
-  isMobile
+  isMobile,
+  autobind
 } from 'amis-core';
 import {Icon} from '../icons';
 import SearchBox from '../SearchBox';
 import TreeSelection from '../TreeSelection';
+import {Options} from '../Select';
 import {SpinnerExtraProps} from '../Spinner';
 
-export interface ConditionFieldProps
-  extends ThemeProps,
-    LocaleProps,
-    SpinnerExtraProps {
+const getFlatOptions = (options: Options) => {
+  return options.map(item => omit(item, 'children'));
+};
+
+export interface FieldProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   options: Array<any>;
   value: any;
   onChange: (value: any) => void;
@@ -30,20 +34,17 @@ export interface ConditionFieldProps
   fieldClassName?: string;
   searchable?: boolean;
   popOverContainer?: any;
-  selectMode?: 'list' | 'tree';
+  selectMode?: 'list' | 'tree' | 'chained';
 }
 
-export interface ConditionFieldState {
+export interface FieldState {
   searchText: string;
 }
 
 const option2value = (item: any) => item.name;
 
-export class ConditionField extends React.Component<
-  ConditionFieldProps,
-  ConditionFieldState
-> {
-  constructor(props: ConditionFieldProps) {
+class Field extends React.Component<FieldProps, FieldState> {
+  constructor(props: FieldProps) {
     super(props);
     this.state = {
       searchText: ''
@@ -172,6 +173,90 @@ export class ConditionField extends React.Component<
           </div>
         )}
       </PopOverContainer>
+    );
+  }
+}
+
+interface ConditionFieldState {
+  stacks: Array<Options>;
+  values: Array<string>;
+}
+
+export class ConditionField extends React.Component<
+  FieldProps,
+  ConditionFieldState
+> {
+  constructor(props: FieldProps) {
+    super(props);
+
+    this.state = {
+      stacks: [getFlatOptions(props.options)],
+      values: []
+    };
+  }
+
+  @autobind
+  handleSelect(item: Options, index: number, value: string) {
+    // 当前层级点击时，需要重新设置下values的值，以及重新计算stacks列表
+    const {values} = this.state;
+    console.log(value);
+    values.splice(index, values.length - index);
+    value && values.push(value);
+    const stacks = this.computedStask(values);
+    this.setState(
+      {
+        stacks,
+        values
+      },
+      () => {
+        this.props?.onChange(value);
+      }
+    );
+  }
+
+  // 根据树结构层级，找到底层后，寻找最后一层
+  computedStask(values: string[]) {
+    const options = this.props.options;
+    const getDeep = (opts: Options, index: number, tems: Array<Options>) => {
+      tems.push(getFlatOptions(opts));
+      opts.forEach(op => {
+        if (
+          op?.name === values[index] &&
+          op.children &&
+          values.length - 1 >= index
+        ) {
+          getDeep(op.children, index + 1, tems);
+        }
+      });
+      return tems;
+    };
+
+    return getDeep(options, 0, []);
+  }
+
+  render() {
+    const {selectMode} = this.props;
+    const {stacks, values} = this.state;
+
+    return (
+      <>
+        {selectMode === 'chained' ? (
+          stacks.map((item, index) => (
+            <span key={index}>
+              <Field
+                {...this.props}
+                options={item}
+                value={values[index]}
+                onChange={(value: string) =>
+                  this.handleSelect(item, index, value)
+                }
+              />
+            </span>
+          ))
+        ) : (
+          <Field {...this.props} />
+        )}
+      </>
     );
   }
 }

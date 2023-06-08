@@ -42,7 +42,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
-  selectMode?: 'list' | 'tree';
+  selectMode?: 'list' | 'tree' | 'chained';
 }
 
 export interface ConditionBuilderState {
@@ -292,6 +292,7 @@ export class QueryBuilder extends React.Component<
         renderEtrValue={renderEtrValue}
         popOverContainer={popOverContainer}
         selectMode={selectMode}
+        deepIndex={0}
       />
     );
   }

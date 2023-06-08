@@ -53,7 +53,7 @@ export interface ConditionItemProps extends ThemeProps, LocaleProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
-  selectMode?: 'list' | 'tree';
+  selectMode?: 'list' | 'tree' | 'chained';
 }
 
 export class ConditionItem extends React.Component<ConditionItemProps> {
@@ -289,7 +289,10 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       if (field) {
         leftType = field.type;
       }
+      console.log('field', field);
     }
+
+    console.log('fields', leftType);
 
     if (leftType) {
       return this.renderRightWidgets(leftType, value.op!);

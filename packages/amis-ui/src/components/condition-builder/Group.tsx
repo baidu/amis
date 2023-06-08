@@ -42,8 +42,9 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
-  selectMode?: 'list' | 'tree';
+  selectMode?: 'list' | 'tree' | 'chained';
   isCollapsed?: boolean; // 是否折叠
+  deepIndex: number;
 }
 
 export class ConditionGroup extends React.Component<
@@ -185,7 +186,8 @@ export class ConditionGroup extends React.Component<
       popOverContainer,
       selectMode,
       renderEtrValue,
-      draggable
+      draggable,
+      deepIndex
     } = this.props;
     const {isCollapsed} = this.state;
 
@@ -268,6 +270,7 @@ export class ConditionGroup extends React.Component<
                   renderEtrValue={renderEtrValue}
                   selectMode={selectMode}
                   isCollapsed={isCollapsed}
+                  deepIndex={deepIndex}
                 />
               ))
             ) : (
@@ -334,11 +337,6 @@ export class ConditionGroup extends React.Component<
                   ) : null}
                 </div>
               </div>
-              {/* {removeable ? (
-              <a className={cx('CBDelete')} onClick={onRemove}>
-                {__('Condition.delete_cond_group')}
-              </a>
-            ) : null} */}
             </div>
           )}
         </div>

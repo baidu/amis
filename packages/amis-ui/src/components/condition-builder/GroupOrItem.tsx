@@ -28,8 +28,9 @@ export interface CBGroupOrItemProps extends ThemeProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
-  selectMode?: 'list' | 'tree';
+  selectMode?: 'list' | 'tree' | 'chained';
   isCollapsed?: boolean;
+  deepIndex: number;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -82,7 +83,8 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       popOverContainer,
       selectMode,
       renderEtrValue,
-      isCollapsed
+      isCollapsed,
+      deepIndex
     } = this.props;
 
     return (
@@ -116,6 +118,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 draggable={draggable}
                 disabled={disabled}
                 searchable={searchable}
+                selectMode={selectMode}
                 onDragStart={onDragStart}
                 config={config}
                 fields={fields}
@@ -127,6 +130,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 onRemove={this.handleItemRemove}
                 data={data}
                 renderEtrValue={renderEtrValue}
+                deepIndex={deepIndex + 1}
               />
             </div>
           ) : (

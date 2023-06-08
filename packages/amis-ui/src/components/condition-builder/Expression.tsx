@@ -50,7 +50,7 @@ export interface ExpressionProps extends ThemeProps, LocaleProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
-  selectMode?: 'list' | 'tree';
+  selectMode?: 'list' | 'tree' | 'chained';
 }
 
 const fieldMap = {
