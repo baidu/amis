@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "3.1.1",
+  "version": "3.1.5",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
