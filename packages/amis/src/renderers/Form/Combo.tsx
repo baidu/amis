@@ -412,7 +412,13 @@ export default class ComboControl extends React.Component<ComboProps> {
   componentDidUpdate(prevProps: ComboProps) {
     const props = this.props;
 
-    if (anyChanged(['minLength', 'maxLength', 'value'], prevProps, props)) {
+    if (
+      anyChanged(['minLength', 'maxLength', 'value'], prevProps, props) ||
+      this.resolveVariableProps(prevProps, 'minLength') !==
+        this.resolveVariableProps(props, 'minLength') ||
+      this.resolveVariableProps(prevProps, 'maxLength') !==
+        this.resolveVariableProps(props, 'maxLength')
+    ) {
       const {store, multiple} = props;
       const values = this.getValueAsArray(props);
 
@@ -1768,7 +1774,14 @@ export default class ComboControl extends React.Component<ComboProps> {
 @FormItem({
   type: 'combo',
   storeType: ComboStore.name,
-  extendsData: false
+  extendsData: false,
+  shouldComponentUpdate: (props: any, prevProps: any) =>
+    (isPureVariable(props.maxLength) &&
+      resolveVariableAndFilter(prevProps.maxLength, prevProps.data) !==
+        resolveVariableAndFilter(props.maxLength, props.data)) ||
+    (isPureVariable(props.minLength) &&
+      resolveVariableAndFilter(prevProps.minLength, prevProps.data) !==
+        resolveVariableAndFilter(props.minLength, props.data))
 })
 export class ComboControlRenderer extends ComboControl {
   // 支持更新指定索引的值
