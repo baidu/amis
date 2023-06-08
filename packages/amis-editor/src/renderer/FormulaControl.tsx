@@ -47,7 +47,7 @@ export enum FormulaDateType {
 }
 
 export function renderFormulaValue(item: any) {
-  const html = {__html: typeof item === 'string' ? item : item.html};
+  const html = {__html: typeof item === 'string' ? item : item?.html};
   // bca-disable-next-line
   return <span dangerouslySetInnerHTML={html}></span>;
 }
@@ -153,6 +153,8 @@ interface FormulaControlState {
   variableMode?: 'tree' | 'tabs';
 
   formulaPickerOpen: boolean;
+
+  loading: boolean;
 }
 
 export default class FormulaControl extends React.Component<
@@ -175,7 +177,8 @@ export default class FormulaControl extends React.Component<
     this.state = {
       variables: [],
       variableMode: 'tabs',
-      formulaPickerOpen: false
+      formulaPickerOpen: false,
+      loading: false
     };
   }
 
@@ -374,8 +377,42 @@ export default class FormulaControl extends React.Component<
     this.closeFormulaPicker();
   }
 
+  /**
+   * 公式编辑器打开完成一些异步任务的加载
+   */
   @autobind
-  handleFormulaClick() {
+  async beforeFormulaEditorOpen() {
+    const {node, manager, data} = this.props;
+    const onFormulaEditorOpen = manager?.config?.onFormulaEditorOpen;
+
+    this.setState({loading: true});
+
+    try {
+      if (
+        manager &&
+        onFormulaEditorOpen &&
+        typeof onFormulaEditorOpen === 'function'
+      ) {
+        const res = await onFormulaEditorOpen(node, manager, data);
+
+        if (res !== false) {
+          const variables = await getVariables(this);
+          this.setState({variables});
+        }
+      }
+    } catch (error) {
+      console.error('[amis-editor] onFormulaEditorOpen failed: ', error?.stack);
+    }
+
+    this.setState({loading: false});
+  }
+
+  @autobind
+  async handleFormulaClick() {
+    try {
+      await this.beforeFormulaEditorOpen();
+    } catch (error) {}
+
     this.setState({
       formulaPickerOpen: true
     });
@@ -520,8 +557,7 @@ export default class FormulaControl extends React.Component<
       render,
       ...rest
     } = this.props;
-
-    const {formulaPickerOpen, variables, variableMode} = this.state;
+    const {formulaPickerOpen, variables, variableMode, loading} = this.state;
 
     // 判断是否含有公式表达式
     const isExpr = isExpression(value);
@@ -631,7 +667,7 @@ export default class FormulaControl extends React.Component<
                   result={{
                     html: this.hasDateShortcutkey(value)
                       ? value
-                      : highlightValue.html
+                      : highlightValue?.html
                   }}
                   itemRender={renderFormulaValue}
                   onChange={this.handleInputChange}
@@ -662,6 +698,7 @@ export default class FormulaControl extends React.Component<
             mouseLeaveDelay: 0
           }}
           onClick={this.handleFormulaClick}
+          loading={loading}
         >
           <Icon
             icon="input-fx"

@@ -2,6 +2,8 @@
  * @file 把一些功能性的东西放在了这个里面，辅助 compoennt/Editor.tsx 组件的。
  * 编辑器非 UI 相关的东西应该放在这。
  */
+
+import uniqBy from 'lodash/uniqBy';
 import {getRenderers, RenderOptions, mapTree} from 'amis-core';
 import {
   PluginInterface,
@@ -1227,7 +1229,6 @@ export class EditorManager {
     }
 
     store.changeValue(value, diff);
-    this.trigger('after-update', context);
   }
 
   /**
@@ -1632,10 +1633,12 @@ export class EditorManager {
   }
 
   async scaffold(form: any, value: any): Promise<SchemaObject> {
+    const scaffoldFormData = form.pipeIn ? await form.pipeIn(value) : value;
+
     return new Promise(resolve => {
       this.store.openScaffoldForm({
         ...form,
-        value: form.pipeIn ? form.pipeIn(value) : value,
+        value: scaffoldFormData,
         callback: resolve
       });
     });
@@ -1823,6 +1826,7 @@ export class EditorManager {
 
     const store = this.store;
     const context: PopOverFormContext = {
+      node,
       body: plugin.popOverBodyCreator
         ? plugin.popOverBodyCreator(this.buildEventContext(node))
         : plugin.popOverBody!,
@@ -1935,10 +1939,22 @@ export class EditorManager {
       scope = this.dataSchema.hasScope(`${from.id}-${from.type}`)
         ? this.dataSchema.getScope(`${from.id}-${from.type}`)
         : undefined;
+
+      /** Combo和InputTable作为也有自己的Scope */
+      if (!scope) {
+        if (['combo', 'input-table'].includes(from?.info?.type)) {
+          break;
+        }
+      }
+
       from = from.parent;
       if (from?.isRegion) {
         region = from;
       }
+    }
+
+    if (!scope) {
+      return from?.info.plugin.getAvailableContextFields?.(from, node);
     }
 
     while (scope) {
