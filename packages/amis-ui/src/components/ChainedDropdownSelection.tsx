@@ -49,13 +49,11 @@ export class ChainedDropdownSelection extends BaseSelection<
   }
 
   computed(value: string, options: Options) {
-    const {valueField, option2value} = this.props;
+    const {valueField} = this.props;
     let values: Array<string> = [];
     const getValues = (opts: Options, arr: Array<string> = []) => {
       opts.forEach(item => {
-        const cValue = valueField
-          ? item[valueField]
-          : option2value?.(item) ?? '';
+        const cValue = valueField ? item[valueField] : item?.value ?? '';
         if (cValue === value) {
           values = [...arr, cValue];
         } else if (item.children) {
@@ -95,11 +93,11 @@ export class ChainedDropdownSelection extends BaseSelection<
 
   // 根据树结构层级，寻找最后一层
   computedStask(values: string[]) {
-    const {options, valueField, option2value} = this.props;
+    const {options, valueField} = this.props;
     const getDeep = (opts: Options, index: number, tems: Array<Options>) => {
       tems.push(this.getFlatOptions(opts));
       opts.forEach(op => {
-        const cValue = valueField ? op[valueField] : option2value?.(op) ?? '';
+        const cValue = valueField ? op[valueField] : op?.value ?? '';
         if (
           cValue === values[index] &&
           op.children &&

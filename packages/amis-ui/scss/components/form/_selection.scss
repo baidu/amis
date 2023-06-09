@@ -422,15 +422,15 @@
   display: inline-block;
 
   &-item {
-    position: relative;
     display: inline-block;
-    margin: px2rem(3px);
-    vertical-align: middle;
   }
 }
 
 .#{$ns}DropDownSelection {
+  position: relative;
   display: inline-block;
+  margin: 0.1875rem;
+  vertical-align: middle;
 
   &-caret {
     transition: transform var(--animation-duration) ease-out;

@@ -1,7 +1,10 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import {BaseSelection, BaseSelectionProps} from './Selection';
+import {SpinnerExtraProps} from './Spinner';
 import PopOverContainer from './PopOverContainer';
 import ListSelection from './GroupedSelection';
+import TreeSelection from './TreeSelection';
 import ResultBox from './ResultBox';
 import {
   ThemeProps,
@@ -15,22 +18,25 @@ import {
 import {Icon} from './icons';
 import SearchBox from './SearchBox';
 
-export interface DropDownSelectionProps extends ThemeProps, LocaleProps {
+export interface DropDownSelectionProps
+  extends ThemeProps,
+    LocaleProps,
+    SpinnerExtraProps,
+    BaseSelectionProps {
   options: Array<any>;
   value: any;
   onChange: (value: any) => void;
   disabled?: boolean;
   searchable?: boolean;
   popOverContainer?: any;
+  mode?: 'list' | 'tree';
 }
 
 export interface DropDownSelectionState {
   searchText: string;
 }
 
-const option2value = (item: any) => item.name;
-
-class DropDownSelection extends React.Component<
+class DropDownSelection extends BaseSelection<
   DropDownSelectionProps,
   DropDownSelectionState
 > {
@@ -50,6 +56,7 @@ class DropDownSelection extends React.Component<
   }
 
   filterOptions(options: any[]) {
+    const {valueField = 'value'} = this.props;
     const txt = this.state.searchText;
     if (!txt) {
       return this.props.options;
@@ -59,7 +66,7 @@ class DropDownSelection extends React.Component<
         if (item.children) {
           let children = item.children.filter((child: any) => {
             return (
-              child.name.toLowerCase().includes(txt) ||
+              child[valueField].toLowerCase().includes(txt) ||
               child.label.toLowerCase().includes(txt)
             );
           });
@@ -67,7 +74,7 @@ class DropDownSelection extends React.Component<
             ? Object.assign({}, item, {children}) // 需要copy一份，防止覆盖原始数据
             : false;
         } else {
-          return item.name.toLowerCase().includes(txt) ||
+          return item[valueField].toLowerCase().includes(txt) ||
             item.label.toLowerCase().includes(txt)
             ? item
             : false;
@@ -93,6 +100,10 @@ class DropDownSelection extends React.Component<
       disabled,
       translate: __,
       searchable,
+      mode = 'list',
+      valueField = 'value',
+      option2value,
+      loadingConfig,
       popOverContainer
     } = this.props;
 
@@ -105,16 +116,30 @@ class DropDownSelection extends React.Component<
             {searchable ? (
               <SearchBox mini={false} onSearch={this.onSearch} />
             ) : null}
-            <ListSelection
-              multiple={false}
-              onClick={() => this.onPopClose(onClose)}
-              options={this.filterOptions(this.props.options)}
-              value={[value]}
-              option2value={option2value}
-              onChange={(value: any) =>
-                onChange(Array.isArray(value) ? value[0] : value)
-              }
-            />
+            {mode === 'list' ? (
+              <ListSelection
+                multiple={false}
+                onClick={() => this.onPopClose(onClose)}
+                options={this.filterOptions(this.props.options)}
+                value={value}
+                option2value={option2value}
+                onChange={(value: any) => {
+                  onChange(Array.isArray(value) ? value[0] : value);
+                }}
+              />
+            ) : (
+              <TreeSelection
+                className={'is-scrollable'}
+                multiple={false}
+                options={this.filterOptions(this.props.options)}
+                value={value}
+                loadingConfig={loadingConfig}
+                onChange={(value: any) => {
+                  this.onPopClose(onClose);
+                  onChange(value[valueField]);
+                }}
+              />
+            )}
           </div>
         )}
       >
@@ -128,7 +153,9 @@ class DropDownSelection extends React.Component<
               ref={ref}
               allowInput={false}
               result={
-                value ? findTree(options, item => item.name === value) : ''
+                value
+                  ? findTree(options, item => item[valueField] === value)
+                  : ''
               }
               onResultChange={noop}
               onResultClick={onClick}

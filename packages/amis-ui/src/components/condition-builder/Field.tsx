@@ -1,22 +1,7 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import omit from 'lodash/omit';
-import PopOverContainer from '../PopOverContainer';
-import ListSelection from '../GroupedSelection';
-import ResultBox from '../ResultBox';
-import {
-  ThemeProps,
-  themeable,
-  localeable,
-  LocaleProps,
-  findTree,
-  noop,
-  isMobile
-} from 'amis-core';
-import {Icon} from '../icons';
-import SearchBox from '../SearchBox';
-import TreeSelection from '../TreeSelection';
+import {ThemeProps, themeable, localeable, LocaleProps} from 'amis-core';
 import {SpinnerExtraProps} from '../Spinner';
+import DropDownSelection from '../DropDownSelection';
 import ChainedDropdownSelection from '../ChainedDropdownSelection';
 
 export interface ConditionFieldProps
@@ -43,141 +28,59 @@ export class ConditionField extends React.Component<
   ConditionFieldProps,
   FieldState
 > {
-  constructor(props: ConditionFieldProps) {
-    super(props);
-    this.state = {
-      searchText: ''
-    };
-    this.onSearch = this.onSearch.bind(this);
-    this.filterOptions = this.filterOptions.bind(this);
-  }
-
-  onSearch(text: string) {
-    let txt = text.toLowerCase();
-
-    this.setState({searchText: txt});
-  }
-
-  filterOptions(options: any[]) {
-    const txt = this.state.searchText;
-    if (!txt) {
-      return this.props.options;
-    }
-    return options
-      .map((item: any) => {
-        if (item.children) {
-          let children = item.children.filter((child: any) => {
-            return (
-              child.name.toLowerCase().includes(txt) ||
-              child.label.toLowerCase().includes(txt)
-            );
-          });
-          return children.length > 0
-            ? Object.assign({}, item, {children}) // 需要copy一份，防止覆盖原始数据
-            : false;
-        } else {
-          return item.name.toLowerCase().includes(txt) ||
-            item.label.toLowerCase().includes(txt)
-            ? item
-            : false;
-        }
-      })
-      .filter((item: any) => {
-        return !!item;
-      });
-  }
-
-  // 选了值，还原options
-  onPopClose(onClose: () => void) {
-    this.setState({searchText: ''});
-    onClose();
-  }
-
   render() {
     const {
-      options,
       onChange,
       value,
       classnames: cx,
-      fieldClassName,
       disabled,
       translate: __,
       searchable,
-      popOverContainer,
       selectMode = 'list',
       loadingConfig
     } = this.props;
 
-    return selectMode !== 'chained' ? (
-      <PopOverContainer
-        useMobileUI
-        popOverContainer={popOverContainer || (() => findDOMNode(this))}
-        popOverRender={({onClose}) => (
-          <div>
-            {searchable ? (
-              <SearchBox mini={false} onSearch={this.onSearch} />
-            ) : null}
-            {selectMode === 'tree' ? (
-              <TreeSelection
-                className={'is-scrollable'}
-                multiple={false}
-                options={this.filterOptions(this.props.options)}
-                value={value}
-                loadingConfig={loadingConfig}
-                onChange={(value: any) => {
-                  this.onPopClose(onClose);
-                  onChange(value.name);
-                }}
-              />
-            ) : (
-              <ListSelection
-                multiple={false}
-                onClick={() => this.onPopClose(onClose)}
-                options={this.filterOptions(this.props.options)}
-                value={[value]}
-                option2value={option2value}
-                onChange={(value: any) =>
-                  onChange(Array.isArray(value) ? value[0] : value)
-                }
-              />
-            )}
-          </div>
-        )}
-      >
-        {({onClick, ref, isOpened}) => (
-          <div className={cx('CBGroup-field')}>
-            <ResultBox
-              className={cx(
-                'CBGroup-fieldInput',
-                fieldClassName,
-                isOpened ? 'is-active' : ''
-              )}
-              ref={ref}
-              allowInput={false}
-              result={
-                value ? findTree(options, item => item.name === value) : ''
-              }
-              onResultChange={noop}
-              onResultClick={onClick}
-              placeholder={__('Condition.field_placeholder')}
-              disabled={disabled}
-              useMobileUI
-            >
-              {!isMobile() ? (
-                <span className={cx('CBGroup-fieldCaret')}>
-                  <Icon icon="caret" className="icon" />
-                </span>
-              ) : null}
-            </ResultBox>
-          </div>
-        )}
-      </PopOverContainer>
-    ) : (
+    return selectMode === 'chained' ? (
       <ChainedDropdownSelection
         multiple={false}
-        options={this.filterOptions(this.props.options)}
+        classnames={cx}
+        options={this.props.options}
         value={value}
+        valueField="name"
         option2value={option2value}
+        searchable={searchable}
+        disabled={disabled}
+        onChange={(value: any) => {
+          onChange(Array.isArray(value) ? value[0] : value);
+        }}
+      />
+    ) : selectMode === 'tree' ? (
+      <DropDownSelection
+        className={'is-scrollable'}
+        classnames={cx}
+        multiple={false}
+        option2value={option2value}
+        searchable={searchable}
+        disabled={disabled}
+        valueField={'name'}
+        mode={'tree'}
+        options={this.props.options}
+        value={value}
+        loadingConfig={loadingConfig}
+        onChange={(value: any) => {
+          onChange(value);
+        }}
+      />
+    ) : (
+      <DropDownSelection
+        classnames={cx}
+        multiple={false}
+        options={this.props.options}
+        value={value}
+        valueField={'name'}
+        option2value={option2value}
+        searchable={searchable}
+        disabled={disabled}
         onChange={(value: any) =>
           onChange(Array.isArray(value) ? value[0] : value)
         }
