@@ -500,7 +500,7 @@ type Value = ValueGroup;
 
 > 2.3.0 及以上版本
 
-通过 selectMode 配置组合条件左侧选项类型，可配置项为`list`、`tree`、`chained`，默认为`list`。这三个数据格式基本类似，只是下拉框展示方式不同，`tree`是树形下拉，`chained`为多个级连的下拉。当存在多层 children 嵌套时，建议使用`tree`。
+通过 selectMode 配置组合条件左侧选项类型，可配置项为`list`、`tree`、`chained`，默认为`list`。这三个数据格式基本类似，只是下拉框展示方式不同，`tree`是树形下拉，`chained`为多个级联的下拉。当存在多层 children 嵌套时，建议使用`tree`。
 
 selectMode 为`list`时
 
