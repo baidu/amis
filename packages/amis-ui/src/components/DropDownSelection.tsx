@@ -1,9 +1,8 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import omit from 'lodash/omit';
-import PopOverContainer from '../PopOverContainer';
-import ListSelection from '../GroupedSelection';
-import ResultBox from '../ResultBox';
+import PopOverContainer from './PopOverContainer';
+import ListSelection from './GroupedSelection';
+import ResultBox from './ResultBox';
 import {
   ThemeProps,
   themeable,
@@ -13,37 +12,29 @@ import {
   noop,
   isMobile
 } from 'amis-core';
-import {Icon} from '../icons';
-import SearchBox from '../SearchBox';
-import TreeSelection from '../TreeSelection';
-import {SpinnerExtraProps} from '../Spinner';
-import ChainedDropdownSelection from '../ChainedDropdownSelection';
+import {Icon} from './icons';
+import SearchBox from './SearchBox';
 
-export interface ConditionFieldProps
-  extends ThemeProps,
-    LocaleProps,
-    SpinnerExtraProps {
+export interface DropDownSelectionProps extends ThemeProps, LocaleProps {
   options: Array<any>;
   value: any;
   onChange: (value: any) => void;
   disabled?: boolean;
-  fieldClassName?: string;
   searchable?: boolean;
   popOverContainer?: any;
-  selectMode?: 'list' | 'tree' | 'chained';
 }
 
-export interface FieldState {
+export interface DropDownSelectionState {
   searchText: string;
 }
 
 const option2value = (item: any) => item.name;
 
-export class ConditionField extends React.Component<
-  ConditionFieldProps,
-  FieldState
+class DropDownSelection extends React.Component<
+  DropDownSelectionProps,
+  DropDownSelectionState
 > {
-  constructor(props: ConditionFieldProps) {
+  constructor(props: DropDownSelectionProps) {
     super(props);
     this.state = {
       searchText: ''
@@ -99,16 +90,13 @@ export class ConditionField extends React.Component<
       onChange,
       value,
       classnames: cx,
-      fieldClassName,
       disabled,
       translate: __,
       searchable,
-      popOverContainer,
-      selectMode = 'list',
-      loadingConfig
+      popOverContainer
     } = this.props;
 
-    return selectMode !== 'chained' ? (
+    return (
       <PopOverContainer
         useMobileUI
         popOverContainer={popOverContainer || (() => findDOMNode(this))}
@@ -117,39 +105,24 @@ export class ConditionField extends React.Component<
             {searchable ? (
               <SearchBox mini={false} onSearch={this.onSearch} />
             ) : null}
-            {selectMode === 'tree' ? (
-              <TreeSelection
-                className={'is-scrollable'}
-                multiple={false}
-                options={this.filterOptions(this.props.options)}
-                value={value}
-                loadingConfig={loadingConfig}
-                onChange={(value: any) => {
-                  this.onPopClose(onClose);
-                  onChange(value.name);
-                }}
-              />
-            ) : (
-              <ListSelection
-                multiple={false}
-                onClick={() => this.onPopClose(onClose)}
-                options={this.filterOptions(this.props.options)}
-                value={[value]}
-                option2value={option2value}
-                onChange={(value: any) =>
-                  onChange(Array.isArray(value) ? value[0] : value)
-                }
-              />
-            )}
+            <ListSelection
+              multiple={false}
+              onClick={() => this.onPopClose(onClose)}
+              options={this.filterOptions(this.props.options)}
+              value={[value]}
+              option2value={option2value}
+              onChange={(value: any) =>
+                onChange(Array.isArray(value) ? value[0] : value)
+              }
+            />
           </div>
         )}
       >
         {({onClick, ref, isOpened}) => (
-          <div className={cx('CBGroup-field')}>
+          <div className={cx('DropDownSelection')}>
             <ResultBox
               className={cx(
-                'CBGroup-fieldInput',
-                fieldClassName,
+                'DropDownSelection-input',
                 isOpened ? 'is-active' : ''
               )}
               ref={ref}
@@ -164,7 +137,7 @@ export class ConditionField extends React.Component<
               useMobileUI
             >
               {!isMobile() ? (
-                <span className={cx('CBGroup-fieldCaret')}>
+                <span className={cx('DropDownSelection-caret')}>
                   <Icon icon="caret" className="icon" />
                 </span>
               ) : null}
@@ -172,18 +145,8 @@ export class ConditionField extends React.Component<
           </div>
         )}
       </PopOverContainer>
-    ) : (
-      <ChainedDropdownSelection
-        multiple={false}
-        options={this.filterOptions(this.props.options)}
-        value={value}
-        option2value={option2value}
-        onChange={(value: any) =>
-          onChange(Array.isArray(value) ? value[0] : value)
-        }
-      />
     );
   }
 }
 
-export default themeable(localeable(ConditionField));
+export default themeable(localeable(DropDownSelection));

@@ -417,3 +417,38 @@
     cursor: pointer;
   }
 }
+
+.#{$ns}ChainedDropdownSelection {
+  display: inline-block;
+
+  &-item {
+    position: relative;
+    display: inline-block;
+    margin: px2rem(3px);
+    vertical-align: middle;
+  }
+}
+
+.#{$ns}DropDownSelection {
+  display: inline-block;
+
+  &-caret {
+    transition: transform var(--animation-duration) ease-out;
+    margin: 5px;
+    display: flex;
+    color: var(--Form-select-caret-iconColor);
+    &:hover {
+      color: var(--Form-select-caret-onHover-iconColor);
+    }
+
+    > svg {
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0;
+    }
+  }
+
+  &-input.is-active &-caret {
+    transform: rotate(180deg);
+  }
+}
