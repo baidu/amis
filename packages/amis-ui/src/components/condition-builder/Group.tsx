@@ -45,9 +45,9 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   renderEtrValue?: any;
   selectMode?: 'list' | 'tree' | 'chained';
   isCollapsed?: boolean; // 是否折叠
-  deepIndex: number;
-  addConditionVisible?: string;
-  addConditionGroupVisible?: string;
+  depth: number;
+  addBtnVisibleOn?: string;
+  addGroupBtnVisibleOn?: string;
 }
 
 export class ConditionGroup extends React.Component<
@@ -190,9 +190,9 @@ export class ConditionGroup extends React.Component<
       selectMode,
       renderEtrValue,
       draggable,
-      deepIndex,
-      addConditionVisible,
-      addConditionGroupVisible
+      depth,
+      addBtnVisibleOn,
+      addGroupBtnVisibleOn
     } = this.props;
     const {isCollapsed} = this.state;
 
@@ -206,16 +206,16 @@ export class ConditionGroup extends React.Component<
     let addConditionVisibleBool = true;
     let addConditionGroupVisibleBool = true;
 
-    const param = {depth: deepIndex, width: body?.length ?? 0};
-    if (isPureVariable(addConditionVisible)) {
+    const param = {depth, breadth: body?.length ?? 0};
+    if (isPureVariable(addBtnVisibleOn)) {
       addConditionVisibleBool = resolveVariableAndFilter(
-        addConditionVisible,
+        addBtnVisibleOn,
         param
       );
     }
-    if (isPureVariable(addConditionGroupVisible)) {
+    if (isPureVariable(addGroupBtnVisibleOn)) {
       addConditionGroupVisibleBool = resolveVariableAndFilter(
-        addConditionGroupVisible,
+        addGroupBtnVisibleOn,
         param
       );
     }
@@ -292,9 +292,9 @@ export class ConditionGroup extends React.Component<
                   renderEtrValue={renderEtrValue}
                   selectMode={selectMode}
                   isCollapsed={isCollapsed}
-                  deepIndex={deepIndex}
-                  addConditionVisible={addConditionVisible}
-                  addConditionGroupVisible={addConditionGroupVisible}
+                  depth={depth}
+                  addBtnVisibleOn={addBtnVisibleOn}
+                  addGroupBtnVisibleOn={addGroupBtnVisibleOn}
                 />
               ))
             ) : (

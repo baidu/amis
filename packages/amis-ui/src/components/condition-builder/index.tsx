@@ -43,8 +43,8 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   popOverContainer?: any;
   renderEtrValue?: any;
   selectMode?: 'list' | 'tree' | 'chained';
-  addConditionVisible?: string;
-  addConditionGroupVisible?: string;
+  addBtnVisibleOn?: string;
+  addGroupBtnVisibleOn?: string;
 }
 
 export interface ConditionBuilderState {
@@ -255,8 +255,8 @@ export class QueryBuilder extends React.Component<
       formula,
       renderEtrValue,
       selectMode,
-      addConditionVisible,
-      addConditionGroupVisible
+      addBtnVisibleOn,
+      addGroupBtnVisibleOn
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -296,9 +296,9 @@ export class QueryBuilder extends React.Component<
         renderEtrValue={renderEtrValue}
         popOverContainer={popOverContainer}
         selectMode={selectMode}
-        deepIndex={1}
-        addConditionVisible={addConditionVisible}
-        addConditionGroupVisible={addConditionGroupVisible}
+        depth={1}
+        addBtnVisibleOn={addBtnVisibleOn}
+        addGroupBtnVisibleOn={addGroupBtnVisibleOn}
       />
     );
   }

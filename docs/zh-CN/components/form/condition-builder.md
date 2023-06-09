@@ -640,6 +640,8 @@ selectMode 为`tree`时
 }
 ```
 
+> 3.2.0 及以上版本
+
 selectMode 为`chained`时
 
 ```schema: scope="body"
@@ -976,7 +978,7 @@ selectMode 为`chained`时
 
 ## 属性表
 
-| 属性名         | 类型               | 默认值   | 说明                           |
+| 属性名         | 类型                 | 默认值   | 说明                           |
 | -------------- | ------------------ | -------- | ------------------------------ |
 | className      | `string`           |          | 外层 dom 类名                  |
 | fieldClassName | `string`           |          | 输入字段的类名                 |
@@ -987,6 +989,6 @@ selectMode 为`chained`时
 | showANDOR      | `boolean`          |          | 用于 simple 模式下显示切换按钮 |
 | showNot        | `boolean`          |          | 是否显示「非」按钮             |
 | searchable     | `boolean`          |          | 字段是否可搜索                 |
-| selectMode     | `'list'`、`'tree'`、`'chained'` | `'list'` | 组合条件左侧选项类型           |
-| addConditionVisible     | `string`          |          | 表达式：控制按钮“添加条件”的显示。参数为`depth`、`width`，分别代表深度、长度。表达式需要返回boolean类型          |
-| addConditionGroupVisible     | `string`          |          | 表达式：控制按钮“添加条件组”的显示。参数为`depth`、`width`，分别代表深度、长度。表达式需要返回boolean类型                  |
+| selectMode     | `'list'` \| `'tree'` \| `'chained'`       | `'list'` | 组合条件左侧选项类型。`'chained'`模式需要`3.2.0及以上版本`          |
+| addBtnVisibleOn     | `string`          |          | 表达式：控制按钮“添加条件”的显示。参数为`depth`、`breadth`，分别代表深度、长度。表达式需要返回`boolean`类型`3.2.0及以上版本`          |
+| addGroupBtnVisibleOn     | `string`          |          | 表达式：控制按钮“添加条件组”的显示。参数为`depth`、`breadth`，分别代表深度、长度。表达式需要返回`boolean`类型`3.2.0及以上版本`                 |

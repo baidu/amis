@@ -22,10 +22,6 @@ import TreeSelection from '../TreeSelection';
 import {Options} from '../Select';
 import {SpinnerExtraProps} from '../Spinner';
 
-const getFlatOptions = (options: Options) => {
-  return options.map(item => omit(item, 'children'));
-};
-
 export interface FieldProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   options: Array<any>;
   value: any;
@@ -190,9 +186,13 @@ export class ConditionField extends React.Component<
     super(props);
 
     this.state = {
-      stacks: [getFlatOptions(props.options)],
+      stacks: [this.getFlatOptions(props.options)],
       values: []
     };
+  }
+
+  getFlatOptions(options: Options) {
+    return options.map(item => omit(item, 'children'));
   }
 
   @autobind
@@ -208,7 +208,7 @@ export class ConditionField extends React.Component<
         values
       },
       () => {
-        this.props?.onChange(value);
+        this.props.onChange(value);
       }
     );
   }
@@ -217,7 +217,7 @@ export class ConditionField extends React.Component<
   computedStask(values: string[]) {
     const options = this.props.options;
     const getDeep = (opts: Options, index: number, tems: Array<Options>) => {
-      tems.push(getFlatOptions(opts));
+      tems.push(this.getFlatOptions(opts));
       opts.forEach(op => {
         if (
           op?.name === values[index] &&
