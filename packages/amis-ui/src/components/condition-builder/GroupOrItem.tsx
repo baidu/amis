@@ -31,6 +31,8 @@ export interface CBGroupOrItemProps extends ThemeProps {
   selectMode?: 'list' | 'tree' | 'chained';
   isCollapsed?: boolean;
   deepIndex: number;
+  addConditionVisible?: string;
+  addConditionGroupVisible?: string;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -84,7 +86,9 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       selectMode,
       renderEtrValue,
       isCollapsed,
-      deepIndex
+      deepIndex,
+      addConditionVisible,
+      addConditionGroupVisible
     } = this.props;
 
     return (
@@ -131,6 +135,8 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 data={data}
                 renderEtrValue={renderEtrValue}
                 deepIndex={deepIndex + 1}
+                addConditionVisible={addConditionVisible}
+                addConditionGroupVisible={addConditionGroupVisible}
               />
             </div>
           ) : (

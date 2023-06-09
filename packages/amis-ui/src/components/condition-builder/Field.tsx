@@ -213,7 +213,7 @@ export class ConditionField extends React.Component<
     );
   }
 
-  // 根据树结构层级，找到底层后，寻找最后一层
+  // 根据树结构层级，寻找最后一层
   computedStask(values: string[]) {
     const options = this.props.options;
     const getDeep = (opts: Options, index: number, tems: Array<Options>) => {
