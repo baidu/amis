@@ -5,10 +5,8 @@ import PopOverContainer from '../PopOverContainer';
 import ListSelection from '../GroupedSelection';
 import ResultBox from '../ResultBox';
 import {
-  ClassNamesFn,
   ThemeProps,
   themeable,
-  utils,
   localeable,
   LocaleProps,
   findTree,
@@ -185,9 +183,35 @@ export class ConditionField extends React.Component<
   constructor(props: FieldProps) {
     super(props);
 
-    this.state = {
-      stacks: [this.getFlatOptions(props.options)],
-      values: []
+    this.state = this.computed(props.value, props.options);
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<FieldProps>,
+    prevState: Readonly<ConditionFieldState>,
+    snapshot?: any
+  ): void {
+    const {options, value} = this.props;
+    if (options !== prevProps.options) {
+      this.setState(this.computed(value, options));
+    }
+  }
+
+  computed(value: string, options: Options) {
+    let values: Array<string> = [];
+    const getValues = (opts: Options, arr: Array<string> = []) => {
+      opts.forEach(item => {
+        if (item?.name === value) {
+          values = [...arr, item?.name];
+        } else if (item.children) {
+          getValues(item.children, [...arr, item?.name]);
+        }
+      });
+    };
+    getValues(options);
+    return {
+      values,
+      stacks: this.computedStask(values)
     };
   }
 
