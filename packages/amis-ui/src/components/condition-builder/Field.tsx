@@ -34,9 +34,10 @@ export class ConditionField extends React.Component<
       value,
       classnames: cx,
       disabled,
-      translate: __,
+      translate,
       searchable,
       selectMode = 'list',
+      options,
       loadingConfig
     } = this.props;
 
@@ -44,7 +45,8 @@ export class ConditionField extends React.Component<
       <ChainedDropdownSelection
         multiple={false}
         classnames={cx}
-        options={this.props.options}
+        translate={translate}
+        options={options}
         value={value}
         valueField="name"
         option2value={option2value}
@@ -58,13 +60,14 @@ export class ConditionField extends React.Component<
       <DropDownSelection
         className={'is-scrollable'}
         classnames={cx}
+        translate={translate}
         multiple={false}
         option2value={option2value}
         searchable={searchable}
         disabled={disabled}
         valueField={'name'}
         mode={'tree'}
-        options={this.props.options}
+        options={options}
         value={value}
         loadingConfig={loadingConfig}
         onChange={(value: any) => {
@@ -74,8 +77,8 @@ export class ConditionField extends React.Component<
     ) : (
       <DropDownSelection
         classnames={cx}
-        multiple={false}
-        options={this.props.options}
+        translate={translate}
+        options={options}
         value={value}
         valueField={'name'}
         option2value={option2value}
