@@ -416,6 +416,7 @@ export type TableRendererEvent =
   | 'columnToggled'
   | 'orderChange'
   | 'rowClick'
+  | 'rowDbClick'
   | 'rowMouseEnter'
   | 'rowMouseLeave';
 

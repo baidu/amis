@@ -212,6 +212,7 @@ const INNER_EVENTS: Array<CRUDRendererEvent> = [
   'columnToggled',
   'orderChange',
   'rowClick',
+  'rowDbClick',
   'rowMouseEnter',
   'rowMouseLeave',
   'selected'
