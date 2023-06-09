@@ -7,6 +7,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {FormulaDateType} from '../../renderer/FormulaControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getRendererByName} from 'amis-core';
+import omit from 'lodash/omit';
 
 const formatX = [
   {
@@ -398,7 +399,7 @@ export class DateRangeControlPlugin extends BasePlugin {
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
                   rendererSchema: {
-                    ...context?.schema,
+                    ...omit(context?.schema, ['shortcuts']),
                     value: context?.schema.minDate,
                     type: 'input-date'
                   },
@@ -411,7 +412,7 @@ export class DateRangeControlPlugin extends BasePlugin {
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
                   rendererSchema: {
-                    ...context?.schema,
+                    ...omit(context?.schema, ['shortcuts']),
                     value: context?.schema.maxDate,
                     type: 'input-date'
                   },
