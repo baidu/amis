@@ -199,7 +199,6 @@ export class ConditionField extends React.Component<
   handleSelect(item: Options, index: number, value: string) {
     // 当前层级点击时，需要重新设置下values的值，以及重新计算stacks列表
     const {values} = this.state;
-    console.log(value);
     values.splice(index, values.length - index);
     value && values.push(value);
     const stacks = this.computedStask(values);

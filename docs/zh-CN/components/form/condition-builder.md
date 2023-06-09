@@ -670,42 +670,22 @@ selectMode 为`chained`时
               "name": "boolean"
             },
             {
-              "label": "树形结构",
-              "type": "tree",
+              "label": "链式结构",
               "name": "tree",
-              children: [
+              "children": [
                 {
                   "label": "Folder A",
-                  "type": "tree",
                   "name": "Folder_A",
-                  "type": "number",
-                  "value": 1,
                   "children": [
                     {
                       "label": "file A",
-                      "value": 2,
                       "name": "file_A",
-                      "type": "number",
+                      "type": "number"
                     },
                     {
-                      "label": "Folder B",
-                      "value": 3,
-                      "name": "Folder_B",
-                      "type": "number",
-                      "children": [
-                        {
-                          "label": "file b1",
-                          "value": 3.1,
-                          "name": "file_b1",
-                          "type": "number"
-                        },
-                        {
-                          "label": "file b2",
-                          "value": 3.2,
-                          "name": "file_b2",
-                          "type": "number"
-                        }
-                      ]
+                      "label": "file B",
+                      "name": "file_B",
+                      "type": "text"
                     }
                   ]
                 }
@@ -1008,5 +988,5 @@ selectMode 为`chained`时
 | showNot        | `boolean`          |          | 是否显示「非」按钮             |
 | searchable     | `boolean`          |          | 字段是否可搜索                 |
 | selectMode     | `'list'`、`'tree'`、`'chained'` | `'list'` | 组合条件左侧选项类型           |
-| addConditionVisible     | `string`          |          | 表达式：控制按钮“添加条件”的显示。参数为`'depth'`、`'width'`，分别代表深度、长度。表达式需要返回boolean类型          |
-| addConditionGroupVisible     | `string`          |          | 表达式：控制按钮“添加条件组”的显示。参数为`'depth'`、`'width'`，分别代表深度、长度。表达式需要返回boolean类型                  |
+| addConditionVisible     | `string`          |          | 表达式：控制按钮“添加条件”的显示。参数为`depth`、`width`，分别代表深度、长度。表达式需要返回boolean类型          |
+| addConditionGroupVisible     | `string`          |          | 表达式：控制按钮“添加条件组”的显示。参数为`depth`、`width`，分别代表深度、长度。表达式需要返回boolean类型                  |

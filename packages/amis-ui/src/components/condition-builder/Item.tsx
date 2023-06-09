@@ -289,10 +289,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       if (field) {
         leftType = field.type;
       }
-      console.log('field', field);
     }
-
-    console.log('fields', leftType);
 
     if (leftType) {
       return this.renderRightWidgets(leftType, value.op!);
