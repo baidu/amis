@@ -671,7 +671,7 @@ selectMode 为`chained`时
             },
             {
               "label": "链式结构",
-              "name": "tree",
+              "name": "chained",
               "children": [
                 {
                   "label": "Folder A",
