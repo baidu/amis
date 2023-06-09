@@ -490,7 +490,7 @@ type Value = ValueGroup;
         "label": "条件组件",
         "name": "conditions",
         "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
-        "source": "/api/condition-fields?a=${a}&waitSeconds=2"
+        "source": "/api/condition-fields/custom?a=${a}&waitSeconds=2"
       }
     ]
 }
@@ -642,7 +642,7 @@ selectMode 为`tree`时
 
 > 3.2.0 及以上版本
 
-selectMode 为`chained`时
+selectMode 为`chained`时，使用`fields`字段
 
 ```schema: scope="body"
 {
@@ -699,6 +699,23 @@ selectMode 为`chained`时
 }
 ```
 
+selectMode 为`chained`时，使用`source`字段
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+      {
+        "type": "condition-builder",
+        "label": "条件组件",
+        "name": "conditions",
+        "selectMode": "chained",
+        "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+        "source": "/api/condition-fields/chained"
+      }
+    ]
+}
+```
 
 ## 简易模式
 

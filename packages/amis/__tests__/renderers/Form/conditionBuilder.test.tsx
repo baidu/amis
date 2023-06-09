@@ -554,7 +554,7 @@ test('Renderer:condition-builder with source fields', async () => {
             type: 'condition-builder',
             label: '条件组件',
             name: 'conditions',
-            source: '/api/condition-fields'
+            source: '/api/condition-fields/custom'
           }
         ]
       },
