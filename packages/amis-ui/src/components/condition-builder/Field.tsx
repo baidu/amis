@@ -183,16 +183,19 @@ export class ConditionField extends React.Component<
   constructor(props: FieldProps) {
     super(props);
 
-    this.state = this.computed(props.value, props.options);
+    if (props.selectMode === 'chained') {
+      this.state = this.computed(props.value, props.options);
+    } else {
+      this.state = {
+        stacks: [],
+        values: []
+      };
+    }
   }
 
-  componentDidUpdate(
-    prevProps: Readonly<FieldProps>,
-    prevState: Readonly<ConditionFieldState>,
-    snapshot?: any
-  ): void {
-    const {options, value} = this.props;
-    if (options !== prevProps.options) {
+  componentDidUpdate(prevProps: FieldProps) {
+    const {options, value, selectMode} = this.props;
+    if (options !== prevProps.options && selectMode === 'chained') {
       this.setState(this.computed(value, options));
     }
   }
