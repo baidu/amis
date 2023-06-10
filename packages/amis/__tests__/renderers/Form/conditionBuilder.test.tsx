@@ -670,7 +670,7 @@ test('Renderer:condition-builder with selectMode', async () => {
   fireEvent.click(await findByText('请选择字段'));
 
   expect(
-    container.querySelector('.cxd-CBGroup-field  .cxd-TreeSelection')
+    container.querySelector('.cxd-TreeSelection')
   ).toBeInTheDocument();
   // expect(container).toMatchSnapshot();
 });
