@@ -498,6 +498,7 @@ export class BaseTransferRenderer<
       resultSearchable = false,
       statistics,
       labelField,
+      valueField,
       virtualThreshold,
       itemHeight,
       loadingConfig,
@@ -552,6 +553,7 @@ export class BaseTransferRenderer<
           resultSearchPlaceholder={resultSearchPlaceholder}
           statistics={statistics}
           labelField={labelField}
+          valueField={valueField}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
           onSelectAll={this.onSelectAll}

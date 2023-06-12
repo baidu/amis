@@ -5,7 +5,8 @@ import {
   FormBaseControl,
   Schema,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  createObject
 } from 'amis-core';
 import {
   FormBaseControlSchema,
@@ -74,6 +75,16 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
    * 是否显示并或切换键按钮，只在简单模式下有用
    */
   showANDOR?: boolean;
+
+  /**
+   * 表达式：控制按钮“添加条件”的显示
+   */
+  addBtnVisibleOn?: string;
+
+  /**
+   * 表达式：控制按钮“添加条件组”的显示
+   */
+  addConditionVisible?: string;
 }
 
 export interface ConditionBuilderProps
@@ -98,6 +109,30 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
     return pickerIcon ? render('picker-icon', pickerIcon) : undefined;
   }
 
+  @autobind
+  getAddBtnVisible(param: {depth: number; breadth: number}) {
+    const {data, addBtnVisibleOn} = this.props;
+    if (addBtnVisibleOn && isPureVariable(addBtnVisibleOn)) {
+      return resolveVariableAndFilter(
+        addBtnVisibleOn,
+        createObject(data, param)
+      );
+    }
+    return true;
+  }
+
+  @autobind
+  getAddGroupBtnVisible(param: {depth: number; breadth: number}) {
+    const {data, addGroupBtnVisibleOn} = this.props;
+    if (addGroupBtnVisibleOn && isPureVariable(addGroupBtnVisibleOn)) {
+      return resolveVariableAndFilter(
+        addGroupBtnVisibleOn,
+        createObject(data, param)
+      );
+    }
+    return true;
+  }
+
   render() {
     const {className, classnames: cx, style, pickerIcon, ...rest} = this.props;
 
@@ -117,6 +152,8 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
         <ConditionBuilderWithRemoteOptions
           renderEtrValue={this.renderEtrValue}
           pickerIcon={this.renderPickerIcon()}
+          isAddBtnVisibleOn={this.getAddBtnVisible}
+          isAddGroupBtnVisibleOn={this.getAddGroupBtnVisible}
           {...rest}
           formula={formula}
         />
