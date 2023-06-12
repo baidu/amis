@@ -43,7 +43,7 @@ export class ChainedDropdownSelection extends BaseSelection<
 
   componentDidUpdate(prevProps: ChainedDropDownSelectionProps) {
     const {options, value} = this.props;
-    if (options !== prevProps.options) {
+    if (options !== prevProps.options || prevProps.value !== value) {
       this.setState(this.computed(value, options));
     }
   }
@@ -74,7 +74,6 @@ export class ChainedDropdownSelection extends BaseSelection<
 
   @autobind
   handleSelect(index: number, value: string) {
-    console.log(index, value);
     // 当前层级点击时，需要重新设置下values的值，以及重新计算stacks列表
     const {values} = this.state;
     values.splice(index, values.length - index);

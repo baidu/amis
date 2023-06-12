@@ -12,11 +12,15 @@ import {
   localeable,
   LocaleProps,
   findTree,
+  filterTree,
   noop,
   isMobile
 } from 'amis-core';
+import {matchSorter} from 'match-sorter';
+
 import {Icon} from './icons';
 import SearchBox from './SearchBox';
+import {Option} from './Select';
 
 export interface DropDownSelectionProps
   extends ThemeProps,
@@ -50,39 +54,28 @@ class DropDownSelection extends BaseSelection<
   }
 
   onSearch(text: string) {
-    let txt = text.toLowerCase();
-
-    this.setState({searchText: txt});
+    this.setState({searchText: text});
   }
 
   filterOptions(options: any[]) {
-    const {valueField = 'value'} = this.props;
-    const txt = this.state.searchText;
-    if (!txt) {
+    const {valueField = 'value', labelField} = this.props;
+    const text = this.state.searchText;
+    if (!text) {
       return this.props.options;
     }
-    return options
-      .map((item: any) => {
-        if (item.children) {
-          let children = item.children.filter((child: any) => {
-            return (
-              child[valueField].toLowerCase().includes(txt) ||
-              child.label.toLowerCase().includes(txt)
-            );
-          });
-          return children.length > 0
-            ? Object.assign({}, item, {children}) // 需要copy一份，防止覆盖原始数据
-            : false;
-        } else {
-          return item[valueField].toLowerCase().includes(txt) ||
-            item.label.toLowerCase().includes(txt)
-            ? item
-            : false;
-        }
-      })
-      .filter((item: any) => {
-        return !!item;
-      });
+    return filterTree(
+      options,
+      (option: Option, key: number, level: number, paths: Array<Option>) => {
+        return !!(
+          (Array.isArray(option.children) && option.children.length) ||
+          !!matchSorter([option].concat(paths), text, {
+            keys: [labelField || 'label', valueField || 'value']
+          }).length
+        );
+      },
+      0,
+      true
+    );
   }
 
   // 选了值，还原options
