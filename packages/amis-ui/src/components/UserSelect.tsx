@@ -440,7 +440,7 @@ export class UserSelect extends React.Component<
     } = this.props;
     const _selection = this.props.selection?.concat() || [];
     if (Array.isArray(options?.[0]?.leftOptions)) {
-      eachTree(options?.[0].leftOptions, (item: Option) => {
+      eachTree(options[0].leftOptions, (item: Option) => {
         const index = _selection.findIndex(
           (item2: Option) => item2[valueField] === item[valueField]
         );
