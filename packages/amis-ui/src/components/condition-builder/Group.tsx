@@ -46,8 +46,8 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   selectMode?: 'list' | 'tree' | 'chained';
   isCollapsed?: boolean; // 是否折叠
   depth: number;
-  addBtnVisibleOn?: string;
-  addGroupBtnVisibleOn?: string;
+  isAddBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
+  isAddGroupBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
 }
 
 export class ConditionGroup extends React.Component<
@@ -191,8 +191,8 @@ export class ConditionGroup extends React.Component<
       renderEtrValue,
       draggable,
       depth,
-      addBtnVisibleOn,
-      addGroupBtnVisibleOn
+      isAddBtnVisibleOn,
+      isAddGroupBtnVisibleOn
     } = this.props;
     const {isCollapsed} = this.state;
 
@@ -203,22 +203,10 @@ export class ConditionGroup extends React.Component<
           : value!.children
         : null;
 
-    let addConditionVisibleBool = true;
-    let addConditionGroupVisibleBool = true;
-
     const param = {depth, breadth: body?.length ?? 0};
-    if (isPureVariable(addBtnVisibleOn)) {
-      addConditionVisibleBool = resolveVariableAndFilter(
-        addBtnVisibleOn,
-        param
-      );
-    }
-    if (isPureVariable(addGroupBtnVisibleOn)) {
-      addConditionGroupVisibleBool = resolveVariableAndFilter(
-        addGroupBtnVisibleOn,
-        param
-      );
-    }
+    const addConditionVisibleBool = isAddBtnVisibleOn?.(param) ?? true;
+    const addConditionGroupVisibleBool =
+      isAddGroupBtnVisibleOn?.(param) ?? true;
 
     return (
       <div className={cx('CBGroup')} data-group-id={value?.id}>
@@ -293,8 +281,8 @@ export class ConditionGroup extends React.Component<
                   selectMode={selectMode}
                   isCollapsed={isCollapsed}
                   depth={depth}
-                  addBtnVisibleOn={addBtnVisibleOn}
-                  addGroupBtnVisibleOn={addGroupBtnVisibleOn}
+                  isAddBtnVisibleOn={isAddBtnVisibleOn}
+                  isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
                 />
               ))
             ) : (

@@ -5,7 +5,8 @@ import {
   FormBaseControl,
   Schema,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  createObject
 } from 'amis-core';
 import {
   FormBaseControlSchema,
@@ -75,6 +76,10 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
    * 是否显示并或切换键按钮，只在简单模式下有用
    */
   showANDOR?: boolean;
+
+  addBtnVisibleOn?: boolean;
+
+  addConditionVisible?: boolean;
 }
 
 export interface ConditionBuilderProps
@@ -100,7 +105,16 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
   }
 
   render() {
-    const {className, classnames: cx, style, pickerIcon, ...rest} = this.props;
+    const {
+      className,
+      classnames: cx,
+      style,
+      pickerIcon,
+      addBtnVisibleOn,
+      addGroupBtnVisibleOn,
+      data,
+      ...rest
+    } = this.props;
 
     // 处理一下formula类型值的变量列表
     let formula = this.props.formula ? {...this.props.formula} : undefined;
@@ -111,6 +125,27 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
         this.props.data,
         '| raw'
       );
+    }
+
+    let isAddBtnVisibleOn = (param: {depth: number; breadth: number}) => true;
+    let isAddGroupBtnVisibleOn = (param: {depth: number; breadth: number}) =>
+      true;
+
+    if (isPureVariable(addBtnVisibleOn)) {
+      isAddBtnVisibleOn = (param: {depth: number; breadth: number}) => {
+        return resolveVariableAndFilter(
+          addBtnVisibleOn,
+          createObject(data, param)
+        );
+      };
+    }
+    if (isPureVariable(addGroupBtnVisibleOn)) {
+      isAddGroupBtnVisibleOn = (param: {depth: number; breadth: number}) => {
+        return resolveVariableAndFilter(
+          addGroupBtnVisibleOn,
+          createObject(data, param)
+        );
+      };
     }
 
     return (
@@ -124,6 +159,9 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
         <ConditionBuilderWithRemoteOptions
           renderEtrValue={this.renderEtrValue}
           pickerIcon={this.renderPickerIcon()}
+          data={data}
+          isAddBtnVisibleOn={isAddBtnVisibleOn}
+          isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
           {...rest}
           formula={formula}
         />
