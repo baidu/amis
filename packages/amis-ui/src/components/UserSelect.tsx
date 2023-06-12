@@ -20,7 +20,6 @@ import Spinner, {SpinnerExtraProps} from './Spinner';
 import flatten from 'lodash/flatten';
 import {findDOMNode} from 'react-dom';
 import {Api, PlainObject} from 'amis-core';
-import cloneDeep from 'lodash/cloneDeep';
 
 export interface UserSelectProps
   extends ThemeProps,
@@ -439,24 +438,30 @@ export class UserSelect extends React.Component<
       labelField = 'label',
       options = []
     } = this.props;
-    const _selection = cloneDeep(this.props.selection) || [];
+    const _selection = this.props.selection?.concat() || [];
     if (Array.isArray(options?.[0]?.leftOptions)) {
       eachTree(options?.[0].leftOptions, (item: Option) => {
-        const res = _selection.find(
+        const index = _selection.findIndex(
           (item2: Option) => item2[valueField] === item[valueField]
         );
-        if (res) {
-          res.label = item[labelField];
+        if (!!~index) {
+          _selection.splice(index, 1, {
+            ..._selection[index],
+            label: item[labelField]
+          });
         }
       });
     }
 
     eachTree(options, (item: Option) => {
-      const res = _selection.find(
+      const index = _selection.findIndex(
         (item2: Option) => item2[valueField] === item[valueField]
       );
-      if (res) {
-        res.label = item[labelField];
+      if (!!~index) {
+        _selection.splice(index, 1, {
+          ..._selection[index],
+          label: item[labelField]
+        });
       }
     });
     return _selection;
