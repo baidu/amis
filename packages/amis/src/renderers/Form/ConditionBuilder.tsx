@@ -77,9 +77,15 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
    */
   showANDOR?: boolean;
 
-  addBtnVisibleOn?: boolean;
+  /**
+   * 表达式：控制按钮“添加条件”的显示
+   */
+  addBtnVisibleOn?: string;
 
-  addConditionVisible?: boolean;
+  /**
+   * 表达式：控制按钮“添加条件组”的显示
+   */
+  addConditionVisible?: string;
 }
 
 export interface ConditionBuilderProps
