@@ -270,14 +270,14 @@ test('evalute:literal', async () => {
 
 test('evalute:variableName', async () => {
   const data = {
-    'a-b': 'c',
+    'a_b': 'c',
     '222': 10222,
     '222_221': 233,
     '222_abcde': 'abcde',
     '222-221': 333
   };
 
-  expect(await evaluateForAsync('${a-b}', data)).toBe('c');
+  expect(await evaluateForAsync('${a_b}', data)).toBe('c');
   expect(await evaluateForAsync('${222}', data)).toBe(222);
   expect(await evaluateForAsync('${222_221}', data)).toBe('233');
   expect(await evaluateForAsync('${222-221}', data)).toBe(1);
