@@ -22,6 +22,7 @@ import {
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchemaBase} from './Form';
 import {
+  ActionObject,
   BaseApiObject,
   BaseSchemaWithoutType,
   ClassName,
@@ -794,11 +795,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               minWidth: this.target ? this.target.offsetWidth : undefined
             }}
             offset={offset}
-            onHide={this.hanldeClose}
+            onHide={this.handleClose}
             overlay
           >
             {render('popOver-auto-fill-form', form, {
-              onSubmit: this.hanldeSubmit
+              onAction: this.handleAction,
+              onSubmit: this.handleSubmit
             })}
           </PopOver>
         </Overlay>
@@ -810,19 +812,25 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
   // 参照录入popOver提交
   @autobind
-  hanldeSubmit(values: any) {
+  handleSubmit(values: any) {
     const {onBulkChange, autoFill} = this.props;
     if (!autoFill || (autoFill && !autoFill?.hasOwnProperty('api'))) {
       return;
     }
 
     this.updateAutoFillData(values.selectedItems);
-
-    this.hanldeClose();
+    this.handleClose();
   }
 
   @autobind
-  hanldeClose() {
+  handleAction(e: React.UIEvent<any>, action: ActionObject, data: object) {
+    if (action.actionType === 'cancel') {
+      this.handleClose();
+    }
+  }
+
+  @autobind
+  handleClose() {
     this.setState({
       isOpened: false
     });

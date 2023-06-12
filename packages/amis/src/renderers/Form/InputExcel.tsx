@@ -270,8 +270,25 @@ export default class ExcelControl extends React.PureComponent<
 
     if (parseMode === 'array') {
       worksheet.eachRow((row: any, rowNumber: number) => {
-        const values = row.values;
+        let values = row.values;
         values.shift(); // excel 返回的值是从 1 开始的，0 节点永远是 null
+        if (plainText) {
+          values = values.map((item: any) => {
+            if (item instanceof Object) {
+              if (item.hyperlink) {
+                if (item.hyperlink.startsWith('mailto:')) {
+                  return item.hyperlink.substring(7);
+                }
+                return item.hyperlink;
+              } else if (item.result) {
+                return item.result;
+              } else if (item.richText) {
+                return this.richText2PlainString(item);
+              }
+            }
+            return item;
+          });
+        }
         result.push(values);
       });
       return result;
@@ -305,9 +322,7 @@ export default class ExcelControl extends React.PureComponent<
                 } else if (cell.type === ExcelValueType.Formula) {
                   value = cell.value.result;
                 } else if (cell.type === ExcelValueType.RichText) {
-                  value = cell.value.richText
-                    .map((item: any) => item.text)
-                    .join('');
+                  value = this.richText2PlainString(cell.value);
                 } else if (cell.type === ExcelValueType.Error) {
                   value = '';
                 }

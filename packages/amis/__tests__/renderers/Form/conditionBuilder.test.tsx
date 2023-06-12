@@ -554,7 +554,7 @@ test('Renderer:condition-builder with source fields', async () => {
             type: 'condition-builder',
             label: '条件组件',
             name: 'conditions',
-            source: '/api/condition-fields'
+            source: '/api/condition-fields/custom'
           }
         ]
       },
@@ -670,7 +670,7 @@ test('Renderer:condition-builder with selectMode', async () => {
   fireEvent.click(await findByText('请选择字段'));
 
   expect(
-    container.querySelector('.cxd-CBGroup-field  .cxd-TreeSelection')
+    container.querySelector('.cxd-TreeSelection')
   ).toBeInTheDocument();
   // expect(container).toMatchSnapshot();
 });

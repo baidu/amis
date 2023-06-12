@@ -53,7 +53,7 @@ export interface ConditionItemProps extends ThemeProps, LocaleProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
-  selectMode?: 'list' | 'tree';
+  selectMode?: 'list' | 'tree' | 'chained';
 }
 
 export class ConditionItem extends React.Component<ConditionItemProps> {

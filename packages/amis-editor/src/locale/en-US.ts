@@ -3992,5 +3992,80 @@ extendLocale('en-US', {
   'f1ca0d305f3251a81f361a2dc8e11fff':
     'Triggered when moving out the entire row',
   '41c5c859a80b635c23b3b4d1d8b44efb': 'Selected row',
-  'f87912f19be48f36e4e261e585764d6e': 'Unselected row'
+  'f87912f19be48f36e4e261e585764d6e': 'Unselected row',
+  'f97f8b90f09fb7df39c5c9ae3554b4c7': 'Update list records',
+  '0449dab523020003eee89a0751e1c003': 'Content area adaptive height',
+  'e406488d1b9545168eb1896e35139bf2': 'Confirm button copy',
+  'd919d62d7e5ec5cb63ad47e5dc347a7e': 'Cancel button copy',
+  'b12df8decf62700970e08b9b2ebce1f8': 'Confirm Button Style',
+  '7f29931020c2d8ce97b8043a933db151': 'Cancel Button Style',
+  '1b43b43e692a5b6b2f6ec1417791a550': 'Remote request polling ended',
+  '0de773dedbe5875ca4529e7d0ce9d2bf':
+    'Triggered after asyncApi remote request polling ends',
+  '9bf078fb5589f2c09031f1f2b5a8d2b1':
+    'After setting this property, after the form is submitted and sent to the save interface, it will continue to poll for requests to that interface until the finished property is returned as true',
+  'f63ba7e3c9d8de0b8b4f769055a36d2e':
+    'After setting this property, after the form requests initApi, it will continue to poll for requests to the interface until the finished property is returned as true',
+  '58477471b3bb8ad53fe9ab18a244868b': 'add rows',
+  '6070fdf451b08e4302a7dab560771222':
+    'Triggered when clicking the add button in the bottom left corner or the add button in the right action bar of a certain line',
+  'c9f63503ee66082fc00c3e6eac57a95f': 'List Record',
+  '7b25d5ff93da66fe95b5409731bb9838': 'Add Row Record Index',
+  '5e3640e4bc8efbe00a7b7c6ba169560c': 'Confirm Add',
+  '008ae858112dcc7739985045e4326f3a':
+    "Activate the 'confirm mode', click the add button, fill in the data, and click the 'save' button to trigger",
+  '1fb1cbe49c3e72c2b5f4e0151a4cb5d9': 'Add Line Record',
+  '3fdaeadf0e8a3154ae62784f04138c28': 'Successfully added',
+  'bd4ef227fe8aae88ae6aa97236c0e9bb':
+    'Trigger when "Confirm Mode" is enabled and "Add Interface" is configured, and "Save" is clicked to successfully add it',
+  '6452a05591d7402a8bcd9fadc950c449': 'Add failed',
+  'bd7c39d10dbf6985d2be2d9a4fdcccf7':
+    'Turn on "Confirm Mode" and configure "New Interface". Trigger when calling interface fails after clicking "Save"',
+  '37122b9e4499da38258b3d51b09d68a1':
+    'Error message returned by the interface after request failure',
+  '88ebffeee507da0f0d039eb2d05f7e2c': 'Edit Line',
+  'daf24d1f83e1b4fce2f57a6b041ddba6':
+    'Triggered when clicking the "Edit" button on the right side of a row',
+  'a9e009a9936bf5bcc9d4eabcb3e952e0': 'Record in row',
+  'e756ec22a0f897c4dd886c5f4a95b7a6': 'Record index of the row',
+  '4271f29faca65d7840ad6bb2c4a7b8c6': 'Confirm Editing',
+  '562f54a2fec7a68f85ff192a68cf69f2':
+    "Activate the 'Confirm Mode', click the 'Edit' button, fill in the data, and click the 'Save' button to trigger",
+  '3bb47b67994cb374e601fab35f63bc8e': 'Successfully edited',
+  'b394745a8a77179da0000293638e8a56':
+    'Triggered when "confirm mode" is enabled and "editing interface" is configured, and "save" is clicked to successfully edit',
+  '9304e8f4c324b5882b550caa971b64b8': 'Editing failed',
+  'b9d277c3ffab7d4b955ad10308c7ae0a':
+    'Turn on "confirmation mode" and configure "editing interface". Trigger when calling interface fails after clicking "Save"',
+  '650bccdd6f99fe5fc4ca6cb8788e7cb4':
+    'Error message returned after requesting an error',
+  '947fa341a6d676d7f25bae6bef8342cd': 'Delete Row',
+  '7508f6d66d920323d87a9f9d58487a40':
+    'Triggered when the "Delete" button is clicked on the right side of a row',
+  '0007d170de017dafc266aa03926d7f00': 'Successfully deleted',
+  '13640e78822f62b7b71bfabb4604025e':
+    "Configured 'Delete Interface', triggered when the interface is successfully called",
+  'acf0664a54dc58d9d0377bb56e162092': 'Delete failed',
+  '14d36ca583bcbfc5516a000eb06ccedd':
+    "Configured 'delete interface', triggered when interface call fails",
+  '692dc28abc42931daca8fa12d69d5c99': 'Triggered when table data changes',
+  'f8692d409bb7f122a374872e01efd03a': 'Add Row Data',
+  '459fd144ee129b501545d19c169269e9': 'Insert Position',
+  '196e71fa869b8410088b4ceb54aa7988':
+    'Please enter the line number. If it is blank, insert it in the header',
+  'a26858cccbc451fd53515416a5968550': 'Add a new line',
+  'c520ed9911d349c7974116d3d1e1423e': 'Add Fields',
+  '344c1c96f9cb3275f972929755b4e238': 'Delete a row of data',
+  '8910acd418e45a30f01e7e531b90b61b': 'Delete Method',
+  'ebf62450c3fb11c0b7e06da2d7535d6c': 'Specify line number',
+  '4bf7636a84714fac140e42b4cee242d4': 'Conditional expression',
+  '7708fb1394ce722ee73326437a66c77a': 'Delete Scope',
+  '015f108b96c70bba6511091e159db0ac':
+    'Please enter the line number, and separate multiple entries with English commas',
+  '63aeb2082d7cc0a316fc1e44913d7749': 'Delete Condition',
+  '4622a4ce221f9b79aa3396cc461adc75': 'Clear component data',
+  '800dfdd90200bd47bb4bb83def4fea56': 'today',
+  'a6a93b404bc039cded728683af5d625d': 'Shortcut Key Name',
+  '快去添加事件，让你的产品动起来吧':
+    'Quickly add events and get your product moving'
 });

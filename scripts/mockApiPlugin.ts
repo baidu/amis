@@ -27,6 +27,22 @@ export default function mockApiPlugin(options: {} = {}): Plugin {
     enforce: 'pre' as 'pre',
     apply: 'serve' as 'serve',
     configureServer(server) {
+      // examples/index 页面，不处理会直接吐出 html 文件
+      server.middlewares.use('/examples/index', async (req, res, next) => {
+        if (req.originalUrl !== '/examples/index') {
+          next();
+          return;
+        }
+
+        let template = fs.readFileSync(
+          path.resolve(__dirname, '../index.html'),
+          'utf-8'
+        );
+        template = await server.transformIndexHtml('/index.html', template);
+        res.statusCode = 200;
+        res.end(template);
+      });
+
       server.middlewares.use('/api', (req, res, next) => {
         initExpress(req, res, next, () => {
           handler(req, res);

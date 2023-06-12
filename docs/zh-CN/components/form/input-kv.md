@@ -198,13 +198,14 @@ key 只能是字符串，因此输入格式是 `input-text`，但 value 格式�
 
 ## 属性表
 
-| 属性名           | 类型      | 默认值         | 说明               |
-| ---------------- | --------- | -------------- | ------------------ |
-| valueType        | `type`    | `"input-text"` | 值类型             |
-| keyPlaceholder   | `string`  |                | key 的提示信息的   |
-| valuePlaceholder | `string`  |                | value 的提示信息的 |
-| draggable        | `boolean` | true           | 是否可拖拽排序     |
-| defaultValue     |           | `''`           | 默认值             |
+| 属性名           | 类型      | 默认值         | 说明                         |
+| ---------------- | --------- | -------------- | ---------------------------- |
+| valueType        | `type`    | `"input-text"` | 值类型                       |
+| keyPlaceholder   | `string`  |                | key 的提示信息的             |
+| valuePlaceholder | `string`  |                | value 的提示信息的           |
+| draggable        | `boolean` | true           | 是否可拖拽排序               |
+| defaultValue     |           | `''`           | 默认值                       |
+| autoParseJSON    | `boolean` | `true`         | 是否自动转换 json 对象字符串 |
 
 ## 事件表
 
