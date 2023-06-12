@@ -153,7 +153,9 @@ export class CheckboxControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('description'),
-              getSchemaTpl('autoFillApi')
+              getSchemaTpl('autoFillApi', {
+                trigger: 'change'
+              })
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),
