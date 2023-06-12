@@ -439,6 +439,16 @@ export class UserSelect extends React.Component<
       options = []
     } = this.props;
     const _selection = this.props.selection?.slice() || [];
+    if (Array.isArray(options?.[0]?.leftOptions)) {
+      eachTree(options?.[0].leftOptions, (item: Option) => {
+        const res = _selection.find(
+          (item2: Option) => item2[valueField] === item[valueField]
+        );
+        if (res) {
+          res.label = item[labelField];
+        }
+      });
+    }
 
     eachTree(options, (item: Option) => {
       const res = _selection.find(
