@@ -110,6 +110,17 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
     return pickerIcon ? render('picker-icon', pickerIcon) : undefined;
   }
 
+  @autobind
+  getBtnVisible(visibleVar?: string) {
+    const {data} = this.props;
+    if (visibleVar && isPureVariable(visibleVar)) {
+      return (param: {depth: number; breadth: number}) => {
+        return resolveVariableAndFilter(visibleVar, createObject(data, param));
+      };
+    }
+    return () => true;
+  }
+
   render() {
     const {
       className,
@@ -133,27 +144,6 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
       );
     }
 
-    let isAddBtnVisibleOn = (param: {depth: number; breadth: number}) => true;
-    let isAddGroupBtnVisibleOn = (param: {depth: number; breadth: number}) =>
-      true;
-
-    if (isPureVariable(addBtnVisibleOn)) {
-      isAddBtnVisibleOn = (param: {depth: number; breadth: number}) => {
-        return resolveVariableAndFilter(
-          addBtnVisibleOn,
-          createObject(data, param)
-        );
-      };
-    }
-    if (isPureVariable(addGroupBtnVisibleOn)) {
-      isAddGroupBtnVisibleOn = (param: {depth: number; breadth: number}) => {
-        return resolveVariableAndFilter(
-          addGroupBtnVisibleOn,
-          createObject(data, param)
-        );
-      };
-    }
-
     return (
       <div
         className={cx(
@@ -166,8 +156,8 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
           renderEtrValue={this.renderEtrValue}
           pickerIcon={this.renderPickerIcon()}
           data={data}
-          isAddBtnVisibleOn={isAddBtnVisibleOn}
-          isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
+          isAddBtnVisibleOn={this.getBtnVisible(addBtnVisibleOn)}
+          isAddGroupBtnVisibleOn={this.getBtnVisible(addGroupBtnVisibleOn)}
           {...rest}
           formula={formula}
         />
