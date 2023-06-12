@@ -187,6 +187,7 @@
       white-space: nowrap;
       align-items: flex-start;
       padding-top: var(--Form-label-paddingTop);
+      height: px2rem(30px);
 
       &.is-disabled {
         pointer-events: none;
