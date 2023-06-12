@@ -111,27 +111,31 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
   }
 
   @autobind
-  getBtnVisible(visibleVar?: string) {
-    const {data} = this.props;
-    if (visibleVar && isPureVariable(visibleVar)) {
-      return (param: {depth: number; breadth: number}) => {
-        return resolveVariableAndFilter(visibleVar, createObject(data, param));
-      };
+  getAddBtnVisible(param: {depth: number; breadth: number}) {
+    const {data, addBtnVisibleOn} = this.props;
+    if (addBtnVisibleOn && isPureVariable(addBtnVisibleOn)) {
+      return resolveVariableAndFilter(
+        addBtnVisibleOn,
+        createObject(data, param)
+      );
     }
-    return () => true;
+    return true;
+  }
+
+  @autobind
+  getAddGroupBtnVisible(param: {depth: number; breadth: number}) {
+    const {data, addGroupBtnVisibleOn} = this.props;
+    if (addGroupBtnVisibleOn && isPureVariable(addGroupBtnVisibleOn)) {
+      return resolveVariableAndFilter(
+        addGroupBtnVisibleOn,
+        createObject(data, param)
+      );
+    }
+    return true;
   }
 
   render() {
-    const {
-      className,
-      classnames: cx,
-      style,
-      pickerIcon,
-      addBtnVisibleOn,
-      addGroupBtnVisibleOn,
-      data,
-      ...rest
-    } = this.props;
+    const {className, classnames: cx, style, pickerIcon, ...rest} = this.props;
 
     // 处理一下formula类型值的变量列表
     let formula = this.props.formula ? {...this.props.formula} : undefined;
@@ -155,9 +159,8 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
         <ConditionBuilderWithRemoteOptions
           renderEtrValue={this.renderEtrValue}
           pickerIcon={this.renderPickerIcon()}
-          data={data}
-          isAddBtnVisibleOn={this.getBtnVisible(addBtnVisibleOn)}
-          isAddGroupBtnVisibleOn={this.getBtnVisible(addGroupBtnVisibleOn)}
+          isAddBtnVisibleOn={this.getAddBtnVisible}
+          isAddGroupBtnVisibleOn={this.getAddGroupBtnVisible}
           {...rest}
           formula={formula}
         />
