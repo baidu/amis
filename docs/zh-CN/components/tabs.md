@@ -530,6 +530,46 @@ order: 68
 }
 ```
 
+内容来源于 source
+
+```schema: scope="body"
+{
+    "type": "page",
+    "data": {
+        "arr": [
+            {
+                "a": "收入",
+                "b": 199,
+                "key": "a"
+            },
+
+            {
+                "a": "支出",
+                "b": 299,
+                "key": "b"
+            }
+        ]
+    },
+    "body": [
+        {
+            "type": "tabs",
+            "activeKey": "b",
+            "source": "${arr}",
+            "tabs": [
+                {
+                    "title": "${a}",
+                    "hash": "${key}",
+                    "body": {
+                        "type": "tpl",
+                        "tpl": "金额：${b|number}元"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
 #### 配置索引值
 
 单个`tab`上不要配置`hash`属性，配置需要展示的`tab`索引值，`0`代表第一个。支持变量，如`"${id}"`
