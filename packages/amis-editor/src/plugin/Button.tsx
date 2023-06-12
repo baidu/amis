@@ -54,9 +54,15 @@ export class ButtonPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }
@@ -70,9 +76,15 @@ export class ButtonPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }
@@ -86,9 +98,15 @@ export class ButtonPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }

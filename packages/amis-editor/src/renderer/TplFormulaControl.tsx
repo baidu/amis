@@ -74,7 +74,7 @@ export class TplFormulaControl extends React.Component<
   TplFormulaControlState
 > {
   static defaultProps: Partial<TplFormulaControlProps> = {
-    variableMode: 'tabs',
+    variableMode: 'tree',
     requiredDataPropsVariables: false,
     placeholder: '请输入'
   };
@@ -116,10 +116,6 @@ export class TplFormulaControl extends React.Component<
       }
     );
 
-    const variablesArr = await getVariables(this);
-    this.setState({
-      variables: variablesArr
-    });
     if (this.tooltipRef.current) {
       this.tooltipRef.current.addEventListener(
         'mouseleave',
@@ -135,15 +131,6 @@ export class TplFormulaControl extends React.Component<
     }
   }
 
-  async componentDidUpdate(prevProps: TplFormulaControlProps) {
-    if (this.props.data !== prevProps.data) {
-      const variablesArr = await getVariables(this);
-      this.setState({
-        variables: variablesArr
-      });
-    }
-  }
-
   componentWillUnmount() {
     if (this.tooltipRef.current) {
       this.tooltipRef.current.removeEventListener(
@@ -156,15 +143,6 @@ export class TplFormulaControl extends React.Component<
     }
     this.editorPlugin?.dispose();
     this.unReaction?.();
-  }
-
-  @autobind
-  onExpressionClick(expression: string, brace?: Array<CodeMirror.Position>) {
-    this.setState({
-      formulaPickerValue: expression,
-      formulaPickerOpen: true,
-      expressionBrace: brace
-    });
   }
 
   @autobind
@@ -308,12 +286,19 @@ export class TplFormulaControl extends React.Component<
   }
 
   @autobind
-  handleFormulaClick() {
+  async handleFormulaClick(e: React.MouseEvent, type?: string) {
+    const variablesArr = await getVariables(this);
     this.setState({
-      formulaPickerOpen: true,
-      formulaPickerValue: '',
-      expressionBrace: undefined
+      variables: variablesArr,
+      formulaPickerOpen: true
     });
+
+    if (type !== 'update') {
+      this.setState({
+        formulaPickerValue: '',
+        expressionBrace: undefined
+      });
+    }
   }
 
   @autobind
@@ -329,7 +314,6 @@ export class TplFormulaControl extends React.Component<
     const variables = this.props.variables || this.state.variables;
     this.editorPlugin = new FormulaPlugin(editor, {
       getProps: () => ({...this.props, variables}),
-      onExpressionClick: this.onExpressionClick,
       onExpressionMouseEnter: this.onExpressionMouseEnter,
       showPopover: false,
       showClearIcon: true
@@ -424,9 +408,7 @@ export class TplFormulaControl extends React.Component<
             className="ae-TplFormulaControl-tooltip"
             style={tooltipStyle}
             ref={this.tooltipRef}
-            onClick={() => {
-              this.setState({formulaPickerOpen: true});
-            }}
+            onClick={e => this.handleFormulaClick(e, 'update')}
           ></div>
         </TooltipWrapper>
 

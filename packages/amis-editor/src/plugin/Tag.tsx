@@ -55,13 +55,25 @@ export class TagPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             },
-            label: {
-              type: 'string',
-              title: '标签名称'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                label: {
+                  type: 'object',
+                  title: '标签名称'
+                }
+              }
             }
           }
         }
@@ -75,13 +87,25 @@ export class TagPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             },
-            label: {
-              type: 'string',
-              title: '标签名称'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                label: {
+                  type: 'object',
+                  title: '标签名称'
+                }
+              }
             }
           }
         }
@@ -95,13 +119,25 @@ export class TagPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             },
-            label: {
-              type: 'string',
-              title: '标签名称'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                label: {
+                  type: 'object',
+                  title: '标签名称'
+                }
+              }
             }
           }
         }
@@ -115,13 +151,25 @@ export class TagPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             },
-            label: {
-              type: 'string',
-              title: '标签名称'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                label: {
+                  type: 'object',
+                  title: '标签名称'
+                }
+              }
             }
           }
         }

@@ -58,9 +58,10 @@ export class ServicePlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前数据域'
+              title: '数据',
+              description: '当前数据域，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -74,17 +75,23 @@ export class ServicePlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.responseData': {
+            data: {
               type: 'object',
-              title: '响应数据'
-            },
-            'event.data.responseStatus': {
-              type: 'object',
-              title: '响应状态'
-            },
-            'event.data.responseMsg': {
-              type: 'object',
-              title: '响应消息'
+              title: '数据',
+              properties: {
+                responseData: {
+                  type: 'object',
+                  title: '响应数据'
+                },
+                responseStatus: {
+                  type: 'number',
+                  title: '响应状态(0表示成功)'
+                },
+                responseMsg: {
+                  type: 'string',
+                  title: '响应消息'
+                }
+              }
             }
           }
         }
@@ -98,17 +105,23 @@ export class ServicePlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.responseData': {
+            data: {
               type: 'object',
-              title: '响应数据'
-            },
-            'event.data.responseStatus': {
-              type: 'number',
-              title: '响应状态(0表示成功)'
-            },
-            'event.data.responseMsg': {
-              type: 'string',
-              title: '响应消息'
+              title: '数据',
+              properties: {
+                responseData: {
+                  type: 'object',
+                  title: '响应数据'
+                },
+                responseStatus: {
+                  type: 'number',
+                  title: '响应状态(0表示成功)'
+                },
+                responseMsg: {
+                  type: 'string',
+                  title: '响应消息'
+                }
+              }
             }
           }
         }

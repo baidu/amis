@@ -105,7 +105,10 @@ export function makeWrapper(
         this.scopeId = `${info.id}-${info.type}`;
         manager.dataSchema.addScope([], this.scopeId);
         if (info.name) {
-          manager.dataSchema.current.tag = `${info.name}变量`;
+          const nodeSchema = manager.store.getNodeById(info.id)?.schema;
+          const tag = nodeSchema?.title ?? nodeSchema?.name;
+          manager.dataSchema.current.tag = `${tag ?? ''}「${info.name}」`;
+          manager.dataSchema.current.group = '组件上下文';
         }
       }
     }

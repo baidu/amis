@@ -74,9 +74,15 @@ export class TabsPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选项卡索引'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选项卡索引'
+                }
+              }
             }
           }
         }
@@ -102,18 +108,6 @@ export class TabsPlugin extends BasePlugin {
         );
       },
       schema: getArgsWrapper(
-        /*
-        {
-          type: 'input-formula',
-          variables: '${variables}',
-          evalMode: false,
-          variableMode: 'tabs',
-          label: '激活项',
-          size: 'lg',
-          name: 'activeKey',
-          mode: 'horizontal'
-        }
-        */
         getSchemaTpl('formulaControl', {
           name: 'activeKey',
           label: '激活项',

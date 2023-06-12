@@ -93,9 +93,15 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.file': {
+            data: {
               type: 'object',
-              title: '上传的文件'
+              title: '数据',
+              properties: {
+                file: {
+                  type: 'object',
+                  title: '上传的文件'
+                }
+              }
             }
           }
         }
@@ -109,9 +115,15 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '被移除的文件'
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '被移除的文件'
+                }
+              }
             }
           }
         }
@@ -125,9 +137,15 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '远程上传请求成功后返回的结果数据'
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '远程上传请求成功后返回的结果数据'
+                }
+              }
             }
           }
         }
@@ -141,13 +159,19 @@ export class ImageControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '上传的文件'
-            },
-            'event.data.error': {
-              type: 'object',
-              title: '远程上传请求失败后返回的错误信息'
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '上传的文件'
+                },
+                error: {
+                  type: 'object',
+                  title: '远程上传请求失败后返回的错误信息'
+                }
+              }
             }
           }
         }

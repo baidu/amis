@@ -236,7 +236,6 @@ export class EditorManager {
     this.dnd = parent?.dnd || new EditorDNDManager(this, store);
     this.dataSchema =
       parent?.dataSchema || new DataSchema(config.schemas || []);
-    this.dataSchema.current.tag = '系统变量';
 
     /** 初始化变量管理 */
     this.variableManager = new VariableManager(

@@ -29,9 +29,6 @@ export class TimelinePlugin extends BasePlugin {
     ...this.scaffold
   };
 
-  // TODO 事件定义
-  // events = [];
-
   panelTitle = '时间轴';
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) =>

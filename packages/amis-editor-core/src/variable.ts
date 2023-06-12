@@ -104,10 +104,20 @@ export class VariableManager {
       }
 
       /** 初始化变量Scope */
-      dataSchema.addScope(schema, scopeName);
+      dataSchema.addScope(
+        {
+          type: 'object',
+          $id: scopeName,
+          properties: {
+            [scopeName]: {
+              ...schema,
+              title: tagName
+            }
+          }
+        },
+        scopeName
+      );
       dataSchema.switchTo(scopeName);
-      /** 这里的Tag指变量的命名空间中文名称 */
-      dataSchema.current.tag = tagName;
 
       if (afterScopeInsert && typeof afterScopeInsert === 'function') {
         afterScopeInsert(this);

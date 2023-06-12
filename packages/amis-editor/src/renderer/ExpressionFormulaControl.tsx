@@ -45,7 +45,7 @@ export default class ExpressionFormulaControl extends React.Component<
   ExpressionFormulaControlState
 > {
   static defaultProps: Partial<ExpressionFormulaControlProps> = {
-    variableMode: 'tabs',
+    variableMode: 'tree',
     requiredDataPropsVariables: false,
     evalMode: true
   };
@@ -80,20 +80,9 @@ export default class ExpressionFormulaControl extends React.Component<
         });
       }
     );
-
-    const variablesArr = await getVariables(this);
-    this.setState({
-      variables: variablesArr
-    });
   }
 
   async componentDidUpdate(prevProps: ExpressionFormulaControlProps) {
-    if (this.props.data !== prevProps.data) {
-      const variablesArr = await getVariables(this);
-      this.setState({
-        variables: variablesArr
-      });
-    }
     if (prevProps.value !== this.props.value) {
       this.initFormulaPickerValue(this.props.value);
     }
@@ -131,8 +120,21 @@ export default class ExpressionFormulaControl extends React.Component<
     this.props?.onChange?.('');
   }
 
+  @autobind
+  async handleOnClick(
+    e: React.MouseEvent,
+    onClick: (e: React.MouseEvent) => void
+  ) {
+    const variablesArr = await getVariables(this);
+    this.setState({
+      variables: variablesArr
+    });
+
+    return onClick?.(e);
+  }
+
   render() {
-    const {value, className, variableMode, header, ...rest} = this.props;
+    const {value, className, variableMode, header, size, ...rest} = this.props;
     const {formulaPickerValue, variables} = this.state;
 
     const highlightValue = FormulaEditor.highlightValue(
@@ -144,7 +146,6 @@ export default class ExpressionFormulaControl extends React.Component<
 
     // 自身字段
     const selfName = this.props?.data?.name;
-
     return (
       <div className={cx('ae-ExpressionFormulaControl', className)}>
         <PickerContainer
@@ -171,9 +172,9 @@ export default class ExpressionFormulaControl extends React.Component<
           }}
           value={formulaPickerValue}
           onConfirm={this.handleConfirm}
-          size="md"
+          size={size ?? 'lg'}
         >
-          {({onClick}: {onClick: (e: React.MouseEvent) => void}) =>
+          {({onClick}: {onClick: (e: React.MouseEvent) => any}) =>
             formulaPickerValue ? (
               <Button
                 className="btn-configured"
@@ -185,7 +186,7 @@ export default class ExpressionFormulaControl extends React.Component<
                   tooltipClassName: 'btn-configured-tooltip',
                   children: () => renderFormulaValue(highlightValue)
                 }}
-                onClick={onClick}
+                onClick={e => this.handleOnClick(e, onClick)}
               >
                 {renderFormulaValue(highlightValue)}
                 <Icon
@@ -196,7 +197,10 @@ export default class ExpressionFormulaControl extends React.Component<
               </Button>
             ) : (
               <>
-                <Button className="btn-set-expression" onClick={onClick}>
+                <Button
+                  className="btn-set-expression"
+                  onClick={e => this.handleOnClick(e, onClick)}
+                >
                   点击编写表达式
                 </Button>
               </>

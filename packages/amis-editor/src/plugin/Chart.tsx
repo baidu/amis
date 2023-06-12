@@ -25,45 +25,51 @@ const DEFAULT_EVENT_PARAMS = [
   {
     type: 'object',
     properties: {
-      'event.data.componentType': {
-        type: 'string',
-        title: 'componentType'
-      },
-      'event.data.seriesType': {
-        type: 'string',
-        title: 'seriesType'
-      },
-      'event.data.seriesIndex': {
-        type: 'number',
-        title: 'seriesIndex'
-      },
-      'event.data.seriesName': {
-        type: 'string',
-        title: 'seriesName'
-      },
-      'event.data.name': {
-        type: 'string',
-        title: 'name'
-      },
-      'event.data.dataIndex': {
-        type: 'number',
-        title: 'dataIndex'
-      },
-      'event.data.data': {
+      data: {
         type: 'object',
-        title: 'data'
-      },
-      'event.data.dataType': {
-        type: 'string',
-        title: 'dataType'
-      },
-      'event.data.value': {
-        type: 'number',
-        title: 'value'
-      },
-      'event.data.color': {
-        type: 'string',
-        title: 'color'
+        title: '数据',
+        properties: {
+          componentType: {
+            type: 'string',
+            title: 'componentType'
+          },
+          seriesType: {
+            type: 'string',
+            title: 'seriesType'
+          },
+          seriesIndex: {
+            type: 'number',
+            title: 'seriesIndex'
+          },
+          seriesName: {
+            type: 'string',
+            title: 'seriesName'
+          },
+          name: {
+            type: 'string',
+            title: 'name'
+          },
+          dataIndex: {
+            type: 'number',
+            title: 'dataIndex'
+          },
+          data: {
+            type: 'object',
+            title: 'data'
+          },
+          dataType: {
+            type: 'string',
+            title: 'dataType'
+          },
+          value: {
+            type: 'number',
+            title: 'value'
+          },
+          color: {
+            type: 'string',
+            title: 'color'
+          }
+        }
       }
     }
   }
@@ -116,9 +122,10 @@ export class ChartPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前数据域'
+              title: '数据',
+              description: '当前数据域，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -144,13 +151,19 @@ export class ChartPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.name': {
-              type: 'string',
-              title: 'name'
-            },
-            'event.data.selected': {
+            data: {
               type: 'object',
-              title: 'selected'
+              title: '数据',
+              properties: {
+                name: {
+                  type: 'string',
+                  title: 'name'
+                },
+                selected: {
+                  type: 'object',
+                  title: 'selected'
+                }
+              }
             }
           }
         }

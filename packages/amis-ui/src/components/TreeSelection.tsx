@@ -39,10 +39,9 @@ export class TreeSelection extends BaseSelection<
 
   componentDidUpdate(prevProps: TreeSelectionProps) {
     const props = this.props;
-
     if (
-      !this.state.expanded.length &&
-      (props.expand !== prevProps.expand || props.options !== prevProps.options)
+      props.expand !== prevProps.expand ||
+      props.options !== prevProps.options
     ) {
       this.syncExpanded();
     }
@@ -51,7 +50,7 @@ export class TreeSelection extends BaseSelection<
   syncExpanded() {
     const options = this.props.options;
     const mode = this.props.expand;
-    const expanded: Array<string> = [];
+    let expanded: Array<string> = [];
 
     if (!Array.isArray(options)) {
       return;

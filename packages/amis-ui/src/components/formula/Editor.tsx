@@ -22,15 +22,18 @@ import FuncList from './FuncList';
 import VariableList from './VariableList';
 import CodeMirrorEditor from '../CodeMirror';
 import {toast} from '../Toast';
-import {isMobile} from 'amis-core';
+import Switch from '../Switch';
 
 export interface VariableItem {
   label: string;
   value?: string;
+  path?: string; // 路径（label）
   children?: Array<VariableItem>;
   type?: string;
   tag?: string;
   selectMode?: 'tree' | 'tabs';
+  isMember?: boolean; // 是否是数组成员
+  // chunks?: string[]; // 内容块，作为一个整体进行高亮标记
 }
 
 export interface FuncGroup {
@@ -84,6 +87,11 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
    * 当前输入项字段 name: 用于避免循环绑定自身导致无限渲染
    */
   selfVariableName?: string;
+
+  /**
+   * 编辑器配置
+   */
+  editorOptions?: any;
 }
 
 export interface FunctionsProps {
@@ -100,6 +108,8 @@ export interface FunctionProps {
 
 export interface FormulaState {
   focused: boolean;
+  isCodeMode: boolean;
+  expandTree: boolean;
 }
 
 export class FormulaEditor extends React.Component<
@@ -107,7 +117,9 @@ export class FormulaEditor extends React.Component<
   FormulaState
 > {
   state: FormulaState = {
-    focused: false
+    focused: false,
+    isCodeMode: false,
+    expandTree: false
   };
   editorPlugin?: FormulaPlugin;
 
@@ -296,11 +308,17 @@ export class FormulaEditor extends React.Component<
     }
 
     this.editorPlugin?.insertContent(
-      {
-        key: item.value,
-        name: item.label
-      },
-      'variable'
+      item.isMember
+        ? item.value
+        : {
+            key: item.value,
+            name: item.label,
+            path: item.path
+            // chunks: item.chunks
+          },
+      item.isMember ? undefined : 'variable',
+      'cm-field',
+      !this.state.isCodeMode
     );
   }
 
@@ -312,7 +330,24 @@ export class FormulaEditor extends React.Component<
 
   @autobind
   editorFactory(dom: HTMLElement, cm: any) {
-    return editorFactory(dom, cm, this.props);
+    const {editorOptions, ...rest} = this.props;
+    return editorFactory(dom, cm, rest, {
+      lineWrapping: true // 自动换行
+    });
+  }
+
+  @autobind
+  handleIsCodeModeChange(showCode: boolean) {
+    // 重置一下value
+    this.editorPlugin?.setValue(this.editorPlugin?.getValue());
+    // 非源码模式，则mark一下
+    !showCode && this.editorPlugin?.autoMarkText();
+    this.setState({isCodeMode: showCode});
+  }
+
+  @autobind
+  handleExpandTreeChange(expand: boolean) {
+    this.setState({expandTree: expand});
   }
 
   render() {
@@ -329,7 +364,7 @@ export class FormulaEditor extends React.Component<
       classPrefix,
       selfVariableName
     } = this.props;
-    const {focused} = this.state;
+    const {focused, isCodeMode, expandTree} = this.state;
     const customFunctions = Array.isArray(functions) ? functions : [];
     const functionList = [
       ...FormulaEditor.buildDefaultFunctions(doc),
@@ -343,29 +378,49 @@ export class FormulaEditor extends React.Component<
           'is-focused': focused
         })}
       >
-        <section className={cx(`FormulaEditor-content`)}>
-          <header className={cx(`FormulaEditor-header`)}>
-            {__(header || 'FormulaEditor.title')}
-          </header>
-
-          <CodeMirrorEditor
-            className={cx('FormulaEditor-editor')}
-            value={value}
-            onChange={this.handleOnChange}
-            editorFactory={this.editorFactory}
-            editorDidMount={this.handleEditorMounted}
-            onFocus={this.handleFocus}
-            onBlur={this.handleBlur}
+        <section className={cx('FormulaEditor-settings')}>
+          <FuncList
+            className={functionClassName}
+            title={__('FormulaEditor.function')}
+            data={functionList}
+            onSelect={this.handleFunctionSelect}
           />
-        </section>
 
-        <section
-          className={cx('FormulaEditor-settings', {'is-mobile': isMobile()})}
-        >
-          <div className={cx('FormulaEditor-panel')}>
+          <div className={cx(`FormulaEditor-content`)}>
+            <header className={cx(`FormulaEditor-header`)}>
+              {__(header || 'FormulaEditor.title')}
+              <div className={cx(`FormulaEditor-header-toolbar`)}>
+                <span>源码模式</span>
+                <Switch
+                  value={isCodeMode}
+                  onChange={this.handleIsCodeModeChange}
+                />
+              </div>
+            </header>
+
+            <CodeMirrorEditor
+              className={cx('FormulaEditor-editor')}
+              value={value}
+              onChange={this.handleOnChange}
+              editorFactory={this.editorFactory}
+              editorDidMount={this.handleEditorMounted}
+              onFocus={this.handleFocus}
+              onBlur={this.handleBlur}
+            />
+          </div>
+          <div className={cx('FormulaEditor-panel', 'right')}>
             {variableMode !== 'tabs' ? (
               <div className={cx('FormulaEditor-panel-header')}>
                 {__('FormulaEditor.variable')}
+                {variableMode === 'tree' ? (
+                  <div className={cx(`FormulaEditor-header-toolbar`)}>
+                    <span>展开全部</span>
+                    <Switch
+                      value={expandTree}
+                      onChange={this.handleExpandTreeChange}
+                    />
+                  </div>
+                ) : null}
               </div>
             ) : null}
             <div
@@ -381,6 +436,7 @@ export class FormulaEditor extends React.Component<
                   'FormulaEditor-VariableList-root',
                   variableClassName
                 )}
+                expandTree={expandTree}
                 selectMode={variableMode}
                 data={variables!}
                 onSelect={this.handleVariableSelect}
@@ -388,13 +444,6 @@ export class FormulaEditor extends React.Component<
               />
             </div>
           </div>
-
-          <FuncList
-            className={functionClassName}
-            title={__('FormulaEditor.function')}
-            data={functionList}
-            onSelect={this.handleFunctionSelect}
-          />
         </section>
       </div>
     );

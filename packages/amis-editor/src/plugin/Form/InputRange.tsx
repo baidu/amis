@@ -46,9 +46,15 @@ export class RangeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '当前值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'number',
+                  title: '当前滑块值'
+                }
+              }
             }
           }
         }
@@ -62,9 +68,15 @@ export class RangeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '滑块当前值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'number',
+                  title: '当前数值'
+                }
+              }
             }
           }
         }
@@ -78,9 +90,15 @@ export class RangeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '滑块当前值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'number',
+                  title: '当前数值'
+                }
+              }
             }
           }
         }
