@@ -490,7 +490,7 @@ type Value = ValueGroup;
         "label": "条件组件",
         "name": "conditions",
         "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
-        "source": "/api/condition-fields?a=${a}&waitSeconds=2"
+        "source": "/api/condition-fields/custom?a=${a}&waitSeconds=2"
       }
     ]
 }
@@ -500,7 +500,7 @@ type Value = ValueGroup;
 
 > 2.3.0 及以上版本
 
-通过 selectMode 配置组合条件左侧选项类型，可配置项为`list`、`tree`，默认为`list`。两者数据格式相同，只是下拉框展示方式不同，当存在多层 children 嵌套时，建议使用`tree`。
+通过 selectMode 配置组合条件左侧选项类型，可配置项为`list`、`tree`、`chained`，默认为`list`。这三个数据格式基本类似，只是下拉框展示方式不同，`tree`是树形下拉，`chained`为多个级联的下拉。当存在多层 children 嵌套时，建议使用`tree`。
 
 selectMode 为`list`时
 
@@ -636,6 +636,84 @@ selectMode 为`tree`时
             }
           ]
         }
+    ]
+}
+```
+
+> 3.2.0 及以上版本
+
+selectMode 为`chained`时，使用`fields`字段
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "condition-builder",
+          "label": "条件组件",
+          "name": "conditions",
+          "selectMode": "chained",
+          "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+          "fields": [
+            {
+              "label": "文本",
+              "type": "text",
+              "name": "text"
+            },
+            {
+              "label": "数字",
+              "type": "number",
+              "name": "number"
+            },
+            {
+              "label": "布尔",
+              "type": "boolean",
+              "name": "boolean"
+            },
+            {
+              "label": "链式结构",
+              "name": "chained",
+              "children": [
+                {
+                  "label": "Folder A",
+                  "name": "Folder_A",
+                  "children": [
+                    {
+                      "label": "file A",
+                      "name": "file_A",
+                      "type": "number"
+                    },
+                    {
+                      "label": "file B",
+                      "name": "file_B",
+                      "type": "text"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+    ]
+}
+```
+
+selectMode 为`chained`时，使用`source`字段
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "condition-builder",
+        "label": "条件组件",
+        "name": "conditions",
+        "selectMode": "chained",
+        "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+        "source": "/api/condition-fields/chained"
+      }
     ]
 }
 ```
@@ -918,7 +996,7 @@ selectMode 为`tree`时
 
 ## 属性表
 
-| 属性名         | 类型               | 默认值   | 说明                           |
+| 属性名         | 类型                 | 默认值   | 说明                           |
 | -------------- | ------------------ | -------- | ------------------------------ |
 | className      | `string`           |          | 外层 dom 类名                  |
 | fieldClassName | `string`           |          | 输入字段的类名                 |
@@ -929,4 +1007,6 @@ selectMode 为`tree`时
 | showANDOR      | `boolean`          |          | 用于 simple 模式下显示切换按钮 |
 | showNot        | `boolean`          |          | 是否显示「非」按钮             |
 | searchable     | `boolean`          |          | 字段是否可搜索                 |
-| selectMode     | `'list'`、`'tree'` | `'list'` | 组合条件左侧选项类型           |
+| selectMode     | `'list'` \| `'tree'` \| `'chained'`       | `'list'` | 组合条件左侧选项类型。`'chained'`模式需要`3.2.0及以上版本`          |
+| addBtnVisibleOn     | `string`          |          | 表达式：控制按钮“添加条件”的显示。参数为`depth`、`breadth`，分别代表深度、长度。表达式需要返回`boolean`类型`3.2.0及以上版本`          |
+| addGroupBtnVisibleOn     | `string`          |          | 表达式：控制按钮“添加条件组”的显示。参数为`depth`、`breadth`，分别代表深度、长度。表达式需要返回`boolean`类型`3.2.0及以上版本`                 |
