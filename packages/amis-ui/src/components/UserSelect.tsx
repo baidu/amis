@@ -438,14 +438,30 @@ export class UserSelect extends React.Component<
       labelField = 'label',
       options = []
     } = this.props;
-    const _selection = this.props.selection?.slice() || [];
+    const _selection = this.props.selection?.concat() || [];
+    if (Array.isArray(options?.[0]?.leftOptions)) {
+      eachTree(options[0].leftOptions, (item: Option) => {
+        const index = _selection.findIndex(
+          (item2: Option) => item2[valueField] === item[valueField]
+        );
+        if (!!~index) {
+          _selection.splice(index, 1, {
+            ..._selection[index],
+            label: item[labelField]
+          });
+        }
+      });
+    }
 
     eachTree(options, (item: Option) => {
-      const res = _selection.find(
+      const index = _selection.findIndex(
         (item2: Option) => item2[valueField] === item[valueField]
       );
-      if (res) {
-        res.label = item[labelField];
+      if (!!~index) {
+        _selection.splice(index, 1, {
+          ..._selection[index],
+          label: item[labelField]
+        });
       }
     });
     return _selection;
@@ -703,8 +719,6 @@ export class UserSelect extends React.Component<
                       {userIcon}
                     </span>
                   ) : null}
-
-                  {}
 
                   {!option.isRef ? (
                     labelField === 'avatar' ? (

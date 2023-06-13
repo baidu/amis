@@ -302,7 +302,11 @@ export class ColorControl extends React.PureComponent<
         ) : null}
 
         <span className={cx('ColorPicker-arrow')}>
-          <Icon icon="caret" className="icon" onClick={this.handleClick} />
+          <Icon
+            icon="right-arrow-bold"
+            className="icon"
+            onClick={this.handleClick}
+          />
         </span>
 
         {!mobileUI && isOpened ? (
