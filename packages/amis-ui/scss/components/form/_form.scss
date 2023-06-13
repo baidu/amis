@@ -671,6 +671,10 @@
       padding-top: px2rem(3px);
     }
 
+    &--inline {
+      margin-right: 0;
+    }
+
     .#{$ns}Form-item-controlBox {
       flex: 1;
     }
