@@ -15,6 +15,7 @@ export interface TabsTransferPickerProps
   onFocus?: () => void;
   onBlur?: () => void;
   useMobileUI?: boolean;
+  popOverContainer?: any;
 }
 
 export class TransferPicker extends React.Component<TabsTransferPickerProps> {
@@ -47,6 +48,7 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
       size,
       labelField = 'label',
       useMobileUI,
+      popOverContainer,
       ...rest
     } = this.props;
     const mobileUI = useMobileUI && isMobile();
@@ -55,6 +57,7 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
       <PickerContainer
         title={__('Select.placeholder')}
         useMobileUI={useMobileUI}
+        popOverContainer={popOverContainer}
         onFocus={this.onFoucs}
         onClose={this.onBlur}
         bodyRender={({onClose, value, onChange, setState, ...states}) => {

@@ -121,6 +121,7 @@ export class SchemaEditorItemCommon<
             disabled={disabled || typeMutable === false}
             simpleValue
             useMobileUI={useMobileUI}
+            popOverContainer={popOverContainer}
           />
         ) : null}
 

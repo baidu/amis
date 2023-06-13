@@ -21,6 +21,7 @@ export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
 
   onBlur?: () => void;
   useMobileUI?: boolean;
+  popOverContainer?: any;
 }
 
 export class TransferPicker extends React.Component<TransferPickerProps> {
@@ -53,6 +54,7 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
       borderMode,
       labelField = 'label',
       useMobileUI,
+      popOverContainer,
       ...rest
     } = this.props;
     const mobileUI = useMobileUI && isMobile();
@@ -63,6 +65,7 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
         onFocus={this.onFoucs}
         onClose={this.onBlur}
         useMobileUI={useMobileUI}
+        popOverContainer={popOverContainer}
         bodyRender={({onClose, value, onChange, setState, ...states}) => {
           return (
             <Transfer

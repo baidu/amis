@@ -106,6 +106,7 @@ export function ConfirmBox({
         showConfirm
         onConfirm={handleConfirm}
         onHide={onCancel}
+        container={popOverContainer}
       >
         {typeof children === 'function'
           ? children({
