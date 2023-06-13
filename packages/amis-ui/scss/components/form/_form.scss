@@ -671,6 +671,10 @@
       padding-top: px2rem(3px);
     }
 
+    .#{$ns}Form-item-controlBox {
+      flex: 1;
+    }
+
     .#{$ns}Form-static {
       .#{$ns}Progress {
         margin-top: px2rem(3px);

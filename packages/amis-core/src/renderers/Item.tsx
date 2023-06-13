@@ -1158,7 +1158,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           ) : null}
 
           {mobileUI ? (
-            <div style={{flex: 1}}>
+            <div className={cx('Form-item-controlBox')}>
               {renderControl()}
 
               {caption
