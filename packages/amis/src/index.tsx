@@ -8,7 +8,6 @@
 export * from 'amis-core';
 export * from 'amis-ui';
 
-import './polyfills';
 import './preset';
 
 // 注册渲染器

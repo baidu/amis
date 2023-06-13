@@ -22,6 +22,7 @@ import {
   extendDefaultEnv
 } from './factory';
 import type {RenderOptions, RendererConfig, RendererProps} from './factory';
+import './polyfills';
 import './renderers/builtin';
 import './renderers/register';
 export * from './utils/index';
