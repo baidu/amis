@@ -167,7 +167,8 @@ export class PickerContainer extends React.Component<
               setState: this.updateState,
               onClose: this.close,
               onChange: this.handleChange,
-              onConfirm: this.confirm
+              onConfirm: this.confirm,
+              popOverContainer
             })!
           }
         </ConfirmBox>
