@@ -627,8 +627,6 @@
       font-size: var(--fontSizeLg);
 
       .#{$ns}ColorPicker {
-        height: 100%;
-
         > input {
           height: 100%;
         }
@@ -663,8 +661,14 @@
       padding-bottom: 0;
     }
 
-    .#{$ns}CheckboxControl {
-      padding-top: px2rem(2px);
+    .#{$ns}SwitchControl,
+    .#{$ns}TransferControl,
+    .#{$ns}TagControl,
+    .#{$ns}CheckboxControl,
+    .#{$ns}TreeSelectControl,
+    .#{$ns}NestedSelectControl,
+    .#{$ns}TabsTransferControl {
+      padding-top: px2rem(3px);
     }
 
     .#{$ns}Form-static {
