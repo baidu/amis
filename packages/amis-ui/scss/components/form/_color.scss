@@ -76,6 +76,9 @@
 
   &-clear {
     @include input-clear();
+    svg {
+      top: 0;
+    }
   }
 
   &-arrow {
@@ -95,11 +98,12 @@
       width: 10px;
       height: 10px;
       top: 0;
+      transform: rotate(90deg);
     }
   }
 
   &.is-opened &-arrow > svg {
-    transform: rotate(180deg);
+    transform: rotate(270deg);
   }
 }
 
