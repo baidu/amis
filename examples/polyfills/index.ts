@@ -18,10 +18,3 @@ import 'core-js/es/symbol';
 import './cloest';
 // @ts-ignore
 import './classList';
-
-// ios 没有这个会报错
-if (!('DragEvent' in window)) {
-  Object.defineProperty(window, 'DragEvent', {
-    value: class DragEvent {}
-  });
-}
