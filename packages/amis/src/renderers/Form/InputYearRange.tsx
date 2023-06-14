@@ -5,6 +5,7 @@ import {filterDate, parseDuration} from 'amis-core';
 import InputDateRange, {DateRangeControlSchema} from './InputDateRange';
 import {DateRangePicker} from 'amis-ui';
 import {supportStatic} from './StaticHoc';
+import {isMobile} from 'amis-core';
 
 /**
  * YearRange 年份范围控件
@@ -28,16 +29,26 @@ export default class YearRangeControl extends InputDateRange {
       maxDuration,
       data,
       format,
+      useMobileUI,
       env,
       ...rest
     } = this.props;
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div className={cx(`${ns}DateRangeControl`, className)}>
         <DateRangePicker
           viewMode="years"
           format={format}
+          useMobileUI={useMobileUI}
           classPrefix={ns}
+          popOverContainer={
+            mobileUI && env && env.getModalContainer
+              ? env.getModalContainer
+              : mobileUI
+              ? undefined
+              : rest.popOverContainer
+          }
           data={data}
           {...rest}
           minDate={minDate ? filterDate(minDate, data, format) : undefined}

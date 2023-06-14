@@ -9,6 +9,7 @@
   background: var(--ColorPicker-bg);
   color: var(--ColorPicker-color);
   border-radius: var(--borderRadius);
+  height: var(--ColorPicker-height);
 
   &:not(.is-disabled) {
     cursor: pointer;

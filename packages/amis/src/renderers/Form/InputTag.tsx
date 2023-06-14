@@ -636,7 +636,13 @@ export default class TagControl extends React.PureComponent<
                 mobileUI ? (
                   <PopUp
                     className={cx(`Tag-popup`)}
-                    container={popOverContainer}
+                    container={
+                      mobileUI && env && env.getModalContainer
+                        ? env.getModalContainer
+                        : mobileUI
+                        ? undefined
+                        : popOverContainer
+                    }
                     isShow={isOpen && !!finnalOptions.length}
                     showConfirm={true}
                     onConfirm={this.onConfirm}
