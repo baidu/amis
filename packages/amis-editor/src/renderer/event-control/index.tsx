@@ -167,14 +167,10 @@ export class EventControl extends React.Component<
     prevProps: EventControlProps,
     prevState: EventControlState
   ) {
-    const {value, onChange} = this.props;
+    const {value} = this.props;
 
     if (value !== prevProps.value) {
       this.setState({onEvent: value});
-    }
-
-    if (prevState.onEvent !== this.state.onEvent) {
-      onChange && onChange(this.state.onEvent);
     }
   }
 
@@ -822,7 +818,7 @@ export class EventControl extends React.Component<
                       'event-item-header': true,
                       'no-bd-btm':
                         !(
-                          eventSnapshot[eventKey].actions?.length &&
+                          eventSnapshot[eventKey]?.actions?.length &&
                           eventPanelActive[eventKey]
                         ) && !getEventStrongDesc(events, eventKey)
                     })}
@@ -890,10 +886,10 @@ export class EventControl extends React.Component<
                         className: 'event-item-desc'
                       })
                     : null}
-                  {eventSnapshot[eventKey].actions.length &&
+                  {eventSnapshot[eventKey]?.actions?.length &&
                   eventPanelActive[eventKey] ? (
                     <ul className="item-content">
-                      {eventSnapshot[eventKey].actions.map(
+                      {eventSnapshot[eventKey]?.actions?.map(
                         (action, actionIndex) => {
                           return (
                             <li
