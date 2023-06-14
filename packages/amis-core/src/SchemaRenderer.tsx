@@ -60,7 +60,8 @@ export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'id',
   'inputOnly',
   'label',
-  'renderLabel'
+  'renderLabel',
+  'trackExpression'
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
