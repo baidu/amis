@@ -1880,7 +1880,6 @@ exports[`Renderer: crud sortable & orderBy & orderDir & orderField 1`] = `
               </div>
               <div
                 class="cxd-Table-fixedTop"
-                style="top: 0px; width: 0px;"
               >
                 <div
                   class="cxd-Table-fixedLeft"
@@ -4543,7 +4542,6 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
               </div>
               <div
                 class="cxd-Table-fixedTop"
-                style="top: 0px; width: 0px;"
               >
                 <div
                   class="cxd-Table-fixedLeft"
