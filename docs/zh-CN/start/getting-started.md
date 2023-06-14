@@ -236,6 +236,34 @@ amisScoped.updateProps(
 );
 ```
 
+### 更新配置
+
+可以通过 amisScoped 对象的 udpateSchema 方法来更新更新内容配置。
+
+```js
+let amisJSON = {
+  type: 'page',
+  body: [
+    'inital string',
+
+    {
+      type: 'button',
+      label: 'Change',
+      onClick: handleChange
+    }
+  ]
+};
+let amisScoped = amis.embed('#root', amisJSON);
+
+function handleChange() {
+  const schema = {
+    ...amisJSON,
+    body: ['changed']
+  };
+  amisScoped.updateSchema(schema);
+}
+```
+
 ### 多页模式
 
 默认 amis 渲染是单页模式，如果想实现多页应用，请使用 [app 渲染器](../../components/app)。
