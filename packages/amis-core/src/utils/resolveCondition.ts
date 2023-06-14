@@ -3,7 +3,8 @@ import endsWith from 'lodash/endsWith';
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import startsWith from 'lodash/startsWith';
-import {resolveVariableAndFilterForAsync} from './resolveVariableAndFilterForAsync';
+import { resolveVariableAndFilterForAsync } from './resolveVariableAndFilterForAsync';
+import { resolveVariableAndFilter } from './resolveVariableAndFilter';
 import moment from 'moment';
 import capitalize from 'lodash/capitalize';
 
@@ -17,6 +18,88 @@ let conditionComputeErrorHandler: (
   data: any,
   defaultResult: boolean
 ) => boolean | Promise<boolean>;
+
+export function resolveConditionSync(
+  conditions: any,
+  data: any,
+  defaultResult: boolean = true
+) {
+  if (
+    !conditions ||
+    !conditions.conjunction ||
+    !Array.isArray(conditions.children) ||
+    !conditions.children.length
+  ) {
+    return defaultResult;
+  }
+
+  try {
+    return computeConditionsSync(
+      conditions.children,
+      conditions.conjunction,
+      data
+    );
+  } catch (e) {
+    // 如果函数未定义，则交给handler
+    if (e.name === 'FormulaEvalError') {
+      return conditionComputeErrorHandler?.(
+        conditions.children,
+        conditions.conjunction,
+        data
+      );
+    }
+    return defaultResult;
+  }
+}
+
+function computeConditionsSync(
+  conditions: any[],
+  conjunction: 'or' | 'and' = 'and',
+  data: any
+): boolean {
+  let computeResult = true;
+  for (let index = 0, len = conditions.length; index < len; index++) {
+    const item = conditions[index];
+    const result =
+      item.conjunction && Array.isArray(item.children) && item.children.length
+        ? computeConditionsSync(item.children, item.conjunction, data)
+        : computeConditionSync(item, index, data);
+
+    computeResult = !!result;
+
+    if (
+      (result && conjunction === 'or') ||
+      (!result && conjunction === 'and')
+    ) {
+      break;
+    }
+  }
+  return computeResult;
+}
+
+function computeConditionSync(
+  rule: {
+    op: string;
+    left: {
+      type: string;
+      field: string;
+    };
+    right: any;
+  },
+  index: number,
+  data: any
+) {
+  const leftValue = get(data, rule.left.field);
+  const rightValue: any =
+    resolveVariableAndFilter(rule.right, data, undefined, undefined) ??
+    rule.right; //!string类型时，返回undefined，再向下执行func结果不正确
+
+  const func =
+    conditionResolverMap[`${rule.op}For${capitalize(rule.left.type)}`] ??
+    conditionResolverMap[rule.op];
+
+  return func ? func(leftValue, rightValue, rule.left.type) : DEFAULT_RESULT;
+}
 
 export async function resolveCondition(
   conditions: any,
@@ -89,13 +172,14 @@ async function computeCondition(
   data: any
 ) {
   const leftValue = get(data, rule.left.field);
-  const rightValue: any = await resolveVariableAndFilterForAsync(
-    rule.right,
-    data,
-    undefined,
-    undefined,
-    true
-  );
+  const rightValue: any =
+    (await resolveVariableAndFilterForAsync(
+      rule.right,
+      data,
+      undefined,
+      undefined,
+      true
+    )) ?? rule.right; //!string类型时，返回undefined，再向下执行func结果不正确
 
   const func =
     conditionResolverMap[`${rule.op}For${capitalize(rule.left.type)}`] ??
