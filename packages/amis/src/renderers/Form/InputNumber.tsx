@@ -392,13 +392,17 @@ export default class NumberControl extends React.Component<
     const finalPrecision = this.filterNum(precision);
     const unit = this.state?.unit;
     // 数据格式化
-    const formatter = (value: string | number) => {
-      // 增加千分分隔
-      if (kilobitSeparator && value) {
-        value = numberFormatter.format(value as number);
-      }
-      return (prefix ? prefix : '') + value + (suffix ? suffix : '');
-    };
+    const formatter =
+      kilobitSeparator || prefix || suffix
+        ? (value: string | number) => {
+            // 增加千分分隔
+            if (kilobitSeparator && value) {
+              value = numberFormatter.format(value as number);
+            }
+
+            return (prefix ? prefix : '') + value + (suffix ? suffix : '');
+          }
+        : undefined;
     // 将数字还原
     const parser = (value: string) => {
       if (value) {
