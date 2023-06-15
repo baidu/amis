@@ -503,12 +503,7 @@ export default class ImageControl extends React.Component<
   componentDidUpdate(prevProps: ImageProps) {
     const props = this.props;
 
-    if (
-      (props.value && !prevProps.value) ||
-      (props.value &&
-        prevProps.value &&
-        prevProps.value.length != props.value.length)
-    ) {
+    if (prevProps.value !== props.value) {
       const value: string | Array<string | FileValue> | FileValue = props.value;
       const multiple = props.multiple;
       const joinValues = props.joinValues;
@@ -537,7 +532,7 @@ export default class ImageControl extends React.Component<
               obj = {
                 ...org,
                 ...obj,
-                id: org.id || obj.id
+                id: org.id || obj.id || guid()
               };
             }
 
