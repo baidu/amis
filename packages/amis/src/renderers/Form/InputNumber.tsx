@@ -397,6 +397,15 @@ export default class NumberControl extends React.Component<
       if (kilobitSeparator && value) {
         value = numberFormatter.format(value as number);
       }
+      const valueNum = +value;
+      if (finalPrecision && !isNaN(valueNum)) {
+        return (
+          (prefix ? prefix : '') +
+          valueNum.toFixed(finalPrecision) +
+          (suffix ? suffix : '')
+        );
+      }
+
       return (prefix ? prefix : '') + value + (suffix ? suffix : '');
     };
     // 将数字还原
