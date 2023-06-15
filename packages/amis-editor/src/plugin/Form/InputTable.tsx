@@ -1081,24 +1081,31 @@ export class TableControlPlugin extends BasePlugin {
     target: EditorNodeType,
     region?: EditorNodeType
   ) {
-    if (target.parent.isRegion && target.parent.region === 'columns') {
-      const scope = scopeNode.parent.parent;
-      const builder = this.dsBuilderManager.resolveBuilderBySchema(
+    let scope;
+    let builder;
+
+    if (
+      target.type === scopeNode.type ||
+      (target.parent.isRegion && target.parent.region === 'columns')
+    ) {
+      scope = scopeNode.parent.parent;
+      builder = this.dsBuilderManager.resolveBuilderBySchema(
         scope.schema,
         'api'
       );
+    }
 
-      if (builder && scope.schema.api) {
-        return builder.getAvailableContextFileds(
-          {
-            schema: scope.schema,
-            sourceKey: 'api',
-            feat: scope.schema?.feat ?? 'List',
-            scopeNode
-          },
-          target
-        );
-      }
+    if (builder && scope.schema.api) {
+      return builder.getAvailableContextFileds(
+        {
+          schema: scope.schema,
+          sourceKey: 'api',
+          feat: scope.schema?.feat ?? 'List',
+          scopeNode
+        },
+        /** ID相同为本体，否则为子项 */
+        target?.id === scopeNode?.id ? scopeNode : target
+      );
     }
   }
 }
