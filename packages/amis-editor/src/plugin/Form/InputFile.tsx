@@ -6,6 +6,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class FileControlPlugin extends BasePlugin {
+  static id = 'FileControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-file';
   $schema = '/schemas/FileControlSchema.json';

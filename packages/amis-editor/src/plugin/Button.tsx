@@ -15,6 +15,7 @@ import type {SchemaObject} from 'amis';
 import {getOldActionSchema} from '../renderer/event-control/helper';
 
 export class ButtonPlugin extends BasePlugin {
+  static id = 'ButtonPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'button';

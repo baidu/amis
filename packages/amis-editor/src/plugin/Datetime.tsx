@@ -32,6 +32,7 @@ const valueDateFormatOptions = [
   }
 ];
 export class DatetimePlugin extends DatePlugin {
+  static id = 'DatetimePlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'datetime';

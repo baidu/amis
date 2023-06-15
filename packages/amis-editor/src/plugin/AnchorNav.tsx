@@ -11,6 +11,7 @@ import {registerFilter} from 'amis-formula';
 registerFilter('appTranslate', (input: any) => translateSchema(input));
 
 export class AnchorNavPlugin extends BasePlugin {
+  static id = 'AnchorNavPlugin';
   // 关联渲染器名字
   rendererName = 'anchor-nav';
   $schema = '/schemas/AnchorNavSchema.json';

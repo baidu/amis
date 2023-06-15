@@ -15,6 +15,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {VRenderer} from 'amis-editor-core';
 
 export class ListItemPlugin extends BasePlugin {
+  static id = 'ListItemPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'list-item';

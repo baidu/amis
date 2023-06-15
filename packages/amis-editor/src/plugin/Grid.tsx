@@ -20,6 +20,7 @@ import {Icon} from 'amis-editor-core';
 import {JSONChangeInArray, JSONPipeIn, repeatArray} from 'amis-editor-core';
 
 export class GridPlugin extends BasePlugin {
+  static id = 'GridPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'grid';

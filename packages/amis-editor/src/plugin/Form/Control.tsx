@@ -6,6 +6,7 @@ import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {formItemControl} from '../../component/BaseControl';
 
 export class ControlPlugin extends BasePlugin {
+  static id = 'ControlPlugin';
   // 关联渲染器名字
   rendererName = 'control';
   $schema = '/schemas/FormControlSchema.json';

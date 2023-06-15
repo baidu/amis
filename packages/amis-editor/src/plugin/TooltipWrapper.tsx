@@ -8,6 +8,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
 
 export class TooltipWrapperPlugin extends BasePlugin {
+  static id = 'TooltipWrapperPlugin';
   static scene = ['layout'];
   rendererName = 'tooltip-wrapper';
   $schema = '/schemas/TooltipWrapperSchema.json';

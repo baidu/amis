@@ -28,6 +28,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import {resolveArrayDatasource} from '../../util';
 
 export class TableControlPlugin extends BasePlugin {
+  static id = 'TableControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-table';
   $schema = '/schemas/TableControlSchema.json';

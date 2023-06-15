@@ -6,6 +6,7 @@ import {ValidatorTag} from '../validator';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class ProgressPlugin extends BasePlugin {
+  static id = 'ProgressPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'progress';

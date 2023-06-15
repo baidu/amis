@@ -15,6 +15,7 @@ import React from 'react';
 import {diff, JSONPipeOut} from 'amis-editor-core';
 
 export class ArrayControlPlugin extends BasePlugin {
+  static id = 'ArrayControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-array';
   $schema = '/schemas/ArrayControlSchema.json';

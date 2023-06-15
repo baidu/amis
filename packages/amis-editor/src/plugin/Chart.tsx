@@ -70,6 +70,7 @@ const DEFAULT_EVENT_PARAMS = [
 ];
 
 export class ChartPlugin extends BasePlugin {
+  static id = 'ChartPlugin';
   // 关联渲染器名字
   rendererName = 'chart';
   $schema = '/schemas/ChartSchema.json';

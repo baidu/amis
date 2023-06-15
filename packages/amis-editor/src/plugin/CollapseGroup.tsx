@@ -6,6 +6,7 @@ import {tipedLabel} from 'amis-editor-core';
 import {isObject} from 'amis-editor-core';
 
 export class CollapseGroupPlugin extends BasePlugin {
+  static id = 'CollapseGroupPlugin';
   // 关联渲染器名字
   rendererName = 'collapse-group';
   $schema = '/schemas/CollapseGroupSchema.json';

@@ -19,6 +19,7 @@ const presetColors = [
 ];
 
 export class TagPlugin extends BasePlugin {
+  static id = 'TagPlugin';
   // 关联渲染器名字
   rendererName = 'tag';
   $schema = '/schemas/TagSchema.json';

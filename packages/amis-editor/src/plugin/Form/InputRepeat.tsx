@@ -3,6 +3,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin} from 'amis-editor-core';
 
 export class RepeatControlPlugin extends BasePlugin {
+  static id = 'RepeatControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-repeat';
   $schema = '/schemas/RepeatControlSchema.json';

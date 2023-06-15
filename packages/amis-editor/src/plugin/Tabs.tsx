@@ -24,6 +24,7 @@ import {
 } from '../renderer/event-control/helper';
 
 export class TabsPlugin extends BasePlugin {
+  static id = 'TabsPlugin';
   // 关联渲染器名字
   rendererName = 'tabs';
   $schema = '/schemas/TabsSchema.json';
