@@ -176,11 +176,24 @@ export class TabsPlugin extends BasePlugin {
 
               {
                 label: tipedLabel(
-                  '默认选项卡',
-                  '默认显示某个选项卡，选项卡配置hash时使用hash，否则使用索引值，支持获取变量，如：<code>tab\\${id}</code>、<code>\\${id}</code>'
+                  '初始选项卡',
+                  '组件初始化时激活的选项卡，优先级高于激活的选项卡，不可响应上下文数据，选项卡配置hash时使用hash，否则使用索引值，支持获取变量，如：<code>tab\\${id}</code>、<code>\\${id}</code>'
+                ),
+                type: 'input-text',
+                name: 'defaultKey',
+                placeholder: '初始默认激活的选项卡',
+                pipeOut: (data: string) =>
+                  data === '' || isNaN(Number(data)) ? data : Number(data)
+              },
+
+              {
+                label: tipedLabel(
+                  '激活的选项卡',
+                  '默认显示某个选项卡，可响应上下文数据，选项卡配置hash时使用hash，否则使用索引值，支持获取变量，如：<code>tab\\${id}</code>、<code>\\${id}</code>'
                 ),
                 type: 'input-text',
                 name: 'activeKey',
+                placeholder: '默认激活的选项卡',
                 pipeOut: (data: string) =>
                   data === '' || isNaN(Number(data)) ? data : Number(data)
               }
