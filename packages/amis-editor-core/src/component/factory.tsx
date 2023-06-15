@@ -1,10 +1,12 @@
 import {render, RendererProps} from 'amis';
 import {isAlive} from 'mobx-state-tree';
+import cx from 'classnames';
 import React from 'react';
+import omit from 'lodash/omit';
+import groupBy from 'lodash/groupBy';
 import {NodeWrapper} from './NodeWrapper';
 import {PanelProps, RegionConfig, RendererInfo} from '../plugin';
-import cx from 'classnames';
-import groupBy from 'lodash/groupBy';
+
 import {RegionWrapper} from './RegionWrapper';
 import find from 'lodash/find';
 import {ContainerWrapper} from './ContainerWrapper';
@@ -21,11 +23,12 @@ import {
 } from '../util';
 import {createObject} from 'amis-core';
 import {CommonConfigWrapper} from './CommonConfigWrapper';
+
 import type {Schema} from 'amis';
 import type {DataScope} from 'amis-core';
 import type {RendererConfig} from 'amis-core';
 import type {SchemaCollection} from 'amis';
-import {omit} from 'lodash';
+import type {DiffChange} from '../util';
 
 // 创建 Node Store 并构建成树
 export function makeWrapper(
@@ -250,7 +253,7 @@ function SchemaFrom({
   justify?: boolean;
   ctx?: any;
   pipeIn?: (value: any) => any;
-  pipeOut?: (value: any) => any;
+  pipeOut?: (value: any, prevValue?: any, diff?: DiffChange[]) => any;
 }) {
   let containerKey = 'body';
 
@@ -302,16 +305,19 @@ function SchemaFrom({
   }
 
   value = value || {};
-  const finalValue = setThemeDefaultData(pipeIn ? pipeIn(value) : value);
+  value = pipeIn ? pipeIn(value) : value;
+  const finalValue = setThemeDefaultData(value);
 
   return render(
     schema,
     {
       onFinished: async (newValue: any) => {
-        newValue = deleteThemeConfigData(
-          pipeOut ? await pipeOut(newValue) : newValue
-        );
+        newValue = deleteThemeConfigData(newValue);
+
         const diffValue = diff(value, newValue);
+        newValue = pipeOut
+          ? await pipeOut(newValue, value, diffValue)
+          : newValue;
         onChange(newValue, diffValue);
       },
       data: ctx ? createObject(ctx, finalValue) : finalValue,
