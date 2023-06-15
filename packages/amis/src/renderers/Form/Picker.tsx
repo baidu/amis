@@ -320,7 +320,7 @@ export default class PickerControl extends React.PureComponent<
     }
   }
 
-  removeItem(index: number) {
+  async removeItem(index: number) {
     const {
       selectedOptions,
       joinValues,
@@ -328,10 +328,11 @@ export default class PickerControl extends React.PureComponent<
       delimiter,
       valueField,
       onChange,
-      multiple
+      multiple,
+      dispatchEvent
     } = this.props;
     const items = selectedOptions.concat();
-    items.splice(index, 1);
+    const [option] = items.splice(index, 1);
 
     let value: any = items;
 
@@ -345,6 +346,14 @@ export default class PickerControl extends React.PureComponent<
         : (items[0] && items[0][valueField || 'value']) || '';
     } else {
       value = multiple ? items : items[0];
+    }
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(this.props, {value, option, selectedItems: option})
+    );
+    if (rendererEvent?.prevented) {
+      return;
     }
 
     onChange(value);
