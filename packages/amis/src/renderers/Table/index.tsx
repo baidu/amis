@@ -2401,7 +2401,8 @@ export default class Table extends React.Component<TableProps, object> {
     rows: Array<any>,
     columns: Array<IColumn>,
     headerOnly: boolean = false,
-    tableClassName: string = ''
+    tableClassName: string = '',
+    fixedPosition: 'left' | 'right' = 'left'
   ) {
     const {
       placeholder,
@@ -2417,7 +2418,11 @@ export default class Table extends React.Component<TableProps, object> {
       rowClassName,
       itemAction,
       dispatchEvent,
-      onEvent
+      onEvent,
+      prefixRow,
+      affixRow,
+      prefixRowClassName,
+      affixRowClassName
     } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
     const columnsGroup = store.columnGroup;
@@ -2510,6 +2515,11 @@ export default class Table extends React.Component<TableProps, object> {
             rows={rows}
             locale={locale}
             translate={translate}
+            fixedPosition={fixedPosition}
+            prefixRow={prefixRow}
+            affixRow={affixRow}
+            prefixRowClassName={prefixRowClassName}
+            affixRowClassName={affixRowClassName}
             rowsProps={{
               regionPrefix: 'fixed/',
               renderCell: (
@@ -3114,7 +3124,8 @@ export default class Table extends React.Component<TableProps, object> {
                   store.rows,
                   store.rightFixedColumns,
                   false,
-                  tableClassName
+                  tableClassName,
+                  'right'
                 )
               : null}
           </div>
