@@ -114,7 +114,7 @@ export interface OnRowProps {
 
 export interface SortProps {
   orderBy: string;
-  order: string;
+  orderDir: string;
 }
 
 export interface TableProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
