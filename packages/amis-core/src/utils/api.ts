@@ -1,3 +1,4 @@
+import {attachmentAdpator} from 'amis-core';
 import omit from 'lodash/omit';
 import {Api, ApiObject, EventTrack, fetcherResult, Payload} from '../types';
 import {fetcherConfig} from '../factory';
@@ -143,6 +144,30 @@ export function buildApi(
           }
         : undefined
     );
+  /** 追加data到请求的Query中 */
+  const attachDataToQuery = (
+    apiObject: ApiObject,
+    ctx: Record<string, any>
+  ) => {
+    const idx = apiObject.url.indexOf('?');
+    if (~idx) {
+      const params = (apiObject.query = {
+        ...qsparse(apiObject.url.substring(idx + 1)),
+        ...apiObject.query,
+        ...ctx
+      });
+      apiObject.url =
+        apiObject.url.substring(0, idx) + '?' + queryStringify(params);
+    } else {
+      apiObject.query = {...apiObject.query, ...ctx};
+      const query = queryStringify(ctx);
+      if (query) {
+        apiObject.url = `${apiObject.url}?${query}`;
+      }
+    }
+
+    return apiObject;
+  };
 
   if (~idx) {
     const hashIdx = url.indexOf('#');
@@ -217,39 +242,11 @@ export function buildApi(
       api.data &&
       ((!~raw.indexOf('$') && autoAppend) || api.forceAppendDataToQuery)
     ) {
-      const idx = api.url.indexOf('?');
-      if (~idx) {
-        let params = (api.query = {
-          ...qsparse(api.url.substring(idx + 1)),
-          ...api.query,
-          ...data
-        });
-        api.url = api.url.substring(0, idx) + '?' + queryStringify(params);
-      } else {
-        api.query = {...api.query, ...data};
-        const query = queryStringify(data);
-        if (query) {
-          api.url = `${api.url}?${query}`;
-        }
-      }
+      api = attachDataToQuery(api, data);
     }
 
     if (api.data && api.attachDataToQuery !== false) {
-      const idx = api.url.indexOf('?');
-      if (~idx) {
-        let params = (api.query = {
-          ...qsparse(api.url.substring(idx + 1)),
-          ...api.query,
-          ...api.data
-        });
-        api.url = api.url.substring(0, idx) + '?' + queryStringify(params);
-      } else {
-        api.query = {...api.query, ...api.data};
-        const query = queryStringify(api.query);
-        if (query) {
-          api.url = `${api.url}?${query}`;
-        }
-      }
+      api = attachDataToQuery(api, data);
       delete api.data;
     }
   }
@@ -302,6 +299,11 @@ export function buildApi(
             jsonql: api.jsonql
           }
         : api.jsonql;
+
+    /** JSONQL所有method需要追加data中的变量到query中 */
+    if (api.forceAppendDataToQuery) {
+      api = attachDataToQuery(api, data);
+    }
   }
 
   return api;
