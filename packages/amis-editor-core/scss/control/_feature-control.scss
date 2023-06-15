@@ -60,4 +60,19 @@
       text-align: center;
     }
   }
+
+  &-dragBar {
+    position: absolute;
+    display: none;
+    z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 3px;
+    cursor: pointer;
+  }
+
+  &:hover &-dragBar {
+    display: block;
+    color: #fff;
+  }
 }
