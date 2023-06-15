@@ -348,7 +348,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     file: any;
     executor: () => void;
   }> = [];
-  initAutoFill: boolean;
+  initedFilled = false;
 
   static valueToFile(
     value: string | FileValue,
@@ -398,7 +398,6 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     const joinValues = props.joinValues;
     const delimiter = props.delimiter as string;
     let files: Array<FileValue> = [];
-    this.initAutoFill = !!props.initAutoFill;
 
     if (value && value instanceof Blob) {
       files = [value as any];
@@ -438,11 +437,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   componentDidMount() {
-    if (this.initAutoFill) {
-      const {formInited, addHook} = this.props;
-      formInited || !addHook
-        ? this.syncAutoFill()
-        : addHook(this.syncAutoFill, 'init');
+    const {formInited, addHook} = this.props;
+
+    if (formInited || !addHook) {
+      this.initedFilled = true;
+      this.props.initAutoFill && this.syncAutoFill();
+    } else if (addHook) {
+      addHook(() => {
+        this.initedFilled = true;
+        this.props.initAutoFill && this.syncAutoFill();
+      }, 'init');
     }
   }
 
@@ -494,7 +498,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         {
           files: files
         },
-        props.formInited !== false ? this.syncAutoFill : undefined
+        props.changeMotivation !== 'formInited' && this.initedFilled
+          ? this.syncAutoFill
+          : undefined
       );
     }
   }
@@ -1486,7 +1492,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             {files.map((file, index) => {
               const filename =
                 file[nameField as keyof typeof file] ||
-                (file as FileValue).filename;
+                (file as FileValue).filename ||
+                file.name;
 
               return (
                 <li key={file.id}>
