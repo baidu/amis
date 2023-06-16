@@ -59,6 +59,7 @@ export interface TableBodyProps extends LocaleProps {
   prefixRow?: Array<any>;
   affixRow?: Array<any>;
   itemAction?: ActionSchema;
+  fixedPosition?: 'left' | 'right';
 }
 
 @observer
@@ -181,14 +182,15 @@ export class TableBody extends React.Component<TableBodyProps> {
       classnames: cx,
       rows,
       prefixRowClassName,
-      affixRowClassName
+      affixRowClassName,
+      fixedPosition
     } = this.props;
 
     if (!(Array.isArray(items) && items.length)) {
       return null;
     }
 
-    const result: any[] = items;
+    const result: any[] = items.concat();
 
     //  如果是勾选栏，让它和下一列合并。
     if (columns[0]?.type === '__checkme' && result[0]) {
@@ -204,7 +206,16 @@ export class TableBody extends React.Component<TableBodyProps> {
     const appendLen =
       columns.length - result.reduce((p, c) => p + (c.colSpan || 1), 0);
 
-    if (appendLen) {
+    if (appendLen < 0) {
+      let excced = appendLen;
+      while (excced < 0) {
+        const item = fixedPosition === 'right' ? result.shift() : result.pop();
+        if (!item) {
+          break;
+        }
+        excced += item.colSpan || 1;
+      }
+    } else if (appendLen) {
       const item = result.length
         ? result.pop()
         : {
