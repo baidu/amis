@@ -667,7 +667,7 @@ export default class Table extends React.Component<TableProps, object> {
       return;
     }
 
-    this.affixDetect();
+    requestAnimationFrame(this.affixDetect);
     parent.addEventListener('scroll', this.affixDetect);
     window.addEventListener('resize', this.affixDetect);
     this.updateAutoFillHeight();
@@ -1162,6 +1162,13 @@ export default class Table extends React.Component<TableProps, object> {
     const ns = this.props.classPrefix;
     const dom = findDOMNode(this) as HTMLElement;
     const clip = (this.table as HTMLElement).getBoundingClientRect();
+
+    // 还在动画中，跳过。过一会再试。
+    if (this.table.offsetWidth && clip.width / this.table.offsetWidth < 0.5) {
+      setTimeout(this.affixDetect, 200);
+      return;
+    }
+
     const offsetY =
       this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0;
     const headingHeight =
