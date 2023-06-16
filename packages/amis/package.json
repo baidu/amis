@@ -192,6 +192,11 @@
   },
   "jest": {
     "testEnvironment": "jsdom",
+    "collectCoverage": true,
+    "coverageReporters": [
+      "text",
+      "cobertura"
+    ],
     "collectCoverageFrom": [
       "src/**/*"
     ],
