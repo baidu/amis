@@ -208,7 +208,7 @@ export class ItemPlugin extends BasePlugin {
     const context = event.context;
 
     if (
-      /\$/.test(context.info.renderer.name!) &&
+      context.info.renderer.isFormItem &&
       context.diff?.some(change => change.path?.join('.') === 'value')
     ) {
       const change: any = find(
