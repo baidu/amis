@@ -67,14 +67,14 @@ class TabComponent extends React.PureComponent<TabProps> {
   contentRef = (ref: any) => (this.contentDom = ref);
 
   @autobind
-  onTouchStart(event: TouchEvent) {
+  onTouchStart(event: React.TouchEvent) {
     this.touch.startX = event.touches[0].clientX;
     this.touch.startY = event.touches[0].clientY;
     this.touchStartTime = Date.now();
   }
 
   @autobind
-  onTouchMove(event: TouchEvent) {
+  onTouchMove(event: React.TouchEvent) {
     const touch = event.touches[0];
     const newState = {...this.touch};
 

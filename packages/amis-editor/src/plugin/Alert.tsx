@@ -5,6 +5,7 @@ import {getSchemaTpl} from 'amis-editor-core';
 import type {SchemaObject} from 'amis';
 
 export class AlertPlugin extends BasePlugin {
+  static id = 'AlertPlugin';
   static scene = ['layout'];
 
   // 关联渲染器名字

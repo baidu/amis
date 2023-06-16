@@ -326,12 +326,6 @@ export class CardRenderer extends React.Component<CardProps> {
   }
 
   handleCheck() {
-    // 因为如果 checkOnItemClick 开启
-    // 会把状态标记为选中，如果这里继续执行则又会改回来
-    if (this.props.checkOnItemClick) {
-      return;
-    }
-
     const item = this.props.item;
     this.props.onCheck && this.props.onCheck(item);
   }
@@ -767,7 +761,7 @@ export class CardRenderer extends React.Component<CardProps> {
         footerClassName={footerClassName}
         secondaryClassName={secondaryClassName}
         bodyClassName={bodyClassName}
-        onClick={this.isHaveLink() ? this.handleClick : undefined}
+        onClick={this.isHaveLink() ? this.handleClick : this.handleCheck}
       ></Card>
     );
   }

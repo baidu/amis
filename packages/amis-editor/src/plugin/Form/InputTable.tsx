@@ -1,5 +1,3 @@
-import React from 'react';
-import {Button} from 'amis';
 import {
   registerEditorPlugin,
   BaseEventContext,
@@ -16,7 +14,9 @@ import {
   getI18nEnabled,
   repeatArray,
   mockValue,
-  EditorNodeType
+  EditorNodeType,
+  EditorManager,
+  DSBuilderManager
 } from 'amis-editor-core';
 import {setVariable, someTree} from 'amis-core';
 import {ValidatorTag} from '../../validator';
@@ -28,6 +28,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import {resolveArrayDatasource} from '../../util';
 
 export class TableControlPlugin extends BasePlugin {
+  static id = 'TableControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-table';
   $schema = '/schemas/TableControlSchema.json';
@@ -741,6 +742,13 @@ export class TableControlPlugin extends BasePlugin {
     }
   ];
 
+  dsBuilderManager: DSBuilderManager;
+
+  constructor(manager: EditorManager) {
+    super(manager);
+    this.dsBuilderManager = new DSBuilderManager('input-table', 'api');
+  }
+
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
     const i18nEnabled = getI18nEnabled();
@@ -1032,16 +1040,28 @@ export class TableControlPlugin extends BasePlugin {
     const columns: EditorNodeType = node.children.find(
       item => item.isRegion && item.region === 'columns'
     );
-    for (let current of columns?.children) {
-      const schema = current.schema;
-      if (schema.name) {
-        itemsSchema.properties[schema.name] = current.info?.plugin
-          ?.buildDataSchemas
-          ? await current.info.plugin.buildDataSchemas(current, region)
-          : {
-              type: 'string',
-              title: schema.label || schema.name
-            };
+
+    // todo：以下的处理无效，需要cell实现才能深层细化
+    // for (let current of columns?.children) {
+    //   const schema = current.schema;
+    //   if (schema.name) {
+    //     itemsSchema.properties[schema.name] = current.info?.plugin
+    //       ?.buildDataSchemas
+    //       ? await current.info.plugin.buildDataSchemas(current, region)
+    //       : {
+    //           type: 'string',
+    //           title: schema.label || schema.name
+    //         };
+    //   }
+    // }
+
+    // 一期先简单处理，上面todo实现之后，这里可以废弃
+    for (let current of node.schema?.columns) {
+      if (current.name) {
+        itemsSchema.properties[current.name] = {
+          type: 'string',
+          title: current.label || current.name
+        };
       }
     }
 
@@ -1055,6 +1075,32 @@ export class TableControlPlugin extends BasePlugin {
       title: '表格表单数据',
       items: itemsSchema
     };
+  }
+
+  async getAvailableContextFields(
+    scopeNode: EditorNodeType,
+    target: EditorNodeType,
+    region?: EditorNodeType
+  ) {
+    if (target.parent.isRegion && target.parent.region === 'columns') {
+      const scope = scopeNode.parent.parent;
+      const builder = this.dsBuilderManager.resolveBuilderBySchema(
+        scope.schema,
+        'api'
+      );
+
+      if (builder && scope.schema.api) {
+        return builder.getAvailableContextFileds(
+          {
+            schema: scope.schema,
+            sourceKey: 'api',
+            feat: scope.schema?.feat ?? 'List',
+            scopeNode
+          },
+          target
+        );
+      }
+    }
   }
 }
 

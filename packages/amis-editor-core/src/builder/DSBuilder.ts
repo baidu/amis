@@ -258,6 +258,7 @@ export abstract class DSBuilder {
       schema: any;
       sourceKey: string;
       feat: DSFeatureType;
+      scopeNode?: EditorNodeType;
     },
     target: EditorNodeType
   ): Promise<SchemaCollection | void>;

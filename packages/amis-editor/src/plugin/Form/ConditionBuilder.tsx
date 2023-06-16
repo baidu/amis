@@ -16,6 +16,7 @@ import defaultConfig, {
 } from 'amis-ui/lib/components/condition-builder/config';
 
 export class ConditionBilderPlugin extends BasePlugin {
+  static id = 'ConditionBilderPlugin';
   // 关联渲染器名字
   rendererName = 'condition-builder';
   $schema = '/schemas/ConditionBuilderControlSchema.json';

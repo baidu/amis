@@ -8,7 +8,8 @@ import {
   IAnyModelType,
   Instance,
   isAlive,
-  types
+  types,
+  SnapshotIn
 } from 'mobx-state-tree';
 import uniq from 'lodash/uniq';
 import {RegionConfig, RendererInfo} from '../plugin';
@@ -527,6 +528,7 @@ export const EditorNode = types
 
     function getClosestParentByType(type: string): EditorNodeType | void {
       let node = self;
+
       while (node === node.parent) {
         if (node.schema.type === type) {
           return node as EditorNodeType;
@@ -535,6 +537,29 @@ export const EditorNode = types
           return;
         }
       }
+    }
+
+    /** 通过callback function获取上层节点  */
+    function getParentNodeByCB(
+      callback: (node: EditorNodeSnapshot) => Boolean
+    ) {
+      let cursor = self;
+
+      if (!callback || typeof callback !== 'function') {
+        return cursor;
+      }
+
+      while (cursor) {
+        const res = callback(cursor);
+
+        if (res) {
+          break;
+        }
+
+        cursor = cursor.parent;
+      }
+
+      return cursor;
     }
 
     // 放到props会变成 frozen 的。
@@ -546,6 +571,7 @@ export const EditorNode = types
 
     return {
       getClosestParentByType,
+      getParentNodeByCB,
       updateIsCommonConfig,
       addChild(props: {
         id: string;
@@ -722,3 +748,5 @@ export const EditorNodeContext = React.createContext<EditorNodeType | null>(
   null
 );
 export type EditorNodeType = Instance<typeof EditorNode>;
+
+export type EditorNodeSnapshot = SnapshotIn<typeof EditorNode>;

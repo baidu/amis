@@ -5,6 +5,7 @@ import {JSONPipeOut} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 
 export class VideoPlugin extends BasePlugin {
+  static id = 'VideoPlugin';
   // 关联渲染器名字
   rendererName = 'video';
   $schema = '/schemas/VideoSchema.json';

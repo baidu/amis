@@ -9,6 +9,7 @@ import pick from 'lodash/pick';
 import {getI18nEnabled} from 'amis-editor-core';
 
 export class StatusPlugin extends BasePlugin {
+  static id = 'StatusPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'status';

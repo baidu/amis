@@ -7,6 +7,7 @@ import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class TabsTransferPlugin extends BasePlugin {
+  static id = 'TabsTransferPlugin';
   // 关联渲染器名字
   rendererName = 'tabs-transfer';
   $schema = '/schemas/TransferControlSchema.json';

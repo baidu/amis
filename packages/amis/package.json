@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "3.1.1",
+  "version": "3.1.5",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -44,6 +44,7 @@
     "downshift": "6.1.12",
     "echarts": "5.4.0",
     "echarts-stat": "^1.2.0",
+    "echarts-wordcloud": "^2.1.0",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.2",
     "hls.js": "1.1.3",

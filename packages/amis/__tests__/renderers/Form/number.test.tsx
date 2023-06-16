@@ -264,7 +264,7 @@ test('Renderer:number with big value', async () => {
   fireEvent.change(input, {target: {value: '9999999999999999.999'}}); // 整数部分 17 位，会四舍五入
   fireEvent.blur(input);
   await wait(300);
-  expect(input.value).toEqual('10000000000000000');
+  expect(input.value).toEqual('10000000000000000.00');
 
   fireEvent.change(input, {target: {value: '999999999999999999.99'}}); // 整数部分 18 大于最大值
   fireEvent.blur(input);

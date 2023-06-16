@@ -156,6 +156,8 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       divideLine
     } = this.props;
 
+    const heading = title || header || '';
+
     return (
       <BasicCollapse
         id={id}
@@ -190,7 +192,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
             ? render('heading', collapseTitle || collapseHeader)
             : null
         }
-        header={render('heading', title || header || '')}
+        header={heading ? render('heading', heading) : null}
         body={
           children
             ? typeof children === 'function'

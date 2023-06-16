@@ -625,11 +625,8 @@
       flex: 1;
       flex-wrap: wrap;
       font-size: var(--fontSizeLg);
-      overflow-x: hidden;
 
       .#{$ns}ColorPicker {
-        height: 100%;
-
         > input {
           height: 100%;
         }
@@ -664,8 +661,22 @@
       padding-bottom: 0;
     }
 
-    .#{$ns}CheckboxControl {
-      padding-top: px2rem(2px);
+    .#{$ns}SwitchControl,
+    .#{$ns}TransferControl,
+    .#{$ns}TagControl,
+    .#{$ns}CheckboxControl,
+    .#{$ns}TreeSelectControl,
+    .#{$ns}NestedSelectControl,
+    .#{$ns}TabsTransferControl {
+      padding-top: px2rem(3px);
+    }
+
+    &--inline {
+      margin-right: 0;
+    }
+
+    .#{$ns}Form-item-controlBox {
+      flex: 1;
     }
 
     .#{$ns}Form-static {

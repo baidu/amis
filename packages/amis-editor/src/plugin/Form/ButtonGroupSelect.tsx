@@ -10,6 +10,7 @@ import {getSchemaTpl, defaultValue} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class ButtonGroupControlPlugin extends BasePlugin {
+  static id = 'ButtonGroupControlPlugin';
   // 关联渲染器名字
   rendererName = 'button-group-select';
   $schema = '/schemas/ButtonGroupControlSchema.json';

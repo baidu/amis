@@ -3,6 +3,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {DateRangeControlPlugin} from './InputDateRange';
 
 export class TimeRangeControlPlugin extends DateRangeControlPlugin {
+  static id = 'TimeRangeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-time-range';
   $schema = '/schemas/DateRangeControlSchema.json';

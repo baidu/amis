@@ -150,6 +150,7 @@ const froalaOptionsPipeOut = (arr: Array<string>) => {
 };
 
 export class RichTextControlPlugin extends BasePlugin {
+  static id = 'RichTextControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-rich-text';
   $schema = '/schemas/RichTextControlSchema.json';
@@ -166,7 +167,6 @@ export class RichTextControlPlugin extends BasePlugin {
     type: 'input-rich-text',
     label: '富文本',
     name: 'rich-text',
-    receiver: '',
     vendor: 'tinymce'
   };
   previewSchema: any = {

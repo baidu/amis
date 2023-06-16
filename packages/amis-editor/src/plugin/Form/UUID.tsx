@@ -8,6 +8,7 @@ import {
 } from 'amis-editor-core';
 
 export class UUIDControlPlugin extends BasePlugin {
+  static id = 'UUIDControlPlugin';
   // 关联渲染器名字
   rendererName = 'uuid';
   $schema = '/schemas/UUIDControlSchema.json';

@@ -22,6 +22,7 @@ import {
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchemaBase} from './Form';
 import {
+  ActionObject,
   BaseApiObject,
   BaseSchemaWithoutType,
   ClassName,
@@ -794,11 +795,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               minWidth: this.target ? this.target.offsetWidth : undefined
             }}
             offset={offset}
-            onHide={this.hanldeClose}
+            onHide={this.handleClose}
             overlay
           >
             {render('popOver-auto-fill-form', form, {
-              onSubmit: this.hanldeSubmit
+              onAction: this.handleAction,
+              onSubmit: this.handleSubmit
             })}
           </PopOver>
         </Overlay>
@@ -810,19 +812,25 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
   // 参照录入popOver提交
   @autobind
-  hanldeSubmit(values: any) {
+  handleSubmit(values: any) {
     const {onBulkChange, autoFill} = this.props;
     if (!autoFill || (autoFill && !autoFill?.hasOwnProperty('api'))) {
       return;
     }
 
     this.updateAutoFillData(values.selectedItems);
-
-    this.hanldeClose();
+    this.handleClose();
   }
 
   @autobind
-  hanldeClose() {
+  handleAction(e: React.UIEvent<any>, action: ActionObject, data: object) {
+    if (action.actionType === 'cancel') {
+      this.handleClose();
+    }
+  }
+
+  @autobind
+  handleClose() {
     this.setState({
       isOpened: false
     });
@@ -1102,7 +1110,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         static: isStatic,
         staticClassName
       } = props;
-
+      const mobileUI = useMobileUI && isMobile();
       description = description || desc;
 
       return (
@@ -1149,50 +1157,101 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             </label>
           ) : null}
 
-          {renderControl()}
+          {mobileUI ? (
+            <div className={cx('Form-item-controlBox')}>
+              {renderControl()}
 
-          {caption
-            ? render('caption', caption, {
-                className: cx(`Form-caption`, captionClassName)
-              })
-            : null}
+              {caption
+                ? render('caption', caption, {
+                    className: cx(`Form-caption`, captionClassName)
+                  })
+                : null}
 
-          {remark
-            ? render('remark', {
-                type: 'remark',
-                icon: remark.icon || 'warning-mark',
-                className: cx(`Form-remark`),
-                tooltip: remark,
-                useMobileUI,
-                container:
-                  env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
-              })
-            : null}
+              {remark
+                ? render('remark', {
+                    type: 'remark',
+                    icon: remark.icon || 'warning-mark',
+                    className: cx(`Form-remark`),
+                    tooltip: remark,
+                    useMobileUI,
+                    container:
+                      env && env.getModalContainer
+                        ? env.getModalContainer
+                        : undefined
+                  })
+                : null}
 
-          {hint && model && model.isFocused
-            ? render('hint', hint, {
-                className: cx(`Form-hint`)
-              })
-            : null}
+              {hint && model && model.isFocused
+                ? render('hint', hint, {
+                    className: cx(`Form-hint`)
+                  })
+                : null}
 
-          {model &&
-          !model.valid &&
-          showErrorMsg !== false &&
-          Array.isArray(model.errors) ? (
-            <ul className={cx(`Form-feedback`)}>
-              {model.errors.map((msg: string, key: number) => (
-                <li key={key}>{msg}</li>
-              ))}
-            </ul>
-          ) : null}
+              {model &&
+              !model.valid &&
+              showErrorMsg !== false &&
+              Array.isArray(model.errors) ? (
+                <ul className={cx(`Form-feedback`)}>
+                  {model.errors.map((msg: string, key: number) => (
+                    <li key={key}>{msg}</li>
+                  ))}
+                </ul>
+              ) : null}
 
-          {renderDescription !== false && description
-            ? render('description', description, {
-                className: cx(`Form-description`, descriptionClassName)
-              })
-            : null}
+              {renderDescription !== false && description
+                ? render('description', description, {
+                    className: cx(`Form-description`, descriptionClassName)
+                  })
+                : null}
+            </div>
+          ) : (
+            <>
+              {renderControl()}
+
+              {caption
+                ? render('caption', caption, {
+                    className: cx(`Form-caption`, captionClassName)
+                  })
+                : null}
+
+              {remark
+                ? render('remark', {
+                    type: 'remark',
+                    icon: remark.icon || 'warning-mark',
+                    className: cx(`Form-remark`),
+                    tooltip: remark,
+                    useMobileUI,
+                    container:
+                      env && env.getModalContainer
+                        ? env.getModalContainer
+                        : undefined
+                  })
+                : null}
+
+              {hint && model && model.isFocused
+                ? render('hint', hint, {
+                    className: cx(`Form-hint`)
+                  })
+                : null}
+
+              {model &&
+              !model.valid &&
+              showErrorMsg !== false &&
+              Array.isArray(model.errors) ? (
+                <ul className={cx(`Form-feedback`)}>
+                  {model.errors.map((msg: string, key: number) => (
+                    <li key={key}>{msg}</li>
+                  ))}
+                </ul>
+              ) : null}
+
+              {renderDescription !== false && description
+                ? render('description', description, {
+                    className: cx(`Form-description`, descriptionClassName)
+                  })
+                : null}
+            </>
+          )}
         </div>
       );
     },

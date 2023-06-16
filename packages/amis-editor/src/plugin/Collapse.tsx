@@ -3,6 +3,7 @@ import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 export class CollapsePlugin extends BasePlugin {
+  static id = 'CollapsePlugin';
   // 关联渲染器名字
   rendererName = 'collapse';
   $schema = '/schemas/CollapseSchema.json';

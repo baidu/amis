@@ -565,7 +565,9 @@ export default class SubFormControl extends React.PureComponent<
       className,
       style,
       render,
-      useMobileUI
+      useMobileUI,
+      env,
+      popOverContainer
     } = this.props;
     const dialogData = this.state.dialogData;
     const dialogCtx = this.state.dialogCtx;
@@ -588,6 +590,13 @@ export default class SubFormControl extends React.PureComponent<
             showConfirm
             onConfirm={this.handlePopupConfirm}
             onHide={this.close}
+            container={
+              mobileUI && env && env.getModalContainer
+                ? env.getModalContainer
+                : mobileUI
+                ? undefined
+                : popOverContainer
+            }
           >
             <div className="flex-1 pl-10 pr-10">
               {render('form', this.buildFormSchema(), {

@@ -21,6 +21,7 @@ import type {SchemaObject} from 'amis';
 import {remarkTpl} from '../component/BaseControl';
 
 export class TableCell2Plugin extends BasePlugin {
+  static id = 'TableCell2Plugin';
   panelTitle = '列配置';
   panelIcon = 'fa fa-columns';
 

@@ -477,6 +477,7 @@ const DataOperators: Array<FeatOption> = [
 ];
 
 export class CRUDPlugin extends BasePlugin {
+  static id = 'CRUD2Plugin';
   constructor(manager: EditorManager) {
     super(manager);
     this.dsBuilderMgr = new DSBuilderManager('crud2', 'api');

@@ -8,6 +8,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class TextareaControlPlugin extends BasePlugin {
+  static id = 'TextareaControlPlugin';
   // 关联渲染器名字
   rendererName = 'textarea';
   $schema = '/schemas/TextareaControlSchema.json';

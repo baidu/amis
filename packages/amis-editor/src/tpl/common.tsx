@@ -337,6 +337,7 @@ setSchemaTpl(
       key: string;
       visibleOn: string;
       body: Array<any>;
+      collapsed?: boolean;
     }>
   ) => {
     const collapseGroupBody = config
@@ -345,10 +346,10 @@ setSchemaTpl(
       )
       .map(item => ({
         type: 'collapse',
-        collapsed: false,
         headingClassName: 'ae-formItemControl-header',
         bodyClassName: 'ae-formItemControl-body',
         ...item,
+        collapsed: item.collapsed ?? false,
         key: item.title,
         body: flatten(item.body)
       }));

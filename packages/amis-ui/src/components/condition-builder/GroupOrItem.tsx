@@ -28,8 +28,11 @@ export interface CBGroupOrItemProps extends ThemeProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
-  selectMode?: 'list' | 'tree';
+  selectMode?: 'list' | 'tree' | 'chained';
   isCollapsed?: boolean;
+  depth: number;
+  isAddBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
+  isAddGroupBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -82,7 +85,10 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       popOverContainer,
       selectMode,
       renderEtrValue,
-      isCollapsed
+      isCollapsed,
+      depth,
+      isAddBtnVisibleOn,
+      isAddGroupBtnVisibleOn
     } = this.props;
 
     return (
@@ -116,6 +122,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 draggable={draggable}
                 disabled={disabled}
                 searchable={searchable}
+                selectMode={selectMode}
                 onDragStart={onDragStart}
                 config={config}
                 fields={fields}
@@ -127,6 +134,9 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 onRemove={this.handleItemRemove}
                 data={data}
                 renderEtrValue={renderEtrValue}
+                depth={depth + 1}
+                isAddBtnVisibleOn={isAddBtnVisibleOn}
+                isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
               />
             </div>
           ) : (

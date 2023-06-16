@@ -1194,7 +1194,7 @@ export class ListItem extends React.Component<ListItemProps> {
             type={multiple !== false ? 'checkbox' : 'radio'}
             disabled={!checkable}
             checked={selected}
-            onChange={checkOnItemClick ? noop : this.handleCheck}
+            onChange={this.handleCheck}
             inline
           />
         </div>

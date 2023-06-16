@@ -14,6 +14,7 @@ import {formItemControl} from '../../component/BaseControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class ExcelControlPlugin extends BasePlugin {
+  static id = 'ExcelControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-excel';
   $schema = '/schemas/ExcelControlSchema.json';

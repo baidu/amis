@@ -1,12 +1,12 @@
 .#{$ns}InputRange {
   display: flex;
   justify-content: space-between;
-  padding: var(--InputRange-padding) 0;
   width: 100%;
 
   &-wrap {
     position: relative;
     flex: auto;
+    padding: var(--InputRange-padding) 0;
   }
 
   &-input {
@@ -34,8 +34,6 @@
   }
 
   &.is-mobile {
-    padding: 0;
-
     .#{$ns}InputRange-input {
       width: var(--InputRange-input-mobile-width);
       // margin-left: 0;

@@ -150,11 +150,17 @@
   .#{$ns}PopOver.#{$ns}Select-popover {
     margin-top: px2rem(4px);
     .#{$ns}Select-menu {
+      .#{$ns}Checkbox span {
+        line-height: var(--select-base-default-option-line-height);
+        height: var(--select-base-default-option-line-height);
+      }
       .#{$ns}Select-option {
         line-height: var(--select-base-default-option-line-height);
+        height: var(--select-base-default-option-line-height);
       }
       .#{$ns}Select-addBtn {
         line-height: var(--select-base-default-option-line-height);
+        height: var(--select-base-default-option-line-height);
       }
     }
   }

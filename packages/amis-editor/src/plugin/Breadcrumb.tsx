@@ -6,6 +6,7 @@ import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 
 export class BreadcrumbPlugin extends BasePlugin {
+  static id = 'BreadcrumbPlugin';
   // 关联渲染器名字
   rendererName = 'breadcrumb';
   $schema = '/schemas/BreadcrumbSchema.json';

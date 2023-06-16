@@ -12,6 +12,7 @@ import {
 import {getSchemaTpl} from 'amis-editor-core';
 
 export class OperationPlugin extends BasePlugin {
+  static id = 'OperationPlugin';
   // 关联渲染器名字
   rendererName = 'operation';
   $schema = '/schemas/OperationSchema.json';

@@ -18,6 +18,7 @@ import flatten from 'lodash/flatten';
 import {VRenderer} from 'amis-editor-core';
 
 export class CardPlugin extends BasePlugin {
+  static id = 'CardPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'card';

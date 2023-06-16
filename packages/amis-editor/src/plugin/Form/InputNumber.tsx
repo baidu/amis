@@ -20,6 +20,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {inputStateTpl} from '../../renderer/style-control/helper';
 
 export class NumberControlPlugin extends BasePlugin {
+  static id = 'NumberControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-number';
   $schema = '/schemas/NumberControlSchema.json';

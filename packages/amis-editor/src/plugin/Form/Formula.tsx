@@ -3,6 +3,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin} from 'amis-editor-core';
 
 export class FormulaControlPlugin extends BasePlugin {
+  static id = 'FormulaControlPlugin';
   // 关联渲染器名字
   rendererName = 'formula';
   $schema = '/schemas/FormulaControlSchema.json';

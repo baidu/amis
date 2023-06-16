@@ -11,6 +11,7 @@ import {getEventControlConfig} from '../renderer/event-control/helper';
 import type {Schema} from 'amis-core';
 
 export class SearchBoxPlugin extends BasePlugin {
+  static id = 'SearchBoxPlugin';
   // 关联渲染器名字
   rendererName = 'search-box';
   $schema = '/schemas/SearchBoxSchema.json';
