@@ -77,9 +77,15 @@ export class TreeSelectControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中节点的值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选中的节点值'
+                }
+              }
             }
           }
         }
@@ -93,13 +99,19 @@ export class TreeSelectControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            data: {
               type: 'object',
-              title: '新增的选项信息'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '新增的选项'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项列表'
+                }
+              }
             }
           }
         }
@@ -113,13 +125,19 @@ export class TreeSelectControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            data: {
               type: 'object',
-              title: '编辑的选项信息'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '编辑的选项'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项列表'
+                }
+              }
             }
           }
         }
@@ -133,13 +151,19 @@ export class TreeSelectControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            data: {
               type: 'object',
-              title: '删除的选项信息'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '删除的选项'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项列表'
+                }
+              }
             }
           }
         }
@@ -169,9 +193,15 @@ export class TreeSelectControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前选中的值'
+                }
+              }
             }
           }
         }
@@ -185,9 +215,15 @@ export class TreeSelectControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前选中的值'
+                }
+              }
             }
           }
         }

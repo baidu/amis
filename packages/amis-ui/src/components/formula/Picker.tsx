@@ -503,7 +503,7 @@ export class FormulaPicker extends React.Component<
           </PopUp>
         ) : (
           <Modal
-            size="md"
+            size="lg"
             closeOnEsc
             show={this.state.isOpened}
             onHide={this.close}

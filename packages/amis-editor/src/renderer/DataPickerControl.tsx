@@ -24,7 +24,7 @@ class DataPickerControl extends React.Component<FormControlProps> {
         ...item,
         selectMode: 'tree'
       })),
-      variableMode: 'tabs'
+      variableMode: 'tree'
     };
   }
 

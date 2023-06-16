@@ -57,9 +57,15 @@ export class DiffEditorControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '当前代码'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前代码内容'
+                }
+              }
             }
           }
         }
@@ -73,9 +79,15 @@ export class DiffEditorControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '当前代码'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前代码内容'
+                }
+              }
             }
           }
         }
@@ -89,9 +101,15 @@ export class DiffEditorControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '当前代码'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前代码内容'
+                }
+              }
             }
           }
         }

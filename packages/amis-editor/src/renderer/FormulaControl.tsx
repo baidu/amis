@@ -176,7 +176,7 @@ export default class FormulaControl extends React.Component<
     super(props);
     this.state = {
       variables: [],
-      variableMode: 'tabs',
+      variableMode: 'tree',
       formulaPickerOpen: false,
       loading: false
     };
@@ -197,20 +197,6 @@ export default class FormulaControl extends React.Component<
         });
       }
     );
-
-    const variablesArr = await getVariables(this);
-    this.setState({
-      variables: variablesArr
-    });
-  }
-
-  async componentDidUpdate(prevProps: FormulaControlProps) {
-    if (this.props.data !== prevProps.data) {
-      const variablesArr = await getVariables(this);
-      this.setState({
-        variables: variablesArr
-      });
-    }
   }
 
   componentWillUnmount() {
@@ -399,6 +385,9 @@ export default class FormulaControl extends React.Component<
           const variables = await getVariables(this);
           this.setState({variables});
         }
+      } else {
+        const variables = await getVariables(this);
+        this.setState({variables});
       }
     } catch (error) {
       console.error('[amis-editor] onFormulaEditorOpen failed: ', error?.stack);

@@ -64,17 +64,23 @@ export class RadiosControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
-            },
-            'event.data.selectedItems': {
+            data: {
               type: 'object',
-              title: '选中的项'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选中的值'
+                },
+                selectedItems: {
+                  type: 'object',
+                  title: '选中的项'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项列表'
+                }
+              }
             }
           }
         }

@@ -228,9 +228,15 @@ export class DateRangeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '时间值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前时间范围'
+                }
+              }
             }
           }
         }
@@ -244,9 +250,15 @@ export class DateRangeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '时间值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前时间范围'
+                }
+              }
             }
           }
         }
@@ -260,9 +272,15 @@ export class DateRangeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '时间值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前时间范围'
+                }
+              }
             }
           }
         }

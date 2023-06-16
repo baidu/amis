@@ -166,9 +166,10 @@ export class NavPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据',
+              description: '当前数据域，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -182,9 +183,9 @@ export class NavPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据'
             }
           }
         }
@@ -198,9 +199,9 @@ export class NavPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据'
             }
           }
         }
@@ -214,9 +215,9 @@ export class NavPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据'
             }
           }
         }
@@ -230,9 +231,9 @@ export class NavPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据'
             }
           }
         }

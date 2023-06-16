@@ -68,9 +68,15 @@ export class CheckboxControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中状态'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '状态值'
+                }
+              }
             }
           }
         }

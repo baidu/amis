@@ -84,9 +84,15 @@ export class TreeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中节点的值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '变化的节点值'
+                }
+              }
             }
           }
         }
@@ -100,13 +106,19 @@ export class TreeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            data: {
               type: 'object',
-              title: '新增的节点信息'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '新增的节点信息'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项集合'
+                }
+              }
             }
           }
         }
@@ -120,13 +132,19 @@ export class TreeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            data: {
               type: 'object',
-              title: '编辑的节点信息'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '编辑的节点信息'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项集合'
+                }
+              }
             }
           }
         }
@@ -140,13 +158,19 @@ export class TreeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            data: {
               type: 'object',
-              title: '删除的节点信息'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '删除的节点信息'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项集合'
+                }
+              }
             }
           }
         }
@@ -160,9 +184,15 @@ export class TreeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            data: {
               type: 'object',
-              title: 'deferApi 懒加载远程请求成功后返回的数据'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: 'deferApi 懒加载远程请求成功后返回的数据'
+                }
+              }
             }
           }
         }
@@ -190,18 +220,6 @@ export class TreeControlPlugin extends BasePlugin {
         );
       },
       schema: getArgsWrapper(
-        /*
-        {
-          type: 'input-formula',
-          variables: '${variables}',
-          evalMode: false,
-          variableMode: 'tabs',
-          label: '展开层级',
-          size: 'lg',
-          name: 'openLevel',
-          mode: 'horizontal'
-        },
-       */
         getSchemaTpl('formulaControl', {
           name: 'openLevel',
           label: '展开层级',

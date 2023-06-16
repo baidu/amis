@@ -58,9 +58,15 @@ export class RateControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '评分值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'number',
+                  title: '当前分值'
+                }
+              }
             }
           }
         }

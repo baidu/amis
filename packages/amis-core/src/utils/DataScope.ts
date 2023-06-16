@@ -18,6 +18,9 @@ export class DataScope {
   // scope 分类
   tag?: string;
 
+  // scope 分组（不同scope）
+  group?: string;
+
   // scope 的描述信息
   description?: string;
 
@@ -200,18 +203,37 @@ export class DataScope {
   protected buildOptions(
     options: Array<any>,
     schema: JSONSchema,
-    path: string = '',
-    key: string = ''
+    path: {label: string; value: string} = {label: '', value: ''},
+    key: string = '',
+    isMember?: boolean // 是否是数组成员
   ) {
     // todo 支持 oneOf, anyOf
-    const option: any = {
+    let option: any = {
       label: schema.title || key,
-      value: path,
+      value: schema.title === '成员' ? '' : path.value,
+      path: schema.title === '成员' ? '' : path.label,
       type: schema.type,
-      tag: schema.description ?? schema.type
+      tag: schema.type,
+      description: schema.description,
+      isMember,
+      disabled: schema.title === '成员'
     };
 
-    options.push(option);
+    // 处理option分组
+    if (schema.group) {
+      const index = options.findIndex(item => item.label === schema.group);
+      if (~index) {
+        options[index].children.push(option);
+      } else {
+        options.push({
+          label: schema.group,
+          value: '',
+          children: [option]
+        });
+      }
+    } else {
+      options.push(option);
+    }
 
     if (schema.type === 'object' && schema.properties) {
       option.children = [];
@@ -219,15 +241,18 @@ export class DataScope {
 
       keys.forEach(key => {
         const child: any = schema.properties![key];
-
         this.buildOptions(
           option.children,
           child,
-          path + (path ? '.' : '') + key,
-          key
+          {
+            label: path.label + (path.label ? '.' : '') + (child.title ?? key),
+            value: path.value + (path.value ? '.' : '') + key
+          },
+          key,
+          schema.title === '成员'
         );
       });
-    } else if (schema.type === 'array' && schema.items) {
+    } else if (schema.type === 'array' && (schema.items as any)?.properties) {
       option.children = [];
 
       this.buildOptions(
@@ -237,13 +262,17 @@ export class DataScope {
           ...(schema.items as any),
           disabled: true
         },
-        path,
-        'items'
+        {
+          label: path.label,
+          value: path.value
+        },
+        'items',
+        schema.title === '成员'
       );
 
       option.children = mapTree(option.children, item => ({
-        ...item,
-        disabled: true
+        ...item
+        // disabled: true
       }));
     }
   }

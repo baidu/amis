@@ -127,7 +127,7 @@ export class TextareaFormulaControl extends React.Component<
   TextareaFormulaControlState
 > {
   static defaultProps: Partial<TextareaFormulaControlProps> = {
-    variableMode: 'tabs',
+    variableMode: 'tree',
     requiredDataPropsVariables: false,
     height: 100,
     placeholder: '请输入'
@@ -176,20 +176,9 @@ export class TextareaFormulaControl extends React.Component<
         this.hiddenToolTip
       );
     }
-
-    const variablesArr = await getVariables(this);
-    this.setState({
-      variables: variablesArr
-    });
   }
 
   async componentDidUpdate(prevProps: TextareaFormulaControlProps) {
-    if (this.props.data !== prevProps.data) {
-      const variablesArr = await getVariables(this);
-      this.setState({
-        variables: variablesArr
-      });
-    }
     if (this.state.value !== this.props.value) {
       this.setState(
         {
@@ -210,15 +199,6 @@ export class TextareaFormulaControl extends React.Component<
     this.editorPlugin?.dispose();
 
     this.unReaction?.();
-  }
-
-  @autobind
-  onExpressionClick(expression: string, brace?: Array<CodeMirror.Position>) {
-    this.setState({
-      formulaPickerValue: expression,
-      formulaPickerOpen: true,
-      expressionBrace: brace
-    });
   }
 
   @autobind
@@ -289,7 +269,6 @@ export class TextareaFormulaControl extends React.Component<
     const variables = this.state.variables || this.props.variables || [];
     this.editorPlugin = new FormulaPlugin(editor, {
       getProps: () => ({...this.props, variables}),
-      onExpressionClick: this.onExpressionClick,
       onExpressionMouseEnter: this.onExpressionMouseEnter,
       customMarkText: this.props.customMarkText,
       onPluginInit: this.props.onPluginInit,
@@ -308,15 +287,24 @@ export class TextareaFormulaControl extends React.Component<
   }
 
   @autobind
-  handleFormulaClick() {
+  async handleFormulaClick(e: React.MouseEvent, type?: string) {
     if (this.props.onOverallClick) {
       return;
     }
+
+    const variablesArr = await getVariables(this);
+
     this.setState({
-      formulaPickerOpen: true,
-      formulaPickerValue: '',
-      expressionBrace: undefined
+      variables: variablesArr,
+      formulaPickerOpen: true
     });
+
+    if (type !== 'update') {
+      this.setState({
+        formulaPickerValue: '',
+        expressionBrace: undefined
+      });
+    }
   }
 
   @autobind
@@ -469,9 +457,7 @@ export class TextareaFormulaControl extends React.Component<
             className="ae-TplFormulaControl-tooltip"
             style={tooltipStyle}
             ref={this.tooltipRef}
-            onClick={() => {
-              this.setState({formulaPickerOpen: true});
-            }}
+            onClick={e => this.handleFormulaClick(e, 'update')}
           ></div>
         </TooltipWrapper>
 

@@ -296,13 +296,19 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.index': {
-              type: 'array',
-              title: '新增行记录索引'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                index: {
+                  type: 'array',
+                  title: '新增索引'
+                }
+              }
             }
           }
         }
@@ -317,17 +323,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '新增行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '新增行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '新增行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '新增索引'
+                }
+              }
             }
           }
         }
@@ -342,17 +354,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '新增行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '新增行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '新增行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '新增索引'
+                }
+              }
             }
           }
         }
@@ -367,21 +385,27 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '新增行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '新增行记录索引'
-            },
-            'event.data.error': {
-              type: 'object',
-              title: '请求失败后接口返回的错误信息'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '新增行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '新增索引'
+                },
+                error: {
+                  type: 'object',
+                  title: '请求失败后接口返回的错误信息'
+                }
+              }
             }
           }
         }
@@ -395,17 +419,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '所在行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '所在行记录索引'
+                }
+              }
             }
           }
         }
@@ -420,17 +450,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '所在行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '所在行记录索引'
+                }
+              }
             }
           }
         }
@@ -445,17 +481,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '所在行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '所在行记录索引'
+                }
+              }
             }
           }
         }
@@ -470,21 +512,27 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '所在行记录索引'
-            },
-            'event.data.error': {
-              type: 'object',
-              title: '请求错误后返回的错误信息'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '所在行记录索引'
+                },
+                error: {
+                  type: 'object',
+                  title: '请求错误后返回的错误信息'
+                }
+              }
             }
           }
         }
@@ -498,17 +546,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'object',
-              title: '所在行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'object',
+                  title: '所在行记录索引'
+                }
+              }
             }
           }
         }
@@ -522,17 +576,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'object',
-              title: '所在行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'object',
+                  title: '所在行记录索引'
+                }
+              }
             }
           }
         }
@@ -546,21 +606,27 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'object',
-              title: '所在行记录索引'
-            },
-            'event.data.error': {
-              type: 'object',
-              title: '请求失败后接口返回的错误信息'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'object',
+                  title: '所在行记录索引'
+                },
+                error: {
+                  type: 'object',
+                  title: '请求失败后接口返回的错误信息'
+                }
+              }
             }
           }
         }
@@ -574,9 +640,15 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                }
+              }
             }
           }
         }

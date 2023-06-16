@@ -1306,14 +1306,6 @@ export class CRUDPlugin extends BasePlugin {
     };
   }
 
-  events: RendererPluginEvent[] = [
-    {
-      eventName: 'get-data',
-      eventLabel: '数据加载',
-      description: '列表数据翻页'
-    }
-  ];
-
   actions: RendererPluginAction[] = [
     {
       actionType: 'search',

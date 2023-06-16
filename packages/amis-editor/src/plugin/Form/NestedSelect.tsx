@@ -121,9 +121,15 @@ export class NestedSelectControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选中的值'
+                }
+              }
             }
           }
         }
@@ -137,9 +143,15 @@ export class NestedSelectControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选中的值'
+                }
+              }
             }
           }
         }
@@ -153,9 +165,15 @@ export class NestedSelectControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选中的值'
+                }
+              }
             }
           }
         }

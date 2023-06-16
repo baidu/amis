@@ -1,6 +1,7 @@
 import {isExpression, resolveVariableAndFilter} from 'amis-core';
 import {translateSchema} from 'amis-editor-core';
 import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
+import {updateComponentContext} from '../../util';
 
 /**
  * 从amis数据域中取变量数据
@@ -11,40 +12,16 @@ import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 export async function resolveVariablesFromScope(node: any, manager: any) {
   await manager?.getContextSchemas(node);
   // 获取当前组件内相关变量，如表单、增删改查
-  const dataPropsAsOptions: VariableItem[] =
-    await manager?.dataSchema?.getDataPropsAsOptions();
+  const dataPropsAsOptions: VariableItem[] = updateComponentContext(
+    (await manager?.dataSchema?.getDataPropsAsOptions()) ?? []
+  );
 
   const variables: VariableItem[] =
     manager?.variableManager?.getVariableFormulaOptions() || [];
 
-  if (dataPropsAsOptions) {
-    // FIXME: 系统变量最好有个唯一标识符
-    const systemVarIndex = dataPropsAsOptions.findIndex(
-      item => item.label === '系统变量'
-    );
-
-    if (!!~systemVarIndex) {
-      variables.forEach(item => {
-        if (Array.isArray(item?.children) && item.children.length) {
-          dataPropsAsOptions.splice(systemVarIndex, 0, item);
-        }
-      });
-    } else {
-      variables.forEach(item => {
-        if (Array.isArray(item?.children) && item.children.length) {
-          dataPropsAsOptions.push(item);
-        }
-      });
-    }
-
-    return dataPropsAsOptions
-      .map((item: any) => ({
-        selectMode: 'tree',
-        ...item
-      }))
-      .filter((item: any) => item.children?.length);
-  }
-  return [];
+  return [...dataPropsAsOptions, ...variables].filter(
+    (item: any) => item.children?.length
+  );
 }
 
 /**
