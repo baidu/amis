@@ -413,7 +413,7 @@ export interface Table2Props extends RendererProps, SpinnerExtraProps {
   onSaveOrder?: Function;
   onPristineChange?: Function;
   onAction?: Function;
-  onSort?: Function;
+  onSort?: (payload: {orderBy: string; orderDir: string}) => void;
   onSearch?: Function;
   onRow?: OnRowProps;
   placeholder?: string | SchemaObject;
@@ -1157,7 +1157,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       'columnSort',
       createObject(data, {
         orderBy: payload.orderBy,
-        orderDir: payload.order
+        orderDir: payload.orderDir
       })
     );
 
