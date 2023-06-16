@@ -673,6 +673,7 @@ export default class List extends React.Component<ListProps, object> {
     actions = Array.isArray(actions) ? actions.concat() : [];
 
     if (
+      region === 'header' &&
       !~this.renderedToolbars.indexOf('check-all') &&
       (btn = this.renderCheckAll())
     ) {
