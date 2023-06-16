@@ -323,7 +323,6 @@ export class TplFormulaControl extends React.Component<
 
   @autobind
   async handleFormulaClick(e: React.MouseEvent, type?: string) {
-  async handleFormulaClick() {
     try {
       await this.beforeFormulaEditorOpen();
     } catch (error) {}
