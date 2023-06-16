@@ -324,8 +324,9 @@ export class Transfer<
   // 树搜索处理
   @autobind
   handleSearchTreeChange(values: Array<Option>, searchOptions: Array<Option>) {
-    const {onChange, value, valueField = 'value'} = this.props;
+    const {onChange, value, valueField = 'value', multiple} = this.props;
     const searchAvailableOptions = this.getFlattenArr(searchOptions);
+    values = Array.isArray(values) ? values : values ? [values] : [];
 
     const useArr = intersectionWith(
       searchAvailableOptions,
@@ -339,12 +340,14 @@ export class Transfer<
     );
 
     const newArr: Array<Option> = [];
-    Array.isArray(value) &&
-      value.forEach((item: Option) => {
-        if (!unuseArr.find(v => v[valueField] === item[valueField])) {
-          newArr.push(item);
-        }
-      });
+    if (multiple) {
+      Array.isArray(value) &&
+        value.forEach((item: Option) => {
+          if (!unuseArr.find(v => v[valueField] === item[valueField])) {
+            newArr.push(item);
+          }
+        });
+    }
     useArr.forEach(item => {
       if (!newArr.find(v => v[valueField] === item[valueField])) {
         newArr.push(item);
