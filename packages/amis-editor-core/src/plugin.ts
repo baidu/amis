@@ -291,6 +291,8 @@ export interface RendererInfo extends RendererScaffoldInfo {
   memberIndex?: number;
 
   tipName?: string;
+  /** 共享上下文 */
+  sharedContext?: Record<string, any>;
 }
 
 export type BasicRendererInfo = Omit<
