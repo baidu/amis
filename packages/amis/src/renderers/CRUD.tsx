@@ -2,7 +2,7 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps, filterTarget} from 'amis-core';
+import {Renderer, RendererProps, filterTarget, generateIcon} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
@@ -56,6 +56,7 @@ import {
 
 import type {PaginationProps} from './Pagination';
 import {isAlive} from 'mobx-state-tree';
+import isPlainObject from 'lodash/isPlainObject';
 
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
@@ -263,7 +264,14 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   stopAutoRefreshWhen?: SchemaExpression;
 
   stopAutoRefreshWhenModalIsOpen?: boolean;
-  filterTogglable?: boolean;
+  filterTogglable?:
+    | boolean
+    | {
+        label?: string; // 按钮文字
+        activeLabel?: string;
+        icon?: string; // 按钮图标
+        activeIcon?: string;
+      };
   filterDefaultVisible?: boolean;
 
   /**
@@ -582,7 +590,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       store.setSelectedItems(val);
     }
 
-    if (this.props.filterTogglable !== prevProps.filterTogglable) {
+    if (!!this.props.filterTogglable !== !!prevProps.filterTogglable) {
       store.setFilterTogglable(
         !!props.filterTogglable,
         props.filterDefaultVisible
@@ -1995,10 +2003,25 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderFilterToggler() {
-    const {store, classnames: cx, translate: __} = this.props;
+    const {store, classnames: cx, translate: __, filterTogglable} = this.props;
 
     if (!store.filterTogggable) {
       return null;
+    }
+
+    let custom: {
+      icon?: string | boolean;
+      label?: string | boolean;
+      activeIcon?: string | boolean;
+      activeLabel?: string | boolean;
+    } = isPlainObject(filterTogglable)
+      ? {
+          ...(filterTogglable as any)
+        }
+      : {};
+    if (store.filterVisible) {
+      custom.icon = custom.activeIcon ?? custom.icon;
+      custom.label = custom.activeLabel ?? custom.label;
     }
 
     return (
@@ -2008,8 +2031,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'is-active': store.filterVisible
         })}
       >
-        <Icon icon="filter" className="icon m-r-xs" />
-        {__('CRUD.filter')}
+        {custom.icon ? (
+          generateIcon(cx, custom.icon)
+        ) : custom?.icon !== false ? (
+          <Icon icon="filter" className="icon m-r-xs" />
+        ) : null}
+        {custom?.label ?? __('CRUD.filter')}
       </button>
     );
   }
