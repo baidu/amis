@@ -10,6 +10,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut} from 'amis-editor-core';
+import {schemaToArray} from '../util';
 
 export class EachPlugin extends BasePlugin {
   static id = 'EachPlugin';
@@ -132,7 +133,7 @@ export class EachPlugin extends BasePlugin {
       value &&
       this.manager.openSubEditor({
         title: '配置成员渲染器',
-        value: value.items,
+        value: schemaToArray(value.items),
         slot: {
           type: 'container',
           body: '$$'
