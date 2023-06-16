@@ -1310,11 +1310,12 @@ export function qsstringify(
   },
   keepEmptyArray?: boolean
 ) {
-  // qs会保留空字符串。fix: Combo模式的空数组，无法清空。改为存为空字符串；只转换一层
-  keepEmptyArray &&
-    Object.keys(data).forEach((key: any) => {
-      Array.isArray(data[key]) && !data[key].length && (data[key] = '');
-    });
+  // qs会保留空字符串。fix: Combo模式的空数组，无法清空。改为存为空字符串；
+  if (keepEmptyArray) {
+    data = JSONValueMap(data, value =>
+      Array.isArray(value) && !value.length ? '' : value
+    );
+  }
   return qs.stringify(data, options);
 }
 
@@ -1739,6 +1740,73 @@ export function JSONTraverse(
       }
     }
   });
+}
+
+/**
+ * 每层都会执行，返回新的对象，新对象不会递归下去
+ * @param json
+ * @param mapper
+ * @returns
+ */
+export function JSONValueMap(
+  json: any,
+  mapper: (
+    value: any,
+    key: string | number,
+    host: Object,
+    stack: Array<Object>
+  ) => any,
+  stack: Array<Object> = []
+) {
+  if (!isPlainObject(json) && !Array.isArray(json)) {
+    return json;
+  }
+
+  const iterator = (
+    origin: any,
+    key: number | string,
+    host: any,
+    stack: Array<any> = []
+  ) => {
+    let maped: any = mapper(origin, key, host, stack);
+
+    if (maped === origin && (isPlainObject(origin) || Array.isArray(origin))) {
+      return JSONValueMap(origin, mapper, stack);
+    }
+    return maped;
+  };
+
+  if (Array.isArray(json)) {
+    let flag = false;
+    let mapped = json.map((value, index) => {
+      let result: any = iterator(value, index, json, [json].concat(stack));
+      if (result !== value) {
+        flag = true;
+        return result;
+      }
+      return value;
+    });
+    return flag ? mapped : json;
+  }
+
+  let flag = false;
+  const toUpdate: any = {};
+  Object.keys(json).forEach(key => {
+    const value: any = json[key];
+    let result: any = iterator(value, key, json, [json].concat(stack));
+    if (result !== value) {
+      flag = true;
+      toUpdate[key] = result;
+      return;
+    }
+  });
+
+  return flag
+    ? {
+        ...json,
+        ...toUpdate
+      }
+    : json;
 }
 
 export function convertArrayValueToMoment(
