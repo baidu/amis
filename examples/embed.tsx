@@ -14,12 +14,12 @@ import {
   ToastComponent,
   AlertComponent,
   render as renderAmis,
-  makeTranslator
+  makeTranslator,
+  quickBuildFetcher
 } from 'amis';
 
 import 'amis-ui/lib/locale/en-US';
 import 'history';
-import {attachmentAdpator} from 'amis-core';
 
 import type {ToastLevel, ToastConf} from 'amis-ui/lib/components/Toast';
 
@@ -50,49 +50,6 @@ export function embed(
   }
   container.classList.add('amis-scope');
   let scoped = {};
-
-  const requestAdaptor = (config: any) => {
-    const fn =
-      env && typeof env.requestAdaptor === 'function'
-        ? env.requestAdaptor.bind()
-        : (config: any) => config;
-    const request = fn(config) || config;
-
-    return request;
-  };
-
-  const responseAdaptor = (api: any) => (response: any) => {
-    let payload = response.data || {}; // blob 下可能会返回内容为空？
-    // 之前拼写错了，需要兼容
-    if (env && env.responseAdpater) {
-      env.responseAdaptor = env.responseAdpater;
-    }
-    if (env && env.responseAdaptor) {
-      const url = api.url;
-      const idx = url.indexOf('?');
-      const query = ~idx ? qs.parse(url.substring(idx)) : {};
-      const request = {
-        ...api,
-        query: query,
-        body: api.data
-      };
-      payload = env.responseAdaptor(api, payload, query, request, response);
-    } else {
-      if (payload.hasOwnProperty('errno')) {
-        payload.status = payload.errno;
-        payload.msg = payload.errmsg;
-      } else if (payload.hasOwnProperty('no')) {
-        payload.status = payload.no;
-        payload.msg = payload.error;
-      }
-    }
-
-    const result = {
-      ...response,
-      data: payload
-    };
-    return result;
-  };
 
   const amisEnv = {
     getModalContainer: () =>
@@ -172,77 +129,7 @@ export function embed(
         location.href = to;
       }
     },
-    fetcher: async (api: any) => {
-      let {url, method, data, responseType, config, headers} = api;
-      config = config || {};
-      config.url = url;
-      config.withCredentials = true;
-      responseType && (config.responseType = responseType);
-
-      if (config.cancelExecutor) {
-        config.cancelToken = new (axios as any).CancelToken(
-          config.cancelExecutor
-        );
-      }
-
-      config.headers = headers || {};
-      config.method = method;
-      config.data = data;
-
-      config = requestAdaptor(config);
-
-      if (method === 'get' && data) {
-        config.params = data;
-      } else if (data && data instanceof FormData) {
-        // config.headers['Content-Type'] = 'multipart/form-data';
-      } else if (
-        data &&
-        typeof data !== 'string' &&
-        !(data instanceof Blob) &&
-        !(data instanceof ArrayBuffer)
-      ) {
-        data = JSON.stringify(data);
-        config.headers['Content-Type'] = 'application/json';
-      }
-
-      // 支持返回各种报错信息
-      config.validateStatus = function () {
-        return true;
-      };
-
-      let response = await axios(config);
-      response = await attachmentAdpator(response, __);
-      response = responseAdaptor(api)(response);
-
-      if (response.status >= 400) {
-        if (response.data) {
-          // 主要用于 raw: 模式下，后端自己校验登录，
-          if (
-            response.status === 401 &&
-            response.data.location &&
-            response.data.location.startsWith('http')
-          ) {
-            location.href = response.data.location.replace(
-              '{{redirect}}',
-              encodeURIComponent(location.href)
-            );
-            return new Promise(() => {});
-          } else if (response.data.msg) {
-            throw new Error(response.data.msg);
-          } else {
-            throw new Error(
-              __('System.requestError') + JSON.stringify(response.data, null, 2)
-            );
-          }
-        } else {
-          throw new Error(
-            `${__('System.requestErrorStatus')} ${response.status}`
-          );
-        }
-      }
-
-      return response;
-    },
+    fetcher: quickBuildFetcher({env}),
     isCancel: (value: any) => (axios as any).isCancel(value),
     copy: (contents: string, options: any = {}) => {
       const ret = copy(contents);
