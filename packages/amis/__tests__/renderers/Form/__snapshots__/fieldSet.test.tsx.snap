@@ -35,31 +35,6 @@ exports[`Renderer:fieldSet 1`] = `
         <fieldset
           class="cxd-Collapse is-active no-border"
         >
-          <legend
-            class="cxd-Collapse-header bg-dark"
-          >
-            <span
-              class="cxd-Collapse-arrow-wrap"
-            >
-              <div
-                class="cxd-Collapse-arrow Collapse-arrow"
-                style="display: none;"
-              />
-              <icon-mock
-                classname="cxd-Collapse-arrow icon icon-right-arrow-bold"
-                icon="right-arrow-bold"
-              />
-            </span>
-            <span
-              class="cxd-TplField"
-            >
-              <span>
-                <span
-                  class="text-muted"
-                />
-              </span>
-            </span>
-          </legend>
           <div
             class="cxd-Collapse-contentWrapper"
           >
@@ -188,19 +163,6 @@ exports[`Renderer:fieldSet with mode 1`] = `
         <fieldset
           class="cxd-Collapse is-active"
         >
-          <legend
-            class="cxd-Collapse-header"
-          >
-            <span
-              class="cxd-TplField"
-            >
-              <span>
-                <span
-                  class="text-muted"
-                />
-              </span>
-            </span>
-          </legend>
           <div
             class="cxd-Collapse-contentWrapper"
           >
@@ -376,19 +338,6 @@ exports[`Renderer:fieldSet with mode 2`] = `
         <fieldset
           class="cxd-Collapse is-active"
         >
-          <legend
-            class="cxd-Collapse-header"
-          >
-            <span
-              class="cxd-TplField"
-            >
-              <span>
-                <span
-                  class="text-muted"
-                />
-              </span>
-            </span>
-          </legend>
           <div
             class="cxd-Collapse-contentWrapper"
           >
@@ -564,19 +513,6 @@ exports[`Renderer:fieldSet with mode 3`] = `
         <fieldset
           class="cxd-Collapse is-active"
         >
-          <legend
-            class="cxd-Collapse-header"
-          >
-            <span
-              class="cxd-TplField"
-            >
-              <span>
-                <span
-                  class="text-muted"
-                />
-              </span>
-            </span>
-          </legend>
           <div
             class="cxd-Collapse-contentWrapper"
           >
