@@ -8,6 +8,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class SelectControlPlugin extends BasePlugin {
+  static id = 'SelectControlPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'select';

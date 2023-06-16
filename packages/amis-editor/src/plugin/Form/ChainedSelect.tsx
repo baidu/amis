@@ -15,6 +15,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class ChainedSelectControlPlugin extends BasePlugin {
+  static id = 'ChainedSelectControlPlugin';
   // 关联渲染器名字
   rendererName = 'chained-select';
   $schema = '/schemas/ChainedSelectControlSchema.json';

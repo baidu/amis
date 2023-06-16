@@ -5,6 +5,7 @@ import {registerEditorPlugin, getSchemaTpl} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 export class TimelinePlugin extends BasePlugin {
+  static id = 'TimelinePlugin';
   rendererName = 'timeline';
   $schema = '/schemas/TimelineSchema.json';
   label: '时间轴';

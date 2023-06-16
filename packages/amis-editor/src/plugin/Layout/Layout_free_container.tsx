@@ -3,6 +3,7 @@ import {registerEditorPlugin, getSchemaTpl} from 'amis-editor-core';
 import {ContainerPlugin} from '../Container';
 
 export default class Layout_free_container extends ContainerPlugin {
+  static id = 'Layout_free_container';
   name = '自由容器';
   isBaseComponent = true;
   pluginIcon = 'layout-free-container';

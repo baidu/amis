@@ -532,7 +532,7 @@ export default class ImageControl extends React.Component<
               obj = {
                 ...org,
                 ...obj,
-                id: org.id || obj.id
+                id: org.id || obj.id || guid()
               };
             }
 

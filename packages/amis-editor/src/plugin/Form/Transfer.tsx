@@ -8,6 +8,7 @@ import {ValidatorTag} from '../../validator';
 import {tipedLabel} from 'amis-editor-core';
 
 export class TransferPlugin extends BasePlugin {
+  static id = 'TransferPlugin';
   // 关联渲染器名字
   rendererName = 'transfer';
   $schema = '/schemas/TransferControlSchema.json';

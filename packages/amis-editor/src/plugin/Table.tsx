@@ -34,6 +34,7 @@ import {
 } from '../util';
 
 export class TablePlugin extends BasePlugin {
+  static id = 'TablePlugin';
   // 关联渲染器名字
   rendererName = 'table';
   $schema = '/schemas/TableSchema.json';

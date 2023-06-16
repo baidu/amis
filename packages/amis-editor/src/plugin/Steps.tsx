@@ -6,6 +6,7 @@ import {BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 
 export class StepsPlugin extends BasePlugin {
+  static id = 'StepsPlugin';
   // 关联渲染器名字
   rendererName = 'steps';
   $schema = '/schemas/StepsSchema.json';

@@ -6,6 +6,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class RangeControlPlugin extends BasePlugin {
+  static id = 'RangeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-range';
   $schema = '/schemas/RangeControlSchema.json';

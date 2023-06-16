@@ -13,6 +13,7 @@ import {diff} from 'amis-editor-core';
 import type {SchemaCollection} from 'amis';
 
 export class ActionPlugin extends BasePlugin {
+  static id = 'ActionPlugin';
   panelTitle = '按钮';
   rendererName = 'action';
   name = '行为按钮';

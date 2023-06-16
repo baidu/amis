@@ -23,6 +23,7 @@ setSchemaTpl('option', {
   label: tipedLabel('说明', '选项说明')
 });
 export class CheckboxControlPlugin extends BasePlugin {
+  static id = 'CheckboxControlPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'checkbox';
@@ -159,7 +160,9 @@ export class CheckboxControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('description'),
-              getSchemaTpl('autoFillApi')
+              getSchemaTpl('autoFillApi', {
+                trigger: 'change'
+              })
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

@@ -924,7 +924,7 @@ export class EventControl extends React.Component<
                       'event-item-header': true,
                       'no-bd-btm':
                         !(
-                          eventSnapshot[eventKey].actions?.length &&
+                          eventSnapshot[eventKey]?.actions?.length &&
                           eventPanelActive[eventKey]
                         ) && !getEventStrongDesc(events, eventKey)
                     })}
@@ -992,10 +992,10 @@ export class EventControl extends React.Component<
                         className: 'event-item-desc'
                       })
                     : null}
-                  {eventSnapshot[eventKey].actions.length &&
+                  {eventSnapshot[eventKey]?.actions?.length &&
                   eventPanelActive[eventKey] ? (
                     <ul className="item-content">
-                      {eventSnapshot[eventKey].actions.map(
+                      {eventSnapshot[eventKey]?.actions?.map(
                         (action, actionIndex) => {
                           return (
                             <li

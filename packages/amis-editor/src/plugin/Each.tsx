@@ -12,6 +12,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut} from 'amis-editor-core';
 
 export class EachPlugin extends BasePlugin {
+  static id = 'EachPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'each';

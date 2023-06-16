@@ -12,6 +12,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class RateControlPlugin extends BasePlugin {
+  static id = 'RateControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-rating';
   $schema = '/schemas/RatingControlSchema.json';

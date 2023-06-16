@@ -12,6 +12,7 @@ import {
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 export class NavPlugin extends BasePlugin {
+  static id = 'NavPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'nav';

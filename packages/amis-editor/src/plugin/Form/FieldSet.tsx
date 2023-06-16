@@ -5,6 +5,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin, RegionConfig} from 'amis-editor-core';
 
 export class FieldSetControlPlugin extends BasePlugin {
+  static id = 'FieldSetControlPlugin';
   // 关联渲染器名字
   rendererName = 'fieldset';
   $schema = '/schemas/FieldSetControlSchema.json';

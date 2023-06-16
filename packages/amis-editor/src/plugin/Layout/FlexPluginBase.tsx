@@ -45,6 +45,7 @@ const defaultFlexContainerSchema = {
 };
 
 export class FlexPluginBase extends LayoutBasePlugin {
+  static id = 'FlexPluginBase';
   rendererName = 'flex';
   $schema = '/schemas/FlexSchema.json';
   disabledRendererPlugin = false;

@@ -2,6 +2,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {TextControlPlugin} from './InputText';
 
 export class URLControlPlugin extends TextControlPlugin {
+  static id = 'URLControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-url';
   $schema = '/schemas/TextControlSchema.json';

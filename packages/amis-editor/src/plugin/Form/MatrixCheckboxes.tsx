@@ -13,6 +13,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class MatrixControlPlugin extends BasePlugin {
+  static id = 'MatrixControlPlugin';
   // 关联渲染器名字
   rendererName = 'matrix-checkboxes';
   $schema = '/schemas/MatrixControlSchema.json';

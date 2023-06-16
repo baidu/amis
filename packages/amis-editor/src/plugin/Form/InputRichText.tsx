@@ -150,6 +150,7 @@ const froalaOptionsPipeOut = (arr: Array<string>) => {
 };
 
 export class RichTextControlPlugin extends BasePlugin {
+  static id = 'RichTextControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-rich-text';
   $schema = '/schemas/RichTextControlSchema.json';

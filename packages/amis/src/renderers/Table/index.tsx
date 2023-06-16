@@ -667,7 +667,7 @@ export default class Table extends React.Component<TableProps, object> {
       return;
     }
 
-    this.affixDetect();
+    requestAnimationFrame(this.affixDetect);
     parent.addEventListener('scroll', this.affixDetect);
     window.addEventListener('resize', this.affixDetect);
     this.updateAutoFillHeight();
@@ -1162,6 +1162,13 @@ export default class Table extends React.Component<TableProps, object> {
     const ns = this.props.classPrefix;
     const dom = findDOMNode(this) as HTMLElement;
     const clip = (this.table as HTMLElement).getBoundingClientRect();
+
+    // 还在动画中，跳过。过一会再试。
+    if (this.table.offsetWidth && clip.width / this.table.offsetWidth < 0.5) {
+      setTimeout(this.affixDetect, 200);
+      return;
+    }
+
     const offsetY =
       this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0;
     const headingHeight =
@@ -2401,7 +2408,8 @@ export default class Table extends React.Component<TableProps, object> {
     rows: Array<any>,
     columns: Array<IColumn>,
     headerOnly: boolean = false,
-    tableClassName: string = ''
+    tableClassName: string = '',
+    fixedPosition: 'left' | 'right' = 'left'
   ) {
     const {
       placeholder,
@@ -2417,7 +2425,11 @@ export default class Table extends React.Component<TableProps, object> {
       rowClassName,
       itemAction,
       dispatchEvent,
-      onEvent
+      onEvent,
+      prefixRow,
+      affixRow,
+      prefixRowClassName,
+      affixRowClassName
     } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
     const columnsGroup = store.columnGroup;
@@ -2510,6 +2522,11 @@ export default class Table extends React.Component<TableProps, object> {
             rows={rows}
             locale={locale}
             translate={translate}
+            fixedPosition={fixedPosition}
+            prefixRow={prefixRow}
+            affixRow={affixRow}
+            prefixRowClassName={prefixRowClassName}
+            affixRowClassName={affixRowClassName}
             rowsProps={{
               regionPrefix: 'fixed/',
               renderCell: (
@@ -3114,7 +3131,8 @@ export default class Table extends React.Component<TableProps, object> {
                   store.rows,
                   store.rightFixedColumns,
                   false,
-                  tableClassName
+                  tableClassName,
+                  'right'
                 )
               : null}
           </div>

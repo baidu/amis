@@ -140,6 +140,7 @@ const dateTooltip =
   '支持例如: <code>now、+3days、-2weeks、+1hour、+2years</code> 等（minute|min|hour|day|week|month|year|weekday|second|millisecond）这种相对值用法';
 
 export class DateControlPlugin extends BasePlugin {
+  static id = 'DateControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-date';
   $schema = '/schemas/DateControlSchema.json';

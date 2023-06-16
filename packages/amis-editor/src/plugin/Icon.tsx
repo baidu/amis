@@ -4,6 +4,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control';
 
 export class IconPlugin extends BasePlugin {
+  static id = 'IconPlugin';
   // 关联渲染器名字
   rendererName = 'icon';
   $schema = '/schemas/Icon.json';

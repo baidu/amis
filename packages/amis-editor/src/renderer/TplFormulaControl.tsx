@@ -61,6 +61,8 @@ interface TplFormulaControlState {
   expressionBrace?: Array<CodeMirror.Position>; // 表达式所在位置
 
   tooltipStyle: {[key: string]: string}; // 提示框样式
+
+  loading: boolean;
 }
 
 // 暂时记录输入的字符，用于快捷键判断
@@ -96,7 +98,8 @@ export class TplFormulaControl extends React.Component<
       formulaPickerValue: '',
       tooltipStyle: {
         display: 'none'
-      }
+      },
+      loading: false
     };
   }
 
@@ -285,11 +288,47 @@ export class TplFormulaControl extends React.Component<
     this.editorPlugin?.setValue('');
   }
 
+  /**
+   * 公式编辑器打开完成一些异步任务的加载
+   */
+  @autobind
+  async beforeFormulaEditorOpen() {
+    const {node, manager, data} = this.props;
+    const onFormulaEditorOpen = manager?.config?.onFormulaEditorOpen;
+
+    this.setState({loading: true});
+
+    try {
+      if (
+        manager &&
+        onFormulaEditorOpen &&
+        typeof onFormulaEditorOpen === 'function'
+      ) {
+        const res = await onFormulaEditorOpen(node, manager, data);
+
+        if (res !== false) {
+          const variables = await getVariables(this);
+          this.setState({variables});
+        }
+      } else {
+        const variables = await getVariables(this);
+        this.setState({variables});
+      }
+    } catch (error) {
+      console.error('[amis-editor] onFormulaEditorOpen failed: ', error?.stack);
+    }
+
+    this.setState({loading: false});
+  }
+
   @autobind
   async handleFormulaClick(e: React.MouseEvent, type?: string) {
-    const variablesArr = await getVariables(this);
+  async handleFormulaClick() {
+    try {
+      await this.beforeFormulaEditorOpen();
+    } catch (error) {}
+
     this.setState({
-      variables: variablesArr,
       formulaPickerOpen: true
     });
 
@@ -335,8 +374,13 @@ export class TplFormulaControl extends React.Component<
       clearable,
       ...rest
     } = this.props;
-    const {formulaPickerOpen, formulaPickerValue, variables, tooltipStyle} =
-      this.state;
+    const {
+      formulaPickerOpen,
+      formulaPickerValue,
+      variables,
+      tooltipStyle,
+      loading
+    } = this.state;
 
     const FormulaPickerCmp = customFormulaPicker ?? FormulaPicker;
 
@@ -388,6 +432,7 @@ export class TplFormulaControl extends React.Component<
             mouseLeaveDelay: 0
           }}
           onClick={this.handleFormulaClick}
+          loading={loading}
         >
           <Icon
             icon="input-add-fx"

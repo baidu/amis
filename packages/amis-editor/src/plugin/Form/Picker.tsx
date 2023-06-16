@@ -18,6 +18,7 @@ import {diff} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class PickerControlPlugin extends BasePlugin {
+  static id = 'PickerControlPlugin';
   // 关联渲染器名字
   rendererName = 'picker';
   $schema = '/schemas/PickerControlSchema.json';

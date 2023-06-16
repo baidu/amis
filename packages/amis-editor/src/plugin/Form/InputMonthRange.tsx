@@ -3,6 +3,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {DateRangeControlPlugin} from './InputDateRange';
 
 export class MonthRangeControlPlugin extends DateRangeControlPlugin {
+  static id = 'MonthRangeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-month-range';
   $schema = '/schemas/MonthRangeControlSchema.json';

@@ -27,6 +27,7 @@ import type {SchemaObject} from 'amis';
 import {resolveArrayDatasource} from '../util';
 
 export class Table2Plugin extends BasePlugin {
+  static id = 'Table2Plugin';
   // 关联渲染器名字
   rendererName = 'table2';
   $schema = '/schemas/TableSchema.json';

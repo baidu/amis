@@ -12,6 +12,7 @@ import {getEventControlConfig} from '../renderer/event-control/helper';
 import type {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class ServicePlugin extends BasePlugin {
+  static id = 'ServicePlugin';
   // 关联渲染器名字
   rendererName = 'service';
   $schema = '/schemas/ServiceSchema.json';

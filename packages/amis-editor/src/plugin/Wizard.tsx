@@ -24,6 +24,7 @@ import {
 } from '../renderer/event-control/helper';
 
 export class WizardPlugin extends BasePlugin {
+  static id = 'WizardPlugin';
   // 关联渲染器名字
   rendererName = 'wizard';
   $schema = '/schemas/WizardSchema.json';

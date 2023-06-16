@@ -12,6 +12,7 @@ import {RendererPluginEvent} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 export class PaginationPlugin extends BasePlugin {
+  static id = 'PaginationPlugin';
   // 关联渲染器名字
   rendererName = 'pagination';
   $schema = '/schemas/PaginationSchema.json';

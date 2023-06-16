@@ -3,6 +3,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {DateControlPlugin} from './InputDate';
 
 export class MonthControlPlugin extends DateControlPlugin {
+  static id = 'MonthControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-month';
   $schema = '/schemas/MonthControlSchema.json';

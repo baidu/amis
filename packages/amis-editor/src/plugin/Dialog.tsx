@@ -13,6 +13,7 @@ import {
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class DialogPlugin extends BasePlugin {
+  static id = 'DialogPlugin';
   // 关联渲染器名字
   rendererName = 'dialog';
   $schema = '/schemas/DialogSchema.json';

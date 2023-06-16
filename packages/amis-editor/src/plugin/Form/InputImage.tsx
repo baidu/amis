@@ -48,6 +48,7 @@ const inputStateFunc = (visibleOn: string, state: string) => {
 };
 
 export class ImageControlPlugin extends BasePlugin {
+  static id = 'ImageControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-image';
   $schema = '/schemas/ImageControlSchema.json';

@@ -14,6 +14,7 @@ import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
 import omit from 'lodash/omit';
 
 export class PagePlugin extends BasePlugin {
+  static id = 'PagePlugin';
   // 关联渲染器名字
   rendererName = 'page';
   $schema = '/schemas/PageSchema.json';

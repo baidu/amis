@@ -14,6 +14,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginEvent, RendererPluginAction} from 'amis-editor-core';
 
 export class DiffEditorControlPlugin extends BasePlugin {
+  static id = 'DiffEditorControlPlugin';
   // 关联渲染器名字
   rendererName = 'diff-editor';
   $schema = '/schemas/DiffEditorControlSchema.json';

@@ -15,6 +15,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import isArray from 'lodash/isArray';
 
 export class CustomPlugin extends BasePlugin {
+  static id = 'CustomRegionPlugin';
   // 关联渲染器名字
   rendererName = 'custom';
   $schema = '/schemas/CustomSchema.json';

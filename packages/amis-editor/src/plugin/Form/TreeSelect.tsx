@@ -12,6 +12,7 @@ import {ValidatorTag} from '../../validator';
 import {tipedLabel} from 'amis-editor-core';
 
 export class TreeSelectControlPlugin extends BasePlugin {
+  static id = 'TreeSelectControlPlugin';
   // 关联渲染器名字
   rendererName = 'tree-select';
   $schema = '/schemas/TreeSelectControlSchema.json';

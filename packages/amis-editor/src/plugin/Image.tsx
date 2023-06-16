@@ -10,6 +10,7 @@ import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 
 export class ImagePlugin extends BasePlugin {
+  static id = 'ImagePlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'image';

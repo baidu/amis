@@ -18,6 +18,7 @@ import {JSONDelete, JSONPipeIn, JSONUpdate} from 'amis-editor-core';
 import {SUPPORT_STATIC_FORMITEM_CMPTS} from '../../renderer/event-control/helper';
 
 export class ItemPlugin extends BasePlugin {
+  static id = 'ItemPlugin';
   // panelTitle = '表单项通配';
   panelTitle = '表单项';
   order = -990;

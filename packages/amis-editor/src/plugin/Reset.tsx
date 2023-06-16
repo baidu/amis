@@ -2,6 +2,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {ButtonPlugin} from './Button';
 
 export class ResetPlugin extends ButtonPlugin {
+  static id = 'ResetPlugin';
   // 关联渲染器名字
   rendererName = 'reset';
   disabledRendererPlugin = true; // 组件面板不显示

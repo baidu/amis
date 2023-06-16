@@ -6,6 +6,7 @@ import {formItemControl} from '../../component/BaseControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class ListControlPlugin extends BasePlugin {
+  static id = 'ListControlPlugin';
   // 关联渲染器名字
   rendererName = 'list-select';
   $schema = '/schemas/ListControlSchema.json';

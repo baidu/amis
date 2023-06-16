@@ -102,7 +102,12 @@ export interface DSSourceSettingFormConfig {
   grain?: DSGrain;
   /** 数据源所被使用的功能场景 */
   feat: DSFeatureType;
-  /** 是否是在CRUD场景下，有的数据源在CRUD中可以统一设置 */
+  /** 渲染器类型 */
+  renderer?: string;
+  /**
+   * @deprecated 待废弃，使用renderer字段代替
+   * 是否是在CRUD场景下，有的数据源在CRUD中可以统一设置
+   * */
   inCrud?: boolean;
   /** 是否在脚手架中 */
   inScaffold?: boolean;

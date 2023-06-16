@@ -1110,7 +1110,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         static: isStatic,
         staticClassName
       } = props;
-
+      const mobileUI = useMobileUI && isMobile();
       description = description || desc;
 
       return (
@@ -1157,50 +1157,101 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             </label>
           ) : null}
 
-          {renderControl()}
+          {mobileUI ? (
+            <div className={cx('Form-item-controlBox')}>
+              {renderControl()}
 
-          {caption
-            ? render('caption', caption, {
-                className: cx(`Form-caption`, captionClassName)
-              })
-            : null}
+              {caption
+                ? render('caption', caption, {
+                    className: cx(`Form-caption`, captionClassName)
+                  })
+                : null}
 
-          {remark
-            ? render('remark', {
-                type: 'remark',
-                icon: remark.icon || 'warning-mark',
-                className: cx(`Form-remark`),
-                tooltip: remark,
-                useMobileUI,
-                container:
-                  env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
-              })
-            : null}
+              {remark
+                ? render('remark', {
+                    type: 'remark',
+                    icon: remark.icon || 'warning-mark',
+                    className: cx(`Form-remark`),
+                    tooltip: remark,
+                    useMobileUI,
+                    container:
+                      env && env.getModalContainer
+                        ? env.getModalContainer
+                        : undefined
+                  })
+                : null}
 
-          {hint && model && model.isFocused
-            ? render('hint', hint, {
-                className: cx(`Form-hint`)
-              })
-            : null}
+              {hint && model && model.isFocused
+                ? render('hint', hint, {
+                    className: cx(`Form-hint`)
+                  })
+                : null}
 
-          {model &&
-          !model.valid &&
-          showErrorMsg !== false &&
-          Array.isArray(model.errors) ? (
-            <ul className={cx(`Form-feedback`)}>
-              {model.errors.map((msg: string, key: number) => (
-                <li key={key}>{msg}</li>
-              ))}
-            </ul>
-          ) : null}
+              {model &&
+              !model.valid &&
+              showErrorMsg !== false &&
+              Array.isArray(model.errors) ? (
+                <ul className={cx(`Form-feedback`)}>
+                  {model.errors.map((msg: string, key: number) => (
+                    <li key={key}>{msg}</li>
+                  ))}
+                </ul>
+              ) : null}
 
-          {renderDescription !== false && description
-            ? render('description', description, {
-                className: cx(`Form-description`, descriptionClassName)
-              })
-            : null}
+              {renderDescription !== false && description
+                ? render('description', description, {
+                    className: cx(`Form-description`, descriptionClassName)
+                  })
+                : null}
+            </div>
+          ) : (
+            <>
+              {renderControl()}
+
+              {caption
+                ? render('caption', caption, {
+                    className: cx(`Form-caption`, captionClassName)
+                  })
+                : null}
+
+              {remark
+                ? render('remark', {
+                    type: 'remark',
+                    icon: remark.icon || 'warning-mark',
+                    className: cx(`Form-remark`),
+                    tooltip: remark,
+                    useMobileUI,
+                    container:
+                      env && env.getModalContainer
+                        ? env.getModalContainer
+                        : undefined
+                  })
+                : null}
+
+              {hint && model && model.isFocused
+                ? render('hint', hint, {
+                    className: cx(`Form-hint`)
+                  })
+                : null}
+
+              {model &&
+              !model.valid &&
+              showErrorMsg !== false &&
+              Array.isArray(model.errors) ? (
+                <ul className={cx(`Form-feedback`)}>
+                  {model.errors.map((msg: string, key: number) => (
+                    <li key={key}>{msg}</li>
+                  ))}
+                </ul>
+              ) : null}
+
+              {renderDescription !== false && description
+                ? render('description', description, {
+                    className: cx(`Form-description`, descriptionClassName)
+                  })
+                : null}
+            </>
+          )}
         </div>
       );
     },

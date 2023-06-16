@@ -28,6 +28,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import {resolveArrayDatasource} from '../../util';
 
 export class TableControlPlugin extends BasePlugin {
+  static id = 'TableControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-table';
   $schema = '/schemas/TableControlSchema.json';
@@ -1111,16 +1112,28 @@ export class TableControlPlugin extends BasePlugin {
     const columns: EditorNodeType = node.children.find(
       item => item.isRegion && item.region === 'columns'
     );
-    for (let current of columns?.children) {
-      const schema = current.schema;
-      if (schema.name) {
-        itemsSchema.properties[schema.name] = current.info?.plugin
-          ?.buildDataSchemas
-          ? await current.info.plugin.buildDataSchemas(current, region)
-          : {
-              type: 'string',
-              title: schema.label || schema.name
-            };
+
+    // todo：以下的处理无效，需要cell实现才能深层细化
+    // for (let current of columns?.children) {
+    //   const schema = current.schema;
+    //   if (schema.name) {
+    //     itemsSchema.properties[schema.name] = current.info?.plugin
+    //       ?.buildDataSchemas
+    //       ? await current.info.plugin.buildDataSchemas(current, region)
+    //       : {
+    //           type: 'string',
+    //           title: schema.label || schema.name
+    //         };
+    //   }
+    // }
+
+    // 一期先简单处理，上面todo实现之后，这里可以废弃
+    for (let current of node.schema?.columns) {
+      if (current.name) {
+        itemsSchema.properties[current.name] = {
+          type: 'string',
+          title: current.label || current.name
+        };
       }
     }
 
@@ -1141,24 +1154,31 @@ export class TableControlPlugin extends BasePlugin {
     target: EditorNodeType,
     region?: EditorNodeType
   ) {
-    if (target.parent.isRegion && target.parent.region === 'columns') {
-      const scope = scopeNode.parent.parent;
-      const builder = this.dsBuilderManager.resolveBuilderBySchema(
+    let scope;
+    let builder;
+
+    if (
+      target.type === scopeNode.type ||
+      (target.parent.isRegion && target.parent.region === 'columns')
+    ) {
+      scope = scopeNode.parent.parent;
+      builder = this.dsBuilderManager.resolveBuilderBySchema(
         scope.schema,
         'api'
       );
+    }
 
-      if (builder && scope.schema.api) {
-        return builder.getAvailableContextFileds(
-          {
-            schema: scope.schema,
-            sourceKey: 'api',
-            feat: scope.schema?.feat ?? 'List',
-            scopeNode
-          },
-          target
-        );
-      }
+    if (builder && scope.schema.api) {
+      return builder.getAvailableContextFileds(
+        {
+          schema: scope.schema,
+          sourceKey: 'api',
+          feat: scope.schema?.feat ?? 'List',
+          scopeNode
+        },
+        /** ID相同为本体，否则为子项 */
+        target?.id === scopeNode?.id ? scopeNode : target
+      );
     }
   }
 }

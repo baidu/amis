@@ -7,6 +7,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class RadiosControlPlugin extends BasePlugin {
+  static id = 'RadiosControlPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'radios';
@@ -133,7 +134,9 @@ export class RadiosControlPlugin extends BasePlugin {
               // getSchemaTpl('autoFill')
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
-              getSchemaTpl('autoFillApi')
+              getSchemaTpl('autoFillApi', {
+                trigger: 'change'
+              })
             ]
           },
           {

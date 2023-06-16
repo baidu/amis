@@ -13,6 +13,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {getVariable} from 'amis-core';
 
 export class TableCellPlugin extends BasePlugin {
+  static id = 'TableCellPlugin';
   panelTitle = '列配置';
   panelIcon = 'fa fa-columns';
   panelBodyCreator = (context: BaseEventContext) => {

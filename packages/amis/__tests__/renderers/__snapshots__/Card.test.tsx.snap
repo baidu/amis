@@ -376,7 +376,7 @@ exports[`Renderer:cards hightlight 1`] = `
           role="page-body"
         >
           <div
-            class="cxd-Card"
+            class="cxd-Card cxd-Card--link"
           >
             <div
               class="cxd-Card-multiMedia--left"
@@ -506,7 +506,7 @@ exports[`Renderer:cards hightlight 2`] = `
           role="page-body"
         >
           <div
-            class="cxd-Card"
+            class="cxd-Card cxd-Card--link"
           >
             <div
               class="cxd-Card-multiMedia--left"
@@ -636,7 +636,7 @@ exports[`Renderer:cards media 1`] = `
           role="page-body"
         >
           <div
-            class="cxd-Card"
+            class="cxd-Card cxd-Card--link"
           >
             <div
               class="cxd-Card-multiMedia--left"

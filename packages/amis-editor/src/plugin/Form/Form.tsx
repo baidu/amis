@@ -124,6 +124,7 @@ const autoAddOptions = (values: any) => {
 };
 
 export class FormPlugin extends BasePlugin {
+  static id = 'FormPlugin';
   // 关联渲染器名字
   rendererName = 'form';
   $schema = '/schemas/FormSchema.json';

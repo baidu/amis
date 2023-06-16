@@ -20,6 +20,7 @@ import {
 } from '../util';
 
 export class ListPlugin extends BasePlugin {
+  static id = 'ListPlugin';
   // 关联渲染器名字
   rendererName = 'list';
   $schema = '/schemas/ListSchema.json';
