@@ -722,6 +722,40 @@ order: 68
 }
 ```
 
+## tab的label自定义
+
+通过配置 tabs 数组中 title 为 schema，就能自定义 label 的显示。
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "addBtnText": "新增Tab",
+    "tabs": [
+        {
+            "title": {
+                "type": "container",
+                "body": [
+                    {
+                        "type": "tpl",
+                        "tpl": "这里是容器内容区"
+                    },
+                    {
+                        "type": "icon",
+                        "icon": "cloud"
+                    }
+                ]
+            },
+            "closable": true,
+            "tab": "Content 1"
+        },
+        {
+            "title": "Tab 2",
+            "tab": "Content 2"
+        }
+    ]
+}
+```
+
 ## 配置超出折叠
 
 通过配置 `collapseOnExceed` 可以用来实现超出折叠，额外还能通过 `collapseBtnLabel` 配置折叠按钮的文字
@@ -807,7 +841,7 @@ order: 68
 | source                | `string`                          |                                     | tabs 关联数据，关联后可以重复生成选项卡                                                                    |
 | toolbar               | [SchemaNode](../types/schemanode) |                                     | tabs 中的工具栏                                                                                            |
 | toolbarClassName      | `string`                          |                                     | tabs 中工具栏的类名                                                                                        |
-| tabs[x].title         | `string`                          |                                     | Tab 标题                                                                                                   |
+| tabs[x].title         | `string` \| 'SchemaNode'                          |                                     | Tab 标题                                                                                                   |
 | tabs[x].icon          | `icon`                            |                                     | Tab 的图标                                                                                                 |
 | tabs[x].iconPosition  | `left` / `right`                  | `left`                              | Tab 的图标位置                                                                                             |
 | tabs[x].tab           | [SchemaNode](../types/schemanode) |                                     | 内容区                                                                                                     |

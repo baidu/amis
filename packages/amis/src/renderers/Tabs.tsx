@@ -714,7 +714,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   ) {
     const {render} = this.props;
     return isObject(title) && title
-      ? render(`tab-title/${index}`, title, {...data})
+      ? render(`tab-title/${index}`, title, data)
       : filter(title, data);
   }
 
