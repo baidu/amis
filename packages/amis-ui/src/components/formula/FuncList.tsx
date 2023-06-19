@@ -102,45 +102,47 @@ export function FuncList(props: FuncListProps) {
             <div className={cx('FormulaEditor-FuncList-doc', descClassName)}>
               {activeFunc ? (
                 <>
-                  <pre>
-                    <TooltipWrapper
-                      placement="top"
-                      tooltip={{
-                        children: () => (
-                          <table
-                            className={cx(
-                              'FormulaEditor-FuncList-doc-example',
-                              'Table-table'
-                            )}
-                          >
-                            <thead>
-                              <tr>
-                                {['参数名称', '类型', '描述'].map(
-                                  (name, index) => (
-                                    <th key={index}>{name}</th>
+                  {Array.isArray(activeFunc.params) ? (
+                    <pre>
+                      <TooltipWrapper
+                        placement="top"
+                        tooltip={{
+                          children: () => (
+                            <table
+                              className={cx(
+                                'FormulaEditor-FuncList-doc-example',
+                                'Table-table'
+                              )}
+                            >
+                              <thead>
+                                <tr>
+                                  {['参数名称', '类型', '描述'].map(
+                                    (name, index) => (
+                                      <th key={index}>{name}</th>
+                                    )
+                                  )}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {activeFunc.params.map(
+                                  (param: any, index: number) => (
+                                    <tr key={index}>
+                                      <td>{param.name}</td>
+                                      <td>{param.type}</td>
+                                      <td>{param.description}</td>
+                                    </tr>
                                   )
                                 )}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {activeFunc.params.map(
-                                (param: any, index: number) => (
-                                  <tr key={index}>
-                                    <td>{param.name}</td>
-                                    <td>{param.type}</td>
-                                    <td>{param.description}</td>
-                                  </tr>
-                                )
-                              )}
-                            </tbody>
-                          </table>
-                        )
-                      }}
-                      trigger="hover"
-                    >
-                      <code>{activeFunc.example}</code>
-                    </TooltipWrapper>
-                  </pre>
+                              </tbody>
+                            </table>
+                          )
+                        }}
+                        trigger="hover"
+                      >
+                        <code>{activeFunc.example}</code>
+                      </TooltipWrapper>
+                    </pre>
+                  ) : null}
                   <div className={cx('FormulaEditor-FuncList-doc-desc')}>
                     {activeFunc.description}
                   </div>
