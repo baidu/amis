@@ -55,7 +55,7 @@ export class CollapseGroupRender extends React.Component<
 
   @autobind
   async handleCollapseChange(
-    activeKey: Array<string | number>,
+    activeKeys: Array<string | number>,
     collapseId: string | number,
     collapsed: boolean
   ) {
@@ -63,7 +63,7 @@ export class CollapseGroupRender extends React.Component<
     const renderEvent = await dispatchEvent(
       'collapseChange',
       resolveEventData(this.props, {
-        activeKey,
+        activeKeys,
         collapseId,
         collapsed
       })
@@ -71,7 +71,7 @@ export class CollapseGroupRender extends React.Component<
     if (renderEvent?.prevented) {
       return;
     }
-    onCollapse?.(activeKey, collapseId, collapsed);
+    onCollapse?.(activeKeys, collapseId, collapsed);
   }
 
   render() {
