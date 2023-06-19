@@ -110,9 +110,11 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
     if (props.disabled || props.collapsable === false) {
       return;
     }
-    props.onCollapse && props.onCollapse(props, !this.state.collapsed);
+    const newCollapsed = !this.state.collapsed;
+    console.log('newCollapsed', newCollapsed);
+    props.onCollapse && props.onCollapse(props, newCollapsed);
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: newCollapsed
     });
   }
 

@@ -28,6 +28,11 @@ export interface CollapseGroupProps {
   classPrefix: string;
   children?: React.ReactNode | Array<React.ReactNode>;
   useMobileUI?: boolean;
+  onCollapsedChange?: (
+    activeKey: Array<string | number>,
+    collapseId: string | number,
+    collapsed: boolean
+  ) => void;
 }
 
 export interface CollapseGroupState {
@@ -103,6 +108,11 @@ class CollapseGroup extends React.Component<
         activeKey.push(collapseId as string);
       }
     }
+    this.props.onCollapsedChange?.(
+      activeKey,
+      collapseId,
+      activeKey.indexOf(collapseId) === -1
+    );
     this.setState({
       activeKey
     });

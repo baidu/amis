@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, autobind, resolveEventData} from 'amis-core';
 import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
 import {CollapseGroup} from 'amis-ui';
 
@@ -44,6 +44,7 @@ export interface CollapseGroupProps
   children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 
+export type CollapseGroupRenderEvent = 'collapsedChange';
 export class CollapseGroupRender extends React.Component<
   CollapseGroupProps,
   {}
@@ -51,6 +52,29 @@ export class CollapseGroupRender extends React.Component<
   constructor(props: CollapseGroupProps) {
     super(props);
   }
+
+  @autobind
+  async onCollapsedChange(
+    activeKey: Array<string | number>,
+    collapseId: string | number,
+    collapsed: boolean
+  ) {
+    console.log('collapsedgroup', collapsed);
+    const {dispatchEvent, onCollapse} = this.props;
+    const renderEvent = await dispatchEvent(
+      'collapsedChange',
+      resolveEventData(this.props, {
+        activeKey,
+        collapseId,
+        collapsed
+      })
+    );
+    if (renderEvent?.prevented) {
+      return;
+    }
+    onCollapse?.(activeKey, collapseId, collapsed);
+  }
+
   render() {
     const {
       defaultActiveKey,
@@ -72,6 +96,7 @@ export class CollapseGroupRender extends React.Component<
         className={className}
         style={style}
         useMobileUI={useMobileUI}
+        onCollapsedChange={this.onCollapsedChange}
       >
         {render('body', body || '')}
       </CollapseGroup>

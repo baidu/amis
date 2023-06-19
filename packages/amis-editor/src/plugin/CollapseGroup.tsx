@@ -1,9 +1,14 @@
-import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
+import {
+  RendererPluginEvent,
+  getI18nEnabled,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 import {tipedLabel} from 'amis-editor-core';
 import {isObject} from 'amis-editor-core';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class CollapseGroupPlugin extends BasePlugin {
   static id = 'CollapseGroupPlugin';
@@ -55,6 +60,33 @@ export class CollapseGroupPlugin extends BasePlugin {
   previewSchema = {
     ...this.scaffold
   };
+
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'collapsedChange',
+      eventLabel: '折叠状态改变',
+      description: '折叠面板折叠状态改变时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            'event.data.activeKey': {
+              type: 'array',
+              title: '当前所有未折叠的折叠面板对应的索引值数组'
+            },
+            'event.data.collapseId': {
+              type: 'string | number',
+              title: '触发事件的折叠面板对应的索引值'
+            },
+            'event.data.collapsed': {
+              type: 'array',
+              title: '触发事件的折叠面板是否折叠'
+            }
+          }
+        }
+      ]
+    }
+  ];
 
   activeKeyData: any = [];
   panelTitle = '折叠面板';
@@ -235,6 +267,16 @@ export class CollapseGroupPlugin extends BasePlugin {
               isFormItem: false
             })
           ])
+        },
+        {
+          title: '事件',
+          className: 'p-none',
+          body: [
+            getSchemaTpl('eventControl', {
+              name: 'onEvent',
+              ...getEventControlConfig(this.manager, context)
+            })
+          ]
         }
       ])
     ];
