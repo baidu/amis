@@ -42,7 +42,7 @@ export class CollapsePlugin extends BasePlugin {
 
   events: RendererPluginEvent[] = [
     {
-      eventName: 'collapsedChange',
+      eventName: 'collapseChange',
       eventLabel: '折叠状态改变',
       description: '折叠面板折叠状态改变时触发',
       dataSchema: [

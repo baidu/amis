@@ -44,7 +44,7 @@ export interface CollapseGroupProps
   children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 
-export type CollapseGroupRenderEvent = 'collapsedChange';
+export type CollapseGroupRenderEvent = 'collapseChange';
 export class CollapseGroupRender extends React.Component<
   CollapseGroupProps,
   {}
@@ -54,14 +54,14 @@ export class CollapseGroupRender extends React.Component<
   }
 
   @autobind
-  async onCollapsedChange(
+  async handleCollapseChange(
     activeKey: Array<string | number>,
     collapseId: string | number,
     collapsed: boolean
   ) {
     const {dispatchEvent, onCollapse} = this.props;
     const renderEvent = await dispatchEvent(
-      'collapsedChange',
+      'collapseChange',
       resolveEventData(this.props, {
         activeKey,
         collapseId,
@@ -95,7 +95,7 @@ export class CollapseGroupRender extends React.Component<
         className={className}
         style={style}
         useMobileUI={useMobileUI}
-        onCollapsedChange={this.onCollapsedChange}
+        onCollapsedChange={this.handleCollapseChange}
       >
         {render('body', body || '')}
       </CollapseGroup>

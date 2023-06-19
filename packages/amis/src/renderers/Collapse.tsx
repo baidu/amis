@@ -124,10 +124,10 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
   ];
 
   @autobind
-  async onCollapsedChange(props: any, collapsed: boolean) {
+  async handleCollapseChange(props: any, collapsed: boolean) {
     const {dispatchEvent, onCollapse} = this.props;
     const rendererEvent = await dispatchEvent(
-      'collapsedChange',
+      'collapseChange',
       resolveEventData(this.props, {
         collapsed
       })
@@ -219,7 +219,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
             : null
         }
         useMobileUI={useMobileUI}
-        onCollapse={this.onCollapsedChange}
+        onCollapse={this.handleCollapseChange}
         divideLine={divideLine}
       ></BasicCollapse>
     );

@@ -111,7 +111,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       return;
     }
     const newCollapsed = !this.state.collapsed;
-    props.onCollapse && props.onCollapse(props, newCollapsed);
+    props.onCollapse?.(props, newCollapsed);
     this.setState({
       collapsed: newCollapsed
     });
