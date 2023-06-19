@@ -225,11 +225,11 @@ order: 36
 
 当前组件会对外派发以下事件，可以通过 onEvent 来监听这些事件，并通过 actions 来配置执行的动作，在 actions 中可以通过${事件参数名}或${event.data.[事件参数名]}来获取事件产生的数据，详细查看事件动作。
 
-| 事件名称       | 事件参数                                                                                                                                                                                                | 说明                       |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| collapseChange | `activeKeys: Array<string \| number>` 当前所有展开的折叠面板对应的索引值数组 <br /> `collapseId: string \| number` 触发事件的折叠面板对应的索引值 <br/> `collapsed: boolean` 触发事件的折叠面板是否折叠 | 折叠面板折叠状态改变时触发 |
+| 事件名称 | 事件参数                                                                                                                                        | 说明                       |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| change   | `activeKeys: Array<string \| number>` 当前展开的索引列表 <br /> `collapseId: string \| number` 折叠器索引 <br/> `collapsed: boolean` 折叠器状态 | 折叠面板折叠状态改变时触发 |
 
-### collapseChange
+### change
 
 折叠面板折叠状态改变时触发。
 
@@ -274,7 +274,7 @@ order: 36
   ],
   "id": "u:23e4c5ec9c89",
   "onEvent": {
-    "collapseChange": {
+    "change": {
       "weight": 0,
       "actions": [
         {
@@ -285,7 +285,7 @@ order: 36
             "closeButton": true,
             "showIcon": true,
             "title": "折叠状态改变",
-            "msg": "事件数据${event.data | json}",
+            "msg": "activeKeys: ${event.data.activeKeys | json}, collapseId: ${event.data.collapseId}, collapsed: ${event.data.collapsed}",
             "className": "theme-toast-action-scope"
           }
         }
@@ -311,11 +311,11 @@ order: 36
 
 当前组件会对外派发以下事件，可以通过 onEvent 来监听这些事件，并通过 actions 来配置执行的动作，在 actions 中可以通过${事件参数名}或${event.data.[事件参数名]}来获取事件产生的数据，详细查看事件动作。
 
-| 事件名称       | 事件参数                              | 说明                       |
-| -------------- | ------------------------------------- | -------------------------- |
-| collapseChange | `collapsed: boolean` 折叠面板是否折叠 | 折叠面板折叠状态改变时触发 |
+| 事件名称 | 事件参数                        | 说明                     |
+| -------- | ------------------------------- | ------------------------ |
+| change   | `collapsed: boolean` 折叠器状态 | 折叠器折叠状态改变时触发 |
 
-### collapseChange
+### change
 
 折叠面板折叠状态改变时触发。
 
@@ -334,7 +334,7 @@ order: 36
   ],
   "id": "u:62aa2f0c7fd9",
   "onEvent": {
-    "collapseChange": {
+    "change": {
       "weight": 0,
       "actions": [
         {
@@ -345,7 +345,7 @@ order: 36
             "closeButton": true,
             "showIcon": true,
             "title": "collapsedChange",
-            "msg": "${event.data | json}",
+            "msg": "collapsed: ${event.data.collapsed}",
             "className": "theme-toast-action-scope"
           }
         }

@@ -61,7 +61,7 @@ export class CollapseGroupRender extends React.Component<
   ) {
     const {dispatchEvent, onCollapse} = this.props;
     const renderEvent = await dispatchEvent(
-      'collapseChange',
+      'change',
       resolveEventData(this.props, {
         activeKeys,
         collapseId,
@@ -95,7 +95,7 @@ export class CollapseGroupRender extends React.Component<
         className={className}
         style={style}
         useMobileUI={useMobileUI}
-        onCollapsedChange={this.handleCollapseChange}
+        onCollapseChange={this.handleCollapseChange}
       >
         {render('body', body || '')}
       </CollapseGroup>

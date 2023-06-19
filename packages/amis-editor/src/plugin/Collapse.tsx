@@ -42,16 +42,22 @@ export class CollapsePlugin extends BasePlugin {
 
   events: RendererPluginEvent[] = [
     {
-      eventName: 'collapseChange',
+      eventName: 'change',
       eventLabel: '折叠状态改变',
-      description: '折叠面板折叠状态改变时触发',
+      description: '折叠器折叠状态改变时触发',
       dataSchema: [
         {
           type: 'object',
           properties: {
-            'event.data.collapsed': {
-              type: 'boolean',
-              title: '折叠面板是否折叠'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                collapsed: {
+                  type: 'boolean',
+                  title: '折叠器状态'
+                }
+              }
             }
           }
         }

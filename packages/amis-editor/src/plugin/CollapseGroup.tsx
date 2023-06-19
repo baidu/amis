@@ -63,24 +63,30 @@ export class CollapseGroupPlugin extends BasePlugin {
 
   events: RendererPluginEvent[] = [
     {
-      eventName: 'collapseChange',
+      eventName: 'change',
       eventLabel: '折叠状态改变',
       description: '折叠面板折叠状态改变时触发',
       dataSchema: [
         {
           type: 'object',
           properties: {
-            'event.data.activeKey': {
-              type: 'array',
-              title: '当前所有未折叠的折叠面板对应的索引值数组'
-            },
-            'event.data.collapseId': {
-              type: 'string | number',
-              title: '触发事件的折叠面板对应的索引值'
-            },
-            'event.data.collapsed': {
-              type: 'array',
-              title: '触发事件的折叠面板是否折叠'
+            data: {
+              title: '数据',
+              type: 'object',
+              properties: {
+                activeKeys: {
+                  type: 'array',
+                  title: '当前展开的索引列表'
+                },
+                collapseId: {
+                  type: 'string | number',
+                  title: '折叠器索引'
+                },
+                collapsed: {
+                  type: 'boolean',
+                  title: '折叠器状态'
+                }
+              }
             }
           }
         }
