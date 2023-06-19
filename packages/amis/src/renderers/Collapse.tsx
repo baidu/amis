@@ -125,7 +125,6 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
 
   @autobind
   async onCollapsedChange(props: any, collapsed: boolean) {
-    console.log('collapsed', collapsed);
     const {dispatchEvent, onCollapse} = this.props;
     const rendererEvent = await dispatchEvent(
       'collapsedChange',

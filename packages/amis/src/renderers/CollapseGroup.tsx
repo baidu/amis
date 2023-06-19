@@ -59,7 +59,6 @@ export class CollapseGroupRender extends React.Component<
     collapseId: string | number,
     collapsed: boolean
   ) {
-    console.log('collapsedgroup', collapsed);
     const {dispatchEvent, onCollapse} = this.props;
     const renderEvent = await dispatchEvent(
       'collapsedChange',
