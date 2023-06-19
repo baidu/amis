@@ -19,7 +19,8 @@ import {
   SchemaClassName,
   SchemaCollection,
   SchemaIcon,
-  SchemaExpression
+  SchemaExpression,
+  SchemaObject
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {filter} from 'amis-core';
@@ -28,7 +29,6 @@ import {FormHorizontal} from 'amis-core';
 import {str2AsyncFunction} from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import type {TabsMode} from 'amis-ui/lib/components/Tabs';
-import {SchemaObject} from '../Schema';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
