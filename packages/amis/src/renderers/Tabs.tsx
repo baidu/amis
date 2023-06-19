@@ -709,14 +709,14 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   // 渲染tabs的title
   renderTabTitle(
-    title: string | SchemaNode | undefined,
+    title: string | SchemaObject | undefined,
     index: number,
     data: any
   ) {
     const {render} = this.props;
-    return isObject(title) && title
-      ? render(`tab-title/${index}`, title, data)
-      : filter(title, data);
+    return typeof title === 'string' || !title
+      ? filter(title, data)
+      : render(`tab-title/${index}`, title, data);
   }
 
   renderToolbar() {
