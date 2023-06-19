@@ -722,9 +722,13 @@ order: 68
 }
 ```
 
-## tab的label自定义
 
-通过配置 tabs 数组中 title 为 schema，就能自定义 label 的显示。
+
+## title自定义
+
+> 3.2.0 及以上版本
+
+通过配置 tabs 数组中 title 为 schema，就能自定义 title 的显示。
 
 ```schema: scope="body"
 {
