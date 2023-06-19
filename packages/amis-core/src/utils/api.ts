@@ -147,7 +147,8 @@ export function buildApi(
   /** 追加data到请求的Query中 */
   const attachDataToQuery = (
     apiObject: ApiObject,
-    ctx: Record<string, any>
+    ctx: Record<string, any>,
+    merge: boolean
   ) => {
     const idx = apiObject.url.indexOf('?');
     if (~idx) {
@@ -160,7 +161,7 @@ export function buildApi(
         apiObject.url.substring(0, idx) + '?' + queryStringify(params);
     } else {
       apiObject.query = {...apiObject.query, ...ctx};
-      const query = queryStringify(ctx);
+      const query = queryStringify(merge ? apiObject.query : ctx);
       if (query) {
         apiObject.url = `${apiObject.url}?${query}`;
       }
@@ -242,11 +243,11 @@ export function buildApi(
       api.data &&
       ((!~raw.indexOf('$') && autoAppend) || api.forceAppendDataToQuery)
     ) {
-      api = attachDataToQuery(api, data);
+      api = attachDataToQuery(api, data, false);
     }
 
     if (api.data && api.attachDataToQuery !== false) {
-      api = attachDataToQuery(api, data);
+      api = attachDataToQuery(api, api.data, true);
       delete api.data;
     }
   }
@@ -302,7 +303,7 @@ export function buildApi(
 
     /** JSONQL所有method需要追加data中的变量到query中 */
     if (api.forceAppendDataToQuery) {
-      api = attachDataToQuery(api, data);
+      api = attachDataToQuery(api, data, true);
     }
   }
 
