@@ -1,4 +1,5 @@
 import {saveAs} from 'file-saver';
+import {filter} from 'amis-core';
 import {types, flow, getEnv, isAlive, Instance} from 'mobx-state-tree';
 import {IRendererStore} from './index';
 import {ServiceStore} from './service';
@@ -585,9 +586,17 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
     };
 
     const exportAsCSV = async (
-      options: {loadDataOnce?: boolean; api?: Api; data?: any} = {}
+      options: {
+        loadDataOnce?: boolean;
+        api?: Api;
+        data?: any;
+        filename?: string;
+      } = {}
     ) => {
       let items = options.loadDataOnce ? self.data.itemsRaw : self.data.items;
+      const filename = options.filename
+        ? filter(options.filename, options.data, '| raw')
+        : 'data';
 
       if (options.api) {
         const env = getEnv(self);
@@ -626,7 +635,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               type: 'text/plain;charset=utf-8'
             }
           );
-          saveAs(blob, 'data.csv');
+          saveAs(blob, `${filename}.csv`);
         }
       });
     };
