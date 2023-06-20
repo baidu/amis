@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {themeable, ThemeProps, filterTree} from 'amis-core';
+import {themeable, ThemeProps, filterTree, getTreeAncestors} from 'amis-core';
 import GroupedSelection from '../GroupedSelection';
 import Tabs, {Tab} from '../Tabs';
 import TreeSelection from '../TreeSelection';
@@ -87,6 +87,13 @@ function VariableList(props: VariableListProps) {
     props.itemRender && typeof props.itemRender === 'function'
       ? props.itemRender
       : (option: Option, states: ItemRenderStates): JSX.Element => {
+          // 控制只对第一层数组成员展示快捷操作入口
+          if (option.isMember) {
+            const arrs: any = getTreeAncestors(list, option as any);
+            option.memberDepth = arrs?.filter(
+              (item: Option) => item.type === 'array'
+            )?.length;
+          }
           return (
             <div>
               <div className={cx(`${classPrefix}-item`, itemClassName)}>
@@ -113,7 +120,7 @@ function VariableList(props: VariableListProps) {
                       <label>{option.label}</label>
                     </TooltipWrapper>
                   )}
-                {option?.isMember ? (
+                {option.memberDepth < 2 ? (
                   <PopOverContainer
                     popOverContainer={() => document.querySelector('body')}
                     popOverRender={({onClose}) => (
@@ -153,10 +160,14 @@ function VariableList(props: VariableListProps) {
         };
 
   function handleMemberClick(item: any, option: any, onClose?: any) {
-    const pathArr = option.value.split('.');
+    // todo：暂时只提供一层的快捷操作
+    const lastPointIdx = option.value.lastIndexOf('.');
+    const arr = option.value.substring(0, lastPointIdx);
+    const member = option.value.substring(lastPointIdx + 1);
+
     const value = item.value
-      .replace('${arr}', pathArr[0])
-      .replace('${member}', pathArr[1]);
+      .replace('${arr}', arr)
+      .replace('${member}', member);
 
     onClose?.();
     onSelect?.({
