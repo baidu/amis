@@ -669,7 +669,7 @@ export class Tabs extends React.Component<TabsProps, any> {
         {showTip ? (
           <TooltipWrapper
             placement="top"
-            tooltip={tip ?? title}
+            tooltip={tip ?? (typeof title === 'string' ? title : '')}
             trigger="hover"
             tooltipClassName={showTipClassName}
           >

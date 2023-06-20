@@ -866,7 +866,7 @@ order: 68
 | draggable             | `boolean`                         | false                               | 是否支持拖拽                                                                                               |
 | showTip               | `boolean`                         | false                               | 是否支持提示                                                                                               |
 | showTipClassName      | `string`                          | `'' `                               | 提示的类                                                                                                   |
-| editable              | `boolean`                         | false                               | 收否可编辑标签名。当 `tabs[x].title` 为 [SchemaNode](../types/schemanode) 时，双击编辑 Tab 的 title 显示空的内容                                                                                          |
+| editable              | `boolean`                         | false                               | 是否可编辑标签名。当 `tabs[x].title` 为 [SchemaNode](../types/schemanode) 时，双击编辑 Tab 的 title 显示空的内容                                                                                          |
 | scrollable            | `boolean`                         | true                                | 是否导航支持内容溢出滚动。（属性废弃）                                                                     |
 | sidePosition          | `left` / `right`                  | `left`                              | `sidebar` 模式下，标签栏位置                                                                               |
 | collapseOnExceed      | `number`                          |                                     | 当 tabs 超出多少个时开始折叠                                                                               |

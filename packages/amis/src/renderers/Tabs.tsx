@@ -716,7 +716,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     const {render} = this.props;
     return typeof title === 'string' || !title
       ? filter(title, data)
-      : render(`tab-title/${index}`, title, data);
+      : render(`tab-title/${index}`, title, {...data, index});
   }
 
   renderToolbar() {
