@@ -855,7 +855,7 @@ order: 68
 | tabs[x].reload        | `boolean`                         |                                     | 设置以后内容每次都会重新渲染，对于 crud 的重新拉取很有用                                                   |
 | tabs[x].unmountOnExit | `boolean`                         |                                     | 每次退出都会销毁当前 tab 栏内容                                                                            |
 | tabs[x].className     | `string`                          | `"bg-white b-l b-r b-b wrapper-md"` | Tab 区域样式                                                                                               |
-| tabs[x].tip     | `string`                          |  | `3.2.0及以上版本支持` Tab 提示，当开启 `showTip` 时生效，作为 Tab 在 hover 时的提示显示，可不配置，如不设置，`tabs[x].title` 作为提示显示                                                |
+| tabs[x].tip     | `string`                          |                         | `3.2.0及以上版本支持` Tab 提示，当开启 `showTip` 时生效，作为 Tab 在 hover 时的提示显示，可不配置，如不设置，`tabs[x].title` 作为提示显示                                                |
 | tabs[x].closable      | `boolean`                         | false                               | 是否支持删除，优先级高于组件的 `closable`                                                                  |
 | tabs[x].disabled      | `boolean`                         | false                               | 是否禁用                                                                                                   |
 | mountOnEnter          | `boolean`                         | false                               | 只有在点中 tab 的时候才渲染                                                                                |
