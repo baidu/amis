@@ -47,6 +47,7 @@ export interface TabProps extends ThemeProps {
   eventKey: string | number;
   prevKey?: string | number;
   nextKey?: string | number;
+  tip?: string;
   tab?: Schema;
   className?: string;
   activeKey?: string | number;
@@ -601,6 +602,7 @@ export class Tabs extends React.Component<TabsProps, any> {
       toolbar,
       tabClassName,
       closable: tabClosable,
+      tip,
       hash
     } = child.props;
 
@@ -661,14 +663,13 @@ export class Tabs extends React.Component<TabsProps, any> {
         onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
         onDoubleClick={() => {
           editable &&
-            typeof title === 'string' &&
-            this.handleStartEdit(index, title);
+            this.handleStartEdit(index, typeof title === 'string' ? title : '');
         }}
       >
         {showTip ? (
           <TooltipWrapper
             placement="top"
-            tooltip={title}
+            tooltip={tip ?? title}
             trigger="hover"
             tooltipClassName={showTipClassName}
           >
