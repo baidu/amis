@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {themeable, ThemeProps, filterTree, getTreeAncestors} from 'amis-core';
 import GroupedSelection from '../GroupedSelection';
@@ -83,17 +83,18 @@ function VariableList(props: VariableListProps) {
   } = props;
   const [filterVars, setFilterVars] = React.useState(list);
   const classPrefix = `${themePrefix}FormulaEditor-VariableList`;
+
+  useEffect(() => {
+    const {data} = props;
+    if (data) {
+      setFilterVars(data);
+    }
+  }, [props.data]);
+
   const itemRender =
     props.itemRender && typeof props.itemRender === 'function'
       ? props.itemRender
       : (option: Option, states: ItemRenderStates): JSX.Element => {
-          // 控制只对第一层数组成员展示快捷操作入口
-          if (option.isMember) {
-            const arrs: any = getTreeAncestors(list, option as any);
-            option.memberDepth = arrs?.filter(
-              (item: Option) => item.type === 'array'
-            )?.length;
-          }
           return (
             <div>
               <div className={cx(`${classPrefix}-item`, itemClassName)}>
@@ -120,9 +121,12 @@ function VariableList(props: VariableListProps) {
                       <label>{option.label}</label>
                     </TooltipWrapper>
                   )}
+                {/* 控制只对第一层数组成员展示快捷操作入口 */}
                 {option.memberDepth < 2 ? (
                   <PopOverContainer
-                    popOverContainer={() => document.querySelector('body')}
+                    popOverContainer={() =>
+                      document.querySelector(`.${cx('FormulaPicker-Modal')}`)
+                    }
                     popOverRender={({onClose}) => (
                       <ul className={cx(`${classPrefix}-item-oper`)}>
                         {memberOpers.map((item, i) => {

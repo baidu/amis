@@ -2,7 +2,7 @@
  * @file 公式编辑器
  */
 import React from 'react';
-import {uncontrollable} from 'amis-core';
+import {mapTree, uncontrollable} from 'amis-core';
 import {
   parse,
   autobind,
@@ -110,6 +110,7 @@ export interface FormulaState {
   focused: boolean;
   isCodeMode: boolean;
   expandTree: boolean;
+  normalizeVariables?: Array<VariableItem>;
 }
 
 export class FormulaEditor extends React.Component<
@@ -119,7 +120,8 @@ export class FormulaEditor extends React.Component<
   state: FormulaState = {
     focused: false,
     isCodeMode: false,
-    expandTree: false
+    expandTree: false,
+    normalizeVariables: []
   };
   editorPlugin?: FormulaPlugin;
 
@@ -239,8 +241,53 @@ export class FormulaEditor extends React.Component<
     return {html};
   }
 
+  componentDidMount(): void {
+    const {variables} = this.props;
+    this.normalizeVariables(variables);
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<FormulaEditorProps>,
+    prevState: Readonly<FormulaState>,
+    snapshot?: any
+  ): void {
+    if (prevProps.variables !== this.props.variables) {
+      this.normalizeVariables(this.props.variables);
+    }
+  }
+
   componentWillUnmount() {
     this.editorPlugin?.dispose();
+  }
+
+  normalizeVariables(variables?: Array<VariableItem>) {
+    if (!variables) {
+      return;
+    }
+    // 追加path，用于分级高亮
+    const list = mapTree(
+      variables,
+      (item: any, key: number, level: number, paths: any[]) => {
+        const path = paths?.reduce((prev, next) => {
+          return !next.value
+            ? prev
+            : `${prev}${prev ? '.' : ''}${next.label ?? next.value}`;
+        }, '');
+
+        return {
+          ...item,
+          path: `${path}${path ? '.' : ''}${item.label}`,
+          ...(item.isMember
+            ? {
+                memberDepth: paths?.filter((item: any) => item.type === 'array')
+                  ?.length
+              }
+            : {})
+        };
+      }
+    );
+
+    this.setState({normalizeVariables: list});
   }
 
   @autobind
@@ -264,7 +311,10 @@ export class FormulaEditor extends React.Component<
 
   @autobind
   handleEditorMounted(cm: any, editor: any) {
-    this.editorPlugin = new FormulaPlugin(editor, cm, () => this.props);
+    this.editorPlugin = new FormulaPlugin(editor, cm, () => ({
+      ...this.props,
+      variables: this.state.normalizeVariables
+    }));
   }
 
   @autobind
@@ -352,7 +402,6 @@ export class FormulaEditor extends React.Component<
 
   render() {
     const {
-      variables,
       header,
       value,
       functions,
@@ -364,7 +413,7 @@ export class FormulaEditor extends React.Component<
       classPrefix,
       selfVariableName
     } = this.props;
-    const {focused, isCodeMode, expandTree} = this.state;
+    const {focused, isCodeMode, expandTree, normalizeVariables} = this.state;
     const customFunctions = Array.isArray(functions) ? functions : [];
     const functionList = [
       ...FormulaEditor.buildDefaultFunctions(doc),
@@ -438,7 +487,7 @@ export class FormulaEditor extends React.Component<
                 )}
                 expandTree={expandTree}
                 selectMode={variableMode}
-                data={variables!}
+                data={normalizeVariables!}
                 onSelect={this.handleVariableSelect}
                 selfVariableName={selfVariableName}
               />
