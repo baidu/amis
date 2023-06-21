@@ -663,7 +663,8 @@ export class Tabs extends React.Component<TabsProps, any> {
         onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
         onDoubleClick={() => {
           editable &&
-            this.handleStartEdit(index, typeof title === 'string' ? title : '');
+            typeof title === 'string' &&
+            this.handleStartEdit(index, title);
         }}
       >
         {showTip ? (
