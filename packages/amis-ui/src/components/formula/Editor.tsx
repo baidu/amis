@@ -196,7 +196,7 @@ export class FormulaEditor extends React.Component<
     eachTree(variables, item => {
       if (item.value) {
         const key = item.value;
-        varMap[key] = item.label;
+        varMap[key] = item.path ?? item.label;
       }
     });
     const vars = Object.keys(varMap)
