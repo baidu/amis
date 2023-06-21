@@ -23,6 +23,7 @@ import {isMobile, ucFirst} from 'amis-core';
 import CalendarMobile from './CalendarMobile';
 import Input from './Input';
 import type {PlainObject} from 'amis-core';
+import type {RendererEnv} from 'amis-core';
 
 const availableShortcuts: {[propName: string]: any} = {
   now: {
@@ -295,6 +296,7 @@ export interface DateProps extends LocaleProps, ThemeProps {
     className?: string;
   }>;
   scheduleClassNames?: Array<string>;
+  env?: RendererEnv;
   largeMode?: boolean;
   todayActiveStyle?: React.CSSProperties;
   onScheduleClick?: (scheduleData: any) => void;
@@ -720,7 +722,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       todayActiveStyle,
       onScheduleClick,
       mobileCalendarMode,
-      label
+      label,
+      env
     } = this.props;
 
     const __ = this.props.translate;
@@ -806,6 +809,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             maxDate={maxDate}
             // utc={utc}
             schedules={schedulesData}
+            env={env}
             largeMode={largeMode}
             todayActiveStyle={todayActiveStyle}
             onScheduleClick={onScheduleClick}
