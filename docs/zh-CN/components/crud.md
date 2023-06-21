@@ -1881,7 +1881,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
-### 通过 api 导出 CSV
+#### 通过 api 导出 CSV
 
 > 1.4.0 及以上版本
 
@@ -1897,6 +1897,61 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
             "type": "export-csv",
             "label": "全量导出 CSV",
             "api": "/api/mock2/sample"
+        }
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade",
+            "type": "mapping",
+            "map": {
+                "*": "<span class=\"label label-info\">${grade}</span>"
+            }
+        }
+    ]
+}
+```
+
+#### 自定义导出 CSV 的文件名
+
+> 1.4.0 及以上版本
+
+`export-csv` 可以单独配置 `api` 实现导出全量功能，这个 api 的返回结果和 CRUD 类似
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "data": {
+        "name": "123"
+    },
+    "headerToolbar": [
+        {
+            "type": "export-csv",
+            "label": "自定义导出 CSV",
+            "api": "/api/mock2/sample",
+            "filename": "自定义文件名${name}"
         }
     ],
     "columns": [
