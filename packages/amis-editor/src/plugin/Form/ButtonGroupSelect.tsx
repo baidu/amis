@@ -8,6 +8,7 @@ import {
 } from 'amis-editor-core';
 import {getSchemaTpl, defaultValue} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {ValidatorTag} from '../../validator';
 
 export class ButtonGroupControlPlugin extends BasePlugin {
   static id = 'ButtonGroupControlPlugin';
@@ -137,7 +138,8 @@ export class ButtonGroupControlPlugin extends BasePlugin {
             },
             getSchemaTpl('status', {
               isFormItem: true
-            })
+            }),
+            getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})
           ])
         ]
       },
