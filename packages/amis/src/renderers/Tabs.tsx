@@ -19,7 +19,8 @@ import {
   SchemaClassName,
   SchemaCollection,
   SchemaIcon,
-  SchemaExpression
+  SchemaExpression,
+  SchemaObject
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {filter} from 'amis-core';
@@ -33,7 +34,7 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
    * Tab 标题
    */
-  title?: string;
+  title?: string | SchemaObject;
 
   /**
    * 内容
@@ -299,7 +300,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     if (!tabs) {
       return [[], false];
     }
-
     const arr = resolveVariableAndFilter(source, data, '| raw');
     if (!Array.isArray(arr)) {
       return [tabs, false];
@@ -708,6 +708,18 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       : -1;
   }
 
+  // 渲染tabs的title
+  renderTabTitle(
+    title: string | SchemaObject | undefined,
+    index: number,
+    data: any
+  ) {
+    const {render} = this.props;
+    return typeof title === 'string' || !title
+      ? filter(title, data)
+      : render(`tab-title/${index}`, title, {...data, index});
+  }
+
   renderToolbar() {
     const {toolbar, render, classnames: cx, toolbarClassName} = this.props;
 
@@ -770,7 +782,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         isVisible(tab, tab.ctx) ? (
           <Tab
             {...(tab as any)}
-            title={filter(tab.title, tab.ctx)}
+            title={this.renderTabTitle(tab.title, index, tab.ctx)}
             disabled={disabled || isDisabled(tab, tab.ctx)}
             key={index}
             eventKey={index}
@@ -802,7 +814,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         isVisible(tab, data) ? (
           <Tab
             {...(tab as any)}
-            title={filter(tab.title, data)}
+            title={this.renderTabTitle(tab.title, index, data)}
             disabled={disabled || isDisabled(tab, data)}
             key={index}
             eventKey={tab.hash || index}
