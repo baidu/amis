@@ -208,7 +208,14 @@ export class TagPlugin extends BasePlugin {
                     label: '状态',
                     value: 'status'
                   }
-                ]
+                ],
+                onChange: (value: any, origin: any, item: any, form: any) => {
+                  if (value !== 'status') {
+                    form.setValues({
+                      icon: undefined
+                    });
+                  }
+                }
               },
               getSchemaTpl('icon', {
                 visibleOn: 'data.displayMode === "status"',
