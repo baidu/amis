@@ -958,7 +958,9 @@ export function jsonToJsonSchema(
           title: titleBuilder?.(type, key) || key,
           ...(type === 'object'
             ? jsonToJsonSchema(value, titleBuilder, maxDepth - 1)
-            : {items: jsonToJsonSchema(value[0], titleBuilder, maxDepth - 1)})
+            : typeof value[0] === 'object'
+            ? {items: jsonToJsonSchema(value[0], titleBuilder, maxDepth - 1)}
+            : {})
         };
       } else {
         jsonschema.properties[key] = {
