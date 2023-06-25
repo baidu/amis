@@ -9,14 +9,16 @@ import {FormulaEditorProps, VariableItem, FormulaEditor} from './Editor';
 export function editorFactory(
   dom: HTMLElement,
   cm: typeof CodeMirror,
-  props: any
+  props: any,
+  options?: any
 ) {
   registerLaunguageMode(cm);
 
   return cm(dom, {
     value: props.value || '',
     autofocus: true,
-    mode: props.evalMode ? 'text/formula' : 'text/formula-template'
+    mode: props.evalMode ? 'text/formula' : 'text/formula-template',
+    ...options
   });
 }
 
@@ -32,6 +34,7 @@ export class FormulaPlugin {
 
   autoMarkText() {
     const {functions, variables, value} = this.getProps();
+
     if (value) {
       // todo functions 也需要自动替换
       this.autoMark(variables!);
@@ -105,29 +108,49 @@ export class FormulaPlugin {
     }
   }
 
-  insertContent(value: any, type?: 'variable' | 'func') {
-    const from = this.editor.getCursor();
+  insertContent(
+    value: any,
+    type?: 'variable' | 'func',
+    className: string = 'cm-field',
+    toMark: boolean = true
+  ) {
+    let from = this.editor.getCursor();
     const {evalMode} = this.getProps();
+
     if (type === 'variable') {
       this.editor.replaceSelection(value.key);
       const to = this.editor.getCursor();
 
-      this.markText(from, to, value.name, 'cm-field');
+      if (toMark) {
+        // 路径中每个变量分别进行标记
+        let markFrom = from.ch;
+        value.path.split('.').forEach((label: string, index: number) => {
+          const val = value.key.split('.')[index];
+          this.markText(
+            {line: from.line, ch: markFrom},
+            {line: to.line, ch: markFrom + val.length},
+            label,
+            className
+          );
+          markFrom += 1 + val.length;
+        });
+      }
 
       !evalMode && this.insertBraces(from, to);
     } else if (type === 'func') {
       this.editor.replaceSelection(`${value}()`);
       const to = this.editor.getCursor();
 
-      this.markText(
-        from,
-        {
-          line: to.line,
-          ch: to.ch - 2
-        },
-        value,
-        'cm-func'
-      );
+      toMark &&
+        this.markText(
+          from,
+          {
+            line: to.line,
+            ch: to.ch - 2
+          },
+          value,
+          'cm-func'
+        );
 
       this.editor.setCursor({
         line: to.line,
@@ -143,9 +166,19 @@ export class FormulaPlugin {
       }
     } else if (typeof value === 'string') {
       this.editor.replaceSelection(value);
+      // 非变量、非函数，可能是组合模式，也需要标记
+      toMark && setTimeout(() => this.autoMarkText(), 0);
     }
 
     this.editor.focus();
+  }
+
+  setValue(value: string) {
+    this.editor.setValue(value);
+  }
+
+  getValue() {
+    return this.editor.getValue();
   }
 
   markText(
@@ -167,15 +200,17 @@ export class FormulaPlugin {
     if (!Array.isArray(variables) || !variables.length) {
       return;
     }
+
     const varMap: {
       [propname: string]: string;
     } = {};
 
     eachTree(variables, item => {
       if (item.value) {
-        varMap[item.value] = item.label;
+        varMap[item.value] = item.path ?? item.label;
       }
     });
+
     const vars = Object.keys(varMap).sort((a, b) => b.length - a.length);
     const editor = this.editor;
     const lines = editor.lineCount();
@@ -205,6 +240,7 @@ export class FormulaPlugin {
       vars.forEach(v => {
         let from = 0;
         let idx = -1;
+
         while (~(idx = content.indexOf(v, from))) {
           const encode = FormulaEditor.replaceStrByIndex(
             content,
@@ -215,18 +251,22 @@ export class FormulaPlugin {
           const reg = FormulaEditor.getRegExpByMode(evalMode, REPLACE_KEY);
 
           if (reg.test(encode)) {
-            this.markText(
-              {
-                line: line,
-                ch: idx
-              },
-              {
-                line: line,
-                ch: idx + v.length
-              },
-              varMap[v],
-              'cm-field'
-            );
+            let markFrom = idx;
+            v.split('.').forEach((val: string, index: number) => {
+              this.markText(
+                {
+                  line: line,
+                  ch: markFrom
+                },
+                {
+                  line: line,
+                  ch: markFrom + val.length
+                },
+                varMap[v].split('.')[index],
+                'cm-field'
+              );
+              markFrom += 1 + val.length;
+            });
           }
 
           from = idx + v.length;

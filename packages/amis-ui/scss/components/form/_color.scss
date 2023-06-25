@@ -9,10 +9,7 @@
   background: var(--ColorPicker-bg);
   color: var(--ColorPicker-color);
   border-radius: var(--borderRadius);
-
-  &-popup {
-    height: px2rem(400px);
-  }
+  height: var(--ColorPicker-height);
 
   &:not(.is-disabled) {
     cursor: pointer;
@@ -79,6 +76,9 @@
 
   &-clear {
     @include input-clear();
+    svg {
+      top: 0;
+    }
   }
 
   &-arrow {
@@ -98,11 +98,12 @@
       width: 10px;
       height: 10px;
       top: 0;
+      transform: rotate(90deg);
     }
   }
 
   &.is-opened &-arrow > svg {
-    transform: rotate(180deg);
+    transform: rotate(270deg);
   }
 }
 
@@ -121,4 +122,29 @@
   border: none !important;
   border-radius: var(--borderRadius) !important;
   box-shadow: var(--ColorPicker-boxShadow) !important;
+}
+
+.#{$ns}ColorPicker-popup {
+  height: px2rem(500px);
+
+  .sketch-picker {
+    width: 80% !important;
+    box-shadow: none !important;
+
+    input {
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .flexbox-fix {
+      &:last-child {
+        > div {
+          width: 18px !important;
+          height: 18px !important;
+          margin: 0px 16px 10px 0px !important;
+        }
+      }
+    }
+  }
 }

@@ -254,6 +254,7 @@ setSchemaTpl('copyable', {
 });
 
 export class StaticControlPlugin extends BasePlugin {
+  static id = 'StaticControlPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'static';

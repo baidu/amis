@@ -8,6 +8,9 @@ import {Icon} from 'amis-ui';
 import {FormBaseControlSchema, FormSchema, SchemaClassName} from '../../Schema';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
+import {isMobile} from 'amis-core';
+import {PopUp} from 'amis-ui';
+import {autobind} from 'amis-core';
 
 /**
  * SubForm 子表单
@@ -152,6 +155,7 @@ export default class SubFormControl extends React.PureComponent<
   dragTip?: HTMLElement;
   sortable?: Sortable;
   id: string = guid();
+  tempValue: any;
   constructor(props: SubFormProps) {
     super(props);
 
@@ -211,6 +215,7 @@ export default class SubFormControl extends React.PureComponent<
       return;
     }
 
+    this.tempValue = value[index];
     this.setState({
       dialogData: createObject(this.props.data, value[index]),
       dialogCtx: {
@@ -249,6 +254,36 @@ export default class SubFormControl extends React.PureComponent<
       onChange({
         ...value,
         ...values[0]
+      });
+    }
+
+    this.close();
+  }
+
+  @autobind
+  handlePopupConfirm() {
+    const values = this.tempValue;
+    const {multiple, onChange, value} = this.props;
+    const ctx = this.state.dialogCtx;
+
+    if (multiple) {
+      let newValue = Array.isArray(value) ? value.concat() : [];
+
+      if (ctx?.mode === 'add') {
+        newValue.push({
+          ...values
+        });
+      } else {
+        newValue[ctx!.index!] = {
+          ...newValue[ctx!.index!],
+          ...values
+        };
+      }
+      onChange(newValue);
+    } else {
+      onChange({
+        ...value,
+        ...values
       });
     }
 
@@ -329,6 +364,28 @@ export default class SubFormControl extends React.PureComponent<
         type: 'form',
         ...omit(form, dialogProps)
       }
+    };
+  }
+
+  buildFormSchema() {
+    let {form} = this.props;
+
+    const dialogProps = [
+      'title',
+      'actions',
+      'name',
+      'size',
+      'closeOnEsc',
+      'closeOnOutside',
+      'showErrorMsg',
+      'showCloseButton',
+      'bodyClassName',
+      'type'
+    ];
+
+    return {
+      type: 'form',
+      ...omit(form, dialogProps)
     };
   }
 
@@ -502,20 +559,57 @@ export default class SubFormControl extends React.PureComponent<
   }
 
   render() {
-    const {multiple, classPrefix: ns, className, style, render} = this.props;
+    const {
+      multiple,
+      classPrefix: ns,
+      className,
+      style,
+      render,
+      useMobileUI,
+      env,
+      popOverContainer
+    } = this.props;
     const dialogData = this.state.dialogData;
     const dialogCtx = this.state.dialogCtx;
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div className={cx(`${ns}SubFormControl`, className)}>
         {multiple ? this.renderMultipe() : this.renderSingle()}
-        {render(`modal`, this.buildDialogSchema(), {
-          show: !!dialogCtx,
-          onClose: this.close,
-          onConfirm: this.handleDialogConfirm,
-          data: dialogData,
-          formStore: undefined
-        })}
+        {!mobileUI ? (
+          render(`modal`, this.buildDialogSchema(), {
+            show: !!dialogCtx,
+            onClose: this.close,
+            onConfirm: this.handleDialogConfirm,
+            data: dialogData,
+            formStore: undefined
+          })
+        ) : (
+          <PopUp
+            isShow={!!dialogCtx}
+            showConfirm
+            onConfirm={this.handlePopupConfirm}
+            onHide={this.close}
+            container={
+              mobileUI && env && env.getModalContainer
+                ? env.getModalContainer
+                : mobileUI
+                ? undefined
+                : popOverContainer
+            }
+          >
+            <div className="flex-1 pl-10 pr-10">
+              {render('form', this.buildFormSchema(), {
+                data: dialogData,
+                formStore: undefined,
+                wrapWithPanel: false,
+                onChange: (val: any) => {
+                  this.tempValue = val;
+                }
+              })}
+            </div>
+          </PopUp>
+        )}
       </div>
     );
   }

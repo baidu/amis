@@ -15,6 +15,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class CityControlPlugin extends BasePlugin {
+  static id = 'CityControlPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-city';
@@ -62,9 +63,15 @@ export class CityControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前城市'
+                }
+              }
             }
           }
         }

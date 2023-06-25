@@ -9,9 +9,11 @@ import {
   tipedLabel,
   mockValue,
   RegionConfig,
-  getI18nEnabled
+  getI18nEnabled,
+  EditorNodeType,
+  EditorManager,
+  DSBuilderManager
 } from 'amis-editor-core';
-
 import {setVariable} from 'amis-core';
 
 import {ValidatorTag} from '../../validator';
@@ -21,6 +23,7 @@ import {
 } from '../../renderer/event-control/helper';
 
 export class ComboControlPlugin extends BasePlugin {
+  static id = 'ComboControlPlugin';
   // 关联渲染器名字
   rendererName = 'combo';
   $schema = '/schemas/ComboControlSchema.json';
@@ -83,6 +86,16 @@ export class ComboControlPlugin extends BasePlugin {
     ]
   };
 
+  // 容器配置
+  regions: Array<RegionConfig> = [
+    {
+      key: 'items',
+      label: '内容区',
+      preferTag: '内容区',
+      renderMethod: 'renderItems'
+    }
+  ];
+
   // 事件定义
   events: RendererPluginEvent[] = [
     {
@@ -93,9 +106,15 @@ export class ComboControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            data: {
               type: 'object',
-              title: '当前组合项的值'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '组合项的值'
+                }
+              }
             }
           }
         }
@@ -109,17 +128,23 @@ export class ComboControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.key': {
-              type: 'string',
-              title: '删除项的索引'
-            },
-            'event.data.value': {
-              type: 'string',
-              title: '现有组合项的值'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '被删除的项'
+              title: '数据',
+              properties: {
+                key: {
+                  type: 'string',
+                  title: '被删除的索引'
+                },
+                value: {
+                  type: 'string',
+                  title: '组合项的值'
+                },
+                item: {
+                  type: 'object',
+                  title: '被删除的项'
+                }
+              }
             }
           }
         }
@@ -133,17 +158,23 @@ export class ComboControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.key': {
-              type: 'string',
-              title: '选项卡索引'
-            },
-            'event.data.value': {
-              type: 'string',
-              title: '现有组合项的值'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '被激活的项'
+              title: '数据',
+              properties: {
+                key: {
+                  type: 'string',
+                  title: '选项卡索引'
+                },
+                value: {
+                  type: 'string',
+                  title: '组合项的值'
+                },
+                item: {
+                  type: 'object',
+                  title: '被激活的项'
+                }
+              }
             }
           }
         }
@@ -191,7 +222,6 @@ export class ComboControlPlugin extends BasePlugin {
           getSchemaTpl('formulaControl', {
             name: 'val',
             variables: '${variables}',
-            variableMode: 'tabs',
             inputMode: 'input-group'
           })
         ]
@@ -209,6 +239,13 @@ export class ComboControlPlugin extends BasePlugin {
   notRenderFormZone = true;
 
   panelJustify = true;
+
+  dsBuilderManager: DSBuilderManager;
+
+  constructor(manager: EditorManager) {
+    super(manager);
+    this.dsBuilderManager = new DSBuilderManager('combo', 'api');
+  }
 
   panelBodyCreator = (context: BaseEventContext) => {
     const i18nEnabled = getI18nEnabled();
@@ -624,15 +661,38 @@ export class ComboControlPlugin extends BasePlugin {
     return props;
   }
 
-  // 容器配置
-  regions: Array<RegionConfig> = [
-    {
-      key: 'items',
-      label: '内容区',
-      preferTag: '内容区',
-      renderMethod: 'renderItems'
+  async getAvailableContextFields(
+    scopeNode: EditorNodeType,
+    target: EditorNodeType,
+    region?: EditorNodeType
+  ) {
+    let scope;
+    let builder;
+
+    if (
+      target.type === scopeNode.type ||
+      (target.parent.isRegion && target.parent.region === 'items')
+    ) {
+      scope = scopeNode.parent.parent;
+      builder = this.dsBuilderManager.resolveBuilderBySchema(
+        scope.schema,
+        'api'
+      );
     }
-  ];
+
+    if (builder && scope.schema.api) {
+      return builder.getAvailableContextFileds(
+        {
+          schema: scope.schema,
+          sourceKey: 'api',
+          feat: scope.schema?.feat ?? 'List',
+          scopeNode
+        },
+        /** ID相同为本体，否则为子项 */
+        target?.id === scopeNode?.id ? scopeNode : target
+      );
+    }
+  }
 }
 
 registerEditorPlugin(ComboControlPlugin);

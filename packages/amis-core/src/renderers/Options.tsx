@@ -346,6 +346,15 @@ export function registerOptionsControl(config: OptionsConfig) {
               this.syncAutoFill(formItem.getSelectedOptions(formItem.tmpValue))
           )
         );
+
+        if (
+          options &&
+          formItem.tmpValue &&
+          formItem.getSelectedOptions(formItem.tmpValue).length
+        ) {
+          this.syncAutoFill(formItem.getSelectedOptions(formItem.tmpValue));
+        }
+
         // 默认全选。这里会和默认值\回填值逻辑冲突，所以如果有配置source则不执行默认全选
         if (
           multiple &&
@@ -803,14 +812,16 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      return formItem.loadOptions(
-        source,
-        data,
-        undefined,
-        false,
-        isInit ? setPrinstineValue : onChange,
-        setError
-      );
+      return isAlive(formItem)
+        ? formItem.loadOptions(
+            source,
+            data,
+            undefined,
+            false,
+            isInit ? setPrinstineValue : onChange,
+            setError
+          )
+        : undefined;
     }
 
     @autobind

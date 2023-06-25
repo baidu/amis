@@ -23,7 +23,7 @@ import {
   fireEvent,
   render,
   waitFor,
-  waitForElementToBeRemoved
+  screen
 } from '@testing-library/react';
 import '../../src';
 import {clearStoresCache, render as amisRender} from '../../src';
@@ -996,4 +996,43 @@ test('Renderer: crud searchable sortable filterable', async () => {
 
   // 弹窗中没有 排序
   expect(container.querySelectorAll('[data-role="form-item"]').length).toBe(1);
+});
+
+describe('inner events', () => {
+  test('should call the callback function if provided while double clicking a row of the crud', async () => {
+    const mockFn = jest.fn();
+    render(
+      amisRender(
+        {
+          type: 'crud',
+          data: {
+            items: rows
+          },
+          columns: [
+            {
+              name: 'engine',
+              label: 'Rendering engine'
+            }
+          ],
+          onEvent: {
+            rowDbClick: {
+              actions: [
+                {
+                  actionType: 'custom',
+                  script: mockFn
+                }
+              ]
+            }
+          }
+        },
+        {}
+      )
+    );
+
+    await waitFor(() => {
+      const ele = screen.getAllByText('Trident');
+      fireEvent.dblClick(ele[0]);
+      expect(mockFn).toBeCalledTimes(1);
+    });
+  });
 });

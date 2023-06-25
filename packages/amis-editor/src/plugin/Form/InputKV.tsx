@@ -12,6 +12,7 @@ import {
 } from 'amis-editor-core';
 
 export class KVControlPlugin extends BasePlugin {
+  static id = 'KVControlPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-kv';
@@ -52,9 +53,15 @@ export class KVControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            data: {
               type: 'object',
-              title: '当前组合项的值'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '组合项的值'
+                }
+              }
             }
           }
         }
@@ -63,22 +70,28 @@ export class KVControlPlugin extends BasePlugin {
     {
       eventName: 'delete',
       eventLabel: '删除',
-      description: '删除组合项时触发',
+      description: '删除组合项',
       dataSchema: [
         {
           type: 'object',
           properties: {
-            'event.data.key': {
-              type: 'string',
-              title: '删除项的索引'
-            },
-            'event.data.value': {
-              type: 'string',
-              title: '当前组合项的值'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '被移除的项'
+              title: '数据',
+              properties: {
+                key: {
+                  type: 'string',
+                  title: '被删除的索引'
+                },
+                value: {
+                  type: 'string',
+                  title: '组合项的值'
+                },
+                item: {
+                  type: 'object',
+                  title: '被删除的项'
+                }
+              }
             }
           }
         }

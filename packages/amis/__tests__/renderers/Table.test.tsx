@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, waitFor} from '@testing-library/react';
+import {fireEvent, render, waitFor, screen} from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
 import {makeEnv, wait} from '../helper';
@@ -979,5 +979,41 @@ describe('Renderer:table selectable & itemCheckableOn', () => {
     expect(
       container.querySelector('[data-id="1"] [type=checkbox][disabled=""]')!
     ).toBeInTheDocument();
+  });
+});
+
+describe('dbClick', () => {
+  test('should call the function when double clicking a row of the table rows', async () => {
+    const fn = jest.fn();
+    const schema: any = {
+      type: 'table',
+      data: {
+        items: rows
+      },
+      columns: [
+        {
+          name: 'engine',
+          label: 'Engine'
+        }
+      ],
+      onEvent: {
+        rowDbClick: {
+          actions: [
+            {
+              actionType: 'custom',
+              script: fn
+            }
+          ]
+        }
+      }
+    };
+
+    render(amisRender(schema, {}, makeEnv({})));
+
+    await waitFor(() => {
+      const ele = screen.getAllByText('Trident');
+      fireEvent.dblClick(ele[0]);
+      expect(fn).toBeCalledTimes(1);
+    });
   });
 });

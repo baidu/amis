@@ -46,6 +46,8 @@ import {
 } from '../../Schema';
 import {ListenerAction} from 'amis-core';
 import type {SchemaTokenizeableString} from '../../Schema';
+import isPlainObject from 'lodash/isPlainObject';
+import {isMobile} from 'amis-core';
 
 export type ComboCondition = {
   test: string;
@@ -381,6 +383,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     super(props);
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleRadioChange = this.handleRadioChange.bind(this);
     this.handleSingleFormChange = this.handleSingleFormChange.bind(this);
     this.handleSingleFormInit = this.handleSingleFormInit.bind(this);
     this.handleFormInit = this.handleFormInit.bind(this);
@@ -410,7 +413,13 @@ export default class ComboControl extends React.Component<ComboProps> {
   componentDidUpdate(prevProps: ComboProps) {
     const props = this.props;
 
-    if (anyChanged(['minLength', 'maxLength', 'value'], prevProps, props)) {
+    if (
+      anyChanged(['minLength', 'maxLength', 'value'], prevProps, props) ||
+      this.resolveVariableProps(prevProps, 'minLength') !==
+        this.resolveVariableProps(props, 'minLength') ||
+      this.resolveVariableProps(prevProps, 'maxLength') !==
+        this.resolveVariableProps(props, 'maxLength')
+    ) {
       const {store, multiple} = props;
       const values = this.getValueAsArray(props);
 
@@ -635,7 +644,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       data,
       env,
       translate: __,
-      dispatchEvent
+      dispatchEvent,
+      submitOnChange
     } = this.props;
 
     if (disabled) {
@@ -687,7 +697,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       value = value.join(delimiter || ',');
     }
 
-    this.props.onChange(value);
+    this.props.onChange(value, submitOnChange, true);
   }
 
   handleChange(values: any, diff: any, {index}: any) {
@@ -747,6 +757,29 @@ export default class ComboControl extends React.Component<ComboProps> {
           item => item.unique && item.syncOptions(undefined, form.data)
         )
     );
+  }
+
+  handleRadioChange(
+    ctx: any,
+    {index, name, trueValue = true, falseValue = false}: any
+  ) {
+    const {onChange, submitOnChange, multiple, disabled} = this.props;
+    if (!multiple || disabled || !name) {
+      return;
+    }
+
+    let value = this.getValueAsArray();
+    if (!Array.isArray(value) || value.length < 2 || !isPlainObject(value[0])) {
+      return;
+    }
+    value = value.map((item, i) => ({
+      ...item,
+      [name]: i === index ? trueValue : falseValue
+    }));
+
+    onChange(value, submitOnChange, true);
+
+    return false;
   }
 
   handleSingleFormChange(values: object) {
@@ -1259,8 +1292,11 @@ export default class ComboControl extends React.Component<ComboProps> {
       itemRemovableOn,
       disabled,
       removable,
-      deleteBtn
+      deleteBtn,
+      useMobileUI
     } = this.props;
+
+    const mobileUI = useMobileUI && isMobile();
 
     const finnalRemovable =
       store.removable !== false && // minLength ?
@@ -1329,7 +1365,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         onClick={this.deleteItem.bind(this, index)}
         key="delete"
         className={cx(`Combo-delBtn ${!store.removable ? 'is-disabled' : ''}`)}
-        data-tooltip={__('delete')}
+        data-tooltip={!mobileUI ? __('delete') : null}
         data-position="bottom"
       >
         {deleteIcon ? (
@@ -1434,11 +1470,13 @@ export default class ComboControl extends React.Component<ComboProps> {
       translate: __,
       itemClassName,
       itemsWrapperClassName,
-      static: isStatic
+      static: isStatic,
+      useMobileUI
     } = this.props;
 
     let items = this.props.items;
     let value = this.props.value;
+    const mobileUI = useMobileUI && isMobile();
 
     if (flat && typeof value === 'string') {
       value = value.split(delimiter || ',');
@@ -1448,6 +1486,9 @@ export default class ComboControl extends React.Component<ComboProps> {
       <div
         className={cx(
           `Combo Combo--multi`,
+          {
+            'is-mobile': mobileUI
+          },
           multiLine ? `Combo--ver` : `Combo--hor`,
           noBorder ? `Combo--noBorder` : '',
           disabled ? 'is-disabled' : '',
@@ -1563,9 +1604,11 @@ export default class ComboControl extends React.Component<ComboProps> {
       typeSwitchable,
       nullable,
       translate: __,
-      itemClassName
+      itemClassName,
+      useMobileUI
     } = this.props;
 
+    const mobileUI = useMobileUI && isMobile();
     let items = this.props.items;
     const data = isObject(value) ? this.formatValue(value) : this.defaultValue;
     let condition: ComboCondition | null = null;
@@ -1579,6 +1622,9 @@ export default class ComboControl extends React.Component<ComboProps> {
       <div
         className={cx(
           `Combo Combo--single`,
+          {
+            'is-mobile': mobileUI
+          },
           multiLine ? `Combo--ver` : `Combo--hor`,
           noBorder ? `Combo--noBorder` : '',
           disabled ? 'is-disabled' : ''
@@ -1682,6 +1728,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           onChange: this.handleChange,
           onInit: this.handleFormInit,
           onAction: this.handleAction,
+          onRadioChange: this.handleRadioChange,
           ref: this.makeFormRef(index),
           canAccessSuperData,
           lazyChange: changeImmediately ? false : true,
@@ -1741,7 +1788,14 @@ export default class ComboControl extends React.Component<ComboProps> {
 @FormItem({
   type: 'combo',
   storeType: ComboStore.name,
-  extendsData: false
+  extendsData: false,
+  shouldComponentUpdate: (props: any, prevProps: any) =>
+    (isPureVariable(props.maxLength) &&
+      resolveVariableAndFilter(prevProps.maxLength, prevProps.data) !==
+        resolveVariableAndFilter(props.maxLength, props.data)) ||
+    (isPureVariable(props.minLength) &&
+      resolveVariableAndFilter(prevProps.minLength, prevProps.data) !==
+        resolveVariableAndFilter(props.minLength, props.data))
 })
 export class ComboControlRenderer extends ComboControl {
   // 支持更新指定索引的值

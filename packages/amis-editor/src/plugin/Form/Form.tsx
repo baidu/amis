@@ -124,6 +124,7 @@ const autoAddOptions = (values: any) => {
 };
 
 export class FormPlugin extends BasePlugin {
+  static id = 'FormPlugin';
   // 关联渲染器名字
   rendererName = 'form';
   $schema = '/schemas/FormSchema.json';
@@ -254,17 +255,23 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.responseData': {
+            data: {
               type: 'object',
-              title: '响应数据'
-            },
-            'event.data.responseStatus': {
-              type: 'number',
-              title: '响应状态(0表示成功)'
-            },
-            'event.data.responseMsg': {
-              type: 'string',
-              title: '响应消息'
+              title: '数据',
+              properties: {
+                responseData: {
+                  type: 'object',
+                  title: '响应数据'
+                },
+                responseStatus: {
+                  type: 'number',
+                  title: '响应状态(0表示成功)'
+                },
+                responseMsg: {
+                  type: 'string',
+                  title: '响应消息'
+                }
+              }
             }
           }
         }
@@ -278,9 +285,10 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据',
+              description: '当前表单数据，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -294,9 +302,10 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据',
+              description: '当前表单数据，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -310,9 +319,10 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据',
+              description: '当前表单数据，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -326,9 +336,10 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据',
+              description: '当前表单数据，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -342,9 +353,10 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据',
+              description: '当前表单数据，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -359,9 +371,10 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据',
+              description: '当前表单数据，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -376,9 +389,15 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.result': {
+            data: {
               type: 'object',
-              title: '保存接口请求成功后返回的数据'
+              title: '数据',
+              properties: {
+                result: {
+                  type: 'object',
+                  title: '保存接口请求成功后返回的数据'
+                }
+              }
             }
           }
         }
@@ -392,9 +411,32 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.error': {
+            data: {
               type: 'object',
-              title: '保存接口请求失败后返回的错误信息'
+              title: '数据',
+              properties: {
+                error: {
+                  type: 'object',
+                  title: '保存接口请求失败后返回的错误信息'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'asyncApiFinished',
+      eventLabel: '远程请求轮询结束',
+      description: 'asyncApi 远程请求轮询结束后触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              description: '当前数据域，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -635,7 +677,7 @@ export class FormPlugin extends BasePlugin {
                   label: '异步检测接口',
                   visibleOn: 'data.asyncApi != null',
                   description:
-                    '设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
+                    '设置此属性后，表单提交发送保存接口后，还会继续轮询请求该接口，直到返回 finished 属性为 true 才 结束'
                 }),
 
                 {
@@ -729,7 +771,7 @@ export class FormPlugin extends BasePlugin {
                   label: '异步检测接口',
                   visibleOn: 'data.initAsyncApi != null',
                   description:
-                    '设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
+                    '设置此属性后，表单请求 initApi 后，还会继续轮询请求该接口，直到返回 finished 属性为 true 才 结束'
                 }),
 
                 {
@@ -942,7 +984,7 @@ export class FormPlugin extends BasePlugin {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {
         $id: 'formInitedData',
-        ...jsonToJsonSchema(data)
+        ...jsonToJsonSchema(data.responseData)
       };
 
       scope?.removeSchema(jsonschema.$id);

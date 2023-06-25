@@ -118,6 +118,10 @@ const iconFactory: {
   [propName: string]: React.ElementType<{}>;
 } = {};
 
+export function getIconNames() {
+  return Object.keys(iconFactory);
+}
+
 export function getIcon(key: string) {
   return iconFactory[key];
 }
@@ -274,6 +278,9 @@ export function Icon({
 
   const Component = getIcon(icon);
   const isURLIcon = typeof icon === 'string' && icon?.indexOf('.') !== -1;
+  const isIconfont =
+    typeof icon === 'string' &&
+    (~icon?.indexOf('iconfont') || ~icon?.indexOf('fa'));
 
   return Component ? (
     <>
@@ -289,6 +296,8 @@ export function Icon({
     </>
   ) : isURLIcon ? (
     <img className={cx(`${classPrefix}Icon`, className)} src={icon} />
+  ) : isIconfont ? (
+    <i className={cx(icon, className)} />
   ) : (
     <span className="text-danger">没有 icon {icon}</span>
   );

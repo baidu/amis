@@ -574,7 +574,6 @@ export class BasicToolbarPlugin extends BasePlugin {
         menus: menus,
         render: this.manager.makeSchemaFormRender({
           body: [
-            // @ts-ignore amis中有问题，可选参数搞成了必选，改完了可以去掉这行
             {
               type: 'button-group',
               buttons: menus
@@ -584,7 +583,7 @@ export class BasicToolbarPlugin extends BasePlugin {
                   type: 'button',
                   onClick: (menu as MenuItem).onSelect
                 }))
-            }
+            } as any
           ],
           panelById: store.activeId
         })

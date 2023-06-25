@@ -33,7 +33,7 @@ import SearchPanel from './component/base/SearchPanel';
 import {VRenderer} from './component/VRenderer';
 import {RegionWrapper} from './component/RegionWrapper';
 import {mapReactElement} from './component/factory';
-import type {EditorNodeType} from './store/node';
+import type {EditorNodeType, EditorNodeSnapshot} from './store/node';
 import {ContainerWrapper} from './component/ContainerWrapper';
 import type {EditorStoreType} from './store/editor';
 import {AvailableRenderersPlugin} from './plugin/AvailableRenderers';
@@ -56,9 +56,10 @@ export {
   IFramePreview as IFrameEditor,
   SearchPanel,
   EditorNodeType,
+  EditorNodeSnapshot,
   EditorStoreType,
   ContainerWrapper,
   AvailableRenderersPlugin,
   ShortcutKey,
-  WidthDraggableContainer,
+  WidthDraggableContainer
 };

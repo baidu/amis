@@ -2,7 +2,7 @@
  * @file 公式编辑器
  */
 import React from 'react';
-import {uncontrollable} from 'amis-core';
+import {mapTree, uncontrollable} from 'amis-core';
 import {
   parse,
   autobind,
@@ -13,21 +13,27 @@ import {
   LocaleProps,
   eachTree
 } from 'amis-core';
+import {functionDocs} from 'amis-formula';
 import {doc} from 'amis-formula/lib/doc';
+import type {FunctionDocMap} from 'amis-formula/lib/types';
 
 import {FormulaPlugin, editorFactory} from './plugin';
 import FuncList from './FuncList';
 import VariableList from './VariableList';
 import CodeMirrorEditor from '../CodeMirror';
 import {toast} from '../Toast';
+import Switch from '../Switch';
 
 export interface VariableItem {
   label: string;
   value?: string;
+  path?: string; // 路径（label）
   children?: Array<VariableItem>;
   type?: string;
   tag?: string;
   selectMode?: 'tree' | 'tabs';
+  isMember?: boolean; // 是否是数组成员
+  // chunks?: string[]; // 内容块，作为一个整体进行高亮标记
 }
 
 export interface FuncGroup {
@@ -81,6 +87,11 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
    * 当前输入项字段 name: 用于避免循环绑定自身导致无限渲染
    */
   selfVariableName?: string;
+
+  /**
+   * 编辑器配置
+   */
+  editorOptions?: any;
 }
 
 export interface FunctionsProps {
@@ -97,6 +108,9 @@ export interface FunctionProps {
 
 export interface FormulaState {
   focused: boolean;
+  isCodeMode: boolean;
+  expandTree: boolean;
+  normalizeVariables?: Array<VariableItem>;
 }
 
 export class FormulaEditor extends React.Component<
@@ -104,7 +118,10 @@ export class FormulaEditor extends React.Component<
   FormulaState
 > {
   state: FormulaState = {
-    focused: false
+    focused: false,
+    isCodeMode: false,
+    expandTree: false,
+    normalizeVariables: []
   };
   editorPlugin?: FormulaPlugin;
 
@@ -131,6 +148,13 @@ export class FormulaEditor extends React.Component<
     });
 
     return funcs;
+  }
+
+  static buildCustomFunctions(map: FunctionDocMap = {}) {
+    return Object.entries(map).map(([k, items]) => ({
+      groupName: k,
+      items
+    }));
   }
 
   static defaultProps: Pick<FormulaEditorProps, 'variables' | 'evalMode'> = {
@@ -172,7 +196,7 @@ export class FormulaEditor extends React.Component<
     eachTree(variables, item => {
       if (item.value) {
         const key = item.value;
-        varMap[key] = item.label;
+        varMap[key] = item.path ?? item.label;
       }
     });
     const vars = Object.keys(varMap)
@@ -217,8 +241,53 @@ export class FormulaEditor extends React.Component<
     return {html};
   }
 
+  componentDidMount(): void {
+    const {variables} = this.props;
+    this.normalizeVariables(variables);
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<FormulaEditorProps>,
+    prevState: Readonly<FormulaState>,
+    snapshot?: any
+  ): void {
+    if (prevProps.variables !== this.props.variables) {
+      this.normalizeVariables(this.props.variables);
+    }
+  }
+
   componentWillUnmount() {
     this.editorPlugin?.dispose();
+  }
+
+  normalizeVariables(variables?: Array<VariableItem>) {
+    if (!variables) {
+      return;
+    }
+    // 追加path，用于分级高亮
+    const list = mapTree(
+      variables,
+      (item: any, key: number, level: number, paths: any[]) => {
+        const path = paths?.reduce((prev, next) => {
+          return !next.value
+            ? prev
+            : `${prev}${prev ? '.' : ''}${next.label ?? next.value}`;
+        }, '');
+
+        return {
+          ...item,
+          path: `${path}${path ? '.' : ''}${item.label}`,
+          ...(item.isMember
+            ? {
+                memberDepth: paths?.filter((item: any) => item.type === 'array')
+                  ?.length
+              }
+            : {})
+        };
+      }
+    );
+
+    this.setState({normalizeVariables: list});
   }
 
   @autobind
@@ -242,7 +311,10 @@ export class FormulaEditor extends React.Component<
 
   @autobind
   handleEditorMounted(cm: any, editor: any) {
-    this.editorPlugin = new FormulaPlugin(editor, cm, () => this.props);
+    this.editorPlugin = new FormulaPlugin(editor, cm, () => ({
+      ...this.props,
+      variables: this.state.normalizeVariables
+    }));
   }
 
   @autobind
@@ -286,11 +358,17 @@ export class FormulaEditor extends React.Component<
     }
 
     this.editorPlugin?.insertContent(
-      {
-        key: item.value,
-        name: item.label
-      },
-      'variable'
+      item.isMember
+        ? item.value
+        : {
+            key: item.value,
+            name: item.label,
+            path: item.path
+            // chunks: item.chunks
+          },
+      item.isMember ? undefined : 'variable',
+      'cm-field',
+      !this.state.isCodeMode
     );
   }
 
@@ -302,12 +380,28 @@ export class FormulaEditor extends React.Component<
 
   @autobind
   editorFactory(dom: HTMLElement, cm: any) {
-    return editorFactory(dom, cm, this.props);
+    const {editorOptions, ...rest} = this.props;
+    return editorFactory(dom, cm, rest, {
+      lineWrapping: true // 自动换行
+    });
+  }
+
+  @autobind
+  handleIsCodeModeChange(showCode: boolean) {
+    // 重置一下value
+    this.editorPlugin?.setValue(this.editorPlugin?.getValue());
+    // 非源码模式，则mark一下
+    !showCode && this.editorPlugin?.autoMarkText();
+    this.setState({isCodeMode: showCode});
+  }
+
+  @autobind
+  handleExpandTreeChange(expand: boolean) {
+    this.setState({expandTree: expand});
   }
 
   render() {
     const {
-      variables,
       header,
       value,
       functions,
@@ -319,10 +413,11 @@ export class FormulaEditor extends React.Component<
       classPrefix,
       selfVariableName
     } = this.props;
-    const {focused} = this.state;
+    const {focused, isCodeMode, expandTree, normalizeVariables} = this.state;
     const customFunctions = Array.isArray(functions) ? functions : [];
     const functionList = [
       ...FormulaEditor.buildDefaultFunctions(doc),
+      ...FormulaEditor.buildCustomFunctions(functionDocs),
       ...customFunctions
     ];
 
@@ -332,27 +427,49 @@ export class FormulaEditor extends React.Component<
           'is-focused': focused
         })}
       >
-        <section className={cx(`FormulaEditor-content`)}>
-          <header className={cx(`FormulaEditor-header`)}>
-            {__(header || 'FormulaEditor.title')}
-          </header>
-
-          <CodeMirrorEditor
-            className={cx('FormulaEditor-editor')}
-            value={value}
-            onChange={this.handleOnChange}
-            editorFactory={this.editorFactory}
-            editorDidMount={this.handleEditorMounted}
-            onFocus={this.handleFocus}
-            onBlur={this.handleBlur}
-          />
-        </section>
-
         <section className={cx('FormulaEditor-settings')}>
-          <div className={cx('FormulaEditor-panel')}>
+          <FuncList
+            className={functionClassName}
+            title={__('FormulaEditor.function')}
+            data={functionList}
+            onSelect={this.handleFunctionSelect}
+          />
+
+          <div className={cx(`FormulaEditor-content`)}>
+            <header className={cx(`FormulaEditor-header`)}>
+              {__(header || 'FormulaEditor.title')}
+              <div className={cx(`FormulaEditor-header-toolbar`)}>
+                <span>源码模式</span>
+                <Switch
+                  value={isCodeMode}
+                  onChange={this.handleIsCodeModeChange}
+                />
+              </div>
+            </header>
+
+            <CodeMirrorEditor
+              className={cx('FormulaEditor-editor')}
+              value={value}
+              onChange={this.handleOnChange}
+              editorFactory={this.editorFactory}
+              editorDidMount={this.handleEditorMounted}
+              onFocus={this.handleFocus}
+              onBlur={this.handleBlur}
+            />
+          </div>
+          <div className={cx('FormulaEditor-panel', 'right')}>
             {variableMode !== 'tabs' ? (
               <div className={cx('FormulaEditor-panel-header')}>
                 {__('FormulaEditor.variable')}
+                {variableMode === 'tree' ? (
+                  <div className={cx(`FormulaEditor-header-toolbar`)}>
+                    <span>展开全部</span>
+                    <Switch
+                      value={expandTree}
+                      onChange={this.handleExpandTreeChange}
+                    />
+                  </div>
+                ) : null}
               </div>
             ) : null}
             <div
@@ -368,20 +485,14 @@ export class FormulaEditor extends React.Component<
                   'FormulaEditor-VariableList-root',
                   variableClassName
                 )}
+                expandTree={expandTree}
                 selectMode={variableMode}
-                data={variables!}
+                data={normalizeVariables!}
                 onSelect={this.handleVariableSelect}
                 selfVariableName={selfVariableName}
               />
             </div>
           </div>
-
-          <FuncList
-            className={functionClassName}
-            title={__('FormulaEditor.function')}
-            data={functionList}
-            onSelect={this.handleFunctionSelect}
-          />
         </section>
       </div>
     );

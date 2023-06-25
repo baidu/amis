@@ -182,6 +182,21 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     }
                     isHiddenProps={config.isHiddenProps}
                     $schemaUrl={config.$schemaUrl}
+                    onFormulaEditorOpen={async (
+                      node,
+                      subEditormanager,
+                      data
+                    ) => {
+                      const fn = manager?.config?.onFormulaEditorOpen;
+
+                      if (fn && typeof fn === 'function') {
+                        return fn(node, subEditormanager, data, {
+                          node: subEditorContext?.hostNode,
+                          manager: manager
+                        });
+                      }
+                      return;
+                    }}
                   />
                 )
               }

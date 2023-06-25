@@ -245,13 +245,17 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 
       .editor-prop-config-tabs {
         padding-bottom: 45px;
+
+        &-links {
+          --fonts-size-7: 14px;
+        }
       }
 
       .ae-Settings-actions,
       > input {
-        position: fixed;
+        position: sticky;
         left: 0;
-        bottom: 0;
+        bottom: -16px;
         margin-bottom: 0;
         width: 100%;
         line-height: 1;
@@ -315,7 +319,10 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
           font-family: PingFangSC-Regular;
           color: #84868c;
           width: 100%;
-          font-size: 14px;
+          --Tabs--line-active-fontSize: 14px;
+          --Tabs--line-fontSize: 14px;
+          --Tabs--line-hover-fontSize: 14px;
+          --Tabs--line-disabled-fontSize: 14px;
           letter-spacing: 0;
           font-weight: 400;
           text-decoration: none;
@@ -439,7 +446,7 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
 // 包裹样式
 .config-wrapper-contanier {
   position: relative;
-  margin: -8px auto 12px auto;
+  margin: 0 auto 12px auto;
   padding: 12px 8px;
   background-color: #f7f7f9;
   border-radius: 2px;

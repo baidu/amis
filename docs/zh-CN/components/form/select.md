@@ -585,6 +585,64 @@ _多选_
 }
 ```
 
+### 自定义搜索函数
+
+默认通过[match-sorter](https://github.com/kentcdodds/match-sorter)搜索过滤 value,label 中的值
+
+可通过`filterOption`自定义搜索过滤函数
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "label": "带搜索",
+      "type": "select",
+      "name": "a",
+      "selectMode": "chained",
+      "searchable": true,
+      "filterOption": "return options.filter(({value, label, weapon}) => value?.includes(inputValue) || label?.includes(inputValue) || weapon?.includes(inputValue));",
+      "sortable": true,
+      "multiple": true,
+      "options": [
+        {
+          "label": "诸葛亮",
+          "value": "zhugeliang",
+          "weapon": "翡翠仙扇"
+        },
+        {
+          "label": "曹操",
+          "value": "caocao",
+          "weapon": "幻影双刃"
+        },
+        {
+          "label": "钟无艳",
+          "value": "zhongwuyan",
+          "weapon": "破岳震天锤"
+        },
+
+        {
+          "label": "李白",
+          "value": "libai",
+          "weapon": "青丝缠月剑"
+        },
+        {
+          "label": "韩信",
+          "value": "hanxin",
+          "weapon": "龙吟穿云枪"
+        },
+        {
+          "label": "云中君",
+          "value": "yunzhongjun",
+          "weapon": "飘渺云影剑"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ### 延时加载
 
 选型设置 defer: true，结合配置组件层的 `deferApi` 来实现。
@@ -1140,6 +1198,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | creatable                | `boolean`                                                                         | `false`                                                                            | [新增选项](./options#%E5%89%8D%E7%AB%AF%E6%96%B0%E5%A2%9E-creatable)                                                                                                                                         |
 | multiple                 | `boolean`                                                                         | `false`                                                                            | [多选](./options#多选-multiple)                                                                                                                                                                              |
 | searchable               | `boolean`                                                                         | `false`                                                                            | [检索](./options#检索-searchable)                                                                                                                                                                            |
+| filterOption             | `string`                                                                          | `(options: Option[], inputValue: string, option: {keys: string[]}) => Option[]`    |                                                                                                                                                                                                              |
 | createBtnLabel           | `string`                                                                          | `"新增选项"`                                                                       | [新增选项](./options#%E6%96%B0%E5%A2%9E%E9%80%89%E9%A1%B9)                                                                                                                                                   |
 | addControls              | Array<[表单项](./formitem)>                                                       |                                                                                    | [自定义新增表单项](./options#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%B0%E5%A2%9E%E8%A1%A8%E5%8D%95%E9%A1%B9-addcontrols)                                                                                           |
 | addApi                   | [API](../../docs/types/api)                                                       |                                                                                    | [配置新增选项接口](./options#%E9%85%8D%E7%BD%AE%E6%96%B0%E5%A2%9E%E6%8E%A5%E5%8F%A3-addapi)                                                                                                                  |
@@ -1169,7 +1228,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
 

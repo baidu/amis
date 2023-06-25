@@ -1,6 +1,6 @@
 import {ConditionBuilderConfig} from './config';
 import {ConditionBuilderFields, ConditionBuilderFuncs} from './types';
-import {ThemeProps, themeable, autobind} from 'amis-core';
+import {ThemeProps, themeable, autobind, isMobile} from 'amis-core';
 import React from 'react';
 import {Icon} from '../icons';
 import ConditionGroup from './Group';
@@ -28,8 +28,11 @@ export interface CBGroupOrItemProps extends ThemeProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
-  selectMode?: 'list' | 'tree';
+  selectMode?: 'list' | 'tree' | 'chained';
   isCollapsed?: boolean;
+  depth: number;
+  isAddBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
+  isAddGroupBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -48,6 +51,9 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
 
   @autobind
   handlerHoverIn(e: any) {
+    if (isMobile()) {
+      return;
+    }
     e.stopPropagation();
     this.setState({
       hover: true
@@ -79,13 +85,17 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       popOverContainer,
       selectMode,
       renderEtrValue,
-      isCollapsed
+      isCollapsed,
+      depth,
+      isAddBtnVisibleOn,
+      isAddGroupBtnVisibleOn
     } = this.props;
 
     return (
       <div
         className={cx(
-          `CBGroupOrItem${builderMode === 'simple' ? '-simple' : ''}`
+          `CBGroupOrItem${builderMode === 'simple' ? '-simple' : ''}`,
+          {'is-mobile': isMobile()}
         )}
         data-id={value?.id}
       >
@@ -93,7 +103,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
           {value?.conjunction ? (
             <div
               className={cx('CBGroupOrItem-body-group', {
-                'is-hover': this.state.hover
+                'is-hover': this.state.hover || isMobile()
               })}
               onMouseOver={this.handlerHoverIn}
               onMouseOut={this.handlerHoverOut}
@@ -112,6 +122,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 draggable={draggable}
                 disabled={disabled}
                 searchable={searchable}
+                selectMode={selectMode}
                 onDragStart={onDragStart}
                 config={config}
                 fields={fields}
@@ -123,6 +134,9 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 onRemove={this.handleItemRemove}
                 data={data}
                 renderEtrValue={renderEtrValue}
+                depth={depth + 1}
+                isAddBtnVisibleOn={isAddBtnVisibleOn}
+                isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
               />
             </div>
           ) : (

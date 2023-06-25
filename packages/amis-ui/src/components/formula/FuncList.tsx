@@ -5,6 +5,7 @@ import Collapse from '../Collapse';
 import CollapseGroup from '../CollapseGroup';
 import SearchBox from '../SearchBox';
 import type {FuncGroup, FuncItem} from './Editor';
+import TooltipWrapper from '../TooltipWrapper';
 
 export interface FuncListProps extends ThemeProps {
   title?: string;
@@ -24,6 +25,7 @@ export function FuncList(props: FuncListProps) {
   } = props;
   const [filteredFuncs, setFiteredFuncs] = React.useState(props.data);
   const [activeFunc, setActiveFunc] = React.useState<any>(null);
+
   function onSearch(term: string) {
     const filtered = props.data
       .map(item => {
@@ -39,12 +41,17 @@ export function FuncList(props: FuncListProps) {
   }
 
   return (
-    <div className={cx('FormulaEditor-FuncList', className)}>
-      <div className={cx('FormulaEditor-panel')}>
+    <div className={cx('FormulaEditor-panel', 'left', className)}>
+      <div
+        className={cx(
+          'FormulaEditor-FuncList',
+          activeFunc?.name ? 'withDoc' : ''
+        )}
+      >
         <div className={cx('FormulaEditor-panel-header')}>{title}</div>
         <div className={cx('FormulaEditor-panel-body')}>
           <div className={cx('FormulaEditor-FuncList-searchBox')}>
-            <SearchBox mini={false} onSearch={onSearch} />
+            <SearchBox mini={false} onSearch={onSearch} useMobileUI />
           </div>
           <div className={cx('FormulaEditor-FuncList-body', bodyClassName)}>
             <CollapseGroup
@@ -73,8 +80,8 @@ export function FuncList(props: FuncListProps) {
                       className={cx('FormulaEditor-FuncList-item', {
                         'is-active': item.name === activeFunc?.name
                       })}
-                      onMouseEnter={() => setActiveFunc(item)}
-                      onClick={() => props.onSelect?.(item)}
+                      onClick={() => setActiveFunc(item)}
+                      onDoubleClick={() => props.onSelect?.(item)}
                       key={item.name}
                     >
                       {item.name}
@@ -86,26 +93,65 @@ export function FuncList(props: FuncListProps) {
           </div>
         </div>
       </div>
-
-      <div className={cx('FormulaEditor-panel')}>
-        <div className={cx('FormulaEditor-panel-header')}>
-          {activeFunc?.name || ''}
-        </div>
-        <div className={cx('FormulaEditor-panel-body')}>
-          <div className={cx('FormulaEditor-FuncList-doc', descClassName)}>
-            {activeFunc ? (
-              <>
-                <pre>
-                  <code>{activeFunc.example}</code>
-                </pre>
-                <div className={cx('FormulaEditor-FuncList-doc-desc')}>
-                  {activeFunc.description}
-                </div>
-              </>
-            ) : null}
+      {activeFunc?.name ? (
+        <div className={cx('FormulaEditor-FuncDoc')}>
+          <div className={cx('FormulaEditor-panel-header')}>
+            {activeFunc?.name || ''}
+          </div>
+          <div className={cx('FormulaEditor-panel-body')}>
+            <div className={cx('FormulaEditor-FuncList-doc', descClassName)}>
+              {activeFunc ? (
+                <>
+                  {Array.isArray(activeFunc.params) ? (
+                    <pre>
+                      <TooltipWrapper
+                        placement="top"
+                        tooltip={{
+                          children: () => (
+                            <table
+                              className={cx(
+                                'FormulaEditor-FuncList-doc-example',
+                                'Table-table'
+                              )}
+                            >
+                              <thead>
+                                <tr>
+                                  {['参数名称', '类型', '描述'].map(
+                                    (name, index) => (
+                                      <th key={index}>{name}</th>
+                                    )
+                                  )}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {activeFunc.params.map(
+                                  (param: any, index: number) => (
+                                    <tr key={index}>
+                                      <td>{param.name}</td>
+                                      <td>{param.type}</td>
+                                      <td>{param.description}</td>
+                                    </tr>
+                                  )
+                                )}
+                              </tbody>
+                            </table>
+                          )
+                        }}
+                        trigger="hover"
+                      >
+                        <code>{activeFunc.example}</code>
+                      </TooltipWrapper>
+                    </pre>
+                  ) : null}
+                  <div className={cx('FormulaEditor-FuncList-doc-desc')}>
+                    {activeFunc.description}
+                  </div>
+                </>
+              ) : null}
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 }

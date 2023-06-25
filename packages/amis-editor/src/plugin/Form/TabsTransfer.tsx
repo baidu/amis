@@ -7,6 +7,7 @@ import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class TabsTransferPlugin extends BasePlugin {
+  static id = 'TabsTransferPlugin';
   // 关联渲染器名字
   rendererName = 'tabs-transfer';
   $schema = '/schemas/TransferControlSchema.json';
@@ -141,13 +142,19 @@ export class TabsTransferPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选中的值'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项列表'
+                }
+              }
             }
           }
         }
@@ -161,9 +168,15 @@ export class TabsTransferPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.key': {
-              type: 'string',
-              title: '当前激活的选项卡索引'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                key: {
+                  type: 'string',
+                  title: '激活的索引'
+                }
+              }
             }
           }
         }

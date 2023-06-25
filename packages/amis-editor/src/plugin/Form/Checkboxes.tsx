@@ -18,6 +18,7 @@ import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class CheckboxesControlPlugin extends BasePlugin {
+  static id = 'CheckboxesControlPlugin';
   // 关联渲染器名字
   rendererName = 'checkboxes';
   $schema = '/schemas/CheckboxesControlSchema.json';
@@ -75,9 +76,15 @@ export class CheckboxesControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选中的值'
+                }
+              }
             }
           }
         }
@@ -165,7 +172,9 @@ export class CheckboxesControlPlugin extends BasePlugin {
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('description'),
-              getSchemaTpl('autoFillApi')
+              getSchemaTpl('autoFillApi', {
+                trigger: 'change'
+              })
             ]
           },
           {

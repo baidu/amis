@@ -3,6 +3,7 @@ import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 export class OfficeViewerPlugin extends BasePlugin {
+  static id = 'OfficeViewerPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'office-viewer';

@@ -2,6 +2,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {TextControlPlugin} from './InputText';
 
 export class PasswordControlPlugin extends TextControlPlugin {
+  static id = 'PasswordControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-password';
   $schema = '/schemas/TextControlSchema.json';

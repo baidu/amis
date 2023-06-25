@@ -20,7 +20,11 @@ import {getSchemaTpl, tipedLabel} from '../tpl';
 import {EditorNodeType} from '../store/node';
 
 class APIBuilder extends DSBuilder {
-  public static type = 'api';
+  static type = 'api';
+
+  static accessable = (controlType: string, propKey: string) => {
+    return true;
+  };
 
   name = '接口';
 
@@ -37,10 +41,6 @@ class APIBuilder extends DSBuilder {
     }
 
     return false;
-  };
-
-  public static accessable = (controlType: string, propKey: string) => {
-    return true;
   };
 
   public features: Array<DSFeatureType> = [

@@ -251,6 +251,7 @@ export function embed(
     },
     richTextToken: '',
     affixOffsetBottom: 0,
+    customStyleClassPrefix: '.amis-scope',
     ...env
   };
 
@@ -292,6 +293,10 @@ export function embed(
 
   return Object.assign(scoped, {
     updateProps: (props: any, callback?: () => void) => {
+      root.render(createElements(props));
+    },
+    updateSchema: (newSchema: any, props = {}) => {
+      schema = newSchema;
       root.render(createElements(props));
     },
     unmount: () => {

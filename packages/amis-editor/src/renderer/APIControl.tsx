@@ -517,6 +517,7 @@ export default class APIControl extends React.Component<
         closeOnEsc: true,
         closeOnOutside: false,
         showCloseButton: true,
+        // data: {},
         body: [this.renderApiConfigTabs()]
       }
     };

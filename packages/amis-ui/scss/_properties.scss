@@ -243,6 +243,7 @@ $Table-strip-bg: transparent;
   --ColorPicker-fontSize: var(--Form-input-fontSize);
   --ColorPicker-height: var(--Form-input-height);
   --ColorPicker-lineHeight: var(--Form-input-lineHeight);
+  --ColorPicker-height: var(--sizes-base-16);
   --ColorPicker-onDisabled-bg: var(--colors-neutral-fill-8);
   --ColorPicker-onDisabled-color: var(--text--muted-color);
   --ColorPicker-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
@@ -527,6 +528,10 @@ $Table-strip-bg: transparent;
   --ListMenu-item-bg: var(--colors-neutral-fill-11);
   --ListMenu-item-color: var(--colors-neutral-text-2);
   --ListMenu-item-height: var(--sizes-base-15);
+  --ListMenu-item-mobile-margin: #{px2rem(5px)};
+  --ListMenu-item-mobile-width: #{px2rem(90px)};
+  --ListMenu-item-mobile-bg: #f5f5f5;
+  --ListMenu-item-mobile-active-bg: #e7f1ff;
 
   --Log-bg: #222;
   --Log-padding: var(--gap-sm) 0;
@@ -634,6 +639,7 @@ $Table-strip-bg: transparent;
   --PopOverAble-onHover-iconColor: inherit;
 
   --PopUp-cancelAction-color: #666;
+  --PopUp-confirmAction-color: var(--primary);
 
   --Property-title-bg: #f2f2f2;
   --Property-label-bg: #f7f7f7;
@@ -767,6 +773,24 @@ $Table-strip-bg: transparent;
   --UserSelect--border-color: #f7f7f9;
   --UserSelect--content-bg: #f5f7f8;
   --UserSelect--bread-color: #5e626a;
+
+  --Cascader-border-color: #f7f7f9;
+  --Cascader-border-active-bg-color: #f7f7f9;
+  --Cascader-option-disable-color: #b8babf;
+
+  // tag
+  --Tag-content-fontSize: var(--fontSizeSm);
+  --Tag-height: #{px2rem(24px)};
+  --Tag-borderRadius: #{px2rem(2px)};
+  --Tag-fontColor: #151a26;
+
+  --Tag-default-color: #f2f2f4;
+  --Tag-inactive-color: #b8babf;
+  --Tag-active-color: var(--colors-brand-5);
+  --Tag-processing-color: var(--colors-brand-6);
+  --Tag-success-color: var(--colors-success-5);
+  --Tag-error-color: var(--colors-error-5);
+  --Tag-warning-color: var(--colors-warning-5);
 
   --Tag-checkable-bgColor: #f2f2f4;
   --Tag-checkable-bgColor-onDisable: #e6e6e8;

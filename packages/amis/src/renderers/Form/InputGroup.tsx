@@ -9,6 +9,7 @@ import {
   anyChanged
 } from 'amis-core';
 import {FormBaseControlSchema, SchemaCollection} from '../../Schema';
+import {isMobile} from 'amis-core';
 
 /**
  * InputGroup
@@ -190,7 +191,8 @@ export class InputGroup extends React.Component<
       data,
       classnames: cx,
       static: isStatic,
-      disabled
+      disabled,
+      useMobileUI
     } = this.props;
     const {errorMode} = this.getValidationConfig();
 
@@ -218,6 +220,8 @@ export class InputGroup extends React.Component<
       (formHorizontal
         ? makeHorizontalDeeper(formHorizontal as any, inputs.length)
         : undefined);
+    const mobileUI = useMobileUI && isMobile();
+
     return (
       <div
         className={cx(
@@ -226,6 +230,9 @@ export class InputGroup extends React.Component<
           className,
           {
             'is-focused': this.state.isFocused
+          },
+          {
+            'is-mobile': mobileUI
           }
         )}
       >

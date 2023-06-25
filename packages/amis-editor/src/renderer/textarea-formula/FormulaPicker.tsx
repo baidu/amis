@@ -46,13 +46,13 @@ const FormulaPicker: React.FC<FormulaPickerProps> = props => {
   return (
     <Modal
       className={cx('FormulaPicker-Modal')}
-      size="md"
+      size="lg"
       show
       onHide={handleClose}
       closeOnEsc
     >
       <Modal.Body>
-      <FormulaEditor
+        <FormulaEditor
           {...props}
           header={props.header || '表达式'}
           variables={variables}

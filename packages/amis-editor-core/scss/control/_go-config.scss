@@ -21,8 +21,15 @@
   }
 
   &:hover {
+    border: none;
+
+    &.ae-FeatureControlItem-go {
+      color: transparent;
+    }
+
     .ae-GoConfig-trigger {
       display: block;
+      border-radius: $Editor-borderRadius;
     }
   }
 }

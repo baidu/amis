@@ -13,6 +13,7 @@ const widthOrheightPipeIn = (curValue: string, rest: any) =>
   curValue ? curValue : rest.data?.size ?? DefaultSize;
 
 export class AvatarPlugin extends BasePlugin {
+  static id = 'AvatarPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'avatar';

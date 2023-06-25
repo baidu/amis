@@ -12,6 +12,7 @@ import {formItemControl} from '../../component/BaseControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class TagControlPlugin extends BasePlugin {
+  static id = 'TagControlPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-tag';
@@ -57,9 +58,15 @@ export class TagControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '当前标签值'
+                }
+              }
             }
           }
         }
@@ -73,17 +80,23 @@ export class TagControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
-            },
-            'event.data.selectedItems': {
-              type: 'array',
-              title: '选中的项'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前标签值'
+                },
+                selectedItems: {
+                  type: 'array',
+                  title: '选中的标签'
+                },
+                items: {
+                  type: 'array',
+                  title: '标签列表'
+                }
+              }
             }
           }
         }
@@ -97,13 +110,23 @@ export class TagControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前标签值'
+                },
+                selectedItems: {
+                  type: 'array',
+                  title: '选中的标签'
+                },
+                items: {
+                  type: 'array',
+                  title: '标签列表'
+                }
+              }
             }
           }
         }

@@ -18,6 +18,7 @@ import {JSONDelete, JSONPipeIn, JSONUpdate} from 'amis-editor-core';
 import {SUPPORT_STATIC_FORMITEM_CMPTS} from '../../renderer/event-control/helper';
 
 export class ItemPlugin extends BasePlugin {
+  static id = 'ItemPlugin';
   // panelTitle = '表单项通配';
   panelTitle = '表单项';
   order = -990;
@@ -207,7 +208,7 @@ export class ItemPlugin extends BasePlugin {
     const context = event.context;
 
     if (
-      /\$/.test(context.info.renderer.name!) &&
+      context.info.renderer.isFormItem &&
       context.diff?.some(change => change.path?.join('.') === 'value')
     ) {
       const change: any = find(

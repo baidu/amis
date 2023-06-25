@@ -224,6 +224,7 @@ export class Chart extends React.Component<ChartProps> {
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
   reloadCancel?: Function;
+  onChartMount?: ((chart: any, echarts: any) => void) | undefined;
 
   constructor(props: ChartProps) {
     super(props);
@@ -334,7 +335,7 @@ export class Chart extends React.Component<ChartProps> {
     } = this.props;
     let {mapURL, mapName} = this.props;
 
-    let onChartMount = this.props.onChartMount;
+    let onChartMount = this.props.onChartMount || this.onChartMount;
 
     if (ref) {
       Promise.all([
@@ -343,7 +344,9 @@ export class Chart extends React.Component<ChartProps> {
         // @ts-ignore 官方没提供 type
         import('echarts/extension/dataTool'),
         // @ts-ignore 官方没提供 type
-        import('echarts/extension/bmap/bmap')
+        import('echarts/extension/bmap/bmap'),
+        // @ts-ignore 官方没提供 type
+        import('echarts-wordcloud/dist/echarts-wordcloud')
       ]).then(async ([echarts, ecStat]) => {
         (window as any).echarts = echarts;
         (window as any).ecStat = ecStat?.default || ecStat;

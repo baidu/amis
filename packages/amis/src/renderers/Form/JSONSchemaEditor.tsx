@@ -7,6 +7,7 @@ import {FormBaseControlSchema} from '../../Schema';
 
 import {schemaEditorItemPlaceholder} from 'amis-ui';
 import type {SchemaEditorItemPlaceholder} from 'amis-ui';
+import {isMobile} from 'amis-core';
 
 /**
  * JSON Schema Editor
@@ -138,14 +139,23 @@ export default class JSONSchemaEditorControl extends React.PureComponent<JSONSch
   }
 
   render() {
-    const {enableAdvancedSetting, ...rest} = this.props;
+    const {enableAdvancedSetting, useMobileUI, env, ...rest} = this.props;
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <JSONSchemaEditor
         {...rest}
+        useMobileUI={useMobileUI}
         placeholder={this.normalizePlaceholder()}
         enableAdvancedSetting={enableAdvancedSetting}
         renderModalProps={this.renderModalProps}
+        popOverContainer={
+          mobileUI && env && env.getModalContainer
+            ? env.getModalContainer
+            : mobileUI
+            ? undefined
+            : rest.popOverContainer
+        }
       />
     );
   }

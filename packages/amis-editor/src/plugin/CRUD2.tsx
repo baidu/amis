@@ -477,6 +477,7 @@ const DataOperators: Array<FeatOption> = [
 ];
 
 export class CRUDPlugin extends BasePlugin {
+  static id = 'CRUD2Plugin';
   constructor(manager: EditorManager) {
     super(manager);
     this.dsBuilderMgr = new DSBuilderManager('crud2', 'api');
@@ -1304,14 +1305,6 @@ export class CRUDPlugin extends BasePlugin {
       canRebuild: true
     };
   }
-
-  events: RendererPluginEvent[] = [
-    {
-      eventName: 'get-data',
-      eventLabel: '数据加载',
-      description: '列表数据翻页'
-    }
-  ];
 
   actions: RendererPluginAction[] = [
     {

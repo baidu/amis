@@ -1,5 +1,3 @@
-import React from 'react';
-import {Button} from 'amis';
 import {
   registerEditorPlugin,
   BaseEventContext,
@@ -16,7 +14,9 @@ import {
   getI18nEnabled,
   repeatArray,
   mockValue,
-  EditorNodeType
+  EditorNodeType,
+  EditorManager,
+  DSBuilderManager
 } from 'amis-editor-core';
 import {setVariable, someTree} from 'amis-core';
 import {ValidatorTag} from '../../validator';
@@ -28,6 +28,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import {resolveArrayDatasource} from '../../util';
 
 export class TableControlPlugin extends BasePlugin {
+  static id = 'TableControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-table';
   $schema = '/schemas/TableControlSchema.json';
@@ -287,270 +288,372 @@ export class TableControlPlugin extends BasePlugin {
   panelTitle = '表格编辑';
 
   events: RendererPluginEvent[] = [
-    // {
-    //   eventName: 'addConfirm',
-    //   eventLabel: '确认添加',
-    //   description: '开启needConfirm，点击添加按钮，填入数据后点击“保存”按钮后触发',
-    //   dataSchema: [
-    //     {
-    //       type: 'object',
-    //       properties: {
-    //         'event.data.value': {
-    //           type: 'array',
-    //           title: '表格数据'
-    //         },
-    //         'event.data.item': {
-    //           type: 'object',
-    //           title: '添加项数据'
-    //         },
-    //         'event.data.index': {
-    //           type: 'number',
-    //           title: '添加项的行索引'
-    //         }
-    //       }
-    //     }
-    //   ]
-    // },
-    // {
-    //   eventName: 'addSuccess',
-    //   eventLabel: '添加成功',
-    //   description: '开启needConfirm并且配置addApi，点击“保存”后调用接口成功时触发',
-    //   dataSchema: [
-    //     {
-    //       type: 'object',
-    //       properties: {
-    //         'event.data.value': {
-    //           type: 'array',
-    //           title: '表格数据'
-    //         },
-    //         'event.data.item': {
-    //           type: 'object',
-    //           title: '添加项数据'
-    //         },
-    //         'event.data.index': {
-    //           type: 'number',
-    //           title: '添加项所在的行索引'
-    //         }
-    //       }
-    //     }
-    //   ]
-    // },
-    // {
-    //   eventName: 'addFail',
-    //   eventLabel: '添加失败',
-    //   description: '开启needConfirm并且配置addApi，点击“保存”后调用接口失败时触发',
-    //   dataSchema: [
-    //     {
-    //       type: 'object',
-    //       properties: {
-    //         'event.data.value': {
-    //           type: 'array',
-    //           title: '表格数据'
-    //         },
-    //         'event.data.item': {
-    //           type: 'object',
-    //           title: '添加项数据'
-    //         },
-    //         'event.data.index': {
-    //           type: 'number',
-    //           title: '添加项所在的行索引'
-    //         },
-    //         'event.data.error': {
-    //           type: 'object',
-    //           title: 'addApi请求失败后接口返回的错误信息'
-    //         }
-    //       }
-    //     }
-    //   ]
-    // },
-    // {
-    //   eventName: 'edit',
-    //   eventLabel: '编辑行',
-    //   description: '点击某一行右侧操作栏“编辑”按钮时触发',
-    //   dataSchema: [
-    //     {
-    //       type: 'object',
-    //       properties: {
-    //         'event.data.value': {
-    //           type: 'array',
-    //           title: '表格数据'
-    //         },
-    //         'event.data.item': {
-    //           type: 'object',
-    //           title: '编辑项数据'
-    //         },
-    //         'event.data.index': {
-    //           type: 'number',
-    //           title: '编辑项所在的行索引'
-    //         }
-    //       }
-    //     }
-    //   ]
-    // },
-    // {
-    //   eventName: 'editConfirm',
-    //   eventLabel: '编辑确认',
-    //   description: '开启needConfirm，点击“编辑”按钮，填入数据后点击“保存”按钮后触发',
-    //   dataSchema: [
-    //     {
-    //       type: 'object',
-    //       properties: {
-    //         'event.data.value': {
-    //           type: 'array',
-    //           title: '表格数据'
-    //         },
-    //         'event.data.item': {
-    //           type: 'object',
-    //           title: '编辑项数据'
-    //         },
-    //         'event.data.index': {
-    //           type: 'number',
-    //           title: '编辑项所在的行索引'
-    //         }
-    //       }
-    //     }
-    //   ]
-    // },
-    // {
-    //   eventName: 'editSuccess',
-    //   eventLabel: '编辑成功',
-    //   description: '开启needConfirm并且配置updateApi，点击“保存”后调用接口成功时触发',
-    //   dataSchema: [
-    //     {
-    //       type: 'object',
-    //       properties: {
-    //         'event.data.value': {
-    //           type: 'array',
-    //           title: '表格数据'
-    //         },
-    //         'event.data.item': {
-    //           type: 'object',
-    //           title: '编辑项数据'
-    //         },
-    //         'event.data.index': {
-    //           type: 'number',
-    //           title: '编辑项所在的行索引'
-    //         }
-    //       }
-    //     }
-    //   ]
-    // },
-    // {
-    //   eventName: 'editFail',
-    //   eventLabel: '编辑失败',
-    //   description: '开启needConfirm并且配置updateApi，点击“保存”后调用接口失败时触发',
-    //   dataSchema: [
-    //     {
-    //       type: 'object',
-    //       properties: {
-    //         'event.data.value': {
-    //           type: 'array',
-    //           title: '表格数据'
-    //         },
-    //         'event.data.item': {
-    //           type: 'object',
-    //           title: '编辑项数据'
-    //         },
-    //         'event.data.index': {
-    //           type: 'number',
-    //           title: '编辑项所在的行索引'
-    //         },
-    //         'event.data.error': {
-    //           type: 'object',
-    //           title: 'updateApi请求错误后返回的错误信息'
-    //         }
-    //       }
-    //     }
-    //   ]
-    // },
-    // {
-    //   eventName: 'delete',
-    //   eventLabel: '删除行',
-    //   description: '点击某一行右侧操作栏“删除”按钮时触发',
-    //   dataSchema: [
-    //     {
-    //       type: 'object',
-    //       properties: {
-    //         'event.data.value': {
-    //           type: 'array',
-    //           title: '表格数据'
-    //         },
-    //         'event.data.item': {
-    //           type: 'object',
-    //           title: '删除项数据'
-    //         },
-    //         'event.data.index': {
-    //           type: 'object',
-    //           title: '删除项所在的行索引'
-    //         }
-    //       }
-    //     }
-    //   ]
-    // },
-    // {
-    //   eventName: 'deleteSuccess',
-    //   eventLabel: '删除成功',
-    //   description: '配置了deleteApi，调用接口成功时触发',
-    //   dataSchema: [
-    //     {
-    //       type: 'object',
-    //       properties: {
-    //         'event.data.value': {
-    //           type: 'array',
-    //           title: '表格数据'
-    //         },
-    //         'event.data.item': {
-    //           type: 'object',
-    //           title: '删除项数据'
-    //         },
-    //         'event.data.index': {
-    //           type: 'object',
-    //           title: '删除项所在的行索引'
-    //         }
-    //       }
-    //     }
-    //   ]
-    // },
-    // {
-    //   eventName: 'deleteFail',
-    //   eventLabel: '删除失败',
-    //   description: '配置了deleteApi，调用接口失败时触发',
-    //   dataSchema: [
-    //     {
-    //       type: 'object',
-    //       properties: {
-    //         'event.data.value': {
-    //           type: 'array',
-    //           title: '表格数据'
-    //         },
-    //         'event.data.item': {
-    //           type: 'object',
-    //           title: '编辑项数据'
-    //         },
-    //         'event.data.index': {
-    //           type: 'object',
-    //           title: '编辑项所在的行索引'
-    //         }
-    //       }
-    //     }
-    //   ]
-    // },
-    // {
-    //   eventName: 'change',
-    //   eventLabel: '值变化',
-    //   description: '组件数据发生改变时触发',
-    //   dataSchema: [
-    //     {
-    //       type: 'object',
-    //       properties: {
-    //         'event.data.value': {
-    //           type: 'array',
-    //           title: '表格数据'
-    //         }
-    //       }
-    //     }
-    //   ]
-    // }
+    {
+      eventName: 'add',
+      eventLabel: '添加行',
+      description: '点击左下角添加按钮 或 某一行右侧操作栏添加按钮时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                index: {
+                  type: 'array',
+                  title: '新增索引'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'addConfirm',
+      eventLabel: '确认添加',
+      description:
+        '开启”确认模式“，点击添加按钮，填入数据后点击“保存”按钮后触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '新增行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '新增索引'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'addSuccess',
+      eventLabel: '添加成功',
+      description:
+        '开启”确认模式“并且配置”新增接口“，点击“保存”后成功添加时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '新增行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '新增索引'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'addFail',
+      eventLabel: '添加失败',
+      description:
+        '开启”确认模式“并且配置”新增接口“，点击“保存”后调用接口失败时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '新增行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '新增索引'
+                },
+                error: {
+                  type: 'object',
+                  title: '请求失败后接口返回的错误信息'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'edit',
+      eventLabel: '编辑行',
+      description: '点击某一行右侧操作栏“编辑”按钮时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '所在行记录索引'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'editConfirm',
+      eventLabel: '确认编辑',
+      description:
+        '开启”确认模式“，点击“编辑”按钮，填入数据后点击“保存”按钮后触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '所在行记录索引'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'editSuccess',
+      eventLabel: '编辑成功',
+      description:
+        '开启”确认模式“并且配置”编辑接口“，点击“保存”后成功编辑时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '所在行记录索引'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'editFail',
+      eventLabel: '编辑失败',
+      description:
+        '开启”确认模式“并且配置”编辑接口“，点击“保存”后调用接口失败时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '所在行记录索引'
+                },
+                error: {
+                  type: 'object',
+                  title: '请求错误后返回的错误信息'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'delete',
+      eventLabel: '删除行',
+      description: '点击某一行右侧操作栏“删除”按钮时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'object',
+                  title: '所在行记录索引'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'deleteSuccess',
+      eventLabel: '删除成功',
+      description: '配置了“删除接口”，调用接口成功时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'object',
+                  title: '所在行记录索引'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'deleteFail',
+      eventLabel: '删除失败',
+      description: '配置了“删除接口”，调用接口失败时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'object',
+                  title: '所在行记录索引'
+                },
+                error: {
+                  type: 'object',
+                  title: '请求失败后接口返回的错误信息'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'change',
+      eventLabel: '值变化',
+      description: '表格数据发生改变时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
   ];
 
   actions: RendererPluginAction[] = [
@@ -558,8 +661,165 @@ export class TableControlPlugin extends BasePlugin {
       actionType: 'setValue',
       actionLabel: '赋值',
       description: '触发组件数据更新'
+    },
+    {
+      actionType: 'addItem',
+      actionLabel: '添加行',
+      description: '添加行数据',
+      innerArgs: ['item', 'index'],
+      schema: getArgsWrapper({
+        type: 'container',
+        body: [
+          {
+            type: 'input-number',
+            name: 'index',
+            mode: 'horizontal',
+            horizontal: {
+              leftFixed: 4 // 需要设置下leftFixed，否则这个字段的控件没有与其他字段的控件左对齐
+            },
+            label: '插入位置',
+            size: 'lg',
+            placeholder: '请输入行号，为空则在头部插入'
+          },
+          {
+            type: 'combo',
+            name: 'value',
+            label: '数据设置',
+            multiple: true,
+            removable: true,
+            required: true,
+            addable: true,
+            strictMode: false,
+            canAccessSuperData: true,
+            mode: 'horizontal',
+            size: 'lg',
+            addButtonText: '新增一行',
+            items: [
+              {
+                type: 'combo',
+                name: 'item',
+                label: false,
+                renderLabel: false,
+                multiple: true,
+                removable: true,
+                required: true,
+                addable: true,
+                strictMode: false,
+                canAccessSuperData: true,
+                className: 'm-l',
+                size: 'lg',
+                mode: 'horizontal',
+                addButtonText: '新增字段',
+                items: [
+                  {
+                    name: 'key',
+                    type: 'input-text',
+                    source: '${__setValueDs}',
+                    labelField: 'label',
+                    valueField: 'value',
+                    required: true
+                  },
+                  getSchemaTpl('formulaControl', {
+                    name: 'val',
+                    variables: '${variables}'
+                  })
+                ]
+              }
+            ]
+          }
+        ]
+      })
+    },
+    {
+      actionType: 'deleteItem',
+      actionLabel: '删除行',
+      description: '删除某一行数据',
+      innerArgs: ['condition', 'index'],
+      schema: getArgsWrapper({
+        type: 'container',
+        body: [
+          {
+            type: 'radios',
+            name: '__deleteType',
+            inputClassName: 'event-action-radio',
+            mode: 'horizontal',
+            label: '删除方式',
+            pipeIn: (value: string, store: any) => {
+              if (store.data.__deleteType === undefined) {
+                const deleteType = store.data.condition
+                  ? 'conditionExpression'
+                  : 'rowIndex';
+                store.updateData({
+                  __deleteType: deleteType
+                });
+                return deleteType;
+              }
+              return value;
+            },
+            horizontal: {
+              leftFixed: 4 // 需要设置下leftFixed，否则这个字段的控件没有与其他字段的控件左对齐
+            },
+            options: [
+              {
+                label: '指定行号',
+                value: 'rowIndex'
+              },
+              {
+                label: '条件表达式',
+                value: 'conditionExpression'
+              }
+            ],
+            onChange: (value: string, oldVal: any, data: any, form: any) => {
+              form.setValueByName('index', undefined);
+              form.setValueByName('condition', undefined);
+            }
+          },
+          {
+            type: 'input-text',
+            name: 'index',
+            mode: 'horizontal',
+            horizontal: {
+              leftFixed: 4 // 需要设置下leftFixed，否则这个字段的控件没有与其他字段的控件左对齐
+            },
+            required: true,
+            label: '删除范围',
+            size: 'lg',
+            placeholder: '请输入行号，输入多个则用英文逗号分隔',
+            hiddenOn: 'data.__deleteType !== "rowIndex"'
+          },
+          getSchemaTpl('formulaControl', {
+            name: 'condition',
+            variables: '${variables}',
+            label: '删除条件',
+            hiddenOn: 'data.__deleteType !== "conditionExpression"',
+            mode: 'horizontal',
+            required: true,
+            horizontal: {
+              leftFixed: 4 // 需要设置下leftFixed，否则这个字段的控件没有与其他字段的控件左对齐
+            },
+            size: 'lg'
+          })
+        ]
+      })
+    },
+    // {
+    //   actionType: 'reset',
+    //   actionLabel: '重置',
+    //   description: '将值重置为resetValue，若没有配置resetValue，则清空'
+    // },
+    {
+      actionType: 'clear',
+      actionLabel: '清空',
+      description: '清空组件数据'
     }
   ];
+
+  dsBuilderManager: DSBuilderManager;
+
+  constructor(manager: EditorManager) {
+    super(manager);
+    this.dsBuilderManager = new DSBuilderManager('input-table', 'api');
+  }
 
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
@@ -787,6 +1047,16 @@ export class TableControlPlugin extends BasePlugin {
             ]
           })
         ])
+      },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
+        ]
       }
     ]);
   };
@@ -842,16 +1112,28 @@ export class TableControlPlugin extends BasePlugin {
     const columns: EditorNodeType = node.children.find(
       item => item.isRegion && item.region === 'columns'
     );
-    for (let current of columns?.children) {
-      const schema = current.schema;
-      if (schema.name) {
-        itemsSchema.properties[schema.name] = current.info?.plugin
-          ?.buildDataSchemas
-          ? await current.info.plugin.buildDataSchemas(current, region)
-          : {
-              type: 'string',
-              title: schema.label || schema.name
-            };
+
+    // todo：以下的处理无效，需要cell实现才能深层细化
+    // for (let current of columns?.children) {
+    //   const schema = current.schema;
+    //   if (schema.name) {
+    //     itemsSchema.properties[schema.name] = current.info?.plugin
+    //       ?.buildDataSchemas
+    //       ? await current.info.plugin.buildDataSchemas(current, region)
+    //       : {
+    //           type: 'string',
+    //           title: schema.label || schema.name
+    //         };
+    //   }
+    // }
+
+    // 一期先简单处理，上面todo实现之后，这里可以废弃
+    for (let current of node.schema?.columns) {
+      if (current.name) {
+        itemsSchema.properties[current.name] = {
+          type: 'string',
+          title: current.label || current.name
+        };
       }
     }
 
@@ -865,6 +1147,39 @@ export class TableControlPlugin extends BasePlugin {
       title: '表格表单数据',
       items: itemsSchema
     };
+  }
+
+  async getAvailableContextFields(
+    scopeNode: EditorNodeType,
+    target: EditorNodeType,
+    region?: EditorNodeType
+  ) {
+    let scope;
+    let builder;
+
+    if (
+      target.type === scopeNode.type ||
+      (target.parent.isRegion && target.parent.region === 'columns')
+    ) {
+      scope = scopeNode.parent.parent;
+      builder = this.dsBuilderManager.resolveBuilderBySchema(
+        scope.schema,
+        'api'
+      );
+    }
+
+    if (builder && scope.schema.api) {
+      return builder.getAvailableContextFileds(
+        {
+          schema: scope.schema,
+          sourceKey: 'api',
+          feat: scope.schema?.feat ?? 'List',
+          scopeNode
+        },
+        /** ID相同为本体，否则为子项 */
+        target?.id === scopeNode?.id ? scopeNode : target
+      );
+    }
   }
 }
 

@@ -55,6 +55,7 @@ const presetColorsByFormat = colorFormat.reduce<{
   return res;
 }, {});
 export class ColorControlPlugin extends BasePlugin {
+  static id = 'ColorControlPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-color';
@@ -87,35 +88,6 @@ export class ColorControlPlugin extends BasePlugin {
   };
   panelTitle = '颜色框';
   notRenderFormZone = true;
-  events = [
-    {
-      eventName: 'change',
-      eventLabel: '值变化',
-      description: '输入框内容变化'
-    },
-    {
-      eventName: 'focus',
-      eventLabel: '获取焦点',
-      description: '输入框获取焦点'
-    },
-    {
-      eventName: 'blur',
-      eventLabel: '失去焦点',
-      description: '输入框失去焦点'
-    }
-  ];
-  actions = [
-    {
-      actionType: 'clear',
-      actionLabel: '清空',
-      description: '清空输入框内容'
-    },
-    {
-      actionType: 'focus',
-      actionLabel: '获取焦点',
-      description: '输入框获取焦点'
-    }
-  ];
   panelJustify = true;
   getConditionalColorPanel(format: string) {
     const visibleOnNoFormat = format === 'hex' ? ' || !this.format' : '';

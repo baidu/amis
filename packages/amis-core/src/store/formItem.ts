@@ -61,6 +61,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     isValueSchemaExp: types.optional(types.boolean, false),
     tmpValue: types.frozen(),
     emitedValue: types.frozen(),
+    changeMotivation: 'input',
     rules: types.optional(types.frozen(), {}),
     messages: types.optional(types.frozen(), {}),
     errorData: types.optional(types.array(ErrorDetail), []),
@@ -1232,8 +1233,20 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
     }
 
-    function changeTmpValue(value: any) {
+    function changeTmpValue(
+      value: any,
+      changeReason?:
+        | 'formInited' // 表单初始化
+        | 'dataChanged' // 表单数据变化
+        | 'formulaChanged' // 公式运算结果变化
+        | 'controlled' // 受控
+        | 'input' // 用户交互改变
+        | 'defaultValue' // 默认值
+    ) {
       self.tmpValue = value;
+      if (changeReason) {
+        self.changeMotivation = changeReason;
+      }
     }
 
     function changeEmitedValue(value: any) {

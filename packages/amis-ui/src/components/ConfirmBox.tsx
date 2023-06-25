@@ -2,8 +2,15 @@ import React from 'react';
 import Modal from './Modal';
 import Button from './Button';
 import Drawer from './Drawer';
-import {localeable, LocaleProps, themeable, ThemeProps} from 'amis-core';
+import {
+  localeable,
+  LocaleProps,
+  themeable,
+  ThemeProps,
+  isMobile
+} from 'amis-core';
 import Spinner from './Spinner';
+import PopUp from './PopUp';
 
 export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   show?: boolean;
@@ -34,6 +41,7 @@ export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   headerClassName?: string;
   bodyClassName?: string;
   footerClassName?: string;
+  useMobileUI?: boolean;
 }
 
 export function ConfirmBox({
@@ -56,7 +64,8 @@ export function ConfirmBox({
   classnames: cx,
   className,
   bodyClassName,
-  footerClassName
+  footerClassName,
+  useMobileUI
 }: ConfirmBoxProps) {
   const [loading, setLoading] = React.useState<boolean>();
   const [error, setError] = React.useState<string>();
@@ -90,7 +99,23 @@ export function ConfirmBox({
   }, [show]);
 
   function renderDialog() {
-    return (
+    const mobileUI = useMobileUI && isMobile();
+    return mobileUI ? (
+      <PopUp
+        isShow={show}
+        showConfirm
+        onConfirm={handleConfirm}
+        onHide={onCancel}
+        container={popOverContainer}
+      >
+        {typeof children === 'function'
+          ? children({
+              bodyRef: bodyRef,
+              loading
+            })
+          : children}
+      </PopUp>
+    ) : (
       <Modal
         size={size}
         closeOnEsc={closeOnEsc}

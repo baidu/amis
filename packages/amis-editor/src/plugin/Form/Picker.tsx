@@ -18,6 +18,7 @@ import {diff} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 export class PickerControlPlugin extends BasePlugin {
+  static id = 'PickerControlPlugin';
   // 关联渲染器名字
   rendererName = 'picker';
   $schema = '/schemas/PickerControlSchema.json';
@@ -70,13 +71,19 @@ export class PickerControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
-            },
-            'event.data.selectedItems': {
-              type: 'string',
-              title: '选中的行数据'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选中的值'
+                },
+                selectedItems: {
+                  type: 'string',
+                  title: '选中的行记录'
+                }
+              }
             }
           }
         }
@@ -90,9 +97,15 @@ export class PickerControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所点击的选项'
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '所点击的选项'
+                }
+              }
             }
           }
         }

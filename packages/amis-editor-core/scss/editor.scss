@@ -1,6 +1,7 @@
 @import '../../../node_modules/amis-ui/scss/functions';
 @import '../../../node_modules/amis-ui/scss/variables';
 @import '../../../node_modules/amis-ui/scss/mixins';
+@import '../../../node_modules/amis-ui/scss/components';
 @import './mixin';
 @import './variables';
 @import './backTop';
@@ -1572,7 +1573,7 @@ div.ae-DragImage {
   text-align: right;
 }
 
-.ae-InlineModel {
+.ae-InlineModal {
   display: flex;
   flex-direction: column;
   height: auto;
@@ -1582,6 +1583,15 @@ div.ae-DragImage {
   div[data-renderer='drawer'] {
     flex-basis: auto;
     overflow: visible;
+  }
+  &-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 #{px2rem(24px)};
+    &-btn {
+      margin-left: #{px2rem(8px)};
+    }
   }
 }
 

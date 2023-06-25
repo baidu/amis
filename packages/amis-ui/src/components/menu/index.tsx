@@ -443,15 +443,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     props: SubMenuProps;
   }) {
     const {navigations} = this.state;
-    const {
-      stacked,
-      mode,
-      collapsed,
-      accordion,
-      onToggleExpand,
-      onToggle,
-      onSelect
-    } = this.props;
+    const {stacked, mode, collapsed, accordion, onSelect} = this.props;
     const isVericalInline = stacked && mode === 'inline' && !collapsed;
 
     let openKeys = this.state.openKeys.concat();
@@ -468,10 +460,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     }
 
     const currentItem = findTree(navigations, item => item.id === key);
-    // 因为Nav里只处理当前菜单项 因此新增一个onToggle事件
-    onToggle?.(currentItem?.link, keyPaths.length, isOpen);
-    onToggleExpand?.(uniq(openKeys));
-
     onSelect?.(currentItem?.link || currentItem, keyPaths.length);
   }
 

@@ -989,7 +989,7 @@ Form 支持轮询初始化接口，步骤如下：
 ```schema: scope="body"
 {
     "type": "form",
-    "initApi": "/api/mock2/page/initData",
+    "api": "/api/mock2/form/saveForm",
     "asyncApi": "/api/mock2/page/initData",
     "title": "用户信息",
     "body": [
@@ -1449,10 +1449,11 @@ Form 支持轮询初始化接口，步骤如下：
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据（`< 2.3.2 及以下版本 为 ${event.data.[事件参数名]}`），详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
 | 事件名称              | 事件参数                                                                                                                                                                                   | 说明                                                                                                                                      |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| 事件名称              | 事件参数                                                                                                                                                                                   | 说明                                                                                                                                      |
 | inited                | `responseData: any` 请求的响应数据</br>`responseStatus: number` 响应状态，0 表示成功</br>`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | initApi 接口请求完成时触发                                                                                                                |
 | change                | `event.data: object` 当前表单数据                                                                                                                                                          | 表单值变化时触发                                                                                                                          |
 | formItemValidateSucc  | `event.data: object` 当前表单数据                                                                                                                                                          | 表单项校验成功时触发                                                                                                                      |
@@ -1462,6 +1463,7 @@ Form 支持轮询初始化接口，步骤如下：
 | submit                | `event.data: object` 当前表单数据                                                                                                                                                          | 点击提交按钮或者触发表单提交动作的时候触发，配置了该事件后将不会触发表单提交时的校验、提交到 api 或者 target 等行为，所有行为需要自己配置 |
 | submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据                                                                                                                               | 提交成功时触发                                                                                                                            |
 | submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息                                                                                                                                | 提交失败时触发                                                                                                                            |
+| asyncApiFinished      | `[name]: any` 当前数据域中指定字段的值                                                                                                                                                     | asyncApi 远程请求轮训结束                                                                                                                 |
 
 ## 动作表
 

@@ -162,7 +162,7 @@ export interface BaseApiObject {
 
   /**
    * 当开启自动刷新的时候，默认是 api 的 url 来自动跟踪变量变化的。
-   * 如果你希望监控 url 外的变量，请配置 traceExpression。
+   * 如果你希望监控 url 外的变量，请配置 trackExpression。
    */
   trackExpression?: string;
 
@@ -304,6 +304,7 @@ export interface ActionObject extends ButtonObject {
     | 'saveAs'
     | 'dialog'
     | 'drawer'
+    | 'confirmDialog'
     | 'jump'
     | 'link'
     | 'url'
@@ -379,7 +380,9 @@ export type FunctionPropertyNames<T> = {
 
 // 先只支持 JSONSchema draft07 好了
 
-export type JSONSchema = JSONSchema7;
+export type JSONSchema = JSONSchema7 & {
+  group?: string; // 分组
+};
 
 // export type Omit<T, K extends keyof T & any> = Pick<T, Exclude<keyof T, K>>;
 // export type Override<M, N> = Omit<M, Extract<keyof M, keyof N>> & N;

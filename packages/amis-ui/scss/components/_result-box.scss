@@ -324,6 +324,11 @@
     border: none;
     justify-content: flex-end;
 
+    &.is-focused,
+    &:hover {
+      border: none !important;
+    }
+
     .#{$ns}ResultBox-clear {
       @include input-clear();
       width: px2rem(26px);

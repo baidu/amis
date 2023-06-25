@@ -12,6 +12,7 @@ import {
 import {getSchemaTpl} from 'amis-editor-core';
 
 export class CustomPlugin extends BasePlugin {
+  static id = 'CustomPlugin';
   // 关联渲染器名字
   rendererName = 'custom';
   $schema = '/schemas/CustomSchema.json';

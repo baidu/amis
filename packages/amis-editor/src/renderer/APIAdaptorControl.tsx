@@ -6,7 +6,7 @@ import React from 'react';
 import cx from 'classnames';
 import {autobind, getSchemaTpl, setSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
-import {FormControlProps, render} from 'amis-core';
+import {FormControlProps} from 'amis-core';
 import {FormItem, Icon, TooltipWrapper} from 'amis';
 import {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
 interface AdaptorFuncParam {
@@ -64,14 +64,6 @@ export default class APIAdaptorControl extends React.Component<
     };
   }
 
-  componentDidUpdate(prevProps: Readonly<APIAdaptorControlProps>): void {
-    if (this.props.value !== prevProps.value) {
-      this.setState({
-        switch: !!this.props.value
-      });
-    }
-  }
-
   @autobind
   onChange(value: any = '') {
     this.props.onChange?.(value);
@@ -79,6 +71,7 @@ export default class APIAdaptorControl extends React.Component<
 
   // 生成tooltip 的参数
   genTooltipProps(content: any, othersProps?: TooltipObject) {
+    const {render} = this.props;
     return {
       tooltipTheme: 'light',
       trigger: 'hover',
@@ -89,7 +82,10 @@ export default class APIAdaptorControl extends React.Component<
         ? {content}
         : {
             content: ' ', // amis缺陷，必须有这个字段，否则显示不出来
-            children: () => content
+            children: () =>
+              React.isValidElement(content)
+                ? content
+                : render('content', content)
           }),
       ...(this.props.tooltipProps || {}),
       ...(othersProps || {})
@@ -261,9 +257,10 @@ export const adaptorApiStruct = `{
   ...
 }`;
 
-export const adaptorApiStructTooltip = render(
-  genCodeSchema(adaptorApiStruct, ['350px', '128px'])
-);
+export const adaptorApiStructTooltip = genCodeSchema(adaptorApiStruct, [
+  '350px',
+  '128px'
+]);
 
 // 适配器 response 参数说明
 export const adaptorResponseStruct = `{
@@ -275,8 +272,9 @@ export const adaptorResponseStruct = `{
   ...
 }`;
 
-export const adaptorResponseStructTooltip = render(
-  genCodeSchema(adaptorResponseStruct, ['345px', '144px'])
+export const adaptorResponseStructTooltip = genCodeSchema(
+  adaptorResponseStruct,
+  ['345px', '144px']
 );
 
 // 接收适配器 示例代码
@@ -441,11 +439,11 @@ setSchemaTpl('apiAdaptor', {
     }
   ],
   editorPlaceholder: adaptorDefaultCode,
-  switchTip: render(adaptorEditorDescSchema)
+  switchTip: adaptorEditorDescSchema
 });
 
 setSchemaTpl('validateApiAdaptor', {
   ...getSchemaTpl('apiAdaptor'),
   editorPlaceholder: validateApiAdaptorDefaultCode,
-  switchTip: render(validateApiAdaptorEditorDescSchema)
+  switchTip: validateApiAdaptorEditorDescSchema
 });

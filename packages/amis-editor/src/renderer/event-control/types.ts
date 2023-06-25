@@ -33,4 +33,5 @@ export interface ContextVariables {
   value?: any;
   tag?: string | string[];
   children?: any[];
+  path?: string;
 }

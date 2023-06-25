@@ -2,6 +2,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {ButtonPlugin} from './Button';
 
 export class SubmitPlugin extends ButtonPlugin {
+  static id = 'SubmitPlugin';
   // 关联渲染器名字
   rendererName = 'submit';
   disabledRendererPlugin = true; // 组件面板不显示

@@ -1862,7 +1862,7 @@ popOver 的其它配置请参考 [popover](./popover)
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
 
 | 事件名称       | 事件参数                                                                | 说明                 |
 | -------------- | ----------------------------------------------------------------------- | -------------------- |
@@ -1872,21 +1872,675 @@ popOver 的其它配置请参考 [popover](./popover)
 | columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: string` 列搜索数据    | 点击列搜索时触发     |
 | orderChange    | `movedItems: item[]` 已排序数据                                         | 手动拖拽行排序时触发 |
 | columnToggled  | `columns: item[]` 当前显示的列配置数据                                  | 点击自定义列时触发   |
-| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引                    | 点击整行时触发       |
+| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引                    | 单击整行时触发       |
+| rowDbClick     | `item: object` 行点击数据<br/>`index: number` 行索引                    | 双击整行时触发       |
 | rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                    | 移入整行时触发       |
 | rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                    | 移出整行时触发       |
 
-### 列配置事件表
+### selectedChange
 
-> 2.6.1 及以上版本
+在开启批量操作后才会用到，可以尝试勾选列表的行记录。
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，详细查看[事件动作](../../docs/concepts/event-action)。
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "selectable": true,
+            "onEvent": {
+                "selectedChange": {
+                    "actions": [
+                        {
+                            "actionType": "toast",
+                            "args": {
+                                "msg": "已选择${event.data.selectedItems.length}条记录"
+                            }
+                        }
+                    ]
+                }
+            },
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID"
+                },
+                {
+                    "name": "engine",
+                    "label": "Rendering engine"
+                },
+                {
+                    "name": "browser",
+                    "label": "Browser"
+                },
+                {
+                    "name": "platform",
+                    "label": "Platform(s)"
+                },
+                {
+                    "name": "version",
+                    "label": "Engine version"
+                },
+                {
+                    "name": "grade",
+                    "label": "CSS grade"
+                }
+            ]
+        }
+    ]
+}
+```
 
-| 事件名称   | 事件参数                                                                       | 说明                                           |
-| ---------- | ------------------------------------------------------------------------------ | ---------------------------------------------- |
-| click      | `nativeEvent: MouseEvent` 鼠标事件对象<br/>`[columnName]: string` 对应列名的值 | 监听表格列点击事件，表格数据点击时触发         |
-| mouseenter | `nativeEvent: MouseEvent` 鼠标事件对象<br/>`[columnName]: string` 对应列名的值 | 监听表格列鼠标移入事件，表格数据鼠标移入时触发 |
-| mouseleave | `nativeEvent: MouseEvent` 鼠标事件对象<br/>`[columnName]: string` 对应列名的值 | 监听表格列鼠标移出事件，表格数据鼠标移出时触发 |
+### columnSort
+
+列排序，可以尝试点击`Browser`列右侧的排序图标。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "onEvent": {
+                "columnSort": {
+                    "actions": [
+                        {
+                            "actionType": "toast",
+                            "args": {
+                                "msgType": "info",
+                                "msg": "orderBy：${event.data.orderBy},orderDir：${event.data.orderDir}"
+                            }
+                        }
+                    ]
+                }
+            },
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "searchable": true
+                },
+                {
+                    "name": "engine",
+                    "label": "Rendering engine",
+                    "filterable": {
+                        "options": [
+                            "Internet Explorer 4.0",
+                            "Internet Explorer 5.0"
+                        ]
+                    }
+                },
+                {
+                    "name": "browser",
+                    "label": "Browser",
+                    "sortable": true
+                },
+                {
+                    "name": "platform",
+                    "label": "Platform(s)"
+                },
+                {
+                    "name": "version",
+                    "label": "Engine version"
+                },
+                {
+                    "name": "grade",
+                    "label": "CSS grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### columnFilter
+
+列过滤，可以尝试点击`Rendering engine`列右侧的筛选图标。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "onEvent": {
+                "columnFilter": {
+                    "actions": [
+                        {
+                            "actionType": "toast",
+                            "args": {
+                                "msgType": "info",
+                                "msg": "filterName：${event.data.filterName},filterValue：${event.data.filterValue}"
+                            }
+                        }
+                    ]
+                }
+            },
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "searchable": true
+                },
+                {
+                    "name": "engine",
+                    "label": "Rendering engine",
+                    "filterable": {
+                        "options": [
+                            "Internet Explorer 4.0",
+                            "Internet Explorer 5.0"
+                        ]
+                    }
+                },
+                {
+                    "name": "browser",
+                    "label": "Browser",
+                    "sortable": true
+                },
+                {
+                    "name": "platform",
+                    "label": "Platform(s)"
+                },
+                {
+                    "name": "version",
+                    "label": "Engine version"
+                },
+                {
+                    "name": "grade",
+                    "label": "CSS grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### columnSearch
+
+列检索，，可以尝试点击`ID`列右侧的检索图标。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "onEvent": {
+                "columnSearch": {
+                    "actions": [
+                        {
+                            "actionType": "toast",
+                            "args": {
+                                "msgType": "info",
+                                "msg": "searchName：${event.data.searchName},searchValue：${event.data.searchValue|json}"
+                            }
+                        }
+                    ]
+                }
+            },
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "searchable": true
+                },
+                {
+                    "name": "engine",
+                    "label": "Rendering engine",
+                    "filterable": {
+                        "options": [
+                            "Internet Explorer 4.0",
+                            "Internet Explorer 5.0"
+                        ]
+                    }
+                },
+                {
+                    "name": "browser",
+                    "label": "Browser",
+                    "sortable": true
+                },
+                {
+                    "name": "platform",
+                    "label": "Platform(s)"
+                },
+                {
+                    "name": "version",
+                    "label": "Engine version"
+                },
+                {
+                    "name": "grade",
+                    "label": "CSS grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### columnToggled
+
+点击自定义列，可以尝试修改`自定义列`的配置。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "onEvent": {
+                "columnToggled": {
+                    "actions": [
+                        {
+                            "actionType": "toast",
+                            "args": {
+                                "msgType": "info",
+                                "msg": "当前显示${event.data.columns.length}列"
+                            }
+                        }
+                    ]
+                }
+            },
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "searchable": true
+                },
+                {
+                    "name": "engine",
+                    "label": "Rendering engine",
+                    "filterable": {
+                        "options": [
+                            "Internet Explorer 4.0",
+                            "Internet Explorer 5.0"
+                        ]
+                    }
+                },
+                {
+                    "name": "browser",
+                    "label": "Browser",
+                    "sortable": true
+                },
+                {
+                    "name": "platform",
+                    "label": "Platform(s)"
+                },
+                {
+                    "name": "version",
+                    "label": "Engine version"
+                },
+                {
+                    "name": "grade",
+                    "label": "CSS grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### orderChange
+
+在开启拖拽排序行记录后才会用到，排序确认后触发。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "draggable": true,
+            "onEvent": {
+                "orderChange": {
+                    "actions": [
+                        {
+                            "actionType": "toast",
+                            "args": {
+                                "msgType": "info",
+                                "msg": "${event.data.movedItems.length}行发生移动"
+                            }
+                        }
+                    ]
+                }
+            },
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "searchable": true
+                },
+                {
+                    "name": "engine",
+                    "label": "Rendering engine",
+                    "filterable": {
+                        "options": [
+                            "Internet Explorer 4.0",
+                            "Internet Explorer 5.0"
+                        ]
+                    }
+                },
+                {
+                    "name": "browser",
+                    "label": "Browser",
+                    "sortable": true
+                },
+                {
+                    "name": "platform",
+                    "label": "Platform(s)"
+                },
+                {
+                    "name": "version",
+                    "label": "Engine version"
+                },
+                {
+                    "name": "grade",
+                    "label": "CSS grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### rowClick
+
+点击行记录。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "onEvent": {
+                "rowClick": {
+                    "actions": [
+                        {
+                            "actionType": "toast",
+                            "args": {
+                                "msgType": "info",
+                                "msg": "行单击数据：${event.data.item|json}；行索引：${event.data.index}"
+                            }
+                        }
+                    ]
+                }
+            },
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "searchable": true
+                },
+                {
+                    "name": "engine",
+                    "label": "Rendering engine",
+                    "filterable": {
+                        "options": [
+                            "Internet Explorer 4.0",
+                            "Internet Explorer 5.0"
+                        ]
+                    }
+                },
+                {
+                    "name": "browser",
+                    "label": "Browser",
+                    "sortable": true
+                },
+                {
+                    "name": "platform",
+                    "label": "Platform(s)"
+                },
+                {
+                    "name": "version",
+                    "label": "Engine version"
+                },
+                {
+                    "name": "grade",
+                    "label": "CSS grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### rowMouseEnter
+
+鼠标移入行记录。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "onEvent": {
+                "rowMouseEnter": {
+                    "actions": [
+                        {
+                            "actionType": "toast",
+                            "args": {
+                                "msgType": "info",
+                                "msg": "行索引：${event.data.index}"
+                            }
+                        }
+                    ]
+                }
+            },
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "searchable": true
+                },
+                {
+                    "name": "engine",
+                    "label": "Rendering engine",
+                    "filterable": {
+                        "options": [
+                            "Internet Explorer 4.0",
+                            "Internet Explorer 5.0"
+                        ]
+                    }
+                },
+                {
+                    "name": "browser",
+                    "label": "Browser",
+                    "sortable": true
+                },
+                {
+                    "name": "platform",
+                    "label": "Platform(s)"
+                },
+                {
+                    "name": "version",
+                    "label": "Engine version"
+                },
+                {
+                    "name": "grade",
+                    "label": "CSS grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### rowMouseLeave
+
+鼠标移出行记录。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "onEvent": {
+                "rowMouseLeave": {
+                    "actions": [
+                        {
+                            "actionType": "toast",
+                            "args": {
+                                "msgType": "info",
+                                "msg": "行索引：${event.data.index}"
+                            }
+                        }
+                    ]
+                }
+            },
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "searchable": true
+                },
+                {
+                    "name": "engine",
+                    "label": "Rendering engine",
+                    "filterable": {
+                        "options": [
+                            "Internet Explorer 4.0",
+                            "Internet Explorer 5.0"
+                        ]
+                    }
+                },
+                {
+                    "name": "browser",
+                    "label": "Browser",
+                    "sortable": true
+                },
+                {
+                    "name": "platform",
+                    "label": "Platform(s)"
+                },
+                {
+                    "name": "version",
+                    "label": "Engine version"
+                },
+                {
+                    "name": "grade",
+                    "label": "CSS grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### 列的事件表
+
+表格的默认列定义的事件如下，即 click、mouseenter、mouseleave。如果列定义是其他组件，则事件表就是这个组件对应的事件表，例如列定义是 Switch 组件，则可以监听 [Switch 的 change 事件](./form/switch#%E4%BA%8B%E4%BB%B6%E8%A1%A8)。
+
+| 事件名称   | 事件参数                            | 说明                                           |
+| ---------- | ----------------------------------- | ---------------------------------------------- |
+| click      | `[columnName]: string` 对应列名的值 | 监听表格列点击事件，表格数据点击时触发         |
+| mouseenter | `[columnName]: string` 对应列名的值 | 监听表格列鼠标移入事件，表格数据鼠标移入时触发 |
+| mouseleave | `[columnName]: string` 对应列名的值 | 监听表格列鼠标移出事件，表格数据鼠标移出时触发 |
+
+可以尝试点击某行的`Rendering engine`列数据、鼠标移入某行的`Browser`列数据。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "searchable": true
+                },
+                {
+                    "name": "engine",
+                    "label": "Rendering engine",
+                    "filterable": {
+                        "options": [
+                            "Internet Explorer 4.0",
+                            "Internet Explorer 5.0"
+                        ]
+                    },
+                    "onEvent": {
+                        "click": {
+                            "actions": [
+                                {
+                                    "actionType": "toast",
+                                    "args": {
+                                        "msgType": "info",
+                                        "msg": "第${event.data.index}行的${event.data.engine}"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "browser",
+                    "label": "Browser",
+                    "sortable": true,
+                    "onEvent": {
+                        "mouseenter": {
+                            "actions": [
+                                {
+                                    "actionType": "toast",
+                                    "args": {
+                                        "msgType": "info",
+                                        "msg": "第${event.data.index}行的${event.data.browser}"
+                                    }
+                                }
+                            ]
+                        },
+                        "mouseleave": {
+                            "actions": [
+                                {
+                                    "actionType": "toast",
+                                    "args": {
+                                        "msgType": "info",
+                                        "msg": "第${event.data.index}行的${event.data.browser}"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "platform",
+                    "label": "Platform(s)"
+                },
+                {
+                    "name": "version",
+                    "label": "Engine version"
+                },
+                {
+                    "name": "grade",
+                    "label": "CSS grade"
+                }
+            ]
+        }
+    ]
+}
+```
 
 ## 动作表
 
@@ -1898,3 +2552,339 @@ popOver 的其它配置请参考 [popover](./popover)
 | selectAll | -                                                                                                                | 设置表格全部项选中   |
 | clearAll  | -                                                                                                                | 清空表格所有选中项   |
 | initDrag  | -                                                                                                                | 开启表格拖拽排序功能 |
+| setValue  | `value: object`                                                                                                  | 更新列表记录         |
+
+value 结构说明：
+
+| 属性名        | 类型     | 默认值 | 说明     |
+| ------------- | -------- | ------ | -------- |
+| items 或 rows | `item[]` |        | 列表记录 |
+
+### select
+
+```schema: scope="body"
+[
+    {
+    "type": "button-toolbar",
+    "className": "m-b",
+    "buttons": [
+    {
+        "name": "trigger1",
+        "id": "trigger1",
+        "type": "action",
+        "label": "设置表格第一项选中",
+        "onEvent": {
+        "click": {
+            "actions": [
+            {
+                "actionType": "select",
+                "componentId": "table-select",
+                "description": "点击设置指定表格第一项内容选中",
+                "args": {
+                "selected": "data.rowIndex === 0"
+                }
+            }
+            ]
+        }
+        }
+    }
+    ]
+},
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+    {
+        "id": "table-select",
+        "type": "table",
+        "source": "$rows",
+        "selectable": true,
+        "multiple": true,
+        "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "version",
+            "label": "Version"
+        }
+        ]
+    }
+    ]
+}
+]
+```
+
+### selectAll
+
+```schema: scope="body"
+[
+    {
+    "type": "button-toolbar",
+    "className": "m-b",
+    "buttons": [
+    {
+        "name": "trigger2",
+        "id": "trigger2",
+        "type": "action",
+        "label": "设置表格全部项选中",
+        "onEvent": {
+        "click": {
+            "actions": [
+            {
+                "actionType": "selectAll",
+                "componentId": "table-select",
+                "description": "点击设置指定表格全部内容选中"
+            }
+            ]
+        }
+        }
+    }
+    ]
+},
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+    {
+        "id": "table-select",
+        "type": "table",
+        "source": "$rows",
+        "selectable": true,
+        "multiple": true,
+        "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "version",
+            "label": "Version"
+        }
+        ]
+    }
+    ]
+}
+]
+```
+
+### clearAll
+
+```schema: scope="body"
+[
+    {
+    "type": "button-toolbar",
+    "className": "m-b",
+    "buttons": [
+    {
+        "name": "trigger3",
+        "id": "trigger3",
+        "type": "action",
+        "label": "清空表格全部选中项",
+        "onEvent": {
+        "click": {
+            "actions": [
+            {
+                "actionType": "clearAll",
+                "componentId": "table-select",
+                "description": "点击设置指定表格全部选中项清空"
+            }
+            ]
+        }
+        }
+    }
+    ]
+},
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+    {
+        "id": "table-select",
+        "type": "table",
+        "source": "$rows",
+        "selectable": true,
+        "multiple": true,
+        "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "version",
+            "label": "Version"
+        }
+        ]
+    }
+    ]
+}
+]
+```
+
+### initDrag
+
+```schema: scope="body"
+[
+    {
+    "type": "button-toolbar",
+    "className": "m-b",
+    "buttons": [
+    {
+        "name": "trigger4",
+        "id": "trigger4",
+        "type": "action",
+        "label": "开启表格行排序",
+        "onEvent": {
+        "click": {
+            "actions": [
+            {
+                "actionType": "initDrag",
+                "componentId": "table-select",
+                "description": "点击开启表格行排序功能"
+            }
+            ]
+        }
+        }
+    }
+    ]
+},
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+    {
+        "id": "table-select",
+        "type": "table",
+        "source": "$rows",
+        "selectable": true,
+        "multiple": true,
+        "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "version",
+            "label": "Version"
+        }
+        ]
+    }
+    ]
+}
+]
+```
+
+### setValue
+
+```schema: scope="body"
+[
+    {
+      "type": "button",
+      "label": "更新列表记录",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "table_setvalue",
+              "args": {
+                "value": {
+                  "items": [
+                    {
+                        "engine": "Trident - f12fj",
+                        "browser": "Internet Explorer 4.0",
+                        "platform": "Win 95+",
+                        "version": "4",
+                        "grade": "X",
+                        "badgeText": "默认",
+                        "id": 1
+                    },
+                    {
+                        "engine": "Trident - oqvc0e",
+                        "browser": "Internet Explorer 5.0",
+                        "platform": "Win 95+",
+                        "version": "5",
+                        "grade": "C",
+                        "badgeText": "危险",
+                        "id": 2
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "button",
+      "label": "清空列表",
+      "className": "ml-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "table_setvalue",
+              "args": {
+                "value": {
+                  "items": []
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "service",
+      "id": "u:b25a8ef0050b",
+      "api": {
+        "method": "get",
+        "url": "/api/mock2/sample?perPage=5"
+      },
+      "body": [
+        {
+          "type": "table",
+          "id": "table_setvalue",
+          "title": "引擎列表",
+          "source": "$rows",
+          "columns": [
+            {
+              "name": "engine",
+              "label": "Engine",
+              "id": "u:4aa2e9034698",
+              "inline": true
+            },
+            {
+              "name": "version",
+              "label": "Version",
+              "id": "u:8b4cb96ca2bf",
+              "inline": true,
+              "tpl": "v${version}"
+            }
+          ],
+          "selectable": true,
+          "multiple": true
+        }
+      ]
+    }
+]
+```

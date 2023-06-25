@@ -202,7 +202,7 @@ icon:
 
 > 2.4.1 及以上版本
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
 
@@ -212,6 +212,114 @@ icon:
 | change   | `[name]: string` 组件的值 | 输入框值变化时触发   |
 | focus    | `[name]: string` 组件的值 | 输入框获取焦点时触发 |
 | blur     | `[name]: string` 组件的值 | 输入框失去焦点时触发 |
+
+### search
+
+```schema
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+  "body": [
+    {
+      "type": "search-box",
+      "name": "keywords",
+      "onEvent": {
+        "search": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${keywords}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### change
+
+```schema: scope="body"
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+  "body": [
+    {
+      "type": "search-box",
+      "name": "keywords",
+      "onEvent": {
+        "change": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${keywords}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### focus
+
+```schema: scope="body"
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+  "body": [
+    {
+      "type": "search-box",
+      "name": "keywords",
+      "onEvent": {
+        "focus": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${keywords}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### blur
+
+```schema: scope="body"
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+  "body": [
+    {
+      "type": "search-box",
+      "name": "keywords",
+      "onEvent": {
+        "blur": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${keywords}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
 
 ## 动作表
 
@@ -223,3 +331,66 @@ icon:
 | -------- | ------------------------ | -------- |
 | clear    | -                        | 清空     |
 | setValue | `value: string` 更新的值 | 更新数据 |
+
+### clear
+
+```schema: scope="body"
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+  "body": [
+    {
+      "type": "search-box",
+      "name": "keywords",
+      "id": "s01"
+    },
+    {
+      "type": "button",
+      "label": "清除",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "clear",
+              "componentId": "s01"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### setValue
+
+```schema: scope="body"
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+  "body": [
+    {
+      "type": "search-box",
+      "name": "keywords",
+      "id": "s02"
+    },
+    {
+      "type": "button",
+      "label": "设置关键字",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "s02",
+              "args": {
+                "value": "amis"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```

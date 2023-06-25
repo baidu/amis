@@ -5,7 +5,7 @@ import {
   highlight,
   FormOptionsControl,
   resolveEventData,
-  insertCustomStyle,
+  CustomStyle,
   getValueByPath
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
@@ -1040,6 +1040,24 @@ export default class TextControl extends React.PureComponent<
     );
   }
 
+  /**
+   * 处理input的自定义样式
+   */
+  @autobind
+  formatInputThemeCss() {
+    const {themeCss, css} = this.props;
+    const inputFontThemeCss: any = {inputControlClassName: {}};
+    const inputControlClassNameObject =
+      (themeCss || css)?.inputControlClassName || {};
+    for (let key in inputControlClassNameObject) {
+      if (~key.indexOf('font')) {
+        inputFontThemeCss.inputControlClassName[key] =
+          inputControlClassNameObject[key];
+      }
+    }
+    return inputFontThemeCss;
+  }
+
   @supportStatic()
   render(): JSX.Element {
     const {
@@ -1051,6 +1069,7 @@ export default class TextControl extends React.PureComponent<
       inputControlClassName,
       id,
       addOnClassName,
+      env,
       classPrefix: ns
     } = this.props;
     let input =
@@ -1058,35 +1077,68 @@ export default class TextControl extends React.PureComponent<
         ? this.renderSugestMode()
         : this.renderNormal();
 
-    insertCustomStyle(
-      themeCss || css,
-      [
-        {
-          key: 'inputControlClassName',
-          value: inputControlClassName,
-          weights: {
-            active: {
-              pre: `${ns}TextControl.is-focused > .${inputControlClassName}, `
-            }
-          }
-        }
-      ],
-      id,
-      null
-    );
+    return (
+      <>
+        {this.renderBody(input)}
+        <CustomStyle
+          config={{
+            themeCss: themeCss || css,
+            classNames: [
+              {
+                key: 'inputControlClassName',
+                value: inputControlClassName,
+                weights: {
+                  active: {
+                    pre: `${ns}TextControl.is-focused > .${inputControlClassName}, `
+                  }
+                }
+              }
+            ],
+            id: id
+          }}
+          env={env}
+        />
+        <CustomStyle
+          config={{
+            themeCss: this.formatInputThemeCss(),
+            classNames: [
+              {
+                key: 'inputControlClassName',
+                value: inputControlClassName,
+                weights: {
+                  default: {
+                    inner: 'input'
+                  },
+                  hover: {
+                    inner: 'input'
+                  },
+                  active: {
+                    pre: `${ns}TextControl.is-focused > .${inputControlClassName}, `,
+                    inner: 'input'
+                  }
+                }
+              }
+            ],
+            id: id + '-inner'
+          }}
+          env={env}
+        />
 
-    insertCustomStyle(
-      themeCss || css,
-      [
-        {
-          key: 'addOnClassName',
-          value: addOnClassName
-        }
-      ],
-      id + '-addOn'
+        <CustomStyle
+          config={{
+            themeCss: themeCss || css,
+            classNames: [
+              {
+                key: 'addOnClassName',
+                value: addOnClassName
+              }
+            ],
+            id: id + '-addOn'
+          }}
+          env={env}
+        />
+      </>
     );
-
-    return this.renderBody(input);
   }
 }
 

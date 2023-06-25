@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScopedContext, IScopedContext} from 'amis-core';
+import {ScopedContext, IScopedContext, filterTarget} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {filter} from 'amis-core';
@@ -110,6 +110,11 @@ export interface DialogSchema extends BaseSchema {
    * 是否显示蒙层
    */
   overlay?: boolean;
+
+  /**
+   * 弹框类型 confirm 确认弹框
+   */
+  dialogType?: 'confirm';
 }
 
 export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
@@ -370,7 +375,8 @@ export default class Dialog extends React.Component<DialogProps> {
   }
 
   handleExited() {
-    const {lazySchema, store} = this.props;
+    const {lazySchema, store, statusStore} = this.props;
+    statusStore && isAlive(statusStore) && statusStore.resetAll();
     if (isAlive(store)) {
       store.reset();
       store.setEntered(false);
@@ -539,7 +545,12 @@ export default class Dialog extends React.Component<DialogProps> {
       classPrefix,
       translate: __,
       loadingConfig,
-      overlay
+      overlay,
+      dialogType,
+      cancelText,
+      confirmText,
+      confirmBtnLevel,
+      cancelBtnLevel
     } = {
       ...this.props,
       ...store.schema
@@ -568,6 +579,11 @@ export default class Dialog extends React.Component<DialogProps> {
         enforceFocus={false}
         disabled={store.loading}
         overlay={overlay}
+        dialogType={dialogType}
+        cancelText={cancelText}
+        confirmText={confirmText}
+        confirmBtnLevel={confirmBtnLevel}
+        cancelBtnLevel={cancelBtnLevel}
       >
         {title && typeof title === 'string' ? (
           <div className={cx('Modal-header', headerClassName)}>
@@ -914,7 +930,10 @@ export class DialogRenderer extends Dialog {
             action.redirect && filter(action.redirect, store.data);
           reidrect && env.jumpTo(reidrect, action);
           action.reload &&
-            this.reloadTarget(filter(action.reload, store.data), store.data);
+            this.reloadTarget(
+              filterTarget(action.reload, store.data),
+              store.data
+            );
           if (action.close) {
             action.close === true
               ? this.handleSelfClose()

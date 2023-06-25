@@ -15,6 +15,8 @@ import type {
   TooltipObject,
   Trigger
 } from 'amis-ui/lib/components/TooltipWrapper';
+import {resolveVariableAndFilter} from 'amis-core';
+import {isMobile} from 'amis-core';
 
 export type DropdownButton =
   | (ActionSchema & {children?: Array<DropdownButton>})
@@ -183,7 +185,20 @@ export default class DropDownButton extends React.Component<
   }
 
   async open() {
-    const {dispatchEvent, data, buttons} = this.props;
+    const {
+      dispatchEvent,
+      data,
+      buttons: _buttons,
+      disabled,
+      btnDisabled
+    } = this.props;
+    if (disabled || btnDisabled) {
+      return;
+    }
+    const buttons =
+      typeof _buttons === 'string'
+        ? resolveVariableAndFilter(_buttons, data, '| raw')
+        : _buttons;
     await dispatchEvent(
       'mouseenter',
       createObject(data, {
@@ -196,10 +211,16 @@ export default class DropDownButton extends React.Component<
   }
 
   close(e?: React.MouseEvent<any>) {
+    const {buttons: _buttons, data} = this.props;
+    const buttons =
+      typeof _buttons === 'string'
+        ? resolveVariableAndFilter(_buttons, data, '| raw')
+        : _buttons;
+
     this.timer = setTimeout(() => {
       this.props.dispatchEvent(
         'mouseleave',
-        createObject(this.props.data, {items: this.props.buttons})
+        createObject(this.props.data, {items: buttons})
       );
       this.setState({
         isOpened: false
@@ -224,7 +245,10 @@ export default class DropDownButton extends React.Component<
 
     if (typeof button !== 'string' && Array.isArray(button?.children)) {
       return (
-        <div key={index} className={cx('DropDown-menu')}>
+        <div
+          key={index}
+          className={cx('DropDown-menu', {'is-mobile': isMobile()})}
+        >
           <li key={`${index}/0`} className={cx('DropDown-groupTitle')}>
             {button.icon ? generateIcon(cx, button.icon, 'm-r-xs') : null}
             <span>{button.label}</span>
@@ -261,7 +285,7 @@ export default class DropDownButton extends React.Component<
   renderOuter() {
     const {
       render,
-      buttons,
+      buttons: _buttons,
       data,
       popOverContainer,
       classnames: cx,
@@ -274,6 +298,12 @@ export default class DropDownButton extends React.Component<
       overlayPlacement,
       trigger
     } = this.props;
+
+    const buttons =
+      typeof _buttons === 'string'
+        ? resolveVariableAndFilter(_buttons, data, '| raw')
+        : _buttons;
+
     let body = (
       <RootClose
         disabled={!this.state.isOpened}
@@ -285,6 +315,9 @@ export default class DropDownButton extends React.Component<
               className={cx(
                 'DropDown-menu-root',
                 'DropDown-menu',
+                {
+                  'is-mobile': isMobile()
+                },
                 menuClassName
               )}
               onClick={closeOnClick ? this.close : noop}
@@ -365,7 +398,8 @@ export default class DropDownButton extends React.Component<
             'DropDown--block': block,
             'DropDown--alignRight': align === 'right',
             'is-opened': this.state.isOpened,
-            'is-actived': isActived
+            'is-actived': isActived,
+            'is-mobile': isMobile()
           },
           className
         )}

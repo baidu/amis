@@ -245,12 +245,18 @@
   > .pull-left {
     margin-right: $iconMargin;
     font-size: $iconSize;
+    width: $iconSize;
+    height: $iconSize;
+    line-height: $iconSize;
   }
 
   .#{$ns}Button-icon:last-child:not(:first-child):not(.pull-left),
   > .pull-right {
     font-size: $iconSize;
     margin-left: $iconMargin;
+    width: $iconSize;
+    height: $iconSize;
+    line-height: $iconSize;
   }
 
   .#{$ns}Button--loading:first-child:not(:last-child):not(.pull-right),
@@ -258,12 +264,38 @@
   > .pull-left {
     font-size: $iconSize;
     margin-right: $iconMargin;
+    width: $iconSize;
+    height: $iconSize;
+    line-height: $iconSize;
   }
 
   .#{$ns}Button--loading:last-child:not(:first-child):not(.pull-left),
   > .pull-right {
     font-size: $iconSize;
     margin-left: $iconMargin;
+    width: $iconSize;
+    height: $iconSize;
+    line-height: $iconSize;
+  }
+
+  &.#{$ns}Button--iconOnly {
+    min-width: $height;
+    padding: 0;
+    &:not(.#{$ns}Button--link) {
+      > svg.icon {
+        width: $iconSize;
+        height: $iconSize;
+      }
+
+      > .fa,
+      > .iconfont {
+        font-size: $iconSize;
+      }
+
+      > .iconfont {
+        line-height: 1;
+      }
+    }
   }
 
   // img 需要加一下高度限制

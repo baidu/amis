@@ -211,7 +211,7 @@ export const TableStore2 = ServiceStore.named('TableStore2')
     pageNo: 1,
     pageSize: 10,
     dragging: false,
-    rowSelectionKeyField: 'key'
+    rowSelectionKeyField: 'id'
   })
   .views(self => {
     function getToggable() {
@@ -526,16 +526,16 @@ export const TableStore2 = ServiceStore.named('TableStore2')
       updateSelectedRows(self.rows, selectedKeys);
     }
 
-    function updateExpanded(expandedRowKeys: Array<any>, keyField?: string) {
+    function updateExpanded(expandedRowKeys: Array<any>, keyField: string) {
       self.expandedRowKeys.clear();
 
       eachTree(self.rows, item => {
-        if (~expandedRowKeys.indexOf(item.pristine[keyField || 'key'])) {
-          self.expandedRowKeys.push(item.pristine[keyField || 'key']);
+        if (~expandedRowKeys.indexOf(item.pristine[keyField])) {
+          self.expandedRowKeys.push(item.pristine[keyField]);
         } else if (
-          find(expandedRowKeys, a => a && a == item.pristine[keyField || 'key'])
+          find(expandedRowKeys, a => a && a == item.pristine[keyField])
         ) {
-          self.expandedRowKeys.push(item.pristine[keyField || 'key']);
+          self.expandedRowKeys.push(item.pristine[keyField]);
         }
       });
     }

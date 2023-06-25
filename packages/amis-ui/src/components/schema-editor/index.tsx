@@ -66,10 +66,13 @@ export interface SchemaEditorProps extends LocaleProps, ThemeProps {
    */
   enableAdvancedSetting?: boolean;
 
+  popOverContainer?: any;
+
   /**
    * 各属性输入控件的占位提示文本
    */
   placeholder?: SchemaEditorItemPlaceholder;
+  useMobileUI?: boolean;
 }
 
 export class SchemaEditor extends React.Component<SchemaEditorProps> {
@@ -168,7 +171,9 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
       disabled,
       definitions,
       enableAdvancedSetting,
-      placeholder
+      popOverContainer,
+      placeholder,
+      useMobileUI
     } = this.props;
     const value: JSONSchema = this.props.value || {
       type: defaultType || 'object'
@@ -226,7 +231,9 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
           disabled={disabled}
           onTypeChange={this.handleTypeChange}
           enableAdvancedSetting={enableAdvancedSetting}
+          popOverContainer={popOverContainer}
           placeholder={placeholder}
+          useMobileUI={useMobileUI}
         />
       </div>
     );

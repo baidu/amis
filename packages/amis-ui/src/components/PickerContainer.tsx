@@ -32,6 +32,8 @@ export interface PickerContainerProps
   onClose?: () => void;
 
   onPickerOpen?: (props: PickerContainerProps) => any;
+  popOverContainer?: any;
+  useMobileUI?: boolean;
 }
 
 export interface PickerContainerState {
@@ -131,7 +133,9 @@ export class PickerContainer extends React.Component<
       translate: __,
       size,
       showFooter,
-      closeOnEsc
+      closeOnEsc,
+      popOverContainer,
+      useMobileUI
     } = this.props;
     return (
       <>
@@ -153,6 +157,8 @@ export class PickerContainer extends React.Component<
           bodyClassName={bodyClassName}
           showFooter={showFooter}
           beforeConfirm={this.confirm}
+          popOverContainer={popOverContainer}
+          useMobileUI={useMobileUI}
         >
           {() =>
             popOverRender({
@@ -161,7 +167,8 @@ export class PickerContainer extends React.Component<
               setState: this.updateState,
               onClose: this.close,
               onChange: this.handleChange,
-              onConfirm: this.confirm
+              onConfirm: this.confirm,
+              popOverContainer
             })!
           }
         </ConfirmBox>

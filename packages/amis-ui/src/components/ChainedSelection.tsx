@@ -35,6 +35,7 @@ export class ChainedSelection extends BaseSelection<
   componentDidMount() {
     const defaultSelectedIndex = this.props.defaultSelectedIndex;
 
+    // todo 以后支持自动展开
     if (defaultSelectedIndex !== undefined) {
       this.setState({
         selected: [`${defaultSelectedIndex}`]

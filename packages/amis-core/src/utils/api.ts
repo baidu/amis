@@ -1,3 +1,4 @@
+import {attachmentAdpator} from 'amis-core';
 import omit from 'lodash/omit';
 import {Api, ApiObject, EventTrack, fetcherResult, Payload} from '../types';
 import {fetcherConfig} from '../factory';
@@ -11,13 +12,15 @@ import {
   qsstringify,
   cloneObject,
   createObject,
+  extendObject,
   qsparse,
   uuid,
   JSONTraverse
 } from './helper';
 import isPlainObject from 'lodash/isPlainObject';
 import {debug, warning} from './debug';
-import {evaluate, parse} from 'amis-formula';
+import {evaluate} from 'amis-formula';
+import {memoryParse} from './memoryParse';
 
 const rSchema =
   /(?:^|raw\:)(get|post|put|delete|patch|options|head|jsonp|js):/i;
@@ -100,7 +103,7 @@ export function buildApi(
   const raw = (api.url = api.url || '');
   let ast: any = undefined;
   try {
-    ast = parse(api.url);
+    ast = memoryParse(api.url);
   } catch (e) {
     console.warn(`api 配置语法出错：${e}`);
     return api;
@@ -141,6 +144,31 @@ export function buildApi(
           }
         : undefined
     );
+  /** 追加data到请求的Query中 */
+  const attachDataToQuery = (
+    apiObject: ApiObject,
+    ctx: Record<string, any>,
+    merge: boolean
+  ) => {
+    const idx = apiObject.url.indexOf('?');
+    if (~idx) {
+      const params = (apiObject.query = {
+        ...qsparse(apiObject.url.substring(idx + 1)),
+        ...apiObject.query,
+        ...ctx
+      });
+      apiObject.url =
+        apiObject.url.substring(0, idx) + '?' + queryStringify(params);
+    } else {
+      apiObject.query = {...apiObject.query, ...ctx};
+      const query = queryStringify(merge ? apiObject.query : ctx);
+      if (query) {
+        apiObject.url = `${apiObject.url}?${query}`;
+      }
+    }
+
+    return apiObject;
+  };
 
   if (~idx) {
     const hashIdx = url.indexOf('#');
@@ -215,39 +243,11 @@ export function buildApi(
       api.data &&
       ((!~raw.indexOf('$') && autoAppend) || api.forceAppendDataToQuery)
     ) {
-      const idx = api.url.indexOf('?');
-      if (~idx) {
-        let params = (api.query = {
-          ...qsparse(api.url.substring(idx + 1)),
-          ...api.query,
-          ...data
-        });
-        api.url = api.url.substring(0, idx) + '?' + queryStringify(params);
-      } else {
-        api.query = {...api.query, ...data};
-        const query = queryStringify(data);
-        if (query) {
-          api.url = `${api.url}?${query}`;
-        }
-      }
+      api = attachDataToQuery(api, data, false);
     }
 
     if (api.data && api.attachDataToQuery !== false) {
-      const idx = api.url.indexOf('?');
-      if (~idx) {
-        let params = (api.query = {
-          ...qsparse(api.url.substring(idx + 1)),
-          ...api.query,
-          ...api.data
-        });
-        api.url = api.url.substring(0, idx) + '?' + queryStringify(params);
-      } else {
-        api.query = {...api.query, ...api.data};
-        const query = queryStringify(api.query);
-        if (query) {
-          api.url = `${api.url}?${query}`;
-        }
-      }
+      api = attachDataToQuery(api, api.data, true);
       delete api.data;
     }
   }
@@ -286,15 +286,25 @@ export function buildApi(
     api.method = 'post';
     api.jsonql = dataMapping(
       api.jsonql,
-      {
-        ...api.query,
-        ...data
-      },
+      /** 需要上层数据域的内容 */
+      extendObject(data, {...api.query, ...data}, false),
       undefined,
       false,
       true
     );
-    api.body = api.data = api.jsonql;
+    /** 同时设置了JSONQL和data时走兼容场景 */
+    api.body = api.data =
+      api.data && api.jsonql
+        ? {
+            data: api.data,
+            jsonql: api.jsonql
+          }
+        : api.jsonql;
+
+    /** JSONQL所有method需要追加data中的变量到query中 */
+    if (api.forceAppendDataToQuery) {
+      api = attachDataToQuery(api, data, true);
+    }
   }
 
   return api;
@@ -343,7 +353,8 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
     if (
       ret.headers &&
       contentType.startsWith('text/') &&
-      !contentType.includes('markdown')
+      !contentType.includes('markdown') &&
+      api.responseType !== 'blob'
     ) {
       try {
         data = JSON.parse(data);

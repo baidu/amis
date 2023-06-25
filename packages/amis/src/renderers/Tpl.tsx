@@ -92,14 +92,9 @@ export class Tpl extends React.Component<TplProps, TplState> {
   }
 
   @autobind
-  updateContent() {
-    const {tpl, html, text} = this.props;
-
-    if (html || tpl || text) {
-      this.getAsyncContent().then(content => {
-        this.mounted && this.setState({content});
-      });
-    }
+  async updateContent() {
+    const content = await this.getAsyncContent();
+    this.mounted && this.setState({content});
   }
 
   @autobind
@@ -126,12 +121,23 @@ export class Tpl extends React.Component<TplProps, TplState> {
 
   @autobind
   async getAsyncContent() {
-    const {tpl, html, text, data} = this.props;
+    const {tpl, html, text, data, raw, placeholder} = this.props;
+    const value = getPropValue(this.props);
 
-    if (html || tpl) {
-      return asyncFilter(html || tpl, data);
-    } else {
+    if (raw) {
+      return raw;
+    } else if (html) {
+      return asyncFilter(html, data);
+    } else if (tpl) {
+      return asyncFilter(tpl, data);
+    } else if (text) {
       return escapeHtml(await asyncFilter(text, data));
+    } else {
+      return value == null || value === ''
+        ? `<span class="text-muted">${placeholder}</span>`
+        : typeof value === 'string'
+        ? value
+        : JSON.stringify(value);
     }
   }
 
@@ -159,34 +165,19 @@ export class Tpl extends React.Component<TplProps, TplState> {
   @autobind
   handleClick(e: React.MouseEvent<HTMLDivElement>) {
     const {dispatchEvent, data} = this.props;
-    dispatchEvent(
-      'click',
-      createObject(data, {
-        nativeEvent: e
-      })
-    );
+    dispatchEvent(e, data);
   }
 
   @autobind
   handleMouseEnter(e: React.MouseEvent<any>) {
     const {dispatchEvent, data} = this.props;
-    dispatchEvent(
-      e,
-      createObject(data, {
-        nativeEvent: e
-      })
-    );
+    dispatchEvent(e, data);
   }
 
   @autobind
   handleMouseLeave(e: React.MouseEvent<any>) {
     const {dispatchEvent, data} = this.props;
-    dispatchEvent(
-      e,
-      createObject(data, {
-        nativeEvent: e
-      })
-    );
+    dispatchEvent(e, data);
   }
 
   render() {

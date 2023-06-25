@@ -55,6 +55,167 @@ order: 73
 }
 ```
 
+## 自定义按钮
+
+可以在每个 `step` 中配置 `actions` 来自定义按钮。
+
+```schema: scope="body"
+{
+    "type": "wizard",
+    "steps": [
+        {
+            "title": "第一步",
+            "body": [
+                {
+                    "name": "website",
+                    "label": "网址",
+                    "type": "input-url"
+                },
+                {
+                    "name": "email",
+                    "label": "邮箱",
+                    "type": "input-email"
+                }
+            ],
+            actions: [
+                {
+                    label: "Next",
+                    type: 'button',
+                    actionType: 'next'
+                }
+            ]
+        },
+        {
+            "title": "Step 2",
+            "body": [
+                {
+                    "name": "email2",
+                    "label": "邮箱",
+                    "type": "input-email"
+                }
+            ],
+            actions: [
+                {
+                    label: "Prev",
+                    type: 'button',
+                    actionType: 'prev'
+                },
+
+                {
+                    label: "Submit",
+                    type: 'button',
+                    actionType: 'next'
+                }
+            ]
+        },
+        {
+            "title": "Step 3",
+            "body": [
+                "这是最后一步了, 没有按钮"
+            ],
+            actions: []
+        }
+    ]
+}
+```
+
+## 初始化到某一步
+
+`initApi` 接口返回 `step` 字段即可，注意得是数字类型。`1` 表示第一步，`2` 表示第二步，以此类推
+
+```schema: scope="body"
+{
+    "type": "wizard",
+    "initApi": "/api/mock2/initWizard",
+    "steps": [
+        {
+            "title": "第一步",
+            "body": [
+                {
+                    "name": "website",
+                    "label": "网址",
+                    "type": "input-url",
+                    "required": true
+                },
+                {
+                    "name": "email",
+                    "label": "邮箱",
+                    "type": "input-email",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "title": "Step 2",
+            "body": [
+                {
+                    "name": "email2",
+                    "label": "邮箱",
+                    "type": "input-email",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "title": "Step 3",
+            "body": [
+                "这是最后一步了"
+            ]
+        }
+    ]
+}
+```
+
+## 限制跳转
+
+可以通过在 step 上配置 `jumpableOn` 来限制跳转，可以基于整体 wizard 数据，或者基于 `currentStep` 来判断。
+
+比如：`"jumpableOn": "${!website}",` 当设置完成了 website 后不可以回去跳转
+
+```schema: scope="body"
+{
+    "type": "wizard",
+    "initApi": "/api/mock2/initWizard",
+    "steps": [
+        {
+            "title": "第一步",
+            "jumpableOn": "${!website}",
+            "body": [
+                {
+                    "name": "website",
+                    "label": "网址",
+                    "type": "input-url",
+                    "required": true
+                },
+                {
+                    "name": "email",
+                    "label": "邮箱",
+                    "type": "input-email",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "title": "Step 2",
+            "body": [
+                {
+                    "name": "email2",
+                    "label": "邮箱",
+                    "type": "input-email",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "title": "Step 3",
+            "body": [
+                "这是最后一步了"
+            ]
+        }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名              | 类型                                     | 默认值               | 说明                                                                                                                                                     |
@@ -93,10 +254,12 @@ order: 73
 | initFetchOn         | [表达式](../../docs/concepts/expression) |        | 当前步骤数据初始化接口是否初始拉取，用表达式来决定。                                                        |
 | body                | Array<[FormItem](./form/formItem)>       |        | 当前步骤的表单项集合，请参考 [FormItem](./form/formItem)。                                                  |
 | closeDialogOnSubmit | `boolean`                                |        | 提交的时候是否关闭弹窗。当 widzard 里面有且只有一个弹窗的时候，本身提交会触发弹窗关闭，此属性可以关闭此行为 |
+| jumpableOn          | `string`                                 |        | 配置是否可跳转的表达式                                                                                      |
+| actions             | `Array<Schema>`                          |        | 自定义每一步的操作按钮                                                                                      |
 
 ## 事件表
 
-当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
 
 > `[name]`为当前数据域中的字段名，例如：当前数据域为 {username: 'amis'}，则可以通过${username}获取对应的值。
 

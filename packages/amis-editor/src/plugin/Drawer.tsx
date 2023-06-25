@@ -13,6 +13,7 @@ import {InlineModal} from './Dialog';
 import {tipedLabel} from 'amis-editor-core';
 
 export class DrawerPlugin extends BasePlugin {
+  static id = 'DrawerPlugin';
   // 关联渲染器名字
   rendererName = 'drawer';
   $schema = '/schemas/DrawerSchema.json';
@@ -62,9 +63,10 @@ export class DrawerPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '抽屉数据'
+              title: '数据',
+              description: '当前数据域，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -78,9 +80,10 @@ export class DrawerPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '抽屉数据'
+              title: '数据',
+              description: '当前数据域，可以通过.字段名读取对应的值'
             }
           }
         }

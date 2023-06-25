@@ -3,6 +3,7 @@ import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 export class MarkdownPlugin extends BasePlugin {
+  static id = 'MarkdownPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'markdown';

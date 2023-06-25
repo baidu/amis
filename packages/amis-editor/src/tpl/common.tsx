@@ -114,6 +114,7 @@ setSchemaTpl(
 setSchemaTpl('formulaControl', (schema: object = {}) => {
   return {
     type: 'ae-formulaControl',
+    variableMode: 'tree',
     ...schema
   };
 });
@@ -121,6 +122,7 @@ setSchemaTpl('formulaControl', (schema: object = {}) => {
 setSchemaTpl('expressionFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-expressionFormulaControl',
+    variableMode: 'tree',
     ...schema
   };
 });
@@ -128,6 +130,7 @@ setSchemaTpl('expressionFormulaControl', (schema: object = {}) => {
 setSchemaTpl('textareaFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-textareaFormulaControl',
+    variableMode: 'tree',
     ...schema
   };
 });
@@ -135,6 +138,7 @@ setSchemaTpl('textareaFormulaControl', (schema: object = {}) => {
 setSchemaTpl('tplFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-tplFormulaControl',
+    variableMode: 'tree',
     ...schema
   };
 });
@@ -337,6 +341,7 @@ setSchemaTpl(
       key: string;
       visibleOn: string;
       body: Array<any>;
+      collapsed?: boolean;
     }>
   ) => {
     const collapseGroupBody = config
@@ -345,10 +350,10 @@ setSchemaTpl(
       )
       .map(item => ({
         type: 'collapse',
-        collapsed: false,
         headingClassName: 'ae-formItemControl-header',
         bodyClassName: 'ae-formItemControl-body',
         ...item,
+        collapsed: item.collapsed ?? false,
         key: item.title,
         body: flatten(item.body)
       }));
@@ -631,7 +636,7 @@ setSchemaTpl('sourceBindControl', (schema: object = {}) => ({
   type: 'ae-formulaControl',
   name: 'source',
   label: '数据',
-  variableMode: 'tabs',
+  variableMode: 'tree',
   inputMode: 'input-group',
   placeholder: '请输入表达式',
   requiredDataPropsVariables: true,
@@ -1166,6 +1171,7 @@ setSchemaTpl('nav-default-active', {
 setSchemaTpl('dateShortCutControl', (schema: object = {}) => {
   return {
     type: 'ae-DateShortCutControl',
+    name: 'shortcuts',
     ...schema
   };
 });
@@ -1214,17 +1220,6 @@ setSchemaTpl('app-page-args', {
       valueField: 'value',
       required: true
     },
-    /*
-     {
-      name: 'val',
-      type: 'input-formula',
-      placeholder: '参数值',
-      variables: '${variables}',
-      evalMode: false,
-      variableMode: 'tabs',
-      inputMode: 'input-group'
-    }
-     */
     getSchemaTpl('formulaControl', {
       name: 'val',
       variables: '${variables}',

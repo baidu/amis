@@ -124,6 +124,11 @@ export default class ExcelControl extends React.PureComponent<
       let sheetsResult: any = [];
       if (allSheets) {
         workbook.eachSheet((worksheet: any) => {
+          const sheetState = worksheet.state || 'visible';
+          // hidden 的不处理
+          if (sheetState === 'hidden') {
+            return;
+          }
           if (parseImage) {
             sheetsResult.push({
               sheetName: worksheet.name,
@@ -138,7 +143,9 @@ export default class ExcelControl extends React.PureComponent<
           }
         });
       } else {
-        const worksheet = workbook.worksheets[0];
+        const worksheet = workbook.worksheets.find(
+          (sheet: any) => sheet.state !== 'hidden'
+        );
 
         if (parseImage) {
           const images = this.readImages(worksheet, workbook);
@@ -263,8 +270,25 @@ export default class ExcelControl extends React.PureComponent<
 
     if (parseMode === 'array') {
       worksheet.eachRow((row: any, rowNumber: number) => {
-        const values = row.values;
+        let values = row.values;
         values.shift(); // excel 返回的值是从 1 开始的，0 节点永远是 null
+        if (plainText) {
+          values = values.map((item: any) => {
+            if (item instanceof Object) {
+              if (item.hyperlink) {
+                if (item.hyperlink.startsWith('mailto:')) {
+                  return item.hyperlink.substring(7);
+                }
+                return item.hyperlink;
+              } else if (item.result) {
+                return item.result;
+              } else if (item.richText) {
+                return this.richText2PlainString(item);
+              }
+            }
+            return item;
+          });
+        }
         result.push(values);
       });
       return result;
@@ -292,12 +316,13 @@ export default class ExcelControl extends React.PureComponent<
                 const ExcelValueType = this.ExcelJS.ValueType;
                 if (cell.type === ExcelValueType.Hyperlink) {
                   value = cell.value.hyperlink;
+                  if (value.startsWith('mailto:')) {
+                    value = value.substring(7);
+                  }
                 } else if (cell.type === ExcelValueType.Formula) {
                   value = cell.value.result;
                 } else if (cell.type === ExcelValueType.RichText) {
-                  value = cell.value.richText
-                    .map((item: any) => item.text)
-                    .join('');
+                  value = this.richText2PlainString(cell.value);
                 } else if (cell.type === ExcelValueType.Error) {
                   value = '';
                 }

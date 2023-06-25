@@ -105,6 +105,7 @@ setSchemaTpl('tpl:wrapperComponent', {
 });
 
 export class TplPlugin extends BasePlugin {
+  static id = 'TplPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'tpl';
@@ -144,9 +145,15 @@ export class TplPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }
@@ -160,9 +167,15 @@ export class TplPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }
@@ -176,9 +189,15 @@ export class TplPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }

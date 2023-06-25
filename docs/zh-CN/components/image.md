@@ -141,6 +141,97 @@ order: 52
 }
 ```
 
+在列表中，图片组件的放大模式下默认展示所有行的图片信息，设置`"enlargeWithGallary": true`效果相同。
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "imageList": [
+            {
+                "name": "amis",
+                "image_url": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+            },
+            {
+                "name": "amis",
+                "image_url": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+            },
+            {
+                "name": "tom",
+                "image_url": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+            },
+            {
+                "name": "jack",
+                "image_url": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+            }
+        ]
+    },
+    "body": {
+    "type": "crud",
+    "source": "${imageList}",
+    "syncLocation": false,
+    "columns": [
+      {
+        "name": "name",
+        "label": "名称"
+      },
+      {
+        "type": "image",
+        "name": "image_url",
+        "label": "图片",
+        "enlargeAble": true
+      }
+    ]
+  }
+}
+```
+
+在列表中，图片组件配置`"enlargeWithGallary": false`可以关闭放大模式下图片集列表的展示。
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "imageList": [
+            {
+                "name": "amis",
+                "image_url": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+            },
+            {
+                "name": "amis",
+                "image_url": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+            },
+            {
+                "name": "tom",
+                "image_url": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+            },
+            {
+                "name": "jack",
+                "image_url": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+            }
+        ]
+    },
+    "body": {
+    "type": "crud",
+    "source": "${imageList}",
+    "syncLocation": false,
+    "columns": [
+      {
+        "name": "name",
+        "label": "名称"
+      },
+      {
+        "type": "image",
+        "name": "image_url",
+        "label": "图片",
+        "enlargeAble": true,
+        "enlargeWithGallary": false
+      }
+    ]
+  }
+}
+```
+
 可以配置`originalSrc`，来指定原图资源地址，作为放大预览的图片地址
 
 ```schema
@@ -342,30 +433,31 @@ List 的内容、Card 卡片的内容配置同上
 
 ## 属性表
 
-| 属性名         | 类型                                 | 默认值    | 说明                                                                                   | 版本    |
-| -------------- | ------------------------------------ | --------- | -------------------------------------------------------------------------------------- | ------- |
-| type           | `string`                             |           | 如果在 Table、Card 和 List 中，为`"image"`；在 Form 中用作静态展示，为`"static-image"` |
-| className      | `string`                             |           | 外层 CSS 类名                                                                          |
-| innerClassName | `string`                             |           | 组件内层 CSS 类名                                                                      |
-| imageClassName | `string`                             |           | 图片 CSS 类名                                                                          |
-| thumbClassName | `string`                             |           | 图片缩率图 CSS 类名                                                                    |
-| height         | `string`                             |           | 图片缩率高度                                                                           |
-| width          | `string`                             |           | 图片缩率宽度                                                                           |
-| title          | `string`                             |           | 标题                                                                                   |
-| imageCaption   | `string`                             |           | 描述                                                                                   |
-| placeholder    | `string`                             |           | 占位文本                                                                               |
-| defaultImage   | `string`                             |           | 无数据时显示的图片                                                                     |
-| src            | `string`                             |           | 缩略图地址                                                                             |
-| href           | [模板](../../docs/concepts/template) |           | 外部链接地址                                                                           |
-| originalSrc    | `string`                             |           | 原图地址                                                                               |
-| enlargeAble    | `boolean`                            |           | 支持放大预览                                                                           |
-| enlargeTitle   | `string`                             |           | 放大预览的标题                                                                         |
-| enlargeCaption | `string`                             |           | 放大预览的描述                                                                         |
-| thumbMode      | `string`                             | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                       |
-| thumbRatio     | `string`                             | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                           |
-| imageMode      | `string`                             | `thumb`   | 图片展示模式，可选：`'thumb'`, `'original'` 即：缩略图模式 或者 原图模式               |
-| showToolbar    | `boolean`                            | `false`   | 放大模式下是否展示图片的工具栏                                                         | `2.2.0` |
-| toolbarActions | `ImageAction[]`                      |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                           | `2.2.0` |
+| 属性名             | 类型                                 | 默认值    | 说明                                                                                          | 版本    |
+| ------------------ | ------------------------------------ | --------- | --------------------------------------------------------------------------------------------- | ------- |
+| type               | `string`                             |           | 如果在 Table、Card 和 List 中，为`"image"`；在 Form 中用作静态展示，为`"static-image"`        |
+| className          | `string`                             |           | 外层 CSS 类名                                                                                 |
+| innerClassName     | `string`                             |           | 组件内层 CSS 类名                                                                             |
+| imageClassName     | `string`                             |           | 图片 CSS 类名                                                                                 |
+| thumbClassName     | `string`                             |           | 图片缩率图 CSS 类名                                                                           |
+| height             | `string`                             |           | 图片缩率高度                                                                                  |
+| width              | `string`                             |           | 图片缩率宽度                                                                                  |
+| title              | `string`                             |           | 标题                                                                                          |
+| imageCaption       | `string`                             |           | 描述                                                                                          |
+| placeholder        | `string`                             |           | 占位文本                                                                                      |
+| defaultImage       | `string`                             |           | 无数据时显示的图片                                                                            |
+| src                | `string`                             |           | 缩略图地址                                                                                    |
+| href               | [模板](../../docs/concepts/template) |           | 外部链接地址                                                                                  |
+| originalSrc        | `string`                             |           | 原图地址                                                                                      |
+| enlargeAble        | `boolean`                            |           | 支持放大预览                                                                                  |
+| enlargeTitle       | `string`                             |           | 放大预览的标题                                                                                |
+| enlargeCaption     | `string`                             |           | 放大预览的描述                                                                                |
+| enlargeWithGallary | `string`                             | `true`    | 在表格中，图片的放大功能会默认展示所有图片信息，设置为`false`将关闭放大模式下图片集列表的展示 |
+| thumbMode          | `string`                             | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                              |
+| thumbRatio         | `string`                             | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                                  |
+| imageMode          | `string`                             | `thumb`   | 图片展示模式，可选：`'thumb'`, `'original'` 即：缩略图模式 或者 原图模式                      |
+| showToolbar        | `boolean`                            | `false`   | 放大模式下是否展示图片的工具栏                                                                | `2.2.0` |
+| toolbarActions     | `ImageAction[]`                      |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                  | `2.2.0` |
 
 #### ImageAction
 

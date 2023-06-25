@@ -24,6 +24,7 @@ setSchemaTpl('leftFixed', {
   type: 'button-group-select',
   visibleOn: 'data.horizontal && data.horizontal.leftFixed',
   label: '宽度',
+  size: 'xs',
   options: [
     {
       label: '小',
@@ -58,13 +59,31 @@ setSchemaTpl('leftRate', {
   }
 });
 
+setSchemaTpl('labelAlign', {
+  name: 'labelAlign',
+  type: 'button-group-select',
+  visibleOn: 'data.horizontal && data.horizontal.leftFixed',
+  label: '排列方式',
+  size: 'xs',
+  options: [
+    {
+      label: '左对齐',
+      value: 'left'
+    },
+    {
+      label: '右对齐',
+      value: 'right'
+    }
+  ]
+});
+
 setSchemaTpl(
   'horizontal',
   (config: {visibleOn: string; [propName: string]: any}) => {
     return [
       {
         type: 'select',
-        label: '标题宽度',
+        label: '标签宽度',
         name: 'horizontal',
         options: [
           {label: '继承', value: 'formHorizontal'},
@@ -93,13 +112,15 @@ setSchemaTpl(
         visibleOn: 'this.mode == "horizontal" && this.label !== false',
         ...(isObject(config) ? config : {})
       },
-      {
-        type: 'container',
-        className: 'ae-ExtendMore mb-3',
+      getSchemaTpl('layout:wrapper-contanier', {
         visibleOn:
           'this.mode == "horizontal" && this.horizontal && this.label !== false',
-        body: [getSchemaTpl('leftFixed'), getSchemaTpl('leftRate')]
-      }
+        body: [
+          getSchemaTpl('leftFixed'),
+          getSchemaTpl('leftRate'),
+          getSchemaTpl('labelAlign')
+        ]
+      })
     ];
   }
 );

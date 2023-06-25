@@ -16,7 +16,8 @@ import {
   LocaleProps,
   findTree,
   noop,
-  getVariable
+  getVariable,
+  isMobile
 } from 'amis-core';
 import {Icon} from '../icons';
 
@@ -52,7 +53,7 @@ export interface ConditionItemProps extends ThemeProps, LocaleProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
-  selectMode?: 'list' | 'tree';
+  selectMode?: 'list' | 'tree' | 'chained';
 }
 
 export class ConditionItem extends React.Component<ConditionItemProps> {
@@ -101,7 +102,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
     const result = {
       ...value,
       op: op,
-      right: leftFieldSchema?.defaultValue
+      right: value.right ?? leftFieldSchema?.defaultValue
     };
 
     onChange(result, index);
@@ -213,6 +214,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       });
       return (
         <PopOverContainer
+          useMobileUI
           popOverContainer={popOverContainer || (() => findDOMNode(this))}
           popOverRender={({onClose}) => (
             <GroupedSelection
@@ -242,10 +244,13 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
                 onResultClick={onClick}
                 disabled={disabled}
                 placeholder={__('Condition.cond_placeholder')}
+                useMobileUI
               >
-                <span className={cx('CBGroup-operatorCaret')}>
-                  <Icon icon="caret" className="icon" />
-                </span>
+                {!isMobile() ? (
+                  <span className={cx('CBGroup-operatorCaret')}>
+                    <Icon icon="caret" className="icon" />
+                  </span>
+                ) : null}
               </ResultBox>
             </div>
           )}

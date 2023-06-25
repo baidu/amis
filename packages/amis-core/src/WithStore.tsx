@@ -15,7 +15,7 @@ import {
   syncDataFromSuper,
   isSuperDataModified
 } from './utils/helper';
-import {dataMapping} from './utils/tpl-builtin';
+import {dataMapping, tokenize} from './utils/tpl-builtin';
 import {RootStoreContext} from './WithRootStore';
 
 export function HocStoreFactory(renderer: {
@@ -35,6 +35,8 @@ export function HocStoreFactory(renderer: {
       store?: IIRendererStore;
       data?: RendererData;
       scope?: RendererData;
+      rootStore: any;
+      topStore: any;
     };
 
     @observer
@@ -66,6 +68,7 @@ export function HocStoreFactory(renderer: {
           storeType: renderer.storeType,
           parentId: this.props.store ? this.props.store.id : ''
         }) as IIRendererStore;
+        store.setTopStore(props.topStore);
         this.store = store;
 
         const extendsData =
@@ -167,7 +170,7 @@ export function HocStoreFactory(renderer: {
         return data as object;
       }
 
-      componentDidUpdate(prevProps: RendererProps) {
+      componentDidUpdate(prevProps: Props) {
         const props = this.props;
         const store = this.store;
         const shouldSync = renderer.shouldSyncSuperStore?.(
@@ -188,13 +191,16 @@ export function HocStoreFactory(renderer: {
           if (
             shouldSync === true ||
             prevProps.defaultData !== props.defaultData ||
-            isObjectShallowModified(prevProps.data, props.data) ||
-            //
-            // 特殊处理 CRUD。
-            // CRUD 中 toolbar 里面的 data 是空对象，但是 __super 会不一样
-            (props.data &&
-              prevProps.data &&
-              props.data.__super !== prevProps.data.__super)
+            (props.trackExpression
+              ? tokenize(props.trackExpression, props.data!) !==
+                tokenize(props.trackExpression, prevProps.data!)
+              : isObjectShallowModified(prevProps.data, props.data) ||
+                //
+                // 特殊处理 CRUD。
+                // CRUD 中 toolbar 里面的 data 是空对象，但是 __super 会不一样
+                (props.data &&
+                  prevProps.data &&
+                  props.data.__super !== prevProps.data.__super))
           ) {
             store.initData(
               extendObject(props.data, {
@@ -206,9 +212,12 @@ export function HocStoreFactory(renderer: {
           }
         } else if (
           shouldSync === true ||
-          isObjectShallowModified(prevProps.data, props.data) ||
-          (props.syncSuperStore !== false &&
-            isSuperDataModified(props.data, prevProps.data, store))
+          (props.trackExpression
+            ? tokenize(props.trackExpression, props.data!) !==
+              tokenize(props.trackExpression, prevProps.data!)
+            : isObjectShallowModified(prevProps.data, props.data) ||
+              (props.syncSuperStore !== false &&
+                isSuperDataModified(props.data, prevProps.data, store)))
         ) {
           if (props.store && props.store.data === props.data) {
             store.initData(
@@ -243,9 +252,8 @@ export function HocStoreFactory(renderer: {
             store.initData(createObject(props.scope, props.data));
           }
         } else if (
-          (shouldSync === true ||
-            !props.store ||
-            props.data !== props.store.data) &&
+          !props.trackExpression &&
+          (!props.store || props.data !== props.store.data) &&
           props.data &&
           props.data.__super
         ) {
@@ -270,9 +278,10 @@ export function HocStoreFactory(renderer: {
           }
           // nextProps.data.__super !== props.data.__super) &&
         } else if (
+          !props.trackExpression &&
           props.scope &&
           props.data === props.store!.data &&
-          (shouldSync === true || prevProps.data !== props.data)
+          prevProps.data !== props.data
         ) {
           // 只有父级数据变动的时候才应该进来，
           // 目前看来这个 case 很少有情况下能进来
@@ -290,7 +299,10 @@ export function HocStoreFactory(renderer: {
         const store = this.store;
 
         this.unReaction?.();
-        isAlive(store) && rootStore.removeStore(store);
+        if (isAlive(store)) {
+          store.setTopStore(null);
+          rootStore.removeStore(store);
+        }
 
         // @ts-ignore
         delete this.store;

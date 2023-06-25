@@ -24,6 +24,7 @@ import {
 } from '../renderer/event-control/helper';
 
 export class TabsPlugin extends BasePlugin {
+  static id = 'TabsPlugin';
   // 关联渲染器名字
   rendererName = 'tabs';
   $schema = '/schemas/TabsSchema.json';
@@ -74,9 +75,15 @@ export class TabsPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选项卡索引'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选项卡索引'
+                }
+              }
             }
           }
         }
@@ -102,18 +109,6 @@ export class TabsPlugin extends BasePlugin {
         );
       },
       schema: getArgsWrapper(
-        /*
-        {
-          type: 'input-formula',
-          variables: '${variables}',
-          evalMode: false,
-          variableMode: 'tabs',
-          label: '激活项',
-          size: 'lg',
-          name: 'activeKey',
-          mode: 'horizontal'
-        }
-        */
         getSchemaTpl('formulaControl', {
           name: 'activeKey',
           label: '激活项',
@@ -175,11 +170,24 @@ export class TabsPlugin extends BasePlugin {
 
               {
                 label: tipedLabel(
-                  '默认选项卡',
-                  '默认显示某个选项卡，选项卡配置hash时使用hash，否则使用索引值，支持获取变量，如：<code>tab\\${id}</code>、<code>\\${id}</code>'
+                  '初始选项卡',
+                  '组件初始化时激活的选项卡，优先级高于激活的选项卡，不可响应上下文数据，选项卡配置hash时使用hash，否则使用索引值，支持获取变量，如：<code>tab\\${id}</code>、<code>\\${id}</code>'
+                ),
+                type: 'input-text',
+                name: 'defaultKey',
+                placeholder: '初始默认激活的选项卡',
+                pipeOut: (data: string) =>
+                  data === '' || isNaN(Number(data)) ? data : Number(data)
+              },
+
+              {
+                label: tipedLabel(
+                  '激活的选项卡',
+                  '默认显示某个选项卡，可响应上下文数据，选项卡配置hash时使用hash，否则使用索引值，支持获取变量，如：<code>tab\\${id}</code>、<code>\\${id}</code>'
                 ),
                 type: 'input-text',
                 name: 'activeKey',
+                placeholder: '默认激活的选项卡',
                 pipeOut: (data: string) =>
                   data === '' || isNaN(Number(data)) ? data : Number(data)
               }

@@ -1,4 +1,4 @@
-import {localeable} from 'amis-core';
+import {isMobile, localeable} from 'amis-core';
 import {themeable} from 'amis-core';
 import {uncontrollable} from 'amis-core';
 import React from 'react';
@@ -14,6 +14,8 @@ export interface TabsTransferPickerProps
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
   onFocus?: () => void;
   onBlur?: () => void;
+  useMobileUI?: boolean;
+  popOverContainer?: any;
 }
 
 export class TransferPicker extends React.Component<TabsTransferPickerProps> {
@@ -44,12 +46,18 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
       className,
       onChange,
       size,
+      labelField = 'label',
+      useMobileUI,
+      popOverContainer,
       ...rest
     } = this.props;
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <PickerContainer
         title={__('Select.placeholder')}
+        useMobileUI={useMobileUI}
+        popOverContainer={popOverContainer}
         onFocus={this.onFoucs}
         onClose={this.onBlur}
         bodyRender={({onClose, value, onChange, setState, ...states}) => {
@@ -58,6 +66,7 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
               {...rest}
               {...states}
               value={value}
+              useMobileUI={useMobileUI}
               onChange={(value: any, optionModified) => {
                 if (optionModified) {
                   let options = mapTree(rest.options, item => {
@@ -71,6 +80,7 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
                   onChange(value);
                 }
               }}
+              labelField={labelField}
             />
           );
         }}
@@ -91,10 +101,16 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
             onResultClick={onClick}
             placeholder={__('Select.placeholder')}
             disabled={disabled}
+            itemRender={option => (
+              <span>{(option && option[labelField]) || 'undefiend'}</span>
+            )}
+            useMobileUI={useMobileUI}
           >
-            <span className={cx('TransferPicker-icon')}>
-              <Icon icon="pencil" className="icon" />
-            </span>
+            {!mobileUI ? (
+              <span className={cx('TransferPicker-icon')}>
+                <Icon icon="pencil" className="icon" />
+              </span>
+            ) : null}
           </ResultBox>
         )}
       </PickerContainer>

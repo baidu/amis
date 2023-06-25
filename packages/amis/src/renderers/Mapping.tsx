@@ -87,7 +87,11 @@ export const Store = StoreNode.named('MappingStore')
             const data = normalizeApiResponseData(ret.data);
 
             (self as any).setMap(
-              Array.isArray(data.options) ? data.options : data
+              Array.isArray(data.options)
+                ? data.options
+                : Array.isArray(data.items)
+                ? data.items
+                : data
             );
           } else {
             throw new Error(ret.msg || 'fetch error');
@@ -171,7 +175,11 @@ export const MappingField = withStore(props =>
     componentDidUpdate(prevProps: MappingProps) {
       const props = this.props;
       const {store, source, data} = this.props;
-      store.syncProps(props, prevProps, ['valueField', 'map']);
+      store.syncProps(
+        props,
+        prevProps,
+        source ? ['valueField'] : ['valueField', 'map']
+      );
 
       if (isPureVariable(source)) {
         const prev = resolveVariableAndFilter(
@@ -262,22 +270,19 @@ export const MappingField = withStore(props =>
             label = value[labelField || 'label'];
           }
         }
-        let realValue = value;
+        // 处理 table column 渲染 mapping 的值是 tagSchema 不正常渲染的情况
         if (
           isObject(label) &&
           label.type === 'tag' &&
           !isObject(label.label) &&
           label.label != null
         ) {
-          realValue = label.label;
+          return render('mapping-tag', label, {
+            // 避免渲染tag时从 props.value 取值而无法渲染 label
+            value: null
+          });
         }
-        return render('tpl', label, {
-          data: createObject(data, {
-            value: realValue,
-            label: realValue
-          }),
-          ...(label?.type === 'tag' ? {value: null} : {})
-        });
+        return render('tpl', label);
       }
       return render('mappingItemSchema', itemSchema, {
         data: createObject(data, isObject(value) ? value : {item: value}),

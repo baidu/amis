@@ -1,6 +1,6 @@
 {
   "name": "amis-editor",
-  "version": "5.3.0",
+  "version": "5.4.1",
   "description": "amis 可视化编辑器",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -22,7 +22,7 @@
   "scripts": {
     "test": "echo \"Warnings: no test specified\"",
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
-    "clean-dist": "rimraf lib/* esm/*",
+    "clean-dist": "rimraf lib/** esm/**",
     "i18n:update": "npx i18n update --config=./i18nConfig.js",
     "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US",
     "i18n:merge": "npx i18n merge --config=./i18nConfig.js --l=en-US",

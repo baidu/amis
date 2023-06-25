@@ -32,7 +32,7 @@ import {Option, Options, value2array} from './Select';
 import {themeable, ThemeProps, highlight} from 'amis-core';
 import {Icon, getIcon} from './icons';
 import Checkbox from './Checkbox';
-import {LocaleProps, localeable} from 'amis-core';
+import {LocaleProps, localeable, isMobile} from 'amis-core';
 import Spinner, {SpinnerExtraProps} from './Spinner';
 import {ItemRenderStates} from './Selection';
 import VirtualList from './virtual-list';
@@ -149,6 +149,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   // 全选按钮文案
   checkAllLabel?: string;
   enableDefaultIcon?: boolean;
+  useMobileUI?: boolean;
 }
 
 interface TreeSelectorState {
@@ -210,6 +211,7 @@ export class TreeSelector extends React.Component<
   unfolded: WeakMap<Object, boolean> = new WeakMap();
   // key: child option, value: parent option;
   relations: WeakMap<Option, Option> = new WeakMap();
+  levels: WeakMap<Option, number> = new WeakMap();
 
   dragNode: Option | null;
   dropInfo: IDropInfo | null;
@@ -285,6 +287,11 @@ export class TreeSelector extends React.Component<
         )
       });
     }
+  }
+
+  componentWillUnmount(): void {
+    // clear data
+    this.relations = this.unfolded = this.levels = new WeakMap() as any;
   }
 
   /**
@@ -449,7 +456,7 @@ export class TreeSelector extends React.Component<
       return;
     }
 
-    if (onlyLeaf && (Array.isArray(node.children) && node.children.length)) {
+    if (onlyLeaf && Array.isArray(node.children) && node.children.length) {
       return;
     }
 
@@ -710,12 +717,21 @@ export class TreeSelector extends React.Component<
   }
 
   renderInput(prfix: JSX.Element | null = null) {
-    const {classnames: cx, translate: __} = this.props;
+    const {classnames: cx, useMobileUI, translate: __} = this.props;
     const {inputValue} = this.state;
+    const mobileUI = useMobileUI && isMobile();
 
     return (
-      <div className={cx('Tree-itemLabel')}>
-        <div className={cx('Tree-itemInput')}>
+      <div
+        className={cx('Tree-itemLabel', {
+          'is-mobile': mobileUI
+        })}
+      >
+        <div
+          className={cx('Tree-itemInput', {
+            'is-mobile': mobileUI
+          })}
+        >
           {prfix}
           <input
             onChange={this.handleInputChange}
@@ -868,17 +884,17 @@ export class TreeSelector extends React.Component<
     eachTree(
       props?.options || this.props.options,
       (item, index, level, paths: Option[]) => {
-        const parent = paths[paths.length - 2];
+        const parent = paths[paths.length - 1];
         if (!isVisible(item)) {
           return;
         }
-        if (paths.length === 1) {
+        if (paths.length === 0) {
           // 父节点
           flattenedOptions.push(item);
         } else if (this.isUnfolded(parent)) {
           this.relations.set(item, parent);
+          this.levels.set(item, level);
           // 父节点是展开的状态
-          item.level = level;
           flattenedOptions.push(item);
         }
       }
@@ -1058,9 +1074,11 @@ export class TreeSelector extends React.Component<
       draggable,
       loadingConfig,
       enableDefaultIcon,
-      valueField
+      valueField,
+      useMobileUI
     } = this.props;
 
+    const mobileUI = useMobileUI && isMobile();
     const item = this.state.flattenedOptions[index];
 
     if (!item) {
@@ -1096,11 +1114,11 @@ export class TreeSelector extends React.Component<
     const iconValue =
       item[iconField] ||
       (enableDefaultIcon !== false
-        ? (Array.isArray(item.children) && item.children.length)
+        ? Array.isArray(item.children) && item.children.length
           ? 'folder'
           : 'file'
         : false);
-    const level = item.level ? item.level - 1 : 0;
+    const level = this.levels.has(item) ? this.levels.get(item)! - 1 : 0;
 
     let body = null;
 
@@ -1154,12 +1172,14 @@ export class TreeSelector extends React.Component<
 
           {checkbox}
 
-          <div className={cx('Tree-itemLabel-item')}>
+          <div className={cx('Tree-itemLabel-item', {'is-mobile': mobileUI})}>
             {showIcon ? (
               <i
                 className={cx(
                   `Tree-itemIcon ${
-                    (Array.isArray(item.children) && item.children.length) ? 'Tree-folderIcon' : 'Tree-leafIcon'
+                    Array.isArray(item.children) && item.children.length
+                      ? 'Tree-folderIcon'
+                      : 'Tree-leafIcon'
                   }`
                 )}
                 onClick={() =>
@@ -1196,6 +1216,7 @@ export class TreeSelector extends React.Component<
                     index,
                     multiple: multiple,
                     checked: checked,
+                    labelField: labelField,
                     onChange: () => this.handleCheck(item, !checked),
                     disabled: disabled || item.disabled
                   })
@@ -1299,7 +1320,8 @@ export class TreeSelector extends React.Component<
       checkAllLabel,
       classnames: cx,
       translate: __,
-      disabled
+      disabled,
+      useMobileUI
     } = this.props;
 
     if (!multiple || !checkAll) {
@@ -1314,6 +1336,7 @@ export class TreeSelector extends React.Component<
     const checkedPartial = availableOptions.some(option =>
       this.isItemChecked(option)
     );
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
@@ -1327,7 +1350,11 @@ export class TreeSelector extends React.Component<
           partial={checkedPartial && !checkedAll}
         />
 
-        <div className={cx('Tree-itemLabel-item')}>
+        <div
+          className={cx('Tree-itemLabel-item', {
+            'is-mobile': mobileUI
+          })}
+        >
           <span className={cx('Tree-itemText')}>{__(checkAllLabel)}</span>
         </div>
       </div>

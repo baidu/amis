@@ -1,7 +1,7 @@
 import React from 'react';
 import extend from 'lodash/extend';
 import cloneDeep from 'lodash/cloneDeep';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, filterTarget} from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 import {Api, RendererData, ActionObject} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
@@ -35,6 +35,7 @@ import {IIRendererStore} from 'amis-core';
 
 import type {ListenerAction} from 'amis-core';
 import type {ScopedComponentType} from 'amis-core';
+import isPlainObject from 'lodash/isPlainObject';
 
 export const eventTypes = [
   /* 初始化时执行，默认 */
@@ -341,14 +342,16 @@ export default class Service extends React.Component<ServiceProps> {
    */
   @autobind
   initDataProviders(provider?: ComposedDataProvider) {
-    const dataProvider = cloneDeep(provider);
+    const dataProvider = isPlainObject(provider)
+      ? cloneDeep(provider)
+      : provider;
     let fnCollection: DataProviderCollection = {};
 
     if (dataProvider) {
-      if (typeof dataProvider === 'object' && isObject(dataProvider)) {
+      if (isPlainObject(dataProvider)) {
         Object.keys(dataProvider).forEach((event: ProviderEventType) => {
           const normalizedProvider = this.normalizeProvider(
-            dataProvider[event],
+            (dataProvider as DataProviderCollection)[event],
             event
           );
 
@@ -702,7 +705,10 @@ export default class Service extends React.Component<ServiceProps> {
             action.redirect && filter(action.redirect, store.data);
           redirect && env.jumpTo(redirect, action);
           action.reload &&
-            this.reloadTarget(filter(action.reload, store.data), store.data);
+            this.reloadTarget(
+              filterTarget(action.reload, store.data),
+              store.data
+            );
         })
         .catch(e => {
           if (throwErrors || action.countDown) {

@@ -12,6 +12,7 @@ import {
 import {getSchemaTpl} from 'amis-editor-core';
 
 export class OperationPlugin extends BasePlugin {
+  static id = 'OperationPlugin';
   // 关联渲染器名字
   rendererName = 'operation';
   $schema = '/schemas/OperationSchema.json';
@@ -57,10 +58,9 @@ export class OperationPlugin extends BasePlugin {
       {
         children: (
           <Button
-            level="info"
             size="sm"
-            className="m-b-sm"
             block
+            className="m-b-sm ae-Button--enhance"
             onClick={() => {
               // this.manager.showInsertPanel('buttons', context.id, '按钮');
               this.manager.showRendererPanel(

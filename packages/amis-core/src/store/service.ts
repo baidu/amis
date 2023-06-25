@@ -437,11 +437,15 @@ export const ServiceStore = iRendererStore
 
             self.schema = Array.isArray(json.data)
               ? json.data
-              : {
-                  type: 'wrapper',
-                  wrap: false,
-                  ...normalizeApiResponseData(json.data)
-                };
+              : Object.assign(
+                  json.data?.type
+                    ? {}
+                    : {
+                        type: 'wrapper',
+                        wrap: false
+                      },
+                  normalizeApiResponseData(json.data)
+                );
             self.schemaKey = '' + Date.now();
             isObject(json.data.data) &&
               self.updateData(

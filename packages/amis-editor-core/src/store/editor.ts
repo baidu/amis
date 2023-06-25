@@ -3,7 +3,8 @@ import {
   getVariable,
   mapObject,
   mapTree,
-  extendObject
+  extendObject,
+  createObject
 } from 'amis-core';
 import {cast, getEnv, Instance, types} from 'mobx-state-tree';
 import {
@@ -70,6 +71,8 @@ export type SubEditorContext = {
   typeMutable?: boolean;
   memberImmutable?: boolean | Array<string>;
   props?: any;
+  /* 宿主节点的Store */
+  hostNode?: EditorNodeType;
 };
 
 export type PatchItem =
@@ -104,6 +107,7 @@ export interface PopOverFormContext extends PopOverForm {
   target: () => HTMLElement;
   value: any;
   callback: (value: any, diff: any) => void;
+  node?: EditorNodeType;
 }
 
 /**
@@ -191,6 +195,7 @@ export const MainStore = types
     jsonSchemaUri: '',
 
     scaffoldForm: types.maybe(types.frozen<ScaffoldFormContext>()),
+    scaffoldFormStep: 0,
     scaffoldFormBuzy: false,
     scaffoldError: '',
 
@@ -997,6 +1002,13 @@ export const MainStore = types
           1,
           true
         );
+      },
+
+      get scaffoldData() {
+        return createObject(self.ctx, {
+          ...(self.scaffoldForm?.value || {}),
+          __step: self.scaffoldFormStep
+        });
       }
     };
   })
@@ -1579,18 +1591,25 @@ export const MainStore = types
       },
 
       openSubEditor(context: SubEditorContext) {
-        if (!self.activeId) {
+        const activeId = self.activeId;
+
+        if (!activeId) {
           return;
         }
+
         self.subEditorContext = {
           ...context,
-          data: extendObject(context.data, {
-            __curCmptTreeWrap: {
-              label: context.title,
-              disabled: true
-            },
-            __superCmptTreeSource: self.getComponentTreeSource()
-          })
+          hostNode: self.getNodeById(activeId),
+          data: createObject(
+            self.ctx,
+            extendObject(context.data, {
+              __curCmptTreeWrap: {
+                label: context.title,
+                disabled: true
+              },
+              __superCmptTreeSource: self.getComponentTreeSource()
+            })
+          )
         };
       },
 
@@ -1671,8 +1690,26 @@ export const MainStore = types
         self.scaffoldFormBuzy = !!value;
       },
 
+      setScaffoldStep(value: number) {
+        self.scaffoldFormStep = value;
+      },
+
       setScaffoldError(msg: string = '') {
         self.scaffoldError = msg;
+      },
+
+      updateScaffoldData(value: any, replace?: boolean) {
+        if (self.scaffoldForm && value) {
+          self.scaffoldForm = {
+            ...self.scaffoldForm,
+            value: replace
+              ? value
+              : {
+                  ...self.scaffoldForm.value,
+                  ...value
+                }
+          };
+        }
       },
 
       openPopOverForm(context: PopOverFormContext) {
