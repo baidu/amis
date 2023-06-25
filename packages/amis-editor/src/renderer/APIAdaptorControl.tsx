@@ -397,9 +397,8 @@ setSchemaTpl('apiRequestAdaptor', {
     &nbsp;1. <span style="color: #108CEE">api</span>：接口的schema配置对象<br/>
     &nbsp;2. <span style="color: #108CEE">api.data</span>：请求数据<br/>
     &nbsp;3. <span style="color: #108CEE">api.query</span>：请求查询参数<br/>
-    &nbsp;4. <span style="color: #108CEE">api.body</span>：请求体（针对POST/PUT/PATCH）<br/>
-    &nbsp;5. <span style="color: #108CEE">api.headers</span>：请求头<br/>
-    &nbsp;6. <span style="color: #108CEE">api.url</span>：请求地址<br/>`
+    &nbsp;4. <span style="color: #108CEE">api.headers</span>：请求头<br/>
+    &nbsp;5. <span style="color: #108CEE">api.url</span>：请求地址<br/>`
   ),
   name: 'requestAdaptor',
   type: 'ae-apiAdaptorControl',
