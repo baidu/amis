@@ -504,7 +504,7 @@ export class EventControl extends React.Component<
 
     // 编辑的时候只能拿到当前动作前面动作的事件变量
     if (data.type === 'update') {
-      actions = actions.slice(0, data.actionData!.actionIndex !== undefined ？data.actionData!.actionIndex + 1 : 0);
+      actions = actions.slice(0, data.actionData!.actionIndex !== undefined ? data.actionData!.actionIndex + 1 : 0);
     }
 
     let jsonSchema = {...(eventConfig?.dataSchema?.[0] ?? {})};
