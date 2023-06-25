@@ -499,10 +499,10 @@ export class EventControl extends React.Component<
       item => item.eventName === data.actionData!.eventKey
     );
 
-    // 编辑的时候只能拿到当前动作前面动作的事件变量以及当前动作事件
+    // 收集当前事件动作出参
     let actions = onEvent[data.actionData!.eventKey].actions;
 
-    // 编辑的时候只能拿到当前动作前面动作的事件变量
+    // 编辑的时候只能拿到当前动作前面动作的事件变量以及当前动作事件
     if (data.type === 'update') {
       actions = actions.slice(0, data.actionData!.actionIndex !== undefined ? data.actionData!.actionIndex + 1 : 0);
     }
