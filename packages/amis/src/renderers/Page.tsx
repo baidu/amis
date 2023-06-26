@@ -701,7 +701,8 @@ export default class Page extends React.Component<PageProps> {
       })
     );
 
-    interval &&
+    value?.ok && // 接口正常返回才继续轮训
+      interval &&
       this.mounted &&
       (!stopAutoRefreshWhen || !evalExpression(stopAutoRefreshWhen, data)) &&
       (this.timer = setTimeout(
