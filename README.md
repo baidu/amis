@@ -7,7 +7,7 @@
 [文档（国外）](https://baidu.github.io/amis/) |
 [可视化编辑器](https://aisuda.github.io/amis-editor-demo/) |
 [amis-admin](https://github.com/aisuda/amis-admin) |
-[爱速搭](https://baidu.gitee.io/aisuda-docs/)
+[爱速搭](https://aisuda.bce.baidu.com/aisuda-docs/)
 
 </div>
 
