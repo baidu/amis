@@ -13,7 +13,7 @@ import {
 export interface IAjaxAction extends ListenerAction {
   action: 'ajax';
   args: {
-    api: ApiObject;
+    api: Api;
     messages?: {
       success: string;
       failed: string;
@@ -52,10 +52,19 @@ export class AjaxAction implements RendererAction {
 
     const env = event.context.env;
     try {
-      const data = action.args?.api?.data ?? action.data ?? {};
-      const api = {...(action.args?.api ?? {})};
-      delete api?.data;
-      const result = await env.fetcher(api, data, action.args?.options ?? {});
+      let result = null;
+      if (typeof action.args?.api === 'string') {
+        result = await env.fetcher(
+          action.args?.api,
+          action.data ?? {},
+          action.args?.options ?? {}
+        );
+      } else {
+        const data = (action.args?.api as ApiObject)?.data ?? action.data ?? {};
+        const api = {...((action.args?.api as ApiObject) ?? {})};
+        delete api?.data;
+        result = await env.fetcher(api, data, action.args?.options ?? {});
+      }
       const responseData =
         !isEmpty(result.data) || result.ok
           ? normalizeApiResponseData(result.data)
@@ -78,14 +87,14 @@ export class AjaxAction implements RendererAction {
       if (!action.args?.options?.silent) {
         if (!result.ok) {
           throw new ServerError(
-            action.args?.api?.messages?.failed ??
+            (action.args?.api as ApiObject)?.messages?.failed ??
               action.args?.messages?.failed ??
               result.msg,
             result
           );
         } else {
           const msg =
-            action.args?.api?.messages?.success ??
+            (action.args?.api as ApiObject)?.messages?.success ??
             action.args?.messages?.success ??
             result.msg ??
             result.defaultMsg;
