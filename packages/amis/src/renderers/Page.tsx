@@ -406,7 +406,7 @@ export default class Page extends React.Component<PageProps> {
 
     // Page加载完成时触发 pageLoaded 事件
     if (env?.tracker) {
-      env.tracker({eventType: 'pageLoaded'});
+      env.tracker({eventType: 'pageLoaded'}, this.props);
     }
 
     if (rendererEvent?.prevented) {
