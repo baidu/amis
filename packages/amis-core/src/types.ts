@@ -382,6 +382,7 @@ export type FunctionPropertyNames<T> = {
 
 export type JSONSchema = JSONSchema7 & {
   group?: string; // 分组
+  typeLabel?: string; // 类型说明
 };
 
 // export type Omit<T, K extends keyof T & any> = Pick<T, Exclude<keyof T, K>>;
