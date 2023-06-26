@@ -7,7 +7,14 @@ import sortBy from 'lodash/sortBy';
 import cloneDeep from 'lodash/cloneDeep';
 import reverse from 'lodash/reverse';
 import pick from 'lodash/pick';
-import {JSONSchema, DataSchema, mapTree, findTree, eachTree} from 'amis-core';
+import {
+  JSONSchema,
+  DataSchema,
+  mapTree,
+  findTree,
+  eachTree,
+  DATASCHEMA_TYPE_MAP
+} from 'amis-core';
 import type {Option} from 'amis-core';
 
 export interface VariableGroup {
@@ -169,7 +176,7 @@ export class VariableManager {
           const children = mapTree(varScope.getDataPropsAsOptions(), item => ({
             ...item,
             /** tag默认会被赋值为description，这里得替换回来 */
-            tag: item.type
+            tag: DATASCHEMA_TYPE_MAP[item.type] ?? item.type
           }));
 
           if (varScope.tag) {

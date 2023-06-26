@@ -1,7 +1,7 @@
 import {JSONSchema} from '../types';
 import {guid, keyToPath, mapTree} from './helper';
 
-const TYPE_MAP: {[type: string]: string} = {
+export const DATASCHEMA_TYPE_MAP: {[type: string]: string} = {
   boolean: '布尔',
   integer: '整数',
   number: '数字',
@@ -222,7 +222,10 @@ export class DataScope {
       value: schema.title === '成员' ? '' : path.value,
       path: schema.title === '成员' ? '' : path.label,
       type: schema.type,
-      tag: schema.typeLabel ?? TYPE_MAP[schema.type as string] ?? schema.type,
+      tag:
+        schema.typeLabel ??
+        DATASCHEMA_TYPE_MAP[schema.type as string] ??
+        schema.type,
       description: schema.description,
       isMember,
       disabled: schema.title === '成员'

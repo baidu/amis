@@ -228,7 +228,7 @@ export class FormulaEditor extends React.Component<
         if (reg.test(encodeHtml)) {
           html = encodeHtml.replace(
             REPLACE_KEY,
-            `<span class="c-field">${varMap[v]}</span>`
+            `<span class="c-field">${v}</span>`
           );
         } else {
           html = encodeHtml.replace(REPLACE_KEY, v);
