@@ -239,14 +239,6 @@ export const runAction = async (
       false
     );
   }
-  let stopPropagation = false;
-  if (actionConfig.stopPropagation) {
-    stopPropagation = await evalExpressionWithConditionBuilder(
-      actionConfig.stopPropagation,
-      mergeData,
-      false
-    );
-  }
 
   let key = {
     componentId: dataMapping(actionConfig.componentId, mergeData),
@@ -288,7 +280,7 @@ export const runAction = async (
   console.group?.(`run action ${actionConfig.actionType}`);
   console.debug(`[${actionConfig.actionType}] action args, data`, args, data);
 
-  let stoped = false;
+  let stopped = false;
   const actionResult = await actionInstrance.run(
     {
       ...actionConfig,
@@ -302,7 +294,16 @@ export const runAction = async (
   );
   // 二次确认弹窗如果取消，则终止后续动作
   if (actionConfig?.actionType === 'confirmDialog' && !actionResult) {
-    stoped = true;
+    stopped = true;
+  }
+
+  let stopPropagation = false;
+  if (actionConfig.stopPropagation) {
+    stopPropagation = await evalExpressionWithConditionBuilder(
+      actionConfig.stopPropagation,
+      mergeData,
+      false
+    );
   }
   console.debug(`[${actionConfig.actionType}] action end event`, event);
   console.groupEnd?.();
@@ -310,5 +311,5 @@ export const runAction = async (
   // 阻止原有动作执行
   preventDefault && event.preventDefault();
   // 阻止后续动作执行
-  (stopPropagation || stoped) && event.stopPropagation();
+  (stopPropagation || stopped) && event.stopPropagation();
 };
