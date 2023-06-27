@@ -593,7 +593,13 @@ setSchemaTpl('theme:size', (option: any = {}) => {
 
 setSchemaTpl(
   'theme:common',
-  (exclude: string[] | string, include: string[]) => {
+  (option: {
+    exclude: string[] | string;
+    include: string[];
+    collapsed?: boolean;
+  }) => {
+    let {exclude, include, collapsed} = option || {};
+    const curCollapsed = collapsed ?? false; // 默认都展开
     // key统一转换成Kebab case，eg: boxShadow => bos-shadow
     exclude = (
       exclude ? (Array.isArray(exclude) ? exclude : [exclude]) : []
@@ -631,6 +637,7 @@ setSchemaTpl(
       {
         header: '布局',
         key: 'layout',
+        collapsed: curCollapsed,
         body: [
           {
             type: 'style-display',
@@ -641,10 +648,12 @@ setSchemaTpl(
       },
       {
         title: '自定义样式',
+        collapsed: curCollapsed,
         body: styles
       },
       {
         title: '样式源码',
+        collapsed: curCollapsed,
         body: [
           {
             type: 'theme-cssCode',

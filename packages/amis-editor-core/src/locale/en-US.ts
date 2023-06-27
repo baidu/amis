@@ -267,5 +267,8 @@ extendLocale('en-US', {
   'b71e8739cb9bcba8057a8fa8b59512da': '<Column>',
   '34d240d1ded259c32f7fee21e99c5671': 'Preview/Edit',
   '6722089d251c1e4aabe9d58c26a2208a': 'Turn preview mode on/off',
-  '107542a61cdccbb2981ad0c8bafc3440': 'Replace component'
+  '107542a61cdccbb2981ad0c8bafc3440': 'Replace component',
+  '813a5158d9f7171d20e7df340c5b48f9': 'Component Context',
+  'd2655fdad2c9f8b6f6d7050d65226428':
+    "Exception registering plugin '{{@1}}', there is already a plugin with the same name:"
 });
