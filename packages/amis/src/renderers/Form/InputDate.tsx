@@ -508,6 +508,7 @@ export default class DateControl extends React.PureComponent<
       >
         <DatePicker
           {...rest}
+          env={env}
           placeholder={placeholder ?? this.placeholder}
           useMobileUI={useMobileUI}
           popOverContainer={
