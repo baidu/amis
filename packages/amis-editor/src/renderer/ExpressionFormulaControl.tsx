@@ -8,9 +8,9 @@ import cx from 'classnames';
 import {FormItem, Button, Icon, PickerContainer} from 'amis';
 import {FormulaEditor} from 'amis-ui';
 import type {VariableItem} from 'amis-ui';
-import {getVariables} from './textarea-formula/utils';
 import {renderFormulaValue} from './FormulaControl';
 import {reaction} from 'mobx';
+import {getVariables} from 'amis-editor-core';
 
 interface ExpressionFormulaControlProps extends FormControlProps {
   /**

@@ -243,7 +243,7 @@ export class FormulaEditor extends React.Component<
 
   componentDidMount(): void {
     const {variables} = this.props;
-    this.normalizeVariables(variables);
+    this.normalizeVariables(variables as VariableItem[]);
   }
 
   componentDidUpdate(
@@ -252,7 +252,7 @@ export class FormulaEditor extends React.Component<
     snapshot?: any
   ): void {
     if (prevProps.variables !== this.props.variables) {
-      this.normalizeVariables(this.props.variables);
+      this.normalizeVariables(this.props.variables as VariableItem[]);
     }
   }
 

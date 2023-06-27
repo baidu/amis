@@ -11,9 +11,9 @@ import type {VariableItem, CodeMirror} from 'amis-ui';
 import {FormulaPlugin, editorFactory} from './plugin';
 
 import FormulaPicker, {CustomFormulaPickerProps} from './FormulaPicker';
-import {getVariables} from './utils';
 import {reaction} from 'mobx';
 import {renderFormulaValue} from '../FormulaControl';
+import {getVariables} from 'amis-editor-core';
 
 export interface AdditionalMenuClickOpts {
   /**

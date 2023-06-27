@@ -1,4 +1,8 @@
-import {uncontrollable} from 'amis-core';
+import {
+  isExpression,
+  resolveVariableAndFilterForAsync,
+  uncontrollable
+} from 'amis-core';
 import React from 'react';
 import {
   FormulaEditor,
@@ -23,7 +27,8 @@ import Modal from '../Modal';
 import PopUp from '../PopUp';
 import {isMobile} from 'amis-core';
 
-export interface FormulaPickerProps extends FormulaEditorProps {
+export interface FormulaPickerProps
+  extends Omit<FormulaEditorProps, 'variables'> {
   // 新的属性？
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
@@ -124,7 +129,13 @@ export interface FormulaPickerProps extends FormulaEditorProps {
   onRef?: (node: any) => void;
 
   popOverContainer?: any;
+
   useMobileUI?: boolean;
+
+  variables?:
+    | Array<VariableItem>
+    | string
+    | ((props: any) => Array<VariableItem>);
 }
 
 export interface FormulaPickerState {
@@ -155,7 +166,8 @@ export class FormulaPicker extends React.Component<
       isOpened: false,
       value: this.props.value!,
       editorValue: this.value2EditorValue(this.props),
-      isError: false
+      isError: false,
+      variables: Array.isArray(props.variables) ? props.variables : []
     };
   }
 
@@ -254,6 +266,19 @@ export class FormulaPicker extends React.Component<
 
   @autobind
   async handleClick() {
+    const {variables, data} = this.props;
+    if (typeof variables === 'function') {
+      const list = await variables(this.props);
+      this.setState({variables: list});
+    } else if (typeof variables === 'string' && isExpression(variables)) {
+      const result = await resolveVariableAndFilterForAsync(
+        variables,
+        data,
+        '|raw'
+      );
+      this.setState({variables: result});
+    }
+
     const state = {
       ...(await this.props.onPickerOpen?.(this.props)),
       editorValue: this.value2EditorValue(this.props),
@@ -328,7 +353,6 @@ export class FormulaPicker extends React.Component<
       icon,
       title,
       clearable,
-      variables,
       functions,
       children,
       variableMode,
@@ -405,7 +429,7 @@ export class FormulaPicker extends React.Component<
                       ? void 0
                       : FormulaEditor.highlightValue(
                           value,
-                          variables!,
+                          this.state.variables!,
                           this.props.evalMode
                         )
                   }
@@ -448,7 +472,7 @@ export class FormulaPicker extends React.Component<
                       ? void 0
                       : FormulaEditor.highlightValue(
                           value,
-                          variables!,
+                          this.state.variables!,
                           this.props.evalMode
                         )
                   }
@@ -485,7 +509,7 @@ export class FormulaPicker extends React.Component<
               <Editor
                 {...rest}
                 evalMode={mixedMode ? true : evalMode}
-                variables={this.state.variables ?? variables}
+                variables={this.state.variables}
                 functions={this.state.functions ?? functions}
                 variableMode={this.state.variableMode ?? variableMode}
                 value={editorValue}
@@ -516,7 +540,7 @@ export class FormulaPicker extends React.Component<
               <Editor
                 {...rest}
                 evalMode={mixedMode ? true : evalMode}
-                variables={this.state.variables ?? variables}
+                variables={this.state.variables}
                 functions={this.state.functions ?? functions}
                 variableMode={this.state.variableMode ?? variableMode}
                 value={editorValue}
