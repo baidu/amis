@@ -2579,10 +2579,6 @@ export default class Table extends React.Component<TableProps, object> {
       return null;
     }
 
-    // 不能取消到比总结行要少
-    // 否则总结行将显示不全
-    const min = Math.max(Array.isArray(affixRow) ? affixRow.length : 0, 1);
-
     return (
       <ColumnToggler
         {...rest}
@@ -2631,7 +2627,7 @@ export default class Table extends React.Component<TableProps, object> {
                 return;
               }
 
-              store.toggleAllColumns(min);
+              store.toggleAllColumns();
             }}
           >
             <Checkbox
@@ -2677,7 +2673,7 @@ export default class Table extends React.Component<TableProps, object> {
                 return;
               }
 
-              column.toggleToggle(min);
+              column.toggleToggle();
             }}
           >
             <Checkbox size="sm" classPrefix={ns} checked={column.toggled}>
