@@ -235,11 +235,11 @@ export class VariableManager {
   getPageVariablesOptions() {
     let options: Option[] = [];
 
-    const pageScope = this.dataSchema?.root.children?.filter(
-      item => item.tag === '页面变量'
-    )[0];
-    if (pageScope) {
-      options = pageScope.getDataPropsAsOptions();
+    const rootScope = this.dataSchema?.root;
+    if (rootScope) {
+      options = rootScope
+        .getDataPropsAsOptions()
+        .filter((item: any) => ['__query', '__page'].includes(item.value));
     }
     eachTree(options, item => {
       if (item.type === 'array') {
