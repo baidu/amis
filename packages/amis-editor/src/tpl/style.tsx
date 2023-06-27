@@ -593,7 +593,12 @@ setSchemaTpl('theme:size', (option: any = {}) => {
 
 setSchemaTpl(
   'theme:common',
-  (exclude: string[] | string, include: string[], collapsed?: boolean) => {
+  (option: {
+    exclude: string[] | string;
+    include: string[];
+    collapsed?: boolean;
+  }) => {
+    let {exclude, include, collapsed} = option || {};
     const curCollapsed = collapsed ?? false; // 默认都展开
     // key统一转换成Kebab case，eg: boxShadow => bos-shadow
     exclude = (
