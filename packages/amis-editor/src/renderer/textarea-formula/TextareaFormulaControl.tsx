@@ -163,10 +163,6 @@ export class TextareaFormulaControl extends React.Component<
       async () => {
         this.appLocale = editorStore?.appLocale;
         this.appCorpusData = editorStore?.appCorpusData;
-        const variablesArr = await getVariables(this);
-        this.setState({
-          variables: variablesArr
-        });
       }
     );
 
