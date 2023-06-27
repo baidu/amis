@@ -1,3 +1,4 @@
+import omit from 'lodash/omit';
 import {Api, ApiObject} from '../types';
 import {normalizeApiResponseData} from '../utils/api';
 import {ServerError} from '../utils/errors';
@@ -52,19 +53,13 @@ export class AjaxAction implements RendererAction {
 
     const env = event.context.env;
     try {
-      let result = null;
-      if (typeof action.args?.api === 'string') {
-        result = await env.fetcher(
-          action.args?.api,
-          action.data ?? {},
-          action.args?.options ?? {}
-        );
-      } else {
-        const data = (action.args?.api as ApiObject)?.data ?? action.data ?? {};
-        const api = {...((action.args?.api as ApiObject) ?? {})};
-        delete api?.data;
-        result = await env.fetcher(api, data, action.args?.options ?? {});
-      }
+      const result = await env.fetcher(
+        typeof action.args?.api === 'string'
+          ? action.args.api
+          : omit(action.args.api, 'data'),
+        (action.args?.api as any)?.data ?? action.data ?? {},
+        action.args?.options ?? {}
+      );
       const responseData =
         !isEmpty(result.data) || result.ok
           ? normalizeApiResponseData(result.data)
