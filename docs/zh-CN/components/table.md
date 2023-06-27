@@ -1898,3 +1898,339 @@ popOver 的其它配置请参考 [popover](./popover)
 | selectAll | -                                                                                                                | 设置表格全部项选中   |
 | clearAll  | -                                                                                                                | 清空表格所有选中项   |
 | initDrag  | -                                                                                                                | 开启表格拖拽排序功能 |
+| setValue  | `value: object`                                                                                                  | 更新列表记录         |
+
+value 结构说明：
+
+| 属性名        | 类型     | 默认值 | 说明     |
+| ------------- | -------- | ------ | -------- |
+| items 或 rows | `item[]` |        | 列表记录 |
+
+### select
+
+```schema: scope="body"
+[
+    {
+    "type": "button-toolbar",
+    "className": "m-b",
+    "buttons": [
+    {
+        "name": "trigger1",
+        "id": "trigger1",
+        "type": "action",
+        "label": "设置表格第一项选中",
+        "onEvent": {
+        "click": {
+            "actions": [
+            {
+                "actionType": "select",
+                "componentId": "table-select",
+                "description": "点击设置指定表格第一项内容选中",
+                "args": {
+                "selected": "data.rowIndex === 0"
+                }
+            }
+            ]
+        }
+        }
+    }
+    ]
+},
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+    {
+        "id": "table-select",
+        "type": "table",
+        "source": "$rows",
+        "selectable": true,
+        "multiple": true,
+        "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "version",
+            "label": "Version"
+        }
+        ]
+    }
+    ]
+}
+]
+```
+
+### selectAll
+
+```schema: scope="body"
+[
+    {
+    "type": "button-toolbar",
+    "className": "m-b",
+    "buttons": [
+    {
+        "name": "trigger2",
+        "id": "trigger2",
+        "type": "action",
+        "label": "设置表格全部项选中",
+        "onEvent": {
+        "click": {
+            "actions": [
+            {
+                "actionType": "selectAll",
+                "componentId": "table-select",
+                "description": "点击设置指定表格全部内容选中"
+            }
+            ]
+        }
+        }
+    }
+    ]
+},
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+    {
+        "id": "table-select",
+        "type": "table",
+        "source": "$rows",
+        "selectable": true,
+        "multiple": true,
+        "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "version",
+            "label": "Version"
+        }
+        ]
+    }
+    ]
+}
+]
+```
+
+### clearAll
+
+```schema: scope="body"
+[
+    {
+    "type": "button-toolbar",
+    "className": "m-b",
+    "buttons": [
+    {
+        "name": "trigger3",
+        "id": "trigger3",
+        "type": "action",
+        "label": "清空表格全部选中项",
+        "onEvent": {
+        "click": {
+            "actions": [
+            {
+                "actionType": "clearAll",
+                "componentId": "table-select",
+                "description": "点击设置指定表格全部选中项清空"
+            }
+            ]
+        }
+        }
+    }
+    ]
+},
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+    {
+        "id": "table-select",
+        "type": "table",
+        "source": "$rows",
+        "selectable": true,
+        "multiple": true,
+        "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "version",
+            "label": "Version"
+        }
+        ]
+    }
+    ]
+}
+]
+```
+
+### initDrag
+
+```schema: scope="body"
+[
+    {
+    "type": "button-toolbar",
+    "className": "m-b",
+    "buttons": [
+    {
+        "name": "trigger4",
+        "id": "trigger4",
+        "type": "action",
+        "label": "开启表格行排序",
+        "onEvent": {
+        "click": {
+            "actions": [
+            {
+                "actionType": "initDrag",
+                "componentId": "table-select",
+                "description": "点击开启表格行排序功能"
+            }
+            ]
+        }
+        }
+    }
+    ]
+},
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+    {
+        "id": "table-select",
+        "type": "table",
+        "source": "$rows",
+        "selectable": true,
+        "multiple": true,
+        "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "version",
+            "label": "Version"
+        }
+        ]
+    }
+    ]
+}
+]
+```
+
+### setValue
+
+```schema: scope="body"
+[
+    {
+      "type": "button",
+      "label": "更新列表记录",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "table_setvalue",
+              "args": {
+                "value": {
+                  "items": [
+                    {
+                        "engine": "Trident - f12fj",
+                        "browser": "Internet Explorer 4.0",
+                        "platform": "Win 95+",
+                        "version": "4",
+                        "grade": "X",
+                        "badgeText": "默认",
+                        "id": 1
+                    },
+                    {
+                        "engine": "Trident - oqvc0e",
+                        "browser": "Internet Explorer 5.0",
+                        "platform": "Win 95+",
+                        "version": "5",
+                        "grade": "C",
+                        "badgeText": "危险",
+                        "id": 2
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "button",
+      "label": "清空列表",
+      "className": "ml-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "table_setvalue",
+              "args": {
+                "value": {
+                  "items": []
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "service",
+      "id": "u:b25a8ef0050b",
+      "api": {
+        "method": "get",
+        "url": "/api/mock2/sample?perPage=5"
+      },
+      "body": [
+        {
+          "type": "table",
+          "id": "table_setvalue",
+          "title": "引擎列表",
+          "source": "$rows",
+          "columns": [
+            {
+              "name": "engine",
+              "label": "Engine",
+              "id": "u:4aa2e9034698",
+              "inline": true
+            },
+            {
+              "name": "version",
+              "label": "Version",
+              "id": "u:8b4cb96ca2bf",
+              "inline": true,
+              "tpl": "v${version}"
+            }
+          ],
+          "selectable": true,
+          "multiple": true
+        }
+      ]
+    }
+]
+```
