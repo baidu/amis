@@ -619,10 +619,11 @@ export class TreeSelector extends React.Component<
           const result = [] as Option[];
 
           for (let option of this.state.flattenedOptions) {
+            result.push(option);
             if (option === parent) {
-              result.push({...option, isAdding: true});
-            } else {
-              result.push(option);
+              const insert = {isAdding: true};
+              this.levels.set(insert, (this.levels.get(option) || 0) + 1);
+              result.push(insert);
             }
           }
           this.setState({flattenedOptions: result});
@@ -888,12 +889,12 @@ export class TreeSelector extends React.Component<
         if (!isVisible(item)) {
           return;
         }
+        this.levels.set(item, level);
         if (paths.length === 0) {
           // 父节点
           flattenedOptions.push(item);
         } else if (this.isUnfolded(parent)) {
           this.relations.set(item, parent);
-          this.levels.set(item, level);
           // 父节点是展开的状态
           flattenedOptions.push(item);
         }
@@ -1125,7 +1126,9 @@ export class TreeSelector extends React.Component<
     if (isEditing && editingItem === item) {
       body = this.renderInput(checkbox);
     } else if (item.isAdding) {
-      body = this.renderInput(checkbox);
+      body = this.renderInput(
+        <span className={cx('Tree-itemArrowPlaceholder')} />
+      );
     } else {
       body = (
         <div
@@ -1275,8 +1278,7 @@ export class TreeSelector extends React.Component<
         })}
         style={{
           ...style,
-          left: `calc(${level} * var(--Tree-indent))`,
-          width: `calc(100% - ${level} * var(--Tree-indent))`
+          paddingLeft: `calc(${level} * var(--Tree-indent))`
         }}
       >
         {body}
