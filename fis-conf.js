@@ -85,9 +85,9 @@ fis.match('/mock/**', {
   useCompile: false
 });
 
-fis.match('mod.js', {
-  useCompile: false
-});
+// fis.match('mod.js', {
+//   useCompile: false
+// });
 
 fis.match('*.scss', {
   parser: fis.plugin('sass', {
@@ -534,7 +534,12 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
       'barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
 
-      'charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**', 'echarts-wordcloud/**'],
+      'charts.js': [
+        'zrender/**',
+        'echarts/**',
+        'echarts-stat/**',
+        'echarts-wordcloud/**'
+      ],
 
       'ooxml-viewer.js': ['ooxml-viewer/**', 'fflate/**'],
 
@@ -838,7 +843,12 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
       'pkg/cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
 
-      'pkg/charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**', 'echarts-wordcloud/**'],
+      'pkg/charts.js': [
+        'zrender/**',
+        'echarts/**',
+        'echarts-stat/**',
+        'echarts-wordcloud/**'
+      ],
 
       'pkg/api-mock.js': ['mock/*.ts'],
 
