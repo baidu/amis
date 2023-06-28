@@ -472,6 +472,11 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
           });
           // 最多展示3个
           showSchedule = showSchedule.slice(0, 3);
+
+          const locale = this.props.viewDate.localeData();
+          // 以周几作为一周的开始，0表示周日，1表示周一
+          const firstDayOfWeek = locale.firstDayOfWeek();
+
           const scheduleDiv = showSchedule.map((item: any, index: number) => {
             let diffDays = moment(item.endTime).diff(
               moment(item.startTime),
@@ -486,9 +491,9 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
             /* 前面的计算结果是闭区间，所以最终结果要补足1 */
             diffDays += 1;
 
-            const width =
-              item.width ||
-              Math.min(diffDays, 7 - moment(item.startTime).weekday());
+            const endWidth =
+              7 - (moment(item.startTime).weekday() - firstDayOfWeek + 1);
+            const width = item.width || Math.min(diffDays, endWidth) || 1;
 
             return (
               <div
