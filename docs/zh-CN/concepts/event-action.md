@@ -377,57 +377,55 @@ run action ajax
           actions: [
             {
               actionType: 'dialog',
-              args: {
-                dialog: {
-                  type: 'dialog',
-                  title: '模态弹窗',
-                  id: 'dialog_001',
-                  data: {
-                    myage: '22'
+              dialog: {
+                type: 'dialog',
+                title: '模态弹窗',
+                id: 'dialog_001',
+                data: {
+                  myage: '22'
+                },
+                body: [
+                  {
+                    type: 'tpl',
+                    tpl: '<p>对，你打开了模态弹窗</p>',
+                    inline: false
                   },
-                  body: [
-                    {
-                      type: 'tpl',
-                      tpl: '<p>对，你打开了模态弹窗</p>',
-                      inline: false
-                    },
-                    {
-                      type: 'input-text',
-                      name: 'myname',
-                      mode: 'horizontal',
-                      onEvent: {
-                        change: {
-                          actions: [
-                            {
-                              actionType: 'confirm',
-                              componentId: 'dialog_001'
-                            }
-                          ]
-                        }
+                  {
+                    type: 'input-text',
+                    name: 'myname',
+                    mode: 'horizontal',
+                    onEvent: {
+                      change: {
+                        actions: [
+                          {
+                            actionType: 'confirm',
+                            componentId: 'dialog_001'
+                          }
+                        ]
                       }
                     }
-                  ],
-                  onEvent: {
-                    confirm: {
-                      actions: [
-                        {
-                          actionType: 'toast',
-                          args: {
-                            msg: 'confirm'
-                          }
+                  }
+                ],
+                onEvent: {
+                  confirm: {
+                    actions: [
+                      {
+                        actionType: 'toast',
+                        args: {
+                          msg: 'confirm'
                         }
-                      ]
-                    },
-                    cancel: {
-                      actions: [
-                        {
-                          actionType: 'toast',
-                          args: {
-                            msg: 'cancel'
-                          }
+                      }
+                    ]
+                  },
+                  cancel: {
+                    actions: [
+                      {
+                        actionType: 'toast',
+                        args: {
+                          msg: 'cancel'
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 }
               }
@@ -440,9 +438,7 @@ run action ajax
 }
 ```
 
-**动作属性（args）**
-
-> `< 2.3.2 及以下版本`，以下属性与 args 同级。
+**动作属性**
 
 | 属性名 | 类型                    | 默认值 | 说明                                                      |
 | ------ | ----------------------- | ------ | --------------------------------------------------------- |
@@ -466,63 +462,59 @@ run action ajax
           actions: [
             {
               actionType: 'dialog',
-              args: {
-                dialog: {
-                  type: 'dialog',
-                  id: 'dialog_002',
-                  title: '模态弹窗',
-                  body: [
-                    {
-                      type: 'button',
-                      label: '打开子弹窗，然后关闭它的父亲',
-                      onEvent: {
-                        click: {
-                          actions: [
-                            {
-                              actionType: 'dialog',
-                              args: {
-                                dialog: {
-                                  type: 'dialog',
-                                  title: '模态子弹窗',
-                                  body: [
-                                    {
-                                      type: 'button',
-                                      label: '关闭指定弹窗（关闭父弹窗）',
-                                      onEvent: {
-                                        click: {
-                                          actions: [
-                                            {
-                                              actionType: 'closeDialog',
-                                              componentId: 'dialog_002'
-                                            }
-                                          ]
+              dialog: {
+                type: 'dialog',
+                id: 'dialog_002',
+                title: '模态弹窗',
+                body: [
+                  {
+                    type: 'button',
+                    label: '打开子弹窗，然后关闭它的父亲',
+                    onEvent: {
+                      click: {
+                        actions: [
+                          {
+                            actionType: 'dialog',
+                            dialog: {
+                              type: 'dialog',
+                              title: '模态子弹窗',
+                              body: [
+                                {
+                                  type: 'button',
+                                  label: '关闭指定弹窗（关闭父弹窗）',
+                                  onEvent: {
+                                    click: {
+                                      actions: [
+                                        {
+                                          actionType: 'closeDialog',
+                                          componentId: 'dialog_002'
                                         }
-                                      }
+                                      ]
                                     }
-                                  ]
+                                  }
                                 }
-                              }
+                              ]
                             }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      type: 'button',
-                      label: '关闭当前弹窗',
-                      className: 'ml-2',
-                      onEvent: {
-                        click: {
-                          actions: [
-                            {
-                              actionType: 'closeDialog'
-                            }
-                          ]
-                        }
+                          }
+                        ]
                       }
                     }
-                  ]
-                }
+                  },
+                  {
+                    type: 'button',
+                    label: '关闭当前弹窗',
+                    className: 'ml-2',
+                    onEvent: {
+                      click: {
+                        actions: [
+                          {
+                            actionType: 'closeDialog'
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -557,38 +549,36 @@ run action ajax
           actions: [
             {
               actionType: 'drawer',
-              args: {
-                drawer: {
-                  type: 'drawer',
-                  title: '模态抽屉',
-                  body: [
-                    {
-                      type: 'tpl',
-                      tpl: '<p>对，你打开了模态抽屉</p>',
-                      inline: false
-                    }
-                  ],
-                  onEvent: {
-                    confirm: {
-                      actions: [
-                        {
-                          actionType: 'toast',
-                          args: {
-                            msg: 'confirm'
-                          }
+              drawer: {
+                type: 'drawer',
+                title: '模态抽屉',
+                body: [
+                  {
+                    type: 'tpl',
+                    tpl: '<p>对，你打开了模态抽屉</p>',
+                    inline: false
+                  }
+                ],
+                onEvent: {
+                  confirm: {
+                    actions: [
+                      {
+                        actionType: 'toast',
+                        args: {
+                          msg: 'confirm'
                         }
-                      ]
-                    },
-                    cancel: {
-                      actions: [
-                        {
-                          actionType: 'toast',
-                          args: {
-                            msg: 'cancel'
-                          }
+                      }
+                    ]
+                  },
+                  cancel: {
+                    actions: [
+                      {
+                        actionType: 'toast',
+                        args: {
+                          msg: 'cancel'
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 }
               }
@@ -601,9 +591,7 @@ run action ajax
 }
 ```
 
-**动作属性（args）**
-
-> `< 2.3.2 及以下版本`，以下属性与 args 同级。
+**动作属性**
 
 | 属性名 | 类型                    | 默认值 | 说明                                                      |
 | ------ | ----------------------- | ------ | --------------------------------------------------------- |
@@ -626,63 +614,59 @@ run action ajax
           actions: [
             {
               actionType: 'drawer',
-              args: {
-                drawer: {
-                  type: 'drawer',
-                  id: 'drawer_1',
-                  title: '模态抽屉',
-                  body: [
-                    {
-                      type: 'button',
-                      label: '打开子抽屉，然后关闭它的父亲',
-                      onEvent: {
-                        click: {
-                          actions: [
-                            {
-                              actionType: 'drawer',
-                              args: {
-                                drawer: {
-                                  type: 'drawer',
-                                  title: '模态子抽屉',
-                                  body: [
-                                    {
-                                      type: 'button',
-                                      label: '关闭指定抽屉(关闭父抽屉)',
-                                      onEvent: {
-                                        click: {
-                                          actions: [
-                                            {
-                                              actionType: 'closeDrawer',
-                                              componentId: 'drawer_1'
-                                            }
-                                          ]
+              drawer: {
+                type: 'drawer',
+                id: 'drawer_1',
+                title: '模态抽屉',
+                body: [
+                  {
+                    type: 'button',
+                    label: '打开子抽屉，然后关闭它的父亲',
+                    onEvent: {
+                      click: {
+                        actions: [
+                          {
+                            actionType: 'drawer',
+                            drawer: {
+                              type: 'drawer',
+                              title: '模态子抽屉',
+                              body: [
+                                {
+                                  type: 'button',
+                                  label: '关闭指定抽屉(关闭父抽屉)',
+                                  onEvent: {
+                                    click: {
+                                      actions: [
+                                        {
+                                          actionType: 'closeDrawer',
+                                          componentId: 'drawer_1'
                                         }
-                                      }
+                                      ]
                                     }
-                                  ]
+                                  }
                                 }
-                              }
+                              ]
                             }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      type: 'button',
-                      label: '关闭当前抽屉',
-                      className: 'ml-2',
-                      onEvent: {
-                        click: {
-                          actions: [
-                            {
-                              actionType: 'closeDrawer'
-                            }
-                          ]
-                        }
+                          }
+                        ]
                       }
                     }
-                  ]
-                }
+                  },
+                  {
+                    type: 'button',
+                    label: '关闭当前抽屉',
+                    className: 'ml-2',
+                    onEvent: {
+                      click: {
+                        actions: [
+                          {
+                            actionType: 'closeDrawer'
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -1672,9 +1656,7 @@ run action ajax
 }
 ```
 
-**动作属性（args）**
-
-> `< 2.3.2 及以下版本`，以下属性与 args 同级。
+**动作属性**
 
 | 属性名 | 类型                | 默认值 | 说明                                                                                                                                            |
 | ------ | ------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
