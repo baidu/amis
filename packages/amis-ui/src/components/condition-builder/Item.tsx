@@ -248,7 +248,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
               >
                 {!isMobile() ? (
                   <span className={cx('CBGroup-operatorCaret')}>
-                    <Icon icon="caret" className="icon" />
+                    <Icon icon="right-arrow-bold" className="icon" />
                   </span>
                 ) : null}
               </ResultBox>
