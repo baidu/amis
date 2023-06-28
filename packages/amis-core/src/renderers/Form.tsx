@@ -661,7 +661,7 @@ export default class Form extends React.Component<FormProps, object> {
     const {data, store, dispatchEvent} = this.props;
 
     if (store.fetching) {
-      return;
+      return value;
     }
 
     // 派发init事件，参数为初始化数据
@@ -810,7 +810,8 @@ export default class Form extends React.Component<FormProps, object> {
     const {interval, silentPolling, stopAutoRefreshWhen, data} = this.props;
 
     clearTimeout(this.timer);
-    interval &&
+    value?.ok &&
+      interval &&
       this.mounted &&
       (!stopAutoRefreshWhen || !evalExpression(stopAutoRefreshWhen, data)) &&
       (this.timer = setTimeout(

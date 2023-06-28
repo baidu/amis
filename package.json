@@ -94,7 +94,6 @@
   "jest": {
     "verbose": true,
     "testEnvironment": "jsdom",
-    "collectCoverage": true,
     "coverageReporters": [
       "text",
       "cobertura"

@@ -531,7 +531,7 @@ export default class Service extends React.Component<ServiceProps> {
       onBulkChange(data);
     }
 
-    this.initInterval(data);
+    result?.ok && this.initInterval(data);
   }
 
   afterSchemaFetch(schema: any) {
