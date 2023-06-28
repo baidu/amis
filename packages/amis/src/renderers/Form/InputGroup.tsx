@@ -120,6 +120,9 @@ export class InputGroup extends React.Component<
     }
 
     const chidren = formStore?.inputGroupItems?.[name];
+    if (!Array.isArray(chidren)) {
+      return;
+    }
     const errorCollection = chidren
       .map((item, index) => {
         if (item.errors.length <= 0) {

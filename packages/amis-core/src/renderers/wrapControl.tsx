@@ -423,6 +423,7 @@ export function wrapControl<
                       ? 'formInited'
                       : 'dataChanged'
                   );
+                  this.checkValidate();
                 }
               }
             }
@@ -513,32 +514,44 @@ export function wrapControl<
             }
           }
 
+          checkValidate() {
+            if (!this.model) return; // 如果 model 为 undefined 则直接返回
+            const validated = this.model.validated;
+            const {formSubmited, validateOnChange} = this.props;
+
+            if (
+              // 如果配置了 minLength 或者 maxLength 就切成及时验证
+              // this.model.rules.minLength ||
+              // this.model.rules.maxLength ||
+              validateOnChange === true ||
+              (validateOnChange !== false && (formSubmited || validated))
+            ) {
+              this.validate();
+            } else if (validateOnChange === false) {
+              this.model?.reset();
+            }
+          }
+
           async validate() {
+            if (!this.model) return;
             const {formStore: form, data, formItemDispatchEvent} = this.props;
             let result;
-            if (this.model) {
-              if (
-                this.model.unique &&
-                form?.parentStore &&
-                form.parentStore.storeType === ComboStore.name
-              ) {
-                const combo = form.parentStore as IComboStore;
-                const group = combo.uniques.get(
-                  this.model.name
-                ) as IUniqueGroup;
-                const validPromises = group.items.map(item =>
-                  item.validate(data)
-                );
-                result = await Promise.all(validPromises);
-              } else {
-                const validPromises = form
-                  ?.getItemsByName(this.model.name)
-                  .map(item => item.validate(data));
-                if (validPromises && validPromises.length) {
-                  result = await Promise.all(validPromises);
-                }
-              }
+
+            if (
+              this.model.unique &&
+              form?.parentStore &&
+              form.parentStore.storeType === ComboStore.name
+            ) {
+              const combo = form.parentStore as IComboStore;
+              const group = combo.uniques.get(this.model.name) as IUniqueGroup;
+              const validPromises = group.items.map(item =>
+                item.validate(data)
+              );
+              result = await Promise.all(validPromises);
+            } else {
+              result = [await this.model.validate(data)];
             }
+
             if (result && result.length) {
               if (result.indexOf(false) > -1) {
                 formItemDispatchEvent('formItemValidateError', data);
@@ -655,20 +668,8 @@ export function wrapControl<
               return;
             }
 
-            const validated = this.model.validated;
             onChange?.(value, name!, submitOnChange === true);
-
-            if (
-              // 如果配置了 minLength 或者 maxLength 就切成及时验证
-              // this.model.rules.minLength ||
-              // this.model.rules.maxLength ||
-              validateOnChange === true ||
-              (validateOnChange !== false && (formSubmited || validated))
-            ) {
-              this.validate();
-            } else if (validateOnChange === false) {
-              this.model?.reset();
-            }
+            this.checkValidate();
           }
 
           handleBlur(e: any) {
