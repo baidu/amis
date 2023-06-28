@@ -214,6 +214,9 @@ fis.match('{*.ts,*.jsx,*.tsx,/examples/**.js,/src/**.js,/src/**.ts}', {
   isMod: true,
   rExt: '.js'
 });
+fis.match('/examples/mod.js', {
+  isMod: false
+});
 
 fis.match('markdown-it/**', {
   preprocessor: fis.plugin('js-require-file')
