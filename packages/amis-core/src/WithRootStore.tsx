@@ -25,6 +25,20 @@ export function withRootStore<
       })`;
       static contextType = RootStoreContext;
       static ComposedComponent = ComposedComponent as React.ComponentType<T>;
+      ref: any;
+
+      constructor(props: OuterProps) {
+        super(props);
+        this.refFn = this.refFn.bind(this);
+      }
+
+      getWrappedInstance() {
+        return this.ref.control;
+      }
+
+      refFn(ref: any) {
+        this.ref = ref;
+      }
 
       render() {
         const rootStore: IRendererStore = this.context as any;
@@ -41,6 +55,7 @@ export function withRootStore<
               React.ComponentProps<T>
             > as any)}
             {...injectedProps}
+            ref={this.refFn}
           />
         );
       }
