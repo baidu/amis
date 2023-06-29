@@ -9,10 +9,11 @@ import {
 
 export interface IDrawerAction extends ListenerAction {
   actionType: 'drawer';
+  // 兼容历史，保留。不建议用args
   args: {
     drawer: SchemaNode;
   };
-  drawer?: SchemaNode; // 兼容历史
+  drawer?: SchemaNode;
 }
 
 /**
@@ -32,7 +33,7 @@ export class DrawerAction implements RendererAction {
       event,
       {
         actionType: 'drawer',
-        drawer: action.args?.drawer || action.drawer,
+        drawer: action.drawer ?? action.args?.drawer,
         reload: 'none'
       },
       action.data

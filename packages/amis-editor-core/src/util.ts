@@ -1214,7 +1214,7 @@ export const updateComponentContext = (variables: any[]) => {
         ...child,
         label:
           index === 0
-            ? `当前数据域${child.label ? '(' + child.label + ')' : ''}`
+            ? `当前层${child.label ? '(' + child.label + ')' : ''}`
             : `上${index}层${child.label ? '(' + child.label + ')' : ''}`
       }))
     });
