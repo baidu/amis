@@ -13,7 +13,7 @@ export class OfficeViewerPlugin extends BasePlugin {
   name = '文档预览';
   isBaseComponent = true;
   description = 'Office 文档预览';
-  docLink = '/amis/zh-CN/components/OfficeViewer';
+  docLink = '/amis/zh-CN/components/office-viewer';
   tags = ['展示'];
   icon = 'fa fa-file-word';
   pluginIcon = 'officeViewer-plugin';
