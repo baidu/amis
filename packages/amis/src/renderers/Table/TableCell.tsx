@@ -81,9 +81,6 @@ export class TableCell extends React.Component<TableCellProps> {
       delete schema.label;
     }
 
-    const {page, perPage} = rest.query;
-    const {rowIndex} = rest;
-
     let body = children
       ? children
       : render('field', schema, {
@@ -93,7 +90,9 @@ export class TableCell extends React.Component<TableCellProps> {
           /** value没有返回值时设置默认值，避免错误获取到父级数据域的值 */
           value: canAccessSuperData ? value : value ?? '',
           data,
-          tableCellRegion: `${page}${perPage}${rowIndex}${colIndex}`
+          tableCellRegion: `${rest?.query?.page}${rest?.query?.perPage ?? ''} ${
+            rest?.rowIndex
+          }${colIndex}`
         });
 
     if (width) {
