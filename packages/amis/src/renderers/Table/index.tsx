@@ -385,7 +385,7 @@ export interface TableProps extends RendererProps, SpinnerExtraProps {
     }
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
-  onQuery: (values: object) => void;
+  onQuery?: (values: object) => any;
   onImageEnlarge?: (data: any, target: any) => void;
   buildItemProps?: (item: any, index: number) => any;
   checkOnItemClick?: boolean;
@@ -579,7 +579,8 @@ export default class Table extends React.Component<TableProps, object> {
       expandConfig,
       formItem,
       keepItemSelectionOnPageChange,
-      maxKeepItemSelectionLength
+      maxKeepItemSelectionLength,
+      onQuery
     } = props;
 
     let combineNum = props.combineNum;
@@ -595,7 +596,7 @@ export default class Table extends React.Component<TableProps, object> {
       draggable,
       columns,
       columnsTogglable,
-      orderBy,
+      orderBy: onQuery ? orderBy : undefined,
       orderDir,
       multiple,
       footable,
@@ -813,7 +814,7 @@ export default class Table extends React.Component<TableProps, object> {
         selectable: props.selectable,
         columnsTogglable: props.columnsTogglable,
         draggable: props.draggable,
-        orderBy: props.orderBy,
+        orderBy: props.onQuery ? props.orderBy : undefined,
         orderDir: props.orderDir,
         multiple: props.multiple,
         primaryField: props.primaryField,
@@ -2075,13 +2076,15 @@ export default class Table extends React.Component<TableProps, object> {
               return;
             }
 
-            store.setOrderByInfo(orderBy, order);
-
-            onQuery &&
+            if (
+              !onQuery ||
               onQuery({
-                orderBy: store.orderBy,
-                orderDir: store.orderDir
-              });
+                orderBy: orderBy,
+                orderDir: order
+              }) === false
+            ) {
+              store.changeOrder(orderBy, order);
+            }
           }}
         >
           <i
@@ -2115,7 +2118,7 @@ export default class Table extends React.Component<TableProps, object> {
         </span>
       );
     }
-    if (!column.searchable && column.filterable && column.name) {
+    if (!column.searchable && column.filterable && column.name && onQuery) {
       affix.push(
         <HeadCellFilterDropDown
           key="table-head-filter"
@@ -2303,7 +2306,8 @@ export default class Table extends React.Component<TableProps, object> {
       showBadge:
         !props.isHead &&
         itemBadge &&
-        store.firstToggledColumnIndex === props.colIndex
+        store.firstToggledColumnIndex === props.colIndex,
+      onQuery: undefined
     };
     delete subProps.label;
 

@@ -1273,12 +1273,13 @@ export const bulkBindFunctions = function <
 export function sortArray<T extends any>(
   items: Array<T>,
   field: string,
-  dir: -1 | 1
+  dir: -1 | 1,
+  fieldGetter?: (item: T, field: string) => any
 ): Array<T> {
   return items.sort((a: any, b: any) => {
     let ret: number;
-    const a1 = a[field];
-    const b1 = b[field];
+    const a1 = fieldGetter ? fieldGetter(a, field) : a[field];
+    const b1 = fieldGetter ? fieldGetter(b, field) : b[field];
 
     if (typeof a1 === 'number' && typeof b1 === 'number') {
       ret = a1 < b1 ? -1 : a1 === b1 ? 0 : 1;
