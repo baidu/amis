@@ -853,7 +853,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       env.confirm &&
       (confirmText = filter(action.confirmText, ctx))
     ) {
-      env.confirm(confirmText).then((confirmed: boolean) => confirmed && fn());
+      env
+        .confirm(confirmText, filter(action.confirmTitle, ctx) || undefined)
+        .then((confirmed: boolean) => confirmed && fn());
     } else {
       fn();
     }
