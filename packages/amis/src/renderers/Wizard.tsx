@@ -237,6 +237,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     'startStep'
   ];
 
+  static circularEventAction: {[eventName: string]: string} = {
+    inited: 'reload'
+  };
+
   dom: any;
   form: any;
   asyncCancel: () => void;
@@ -388,7 +392,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
     const rendererEvent = await dispatchEvent(
       action,
-      value ? createObject(data, value) : data
+      value ? createObject(data, value) : data,
+      this
     );
 
     return rendererEvent?.prevented ?? false;

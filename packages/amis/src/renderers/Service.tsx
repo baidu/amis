@@ -174,6 +174,11 @@ export default class Service extends React.Component<ServiceProps> {
 
   static propsList: Array<string> = [];
 
+  static circularEventAction: {[eventName: string]: string} = {
+    fetchInited: 'reload',
+    fetchSchemaInited: 'reload'
+  };
+
   constructor(props: ServiceProps) {
     super(props);
 
@@ -524,7 +529,8 @@ export default class Service extends React.Component<ServiceProps> {
         responseStatus:
           result?.status === undefined ? (store.error ? 1 : 0) : result?.status,
         responseMsg: store.msg
-      })
+      }),
+      this
     );
 
     if (!isEmpty(data) && onBulkChange) {
@@ -537,14 +543,18 @@ export default class Service extends React.Component<ServiceProps> {
   afterSchemaFetch(schema: any) {
     const {onBulkChange, formStore, dispatchEvent, store} = this.props;
 
-    dispatchEvent?.('fetchSchemaInited', {
-      ...schema,
-      __response: {msg: store.msg, error: store.error}, // 保留，兼容历史
-      responseData: schema,
-      responseStatus:
-        schema?.status === undefined ? (store.error ? 1 : 0) : schema?.status,
-      responseMsg: store.msg
-    });
+    dispatchEvent?.(
+      'fetchSchemaInited',
+      {
+        ...schema,
+        __response: {msg: store.msg, error: store.error}, // 保留，兼容历史
+        responseData: schema,
+        responseStatus:
+          schema?.status === undefined ? (store.error ? 1 : 0) : schema?.status,
+        responseMsg: store.msg
+      },
+      this
+    );
 
     if (formStore && schema?.data && onBulkChange) {
       onBulkChange && onBulkChange(schema.data);
