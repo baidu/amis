@@ -183,6 +183,9 @@ export interface MenuProps extends Omit<RcMenuProps, 'mode'> {
   // (link: any, depth: number) => boolean
   onSelect?: any;
 
+  // (links: any[]) => void
+  onChange?: any;
+
   onToggle: (link: any, depth: number, forceFold?: boolean) => void;
 
   onDragStart?: (
@@ -265,7 +268,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   constructor(props: MenuProps) {
     super(props);
 
-    const {transformedNav, activeKey, defaultOpenKeys, openKeys} =
+    const {transformedNav, activeKey, defaultOpenKeys, openKeys, activeItems} =
       this.normalizeNavigations({
         ...props
       });
@@ -276,6 +279,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       defaultOpenKeys,
       openKeys
     };
+    if (activeKey.length) {
+      props.onChange?.(activeItems);
+    }
   }
 
   componentDidUpdate(prevProps: MenuProps, prevState: MenuState) {
@@ -298,18 +304,27 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       }
     }
     if (isNavDiff || !isEqual(prevProps.location, props.location)) {
-      const {transformedNav, activeKey, defaultOpenKeys, openKeys} =
-        this.normalizeNavigations({
-          ...props,
-          isOpen
-        });
+      const {
+        transformedNav,
+        activeKey,
+        defaultOpenKeys,
+        openKeys,
+        activeItems
+      } = this.normalizeNavigations({
+        ...props,
+        isOpen
+      });
 
       this.setState({
         navigations: transformedNav,
         activeKey,
         defaultOpenKeys,
-        openKeys
+        openKeys,
+        activeItems
       });
+    }
+    if (!isEqual(prevState.activeKey, this.state.activeKey)) {
+      props.onChange?.(this.state.activeItems);
     }
   }
 
@@ -327,6 +342,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     let id = 1;
     const activeKeys: Array<string> = [];
     const openKeys: Array<string> = [];
+    const activeItems: Array<any> = [];
 
     const transformedNav = mapTree(
       filterTree(
@@ -350,6 +366,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
         if (!activeKeys.find(key => key === navId) && isActive(item, prefix)) {
           activeKeys?.push(navId);
+          activeItems?.push(item.link || item);
         }
 
         const open = isOpen(item as NavigationItem);
@@ -382,7 +399,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       transformedNav,
       activeKey: activeKeys,
       defaultOpenKeys: activeKeyPaths,
-      openKeys
+      openKeys,
+      activeItems
     };
   }
 
@@ -443,7 +461,15 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     props: SubMenuProps;
   }) {
     const {navigations} = this.state;
-    const {stacked, mode, collapsed, accordion, onSelect} = this.props;
+    const {
+      stacked,
+      mode,
+      collapsed,
+      accordion,
+      onToggle,
+      onToggleExpand,
+      onSelect
+    } = this.props;
     const isVericalInline = stacked && mode === 'inline' && !collapsed;
 
     let openKeys = this.state.openKeys.concat();
@@ -460,7 +486,13 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     }
 
     const currentItem = findTree(navigations, item => item.id === key);
-    onSelect?.(currentItem?.link || currentItem, keyPaths.length);
+    if (currentItem?.path) {
+      onSelect?.(currentItem?.link || currentItem, keyPaths.length);
+    } else {
+      // 因为Nav里只处理当前菜单项 因此新增一个onToggle事件
+      onToggle?.(currentItem?.link, keyPaths.length, isOpen);
+      onToggleExpand?.(uniq(openKeys));
+    }
   }
 
   @autobind
@@ -493,7 +525,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       }
       const currentItem = findTree(navigations, item => item.id === eventKey);
       // 因为Nav里只处理当前菜单项 因此新增一个onToggle事件
-      onToggle?.(currentItem?.link, keyPaths.length, isOpen);
+      onToggle?.(currentItem?.link || currentItem, keyPaths.length, isOpen);
       onToggleExpand?.(uniq(openKeys));
     }
   }
@@ -507,6 +539,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     [propName: string]: any;
   }) {
     const {classnames: cx, expandIcon} = this.props;
+
     return (
       <span
         key="expand-toggle"
@@ -516,10 +549,13 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           e.preventDefault();
         }}
       >
-        {!expandIcon || !React.isValidElement(expandIcon) ? (
-          <Icon icon="right-arrow-bold" className="icon" />
-        ) : typeof expandIcon === 'string' ? (
-          <i className={cx(expandIcon)} />
+        {!React.isValidElement(expandIcon) ? (
+          <Icon
+            icon={
+              typeof expandIcon === 'string' ? expandIcon : 'right-arrow-bold'
+            }
+            className="icon"
+          />
         ) : (
           expandIcon
         )}
@@ -637,7 +673,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     const isDarkTheme = themeColor === 'dark';
     const rcMode = stacked
       ? mode === 'float'
-        ? 'vertical-right'
+        ? 'vertical-left'
         : 'vertical'
       : 'horizontal';
     const disableOpen = collapsed || !stacked || (stacked && mode === 'float');
