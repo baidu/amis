@@ -64,7 +64,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
     'attribute',
     'onMouseEnter',
     'onMouseLeave',
-    'onClick'
+    'onClick',
+    'className'
   ];
 
   /** 检查icon参数值是否为文件路径 */

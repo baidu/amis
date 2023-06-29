@@ -22,8 +22,12 @@ import {isAlive} from 'mobx-state-tree';
 import {reaction} from 'mobx';
 import {resolveVariableAndFilter} from './utils/tpl-builtin';
 import {buildStyle} from './utils/style';
+import {StatusScopedProps} from './StatusScoped';
+import {filter} from './utils/tpl';
 
-interface SchemaRendererProps extends Partial<RendererProps> {
+interface SchemaRendererProps
+  extends Partial<Omit<RendererProps, 'statusStore'>>,
+    StatusScopedProps {
   schema: Schema;
   $path: string;
   env: RendererEnv;
@@ -84,12 +88,22 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.resolveRenderer(this.props);
     this.dispatchEvent = this.dispatchEvent.bind(this);
 
-    // 监听topStore更新
+    // 监听statusStore更新
     this.reaction = reaction(
-      () =>
-        `${props.topStore.visibleState[props.schema.id || props.$path]}${
-          props.topStore.disableState[props.schema.id || props.$path]
-        }${props.topStore.staticState[props.schema.id || props.$path]}`,
+      () => {
+        const id = filter(props.schema.id, props.data);
+        const name = filter(props.schema.name, props.data);
+        return `${
+          props.statusStore.visibleState[id] ??
+          props.statusStore.visibleState[name]
+        }${
+          props.statusStore.disableState[id] ??
+          props.statusStore.disableState[name]
+        }${
+          props.statusStore.staticState[id] ??
+          props.statusStore.staticState[name]
+        }`;
+      },
       () => this.forceUpdate()
     );
   }
@@ -253,7 +267,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       $path: _,
       schema: __,
       rootStore,
-      topStore,
+      statusStore,
       render,
       ...rest
     } = this.props;
@@ -277,14 +291,16 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       : {};
 
     // 控制显隐
-    const visible = isAlive(topStore)
-      ? topStore.visibleState[schema.id || $path]
+    const id = filter(schema.id, rest.data);
+    const name = filter(schema.name, rest.data);
+    const visible = isAlive(statusStore)
+      ? statusStore.visibleState[id] ?? statusStore.visibleState[name]
       : undefined;
-    const disable = isAlive(topStore)
-      ? topStore.disableState[schema.id || $path]
+    const disable = isAlive(statusStore)
+      ? statusStore.disableState[id] ?? statusStore.disableState[name]
       : undefined;
-    const isStatic = isAlive(topStore)
-      ? topStore.staticState[schema.id || $path]
+    const isStatic = isAlive(statusStore)
+      ? statusStore.staticState[id] ?? statusStore.staticState[name]
       : undefined;
 
     if (
@@ -314,7 +330,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             render: this.renderChild,
             forwardedRef: this.refFn,
             rootStore,
-            topStore,
+            statusStore,
             dispatchEvent: this.dispatchEvent
           });
     } else if (typeof schema.component === 'function') {
@@ -343,7 +359,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             forwardedRef: isSFC ? this.refFn : undefined,
             render: this.renderChild,
             rootStore,
-            topStore,
+            statusStore,
             dispatchEvent: this.dispatchEvent
           });
     } else if (Object.keys(schema).length === 0) {
@@ -372,7 +388,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
           $schema={schema}
           retry={this.reRender}
           rootStore={rootStore}
-          topStore={topStore}
+          statusStore={statusStore}
           dispatchEvent={this.dispatchEvent}
         />
       );
@@ -432,7 +448,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       ref: this.refFn,
       render: this.renderChild,
       rootStore,
-      topStore,
+      statusStore,
       dispatchEvent: this.dispatchEvent
     };
 
