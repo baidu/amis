@@ -528,8 +528,31 @@ export default class Page extends React.Component<PageProps> {
     }
   }
 
-  handleQuery(query: any) {
-    this.receive(query);
+  handleQuery(query: any): any {
+    if (this.props.initApi) {
+      // 如果是分页动作，则看接口里面有没有用，没用则  return false
+      // 让组件自己去排序
+      if (
+        query?.hasOwnProperty('orderBy') &&
+        !isApiOutdated(
+          this.props.initApi,
+          this.props.initApi,
+          this.props.store.data,
+          createObject(this.props.store.data, query)
+        )
+      ) {
+        return false;
+      }
+
+      this.receive(query);
+      return;
+    }
+
+    if (this.props.onQuery) {
+      return this.props.onQuery(query);
+    } else {
+      return false;
+    }
   }
 
   handleDialogConfirm(
