@@ -643,6 +643,10 @@ export default class Form extends React.Component<FormProps, object> {
         .then(this.dispatchInited)
         .then(this.initInterval);
     }
+
+    if (this.props?.tableCellRegion !== prevProps?.tableCellRegion) {
+      this.props.store.reset(undefined, true);
+    }
   }
 
   componentWillUnmount() {
