@@ -92,7 +92,7 @@ export const FormStore = ServiceStore.named('FormStore')
       /** 获取InputGroup的子元素 */
       get inputGroupItems() {
         const formItems: Record<string, IFormItemStore[]> = {};
-        const children = self.children.concat();
+        const children: Array<any> = this.directItems.concat();
 
         while (children.length) {
           const current = children.shift();
