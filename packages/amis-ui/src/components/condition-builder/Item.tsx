@@ -234,7 +234,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
                 placeholder={__('Condition.cond_placeholder')}
               >
                 <span className={cx('CBGroup-operatorCaret')}>
-                  <Icon icon="caret" className="icon" />
+                  <Icon icon="right-arrow-bold" className="icon" />
                 </span>
               </ResultBox>
             </div>
