@@ -34,7 +34,7 @@ import {
   SchemaMessage
 } from '../Schema';
 import {SchemaRemark} from './Remark';
-import {onAction} from 'mobx-state-tree';
+import {isAlive, onAction} from 'mobx-state-tree';
 import mapValues from 'lodash/mapValues';
 import {resolveVariable} from 'amis-core';
 import {buildStyle} from 'amis-core';
@@ -409,7 +409,7 @@ export default class Page extends React.Component<PageProps> {
       env.tracker({eventType: 'pageLoaded'}, this.props);
     }
 
-    if (rendererEvent?.prevented) {
+    if (rendererEvent?.prevented || !isAlive(store)) {
       return;
     }
 
