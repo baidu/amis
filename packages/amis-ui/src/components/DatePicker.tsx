@@ -310,6 +310,9 @@ export interface DateProps extends LocaleProps, ThemeProps {
   onBlur?: Function;
   onRef?: any;
   data?: any;
+
+  // 是否为结束时间
+  isEndDate?: boolean;
 }
 
 export interface DatePickerState {
@@ -708,6 +711,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       clearable,
       shortcuts,
       utc,
+      isEndDate,
       overlayPlacement,
       locale,
       format,
@@ -749,6 +753,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'
         }
         timeConstraints={timeConstraints}
+        isEndDate={isEndDate}
       />
     );
     const CalendarMobileTitle = (
@@ -815,6 +820,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             onScheduleClick={onScheduleClick}
             embed={embed}
             useMobileUI={useMobileUI}
+            isEndDate={isEndDate}
           />
         </div>
       );
@@ -902,6 +908,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 minDate={minDate}
                 maxDate={maxDate}
                 useMobileUI={useMobileUI}
+                isEndDate={isEndDate}
                 // utc={utc}
               />
             </PopOver>
