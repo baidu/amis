@@ -20,7 +20,7 @@ docx 渲染器，原理是将 docx 里的 xml 格式转成 html
 - [官方规范](https://www.ecma-international.org/publications-and-standards/standards/ecma-376/)
 - [标签的在线文档](http://webapp.docx4java.org/OnlineDemo/ecma376/WordML/index.html)
 
-日常开发可以使用 [OOXML viewer](https://marketplace.visualstudio.com/items?itemName=yuenm18.office-viewer) 插件查看
+日常开发可以使用 [OOXML viewer](https://marketplace.visualstudio.com/items?itemName=yuenm18.ooxml-viewer) 插件查看
 
 开发过程啊参考了
 
