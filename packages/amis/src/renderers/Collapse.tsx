@@ -3,7 +3,9 @@ import {
   Renderer,
   RendererProps,
   generateIcon,
-  IconCheckedSchema
+  IconCheckedSchema,
+  autobind,
+  resolveEventData
 } from 'amis-core';
 import {Collapse as BasicCollapse} from 'amis-ui';
 import {BaseSchema, SchemaCollection, SchemaTpl, SchemaObject} from '../Schema';
@@ -121,6 +123,21 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
     'size'
   ];
 
+  @autobind
+  async handleCollapseChange(props: any, collapsed: boolean) {
+    const {dispatchEvent, onCollapse} = this.props;
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(this.props, {
+        collapsed
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    onCollapse?.(props, collapsed);
+  }
+
   render() {
     const {
       id,
@@ -151,7 +168,6 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       disabled,
       collapsed,
       propsUpdate,
-      onCollapse,
       useMobileUI,
       divideLine
     } = this.props;
@@ -203,7 +219,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
             : null
         }
         useMobileUI={useMobileUI}
-        onCollapse={onCollapse}
+        onCollapse={this.handleCollapseChange}
         divideLine={divideLine}
       ></BasicCollapse>
     );
