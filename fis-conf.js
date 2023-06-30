@@ -495,7 +495,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
         '!punycode/**',
-        '!ooxml-viewer/**',
+        '!office-viewer/**',
         '!fflate/**'
       ],
 
@@ -544,7 +544,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         'echarts-wordcloud/**'
       ],
 
-      'ooxml-viewer.js': ['ooxml-viewer/**', 'fflate/**'],
+      'office-viewer.js': ['office-viewer/**', 'fflate/**'],
 
       'rest.js': [
         '*.js',
@@ -569,7 +569,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!uc.micro/**',
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
-        '!ooxml-viewer/**',
+        '!office-viewer/**',
         '!fflate/**'
       ]
     }),
@@ -800,7 +800,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!punycode/**',
         '!amis-formula/**',
         '!fflate/**',
-        '!ooxml-viewer/**',
+        '!office-viewer/**',
         '!amis-core/**',
         '!amis-ui/**',
         '!amis/**'
@@ -866,7 +866,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!/examples/components/EChartsEditor/Common.tsx'
       ],
 
-      'pkg/ooxml-viewer.js': ['ooxml-viewer/**', 'fflate/**'],
+      'pkg/office-viewer.js': ['office-viewer/**', 'fflate/**'],
 
       'pkg/rest.js': [
         '**.{js,jsx,ts,tsx}',

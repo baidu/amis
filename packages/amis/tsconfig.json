@@ -14,6 +14,6 @@
   "references": [
     {"path": "../amis-core"},
     {"path": "../amis-ui"},
-    {"path": "../ooxml-viewer"}
+    {"path": "../office-viewer"}
   ]
 }

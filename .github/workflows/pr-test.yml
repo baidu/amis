@@ -27,7 +27,7 @@ jobs:
           NODE_OPTIONS: '--max-old-space-size=8192'
         run: |
           npm i --legacy-peer-deps
-          cd packages/ooxml-viewer
+          cd packages/office-viewer
           npm i --legacy-peer-deps
           cd ../../
           npm run build --workspace amis-formula
@@ -44,7 +44,7 @@ jobs:
       - name: test
         run: |
           npm test --workspaces
-          cd packages/ooxml-viewer
+          cd packages/office-viewer
           npm test
           cd ../../
           sh deploy-gh-pages.sh
