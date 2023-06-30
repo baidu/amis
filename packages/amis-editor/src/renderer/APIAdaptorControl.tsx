@@ -111,56 +111,63 @@ export default class APIAdaptorControl extends React.Component<
     const lastParams =
       typeof mergeParams === 'function' ? mergeParams(params) : params;
 
-    return render('api-adaptor-control-editor', [
-      {
-        type: 'container',
-        className: 'ae-AdaptorControl-func-header',
-        body: [
-          '<span class="mtk6">function&nbsp;</span>',
-          '<span class="mtk1 bracket-highlighting-0">(</span>',
-          ...lastParams
-            .map(({label, tip}, index) => {
-              return [
-                {
-                  type: 'button',
-                  level: 'link',
-                  label,
-                  className: 'ae-AdaptorControl-func-arg',
-                  ...(tip ? {tooltip: this.genTooltipProps(tip)} : {})
-                },
-                ...(index === lastParams.length - 1
-                  ? []
-                  : ['<span class="mtk1">,&nbsp;</span>'])
-              ];
-            })
-            .flat(),
-          '<span class="mtk1 bracket-highlighting-0">)&nbsp;{</span>'
-        ]
-      },
-      {
-        label: '',
-        mode: 'normal',
-        name: '__editor_' + name,
-        type: 'js-editor',
-        className: 'ae-AdaptorControl-func-editor',
-        allowFullscreen,
-        value,
-        placeholder: editorPlaceholder || '',
-        onChange: (value: any) => {
-          this.onChange(value);
-        }
-      },
-      {
-        type: 'container',
-        body: '<span class="mtk1 bracket-highlighting-0">}</span>',
-        className: 'ae-AdaptorControl-func-footer'
-      },
-      {
-        type: 'container',
-        className: 'cxd-Form-description',
-        body: editorDesc
-      }
-    ]);
+    return (
+      <>
+        {render('api-adaptor-control-editor/0', {
+          type: 'container',
+          className: 'ae-AdaptorControl-func-header',
+          body: [
+            '<span class="mtk6">function&nbsp;</span>',
+            '<span class="mtk1 bracket-highlighting-0">(</span>',
+            ...lastParams
+              .map(({label, tip}, index) => {
+                return [
+                  {
+                    type: 'button',
+                    level: 'link',
+                    label,
+                    className: 'ae-AdaptorControl-func-arg',
+                    ...(tip ? {tooltip: this.genTooltipProps(tip)} : {})
+                  },
+                  ...(index === lastParams.length - 1
+                    ? []
+                    : ['<span class="mtk1">,&nbsp;</span>'])
+                ];
+              })
+              .flat(),
+            '<span class="mtk1 bracket-highlighting-0">)&nbsp;{</span>'
+          ]
+        })}
+
+        {render(
+          'api-adaptor-control-editor/1',
+          {
+            label: '',
+            name: '__whatever_name_adpator',
+            placeholder: editorPlaceholder || '',
+            mode: 'normal',
+            type: 'js-editor',
+            className: 'ae-AdaptorControl-func-editor',
+            allowFullscreen
+          },
+          {
+            value,
+            onChange: this.onChange
+          }
+        )}
+
+        {render('api-adaptor-control-editor/2', {
+          type: 'container',
+          body: '<span class="mtk1 bracket-highlighting-0">}</span>',
+          className: 'ae-AdaptorControl-func-footer'
+        })}
+        {render('api-adaptor-control-editor/3', {
+          type: 'container',
+          className: 'cxd-Form-description',
+          body: editorDesc
+        })}
+      </>
+    );
   }
 
   renderSwitch() {
