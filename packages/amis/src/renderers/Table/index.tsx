@@ -404,6 +404,7 @@ export type ExportExcelToolbar = SchemaNode & {
   api?: SchemaApi;
   columns?: string[];
   exportColumns?: any[];
+  rowSlice?: string;
   filename?: string;
 };
 
