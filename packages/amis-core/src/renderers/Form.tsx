@@ -1133,7 +1133,7 @@ export default class Form extends React.Component<FormProps, object> {
           action.target &&
             this.reloadTarget(filterTarget(action.target, values), values);
         } else if (action.actionType === 'dialog') {
-          store.openDialog(data);
+          store.openDialog(data, undefined, action.callback);
         } else if (action.actionType === 'drawer') {
           store.openDrawer(data);
         } else if (isEffectiveApi(action.api || api, values)) {
@@ -1259,7 +1259,7 @@ export default class Form extends React.Component<FormProps, object> {
       this.validate(true);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(data);
+      store.openDialog(data, undefined, action.callback);
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
       store.openDrawer(data);

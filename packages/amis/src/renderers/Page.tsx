@@ -484,7 +484,7 @@ export default class Page extends React.Component<PageProps> {
 
     if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(ctx, undefined, undefined, delegate);
+      store.openDialog(ctx, undefined, action.callback, delegate);
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
       store.openDrawer(ctx, undefined, undefined, delegate);

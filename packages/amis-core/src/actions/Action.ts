@@ -24,7 +24,7 @@ export interface ListenerAction {
   description?: string; // 事件描述，actionType: broadcast
   componentId?: string; // 组件ID，用于直接执行指定组件的动作，指定多个组件时使用英文逗号分隔
   componentName?: string; // 组件Name，用于直接执行指定组件的动作，指定多个组件时使用英文逗号分隔
-  args?: Record<string, any>; // 动作配置，可以配置数据映射
+  args?: Record<string, any>; // 动作配置，可以配置数据映射。注意：存在schema配置的动作都不能放在args里面，避免数据域不同导致的解析错误问题
   data?: Record<string, any> | null; // 动作数据参数，可以配置数据映射
   dataMergeMode?: 'merge' | 'override'; // 参数模式，合并或者覆盖
   outputVar?: string; // 输出数据变量名
@@ -132,7 +132,7 @@ const getOmitActionProp = (type: string) => {
       omitList = ['drawer'];
       break;
     case 'confirmDialog':
-      omitList = ['confirmDialog'];
+      omitList = ['dialog'];
       break;
     case 'reload':
       omitList = ['resetPage'];

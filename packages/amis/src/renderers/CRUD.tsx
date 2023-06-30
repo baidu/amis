@@ -693,13 +693,17 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const idx: number = (ctx as any).index;
       const length = store.items.length;
       stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
-      store.openDialog(ctx, {
-        hasNext: idx < length - 1,
-        nextIndex: idx + 1,
-        hasPrev: idx > 0,
-        prevIndex: idx - 1,
-        index: idx
-      });
+      store.openDialog(
+        ctx,
+        {
+          hasNext: idx < length - 1,
+          nextIndex: idx + 1,
+          hasPrev: idx > 0,
+          prevIndex: idx - 1,
+          index: idx
+        },
+        action.callback
+      );
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
       const data = ctx;

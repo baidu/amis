@@ -485,7 +485,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               )
             },
             {
-              name: 'args',
+              name: 'dialog',
               label: '弹框内容',
               mode: 'horizontal',
               required: true,

@@ -683,51 +683,13 @@ run action ajax
 | ----------- | -------- | ------ | --------------- |
 | componentId | `string` | -      | 指定抽屉组件 id |
 
-### 打开对话框
+### 打开确认弹窗
 
-通过配置`actionType: 'alert'`或`actionType: 'confirm'`打开不同对话框，该动作分别需实现 env.alert: (msg: string) => void 和 env.confirm: (msg: string, title?: string) => boolean | Promise&lt;boolean&gt;。
+通过配置`actionType: 'confirmDialog'`打开确认对话框。确认对话框弹出后，如果选择取消操作，将不会执行该动作后面的动作。如下面的例子，点击确认之后将弹出`toast`提示，点击取消则不会提示。
 
-#### 提示对话框
+**普通文本内容**
 
-```schema
-{
-  type: 'page',
-  data: {
-    msg: '去吃饭了'
-  },
-  body: [
-    {
-      type: 'button',
-      label: '提示对话框（模态）',
-      level: 'primary',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'alert',
-              args: {
-                title: '提示',
-                msg: '<a href="http://www.baidu.com" target="_blank">${msg}~</a>'
-              }
-            }
-          ]
-        }
-      }
-    }
-  ]
-}
-```
-
-**动作属性（args）**
-
-> `< 1.8.0 及以下版本`，以下属性与 args 同级。
-
-| 属性名 | 类型     | 默认值   | 说明           |
-| ------ | -------- | -------- | -------------- |
-| title  | `string` | 系统提示 | 对话框标题     |
-| msg    | `string` | -        | 对话框提示内容 |
-
-#### 确认对话框
+动作需要实现 env.confirm: (msg: string, title?: string) => boolean | Promise&lt;boolean&gt;。
 
 ```schema
 {
@@ -746,9 +708,15 @@ run action ajax
           actions: [
             {
               actionType: 'confirmDialog',
-              args: {
+              dialog: {
                 title: '${title}',
                 msg: '<span style="color:red">${msg}</span>'
+              }
+            },
+            {
+              actionType: 'toast',
+              args: {
+                msg: '确认ok啦！'
               }
             }
           ]
@@ -759,14 +727,120 @@ run action ajax
 }
 ```
 
-**动作属性（args）**
+**自定义弹窗内容**
 
-> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+可以通过`body`像配置弹窗一样配置确认弹窗的内容。
 
-| 属性名 | 类型     | 默认值 | 说明           |
-| ------ | -------- | ------ | -------------- |
-| title  | `string` | -      | 对话框标题     |
-| msg    | `string` | -      | 对话框提示内容 |
+```schema
+{
+  type: 'page',
+  data: {
+    title: '操作确认',
+    msg: '确认提交吗？'
+  },
+  body: [
+    {
+      type: 'button',
+      label: '自定义确认对话框（模态）',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'confirmDialog',
+              dialog: {
+                type: 'dialog',
+                title: '${title}',
+                confirmText: '确认',
+                cancelText: '取消',
+                confirmBtnLevel: 'primary',
+                data: {
+                  '&': '$$',
+                  title: '确认'
+                },
+                body: [
+                  {
+                    "type": "form",
+                    "initApi": "/api/mock2/form/initData",
+                    "title": "编辑用户信息",
+                    "body": [
+                      {
+                        "type": "input-text",
+                        "name": "name",
+                        "label": "姓名"
+                      },
+                      {
+                        "type": "input-text",
+                        "name": "email",
+                        "label": "邮箱"
+                      },
+                      {
+                        type: 'tpl',
+                        tpl: '${msg}'
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              actionType: 'toast',
+              args: {
+                msg: '确认ok啦！'
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+**动作属性**
+
+| 属性名 | 类型                          | 默认值 | 说明                                                                |
+| ------ | ----------------------------- | ------ | ------------------------------------------------------------------- |
+| dialog | {msg:`string`}/`DialogObject` | -      | 指定弹框内容。自定义弹窗内容可参考[Dialog](../../components/dialog) |
+
+### 提示对话框
+
+通过配置`actionType: 'alert'`打开提示对话框，该对话框只有确认按钮。该动作需要实现 env.alert: (msg: string) => void。
+
+```schema
+{
+  type: 'page',
+  data: {
+    msg: '去吃饭了'
+  },
+  body: [
+    {
+      type: 'button',
+      label: '提示对话框（模态）',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'alert',
+              dialog: {
+                title: '提示',
+                msg: '<a href="http://www.baidu.com" target="_blank">${msg}~</a>'
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+**动作属性**
+
+| 属性名 | 类型                             | 默认值                       | 说明       |
+| ------ | -------------------------------- | ---------------------------- | ---------- |
+| dialog | {title:`string`<br>msg:`string`} | {title: '系统提示', msg: ''} | 对话框配置 |
 
 ### 跳转链接
 
