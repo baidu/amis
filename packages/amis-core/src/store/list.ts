@@ -215,7 +215,7 @@ export const ListStore = iRendererStore
           find(
             selected,
             a =>
-              a[valueField || 'value'] == item.pristine[valueField || 'value']
+              a[valueField || 'value'] === item.pristine[valueField || 'value']
           )
         ) {
           self.selectedItems.push(item);
