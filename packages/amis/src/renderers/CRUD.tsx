@@ -2,6 +2,8 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
+import xor from 'lodash/xor';
+import concat from 'lodash/concat';
 import {Renderer, RendererProps, filterTarget, generateIcon} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
@@ -55,7 +57,7 @@ import {
 } from 'amis-core';
 
 import type {PaginationProps} from './Pagination';
-import {isAlive} from 'mobx-state-tree';
+import {getSnapshot, isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
 
 export type CRUDBultinToolbarType =
@@ -1519,7 +1521,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           a =>
             a === item ||
             (a[primaryField || 'id'] &&
-              a[primaryField || 'id'] == item[primaryField || 'id'])
+              a[primaryField || 'id'] === item[primaryField || 'id'])
         );
 
         if (~idx) {
@@ -1533,7 +1535,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           a =>
             a === item ||
             (a[primaryField || 'id'] &&
-              a[primaryField || 'id'] == item[primaryField || 'id'])
+              a[primaryField || 'id'] === item[primaryField || 'id'])
         );
 
         if (~idx2) {
@@ -1547,7 +1549,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           a =>
             a === item ||
             (a[primaryField || 'id'] &&
-              a[primaryField || 'id'] == item[primaryField || 'id'])
+              a[primaryField || 'id'] === item[primaryField || 'id'])
         );
 
         const idx2 = findIndex(
@@ -1555,7 +1557,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           a =>
             a === item ||
             (a[primaryField || 'id'] &&
-              a[primaryField || 'id'] == item[primaryField || 'id'])
+              a[primaryField || 'id'] === item[primaryField || 'id'])
         );
 
         if (~idx) {

@@ -99,7 +99,7 @@ export const ListStore = iRendererStore
     ),
     draggable: false,
     dragging: false,
-    multiple: true,
+    multiple: false,
     selectable: false,
     itemCheckableOn: '',
     itemDraggableOn: '',
@@ -215,7 +215,7 @@ export const ListStore = iRendererStore
           find(
             selected,
             a =>
-              a[valueField || 'value'] == item.pristine[valueField || 'value']
+              a[valueField || 'value'] === item.pristine[valueField || 'value']
           )
         ) {
           self.selectedItems.push(item);
