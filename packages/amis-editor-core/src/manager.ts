@@ -1291,6 +1291,8 @@ export class EditorManager {
     }
 
     store.changeValue(value, diff);
+
+    this.trigger('after-update', context);
   }
 
   /**
