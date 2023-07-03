@@ -451,7 +451,7 @@ export default class SubFormControl extends React.PureComponent<
                       labelField &&
                       item[labelField] &&
                       stripTag(item[labelField])) ||
-                      defaultLabel)}
+                      __(defaultLabel))}
                 </span>
                 <a
                   data-index={key}
@@ -556,7 +556,7 @@ export default class SubFormControl extends React.PureComponent<
                 labelField &&
                 value[labelField] &&
                 stripTag(value[labelField])) ||
-                defaultLabel)}
+                __(defaultLabel))}
           </span>
           <a className={cx('SubForm-valueEdit')}>
             <Icon icon="pencil" className="icon" />
