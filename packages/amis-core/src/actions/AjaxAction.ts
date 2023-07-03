@@ -13,15 +13,13 @@ import {
 
 export interface IAjaxAction extends ListenerAction {
   action: 'ajax';
-  args: {
-    api: Api;
-    messages?: {
-      success: string;
-      failed: string;
-    };
-    options?: Record<string, any>;
-    [propName: string]: any;
+  api: Api;
+  messages?: {
+    success: string;
+    failed: string;
   };
+  options?: Record<string, any>;
+  [propName: string]: any;
 }
 
 /**
@@ -46,19 +44,25 @@ export class AjaxAction implements RendererAction {
       throw new Error('env.fetcher is required!');
     }
     if (this.fetcherType === 'download' && action.actionType === 'download') {
+      // 兼容老的格式
       if ((action as any).args?.api) {
         (action as any).args.api.responseType = 'blob';
+      }
+      if ((action as any)?.api) {
+        (action as any).api.responseType = 'blob';
       }
     }
 
     const env = event.context.env;
+    const silent = action?.options?.silent ?? action.args?.options?.silent;
+    const messages =
+      (action?.api as ApiObject)?.messages ??
+      (action.args?.api as ApiObject)?.messages;
     try {
       const result = await env.fetcher(
-        typeof action.args?.api === 'string'
-          ? action.args.api
-          : omit(action.args.api, 'data'),
-        (action.args?.api as any)?.data ?? action.data ?? {},
-        action.args?.options ?? {}
+        action?.api ?? action.args?.api,
+        action.data ?? {},
+        action?.options ?? action.args?.options ?? {}
       );
       const responseData =
         !isEmpty(result.data) || result.ok
@@ -78,18 +82,15 @@ export class AjaxAction implements RendererAction {
           }
         })
       );
-
-      if (!action.args?.options?.silent) {
+      if (!silent) {
         if (!result.ok) {
           throw new ServerError(
-            (action.args?.api as ApiObject)?.messages?.failed ??
-              action.args?.messages?.failed ??
-              result.msg,
+            messages?.failed ?? action.args?.messages?.failed ?? result.msg,
             result
           );
         } else {
           const msg =
-            (action.args?.api as ApiObject)?.messages?.success ??
+            messages?.success ??
             action.args?.messages?.success ??
             result.msg ??
             result.defaultMsg;
@@ -109,7 +110,7 @@ export class AjaxAction implements RendererAction {
 
       return result.data;
     } catch (e) {
-      if (!action.args?.options?.silent) {
+      if (!silent) {
         if (e.type === 'ServerError') {
           const result = (e as ServerError).response;
           env.notify(

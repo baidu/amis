@@ -172,7 +172,6 @@ export const runActions = async (
     if (!actionInstrance) {
       actionInstrance = getActionByType('component');
     }
-
     // 这些节点的子节点运行逻辑由节点内部实现
     await runAction(actionInstrance, actionConfig, renderer, event);
     if (event.stoped) {
