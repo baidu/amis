@@ -1,4 +1,3 @@
-import omit from 'lodash/omit';
 import {Api, ApiObject} from '../types';
 import {normalizeApiResponseData} from '../utils/api';
 import {ServerError} from '../utils/errors';

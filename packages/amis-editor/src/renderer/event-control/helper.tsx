@@ -2793,7 +2793,7 @@ export const getEventControlConfig = (
         manager.pluginActions,
         commonActions
       );
-      console.log(innerArgs);
+
       // 处理刷新组件动作的追加参数
       if (config.actionType === 'reload') {
         config.__resetPage = config.args?.resetPage;
@@ -3046,6 +3046,7 @@ export const getEventControlConfig = (
         delete action.__actionExpression;
         delete action.__statusType;
       }
+
       delete action.config;
 
       return action;
