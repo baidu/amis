@@ -1511,6 +1511,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       primaryField,
       multiple,
       pickerMode,
+      strictMode,
       onSelect
     } = this.props;
     let newItems = items;
@@ -1520,14 +1521,20 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const oldItems = store.selectedItems.concat();
       const oldUnselectedItems = store.unSelectedItems.concat();
 
+      const isSameValue = (
+        a: Record<string, unknown>,
+        item: Record<string, unknown>
+      ) => {
+        const oldValue = a[primaryField || 'id'];
+        const itemValue = item[primaryField || 'id'];
+        const isSame = strictMode
+          ? oldValue === itemValue
+          : oldValue == itemValue;
+        return a === item || (oldValue && isSame);
+      };
+
       items.forEach(item => {
-        const idx = findIndex(
-          oldItems,
-          a =>
-            a === item ||
-            (a[primaryField || 'id'] &&
-              a[primaryField || 'id'] == item[primaryField || 'id'])
-        );
+        const idx = findIndex(oldItems, a => isSameValue(a, item));
 
         if (~idx) {
           oldItems[idx] = item;
@@ -1535,13 +1542,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           oldItems.push(item);
         }
 
-        const idx2 = findIndex(
-          oldUnselectedItems,
-          a =>
-            a === item ||
-            (a[primaryField || 'id'] &&
-              a[primaryField || 'id'] == item[primaryField || 'id'])
-        );
+        const idx2 = findIndex(oldUnselectedItems, a => isSameValue(a, item));
 
         if (~idx2) {
           oldUnselectedItems.splice(idx2, 1);
@@ -1549,21 +1550,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       });
 
       unSelectedItems.forEach(item => {
-        const idx = findIndex(
-          oldUnselectedItems,
-          a =>
-            a === item ||
-            (a[primaryField || 'id'] &&
-              a[primaryField || 'id'] == item[primaryField || 'id'])
-        );
+        const idx = findIndex(oldUnselectedItems, a => isSameValue(a, item));
 
-        const idx2 = findIndex(
-          oldItems,
-          a =>
-            a === item ||
-            (a[primaryField || 'id'] &&
-              a[primaryField || 'id'] == item[primaryField || 'id'])
-        );
+        const idx2 = findIndex(oldItems, a => isSameValue(a, item));
 
         if (~idx) {
           oldUnselectedItems[idx] = item;
@@ -2297,6 +2286,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       bulkActions,
       pickerMode,
       multiple,
+      strictMode,
       valueField,
       primaryField,
       value,
@@ -2397,6 +2387,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               pickerMode || keepItemSelectionOnPageChange
                 ? store.selectedItemsAsArray
                 : undefined,
+            strictMode,
             keepItemSelectionOnPageChange,
             maxKeepItemSelectionLength,
             valueField: valueField || primaryField,
