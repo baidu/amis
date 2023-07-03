@@ -360,7 +360,9 @@ setSchemaTpl(
 
     return {
       type: 'collapse-group',
-      activeKey: collapseGroupBody.map(panel => panel.title),
+      activeKey: collapseGroupBody
+        .filter(item => item && !item.collapsed)
+        .map(panel => panel.title),
       expandIconPosition: 'right',
       expandIcon: {
         type: 'icon',

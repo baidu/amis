@@ -414,7 +414,7 @@ amis 从 3.2.0 版本开始针对[具备数据域的组件](#具备数据域的�
 1.  `trackExpression` 配置成 `"none"` 也就是说不追踪任何数据。
 2.  `trackExpression` 配置成 `"${xxxVariable}"` 这样 xxxVariable 变化了更新当前组件的数据链。
 
-关于 `trackExpression` 的语法，请查看表达式篇章，可以监听多个变量比如: `"${xxx1},${xxx2}"`，还可以写表单时如 `"${ xxx ? xxx : yyy}"`。
+关于 `trackExpression` 的语法，请查看表达式篇章，可以监听多个变量比如: `"${xxx1},${xxx2}"`，还可以写表达式如 `"${ xxx ? xxx : yyy}"`。
 
 amis 内部是通过运算这个表达式的结果来判断。所以表达式中千万不要用随机函数，或者用当前时间等，否则每次都会更新数据链。另外如果变量是数组，或者对象，会转成统一的字符串 `[object Array]` 或者 `[object Object]` 这个其实会影响检测的，所以建议转成 json 字符串如。 `${xxxObject | json}`。还有就是既然是监控上层数据，表达式中不要写当前层数据变量，是取不到的。
 

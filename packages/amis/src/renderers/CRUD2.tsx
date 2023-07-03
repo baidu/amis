@@ -579,7 +579,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             isTable2: true
           })
           .then(value => {
-            interval &&
+            value?.ok && // 接口正常返回才继续轮训
+              interval &&
               !this.stopingAutoRefresh &&
               this.mounted &&
               (!stopAutoRefreshWhen ||

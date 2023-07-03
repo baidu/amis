@@ -8,9 +8,9 @@ import cx from 'classnames';
 import {FormItem, Button, Icon, PickerContainer} from 'amis';
 import {FormulaEditor} from 'amis-ui';
 import type {VariableItem} from 'amis-ui';
-import {getVariables} from './textarea-formula/utils';
 import {renderFormulaValue} from './FormulaControl';
 import {reaction} from 'mobx';
+import {getVariables} from 'amis-editor-core';
 
 interface ExpressionFormulaControlProps extends FormControlProps {
   /**
@@ -74,10 +74,6 @@ export default class ExpressionFormulaControl extends React.Component<
       async () => {
         this.appLocale = editorStore?.appLocale;
         this.appCorpusData = editorStore?.appCorpusData;
-        const variablesArr = await getVariables(this);
-        this.setState({
-          variables: variablesArr
-        });
       }
     );
   }

@@ -1,6 +1,15 @@
 import {JSONSchema} from '../types';
 import {guid, keyToPath, mapTree} from './helper';
 
+export const DATASCHEMA_TYPE_MAP: {[type: string]: string} = {
+  boolean: '布尔',
+  integer: '整数',
+  number: '数字',
+  string: '文本',
+  array: '数组',
+  object: '对象'
+};
+
 export class DataScope {
   // 指向父级
   parent?: DataScope;
@@ -213,7 +222,10 @@ export class DataScope {
       value: schema.title === '成员' ? '' : path.value,
       path: schema.title === '成员' ? '' : path.label,
       type: schema.type,
-      tag: schema.type,
+      tag:
+        schema.typeLabel ??
+        DATASCHEMA_TYPE_MAP[schema.type as string] ??
+        schema.type,
       description: schema.description,
       isMember,
       disabled: schema.title === '成员'

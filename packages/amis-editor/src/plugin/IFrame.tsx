@@ -77,7 +77,7 @@ export class IFramePlugin extends BasePlugin {
                 })
               ]
             },
-            ...getSchemaTpl('theme:common', ['layout'])
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
           ])
         ]
       }

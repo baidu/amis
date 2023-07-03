@@ -693,13 +693,17 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const idx: number = (ctx as any).index;
       const length = store.items.length;
       stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
-      store.openDialog(ctx, {
-        hasNext: idx < length - 1,
-        nextIndex: idx + 1,
-        hasPrev: idx > 0,
-        prevIndex: idx - 1,
-        index: idx
-      });
+      store.openDialog(
+        ctx,
+        {
+          hasNext: idx < length - 1,
+          nextIndex: idx + 1,
+          hasPrev: idx > 0,
+          prevIndex: idx - 1,
+          index: idx
+        },
+        action.callback
+      );
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
       const data = ctx;
@@ -853,7 +857,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       env.confirm &&
       (confirmText = filter(action.confirmText, ctx))
     ) {
-      env.confirm(confirmText).then((confirmed: boolean) => confirmed && fn());
+      env
+        .confirm(confirmText, filter(action.confirmTitle, ctx) || undefined)
+        .then((confirmed: boolean) => confirmed && fn());
     } else {
       fn();
     }
@@ -1245,7 +1251,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               );
             }
 
-            interval &&
+            value?.ok && // 接口正常返回才继续轮训
+              interval &&
               this.mounted &&
               (!stopAutoRefreshWhen ||
                 !(
@@ -2044,6 +2051,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   renderExportCSV(toolbar: Schema) {
     const {store, classPrefix: ns, translate: __, loadDataOnce} = this.props;
     const api = (toolbar as Schema).api;
+    const filename = toolbar.filename;
 
     return (
       <Button
@@ -2052,6 +2060,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           store.exportAsCSV({
             loadDataOnce,
             api,
+            filename,
             data: store.filterData /* 因为filter区域可能设置了过滤字段值，所以query信息也要写入数据域 */
           })
         }

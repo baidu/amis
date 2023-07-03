@@ -238,7 +238,11 @@ export function withRemoteConfig<P = any>(
                       store.data,
                       '| raw'
                     ),
-                  () => this.syncConfig()
+                  () => this.syncConfig(),
+                  // 当nav配置source: "${amisStore.app.portalNavs}"时，切换页面就会触发source更新
+                  // 因此这里增加这个配置 数据源完全不相等情况下再执行loadConfig
+                  // 否则数据源重置 保存不了展开状态 就会始终是手风琴模式了
+                  {equals: comparer.structural}
                 )
               );
             } else if (env && isEffectiveApi(source, data)) {
@@ -254,11 +258,7 @@ export function withRemoteConfig<P = any>(
                             ignoreData: true
                           }).url;
                     },
-                    () => this.loadConfig(),
-                    // 当nav配置source: "${amisStore.app.portalNavs}"时，切换页面就会触发source更新
-                    // 因此这里增加这个配置 数据源完全不相等情况下再执行loadConfig
-                    // 否则数据源重置 保存不了展开状态 就会始终是手风琴模式了
-                    {equals: comparer.structural}
+                    () => this.loadConfig()
                   )
                 );
             }

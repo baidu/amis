@@ -70,6 +70,7 @@ exports[`Renderer:condition-builder 1`] = `
                     >
                       <div
                         class="cxd-CBGroup-toolbarCondition"
+                        draggable="true"
                       >
                         <div
                           aria-expanded="false"
@@ -112,6 +113,7 @@ exports[`Renderer:condition-builder 1`] = `
                         </div>
                         <div
                           class="cxd-CBGroup-toolbar"
+                          draggable="true"
                         >
                           <div
                             class="cxd-CBGroup-toolbarConditionAdd"

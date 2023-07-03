@@ -7,7 +7,7 @@
 import React from 'react';
 import {ClassName, localeable, LocaleProps, Schema} from 'amis-core';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
-import {themeable, ThemeProps} from 'amis-core';
+import {themeable, ThemeProps, noop} from 'amis-core';
 import {uncontrollable} from 'amis-core';
 import {generateIcon, isObjectShallowModified} from 'amis-core';
 import {autobind, guid} from 'amis-core';
@@ -47,6 +47,7 @@ export interface TabProps extends ThemeProps {
   eventKey: string | number;
   prevKey?: string | number;
   nextKey?: string | number;
+  tip?: string;
   tab?: Schema;
   className?: string;
   activeKey?: string | number;
@@ -137,10 +138,10 @@ class TabComponent extends React.PureComponent<TabProps> {
                 'Tabs-pane',
                 className
               )}
-              onTouchStart={swipeable && mobileUI && this.onTouchStart}
-              onTouchMove={swipeable && mobileUI && this.onTouchMove}
-              onTouchEnd={swipeable && mobileUI && this.onTouchEnd}
-              onTouchCancel={swipeable && mobileUI && this.onTouchEnd}
+              onTouchStart={swipeable && mobileUI ? this.onTouchStart : noop}
+              onTouchMove={swipeable && mobileUI ? this.onTouchMove : noop}
+              onTouchEnd={swipeable && mobileUI ? this.onTouchEnd : noop}
+              onTouchCancel={swipeable && mobileUI ? this.onTouchEnd : noop}
             >
               {children}
             </div>
@@ -601,6 +602,7 @@ export class Tabs extends React.Component<TabsProps, any> {
       toolbar,
       tabClassName,
       closable: tabClosable,
+      tip,
       hash
     } = child.props;
 
@@ -660,13 +662,15 @@ export class Tabs extends React.Component<TabsProps, any> {
         key={this.generateTabKey(hash, eventKey, index)}
         onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
         onDoubleClick={() => {
-          editable && this.handleStartEdit(index, title);
+          editable &&
+            typeof title === 'string' &&
+            this.handleStartEdit(index, title);
         }}
       >
         {showTip ? (
           <TooltipWrapper
             placement="top"
-            tooltip={title}
+            tooltip={tip ?? (typeof title === 'string' ? title : '')}
             trigger="hover"
             tooltipClassName={showTipClassName}
           >

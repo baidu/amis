@@ -292,7 +292,7 @@ export class PagePlugin extends BasePlugin {
           className: 'p-none',
           body: [
             getSchemaTpl('collapseGroup', [
-              ...getSchemaTpl('theme:common', ['layout'])
+              ...getSchemaTpl('theme:common', {exclude: ['layout']})
             ])
           ]
         },

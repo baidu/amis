@@ -196,7 +196,7 @@
 
   &-sublist {
     position: relative;
-    margin: 0 0 0 px2rem(35px);
+    margin: 0 0 0 px2rem(30px);
     display: none;
   }
 
@@ -249,7 +249,7 @@
     }
 
     .#{$ns}TreeSelection-itemLabel {
-      margin-left: var(--gap-xs);
+      // margin-left: var(--gap-xs);
     }
   }
 
@@ -445,6 +445,7 @@
       width: px2rem(10px);
       height: px2rem(10px);
       top: 0;
+      transform: rotate(90deg);
     }
   }
 

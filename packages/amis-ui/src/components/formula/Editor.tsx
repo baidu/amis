@@ -196,7 +196,7 @@ export class FormulaEditor extends React.Component<
     eachTree(variables, item => {
       if (item.value) {
         const key = item.value;
-        varMap[key] = item.label;
+        varMap[key] = item.path ?? item.label;
       }
     });
     const vars = Object.keys(varMap)
@@ -228,7 +228,7 @@ export class FormulaEditor extends React.Component<
         if (reg.test(encodeHtml)) {
           html = encodeHtml.replace(
             REPLACE_KEY,
-            `<span class="c-field">${varMap[v]}</span>`
+            `<span class="c-field">${v}</span>`
           );
         } else {
           html = encodeHtml.replace(REPLACE_KEY, v);
@@ -243,7 +243,7 @@ export class FormulaEditor extends React.Component<
 
   componentDidMount(): void {
     const {variables} = this.props;
-    this.normalizeVariables(variables);
+    this.normalizeVariables(variables as VariableItem[]);
   }
 
   componentDidUpdate(
@@ -252,7 +252,7 @@ export class FormulaEditor extends React.Component<
     snapshot?: any
   ): void {
     if (prevProps.variables !== this.props.variables) {
-      this.normalizeVariables(this.props.variables);
+      this.normalizeVariables(this.props.variables as VariableItem[]);
     }
   }
 

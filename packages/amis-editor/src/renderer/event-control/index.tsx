@@ -41,7 +41,7 @@ export * from './helper';
 import {i18n as _i18n} from 'i18n-runtime';
 import type {VariableItem} from 'amis-ui/lib/components/formula/Editor';
 import {reaction} from 'mobx';
-import {updateComponentContext} from '../../util';
+import {updateComponentContext} from 'amis-editor-core';
 
 interface EventControlProps extends FormControlProps {
   actions: PluginActions; // 组件的动作列表
@@ -502,9 +502,14 @@ export class EventControl extends React.Component<
     // 收集当前事件动作出参
     let actions = onEvent[data.actionData!.eventKey].actions;
 
-    // 编辑的时候只能拿到当前动作前面动作的事件变量
+    // 编辑的时候只能拿到当前动作前面动作的事件变量以及当前动作事件
     if (data.type === 'update') {
-      actions = actions.slice(0, data.actionData!.actionIndex);
+      actions = actions.slice(
+        0,
+        data.actionData!.actionIndex !== undefined
+          ? data.actionData!.actionIndex + 1
+          : 0
+      );
     }
 
     let jsonSchema = {...(eventConfig?.dataSchema?.[0] ?? {})};

@@ -78,6 +78,11 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
   showANDOR?: boolean;
 
   /**
+   * 是否可拖拽，默认为 true
+   */
+  draggable?: boolean;
+
+  /*
    * 表达式：控制按钮“添加条件”的显示
    */
   addBtnVisibleOn?: string;

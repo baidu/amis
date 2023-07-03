@@ -240,7 +240,10 @@ export class TplPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('theme:common', ['layout'], ['font'])
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            include: ['font']
+          })
         ])
       },
       {

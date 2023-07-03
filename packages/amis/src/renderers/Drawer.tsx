@@ -832,7 +832,7 @@ export class DrawerRenderer extends Drawer {
       store.openDrawer(data);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(data);
+      store.openDialog(data, undefined, action.callback);
     } else if (action.actionType === 'reload') {
       store.setCurrentAction(action);
       action.target && scoped.reload(action.target, data);

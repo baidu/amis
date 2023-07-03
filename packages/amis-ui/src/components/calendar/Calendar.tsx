@@ -15,6 +15,7 @@ import {PickerOption} from '../PickerColumn';
 import 'moment/locale/zh-cn';
 import 'moment/locale/de';
 import {isMobile} from 'amis-core';
+import type {RendererEnv} from 'amis-core';
 
 export type DateType =
   | 'year'
@@ -91,6 +92,7 @@ interface BaseDatePickerProps {
     content: string | React.ReactElement;
     color?: string;
   }>;
+  env?: RendererEnv;
   largeMode?: boolean;
   todayActiveStyle?: React.CSSProperties;
   onScheduleClick?: (scheduleData: any) => void;
@@ -420,7 +422,8 @@ class BaseDatePicker extends React.Component<
       'updateOn',
       'useMobileUI',
       'showToolbar',
-      'embed'
+      'embed',
+      'env'
     ].forEach(key => (props[key] = (this.props as any)[key]));
 
     return props;

@@ -15,7 +15,7 @@ import IFrameBridge from './IFrameBridge';
 import {isAlive} from 'mobx-state-tree';
 import {findTree} from 'amis-core';
 import BackTop from './base/BackTop';
-import {RendererConfig} from 'amis-core';
+import type {RendererConfig} from 'amis-core';
 
 export interface PreviewProps {
   // isEditorEnabled?: (

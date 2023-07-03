@@ -83,11 +83,7 @@ export type NavItemSchema = {
 
   className?: string; // 自定义菜单项样式
 
-  accordion?: boolean; // 手风琴展开 仅垂直inline模式支持
-
   mode?: string; // 菜单项模式 分组模式：group、divider
-
-  popupClassName?: string; // 子菜单项展开浮层样式
 } & Omit<BaseSchema, 'type'>;
 
 export interface NavOverflow {
@@ -241,7 +237,7 @@ export interface NavSchema extends BaseSchema {
   showKey?: string;
 
   /**
-   * 控制仅展示指定key菜单下的子菜单项
+   * 控制菜单缩起
    */
   collapsed?: boolean;
 
@@ -264,6 +260,16 @@ export interface NavSchema extends BaseSchema {
    * 主题配色 默认light
    */
   themeColor?: 'light' | 'dark';
+
+  /**
+   * 手风琴展开 仅垂直inline模式支持
+   */
+  accordion?: boolean;
+
+  /**
+   * 子菜单项展开浮层样式
+   */
+  popupClassName?: string;
 }
 
 export interface Link {
@@ -363,6 +369,12 @@ export class Navigation extends React.Component<
 
     await onSelect?.(link, depth);
     return false;
+  }
+
+  @autobind
+  async handleChange(links: Array<Link>) {
+    const {onChange} = this.props;
+    onChange && onChange(links);
   }
 
   @autobind
@@ -756,6 +768,7 @@ export class Navigation extends React.Component<
               themeColor={themeColor}
               onSelect={this.handleClick}
               onToggle={this.toggleLink}
+              onChange={this.handleChange}
               renderLink={(link: MenuItemProps) => link.link}
               badge={itemBadge || badge}
               collapsed={collapsed}
@@ -803,25 +816,6 @@ export class Navigation extends React.Component<
 
 const ThemedNavigation = themeable(Navigation);
 
-function getActiveItems(config: Array<any>, depth: number, level: number) {
-  if (depth > level) {
-    return [];
-  }
-  let activeItems: Array<any> = [];
-  config &&
-    config.forEach(item => {
-      if (item.active) {
-        activeItems.push(item);
-      }
-      if (item.children) {
-        activeItems = activeItems.concat(
-          getActiveItems(item.children, depth + 1, level)
-        );
-      }
-    });
-  return activeItems;
-}
-
 const ConditionBuilderWithRemoteOptions = withRemoteConfig({
   adaptor: (config: any, props: any) => {
     const links = Array.isArray(config)
@@ -835,12 +829,15 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     return links;
   },
   afterLoad: async (response: any, config: any, props: any) => {
-    const {dispatchEvent} = props;
+    const {dispatchEvent, data} = props;
 
-    const rendererEvent = await dispatchEvent('loaded', {
-      data: response.value
-    });
-
+    const rendererEvent = await dispatchEvent(
+      'loaded',
+      createObject(data, {
+        data: response.value,
+        items: response.links
+      })
+    );
     if (rendererEvent?.prevented) {
       return;
     }
@@ -866,9 +863,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         location,
         level,
         defaultOpenLevel,
-        dispatchEvent,
-        disabled,
-        store
+        disabled
       } = props;
 
       const isActive = (link: Link, depth: number) => {
@@ -930,14 +925,6 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         1,
         true
       );
-
-      const currentActiveItems = getActiveItems(links, 1, level);
-      const prevActiveItems = getActiveItems(store.config, 1, level);
-      setTimeout(() => {
-        if (!isEqual(currentActiveItems, prevActiveItems)) {
-          dispatchEvent('change', {value: currentActiveItems});
-        }
-      }, 0);
     }
 
     return links;
@@ -957,12 +944,15 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     links: Array<Link>,
     props: any
   ) {
-    const {dispatchEvent} = props;
+    const {dispatchEvent, data} = props;
 
-    const rendererEvent = await dispatchEvent('loaded', {
-      data: ret.data,
-      item: {...item}
-    });
+    const rendererEvent = await dispatchEvent(
+      'loaded',
+      createObject(data, {
+        data: ret.data,
+        item: {...item}
+      })
+    );
 
     if (rendererEvent?.prevented) {
       return;
@@ -1010,6 +1000,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       this.toggleLink = this.toggleLink.bind(this);
       this.handleSelect = this.handleSelect.bind(this);
       this.dragUpdate = this.dragUpdate.bind(this);
+      this.handleChange = this.handleChange.bind(this);
 
       props?.onRef(this);
     }
@@ -1037,9 +1028,12 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       }
 
       if (prevState.collapsed !== this.state.collapsed) {
-        this.props.dispatchEvent('collapsed', {
-          collapsed: this.state.collapsed
-        });
+        this.props.dispatchEvent(
+          'collapsed',
+          createObject(this.props.data, {
+            collapsed: this.state.collapsed
+          })
+        );
       }
     }
 
@@ -1061,15 +1055,19 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         dispatchEvent,
         stacked,
         mode,
-        accordion
+        accordion,
+        data
       } = this.props;
 
       const isAccordion = stacked && mode !== 'float' && accordion;
 
-      const rendererEvent = await dispatchEvent('toggled', {
-        item: {...target},
-        open: typeof forceFold !== 'undefined' ? !forceFold : !target.unfolded
-      });
+      const rendererEvent = await dispatchEvent(
+        'toggled',
+        createObject(data, {
+          item: {...target},
+          open: typeof forceFold !== 'undefined' ? !forceFold : !target.unfolded
+        })
+      );
 
       if (rendererEvent?.prevented) {
         return;
@@ -1189,13 +1187,24 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       );
     }
 
+    handleChange(links: Array<Link>) {
+      const {dispatchEvent, data} = this.props;
+      // 如果同时2个nav nav1选中，通过动作更新nav2的数据源，需要异步处理一下，才能执行
+      setTimeout(() => {
+        dispatchEvent('change', createObject(data, {value: links}));
+      });
+    }
+
     async handleSelect(link: Link, depth: number) {
       const {onSelect, env, data, level, dispatchEvent, updateConfig, config} =
         this.props;
 
-      const rendererEvent = await dispatchEvent('click', {
-        item: {...link}
-      });
+      const rendererEvent = await dispatchEvent(
+        'click',
+        createObject(data, {
+          item: {...link}
+        })
+      );
 
       if (rendererEvent?.prevented) {
         return;
@@ -1244,6 +1253,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
           disabled={disabled || loading}
           onSelect={this.handleSelect}
           onToggle={this.toggleLink}
+          onChange={this.handleChange}
           onDragUpdate={this.dragUpdate}
         />
       );
