@@ -1,4 +1,3 @@
-import {attachmentAdpator} from 'amis-core';
 import omit from 'lodash/omit';
 import {Api, ApiObject, EventTrack, fetcherResult, Payload} from '../types';
 import {fetcherConfig} from '../factory';
