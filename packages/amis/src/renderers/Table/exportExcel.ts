@@ -2,7 +2,7 @@
  * 导出 Excel 功能
  */
 
-import {filter, isEffectiveApi} from 'amis-core';
+import {filter, isEffectiveApi, arraySlice} from 'amis-core';
 import './ColumnToggler';
 import {TableStore} from 'amis-core';
 import {saveAs} from 'file-saver';
@@ -261,6 +261,9 @@ export async function exportExcel(
   const remoteMappingCache: any = {};
   // 数据从第二行开始
   let rowIndex = 1;
+  if (toolbar.rowSlice) {
+    rows = arraySlice(rows, toolbar.rowSlice);
+  }
   for (const row of rows) {
     const rowData = createObject(data, row.data);
     rowIndex += 1;
