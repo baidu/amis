@@ -321,6 +321,7 @@ export default class List extends React.Component<ListProps, object> {
       orderBy,
       orderDir,
       multiple,
+      strictMode,
       hideCheckToggler,
       itemCheckableOn,
       itemDraggableOn
@@ -329,6 +330,7 @@ export default class List extends React.Component<ListProps, object> {
     store.update({
       /** Card嵌套List情况下该属性获取到的值为ListStore的默认值, 会导致Schema中的配置被覆盖 */
       multiple: multiple || props?.$schema.multiple,
+      strictMode: strictMode || props?.$schema.strictMode,
       selectable: selectable || props?.$schema.selectable,
       draggable: draggable || props?.$schema.draggable,
       orderBy,
@@ -399,6 +401,7 @@ export default class List extends React.Component<ListProps, object> {
           'orderBy',
           'orderDir',
           'multiple',
+          'strictMode',
           'hideCheckToggler',
           'itemCheckableOn',
           'itemDraggableOn'
@@ -409,6 +412,7 @@ export default class List extends React.Component<ListProps, object> {
     ) {
       store.update({
         multiple: props.multiple,
+        strictMode: props.strictMode,
         selectable: props.selectable,
         draggable: props.draggable,
         orderBy: props.orderBy,

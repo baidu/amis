@@ -185,6 +185,7 @@ export class PickerControlPlugin extends BasePlugin {
                 ]
               },
 
+              getSchemaTpl('strictMode'),
               getSchemaTpl('multiple'),
               getSchemaTpl('joinValues'),
               getSchemaTpl('delimiter'),

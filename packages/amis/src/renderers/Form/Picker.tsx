@@ -463,7 +463,8 @@ export default class PickerControl extends React.PureComponent<
       multiple,
       valueField,
       embed,
-      source
+      source,
+      strictMode
     } = this.props;
 
     return render('modal-body', this.state.schema, {
@@ -472,6 +473,7 @@ export default class PickerControl extends React.PureComponent<
       primaryField: valueField,
       options: source ? [] : options,
       multiple,
+      strictMode,
       onSelect: embed
         ? (selectedItems: Array<any>, unSelectedItems: Array<any>) => {
             // 选择行后，crud 会给出连续多次事件，且selectedItems会变化，会导致初始化和点击无效
