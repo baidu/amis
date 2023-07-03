@@ -2,7 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps, stripNumber} from 'amis-core';
 import moment from 'moment';
 import {BaseSchema} from '../Schema';
-import {getPropValue} from 'amis-core';
+import {getPropValue, Option, PlainObject, normalizeOptions} from 'amis-core';
 
 /**
  * Number 展示渲染器。
@@ -42,6 +42,11 @@ export interface NumberSchema extends BaseSchema {
    * 占位符
    */
   placeholder?: string;
+
+  /**
+   * 单位列表
+   */
+  unitOptions?: string | Array<Option> | string[] | PlainObject;
 }
 
 export interface NumberProps
@@ -63,6 +68,7 @@ export class NumberField extends React.Component<NumberProps> {
       affix,
       suffix,
       percent,
+      unitOptions,
       className,
       style,
       classnames: cx,
@@ -73,6 +79,15 @@ export class NumberField extends React.Component<NumberProps> {
     );
 
     let value = getPropValue(this.props);
+
+    let unit = '';
+    if (typeof value === 'string' && unitOptions && unitOptions.length) {
+      const units = normalizeOptions(unitOptions).map(v => v.value);
+      unit = units.find(item => value.endsWith(item)) || '';
+      if (unit) {
+        value = value.replace(unit, '');
+      }
+    }
 
     if (value) {
       // 设置了精度，但是原始数据是字符串，需要转成 float 之后再处理
@@ -114,6 +129,7 @@ export class NumberField extends React.Component<NumberProps> {
       <>
         {prefix}
         {viewValue}
+        {unit}
         {affix ?? suffix}
       </>
     );
