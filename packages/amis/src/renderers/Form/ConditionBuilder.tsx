@@ -140,7 +140,14 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
   }
 
   render() {
-    const {className, classnames: cx, style, pickerIcon, ...rest} = this.props;
+    const {
+      className,
+      classnames: cx,
+      style,
+      pickerIcon,
+      env,
+      ...rest
+    } = this.props;
 
     // 处理一下formula类型值的变量列表
     let formula = this.props.formula ? {...this.props.formula} : undefined;
@@ -166,6 +173,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
           pickerIcon={this.renderPickerIcon()}
           isAddBtnVisibleOn={this.getAddBtnVisible}
           isAddGroupBtnVisibleOn={this.getAddGroupBtnVisible}
+          popOverContainer={env.getModalContainer}
           {...rest}
           formula={formula}
         />
