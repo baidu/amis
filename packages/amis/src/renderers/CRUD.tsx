@@ -57,7 +57,7 @@ import {
 } from 'amis-core';
 
 import type {PaginationProps} from './Pagination';
-import {isAlive} from 'mobx-state-tree';
+import {getSnapshot, isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
 
 export type CRUDBultinToolbarType =

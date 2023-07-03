@@ -99,7 +99,7 @@ export const ListStore = iRendererStore
     ),
     draggable: false,
     dragging: false,
-    multiple: true,
+    multiple: false,
     selectable: false,
     itemCheckableOn: '',
     itemDraggableOn: '',
