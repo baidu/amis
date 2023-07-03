@@ -1,5 +1,5 @@
 {
-  "name": "ooxml-viewer",
+  "name": "office-viewer",
   "version": "0.1.3",
   "description": "office 文档在线预览",
   "main": "lib/index.js",

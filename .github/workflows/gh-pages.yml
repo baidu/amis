@@ -28,7 +28,7 @@ jobs:
       - name: build gh-pages
         run: |
           npm i --legacy-peer-deps
-          cd packages/ooxml-viewer
+          cd packages/office-viewer
           npm i --legacy-peer-deps
           cd ../../
           npm run build --workspaces
