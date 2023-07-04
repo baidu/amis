@@ -1,4 +1,3 @@
-import {attachmentAdpator} from 'amis-core';
 import omit from 'lodash/omit';
 import {Api, ApiObject, EventTrack, fetcherResult, Payload} from '../types';
 import {fetcherConfig} from '../factory';
@@ -696,6 +695,11 @@ export function isApiOutdated(
   }
 
   nextApi = normalizeApi(nextApi);
+  prevApi = (prevApi ? normalizeApi(prevApi) : prevApi) as ApiObject;
+
+  if (prevApi && prevApi.url !== nextApi.url) {
+    return true;
+  }
 
   if (nextApi.autoRefresh === false) {
     return false;
@@ -709,8 +713,6 @@ export function isApiOutdated(
   let isModified = false;
 
   if (prevApi) {
-    prevApi = normalizeApi(prevApi);
-
     if (nextApi.trackExpression || prevApi.trackExpression) {
       isModified =
         tokenize(prevApi.trackExpression || '', prevData) !==
