@@ -159,7 +159,9 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       props.model !== prevProps.model &&
       props.model !== this.currentContent
     ) {
-      this.editor?.setContent(props.model || '');
+      setTimeout(() => {
+        this.editor?.setContent(props.model || '');
+      }, 100);
     }
   }
 
