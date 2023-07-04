@@ -738,10 +738,25 @@ export function isApiOutdated(
 }
 
 export function isValidApi(api: string) {
-  return (
-    api &&
-    /^(?:(https?|wss?|taf):\/\/[^\/]+)?(\/?[^\s\/\?]*){1,}(\?.*)?$/.test(api)
-  );
+  if (!api || typeof api !== 'string') {
+    return false;
+  }
+  const idx = api.indexOf('://');
+
+  // 不允许直接相对路径写 api
+  // 不允许 :// 结尾
+  if ((!~idx && api[0] !== '/') || (~idx && idx + 3 === api.length)) {
+    return false;
+  }
+
+  try {
+    // 不补一个协议，URL 判断为 false
+    api = (~idx ? '' : 'schema://domain') + api;
+    new URL(api);
+  } catch (error) {
+    return false;
+  }
+  return true;
 }
 
 export function isEffectiveApi(
