@@ -80,8 +80,8 @@ export function FuncList(props: FuncListProps) {
                       className={cx('FormulaEditor-FuncList-item', {
                         'is-active': item.name === activeFunc?.name
                       })}
-                      onClick={() => setActiveFunc(item)}
-                      onDoubleClick={() => props.onSelect?.(item)}
+                      onMouseEnter={() => setActiveFunc(item)}
+                      onClick={() => props.onSelect?.(item)}
                       key={item.name}
                     >
                       {item.name}
