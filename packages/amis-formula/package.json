@@ -81,7 +81,6 @@
   "browserslist": "IE >= 11",
   "jest": {
     "testEnvironment": "jsdom",
-    "collectCoverage": true,
     "coverageReporters": [
       "text",
       "cobertura"
