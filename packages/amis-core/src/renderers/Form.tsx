@@ -1202,7 +1202,7 @@ export default class Form extends React.Component<FormProps, object> {
                 }
               }
 
-              // return values;
+              return createObject(store.data, response);
             });
         } else {
           // type为submit，但是没有配api以及target时，只派发事件
@@ -1256,7 +1256,7 @@ export default class Form extends React.Component<FormProps, object> {
       store.clear(onReset);
     } else if (action.actionType === 'validate') {
       store.setCurrentAction(action);
-      this.validate(true);
+      return this.validate(true);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       store.openDialog(data, undefined, action.callback);
