@@ -79,7 +79,7 @@ export class CollapseGroupPlugin extends BasePlugin {
                   title: '当前展开的索引列表'
                 },
                 collapseId: {
-                  type: 'string | number',
+                  type: 'string',
                   title: '折叠器索引'
                 },
                 collapsed: {
