@@ -1,4 +1,5 @@
 import {RendererEvent} from '../utils/renderer-event';
+import {createObject} from '../utils/helper';
 import {
   RendererAction,
   ListenerAction,
@@ -116,7 +117,23 @@ export class CmptAction implements RendererAction {
     }
 
     // 执行组件动作
-    return component?.doAction?.(action, action.args);
+    const result = await component?.doAction?.(action, action.args);
+
+    // 记录动作出参
+    if ((action.actionType as any) === 'validate') {
+      event.setData(
+        createObject(event.data, {
+          [action.outputVar || 'validateResult']: result
+        })
+      );
+    } else if ((action.actionType as any) === 'submit') {
+      event.setData(
+        createObject(event.data, {
+          [action.outputVar || 'submitResult']: result
+        })
+      );
+    }
+    return result;
   }
 }
 

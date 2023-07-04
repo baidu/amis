@@ -1256,7 +1256,7 @@ export default class Form extends React.Component<FormProps, object> {
       store.clear(onReset);
     } else if (action.actionType === 'validate') {
       store.setCurrentAction(action);
-      this.validate(true);
+      return this.validate(true);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       store.openDialog(data, undefined, action.callback);
@@ -1900,12 +1900,20 @@ export class FormRenderer extends Form {
     super.componentWillUnmount();
   }
 
-  doAction(
+  async doAction(
     action: ActionObject,
     data: object = this.props.store.data,
     throwErrors: boolean = false
   ) {
-    return this.handleAction(undefined, action, data, throwErrors);
+    try {
+      const result = await this.handleAction(undefined, action, data, true);
+      return result;
+    } catch (e) {
+      const errors = this.props.store.errors;
+      return {
+        errors: isEmpty(errors) ? e : errors
+      };
+    }
   }
 
   async handleAction(
