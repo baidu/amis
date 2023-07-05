@@ -824,7 +824,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 }
 ```
 
-如果想要赋予删除按钮更多能力，则需要将 deleteBtn 配置成[Button](../button.md)类型
+如果想要赋予删除按钮更多能力，则需要将 deleteBtn 配置成[Button](../button.md)类型，还可以利用`index`参数动态控制按钮的显隐或禁用状态等。
 
 ```schema: scope="body"
 {
@@ -844,7 +844,8 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
           "level": "danger",
           "tooltip": "提示文本",
           "tooltipPlacement": "top",
-          "onClick": "alert(index)"
+          "onClick": "alert(index)",
+          "disabledOn": "${index % 2 === 1}"
         },
         "items": [
             {
