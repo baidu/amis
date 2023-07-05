@@ -257,20 +257,16 @@ exports[`Renderer:Pagination 1`] = `
           />
           <div
             class="cxd-Table-wrapper"
-            style="width: 0px;"
           >
             <table
               class="cxd-Table-table"
-              style="width: 0px; table-layout: auto; transform: translateX(-0px);"
             >
               <colgroup>
                 <col
                   data-index="3"
-                  width="0"
                 />
                 <col
                   data-index="4"
-                  width="0"
                 />
               </colgroup>
               <thead>
@@ -278,7 +274,6 @@ exports[`Renderer:Pagination 1`] = `
                   <th
                     class=""
                     data-index="3"
-                    style="width: 0px; height: 0px;"
                   >
                     <div
                       class="cxd-TableCell--title"
@@ -298,7 +293,6 @@ exports[`Renderer:Pagination 1`] = `
                   <th
                     class=""
                     data-index="4"
-                    style="width: 0px; height: 0px;"
                   >
                     <div
                       class="cxd-TableCell--title"
