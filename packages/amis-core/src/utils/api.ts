@@ -697,12 +697,16 @@ export function isApiOutdated(
   nextApi = normalizeApi(nextApi);
   prevApi = (prevApi ? normalizeApi(prevApi) : prevApi) as ApiObject;
 
-  if (prevApi && prevApi.url !== nextApi.url) {
-    return true;
-  }
-
   if (nextApi.autoRefresh === false) {
     return false;
+  }
+
+  // api 本身有变化
+  if ((prevApi && prevApi.url !== nextApi.url) || !prevApi) {
+    return !!(
+      isValidApi(nextApi.url) &&
+      (!nextApi.sendOn || evalExpression(nextApi.sendOn, nextData))
+    );
   }
 
   const trackExpression = nextApi.trackExpression ?? nextApi.url;
@@ -712,22 +716,18 @@ export function isApiOutdated(
 
   let isModified = false;
 
-  if (prevApi) {
-    if (nextApi.trackExpression || prevApi.trackExpression) {
-      isModified =
-        tokenize(prevApi.trackExpression || '', prevData) !==
-        tokenize(nextApi.trackExpression || '', nextData);
-    } else {
-      prevApi = buildApi(prevApi as Api, prevData as object, {
-        ignoreData: true
-      });
-      nextApi = buildApi(nextApi as Api, nextData as object, {
-        ignoreData: true
-      });
-      isModified = prevApi.url !== nextApi.url;
-    }
+  if (nextApi.trackExpression || prevApi.trackExpression) {
+    isModified =
+      tokenize(prevApi.trackExpression || '', prevData) !==
+      tokenize(nextApi.trackExpression || '', nextData);
   } else {
-    isModified = true;
+    prevApi = buildApi(prevApi as Api, prevData as object, {
+      ignoreData: true
+    });
+    nextApi = buildApi(nextApi as Api, nextData as object, {
+      ignoreData: true
+    });
+    isModified = prevApi.url !== nextApi.url;
   }
 
   return !!(

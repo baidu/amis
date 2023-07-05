@@ -1488,8 +1488,8 @@ Form 支持轮询初始化接口，步骤如下：
 
 ```json
 {
-  // 是否成功。true表示成功，false表示失败
-  "error": true,
+  // 是否成功。非空表示失败
+  "error": "依赖的部分字段没有通过验证",
   // 表单项报错信息。key值为该表单项的name值
   "errors": {
     "email": ["Email 格式不正确"],
@@ -1515,18 +1515,25 @@ Form 支持轮询初始化接口，步骤如下：
               {
                 "actionType": "validate",
                 "componentId": "form_validate",
-                "outputVar": "form_validata_result",
-                "stopPropagation": "${event.data.form_validata_result.error}"
+                "outputVar": "form_validate_result"
               },
               {
-                "actionType": "toast",
+                "actionType": "setValue",
+                "componentId": "validate_info",
                 "args": {
-                  "msg": "${event.data.form_validata_result|json}"
+                  "value": "${event.data.form_validate_result|json}"
                 }
               }
             ]
         }
     }
+  },
+  {
+    type: 'input-text',
+    name: 'validate_info',
+    id: 'validate_info',
+    label: '校验结果：',
+    static: true
   },
   {
     "type": "form",
@@ -1561,8 +1568,8 @@ Form 支持轮询初始化接口，步骤如下：
 
 ```json
 {
-  // 是否成功。true表示成功，false表示失败
-  "error": true,
+  // 是否成功。是否成功。非空表示失败
+  "error": "依赖的部分字段没有通过验证",
   // 错误信息。如果是校验失败，则errors为表单项报错信息，key值为该表单项的name值
   "errors": {
     ...
@@ -1594,14 +1601,22 @@ Form 支持轮询初始化接口，步骤如下：
                 "outputVar": "form_submit_result"
               },
               {
-                "actionType": "toast",
+                "actionType": "setValue",
+                "componentId": "submit_info",
                 "args": {
-                  "msg": "提交结果：${event.data.form_submit_result|json}"
+                  "value": "${event.data.form_submit_result|json}"
                 }
               }
             ]
         }
     }
+  },
+  {
+    type: 'input-text',
+    name: 'submit_info',
+    id: 'submit_info',
+    label: '提交结果：',
+    static: true
   },
   {
     "type": "form",

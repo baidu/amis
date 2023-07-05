@@ -124,34 +124,24 @@ export class CmptAction implements RendererAction {
         event.setData(
           createObject(event.data, {
             [action.outputVar || `${action.actionType}Result`]: {
-              error:
-                (action.actionType as any) === 'validate' ? !result : false,
-              errors: component.props.store.errors,
-              payload: component.props.data,
-              responseData:
-                (action.actionType as any) === 'submit'
-                  ? component.props.$schema?.api
-                    ? result
-                    : undefined
-                  : undefined
+              error: '',
+              payload: result?.__payload ?? component?.props?.store?.data,
+              responseData: result?.__response
             }
           })
         );
       }
       return result;
     } catch (e) {
-      if ((action.actionType as any) === 'submit') {
-        const errors = component.props.store.errors;
-        event.setData(
-          createObject(event.data, {
-            [action.outputVar || 'submitResult']: {
-              error: true,
-              errors: isEmpty(errors) ? e : errors,
-              payload: component.props.data
-            }
-          })
-        );
-      }
+      event.setData(
+        createObject(event.data, {
+          [action.outputVar || `${action.actionType}Result`]: {
+            error: e.message,
+            errors: e.name === 'ValidateError' ? e.detail : e,
+            payload: component?.props?.store?.data
+          }
+        })
+      );
     }
   }
 }
