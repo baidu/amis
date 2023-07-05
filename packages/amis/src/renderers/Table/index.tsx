@@ -1221,6 +1221,11 @@ export default class Table extends React.Component<TableProps, object> {
     this.outterWidth = outter.offsetWidth;
     this.outterHeight = outter.offsetHeight;
 
+    // 没有渲染则跳过
+    if (!this.totalWidth) {
+      return;
+    }
+
     let widths: {
       [propName: string]: number;
     } = (this.widths = {});
