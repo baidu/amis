@@ -6,13 +6,13 @@ import React from 'react';
 import {isObject} from 'lodash';
 import {ClassNamesFn} from '../theme';
 
-export interface IconCheckedSchema {
+interface IconCheckedSchema {
   id: string;
   name?: string;
   svg?: string;
 }
 
-export interface IconCheckedSchemaNew {
+interface IconCheckedSchemaNew {
   type: 'icon';
   icon: IconCheckedSchema;
 }
