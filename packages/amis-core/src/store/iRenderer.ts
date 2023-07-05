@@ -11,8 +11,6 @@ import {dataMapping} from '../utils/tpl-builtin';
 import {SimpleMap} from '../utils/SimpleMap';
 import {StoreNode} from './node';
 import {IScopedContext} from '../Scoped';
-import {IRootStore} from './root';
-import {createObjectFromChain, extractObjectChain} from '../utils';
 
 export const iRendererStore = StoreNode.named('iRendererStore')
   .props({
@@ -40,13 +38,8 @@ export const iRendererStore = StoreNode.named('iRendererStore')
     const dialogCallbacks = new SimpleMap<(result?: any) => void>();
     let dialogScoped: IScopedContext | null = null;
     let drawerScoped: IScopedContext | null = null;
-    let top: IRootStore | null = null;
 
     return {
-      setTopStore(value: any) {
-        top = value;
-      },
-
       initData(data: object = {}, skipSetPristine = false) {
         self.initedAt = Date.now();
 
@@ -156,19 +149,18 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         callback?: (ret: any) => void,
         scoped?: IScopedContext
       ) {
-        const chain = extractObjectChain(ctx);
-        chain.length === 1 && chain.unshift(self.data);
+        let proto = ctx.__super ? ctx.__super : self.data;
+
         if (additonal) {
-          chain.splice(chain.length - 1, 0, additonal);
+          proto = createObject(proto, additonal);
         }
 
-        const data = createObjectFromChain(chain);
+        const data = createObject(proto, {
+          ...ctx
+        });
 
         if (self.action.dialog && self.action.dialog.data) {
-          self.dialogData = createObjectFromChain([
-            top?.context,
-            dataMapping(self.action.dialog.data, data)
-          ]);
+          self.dialogData = dataMapping(self.action.dialog.data, data);
 
           const clonedAction = {
             ...self.action,
@@ -204,19 +196,18 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         callback?: (ret: any) => void,
         scoped?: IScopedContext
       ) {
-        const chain = extractObjectChain(ctx);
-        chain.length === 1 && chain.unshift(self.data);
+        let proto = ctx.__super ? ctx.__super : self.data;
+
         if (additonal) {
-          chain.splice(chain.length - 1, 0, additonal);
+          proto = createObject(proto, additonal);
         }
 
-        const data = createObjectFromChain(chain);
+        const data = createObject(proto, {
+          ...ctx
+        });
 
         if (self.action.drawer.data) {
-          self.drawerData = createObjectFromChain([
-            top?.context,
-            dataMapping(self.action.drawer.data, data)
-          ]);
+          self.drawerData = dataMapping(self.action.drawer.data, data);
 
           const clonedAction = {
             ...self.action,

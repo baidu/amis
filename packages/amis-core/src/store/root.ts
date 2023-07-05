@@ -1,7 +1,6 @@
 import {Instance, types} from 'mobx-state-tree';
 import {parseQuery} from '../utils/helper';
 import {ServiceStore} from './service';
-import {createObjectFromChain, extractObjectChain} from '../utils';
 
 export const RootStore = ServiceStore.named('RootStore')
   .props({
@@ -9,34 +8,23 @@ export const RootStore = ServiceStore.named('RootStore')
     runtimeErrorStack: types.frozen(),
     query: types.frozen()
   })
-  .volatile(self => {
-    return {
-      context: {}
-    };
-  })
   .views(self => ({
     get downStream() {
-      let result = self.data;
-
-      if (self.context || self.query) {
-        const chain = extractObjectChain(result);
-        self.context && chain.unshift(self.context);
-        self.query &&
-          chain.splice(chain.length - 1, 0, {
-            ...self.query,
-            __query: self.query
-          });
-
-        result = createObjectFromChain(chain);
-      }
-
-      return result;
+      return self.query
+        ? createObject(
+            extendObject(
+              self.data && self.data.__super ? self.data.__super : null,
+              {
+                ...self.query,
+                __query: self.query
+              }
+            ),
+            self.data
+          )
+        : self.data;
     }
   }))
   .actions(self => ({
-    setContext(context: any) {
-      self.context = context;
-    },
     setRuntimeError(error: any, errorStack: any) {
       self.runtimeError = error;
       self.runtimeErrorStack = errorStack;
