@@ -71,7 +71,6 @@ exports[`Renderer:inputCity 1`] = `
                       <div
                         aria-expanded="false"
                         aria-haspopup="listbox"
-                        aria-labelledby="downshift-0-label"
                         class="cxd-Select"
                         role="combobox"
                         tabindex="0"
@@ -105,7 +104,6 @@ exports[`Renderer:inputCity 1`] = `
                       <div
                         aria-expanded="false"
                         aria-haspopup="listbox"
-                        aria-labelledby="downshift-1-label"
                         class="cxd-Select"
                         role="combobox"
                         tabindex="0"
@@ -139,7 +137,6 @@ exports[`Renderer:inputCity 1`] = `
                       <div
                         aria-expanded="false"
                         aria-haspopup="listbox"
-                        aria-labelledby="downshift-2-label"
                         class="cxd-Select is-focused"
                         role="combobox"
                         tabindex="0"
@@ -309,7 +306,6 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                       <div
                         aria-expanded="true"
                         aria-haspopup="listbox"
-                        aria-labelledby="downshift-3-label"
                         aria-owns="downshift-3-menu"
                         class="cxd-Select cxd-Select--searchable is-opened has-popover"
                         role="combobox"
@@ -354,7 +350,6 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                               <input
                                 aria-autocomplete="list"
                                 aria-controls="downshift-3-menu"
-                                aria-labelledby="downshift-3-label"
                                 autocomplete="off"
                                 id="downshift-3-input"
                                 placeholder="搜索"

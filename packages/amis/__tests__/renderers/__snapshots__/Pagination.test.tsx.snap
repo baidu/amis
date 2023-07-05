@@ -342,7 +342,6 @@ exports[`Renderer:Pagination 2`] = `
       <div
         aria-expanded="false"
         aria-haspopup="listbox"
-        aria-labelledby="downshift-0-label"
         class="cxd-Select cxd-Pagination-perpage cxd-Pagination-item"
         role="combobox"
         tabindex="0"
@@ -620,7 +619,6 @@ exports[`Renderer:Pagination with layout 1`] = `
       <div
         aria-expanded="false"
         aria-haspopup="listbox"
-        aria-labelledby="downshift-1-label"
         class="cxd-Select cxd-Pagination-perpage cxd-Pagination-item"
         role="combobox"
         tabindex="0"
@@ -902,7 +900,6 @@ exports[`Renderer:Pagination with showPerPage & perPageAvailable & showPageInput
 <div
   aria-expanded="true"
   aria-haspopup="listbox"
-  aria-labelledby="downshift-2-label"
   aria-owns="downshift-2-menu"
   class="cxd-Select is-opened cxd-Pagination-perpage cxd-Pagination-item has-popover"
   role="combobox"

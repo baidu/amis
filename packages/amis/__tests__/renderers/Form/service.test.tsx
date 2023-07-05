@@ -2,7 +2,7 @@ import React = require('react');
 import {render, cleanup, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv, wait} from '../../helper';
+import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
 import {clearStoresCache} from '../../../src';
 
 afterEach(() => {
@@ -78,6 +78,8 @@ test('Renderer:service', async () => {
     ).not.toBeInTheDocument();
   });
   expect(fetcher).toHaveBeenCalled();
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -134,7 +136,9 @@ test('form:service:remoteData', async () => {
     ).not.toBeInTheDocument();
   });
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
+
   fireEvent.click(getByText('Submit'));
   await waitFor(() => {
     expect(onSubmit).toBeCalled();
@@ -205,7 +209,9 @@ test('form:service:remoteSchmea+data', async () => {
     ).not.toBeInTheDocument();
   });
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
+
   fireEvent.click(getByText('Submit'));
   await waitFor(() => {
     expect(onSubmit).toBeCalled();
@@ -325,5 +331,6 @@ test('form:service:super-remoteData', async () => {
     ).not.toBeInTheDocument();
   });
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });

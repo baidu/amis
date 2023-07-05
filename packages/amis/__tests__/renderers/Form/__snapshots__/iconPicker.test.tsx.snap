@@ -55,7 +55,6 @@ exports[`Renderer:icon-picker 1`] = `
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby="downshift-0-label"
               class="cxd-IconPickerControl-input cxd-IconPickerControl-input--withAC"
               role="combobox"
             >
@@ -72,7 +71,6 @@ exports[`Renderer:icon-picker 1`] = `
                 </div>
                 <input
                   aria-autocomplete="list"
-                  aria-labelledby="downshift-0-label"
                   autocomplete="off"
                   id="downshift-0-input"
                   name="a"
