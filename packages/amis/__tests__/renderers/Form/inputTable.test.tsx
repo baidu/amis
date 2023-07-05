@@ -7,7 +7,7 @@ import {
 } from '@testing-library/react';
 import '../../../src';
 import {render as amisRender, clearStoresCache} from '../../../src';
-import {makeEnv, wait} from '../../helper';
+import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
 
 afterEach(() => {
   cleanup();
@@ -62,6 +62,7 @@ test('Renderer:input table', () => {
     )
   );
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -192,6 +193,7 @@ test('Renderer:input table add', async () => {
 
   // TODO: 这里不对，难道是点击出错了
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -271,6 +273,7 @@ test('Renderer:input-table with combo column', async () => {
   });
   // input-table 中套 combo。多次 lazy change， 所以时间需要长点
   await wait(1000);
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
   fireEvent.click(submitBtn);
 
@@ -345,6 +348,7 @@ test('Renderer:input-table verifty', async () => {
   const submitBtn = await findByText('submitBtn');
   fireEvent.click(submitBtn);
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 
   const input = await findByPlaceholderText('请输入数字');
@@ -434,5 +438,6 @@ test('Renderer:input-table cell selects delete', async () => {
       }
     ]
   });
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });

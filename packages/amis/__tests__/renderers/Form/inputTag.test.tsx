@@ -7,7 +7,7 @@ import {
 } from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv, wait} from '../../helper';
+import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
 import {clearStoresCache} from '../../../src';
 
 afterEach(() => {
@@ -58,6 +58,7 @@ describe('Renderer:InputTag', () => {
     const {container, input} = await setupInputTag({placeholder});
 
     expect(input.placeholder).toBe(placeholder);
+    replaceReactAriaIds(container);
     expect(container).toMatchSnapshot();
   });
 
@@ -71,6 +72,7 @@ describe('Renderer:InputTag', () => {
 
     const option = screen.getByText('Apple');
     expect(option).toBeVisible();
+    replaceReactAriaIds(container);
     expect(container).toMatchSnapshot();
   });
 
@@ -88,6 +90,7 @@ describe('Renderer:InputTag', () => {
 
     const option = screen.getByText('Honey-dew melon');
     expect(option).toHaveClass('cxd-ResultBox-valueLabel');
+    replaceReactAriaIds(container);
     expect(container).toMatchSnapshot();
   });
 
@@ -110,6 +113,7 @@ describe('Renderer:InputTag', () => {
     const Banana = screen.getByText('Banana');
     expect(Banana).toHaveClass('cxd-ResultBox-valueLabel');
 
+    replaceReactAriaIds(container);
     expect(container).toMatchSnapshot();
   });
 
@@ -135,6 +139,7 @@ describe('Renderer:InputTag', () => {
     const Banana = screen.getByText('Banana');
     expect(Banana).toHaveClass('cxd-ResultBox-valueLabel');
 
+    replaceReactAriaIds(container);
     expect(container).toMatchSnapshot();
   });
 
@@ -168,6 +173,7 @@ describe('Renderer:InputTag', () => {
     const Banana = queryByText('Banana');
     expect(Banana).toBeNull();
 
+    replaceReactAriaIds(container);
     expect(container).toMatchSnapshot();
   }, 10000);
 
@@ -194,6 +200,7 @@ describe('Renderer:InputTag', () => {
     const Banana = queryByText('Banana');
     expect(Banana).toBeNull();
 
+    replaceReactAriaIds(container);
     expect(container).toMatchSnapshot();
   }, 10000);
 });
