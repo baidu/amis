@@ -96,28 +96,18 @@ export function formatStyleObject(style: string | null, px2number = true) {
  * @param container The HTMLElement node to search for SSR ids
  */
 export function replaceReactAriaIds(container: HTMLElement) {
-  const selectors = ['id', 'for', 'aria-labelledby'];
-  const ariaSelector = (el: string) => `[${el}^="react-aria"]`;
-  const regexp = /react-aria\d+-\d+/g;
-  const staticId = 'static-id';
-
-  /**
-   * keep a map of the replaceIds to keep the matching between input "id" and label "for" attributes
-   */
-  const attributesMap: Record<string, string> = {};
+  const selectors = ['aria-labelledby'];
+  const ariaSelector = (el: string) => `[${el}]`;
+  const regexp = /downshift\-\d+-label/g;
 
   container
     .querySelectorAll(selectors.map(ariaSelector).join(', '))
-    .forEach((el, index) => {
+    .forEach(el => {
       selectors.forEach(selector => {
         const attr = el.getAttribute(selector);
 
         if (attr?.match(regexp)) {
-          const newAttr = `${staticId}-${index}`;
-
-          el.setAttribute(selector, attributesMap[attr] || newAttr);
-
-          attributesMap[attr] = newAttr;
+          el.removeAttribute(selector);
         }
       });
     });

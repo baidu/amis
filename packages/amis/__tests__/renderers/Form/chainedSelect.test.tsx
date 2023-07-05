@@ -12,7 +12,7 @@ import {
 } from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv, wait} from '../../helper';
+import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
 
 test('Renderer:chained-select', async () => {
   const fetcher = jest.fn().mockImplementation((config: any) => {
@@ -124,5 +124,6 @@ test('Renderer:chained-select', async () => {
       .length
   ).toBe(4);
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });

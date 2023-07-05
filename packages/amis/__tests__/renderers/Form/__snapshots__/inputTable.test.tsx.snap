@@ -923,7 +923,6 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                                 <div
                                   aria-expanded="false"
                                   aria-haspopup="listbox"
-                                  aria-labelledby="downshift-4-label"
                                   class="cxd-Select cxd-Select--multi"
                                   role="combobox"
                                   tabindex="0"
