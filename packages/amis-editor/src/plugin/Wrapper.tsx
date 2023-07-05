@@ -7,6 +7,7 @@ import {
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 export class WrapperPlugin extends LayoutBasePlugin {
+  static id = 'WrapperPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'wrapper';

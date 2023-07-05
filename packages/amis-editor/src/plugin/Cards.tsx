@@ -19,6 +19,7 @@ import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
 import {resolveArrayDatasource} from '../util';
 
 export class CardsPlugin extends BasePlugin {
+  static id = 'CardsPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'cards';

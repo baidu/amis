@@ -23,6 +23,7 @@ setSchemaTpl('option', {
   label: tipedLabel('说明', '选项说明')
 });
 export class CheckboxControlPlugin extends BasePlugin {
+  static id = 'CheckboxControlPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'checkbox';
@@ -67,9 +68,15 @@ export class CheckboxControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中状态'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '状态值'
+                }
+              }
             }
           }
         }
@@ -141,14 +148,14 @@ export class CheckboxControlPlugin extends BasePlugin {
                 needDeleteProps: ['option'],
                 label: '默认勾选',
                 rendererWrapper: true, // 浅色线框包裹一下，增加边界感
-                valueType: 'boolean',
-                pipeIn: (value: any, data: any) => {
-                  return value === (data?.data?.trueValue ?? true);
-                },
-                pipeOut: (value: any, origin: any, data: any) => {
-                  const {trueValue = true, falseValue = false} = data;
-                  return value ? trueValue : falseValue;
-                }
+                valueType: 'boolean'
+                // pipeIn: (value: any, data: any) => {
+                //   return value === (data?.data?.trueValue ?? true);
+                // },
+                // pipeOut: (value: any, origin: any, data: any) => {
+                //   const {trueValue = true, falseValue = false} = data;
+                //   return value ? trueValue : falseValue;
+                // }
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),

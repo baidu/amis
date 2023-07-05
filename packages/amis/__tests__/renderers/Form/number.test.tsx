@@ -14,7 +14,7 @@
 import {render, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv, wait} from '../../helper';
+import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
 
 const setup = async (
   inputOptions: any = {},
@@ -105,6 +105,7 @@ test('Renderer:number', async () => {
   await wait(300);
   expect(input?.value).toEqual('456');
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -145,6 +146,8 @@ test('Renderer:number with prefix & suffix & kilobitSeparator', async () => {
   });
 
   expect(input.value).toEqual('$123,456%');
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -178,6 +181,7 @@ test('Renderer:number with unitOptions', async () => {
   await wait(300);
   expect(staticDom.innerHTML).toBe('99em');
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -189,6 +193,8 @@ test('Renderer:number with precision and default value', async () => {
   });
 
   expect(input.value).toBe('2.99');
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -221,6 +227,7 @@ test('Renderer:number with step & precision & displayMode & keyboard', async () 
   // await wait(300);
   // expect(input.value).toBe('17.111');
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -264,12 +271,13 @@ test('Renderer:number with big value', async () => {
   fireEvent.change(input, {target: {value: '9999999999999999.999'}}); // 整数部分 17 位，会四舍五入
   fireEvent.blur(input);
   await wait(300);
-  expect(input.value).toEqual('10000000000000000');
+  expect(input.value).toEqual('10000000000000000.00');
 
   fireEvent.change(input, {target: {value: '999999999999999999.99'}}); // 整数部分 18 大于最大值
   fireEvent.blur(input);
   await wait(300);
   expect(input.value).toEqual('99999999999999999.99'); // 最大值
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });

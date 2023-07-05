@@ -12,6 +12,8 @@ order: 61
 
 > 1.10.0 及以上版本
 
+这个组件可以基于 JSON Schema 生成表单项，方便对接类似 OpenAPI/Swagger Specification 的接口规范，可基于接口定义自动生成 amis 表单项。
+
 > 此组件还在实验阶段，很多 json-schema 属性没有对应实现，使用前请先确认你要的功能满足了需求
 
 基于 json-schema 定义生成表单输入项。

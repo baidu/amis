@@ -59,6 +59,7 @@ export interface TableBodyProps extends LocaleProps {
   prefixRow?: Array<any>;
   affixRow?: Array<any>;
   itemAction?: ActionSchema;
+  fixedPosition?: 'left' | 'right';
 }
 
 @observer
@@ -181,40 +182,74 @@ export class TableBody extends React.Component<TableBodyProps> {
       classnames: cx,
       rows,
       prefixRowClassName,
-      affixRowClassName
+      affixRowClassName,
+      fixedPosition
     } = this.props;
 
     if (!(Array.isArray(items) && items.length)) {
       return null;
     }
 
-    const result: any[] = items;
+    let offset = 0;
 
-    //  如果是勾选栏，让它和下一列合并。
-    if (columns[0]?.type === '__checkme' && result[0]) {
-      result[0].colSpan = (result[0].colSpan || 1) + 1;
-    }
+    // 将列的隐藏对应的把总结行也隐藏起来
+    const result: any[] = items
+      .map((item, index) => {
+        let colIdxs: number[] = [offset + index];
+        if (item.colSpan > 1) {
+          for (let i = 1; i < item.colSpan; i++) {
+            colIdxs.push(offset + index + i);
+          }
+          offset += item.colSpan - 1;
+        }
 
-    //  如果是展开栏，让它和下一列合并。
-    if (columns[0]?.type === '__expandme' && result[0]) {
+        colIdxs = colIdxs.filter(idx =>
+          columns.find(col => col.rawIndex === idx)
+        );
+
+        return {
+          ...item,
+          colSpan: colIdxs.length
+        };
+      })
+      .filter(item => item.colSpan);
+
+    //  如果是勾选栏，或者是展开栏，或者是拖拽栏，让它和下一列合并。
+    if (
+      result[0] &&
+      typeof columns[0]?.type === 'string' &&
+      columns[0]?.type.substring(0, 2) === '__'
+    ) {
       result[0].colSpan = (result[0].colSpan || 1) + 1;
     }
 
     // 缺少的单元格补齐
-    const appendLen =
+    let appendLen =
       columns.length - result.reduce((p, c) => p + (c.colSpan || 1), 0);
 
+    // 多了则干掉一些
+    while (appendLen < 0) {
+      const item = fixedPosition === 'right' ? result.shift() : result.pop();
+      if (!item) {
+        break;
+      }
+      appendLen += item.colSpan || 1;
+    }
+
+    // 少了则补个空的
     if (appendLen) {
-      const item = result.length
+      const item = /*result.length
         ? result.pop()
-        : {
-            type: 'plain'
-          };
+        : */ {
+        type: 'html',
+        html: '&nbsp;'
+      };
       result.push({
         ...item,
-        colSpan: (item.colSpan || 1) + appendLen
+        colSpan: /*(item.colSpan || 1)*/ 1 + appendLen
       });
     }
+
     const ctx = createObject(data, {
       items: rows.map(row => row.locals)
     });

@@ -158,7 +158,7 @@ class DropDownSelection extends BaseSelection<
             >
               {!isMobile() ? (
                 <span className={cx('DropDownSelection-caret')}>
-                  <Icon icon="caret" className="icon" />
+                  <Icon icon="right-arrow-bold" className="icon" />
                 </span>
               ) : null}
             </ResultBox>

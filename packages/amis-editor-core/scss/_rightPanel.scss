@@ -321,6 +321,8 @@ $tooltip-bottom: '[data-tooltip][data-position=' bottom ']:hover:after';
           width: 100%;
           --Tabs--line-active-fontSize: 14px;
           --Tabs--line-fontSize: 14px;
+          --Tabs--line-hover-fontSize: 14px;
+          --Tabs--line-disabled-fontSize: 14px;
           letter-spacing: 0;
           font-weight: 400;
           text-decoration: none;

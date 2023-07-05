@@ -3,7 +3,7 @@
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
-  "version": "3.1.5",
+  "version": "3.2.0",
   "description": "",
   "scripts": {
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
@@ -35,8 +35,8 @@
   },
   "dependencies": {
     "@rc-component/mini-decimal": "^1.0.1",
-    "amis-core": "^3.1.1",
-    "amis-formula": "^3.1.1",
+    "amis-core": "^3.2.0",
+    "amis-formula": "^3.2.0",
     "classnames": "2.3.1",
     "codemirror": "^5.63.0",
     "downshift": "6.1.12",
@@ -108,6 +108,10 @@
   },
   "jest": {
     "testEnvironment": "jsdom",
+    "coverageReporters": [
+      "text",
+      "cobertura"
+    ],
     "collectCoverageFrom": [
       "src/**/*"
     ],

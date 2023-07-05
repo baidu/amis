@@ -8,8 +8,10 @@ import {
 } from 'amis-editor-core';
 import {getSchemaTpl, defaultValue} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {ValidatorTag} from '../../validator';
 
 export class ButtonGroupControlPlugin extends BasePlugin {
+  static id = 'ButtonGroupControlPlugin';
   // 关联渲染器名字
   rendererName = 'button-group-select';
   $schema = '/schemas/ButtonGroupControlSchema.json';
@@ -65,9 +67,15 @@ export class ButtonGroupControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选中的值'
+                }
+              }
             }
           }
         }
@@ -130,7 +138,8 @@ export class ButtonGroupControlPlugin extends BasePlugin {
             },
             getSchemaTpl('status', {
               isFormItem: true
-            })
+            }),
+            getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})
           ])
         ]
       },

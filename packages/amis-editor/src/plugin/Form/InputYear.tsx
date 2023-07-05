@@ -3,6 +3,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {DateControlPlugin} from './InputDate';
 
 export class YearControlPlugin extends DateControlPlugin {
+  static id = 'YearControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-year';
   $schema = '/schemas/YearControlSchema.json';

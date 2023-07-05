@@ -3,6 +3,7 @@ import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 export class OfficeViewerPlugin extends BasePlugin {
+  static id = 'OfficeViewerPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'office-viewer';
@@ -12,7 +13,7 @@ export class OfficeViewerPlugin extends BasePlugin {
   name = '文档预览';
   isBaseComponent = true;
   description = 'Office 文档预览';
-  docLink = '/amis/zh-CN/components/OfficeViewer';
+  docLink = '/amis/zh-CN/components/office-viewer';
   tags = ['展示'];
   icon = 'fa fa-file-word';
   pluginIcon = 'officeViewer-plugin';
@@ -175,7 +176,9 @@ export class OfficeViewerPlugin extends BasePlugin {
         },
         {
           title: '外观',
-          className: 'p-none'
+          body: getSchemaTpl('collapseGroup', [
+            getSchemaTpl('style:classNames', {isFormItem: false})
+          ])
         }
       ])
     ];

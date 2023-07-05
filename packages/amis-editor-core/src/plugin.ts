@@ -13,7 +13,6 @@ import find from 'lodash/find';
 import type {RendererConfig} from 'amis-core';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
 import type {BaseSchema, SchemaCollection} from 'amis';
-import {DSFieldGroup} from './builder/DSBuilder';
 
 /**
  * 区域的定义，容器渲染器都需要定义区域信息。
@@ -291,6 +290,8 @@ export interface RendererInfo extends RendererScaffoldInfo {
   memberIndex?: number;
 
   tipName?: string;
+  /** 共享上下文 */
+  sharedContext?: Record<string, any>;
 }
 
 export type BasicRendererInfo = Omit<

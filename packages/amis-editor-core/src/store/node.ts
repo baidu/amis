@@ -77,6 +77,14 @@ export const EditorNode = types
         info = value;
       },
 
+      updateSharedContext(value: Record<string, any>) {
+        if (!value || !info?.hasOwnProperty('sharedContext')) {
+          return;
+        }
+
+        info.sharedContext = value;
+      },
+
       get rendererConfig() {
         return rendererConfig;
       },

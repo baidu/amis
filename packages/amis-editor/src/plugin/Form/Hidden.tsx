@@ -3,6 +3,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, getSchemaTpl} from 'amis-editor-core';
 
 export class HiddenControlPlugin extends BasePlugin {
+  static id = 'HiddenControlPlugin';
   // 关联渲染器名字
   rendererName = 'hidden';
   $schema = '/schemas/HiddenControlSchema.json';

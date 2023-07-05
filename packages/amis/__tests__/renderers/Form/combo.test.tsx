@@ -26,7 +26,7 @@ import {
 } from '@testing-library/react';
 import '../../../src';
 import {render as amisRender, clearStoresCache} from '../../../src';
-import {makeEnv, wait} from '../../helper';
+import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
 
 afterEach(() => {
   cleanup();
@@ -140,6 +140,7 @@ test('Renderer:combo with items & multiLine', () => {
     )
   );
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -267,6 +268,8 @@ test('Renderer:combo with minLength & maxLength', async () => {
   expect(
     container.querySelector('form.cxd-Form > .cxd-Form-item')!
   ).toHaveClass('is-error');
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('minLength error');
 
   const addBtn = container.querySelector('button.cxd-Combo-addBtn')!;
@@ -395,6 +398,8 @@ test('Renderer:combo with unique', async () => {
   expect(
     container.querySelector('form.cxd-Form > .cxd-Form-item')!
   ).toHaveClass('is-error');
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('unique error');
 
   fireEvent.change(inputTexts[1], {
@@ -441,6 +446,8 @@ test('Renderer:combo with draggable', async () => {
   ]);
 
   expect(container.querySelectorAll('.cxd-Combo-itemDrager')!.length).toBe(2);
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -531,6 +538,7 @@ test('Renderer:combo with conditions', async () => {
   expect(addBtn).toBeInTheDocument();
   fireEvent.click(addBtn);
   await waitFor(() => {
+    replaceReactAriaIds(container);
     expect(container).toMatchSnapshot('add button open');
   });
 
@@ -614,6 +622,7 @@ test('Renderer:combo with canAccessSuperData & strictMode & syncFields', async (
     }
   ]);
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 
   const parentInput = container.querySelector('.parentInput input')!;
@@ -675,6 +684,8 @@ test('Renderer:combo with tabsMode', async () => {
   expect(
     container.querySelector('.cxd-ComboControl .cxd-Tabs.cxd-ComboTabs')
   ).toBeInTheDocument();
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -775,6 +786,7 @@ test('Renderer:combo with addable & addattop & addBtn & addButtonText & addButto
     container.querySelector('.addableClass .cxd-Combo-toolbar button')!
   ).not.toBeInTheDocument();
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -875,6 +887,7 @@ test('Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmText'
     container.querySelector('.superDeleteBtn .cxd-Combo-delController')!
   ).toBeInTheDocument();
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(

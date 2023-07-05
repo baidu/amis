@@ -11,6 +11,7 @@ import {
 } from 'amis-editor-core';
 
 export class ContainerPlugin extends LayoutBasePlugin {
+  static id = 'ContainerPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'container';
@@ -235,7 +236,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
         title: '外观',
         className: 'p-none',
         body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('theme:common', ['layout'])
+          ...getSchemaTpl('theme:common', {exclude: ['layout']})
         ])
       }
     ]);

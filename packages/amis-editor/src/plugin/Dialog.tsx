@@ -13,6 +13,7 @@ import {
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class DialogPlugin extends BasePlugin {
+  static id = 'DialogPlugin';
   // 关联渲染器名字
   rendererName = 'dialog';
   $schema = '/schemas/DialogSchema.json';
@@ -62,9 +63,10 @@ export class DialogPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '弹窗数据'
+              title: '数据',
+              description: '当前数据域，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -78,9 +80,10 @@ export class DialogPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '弹窗数据'
+              title: '数据',
+              description: '当前数据域，可以通过.字段名读取对应的值'
             }
           }
         }

@@ -112,6 +112,7 @@ test('Renderer:fieldSet with collapsable & collapsed', async () => {
             name: 'a',
             label: 'fieldSet',
             collapsable: true,
+            title: 'header',
             body: [
               {
                 name: 'text1',
@@ -131,6 +132,7 @@ test('Renderer:fieldSet with collapsable & collapsed', async () => {
             label: 'fieldSet2',
             collapsable: true,
             collapsed: true,
+            title: 'header',
             body: [
               {
                 name: 'text1',

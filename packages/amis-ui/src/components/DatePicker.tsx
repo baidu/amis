@@ -23,6 +23,7 @@ import {isMobile, ucFirst} from 'amis-core';
 import CalendarMobile from './CalendarMobile';
 import Input from './Input';
 import type {PlainObject} from 'amis-core';
+import type {RendererEnv} from 'amis-core';
 
 const availableShortcuts: {[propName: string]: any} = {
   now: {
@@ -295,6 +296,7 @@ export interface DateProps extends LocaleProps, ThemeProps {
     className?: string;
   }>;
   scheduleClassNames?: Array<string>;
+  env?: RendererEnv;
   largeMode?: boolean;
   todayActiveStyle?: React.CSSProperties;
   onScheduleClick?: (scheduleData: any) => void;
@@ -308,6 +310,9 @@ export interface DateProps extends LocaleProps, ThemeProps {
   onBlur?: Function;
   onRef?: any;
   data?: any;
+
+  // 是否为结束时间
+  isEndDate?: boolean;
 }
 
 export interface DatePickerState {
@@ -706,6 +711,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       clearable,
       shortcuts,
       utc,
+      isEndDate,
       overlayPlacement,
       locale,
       format,
@@ -720,7 +726,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       todayActiveStyle,
       onScheduleClick,
       mobileCalendarMode,
-      label
+      label,
+      env
     } = this.props;
 
     const __ = this.props.translate;
@@ -746,6 +753,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'
         }
         timeConstraints={timeConstraints}
+        isEndDate={isEndDate}
       />
     );
     const CalendarMobileTitle = (
@@ -806,11 +814,13 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             maxDate={maxDate}
             // utc={utc}
             schedules={schedulesData}
+            env={env}
             largeMode={largeMode}
             todayActiveStyle={todayActiveStyle}
             onScheduleClick={onScheduleClick}
             embed={embed}
             useMobileUI={useMobileUI}
+            isEndDate={isEndDate}
           />
         </div>
       );
@@ -898,6 +908,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 minDate={minDate}
                 maxDate={maxDate}
                 useMobileUI={useMobileUI}
+                isEndDate={isEndDate}
                 // utc={utc}
               />
             </PopOver>

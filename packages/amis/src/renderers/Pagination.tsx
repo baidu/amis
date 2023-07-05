@@ -93,7 +93,9 @@ export default class Pagination extends React.Component<PaginationProps> {
   formatNumber(num: number | string | undefined, defaultValue?: number) {
     let result: number | undefined = undefined;
     if (typeof num === 'string') {
-      num = isPureVariable(num) ? resolveVariableAndFilter(num) : num;
+      num = isPureVariable(num)
+        ? resolveVariableAndFilter(num, this.props.data)
+        : num;
       result = typeof num === 'string' ? parseInt(num, 10) : num;
     } else if (typeof num === 'number') {
       result = num;

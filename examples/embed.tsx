@@ -295,6 +295,10 @@ export function embed(
     updateProps: (props: any, callback?: () => void) => {
       root.render(createElements(props));
     },
+    updateSchema: (newSchema: any, props = {}) => {
+      schema = newSchema;
+      root.render(createElements(props));
+    },
     unmount: () => {
       root.unmount();
     }

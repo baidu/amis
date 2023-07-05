@@ -44,12 +44,11 @@ export class CmptAction implements RendererAction {
      * 触发组件未指定id或未指定响应组件componentId，则使用触发组件响应
      */
     const key = action.componentId || action.componentName;
-    let component =
-      key && renderer.props.$schema[action.componentId ? 'id' : 'name'] !== key
-        ? event.context.scoped?.[
-            action.componentId ? 'getComponentById' : 'getComponentByName'
-          ](key)
-        : renderer;
+    let component = key
+      ? event.context.scoped?.[
+          action.componentId ? 'getComponentById' : 'getComponentByName'
+        ](key)
+      : renderer;
 
     const dataMergeMode = action.dataMergeMode || 'merge';
 

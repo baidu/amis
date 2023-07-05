@@ -2,8 +2,12 @@
  * @file 把一些功能性的东西放在了这个里面，辅助 compoennt/Editor.tsx 组件的。
  * 编辑器非 UI 相关的东西应该放在这。
  */
-
-import uniqBy from 'lodash/uniqBy';
+import {reaction} from 'mobx';
+import {parse, stringify} from 'json-ast-comments';
+import debounce from 'lodash/debounce';
+import findIndex from 'lodash/findIndex';
+import omit from 'lodash/omit';
+import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
 import {getRenderers, RenderOptions, mapTree} from 'amis-core';
 import {
   PluginInterface,
@@ -31,14 +35,14 @@ import {
   DeleteEventContext,
   RendererPluginEvent,
   PluginEvents,
-  PluginActions
+  PluginActions,
+  BasePlugin
 } from './plugin';
 import {
   EditorStoreType,
   PopOverFormContext,
   SubEditorContext
 } from './store/editor';
-
 import {
   autobind,
   camelize,
@@ -49,29 +53,18 @@ import {
   isString,
   isObject,
   isLayoutPlugin,
-  JSONPipeOut,
-  generateNodeId,
-  JSONTraverse
+  JSONPipeOut
 } from './util';
-import {reaction} from 'mobx';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
-import debounce from 'lodash/debounce';
-import sortBy from 'lodash/sortBy';
-import reverse from 'lodash/reverse';
-import cloneDeep from 'lodash/cloneDeep';
-import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
-import {parse, stringify} from 'json-ast-comments';
 import {EditorNodeType} from './store/node';
 import {EditorProps} from './component/Editor';
-import findIndex from 'lodash/findIndex';
 import {EditorDNDManager} from './dnd';
 import {VariableManager} from './variable';
-import {IScopedContext} from 'amis';
+
+import type {IScopedContext} from 'amis';
 import type {SchemaObject, SchemaCollection} from 'amis';
 import type {RendererConfig} from 'amis-core';
-import isPlainObject from 'lodash/isPlainObject';
-import {omit} from 'lodash';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -79,6 +72,8 @@ export interface EditorManagerConfig
 export interface PluginClass {
   new (manager: EditorManager, options?: any): PluginInterface;
   id?: string;
+  /** 优先级，值为整数，当存在两个ID相同的Plugin时，数字更大的优先级更高 */
+  priority?: number;
   scene?: Array<string>;
 }
 
@@ -111,22 +106,58 @@ export function registerEditorPlugin(klass: PluginClass) {
   // 处理插件身上的场景信息
   const scene = Array.from(new Set(['global'].concat(klass.scene || 'global')));
   klass.scene = scene;
-  let isExitPlugin: any = null;
+
+  let exsitedPluginIdx: any = null;
   if (klass.prototype && klass.prototype.isNpmCustomWidget) {
-    isExitPlugin = builtInPlugins.find(item =>
+    exsitedPluginIdx = builtInPlugins.findIndex(item =>
       Array.isArray(item)
         ? item[0].prototype.name === klass.prototype.name
         : item.prototype.name === klass.prototype.name
     );
   } else {
     // 待进一步优化
-    isExitPlugin = builtInPlugins.find(item => item === klass);
+    exsitedPluginIdx = builtInPlugins.findIndex(item => item === klass);
   }
-  if (!isExitPlugin) {
+
+  /** 先给新加入的plugin加一个ID */
+  if (!~exsitedPluginIdx) {
     klass.id = klass.id || klass.name || guid();
-    builtInPlugins.push(klass);
+  }
+
+  /** 因为class的继承关系，未设置ID的子class会和父class共用ID, 只有设置了priority的时候才会执行同ID去重 */
+  if (klass.priority == null || !Number.isInteger(klass.priority)) {
+    if (!~exsitedPluginIdx) {
+      builtInPlugins.push(klass);
+    } else {
+      console.warn(`注册插件「${klass.id}」异常，已存在同名插件：`, klass);
+    }
   } else {
-    console.warn(`注册插件异常，已存在同名插件：`, klass);
+    exsitedPluginIdx = ~exsitedPluginIdx
+      ? exsitedPluginIdx
+      : builtInPlugins.findIndex(
+          item =>
+            !Array.isArray(item) &&
+            item.id === klass.id &&
+            item?.prototype instanceof BasePlugin
+        );
+
+    if (!~exsitedPluginIdx) {
+      builtInPlugins.push(klass);
+    } else {
+      const current = builtInPlugins[exsitedPluginIdx] as PluginClass;
+
+      /** 同ID的插件根据优先级决定是否update */
+      const currentPriority =
+        current.priority && Number.isInteger(current.priority)
+          ? current.priority
+          : 0;
+
+      if (klass.priority > currentPriority) {
+        builtInPlugins.splice(exsitedPluginIdx, 1, klass);
+      } else {
+        console.warn(`注册插件「${klass.id}」异常，已存在同名插件：`, klass);
+      }
+    }
   }
 }
 
@@ -199,7 +230,39 @@ export class EditorManager {
     this.hackIn = parent?.hackIn || hackIn;
     // 自动加载预先注册的自定义组件
     autoPreRegisterEditorCustomPlugins();
-    const scene = config.scene || 'global';
+    /** 在顶层对外部注册的Plugin和builtInPlugins合并去重 */
+    if (!parent?.plugins) {
+      (config?.plugins || []).forEach(external => {
+        if (
+          Array.isArray(external) ||
+          !external.priority ||
+          !Number.isInteger(external.priority)
+        ) {
+          return;
+        }
+
+        const idx = builtInPlugins.findIndex(
+          builtIn =>
+            !Array.isArray(builtIn) &&
+            !Array.isArray(external) &&
+            builtIn.id === external.id &&
+            builtIn?.prototype instanceof BasePlugin
+        );
+
+        if (~idx) {
+          const current = builtInPlugins[idx] as PluginClass;
+          const currentPriority =
+            current.priority && Number.isInteger(current.priority)
+              ? current.priority
+              : 0;
+          /** 同ID Plugin根据优先级决定是否替换掉Builtin中的Plugin */
+          if (external.priority > currentPriority) {
+            builtInPlugins.splice(idx, 1);
+          }
+        }
+      });
+    }
+
     this.plugins =
       parent?.plugins ||
       (config.disableBultinPlugin ? [] : builtInPlugins) // 页面设计器注册的插件列表
@@ -236,7 +299,6 @@ export class EditorManager {
     this.dnd = parent?.dnd || new EditorDNDManager(this, store);
     this.dataSchema =
       parent?.dataSchema || new DataSchema(config.schemas || []);
-    this.dataSchema.current.tag = '系统变量';
 
     /** 初始化变量管理 */
     this.variableManager = new VariableManager(
@@ -1229,6 +1291,8 @@ export class EditorManager {
     }
 
     store.changeValue(value, diff);
+
+    this.trigger('after-update', context);
   }
 
   /**

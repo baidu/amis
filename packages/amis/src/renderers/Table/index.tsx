@@ -385,7 +385,7 @@ export interface TableProps extends RendererProps, SpinnerExtraProps {
     }
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
-  onQuery: (values: object) => void;
+  onQuery?: (values: object) => any;
   onImageEnlarge?: (data: any, target: any) => void;
   buildItemProps?: (item: any, index: number) => any;
   checkOnItemClick?: boolean;
@@ -404,6 +404,7 @@ export type ExportExcelToolbar = SchemaNode & {
   api?: SchemaApi;
   columns?: string[];
   exportColumns?: any[];
+  rowSlice?: string;
   filename?: string;
 };
 
@@ -579,7 +580,8 @@ export default class Table extends React.Component<TableProps, object> {
       expandConfig,
       formItem,
       keepItemSelectionOnPageChange,
-      maxKeepItemSelectionLength
+      maxKeepItemSelectionLength,
+      onQuery
     } = props;
 
     let combineNum = props.combineNum;
@@ -595,7 +597,7 @@ export default class Table extends React.Component<TableProps, object> {
       draggable,
       columns,
       columnsTogglable,
-      orderBy,
+      orderBy: onQuery ? orderBy : undefined,
       orderDir,
       multiple,
       footable,
@@ -667,7 +669,7 @@ export default class Table extends React.Component<TableProps, object> {
       return;
     }
 
-    this.affixDetect();
+    requestAnimationFrame(this.affixDetect);
     parent.addEventListener('scroll', this.affixDetect);
     window.addEventListener('resize', this.affixDetect);
     this.updateAutoFillHeight();
@@ -813,7 +815,7 @@ export default class Table extends React.Component<TableProps, object> {
         selectable: props.selectable,
         columnsTogglable: props.columnsTogglable,
         draggable: props.draggable,
-        orderBy: props.orderBy,
+        orderBy: props.onQuery ? props.orderBy : undefined,
         orderDir: props.orderDir,
         multiple: props.multiple,
         primaryField: props.primaryField,
@@ -1162,6 +1164,13 @@ export default class Table extends React.Component<TableProps, object> {
     const ns = this.props.classPrefix;
     const dom = findDOMNode(this) as HTMLElement;
     const clip = (this.table as HTMLElement).getBoundingClientRect();
+
+    // 还在动画中，跳过。过一会再试。
+    if (this.table.offsetWidth && clip.width / this.table.offsetWidth < 0.5) {
+      setTimeout(this.affixDetect, 200);
+      return;
+    }
+
     const offsetY =
       this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0;
     const headingHeight =
@@ -1211,6 +1220,11 @@ export default class Table extends React.Component<TableProps, object> {
     this.totalHeight = table.scrollHeight;
     this.outterWidth = outter.offsetWidth;
     this.outterHeight = outter.offsetHeight;
+
+    // 没有渲染则跳过
+    if (!this.totalWidth) {
+      return;
+    }
 
     let widths: {
       [propName: string]: number;
@@ -2068,13 +2082,15 @@ export default class Table extends React.Component<TableProps, object> {
               return;
             }
 
-            store.setOrderByInfo(orderBy, order);
-
-            onQuery &&
+            if (
+              !onQuery ||
               onQuery({
-                orderBy: store.orderBy,
-                orderDir: store.orderDir
-              });
+                orderBy: orderBy,
+                orderDir: order
+              }) === false
+            ) {
+              store.changeOrder(orderBy, order);
+            }
           }}
         >
           <i
@@ -2108,7 +2124,7 @@ export default class Table extends React.Component<TableProps, object> {
         </span>
       );
     }
-    if (!column.searchable && column.filterable && column.name) {
+    if (!column.searchable && column.filterable && column.name && onQuery) {
       affix.push(
         <HeadCellFilterDropDown
           key="table-head-filter"
@@ -2296,7 +2312,8 @@ export default class Table extends React.Component<TableProps, object> {
       showBadge:
         !props.isHead &&
         itemBadge &&
-        store.firstToggledColumnIndex === props.colIndex
+        store.firstToggledColumnIndex === props.colIndex,
+      onQuery: undefined
     };
     delete subProps.label;
 
@@ -2401,7 +2418,8 @@ export default class Table extends React.Component<TableProps, object> {
     rows: Array<any>,
     columns: Array<IColumn>,
     headerOnly: boolean = false,
-    tableClassName: string = ''
+    tableClassName: string = '',
+    fixedPosition: 'left' | 'right' = 'left'
   ) {
     const {
       placeholder,
@@ -2417,7 +2435,11 @@ export default class Table extends React.Component<TableProps, object> {
       rowClassName,
       itemAction,
       dispatchEvent,
-      onEvent
+      onEvent,
+      prefixRow,
+      affixRow,
+      prefixRowClassName,
+      affixRowClassName
     } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
     const columnsGroup = store.columnGroup;
@@ -2510,6 +2532,11 @@ export default class Table extends React.Component<TableProps, object> {
             rows={rows}
             locale={locale}
             translate={translate}
+            fixedPosition={fixedPosition}
+            prefixRow={prefixRow}
+            affixRow={affixRow}
+            prefixRowClassName={prefixRowClassName}
+            affixRowClassName={affixRowClassName}
             rowsProps={{
               regionPrefix: 'fixed/',
               renderCell: (
@@ -2562,10 +2589,6 @@ export default class Table extends React.Component<TableProps, object> {
       return null;
     }
 
-    // 不能取消到比总结行要少
-    // 否则总结行将显示不全
-    const min = Math.max(Array.isArray(affixRow) ? affixRow.length : 0, 1);
-
     return (
       <ColumnToggler
         {...rest}
@@ -2614,7 +2637,7 @@ export default class Table extends React.Component<TableProps, object> {
                 return;
               }
 
-              store.toggleAllColumns(min);
+              store.toggleAllColumns();
             }}
           >
             <Checkbox
@@ -2660,7 +2683,7 @@ export default class Table extends React.Component<TableProps, object> {
                 return;
               }
 
-              column.toggleToggle(min);
+              column.toggleToggle();
             }}
           >
             <Checkbox size="sm" classPrefix={ns} checked={column.toggled}>
@@ -3114,7 +3137,8 @@ export default class Table extends React.Component<TableProps, object> {
                   store.rows,
                   store.rightFixedColumns,
                   false,
-                  tableClassName
+                  tableClassName,
+                  'right'
                 )
               : null}
           </div>

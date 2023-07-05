@@ -168,7 +168,7 @@ export interface GridProps
     }
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
-  onQuery: (values: object) => void;
+  onQuery: (values: object) => any;
 }
 
 export default class Cards extends React.Component<GridProps, object> {

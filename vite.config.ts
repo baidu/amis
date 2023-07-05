@@ -90,8 +90,8 @@ export default defineConfig({
         replacement: path.resolve(__dirname, './packages/amis-editor-core/src')
       },
       {
-        find: 'ooxml-viewer',
-        replacement: path.resolve(__dirname, './packages/ooxml-viewer/src')
+        find: 'office-viewer',
+        replacement: path.resolve(__dirname, './packages/office-viewer/src')
       }
     ]
   }

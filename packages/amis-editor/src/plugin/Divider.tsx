@@ -3,6 +3,7 @@ import {BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 
 export class DividerPlugin extends BasePlugin {
+  static id = 'DividerPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'divider';

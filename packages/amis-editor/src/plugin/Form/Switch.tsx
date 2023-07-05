@@ -6,6 +6,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import type {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class SwitchControlPlugin extends BasePlugin {
+  static id = 'SwitchControlPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'switch';
@@ -53,9 +54,15 @@ export class SwitchControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '开关值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '开关值'
+                }
+              }
             }
           }
         }

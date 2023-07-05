@@ -7,7 +7,14 @@ import sortBy from 'lodash/sortBy';
 import cloneDeep from 'lodash/cloneDeep';
 import reverse from 'lodash/reverse';
 import pick from 'lodash/pick';
-import {JSONSchema, DataSchema, mapTree, findTree, eachTree} from 'amis-core';
+import {
+  JSONSchema,
+  DataSchema,
+  mapTree,
+  findTree,
+  eachTree,
+  DATASCHEMA_TYPE_MAP
+} from 'amis-core';
 import type {Option} from 'amis-core';
 
 export interface VariableGroup {
@@ -104,10 +111,20 @@ export class VariableManager {
       }
 
       /** 初始化变量Scope */
-      dataSchema.addScope(schema, scopeName);
+      dataSchema.addScope(
+        {
+          type: 'object',
+          $id: scopeName,
+          properties: {
+            [scopeName]: {
+              ...schema,
+              title: tagName
+            }
+          }
+        },
+        scopeName
+      );
       dataSchema.switchTo(scopeName);
-      /** 这里的Tag指变量的命名空间中文名称 */
-      dataSchema.current.tag = tagName;
 
       if (afterScopeInsert && typeof afterScopeInsert === 'function') {
         afterScopeInsert(this);
@@ -159,7 +176,7 @@ export class VariableManager {
           const children = mapTree(varScope.getDataPropsAsOptions(), item => ({
             ...item,
             /** tag默认会被赋值为description，这里得替换回来 */
-            tag: item.type
+            tag: DATASCHEMA_TYPE_MAP[item.type] ?? item.type
           }));
 
           if (varScope.tag) {
@@ -218,11 +235,11 @@ export class VariableManager {
   getPageVariablesOptions() {
     let options: Option[] = [];
 
-    const pageScope = this.dataSchema?.root.children?.filter(
-      item => item.tag === '页面变量'
-    )[0];
-    if (pageScope) {
-      options = pageScope.getDataPropsAsOptions();
+    const rootScope = this.dataSchema?.root;
+    if (rootScope) {
+      options = rootScope
+        .getDataPropsAsOptions()
+        .filter((item: any) => ['__query', '__page'].includes(item.value));
     }
     eachTree(options, item => {
       if (item.type === 'array') {

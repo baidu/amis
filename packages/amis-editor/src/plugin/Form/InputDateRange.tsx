@@ -181,6 +181,7 @@ const sizeImmutableComponents = Object.values(DateType)
   .filter(a => a);
 
 export class DateRangeControlPlugin extends BasePlugin {
+  static id = 'DateRangeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-date-range';
   $schema = '/schemas/DateRangeControlSchema.json';
@@ -227,9 +228,15 @@ export class DateRangeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '时间值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前时间范围'
+                }
+              }
             }
           }
         }
@@ -243,9 +250,15 @@ export class DateRangeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '时间值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前时间范围'
+                }
+              }
             }
           }
         }
@@ -259,9 +272,15 @@ export class DateRangeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '时间值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前时间范围'
+                }
+              }
             }
           }
         }

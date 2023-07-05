@@ -22,10 +22,6 @@ export function editorFactory(
 
 interface FormulaPluginConfig {
   getProps: () => TextareaFormulaControlProps;
-  onExpressionClick?: (
-    expression: string,
-    brace?: Array<CodeMirror.Position>
-  ) => any;
   onExpressionMouseEnter?: (
     e: MouseEvent,
     expression: string,
@@ -67,6 +63,7 @@ export class FormulaPlugin {
   autoMark() {
     const editor = this.editor;
     const lines = editor.lineCount();
+
     for (let line = 0; line < lines; line++) {
       const content = editor.getLine(line);
       const braces = this.computedBracesPosition(content);
@@ -225,13 +222,8 @@ export class FormulaPlugin {
     expression = '',
     className = 'cm-expression'
   ) {
-    const {
-      onExpressionClick,
-      onExpressionMouseEnter,
-      getProps,
-      showPopover,
-      showClearIcon
-    } = this.config;
+    const {onExpressionMouseEnter, getProps, showPopover, showClearIcon} =
+      this.config;
 
     const variables = getProps()?.variables as VariableItem[];
     const highlightValue = FormulaEditor.highlightValue(
@@ -247,10 +239,6 @@ export class FormulaPlugin {
     text.className = `${className}-text`;
     text.innerHTML = highlightValue.html;
     text.setAttribute('data-expression', expression);
-    text.onclick = () => {
-      const brace = this.getExpressionBrace(expression);
-      onExpressionClick?.(expression, brace);
-    };
     text.onmouseenter = e => {
       const brace = this.getExpressionBrace(expression);
       onExpressionMouseEnter?.(e, expression, brace);

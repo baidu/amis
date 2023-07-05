@@ -140,6 +140,7 @@ const dateTooltip =
   '支持例如: <code>now、+3days、-2weeks、+1hour、+2years</code> 等（minute|min|hour|day|week|month|year|weekday|second|millisecond）这种相对值用法';
 
 export class DateControlPlugin extends BasePlugin {
+  static id = 'DateControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-date';
   $schema = '/schemas/DateControlSchema.json';
@@ -185,9 +186,15 @@ export class DateControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '时间值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前日期'
+                }
+              }
             }
           }
         }
@@ -201,9 +208,15 @@ export class DateControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '时间值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前日期'
+                }
+              }
             }
           }
         }
@@ -217,9 +230,15 @@ export class DateControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '时间值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前日期'
+                }
+              }
             }
           }
         }

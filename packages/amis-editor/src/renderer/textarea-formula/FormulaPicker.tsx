@@ -46,7 +46,7 @@ const FormulaPicker: React.FC<FormulaPickerProps> = props => {
   return (
     <Modal
       className={cx('FormulaPicker-Modal')}
-      size="md"
+      size="lg"
       show
       onHide={handleClose}
       closeOnEsc

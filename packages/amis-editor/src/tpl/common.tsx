@@ -114,6 +114,7 @@ setSchemaTpl(
 setSchemaTpl('formulaControl', (schema: object = {}) => {
   return {
     type: 'ae-formulaControl',
+    variableMode: 'tree',
     ...schema
   };
 });
@@ -121,6 +122,7 @@ setSchemaTpl('formulaControl', (schema: object = {}) => {
 setSchemaTpl('expressionFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-expressionFormulaControl',
+    variableMode: 'tree',
     ...schema
   };
 });
@@ -128,6 +130,7 @@ setSchemaTpl('expressionFormulaControl', (schema: object = {}) => {
 setSchemaTpl('textareaFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-textareaFormulaControl',
+    variableMode: 'tree',
     ...schema
   };
 });
@@ -135,6 +138,7 @@ setSchemaTpl('textareaFormulaControl', (schema: object = {}) => {
 setSchemaTpl('tplFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-tplFormulaControl',
+    variableMode: 'tree',
     ...schema
   };
 });
@@ -356,7 +360,9 @@ setSchemaTpl(
 
     return {
       type: 'collapse-group',
-      activeKey: collapseGroupBody.map(panel => panel.title),
+      activeKey: collapseGroupBody
+        .filter(item => item && !item.collapsed)
+        .map(panel => panel.title),
       expandIconPosition: 'right',
       expandIcon: {
         type: 'icon',
@@ -632,7 +638,7 @@ setSchemaTpl('sourceBindControl', (schema: object = {}) => ({
   type: 'ae-formulaControl',
   name: 'source',
   label: '数据',
-  variableMode: 'tabs',
+  variableMode: 'tree',
   inputMode: 'input-group',
   placeholder: '请输入表达式',
   requiredDataPropsVariables: true,
@@ -1216,17 +1222,6 @@ setSchemaTpl('app-page-args', {
       valueField: 'value',
       required: true
     },
-    /*
-     {
-      name: 'val',
-      type: 'input-formula',
-      placeholder: '参数值',
-      variables: '${variables}',
-      evalMode: false,
-      variableMode: 'tabs',
-      inputMode: 'input-group'
-    }
-     */
     getSchemaTpl('formulaControl', {
       name: 'val',
       variables: '${variables}',

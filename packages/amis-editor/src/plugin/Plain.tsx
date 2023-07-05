@@ -8,6 +8,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class PlainPlugin extends BasePlugin {
+  static id = 'PlainPlugin';
   // 关联渲染器名字
   rendererName = 'plain';
   $schema = '/schemas/PlainSchema.json';
@@ -46,9 +47,15 @@ export class PlainPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }
@@ -62,9 +69,15 @@ export class PlainPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }
@@ -78,9 +91,15 @@ export class PlainPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }
@@ -101,16 +120,15 @@ export class PlainPlugin extends BasePlugin {
             {
               title: '基本',
               body: [
-                {
+                getSchemaTpl('textareaFormulaControl', {
+                  name: 'tpl',
                   label: '内容',
-                  type: 'textarea',
-                  mode: 'col',
+                  mode: 'normal',
                   pipeIn: (value: any, data: any) =>
                     value || (data && data.text),
-                  name: 'tpl',
                   description:
                     '如果当前字段有值，请不要设置，否则覆盖。支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/amis/zh-CN/docs/concepts/template">详情</a>'
-                },
+                }),
                 getSchemaTpl('placeholder', {
                   pipeIn: defaultValue('-'),
                   label: '占位符'

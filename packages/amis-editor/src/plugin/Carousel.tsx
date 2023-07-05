@@ -4,6 +4,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 
 export class CarouselPlugin extends BasePlugin {
+  static id = 'CarouselPlugin';
   // 关联渲染器名字
   rendererName = 'carousel';
   $schema = '/schemas/CarouselSchema.json';

@@ -19,6 +19,7 @@ const presetColors = [
 ];
 
 export class TagPlugin extends BasePlugin {
+  static id = 'TagPlugin';
   // 关联渲染器名字
   rendererName = 'tag';
   $schema = '/schemas/TagSchema.json';
@@ -55,13 +56,25 @@ export class TagPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             },
-            label: {
-              type: 'string',
-              title: '标签名称'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                label: {
+                  type: 'object',
+                  title: '标签名称'
+                }
+              }
             }
           }
         }
@@ -75,13 +88,25 @@ export class TagPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             },
-            label: {
-              type: 'string',
-              title: '标签名称'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                label: {
+                  type: 'object',
+                  title: '标签名称'
+                }
+              }
             }
           }
         }
@@ -95,13 +120,25 @@ export class TagPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             },
-            label: {
-              type: 'string',
-              title: '标签名称'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                label: {
+                  type: 'object',
+                  title: '标签名称'
+                }
+              }
             }
           }
         }
@@ -115,13 +152,25 @@ export class TagPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             },
-            label: {
-              type: 'string',
-              title: '标签名称'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                label: {
+                  type: 'object',
+                  title: '标签名称'
+                }
+              }
             }
           }
         }
@@ -159,7 +208,14 @@ export class TagPlugin extends BasePlugin {
                     label: '状态',
                     value: 'status'
                   }
-                ]
+                ],
+                onChange: (value: any, origin: any, item: any, form: any) => {
+                  if (value !== 'status') {
+                    form.setValues({
+                      icon: undefined
+                    });
+                  }
+                }
               },
               getSchemaTpl('icon', {
                 visibleOn: 'data.displayMode === "status"',

@@ -7,6 +7,7 @@ import {BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 export class TasksPlugin extends BasePlugin {
+  static id = 'TasksPlugin';
   // 关联渲染器名字
   rendererName = 'tasks';
   $schema = '/schemas/TasksSchema.json';

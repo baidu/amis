@@ -260,7 +260,7 @@ export interface ListProps
     }
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
-  onQuery: (values: object) => void;
+  onQuery: (values: object) => any;
 }
 
 export default class List extends React.Component<ListProps, object> {
@@ -321,6 +321,7 @@ export default class List extends React.Component<ListProps, object> {
       orderBy,
       orderDir,
       multiple,
+      strictMode,
       hideCheckToggler,
       itemCheckableOn,
       itemDraggableOn
@@ -329,6 +330,7 @@ export default class List extends React.Component<ListProps, object> {
     store.update({
       /** Card嵌套List情况下该属性获取到的值为ListStore的默认值, 会导致Schema中的配置被覆盖 */
       multiple: multiple || props?.$schema.multiple,
+      strictMode: strictMode || props?.$schema.strictMode,
       selectable: selectable || props?.$schema.selectable,
       draggable: draggable || props?.$schema.draggable,
       orderBy,
@@ -399,6 +401,7 @@ export default class List extends React.Component<ListProps, object> {
           'orderBy',
           'orderDir',
           'multiple',
+          'strictMode',
           'hideCheckToggler',
           'itemCheckableOn',
           'itemDraggableOn'
@@ -409,6 +412,7 @@ export default class List extends React.Component<ListProps, object> {
     ) {
       store.update({
         multiple: props.multiple,
+        strictMode: props.strictMode,
         selectable: props.selectable,
         draggable: props.draggable,
         orderBy: props.orderBy,
@@ -673,6 +677,7 @@ export default class List extends React.Component<ListProps, object> {
     actions = Array.isArray(actions) ? actions.concat() : [];
 
     if (
+      region === 'header' &&
       !~this.renderedToolbars.indexOf('check-all') &&
       (btn = this.renderCheckAll())
     ) {
@@ -1194,7 +1199,7 @@ export class ListItem extends React.Component<ListItemProps> {
             type={multiple !== false ? 'checkbox' : 'radio'}
             disabled={!checkable}
             checked={selected}
-            onChange={checkOnItemClick ? noop : this.handleCheck}
+            onChange={this.handleCheck}
             inline
           />
         </div>

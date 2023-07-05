@@ -20,6 +20,7 @@ function isTextShow(value: string, name: boolean): boolean {
 }
 
 export class TextControlPlugin extends BasePlugin {
+  static id = 'TextControlPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'input-text';
@@ -79,9 +80,15 @@ export class TextControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '输入值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前文本内容'
+                }
+              }
             }
           }
         }
@@ -95,9 +102,15 @@ export class TextControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '输入值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前文本内容'
+                }
+              }
             }
           }
         }
@@ -111,9 +124,15 @@ export class TextControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '输入值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前文本内容'
+                }
+              }
             }
           }
         }

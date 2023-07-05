@@ -16,6 +16,7 @@ import pick from 'lodash/pick';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {normalizeApiResponseData} from '../utils/api';
 import {matchSorter} from 'match-sorter';
+import {filter} from '../utils/tpl';
 
 class ServerError extends Error {
   type = 'ServerError';
@@ -288,14 +289,16 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             items = result.items || result.rows;
           }
 
-          // 如果不按照 items 格式返回，就拿第一个数组当成 items
           if (!Array.isArray(items)) {
+            // 如果不按照 items 格式返回，就拿第一个数组当成 items
             for (const key of Object.keys(result)) {
               if (result.hasOwnProperty(key) && Array.isArray(result[key])) {
                 items = result[key];
                 break;
               }
             }
+          } else if (items == null) {
+            items = [];
           }
 
           if (!Array.isArray(items)) {
@@ -585,9 +588,17 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
     };
 
     const exportAsCSV = async (
-      options: {loadDataOnce?: boolean; api?: Api; data?: any} = {}
+      options: {
+        loadDataOnce?: boolean;
+        api?: Api;
+        data?: any;
+        filename?: string;
+      } = {}
     ) => {
       let items = options.loadDataOnce ? self.data.itemsRaw : self.data.items;
+      const filename = options.filename
+        ? filter(options.filename, options.data, '| raw')
+        : 'data';
 
       if (options.api) {
         const env = getEnv(self);
@@ -626,7 +637,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               type: 'text/plain;charset=utf-8'
             }
           );
-          saveAs(blob, 'data.csv');
+          saveAs(blob, `${filename}.csv`);
         }
       });
     };

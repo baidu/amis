@@ -7,6 +7,7 @@ import {BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 export class SparklinePlugin extends BasePlugin {
+  static id = 'SparklinePlugin';
   // 关联渲染器名字
   rendererName = 'sparkline';
   $schema = '/schemas/SparklineSchema.json';

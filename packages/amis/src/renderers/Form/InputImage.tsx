@@ -373,7 +373,8 @@ export default class ImageControl extends React.Component<
     delimiter: ',',
     autoUpload: true,
     multiple: false,
-    dropCrop: true
+    dropCrop: true,
+    initAutoFill: true
   };
 
   static valueToFile(
@@ -428,7 +429,7 @@ export default class ImageControl extends React.Component<
   resolve?: (value?: any) => void;
   emitValue: any;
   unmounted = false;
-  initAutoFill: boolean;
+  initedFilled = false;
   // 文件重新上传的位置标记，用以定位替换
   reuploadIndex: undefined | number = undefined;
 
@@ -439,7 +440,6 @@ export default class ImageControl extends React.Component<
     const joinValues = props.joinValues;
     const delimiter = props.delimiter as string;
     let files: Array<FileValue> = [];
-    this.initAutoFill = !!(props.initAutoFill ?? true);
 
     if (value) {
       // files = (multiple && Array.isArray(value) ? value : joinValues ? (value as string).split(delimiter) : [value])
@@ -488,11 +488,16 @@ export default class ImageControl extends React.Component<
   }
 
   componentDidMount() {
-    if (this.initAutoFill) {
-      const {formInited, addHook} = this.props;
-      formInited || !addHook
-        ? this.syncAutoFill()
-        : addHook(this.syncAutoFill, 'init');
+    const {formInited, addHook} = this.props;
+
+    if (formInited || !addHook) {
+      this.initedFilled = true;
+      this.props.initAutoFill && this.syncAutoFill();
+    } else if (addHook) {
+      addHook(() => {
+        this.initedFilled = true;
+        this.props.initAutoFill && this.syncAutoFill();
+      }, 'init');
     }
 
     if (this.props.initCrop && this.files.length) {
@@ -532,7 +537,7 @@ export default class ImageControl extends React.Component<
               obj = {
                 ...org,
                 ...obj,
-                id: org.id || obj.id
+                id: org.id || obj.id || guid()
               };
             }
 
@@ -545,7 +550,9 @@ export default class ImageControl extends React.Component<
         {
           files: (this.files = files)
         },
-        this.initAutoFill ? this.syncAutoFill : () => {}
+        props.changeMotivation !== 'formInited' && this.initedFilled
+          ? this.syncAutoFill
+          : undefined
       );
     }
 
@@ -1380,7 +1387,7 @@ export default class ImageControl extends React.Component<
           },
           () => {
             if (!needUploading) {
-              this.onChange(false, true, this.initAutoFill);
+              this.onChange(false, true, this.props.initAutoFill);
             }
           }
         );

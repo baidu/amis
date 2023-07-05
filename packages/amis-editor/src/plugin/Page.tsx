@@ -11,8 +11,10 @@ import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import type {SchemaObject} from 'amis';
 import {tipedLabel} from 'amis-editor-core';
 import {jsonToJsonSchema, EditorNodeType} from 'amis-editor-core';
+import omit from 'lodash/omit';
 
 export class PagePlugin extends BasePlugin {
+  static id = 'PagePlugin';
   // 关联渲染器名字
   rendererName = 'page';
   $schema = '/schemas/PageSchema.json';
@@ -57,9 +59,10 @@ export class PagePlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前数据域'
+              title: '数据',
+              description: '当前数据域，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -73,17 +76,23 @@ export class PagePlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.responseData': {
+            data: {
               type: 'object',
-              title: '响应数据'
-            },
-            'event.data.responseStatus': {
-              type: 'number',
-              title: '响应状态(0表示成功)'
-            },
-            'event.data.responseMsg': {
-              type: 'string',
-              title: '响应消息'
+              title: '数据',
+              properties: {
+                responseData: {
+                  type: 'object',
+                  title: '响应数据'
+                },
+                responseStatus: {
+                  type: 'number',
+                  title: '响应状态(0表示成功)'
+                },
+                responseMsg: {
+                  type: 'string',
+                  title: '响应消息'
+                }
+              }
             }
           }
         }
@@ -283,7 +292,7 @@ export class PagePlugin extends BasePlugin {
           className: 'p-none',
           body: [
             getSchemaTpl('collapseGroup', [
-              ...getSchemaTpl('theme:common', ['layout'])
+              ...getSchemaTpl('theme:common', {exclude: ['layout']})
             ])
           ]
         },
@@ -355,17 +364,22 @@ export class PagePlugin extends BasePlugin {
     ];
   };
 
-  rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
-    if (e === 'init') {
-      const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
-      const jsonschema: any = {
-        $id: 'pageInitData',
-        ...jsonToJsonSchema(data)
-      };
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
+    const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
+    let jsonschema = {
+      $id: 'pageStaticData',
+      ...jsonToJsonSchema(omit(node.schema.data, '$$id'))
+    };
 
-      scope?.removeSchema(jsonschema.$id);
-      scope?.addSchema(jsonschema);
-    }
+    scope?.removeSchema(jsonschema.$id);
+    scope?.addSchema(jsonschema);
+  }
+
+  rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
     if (e === 'inited') {
       const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
       const jsonschema: any = {

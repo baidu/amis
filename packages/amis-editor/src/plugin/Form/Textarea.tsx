@@ -8,6 +8,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class TextareaControlPlugin extends BasePlugin {
+  static id = 'TextareaControlPlugin';
   // 关联渲染器名字
   rendererName = 'textarea';
   $schema = '/schemas/TextareaControlSchema.json';
@@ -48,9 +49,15 @@ export class TextareaControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '输入值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前文本内容'
+                }
+              }
             }
           }
         }
@@ -64,9 +71,15 @@ export class TextareaControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '输入值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前文本内容'
+                }
+              }
             }
           }
         }
@@ -80,9 +93,15 @@ export class TextareaControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '输入值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前的文本内容'
+                }
+              }
             }
           }
         }

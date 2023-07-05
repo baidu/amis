@@ -2068,13 +2068,11 @@ exports[`Renderer:text with options 1`] = `
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby="downshift-0-label"
               class="cxd-TextControl-input cxd-TextControl-input--withAC"
               role="combobox"
             >
               <input
                 aria-autocomplete="list"
-                aria-labelledby="downshift-0-label"
                 autocomplete="off"
                 class=""
                 id="downshift-0-input"
@@ -2202,10 +2200,10 @@ exports[`Renderer:text with options and multiple and delimiter: first option sel
             <div
               aria-expanded="true"
               aria-haspopup="listbox"
-              aria-labelledby="downshift-1-label"
               aria-owns="downshift-1-menu"
-              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple"
+              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple has-popover"
               role="combobox"
+              style="position: relative;"
             >
               <div
                 class="cxd-TextControl-value"
@@ -2223,7 +2221,6 @@ exports[`Renderer:text with options and multiple and delimiter: first option sel
               <input
                 aria-autocomplete="list"
                 aria-controls="downshift-1-menu"
-                aria-labelledby="downshift-1-label"
                 autocomplete="off"
                 class=""
                 id="downshift-1-input"
@@ -2233,38 +2230,122 @@ exports[`Renderer:text with options and multiple and delimiter: first option sel
                 value=""
               />
               <div
-                class="cxd-TextControl-sugs"
+                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop"
+                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                theme="cxd"
               >
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-1-item-0"
-                  role="option"
+                  class="cxd-TextControl-sugs"
                 >
-                  <span>
-                    OptionB
-                  </span>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-1-item-0"
+                    role="option"
+                  >
+                    <span>
+                      OptionB
+                    </span>
+                  </div>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-1-item-1"
+                    role="option"
+                  >
+                    <span>
+                      OptionC
+                    </span>
+                  </div>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-1-item-2"
+                    role="option"
+                  >
+                    <span>
+                      OptionD
+                    </span>
+                  </div>
                 </div>
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-1-item-1"
-                  role="option"
+                  class="resize-sensor"
+                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
                 >
-                  <span>
-                    OptionC
-                  </span>
+                  
+  
+                  <div
+                    class="resize-sensor-expand"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-shrink"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-appear"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                  />
                 </div>
+              </div>
+              <div
+                class="resize-sensor"
+                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+  
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-1-item-2"
-                  role="option"
+                  class="resize-sensor-expand"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
                 >
-                  <span>
-                    OptionD
-                  </span>
+                  
+    
+                  <div
+                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                  />
+                  
+  
                 </div>
+                
+  
+                <div
+                  class="resize-sensor-shrink"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-appear"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                />
               </div>
             </div>
           </div>
@@ -2403,15 +2484,14 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
             <div
               aria-expanded="true"
               aria-haspopup="listbox"
-              aria-labelledby="downshift-1-label"
               aria-owns="downshift-1-menu"
-              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple"
+              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple has-popover"
               role="combobox"
+              style="position: relative;"
             >
               <input
                 aria-autocomplete="list"
                 aria-controls="downshift-1-menu"
-                aria-labelledby="downshift-1-label"
                 autocomplete="off"
                 class=""
                 id="downshift-1-input"
@@ -2421,48 +2501,132 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
                 value=""
               />
               <div
-                class="cxd-TextControl-sugs"
+                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop"
+                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                theme="cxd"
               >
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-1-item-0"
-                  role="option"
+                  class="cxd-TextControl-sugs"
                 >
-                  <span>
-                    OptionA
-                  </span>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-1-item-0"
+                    role="option"
+                  >
+                    <span>
+                      OptionA
+                    </span>
+                  </div>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-1-item-1"
+                    role="option"
+                  >
+                    <span>
+                      OptionB
+                    </span>
+                  </div>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-1-item-2"
+                    role="option"
+                  >
+                    <span>
+                      OptionC
+                    </span>
+                  </div>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-1-item-3"
+                    role="option"
+                  >
+                    <span>
+                      OptionD
+                    </span>
+                  </div>
                 </div>
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-1-item-1"
-                  role="option"
+                  class="resize-sensor"
+                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
                 >
-                  <span>
-                    OptionB
-                  </span>
+                  
+  
+                  <div
+                    class="resize-sensor-expand"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-shrink"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-appear"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                  />
                 </div>
+              </div>
+              <div
+                class="resize-sensor"
+                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+  
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-1-item-2"
-                  role="option"
+                  class="resize-sensor-expand"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
                 >
-                  <span>
-                    OptionC
-                  </span>
+                  
+    
+                  <div
+                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                  />
+                  
+  
                 </div>
+                
+  
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-1-item-3"
-                  role="option"
+                  class="resize-sensor-shrink"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
                 >
-                  <span>
-                    OptionD
-                  </span>
+                  
+    
+                  <div
+                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                  />
+                  
+  
                 </div>
+                
+  
+                <div
+                  class="resize-sensor-appear"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                />
               </div>
             </div>
           </div>
@@ -2605,10 +2769,10 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
             <div
               aria-expanded="true"
               aria-haspopup="listbox"
-              aria-labelledby="downshift-1-label"
               aria-owns="downshift-1-menu"
-              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple"
+              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple has-popover"
               role="combobox"
+              style="position: relative;"
             >
               <div
                 class="cxd-TextControl-value"
@@ -2626,7 +2790,6 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
               <input
                 aria-autocomplete="list"
                 aria-controls="downshift-1-menu"
-                aria-labelledby="downshift-1-label"
                 autocomplete="off"
                 class=""
                 id="downshift-1-input"
@@ -2636,38 +2799,122 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
                 value=""
               />
               <div
-                class="cxd-TextControl-sugs"
+                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop"
+                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                theme="cxd"
               >
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-1-item-0"
-                  role="option"
+                  class="cxd-TextControl-sugs"
                 >
-                  <span>
-                    OptionB
-                  </span>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-1-item-0"
+                    role="option"
+                  >
+                    <span>
+                      OptionB
+                    </span>
+                  </div>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-1-item-1"
+                    role="option"
+                  >
+                    <span>
+                      OptionC
+                    </span>
+                  </div>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-1-item-2"
+                    role="option"
+                  >
+                    <span>
+                      OptionD
+                    </span>
+                  </div>
                 </div>
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-1-item-1"
-                  role="option"
+                  class="resize-sensor"
+                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
                 >
-                  <span>
-                    OptionC
-                  </span>
+                  
+  
+                  <div
+                    class="resize-sensor-expand"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-shrink"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-appear"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                  />
                 </div>
+              </div>
+              <div
+                class="resize-sensor"
+                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+  
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-1-item-2"
-                  role="option"
+                  class="resize-sensor-expand"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
                 >
-                  <span>
-                    OptionD
-                  </span>
+                  
+    
+                  <div
+                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                  />
+                  
+  
                 </div>
+                
+  
+                <div
+                  class="resize-sensor-shrink"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-appear"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                />
               </div>
             </div>
           </div>
@@ -2806,10 +3053,10 @@ exports[`Renderer:text with options and multiple and delimiter: second option se
             <div
               aria-expanded="true"
               aria-haspopup="listbox"
-              aria-labelledby="downshift-1-label"
               aria-owns="downshift-1-menu"
-              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple"
+              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple has-popover"
               role="combobox"
+              style="position: relative;"
             >
               <div
                 class="cxd-TextControl-value"
@@ -2840,7 +3087,6 @@ exports[`Renderer:text with options and multiple and delimiter: second option se
               <input
                 aria-autocomplete="list"
                 aria-controls="downshift-1-menu"
-                aria-labelledby="downshift-1-label"
                 autocomplete="off"
                 class=""
                 id="downshift-1-input"
@@ -2850,28 +3096,112 @@ exports[`Renderer:text with options and multiple and delimiter: second option se
                 value=""
               />
               <div
-                class="cxd-TextControl-sugs"
+                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop"
+                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                theme="cxd"
               >
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-1-item-0"
-                  role="option"
+                  class="cxd-TextControl-sugs"
                 >
-                  <span>
-                    OptionC
-                  </span>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-1-item-0"
+                    role="option"
+                  >
+                    <span>
+                      OptionC
+                    </span>
+                  </div>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-1-item-1"
+                    role="option"
+                  >
+                    <span>
+                      OptionD
+                    </span>
+                  </div>
                 </div>
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-1-item-1"
-                  role="option"
+                  class="resize-sensor"
+                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
                 >
-                  <span>
-                    OptionD
-                  </span>
+                  
+  
+                  <div
+                    class="resize-sensor-expand"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-shrink"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-appear"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                  />
                 </div>
+              </div>
+              <div
+                class="resize-sensor"
+                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+  
+                <div
+                  class="resize-sensor-expand"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-shrink"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-appear"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                />
               </div>
             </div>
           </div>
@@ -3010,7 +3340,6 @@ exports[`Renderer:text with options and multiple and delimiter: thrid option cre
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby="downshift-1-label"
               class="cxd-TextControl-input cxd-TextControl-input--withAC cxd-TextControl-input--multiple"
               role="combobox"
             >
@@ -3055,7 +3384,6 @@ exports[`Renderer:text with options and multiple and delimiter: thrid option cre
               </div>
               <input
                 aria-autocomplete="list"
-                aria-labelledby="downshift-1-label"
                 autocomplete="off"
                 class=""
                 id="downshift-1-input"
@@ -3201,15 +3529,14 @@ exports[`Renderer:text with options: options is open 1`] = `
             <div
               aria-expanded="true"
               aria-haspopup="listbox"
-              aria-labelledby="downshift-0-label"
               aria-owns="downshift-0-menu"
-              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened"
+              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened has-popover"
               role="combobox"
+              style="position: relative;"
             >
               <input
                 aria-autocomplete="list"
                 aria-controls="downshift-0-menu"
-                aria-labelledby="downshift-0-label"
                 autocomplete="off"
                 class=""
                 id="downshift-0-input"
@@ -3219,28 +3546,112 @@ exports[`Renderer:text with options: options is open 1`] = `
                 value=""
               />
               <div
-                class="cxd-TextControl-sugs"
+                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop"
+                style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
+                theme="cxd"
               >
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-0-item-0"
-                  role="option"
+                  class="cxd-TextControl-sugs"
                 >
-                  <span>
-                    Option A
-                  </span>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-0-item-0"
+                    role="option"
+                  >
+                    <span>
+                      Option A
+                    </span>
+                  </div>
+                  <div
+                    aria-selected="false"
+                    class="cxd-TextControl-sugItem"
+                    id="downshift-0-item-1"
+                    role="option"
+                  >
+                    <span>
+                      Option B
+                    </span>
+                  </div>
                 </div>
                 <div
-                  aria-selected="false"
-                  class="cxd-TextControl-sugItem"
-                  id="downshift-0-item-1"
-                  role="option"
+                  class="resize-sensor"
+                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
                 >
-                  <span>
-                    Option B
-                  </span>
+                  
+  
+                  <div
+                    class="resize-sensor-expand"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-shrink"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-appear"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                  />
                 </div>
+              </div>
+              <div
+                class="resize-sensor"
+                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+  
+                <div
+                  class="resize-sensor-expand"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-shrink"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-appear"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                />
               </div>
             </div>
           </div>
@@ -3361,7 +3772,6 @@ exports[`Renderer:text with options: select first option 1`] = `
             <div
               aria-expanded="true"
               aria-haspopup="listbox"
-              aria-labelledby="downshift-0-label"
               aria-owns="downshift-0-menu"
               class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened"
               role="combobox"
@@ -3369,7 +3779,6 @@ exports[`Renderer:text with options: select first option 1`] = `
               <input
                 aria-autocomplete="list"
                 aria-controls="downshift-0-menu"
-                aria-labelledby="downshift-0-label"
                 autocomplete="off"
                 class=""
                 id="downshift-0-input"

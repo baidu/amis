@@ -100,6 +100,7 @@ export const ListStore = iRendererStore
     draggable: false,
     dragging: false,
     multiple: true,
+    strictMode: false,
     selectable: false,
     itemCheckableOn: '',
     itemDraggableOn: '',
@@ -167,6 +168,7 @@ export const ListStore = iRendererStore
       config.selectable === void 0 || (self.selectable = config.selectable);
       config.draggable === void 0 || (self.draggable = config.draggable);
       config.multiple === void 0 || (self.multiple = config.multiple);
+      config.strictMode === void 0 || (self.strictMode = config.strictMode);
       config.hideCheckToggler === void 0 ||
         (self.hideCheckToggler = config.hideCheckToggler);
 
@@ -212,11 +214,13 @@ export const ListStore = iRendererStore
         if (~selected.indexOf(item.pristine)) {
           self.selectedItems.push(item);
         } else if (
-          find(
-            selected,
-            a =>
-              a[valueField || 'value'] == item.pristine[valueField || 'value']
-          )
+          find(selected, a => {
+            const selectValue = a[valueField || 'value'];
+            const itemValue = item.pristine[valueField || 'value'];
+            return self.strictMode
+              ? selectValue === itemValue
+              : selectValue == itemValue;
+          })
         ) {
           self.selectedItems.push(item);
         }

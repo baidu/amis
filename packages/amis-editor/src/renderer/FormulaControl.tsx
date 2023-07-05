@@ -3,16 +3,12 @@
  */
 
 import React from 'react';
-import debounce from 'lodash/debounce';
-import uniqBy from 'lodash/uniqBy';
 import isNumber from 'lodash/isNumber';
 import isBoolean from 'lodash/isBoolean';
 import isPlainObject from 'lodash/isPlainObject';
 import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
-import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
-import last from 'lodash/last';
 import cx from 'classnames';
 import {
   FormItem,
@@ -34,11 +30,11 @@ import type {
   VariableItem,
   FuncGroup
 } from 'amis-ui/lib/components/formula/Editor';
-import {dataMapping, FormControlProps} from 'amis-core';
+import {FormControlProps} from 'amis-core';
 import type {BaseEventContext} from 'amis-editor-core';
 import {EditorManager} from 'amis-editor-core';
 import {reaction} from 'mobx';
-import {getVariables} from './textarea-formula/utils';
+import {getVariables} from 'amis-editor-core';
 
 export enum FormulaDateType {
   NotDate, // 不是时间类
@@ -176,7 +172,7 @@ export default class FormulaControl extends React.Component<
     super(props);
     this.state = {
       variables: [],
-      variableMode: 'tabs',
+      variableMode: 'tree',
       formulaPickerOpen: false,
       loading: false
     };
@@ -191,26 +187,8 @@ export default class FormulaControl extends React.Component<
       async () => {
         this.appLocale = editorStore?.appLocale;
         this.appCorpusData = editorStore?.appCorpusData;
-        const variablesArr = await getVariables(this);
-        this.setState({
-          variables: variablesArr
-        });
       }
     );
-
-    const variablesArr = await getVariables(this);
-    this.setState({
-      variables: variablesArr
-    });
-  }
-
-  async componentDidUpdate(prevProps: FormulaControlProps) {
-    if (this.props.data !== prevProps.data) {
-      const variablesArr = await getVariables(this);
-      this.setState({
-        variables: variablesArr
-      });
-    }
   }
 
   componentWillUnmount() {
@@ -399,6 +377,9 @@ export default class FormulaControl extends React.Component<
           const variables = await getVariables(this);
           this.setState({variables});
         }
+      } else {
+        const variables = await getVariables(this);
+        this.setState({variables});
       }
     } catch (error) {
       console.error('[amis-editor] onFormulaEditorOpen failed: ', error?.stack);

@@ -13,6 +13,7 @@ import {
 import {schemaArrayFormat, schemaToArray} from '../util';
 
 export class MappingPlugin extends BasePlugin {
+  static id = 'MappingPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'mapping';

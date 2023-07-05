@@ -24,6 +24,7 @@ import {
 } from '../renderer/event-control/helper';
 
 export class WizardPlugin extends BasePlugin {
+  static id = 'WizardPlugin';
   // 关联渲染器名字
   rendererName = 'wizard';
   $schema = '/schemas/WizardSchema.json';
@@ -96,17 +97,23 @@ export class WizardPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.responseData': {
+            data: {
               type: 'object',
-              title: '响应数据'
-            },
-            'event.data.responseStatus': {
-              type: 'number',
-              title: '响应状态(0表示成功)'
-            },
-            'event.data.responseMsg': {
-              type: 'string',
-              title: '响应消息'
+              title: '数据',
+              properties: {
+                responseData: {
+                  type: 'object',
+                  title: '响应数据'
+                },
+                responseStatus: {
+                  type: 'number',
+                  title: '响应状态(0表示成功)'
+                },
+                responseMsg: {
+                  type: 'string',
+                  title: '响应消息'
+                }
+              }
             }
           }
         }
@@ -120,9 +127,10 @@ export class WizardPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '提交的表单数据'
+              title: '数据',
+              description: '当前数据域，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -136,9 +144,15 @@ export class WizardPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.step': {
-              type: 'string',
-              title: '步骤索引'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                step: {
+                  type: 'string',
+                  title: '步骤索引'
+                }
+              }
             }
           }
         }
@@ -152,9 +166,9 @@ export class WizardPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据'
             }
           }
         }
@@ -168,9 +182,15 @@ export class WizardPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '提交成功后返回的数据'
+              title: '数据',
+              properties: {
+                result: {
+                  type: 'object',
+                  title: '提交成功后返回的数据'
+                }
+              }
             }
           }
         }
@@ -184,9 +204,15 @@ export class WizardPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.error': {
+            data: {
               type: 'object',
-              title: '提交失败后返回的错误信息'
+              title: '数据',
+              properties: {
+                error: {
+                  type: 'object',
+                  title: '提交失败后返回的错误信息'
+                }
+              }
             }
           }
         }
@@ -205,9 +231,15 @@ export class WizardPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.error': {
+            data: {
               type: 'object',
-              title: '单个步骤提交失败后返回的错误信息'
+              title: '数据',
+              properties: {
+                error: {
+                  type: 'object',
+                  title: '单个步骤提交失败后返回的错误信息'
+                }
+              }
             }
           }
         }
@@ -263,19 +295,6 @@ export class WizardPlugin extends BasePlugin {
         );
       },
       schema: getArgsWrapper([
-        /*
-        {
-          type: 'input-formula',
-          variables: '${variables}',
-          evalMode: false,
-          required: true,
-          variableMode: 'tabs',
-          label: '目标步骤',
-          size: 'lg',
-          name: 'step',
-          mode: 'horizontal'
-        }
-        */
         getSchemaTpl('formulaControl', {
           name: 'step',
           label: '目标步骤',

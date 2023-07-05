@@ -415,7 +415,6 @@ exports[`Renderer:input table add 1`] = `
                 >
                   <table
                     class="cxd-Table-table cxd-Table-table"
-                    style="width: 0px; table-layout: auto;"
                   >
                     <thead>
                       <tr
@@ -424,7 +423,7 @@ exports[`Renderer:input table add 1`] = `
                         <th
                           class="cxd-Table-operationCell"
                           data-index="5"
-                          style="width: 0px; height: 0px;"
+                          style="width: 1%;"
                         >
                           <div
                             class="cxd-TableCell--title v-middle nowrap"
@@ -449,7 +448,6 @@ exports[`Renderer:input table add 1`] = `
                         class="cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
-                        style="height: 0px;"
                       >
                         <td
                           class="v-middle nowrap"
@@ -923,7 +921,6 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                                 <div
                                   aria-expanded="false"
                                   aria-haspopup="listbox"
-                                  aria-labelledby="downshift-4-label"
                                   class="cxd-Select cxd-Select--multi"
                                   role="combobox"
                                   tabindex="0"
