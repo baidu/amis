@@ -23,7 +23,6 @@ import {reaction} from 'mobx';
 import {resolveVariableAndFilter} from './utils/tpl-builtin';
 import {buildStyle} from './utils/style';
 import {StatusScopedProps} from './StatusScoped';
-import {filter} from './utils/tpl';
 
 interface SchemaRendererProps
   extends Partial<Omit<RendererProps, 'statusStore'>>,
@@ -90,20 +89,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     // 监听statusStore更新
     this.reaction = reaction(
-      () => {
-        const id = filter(props.schema.id, props.data);
-        const name = filter(props.schema.name, props.data);
-        return `${
-          props.statusStore.visibleState[id || props.$path] ??
-          props.statusStore.visibleState[name || props.$path]
-        }${
-          props.statusStore.disableState[id || props.$path] ??
-          props.statusStore.disableState[name || props.$path]
-        }${
-          props.statusStore.staticState[id || props.$path] ??
-          props.statusStore.staticState[name || props.$path]
-        }`;
-      },
+      () =>
+        `${props.statusStore.visibleState[props.schema.id || props.$path]}${
+          props.statusStore.disableState[props.schema.id || props.$path]
+        }${props.statusStore.staticState[props.schema.id || props.$path]}`,
       () => this.forceUpdate()
     );
   }
@@ -291,20 +280,14 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       : {};
 
     // 控制显隐
-    const id = filter(schema.id, rest.data);
-    const name = filter(schema.name, rest.data);
-    console.log(id, ',', name);
     const visible = isAlive(statusStore)
-      ? statusStore.visibleState[id || $path] ??
-        statusStore.visibleState[name || $path]
+      ? statusStore.visibleState[schema.id || $path]
       : undefined;
     const disable = isAlive(statusStore)
-      ? statusStore.disableState[id || $path] ??
-        statusStore.disableState[name || $path]
+      ? statusStore.disableState[schema.id || $path]
       : undefined;
     const isStatic = isAlive(statusStore)
-      ? statusStore.staticState[id || $path] ??
-        statusStore.staticState[name || $path]
+      ? statusStore.staticState[schema.id || $path]
       : undefined;
 
     if (

@@ -9,24 +9,24 @@ export const StatusStore = types
   })
 
   .actions(self => ({
-    setVisible(key: string, value?: boolean) {
+    setVisible(id: string, value?: boolean) {
       const state = {
         ...self.visibleState,
-        [key]: value
+        [id]: value
       };
       self.visibleState = state;
     },
-    setDisable(key: string, value?: boolean) {
+    setDisable(id: string, value?: boolean) {
       const state = {
         ...self.disableState,
-        [key]: value
+        [id]: value
       };
       self.disableState = state;
     },
-    setStatic(key: string, value?: boolean) {
+    setStatic(id: string, value?: boolean) {
       const state = {
         ...self.staticState,
-        [key]: value
+        [id]: value
       };
       self.staticState = state;
     },
