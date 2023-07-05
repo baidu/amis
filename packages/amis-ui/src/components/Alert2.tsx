@@ -5,7 +5,6 @@
 
 import React from 'react';
 import {ClassNamesFn, themeable} from 'amis-core';
-import {generateIcon, IconCheckedSchema} from 'amis-core';
 import {Icon, getIcon} from './icons';
 
 export interface AlertProps {
@@ -78,20 +77,8 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     } = this.props;
 
     // 优先使用内置svg，其次使用icon库
-    const iconNode = icon ? (
-      ['string', 'object'].includes(typeof icon) ? (
-        typeof icon === 'object' ? (
-          generateIcon(cx, icon as any as IconCheckedSchema, 'icon')
-        ) : (
-          getIcon(icon as string) && <Icon icon={icon} className={cx(`icon`)} />
-        )
-      ) : React.isValidElement(icon) ? (
-        React.cloneElement(icon as React.ReactElement, {
-          className: cx(`Alert-icon`, icon.props?.className)
-        })
-      ) : null
-    ) : showIcon ? (
-      <Icon icon={`alert-${level}`} className={cx(`icon`)} />
+    const iconNode = showIcon ? (
+      <Icon cx={cx} icon={icon || `alert-${level}`} className="icon" />
     ) : null;
 
     return this.state.show ? (

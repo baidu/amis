@@ -18,6 +18,7 @@ export interface IconCheckedSchemaNew {
 }
 
 /**
+ * 废弃，不建议使用
  * 判断字符串来生成 i 或 img
  * @param icon icon 设置
  * @param className 内部用的 className

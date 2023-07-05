@@ -2,7 +2,7 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps, filterTarget, generateIcon} from 'amis-core';
+import {Renderer, RendererProps, filterTarget} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
@@ -2028,7 +2028,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         })}
       >
         {custom.icon ? (
-          generateIcon(cx, custom.icon)
+          <Icon icon={custom.icon} className="icon m-r-xs" />
         ) : custom?.icon !== false ? (
           <Icon icon="filter" className="icon m-r-xs" />
         ) : null}

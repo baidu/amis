@@ -208,7 +208,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
                 <Icon
                   icon="right-arrow-bold"
                   className={cx('Collapse-arrow', 'icon')}
-                  wrapClassName={cx('Collapse-arrow')}
+                  classNameProp={cx('Collapse-arrow')}
                   iconContent="Collapse-arrow"
                 />
               </span>

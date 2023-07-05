@@ -445,8 +445,7 @@ import {
 import {DialogSchema, DialogSchemaBase} from './Dialog';
 import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 import {ToastSchemaBase} from '../Schema';
-import {generateIcon} from 'amis-core';
-import {withBadge} from 'amis-ui';
+import {withBadge, Icon} from 'amis-ui';
 import {normalizeApi, str2AsyncFunction} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
 
@@ -839,12 +838,21 @@ export class Action extends React.Component<ActionProps, ActionState> {
       disabled = true;
     }
 
-    const iconElement = generateIcon(cx, icon, 'Button-icon', iconClassName);
-    const rightIconElement = generateIcon(
-      cx,
-      rightIcon,
-      'Button-icon',
-      rightIconClassName
+    const iconElement = (
+      <Icon
+        cx={cx}
+        icon={icon}
+        className="Button-icon"
+        classNameProp={iconClassName}
+      />
+    );
+    const rightIconElement = (
+      <Icon
+        cx={cx}
+        icon={rightIcon}
+        className="Button-icon"
+        classNameProp={rightIconClassName}
+      />
     );
 
     return (

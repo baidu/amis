@@ -24,8 +24,8 @@
           font-size: var(--Steps-icon-fontsize);
           text-align: center;
           .icon {
-            width: px2rem(9px);
-            height: px2rem(9px);
+            width: px2rem(12px);
+            height: px2rem(12px);
             position: relative;
             top: 0;
           }
@@ -388,7 +388,9 @@
 
   .#{$ns}StepsItem.is-clickable {
     .#{$ns}StepsItem-container {
-      &ProgressDot, &Icon, &Wrapper {
+      &ProgressDot,
+      &Icon,
+      &Wrapper {
         cursor: pointer;
       }
     }
