@@ -94,14 +94,14 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         const id = filter(props.schema.id, props.data);
         const name = filter(props.schema.name, props.data);
         return `${
-          props.statusStore.visibleState[id] ??
-          props.statusStore.visibleState[name]
+          props.statusStore.visibleState[id || props.$path] ??
+          props.statusStore.visibleState[name || props.$path]
         }${
-          props.statusStore.disableState[id] ??
-          props.statusStore.disableState[name]
+          props.statusStore.disableState[id || props.$path] ??
+          props.statusStore.disableState[name || props.$path]
         }${
-          props.statusStore.staticState[id] ??
-          props.statusStore.staticState[name]
+          props.statusStore.staticState[id || props.$path] ??
+          props.statusStore.staticState[name || props.$path]
         }`;
       },
       () => this.forceUpdate()
@@ -293,14 +293,18 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     // 控制显隐
     const id = filter(schema.id, rest.data);
     const name = filter(schema.name, rest.data);
+    console.log(id, ',', name);
     const visible = isAlive(statusStore)
-      ? statusStore.visibleState[id] ?? statusStore.visibleState[name]
+      ? statusStore.visibleState[id || $path] ??
+        statusStore.visibleState[name || $path]
       : undefined;
     const disable = isAlive(statusStore)
-      ? statusStore.disableState[id] ?? statusStore.disableState[name]
+      ? statusStore.disableState[id || $path] ??
+        statusStore.disableState[name || $path]
       : undefined;
     const isStatic = isAlive(statusStore)
-      ? statusStore.staticState[id] ?? statusStore.staticState[name]
+      ? statusStore.staticState[id || $path] ??
+        statusStore.staticState[name || $path]
       : undefined;
 
     if (
