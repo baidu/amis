@@ -1108,11 +1108,9 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                 />
                 <div
                   class="cxd-Table-wrapper"
-                  style="width: 0px;"
                 >
                   <table
                     class="cxd-Table-table"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
@@ -1120,11 +1118,9 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                       />
                       <col
                         data-index="3"
-                        width="0"
                       />
                       <col
                         data-index="4"
-                        width="0"
                       />
                     </colgroup>
                     <thead>
@@ -1150,7 +1146,6 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         <th
                           class="cxd-TableCell--sortable"
                           data-index="3"
-                          style="width: 0px; height: 0px;"
                         >
                           <div
                             class="cxd-TableCell--title"
@@ -1199,7 +1194,6 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         <th
                           class=""
                           data-index="4"
-                          style="width: 0px; height: 0px;"
                         >
                           <div
                             class="cxd-TableCell--title"
@@ -1938,24 +1932,19 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                 />
                 <div
                   class="cxd-Table-wrapper"
-                  style="width: 0px;"
                 >
                   <table
                     class="cxd-Table-table"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
                         data-index="3"
-                        width="0"
                       />
                       <col
                         data-index="4"
-                        width="0"
                       />
                       <col
                         data-index="5"
-                        width="0"
                       />
                     </colgroup>
                     <thead>
@@ -1963,7 +1952,6 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         <th
                           class=""
                           data-index="3"
-                          style="width: 0px; height: 0px;"
                         >
                           <div
                             class="cxd-TableCell--title"
@@ -1983,7 +1971,6 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         <th
                           class=""
                           data-index="4"
-                          style="width: 0px; height: 0px;"
                         >
                           <div
                             class="cxd-TableCell--title"
@@ -2003,7 +1990,6 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         <th
                           class=""
                           data-index="5"
-                          style="width: 0px; height: 0px;"
                         >
                           <div
                             class="cxd-TableCell--title"
@@ -3790,24 +3776,19 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
                 />
                 <div
                   class="cxd-Table-wrapper"
-                  style="width: 0px;"
                 >
                   <table
                     class="cxd-Table-table"
-                    style="width: 0px; table-layout: auto; transform: translateX(-0px);"
                   >
                     <colgroup>
                       <col
                         data-index="3"
-                        width="0"
                       />
                       <col
                         data-index="4"
-                        width="0"
                       />
                       <col
                         data-index="5"
-                        width="0"
                       />
                     </colgroup>
                     <thead>
@@ -3815,7 +3796,6 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
                         <th
                           class=""
                           data-index="3"
-                          style="width: 0px; height: 0px;"
                         >
                           <div
                             class="cxd-TableCell--title"
@@ -3835,7 +3815,6 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
                         <th
                           class=""
                           data-index="4"
-                          style="width: 0px; height: 0px;"
                         >
                           <div
                             class="cxd-TableCell--title"
@@ -3855,7 +3834,6 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
                         <th
                           class=""
                           data-index="5"
-                          style="width: 0px; height: 0px;"
                         >
                           <div
                             class="cxd-TableCell--title"
