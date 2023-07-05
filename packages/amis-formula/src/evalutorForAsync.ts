@@ -66,6 +66,7 @@ export class AsyncEvaluator extends (Evaluator as any) {
       context.filter = filter;
 
       const argsRes = await runSequence(filter.args, async item => {
+        // await promise;
         if (item?.type === 'mixed') {
           const res = await runSequence(item.body, item =>
             typeof item === 'string' ? item : this.evalute(item)
