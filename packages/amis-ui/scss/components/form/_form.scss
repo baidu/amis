@@ -543,6 +543,10 @@
       margin-bottom: 0;
       font-size: var(--fontSizeLg);
 
+      & + .#{$ns}Form-item-controlBox {
+        max-width: calc(100% - 28%);
+      }
+
       > span {
         line-height: px2rem(32px);
         display: inline-block;
@@ -677,6 +681,9 @@
 
     .#{$ns}Form-item-controlBox {
       flex: 1;
+      max-width: -moz-available;
+      max-width: -webkit-fill-available;
+      max-width: fill-available;
     }
 
     .#{$ns}Form-static {
