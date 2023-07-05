@@ -102,7 +102,6 @@ import type {OnEventProps} from './utils/index';
 import {valueMap as styleMap} from './utils/style-helper';
 import {RENDERER_TRANSMISSION_OMIT_PROPS} from './SchemaRenderer';
 import type {IItem} from './store/list';
-import {StatusScoped} from './StatusScoped';
 
 // @ts-ignore
 export const version = '__buildVersion';
@@ -136,7 +135,6 @@ export {
   Scoped,
   ScopedContext,
   IScopedContext,
-  StatusScoped,
   setDefaultTheme,
   theme,
   themeable,

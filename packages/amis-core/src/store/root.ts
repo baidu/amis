@@ -1,12 +1,15 @@
 import {Instance, types} from 'mobx-state-tree';
-import {parseQuery} from '../utils/helper';
+import {createObject, extendObject, parseQuery} from '../utils/helper';
 import {ServiceStore} from './service';
 
 export const RootStore = ServiceStore.named('RootStore')
   .props({
     runtimeError: types.frozen(),
     runtimeErrorStack: types.frozen(),
-    query: types.frozen()
+    query: types.frozen(),
+    visibleState: types.optional(types.frozen(), {}),
+    disableState: types.optional(types.frozen(), {}),
+    staticState: types.optional(types.frozen(), {})
   })
   .views(self => ({
     get downStream() {
@@ -31,6 +34,27 @@ export const RootStore = ServiceStore.named('RootStore')
     },
     updateLocation(location?: any, parseFn?: Function) {
       self.query = parseFn ? parseFn(location) : parseQuery(location);
+    },
+    setVisible(id: string, value: boolean) {
+      const state = {
+        ...self.visibleState,
+        [id]: value
+      };
+      self.visibleState = state;
+    },
+    setDisable(id: string, value: boolean) {
+      const state = {
+        ...self.disableState,
+        [id]: value
+      };
+      self.disableState = state;
+    },
+    setStatic(id: string, value: boolean) {
+      const state = {
+        ...self.staticState,
+        [id]: value
+      };
+      self.staticState = state;
     }
   }));
 

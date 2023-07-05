@@ -59,13 +59,10 @@ export class CmptAction implements RendererAction {
         action.actionType === 'visibility'
           ? action.args?.value
           : action.actionType === 'show';
-      return renderer.props.statusStore.setVisible(
-        action.componentId!,
-        visibility as any
-      );
+      return renderer.props.topStore.setVisible(action.componentId, visibility);
     } else if (['static', 'nonstatic'].includes(action.actionType)) {
-      return renderer.props.statusStore.setStatic(
-        action.componentId!,
+      return renderer.props.topStore.setStatic(
+        action.componentId,
         action.actionType === 'static'
       );
     } else if (
@@ -75,10 +72,7 @@ export class CmptAction implements RendererAction {
         action.actionType === 'usability'
           ? !action.args?.value
           : action.actionType === 'disabled';
-      return renderer.props.statusStore.setDisable(
-        action.componentId!,
-        usability
-      );
+      return renderer.props.topStore.setDisable(action.componentId, usability);
     }
 
     if (action.actionType === 'setValue') {
