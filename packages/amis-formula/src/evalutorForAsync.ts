@@ -78,7 +78,7 @@ export class AsyncEvaluator extends (Evaluator as any) {
         return item;
       });
 
-      return fn.apply(context, [input].concat(argsRes));
+      return await fn.apply(context, [input].concat(argsRes));
     }, Promise.resolve(input));
 
     return result;
