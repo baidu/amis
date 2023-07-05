@@ -56,8 +56,8 @@ export class AsyncEvaluator extends (Evaluator as any) {
       restFilters: filters
     };
 
-    while (filters.length) {
-      const filter = filters.shift()!;
+    const result = await filters.reduce(async (ps, filter, index) => {
+      const input = await ps;
       const fn = this.filters[filter.name];
 
       if (!fn) {
@@ -78,10 +78,10 @@ export class AsyncEvaluator extends (Evaluator as any) {
         return item;
       });
 
-      input = fn.apply(context, [input].concat(argsRes));
-    }
+      return fn.apply(context, [input].concat(argsRes));
+    }, Promise.resolve(input));
 
-    return input;
+    return result;
   }
 
   async template(ast: {type: 'template'; body: Array<any>}) {
