@@ -112,11 +112,16 @@ document.querySelectorAll('.file').forEach(file => {
 });
 
 const data = {
-  var: 'amis'
+  date: 'amis'
 };
 const renderOptions = {
   debug: true,
-  page
+  page,
+  data,
+  evalVar: (va: string) => {
+    return data[va];
+  }
+  // enableVar: true
 };
 
 async function renderDocx(fileName: string) {

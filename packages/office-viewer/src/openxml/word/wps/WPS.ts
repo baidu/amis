@@ -93,6 +93,7 @@ export class WPS {
       const tagName = child.tagName;
       switch (tagName) {
         case 'wps:cNvSpPr':
+        case 'wps:cNvPr':
           // 和展现无关
           break;
 

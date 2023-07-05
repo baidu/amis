@@ -42,17 +42,22 @@ function renderText(
 ) {
   // 简单过滤一下提升性能
   if (text.indexOf('{{') === -1) {
+    let finalText;
     if (paragraph?.properties?.autoSpace) {
-      span.textContent = cjkspace(text.split(''));
+      finalText = cjkspace(text.split(''));
     } else {
-      span.textContent = text;
+      finalText = text;
     }
+    span.textContent = finalText;
   } else {
     span.dataset.originText = text;
     // 加个标识，后续可以通过它来查找哪些变量需要替换，这样就不用重新渲染整个文档了
     span.classList.add(VARIABLE_CLASS_NAME);
     span.textContent = word.replaceText(text);
   }
+
+  let html = span.innerHTML.split(' ').join('&nbsp;');
+  span.innerHTML = html;
 }
 
 /**
