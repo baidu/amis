@@ -1,7 +1,7 @@
 import {render as amisRender} from '../../src';
 import {wait, makeEnv} from '../helper';
 import {render, fireEvent, cleanup} from '@testing-library/react';
-import {buildApi, isApiOutdated} from 'amis-core';
+import {buildApi, isApiOutdated, isValidApi} from 'amis-core';
 
 test('api:buildApi', () => {
   expect(buildApi('/api/xxx')).toMatchObject({
@@ -321,4 +321,23 @@ test('api:cache', async () => {
   await wait(300);
   expect(fetcher).toHaveBeenCalledTimes(1); // 只请求一次，第二次请求从缓存中取
   expect(container).toMatchSnapshot();
+});
+
+test('api:isvalidapi', () => {
+  expect(isValidApi('api/xxx')).toBeFalsy();
+  expect(isValidApi('api/xxx?a=1')).toBeFalsy();
+  expect(isValidApi('/x')).toBeTruthy();
+  expect(isValidApi('/api/xxx?a=1&b=2&c=3')).toBeTruthy();
+  expect(isValidApi('http://xxxdomain')).toBeTruthy();
+  expect(isValidApi('http://xxxdomain/')).toBeTruthy();
+  expect(isValidApi('http://xxxdomain/api')).toBeTruthy();
+  expect(isValidApi('app://')).toBeFalsy();
+  expect(isValidApi('app://x')).toBeTruthy();
+  expect(isValidApi('app://x?a=1')).toBeTruthy();
+  expect(isValidApi('app://x?a=1&b=2')).toBeTruthy();
+  expect(isValidApi('app://x b?a=1&b=2')).toBeFalsy();
+  expect(isValidApi('app://x%20b?a=1&b=2')).toBeTruthy();
+  expect(isValidApi('ftp://127.0.0.1/xxx')).toBeTruthy();
+  expect(isValidApi('wss://127.0.0.1/xxx')).toBeTruthy();
+  expect(isValidApi('taf://127.0.0.1/xxx')).toBeTruthy();
 });
