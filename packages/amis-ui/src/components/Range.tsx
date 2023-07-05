@@ -18,6 +18,7 @@ import {themeable} from 'amis-core';
 import {autobind, camel} from 'amis-core';
 import {stripNumber} from 'amis-core';
 import {isMobile} from 'amis-core';
+import {safeAdd, safeSub} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import {Icon} from './icons';
 
@@ -389,9 +390,9 @@ export class Range extends React.Component<RangeItemProps, any> {
     let result = 0;
     // 余数 >= 步长一半 -> 向上取
     // 余数 <  步长一半 -> 向下取
-    const _value = surplus >= step / 2 ? value : value - step;
+    const _value = surplus >= step / 2 ? value : safeSub(value, step);
     while (result <= _value) {
-      result += step;
+      result = safeAdd(result, step);
     }
     return result;
   }

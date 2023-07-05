@@ -12,8 +12,8 @@ export const BASE_ACTION_PROPS = [
   '__actionDesc',
   'preventDefault',
   'stopPropagation',
-  'expression',
-  'outputVar'
+  'expression'
+  // 'outputVar'
 ];
 
 export default class CmptActionSelect extends React.Component<RendererProps> {

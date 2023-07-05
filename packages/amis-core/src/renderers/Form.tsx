@@ -661,7 +661,7 @@ export default class Form extends React.Component<FormProps, object> {
     const {data, store, dispatchEvent} = this.props;
 
     if (store.fetching) {
-      return;
+      return value;
     }
 
     // 派发init事件，参数为初始化数据
@@ -810,7 +810,8 @@ export default class Form extends React.Component<FormProps, object> {
     const {interval, silentPolling, stopAutoRefreshWhen, data} = this.props;
 
     clearTimeout(this.timer);
-    interval &&
+    value?.ok &&
+      interval &&
       this.mounted &&
       (!stopAutoRefreshWhen || !evalExpression(stopAutoRefreshWhen, data)) &&
       (this.timer = setTimeout(
@@ -1132,7 +1133,7 @@ export default class Form extends React.Component<FormProps, object> {
           action.target &&
             this.reloadTarget(filterTarget(action.target, values), values);
         } else if (action.actionType === 'dialog') {
-          store.openDialog(data);
+          store.openDialog(data, undefined, action.callback);
         } else if (action.actionType === 'drawer') {
           store.openDrawer(data);
         } else if (isEffectiveApi(action.api || api, values)) {
@@ -1258,7 +1259,7 @@ export default class Form extends React.Component<FormProps, object> {
       this.validate(true);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(data);
+      store.openDialog(data, undefined, action.callback);
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
       store.openDrawer(data);
@@ -1326,9 +1327,28 @@ export default class Form extends React.Component<FormProps, object> {
 
   handleQuery(query: any) {
     if (this.props.initApi) {
+      // 如果是分页动作，则看接口里面有没有用，没用则  return false
+      // 让组件自己去排序
+      if (
+        query?.hasOwnProperty('orderBy') &&
+        !isApiOutdated(
+          this.props.initApi,
+          this.props.initApi,
+          this.props.store.data,
+          createObject(this.props.store.data, query)
+        )
+      ) {
+        return false;
+      }
+
       this.receive(query);
+      return;
+    }
+
+    if (this.props.onQuery) {
+      return this.props.onQuery(query);
     } else {
-      this.props.onQuery?.(query);
+      return false;
     }
   }
 

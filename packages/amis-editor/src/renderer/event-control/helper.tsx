@@ -485,7 +485,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               )
             },
             {
-              name: 'args',
+              name: 'dialog',
               label: '弹框内容',
               mode: 'horizontal',
               required: true,
@@ -690,9 +690,9 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '发送请求',
           actionType: 'ajax',
           description: '配置并发送API请求',
-          innerArgs: ['api', 'options'],
+          // innerArgs: ['api', 'options'],
           descDetail: (info: any) => {
-            let apiInfo = info?.args?.api;
+            let apiInfo = info?.api ?? info?.args?.api;
             if (typeof apiInfo === 'string') {
               apiInfo = normalizeApi(apiInfo);
             }
@@ -711,43 +711,72 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             type: 'wrapper',
             className: 'p-none',
             body: [
-              getArgsWrapper(
-                [
-                  getSchemaTpl('apiControl', {
-                    name: 'api',
-                    label: '配置请求',
-                    mode: 'horizontal',
-                    size: 'lg',
-                    inputClassName: 'm-b-none',
-                    renderLabel: true,
-                    required: true
-                  }),
+              // getArgsWrapper(
+              //   [
+              //     getSchemaTpl('apiControl', {
+              //       name: 'api',
+              //       label: '配置请求',
+              //       mode: 'horizontal',
+              //       size: 'lg',
+              //       inputClassName: 'm-b-none',
+              //       renderLabel: true,
+              //       required: true
+              //     }),
+              //     {
+              //       name: 'options',
+              //       type: 'combo',
+              //       label: tipedLabel(
+              //         '静默请求',
+              //         '开启后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
+              //       ),
+              //       mode: 'horizontal',
+              //       items: [
+              //         {
+              //           type: 'switch',
+              //           name: 'silent',
+              //           label: false,
+              //           onText: '开启',
+              //           offText: '关闭',
+              //           mode: 'horizontal',
+              //           pipeIn: defaultValue(false)
+              //         }
+              //       ]
+              //     }
+              //   ],
+              //   false,
+              //   {
+              //     className: 'action-apiControl'
+              //   }
+              // ),
+              getSchemaTpl('apiControl', {
+                name: 'api',
+                label: '配置请求',
+                mode: 'horizontal',
+                size: 'lg',
+                inputClassName: 'm-b-none',
+                renderLabel: true,
+                required: true
+              }),
+              {
+                name: 'options',
+                type: 'combo',
+                label: tipedLabel(
+                  '静默请求',
+                  '开启后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
+                ),
+                mode: 'horizontal',
+                items: [
                   {
-                    name: 'options',
-                    type: 'combo',
-                    label: tipedLabel(
-                      '静默请求',
-                      '开启后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
-                    ),
+                    type: 'switch',
+                    name: 'silent',
+                    label: false,
+                    onText: '开启',
+                    offText: '关闭',
                     mode: 'horizontal',
-                    items: [
-                      {
-                        type: 'switch',
-                        name: 'silent',
-                        label: false,
-                        onText: '开启',
-                        offText: '关闭',
-                        mode: 'horizontal',
-                        pipeIn: defaultValue(false)
-                      }
-                    ]
+                    pipeIn: defaultValue(false)
                   }
-                ],
-                false,
-                {
-                  className: 'action-apiControl'
-                }
-              ),
+                ]
+              },
               {
                 name: 'outputVar',
                 type: 'input-text',
@@ -787,26 +816,35 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '下载文件',
           actionType: 'download',
           description: '触发下载文件',
-          innerArgs: ['api'],
+          // innerArgs: ['api'],
           schema: {
             type: 'wrapper',
             style: {padding: '0'},
             body: [
-              getArgsWrapper(
-                getSchemaTpl('apiControl', {
-                  name: 'api',
-                  label: '配置请求',
-                  mode: 'horizontal',
-                  inputClassName: 'm-b-none',
-                  size: 'lg',
-                  renderLabel: true,
-                  required: true
-                }),
-                false,
-                {
-                  className: 'action-apiControl'
-                }
-              )
+              // getArgsWrapper(
+              //   getSchemaTpl('apiControl', {
+              //     name: 'api',
+              //     label: '配置请求',
+              //     mode: 'horizontal',
+              //     inputClassName: 'm-b-none',
+              //     size: 'lg',
+              //     renderLabel: true,
+              //     required: true
+              //   }),
+              //   false,
+              //   {
+              //     className: 'action-apiControl'
+              //   }
+              // )
+              getSchemaTpl('apiControl', {
+                name: 'api',
+                label: '配置请求',
+                mode: 'horizontal',
+                inputClassName: 'm-b-none',
+                size: 'lg',
+                renderLabel: true,
+                required: true
+              })
             ]
           }
         }
@@ -2738,11 +2776,13 @@ export const getEventControlConfig = (
         config.__actionExpression = action.args?.value;
       }
 
-      if (
-        action.actionType === 'ajax' &&
-        typeof action?.args?.api === 'string'
-      ) {
-        action.args.api = normalizeApi(action?.args?.api);
+      if (['ajax', 'download'].includes(action.actionType)) {
+        config.api = action.api ?? action?.args?.api;
+        config.options = action.options ?? action?.args?.options;
+        if (typeof action?.api === 'string') {
+          config.api = normalizeApi(action?.api);
+        }
+        delete config.args;
       }
 
       // 获取动作专有配置参数

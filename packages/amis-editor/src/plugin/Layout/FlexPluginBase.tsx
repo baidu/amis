@@ -212,7 +212,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
           title: '外观',
           className: 'p-none',
           body: getSchemaTpl('collapseGroup', [
-            ...getSchemaTpl('theme:common', ['layout'])
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
           ])
         }
       ])

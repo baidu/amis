@@ -11,9 +11,9 @@ import type {VariableItem, CodeMirror} from 'amis-ui';
 import {FormulaPlugin, editorFactory} from './plugin';
 
 import FormulaPicker, {CustomFormulaPickerProps} from './FormulaPicker';
-import {getVariables} from './utils';
 import {reaction} from 'mobx';
 import {renderFormulaValue} from '../FormulaControl';
+import {getVariables} from 'amis-editor-core';
 
 export interface AdditionalMenuClickOpts {
   /**
@@ -163,10 +163,6 @@ export class TextareaFormulaControl extends React.Component<
       async () => {
         this.appLocale = editorStore?.appLocale;
         this.appCorpusData = editorStore?.appCorpusData;
-        const variablesArr = await getVariables(this);
-        this.setState({
-          variables: variablesArr
-        });
       }
     );
 

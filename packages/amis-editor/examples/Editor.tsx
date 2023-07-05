@@ -160,6 +160,33 @@ const schemas = [
         }
       }
     }
+  },
+  {
+    type: 'object',
+    properties: {
+      __query: {
+        title: '页面入参',
+        type: 'object',
+        required: [],
+        properties: {
+          name: {
+            type: 'string',
+            title: '用户名'
+          }
+        }
+      },
+      __page: {
+        title: '页面变量',
+        type: 'object',
+        required: [],
+        properties: {
+          num: {
+            type: 'number',
+            title: '数量'
+          }
+        }
+      }
+    }
   }
 ];
 
@@ -632,6 +659,11 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
             replaceText
           } as any
         }
+        ctx={{
+          __page: {
+            num: 2
+          }
+        }}
       />
     );
   }

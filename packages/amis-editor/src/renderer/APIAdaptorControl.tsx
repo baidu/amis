@@ -111,56 +111,63 @@ export default class APIAdaptorControl extends React.Component<
     const lastParams =
       typeof mergeParams === 'function' ? mergeParams(params) : params;
 
-    return render('api-adaptor-control-editor', [
-      {
-        type: 'container',
-        className: 'ae-AdaptorControl-func-header',
-        body: [
-          '<span class="mtk6">function&nbsp;</span>',
-          '<span class="mtk1 bracket-highlighting-0">(</span>',
-          ...lastParams
-            .map(({label, tip}, index) => {
-              return [
-                {
-                  type: 'button',
-                  level: 'link',
-                  label,
-                  className: 'ae-AdaptorControl-func-arg',
-                  ...(tip ? {tooltip: this.genTooltipProps(tip)} : {})
-                },
-                ...(index === lastParams.length - 1
-                  ? []
-                  : ['<span class="mtk1">,&nbsp;</span>'])
-              ];
-            })
-            .flat(),
-          '<span class="mtk1 bracket-highlighting-0">)&nbsp;{</span>'
-        ]
-      },
-      {
-        label: '',
-        mode: 'normal',
-        name: '__editor_' + name,
-        type: 'js-editor',
-        className: 'ae-AdaptorControl-func-editor',
-        allowFullscreen,
-        value,
-        placeholder: editorPlaceholder || '',
-        onChange: (value: any) => {
-          this.onChange(value);
-        }
-      },
-      {
-        type: 'container',
-        body: '<span class="mtk1 bracket-highlighting-0">}</span>',
-        className: 'ae-AdaptorControl-func-footer'
-      },
-      {
-        type: 'container',
-        className: 'cxd-Form-description',
-        body: editorDesc
-      }
-    ]);
+    return (
+      <>
+        {render('api-adaptor-control-editor/0', {
+          type: 'container',
+          className: 'ae-AdaptorControl-func-header',
+          body: [
+            '<span class="mtk6">function&nbsp;</span>',
+            '<span class="mtk1 bracket-highlighting-0">(</span>',
+            ...lastParams
+              .map(({label, tip}, index) => {
+                return [
+                  {
+                    type: 'button',
+                    level: 'link',
+                    label,
+                    className: 'ae-AdaptorControl-func-arg',
+                    ...(tip ? {tooltip: this.genTooltipProps(tip)} : {})
+                  },
+                  ...(index === lastParams.length - 1
+                    ? []
+                    : ['<span class="mtk1">,&nbsp;</span>'])
+                ];
+              })
+              .flat(),
+            '<span class="mtk1 bracket-highlighting-0">)&nbsp;{</span>'
+          ]
+        })}
+
+        {render(
+          'api-adaptor-control-editor/1',
+          {
+            label: '',
+            name: '__whatever_name_adpator',
+            placeholder: editorPlaceholder || '',
+            mode: 'normal',
+            type: 'js-editor',
+            className: 'ae-AdaptorControl-func-editor',
+            allowFullscreen
+          },
+          {
+            value,
+            onChange: this.onChange
+          }
+        )}
+
+        {render('api-adaptor-control-editor/2', {
+          type: 'container',
+          body: '<span class="mtk1 bracket-highlighting-0">}</span>',
+          className: 'ae-AdaptorControl-func-footer'
+        })}
+        {render('api-adaptor-control-editor/3', {
+          type: 'container',
+          className: 'cxd-Form-description',
+          body: editorDesc
+        })}
+      </>
+    );
   }
 
   renderSwitch() {
@@ -397,9 +404,8 @@ setSchemaTpl('apiRequestAdaptor', {
     &nbsp;1. <span style="color: #108CEE">api</span>：接口的schema配置对象<br/>
     &nbsp;2. <span style="color: #108CEE">api.data</span>：请求数据<br/>
     &nbsp;3. <span style="color: #108CEE">api.query</span>：请求查询参数<br/>
-    &nbsp;4. <span style="color: #108CEE">api.body</span>：请求体（针对POST/PUT/PATCH）<br/>
-    &nbsp;5. <span style="color: #108CEE">api.headers</span>：请求头<br/>
-    &nbsp;6. <span style="color: #108CEE">api.url</span>：请求地址<br/>`
+    &nbsp;4. <span style="color: #108CEE">api.headers</span>：请求头<br/>
+    &nbsp;5. <span style="color: #108CEE">api.url</span>：请求地址<br/>`
   ),
   name: 'requestAdaptor',
   type: 'ae-apiAdaptorControl',

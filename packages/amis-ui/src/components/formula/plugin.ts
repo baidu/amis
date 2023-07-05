@@ -207,7 +207,7 @@ export class FormulaPlugin {
 
     eachTree(variables, item => {
       if (item.value) {
-        varMap[item.value] = item.path ?? '';
+        varMap[item.value] = item.path ?? item.label;
       }
     });
 

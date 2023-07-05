@@ -693,13 +693,17 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const idx: number = (ctx as any).index;
       const length = store.items.length;
       stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
-      store.openDialog(ctx, {
-        hasNext: idx < length - 1,
-        nextIndex: idx + 1,
-        hasPrev: idx > 0,
-        prevIndex: idx - 1,
-        index: idx
-      });
+      store.openDialog(
+        ctx,
+        {
+          hasNext: idx < length - 1,
+          nextIndex: idx + 1,
+          hasPrev: idx > 0,
+          prevIndex: idx - 1,
+          index: idx
+        },
+        action.callback
+      );
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
       const data = ctx;
@@ -853,7 +857,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       env.confirm &&
       (confirmText = filter(action.confirmText, ctx))
     ) {
-      env.confirm(confirmText).then((confirmed: boolean) => confirmed && fn());
+      env
+        .confirm(confirmText, filter(action.confirmTitle, ctx) || undefined)
+        .then((confirmed: boolean) => confirmed && fn());
     } else {
       fn();
     }
@@ -1245,7 +1251,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               );
             }
 
-            interval &&
+            value?.ok && // 接口正常返回才继续轮训
+              interval &&
               this.mounted &&
               (!stopAutoRefreshWhen ||
                 !(
@@ -1504,6 +1511,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       primaryField,
       multiple,
       pickerMode,
+      strictMode,
       onSelect
     } = this.props;
     let newItems = items;
@@ -1513,14 +1521,20 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const oldItems = store.selectedItems.concat();
       const oldUnselectedItems = store.unSelectedItems.concat();
 
+      const isSameValue = (
+        a: Record<string, unknown>,
+        item: Record<string, unknown>
+      ) => {
+        const oldValue = a[primaryField || 'id'];
+        const itemValue = item[primaryField || 'id'];
+        const isSame = strictMode
+          ? oldValue === itemValue
+          : oldValue == itemValue;
+        return a === item || (oldValue && isSame);
+      };
+
       items.forEach(item => {
-        const idx = findIndex(
-          oldItems,
-          a =>
-            a === item ||
-            (a[primaryField || 'id'] &&
-              a[primaryField || 'id'] == item[primaryField || 'id'])
-        );
+        const idx = findIndex(oldItems, a => isSameValue(a, item));
 
         if (~idx) {
           oldItems[idx] = item;
@@ -1528,13 +1542,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           oldItems.push(item);
         }
 
-        const idx2 = findIndex(
-          oldUnselectedItems,
-          a =>
-            a === item ||
-            (a[primaryField || 'id'] &&
-              a[primaryField || 'id'] == item[primaryField || 'id'])
-        );
+        const idx2 = findIndex(oldUnselectedItems, a => isSameValue(a, item));
 
         if (~idx2) {
           oldUnselectedItems.splice(idx2, 1);
@@ -1542,21 +1550,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       });
 
       unSelectedItems.forEach(item => {
-        const idx = findIndex(
-          oldUnselectedItems,
-          a =>
-            a === item ||
-            (a[primaryField || 'id'] &&
-              a[primaryField || 'id'] == item[primaryField || 'id'])
-        );
+        const idx = findIndex(oldUnselectedItems, a => isSameValue(a, item));
 
-        const idx2 = findIndex(
-          oldItems,
-          a =>
-            a === item ||
-            (a[primaryField || 'id'] &&
-              a[primaryField || 'id'] == item[primaryField || 'id'])
-        );
+        const idx2 = findIndex(oldItems, a => isSameValue(a, item));
 
         if (~idx) {
           oldUnselectedItems[idx] = item;
@@ -2290,6 +2286,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       bulkActions,
       pickerMode,
       multiple,
+      strictMode,
       valueField,
       primaryField,
       value,
@@ -2390,6 +2387,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               pickerMode || keepItemSelectionOnPageChange
                 ? store.selectedItemsAsArray
                 : undefined,
+            strictMode,
             keepItemSelectionOnPageChange,
             maxKeepItemSelectionLength,
             valueField: valueField || primaryField,

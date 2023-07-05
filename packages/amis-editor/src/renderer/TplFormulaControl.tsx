@@ -10,11 +10,11 @@ import type {VariableItem, CodeMirror} from 'amis-ui';
 import {Icon, Button, FormItem, TooltipWrapper} from 'amis';
 import {autobind, FormControlProps} from 'amis-core';
 import {FormulaPlugin, editorFactory} from './textarea-formula/plugin';
-import {getVariables} from './textarea-formula/utils';
 import {renderFormulaValue} from './FormulaControl';
 import FormulaPicker, {
   CustomFormulaPickerProps
 } from './textarea-formula/FormulaPicker';
+import {getVariables} from 'amis-editor-core';
 
 export interface TplFormulaControlProps extends FormControlProps {
   /**
@@ -112,10 +112,6 @@ export class TplFormulaControl extends React.Component<
       async () => {
         this.appLocale = editorStore?.appLocale;
         this.appCorpusData = editorStore?.appCorpusData;
-        const variablesArr = await getVariables(this);
-        this.setState({
-          variables: variablesArr
-        });
       }
     );
 

@@ -1,0 +1,7 @@
+sentence_transformers
+fastapi
+markdown
+python-dotenv
+gradio
+requests
+chromadb

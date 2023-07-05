@@ -127,7 +127,7 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
                 disabled={disabled}
               >
                 <span className={cx('CBGroup-fieldCaret')}>
-                  <Icon icon="caret" className="icon" />
+                  <Icon icon="right-arrow-bold" className="icon" />
                 </span>
               </ResultBox>
             </div>

@@ -6,7 +6,12 @@ import {TooltipWrapper} from 'amis-ui';
 import {isDisabled, isVisible, noop} from 'amis-core';
 import {filter} from 'amis-core';
 import {Icon, hasIcon} from 'amis-ui';
-import {BaseSchema, SchemaClassName, SchemaIcon} from '../Schema';
+import {
+  BaseSchema,
+  SchemaClassName,
+  SchemaCollection,
+  SchemaIcon
+} from '../Schema';
 import {ActionSchema} from './Action';
 import {DividerSchema} from './Divider';
 import {RootClose} from 'amis-core';
@@ -47,6 +52,11 @@ export interface DropdownButtonSchema extends BaseSchema {
    * 按钮集合，支持分组
    */
   buttons?: Array<DropdownButton>;
+
+  /**
+   * 内容区域
+   */
+  body?: SchemaCollection;
 
   /**
    * 按钮文字
@@ -291,6 +301,7 @@ export default class DropDownButton extends React.Component<
       classnames: cx,
       classPrefix: ns,
       children,
+      body,
       align,
       closeOnClick,
       closeOnOutside,
@@ -304,7 +315,7 @@ export default class DropDownButton extends React.Component<
         ? resolveVariableAndFilter(_buttons, data, '| raw')
         : _buttons;
 
-    let body = (
+    let popOverBody = (
       <RootClose
         disabled={!this.state.isOpened}
         onRootClose={closeOnOutside !== false ? this.close : noop}
@@ -326,6 +337,8 @@ export default class DropDownButton extends React.Component<
             >
               {children
                 ? children
+                : body
+                ? render('body', body)
                 : Array.isArray(buttons)
                 ? buttons.map((button, index) =>
                     this.renderButton(button, index)
@@ -351,13 +364,13 @@ export default class DropDownButton extends React.Component<
             className={cx('DropDown-popover', menuClassName)}
             style={{minWidth: this.target?.offsetWidth}}
           >
-            {body}
+            {popOverBody}
           </PopOver>
         </Overlay>
       );
     }
 
-    return body;
+    return popOverBody;
   }
 
   render() {

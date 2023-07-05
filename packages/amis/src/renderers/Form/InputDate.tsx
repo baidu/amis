@@ -145,6 +145,11 @@ export interface DateTimeControlSchema extends InputDateBaseControlSchema {
    * 时间输入范围限制
    */
   timeConstraints?: any;
+
+  /**
+   * 是否为结束时间，如果是，那么会自动加上 23:59:59
+   */
+  isEndDate?: boolean;
 }
 
 /**
@@ -508,6 +513,7 @@ export default class DateControl extends React.PureComponent<
       >
         <DatePicker
           {...rest}
+          env={env}
           placeholder={placeholder ?? this.placeholder}
           useMobileUI={useMobileUI}
           popOverContainer={

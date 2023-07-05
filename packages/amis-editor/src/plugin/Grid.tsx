@@ -372,7 +372,7 @@ export class GridPlugin extends BasePlugin {
                   getSchemaTpl('subFormItemMode'),
                   getSchemaTpl('subFormHorizontalMode'),
                   getSchemaTpl('subFormHorizontal'),
-                  ...getSchemaTpl('theme:common', ['layout'])
+                  ...getSchemaTpl('theme:common', {exclude: ['layout']})
                 ])
               ]
             }
@@ -550,7 +550,7 @@ export class GridPlugin extends BasePlugin {
             title: '外观',
             body: [
               getSchemaTpl('collapseGroup', [
-                ...getSchemaTpl('theme:common', ['layout'])
+                ...getSchemaTpl('theme:common', {exclude: ['layout']})
               ])
             ]
           }

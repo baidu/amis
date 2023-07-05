@@ -251,6 +251,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       maxTagCount,
       overflowTagPopover,
       showArrow,
+      popOverContainer,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;

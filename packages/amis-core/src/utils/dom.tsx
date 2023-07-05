@@ -279,6 +279,10 @@ export function getStyleNumber(element: HTMLElement, styleName: string) {
 
 /** 根据关键字高亮显示文本内容 */
 export function renderTextByKeyword(rendererText: string, curKeyword: string) {
+  if (!rendererText || typeof rendererText !== 'string') {
+    return rendererText;
+  }
+
   if (curKeyword && ~rendererText.indexOf(curKeyword)) {
     const keywordStartIndex = rendererText.indexOf(curKeyword);
     const keywordEndIndex = keywordStartIndex + curKeyword.length;

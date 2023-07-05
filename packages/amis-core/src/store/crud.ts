@@ -1,5 +1,4 @@
 import {saveAs} from 'file-saver';
-import {filter} from 'amis-core';
 import {types, flow, getEnv, isAlive, Instance} from 'mobx-state-tree';
 import {IRendererStore} from './index';
 import {ServiceStore} from './service';
@@ -17,6 +16,7 @@ import pick from 'lodash/pick';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {normalizeApiResponseData} from '../utils/api';
 import {matchSorter} from 'match-sorter';
+import {filter} from '../utils/tpl';
 
 class ServerError extends Error {
   type = 'ServerError';
@@ -289,8 +289,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             items = result.items || result.rows;
           }
 
-          // 如果不按照 items 格式返回，就拿第一个数组当成 items
-          if (!Array.isArray(items)) {
+          if (items == null) {
+            items = [];
+          } else if (!Array.isArray(items)) {
+            // 如果不按照 items 格式返回，就拿第一个数组当成 items
             for (const key of Object.keys(result)) {
               if (result.hasOwnProperty(key) && Array.isArray(result[key])) {
                 items = result[key];
