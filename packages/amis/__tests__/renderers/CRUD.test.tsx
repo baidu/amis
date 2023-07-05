@@ -16,6 +16,7 @@
  * 13. keepItemSelectionOnPageChange & maxKeepItemSelectionLength & labelTpl
  * 14. autoGenerateFilter 自动生成查询表单
  * 15. group 分组
+ * 16. api 返回格式支持取对象中的第一个数组
  */
 
 import {
@@ -1042,4 +1043,45 @@ describe('inner events', () => {
       expect(mockFn).toBeCalledTimes(1);
     });
   });
+});
+
+test('should use the first array item in the response if provided', async () => {
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          whateverKey: [
+            {
+              engine: 'Chrome'
+            },
+            {
+              engine: 'IE'
+            }
+          ]
+        }
+      }
+    })
+  );
+  const {container} = render(
+    amisRender(
+      {
+        type: 'crud',
+        api: '/api/mock/sample',
+        columns: [
+          {
+            name: 'engine',
+            label: 'Rendering engine'
+          }
+        ]
+      },
+      {},
+      {
+        fetcher
+      }
+    )
+  );
+  await wait(200);
+  expect(container.querySelectorAll('tbody>tr').length).toBe(2);
 });
