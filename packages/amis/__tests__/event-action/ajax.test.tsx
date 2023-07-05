@@ -35,7 +35,7 @@ test('EventAction:ajax', async () => {
                     actionType: 'ajax',
                     args: {
                       api: {
-                        url: 'api/xxx',
+                        url: '/api/xxx',
                         method: 'get'
                       },
                       messages: {
@@ -71,7 +71,7 @@ test('EventAction:ajax', async () => {
                     actionType: 'ajax',
                     args: {
                       api: {
-                        url: 'api/xxx',
+                        url: '/api/xxx',
                         method: 'get'
                       },
                       messages: {
