@@ -72,9 +72,6 @@ export class TableCell extends React.Component<TableCellProps> {
       className: innerClassName,
       type: (column && column.type) || 'plain'
     };
-    // 列比表的的优先级高
-    const canAccessSuperData =
-      (schema?.canAccessSuperData ?? this.props.canAccessSuperData) !== false;
 
     // 如果本来就是 type 为 button，不要删除，其他情况下都应该删除。
     if (schema.type !== 'button' && schema.type !== 'dropdown-button') {
@@ -87,8 +84,7 @@ export class TableCell extends React.Component<TableCellProps> {
           ...omit(rest, Object.keys(schema), this.propsNeedRemove),
           // inputOnly 属性不能传递给子组件，在 SchemaRenderer.renderChild 中处理掉了
           inputOnly: true,
-          /** value没有返回值时设置默认值，避免错误获取到父级数据域的值 */
-          value: canAccessSuperData ? value : value ?? '',
+          value: value,
           data
         });
 

@@ -1588,8 +1588,13 @@ export function getPropValue<
     name?: string;
     data?: any;
     defaultValue?: any;
+    canAccessSuperData?: boolean;
   }
->(props: T, getter?: (props: T) => any, canAccessSuper?: boolean) {
+>(
+  props: T,
+  getter?: (props: T) => any,
+  canAccessSuper = props.canAccessSuperData
+) {
   const {name, value, data, defaultValue} = props;
   return (
     value ??
