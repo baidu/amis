@@ -97,6 +97,13 @@ export type AutoGenerateFilterObject = {
    * 是否显示展开/收起
    */
   // showExpand?: boolean;
+
+  /**
+   * 是否默认收起
+   *
+   * @default true
+   */
+  defaultCollapsed?: boolean;
 };
 
 export type CRUDRendererEvent = TableRendererEvent | CardsRendererEvent;
