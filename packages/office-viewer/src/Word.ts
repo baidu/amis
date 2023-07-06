@@ -499,7 +499,7 @@ export default class Word {
     }
     const data = this.renderOptions.data;
     if (text.indexOf('{{') !== -1) {
-      text = text.replace(/{{([^}]+)}}/g, (all: string, group: string) => {
+      text = text.replace(/{{([^{}]+)}}/g, (all: string, group: string) => {
         const result = this.renderOptions.evalVar(group, data);
         if (typeof result === 'undefined') {
           return '';
