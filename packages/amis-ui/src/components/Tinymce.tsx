@@ -137,6 +137,8 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         help: {title: 'Help', items: 'help'}
       },
       paste_data_images: true,
+      // 很诡异的问题，video 会被复制放在光标上，直接用样式隐藏先
+      content_style: '[data-mce-bogus] video {display:none;}',
       ...this.props.config,
       target: this.elementRef.current,
       readOnly: this.props.disabled,
