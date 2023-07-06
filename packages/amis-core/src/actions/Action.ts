@@ -275,6 +275,11 @@ export const runAction = async (
       ? {}
       : actionData !== undefined
       ? actionData
+      : actionConfig.actionType === 'reload' // reload时默认为事件数据和渲染器数据，兼容同一事件内执行setValue和reload时的值变化
+      ? {
+          ...event.data,
+          ...renderer.props.data
+        }
       : event.data;
 
   console.group?.(`run action ${actionConfig.actionType}`);
