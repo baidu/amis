@@ -708,8 +708,9 @@ exports[`Renderer:input table add 1`] = `
                 class="cxd-Button cxd-Button--primary cxd-Button--size-sm is-disabled"
                 disabled=""
               >
-                <i
-                  class="cxd-Button-icon fa fa-plus"
+                <icon-mock
+                  classname="cxd-Button-icon icon-fa fa-plus"
+                  icon="fa fa-plus"
                 />
                 <span>
                   新增

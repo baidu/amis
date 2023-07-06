@@ -269,8 +269,13 @@ export function Icon({
 
   // jest 运行环境下，把指定的 icon 也输出到 snapshot 中。
   if (typeof jest !== 'undefined') {
-    // @ts-ignore
-    return <icon-mock className="icon" icon={icon} onClick={onClick} />;
+    return (
+      // @ts-ignore
+      <icon-mock
+        className={cx(className, classNameProp, `icon-${icon}`)}
+        icon={icon}
+      />
+    );
   }
 
   // 直接的icon dom

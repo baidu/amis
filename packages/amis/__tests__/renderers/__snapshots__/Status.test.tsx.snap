@@ -47,8 +47,9 @@ exports[`Renderer:status 1`] = `
           <span
             class="cxd-StatusField cxd-StatusField--pending"
           >
-            <i
-              class="cxd-Status-icon rolling"
+            <icon-mock
+              classname="cxd-Status-icon icon rolling icon-rolling"
+              icon="rolling"
             />
             <span
               class="cxd-StatusField-label"

@@ -74,8 +74,9 @@ exports[`Renderers:Action MenuItem display icon 2`] = `
   className="a"
   onClick={[Function]}
 >
-  <i
-    className="cxd-Button-icon fa fa-cloud"
+  <icon-mock
+    className="cxd-Button-icon icon-fa fa-cloud"
+    icon="fa fa-cloud"
   />
   <span>
     123

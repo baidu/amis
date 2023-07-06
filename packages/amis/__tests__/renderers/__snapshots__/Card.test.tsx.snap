@@ -472,8 +472,9 @@ exports[`Renderer:cards hightlight 1`] = `
                         <button
                           class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                         >
-                          <i
-                            class="m-r-xs fa fa-ellipsis-h"
+                          <icon-mock
+                            classname="icon m-r-xs icon-fa fa-ellipsis-h"
+                            icon="fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -602,8 +603,9 @@ exports[`Renderer:cards hightlight 2`] = `
                         <button
                           class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                         >
-                          <i
-                            class="m-r-xs fa fa-ellipsis-h"
+                          <icon-mock
+                            classname="icon m-r-xs icon-fa fa-ellipsis-h"
+                            icon="fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -729,8 +731,9 @@ exports[`Renderer:cards media 1`] = `
                         <button
                           class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                         >
-                          <i
-                            class="m-r-xs fa fa-ellipsis-h"
+                          <icon-mock
+                            classname="icon m-r-xs icon-fa fa-ellipsis-h"
+                            icon="fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
