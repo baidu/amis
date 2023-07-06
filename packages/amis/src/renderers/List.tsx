@@ -907,7 +907,7 @@ export default class List extends React.Component<ListProps, object> {
   }
 
   renderDragToggler() {
-    const {store, multiple, selectable, env} = this.props;
+    const {store, multiple, selectable, popOverContainer, env} = this.props;
 
     if (!store.draggable || store.items.length < 2) {
       return null;
@@ -918,9 +918,7 @@ export default class List extends React.Component<ListProps, object> {
         iconOnly
         key="dragging-toggle"
         tooltip="对列表进行排序操作"
-        tooltipContainer={
-          env && env.getModalContainer ? env.getModalContainer : undefined
-        }
+        tooltipContainer={popOverContainer || env?.getModalContainer}
         size="sm"
         active={store.dragging}
         onClick={(e: React.MouseEvent<any>) => {

@@ -146,11 +146,9 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
           valueField={valueField}
           useMobileUI={useMobileUI}
           popOverContainer={
-            mobileUI && env && env.getModalContainer
-              ? env.getModalContainer
-              : mobileUI
-              ? undefined
-              : popOverContainer
+            mobileUI
+              ? env?.getModalContainer
+              : popOverContainer || env.getModalContainer
           }
         />
 

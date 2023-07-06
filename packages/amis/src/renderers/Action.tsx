@@ -1083,9 +1083,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         onMouseLeave={this.handleMouseLeave}
         loading={loading}
         isCurrentUrl={this.isCurrentAction}
-        tooltipContainer={
-          env.getModalContainer ? env.getModalContainer : undefined
-        }
+        tooltipContainer={rest.popOverContainer || env.getModalContainer}
       />
     );
   }

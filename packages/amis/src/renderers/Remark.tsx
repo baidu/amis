@@ -161,6 +161,7 @@ class Remark extends React.Component<RemarkProps> {
       rootClose,
       trigger,
       container,
+      popOverContainer,
       classPrefix: ns,
       classnames: cx,
       content,
@@ -202,7 +203,7 @@ class Remark extends React.Component<RemarkProps> {
         placement={(tooltip && tooltip.placement) || placement}
         rootClose={(tooltip && tooltip.rootClose) || rootClose}
         trigger={(tooltip && tooltip.trigger) || trigger}
-        container={container || env.getModalContainer}
+        container={container || popOverContainer || env.getModalContainer}
         delay={tooltip && tooltip.delay}
       >
         <div

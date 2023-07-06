@@ -43,11 +43,9 @@ export default class YearRangeControl extends InputDateRange {
           useMobileUI={useMobileUI}
           classPrefix={ns}
           popOverContainer={
-            mobileUI && env && env.getModalContainer
-              ? env.getModalContainer
-              : mobileUI
-              ? undefined
-              : rest.popOverContainer
+            mobileUI
+              ? env?.getModalContainer
+              : rest.popOverContainer || env.getModalContainer
           }
           data={data}
           {...rest}

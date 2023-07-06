@@ -2183,10 +2183,7 @@ export default class Table extends React.Component<TableProps, object> {
             ? render('remark', {
                 type: 'remark',
                 tooltip: column.remark,
-                container:
-                  env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
+                container: this.getPopOverContainer
               })
             : null}
         </div>
@@ -2212,7 +2209,6 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       checkOnItemClick,
       popOverContainer,
-      canAccessSuperData,
       itemBadge
     } = this.props;
 
@@ -2289,6 +2285,8 @@ export default class Table extends React.Component<TableProps, object> {
       );
     }
 
+    const canAccessSuperData =
+      column.pristine.canAccessSuperData ?? this.props.canAccessSuperData;
     const subProps: any = {
       ...props,
       // 操作列不下发loading，否则会导致操作栏里面的所有按钮都出现loading
@@ -2301,7 +2299,7 @@ export default class Table extends React.Component<TableProps, object> {
             canAccessSuperData ? item.locals : item.data
           )
         : column.value,
-      popOverContainer: popOverContainer || this.getPopOverContainer,
+      popOverContainer: this.getPopOverContainer,
       rowSpan: item.rowSpans[column.name as string],
       quickEditFormRef: this.subFormRef,
       cellPrefix: prefix,
@@ -2597,9 +2595,7 @@ export default class Table extends React.Component<TableProps, object> {
           content: config?.tooltip || __('Table.columnsVisibility'),
           placement: 'bottom'
         }}
-        tooltipContainer={
-          env && env.getModalContainer ? env.getModalContainer : undefined
-        }
+        tooltipContainer={rest.popOverContainer || env.getModalContainer}
         align={config?.align ?? 'left'}
         isActived={store.hasColumnHidden()}
         classnames={cx}
@@ -2696,7 +2692,14 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderDragToggler() {
-    const {store, env, draggable, classPrefix: ns, translate: __} = this.props;
+    const {
+      store,
+      env,
+      draggable,
+      classPrefix: ns,
+      translate: __,
+      popOverContainer
+    } = this.props;
 
     if (!draggable || store.isNested) {
       return null;
@@ -2708,9 +2711,7 @@ export default class Table extends React.Component<TableProps, object> {
         classPrefix={ns}
         key="dragging-toggle"
         tooltip={{content: __('Table.startSort'), placement: 'bottom'}}
-        tooltipContainer={
-          env && env.getModalContainer ? env.getModalContainer : undefined
-        }
+        tooltipContainer={popOverContainer || env.getModalContainer}
         size="sm"
         active={store.dragging}
         onClick={(e: React.MouseEvent<any>) => {

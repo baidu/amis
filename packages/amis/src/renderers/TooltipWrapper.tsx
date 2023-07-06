@@ -230,7 +230,8 @@ export default class TooltipWrapper extends React.Component<
       disabled,
       enterable,
       data,
-      env
+      env,
+      popOverContainer
     } = this.props;
 
     const tooltipObj: TooltipObject = {
@@ -243,9 +244,7 @@ export default class TooltipWrapper extends React.Component<
       container:
         container !== undefined
           ? container
-          : env && env.getModalContainer
-          ? env.getModalContainer
-          : undefined,
+          : popOverContainer || env?.getModalContainer,
       tooltipTheme,
       tooltipClassName,
       mouseEnterDelay,

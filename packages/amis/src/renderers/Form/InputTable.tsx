@@ -939,9 +939,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               key={key}
               level="link"
               tooltip={__('Table.addRow')}
-              tooltipContainer={
-                env && env.getModalContainer ? env.getModalContainer : undefined
-              }
+              tooltipContainer={props.popOverContainer || env.getModalContainer}
               disabled={disabled}
               onClick={this.addItem.bind(this, rowIndex + offset, undefined)}
             >
@@ -976,9 +974,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               key={key}
               level="link"
               tooltip={__('Table.copyRow')}
-              tooltipContainer={
-                env && env.getModalContainer ? env.getModalContainer : undefined
-              }
+              tooltipContainer={props.popOverContainer || env.getModalContainer}
               disabled={disabled}
               onClick={this.copyItem.bind(this, rowIndex + offset, undefined)}
             >
@@ -1066,9 +1062,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 level="link"
                 tooltip={__('Table.editRow')}
                 tooltipContainer={
-                  env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
+                  props.popOverContainer || env.getModalContainer
                 }
                 disabled={disabled}
                 onClick={() => this.editItem(rowIndex + offset)}
@@ -1115,9 +1109,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 level="link"
                 tooltip={__('save')}
                 tooltipContainer={
-                  env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
+                  props.popOverContainer || env.getModalContainer
                 }
                 onClick={this.confirmEdit}
               >
@@ -1154,9 +1146,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 level="link"
                 tooltip={__('cancel')}
                 tooltipContainer={
-                  env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
+                  props.popOverContainer || env.getModalContainer
                 }
                 onClick={this.cancelEdit}
               >
@@ -1211,9 +1201,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               key={key}
               level="link"
               tooltip={__('Table.deleteRow')}
-              tooltipContainer={
-                env && env.getModalContainer ? env.getModalContainer : undefined
-              }
+              tooltipContainer={props.popOverContainer || env.getModalContainer}
               disabled={disabled}
               onClick={this.removeItem.bind(this, rowIndex + offset)}
             >

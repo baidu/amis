@@ -776,6 +776,7 @@ export default class Page extends React.Component<PageProps> {
       render,
       store,
       initApi,
+      popOverContainer,
       env,
       classnames: cx,
       regions,
@@ -801,10 +802,7 @@ export default class Page extends React.Component<PageProps> {
                     type: 'remark',
                     tooltip: remark,
                     placement: remarkPlacement || 'bottom',
-                    container:
-                      env && env.getModalContainer
-                        ? env.getModalContainer
-                        : undefined
+                    container: popOverContainer || env.getModalContainer
                   })
                 : null}
             </h2>

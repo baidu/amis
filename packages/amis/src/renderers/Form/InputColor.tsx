@@ -92,11 +92,9 @@ export default class ColorControl extends React.PureComponent<
             {...rest}
             useMobileUI={useMobileUI}
             popOverContainer={
-              mobileUI && env && env.getModalContainer
-                ? env.getModalContainer
-                : mobileUI
-                ? undefined
-                : rest.popOverContainer
+              mobileUI
+                ? env?.getModalContainer
+                : rest.popOverContainer || env.getModalContainer
             }
             value={value || ''}
           />
