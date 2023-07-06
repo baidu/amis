@@ -48,6 +48,7 @@ exports[`Renderer:Page 1`] = `
                   <icon-mock
                     className="icon-question-mark"
                     icon="question-mark"
+                    onClick={[Function]}
                   />
                 </span>
               </div>

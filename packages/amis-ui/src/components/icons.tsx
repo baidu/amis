@@ -267,20 +267,21 @@ export function Icon({
     return null;
   }
 
-  // jest 运行环境下，把指定的 icon 也输出到 snapshot 中。
-  if (typeof jest !== 'undefined') {
-    return (
-      // @ts-ignore
-      <icon-mock
-        className={cx(className, classNameProp, `icon-${icon}`)}
-        icon={icon}
-      />
-    );
-  }
-
   // 直接的icon dom
   if (React.isValidElement(icon)) {
     return icon;
+  }
+
+  // 获取注册的icon
+  const Component = getIcon(icon);
+  if (Component) {
+    return (
+      <Component
+        onClick={onClick}
+        className={cx(className, `icon-${icon}`, classNameProp)}
+        icon={icon}
+      />
+    );
   }
 
   // 从css变量中获取icon
@@ -335,17 +336,6 @@ export function Icon({
           xlinkHref={`#${(icon as IconCheckedSchema).id.replace(/^svg-/, '')}`}
         ></use>
       </svg>
-    );
-  }
-
-  // 获取注册的icon
-  const Component = getIcon(icon);
-  if (Component) {
-    return (
-      <Component
-        onClick={onClick}
-        className={cx(className, `icon-${icon}`, classNameProp)}
-      />
     );
   }
 

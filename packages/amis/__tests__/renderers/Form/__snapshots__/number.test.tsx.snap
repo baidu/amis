@@ -997,7 +997,7 @@ exports[`Renderer:number with step & precision & displayMode & keyboard 1`] = `
                 class="cxd-Number--enhance-left-icon"
               >
                 <icon-mock
-                  classname="icon cxd-InputNumber-enhance-minus icon icon-minus"
+                  classname="icon icon-minus cxd-InputNumber-enhance-minus icon"
                   icon="minus"
                 />
               </div>
@@ -1049,7 +1049,7 @@ exports[`Renderer:number with step & precision & displayMode & keyboard 1`] = `
                 class="cxd-Number--enhance-right-icon"
               >
                 <icon-mock
-                  classname="icon cxd-InputNumber-enhance-plus icon icon-plus"
+                  classname="icon icon-plus cxd-InputNumber-enhance-plus icon"
                   icon="plus"
                 />
               </div>

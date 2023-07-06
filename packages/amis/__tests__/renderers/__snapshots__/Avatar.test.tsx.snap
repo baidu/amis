@@ -109,9 +109,8 @@ exports[`Renderer:avatar icon 1`] = `
   <span
     class="cxd-Avatar cxd-Avatar--circle"
   >
-    <icon-mock
-      classname="icon-fa fa-user"
-      icon="fa fa-user"
+    <i
+      class="fa fa-user fa fa-user"
     />
   </span>
 </div>
@@ -178,25 +177,22 @@ exports[`Renderer:avatar size 1`] = `
           <span
             class="cxd-Avatar cxd-Avatar--circle cxd-Avatar--lg"
           >
-            <icon-mock
-              classname="icon-fa fa-user"
-              icon="fa fa-user"
+            <i
+              class="fa fa-user fa fa-user"
             />
           </span>
           <span
             class="cxd-Avatar cxd-Avatar--circle"
           >
-            <icon-mock
-              classname="icon-fa fa-user"
-              icon="fa fa-user"
+            <i
+              class="fa fa-user fa fa-user"
             />
           </span>
           <span
             class="cxd-Avatar cxd-Avatar--circle cxd-Avatar--sm"
           >
-            <icon-mock
-              classname="icon-fa fa-user"
-              icon="fa fa-user"
+            <i
+              class="fa fa-user fa fa-user"
             />
           </span>
           <span
@@ -289,9 +285,8 @@ exports[`Renderer:avatar var 1`] = `
           <span
             class="cxd-Avatar cxd-Avatar--circle"
           >
-            <icon-mock
-              classname="icon-fa fa-user"
-              icon="fa fa-user"
+            <i
+              class="fa fa-user fa fa-user"
             />
           </span>
           <span

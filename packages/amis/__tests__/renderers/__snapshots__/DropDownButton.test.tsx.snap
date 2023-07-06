@@ -139,9 +139,8 @@ exports[`Renderer:dropdown-button with buttons group 1`] = `
         <li
           class="cxd-DropDown-groupTitle"
         >
-          <icon-mock
-            classname="m-r-xs icon-fa fa-user"
-            icon="fa fa-user"
+          <i
+            class="fa fa-user m-r-xs fa fa-user"
           />
           <span>
             RD
@@ -176,9 +175,8 @@ exports[`Renderer:dropdown-button with buttons group 1`] = `
         <li
           class="cxd-DropDown-groupTitle"
         >
-          <icon-mock
-            classname="m-r-xs icon-fa fa-user"
-            icon="fa fa-user"
+          <i
+            class="fa fa-user m-r-xs fa fa-user"
           />
           <span>
             QA
@@ -217,9 +215,8 @@ exports[`Renderer:dropdown-button with buttons group 1`] = `
         <li
           class="cxd-DropDown-groupTitle"
         >
-          <icon-mock
-            classname="m-r-xs icon-fa fa-user"
-            icon="fa fa-user"
+          <i
+            class="fa fa-user m-r-xs fa fa-user"
           />
           <span>
             Manager
@@ -323,9 +320,8 @@ exports[`Renderer:dropdown-button with hideCaret 1`] = `
     <button
       class="cxd-Button cxd-Button--link cxd-Button--size-default"
     >
-      <icon-mock
-        classname="icon m-r-xs icon-fa fa-ellipsis-h"
-        icon="fa fa-ellipsis-h"
+      <i
+        class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
       />
       下拉菜单
     </button>

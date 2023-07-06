@@ -587,7 +587,7 @@ exports[`Renderer:text type is password: password invisible 1`] = `
                 class="cxd-TextControl-revealPassword"
               >
                 <icon-mock
-                  classname="cxd-TextControl-icon-invisible cxd-TextControl-icon-invisible icon-invisible"
+                  classname="cxd-TextControl-icon-invisible icon-invisible cxd-TextControl-icon-invisible"
                   icon="invisible"
                 />
               </a>
@@ -723,7 +723,7 @@ exports[`Renderer:text type is password: password visible 1`] = `
                 class="cxd-TextControl-revealPassword"
               >
                 <icon-mock
-                  classname="cxd-TextControl-icon-view cxd-TextControl-icon-view icon-view"
+                  classname="cxd-TextControl-icon-view icon-view cxd-TextControl-icon-view"
                   icon="view"
                 />
               </a>

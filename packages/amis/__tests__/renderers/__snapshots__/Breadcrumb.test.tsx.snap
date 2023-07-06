@@ -12,9 +12,8 @@ exports[`Renderer:breadcrumb 1`] = `
         class="cxd-Breadcrumb-item-default"
         href="https://baidu.gitee.com/"
       >
-        <icon-mock
-          classname="cxd-Icon cxd-Breadcrumb-icon icon-fa fa-home"
-          icon="fa fa-home"
+        <i
+          class="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
         />
         <span
           class="cxd-TplField"
@@ -75,9 +74,8 @@ exports[`Renderer:breadcrumb className 1`] = `
         class="cxd-Breadcrumb-item-default itemClassName"
         href="https://baidu.gitee.com/"
       >
-        <icon-mock
-          classname="cxd-Icon cxd-Breadcrumb-icon icon-fa fa-home"
-          icon="fa fa-home"
+        <i
+          class="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
         />
         <span
           class="cxd-TplField"
@@ -186,9 +184,8 @@ exports[`Renderer:breadcrumb dropdown 1`] = `
                 class="cxd-Breadcrumb-item-default"
                 href="https://baidu.gitee.com/"
               >
-                <icon-mock
-                  classname="cxd-Icon cxd-Breadcrumb-icon icon-fa fa-home"
-                  icon="fa fa-home"
+                <i
+                  class="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
                   class="cxd-TplField"
@@ -274,9 +271,8 @@ exports[`Renderer:breadcrumb separator 1`] = `
                 class="cxd-Breadcrumb-item-default"
                 href="https://baidu.gitee.com/"
               >
-                <icon-mock
-                  classname="cxd-Icon cxd-Breadcrumb-icon icon-fa fa-home"
-                  icon="fa fa-home"
+                <i
+                  class="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
                   class="cxd-TplField"
@@ -358,9 +354,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 1`] = `
                 className="cxd-Breadcrumb-item-default"
                 href="https://baidu.gitee.com/"
               >
-                <icon-mock
-                  className="cxd-Icon cxd-Breadcrumb-icon icon-fa fa-home"
-                  icon="fa fa-home"
+                <i
+                  className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  onClick={[Function]}
                 />
                 <span
                   className="cxd-TplField"
@@ -447,9 +443,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 2`] = `
                 className="cxd-Breadcrumb-item-default"
                 href="https://baidu.gitee.com/"
               >
-                <icon-mock
-                  className="cxd-Icon cxd-Breadcrumb-icon icon-fa fa-home"
-                  icon="fa fa-home"
+                <i
+                  className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  onClick={[Function]}
                 />
                 <span
                   className="cxd-TplField"
@@ -536,9 +532,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 3`] = `
                 className="cxd-Breadcrumb-item-default"
                 href="https://baidu.gitee.com/"
               >
-                <icon-mock
-                  className="cxd-Icon cxd-Breadcrumb-icon icon-fa fa-home"
-                  icon="fa fa-home"
+                <i
+                  className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  onClick={[Function]}
                 />
                 <span
                   className="cxd-TplField"
@@ -625,9 +621,9 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 4`] = `
                 className="cxd-Breadcrumb-item-default"
                 href="https://baidu.gitee.com/"
               >
-                <icon-mock
-                  className="cxd-Icon cxd-Breadcrumb-icon icon-fa fa-home"
-                  icon="fa fa-home"
+                <i
+                  className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  onClick={[Function]}
                 />
                 <span
                   className="cxd-TplField"

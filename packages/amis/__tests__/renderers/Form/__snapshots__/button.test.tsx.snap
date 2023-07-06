@@ -40,9 +40,8 @@ exports[`Renderer:button 1`] = `
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
-            <icon-mock
-              classname="cxd-Button-icon icon-fa fa-plus"
-              icon="fa fa-plus"
+            <i
+              class="fa fa-plus cxd-Button-icon fa fa-plus"
             />
             <span>
               Text
@@ -173,9 +172,8 @@ exports[`Renderer:button 2`] = `
             class="cxd-Button cxd-Button--default cxd-Button--size-default"
             type="button"
           >
-            <icon-mock
-              classname="cxd-Button-icon icon-fa fa-plus"
-              icon="fa fa-plus"
+            <i
+              class="fa fa-plus cxd-Button-icon fa fa-plus"
             />
             <span>
               Text
