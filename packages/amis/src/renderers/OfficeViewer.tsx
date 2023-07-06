@@ -44,7 +44,9 @@ export interface OfficeViewerProps
   columnsCount: number;
 }
 
-export interface OfficeViewerState {}
+export interface OfficeViewerState {
+  loadding: boolean;
+}
 
 export default class OfficeViewer extends React.Component<
   OfficeViewerProps,
@@ -138,7 +140,7 @@ export default class OfficeViewer extends React.Component<
    * 渲染远端文件
    */
   async renderRemoteWord() {
-    const {wordOptions, env, src, data, display} = this.props;
+    const {wordOptions, env, src, data, display, translate: __} = this.props;
 
     const finalSrc = src
       ? resolveVariableAndFilter(src, data, '| raw')
@@ -154,13 +156,22 @@ export default class OfficeViewer extends React.Component<
     }
 
     let response: Payload;
-
+    this.setState({
+      loadding: true
+    });
     try {
       response = await env.fetcher(finalSrc, data, {
         responseType: 'arraybuffer'
       });
     } catch (error) {
-      env.alert(error);
+      // 显示一下报错信息避免没法选中组件
+      if (this.rootElement?.current) {
+        this.rootElement.current.innerHTML =
+          __('loadingFailed') + ' url:' + finalSrc;
+      }
+      this.setState({
+        loadding: false
+      });
       return;
     }
 
@@ -180,6 +191,10 @@ export default class OfficeViewer extends React.Component<
       }
 
       this.word = word;
+
+      this.setState({
+        loadding: false
+      });
     });
   }
 
@@ -224,7 +239,7 @@ export default class OfficeViewer extends React.Component<
       loadingConfig
     } = this.props;
     return (
-      <div ref={this.rootElement} className={cx('office-viewer', className)}>
+      <div>
         {/* 避免没内容时编辑器都选不了 */}
         {display !== false && !src && !name && (
           <svg width="100%" height="100" xmlns="http://www.w3.org/2000/svg">
@@ -248,11 +263,15 @@ export default class OfficeViewer extends React.Component<
             </text>
           </svg>
         )}
+        <div
+          ref={this.rootElement}
+          className={cx('office-viewer', className)}
+        ></div>
 
         <Spinner
           overlay
           key="info"
-          show={loading}
+          show={loading && this.state.loadding}
           loadingConfig={loadingConfig}
         />
       </div>
