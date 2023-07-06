@@ -197,6 +197,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       data,
       onPickerOpen,
       selfVariableName,
+      popOverContainer,
       env,
       useMobileUI
     } = this.props;
@@ -214,7 +215,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
 
     return (
       <FormulaPicker
-        popOverContainer={env.getModalContainer}
+        popOverContainer={popOverContainer || env.getModalContainer}
         ref={this.formulaRef}
         className={className}
         value={value}
