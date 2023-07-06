@@ -2212,7 +2212,6 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       checkOnItemClick,
       popOverContainer,
-      canAccessSuperData,
       itemBadge
     } = this.props;
 
@@ -2289,6 +2288,8 @@ export default class Table extends React.Component<TableProps, object> {
       );
     }
 
+    const canAccessSuperData =
+      column.pristine.canAccessSuperData ?? this.props.canAccessSuperData;
     const subProps: any = {
       ...props,
       // 操作列不下发loading，否则会导致操作栏里面的所有按钮都出现loading
