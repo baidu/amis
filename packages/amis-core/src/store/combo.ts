@@ -1,4 +1,4 @@
-import {types, SnapshotIn, Instance} from 'mobx-state-tree';
+import {types, SnapshotIn, Instance, isAlive} from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import type {IFormStore, IFormItemStore} from './form';
 import {getStoreById} from './manager';
@@ -150,6 +150,14 @@ export const ComboStore = iRendererStore
             form.items.forEach(
               item => item.unique && item.syncOptions(undefined, form.data)
             )
+          );
+
+          self.forms.forEach(
+            form =>
+              isAlive(form) &&
+              form.items.forEach(item => {
+                item.unique && item.errors.length && item.validate(item.value);
+              })
           );
         }
       }
