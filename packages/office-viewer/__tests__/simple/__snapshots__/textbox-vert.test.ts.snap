@@ -15,7 +15,7 @@ exports[`text 1`] = `
         <div
           data-id="7"
           data-name="文本框 2"
-          style="z-index: 251671552; position: absolute; left: 10.05px; top: 439.47px; width: 233.30px; height: 158.46px; color: rgb(0, 0, 0); display: table;"
+          style="z-index: 251671552; position: absolute; left: 10.05px; top: 439.47px; width: 233.3px; height: 158.46px; color: rgb(0, 0, 0); display: table;"
         >
           <svg
             height="158.46px"

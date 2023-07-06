@@ -129,18 +129,6 @@
               <w:t>cc</w:t>
             </w:r>
           </w:p>
-          <w:p w14:paraId="7F0CA5FA" w14:textId="20FAA58D" w:rsidR="00EC0B69"
-            w:rsidRDefault="00EC0B69" w:rsidP="000E0010">
-            <w:pPr>
-              <w:tabs>
-                <w:tab w:val="left" w:pos="7153" />
-              </w:tabs>
-              <w:jc w:val="left" />
-              <w:rPr>
-                <w:sz w:val="15" />
-              </w:rPr>
-            </w:pPr>
-          </w:p>
           <w:sectPr w:rsidR="00EC0B69">
             <w:headerReference w:type="even" r:id="rId6" />
             <w:headerReference w:type="default" r:id="rId7" />

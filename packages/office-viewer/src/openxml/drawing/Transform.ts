@@ -18,25 +18,47 @@ export interface Ext {
 export class Transform {
   off?: Off;
   ext?: Ext;
+  chOff?: Off;
+  chExt?: Ext;
   rot?: number;
 
   static fromXML(word: Word, element: Element): Transform {
     const transform = new Transform();
 
-    const off = element.getElementsByTagName('a:off').item(0);
-    if (off) {
-      transform.off = {
-        x: parseSize(off, 'x', LengthUsage.Emu),
-        y: parseSize(off, 'y', LengthUsage.Emu)
-      };
-    }
+    for (const child of element.children) {
+      const tagName = child.tagName;
+      switch (tagName) {
+        case 'a:off':
+          transform.off = {
+            x: parseSize(child, 'x', LengthUsage.Emu),
+            y: parseSize(child, 'y', LengthUsage.Emu)
+          };
+          break;
 
-    const ext = element.getElementsByTagName('a:ext').item(0);
-    if (ext) {
-      transform.ext = {
-        cx: parseSize(ext, 'cx', LengthUsage.Emu),
-        cy: parseSize(ext, 'cy', LengthUsage.Emu)
-      };
+        case 'a:ext':
+          transform.ext = {
+            cx: parseSize(child, 'cx', LengthUsage.Emu),
+            cy: parseSize(child, 'cy', LengthUsage.Emu)
+          };
+          break;
+
+        case 'a:chOff':
+          transform.chOff = {
+            x: parseSize(child, 'x', LengthUsage.Emu),
+            y: parseSize(child, 'y', LengthUsage.Emu)
+          };
+          break;
+
+        case 'a:chExt':
+          transform.chExt = {
+            cx: parseSize(child, 'cx', LengthUsage.Emu),
+            cy: parseSize(child, 'cy', LengthUsage.Emu)
+          };
+          break;
+
+        default:
+          console.warn('Transform: Unknown tag ', tagName, child);
+      }
     }
 
     const rot = element.getAttribute('rot');

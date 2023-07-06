@@ -4,7 +4,7 @@ import Word from '../../Word';
 import {ST_TabJc, ST_TabTlc} from '../Types';
 
 export class Tab {
-  type: ST_TabJc;
+  type: ST_TabJc | 'left';
   pos: string;
   leader?: ST_TabTlc;
 
