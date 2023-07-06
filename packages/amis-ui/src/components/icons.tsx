@@ -256,19 +256,21 @@ export function Icon({
   iconContent,
   vendor,
   cx: iconCx,
-  ...rest
+  onClick = () => {}
 }: {
   icon: string;
   iconContent?: string;
 } & React.ComponentProps<any>) {
   let cx = iconCx || cxClass;
-  // jest 运行环境下，把指定的 icon 也输出到 snapshot 中。
-  if (typeof jest !== 'undefined') {
-    rest.icon = icon;
-  }
 
   if (!icon) {
     return null;
+  }
+
+  // jest 运行环境下，把指定的 icon 也输出到 snapshot 中。
+  if (typeof jest !== 'undefined') {
+    // @ts-ignore
+    return <icon-mock className="icon" icon={icon} onClick={onClick} />;
   }
 
   // 直接的icon dom
@@ -297,7 +299,7 @@ export function Icon({
   if (iconContent) {
     return (
       <div
-        {...rest}
+        onClick={onClick}
         className={cx(iconContent, className, classNameProp)}
         ref={refFn}
       ></div>
@@ -321,7 +323,7 @@ export function Icon({
   ) {
     return (
       <svg
-        {...rest}
+        onClick={onClick}
         className={cx('icon', 'icon-object', className, classNameProp)}
       >
         <use
@@ -336,7 +338,7 @@ export function Icon({
   if (Component) {
     return (
       <Component
-        {...rest}
+        onClick={onClick}
         className={cx(className, `icon-${icon}`, classNameProp)}
       />
     );
@@ -347,7 +349,7 @@ export function Icon({
   if (isURLIcon) {
     return (
       <img
-        {...rest}
+        onClick={onClick}
         className={cx(`${classPrefix}Icon`, className, classNameProp)}
         src={icon}
       />
@@ -370,7 +372,10 @@ export function Icon({
 
   if (isIconfont) {
     return (
-      <i {...rest} className={cx(icon, className, classNameProp, iconPrefix)} />
+      <i
+        onClick={onClick}
+        className={cx(icon, className, classNameProp, iconPrefix)}
+      />
     );
   }
 
