@@ -279,6 +279,7 @@ export function Icon({
       <Component
         onClick={onClick}
         className={cx(className, `icon-${icon}`, classNameProp)}
+        // @ts-ignore
         icon={icon}
       />
     );
