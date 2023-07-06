@@ -702,7 +702,7 @@ export default class TreeSelectControl extends React.Component<
     return (
       <div ref={this.container} className={cx(`TreeSelectControl`, className)}>
         <ResultBox
-          popOverContainer={env.getModalContainer}
+          popOverContainer={popOverContainer || env.getModalContainer}
           maxTagCount={maxTagCount}
           overflowTagPopover={overflowTagPopover}
           disabled={disabled}
@@ -765,9 +765,7 @@ export default class TreeSelectControl extends React.Component<
         ) : null}
         {mobileUI ? (
           <PopUp
-            container={
-              env && env.getModalContainer ? env.getModalContainer : undefined
-            }
+            container={env.getModalContainer}
             className={cx(`${ns}TreeSelect-popup`)}
             isShow={isOpened}
             onHide={this.close}

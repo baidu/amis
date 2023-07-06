@@ -623,7 +623,7 @@ export default class TagControl extends React.PureComponent<
                 clearable={clearable}
                 maxTagCount={maxTagCount}
                 overflowTagPopover={overflowTagPopover}
-                popOverContainer={env.getModalContainer}
+                popOverContainer={popOverContainer || env.getModalContainer}
                 allowInput={!mobileUI || (mobileUI && !options?.length)}
                 useMobileUI={useMobileUI}
               >
@@ -637,11 +637,9 @@ export default class TagControl extends React.PureComponent<
                   <PopUp
                     className={cx(`Tag-popup`)}
                     container={
-                      mobileUI && env && env.getModalContainer
-                        ? env.getModalContainer
-                        : mobileUI
-                        ? undefined
-                        : popOverContainer
+                      mobileUI
+                        ? env?.getModalContainer
+                        : popOverContainer || env.getModalContainer
                     }
                     isShow={isOpen && !!finnalOptions.length}
                     showConfirm={true}

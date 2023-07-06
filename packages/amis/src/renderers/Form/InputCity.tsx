@@ -80,6 +80,7 @@ export interface CityPickerProps
   style?: {
     [propName: string]: any;
   };
+  popOverContainer?: any;
 }
 
 export interface CityDb {
@@ -411,7 +412,8 @@ export class CityPicker extends React.Component<
       allowStreet,
       searchable,
       translate: __,
-      loadingConfig
+      loadingConfig,
+      popOverContainer
     } = this.props;
 
     const {provinceCode, cityCode, districtCode, street, db} = this.state;
@@ -427,6 +429,7 @@ export class CityPicker extends React.Component<
           }))}
           value={provinceCode || ''}
           onChange={this.handleProvinceChange}
+          popOverContainer={popOverContainer}
         />
 
         {allowCity && db.city[provinceCode] && db.city[provinceCode].length ? (
@@ -439,6 +442,7 @@ export class CityPicker extends React.Component<
             }))}
             value={cityCode || ''}
             onChange={this.handleCityChange}
+            popOverContainer={popOverContainer}
           />
         ) : null}
 
@@ -456,6 +460,7 @@ export class CityPicker extends React.Component<
             )}
             value={districtCode || ''}
             onChange={this.handleDistrictChange}
+            popOverContainer={popOverContainer}
           />
         ) : null}
 
@@ -562,15 +567,14 @@ export class LocationControl extends React.Component<LocationControlProps> {
       disabled,
       searchable,
       env,
-      useMobileUI
+      useMobileUI,
+      popOverContainer
     } = this.props;
     const mobileUI = useMobileUI && isMobile();
     return mobileUI ? (
       <CityArea
         value={value}
-        popOverContainer={
-          env && env.getModalContainer ? env.getModalContainer : undefined
-        }
+        popOverContainer={env?.getModalContainer}
         onChange={this.handleChange}
         allowCity={allowCity}
         allowDistrict={allowDistrict}
@@ -582,6 +586,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
       />
     ) : (
       <ThemedCity
+        popOverContainer={popOverContainer || env?.getModalContainer}
         searchable={searchable}
         value={value}
         onChange={this.handleChange}

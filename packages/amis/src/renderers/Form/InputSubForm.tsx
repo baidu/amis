@@ -599,11 +599,9 @@ export default class SubFormControl extends React.PureComponent<
             onConfirm={this.handlePopupConfirm}
             onHide={this.close}
             container={
-              mobileUI && env && env.getModalContainer
-                ? env.getModalContainer
-                : mobileUI
-                ? undefined
-                : popOverContainer
+              mobileUI
+                ? env?.getModalContainer
+                : popOverContainer || env.getModalContainer
             }
           >
             <div className="flex-1 pl-10 pr-10">

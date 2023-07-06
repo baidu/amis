@@ -1015,11 +1015,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       tooltip: labelRemark,
                       useMobileUI,
                       className: cx(`Form-labelRemark`),
-                      container: props.popOverContainer
-                        ? props.popOverContainer
-                        : env && env.getModalContainer
-                        ? env.getModalContainer
-                        : undefined
+                      container: props.popOverContainer || env.getModalContainer
                     })
                   : null}
               </span>
@@ -1048,11 +1044,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                   tooltip: remark,
                   className: cx(`Form-remark`),
                   useMobileUI,
-                  container: props.popOverContainer
-                    ? props.popOverContainer
-                    : env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
+                  container: props.popOverContainer || env.getModalContainer
                 })
               : null}
 
@@ -1146,11 +1138,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       tooltip: labelRemark,
                       className: cx(`Form-lableRemark`),
                       useMobileUI,
-                      container: props.popOverContainer
-                        ? props.popOverContainer
-                        : env && env.getModalContainer
-                        ? env.getModalContainer
-                        : undefined
+                      container: props.popOverContainer || env.getModalContainer
                     })
                   : null}
               </span>
@@ -1174,10 +1162,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                     className: cx(`Form-remark`),
                     tooltip: remark,
                     useMobileUI,
-                    container:
-                      env && env.getModalContainer
-                        ? env.getModalContainer
-                        : undefined
+                    container: props.popOverContainer || env.getModalContainer
                   })
                 : null}
 
@@ -1221,10 +1206,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                     className: cx(`Form-remark`),
                     tooltip: remark,
                     useMobileUI,
-                    container:
-                      env && env.getModalContainer
-                        ? env.getModalContainer
-                        : undefined
+                    container: props.popOverContainer || env.getModalContainer
                   })
                 : null}
 
@@ -1322,11 +1304,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       tooltip: labelRemark,
                       className: cx(`Form-lableRemark`),
                       useMobileUI,
-                      container: props.popOverContainer
-                        ? props.popOverContainer
-                        : env && env.getModalContainer
-                        ? env.getModalContainer
-                        : undefined
+                      container: props.popOverContainer || env.getModalContainer
                     })
                   : null}
               </span>
@@ -1349,11 +1327,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                   className: cx(`Form-remark`),
                   tooltip: remark,
                   useMobileUI,
-                  container: props.popOverContainer
-                    ? props.popOverContainer
-                    : env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
+                  container: props.popOverContainer || env.getModalContainer
                 })
               : null}
 
@@ -1449,11 +1423,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                         tooltip: labelRemark,
                         className: cx(`Form-lableRemark`),
                         useMobileUI,
-                        container: props.popOverContainer
-                          ? props.popOverContainer
-                          : env && env.getModalContainer
-                          ? env.getModalContainer
-                          : undefined
+                        container:
+                          props.popOverContainer || env.getModalContainer
                       })
                     : null}
                 </span>
@@ -1474,10 +1445,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                   icon: remark.icon || 'warning-mark',
                   className: cx(`Form-remark`),
                   tooltip: remark,
-                  container:
-                    env && env.getModalContainer
-                      ? env.getModalContainer
-                      : undefined
+                  container: props.popOverContainer || env.getModalContainer
                 })
               : null}
           </div>
