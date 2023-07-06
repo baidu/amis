@@ -115,11 +115,6 @@ export interface TabsSchema extends BaseSchema {
   source?: string;
 
   /**
-   * 类名
-   */
-  tabsClassName?: SchemaClassName;
-
-  /**
    * 展示形式
    */
   tabsMode?: TabsMode;
