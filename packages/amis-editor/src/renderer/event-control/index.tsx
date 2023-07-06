@@ -491,8 +491,12 @@ export class EventControl extends React.Component<
   }
 
   buildEventDataSchema(data: any, manager: EditorManager) {
-    const {actionTree, pluginActions, commonActions, allComponents} =
-      this.props;
+    const {
+      actionTree,
+      actions: pluginActions,
+      commonActions,
+      allComponents
+    } = this.props;
     const {events, onEvent} = this.state;
 
     const eventConfig = events.find(
@@ -564,7 +568,7 @@ export class EventControl extends React.Component<
               properties: {
                 ...jsonSchema.properties?.data?.properties,
                 [action.outputVar!]: {
-                  ...actionSchema[0],
+                  ...(Array.isArray(actionSchema) && (actionSchema[0] || {})),
                   title: `${action.outputVar}(${actionLabel}动作出参)`
                 }
               }

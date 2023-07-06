@@ -256,18 +256,16 @@ run action ajax
           actions: [
             {
               actionType: 'ajax',
-              args: {
-                api: {
-                  url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?name=${name}',
-                  method: 'get',
-                  "responseData": {
-                    "resId": "${id}"
-                  }
+              api: {
+                url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?name=${name}',
+                method: 'post',
+                responseData: {
+                  "resId": "${id}",
                 },
                 messages: {
                   success: '成功了！欧耶',
                   failed: '失败了呢。。'
-                }
+                },
               },
               data: {
                 age: 18
@@ -296,18 +294,16 @@ run action ajax
           actions: [
             {
               actionType: 'ajax',
-              args: {
-                api: {
-                  url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/initData',
-                  method: 'post'
-                },
+              api: {
+                url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/initData',
+                method: 'post',
                 messages: {
                   success: '成功了！欧耶',
                   failed: '失败了呢。。'
                 },
-                options: {
-                  silent: true
-                }
+              },
+              options: {
+                silent: true,
               },
               data: {
                 age: 18
@@ -328,9 +324,7 @@ run action ajax
 }
 ```
 
-**动作属性（args）**
-
-> `< 1.8.0 及以下版本`，以下属性与 args 同级。
+**动作属性**
 
 | 属性名   | 类型                                | 默认值 | 说明                      |
 | -------- | ----------------------------------- | ------ | ------------------------- |
@@ -1856,7 +1850,7 @@ run action ajax
 
 有时在执行自定义 JS 的时候，希望该过程中产生的数据可以分享给后面的动作使用，此时可以通过`event.setData()`来实现事件上下文的设置，这样后面动作都可以通过事件上下文来获取共享的数据。
 
-> 注意：直接调用`event.setData()`将修改事件的原有上下文，如果不希望覆盖可以通过`event.setData({...event.data, {xxx: xxx}})`来进行数据的合并。
+> 注意：直接调用`event.setData()`将修改事件的原有上下文，如果不希望覆盖可以通过`event.setData({...event.data, ...{xxx: xxx}})`来进行数据的合并。
 
 ## 触发组件的动作
 

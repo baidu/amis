@@ -289,9 +289,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             items = result.items || result.rows;
           }
 
-          if (items == null) {
-            items = [];
-          } else if (!Array.isArray(items)) {
+          if (!Array.isArray(items)) {
             // 如果不按照 items 格式返回，就拿第一个数组当成 items
             for (const key of Object.keys(result)) {
               if (result.hasOwnProperty(key) && Array.isArray(result[key])) {
@@ -299,6 +297,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                 break;
               }
             }
+          } else if (items == null) {
+            items = [];
           }
 
           if (!Array.isArray(items)) {

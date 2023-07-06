@@ -1,6 +1,6 @@
 {
   "name": "amis-formula",
-  "version": "3.1.5",
+  "version": "3.2.0",
   "description": "负责 amis 里面的表达式实现，内置公式，编辑器等",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -81,7 +81,6 @@
   "browserslist": "IE >= 11",
   "jest": {
     "testEnvironment": "jsdom",
-    "collectCoverage": true,
     "coverageReporters": [
       "text",
       "cobertura"

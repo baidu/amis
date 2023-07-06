@@ -357,13 +357,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
                 <span
                   class="cxd-SubForm-valueLabel"
                 >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      设置
-                    </span>
-                  </span>
+                  设置
                 </span>
                 <a
                   class="cxd-SubForm-valueEdit"
@@ -390,13 +384,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
                 <span
                   class="cxd-SubForm-valueLabel"
                 >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      设置
-                    </span>
-                  </span>
+                  设置
                 </span>
                 <a
                   class="cxd-SubForm-valueEdit"
