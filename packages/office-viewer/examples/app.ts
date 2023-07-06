@@ -43,7 +43,11 @@ const fileLists = {
     'tooltip.xml',
     'w.xml',
     'jianli.docx',
-    'text-background.docx'
+    'text-background.docx',
+    'group.docx',
+    'group-in-group.docx',
+    'shape-group.docx',
+    'tab2.xml'
   ],
   docx4j: [
     'ArialUnicodeMS.docx',
@@ -112,11 +116,24 @@ document.querySelectorAll('.file').forEach(file => {
 });
 
 const data = {
-  var: 'amis'
+  date: 'amis',
+  list: [
+    {
+      item1: 'item1',
+      item2: 'item2'
+    },
+    {
+      item1: 'item1.1',
+      item2: 'item2.2'
+    }
+  ],
+  sum: 'sum20'
 };
 const renderOptions = {
   debug: true,
-  page
+  page,
+  data,
+  enableVar: true
 };
 
 async function renderDocx(fileName: string) {

@@ -966,7 +966,8 @@ export class FormPlugin extends BasePlugin {
             ? await current.info.plugin.buildDataSchemas(current, region)
             : {
                 type: 'string',
-                title: schema.label || schema.name,
+                title:
+                  typeof schema.label === 'string' ? schema.label : schema.name,
                 originalValue: schema.value // 记录原始值，循环引用检测需要
               };
         }

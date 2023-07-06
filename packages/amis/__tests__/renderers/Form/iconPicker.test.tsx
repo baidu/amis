@@ -2,7 +2,7 @@ import React = require('react');
 import {fireEvent, render} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender, setIconVendor} from '../../../src';
-import {makeEnv, wait} from '../../helper';
+import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
 
 test('Renderer:icon-picker', async () => {
   const vendors = [
@@ -58,5 +58,6 @@ test('Renderer:icon-picker', async () => {
   fireEvent.click(getByTitle('glyphicon glyphicon-plus'));
 
   await wait(500);
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });

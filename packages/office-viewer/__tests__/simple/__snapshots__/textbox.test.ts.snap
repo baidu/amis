@@ -15,7 +15,7 @@ exports[`textbox 1`] = `
         <div
           data-id="3"
           data-name="Text Box 3"
-          style="z-index: 251663360; position: absolute; left: 329.67px; top: 137.67px; width: 155.16px; height: 82.60px; color: rgb(0, 0, 0); display: table;"
+          style="z-index: 251663360; position: absolute; left: 329.67px; top: 137.67px; width: 155.16px; height: 82.6px; color: rgb(0, 0, 0); display: table;"
         >
           <svg
             height="82.6px"
@@ -56,7 +56,7 @@ exports[`textbox 1`] = `
         <div
           data-id="1"
           data-name="Text Box 1"
-          style="z-index: 251659264; position: absolute; left: 47.94px; top: 139.17px; width: 155.16px; height: 82.60px; display: table;"
+          style="z-index: 251659264; position: absolute; left: 47.94px; top: 139.17px; width: 155.16px; height: 82.6px; display: table;"
         >
           <svg
             height="82.6px"
@@ -93,7 +93,7 @@ exports[`textbox 1`] = `
         <div
           data-id="2"
           data-name="Text Box 2"
-          style="z-index: 251661312; position: absolute; left: 214.63px; top: 36.07px; width: 155.16px; height: 82.60px; display: table;"
+          style="z-index: 251661312; position: absolute; left: 214.63px; top: 36.07px; width: 155.16px; height: 82.6px; display: table;"
         >
           <svg
             height="82.6px"

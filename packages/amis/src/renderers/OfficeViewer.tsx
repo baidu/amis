@@ -18,6 +18,7 @@ import {
 } from 'amis-core';
 import type {Word} from 'office-viewer';
 import {Spinner} from 'amis-ui';
+import {Payload} from '../types';
 
 export interface OfficeViewerSchema extends BaseSchema {
   type: 'office-viewer';
@@ -152,9 +153,16 @@ export default class OfficeViewer extends React.Component<
       return;
     }
 
-    const response = await env.fetcher(finalSrc, data, {
-      responseType: 'arraybuffer'
-    });
+    let response: Payload;
+
+    try {
+      response = await env.fetcher(finalSrc, data, {
+        responseType: 'arraybuffer'
+      });
+    } catch (error) {
+      env.alert(error);
+      return;
+    }
 
     import('office-viewer').then(async (officeViewer: any) => {
       const Word = officeViewer.Word;

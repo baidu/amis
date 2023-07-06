@@ -60,7 +60,7 @@ test('EventAction:prevent', async () => {
                               actionType: 'ajax',
                               args: {
                                 api: {
-                                  url: 'api/xxx',
+                                  url: '/api/xxx',
                                   method: 'get'
                                 }
                               }

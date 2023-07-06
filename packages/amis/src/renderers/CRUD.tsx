@@ -1218,7 +1218,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               const rendererEvent = await dispatchEvent?.(
                 'fetchInited',
                 createObject(this.props.data, {
-                  responseData: value.ok ? data ?? {} : value,
+                  responseData: value?.ok ? data ?? {} : value,
                   responseStatus:
                     value?.status === undefined
                       ? error
