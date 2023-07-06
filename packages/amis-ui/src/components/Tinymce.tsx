@@ -55,6 +55,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
   };
   config?: any;
   editor?: any;
+  editorInitialized?: boolean = false;
   currentContent?: string;
 
   elementRef: React.RefObject<HTMLTextAreaElement> = React.createRef();
@@ -144,6 +145,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         this.editor = editor;
 
         editor.on('init', (e: Event) => {
+          this.editorInitialized = true;
           this.initEditor(e, editor);
         });
       }
@@ -159,7 +161,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       props.model !== prevProps.model &&
       props.model !== this.currentContent
     ) {
-      this.editor?.setContent(props.model || '');
+      this.editorInitialized && this.editor?.setContent(props.model || '');
     }
   }
 
