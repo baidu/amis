@@ -30,6 +30,7 @@ import {renderNotes} from './render/renderNotes';
 import {Section} from './openxml/word/Section';
 import {printIframe} from './util/print';
 import {Settings} from './openxml/Settings';
+import {get} from './util/get';
 
 /**
  * 渲染配置
@@ -185,8 +186,8 @@ const defaultRenderOptions: WordRenderOptions = {
   renderHeader: true,
   renderFooter: true,
   data: {},
-  evalVar: t => {
-    return t;
+  evalVar: (path: string, data: any) => {
+    return get(data, path);
   }
 };
 

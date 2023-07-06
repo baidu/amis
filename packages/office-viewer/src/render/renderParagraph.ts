@@ -49,21 +49,21 @@ export default function renderParagraph(
     // 虽然目前这个实现很 hack，但可以支持常见情况
     appendChild(p, renderTab(word, properties.tabs[0], true));
     // 同时删掉第一个 run 中的 tab
-    let done = false;
-    for (const child of paragraph.children) {
-      if (done) {
-        break;
-      }
-      if (child instanceof Run) {
-        for (const runChild of child.children) {
-          if (runChild instanceof Tab) {
-            child.children.splice(child.children.indexOf(runChild), 1);
-            done = true;
-            break;
-          }
-        }
-      }
-    }
+    // let done = false;
+    // for (const child of paragraph.children) {
+    //   if (done) {
+    //     break;
+    //   }
+    //   if (child instanceof Run) {
+    //     for (const runChild of child.children) {
+    //       if (runChild instanceof Tab) {
+    //         child.children.splice(child.children.indexOf(runChild), 1);
+    //         done = true;
+    //         break;
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   for (const child of paragraph.children) {

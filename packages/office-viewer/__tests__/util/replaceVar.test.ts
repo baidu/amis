@@ -75,5 +75,7 @@ test('var-space', async () => {
   const spans = document.getElementsByTagName('span');
   const lastSpan = spans.item(spans.length - 1)!;
 
-  expect(lastSpan!.innerHTML).toBe('           2020-01-01');
+  expect(lastSpan!.innerHTML).toBe(
+    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2020-01-01'
+  );
 });

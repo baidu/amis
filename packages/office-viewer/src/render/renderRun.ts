@@ -56,7 +56,8 @@ function renderText(
     span.textContent = word.replaceText(text);
   }
 
-  let html = span.innerHTML.split(' ').join('&nbsp;');
+  // 大于两个空格才转成 nbsp
+  let html = span.innerHTML.split('  ').join('&nbsp;&nbsp;');
   span.innerHTML = html;
 }
 
