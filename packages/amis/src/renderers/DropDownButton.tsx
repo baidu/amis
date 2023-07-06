@@ -250,7 +250,7 @@ export default class DropDownButton extends React.Component<
     button: DropdownButton,
     index: number | string
   ): React.ReactNode {
-    const {render, classnames: cx, data} = this.props;
+    const {render, classnames: cx, data, ignoreConfirm} = this.props;
     index = typeof index === 'number' ? index.toString() : index;
 
     if (typeof button !== 'string' && Array.isArray(button?.children)) {
@@ -282,11 +282,17 @@ export default class DropDownButton extends React.Component<
             ['is-disabled']: isDisabled(button, data)
           })}
         >
-          {render(`button/${index}`, {
-            type: 'button',
-            ...(button as any),
-            isMenuItem: true
-          })}
+          {render(
+            `button/${index}`,
+            {
+              type: 'button',
+              ...(button as any)
+            },
+            {
+              isMenuItem: true,
+              ignoreConfirm: ignoreConfirm
+            }
+          )}
         </li>
       );
     }
