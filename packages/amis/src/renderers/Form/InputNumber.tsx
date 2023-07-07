@@ -13,6 +13,8 @@ import {
   filter,
   autobind,
   createObject,
+  numberFormatter,
+  safeSub,
   normalizeOptions,
   Option,
   PlainObject,
@@ -96,8 +98,6 @@ export interface NumberControlSchema extends FormBaseControlSchema {
   displayMode?: 'base' | 'enhance';
 }
 
-const numberFormatter = new Intl.NumberFormat();
-
 export interface NumberProps extends FormControlProps {
   placeholder?: string;
   max?: number | string;
@@ -150,6 +150,7 @@ interface NumberState {
   // 数字单位，将会影响输出
   unit?: string;
   unitOptions?: Option[];
+  inputing: boolean;
 }
 
 export type InputNumberRendererEvent = 'blur' | 'focus' | 'change';
@@ -163,7 +164,8 @@ export default class NumberControl extends React.Component<
   static defaultProps: Partial<NumberProps> = {
     step: 1,
     resetValue: '',
-    clearValueOnEmpty: false
+    clearValueOnEmpty: false,
+    inputing: false
   };
 
   constructor(props: NumberProps) {
@@ -198,7 +200,7 @@ export default class NumberControl extends React.Component<
       }
     }
 
-    this.state = {unit, unitOptions};
+    this.state = {unit, unitOptions, inputing: false};
   }
 
   /**
@@ -389,18 +391,17 @@ export default class NumberControl extends React.Component<
       id,
       env
     } = this.props;
+    const {inputing, unit} = this.state;
     const finalPrecision = this.filterNum(precision);
-    const unit = this.state?.unit;
     // 数据格式化
     const formatter =
       kilobitSeparator || prefix || suffix
         ? (value: string | number) => {
             // 增加千分分隔
             if (kilobitSeparator && value) {
-              value = numberFormatter.format(value as number);
+              value = numberFormatter(value, finalPrecision);
             }
-
-            return (prefix ? prefix : '') + value + (suffix ? suffix : '');
+            return `${prefix || ''}${value}${suffix || ''}`;
           }
         : undefined;
     // 将数字还原
@@ -436,7 +437,7 @@ export default class NumberControl extends React.Component<
           step={step}
           max={this.filterNum(max, big)}
           min={this.filterNum(min, big)}
-          formatter={formatter}
+          formatter={!inputing ? formatter : undefined}
           parser={parser}
           onChange={this.handleChange}
           disabled={disabled}
@@ -445,8 +446,14 @@ export default class NumberControl extends React.Component<
           showSteps={showSteps}
           borderMode={borderMode}
           readOnly={readOnly}
-          onFocus={() => this.dispatchEvent('focus')}
-          onBlur={() => this.dispatchEvent('blur')}
+          onFocus={() => {
+            this.setState({inputing: true});
+            this.dispatchEvent('focus');
+          }}
+          onBlur={() => {
+            this.setState({inputing: false});
+            this.dispatchEvent('blur');
+          }}
           keyboard={keyboard}
           displayMode={displayMode}
           big={big}
