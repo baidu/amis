@@ -49,6 +49,7 @@ import LazyComponent from '../components/LazyComponent';
 import {isAlive} from 'mobx-state-tree';
 
 import type {LabelAlign} from './Item';
+import {injectObjectChain} from '../utils';
 
 export interface FormHorizontal {
   left?: number;
@@ -825,12 +826,20 @@ export default class Form extends React.Component<FormProps, object> {
     return this.props.store.validated;
   }
 
-  validate(forceValidate?: boolean): Promise<boolean> {
-    const {store, dispatchEvent, data} = this.props;
+  validate(
+    forceValidate?: boolean,
+    throwErrors: boolean = false
+  ): Promise<boolean> {
+    const {store, dispatchEvent, data, messages, translate: __} = this.props;
 
     this.flush();
     return store
-      .validate(this.hooks['validate'] || [], forceValidate)
+      .validate(
+        this.hooks['validate'] || [],
+        forceValidate,
+        throwErrors,
+        __(messages && messages.validateFailed)
+      )
       .then((result: boolean) => {
         if (result) {
           dispatchEvent('validateSucc', data);
@@ -864,7 +873,10 @@ export default class Form extends React.Component<FormProps, object> {
     store.setValues(value, undefined, replace);
   }
 
-  submit(fn?: (values: object) => Promise<any>): Promise<any> {
+  submit(
+    fn?: (values: object) => Promise<any>,
+    throwErrors: boolean = false
+  ): Promise<any> {
     const {store, messages, translate: __, dispatchEvent, data} = this.props;
     this.flush();
     const validateErrCb = () => dispatchEvent('validateError', data);
@@ -872,7 +884,8 @@ export default class Form extends React.Component<FormProps, object> {
       fn,
       this.hooks['validate'] || [],
       __(messages && messages.validateFailed),
-      validateErrCb
+      validateErrCb,
+      throwErrors
     );
   }
 
@@ -1202,7 +1215,10 @@ export default class Form extends React.Component<FormProps, object> {
                 }
               }
 
-              // return values;
+              return injectObjectChain(store.data, {
+                __payload: values,
+                __response: response
+              });
             });
         } else {
           // type为submit，但是没有配api以及target时，只派发事件
@@ -1210,7 +1226,7 @@ export default class Form extends React.Component<FormProps, object> {
         }
 
         return Promise.resolve(null);
-      })
+      }, throwErrors)
         .then(values => {
           // 有可能 onSubmit return false 了，那么后面的就不应该再执行了。
           if (values === false) {
@@ -1256,7 +1272,7 @@ export default class Form extends React.Component<FormProps, object> {
       store.clear(onReset);
     } else if (action.actionType === 'validate') {
       store.setCurrentAction(action);
-      this.validate(true);
+      return this.validate(true, throwErrors);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       store.openDialog(data, undefined, action.callback);

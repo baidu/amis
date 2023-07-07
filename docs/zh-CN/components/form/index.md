@@ -1469,13 +1469,402 @@ Form 支持轮询初始化接口，步骤如下：
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称  | 动作配置                       | 说明                       |
-| --------- | ------------------------------ | -------------------------- |
-| submit    | -                              | 提交表单                   |
-| reset     | -                              | 重置表单                   |
-| clear     | -                              | 清空表单                   |
-| validate  | -                              | 校验表单                   |
-| reload    | -                              | 刷新（重新加载）           |
-| setValue  | `value: object` 更新的表单数据 | 更新数据，对数据进行 merge |
-| static    | -                              | 表单切换为静态展示         |
-| nonstatic | -                              | 表单切换为普通输入态       |
+| 动作名称  | 动作配置                                            | 说明                       |
+| --------- | --------------------------------------------------- | -------------------------- |
+| validate  | `outputVar: string` 校验结果，默认为 validateResult | 校验表单                   |
+| submit    | `outputVar: string` 提交结果，默认为 submitResult   | 提交表单                   |
+| setValue  | `value: object` 更新的表单数据                      | 更新数据，对数据进行 merge |
+| reload    | -                                                   | 刷新（重新加载）           |
+| reset     | -                                                   | 重置表单                   |
+| clear     | -                                                   | 清空表单                   |
+| static    | -                                                   | 表单切换为静态展示         |
+| nonstatic | -                                                   | 表单切换为普通输入态       |
+
+### validate
+
+校验结果默认缓存在`${event.data.validateResult}`，`true`表示校验成功，`false`表示检验失败。可以通过添加`outputVar`配置来修改缓存的变量。
+
+校验结果的结构如下：
+
+```json
+{
+  // 是否成功。非空表示失败
+  "error": "依赖的部分字段没有通过验证",
+  // 表单项报错信息。key值为该表单项的name值
+  "errors": {
+    "email": ["Email 格式不正确"],
+    ...
+  },
+  // 提交验证的表单数据
+  "payload": {
+    "name": "amis",
+    "email": "amis@baidu"
+  }
+}
+```
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "校验表单",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "validate",
+                "componentId": "form_validate",
+                "outputVar": "form_validate_result"
+              },
+              {
+                "actionType": "setValue",
+                "componentId": "validate_info",
+                "args": {
+                  "value": "${event.data.form_validate_result|json}"
+                }
+              }
+            ]
+        }
+    }
+  },
+  {
+    type: 'input-text',
+    name: 'validate_info',
+    id: 'validate_info',
+    label: '校验结果：',
+    static: true
+  },
+  {
+    "type": "form",
+    "id": "form_validate",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名：",
+        "required": true
+      },
+      {
+        "name": "email",
+        "type": "input-text",
+        "label": "邮箱：",
+        "required": true,
+        "validations": {
+          "isEmail": true
+        }
+      }
+    ]
+  }
+]
+```
+
+### submit
+
+提交结果默认缓存在`${event.data.submitResult}`，可以通过添加`outputVar`配置来修改缓存的变量。
+
+提交结果的结构如下：
+
+```json
+{
+  // 是否成功。是否成功。非空表示失败
+  "error": "依赖的部分字段没有通过验证",
+  // 错误信息。如果是校验失败，则errors为表单项报错信息，key值为该表单项的name值
+  "errors": {
+    ...
+  },
+  // 提交的表单数据
+  "payload": {
+    "name": "amis",
+    "email": "amis@baidu.com"
+  },
+  // 提交请求返回的响应结果数据
+  "responseData": {
+    "id": "1"
+  }
+}
+```
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "提交表单",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "submit",
+                "componentId": "form_submit",
+                "outputVar": "form_submit_result"
+              },
+              {
+                "actionType": "setValue",
+                "componentId": "submit_info",
+                "args": {
+                  "value": "${event.data.form_submit_result|json}"
+                }
+              }
+            ]
+        }
+    }
+  },
+  {
+    type: 'input-text',
+    name: 'submit_info',
+    id: 'submit_info',
+    label: '提交结果：',
+    static: true
+  },
+  {
+    "type": "form",
+    "id": "form_submit",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名：",
+        "required": true
+      },
+      {
+        "name": "email",
+        "type": "input-text",
+        "label": "邮箱：",
+        "required": true,
+        "validations": {
+          "isEmail": true
+        }
+      }
+    ]
+  }
+]
+```
+
+### setValue
+
+通过`setValue`来更新表单数据，其中`value`中的数据将和目标表单的数据做合并，即同名覆盖。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "修改表单数据",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "form_setvalue",
+                "args": {
+                  "value": {
+                    "name": "amis",
+                    "email": "amis@baidu.com"
+                  }
+                }
+              }
+            ]
+        }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_setvalue",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "email",
+        "type": "input-text",
+        "label": "邮箱："
+      }
+    ]
+  }
+]
+```
+
+### reload
+
+通过`reload`来重新请求表单的初始化接口，实现表单刷新。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "刷新表单",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "reload",
+                "componentId": "form_reload"
+              }
+            ]
+        }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_reload",
+    "debug": true,
+    "initApi": "/api/mock2/form/initData",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "author",
+        "type": "input-text",
+        "label": "作者："
+      }
+    ]
+  }
+]
+```
+
+### reset
+
+通过`reset`将表单数据重置为初始数据，初始数据可以是静态数据或初始化接口返回的数据。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "重置表单",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "reset",
+                "componentId": "form_reset"
+              }
+            ]
+        }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_reset",
+    "initApi": "/api/mock2/form/initData",
+    "body": [
+      {
+        "type": "alert",
+        "body": "修改表单项的值，然后点击【重置表单】，表单数据将被重置为初始化数据"
+      },
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "author",
+        "type": "input-text",
+        "label": "作者："
+      }
+    ]
+  }
+]
+```
+
+### clear
+
+通过`clear`来清空表单中的表单项数据，不包含`hidden`类型、未绑定表单项的初始化数据字段。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "清空表单",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "clear",
+                "componentId": "form_clear"
+              }
+            ]
+        }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_clear",
+    "debug": true,
+    "initApi": "/api/mock2/form/initData",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "author",
+        "type": "hidden",
+        "label": "作者："
+      }
+    ]
+  }
+]
+```
+
+### static 和 nonstatic
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "静态模式",
+    "className": "mr-2 mb-2",
+    "onEvent": {
+      "click": {
+        "actions": [
+          {
+            "actionType": "static",
+            "componentId": "form_static"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "button",
+    "label": "非静态模式",
+    "className": "mr-2 mb-2",
+    "onEvent": {
+      "click": {
+        "actions": [
+          {
+            "actionType": "nonstatic",
+            "componentId": "form_static"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_static",
+    "title": "表单",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "text",
+        "label": "输入框",
+        "mode": "horizontal",
+        "value": "text"
+      }
+    ]
+  }
+]
+```

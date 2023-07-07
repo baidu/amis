@@ -1489,6 +1489,21 @@ export function loadStyle(href: string) {
 
 export class SkipOperation extends Error {}
 
+export class ValidateError extends Error {
+  name: 'ValidateError';
+  detail: {[propName: string]: Array<string> | string};
+
+  constructor(
+    message: string,
+    error: {[propName: string]: Array<string> | string}
+  ) {
+    super();
+    this.name = 'ValidateError';
+    this.message = message;
+    this.detail = error;
+  }
+}
+
 /**
  * 检查对象是否有循环引用，来自 https://stackoverflow.com/a/34909127
  * @param obj
