@@ -702,7 +702,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           prevIndex: idx - 1,
           index: idx
         },
-        action.callback
+        action.callback,
+        delegate || (this.context as any)
       );
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
@@ -1130,9 +1131,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         actionType: 'dialog',
         dialog: dialog
       });
-      store.openDialog(ctx, undefined, confirmed => {
-        resolve(confirmed);
-      });
+      store.openDialog(
+        ctx,
+        undefined,
+        confirmed => {
+          resolve(confirmed);
+        },
+        this.context as any
+      );
     });
   }
 

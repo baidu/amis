@@ -1,71 +1,18 @@
 {
-    // 使用 IntelliSense 了解相关属性。 
-    // 悬停以查看现有属性的描述。
-    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Jest All",
-            "program": "${workspaceFolder}/node_modules/.bin/jest",
-            "args": ["--runInBand"],
-            "sourceMaps": true,
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "disableOptimisticBPs": true,
-            "runtimeExecutable": "/usr/local/bin/node",
-            "windows": {
-              "program": "${workspaceFolder}/node_modules/jest/bin/jest",
-            }
-          },
-          {
-            "type": "node",
-            "request": "launch",
-            "name": "Jest Current File",
-            "program": "${workspaceFolder}/node_modules/.bin/jest",
-            "args": [
-              "--no-cache",
-              "--runInBand",
-              "${relativeFile}"
-            ],
-            "sourceMaps": true,
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "disableOptimisticBPs": true,
-            "runtimeExecutable": "/usr/local/bin/node",
-            "windows": {
-              "program": "${workspaceFolder}/node_modules/jest/bin/jest",
-            }
-          },
-          {
-            "type": "node",
-            "request": "launch",
-            "name": "Jest Current File Specified test",
-            "program": "${workspaceFolder}/node_modules/.bin/jest",
-            "args": [
-              "--no-cache",
-              "--runInBand",
-              "${relativeFile}",
-              "-t",
-              "${input:testName}"
-            ],
-            "sourceMaps": true,
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "disableOptimisticBPs": true,
-            "runtimeExecutable": "/usr/local/bin/node",
-            "windows": {
-              "program": "${workspaceFolder}/node_modules/jest/bin/jest",
-            }
-          }
-    ],
-    "inputs": [
-      {
-        "id": "testName",
-        "type": "promptString",
-        "default": "",
-        "description": "Run only tests with a name that matches the regex pattern."
+  "version": "1.0.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest: current file",
+      //"env": { "NODE_ENV": "test" },
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": ["${fileBasenameNoExtension}"],
+      "console": "integratedTerminal",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
       }
-    ]
+    }
+  ]
 }

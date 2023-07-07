@@ -695,9 +695,14 @@ export default class Service extends React.Component<ServiceProps> {
         actionType: 'dialog',
         dialog: dialog
       });
-      store.openDialog(ctx, undefined, confirmed => {
-        resolve(confirmed);
-      });
+      store.openDialog(
+        ctx,
+        undefined,
+        confirmed => {
+          resolve(confirmed);
+        },
+        this.context as any
+      );
     });
   }
 
