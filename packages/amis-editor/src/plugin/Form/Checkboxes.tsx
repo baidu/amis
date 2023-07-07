@@ -141,7 +141,7 @@ export class CheckboxesControlPlugin extends BasePlugin {
                     if (!value) {
                       // 可全选关闭时，默认全选也需联动关闭
                       form.setValueByName('defaultCheckAll', false);
-                      form.setValueByName('checkAllText', '');
+                      form.setValueByName('checkAllText', undefined);
                     }
                   }
                 }),
@@ -155,11 +155,11 @@ export class CheckboxesControlPlugin extends BasePlugin {
                       name: 'defaultCheckAll',
                       value: false
                     }),
-                    getSchemaTpl('label', {
+                    {
+                      type: 'input-text',
                       label: '全选文本',
-                      name: 'checkAllText',
-                      value: ''
-                    })
+                      name: 'checkAllText'
+                    }
                   ]
                 }
               ],
