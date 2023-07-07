@@ -5,7 +5,8 @@ $remFactor: 16px;
 /* 此处放置需要override的变量，因为部分变量已经在variables.scss中定义 */
 $Table-strip-bg: transparent;
 
-:root {
+:root,
+.AMISCSSWrapper {
   --white: var(--colors-neutral-text-11);
   --primary: var(--colors-brand-5);
   --primary-onHover: var(--colors-brand-6);
