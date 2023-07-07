@@ -844,7 +844,9 @@ schemaApi 接口请求完成。
 
 ### reload
 
-重新请求 api 接口，并刷新。
+#### 只做刷新
+
+重新发送`api`请求，刷新 Page 时，只配置`componentId`目标组件 ID 即可。
 
 ```schema: scope="body"
 [
@@ -868,6 +870,39 @@ schemaApi 接口请求完成。
     "name": "service-reload",
     "api": "/api/mock2/number/random",
     "body": "现在是：${random}"
+  }
+]
+```
+
+#### 发送数据并刷新
+
+刷新 Service 组件时，如果配置了`data`，将发送`data`给目标组件，并将该数据合并到目标组件的数据域中。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "刷新请求",
+    "onEvent": {
+      "click": {
+        "actions": [
+          {
+            "componentId": "service-reload",
+            "actionType": "reload",
+            "data": {
+              "date": "${NOW()}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "service",
+    "id": "service-reload",
+    "name": "service-reload",
+    "api": "/api/mock2/number/random",
+    "body": "现在是：${random}, 当前时间：${date}"
   }
 ]
 ```
