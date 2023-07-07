@@ -450,7 +450,9 @@ export default class DropDownButton extends React.Component<
           >
             <Icon c={cx} icon={icon} className="icon m-r-xs" />
             {typeof label === 'string' ? filter(label, data) : label}
-            {rightIcon && <Icon cx={cx} icon={icon} className="icon m-l-xs" />}
+            {rightIcon && (
+              <Icon cx={cx} icon={rightIcon} className="icon m-l-xs" />
+            )}
             {!hideCaret ? (
               <span className={cx('DropDown-caret')}>
                 <Icon icon="right-arrow-bold" className="icon" />
