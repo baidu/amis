@@ -177,6 +177,7 @@ register('en-US', {
   'Log.collapse': 'Collapse Operation',
   'link': 'Link',
   'loading': 'Loading',
+  'loadingFailed': 'Loading failed',
   'LocationPicker.placeholder': 'Pick location',
   'Month.placeholder': 'Select a month',
   'Nav.sourceError': 'Fetch link error',
