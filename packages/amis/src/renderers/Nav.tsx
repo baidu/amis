@@ -592,7 +592,7 @@ export class Navigation extends React.Component<
 
       const label =
         typeof link.label === 'string'
-          ? link.label
+          ? filter(link.label, data)
           : React.isValidElement(link.label)
           ? React.cloneElement(link.label)
           : render('inline', link.label as SchemaCollection);
