@@ -62,9 +62,6 @@ export default class OfficeViewer extends React.Component<
   // 文档数据，避免 update 参数的时候重复加载
   document?: any;
 
-  // 是否已经初始化过
-  inited?: boolean;
-
   constructor(props: OfficeViewerProps) {
     super(props);
     this.rootElement = React.createRef();
@@ -80,8 +77,8 @@ export default class OfficeViewer extends React.Component<
   }
 
   componentDidUpdate(prevProps: OfficeViewerProps) {
-    // 避免无限更新
-    if (!this.inited) {
+    // 避免 loading 时更新
+    if (this.state.loading) {
       return;
     }
     const props = this.props;
@@ -153,7 +150,6 @@ export default class OfficeViewer extends React.Component<
     } else if (name) {
       this.renderFormFile();
     }
-    this.inited = true;
   }
 
   async fetchWord() {
@@ -187,7 +183,6 @@ export default class OfficeViewer extends React.Component<
         this.rootElement.current.innerHTML =
           __('loadingFailed') + ' url:' + finalSrc;
       }
-      return;
     } finally {
       this.setState({
         loading: false
