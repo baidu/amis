@@ -1728,7 +1728,9 @@ export default class Table extends React.Component<TableProps, object> {
       onSearchableFromInit,
       classnames: cx,
       autoGenerateFilter,
-      translate: __
+      translate: __,
+      query,
+      data
     } = this.props;
     const {columnsNum, showBtnToolbar} =
       typeof autoGenerateFilter === 'boolean'
@@ -1796,6 +1798,7 @@ export default class Table extends React.Component<TableProps, object> {
         mode: 'horizontal',
         submitText: __('search'),
         body: body,
+        canAccessSuperData: false,
         actions: [
           {
             type: 'dropdown-button',
@@ -1814,6 +1817,7 @@ export default class Table extends React.Component<TableProps, object> {
                 name: `__search_${column.searchable?.name ?? column.name}`,
                 option: column.searchable?.label ?? column.label,
                 value: column.enableSearch,
+                label: false,
                 badge: {
                   offset: [-10, 5],
                   visibleOn: `${
@@ -1866,7 +1870,8 @@ export default class Table extends React.Component<TableProps, object> {
         onReset: onSearchableFromReset,
         onSubmit: onSearchableFromSubmit,
         onInit: onSearchableFromInit,
-        formStore: undefined
+        formStore: undefined,
+        data: query ? createObject(data, query) : data
       }
     );
   }
