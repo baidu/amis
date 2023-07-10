@@ -4193,15 +4193,15 @@ exports[`Renderer:table groupName-default 1`] = `
                       class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
-                        classname="icon m-r-none icon-columns"
+                        classname="icon icon-columns"
                         icon="columns"
                       />
                       <span
                         class="cxd-ColumnToggler-caret"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </button>
@@ -4923,15 +4923,15 @@ exports[`Renderer:table groupName-default 1`] = `
                         class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
-                          classname="icon m-r-none icon-columns"
+                          classname="icon icon-columns"
                           icon="columns"
                         />
                         <span
                           class="cxd-ColumnToggler-caret"
                         >
                           <icon-mock
-                            classname="icon icon-caret"
-                            icon="caret"
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
                           />
                         </span>
                       </button>
@@ -5140,15 +5140,15 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                       class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
-                        classname="icon m-r-none icon-columns"
+                        classname="icon icon-columns"
                         icon="columns"
                       />
                       <span
                         class="cxd-ColumnToggler-caret"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </button>
@@ -5874,15 +5874,15 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                         class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
-                          classname="icon m-r-none icon-columns"
+                          classname="icon icon-columns"
                           icon="columns"
                         />
                         <span
                           class="cxd-ColumnToggler-caret"
                         >
                           <icon-mock
-                            classname="icon icon-caret"
-                            icon="caret"
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
                           />
                         </span>
                       </button>
@@ -6097,15 +6097,15 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                       class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
-                        classname="icon m-r-none icon-columns"
+                        classname="icon icon-columns"
                         icon="columns"
                       />
                       <span
                         class="cxd-ColumnToggler-caret"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </button>
@@ -6820,15 +6820,15 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                         class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
-                          classname="icon m-r-none icon-columns"
+                          classname="icon icon-columns"
                           icon="columns"
                         />
                         <span
                           class="cxd-ColumnToggler-caret"
                         >
                           <icon-mock
-                            classname="icon icon-caret"
-                            icon="caret"
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
                           />
                         </span>
                       </button>
@@ -7033,15 +7033,15 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                       class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
-                        classname="icon m-r-none icon-columns"
+                        classname="icon icon-columns"
                         icon="columns"
                       />
                       <span
                         class="cxd-ColumnToggler-caret"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </button>
@@ -7763,15 +7763,15 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                         class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
-                          classname="icon m-r-none icon-columns"
+                          classname="icon icon-columns"
                           icon="columns"
                         />
                         <span
                           class="cxd-ColumnToggler-caret"
                         >
                           <icon-mock
-                            classname="icon icon-caret"
-                            icon="caret"
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
                           />
                         </span>
                       </button>
@@ -8607,15 +8607,15 @@ exports[`Renderer:table list 1`] = `
             class="cxd-Button cxd-Button--default cxd-Button--size-sm"
           >
             <icon-mock
-              classname="icon m-r-none icon-columns"
+              classname="icon icon-columns"
               icon="columns"
             />
             <span
               class="cxd-ColumnToggler-caret"
             >
               <icon-mock
-                classname="icon icon-caret"
-                icon="caret"
+                classname="icon icon-right-arrow-bold"
+                icon="right-arrow-bold"
               />
             </span>
           </button>
@@ -8911,7 +8911,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-StatusField cxd-StatusField--1"
                 >
                   <icon-mock
-                    classname="cxd-Status-icon icon icon icon-success"
+                    classname="cxd-Status-icon icon icon-success icon"
                     icon="success"
                   />
                 </span>
@@ -9149,7 +9149,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-StatusField cxd-StatusField--1"
                 >
                   <icon-mock
-                    classname="cxd-Status-icon icon icon icon-success"
+                    classname="cxd-Status-icon icon icon-success icon"
                     icon="success"
                   />
                 </span>
@@ -9507,7 +9507,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-StatusField cxd-StatusField--0"
                 >
                   <icon-mock
-                    classname="cxd-Status-icon icon icon icon-fail"
+                    classname="cxd-Status-icon icon icon-fail icon"
                     icon="fail"
                   />
                 </span>

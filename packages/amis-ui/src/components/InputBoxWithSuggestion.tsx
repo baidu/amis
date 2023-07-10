@@ -108,7 +108,7 @@ export class InputBoxWithSuggestion extends React.Component<InputBoxWithSuggesti
             useMobileUI={useMobileUI}
           >
             <span className={cx('InputBox-caret')}>
-              <Icon icon="caret" className="icon" />
+              <Icon icon="right-arrow-bold" className="icon" />
             </span>
           </InputBox>
         )}

@@ -772,12 +772,8 @@ exports[`Renderer:fieldSet with titlePosition & collapseTitle & title 1`] = `
             <span
               class="cxd-Collapse-arrow-wrap"
             >
-              <div
-                class="cxd-Collapse-arrow Collapse-arrow"
-                style="display: none;"
-              />
               <icon-mock
-                classname="cxd-Collapse-arrow icon icon-right-arrow-bold"
+                classname="cxd-Collapse-arrow icon icon-right-arrow-bold cxd-Collapse-arrow"
                 icon="right-arrow-bold"
               />
             </span>

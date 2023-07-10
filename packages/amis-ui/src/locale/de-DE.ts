@@ -184,6 +184,7 @@ register('de-DE', {
   'Log.collapse': 'Falten',
   'link': 'Link',
   'loading': 'Wird geladen...',
+  'loadingFailed': 'Das Laden ist fehlgeschlagen',
   'LocationPicker.placeholder': 'Wählen Sie einen Ort',
   'Month.placeholder': 'Wählen Sie einen Monat',
   'Nav.sourceError': 'Fehler beim Abrufen des Links',

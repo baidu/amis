@@ -5,9 +5,8 @@ import {
   FormBaseControl,
   resolveEventData
 } from 'amis-core';
-import {Switch} from 'amis-ui';
+import {Icon, Switch} from 'amis-ui';
 import {createObject, autobind, isObject} from 'amis-core';
-import {generateIcon} from 'amis-core';
 import {IconSchema} from '../Icon';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
@@ -84,12 +83,16 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
 
   getResult() {
     const {classnames: cx, onText, offText} = this.props;
-    const on = isObject(onText)
-      ? generateIcon(cx, onText.icon, 'Switch-icon')
-      : onText;
-    const off = isObject(offText)
-      ? generateIcon(cx, offText.icon, 'Switch-icon')
-      : offText;
+    const on = isObject(onText) ? (
+      <Icon cx={cx} icon={onText.icon} className="Switch-icon" />
+    ) : (
+      onText
+    );
+    const off = isObject(offText) ? (
+      <Icon cx={cx} icon={offText.icon} className="Switch-icon" />
+    ) : (
+      offText
+    );
     return {on, off};
   }
 

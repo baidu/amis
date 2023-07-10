@@ -144,8 +144,8 @@ exports[`Renderer:combo with addable & addattop & addBtn & addButtonText & addBu
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus"
-                              icon="plus"
+                              classname="icon icon-plus-fine"
+                              icon="plus-fine"
                             />
                             <span>
                               自定义的新增
@@ -675,8 +675,8 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus"
-                              icon="plus"
+                              classname="icon icon-plus-fine"
+                              icon="plus-fine"
                             />
                             <span>
                               新增
@@ -730,8 +730,8 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus"
-                              icon="plus"
+                              classname="icon icon-plus-fine"
+                              icon="plus-fine"
                             />
                             <span>
                               新增
@@ -785,8 +785,8 @@ exports[`Renderer:combo with canAccessSuperData & strictMode & syncFields 1`] = 
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus"
-                              icon="plus"
+                              classname="icon icon-plus-fine"
+                              icon="plus-fine"
                             />
                             <span>
                               新增
@@ -1072,16 +1072,16 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                               class="cxd-Button cxd-Button--info cxd-Button--size-sm"
                             >
                               <icon-mock
-                                classname="icon icon-plus"
-                                icon="plus"
+                                classname="icon icon-plus-fine"
+                                icon="plus-fine"
                               />
                               新增
                               <span
                                 class="cxd-DropDown-caret"
                               >
                                 <icon-mock
-                                  classname="icon icon-caret"
-                                  icon="caret"
+                                  classname="icon icon-right-arrow-bold"
+                                  icon="right-arrow-bold"
                                 />
                               </span>
                             </button>
@@ -1497,8 +1497,8 @@ exports[`Renderer:combo with draggable 1`] = `
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus"
-                              icon="plus"
+                              classname="icon icon-plus-fine"
+                              icon="plus-fine"
                             />
                             <span>
                               新增
@@ -1803,8 +1803,8 @@ exports[`Renderer:combo with minLength & maxLength: minLength error 1`] = `
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus"
-                              icon="plus"
+                              classname="icon icon-plus-fine"
+                              icon="plus-fine"
                             />
                             <span>
                               新增
@@ -2021,8 +2021,8 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus"
-                              icon="plus"
+                              classname="icon icon-plus-fine"
+                              icon="plus-fine"
                             />
                             <span>
                               新增
@@ -2130,8 +2130,8 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus"
-                              icon="plus"
+                              classname="icon icon-plus-fine"
+                              icon="plus-fine"
                             />
                             <span>
                               新增
@@ -2239,8 +2239,8 @@ exports[`Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmTe
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus"
-                              icon="plus"
+                              classname="icon icon-plus-fine"
+                              icon="plus-fine"
                             />
                             <span>
                               新增
@@ -2444,8 +2444,8 @@ exports[`Renderer:combo with tabsMode 1`] = `
                                 >
                                   <a>
                                     <icon-mock
-                                      classname="icon icon-plus"
-                                      icon="plus"
+                                      classname="icon icon-plus-fine"
+                                      icon="plus-fine"
                                     />
                                     <span>
                                       新增
@@ -2839,8 +2839,8 @@ exports[`Renderer:combo with unique: unique error 1`] = `
                             type="button"
                           >
                             <icon-mock
-                              classname="icon icon-plus"
-                              icon="plus"
+                              classname="icon icon-plus-fine"
+                              icon="plus-fine"
                             />
                             <span>
                               新增

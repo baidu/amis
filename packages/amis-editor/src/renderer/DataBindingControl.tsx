@@ -10,12 +10,7 @@ import {
   Checkbox,
   Spinner
 } from 'amis';
-import {
-  FormControlProps,
-  generateIcon,
-  Renderer,
-  RendererProps
-} from 'amis-core';
+import {FormControlProps, Renderer, RendererProps} from 'amis-core';
 import {debounce, remove} from 'lodash';
 import React from 'react';
 import {EditorManager, EditorNodeType, autobind} from 'amis-editor-core';
@@ -226,7 +221,11 @@ export class SimpleDataBindingControl extends React.Component<
               item => item.value || item.label
             )}
             expandIcon={
-              generateIcon(cx, 'fa fa-chevron-right expandIcon', 'Icon')!
+              <Icon
+                cx={cx}
+                icon="fa fa-chevron-right expandIcon"
+                className="Icon"
+              />
             }
             expandIconPosition="right"
             // accordion={true}

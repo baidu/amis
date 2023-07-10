@@ -52,7 +52,13 @@ export function canMerge(element: Element) {
     if (childChild.tagName === 'w:t') {
       hasText = true;
       textHasSpace = childChild.getAttribute('xml:space') === 'preserve';
-      break;
+      if (textHasSpace) {
+        break;
+      }
+    }
+    // 有 tab 的情况下不能合并
+    if (childChild.tagName === 'w:tab') {
+      return false;
     }
   }
   return tagName === 'w:r' && hasText && !textHasSpace;

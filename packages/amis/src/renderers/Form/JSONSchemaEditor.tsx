@@ -150,11 +150,9 @@ export default class JSONSchemaEditorControl extends React.PureComponent<JSONSch
         enableAdvancedSetting={enableAdvancedSetting}
         renderModalProps={this.renderModalProps}
         popOverContainer={
-          mobileUI && env && env.getModalContainer
-            ? env.getModalContainer
-            : mobileUI
-            ? undefined
-            : rest.popOverContainer
+          mobileUI
+            ? env?.getModalContainer
+            : rest.popOverContainer || env.getModalContainer
         }
       />
     );

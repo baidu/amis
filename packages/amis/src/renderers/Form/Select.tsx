@@ -487,10 +487,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             {...rest}
             useMobileUI={useMobileUI}
             popOverContainer={
-              mobileUI && env && env.getModalContainer
-                ? env.getModalContainer
-                : mobileUI
-                ? undefined
+              mobileUI
+                ? env?.getModalContainer
                 : rest.popOverContainer || env.getModalContainer
             }
             borderMode={borderMode}
@@ -625,7 +623,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           leftOptions={leftOptions}
           borderMode={borderMode}
           useMobileUI={useMobileUI}
-          popOverContainer={env.getModalContainer}
+          popOverContainer={popOverContainer || env.getModalContainer}
           maxTagCount={maxTagCount}
           overflowTagPopover={overflowTagPopover}
           placeholder={placeholder}

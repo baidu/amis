@@ -155,7 +155,11 @@ export function dataMapping(
         setVariable(ret, key, value, convertKeyToPath);
       } else if (value === '$$') {
         setVariable(ret, key, from, convertKeyToPath);
-      } else if (value && value[0] === '$') {
+      } else if (
+        typeof value === 'string' &&
+        value.length > 0 &&
+        value[0] === '$'
+      ) {
         const v = resolveMapping(value, from, undefined, ignoreIfNotMatch);
         setVariable(ret, key, v, convertKeyToPath);
 

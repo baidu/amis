@@ -336,9 +336,9 @@ export default class ChainedSelectControl extends React.Component<
           {...rest}
           useMobileUI={useMobileUI}
           popOverContainer={
-            mobileUI && env && env.getModalContainer
-              ? env.getModalContainer
-              : rest.popOverContainer
+            mobileUI
+              ? env?.getModalContainer
+              : rest.popOverContainer || env?.getModalContainer
           }
           classPrefix={ns}
           key="base"
@@ -356,9 +356,9 @@ export default class ChainedSelectControl extends React.Component<
               {...rest}
               useMobileUI={useMobileUI}
               popOverContainer={
-                mobileUI && env && env.getModalContainer
+                mobileUI
                   ? env.getModalContainer
-                  : rest.popOverContainer
+                  : rest.popOverContainer || env?.getModalContainer
               }
               classPrefix={ns}
               key={`x-${index + 1}`}
