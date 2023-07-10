@@ -202,6 +202,9 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
 
     // 严格判断大数模式，因为初始化value为empty string时，修改value值格式仍然为string
     this.isBig = !!props.big;
+    this.state = {
+      focused: false
+    };
   }
 
   componentDidUpdate(prevProps: NumberProps) {
