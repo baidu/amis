@@ -186,7 +186,7 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
   }
 
   if (config.isolateScope) {
-    config.component = Scoped(config.component);
+    config.component = Scoped(config.component, config.type);
   }
 
   const idx = findIndex(
