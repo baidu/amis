@@ -12,8 +12,8 @@ exports[`Renderer:dropdown-button 1`] = `
         class="cxd-DropDown-caret"
       >
         <icon-mock
-          classname="icon icon-caret"
-          icon="caret"
+          classname="icon icon-right-arrow-bold"
+          icon="right-arrow-bold"
         />
       </span>
     </button>
@@ -59,8 +59,8 @@ exports[`Renderer:dropdown-button 2`] = `
         class="cxd-DropDown-caret"
       >
         <icon-mock
-          classname="icon icon-caret"
-          icon="caret"
+          classname="icon icon-right-arrow-bold"
+          icon="right-arrow-bold"
         />
       </span>
     </button>
@@ -81,8 +81,8 @@ exports[`Renderer:dropdown-button with block & size 1`] = `
         class="cxd-DropDown-caret"
       >
         <icon-mock
-          classname="icon icon-caret"
-          icon="caret"
+          classname="icon icon-right-arrow-bold"
+          icon="right-arrow-bold"
         />
       </span>
     </button>
@@ -103,8 +103,8 @@ exports[`Renderer:dropdown-button with block & size 2`] = `
         class="cxd-DropDown-caret"
       >
         <icon-mock
-          classname="icon icon-caret"
-          icon="caret"
+          classname="icon icon-right-arrow-bold"
+          icon="right-arrow-bold"
         />
       </span>
     </button>
@@ -125,8 +125,8 @@ exports[`Renderer:dropdown-button with buttons group 1`] = `
         class="cxd-DropDown-caret"
       >
         <icon-mock
-          classname="icon icon-caret"
-          icon="caret"
+          classname="icon icon-right-arrow-bold"
+          icon="right-arrow-bold"
         />
       </span>
     </button>
@@ -140,7 +140,7 @@ exports[`Renderer:dropdown-button with buttons group 1`] = `
           class="cxd-DropDown-groupTitle"
         >
           <i
-            class="m-r-xs fa fa-user"
+            class="fa fa-user m-r-xs fa fa-user"
           />
           <span>
             RD
@@ -176,7 +176,7 @@ exports[`Renderer:dropdown-button with buttons group 1`] = `
           class="cxd-DropDown-groupTitle"
         >
           <i
-            class="m-r-xs fa fa-user"
+            class="fa fa-user m-r-xs fa fa-user"
           />
           <span>
             QA
@@ -216,7 +216,7 @@ exports[`Renderer:dropdown-button with buttons group 1`] = `
           class="cxd-DropDown-groupTitle"
         >
           <i
-            class="m-r-xs fa fa-user"
+            class="fa fa-user m-r-xs fa fa-user"
           />
           <span>
             Manager
@@ -265,8 +265,8 @@ exports[`Renderer:dropdown-button with closeOnClick & closeOnOutside 1`] = `
                 class="cxd-DropDown-caret"
               >
                 <icon-mock
-                  classname="icon icon-caret"
-                  icon="caret"
+                  classname="icon icon-right-arrow-bold"
+                  icon="right-arrow-bold"
                 />
               </span>
             </button>
@@ -321,7 +321,7 @@ exports[`Renderer:dropdown-button with hideCaret 1`] = `
       class="cxd-Button cxd-Button--link cxd-Button--size-default"
     >
       <i
-        class="m-r-xs fa fa-ellipsis-h"
+        class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
       />
       下拉菜单
     </button>
@@ -338,18 +338,18 @@ exports[`Renderer:dropdown-button with icon & rightIcon 1`] = `
       class="cxd-Button cxd-Button--default cxd-Button--size-default"
     >
       <i
-        class="m-r-xs fa fa-home"
+        class="fa fa-home icon m-r-xs fa fa-home"
       />
       下拉菜单
       <i
-        class="m-l-xs fa fa-ellipsis-v"
+        class="fa fa-ellipsis-v icon m-l-xs fa fa-ellipsis-v"
       />
       <span
         class="cxd-DropDown-caret"
       >
         <icon-mock
-          classname="icon icon-caret"
-          icon="caret"
+          classname="icon icon-right-arrow-bold"
+          icon="right-arrow-bold"
         />
       </span>
     </button>

@@ -40,7 +40,7 @@ exports[`Renderer:Nav 1`] = `
                   class="cxd-Nav-Menu-item-icon"
                 >
                   <img
-                    class=""
+                    class="cxd-Icon"
                     src="https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg"
                   />
                 </i>
@@ -257,7 +257,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                         class="cxd-Nav-Menu-item-icon"
                       >
                         <i
-                          class="fa fa-user"
+                          class="fa fa-user fa fa-user"
                         />
                       </i>
                       <span
@@ -271,7 +271,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                       class="cxd-Nav-Menu-item-extra"
                     >
                       <i
-                        class="fa fa-cloud"
+                        class="cloud fa fa-cloud"
                       />
                       <div
                         class="cxd-DropDown "
@@ -280,7 +280,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-default"
                         >
                           <i
-                            class="m-r-xs fa fa-ellipsis-h"
+                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -327,7 +327,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-default"
                         >
                           <i
-                            class="m-r-xs fa fa-ellipsis-h"
+                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -387,7 +387,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                               class="cxd-Button cxd-Button--link cxd-Button--size-default"
                             >
                               <i
-                                class="m-r-xs fa fa-ellipsis-h"
+                                class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                               />
                             </button>
                           </div>
@@ -440,7 +440,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                               class="cxd-Button cxd-Button--link cxd-Button--size-default"
                             >
                               <i
-                                class="m-r-xs fa fa-ellipsis-h"
+                                class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                               />
                             </button>
                           </div>
@@ -489,7 +489,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-default"
                         >
                           <i
-                            class="m-r-xs fa fa-ellipsis-h"
+                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -598,7 +598,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                         class="cxd-Nav-Menu-item-icon"
                       >
                         <i
-                          class="fa fa-user"
+                          class="fa fa-user fa fa-user"
                         />
                       </i>
                       <span
@@ -612,7 +612,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                       class="cxd-Nav-Menu-item-extra"
                     >
                       <i
-                        class="fa fa-cloud"
+                        class="cloud fa fa-cloud"
                       />
                       <div
                         class="cxd-DropDown  is-opened"
@@ -622,7 +622,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-default"
                         >
                           <i
-                            class="m-r-xs fa fa-ellipsis-h"
+                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                         <div
@@ -714,7 +714,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-default"
                         >
                           <i
-                            class="m-r-xs fa fa-ellipsis-h"
+                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -780,7 +780,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                               class="cxd-Button cxd-Button--link cxd-Button--size-default"
                             >
                               <i
-                                class="m-r-xs fa fa-ellipsis-h"
+                                class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                               />
                             </button>
                           </div>
@@ -840,7 +840,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                               class="cxd-Button cxd-Button--link cxd-Button--size-default"
                             >
                               <i
-                                class="m-r-xs fa fa-ellipsis-h"
+                                class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                               />
                             </button>
                           </div>
@@ -895,7 +895,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-default"
                         >
                           <i
-                            class="m-r-xs fa fa-ellipsis-h"
+                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -974,7 +974,7 @@ exports[`Renderer:Nav with multi-level 1`] = `
                 class="cxd-Nav-Menu-item-icon"
               >
                 <i
-                  class="fa fa-user"
+                  class="fa fa-user fa fa-user"
                 />
               </i>
               <span
@@ -1265,7 +1265,7 @@ exports[`Renderer:Nav with overflow 1`] = `
                     class="cxd-Nav-Menu-item-icon cxd-Nav-Menu-overflowedIcon thisisoverflowClassName"
                   >
                     <i
-                      class="cxd-Nav-item-icon fas fa-angle-double-down"
+                      class="fas fa-angle-double-down icon Nav-item-icon fas fa-angle-double-down"
                     />
                     点击展开
                   </span>
@@ -1362,7 +1362,7 @@ exports[`Renderer:Nav with source 1`] = `
                         class="cxd-Nav-Menu-item-icon"
                       >
                         <i
-                          class="fa fa-user"
+                          class="fa fa-user fa fa-user"
                         />
                       </i>
                       <span
@@ -1500,7 +1500,7 @@ exports[`Renderer:Nav with stacked 1`] = `
                 class="cxd-Nav-Menu-item-icon"
               >
                 <i
-                  class="fa fa-user"
+                  class="fa fa-user fa fa-user"
                 />
               </i>
               <span

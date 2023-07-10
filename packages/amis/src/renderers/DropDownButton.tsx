@@ -15,7 +15,6 @@ import {
 import {ActionSchema} from './Action';
 import {DividerSchema} from './Divider';
 import {RootClose} from 'amis-core';
-import {generateIcon} from 'amis-core';
 import type {
   TooltipObject,
   Trigger
@@ -260,7 +259,9 @@ export default class DropDownButton extends React.Component<
           className={cx('DropDown-menu', {'is-mobile': isMobile()})}
         >
           <li key={`${index}/0`} className={cx('DropDown-groupTitle')}>
-            {button.icon ? generateIcon(cx, button.icon, 'm-r-xs') : null}
+            {button.icon ? (
+              <Icon cx={cx} icon={button.icon} className="m-r-xs" />
+            ) : null}
             <span>{button.label}</span>
           </li>
           {button.children.map((child, childIndex) =>
@@ -453,20 +454,14 @@ export default class DropDownButton extends React.Component<
               `Button--size-${size}`
             )}
           >
-            {hasIcon(icon) ? (
-              <Icon icon={icon} className="icon" />
-            ) : (
-              generateIcon(cx, icon, 'm-r-xs')
-            )}
+            <Icon c={cx} icon={icon} className="icon m-r-xs" />
             {typeof label === 'string' ? filter(label, data) : label}
-            {rightIcon && hasIcon(rightIcon) ? (
-              <Icon icon={icon} className="icon" />
-            ) : (
-              generateIcon(cx, rightIcon, 'm-l-xs')
+            {rightIcon && (
+              <Icon cx={cx} icon={rightIcon} className="icon m-l-xs" />
             )}
             {!hideCaret ? (
               <span className={cx('DropDown-caret')}>
-                <Icon icon="caret" className="icon" />
+                <Icon icon="right-arrow-bold" className="icon" />
               </span>
             ) : null}
           </button>

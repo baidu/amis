@@ -25,7 +25,6 @@ import {
   findTree,
   isObject
 } from 'amis-core';
-import {generateIcon} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import {Icon, getIcon, SpinnerExtraProps} from 'amis-ui';
@@ -572,7 +571,7 @@ export class Navigation extends React.Component<
             if (React.isValidElement(item)) {
               return item;
             }
-            return generateIcon(cx, item.icon);
+            return <Icon cx={cx} icon={link.icon} />;
           });
         afterIcon = link.icon
           .filter(item => item.position === 'after')
@@ -580,13 +579,13 @@ export class Navigation extends React.Component<
             if (React.isValidElement(item)) {
               return item;
             }
-            return generateIcon(cx, item.icon);
+            return <Icon cx={cx} icon={item.icon} />;
           });
       } else if (link.icon) {
         if (React.isValidElement(link.icon)) {
           beforeIcon = link.icon;
         } else {
-          beforeIcon = generateIcon(cx, link.icon);
+          beforeIcon = <Icon cx={cx} icon={link.icon} />;
         }
       }
 
@@ -622,11 +621,10 @@ export class Navigation extends React.Component<
               label:
                 index === maxCount ? (
                   <span className={cx(overflowClassName)}>
-                    {getIcon(overflowIndicator!) ? (
-                      <Icon icon={overflowIndicator} className="icon" />
-                    ) : (
-                      generateIcon(cx, overflowIndicator, 'Nav-item-icon')
-                    )}
+                    <Icon
+                      icon={overflowIndicator}
+                      className="icon Nav-item-icon"
+                    />
                     {overflowLabel && isObject(overflowLabel)
                       ? render('nav-overflow-label', overflowLabel)
                       : overflowLabel}
@@ -709,11 +707,7 @@ export class Navigation extends React.Component<
       overflowedIndicator = (
         <span className={cx(overflowClassName)}>
           <>
-            {getIcon(overflowIndicator!) ? (
-              <Icon icon={overflowIndicator} className="icon" />
-            ) : (
-              generateIcon(cx, overflowIndicator, 'Nav-item-icon')
-            )}
+            <Icon icon={overflowIndicator} className="icon Nav-item-icon" />
             {overflowLabel && isObject(overflowLabel)
               ? render('nav-overflow-label', overflowLabel)
               : overflowLabel}

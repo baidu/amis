@@ -362,7 +362,9 @@
     margin-right: 0;
     border-radius: calc(var(--Checkbox-borderRadius) * 2);
     min-width: var(--Checkbox-button-min-width);
-
+    > span {
+      line-height: var(--Checkbox-button-line-height);
+    }
     &:hover:not(:disabled) {
       color: var(--Checkbox-onHover-color);
       border-color: var(--Checkbox-onHover-color);

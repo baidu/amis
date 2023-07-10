@@ -73,7 +73,7 @@ exports[`Renderer:portlet 1`] = `
                       class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                     >
                       <i
-                        class="m-r-xs fa fa-ellipsis-h"
+                        class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                       />
                     </button>
                   </div>
