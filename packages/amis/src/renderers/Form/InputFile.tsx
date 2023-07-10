@@ -1464,9 +1464,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                         ? __('File.repick')
                         : multiple && files.length
                         ? __('File.continueAdd')
-                        : filter(btnLabel, data)
-                        ? filter(btnLabel, data)
-                        : __('File.upload')}
+                        : filter(btnLabel, data) || __('File.upload')}
                     </span>
                   </Button>
                 </>
