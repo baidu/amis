@@ -1374,9 +1374,13 @@ run action ajax
 | subject | `string` | -      | 邮件主题，可用 ${xxx} 取值     |
 | body    | `string` | -      | 邮件正文，可用 ${xxx} 取值     |
 
-### 刷新
+### 刷新组件请求
 
-通过配置`actionType: 'reload'`实现对指定组件的刷新（重新加载）操作，仅支持`form`、`wizard`、`service`、`page`、`app`、`chart`、`crud`，以及支持动态数据的`输入类`组件，详见组件的`动作表`。更多示例请查看[刷新示例](../../../examples/action/reload/form)。
+通过配置`actionType: 'reload'`刷新指定组件的数据请求，支持数据容器类组件（`form`、`wizard`、`service`、`page`、`app`、`chart`、`crud`）以及支持动态数据的`输入类`组件，详见组件的`动作表`。更多示例请查看[刷新示例](../../../examples/action/reload/form)。
+
+#### 刷新输入类组件
+
+针对支持远程数据的输入类组件，支持刷新目标组件的数据请求。
 
 ```schema
 {
@@ -1384,7 +1388,7 @@ run action ajax
   body: [
     {
       type: 'button',
-      label: '刷新',
+      label: '刷新下拉框',
       className: 'mb-2',
       level: 'primary',
       onEvent: {
@@ -1392,7 +1396,7 @@ run action ajax
           actions: [
             {
               actionType: 'reload',
-              componentId: 'form-reload'
+              componentId: 'select-reload'
             }
           ]
         }
@@ -1400,19 +1404,185 @@ run action ajax
     },
     {
       type: 'form',
-      id: 'form-reload',
-      name: 'form-reload',
-      initApi:
-        'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData',
       title: '表单',
       body: [
         {
-          type: 'input-text',
-          id: 'date-input-01',
-          name: 'date',
-          label: '时间戳'
+          type: 'select',
+          id: 'select-reload',
+          name: 'select',
+          label: '选项',
+          "source": "/api/mock2/form/getOptions?waitSeconds=1"
         }
       ]
+    }
+  ]
+}
+```
+
+#### 刷新 CRUD
+
+刷新 CRUD 时，如果配置了`data`，将发送`data`给目标 CRUD 组件，并将该数据合并到目标 CRUD 组件的数据域中，然后触发目标组件的刷新操作，即 CRUD 数据拉取接口将自动追加`data`参数到请求中，更多示例可以查看[CRUD reload](../../components/crud#reload)。
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "name": "amis",
+    "age": 18,
+    "date": "2023-6-6"
+  },
+  "body": [
+    {
+      "type": "button",
+      "label": "刷新CRUD数据加载请求，同时追加参数",
+      level: 'primary',
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "crud_reload",
+              "actionType": "reload",
+              data: {
+                author: "${author}"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "crud",
+      "api": "/api/mock2/sample",
+      "id": "crud_reload",
+      "syncLocation": false,
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID"
+        },
+        {
+          "name": "engine",
+          "label": "Rendering engine"
+        },
+        {
+          "name": "browser",
+          "label": "Browser"
+        },
+        {
+          "name": "platform",
+          "label": "Platform(s)"
+        },
+        {
+          "name": "version",
+          "label": "Engine version"
+        },
+        {
+          "name": "grade",
+          "label": "CSS grade"
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "buttons": [
+            {
+              "label": "详情",
+              "type": "button",
+              "level": "link",
+              "actionType": "dialog",
+              "dialog": {
+                "title": "查看详情",
+                "body": {
+                  "type": "form",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "name": "engine",
+                      "label": "Engine"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "browser",
+                      "label": "Browser"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "platform",
+                      "label": "platform"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "version",
+                      "label": "version"
+                    },
+                    {
+                      "type": "control",
+                      "label": "grade",
+                      "body": {
+                        "type": "tag",
+                        "label": "${grade}",
+                        "displayMode": "normal",
+                        "color": "active"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "label": "删除",
+              "type": "button",
+              "level": "link",
+              "className": "text-danger",
+              "disabledOn": "this.grade === 'A'"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### 刷新其他数据容器类组件
+
+刷新容器类组件（`form`、`wizard`、`service`、`page`、`app`、`chart`）时，如果配置了`data`，将发送`data`给目标组件，并将该数据合并到目标组件的数据域中。
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "button",
+      "label": "刷新Service数据加载请求，同时把年龄更新为18",
+      level: 'primary',
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "service_reload",
+              "actionType": "reload",
+              data: {
+                age: "18"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "service",
+      "api": "/api/mock2/form/initData",
+      "body": [
+        {
+          "type": "tpl",
+          "tpl": "我的名字：${name}, 我的年龄：${age|default:'-'}",
+          "wrapperComponent": "",
+          "inline": false
+        }
+      ],
+      "id": "service_reload"
     }
   ]
 }
@@ -1430,11 +1600,13 @@ run action ajax
 | ----------- | -------- | ------ | --------------------- |
 | componentId | `string` | -      | 指定刷新的目标组件 id |
 
-### 控制状态
+### 修改组件状态
 
 > 1.8.0 及以上版本
 
 通过配置`actionType: 'show'`或`'hidden'`或`'enabled'`或`'disabled'`或`'static'`或`'nostatic'`实现对指定组件的显示、隐藏、启用、禁用，仅支持实现了对应状态控制功能的数据`输入类`组件。
+
+#### 显示与隐藏
 
 ```schema
 {
@@ -1450,7 +1622,7 @@ run action ajax
           actions: [
             {
               actionType: 'show',
-              componentId: 'form_disable'
+              componentId: 'form_hidden'
             }
           ]
         }
@@ -1466,12 +1638,36 @@ run action ajax
           actions: [
             {
               actionType: 'hidden',
-              componentId: 'form_disable'
+              componentId: 'form_hidden'
             }
           ]
         }
       }
     },
+    {
+      type: 'form',
+      id: 'form_hidden',
+      title: '表单',
+      body: [
+        {
+          "type": "input-text",
+          "name": "text",
+          "label": "输入框",
+          "mode": "horizontal",
+          "value": "text"
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### 启用与禁用
+
+```schema
+{
+  type: 'page',
+  body: [
     {
       type: 'button',
       id: 'b_dis',
@@ -1500,38 +1696,6 @@ run action ajax
           actions: [
             {
               actionType: 'enabled',
-              componentId: 'form_disable'
-            }
-          ]
-        }
-      }
-    },
-    {
-      type: 'button',
-      label: '静态展示表单',
-      level: 'primary',
-      className: 'mr-2 mb-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'static',
-              componentId: 'form_disable'
-            }
-          ]
-        }
-      }
-    },
-    {
-      type: 'button',
-      label: '非静态展示表单',
-      level: 'primary',
-      className: 'mr-2 mb-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'nonstatic',
               componentId: 'form_disable'
             }
           ]
@@ -1593,13 +1757,69 @@ run action ajax
 }
 ```
 
+#### 静态展示与编辑态
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'button',
+      label: '静态展示表单',
+      level: 'primary',
+      className: 'mr-2 mb-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'static',
+              componentId: 'form_static'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      label: '非静态展示表单',
+      level: 'primary',
+      className: 'mr-2 mb-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'nonstatic',
+              componentId: 'form_static'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'form',
+      id: 'form_static',
+      title: '表单',
+      body: [
+        {
+          "type": "input-text",
+          "name": "text",
+          "label": "输入框",
+          "mode": "horizontal",
+          "value": "text"
+        }
+      ]
+    }
+  ]
+}
+```
+
 **其他属性**
 
 | 属性名      | 类型     | 默认值 | 说明                                 |
 | ----------- | -------- | ------ | ------------------------------------ |
 | componentId | `string` | -      | 指定启用/禁用/显示/隐藏的目标组件 id |
 
-### 更新数据
+### 更新组件数据
 
 > 1.8.0 及以上版本
 

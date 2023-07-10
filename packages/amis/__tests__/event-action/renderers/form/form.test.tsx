@@ -454,6 +454,107 @@ test('doAction:form reload', async () => {
   expect(container).toMatchSnapshot();
 });
 
+test('doAction:form reload with data', async () => {
+  const notify = jest.fn();
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          name: 'Amis Renderer',
+          author: 'fex',
+          date: 1688714086
+        }
+      }
+    })
+  );
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'button',
+            label: '刷新表单',
+            className: 'mb-2',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'reload',
+                    componentId: 'form_reload',
+                    data: {
+                      age: 18
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            type: 'form',
+            id: 'form_reload',
+            debug: true,
+            initApi: '/api/mock2/form/initData',
+            body: [
+              {
+                type: 'input-text',
+                name: 'name',
+                label: '姓名：'
+              },
+              {
+                name: 'author',
+                type: 'input-text',
+                label: '作者：'
+              },
+              {
+                name: 'age',
+                type: 'input-text',
+                label: '年龄：'
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        notify,
+        fetcher
+      })
+    )
+  );
+
+  fireEvent.change(container.querySelector('[name="author"]')!, {
+    target: {value: 'amis'}
+  });
+
+  await waitFor(() => {
+    expect((container.querySelector('[name="author"]') as any)?.value).toEqual(
+      'amis'
+    );
+  });
+
+  expect(container).toMatchSnapshot();
+
+  await waitFor(() => {
+    expect(getByText('刷新表单')).toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText(/刷新表单/));
+
+  await waitFor(() => {
+    expect((container.querySelector('[name="author"]') as any)?.value).toEqual(
+      'fex'
+    );
+    expect((container.querySelector('[name="age"]') as any)?.value).toEqual(
+      '18'
+    );
+  });
+
+  expect(container).toMatchSnapshot();
+});
+
 test('doAction:form reset', async () => {
   const notify = jest.fn();
   const fetcher = jest.fn().mockImplementation(() =>

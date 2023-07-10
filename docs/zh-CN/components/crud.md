@@ -3885,6 +3885,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 | 动作名称 | 动作配置        | 说明         |
 | -------- | --------------- | ------------ |
+| reload   | -               | 刷新列表请求 |
 | setValue | `value: object` | 更新列表记录 |
 
 value 结构说明：
@@ -3893,6 +3894,378 @@ value 结构说明：
 | -------------- | -------- | ------ | -------- |
 | items 或 rows  | `item[]` |        | 列表记录 |
 | count 或 total | `number` |        | 记录总数 |
+
+### reload
+
+#### 只做刷新
+
+重新发送`api`请求，刷新 CRUD 时，只配置`componentId`目标组件 ID 即可。
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "name": "amis",
+    "age": 18,
+    "date": "2023-6-6"
+  },
+  "body": [
+    {
+      "type": "button",
+      "label": "刷新CRUD数据加载请求",
+      level: 'primary',
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "crud_reload1",
+              "actionType": "reload"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "crud",
+      "api": "/api/mock2/sample",
+      "id": "crud_reload1",
+      "syncLocation": false,
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID"
+        },
+        {
+          "name": "engine",
+          "label": "Rendering engine"
+        },
+        {
+          "name": "browser",
+          "label": "Browser"
+        },
+        {
+          "name": "platform",
+          "label": "Platform(s)"
+        },
+        {
+          "name": "version",
+          "label": "Engine version"
+        },
+        {
+          "name": "grade",
+          "label": "CSS grade"
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "buttons": [
+            {
+              "label": "详情",
+              "type": "button",
+              "level": "link",
+              "actionType": "dialog",
+              "dialog": {
+                "title": "查看详情",
+                "body": {
+                  "type": "form",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "name": "engine",
+                      "label": "Engine"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "browser",
+                      "label": "Browser"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "platform",
+                      "label": "platform"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "version",
+                      "label": "version"
+                    },
+                    {
+                      "type": "control",
+                      "label": "grade",
+                      "body": {
+                        "type": "tag",
+                        "label": "${grade}",
+                        "displayMode": "normal",
+                        "color": "active"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "label": "删除",
+              "type": "button",
+              "level": "link",
+              "className": "text-danger",
+              "disabledOn": "this.grade === 'A'"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### 追加请求参数并刷新
+
+刷新 CRUD 时，如果配置了`data`，将发送`data`给目标 CRUD 组件，并将该数据合并到目标 CRUD 组件的数据域中，然后触发目标组件的刷新操作，即 CRUD 数据拉取接口将自动追加`data`参数到请求中。
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "name": "amis",
+    "age": 18,
+    "date": "2023-6-6"
+  },
+  "body": [
+    {
+      "type": "button",
+      "label": "刷新CRUD数据加载请求，同时追加参数date",
+      level: 'primary',
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "crud_reload2",
+              "actionType": "reload",
+              data: {
+                date: "${date}"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "crud",
+      "api": "/api/mock2/sample",
+      "id": "crud_reload2",
+      "syncLocation": false,
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID"
+        },
+        {
+          "name": "engine",
+          "label": "Rendering engine"
+        },
+        {
+          "name": "browser",
+          "label": "Browser"
+        },
+        {
+          "name": "platform",
+          "label": "Platform(s)"
+        },
+        {
+          "name": "version",
+          "label": "Engine version"
+        },
+        {
+          "name": "grade",
+          "label": "CSS grade"
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "buttons": [
+            {
+              "label": "详情",
+              "type": "button",
+              "level": "link",
+              "actionType": "dialog",
+              "dialog": {
+                "title": "查看详情",
+                "body": {
+                  "type": "form",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "name": "engine",
+                      "label": "Engine"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "browser",
+                      "label": "Browser"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "platform",
+                      "label": "platform"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "version",
+                      "label": "version"
+                    },
+                    {
+                      "type": "control",
+                      "label": "grade",
+                      "body": {
+                        "type": "tag",
+                        "label": "${grade}",
+                        "displayMode": "normal",
+                        "color": "active"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "label": "删除",
+              "type": "button",
+              "level": "link",
+              "className": "text-danger",
+              "disabledOn": "this.grade === 'A'"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+通过`&: $$`追加触发事件的按钮所在数据域的所有数据，即`name、age、date`。
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "name": "amis",
+    "age": 18,
+    "date": "2023-6-6"
+  },
+  "body": [
+    {
+      "type": "button",
+      "label": "刷新CRUD数据加载请求，同时追加按钮所在数据域的所有数据",
+      level: 'primary',
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "crud_reload2",
+              "actionType": "reload",
+              data: {
+                "&": "$$"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "crud",
+      "api": "/api/mock2/sample",
+      "id": "crud_reload2",
+      "syncLocation": false,
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID"
+        },
+        {
+          "name": "engine",
+          "label": "Rendering engine"
+        },
+        {
+          "name": "browser",
+          "label": "Browser"
+        },
+        {
+          "name": "platform",
+          "label": "Platform(s)"
+        },
+        {
+          "name": "version",
+          "label": "Engine version"
+        },
+        {
+          "name": "grade",
+          "label": "CSS grade"
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "buttons": [
+            {
+              "label": "详情",
+              "type": "button",
+              "level": "link",
+              "actionType": "dialog",
+              "dialog": {
+                "title": "查看详情",
+                "body": {
+                  "type": "form",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "name": "engine",
+                      "label": "Engine"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "browser",
+                      "label": "Browser"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "platform",
+                      "label": "platform"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "version",
+                      "label": "version"
+                    },
+                    {
+                      "type": "control",
+                      "label": "grade",
+                      "body": {
+                        "type": "tag",
+                        "label": "${grade}",
+                        "displayMode": "normal",
+                        "color": "active"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "label": "删除",
+              "type": "button",
+              "level": "link",
+              "className": "text-danger",
+              "disabledOn": "this.grade === 'A'"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
 
 ### setValue
 
