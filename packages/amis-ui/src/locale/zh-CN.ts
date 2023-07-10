@@ -182,6 +182,7 @@ register('zh-CN', {
   'Log.collapse': '收起工具栏',
   'link': '链接',
   'loading': '加载中',
+  'loadingFailed': '加载失败',
   'LocationPicker.placeholder': '请选择位置',
   'Month.placeholder': '请选择月份',
   'Nav.sourceError': '获取链接错误',

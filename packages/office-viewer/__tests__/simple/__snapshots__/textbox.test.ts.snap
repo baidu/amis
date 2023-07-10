@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`textbox 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="3"
+          data-name="Text Box 3"
+          style="z-index: 251663360; position: absolute; left: 329.67px; top: 137.67px; width: 155.16px; height: 82.6px; color: rgb(0, 0, 0); display: table;"
+        >
+          <svg
+            height="82.6px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="155.16px"
+          >
+            <path
+              d="M 0 0 L 155.16 0 L 155.16 82.6 L 0 82.6 Z"
+              fill="#FFFFFF"
+              stroke="#ED7D31"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                Text box
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                 color
+              </span>
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1"
+          data-name="Text Box 1"
+          style="z-index: 251659264; position: absolute; left: 47.94px; top: 139.17px; width: 155.16px; height: 82.6px; display: table;"
+        >
+          <svg
+            height="82.6px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="155.16px"
+          >
+            <path
+              d="M 0 0 L 155.16 0 L 155.16 82.6 L 0 82.6 Z"
+              fill="#FFFFFF"
+              stroke="#000000"
+              stroke-width="0.67px"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                Text box
+              </span>
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="2"
+          data-name="Text Box 2"
+          style="z-index: 251661312; position: absolute; left: 214.63px; top: 36.07px; width: 155.16px; height: 82.6px; display: table;"
+        >
+          <svg
+            height="82.6px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="155.16px"
+          >
+            <path
+              d="M 0 0 L 155.16 0 L 155.16 82.6 L 0 82.6 Z"
+              fill="#FFFFFF"
+              stroke="none"
+              stroke-width="0.67px"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+              >
+                Text 
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                withou
+              </span>
+              <span
+                class="docx-viewer-0-r"
+              >
+                t outline
+              </span>
+            </p>
+          </div>
+        </div>
+      </span>
+    </p>
+  </section>
+</article>
+`;

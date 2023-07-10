@@ -724,8 +724,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
             remark = render('remark', {
               type: 'remark',
               tooltip: column.remark,
-              container:
-                env && env.getModalContainer ? env.getModalContainer : undefined
+              container: this.getPopOverContainer
             });
           }
 

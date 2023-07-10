@@ -94,7 +94,6 @@
   "jest": {
     "verbose": true,
     "testEnvironment": "jsdom",
-    "collectCoverage": true,
     "coverageReporters": [
       "text",
       "cobertura"
@@ -119,7 +118,7 @@
       "^amis\\-ui$": "<rootDir>/packages/amis-ui/src/index.tsx",
       "^amis\\-core$": "<rootDir>/packages/amis-core/src/index.tsx",
       "^amis\\-formula$": "<rootDir>/packages/amis-formula/src/index.ts",
-      "^office\\-viewer$": "<rootDir>/packages/ooxml-viewer/src/index.ts",
+      "^office\\-viewer$": "<rootDir>/packages/office-viewer/src/index.ts",
       "^amis$": "<rootDir>/packages/amis/src/index.tsx"
     },
     "setupFilesAfterEnv": [

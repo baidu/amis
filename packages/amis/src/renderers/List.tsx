@@ -260,7 +260,7 @@ export interface ListProps
     }
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
-  onQuery: (values: object) => void;
+  onQuery: (values: object) => any;
 }
 
 export default class List extends React.Component<ListProps, object> {
@@ -321,6 +321,7 @@ export default class List extends React.Component<ListProps, object> {
       orderBy,
       orderDir,
       multiple,
+      strictMode,
       hideCheckToggler,
       itemCheckableOn,
       itemDraggableOn
@@ -329,6 +330,7 @@ export default class List extends React.Component<ListProps, object> {
     store.update({
       /** Card嵌套List情况下该属性获取到的值为ListStore的默认值, 会导致Schema中的配置被覆盖 */
       multiple: multiple || props?.$schema.multiple,
+      strictMode: strictMode || props?.$schema.strictMode,
       selectable: selectable || props?.$schema.selectable,
       draggable: draggable || props?.$schema.draggable,
       orderBy,
@@ -399,6 +401,7 @@ export default class List extends React.Component<ListProps, object> {
           'orderBy',
           'orderDir',
           'multiple',
+          'strictMode',
           'hideCheckToggler',
           'itemCheckableOn',
           'itemDraggableOn'
@@ -409,6 +412,7 @@ export default class List extends React.Component<ListProps, object> {
     ) {
       store.update({
         multiple: props.multiple,
+        strictMode: props.strictMode,
         selectable: props.selectable,
         draggable: props.draggable,
         orderBy: props.orderBy,
@@ -903,7 +907,7 @@ export default class List extends React.Component<ListProps, object> {
   }
 
   renderDragToggler() {
-    const {store, multiple, selectable, env} = this.props;
+    const {store, multiple, selectable, popOverContainer, env} = this.props;
 
     if (!store.draggable || store.items.length < 2) {
       return null;
@@ -914,9 +918,7 @@ export default class List extends React.Component<ListProps, object> {
         iconOnly
         key="dragging-toggle"
         tooltip="对列表进行排序操作"
-        tooltipContainer={
-          env && env.getModalContainer ? env.getModalContainer : undefined
-        }
+        tooltipContainer={popOverContainer || env?.getModalContainer}
         size="sm"
         active={store.dragging}
         onClick={(e: React.MouseEvent<any>) => {

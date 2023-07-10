@@ -37,6 +37,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   onChange: (value?: ConditionGroupValue) => void;
   config?: ConditionBuilderConfig;
   disabled?: boolean;
+  draggable?: boolean;
   searchable?: boolean;
   fieldClassName?: string;
   formula?: FormulaPickerProps;
@@ -67,6 +68,9 @@ export class QueryBuilder extends React.Component<
 
   @autobind
   handleDragStart(e: React.DragEvent) {
+    const {draggable = true} = this.props;
+    // draggable为false时不可拖拽
+    if (!draggable) return;
     const target = e.currentTarget;
     const item = target.closest('[data-id]') as HTMLElement;
     this.dragTarget = item;
@@ -250,6 +254,7 @@ export class QueryBuilder extends React.Component<
       showANDOR,
       data,
       disabled,
+      draggable = true,
       searchable,
       builderMode,
       formula,
@@ -291,6 +296,7 @@ export class QueryBuilder extends React.Component<
         showNot={showNot}
         data={data}
         disabled={disabled}
+        draggable={draggable}
         searchable={searchable}
         formula={formula}
         renderEtrValue={renderEtrValue}

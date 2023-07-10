@@ -388,6 +388,7 @@ const ActionProps = [
   'url',
   'link',
   'confirmText',
+  'confirmTitle',
   'tooltip',
   'disabledTip',
   'className',
@@ -1003,7 +1004,10 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
       env.confirm &&
       (confirmText = filter(action.confirmText, mergedData))
     ) {
-      let confirmed = await env.confirm(confirmText);
+      let confirmed = await env.confirm(
+        confirmText,
+        filter(action.confirmTitle, mergedData) || undefined
+      );
       if (confirmed) {
         // 触发渲染器事件
         const rendererEvent = await dispatchEvent(
@@ -1079,9 +1083,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         onMouseLeave={this.handleMouseLeave}
         loading={loading}
         isCurrentUrl={this.isCurrentAction}
-        tooltipContainer={
-          env.getModalContainer ? env.getModalContainer : undefined
-        }
+        tooltipContainer={rest.popOverContainer || env.getModalContainer}
       />
     );
   }

@@ -948,7 +948,6 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                               <div
                                 aria-expanded="false"
                                 aria-haspopup="listbox"
-                                aria-labelledby="downshift-6-label"
                                 class="cxd-Select"
                                 role="combobox"
                                 tabindex="0"
@@ -1333,7 +1332,6 @@ exports[`Renderer:combo with draggable 1`] = `
                                           <div
                                             aria-expanded="false"
                                             aria-haspopup="listbox"
-                                            aria-labelledby="downshift-4-label"
                                             class="cxd-Select"
                                             role="combobox"
                                             tabindex="0"
@@ -1450,7 +1448,6 @@ exports[`Renderer:combo with draggable 1`] = `
                                           <div
                                             aria-expanded="false"
                                             aria-haspopup="listbox"
-                                            aria-labelledby="downshift-5-label"
                                             class="cxd-Select"
                                             role="combobox"
                                             tabindex="0"

@@ -85,9 +85,9 @@ fis.match('/mock/**', {
   useCompile: false
 });
 
-fis.match('mod.js', {
-  useCompile: false
-});
+// fis.match('mod.js', {
+//   useCompile: false
+// });
 
 fis.match('*.scss', {
   parser: fis.plugin('sass', {
@@ -213,6 +213,9 @@ fis.match('{*.ts,*.jsx,*.tsx,/examples/**.js,/src/**.js,/src/**.ts}', {
   preprocessor: fis.plugin('js-require-css'),
   isMod: true,
   rExt: '.js'
+});
+fis.match('/examples/mod.js', {
+  isMod: false
 });
 
 fis.match('markdown-it/**', {
@@ -492,7 +495,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
         '!punycode/**',
-        '!ooxml-viewer/**',
+        '!office-viewer/**',
         '!fflate/**'
       ],
 
@@ -534,9 +537,14 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
       'barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
 
-      'charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**', 'echarts-wordcloud/**'],
+      'charts.js': [
+        'zrender/**',
+        'echarts/**',
+        'echarts-stat/**',
+        'echarts-wordcloud/**'
+      ],
 
-      'ooxml-viewer.js': ['ooxml-viewer/**', 'fflate/**'],
+      'office-viewer.js': ['office-viewer/**', 'fflate/**'],
 
       'rest.js': [
         '*.js',
@@ -561,7 +569,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!uc.micro/**',
         '!markdown-it/**',
         '!markdown-it-html5-media/**',
-        '!ooxml-viewer/**',
+        '!office-viewer/**',
         '!fflate/**'
       ]
     }),
@@ -792,7 +800,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!punycode/**',
         '!amis-formula/**',
         '!fflate/**',
-        '!ooxml-viewer/**',
+        '!office-viewer/**',
         '!amis-core/**',
         '!amis-ui/**',
         '!amis/**'
@@ -838,7 +846,12 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
       'pkg/cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
 
-      'pkg/charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**', 'echarts-wordcloud/**'],
+      'pkg/charts.js': [
+        'zrender/**',
+        'echarts/**',
+        'echarts-stat/**',
+        'echarts-wordcloud/**'
+      ],
 
       'pkg/api-mock.js': ['mock/*.ts'],
 
@@ -853,7 +866,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!/examples/components/EChartsEditor/Common.tsx'
       ],
 
-      'pkg/ooxml-viewer.js': ['ooxml-viewer/**', 'fflate/**'],
+      'pkg/office-viewer.js': ['office-viewer/**', 'fflate/**'],
 
       'pkg/rest.js': [
         '**.{js,jsx,ts,tsx}',

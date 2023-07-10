@@ -71,7 +71,7 @@ interface SearchBoxProps
   extends RendererProps,
     Omit<SearchBoxSchema, 'type' | 'className'> {
   name: string;
-  onQuery?: (query: {[propName: string]: string}) => void;
+  onQuery?: (query: {[propName: string]: string}) => any;
 }
 
 export interface SearchBoxState {

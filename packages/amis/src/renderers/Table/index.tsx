@@ -385,7 +385,7 @@ export interface TableProps extends RendererProps, SpinnerExtraProps {
     }
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
-  onQuery: (values: object) => void;
+  onQuery?: (values: object) => any;
   onImageEnlarge?: (data: any, target: any) => void;
   buildItemProps?: (item: any, index: number) => any;
   checkOnItemClick?: boolean;
@@ -404,6 +404,7 @@ export type ExportExcelToolbar = SchemaNode & {
   api?: SchemaApi;
   columns?: string[];
   exportColumns?: any[];
+  rowSlice?: string;
   filename?: string;
 };
 
@@ -579,7 +580,8 @@ export default class Table extends React.Component<TableProps, object> {
       expandConfig,
       formItem,
       keepItemSelectionOnPageChange,
-      maxKeepItemSelectionLength
+      maxKeepItemSelectionLength,
+      onQuery
     } = props;
 
     let combineNum = props.combineNum;
@@ -595,7 +597,7 @@ export default class Table extends React.Component<TableProps, object> {
       draggable,
       columns,
       columnsTogglable,
-      orderBy,
+      orderBy: onQuery ? orderBy : undefined,
       orderDir,
       multiple,
       footable,
@@ -813,7 +815,7 @@ export default class Table extends React.Component<TableProps, object> {
         selectable: props.selectable,
         columnsTogglable: props.columnsTogglable,
         draggable: props.draggable,
-        orderBy: props.orderBy,
+        orderBy: props.onQuery ? props.orderBy : undefined,
         orderDir: props.orderDir,
         multiple: props.multiple,
         primaryField: props.primaryField,
@@ -1218,6 +1220,11 @@ export default class Table extends React.Component<TableProps, object> {
     this.totalHeight = table.scrollHeight;
     this.outterWidth = outter.offsetWidth;
     this.outterHeight = outter.offsetHeight;
+
+    // 没有渲染则跳过
+    if (!this.totalWidth) {
+      return;
+    }
 
     let widths: {
       [propName: string]: number;
@@ -2075,13 +2082,15 @@ export default class Table extends React.Component<TableProps, object> {
               return;
             }
 
-            store.setOrderByInfo(orderBy, order);
-
-            onQuery &&
+            if (
+              !onQuery ||
               onQuery({
-                orderBy: store.orderBy,
-                orderDir: store.orderDir
-              });
+                orderBy: orderBy,
+                orderDir: order
+              }) === false
+            ) {
+              store.changeOrder(orderBy, order);
+            }
           }}
         >
           <i
@@ -2115,7 +2124,7 @@ export default class Table extends React.Component<TableProps, object> {
         </span>
       );
     }
-    if (!column.searchable && column.filterable && column.name) {
+    if (!column.searchable && column.filterable && column.name && onQuery) {
       affix.push(
         <HeadCellFilterDropDown
           key="table-head-filter"
@@ -2174,10 +2183,7 @@ export default class Table extends React.Component<TableProps, object> {
             ? render('remark', {
                 type: 'remark',
                 tooltip: column.remark,
-                container:
-                  env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
+                container: this.getPopOverContainer
               })
             : null}
         </div>
@@ -2203,7 +2209,6 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       checkOnItemClick,
       popOverContainer,
-      canAccessSuperData,
       itemBadge
     } = this.props;
 
@@ -2280,6 +2285,8 @@ export default class Table extends React.Component<TableProps, object> {
       );
     }
 
+    const canAccessSuperData =
+      column.pristine.canAccessSuperData ?? this.props.canAccessSuperData;
     const subProps: any = {
       ...props,
       // 操作列不下发loading，否则会导致操作栏里面的所有按钮都出现loading
@@ -2292,7 +2299,7 @@ export default class Table extends React.Component<TableProps, object> {
             canAccessSuperData ? item.locals : item.data
           )
         : column.value,
-      popOverContainer: popOverContainer || this.getPopOverContainer,
+      popOverContainer: this.getPopOverContainer,
       rowSpan: item.rowSpans[column.name as string],
       quickEditFormRef: this.subFormRef,
       cellPrefix: prefix,
@@ -2303,7 +2310,8 @@ export default class Table extends React.Component<TableProps, object> {
       showBadge:
         !props.isHead &&
         itemBadge &&
-        store.firstToggledColumnIndex === props.colIndex
+        store.firstToggledColumnIndex === props.colIndex,
+      onQuery: undefined
     };
     delete subProps.label;
 
@@ -2579,10 +2587,6 @@ export default class Table extends React.Component<TableProps, object> {
       return null;
     }
 
-    // 不能取消到比总结行要少
-    // 否则总结行将显示不全
-    const min = Math.max(Array.isArray(affixRow) ? affixRow.length : 0, 1);
-
     return (
       <ColumnToggler
         {...rest}
@@ -2591,9 +2595,7 @@ export default class Table extends React.Component<TableProps, object> {
           content: config?.tooltip || __('Table.columnsVisibility'),
           placement: 'bottom'
         }}
-        tooltipContainer={
-          env && env.getModalContainer ? env.getModalContainer : undefined
-        }
+        tooltipContainer={rest.popOverContainer || env.getModalContainer}
         align={config?.align ?? 'left'}
         isActived={store.hasColumnHidden()}
         classnames={cx}
@@ -2631,7 +2633,7 @@ export default class Table extends React.Component<TableProps, object> {
                 return;
               }
 
-              store.toggleAllColumns(min);
+              store.toggleAllColumns();
             }}
           >
             <Checkbox
@@ -2677,7 +2679,7 @@ export default class Table extends React.Component<TableProps, object> {
                 return;
               }
 
-              column.toggleToggle(min);
+              column.toggleToggle();
             }}
           >
             <Checkbox size="sm" classPrefix={ns} checked={column.toggled}>
@@ -2690,7 +2692,14 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderDragToggler() {
-    const {store, env, draggable, classPrefix: ns, translate: __} = this.props;
+    const {
+      store,
+      env,
+      draggable,
+      classPrefix: ns,
+      translate: __,
+      popOverContainer
+    } = this.props;
 
     if (!draggable || store.isNested) {
       return null;
@@ -2702,9 +2711,7 @@ export default class Table extends React.Component<TableProps, object> {
         classPrefix={ns}
         key="dragging-toggle"
         tooltip={{content: __('Table.startSort'), placement: 'bottom'}}
-        tooltipContainer={
-          env && env.getModalContainer ? env.getModalContainer : undefined
-        }
+        tooltipContainer={popOverContainer || env.getModalContainer}
         size="sm"
         active={store.dragging}
         onClick={(e: React.MouseEvent<any>) => {

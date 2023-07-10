@@ -1,6 +1,11 @@
-import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
+import {
+  RendererPluginEvent,
+  getI18nEnabled,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class CollapsePlugin extends BasePlugin {
   static id = 'CollapsePlugin';
@@ -34,6 +39,31 @@ export class CollapsePlugin extends BasePlugin {
   panelTitle = '折叠器';
 
   panelJustify = true;
+
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'change',
+      eventLabel: '折叠状态改变',
+      description: '折叠器折叠状态改变时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                collapsed: {
+                  type: 'boolean',
+                  title: '折叠器状态'
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ];
 
   panelBodyCreator = (context: BaseEventContext) => {
     const i18nEnabled = getI18nEnabled();
@@ -121,6 +151,16 @@ export class CollapsePlugin extends BasePlugin {
             ]
           })
         ])
+      },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
+        ]
       }
     ]);
   };

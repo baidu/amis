@@ -370,6 +370,7 @@ order: 14
 | clearable       | `boolean`                                                      | `true`                 | 是否可清除                                                                                                      |
 | embed           | `boolean`                                                      | `false`                | 是否内联                                                                                                        |
 | timeConstraints | `object`                                                       | `true`                 | 请参考 [input-time](./input-time#控制输入范围) 里的说明                                                         |
+| isEndDate       | `boolean`                                                      | `false`                | 如果配置为 true，会自动默认为 23:59:59 秒                                                                       |
 
 ## 事件表
 

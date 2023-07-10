@@ -2,7 +2,7 @@ import React = require('react');
 import {render, fireEvent} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv} from '../../helper';
+import {makeEnv, replaceReactAriaIds} from '../../helper';
 
 test('Renderer:repeat', async () => {
   const {container, getByText} = render(
@@ -45,5 +45,6 @@ test('Renderer:repeat', async () => {
   fireEvent.click(getByText('年'));
   fireEvent.click(getByText('年'));
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });

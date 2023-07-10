@@ -49,6 +49,7 @@ export interface CalendarMobileProps extends ThemeProps, LocaleProps {
     };
   };
   defaultDate?: moment.Moment;
+  isEndDate?: boolean;
 }
 
 export interface CalendarMobileState {
@@ -574,7 +575,8 @@ export class CalendarMobile extends React.Component<
       viewMode = 'days',
       close,
       defaultDate,
-      showViewMode
+      showViewMode,
+      isEndDate
     } = this.props;
     const __ = this.props.translate;
 
@@ -654,6 +656,7 @@ export class CalendarMobile extends React.Component<
                 hideHeader={true}
                 updateOn={viewMode}
                 key={'calendar' + index}
+                isEndDate={isEndDate}
               />
             </div>
           );
@@ -671,7 +674,8 @@ export class CalendarMobile extends React.Component<
       close,
       timeConstraints,
       defaultDate,
-      isDatePicker
+      isDatePicker,
+      isEndDate
     } = this.props;
     const __ = this.props.translate;
 
@@ -705,6 +709,7 @@ export class CalendarMobile extends React.Component<
           })}
           timeConstraints={timeConstraints}
           isValidDate={this.checkIsValidDate}
+          isEndDate={isEndDate}
         />
       </div>
     );

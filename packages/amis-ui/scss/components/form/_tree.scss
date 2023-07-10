@@ -147,9 +147,9 @@
 
     &:hover {
       .#{$ns}Tree {
-        &-itemLabel-item:not(.is-mobile) {
-          background-color: var(--Tree-item-onHover-bg-pure);
-        }
+        // &-itemLabel-item:not(.is-mobile) {
+        //  background-color: var(--Tree-item-onHover-bg-pure);
+        // }
 
         &-item-icons {
           visibility: visible;
@@ -163,6 +163,10 @@
   }
 
   &-item {
+    &:hover {
+      background-color: var(--Tree-item-onHover-bg-pure);
+    }
+
     .is-checked {
       border-radius: var(--Tree-item-onChekced-bg-borderRadius);
       .#{$ns}Tree {
@@ -211,7 +215,7 @@
   }
 
   &-itemInput {
-    padding-left: var(--Tree-itemArrowWidth);
+    // padding-left: var(--Tree-itemArrowWidth);
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;

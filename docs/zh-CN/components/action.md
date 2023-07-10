@@ -174,7 +174,7 @@ icon 也可以是 url 地址，比如
 
 ## 操作前确认
 
-可以通过配置`confirmText`，实现在任意操作前，弹出提示框确认是否进行该操作。
+可以通过配置`confirmText`，实现在任意操作前，弹出提示框确认是否进行该操作。同时可以通过配置 `confirmTitle` 来设置弹窗标题
 
 ```schema: scope="body"
 {
@@ -182,6 +182,7 @@ icon 也可以是 url 地址，比如
     "type": "button",
     "actionType": "ajax",
     "confirmText": "确认要发出这个请求？",
+    "confirmTitle": "炸弹",
     "api": "/api/mock2/form/saveForm"
 }
 ```
@@ -1029,6 +1030,7 @@ action 还可以使用 `body` 来渲染其他组件，让那些不支持行为�
 | activeClassName    | `string`                             | `is-active` | 给按钮高亮添加类名。                                                                                                                                                        |
 | block              | `boolean`                            | -           | 用`display:"block"`来显示按钮。                                                                                                                                             |
 | confirmText        | [模板](../../docs/concepts/template) | -           | 当设置后，操作在开始前会询问用户。可用 `${xxx}` 取值。                                                                                                                      |
+| confirmTitle       | [模板](../../docs/concepts/template) | -           | 确认框标题，前提是 confirmText 有内容，支持模版语法                                                                                                                         |
 | reload             | `string`                             | -           | 指定此次操作完后，需要刷新的目标组件名字（组件的`name`值，自己配置的），多个请用 `,` 号隔开。                                                                               |
 | tooltip            | `string`                             | -           | 鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                                  |
 | disabledTip        | `'string' \| 'TooltipObject'`        | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                          |

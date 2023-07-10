@@ -61,6 +61,18 @@ export function createObjectFromChain(chain: Array<object>) {
     });
 }
 
+/**
+ * 向最近一层插入新链
+ * @param obj
+ * @param value
+ * @returns
+ */
+export function injectObjectChain(obj: any, value: any) {
+  const chain = extractObjectChain(obj);
+  chain.splice(chain.length - 1, 0, value);
+  return createObjectFromChain(chain);
+}
+
 export function cloneObject(target: any, persistOwnProps: boolean = true) {
   const obj =
     target && target.__super

@@ -2,7 +2,7 @@ import React = require('react');
 import {render, cleanup, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv, wait} from '../../helper';
+import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
 import {clearStoresCache} from '../../../src';
 
 afterEach(() => {
@@ -68,6 +68,7 @@ const setup = async (
 test('Renderer:text', async () => {
   const {container, input} = await setup();
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
   // 输入是否正常
   fireEvent.change(input, {target: {value: 'AbCd'}});
@@ -87,10 +88,14 @@ test('Renderer:text type is url', async () => {
   fireEvent.change(input, {target: {value: 'abcd'}});
   fireEvent.click(submitBtn);
   await wait(200); // 表单校验是异步的，所以必须要等一段时间 @todo 感觉可能需要寻找更靠谱的办法
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('validate fail');
 
   fireEvent.change(input, {target: {value: 'https://www.baidu.com'}});
   await wait(300);
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('validate success');
 });
 
@@ -105,10 +110,14 @@ test('Renderer:text type is email', async () => {
   fireEvent.change(input, {target: {value: 'abcd'}});
   fireEvent.click(submitBtn);
   await wait(200);
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('validate fail');
 
   fireEvent.change(input, {target: {value: 'test@baidu.com'}});
   await wait(300);
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('validate success');
 });
 
@@ -124,6 +133,8 @@ test('Renderer:text type is password', async () => {
   await wait(300);
 
   expect(input.getAttribute('type')).toBe('password');
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('password invisible');
 
   const revealPasswordBtn = container.querySelector(
@@ -135,6 +146,8 @@ test('Renderer:text type is password', async () => {
   await wait(300);
 
   expect(input.getAttribute('type')).toBe('text');
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('password visible');
 });
 
@@ -153,6 +166,8 @@ test('Renderer:text type is password with revealPassword', async () => {
 
   fireEvent.change(input, {target: {value: 'abcd'}});
   await wait(300);
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -167,6 +182,7 @@ test('Renderer:text with addOn', async () => {
     }
   });
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -179,6 +195,8 @@ test('Renderer:text with clearable', async () => {
   });
   fireEvent.change(input, {target: {value: 'abcd'}}); // 有值之后才会显示clear的icon
   await wait(300);
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(
@@ -204,6 +222,8 @@ test('Renderer:text with options', async () => {
       }
     ]
   });
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 
   // 展开 options
@@ -211,6 +231,8 @@ test('Renderer:text with options', async () => {
     container.querySelector('.cxd-TextControl-input') as HTMLElement
   );
   await wait(300);
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('options is open');
 
   // 选中一项
@@ -221,6 +243,8 @@ test('Renderer:text with options', async () => {
   );
   await wait(300);
   // expect(input.value).toBe('a');
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('select first option');
 });
 
@@ -269,6 +293,8 @@ test('Renderer:text with options and multiple and delimiter', async () => {
   // 展开 options
   fireEvent.click(textControl);
   await wait(300);
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('options is opened');
 
   // 选中第一项
@@ -279,11 +305,15 @@ test('Renderer:text with options and multiple and delimiter', async () => {
   );
   await wait(300);
   // expect(input.value).toBe('a');
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('first option selected');
 
   // 再次打开 options
   fireEvent.click(textControl);
   await wait(300);
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot(
     'options is opened again, and first option already selected'
   );
@@ -301,6 +331,7 @@ test('Renderer:text with options and multiple and delimiter', async () => {
     (container.querySelector('.cxd-PlainField') as Element).innerHTML
   ).toBe('a-b');
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('second option selected');
 
   // 可创建
@@ -315,6 +346,7 @@ test('Renderer:text with options and multiple and delimiter', async () => {
     (container.querySelector('.cxd-PlainField') as Element).innerHTML
   ).toBe('a-b-AbCd');
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('thrid option create');
 });
 
@@ -327,6 +359,7 @@ test('Renderer:text with prefix and suffix', async () => {
     suffix: 'RMB'
   });
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -337,10 +370,14 @@ test('Renderer:text with counter', async () => {
   const {container, input} = await setup({
     showCounter: true
   });
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 
   fireEvent.change(input, {target: {value: 'abcd'}});
   await wait(300);
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -352,6 +389,8 @@ test('Renderer:text with counter and maxLength', async () => {
     showCounter: true,
     maxLength: 10
   });
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 
   fireEvent.change(input, {target: {value: 'abcd'}});
@@ -361,6 +400,8 @@ test('Renderer:text with counter and maxLength', async () => {
     ).toBeInTheDocument();
   });
   await wait(300);
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -471,5 +512,6 @@ test('Renderer:text with minLength', async () => {
     container.querySelector('.cxd-TextControl.has-error--maxLength') as Element
   ).toBeInTheDocument();
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });

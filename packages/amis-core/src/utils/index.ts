@@ -54,6 +54,8 @@ export * from './toNumber';
 export * from './decodeEntity';
 export * from './style-helper';
 export * from './resolveCondition';
+export * from './arraySlice';
+export * from './math';
 
 import animation from './Animation';
 

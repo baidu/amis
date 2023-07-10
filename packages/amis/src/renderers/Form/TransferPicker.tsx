@@ -142,10 +142,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           virtualThreshold={virtualThreshold}
           useMobileUI={useMobileUI}
           popOverContainer={
-            mobileUI && env && env.getModalContainer
-              ? env.getModalContainer
-              : mobileUI
-              ? undefined
+            mobileUI
+              ? env?.getModalContainer
               : popOverContainer || env.getModalContainer
           }
         />

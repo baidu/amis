@@ -19,7 +19,7 @@
 import {render, screen, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv, wait} from '../../helper';
+import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
 
 const setup = async (items: any = {}, formOptions: any = {}) => {
   const utils = render(
@@ -84,6 +84,7 @@ test('Renderer:select menutpl', () => {
     )
   );
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -151,6 +152,7 @@ test('Renderer:select group', () => {
     )
   );
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -219,6 +221,7 @@ test('Renderer:select table', () => {
     )
   );
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -302,6 +305,7 @@ test('Renderer:select table with labelField & valueField', async () => {
   await wait(500);
   fireEvent.click(await findByText('李白'));
   await wait(500);
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(await findByText('Submit'));
@@ -374,6 +378,7 @@ test('Renderer:select tree', () => {
     )
   );
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -441,6 +446,7 @@ test('Renderer:select chained', () => {
     )
   );
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -511,6 +517,7 @@ test('Renderer: chained select', () => {
     )
   );
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -631,6 +638,7 @@ test('Renderer:select associated', () => {
     )
   );
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -663,6 +671,7 @@ test('Renderer:select virtual', async () => {
   const option12 = queryByText('option12');
   expect(option12).toBeNull();
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -691,6 +700,8 @@ test('Renderer:select group mode with virtual', async () => {
 
   expect(getByText('option-1')).toBeInTheDocument();
   expect(await queryByText('option-200')).toBeNull();
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -726,6 +737,8 @@ test('Renderer:select table mode with virtual', async () => {
 
   expect(getByText('label-1')).toBeInTheDocument();
   expect(await queryByText('label-200')).toBeNull();
+
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('');
 });
 
@@ -759,6 +772,7 @@ test('Renderer:select chained mode with virtual', async () => {
   expect(getByText('group-1-option-1')).toBeInTheDocument();
   expect(await queryByText('group-1-option-100')).toBeNull();
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('');
 });
 
@@ -815,6 +829,7 @@ test('Renderer:select associated mode with virtual', async () => {
   expect(getByText('label-1')).toBeInTheDocument();
   expect(await queryByText('label-100')).toBeNull();
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot('');
 });
 

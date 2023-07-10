@@ -531,7 +531,7 @@ export default class Service extends React.Component<ServiceProps> {
       onBulkChange(data);
     }
 
-    this.initInterval(data);
+    result?.ok && this.initInterval(data);
   }
 
   afterSchemaFetch(schema: any) {
@@ -636,9 +636,32 @@ export default class Service extends React.Component<ServiceProps> {
 
   handleQuery(query: any) {
     if (this.props.api || this.props.schemaApi) {
+      // 如果是分页动作，则看接口里面有没有用，没用则  return false
+      // 让组件自己去排序
+      if (
+        query?.hasOwnProperty('orderBy') &&
+        [this.props.api, this.props.schemaApi].every(
+          api =>
+            !api ||
+            !isApiOutdated(
+              api,
+              api,
+              this.props.store.data,
+              createObject(this.props.store.data, query)
+            )
+        )
+      ) {
+        return false;
+      }
+
       this.receive(query);
+      return;
+    }
+
+    if (this.props.onQuery) {
+      return this.props.onQuery(query);
     } else {
-      this.props.onQuery?.(query);
+      return false;
     }
   }
 

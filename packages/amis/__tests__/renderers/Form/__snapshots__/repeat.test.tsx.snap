@@ -184,7 +184,6 @@ exports[`Renderer:repeat 1`] = `
                 <div
                   aria-expanded="true"
                   aria-haspopup="listbox"
-                  aria-labelledby="downshift-0-label"
                   aria-owns="downshift-0-menu"
                   class="cxd-Select is-opened pull-right has-popover"
                   role="combobox"

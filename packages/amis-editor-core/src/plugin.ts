@@ -1,7 +1,10 @@
 /**
  * @file 定义插件的 interface，以及提供一个 BasePlugin 基类，把一些通用的方法放在这。
  */
+
+import omit from 'lodash/omit';
 import {RegionWrapperProps} from './component/RegionWrapper';
+import {makeAsyncLayer} from './component/AsyncLayer';
 import {EditorManager} from './manager';
 import {EditorStoreType} from './store/editor';
 import {EditorNodeType} from './store/node';
@@ -13,7 +16,7 @@ import find from 'lodash/find';
 import type {RendererConfig} from 'amis-core';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
 import type {BaseSchema, SchemaCollection} from 'amis';
-import {DSFieldGroup} from './builder/DSBuilder';
+import type {asyncLayerOptions} from './component/AsyncLayer';
 
 /**
  * 区域的定义，容器渲染器都需要定义区域信息。
@@ -801,6 +804,11 @@ export interface PluginInterface
   panelJustify?: boolean;
 
   /**
+   * 配置面板内容区是否开启异步加载
+   */
+  async?: {enable: boolean} & asyncLayerOptions;
+
+  /**
    * 有数据域的容器，可以为子组件提供读取的字段绑定页面
    */
   getAvailableContextFields?: (
@@ -1045,17 +1053,34 @@ export abstract class BasePlugin implements PluginInterface {
         icon: plugin.panelIcon || plugin.icon || 'fa fa-cog',
         pluginIcon: plugin.pluginIcon,
         title: plugin.panelTitle || '设置',
-        render: this.manager.makeSchemaFormRender({
-          definitions: plugin.panelDefinitions,
-          submitOnChange: plugin.panelSubmitOnChange,
-          api: plugin.panelApi,
-          body: body,
-          controls: plugin.panelControlsCreator
-            ? plugin.panelControlsCreator(context)
-            : plugin.panelControls!,
-          justify: plugin.panelJustify,
-          panelById: store.activeId
-        })
+        render:
+          typeof plugin.async === 'object' && plugin.async?.enable === true
+            ? makeAsyncLayer(async () => {
+                const panelBody = await body;
+
+                return this.manager.makeSchemaFormRender({
+                  definitions: plugin.panelDefinitions,
+                  submitOnChange: plugin.panelSubmitOnChange,
+                  api: plugin.panelApi,
+                  body: panelBody,
+                  controls: plugin.panelControlsCreator
+                    ? plugin.panelControlsCreator(context)
+                    : plugin.panelControls!,
+                  justify: plugin.panelJustify,
+                  panelById: store.activeId
+                });
+              }, omit(plugin.async, 'enable'))
+            : this.manager.makeSchemaFormRender({
+                definitions: plugin.panelDefinitions,
+                submitOnChange: plugin.panelSubmitOnChange,
+                api: plugin.panelApi,
+                body: body,
+                controls: plugin.panelControlsCreator
+                  ? plugin.panelControlsCreator(context)
+                  : plugin.panelControls!,
+                justify: plugin.panelJustify,
+                panelById: store.activeId
+              })
       });
     } else if (
       context.info.plugin === this &&

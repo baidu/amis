@@ -168,7 +168,7 @@ export interface GridProps
     }
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
-  onQuery: (values: object) => void;
+  onQuery: (values: object) => any;
 }
 
 export default class Cards extends React.Component<GridProps, object> {
@@ -860,6 +860,7 @@ export default class Cards extends React.Component<GridProps, object> {
       store,
       multiple,
       selectable,
+      popOverContainer,
       env,
       translate: __,
       dragIcon
@@ -874,9 +875,7 @@ export default class Cards extends React.Component<GridProps, object> {
         iconOnly
         key="dragging-toggle"
         tooltip={__('Card.toggleDrag')}
-        tooltipContainer={
-          env && env.getModalContainer ? env.getModalContainer : undefined
-        }
+        tooltipContainer={popOverContainer || env?.getModalContainer}
         size="sm"
         active={store.dragging}
         onClick={(e: React.MouseEvent<any>) => {

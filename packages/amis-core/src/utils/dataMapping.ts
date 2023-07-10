@@ -99,19 +99,21 @@ export function dataMapping(
       );
     }
   } else {
-    Object.keys(to).forEach(key => {
-      const value = to[key];
-      let keys: Array<string>;
+    const objectKeys = Object.keys(to);
+    // 如果存在  '&' 作为 key，则特殊处理
+    // 就是无论这个 key 的位置在什么地方始终都是当放在最前面
+    const idx = objectKeys.indexOf('&');
+    if (~idx) {
+      const value = to['&'];
+      objectKeys.splice(idx, 1);
 
-      if (typeof ignoreFunction === 'function' && ignoreFunction(key, value)) {
-        // 如果被ignore，不做数据映射处理。
-        setVariable(ret, key, value, convertKeyToPath);
-      } else if (key === '&' && value === '$$') {
+      if (value === '$$') {
         ret = {
           ...ret,
           ...from
         };
-      } else if (key === '&') {
+      } else {
+        let keys: Array<string>;
         const v =
           isPlainObject(value) &&
           (keys = Object.keys(value)) &&
@@ -142,9 +144,22 @@ export function dataMapping(
             ...v
           };
         }
+      }
+    }
+
+    objectKeys.forEach(key => {
+      const value = to[key];
+
+      if (typeof ignoreFunction === 'function' && ignoreFunction(key, value)) {
+        // 如果被ignore，不做数据映射处理。
+        setVariable(ret, key, value, convertKeyToPath);
       } else if (value === '$$') {
         setVariable(ret, key, from, convertKeyToPath);
-      } else if (value && value[0] === '$') {
+      } else if (
+        typeof value === 'string' &&
+        value.length > 0 &&
+        value[0] === '$'
+      ) {
         const v = resolveMapping(value, from, undefined, ignoreIfNotMatch);
         setVariable(ret, key, v, convertKeyToPath);
 

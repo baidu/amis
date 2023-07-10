@@ -27,7 +27,8 @@ import {
   difference,
   immutableExtends,
   extendObject,
-  hasVisibleExpression
+  hasVisibleExpression,
+  sortArray
 } from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
 import {IFormStore} from './form';
@@ -1353,6 +1354,19 @@ export const TableStore = iRendererStore
       self.orderDir = key ? direction : '';
     }
 
+    function changeOrder(key: string, direction: 'asc' | 'desc' | '') {
+      setOrderByInfo(key, direction);
+      const dir = /desc/i.test(self.orderDir) ? -1 : 1;
+      self.rows.replace(
+        sortArray(
+          self.rows.concat(),
+          self.orderBy,
+          dir,
+          (item, field) => item.data[field]
+        )
+      );
+    }
+
     function reset() {
       self.rows.forEach(item => item.reset());
       let rows = self.rows.concat();
@@ -1490,6 +1504,7 @@ export const TableStore = iRendererStore
       collapseAllAtDepth,
       clear,
       setOrderByInfo,
+      changeOrder,
       reset,
       toggleDragging,
       stopDragging,

@@ -1,7 +1,7 @@
 import {ListenerAction, ListenerContext, runActions} from '../actions/Action';
 import {RendererProps} from '../factory';
 import {IScopedContext} from '../Scoped';
-import {createObject} from './object';
+import {createObject, extendObject} from './object';
 import debounce from 'lodash/debounce';
 
 export interface debounceConfig {
@@ -65,7 +65,7 @@ export function createRendererEvent<T extends RendererEventContext>(
   context: T
 ): RendererEvent<T> {
   const rendererEvent = {
-    context,
+    context: extendObject({pristineData: context.data}, context),
     type,
     prevented: false,
     stoped: false,
@@ -79,6 +79,10 @@ export function createRendererEvent<T extends RendererEventContext>(
 
     get data() {
       return rendererEvent.context.data;
+    },
+
+    get pristineData() {
+      return rendererEvent.context.pristineData;
     },
 
     setData(data: any) {
@@ -128,10 +132,13 @@ export const bindEvent = (renderer: any) => {
         });
       }
     }
-
-    return () => {
+    return (eventName?: string) => {
+      // eventName用来避免过滤广播事件
       rendererEventListeners = rendererEventListeners.filter(
-        (item: RendererEventListener) => item.renderer !== renderer
+        (item: RendererEventListener) =>
+          item.renderer !== renderer && eventName !== undefined
+            ? item.type !== eventName
+            : true
       );
     };
   }
@@ -147,7 +154,7 @@ export async function dispatchEvent(
   data: any,
   broadcast?: RendererEvent<any>
 ): Promise<RendererEvent<any> | void> {
-  let unbindEvent: (() => void) | null | undefined = null;
+  let unbindEvent: ((eventName?: string) => void) | null | undefined = null;
   const eventName = typeof e === 'string' ? e : e.type;
 
   renderer?.props?.env?.beforeDispatchEvent?.(
@@ -183,6 +190,7 @@ export async function dispatchEvent(
       data,
       scoped
     });
+
   // 过滤&排序
   const listeners = rendererEventListeners
     .filter(
@@ -198,7 +206,7 @@ export async function dispatchEvent(
   const checkExecuted = () => {
     executedCount++;
     if (executedCount === listeners.length) {
-      unbindEvent?.();
+      unbindEvent?.(eventName);
     }
   };
   for (let listener of listeners) {

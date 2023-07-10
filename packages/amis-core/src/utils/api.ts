@@ -1,4 +1,3 @@
-import {attachmentAdpator} from 'amis-core';
 import omit from 'lodash/omit';
 import {Api, ApiObject, EventTrack, fetcherResult, Payload} from '../types';
 import {fetcherConfig} from '../factory';
@@ -696,9 +695,18 @@ export function isApiOutdated(
   }
 
   nextApi = normalizeApi(nextApi);
+  prevApi = (prevApi ? normalizeApi(prevApi) : prevApi) as ApiObject;
 
   if (nextApi.autoRefresh === false) {
     return false;
+  }
+
+  // api 本身有变化
+  if ((prevApi && prevApi.url !== nextApi.url) || !prevApi) {
+    return !!(
+      isValidApi(nextApi.url) &&
+      (!nextApi.sendOn || evalExpression(nextApi.sendOn, nextData))
+    );
   }
 
   const trackExpression = nextApi.trackExpression ?? nextApi.url;
@@ -708,24 +716,18 @@ export function isApiOutdated(
 
   let isModified = false;
 
-  if (prevApi) {
-    prevApi = normalizeApi(prevApi);
-
-    if (nextApi.trackExpression || prevApi.trackExpression) {
-      isModified =
-        tokenize(prevApi.trackExpression || '', prevData) !==
-        tokenize(nextApi.trackExpression || '', nextData);
-    } else {
-      prevApi = buildApi(prevApi as Api, prevData as object, {
-        ignoreData: true
-      });
-      nextApi = buildApi(nextApi as Api, nextData as object, {
-        ignoreData: true
-      });
-      isModified = prevApi.url !== nextApi.url;
-    }
+  if (nextApi.trackExpression || prevApi.trackExpression) {
+    isModified =
+      tokenize(prevApi.trackExpression || '', prevData) !==
+      tokenize(nextApi.trackExpression || '', nextData);
   } else {
-    isModified = true;
+    prevApi = buildApi(prevApi as Api, prevData as object, {
+      ignoreData: true
+    });
+    nextApi = buildApi(nextApi as Api, nextData as object, {
+      ignoreData: true
+    });
+    isModified = prevApi.url !== nextApi.url;
   }
 
   return !!(
@@ -736,10 +738,25 @@ export function isApiOutdated(
 }
 
 export function isValidApi(api: string) {
-  return (
-    api &&
-    /^(?:(https?|wss?|taf):\/\/[^\/]+)?(\/?[^\s\/\?]*){1,}(\?.*)?$/.test(api)
-  );
+  if (!api || typeof api !== 'string') {
+    return false;
+  }
+  const idx = api.indexOf('://');
+
+  // 不允许直接相对路径写 api
+  // 不允许 :// 结尾
+  if ((!~idx && api[0] !== '/') || (~idx && idx + 3 === api.length)) {
+    return false;
+  }
+
+  try {
+    // 不补一个协议，URL 判断为 false
+    api = (~idx ? '' : 'schema://domain') + api;
+    new URL(api);
+  } catch (error) {
+    return false;
+  }
+  return true;
 }
 
 export function isEffectiveApi(

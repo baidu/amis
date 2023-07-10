@@ -9,6 +9,7 @@ import {
   mapTree
 } from '../utils/helper';
 import {ServiceStore} from './service';
+import {filter, isVisible, resolveVariableAndFilter} from '../utils';
 
 export const AppStore = ServiceStore.named('AppStore')
   .props({
@@ -21,7 +22,7 @@ export const AppStore = ServiceStore.named('AppStore')
     get navigations(): Array<NavigationObject> {
       if (Array.isArray(self.pages)) {
         return mapTree(self.pages, item => {
-          let visible = item.visible;
+          let visible = isVisible(item, self.data);
 
           if (
             visible !== false &&
@@ -38,7 +39,12 @@ export const AppStore = ServiceStore.named('AppStore')
             path: item.path,
             children: item.children,
             className: item.className,
-            visible
+            visible,
+            badge:
+              typeof item.badge === 'string'
+                ? filter(item.badge, self.data)
+                : item.badge,
+            badgeClassName: filter(item.badgeClassName, self.data)
           };
         });
       }

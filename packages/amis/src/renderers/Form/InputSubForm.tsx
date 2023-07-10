@@ -145,7 +145,7 @@ export default class SubFormControl extends React.PureComponent<
     addButtonClassName: '',
     itemClassName: '',
     labelField: 'label',
-    btnLabel: 'SubForm.button',
+    defaultLabel: 'SubForm.button',
     placeholder: 'placeholder.empty'
   };
 
@@ -397,6 +397,7 @@ export default class SubFormControl extends React.PureComponent<
       disabled,
       maxLength,
       labelField,
+      defaultLabel,
       value,
       btnLabel,
       render,
@@ -434,10 +435,7 @@ export default class SubFormControl extends React.PureComponent<
                 ) : null}
 
                 <span className={cx('SubForm-valueLabel')}>
-                  {(item &&
-                    labelField &&
-                    item[labelField] &&
-                    stripTag(item[labelField])) ||
+                  {btnLabel &&
                     render(
                       'label',
                       {
@@ -448,6 +446,12 @@ export default class SubFormControl extends React.PureComponent<
                         data: createObject(data, item)
                       }
                     )}
+                  {!btnLabel &&
+                    ((item &&
+                      labelField &&
+                      item[labelField] &&
+                      stripTag(item[labelField])) ||
+                      __(defaultLabel))}
                 </span>
                 <a
                   data-index={key}
@@ -514,6 +518,7 @@ export default class SubFormControl extends React.PureComponent<
       disabled,
       value,
       labelField,
+      defaultLabel,
       btnLabel,
       render,
       data,
@@ -535,10 +540,7 @@ export default class SubFormControl extends React.PureComponent<
           data-position="bottom"
         >
           <span className={cx('SubForm-valueLabel')}>
-            {(value &&
-              labelField &&
-              value[labelField] &&
-              stripTag(value[labelField])) ||
+            {btnLabel &&
               render(
                 'label',
                 {
@@ -549,6 +551,12 @@ export default class SubFormControl extends React.PureComponent<
                   data: createObject(data, value)
                 }
               )}
+            {!btnLabel &&
+              ((value &&
+                labelField &&
+                value[labelField] &&
+                stripTag(value[labelField])) ||
+                __(defaultLabel))}
           </span>
           <a className={cx('SubForm-valueEdit')}>
             <Icon icon="pencil" className="icon" />
@@ -591,11 +599,9 @@ export default class SubFormControl extends React.PureComponent<
             onConfirm={this.handlePopupConfirm}
             onHide={this.close}
             container={
-              mobileUI && env && env.getModalContainer
-                ? env.getModalContainer
-                : mobileUI
-                ? undefined
-                : popOverContainer
+              mobileUI
+                ? env?.getModalContainer
+                : popOverContainer || env.getModalContainer
             }
           >
             <div className="flex-1 pl-10 pr-10">

@@ -78,6 +78,11 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
   showANDOR?: boolean;
 
   /**
+   * 是否可拖拽，默认为 true
+   */
+  draggable?: boolean;
+
+  /*
    * 表达式：控制按钮“添加条件”的显示
    */
   addBtnVisibleOn?: string;
@@ -135,7 +140,15 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
   }
 
   render() {
-    const {className, classnames: cx, style, pickerIcon, ...rest} = this.props;
+    const {
+      className,
+      classnames: cx,
+      style,
+      pickerIcon,
+      env,
+      popOverContainer,
+      ...rest
+    } = this.props;
 
     // 处理一下formula类型值的变量列表
     let formula = this.props.formula ? {...this.props.formula} : undefined;
@@ -161,6 +174,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
           pickerIcon={this.renderPickerIcon()}
           isAddBtnVisibleOn={this.getAddBtnVisible}
           isAddGroupBtnVisibleOn={this.getAddGroupBtnVisible}
+          popOverContainer={popOverContainer || env.getModalContainer}
           {...rest}
           formula={formula}
         />

@@ -557,7 +557,8 @@ export default class Drawer extends React.Component<DrawerProps> {
       classPrefix: ns,
       classnames: cx,
       drawerContainer,
-      loadingConfig
+      loadingConfig,
+      popOverContainer
     } = {
       ...this.props,
       ...store.schema
@@ -586,13 +587,7 @@ export default class Drawer extends React.Component<DrawerProps> {
         closeOnOutside={
           !store.drawerOpen && !store.dialogOpen && closeOnOutside
         }
-        container={
-          drawerContainer
-            ? drawerContainer
-            : env && env.getModalContainer
-            ? env.getModalContainer
-            : undefined
-        }
+        container={drawerContainer ? drawerContainer : env?.getModalContainer}
       >
         <div className={cx('Drawer-header', headerClassName)}>
           {title ? (
@@ -832,7 +827,7 @@ export class DrawerRenderer extends Drawer {
       store.openDrawer(data);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(data);
+      store.openDialog(data, undefined, action.callback);
     } else if (action.actionType === 'reload') {
       store.setCurrentAction(action);
       action.target && scoped.reload(action.target, data);

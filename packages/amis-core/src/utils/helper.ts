@@ -1273,12 +1273,13 @@ export const bulkBindFunctions = function <
 export function sortArray<T extends any>(
   items: Array<T>,
   field: string,
-  dir: -1 | 1
+  dir: -1 | 1,
+  fieldGetter?: (item: T, field: string) => any
 ): Array<T> {
   return items.sort((a: any, b: any) => {
     let ret: number;
-    const a1 = a[field];
-    const b1 = b[field];
+    const a1 = fieldGetter ? fieldGetter(a, field) : a[field];
+    const b1 = fieldGetter ? fieldGetter(b, field) : b[field];
 
     if (typeof a1 === 'number' && typeof b1 === 'number') {
       ret = a1 < b1 ? -1 : a1 === b1 ? 0 : 1;
@@ -1310,11 +1311,12 @@ export function qsstringify(
   },
   keepEmptyArray?: boolean
 ) {
-  // qs会保留空字符串。fix: Combo模式的空数组，无法清空。改为存为空字符串；只转换一层
-  keepEmptyArray &&
-    Object.keys(data).forEach((key: any) => {
-      Array.isArray(data[key]) && !data[key].length && (data[key] = '');
-    });
+  // qs会保留空字符串。fix: Combo模式的空数组，无法清空。改为存为空字符串；
+  if (keepEmptyArray) {
+    data = JSONValueMap(data, value =>
+      Array.isArray(value) && !value.length ? '' : value
+    );
+  }
   return qs.stringify(data, options);
 }
 
@@ -1406,7 +1408,7 @@ export function chainEvents(props: any, schema: any) {
         ret[key] = chainFunctions(schema[key], props[key]);
       }
     } else {
-      ret[key] = props[key];
+      ret[key] = props[key] ?? schema[key];
     }
   });
 
@@ -1486,6 +1488,21 @@ export function loadStyle(href: string) {
 }
 
 export class SkipOperation extends Error {}
+
+export class ValidateError extends Error {
+  name: 'ValidateError';
+  detail: {[propName: string]: Array<string> | string};
+
+  constructor(
+    message: string,
+    error: {[propName: string]: Array<string> | string}
+  ) {
+    super();
+    this.name = 'ValidateError';
+    this.message = message;
+    this.detail = error;
+  }
+}
 
 /**
  * 检查对象是否有循环引用，来自 https://stackoverflow.com/a/34909127
@@ -1586,8 +1603,13 @@ export function getPropValue<
     name?: string;
     data?: any;
     defaultValue?: any;
+    canAccessSuperData?: boolean;
   }
->(props: T, getter?: (props: T) => any, canAccessSuper?: boolean) {
+>(
+  props: T,
+  getter?: (props: T) => any,
+  canAccessSuper = props.canAccessSuperData
+) {
   const {name, value, data, defaultValue} = props;
   return (
     value ??
@@ -1739,6 +1761,73 @@ export function JSONTraverse(
       }
     }
   });
+}
+
+/**
+ * 每层都会执行，返回新的对象，新对象不会递归下去
+ * @param json
+ * @param mapper
+ * @returns
+ */
+export function JSONValueMap(
+  json: any,
+  mapper: (
+    value: any,
+    key: string | number,
+    host: Object,
+    stack: Array<Object>
+  ) => any,
+  stack: Array<Object> = []
+) {
+  if (!isPlainObject(json) && !Array.isArray(json)) {
+    return json;
+  }
+
+  const iterator = (
+    origin: any,
+    key: number | string,
+    host: any,
+    stack: Array<any> = []
+  ) => {
+    let maped: any = mapper(origin, key, host, stack);
+
+    if (maped === origin && (isPlainObject(origin) || Array.isArray(origin))) {
+      return JSONValueMap(origin, mapper, stack);
+    }
+    return maped;
+  };
+
+  if (Array.isArray(json)) {
+    let flag = false;
+    let mapped = json.map((value, index) => {
+      let result: any = iterator(value, index, json, [json].concat(stack));
+      if (result !== value) {
+        flag = true;
+        return result;
+      }
+      return value;
+    });
+    return flag ? mapped : json;
+  }
+
+  let flag = false;
+  const toUpdate: any = {};
+  Object.keys(json).forEach(key => {
+    const value: any = json[key];
+    let result: any = iterator(value, key, json, [json].concat(stack));
+    if (result !== value) {
+      flag = true;
+      toUpdate[key] = result;
+      return;
+    }
+  });
+
+  return flag
+    ? {
+        ...json,
+        ...toUpdate
+      }
+    : json;
 }
 
 export function convertArrayValueToMoment(

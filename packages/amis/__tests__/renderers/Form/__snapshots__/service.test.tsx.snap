@@ -60,7 +60,6 @@ exports[`Renderer:service 1`] = `
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby="downshift-0-label"
               class="cxd-Select"
               role="combobox"
               tabindex="0"

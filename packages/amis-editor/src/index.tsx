@@ -117,7 +117,7 @@ import './plugin/Divider'; // 分隔线
 import './plugin/CodeView'; // 代码高亮
 import './plugin/Markdown';
 import './plugin/Collapse'; // 折叠器
-// import './plugin/OfficeViewer'; // 文档预览
+import './plugin/OfficeViewer'; // 文档预览
 import './plugin/Log'; // 日志
 
 // 其他

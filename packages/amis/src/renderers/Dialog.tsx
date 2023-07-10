@@ -550,7 +550,8 @@ export default class Dialog extends React.Component<DialogProps> {
       cancelText,
       confirmText,
       confirmBtnLevel,
-      cancelBtnLevel
+      cancelBtnLevel,
+      popOverContainer
     } = {
       ...this.props,
       ...store.schema
@@ -573,9 +574,7 @@ export default class Dialog extends React.Component<DialogProps> {
         show={show}
         onEntered={this.handleEntered}
         onExited={this.handleExited}
-        container={
-          env && env.getModalContainer ? env.getModalContainer : undefined
-        }
+        container={env?.getModalContainer}
         enforceFocus={false}
         disabled={store.loading}
         overlay={overlay}
@@ -899,7 +898,7 @@ export class DialogRenderer extends Dialog {
       }
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(data);
+      store.openDialog(data, undefined, action.callback);
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
       store.openDrawer(data);

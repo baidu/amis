@@ -1,4 +1,5 @@
 import {RendererEvent} from '../utils/renderer-event';
+import {createObject, isEmpty} from '../utils/helper';
 import {
   RendererAction,
   ListenerAction,
@@ -44,12 +45,11 @@ export class CmptAction implements RendererAction {
      * 触发组件未指定id或未指定响应组件componentId，则使用触发组件响应
      */
     const key = action.componentId || action.componentName;
-    let component =
-      key && renderer.props.$schema[action.componentId ? 'id' : 'name'] !== key
-        ? event.context.scoped?.[
-            action.componentId ? 'getComponentById' : 'getComponentByName'
-          ](key)
-        : renderer;
+    let component = key
+      ? event.context.scoped?.[
+          action.componentId ? 'getComponentById' : 'getComponentByName'
+        ](key)
+      : renderer;
 
     const dataMergeMode = action.dataMergeMode || 'merge';
 
@@ -117,7 +117,32 @@ export class CmptAction implements RendererAction {
     }
 
     // 执行组件动作
-    return component?.doAction?.(action, action.args);
+    try {
+      const result = await component?.doAction?.(action, action.args, true);
+
+      if (['validate', 'submit'].includes(action.actionType)) {
+        event.setData(
+          createObject(event.data, {
+            [action.outputVar || `${action.actionType}Result`]: {
+              error: '',
+              payload: result?.__payload ?? component?.props?.store?.data,
+              responseData: result?.__response
+            }
+          })
+        );
+      }
+      return result;
+    } catch (e) {
+      event.setData(
+        createObject(event.data, {
+          [action.outputVar || `${action.actionType}Result`]: {
+            error: e.message,
+            errors: e.name === 'ValidateError' ? e.detail : e,
+            payload: component?.props?.store?.data
+          }
+        })
+      );
+    }
   }
 }
 

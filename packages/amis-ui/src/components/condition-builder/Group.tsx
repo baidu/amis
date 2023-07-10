@@ -260,7 +260,7 @@ export class ConditionGroup extends React.Component<
             {body ? (
               body.map((item, index) => (
                 <GroupOrItem
-                  draggable={value!.children!.length > 1}
+                  draggable={draggable && value!.children!.length > 1}
                   onDragStart={onDragStart}
                   config={config}
                   key={item.id}
