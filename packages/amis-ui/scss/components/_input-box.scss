@@ -58,6 +58,7 @@
     margin: 5px;
     display: flex;
     color: var(--Form-select-caret-iconColor);
+    transform: rotate(90deg);
     &:hover {
       color: var(--Form-select-caret-onHover-iconColor);
     }
@@ -70,7 +71,7 @@
   }
 
   &.is-active &-caret {
-    transform: rotate(180deg);
+    transform: rotate(270deg);
   }
 
   &.is-mobile {

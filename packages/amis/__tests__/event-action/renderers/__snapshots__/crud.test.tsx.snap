@@ -42,15 +42,15 @@ exports[`doAction:crud reload 1`] = `
                       class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
-                        classname="icon m-r-none icon-columns"
+                        classname="icon icon-columns"
                         icon="columns"
                       />
                       <span
                         class="cxd-ColumnToggler-caret"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </button>
@@ -286,15 +286,15 @@ exports[`doAction:crud reload 1`] = `
                         class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
-                          classname="icon m-r-none icon-columns"
+                          classname="icon icon-columns"
                           icon="columns"
                         />
                         <span
                           class="cxd-ColumnToggler-caret"
                         >
                           <icon-mock
-                            classname="icon icon-caret"
-                            icon="caret"
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
                           />
                         </span>
                       </button>
@@ -527,15 +527,15 @@ exports[`doAction:crud reload with data1 1`] = `
                       class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
-                        classname="icon m-r-none icon-columns"
+                        classname="icon icon-columns"
                         icon="columns"
                       />
                       <span
                         class="cxd-ColumnToggler-caret"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </button>
@@ -771,15 +771,15 @@ exports[`doAction:crud reload with data1 1`] = `
                         class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
-                          classname="icon m-r-none icon-columns"
+                          classname="icon icon-columns"
                           icon="columns"
                         />
                         <span
                           class="cxd-ColumnToggler-caret"
                         >
                           <icon-mock
-                            classname="icon icon-caret"
-                            icon="caret"
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
                           />
                         </span>
                       </button>
@@ -1012,15 +1012,15 @@ exports[`doAction:crud reload with data2 1`] = `
                       class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                     >
                       <icon-mock
-                        classname="icon m-r-none icon-columns"
+                        classname="icon icon-columns"
                         icon="columns"
                       />
                       <span
                         class="cxd-ColumnToggler-caret"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
                         />
                       </span>
                     </button>
@@ -1256,15 +1256,15 @@ exports[`doAction:crud reload with data2 1`] = `
                         class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
-                          classname="icon m-r-none icon-columns"
+                          classname="icon icon-columns"
                           icon="columns"
                         />
                         <span
                           class="cxd-ColumnToggler-caret"
                         >
                           <icon-mock
-                            classname="icon icon-caret"
-                            icon="caret"
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
                           />
                         </span>
                       </button>

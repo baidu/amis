@@ -202,7 +202,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
           })}
           onClick={toggleCollapsed}
         >
-          <Icon icon="caret" className="icon" />
+          <Icon icon="right-arrow-bold" className="icon" />
         </a>
       ) : null}
 

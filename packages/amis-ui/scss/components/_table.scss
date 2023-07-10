@@ -1005,6 +1005,11 @@
     display: inline-flex;
     cursor: pointer;
 
+    &:hover {
+      color: var(--link-color);
+      font-size: var(--Button--sm-fontSize);
+    }
+
     &-arrow {
       width: var(--gap-md);
       text-align: center;

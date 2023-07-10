@@ -8,7 +8,6 @@ import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
 import {RootClose} from 'amis-core';
 import {removeHTMLTag} from 'amis-core';
 import {Icon} from './icons';
-import {generateIcon} from 'amis-core';
 
 export type ItemPlace = 'start' | 'middle' | 'end';
 export type TooltipPositionType = 'top' | 'bottom' | 'left' | 'right';
@@ -60,8 +59,14 @@ export class Breadcrumb extends React.Component<BreadcrumbProps> {
 
   render() {
     const cx = this.props.classnames;
-    const {className, style, separatorClassName, items, separator, ...restProps} =
-      this.props;
+    const {
+      className,
+      style,
+      separatorClassName,
+      items,
+      separator,
+      ...restProps
+    } = this.props;
 
     const crumbsLength = items?.length;
     if (!crumbsLength) {
@@ -97,7 +102,11 @@ export class Breadcrumb extends React.Component<BreadcrumbProps> {
         curr
       ]);
 
-    return <div className={cx('Breadcrumb', className)} style={style}>{crumbs}</div>;
+    return (
+      <div className={cx('Breadcrumb', className)} style={style}>
+        {crumbs}
+      </div>
+    );
   }
 }
 
@@ -157,18 +166,28 @@ export class BreadcrumbItem extends React.Component<
           href={item.href}
           className={cx('Breadcrumb-item-' + itemType, baseItemClassName)}
         >
-          {item.icon
-            ? generateIcon(cx, item.icon, 'Icon', 'Breadcrumb-icon')
-            : null}
+          {item.icon ? (
+            <Icon
+              cx={cx}
+              icon={item.icon}
+              className="Icon"
+              classNameProp="Breadcrumb-icon"
+            />
+          ) : null}
           <span className={cx('TplField')}>{label}</span>
         </a>
       );
     }
     return (
       <span className={cx('Breadcrumb-item-' + itemType, baseItemClassName)}>
-        {item.icon
-          ? generateIcon(cx, item.icon, 'Icon', 'Breadcrumb-icon')
-          : null}
+        {item.icon ? (
+          <Icon
+            cx={cx}
+            icon={item.icon}
+            className="Icon"
+            classNameProp="Breadcrumb-icon"
+          />
+        ) : null}
         <span className={cx('TplField')}>{label}</span>
       </span>
     );

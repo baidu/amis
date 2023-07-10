@@ -67,7 +67,7 @@ function replaceTableRow(word: Word, tr: Element) {
           t.textContent = t.textContent!.replace(`{{#${arrayName}}}`, '');
         }
       }
-      if (text.indexOf('{{/}}')) {
+      if (text.indexOf('{{/}}') !== -1) {
         // 去掉结束变量
         t.textContent = t.textContent!.replace('{{/}}', '');
       }

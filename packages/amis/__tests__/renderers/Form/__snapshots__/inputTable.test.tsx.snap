@@ -709,7 +709,7 @@ exports[`Renderer:input table add 1`] = `
                 disabled=""
               >
                 <i
-                  class="cxd-Button-icon fa fa-plus"
+                  class="fa fa-plus cxd-Button-icon fa fa-plus"
                 />
                 <span>
                   新增

@@ -693,10 +693,11 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 ### autoGenerateFilter 属性表
 
-| 属性名         | 类型      | 默认值 | 说明                 |
-| -------------- | --------- | ------ | -------------------- |
-| columnsNum     | `number`  | `3`    | 过滤条件单行列数     |
-| showBtnToolbar | `boolean` | `true` | 是否显示设置查询字段 |
+| 属性名           | 类型      | 默认值 | 说明                 |
+| ---------------- | --------- | ------ | -------------------- |
+| columnsNum       | `number`  | `3`    | 过滤条件单行列数     |
+| showBtnToolbar   | `boolean` | `true` | 是否显示设置查询字段 |
+| defaultCollapsed | `boolean` | `true` | 是否初始收起         |
 
 ```schema: scope="body"
 {

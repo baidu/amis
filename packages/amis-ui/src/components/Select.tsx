@@ -51,7 +51,11 @@ export const defaultFilterOption = (
   options: Option[],
   inputValue: string,
   option: {keys: string[]}
-): Option[] => matchSorter(options, inputValue, option);
+): Option[] =>
+  matchSorter(options, inputValue, {
+    threshold: matchSorter.rankings.CONTAINS,
+    ...option
+  });
 
 export type FilterOption = typeof defaultFilterOption;
 
