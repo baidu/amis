@@ -2,7 +2,8 @@ import {
   defaultValue,
   setSchemaTpl,
   getSchemaTpl,
-  valuePipeOut
+  valuePipeOut,
+  EditorNodeType
 } from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
@@ -190,6 +191,15 @@ export class CheckboxControlPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    // 默认trueValue和falseValue是同类型
+    return {
+      type: node.schema?.trueValue ? typeof node.schema?.trueValue : 'boolean',
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+  }
 }
 
 registerEditorPlugin(CheckboxControlPlugin);
