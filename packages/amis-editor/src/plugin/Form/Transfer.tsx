@@ -1,4 +1,4 @@
-import {getSchemaTpl} from 'amis-editor-core';
+import {EditorNodeType, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
@@ -6,6 +6,7 @@ import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
 import {tipedLabel} from 'amis-editor-core';
+import {resolveOptionType} from '../../util';
 
 export class TransferPlugin extends BasePlugin {
   static id = 'TransferPlugin';
@@ -387,6 +388,45 @@ export class TransferPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    const type = resolveOptionType(node.schema?.options);
+    // todo:异步数据case
+    let dataSchema: any = {
+      type,
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+
+    if (node.schema?.extractValue) {
+      dataSchema = {
+        type: 'array',
+        title: node.schema?.label || node.schema?.name
+      };
+    } else if (node.schema?.joinValues === false) {
+      dataSchema = {
+        type: 'array',
+        title: node.schema?.label || node.schema?.name,
+        items: {
+          type: 'object',
+          title: '成员',
+          properties: {
+            label: {
+              type: 'string',
+              title: '文本'
+            },
+            value: {
+              type,
+              title: '值'
+            }
+          }
+        },
+        originalValue: dataSchema.originalValue
+      };
+    }
+
+    return dataSchema;
+  }
 }
 
 registerEditorPlugin(TransferPlugin);

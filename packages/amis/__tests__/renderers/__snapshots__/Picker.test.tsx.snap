@@ -50,10 +50,6 @@ exports[`Renderer:Picker base 1`] = `
             <span
               class="cxd-Picker-btn"
             >
-              <div
-                class=" Picker-icon"
-                style="display: none;"
-              />
               <icon-mock
                 classname="icon icon-window-restore"
                 icon="window-restore"
@@ -82,10 +78,6 @@ exports[`Renderer:Picker base 1`] = `
           data-position="left"
           data-tooltip="关闭"
         >
-          <div
-            class=" Dialog-close"
-            style="display: none;"
-          />
           <icon-mock
             classname="icon icon-close"
             icon="close"
@@ -284,10 +276,6 @@ exports[`Renderer:Picker base 2`] = `
           <span
             class="cxd-Picker-btn"
           >
-            <div
-              class=" Picker-icon"
-              style="display: none;"
-            />
             <icon-mock
               classname="icon icon-window-restore"
               icon="window-restore"

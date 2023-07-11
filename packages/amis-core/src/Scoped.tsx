@@ -58,6 +58,8 @@ export interface ScopedComponentType extends React.Component<RendererProps> {
 }
 
 export interface IScopedContext {
+  rendererType?: string;
+  component?: ScopedComponentType;
   parent?: AliasIScopedContext;
   children?: AliasIScopedContext[];
   registerComponent: (component: ScopedComponentType) => void;
@@ -69,6 +71,10 @@ export interface IScopedContext {
   send: (target: string, ctx: RendererData) => void;
   close: (target: string) => void;
   closeById: (target: string) => void;
+  getComponentsByRefPath: (
+    session: string,
+    path: string
+  ) => ScopedComponentType[];
 }
 type AliasIScopedContext = IScopedContext;
 
@@ -78,14 +84,18 @@ export const ScopedContext = React.createContext(rootScopedContext);
 function createScopedTools(
   path?: string,
   parent?: AliasIScopedContext,
-  env?: RendererEnv
+  env?: RendererEnv,
+  rendererType?: string
 ): IScopedContext {
   const components: Array<ScopedComponentType> = [];
-  const self = {
+  const self: IScopedContext = {
+    rendererType,
+    component: undefined,
     parent,
     registerComponent(component: ScopedComponentType) {
       // 不要把自己注册在自己的 Scoped 上，自己的 Scoped 是给子节点们注册的。
       if (component.props.$path === path && parent) {
+        self.component = component;
         return parent.registerComponent(component);
       }
 
@@ -404,7 +414,8 @@ export function HocScoped<
     env: RendererEnv;
   }
 >(
-  ComposedComponent: React.ComponentType<T>
+  ComposedComponent: React.ComponentType<T>,
+  rendererType?: string
 ): React.ComponentType<
   T & {
     scopeRef?: (ref: any) => void;
@@ -430,7 +441,8 @@ export function HocScoped<
       this.scoped = createScopedTools(
         this.props.$path,
         context,
-        this.props.env
+        this.props.env,
+        rendererType
       );
 
       const scopeRef = props.scopeRef;

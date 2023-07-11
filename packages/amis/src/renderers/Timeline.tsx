@@ -14,7 +14,7 @@ import type {
   SchemaCollection,
   SchemaTokenizeableString
 } from '../Schema';
-import type {IconCheckedSchema} from 'amis-core';
+import type {IconCheckedSchema} from 'amis-ui';
 
 export interface TimelineItemSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -95,7 +95,8 @@ export interface TimelineProps
     Omit<TimelineSchema, 'className'> {}
 
 export function TimelineCmpt(props: TimelineProps) {
-  const {items, mode, style, direction, reverse, data, config, source, render} = props;
+  const {items, mode, style, direction, reverse, data, config, source, render} =
+    props;
 
   // 获取源数据
   const timelineItemsRow: Array<TimelineItemSchema> = config || items || [];

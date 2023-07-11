@@ -2,7 +2,7 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps, filterTarget, generateIcon} from 'amis-core';
+import {Renderer, RendererProps, filterTarget} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
@@ -97,6 +97,13 @@ export type AutoGenerateFilterObject = {
    * 是否显示展开/收起
    */
   // showExpand?: boolean;
+
+  /**
+   * 是否默认收起
+   *
+   * @default true
+   */
+  defaultCollapsed?: boolean;
 };
 
 export type CRUDRendererEvent = TableRendererEvent | CardsRendererEvent;
@@ -702,7 +709,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           prevIndex: idx - 1,
           index: idx
         },
-        action.callback
+        action.callback,
+        delegate || (this.context as any)
       );
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
@@ -1130,9 +1138,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         actionType: 'dialog',
         dialog: dialog
       });
-      store.openDialog(ctx, undefined, confirmed => {
-        resolve(confirmed);
-      });
+      store.openDialog(
+        ctx,
+        undefined,
+        confirmed => {
+          resolve(confirmed);
+        },
+        this.context as any
+      );
     });
   }
 
@@ -2028,7 +2041,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         })}
       >
         {custom.icon ? (
-          generateIcon(cx, custom.icon)
+          <Icon icon={custom.icon} className="icon m-r-xs" />
         ) : custom?.icon !== false ? (
           <Icon icon="filter" className="icon m-r-xs" />
         ) : null}
@@ -2344,7 +2357,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 onReset: this.handleFilterReset,
                 onSubmit: this.handleFilterSubmit,
                 onInit: this.handleFilterInit,
-                formStore: undefined
+                formStore: undefined,
+                canAccessSuperData: false
               }
             )
           : null}

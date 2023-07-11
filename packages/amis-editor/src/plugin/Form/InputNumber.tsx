@@ -1,4 +1,5 @@
 import {
+  EditorNodeType,
   getI18nEnabled,
   RendererPluginAction,
   RendererPluginEvent
@@ -329,6 +330,14 @@ export class NumberControlPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    return {
+      type: 'number',
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+  }
 }
 
 registerEditorPlugin(NumberControlPlugin);

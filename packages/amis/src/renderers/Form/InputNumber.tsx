@@ -150,7 +150,6 @@ interface NumberState {
   // 数字单位，将会影响输出
   unit?: string;
   unitOptions?: Option[];
-  inputing: boolean;
 }
 
 export type InputNumberRendererEvent = 'blur' | 'focus' | 'change';
@@ -164,8 +163,7 @@ export default class NumberControl extends React.Component<
   static defaultProps: Partial<NumberProps> = {
     step: 1,
     resetValue: '',
-    clearValueOnEmpty: false,
-    inputing: false
+    clearValueOnEmpty: false
   };
 
   constructor(props: NumberProps) {
@@ -200,7 +198,7 @@ export default class NumberControl extends React.Component<
       }
     }
 
-    this.state = {unit, unitOptions, inputing: false};
+    this.state = {unit, unitOptions};
   }
 
   /**
@@ -391,7 +389,7 @@ export default class NumberControl extends React.Component<
       id,
       env
     } = this.props;
-    const {inputing, unit} = this.state;
+    const {unit} = this.state;
     const finalPrecision = this.filterNum(precision);
     // 数据格式化
     const formatter =
@@ -437,7 +435,7 @@ export default class NumberControl extends React.Component<
           step={step}
           max={this.filterNum(max, big)}
           min={this.filterNum(min, big)}
-          formatter={!inputing ? formatter : undefined}
+          formatter={formatter}
           parser={parser}
           onChange={this.handleChange}
           disabled={disabled}
@@ -446,14 +444,8 @@ export default class NumberControl extends React.Component<
           showSteps={showSteps}
           borderMode={borderMode}
           readOnly={readOnly}
-          onFocus={() => {
-            this.setState({inputing: true});
-            this.dispatchEvent('focus');
-          }}
-          onBlur={() => {
-            this.setState({inputing: false});
-            this.dispatchEvent('blur');
-          }}
+          onFocus={() => this.dispatchEvent('focus')}
+          onBlur={() => this.dispatchEvent('blur')}
           keyboard={keyboard}
           displayMode={displayMode}
           big={big}
