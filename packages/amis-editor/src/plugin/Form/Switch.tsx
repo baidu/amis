@@ -3,7 +3,11 @@ import {registerEditorPlugin, tipedLabel} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import type {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import type {
+  EditorNodeType,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 
 export class SwitchControlPlugin extends BasePlugin {
   static id = 'SwitchControlPlugin';
@@ -231,6 +235,15 @@ export class SwitchControlPlugin extends BasePlugin {
         ]
       }
     ]);
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    // 默认trueValue和falseValue是同类型
+    return {
+      type: node.schema?.trueValue ? typeof node.schema?.trueValue : 'boolean',
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+  }
 }
 
 registerEditorPlugin(SwitchControlPlugin);
