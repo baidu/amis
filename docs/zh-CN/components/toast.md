@@ -185,6 +185,21 @@ order: 70
 }
 ```
 
+## 渲染 html
+
+```schema: scope="body"
+{
+    "label": "提示",
+    "type": "button",
+    "actionType": "toast",
+    "toast": {
+      "items": [
+        {body: '<strong>Hello</strong> <span>world</span>'},
+      ]
+    }
+}
+```
+
 ## 属性表
 
 | 属性名      | 类型               | 默认值                                  | 说明                                                                                                              |
@@ -207,3 +222,4 @@ order: 70
 | closeButton | `boolean`              | `false`                                 | 是否展示关闭按钮                                                                                                  |
 | showIcon    | `boolean`              | `true`                                  | 是否展示图标                                                                                                      |
 | timeout     | `number`               | `5000（error类型为6000，移动端为3000）` | 持续时间                                                                                                          |
+| allowHtml   | `boolean`              | `true`                                  | 是否会被当作 HTML 片段处理                                                                                        |

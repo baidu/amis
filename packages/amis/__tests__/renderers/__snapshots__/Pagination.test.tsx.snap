@@ -102,7 +102,6 @@ exports[`Renderer:Pagination 1`] = `
           >
             <table
               class="cxd-Table-table"
-              style="table-layout: auto;"
             >
               <colgroup>
                 <col
@@ -210,6 +209,7 @@ exports[`Renderer:Pagination 1`] = `
               </tbody>
             </table>
           </div>
+          <span />
         </div>
       </div>
     </div>

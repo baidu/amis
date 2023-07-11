@@ -23,7 +23,6 @@ exports[`Renderer:table 1`] = `
       >
         <table
           class="cxd-Table-table"
-          style="table-layout: auto;"
         >
           <colgroup>
             <col
@@ -323,6 +322,7 @@ exports[`Renderer:table 1`] = `
           </tbody>
         </table>
       </div>
+      <span />
     </div>
   </div>
 </div>
@@ -351,7 +351,6 @@ exports[`Renderer:table align 1`] = `
       >
         <table
           class="cxd-Table-table"
-          style="table-layout: auto;"
         >
           <colgroup>
             <col
@@ -674,6 +673,7 @@ exports[`Renderer:table align 1`] = `
           </tbody>
         </table>
       </div>
+      <span />
     </div>
   </div>
 </div>
@@ -712,7 +712,6 @@ exports[`Renderer:table children 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="table-layout: auto;"
                   >
                     <colgroup>
                       <col
@@ -1250,6 +1249,7 @@ exports[`Renderer:table children 1`] = `
                     </tbody>
                   </table>
                 </div>
+                <span />
               </div>
             </div>
           </div>
@@ -1283,7 +1283,6 @@ exports[`Renderer:table classNameExpr 1`] = `
       >
         <table
           class="cxd-Table-table"
-          style="table-layout: auto;"
         >
           <colgroup>
             <col
@@ -1583,6 +1582,7 @@ exports[`Renderer:table classNameExpr 1`] = `
           </tbody>
         </table>
       </div>
+      <span />
     </div>
   </div>
 </div>
@@ -1611,7 +1611,6 @@ exports[`Renderer:table column head style className 1`] = `
       >
         <table
           class="cxd-Table-table tableClassName"
-          style="table-layout: auto;"
         >
           <colgroup>
             <col
@@ -1922,6 +1921,7 @@ exports[`Renderer:table column head style className 1`] = `
           </tbody>
         </table>
       </div>
+      <span />
     </div>
   </div>
 </div>
@@ -1960,7 +1960,6 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                 >
                   <table
                     class="cxd-Table-table cxd-Table-table--withCombine"
-                    style="table-layout: auto;"
                   >
                     <colgroup>
                       <col
@@ -2454,6 +2453,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                     </tbody>
                   </table>
                 </div>
+                <span />
               </div>
             </div>
           </div>
@@ -2497,7 +2497,6 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                 >
                   <table
                     class="cxd-Table-table cxd-Table-table--withCombine"
-                    style="table-layout: auto;"
                   >
                     <colgroup>
                       <col
@@ -3061,6 +3060,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                     </tbody>
                   </table>
                 </div>
+                <span />
               </div>
             </div>
           </div>
@@ -3133,7 +3133,6 @@ exports[`Renderer:table groupName-default 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="table-layout: auto;"
                   >
                     <colgroup>
                       <col
@@ -3802,6 +3801,7 @@ exports[`Renderer:table groupName-default 1`] = `
                     </tbody>
                   </table>
                 </div>
+                <span />
               </div>
             </div>
           </div>
@@ -3874,7 +3874,6 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="table-layout: auto;"
                   >
                     <colgroup>
                       <col
@@ -4547,6 +4546,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                     </tbody>
                   </table>
                 </div>
+                <span />
               </div>
             </div>
           </div>
@@ -4619,7 +4619,6 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="table-layout: auto;"
                   >
                     <colgroup>
                       <col
@@ -5280,6 +5279,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                     </tbody>
                   </table>
                 </div>
+                <span />
               </div>
             </div>
           </div>
@@ -5352,7 +5352,6 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="table-layout: auto;"
                   >
                     <colgroup>
                       <col
@@ -6021,6 +6020,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                     </tbody>
                   </table>
                 </div>
+                <span />
               </div>
             </div>
           </div>
@@ -6054,7 +6054,6 @@ exports[`Renderer:table isHead fixed 1`] = `
       >
         <table
           class="cxd-Table-table"
-          style="table-layout: auto;"
         >
           <colgroup>
             <col
@@ -6365,6 +6364,7 @@ exports[`Renderer:table isHead fixed 1`] = `
           </tbody>
         </table>
       </div>
+      <span />
     </div>
   </div>
 </div>
@@ -6411,7 +6411,6 @@ exports[`Renderer:table list 1`] = `
       >
         <table
           class="cxd-Table-table"
-          style="table-layout: auto;"
         >
           <colgroup>
             <col
@@ -7557,6 +7556,7 @@ exports[`Renderer:table list 1`] = `
           </tbody>
         </table>
       </div>
+      <span />
     </div>
   </div>
 </div>

@@ -321,6 +321,11 @@ export interface TableSchema extends BaseSchema {
    * 表格自动计算高度
    */
   autoFillHeight?: boolean | AutoFillHeightObject;
+
+  /**
+   * 配置 table-layout 属性
+   */
+  tableLayout?: 'auto' | 'fixed';
 }
 
 export interface TableProps extends RendererProps, SpinnerExtraProps {
@@ -500,8 +505,6 @@ export default class Table extends React.Component<TableProps, object> {
   dragTip?: HTMLElement;
   affixedTable?: HTMLTableElement;
   parentNode?: HTMLElement | Window;
-  lastScrollLeft: number = -1;
-  lastScrollTop: number = 0;
   renderedToolbars: Array<string> = [];
   subForms: any = {};
   timer: ReturnType<typeof setTimeout>;
@@ -559,7 +562,8 @@ export default class Table extends React.Component<TableProps, object> {
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength,
       onQuery,
-      autoGenerateFilter
+      autoGenerateFilter,
+      tableLayout
     } = props;
 
     let combineNum = props.combineNum;
@@ -587,7 +591,8 @@ export default class Table extends React.Component<TableProps, object> {
       combineNum,
       combineFromIndex,
       keepItemSelectionOnPageChange,
-      maxKeepItemSelectionLength
+      maxKeepItemSelectionLength,
+      tableLayout
     });
 
     if (
@@ -647,7 +652,6 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     this.parentNode = parent;
-    this.updateTableInfo();
 
     const dom = findDOMNode(this) as HTMLElement;
     if (dom.closest('.modal-body')) {
@@ -818,9 +822,6 @@ export default class Table extends React.Component<TableProps, object> {
       const selectedRows = store.selectedRows.map(item => item.id).join(',');
       prevSelectedRows !== selectedRows && this.syncSelected();
     }
-
-    // 延迟执行，否则表格还没更新，拿到的宽度不对，导致表头错位
-    requestAnimationFrame(this.updateTableInfo);
   }
 
   componentWillUnmount() {
@@ -1118,50 +1119,54 @@ export default class Table extends React.Component<TableProps, object> {
     return store.selectedRows.map(item => item.data);
   }
 
-  updateTableInfo() {
+  updateTableInfo(ref: any) {
     const table = this.table;
-    if (!table || !table.offsetWidth) {
+    if (!ref || !table || !table.offsetWidth) {
       return;
     }
     const store = this.props.store;
 
     // 自动将 table-layout: auto 改成 fixed
-    if (!store.tableLayoutFixed) {
+    if (!store.columnWidthReady) {
       forEach(table.querySelectorAll('colgroup>col'), (col: HTMLElement) => {
         const index = parseInt(col.getAttribute('data-index')!, 10);
         const column = store.columns[index];
-        store.columns[index].setWidth(
-          Math.max(
-            typeof column.pristine.width === 'number'
-              ? column.pristine.width
-              : col.offsetWidth,
-            50 // 最少 50px
-          )
-        );
+        column.setWidth(col.clientWidth);
       });
     }
   }
 
   // 当表格滚动是，需要让 affixHeader 部分的表格也滚动
   handleOutterScroll() {
-    const outter = (this.table as HTMLElement).parentNode as HTMLElement;
-    const scrollLeft = outter.scrollLeft;
-    if (scrollLeft !== this.lastScrollLeft) {
-      this.lastScrollLeft = scrollLeft;
-      const table = this.affixedTable;
-      if (table) {
-        table.parentElement!.scrollLeft = scrollLeft;
-      }
+    const table = this.table as HTMLElement;
+    if (!table) {
+      return;
     }
 
-    /* 同步固定列内容的垂直滚动 */
-    if (outter.scrollTop !== this.lastScrollTop) {
-      this.lastScrollTop = outter.scrollTop;
+    const outter = table?.parentNode as HTMLElement;
+    const scrollLeft = outter.scrollLeft;
+    if (this.affixedTable) {
+      this.affixedTable.parentElement!.scrollLeft = scrollLeft;
+    }
+
+    if (this.props.store.filteredColumns.some(column => column.fixed)) {
+      let leading = scrollLeft === 0;
+      let trailing =
+        Math.ceil(scrollLeft) + outter.offsetWidth >= table.scrollWidth;
+
+      [table, this.affixedTable]
+        .filter(item => item)
+        .forEach((table: HTMLElement) => {
+          table.classList.remove('table-fixed-left', 'table-fixed-right');
+          leading || table.classList.add('table-fixed-left');
+          trailing || table.classList.add('table-fixed-right');
+        });
     }
   }
 
   tableRef(ref: HTMLTableElement) {
     this.table = ref;
+    ref && this.handleOutterScroll();
   }
 
   dragTipRef(ref: any) {
@@ -1176,6 +1181,7 @@ export default class Table extends React.Component<TableProps, object> {
 
   affixedTableRef(ref: HTMLTableElement) {
     this.affixedTable = ref;
+    ref && this.handleOutterScroll();
   }
 
   initDragging() {
@@ -1453,6 +1459,7 @@ export default class Table extends React.Component<TableProps, object> {
     const column = store.columns[index];
 
     column.setWidth(Math.max(this.lineStartWidth + moveX, 50));
+    store.setUseFixedLayout(true);
   }
 
   // 垂直线拖拽结束
@@ -2167,11 +2174,13 @@ export default class Table extends React.Component<TableProps, object> {
         >
           {this.renderHeader(false)}
           {this.renderHeading()}
-          {store.tableLayoutFixed ? (
+          {store.columnWidthReady ? (
             <div className={cx('Table-wrapper')}>
               <table
                 ref={this.affixedTableRef}
-                style={{tableLayout: 'fixed'}}
+                style={
+                  store.useFixedLayout ? {tableLayout: 'fixed'} : undefined
+                }
                 className={tableClassName}
               >
                 <ColGroup columns={store.filteredColumns} store={store} />
@@ -2672,7 +2681,7 @@ export default class Table extends React.Component<TableProps, object> {
               'Table-table--checkOnItemClick': checkOnItemClick,
               'Table-table--withCombine': store.combineNum > 0,
               'Table-table--affixHeader':
-                affixHeader && !autoFillHeight && store.tableLayoutFixed
+                affixHeader && !autoFillHeight && store.columnWidthReady
             },
             tableClassName
           )}
@@ -2686,7 +2695,12 @@ export default class Table extends React.Component<TableProps, object> {
           rows={store.rows}
           placeholder={placeholder}
           render={render}
-          onMouseMove={this.handleMouseMove}
+          onMouseMove={
+            // 如果没有 itemActions, 那么就不需要处理了。
+            Array.isArray(itemActions) && itemActions.length
+              ? this.handleMouseMove
+              : undefined
+          }
           onScroll={this.handleOutterScroll}
           tableRef={this.tableRef}
           renderHeadCell={this.renderHeadCell}
@@ -2795,6 +2809,11 @@ export default class Table extends React.Component<TableProps, object> {
           onMouseLeave={this.handleMouseLeave}
         >
           {this.renderTableContent()}
+
+          {
+            // 利用这个将 table-layout: auto 转成 table-layout: fixed
+            store.columnWidthReady ? null : <span ref={this.updateTableInfo} />
+          }
         </div>
 
         {footer}

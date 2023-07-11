@@ -1,10 +1,11 @@
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
+import {EditorNodeType, defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {resolveOptionType} from '../../util';
 
 export class RadiosControlPlugin extends BasePlugin {
   static id = 'RadiosControlPlugin';
@@ -194,6 +195,36 @@ export class RadiosControlPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    const type = resolveOptionType(node.schema?.options);
+    // todo:异步数据case
+    let dataSchema: any = {
+      type,
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+
+    if (node.schema?.joinValues === false) {
+      dataSchema = {
+        ...dataSchema,
+        type: 'object',
+        title: node.schema?.label || node.schema?.name,
+        properties: {
+          label: {
+            type: 'string',
+            title: '文本'
+          },
+          value: {
+            type,
+            title: '值'
+          }
+        }
+      };
+    }
+
+    return dataSchema;
+  }
 }
 
 registerEditorPlugin(RadiosControlPlugin);

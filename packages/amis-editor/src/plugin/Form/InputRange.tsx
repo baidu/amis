@@ -1,4 +1,8 @@
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {
+  EditorNodeType,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
@@ -325,6 +329,32 @@ export class RangeControlPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    if (node.schema?.multiple) {
+      return {
+        type: 'object',
+        title: node.schema?.label || node.schema?.name,
+        properties: {
+          max: {
+            type: 'number',
+            title: '最大值'
+          },
+          min: {
+            type: 'number',
+            title: '最小值'
+          }
+        },
+        originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+      };
+    }
+
+    return {
+      type: 'number',
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+  }
 }
 
 registerEditorPlugin(RangeControlPlugin);

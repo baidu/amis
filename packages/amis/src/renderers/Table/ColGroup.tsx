@@ -14,7 +14,7 @@ export function ColGroup({
       {columns.map(column => {
         const style: any = {};
 
-        if (store.tableLayoutFixed) {
+        if (store.columnWidthReady) {
           style.width = column.width;
         } else if (column.pristine.width) {
           style.width = column.pristine.width;

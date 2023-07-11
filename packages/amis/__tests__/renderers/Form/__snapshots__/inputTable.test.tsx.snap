@@ -412,7 +412,6 @@ exports[`Renderer:input table add 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="table-layout: auto;"
                   >
                     <colgroup>
                       <col
@@ -601,6 +600,7 @@ exports[`Renderer:input table add 1`] = `
                     </tbody>
                   </table>
                 </div>
+                <span />
               </div>
             </div>
             <div
@@ -899,6 +899,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                     </tbody>
                   </table>
                 </div>
+                <span />
               </div>
             </div>
           </div>
@@ -1125,7 +1126,6 @@ exports[`Renderer:input-table with combo column 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="table-layout: auto;"
                   >
                     <colgroup>
                       <col
@@ -1307,6 +1307,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                     </tbody>
                   </table>
                 </div>
+                <span />
               </div>
             </div>
           </div>

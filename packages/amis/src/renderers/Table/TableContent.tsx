@@ -33,7 +33,7 @@ export interface TableContentProps extends LocaleProps {
   rows: Array<IRow>;
   placeholder?: string | SchemaTpl;
   render: (region: string, node: SchemaNode, props?: any) => JSX.Element;
-  onMouseMove: (event: React.MouseEvent) => void;
+  onMouseMove?: (event: React.MouseEvent) => void;
   onScroll: (event: React.UIEvent) => void;
   tableRef: (table?: HTMLTableElement | null) => void;
   renderHeadCell: (column: IColumn, props?: any) => JSX.Element;
@@ -179,7 +179,7 @@ export class TableContent extends React.Component<TableContentProps> {
         onScroll={onScroll}
       >
         <table
-          style={{tableLayout: store.tableLayoutFixed ? 'fixed' : 'auto'}}
+          style={store.useFixedLayout ? {tableLayout: 'fixed'} : undefined}
           ref={tableRef}
           className={tableClassName}
         >

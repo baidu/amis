@@ -42,3 +42,15 @@ export const schemaToArray = (value: any) => {
 export const schemaArrayFormat = (value: any) => {
   return value && Array.isArray(value) && value.length === 1 ? value[0] : value;
 };
+
+/**
+ * 解析选项值类型
+ * @param options
+ * @returns
+ */
+export const resolveOptionType = (options: any) => {
+  // 默认options内选项是同类型
+  const value =
+    typeof options?.[0] === 'object' ? options?.[0]?.value : options?.[0];
+  return options ? (value !== undefined ? typeof value : 'string') : 'string';
+};

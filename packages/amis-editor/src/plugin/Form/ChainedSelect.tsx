@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {EditorNodeType, registerEditorPlugin} from 'amis-editor-core';
 import {
   BasePlugin,
   BaseEventContext,
@@ -227,6 +227,45 @@ export class ChainedSelectControlPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    // 默认文本，todo:异步数据case
+    const type = 'string';
+    let dataSchema: any = {
+      type,
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+
+    if (node.schema?.extractValue) {
+      dataSchema = {
+        type: 'array',
+        title: node.schema?.label || node.schema?.name
+      };
+    } else if (node.schema?.joinValues === false) {
+      dataSchema = {
+        type: 'array',
+        title: node.schema?.label || node.schema?.name,
+        items: {
+          type: 'object',
+          title: '成员',
+          properties: {
+            label: {
+              type: 'string',
+              title: '文本'
+            },
+            value: {
+              type,
+              title: '值'
+            }
+          }
+        },
+        originalValue: dataSchema.originalValue
+      };
+    }
+
+    return dataSchema;
+  }
 }
 
 registerEditorPlugin(ChainedSelectControlPlugin);

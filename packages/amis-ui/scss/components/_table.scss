@@ -194,12 +194,12 @@
     color: var(--Table-color);
     background: var(--Table-bg);
     border-spacing: 0;
-    border-collapse: collapse;
-    border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
+    border-collapse: separate;
 
     & th,
     & td {
       text-align: left;
+      border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
 
       &.is-sticky {
         position: sticky !important;
@@ -217,7 +217,6 @@
         transition: box-shadow 0.3s;
         content: '';
         pointer-events: none;
-        box-shadow: var(--Table-fixedLeft-boxShadow);
       }
 
       &.is-sticky-first-right:after {
@@ -230,8 +229,15 @@
         transition: box-shadow 0.3s;
         content: '';
         pointer-events: none;
-        box-shadow: var(--Table-fixedRight-boxShadow);
       }
+    }
+
+    &.table-fixed-left .is-sticky-last-left:after {
+      box-shadow: var(--Table-fixedLeft-boxShadow);
+    }
+
+    &.table-fixed-right .is-sticky-first-right:after {
+      box-shadow: var(--Table-fixedRight-boxShadow);
     }
 
     & th {
@@ -385,6 +391,7 @@
         color: var(--Table-thead-color);
         font-weight: var(--fontWeightNormal);
         white-space: nowrap;
+
         border-right: var(--Table-thead-borderWidth) solid
           var(--Table-thead-borderColor);
       }
