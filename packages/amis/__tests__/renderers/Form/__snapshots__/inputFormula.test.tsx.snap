@@ -493,10 +493,6 @@ exports[`Renderer:input-formula button 1`] = `
                       class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-FormulaPicker-action w-full"
                       type="button"
                     >
-                      <icon-mock
-                        classname="cxd-FormulaPicker-icon icon is-filled icon-function"
-                        icon="function"
-                      />
                       <span
                         class="cxd-FormulaPicker-label"
                       >

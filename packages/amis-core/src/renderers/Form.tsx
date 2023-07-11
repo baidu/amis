@@ -1146,7 +1146,12 @@ export default class Form extends React.Component<FormProps, object> {
           action.target &&
             this.reloadTarget(filterTarget(action.target, values), values);
         } else if (action.actionType === 'dialog') {
-          store.openDialog(data, undefined, action.callback);
+          store.openDialog(
+            data,
+            undefined,
+            action.callback,
+            delegate || (this.context as any)
+          );
         } else if (action.actionType === 'drawer') {
           store.openDrawer(data);
         } else if (isEffectiveApi(action.api || api, values)) {
@@ -1275,7 +1280,12 @@ export default class Form extends React.Component<FormProps, object> {
       return this.validate(true, throwErrors);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(data, undefined, action.callback);
+      store.openDialog(
+        data,
+        undefined,
+        action.callback,
+        delegate || (this.context as any)
+      );
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
       store.openDrawer(data);
@@ -1444,9 +1454,14 @@ export default class Form extends React.Component<FormProps, object> {
         actionType: 'dialog',
         dialog: dialog
       });
-      store.openDialog(ctx, undefined, confirmed => {
-        resolve(confirmed);
-      });
+      store.openDialog(
+        ctx,
+        undefined,
+        confirmed => {
+          resolve(confirmed);
+        },
+        this.context as any
+      );
     });
   }
 

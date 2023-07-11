@@ -484,7 +484,12 @@ export default class Page extends React.Component<PageProps> {
 
     if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(ctx, undefined, action.callback, delegate);
+      store.openDialog(
+        ctx,
+        undefined,
+        action.callback,
+        delegate || (this.context as any)
+      );
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
       store.openDrawer(ctx, undefined, undefined, delegate);
@@ -664,9 +669,14 @@ export default class Page extends React.Component<PageProps> {
         actionType: 'dialog',
         dialog: dialog
       });
-      store.openDialog(ctx, undefined, confirmed => {
-        resolve(confirmed);
-      });
+      store.openDialog(
+        ctx,
+        undefined,
+        confirmed => {
+          resolve(confirmed);
+        },
+        this.context as any
+      );
     });
   }
 
@@ -1066,9 +1076,11 @@ export class PageRenderer extends Page {
 
     if (reload) {
       scoped.reload(reload, store.data);
+    } else if (scoped?.component?.reload) {
+      scoped.component.reload();
     } else {
       // 没有设置，则自动让页面中 crud 刷新。
-      scoped
+      (this.context as IScopedContext)
         .getComponents()
         .filter((item: any) => item.props.type === 'crud')
         .forEach((item: any) => item.reload && item.reload());
@@ -1091,9 +1103,10 @@ export class PageRenderer extends Page {
     setTimeout(() => {
       if (reload) {
         scoped.reload(reload, store.data);
+      } else if (scoped?.component?.reload) {
+        scoped.component.reload();
       } else {
-        // 没有设置，则自动让页面中 crud 刷新。
-        scoped
+        (this.context as IScopedContext)
           .getComponents()
           .filter((item: any) => item.props.type === 'crud')
           .forEach((item: any) => item.reload && item.reload());

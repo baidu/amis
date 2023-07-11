@@ -1,5 +1,10 @@
 [
   {
+    "name": "packages/amis",
+    "iconPath": "packages/amis-ui/src/components/icons.tsx",
+    "iconDir": "packages/amis-ui/src/icons"
+  },
+  {
     "name": "packages/amis-ui",
     "iconPath": "packages/amis-ui/src/components/icons.tsx",
     "iconDir": "packages/amis-ui/src/icons"

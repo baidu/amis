@@ -160,7 +160,12 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       window.open(mailto);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(ctx, undefined, action.callback, delegate);
+      store.openDialog(
+        ctx,
+        undefined,
+        action.callback,
+        delegate || (this.context as any)
+      );
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
       store.openDrawer(ctx, undefined, undefined, delegate);
@@ -323,9 +328,14 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         actionType: 'dialog',
         dialog: dialog
       });
-      store.openDialog(ctx, undefined, confirmed => {
-        resolve(confirmed);
-      });
+      store.openDialog(
+        ctx,
+        undefined,
+        confirmed => {
+          resolve(confirmed);
+        },
+        this.context as any
+      );
     });
   }
 

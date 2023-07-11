@@ -394,12 +394,11 @@ export interface ImageFieldProps extends RendererProps {
 export class ImageField extends React.Component<ImageFieldProps, object> {
   static defaultProps: Pick<
     ImageFieldProps,
-    'defaultImage' | 'thumbMode' | 'thumbRatio' | 'placeholder'
+    'defaultImage' | 'thumbMode' | 'thumbRatio'
   > = {
     defaultImage: imagePlaceholder,
     thumbMode: 'contain',
-    thumbRatio: '1:1',
-    placeholder: '-'
+    thumbRatio: '1:1'
   };
 
   @autobind
@@ -472,9 +471,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
     } = this.props;
 
     const finnalSrc = src ? filter(src, data, '| raw') : '';
-    let value =
-      finnalSrc || getPropValue(this.props) || defaultImage || imagePlaceholder;
-
+    let value = finnalSrc || getPropValue(this.props);
     const finnalHref = href ? filter(href, data, '| raw') : '';
 
     return (
@@ -489,14 +486,14 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
         style={style}
         onClick={this.handleClick}
       >
-        {value ? (
+        {value || (!value && !placeholder) ? (
           <ThemedImageThumb
             className={innerClassName}
             imageClassName={imageClassName}
             thumbClassName={thumbClassName}
             height={height}
             width={width}
-            src={value}
+            src={value ? value : defaultImage}
             href={finnalHref}
             title={filter(title, data)}
             caption={filter(imageCaption, data)}

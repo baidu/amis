@@ -1691,7 +1691,9 @@ Form 支持轮询初始化接口，步骤如下：
 
 ### reload
 
-通过`reload`来重新请求表单的初始化接口，实现表单刷新。
+#### 只做刷新
+
+重新发送`initApi`请求，刷新 Form 时，只配置`componentId`目标组件 ID 即可。
 
 ```schema: scope="body"
 [
@@ -1725,6 +1727,56 @@ Form 支持轮询初始化接口，步骤如下：
         "name": "author",
         "type": "input-text",
         "label": "作者："
+      }
+    ]
+  }
+]
+```
+
+#### 发送数据并刷新
+
+刷新 Form 组件时，如果配置了`data`，将发送`data`给目标组件，并将该数据合并到目标组件的数据域中。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "刷新Form数据加载请求，并将我的年龄设置为18",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "reload",
+                "componentId": "form_reload2",
+                "data": {
+                  age: 18
+                }
+              }
+            ]
+        }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_reload2",
+    "debug": true,
+    "initApi": "/api/mock2/form/initData",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "author",
+        "type": "input-text",
+        "label": "作者："
+      },
+      {
+        "name": "age",
+        "type": "input-text",
+        "label": "年龄："
       }
     ]
   }

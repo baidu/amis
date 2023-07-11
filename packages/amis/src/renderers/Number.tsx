@@ -1,7 +1,8 @@
 import React from 'react';
-import {Renderer, RendererProps, stripNumber} from 'amis-core';
+import {Renderer, RendererProps, numberFormatter, stripNumber} from 'amis-core';
 import moment from 'moment';
 import {BaseSchema} from '../Schema';
+import isNumber from 'lodash/isNumber';
 import {getPropValue, Option, PlainObject, normalizeOptions} from 'amis-core';
 
 /**
@@ -89,7 +90,7 @@ export class NumberField extends React.Component<NumberProps> {
       }
     }
 
-    if (value) {
+    if (typeof value === 'number' || typeof value === 'string') {
       // 设置了精度，但是原始数据是字符串，需要转成 float 之后再处理
       if (typeof value === 'string' && precision) {
         value = stripNumber(parseFloat(value));
@@ -114,9 +115,7 @@ export class NumberField extends React.Component<NumberProps> {
         }
 
         if (kilobitSeparator) {
-          let parts = String(value).split('.');
-          parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-          value = parts.join('.');
+          value = numberFormatter(value, precision);
         }
 
         viewValue = <span>{value}</span>;

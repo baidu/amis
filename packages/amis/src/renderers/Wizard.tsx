@@ -650,7 +650,12 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       this.form.reset();
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(data, undefined, action.callback);
+      store.openDialog(
+        data,
+        undefined,
+        action.callback,
+        delegate || (this.context as any)
+      );
     } else if (action.actionType === 'ajax') {
       if (!action.api) {
         return env.alert(`当 actionType 为 ajax 时，请设置 api 属性`);
@@ -743,9 +748,14 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         actionType: 'dialog',
         dialog: dialog
       });
-      store.openDialog(ctx, undefined, confirmed => {
-        resolve(confirmed);
-      });
+      store.openDialog(
+        ctx,
+        undefined,
+        confirmed => {
+          resolve(confirmed);
+        },
+        this.context as any
+      );
     });
   }
 

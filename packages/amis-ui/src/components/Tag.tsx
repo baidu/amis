@@ -5,7 +5,6 @@
 import React from 'react';
 import {themeable, ThemeProps} from 'amis-core';
 import {Icon, getIcon} from './icons';
-import {generateIcon} from 'amis-core';
 import {autobind, noop} from 'amis-core';
 
 export interface TagProps extends ThemeProps {
@@ -59,18 +58,7 @@ export class Tag extends React.Component<TagProps> {
       return null;
     }
 
-    const icon =
-      typeof closeIcon === 'string' ? (
-        getIcon(closeIcon) ? (
-          <Icon icon={closeIcon} className="icon" />
-        ) : (
-          generateIcon(cx, closeIcon, 'Icon')
-        )
-      ) : React.isValidElement(closeIcon) ? (
-        closeIcon
-      ) : (
-        <Icon icon="close" className="icon" />
-      );
+    const icon = <Icon cx={cx} icon={closeIcon || 'close'} className="icon" />;
 
     return (
       <span className={cx(`Tag--close`)} onClick={this.handleClose}>
@@ -133,11 +121,7 @@ export class Tag extends React.Component<TagProps> {
     if (displayMode === 'status') {
       let iconItem;
       if (icon) {
-        if (typeof icon === 'string' && getIcon(icon)) {
-          iconItem = <Icon icon={icon} className="icon" />;
-        } else {
-          iconItem = generateIcon(cx, icon, 'Icon');
-        }
+        iconItem = <Icon icon={icon} className="icon" />;
       }
       if (!iconItem) {
         iconItem = (

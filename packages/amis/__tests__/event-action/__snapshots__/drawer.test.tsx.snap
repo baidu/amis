@@ -40,10 +40,6 @@ exports[`EventAction:drawer 1`] = `
       <a
         class="cxd-Drawer-close"
       >
-        <div
-          class=" Drawer-close"
-          style="display: none;"
-        />
         <icon-mock
           classname="icon icon-close"
           icon="close"
