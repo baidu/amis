@@ -314,12 +314,7 @@ export default class MatrixCheckbox extends React.Component<
   isColumChecked(value:any, columnIndex:any) {
     let rows = value[columnIndex];
     if (!rows) {return false}
-    for (let i = 0; i < rows.length; i++) {
-      if (rows[i] && rows[i].checked) {
-        return true;
-      }
-    }
-    return false;
+    return rows.some((item:any) => item && item.checked)
   }
 
   /**
@@ -329,17 +324,13 @@ export default class MatrixCheckbox extends React.Component<
    */
   isColumnPartialChecked(value:any, columnIndex:any) {
     let rows = value[columnIndex];
-    if (!rows) {return false}
-    let hasChecked = false;
-    let hasNonChecked = false;
-    for (let i = 0; i < rows.length; i++) {
-      if (rows[i] && rows[i].checked) {
-        hasChecked = true;
-      } else {
-        hasNonChecked = true;
-      }
+    if (!rows || rows.length == 1) {
+      return false; // 只有一行时，列上无部分选中状态
     }
-    return hasChecked && hasNonChecked;
+    let checked = rows[0].checked;
+    return rows.some((item:any) => {
+      return item.checked !== checked; // 只要有不同的值，均认为是部分选中
+    });
   }
 
   /**
@@ -362,13 +353,9 @@ export default class MatrixCheckbox extends React.Component<
    * @param rowIndex
    */
   isRowChecked(value:any, rowIndex:any) {
-    for (let i = 0; i < value.length; i++) {
-      let columns = value[i];
-      if (columns && columns[rowIndex] && columns[rowIndex].checked) {
-        return true;
-      }
-    }
-    return false;
+    return value && value.some((columns:any) => {
+      return columns[rowIndex] && columns[rowIndex].checked
+    })
   }
 
   /**
@@ -377,17 +364,14 @@ export default class MatrixCheckbox extends React.Component<
    * @param rowIndex
    */
   isRowPartialChecked(value:any, rowIndex:any) {
-    let hasChecked = false;
-    let hasNonChecked = false;
-    for (let i = 0; i < value.length; i++) {
-      let columns = value[i];
-      if (columns && columns[rowIndex] && columns[rowIndex].checked) {
-        hasChecked = true;
-      } else {
-        hasNonChecked = true;
-      }
+    if (!value || value.length == 1) {
+      return false; // 只有一列时无部分选中状态
     }
-    return hasChecked && hasNonChecked;
+    let checkedVal = value[0][rowIndex];
+    return value.some((columns:any) => {
+      // 只要有不同的值就可以认为是部分选中
+      return checkedVal !== columns[rowIndex].checked;
+    })
   }
 
   /**
