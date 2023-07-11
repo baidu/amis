@@ -45,6 +45,7 @@ export const Column = types
     type: types.optional(types.string, 'plain'),
     name: types.maybe(types.string),
     value: types.frozen(),
+    id: '',
     groupName: '',
     toggled: false,
     toggable: true,
@@ -58,6 +59,7 @@ export const Column = types
     fixed: '',
     index: 0,
     rawIndex: 0,
+    width: 0,
     breakpoint: types.optional(types.frozen(), undefined),
     pristine: types.optional(types.frozen(), undefined),
     remark: types.optional(types.frozen(), undefined),
@@ -84,6 +86,10 @@ export const Column = types
 
       const table = getParent(self, 2) as ITableStore;
       table.persistSaveToggledColumns();
+    },
+
+    setWidth(value: number) {
+      self.width = value;
     }
   }));
 
@@ -597,10 +603,17 @@ export const TableStore = iRendererStore
           (item.has.length === 1 && item.label === item.has[0].label)
             ? 2
             : 1;
+
         return {
           ...item,
           rowSpan,
-          label: rowSpan === 2 ? item.label || item.has[0].label : item.label
+          label: rowSpan === 2 ? item.label || item.has[0].label : item.label,
+          fixed: item.has.every(column => column.fixed)
+            ? item.has[0].fixed
+            : undefined,
+          get width() {
+            return item.has.reduce((a, b) => a + b.width, 0);
+          }
         };
       });
     }
@@ -771,6 +784,70 @@ export const TableStore = iRendererStore
         });
 
         return list;
+      },
+
+      get tableLayoutFixed() {
+        return getFilteredColumns().every(column => column.width);
+      },
+
+      getStickyStyles(column: IColumn, columns: Array<IColumn>) {
+        let stickyClassName = '';
+        const style: any = {};
+        const autoFixLeftColumns = ['__checkme', '__dragme', '__expandme'];
+
+        if (
+          column.fixed === 'left' ||
+          autoFixLeftColumns.includes(column.type)
+        ) {
+          stickyClassName = 'is-sticky is-sticky-left';
+          let index = columns.indexOf(column) - 1;
+
+          if (
+            columns
+              .slice(index + 2)
+              .every(
+                col =>
+                  !(
+                    (col && col.fixed === 'left') ||
+                    autoFixLeftColumns.includes(col.type)
+                  )
+              )
+          ) {
+            stickyClassName += ' is-sticky-last-left';
+          }
+
+          let left = 0;
+          while (index >= 0) {
+            const col = columns[index];
+            if (
+              (col && col.fixed === 'left') ||
+              autoFixLeftColumns.includes(col.type)
+            ) {
+              left += col.width;
+            }
+            index--;
+          }
+          style.left = left;
+        } else if (column.fixed === 'right') {
+          stickyClassName = 'is-sticky is-sticky-right';
+          let right = 0;
+          let index = columns.indexOf(column) + 1;
+
+          if (columns.slice(0, index - 1).every(col => col.fixed !== 'right')) {
+            stickyClassName += ' is-sticky-first-right';
+          }
+
+          const len = columns.length;
+          while (index < len) {
+            const col = columns[index];
+            if (col && col.fixed === 'right') {
+              right += col.width;
+            }
+            index++;
+          }
+          style.right = right;
+        }
+        return [style, stickyClassName];
       }
     };
   })
@@ -867,6 +944,8 @@ export const TableStore = iRendererStore
 
         columns = columns.map((item, index) => ({
           ...item,
+          id: guid(),
+          width: 0,
           index,
           rawIndex: index - PARTITION_INDEX,
           type: item.type || 'plain',
@@ -917,7 +996,9 @@ export const TableStore = iRendererStore
 
         columns = columns.map((item, index) => ({
           ...item,
+          id: guid(),
           index,
+          width: 0,
           rawIndex: index - PARTITION_INDEX,
           type: item.type || 'plain',
           pristine: item.pristine || item,
@@ -931,8 +1012,11 @@ export const TableStore = iRendererStore
         }));
 
         self.columns.replace(columns as any);
-        persistSaveToggledColumns();
       }
+    }
+
+    function invalidTableLayout() {
+      self.columns.forEach(column => column.setWidth(0));
     }
 
     function combineCell(arr: Array<SRow>, keys: Array<string>): Array<SRow> {
@@ -1130,6 +1214,7 @@ export const TableStore = iRendererStore
       }
 
       self.dragging = false;
+      invalidTableLayout(); // 更新内容需要重新计算表格布局
     }
 
     // 获取所有层级的子节点id
@@ -1493,6 +1578,7 @@ export const TableStore = iRendererStore
     return {
       update,
       updateColumns,
+      invalidTableLayout,
       initRows,
       updateSelected,
       toggleAll,

@@ -102,6 +102,7 @@ exports[`Renderer:cards color 1`] = `
           >
             <div
               class="cxd-Cards-fixedTop"
+              style="top: 0px;"
             />
             <div
               class="cxd-Cards-body cxd-Grid"
