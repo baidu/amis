@@ -138,8 +138,13 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         valueField={valueField}
         placeholder={__(placeholder)}
         options={options.map(item => {
-          item.label = filter(item[labelField || 'label'], data);
-          return item;
+          let filterExtend: any = {};
+          let labelKey = labelField || 'label';
+          filterExtend[labelKey] = filter(item[labelKey], data);
+          return {
+            item,
+            ...filterExtend
+          };
         })}
         columnsCount={columnsCount}
         classPrefix={classPrefix}
