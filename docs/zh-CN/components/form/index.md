@@ -1645,7 +1645,11 @@ Form 支持轮询初始化接口，步骤如下：
 
 ### setValue
 
-通过`setValue`来更新表单数据，其中`value`中的数据将和目标表单的数据做合并，即同名覆盖。
+通过`setValue`更新指定表单的数据。
+
+#### 合并数据
+
+默认`setValue`会将新数据与目标组件数据进行合并。
 
 ```schema: scope="body"
 [
@@ -1661,8 +1665,8 @@ Form 支持轮询初始化接口，步骤如下：
                 "componentId": "form_setvalue",
                 "args": {
                   "value": {
-                    "name": "amis",
-                    "email": "amis@baidu.com"
+                    "name": "aisuda",
+                    "email": "aisuda@baidu.com"
                   }
                 }
               }
@@ -1673,6 +1677,60 @@ Form 支持轮询初始化接口，步骤如下：
   {
     "type": "form",
     "id": "form_setvalue",
+    "data": {
+      "name": "amis",
+      "email": "amis@baidu.com"
+    },
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "email",
+        "type": "input-text",
+        "label": "邮箱："
+      }
+    ]
+  }
+]
+```
+
+#### 覆盖数据
+
+可以通过`"dateMergeMode": "override"`来覆盖目标组件数据。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "修改表单数据",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "form_setvalue",
+                "args": {
+                  "value": {
+                    "name": "aisuda"
+                  }
+                },
+                "dataMergeMode": "override"
+              }
+            ]
+        }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_setvalue",
+    "data": {
+      "name": "amis",
+      "email": "amis@baidu.com"
+    },
     "body": [
       {
         "type": "input-text",

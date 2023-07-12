@@ -2077,7 +2077,7 @@ export class FormRenderer extends Form {
 
   setData(values: object, replace?: boolean) {
     const {onChange, store} = this.props;
-    super.setValues(values);
+    super.setValues(values, replace);
     // 触发表单change
     onChange &&
       onChange(store.data, difference(store.data, store.pristine), this.props);
