@@ -178,7 +178,7 @@
     cursor: col-resize;
     user-select: none;
     opacity: 0.5;
-    z-index: $zindex-top;
+    z-index: 15;
 
     &:hover,
     &.is-resizing {
