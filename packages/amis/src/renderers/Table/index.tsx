@@ -1128,10 +1128,47 @@ export default class Table extends React.Component<TableProps, object> {
 
     // 自动将 table-layout: auto 改成 fixed
     if (!store.columnWidthReady) {
+      const cx = this.props.classnames;
+      const ths: HTMLTableCellElement[] = [].slice.call(
+        table.querySelectorAll('thead>tr:last-child>th[data-index]')
+      );
+
+      const div = document.createElement('div');
+      div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
+      div.style.cssText = `position:absolute;top:0;left:0;pointer-events:none;visibility: hidden;`;
+      div.innerHTML = `<table style="table-layout:auto!important;" class="${cx(
+        'Table-table'
+      )}"><thead><tr>${ths
+        .map(
+          th =>
+            `<th style="width:0" data-index="${th.getAttribute(
+              'data-index'
+            )}" class="${th.className}">${th.innerHTML}</th>`
+        )
+        .join('')}</tr></thead></table>`;
+      document.body.appendChild(div);
+      const minWidths: {
+        [propName: string]: number;
+      } = {};
+      [].slice
+        .call(div.querySelectorAll('th[data-index]'))
+        .forEach((th: HTMLTableCellElement) => {
+          minWidths[th.getAttribute('data-index')!] = th.clientWidth;
+        });
+      document.body.removeChild(div);
+
       forEach(table.querySelectorAll('colgroup>col'), (col: HTMLElement) => {
         const index = parseInt(col.getAttribute('data-index')!, 10);
         const column = store.columns[index];
-        column.setWidth(col.clientWidth);
+        column.setWidth(
+          Math.max(
+            typeof column.pristine.width === 'number'
+              ? column.pristine.width
+              : col.clientWidth,
+            minWidths[index]
+          ),
+          minWidths[index]
+        );
       });
     }
   }
@@ -1434,7 +1471,6 @@ export default class Table extends React.Component<TableProps, object> {
   resizeLine?: HTMLElement;
   lineStartX: number;
   lineStartWidth: number;
-  lineMinWidth: number = 0;
 
   // 开始列宽度调整
   @autobind
@@ -1448,20 +1484,6 @@ export default class Table extends React.Component<TableProps, object> {
     this.lineStartWidth = column.width;
     this.resizeLine!.classList.add('is-resizing');
 
-    // 计算 th 的最小宽度
-    const th = currentTarget.parentElement as HTMLTableCellElement;
-    const cx = this.props.classnames;
-    const div = document.createElement('div');
-    div.style.cssText = `position:absolute;top:0;left:0;pointer-event:none;visibliity: hidden;`;
-    div.innerHTML = `<table class="${cx(
-      'Table-table'
-    )}"><thead><tr><th style="width:0" class="${th.className}">${
-      th.innerHTML
-    }</th></tr></thead></table>`;
-    document.body.appendChild(div);
-    this.lineMinWidth = div.querySelector('th')!.offsetWidth;
-    document.body.removeChild(div);
-
     document.addEventListener('mousemove', this.handleColResizeMouseMove);
     document.addEventListener('mouseup', this.handleColResizeMouseUp);
   }
@@ -1474,9 +1496,7 @@ export default class Table extends React.Component<TableProps, object> {
     const index = parseInt(this.resizeLine!.getAttribute('data-index')!, 10);
     const column = store.columns[index];
 
-    column.setWidth(
-      Math.max(this.lineStartWidth + moveX, 50, this.lineMinWidth)
-    );
+    column.setWidth(Math.max(this.lineStartWidth + moveX, 30, column.minWidth));
     store.setUseFixedLayout(true);
   }
 
