@@ -1129,9 +1129,18 @@ export default class Table extends React.Component<TableProps, object> {
     // 自动将 table-layout: auto 改成 fixed
     if (!store.columnWidthReady) {
       const cx = this.props.classnames;
-      const ths: HTMLTableCellElement[] = [].slice.call(
-        table.querySelectorAll('thead>tr:last-child>th[data-index]')
-      );
+      const ths = (
+        [].slice.call(
+          table.querySelectorAll('thead>tr>th[data-index]')
+        ) as HTMLTableCellElement[]
+      ).filter((th, index, arr) => {
+        return (
+          arr.findIndex(
+            item =>
+              item.getAttribute('data-index') === th.getAttribute('data-index')
+          ) === index
+        );
+      });
 
       const div = document.createElement('div');
       div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
