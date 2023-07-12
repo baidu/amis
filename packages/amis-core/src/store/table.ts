@@ -60,6 +60,7 @@ export const Column = types
     index: 0,
     rawIndex: 0,
     width: 0,
+    minWidth: 0,
     breakpoint: types.optional(types.frozen(), undefined),
     pristine: types.optional(types.frozen(), undefined),
     remark: types.optional(types.frozen(), undefined),
@@ -88,8 +89,11 @@ export const Column = types
       table.persistSaveToggledColumns();
     },
 
-    setWidth(value: number) {
+    setWidth(value: number, minWidth?: number) {
       self.width = value;
+      if (typeof minWidth === 'number') {
+        self.minWidth = minWidth;
+      }
     }
   }));
 
@@ -930,6 +934,7 @@ export const TableStore = iRendererStore
           id: guid(),
           index,
           width: 0,
+          minWidth: 0,
           rawIndex: index - PARTITION_INDEX,
           type: item.type || 'plain',
           pristine: item.pristine || item,
@@ -943,9 +948,9 @@ export const TableStore = iRendererStore
         }));
 
         self.columns.replace(columns as any);
-        // self.useFixedLayout = self.columns.some(
-        //   column => column.pristine.width
-        // );
+        self.useFixedLayout = self.columns.some(
+          column => column.pristine.width
+        );
       }
     }
 

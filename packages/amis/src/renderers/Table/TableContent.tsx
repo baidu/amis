@@ -179,7 +179,11 @@ export class TableContent extends React.Component<TableContentProps> {
         onScroll={onScroll}
       >
         <table
-          style={store.useFixedLayout ? {tableLayout: 'fixed'} : undefined}
+          style={
+            store.useFixedLayout && store.columnWidthReady
+              ? {tableLayout: 'fixed'}
+              : undefined
+          }
           ref={tableRef}
           className={tableClassName}
         >
