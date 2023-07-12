@@ -324,7 +324,46 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
 </div>
 `;
 
-exports[`Renderer:Page handleAction actionType=ajax & feedback 2`] = `<div />`;
+exports[`Renderer:Page handleAction actionType=ajax & feedback 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-toolbar"
+        >
+          <button
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              RequestAjax
+            </span>
+          </button>
+        </div>
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              The variable a is 6
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
 
 exports[`Renderer:Page handleAction actionType=ajax 1`] = `
 <div>

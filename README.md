@@ -60,13 +60,18 @@ npm run build
 npm test --workspaces
 
 # 测试某个用例
-npm test --workspace amis inputImage
+# <spec-name>为用例名称，比如inputImage
+npm test --workspace amis <spec-name>
 
 # 查看测试用例覆盖率
 npm run coverage
 
 # 更新 snapshot
 npm run update-snapshot
+
+# 更新单个 snapshot
+# <spec-name>为用例名称，比如inputImage
+npm run update-snapshot --workspace amis <spec-name>
 ```
 
 ### 发布版本

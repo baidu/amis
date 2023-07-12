@@ -1434,6 +1434,7 @@ export default class Table extends React.Component<TableProps, object> {
   resizeLine?: HTMLElement;
   lineStartX: number;
   lineStartWidth: number;
+  lineMinWidth: number = 0;
 
   // 开始列宽度调整
   @autobind
@@ -1446,6 +1447,21 @@ export default class Table extends React.Component<TableProps, object> {
     const column = store.columns[index];
     this.lineStartWidth = column.width;
     this.resizeLine!.classList.add('is-resizing');
+
+    // 计算 th 的最小宽度
+    const th = currentTarget.parentElement as HTMLTableCellElement;
+    const cx = this.props.classnames;
+    const div = document.createElement('div');
+    div.style.cssText = `position:absolute;top:0;left:0;pointer-event:none;visibliity: hidden;`;
+    div.innerHTML = `<table class="${cx(
+      'Table-table'
+    )}"><thead><tr><th style="width:0" class="${th.className}">${
+      th.innerHTML
+    }</th></tr></thead></table>`;
+    document.body.appendChild(div);
+    this.lineMinWidth = div.querySelector('th')!.offsetWidth;
+    document.body.removeChild(div);
+
     document.addEventListener('mousemove', this.handleColResizeMouseMove);
     document.addEventListener('mouseup', this.handleColResizeMouseUp);
   }
@@ -1458,7 +1474,9 @@ export default class Table extends React.Component<TableProps, object> {
     const index = parseInt(this.resizeLine!.getAttribute('data-index')!, 10);
     const column = store.columns[index];
 
-    column.setWidth(Math.max(this.lineStartWidth + moveX, 50));
+    column.setWidth(
+      Math.max(this.lineStartWidth + moveX, 50, this.lineMinWidth)
+    );
     store.setUseFixedLayout(true);
   }
 

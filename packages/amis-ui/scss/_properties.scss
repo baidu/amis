@@ -12,7 +12,7 @@ $Table-strip-bg: transparent;
   --primary-onHover: var(--colors-brand-6);
   --primary-onActive: var(--colors-brand-4);
 
-  --secondary: var(--colors-neutral-text-4); // secondary 颜色需进一步确认
+  --secondary: var(--colors-neutral-text-4); /*  secondary 颜色需进一步确认 */
   --secondary-onHover: var(--colors-neutral-text-6);
   --secondary-onActive: var(--colors-neutral-text-4);
 
@@ -764,9 +764,10 @@ $Table-strip-bg: transparent;
   --ColumnToggler-item-dragBar-color: #d8d8d8;
 
   --InputFormula-header-bgColor: #fafafa;
-  --InputFormula-icon-size: #{px2rem(24px)};
+  --InputFormula-icon-size: #{px2rem(18px)};
   --InputFormula-icon-color-onActive: var(--colors-brand-5);
   --InputFormula-code-bgColor: var(--colors-neutral-fill-10);
+  --InputFormula-input-schema-height: var(--sizes-base-12);
 
   --UserSelect--post-bg: var(--colors-brand-6);
   --UserSelect--department-bg: #ffab52;

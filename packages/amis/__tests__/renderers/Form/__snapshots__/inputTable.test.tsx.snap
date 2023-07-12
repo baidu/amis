@@ -744,7 +744,6 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="table-layout: auto;"
                   >
                     <colgroup>
                       <col

@@ -949,7 +949,7 @@ export const TableStore = iRendererStore
       }
     }
 
-    function invalidTableLayout() {
+    function invalidTableColumnWidth() {
       self.columns.forEach(column => column.setWidth(0));
     }
 
@@ -1148,7 +1148,7 @@ export const TableStore = iRendererStore
       }
 
       self.dragging = false;
-      invalidTableLayout(); // 更新内容需要重新计算表格布局
+      invalidTableColumnWidth(); // 更新内容需要重新计算表格布局
     }
 
     // 获取所有层级的子节点id
@@ -1512,7 +1512,7 @@ export const TableStore = iRendererStore
     return {
       update,
       updateColumns,
-      invalidTableLayout,
+      invalidTableColumnWidth,
       initRows,
       updateSelected,
       toggleAll,

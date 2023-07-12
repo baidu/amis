@@ -386,6 +386,8 @@ register('de-DE', {
   'FormulaEditor.function': 'Funktion',
   'FormulaEditor.invalidData':
     'Überprüfungsfehler, position or reason is {{err}}',
+  'FormulaEditor.invalidValue':
+    'Überprüfungsfehler, reason is Falsches Werteformat',
   'pullRefresh.pullingText': 'Zum Aktualisieren nach unten ziehen...',
   'pullRefresh.loosingText': 'Zum Aktualisieren freigeben...',
   'pullRefresh.loadingText': 'Laden...',
@@ -411,5 +413,7 @@ register('de-DE', {
   'JSONSchema.key': 'Key',
   'JSONSchema.array_items': 'Items',
   'TimeNow': 'Jetzt',
-  'Steps.step': 'Schritt {{index}}'
+  'Steps.step': 'Schritt {{index}}',
+  'FormulaInput.True': 'Treu',
+  'FormulaInput.False': 'Falsch'
 });
