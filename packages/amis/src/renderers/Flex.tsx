@@ -112,6 +112,14 @@ export default class Flex extends React.Component<FlexProps, object> {
       ...styleVar
     };
 
+    if (flexStyle.flexBasis !== undefined && flexStyle.flex) {
+      // 合并flex和flexBasis，并优先使用flexBasis
+      const flexValArr = flexStyle.flex.split(' ');
+      flexStyle.flex = `${flexValArr[0]} ${flexValArr[1] || flexValArr[0]} ${
+        flexStyle.flexBasis
+      }`;
+    }
+
     return (
       <div style={flexStyle} className={className}>
         {(Array.isArray(items) ? items : items ? [items] : []).map(
