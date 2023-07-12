@@ -5,13 +5,13 @@
 import React from 'react';
 import {Spinner} from 'amis';
 
-export interface asyncLayerOptions {
+export interface AsyncLayerOptions {
   fallback?: React.ReactNode;
 }
 
 export const makeAsyncLayer = (
   schemaBuilderFn: () => Promise<any>,
-  options?: asyncLayerOptions
+  options?: AsyncLayerOptions
 ) => {
   const {fallback} = options || {};
   const LazyComponent = React.lazy(async () => {
