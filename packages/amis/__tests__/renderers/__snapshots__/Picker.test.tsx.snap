@@ -100,6 +100,10 @@ exports[`Renderer:Picker base 1`] = `
             class="cxd-List cxd-Crud-body"
           >
             <div
+              class="cxd-List-fixedTop"
+              style="top: 0px;"
+            />
+            <div
               class="cxd-List-items"
             >
               <div

@@ -116,25 +116,30 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
               class="cxd-Table cxd-Crud-body"
             >
               <div
-                class="cxd-Table-toolbar cxd-Table-headToolbar"
+                class="cxd-Table-fixedTop"
+                style="top: 0px;"
               >
                 <div
-                  class="cxd-Crud-toolbar"
+                  class="cxd-Table-toolbar cxd-Table-headToolbar"
                 >
                   <div
-                    class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
+                    class="cxd-Crud-toolbar"
                   >
                     <div
-                      class="cxd-Crud-actions"
+                      class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
                     >
-                      <button
-                        class="cxd-Button cxd-Button--default cxd-Button--size-default"
-                        type="button"
+                      <div
+                        class="cxd-Crud-actions"
                       >
-                        <span>
-                          批量删除
-                        </span>
-                      </button>
+                        <button
+                          class="cxd-Button cxd-Button--default cxd-Button--size-default"
+                          type="button"
+                        >
+                          <span>
+                            批量删除
+                          </span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -143,282 +148,30 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                 class="cxd-Table-contentWrap"
               >
                 <div
-                  class="cxd-Table-fixedLeft"
-                >
-                  <table
-                    class="cxd-Table-table cxd-Table-table"
-                  >
-                    <thead>
-                      <tr
-                        class=""
-                      >
-                        <th
-                          class="cxd-Table-checkCell"
-                          data-index="1"
-                        >
-                          <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox"
-                            data-role="checkbox"
-                          >
-                            <input
-                              disabled=""
-                              type="checkbox"
-                            />
-                            <i />
-                            <span
-                              class=""
-                            />
-                          </label>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        class="is-checked cxd-Table-tr--odd cxd-Table-tr--1th"
-                        data-id="1"
-                        data-index="0"
-                      >
-                        <td
-                          class="cxd-Table-checkCell"
-                        >
-                          <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
-                            data-role="checkbox"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                            <i />
-                            <span
-                              class=""
-                            />
-                          </label>
-                        </td>
-                      </tr>
-                      <tr
-                        class="is-checked cxd-Table-tr--even cxd-Table-tr--1th"
-                        data-id="2"
-                        data-index="1"
-                      >
-                        <td
-                          class="cxd-Table-checkCell"
-                        >
-                          <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
-                            data-role="checkbox"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                            <i />
-                            <span
-                              class=""
-                            />
-                          </label>
-                        </td>
-                      </tr>
-                      <tr
-                        class="is-checked cxd-Table-tr--odd cxd-Table-tr--1th"
-                        data-id="3"
-                        data-index="2"
-                      >
-                        <td
-                          class="cxd-Table-checkCell"
-                        >
-                          <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
-                            data-role="checkbox"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                            <i />
-                            <span
-                              class=""
-                            />
-                          </label>
-                        </td>
-                      </tr>
-                      <tr
-                        class="is-checked cxd-Table-tr--even cxd-Table-tr--1th"
-                        data-id="4"
-                        data-index="3"
-                      >
-                        <td
-                          class="cxd-Table-checkCell"
-                        >
-                          <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
-                            data-role="checkbox"
-                          >
-                            <input
-                              type="checkbox"
-                            />
-                            <i />
-                            <span
-                              class=""
-                            />
-                          </label>
-                        </td>
-                      </tr>
-                      <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
-                        data-id="5"
-                        data-index="4"
-                      >
-                        <td
-                          class="cxd-Table-checkCell"
-                        >
-                          <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
-                            data-role="checkbox"
-                          >
-                            <input
-                              disabled=""
-                              type="checkbox"
-                            />
-                            <i />
-                            <span
-                              class=""
-                            />
-                          </label>
-                        </td>
-                      </tr>
-                      <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
-                        data-id="6"
-                        data-index="5"
-                      >
-                        <td
-                          class="cxd-Table-checkCell"
-                        >
-                          <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
-                            data-role="checkbox"
-                          >
-                            <input
-                              disabled=""
-                              type="checkbox"
-                            />
-                            <i />
-                            <span
-                              class=""
-                            />
-                          </label>
-                        </td>
-                      </tr>
-                      <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
-                        data-id="7"
-                        data-index="6"
-                      >
-                        <td
-                          class="cxd-Table-checkCell"
-                        >
-                          <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
-                            data-role="checkbox"
-                          >
-                            <input
-                              disabled=""
-                              type="checkbox"
-                            />
-                            <i />
-                            <span
-                              class=""
-                            />
-                          </label>
-                        </td>
-                      </tr>
-                      <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
-                        data-id="8"
-                        data-index="7"
-                      >
-                        <td
-                          class="cxd-Table-checkCell"
-                        >
-                          <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
-                            data-role="checkbox"
-                          >
-                            <input
-                              disabled=""
-                              type="checkbox"
-                            />
-                            <i />
-                            <span
-                              class=""
-                            />
-                          </label>
-                        </td>
-                      </tr>
-                      <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
-                        data-id="9"
-                        data-index="8"
-                      >
-                        <td
-                          class="cxd-Table-checkCell"
-                        >
-                          <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
-                            data-role="checkbox"
-                          >
-                            <input
-                              disabled=""
-                              type="checkbox"
-                            />
-                            <i />
-                            <span
-                              class=""
-                            />
-                          </label>
-                        </td>
-                      </tr>
-                      <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
-                        data-id="10"
-                        data-index="9"
-                      >
-                        <td
-                          class="cxd-Table-checkCell"
-                        >
-                          <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
-                            data-role="checkbox"
-                          >
-                            <input
-                              disabled=""
-                              type="checkbox"
-                            />
-                            <i />
-                            <span
-                              class=""
-                            />
-                          </label>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
                   class="cxd-Table-content"
-                  style="position: relative;"
                 >
                   <table
                     class="cxd-Table-table"
                   >
+                    <colgroup>
+                      <col
+                        data-index="1"
+                      />
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                    </colgroup>
                     <thead>
                       <tr
                         class=""
                       >
                         <th
-                          class="cxd-Table-checkCell"
+                          class="cxd-Table-checkCell is-sticky is-sticky-left is-sticky-last-left"
                           data-index="1"
+                          style="left: 0px;"
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox"
@@ -480,6 +233,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                           </span>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="3"
                           />
                         </th>
                         <th
@@ -499,6 +253,7 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="4"
                           />
                         </th>
                       </tr>
@@ -510,7 +265,8 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         data-index="0"
                       >
                         <td
-                          class="cxd-Table-checkCell"
+                          class="cxd-Table-checkCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
@@ -559,7 +315,8 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         data-index="1"
                       >
                         <td
-                          class="cxd-Table-checkCell"
+                          class="cxd-Table-checkCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
@@ -608,7 +365,8 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         data-index="2"
                       >
                         <td
-                          class="cxd-Table-checkCell"
+                          class="cxd-Table-checkCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
@@ -657,7 +415,8 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         data-index="3"
                       >
                         <td
-                          class="cxd-Table-checkCell"
+                          class="cxd-Table-checkCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
@@ -706,7 +465,8 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         data-index="4"
                       >
                         <td
-                          class="cxd-Table-checkCell"
+                          class="cxd-Table-checkCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
@@ -756,7 +516,8 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         data-index="5"
                       >
                         <td
-                          class="cxd-Table-checkCell"
+                          class="cxd-Table-checkCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
@@ -806,7 +567,8 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         data-index="6"
                       >
                         <td
-                          class="cxd-Table-checkCell"
+                          class="cxd-Table-checkCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
@@ -856,7 +618,8 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         data-index="7"
                       >
                         <td
-                          class="cxd-Table-checkCell"
+                          class="cxd-Table-checkCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
@@ -906,7 +669,8 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         data-index="8"
                       >
                         <td
-                          class="cxd-Table-checkCell"
+                          class="cxd-Table-checkCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
@@ -956,7 +720,8 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                         data-index="9"
                       >
                         <td
-                          class="cxd-Table-checkCell"
+                          class="cxd-Table-checkCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <label
                             class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
@@ -1002,218 +767,8 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
-                  </div>
                 </div>
-              </div>
-              <div
-                class="cxd-Table-fixedTop"
-                style="top: 0px; width: 0px;"
-              >
-                <div
-                  class="cxd-Table-toolbar cxd-Table-headToolbar"
-                >
-                  <div
-                    class="cxd-Crud-toolbar"
-                  >
-                    <div
-                      class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
-                    >
-                      <div
-                        class="cxd-Crud-actions"
-                      >
-                        <button
-                          class="cxd-Button cxd-Button--default cxd-Button--size-default"
-                          type="button"
-                        >
-                          <span>
-                            批量删除
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-Table-fixedLeft"
-                >
-                  <table
-                    class="cxd-Table-table cxd-Table-table"
-                  >
-                    <thead>
-                      <tr
-                        class=""
-                      >
-                        <th
-                          class="cxd-Table-checkCell"
-                          data-index="1"
-                        >
-                          <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox"
-                            data-role="checkbox"
-                          >
-                            <input
-                              disabled=""
-                              type="checkbox"
-                            />
-                            <i />
-                            <span
-                              class=""
-                            />
-                          </label>
-                        </th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
-                  class="cxd-Table-wrapper"
-                >
-                  <table
-                    class="cxd-Table-table"
-                  >
-                    <colgroup>
-                      <col
-                        data-index="1"
-                      />
-                      <col
-                        data-index="3"
-                      />
-                      <col
-                        data-index="4"
-                      />
-                    </colgroup>
-                    <thead>
-                      <tr>
-                        <th
-                          class="cxd-Table-checkCell"
-                          data-index="1"
-                        >
-                          <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox"
-                            data-role="checkbox"
-                          >
-                            <input
-                              disabled=""
-                              type="checkbox"
-                            />
-                            <i />
-                            <span
-                              class=""
-                            />
-                          </label>
-                        </th>
-                        <th
-                          class="cxd-TableCell--sortable"
-                          data-index="3"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                ID
-                              </span>
-                            </span>
-                          </div>
-                          <span
-                            class="cxd-TableCell-sortBtn"
-                            data-index="3"
-                          >
-                            <i
-                              class="cxd-TableCell-sortBtn--down"
-                            >
-                              <icon-mock
-                                classname="icon icon-sort-desc"
-                                icon="sort-desc"
-                              />
-                            </i>
-                            <i
-                              class="cxd-TableCell-sortBtn--up"
-                            >
-                              <icon-mock
-                                classname="icon icon-sort-asc"
-                                icon="sort-asc"
-                              />
-                            </i>
-                            <i
-                              class="cxd-TableCell-sortBtn--default is-active"
-                            >
-                              <icon-mock
-                                classname="icon icon-sort-default"
-                                icon="sort-default"
-                              />
-                            </i>
-                          </span>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="4"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Rendering engine
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
+                <span />
               </div>
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
@@ -1399,30 +954,35 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
               class="cxd-Table cxd-Crud-body"
             >
               <div
-                class="cxd-Table-toolbar cxd-Table-headToolbar"
+                class="cxd-Table-fixedTop"
+                style="top: 0px;"
               >
                 <div
-                  class="cxd-Crud-toolbar"
+                  class="cxd-Table-toolbar cxd-Table-headToolbar"
                 >
                   <div
-                    class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--default cxd-Button--size-default"
-                      type="button"
-                    >
-                      <span>
-                        导出 Excel
-                      </span>
-                    </button>
-                  </div>
-                  <div
-                    class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
+                    class="cxd-Crud-toolbar"
                   >
                     <div
-                      class="cxd-Crud-statistics"
+                      class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
                     >
-                      1/72 共：144 项
+                      <button
+                        class="cxd-Button cxd-Button--default cxd-Button--size-default"
+                        type="button"
+                      >
+                        <span>
+                          导出 Excel
+                        </span>
+                      </button>
+                    </div>
+                    <div
+                      class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
+                    >
+                      <div
+                        class="cxd-Crud-statistics"
+                      >
+                        1/72 共：144 项
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1431,18 +991,22 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                 class="cxd-Table-contentWrap"
               >
                 <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
                   class="cxd-Table-content"
-                  style="position: relative;"
                 >
                   <table
                     class="cxd-Table-table"
                   >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                      <col
+                        data-index="5"
+                      />
+                    </colgroup>
                     <thead>
                       <tr
                         class=""
@@ -1464,6 +1028,7 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="3"
                           />
                         </th>
                         <th
@@ -1483,6 +1048,7 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="4"
                           />
                         </th>
                         <th
@@ -1502,6 +1068,7 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="5"
                           />
                         </th>
                       </tr>
@@ -1839,45 +1406,6 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
-                  </div>
                 </div>
                 <div
                   class="cxd-Spinner-overlay"
@@ -1890,126 +1418,7 @@ exports[`Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                     class="cxd-Spinner-icon cxd-Spinner-icon--default"
                   />
                 </div>
-              </div>
-              <div
-                class="cxd-Table-fixedTop"
-                style="top: 0px; width: 0px;"
-              >
-                <div
-                  class="cxd-Table-toolbar cxd-Table-headToolbar"
-                >
-                  <div
-                    class="cxd-Crud-toolbar"
-                  >
-                    <div
-                      class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
-                    >
-                      <button
-                        class="cxd-Button cxd-Button--default cxd-Button--size-default"
-                        type="button"
-                      >
-                        <span>
-                          导出 Excel
-                        </span>
-                      </button>
-                    </div>
-                    <div
-                      class="cxd-Crud-toolbar-item cxd-Crud-toolbar-item--left"
-                    >
-                      <div
-                        class="cxd-Crud-statistics"
-                      >
-                        1/72 共：144 项
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
-                  class="cxd-Table-wrapper"
-                >
-                  <table
-                    class="cxd-Table-table"
-                  >
-                    <colgroup>
-                      <col
-                        data-index="3"
-                      />
-                      <col
-                        data-index="4"
-                      />
-                      <col
-                        data-index="5"
-                      />
-                    </colgroup>
-                    <thead>
-                      <tr>
-                        <th
-                          class=""
-                          data-index="3"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                ID
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="4"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Rendering engine
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="5"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Browser
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
+                <span />
               </div>
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
@@ -2347,6 +1756,7 @@ exports[`Renderer:crud cards 1`] = `
             >
               <div
                 class="cxd-Cards-fixedTop"
+                style="top: 0px;"
               />
               <div
                 class="cxd-Cards-body cxd-Grid"
@@ -3227,9 +2637,14 @@ exports[`Renderer:crud list 1`] = `
               class="cxd-List cxd-Crud-body"
             >
               <div
-                class="cxd-List-heading"
+                class="cxd-List-fixedTop"
+                style="top: 0px;"
               >
-                list title
+                <div
+                  class="cxd-List-heading"
+                >
+                  list title
+                </div>
               </div>
               <div
                 class="cxd-List-items"
@@ -3630,21 +3045,29 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
               class="cxd-Table cxd-Crud-body"
             >
               <div
+                class="cxd-Table-fixedTop"
+                style="top: 0px;"
+              />
+              <div
                 class="cxd-Table-contentWrap"
               >
                 <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
                   class="cxd-Table-content"
-                  style="position: relative;"
                 >
                   <table
                     class="cxd-Table-table"
                   >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                      <col
+                        data-index="5"
+                      />
+                    </colgroup>
                     <thead>
                       <tr
                         class=""
@@ -3666,6 +3089,7 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="3"
                           />
                         </th>
                         <th
@@ -3685,6 +3109,7 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="4"
                           />
                         </th>
                         <th
@@ -3704,6 +3129,7 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="5"
                           />
                         </th>
                       </tr>
@@ -3724,136 +3150,8 @@ exports[`Renderer:crud source & alwaysShowPagination 1`] = `
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
-                  </div>
                 </div>
-              </div>
-              <div
-                class="cxd-Table-fixedTop"
-              >
-                <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
-                  class="cxd-Table-wrapper"
-                >
-                  <table
-                    class="cxd-Table-table"
-                  >
-                    <colgroup>
-                      <col
-                        data-index="3"
-                      />
-                      <col
-                        data-index="4"
-                      />
-                      <col
-                        data-index="5"
-                      />
-                    </colgroup>
-                    <thead>
-                      <tr>
-                        <th
-                          class=""
-                          data-index="3"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                ID
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="4"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Rendering engine
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="5"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Browser
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
+                <span />
               </div>
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"

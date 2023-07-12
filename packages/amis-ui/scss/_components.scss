@@ -3970,9 +3970,9 @@
   --Table-color: var(--table-body-color);
   --Table-expandBtn-color: var(--colors-neutral-text-5);
   --Table-fixed-zIndex: 5;
-  --Table-fixedLeft-boxShadow: 0.42rem 0 0.42rem -0.28rem rgba(0, 0, 0, 0.15);
-  --Table-fixedRight-boxShadow: -0.42rem 0 0.42rem -0.28rem rgba(0, 0, 0, 0.15);
-  --Table-fixedTop-boxShadow: var(--shadows-shadow-normal);
+  --Table-fixedLeft-boxShadow: inset 10px 0 8px -8px rgba(5, 5, 5, 0.06);
+  --Table-fixedRight-boxShadow: inset -10px 0 8px -8px rgba(5, 5, 5, 0.06);
+  --Table-fixedTop-boxShadow: inset 0 10px 8px -8px rgba(5, 5, 5, 0.06);
   --Table-fontSize: var(--table-body-fontSize);
   --Table-heading-bg: var(--table-title-bg-color);
   --Table-heading-height: #{px2rem(40px)};

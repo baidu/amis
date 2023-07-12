@@ -16,6 +16,7 @@ import {SchemaTpl} from '../../Schema';
 import {Icon} from 'amis-ui';
 
 import type {IColumn, IRow} from 'amis-core';
+import ColGroup from './ColGroup';
 
 export interface TableContentProps extends LocaleProps {
   className?: string;
@@ -32,7 +33,7 @@ export interface TableContentProps extends LocaleProps {
   rows: Array<IRow>;
   placeholder?: string | SchemaTpl;
   render: (region: string, node: SchemaNode, props?: any) => JSX.Element;
-  onMouseMove: (event: React.MouseEvent) => void;
+  onMouseMove?: (event: React.MouseEvent) => void;
   onScroll: (event: React.UIEvent) => void;
   tableRef: (table?: HTMLTableElement | null) => void;
   renderHeadCell: (column: IColumn, props?: any) => JSX.Element;
@@ -177,24 +178,38 @@ export class TableContent extends React.Component<TableContentProps> {
         className={cx('Table-content', className)}
         onScroll={onScroll}
       >
-        <table ref={tableRef} className={tableClassName}>
+        <table
+          style={store.useFixedLayout ? {tableLayout: 'fixed'} : undefined}
+          ref={tableRef}
+          className={tableClassName}
+        >
+          <ColGroup columns={columns} store={store} />
           <thead>
             {columnsGroup.length ? (
               <tr>
-                {columnsGroup.map((item, index) =>
+                {columnsGroup.map((item, index) => {
+                  const [stickyStyle, stickyClassName] = store.getStickyStyles(
+                    item as any,
+                    columnsGroup as any
+                  );
+
                   /**
                    * 勾选列和展开列的表头单独成列
                    * 如果分组列只有一个元素且未分组时，也要执行表头合并
                    */
-                  !!~['__checkme', '__expandme'].indexOf(item.has[0].type) ||
-                  (item.has.length === 1 &&
-                    !/^__/.test(item.has[0].type) &&
-                    !item.has[0].groupName) ? (
+                  return !!~['__checkme', '__expandme'].indexOf(
+                    item.has[0].type
+                  ) ||
+                    (item.has.length === 1 &&
+                      !/^__/.test(item.has[0].type) &&
+                      !item.has[0].groupName) ? (
                     renderHeadCell(item.has[0], {
                       'data-index': item.has[0].index,
                       'key': index,
                       'colSpan': item.colSpan,
-                      'rowSpan': item.rowSpan
+                      'rowSpan': item.rowSpan,
+                      'style': stickyStyle,
+                      'className': stickyClassName
                     })
                   ) : (
                     <th
@@ -202,11 +217,13 @@ export class TableContent extends React.Component<TableContentProps> {
                       data-index={item.index}
                       colSpan={item.colSpan}
                       rowSpan={item.rowSpan}
+                      style={stickyStyle}
+                      className={stickyClassName}
                     >
                       {item.label ? render('tpl', item.label) : null}
                     </th>
-                  )
-                )}
+                  );
+                })}
               </tr>
             ) : null}
             <tr className={hideHeader ? 'fake-hide' : ''}>

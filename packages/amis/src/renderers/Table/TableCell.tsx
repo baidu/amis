@@ -66,6 +66,14 @@ export class TableCell extends React.Component<TableCellProps> {
       itemBadge,
       ...rest
     } = this.props;
+
+    if (isHead) {
+      Component = 'th';
+    } else {
+      Component = Component || 'td';
+    }
+    const isTableCell = Component === 'td' || Component === 'th';
+
     const schema = {
       ...column,
       style: column.innerStyle, // column的innerStyle配置 作为内部组件的style 覆盖column的style
@@ -88,24 +96,14 @@ export class TableCell extends React.Component<TableCellProps> {
           data
         });
 
-    if (width) {
+    if (isTableCell) {
+      // table Cell 会用 colGroup 来设置宽度，这里不需要再设置
+      style.width && (style = omit(style, ['width']));
+    } else if (width) {
       style = {
         ...style,
         width: (style && style.width) || width
       };
-
-      if (!/%$/.test(String(style.width))) {
-        body = (
-          <div style={{width: style.width}}>
-            {cellPrefix}
-            {body}
-            {cellAffix}
-          </div>
-        );
-        cellPrefix = null;
-        cellAffix = null;
-        // delete style.width;
-      }
     }
 
     if (align) {
@@ -150,12 +148,6 @@ export class TableCell extends React.Component<TableCellProps> {
 
     if (contentsOnly) {
       return body as JSX.Element;
-    }
-
-    if (isHead) {
-      Component = 'th';
-    } else {
-      Component = Component || 'td';
     }
 
     return (

@@ -45,6 +45,7 @@ export const Column = types
     type: types.optional(types.string, 'plain'),
     name: types.maybe(types.string),
     value: types.frozen(),
+    id: '',
     groupName: '',
     toggled: false,
     toggable: true,
@@ -58,6 +59,7 @@ export const Column = types
     fixed: '',
     index: 0,
     rawIndex: 0,
+    width: 0,
     breakpoint: types.optional(types.frozen(), undefined),
     pristine: types.optional(types.frozen(), undefined),
     remark: types.optional(types.frozen(), undefined),
@@ -84,6 +86,10 @@ export const Column = types
 
       const table = getParent(self, 2) as ITableStore;
       table.persistSaveToggledColumns();
+    },
+
+    setWidth(value: number) {
+      self.width = value;
     }
   }));
 
@@ -350,6 +356,7 @@ export const TableStore = iRendererStore
     formsRef: types.optional(types.array(types.frozen()), []),
     maxKeepItemSelectionLength: Infinity,
     keepItemSelectionOnPageChange: false,
+    useFixedLayout: false, // 默认 table-layout 为 auto，主要这种方式下宽度设置不准确
     // 导出 Excel 按钮的 loading 状态
     exportExcelLoading: false,
     searchFormExpanded: false // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
@@ -423,31 +430,6 @@ export const TableStore = iRendererStore
             item.breakpoint &&
             isBreakpoint(item.breakpoint)
       );
-    }
-
-    function getLeftFixedColumns() {
-      if (self.dragging) {
-        return [];
-      }
-
-      let columns = getFilteredColumns().filter(item => item.fixed === 'left');
-
-      // 有才带过去，没有就不带了
-      if (columns.length) {
-        columns = getFilteredColumns().filter(
-          item => item.fixed === 'left' || /^__/.test(item.type)
-        );
-      }
-
-      return columns;
-    }
-
-    function getRightFixedColumns() {
-      if (self.dragging) {
-        return [];
-      }
-
-      return getFilteredColumns().filter(item => item.fixed === 'right');
     }
 
     function isSelected(row: IRow): boolean {
@@ -597,10 +579,17 @@ export const TableStore = iRendererStore
           (item.has.length === 1 && item.label === item.has[0].label)
             ? 2
             : 1;
+
         return {
           ...item,
           rowSpan,
-          label: rowSpan === 2 ? item.label || item.has[0].label : item.label
+          label: rowSpan === 2 ? item.label || item.has[0].label : item.label,
+          fixed: item.has.every(column => column.fixed)
+            ? item.has[0].fixed
+            : undefined,
+          get width() {
+            return item.has.reduce((a, b) => a + b.width, 0);
+          }
         };
       });
     }
@@ -645,14 +634,6 @@ export const TableStore = iRendererStore
 
       get footableColumns() {
         return getFootableColumns();
-      },
-
-      get leftFixedColumns() {
-        return getLeftFixedColumns();
-      },
-
-      get rightFixedColumns() {
-        return getRightFixedColumns();
       },
 
       get toggableColumns() {
@@ -771,11 +752,77 @@ export const TableStore = iRendererStore
         });
 
         return list;
+      },
+
+      get columnWidthReady() {
+        return getFilteredColumns().every(column => column.width);
+      },
+
+      getStickyStyles(column: IColumn, columns: Array<IColumn>) {
+        let stickyClassName = '';
+        const style: any = {};
+        const autoFixLeftColumns = ['__checkme', '__dragme', '__expandme'];
+
+        if (
+          column.fixed === 'left' ||
+          autoFixLeftColumns.includes(column.type)
+        ) {
+          stickyClassName = 'is-sticky is-sticky-left';
+          let index = columns.indexOf(column) - 1;
+
+          if (
+            columns
+              .slice(index + 2)
+              .every(
+                col =>
+                  !(
+                    (col && col.fixed === 'left') ||
+                    autoFixLeftColumns.includes(col.type)
+                  )
+              )
+          ) {
+            stickyClassName += ' is-sticky-last-left';
+          }
+
+          let left = 0;
+          while (index >= 0) {
+            const col = columns[index];
+            if (
+              (col && col.fixed === 'left') ||
+              autoFixLeftColumns.includes(col.type)
+            ) {
+              left += col.width;
+            }
+            index--;
+          }
+          style.left = left;
+        } else if (column.fixed === 'right') {
+          stickyClassName = 'is-sticky is-sticky-right';
+          let right = 0;
+          let index = columns.indexOf(column) + 1;
+
+          if (columns.slice(0, index - 1).every(col => col.fixed !== 'right')) {
+            stickyClassName += ' is-sticky-first-right';
+          }
+
+          const len = columns.length;
+          while (index < len) {
+            const col = columns[index];
+            if (col && col.fixed === 'right') {
+              right += col.width;
+            }
+            index++;
+          }
+          style.right = right;
+        }
+        return [style, stickyClassName];
       }
     };
   })
   .actions(self => {
-    function update(config: Partial<STableStore>) {
+    function update(
+      config: Partial<STableStore> & {tableLayout?: 'fixed' | 'auto'}
+    ) {
       config.primaryField !== void 0 &&
         (self.primaryField = config.primaryField);
       config.selectable !== void 0 && (self.selectable = config.selectable);
@@ -820,12 +867,6 @@ export const TableStore = iRendererStore
         let columns: Array<SColumn> = config.columns
           .filter(column => column)
           .concat();
-        if (!columns.length) {
-          columns.push({
-            type: 'text',
-            label: '空'
-          });
-        }
 
         // 更新列顺序，afterCreate生命周期中更新columns不会触发组件的render
         const key = getPersistDataKey(columns);
@@ -846,42 +887,11 @@ export const TableStore = iRendererStore
           }
         }
 
-        columns.unshift({
-          type: '__expandme',
-          toggable: false,
-          className: 'Table-expandCell'
-        });
+        updateColumns(columns);
+      }
 
-        columns.unshift({
-          type: '__checkme',
-          fixed: 'left',
-          toggable: false,
-          className: 'Table-checkCell'
-        });
-
-        columns.unshift({
-          type: '__dragme',
-          toggable: false,
-          className: 'Table-dragCell'
-        });
-
-        columns = columns.map((item, index) => ({
-          ...item,
-          index,
-          rawIndex: index - PARTITION_INDEX,
-          type: item.type || 'plain',
-          pristine: item,
-          toggled: item.toggled !== false,
-          breakpoint: item.breakpoint,
-          isPrimary: index === PARTITION_INDEX,
-          className: item.className || '',
-          /** 提前映射变量，方便后续view中使用 */
-          label: isPureVariable(item.label)
-            ? resolveVariableAndFilter(item.label, self.data)
-            : item.label
-        }));
-
-        self.columns.replace(columns as any);
+      if (config.tableLayout === 'fixed') {
+        self.useFixedLayout = true;
       }
     }
 
@@ -917,7 +927,9 @@ export const TableStore = iRendererStore
 
         columns = columns.map((item, index) => ({
           ...item,
+          id: guid(),
           index,
+          width: 0,
           rawIndex: index - PARTITION_INDEX,
           type: item.type || 'plain',
           pristine: item.pristine || item,
@@ -931,8 +943,14 @@ export const TableStore = iRendererStore
         }));
 
         self.columns.replace(columns as any);
-        persistSaveToggledColumns();
+        // self.useFixedLayout = self.columns.some(
+        //   column => column.pristine.width
+        // );
       }
+    }
+
+    function invalidTableColumnWidth() {
+      self.columns.forEach(column => column.setWidth(0));
     }
 
     function combineCell(arr: Array<SRow>, keys: Array<string>): Array<SRow> {
@@ -1130,6 +1148,7 @@ export const TableStore = iRendererStore
       }
 
       self.dragging = false;
+      invalidTableColumnWidth(); // 更新内容需要重新计算表格布局
     }
 
     // 获取所有层级的子节点id
@@ -1493,6 +1512,7 @@ export const TableStore = iRendererStore
     return {
       update,
       updateColumns,
+      invalidTableColumnWidth,
       initRows,
       updateSelected,
       toggleAll,
@@ -1515,6 +1535,9 @@ export const TableStore = iRendererStore
       persistSaveToggledColumns,
       setSearchFormExpanded,
       toggleSearchFormExpanded,
+      setUseFixedLayout(value: any) {
+        self.useFixedLayout = !!value;
+      },
 
       // events
       afterCreate() {

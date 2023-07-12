@@ -106,7 +106,10 @@ export class TableBody extends React.Component<TableBodyProps> {
               ? filter(rowClassNameExpr, item.locals)
               : rowClassName,
             {
-              'is-last': item.depth > 1 && rowIndex === rows.length - 1
+              'is-last':
+                item.depth > 1 &&
+                rowIndex === rows.length - 1 &&
+                !item.children.length
             }
           )}
           columns={columns}
