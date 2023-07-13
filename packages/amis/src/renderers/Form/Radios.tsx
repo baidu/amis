@@ -93,6 +93,13 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
     reload && reload();
   }
 
+  @autobind
+  renderLabel(option: Option, {labelField}: any) {
+    const {data} = this.props;
+    const label = option[labelField || 'label'];
+    return <>{typeof label === 'string' ? filter(label, data) : `${label}`}</>;
+  }
+
   @supportStatic()
   render() {
     const {
@@ -137,15 +144,8 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         labelField={labelField}
         valueField={valueField}
         placeholder={__(placeholder)}
-        options={options.map(item => {
-          let filterExtend: any = {};
-          let labelKey = labelField || 'label';
-          filterExtend[labelKey] = filter(item[labelKey], data);
-          return {
-            item,
-            ...filterExtend
-          };
-        })}
+        options={options}
+        renderLabel={this.renderLabel}
         columnsCount={columnsCount}
         classPrefix={classPrefix}
         itemClassName={itemClassName}

@@ -41,8 +41,12 @@ interface RadioProps extends OptionProps {
   labelClassName?: string;
   classPrefix: string;
   classnames: ClassNamesFn;
+  renderLabel?: (item: Option, props: RadioProps) => JSX.Element;
 }
 
+const defaultLabelRender = (item: Option, props: RadioProps) => (
+  <>{`${item[props.labelField || 'label']}`}</>
+);
 export class Radios extends React.Component<RadioProps, any> {
   static defaultProps = {
     type: 'radio',
@@ -79,14 +83,19 @@ export class Radios extends React.Component<RadioProps, any> {
   }
 
   renderGroup(option: Option, index: number, valueArray: Array<Option>) {
-    const {classnames: cx, optionType, classPrefix: ns} = this.props;
+    const {
+      classnames: cx,
+      optionType,
+      classPrefix: ns,
+      renderLabel = defaultLabelRender
+    } = this.props;
 
     return (
       <div key={index} className={cx('RadiosControl-group', option.className)}>
         <label
           className={cx('RadiosControl-groupLabel', option.labelClassName)}
         >
-          {option.label}
+          {renderLabel(option, this.props)}
         </label>
 
         {option.children && option.children.length
@@ -113,7 +122,8 @@ export class Radios extends React.Component<RadioProps, any> {
       optionType,
       level,
       btnActiveLevel,
-      classPrefix: ns
+      classPrefix: ns,
+      renderLabel = defaultLabelRender
     } = this.props;
 
     if (optionType === 'button') {
@@ -127,7 +137,7 @@ export class Radios extends React.Component<RadioProps, any> {
           disabled={disabled || option.disabled}
           level={(active ? btnActiveLevel : '') || level}
         >
-          <span>{`${option[labelField || 'label']}`}</span>
+          <span>{renderLabel(option, this.props)}</span>
         </Button>
       );
     }
@@ -144,7 +154,7 @@ export class Radios extends React.Component<RadioProps, any> {
         inline={inline}
         labelClassName={labelClassName}
       >
-        {`${option[labelField || 'label']}`}
+        {renderLabel(option, this.props)}
       </Checkbox>
     );
   }
