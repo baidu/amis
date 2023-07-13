@@ -132,7 +132,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
                 coordinatesType={coordinatesType}
               />
             ) : (
-              <Alert2>{__('${vendor} 地图控件不支持', {vendor})}</Alert2>
+              <Alert2>{__('{{vendor}} 地图控件不支持', {vendor})}</Alert2>
             )}
           </PopOver>
         </Overlay>
