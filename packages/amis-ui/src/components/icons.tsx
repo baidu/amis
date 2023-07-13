@@ -101,7 +101,7 @@ import NewEdit from '../icons/new-edit.svg';
 import RotateLeft from '../icons/rotate-left.svg';
 import RotateRight from '../icons/rotate-right.svg';
 import ScaleOrigin from '../icons/scale-origin.svg';
-import {isObject} from 'lodash';
+import isObject from 'lodash/isObject';
 
 // 兼容原来的用法，后续不直接试用。
 

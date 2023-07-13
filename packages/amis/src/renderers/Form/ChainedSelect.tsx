@@ -15,7 +15,7 @@ import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import find from 'lodash/find';
-import {isEmpty} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 /**
  * 链式下拉框

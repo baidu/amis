@@ -8,7 +8,7 @@ import {
   Controller as ReactHookFormController,
   RegisterOptions
 } from 'react-hook-form';
-import {method} from 'lodash';
+import method from 'lodash/method';
 
 export interface FormFieldProps extends LocaleProps, ThemeProps {
   mode?: 'normal' | 'horizontal';

@@ -282,6 +282,10 @@ function handleChange() {
 amisScoped.unmount();
 ```
 
+## vue
+
+可以基于 SDK 版本封装成 component 供 vue 使用，具体请参考示例：https://github.com/aisuda/vue2-amis-demo
+
 ## react
 
 初始项目请参考 <https://github.com/aisuda/amis-react-starter>。

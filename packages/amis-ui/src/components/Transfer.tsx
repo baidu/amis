@@ -1,13 +1,10 @@
 import React from 'react';
-import {
-  intersectionWith,
-  differenceWith,
-  includes,
-  debounce,
-  result,
-  isEqual,
-  unionWith
-} from 'lodash';
+import intersectionWith from 'lodash/intersectionWith';
+import differenceWith from 'lodash/differenceWith';
+import includes from 'lodash/includes';
+import debounce from 'lodash/debounce';
+import isEqual from 'lodash/isEqual';
+import unionWith from 'lodash/unionWith';
 
 import {ThemeProps, themeable, findTree} from 'amis-core';
 import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';

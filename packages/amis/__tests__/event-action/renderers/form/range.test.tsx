@@ -96,6 +96,7 @@ test('EventAction:inputRange', async () => {
     )
   );
 
+  await wait(200);
   const inputs = container.querySelector('.cxd-InputRange-input input')!;
 
   // input change

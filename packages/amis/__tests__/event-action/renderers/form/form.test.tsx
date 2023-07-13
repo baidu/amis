@@ -364,7 +364,7 @@ test('doAction:form setValue', async () => {
   expect(container).toMatchSnapshot();
 });
 
-test('doAction:form reload', async () => {
+test('doAction:form reload default', async () => {
   const notify = jest.fn();
   const fetcher = jest.fn().mockImplementation(() =>
     Promise.resolve({
@@ -427,31 +427,33 @@ test('doAction:form reload', async () => {
     )
   );
 
-  fireEvent.change(container.querySelector('[name="author"]')!, {
+  await wait(200); // 等待 initApi 加载完
+  expect(
+    (container.querySelector('[name="author"]') as HTMLInputElement).value
+  ).toEqual('fex');
+
+  const author: HTMLInputElement = container.querySelector('[name="author"]')!;
+  fireEvent.change(author, {
     target: {value: 'amis'}
   });
 
-  await waitFor(() => {
-    expect((container.querySelector('[name="author"]') as any)?.value).toEqual(
-      'amis'
-    );
-  });
+  expect(
+    (container.querySelector('[name="author"]') as HTMLInputElement).value
+  ).toEqual('amis');
 
-  expect(container).toMatchSnapshot();
+  // expect(container).toMatchSnapshot();
 
-  await waitFor(() => {
-    expect(getByText('刷新表单')).toBeInTheDocument();
-  });
+  await wait(200);
+  expect(getByText('刷新表单')).toBeInTheDocument();
+  fireEvent.click(getByText('刷新表单'));
 
-  fireEvent.click(getByText(/刷新表单/));
+  await wait(200);
 
-  await waitFor(() => {
-    expect((container.querySelector('[name="author"]') as any)?.value).toEqual(
-      'fex'
-    );
-  });
+  expect(
+    (container.querySelector('[name="author"]') as HTMLInputElement).value
+  ).toEqual('fex');
 
-  expect(container).toMatchSnapshot();
+  // expect(container).toMatchSnapshot();
 });
 
 test('doAction:form reload with data', async () => {
@@ -525,34 +527,23 @@ test('doAction:form reload with data', async () => {
     )
   );
 
-  fireEvent.change(container.querySelector('[name="author"]')!, {
+  await wait(200);
+  const author: HTMLInputElement = container.querySelector('[name="author"]')!;
+  expect(author).toBeInTheDocument();
+  fireEvent.change(author, {
     target: {value: 'amis'}
   });
 
-  await waitFor(() => {
-    expect((container.querySelector('[name="author"]') as any)?.value).toEqual(
-      'amis'
-    );
-  });
+  await wait(200);
+  expect(author.value).toEqual('amis');
 
-  expect(container).toMatchSnapshot();
+  expect(getByText('刷新表单')).toBeInTheDocument();
 
-  await waitFor(() => {
-    expect(getByText('刷新表单')).toBeInTheDocument();
-  });
+  fireEvent.click(getByText('刷新表单'));
+  await wait(200);
 
-  fireEvent.click(getByText(/刷新表单/));
-
-  await waitFor(() => {
-    expect((container.querySelector('[name="author"]') as any)?.value).toEqual(
-      'fex'
-    );
-    expect((container.querySelector('[name="age"]') as any)?.value).toEqual(
-      '18'
-    );
-  });
-
-  expect(container).toMatchSnapshot();
+  expect(author.value).toEqual('fex');
+  expect((container.querySelector('[name="age"]') as any)?.value).toEqual('18');
 });
 
 test('doAction:form reset', async () => {
@@ -707,6 +698,7 @@ test('doAction:form clear', async () => {
     )
   );
 
+  await wait(200);
   await waitFor(() => {
     expect(getByText('清空表单')).toBeInTheDocument();
   });

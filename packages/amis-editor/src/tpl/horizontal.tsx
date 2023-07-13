@@ -1,5 +1,5 @@
 import {setSchemaTpl, getSchemaTpl, defaultValue} from 'amis-editor-core';
-import {isObject} from 'lodash';
+import isObject from 'lodash/isObject';
 import {tipedLabel} from 'amis-editor-core';
 
 setSchemaTpl('horizontal-align', {

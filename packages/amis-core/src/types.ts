@@ -247,7 +247,7 @@ export interface fetchOptions {
   errorMessage?: string;
   autoAppend?: boolean;
   beforeSend?: (data: any) => any;
-  onSuccess?: (json: Payload) => any;
+  onSuccess?: (json: Payload, data: any) => any;
   onFailed?: (json: Payload) => any;
   silent?: boolean;
   [propName: string]: any;

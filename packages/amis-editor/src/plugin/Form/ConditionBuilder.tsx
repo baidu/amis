@@ -10,7 +10,8 @@ import {
 } from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 
-import {isObject, isString} from 'lodash';
+import isObject from 'lodash/isObject';
+import isString from 'lodash/isString';
 import defaultConfig, {
   OperationMap
 } from 'amis-ui/lib/components/condition-builder/config';

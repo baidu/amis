@@ -9,10 +9,13 @@ import {
 import type {DSField} from 'amis-editor-core';
 import type {SchemaObject} from 'amis';
 import flatten from 'lodash/flatten';
-import _ from 'lodash';
 import {InputComponentName} from '../component/InputComponentName';
 import {FormulaDateType} from '../renderer/FormulaControl';
 import {VariableItem} from 'amis-ui/lib/components/formula/Editor';
+import reduce from 'lodash/reduce';
+import map from 'lodash/map';
+import omit from 'lodash/omit';
+import keys from 'lodash/keys';
 
 /**
  * @deprecated 兼容当前组件的switch
@@ -585,7 +588,7 @@ setSchemaTpl(
         });
       }
       if (schema.options) {
-        let optionItem = _.reduce(
+        let optionItem = reduce(
           schema.options,
           function (result, item) {
             return {...result, ...item};
@@ -594,12 +597,12 @@ setSchemaTpl(
         );
         delete optionItem?.$$id;
 
-        optionItem = _.omit(
+        optionItem = omit(
           optionItem,
-          _.map(children, item => item?.label)
+          map(children, item => item?.label)
         );
 
-        let otherItem = _.map(_.keys(optionItem), item => ({
+        let otherItem = map(keys(optionItem), item => ({
           label:
             item === 'label' ? '选项文本' : item === 'value' ? '选项值' : item,
           value: item,

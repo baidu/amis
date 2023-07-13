@@ -1,5 +1,5 @@
 import {PlainObject} from 'amis-core';
-import {isEmpty} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 const conf: any = {
   ws: '[ \t\n\r\f]*',

@@ -2,7 +2,7 @@
  * Tranasfer搜索
  */
 import React from 'react';
-import {debounce} from 'lodash';
+import debounce from 'lodash/debounce';
 
 import {ThemeProps, themeable} from 'amis-core';
 import {Icon} from './icons';

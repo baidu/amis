@@ -27,6 +27,10 @@ export function FuncList(props: FuncListProps) {
   const [filteredFuncs, setFiteredFuncs] = React.useState(props.data);
   const [activeFunc, setActiveFunc] = React.useState<any>(null);
 
+  React.useEffect(() => {
+    setFiteredFuncs(props.data);
+  }, [props.data]);
+
   function onSearch(term: string) {
     const filtered = props.data
       .map(item => {
