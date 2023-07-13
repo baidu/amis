@@ -413,6 +413,12 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 
 ### setValue
 
+通过`setValue`更新指定页面组件的数据。
+
+#### 合并数据
+
+默认`setValue`会将新数据与目标组件数据进行合并。
+
 ```schema
 {
   "type": "page",
@@ -439,7 +445,44 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
     },
     {
       "type": "tpl",
-      "tpl": "当前时间是：${date}"
+      "tpl": "标题：${title} 当前时间是：${date}"
+    }
+  ]
+}
+```
+
+#### 覆盖数据
+
+可以通过`"dataMergeMode": "override"`来覆盖目标组件数据。
+
+```schema
+{
+  "type": "page",
+  "id": "page02",
+  "initApi": "/api/mock2/page/initData",
+  "body": [
+    {
+      "type": "button",
+      "label": "更新数据",
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "page02",
+              "actionType": "setValue",
+              "args": {
+                "value": {"date": "2023-05-01"}
+              },
+              "dataMergeMode": "override"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "tpl",
+      "tpl": "标题：${title|default:'-'} 当前时间是：${date}"
     }
   ]
 }

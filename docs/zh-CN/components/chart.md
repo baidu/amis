@@ -1101,6 +1101,10 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
 
 ### reload
 
+#### 只做刷新
+
+重新发送`api`请求，刷新 Chart 时，只配置`componentId`目标组件 ID 即可。
+
 ```schema: scope="body"
 [
     {
@@ -1147,7 +1151,76 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
 ]
 ```
 
+#### 发送数据并刷新
+
+刷新 Chart 组件时，如果配置了`data`，将发送`data`给目标组件，并将该数据合并到目标组件的数据域中。
+
+```schema: scope="body"
+[
+    {
+      "type": "button",
+      "label": "刷新请求",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "chart01",
+              "actionType": "reload",
+              "data": {
+                "xAxis": [
+                  "周一",
+                  "周二",
+                  "周三",
+                  "周四",
+                  "周五",
+                  "周六"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+    "type": "chart",
+    "id": "chart01",
+    "data": {
+      "xAxis": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+      ]
+    },
+    "api": "/api/mock2/chart/chartData",
+    "config": {
+      "xAxis": {
+        "type": "category",
+        "data": "${xAxis}"
+      },
+      "yAxis": {
+        "type": "value"
+      },
+      "series": [
+        {
+          "data": "${line || []}",
+          "type": "line"
+        }
+      ]
+    }
+  }
+]
+```
+
 ### setValue
+
+通过`setValue`更新指定图表的数据。
+
+#### 合并数据
+
+默认`setValue`会将新数据与目标组件数据进行合并。
 
 ```schema: scope="body"
 [
@@ -1161,7 +1234,9 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
               "componentId": "chart02",
               "actionType": "setValue",
               "args": {
-                "value": {"line":[98,41,51,2,90,40]}
+                "value": {
+                  "line":[98,41,51,2,90,40]
+                }
               }
             }
           ]
@@ -1171,11 +1246,8 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
     {
     "type": "chart",
     "id": "chart02",
-    "api": "/api/mock2/chart/chartData",
-    "config": {
-      "xAxis": {
-        "type": "category",
-        "data": [
+    "data": {
+      "xAxis": [
           "Mon",
           "Tue",
           "Wed",
@@ -1183,6 +1255,71 @@ echarts 的 config 一般是静态配置的，支持简单的数据映射。如�
           "Fri",
           "Sat"
         ]
+    },
+    "api": "/api/mock2/chart/chartData",
+    "config": {
+      "xAxis": {
+        "type": "category",
+        "data": "${xAxis}"
+      },
+      "yAxis": {
+        "type": "value"
+      },
+      "series": [
+        {
+          "data": "${line || []}",
+          "type": "line"
+        }
+      ]
+    }
+  }
+]
+```
+
+#### 覆盖数据
+
+可以通过`"dataMergeMode": "override"`来覆盖目标组件数据。
+
+```schema: scope="body"
+[
+    {
+      "type": "button",
+      "label": "更新数据",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "chart02",
+              "actionType": "setValue",
+              "args": {
+                "value": {
+                  "line":[98,41,51,2,90,40]
+                }
+              },
+              "dataMergeMode": "override"
+            }
+          ]
+        }
+      }
+    },
+    {
+    "type": "chart",
+    "id": "chart02",
+    "data": {
+      "xAxis": [
+          "Mon",
+          "Tue",
+          "Wed",
+          "Thu",
+          "Fri",
+          "Sat"
+        ]
+    },
+    "api": "/api/mock2/chart/chartData",
+    "config": {
+      "xAxis": {
+        "type": "category",
+        "data": "${xAxis}"
       },
       "yAxis": {
         "type": "value"

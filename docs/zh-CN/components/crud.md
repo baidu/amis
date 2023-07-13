@@ -4269,102 +4269,236 @@ value 结构说明：
 
 ### setValue
 
+通过`setValue`更新指定CRUD的数据。
+
+#### 合并数据
+
+默认`setValue`会将新数据与目标组件数据进行合并。
+
+```schema: scope="body"
+[
+    {
+      "type": "button",
+      "label": "更新数据，记录总数被更新为20",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "crud_setvalue",
+              "args": {
+                "value": {
+                  "count": 20
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "crud",
+      "id": "crud_setvalue",
+      "syncLocation": false,
+      "api": "/api/mock2/sample",
+      "quickSaveApi": "/api/mock2/sample/bulkUpdate",
+      "headerToolbar": [
+        {
+          "type": "tpl",
+          "tpl": "记录总数：${count}"
+        }
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID",
+          "id": "u:3db3f2b1b99e"
+        },
+        {
+          "name": "engine",
+          "label": "engine",
+          "id": "u:0b9be99f3403"
+        },
+        {
+          "name": "version",
+          "label": "version",
+          "id": "u:4868d7db0139"
+        }
+      ]
+    }
+]
+```
+
+#### 覆盖数据
+
+可以通过`"dataMergeMode": "override"`来覆盖目标组件数据。
+
+```schema: scope="body"
+[
+    {
+      "type": "button",
+      "label": "更新数据，列表记录更新为两条，记录总数被删除",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "crud_setvalue",
+              "args": {
+                "value": {
+                  "items": [
+                    {
+                      "engine": "Trident - f12fj",
+                      "browser": "Internet Explorer 4.0",
+                      "platform": "Win 95+",
+                      "version": "4",
+                      "grade": "X",
+                      "badgeText": "默认",
+                      "id": 1
+                    },
+                    {
+                      "engine": "Trident - oqvc0e",
+                      "browser": "Internet Explorer 5.0",
+                      "platform": "Win 95+",
+                      "version": "5",
+                      "grade": "C",
+                      "badgeText": "危险",
+                      "id": 2
+                    }
+                  ]
+                }
+              },
+              "dataMergeMode": "override"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "crud",
+      "id": "crud_setvalue",
+      "syncLocation": false,
+      "api": "/api/mock2/sample",
+      "quickSaveApi": "/api/mock2/sample/bulkUpdate",
+      "headerToolbar": [
+        {
+          "type": "tpl",
+          "tpl": "记录总数：${count}"
+        }
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID",
+          "id": "u:3db3f2b1b99e"
+        },
+        {
+          "name": "engine",
+          "label": "engine",
+          "id": "u:0b9be99f3403"
+        },
+        {
+          "name": "version",
+          "label": "version",
+          "id": "u:4868d7db0139"
+        }
+      ]
+    }
+]
+```
 #### 更新列表记录
 
 ```schema: scope="body"
-{
-    "type": "crud",
-    "id": "crud_setvalue",
-    "syncLocation": false,
-    "api": "/api/mock2/sample",
-    "quickSaveApi": "/api/mock2/sample/bulkUpdate",
-    "headerToolbar": [
-        {
-            "type": "button",
-            "label": "更新列表记录",
-            "onEvent": {
-                "click": {
-                    "actions": [
+[
+    {
+      "type": "button",
+      "label": "更新列表记录",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "crud_setvalue",
+              "args": {
+                "value": {
+                  "count": 2,
+                  "items": [
                     {
-                        "actionType": "setValue",
-                        "componentId": "crud_setvalue",
-                        "args": {
-                            "value": {
-                                "total": 2,
-                                "items": [
-                                    {
-                                        "engine": "Trident - f12fj",
-                                        "browser": "Internet Explorer 4.0",
-                                        "platform": "Win 95+",
-                                        "version": "4",
-                                        "grade": "X",
-                                        "badgeText": "默认",
-                                        "id": 1
-                                    },
-                                    {
-                                        "engine": "Trident - oqvc0e",
-                                        "browser": "Internet Explorer 5.0",
-                                        "platform": "Win 95+",
-                                        "version": "5",
-                                        "grade": "C",
-                                        "badgeText": "危险",
-                                        "id": 2
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                    ]
-                }
-            }
-        },
-
-        {
-            "type": "button",
-            "label": "清空数据",
-            "onEvent": {
-                "click": {
-                    "actions": [
+                      "engine": "Trident - f12fj",
+                      "browser": "Internet Explorer 4.0",
+                      "platform": "Win 95+",
+                      "version": "4",
+                      "grade": "X",
+                      "badgeText": "默认",
+                      "id": 1
+                    },
                     {
-                        "actionType": "setValue",
-                        "componentId": "crud_setvalue",
-                        "args": {
-                            "value": {
-                                "items": []
-                            }
-                        }
+                      "engine": "Trident - oqvc0e",
+                      "browser": "Internet Explorer 5.0",
+                      "platform": "Win 95+",
+                      "version": "5",
+                      "grade": "C",
+                      "badgeText": "危险",
+                      "id": 2
                     }
-                    ]
+                  ]
                 }
+              }
             }
+          ]
         }
-    ],
-    "bulkActions": [
-        {
-            "label": "批量删除",
-            "actionType": "ajax",
-            "api": "delete:/api/mock2/sample/${ids|raw}",
-            "confirmText": "确定要批量删除?"
+      }
+    },
+    {
+      "type": "button",
+      "label": "清空数据",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "crud_setvalue",
+              "args": {
+                "value": {
+                  "items": []
+                }
+              }
+            }
+          ]
         }
-    ],
-    "columns": [
+      }
+    },
+    {
+      "type": "crud",
+      "id": "crud_setvalue",
+      "syncLocation": false,
+      "api": "/api/mock2/sample",
+      "quickSaveApi": "/api/mock2/sample/bulkUpdate",
+      "headerToolbar": [
         {
-            "name": "id",
-            "label": "ID",
-            "id": "u:3db3f2b1b99e"
+          "type": "tpl",
+          "tpl": "记录总数：${count}"
+        }
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID",
+          "id": "u:3db3f2b1b99e"
         },
         {
-            "name": "engine",
-            "label": "engine",
-            "id": "u:0b9be99f3403"
+          "name": "engine",
+          "label": "engine",
+          "id": "u:0b9be99f3403"
         },
         {
-            "name": "version",
-            "label": "version",
-            "id": "u:4868d7db0139"
+          "name": "version",
+          "label": "version",
+          "id": "u:4868d7db0139"
         }
-    ]
-}
+      ]
+    }
+]
 ```
 
 #### 行记录中字段赋值

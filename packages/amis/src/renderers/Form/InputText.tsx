@@ -680,6 +680,7 @@ export default class TextControl extends React.PureComponent<
       creatable,
       borderMode,
       showCounter,
+      data,
       maxLength,
       minLength,
       translate: __,
@@ -733,6 +734,8 @@ export default class TextControl extends React.PureComponent<
             });
           }
 
+          const filteredPlaceholder = filter(placeholder, data);
+
           return (
             <div
               className={cx(
@@ -749,12 +752,12 @@ export default class TextControl extends React.PureComponent<
               onClick={this.handleClick}
             >
               <>
-                {placeholder &&
+                {filteredPlaceholder &&
                 !selectedOptions.length &&
                 !this.state.inputValue &&
                 !this.state.isFocused ? (
                   <div className={cx('TextControl-placeholder')}>
-                    {placeholder}
+                    {filteredPlaceholder}
                   </div>
                 ) : null}
 
@@ -938,7 +941,7 @@ export default class TextControl extends React.PureComponent<
         ) : null}
         <Input
           name={name}
-          placeholder={placeholder}
+          placeholder={filter(placeholder, data)}
           ref={this.inputRef}
           disabled={disabled}
           readOnly={readOnly}
