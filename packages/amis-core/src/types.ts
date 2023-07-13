@@ -217,8 +217,13 @@ export interface ApiObject extends BaseApiObject {
   operationName?: string;
   body?: PlainObject;
   query?: PlainObject;
-  adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
-  requestAdaptor?: (api: ApiObject) => ApiObject;
+  adaptor?: (
+    payload: object,
+    response: fetcherResult,
+    api: ApiObject,
+    context: any
+  ) => any;
+  requestAdaptor?: (api: ApiObject, context: any) => ApiObject;
   /** 是否过滤为空字符串的 query 参数 */
   filterEmptyQuery?: boolean;
 }
