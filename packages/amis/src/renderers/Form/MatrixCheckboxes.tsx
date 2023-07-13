@@ -311,10 +311,12 @@ export default class MatrixCheckbox extends React.Component<
    * @param value
    * @param columnIndex
    */
-  isColumChecked(value:any, columnIndex:any) {
+  isColumChecked(value: any, columnIndex: any) {
     let rows = value[columnIndex];
-    if (!rows) {return false}
-    return rows.some((item:any) => item && item.checked)
+    if (!rows) {
+      return false;
+    }
+    return rows.some((item: any) => item && item.checked);
   }
 
   /**
@@ -322,15 +324,17 @@ export default class MatrixCheckbox extends React.Component<
    * @param value
    * @param columnIndex
    */
-  isColumnPartialChecked(value:any, columnIndex:any) {
+  isColumnPartialChecked(value: any, columnIndex: any) {
     let rows = value[columnIndex];
     if (!rows || rows.length == 1) {
       return false; // 只有一行时，列上无部分选中状态
     }
     let checked = rows[0].checked;
-    return rows.some((item:any) => {
-      return item.checked !== checked; // 只要有不同的值，均认为是部分选中
-    });
+    return (
+      rows.some((item: any) => {
+        return item.checked !== checked; // 只要有不同的值，均认为是部分选中
+      }) && !rows.every((item: any) => item.checked === checked) // 全部选中时不认为是部分选中
+    );
   }
 
   /**
@@ -339,7 +343,7 @@ export default class MatrixCheckbox extends React.Component<
    * @param value
    * @param columnIndex
    */
-  async toggleColumnCheckAll(checked: any, value:any, columnIndex:any) {
+  async toggleColumnCheckAll(checked: any, value: any, columnIndex: any) {
     let rows = value[columnIndex];
     for (let i = 0; i < rows.length; i++) {
       await this.toggleItem(checked, columnIndex, i);
@@ -352,10 +356,13 @@ export default class MatrixCheckbox extends React.Component<
    * @param value
    * @param rowIndex
    */
-  isRowChecked(value:any, rowIndex:any) {
-    return value && value.some((columns:any) => {
-      return columns[rowIndex] && columns[rowIndex].checked
-    })
+  isRowChecked(value: any, rowIndex: any) {
+    return (
+      value &&
+      value.some((columns: any) => {
+        return columns[rowIndex] && columns[rowIndex].checked;
+      })
+    );
   }
 
   /**
@@ -363,15 +370,17 @@ export default class MatrixCheckbox extends React.Component<
    * @param value
    * @param rowIndex
    */
-  isRowPartialChecked(value:any, rowIndex:any) {
+  isRowPartialChecked(value: any, rowIndex: any) {
     if (!value || value.length == 1) {
       return false; // 只有一列时无部分选中状态
     }
-    let checkedVal = value[0][rowIndex];
-    return value.some((columns:any) => {
-      // 只要有不同的值就可以认为是部分选中
-      return checkedVal !== columns[rowIndex].checked;
-    })
+    let checked = value[0][rowIndex].checked;
+    return (
+      value.some((columns: any) => {
+        // 只要有不同的值就可以认为是部分选中
+        return checked !== columns[rowIndex].checked;
+      }) && !value.every((columns: any) => columns.checked) // 全部选中时不认为是部分选中
+    );
   }
 
   /**
@@ -381,7 +390,7 @@ export default class MatrixCheckbox extends React.Component<
    * @param value
    * @param rowIndex
    */
-  async toggleRowCheckAll(checked: any, value:any, rowIndex:any) {
+  async toggleRowCheckAll(checked: any, value: any, rowIndex: any) {
     for (let i = 0; i < value.length; i++) {
       await this.toggleItem(checked, i, rowIndex);
     }
@@ -389,7 +398,15 @@ export default class MatrixCheckbox extends React.Component<
 
   renderInput(forceDisabled = false) {
     const {columns, rows} = this.state;
-    const {rowLabel, disabled, classnames: cx, multiple, textAlign, xCheckAll, yCheckAll} = this.props;
+    const {
+      rowLabel,
+      disabled,
+      classnames: cx,
+      multiple,
+      textAlign,
+      xCheckAll,
+      yCheckAll
+    } = this.props;
 
     const value = this.props.value || buildDefaultValue(columns, rows);
 
@@ -398,68 +415,74 @@ export default class MatrixCheckbox extends React.Component<
         <div className={cx('Table-content')}>
           <table className={cx('Table-table')}>
             <thead>
-            <tr>
-              <th>{rowLabel}</th>
-              {columns.map((column, x) => (
-                <th key={x} className={"text-" + (textAlign || multiple ? 'left' : 'center')}>
-                  {multiple && yCheckAll ?
-                    <Checkbox
-                      type={'checkbox'}
-                      disabled={forceDisabled || disabled}
-                      checked={
-                        this.isColumChecked(value, x)
-                      }
-                      partial={this.isColumnPartialChecked(value, x)}
-                      onChange={(checked: boolean) =>
-                        this.toggleColumnCheckAll(checked, value, x)
-                      }
-                    /> : null
-                  }
-                  {column.label}
-                </th>
-              ))}
-            </tr>
-            </thead>
-            <tbody>
-            {rows.map((row, y) => (
-              <tr key={y}>
-                <td>
-                  {multiple && xCheckAll ?
-                    <Checkbox
-                      type={'checkbox'}
-                      disabled={forceDisabled || disabled}
-                      checked={
-                        this.isRowChecked(value, y)
-                      }
-                      partial={this.isRowPartialChecked(value, y)}
-                      onChange={(checked: boolean) =>
-                        this.toggleRowCheckAll(checked, value, y)
-                      }
-                    /> : null
-                  }
-                  {row.label}
-                  {row.description || row.desc ? (
-                    <span className="m-l-xs text-muted text-xs">
-                        {row.description || row.desc}
-                      </span>
-                  ) : null}
-                </td>
+              <tr>
+                <th>{rowLabel}</th>
                 {columns.map((column, x) => (
-                  <td key={x} className={"text-" + (textAlign || multiple ? 'left' : 'center')}>
-                    <Checkbox
-                      type={multiple ? 'checkbox' : 'radio'}
-                      disabled={forceDisabled || disabled}
-                      checked={
-                        !!(value[x] && value[x][y] && value[x][y].checked)
-                      }
-                      onChange={(checked: boolean) =>
-                        this.toggleItem(checked, x, y)
-                      }
-                    />
-                  </td>
+                  <th
+                    key={x}
+                    className={
+                      'text-' + (textAlign || multiple ? 'left' : 'center')
+                    }
+                  >
+                    {multiple && yCheckAll ? (
+                      <Checkbox
+                        type={'checkbox'}
+                        disabled={forceDisabled || disabled}
+                        checked={this.isColumChecked(value, x)}
+                        partial={this.isColumnPartialChecked(value, x)}
+                        onChange={(checked: boolean) =>
+                          this.toggleColumnCheckAll(checked, value, x)
+                        }
+                      />
+                    ) : null}
+                    {column.label}
+                  </th>
                 ))}
               </tr>
-            ))}
+            </thead>
+            <tbody>
+              {rows.map((row, y) => (
+                <tr key={y}>
+                  <td>
+                    {multiple && xCheckAll ? (
+                      <Checkbox
+                        type={'checkbox'}
+                        disabled={forceDisabled || disabled}
+                        checked={this.isRowChecked(value, y)}
+                        partial={this.isRowPartialChecked(value, y)}
+                        onChange={(checked: boolean) =>
+                          this.toggleRowCheckAll(checked, value, y)
+                        }
+                      />
+                    ) : null}
+                    {row.label}
+                    {row.description || row.desc ? (
+                      <span className="m-l-xs text-muted text-xs">
+                        {row.description || row.desc}
+                      </span>
+                    ) : null}
+                  </td>
+                  {columns.map((column, x) => (
+                    <td
+                      key={x}
+                      className={
+                        'text-' + (textAlign || multiple ? 'left' : 'center')
+                      }
+                    >
+                      <Checkbox
+                        type={multiple ? 'checkbox' : 'radio'}
+                        disabled={forceDisabled || disabled}
+                        checked={
+                          !!(value[x] && value[x][y] && value[x][y].checked)
+                        }
+                        onChange={(checked: boolean) =>
+                          this.toggleItem(checked, x, y)
+                        }
+                      />
+                    </td>
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
