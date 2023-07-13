@@ -157,7 +157,37 @@ export class MatrixControlPlugin extends BasePlugin {
                 ],
                 pipeIn: defaultValue('column')
               },
-              getSchemaTpl('autoFillApi')
+              getSchemaTpl('autoFillApi'),
+              {
+                label: tipedLabel('列全选', '列级全选功能'),
+                name: 'yCheckAll',
+                type: 'select',
+                options: [
+                  {
+                    label: '是',
+                    value: true
+                  },
+                  {
+                    label: '否',
+                    value: false
+                  }
+                ]
+              },
+              {
+                label: tipedLabel('行全选', '行级全选功能'),
+                name: 'xCheckAll',
+                type: 'select',
+                options: [
+                  {
+                    label: '是',
+                    value: true
+                  },
+                  {
+                    label: '否',
+                    value: false
+                  }
+                ]
+              }
             ]
           },
           {
@@ -208,7 +238,30 @@ export class MatrixControlPlugin extends BasePlugin {
         body: [
           getSchemaTpl('collapseGroup', [
             getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
-            getSchemaTpl('style:classNames')
+            getSchemaTpl('style:classNames'),
+            {
+              label: tipedLabel('对齐方式', '默认当开启全选后居左排列'),
+              name: 'textAlign',
+              type: 'select',
+              options: [
+                {
+                  label: '居中',
+                  value: 'center'
+                },
+                {
+                  label: '居左',
+                  value: 'left'
+                },
+                {
+                  label: '居右',
+                  value: 'right'
+                },
+                {
+                  label: '两端对齐',
+                  value: 'justify'
+                }
+              ]
+            }
           ])
         ]
       },
