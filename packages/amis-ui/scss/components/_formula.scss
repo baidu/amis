@@ -51,7 +51,8 @@
 
   &-editor {
     @include scrollbar();
-    height: px2rem(200px);
+    min-height: px2rem(200px);
+    height: calc(100% - 35px);
     padding: #{px2rem(5px)};
     padding-right: 0;
 
