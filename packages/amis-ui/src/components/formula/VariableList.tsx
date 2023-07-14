@@ -112,7 +112,8 @@ function VariableList(props: VariableListProps) {
                       <label>{option.label}</label>
                     </Badge>
                   )}
-                {option.label &&
+                {option.memberDepth === undefined &&
+                  option.label &&
                   (!selfVariableName || option.value !== selfVariableName) && (
                     <TooltipWrapper
                       tooltip={option.description ?? option.label}
@@ -122,7 +123,10 @@ function VariableList(props: VariableListProps) {
                     </TooltipWrapper>
                   )}
                 {/* 控制只对第一层数组成员展示快捷操作入口 */}
-                {option.memberDepth < 2 ? (
+                {option.memberDepth !== undefined &&
+                option.memberDepth < 2 &&
+                option.label &&
+                (!selfVariableName || option.value !== selfVariableName) ? (
                   <PopOverContainer
                     popOverContainer={() =>
                       document.querySelector(`.${cx('FormulaPicker-Modal')}`)
@@ -149,7 +153,12 @@ function VariableList(props: VariableListProps) {
                     )}
                   >
                     {({onClick, ref, isOpened}) => (
-                      <i className="fa fa-ellipsis-h" onClick={onClick} />
+                      <TooltipWrapper
+                        tooltip={option.description ?? option.label}
+                        tooltipTheme="dark"
+                      >
+                        <label onClick={onClick}>{option.label}</label>
+                      </TooltipWrapper>
                     )}
                   </PopOverContainer>
                 ) : null}
@@ -165,9 +174,10 @@ function VariableList(props: VariableListProps) {
 
   function handleMemberClick(item: any, option: any, onClose?: any) {
     // todo：暂时只提供一层的快捷操作
-    const lastPointIdx = option.value.lastIndexOf('.');
-    const arr = option.value.substring(0, lastPointIdx);
-    const member = option.value.substring(lastPointIdx + 1);
+    // const lastPointIdx = option.value.lastIndexOf('.');
+    const firstPointIdx = option.value.indexOf('.');
+    const arr = option.value.substring(0, firstPointIdx);
+    const member = option.value.substring(firstPointIdx + 1);
 
     const value = item.value
       .replace('${arr}', arr)
@@ -208,7 +218,7 @@ function VariableList(props: VariableListProps) {
   }
 
   function handleChange(item: any) {
-    if (item.isMember) {
+    if (item.isMember || item.memberDepth !== undefined) {
       return;
     }
     onSelect?.(item);

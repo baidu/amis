@@ -244,7 +244,7 @@ export class CityControlPlugin extends BasePlugin {
             title: '区域编码'
           },
           district: {
-            type: 'number',
+            type: 'string',
             title: '区域'
           },
           street: {

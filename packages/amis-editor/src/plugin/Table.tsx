@@ -770,29 +770,29 @@ export class TablePlugin extends BasePlugin {
     const columns: EditorNodeType = node.children.find(
       item => item.isRegion && item.region === 'columns'
     );
+    const cells: any = columns.children.concat();
 
-    // todo：以下的处理无效，需要cell实现才能深层细化
-    // for (let current of columns?.children) {
-    //   const schema = current.schema;
-    //   if (schema.name) {
-    //     itemsSchema.properties[schema.name] = current.info?.plugin
-    //       ?.buildDataSchemas
-    //       ? await current.info.plugin.buildDataSchemas(current, region)
-    //       : {
-    //           type: 'string',
-    //           title: schema.label || schema.name
-    //         };
-    //   }
-    // }
+    while (cells.length > 0 && cells.length <= columns.children?.length) {
+      const cell = cells.shift() as EditorNodeType;
+      // cell的孩子貌似只会有一个
+      const items = cell.children.concat();
+      while (items.length) {
+        const current = items.shift() as EditorNodeType;
+        const schema = current.schema;
 
-    // 一期先简单处理，上面todo实现之后，这里可以废弃
-    // 收集table配置的列成员
-    for (let current of node.schema?.columns) {
-      if (current.name) {
-        itemsSchema.properties[current.name] = {
-          type: 'string',
-          title: current.label || current.name
-        };
+        if (schema.name) {
+          itemsSchema.properties[schema.name] = current.info?.plugin
+            ?.buildDataSchemas
+            ? await current.info.plugin.buildDataSchemas(
+                current,
+                region,
+                trigger
+              )
+            : {
+                type: 'string',
+                title: schema.label || schema.name
+              };
+        }
       }
     }
 
