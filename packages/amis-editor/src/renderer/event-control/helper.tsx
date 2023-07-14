@@ -1171,7 +1171,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               onText: '是',
               offText: '否',
               mode: 'horizontal',
-              pipeIn: defaultValue(true),
+              pipeIn: defaultValue(false),
               visibleOn: `data.actionType === "reload" &&  data.__isScopeContainer`
             },
             {
