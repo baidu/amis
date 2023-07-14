@@ -876,7 +876,7 @@ schemaApi 接口请求完成。
 
 #### 发送数据并刷新
 
-刷新 Service 组件时，如果配置了`data`，将发送`data`给目标组件，并将该数据合并到目标组件的数据域中。
+刷新 Service 组件时，如果配置了`data`，将发送`data`给目标组件，并将该数据合并到目标组件的数据域中（如果配置`"dataMergeMode": "override"`将覆盖目标组件的数据），然后重新请求数据。
 
 ```schema: scope="body"
 [
