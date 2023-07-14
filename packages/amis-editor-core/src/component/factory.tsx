@@ -164,7 +164,7 @@ export function makeWrapper(
       const {render} = this.props; // render: amis渲染器
 
       // $$id 变化，渲染器最好也变化
-      if (node.$$id) {
+      if (node?.$$id) {
         props = props || {}; // props 可能为 undefined
         props.key = node.$$id || props.key;
       }
