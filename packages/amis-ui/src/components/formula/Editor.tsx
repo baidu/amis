@@ -277,7 +277,8 @@ export class FormulaEditor extends React.Component<
         return {
           ...item,
           path: `${path}${path ? '.' : ''}${item.label}`,
-          ...(item.isMember
+          // 自己是数组成员或者父级有数组成员
+          ...(item.isMember || paths.some(item => item.isMember)
             ? {
                 memberDepth: paths?.filter((item: any) => item.type === 'array')
                   ?.length

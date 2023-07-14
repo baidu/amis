@@ -1102,7 +1102,11 @@ export class TableControlPlugin extends BasePlugin {
     }
   }
 
-  async buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
     const itemsSchema: any = {
       $id: 'inputTableRow',
       type: 'object',
@@ -1113,27 +1117,29 @@ export class TableControlPlugin extends BasePlugin {
       item => item.isRegion && item.region === 'columns'
     );
 
-    // todo：以下的处理无效，需要cell实现才能深层细化
-    // for (let current of columns?.children) {
-    //   const schema = current.schema;
-    //   if (schema.name) {
-    //     itemsSchema.properties[schema.name] = current.info?.plugin
-    //       ?.buildDataSchemas
-    //       ? await current.info.plugin.buildDataSchemas(current, region)
-    //       : {
-    //           type: 'string',
-    //           title: schema.label || schema.name
-    //         };
-    //   }
-    // }
+    const cells: any = columns.children.concat();
 
-    // 一期先简单处理，上面todo实现之后，这里可以废弃
-    for (let current of node.schema?.columns) {
-      if (current.name) {
-        itemsSchema.properties[current.name] = {
-          type: 'string',
-          title: current.label || current.name
-        };
+    while (cells.length > 0) {
+      const cell = cells.shift() as EditorNodeType;
+      // cell的孩子貌似只会有一个
+      const items = cell.children.concat();
+      while (items.length) {
+        const current = items.shift() as EditorNodeType;
+        const schema = current.schema;
+
+        if (schema.name) {
+          itemsSchema.properties[schema.name] = current.info?.plugin
+            ?.buildDataSchemas
+            ? await current.info.plugin.buildDataSchemas(
+                current,
+                region,
+                trigger
+              )
+            : {
+                type: 'string',
+                title: schema.label || schema.name
+              };
+        }
       }
     }
 
@@ -1144,7 +1150,7 @@ export class TableControlPlugin extends BasePlugin {
     return {
       $id: 'inputTable',
       type: 'array',
-      title: '表格表单数据',
+      title: node.schema?.label || node.schema?.name,
       items: itemsSchema
     };
   }
