@@ -242,6 +242,7 @@ export default class OfficeViewer extends React.Component<
             // 设置为 false 后清空
             this.rootElement.current.innerHTML = '';
           }
+          this.word = word;
         });
       };
       reader.readAsArrayBuffer(file);
