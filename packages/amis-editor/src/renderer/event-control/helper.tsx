@@ -1143,7 +1143,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               true,
               (value: string, oldVal: any, data: any, form: any) => {
                 form.setValueByName('args.resetPage', true);
-                form.setValueByName('__addParam', true);
+                form.setValueByName('__addParam', false);
                 form.setValueByName('__containerType', 'all');
                 form.setValueByName('__reloadParam', []);
               }
@@ -1171,8 +1171,11 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               onText: '是',
               offText: '否',
               mode: 'horizontal',
-              pipeIn: defaultValue(true),
-              visibleOn: `data.actionType === "reload" &&  data.__isScopeContainer`
+              pipeIn: defaultValue(false),
+              visibleOn: `data.actionType === "reload" &&  data.__isScopeContainer`,
+              onChange: (value: string, oldVal: any, data: any, form: any) => {
+                form.setValueByName('__containerType', 'all');
+              }
             },
             {
               type: 'radios',
@@ -1203,7 +1206,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               size: 'lg',
               mode: 'horizontal',
               required: true,
-              visibleOn: `data.__addParam && data.__containerType !== "appoint" && data.actionType === "reload" && data.__isScopeContainer`
+              visibleOn: `data.__addParam && data.__containerType === "all" && data.actionType === "reload" && data.__isScopeContainer`
             }),
             {
               type: 'combo',
@@ -2781,7 +2784,7 @@ export const getEventControlConfig = (
       // 处理刷新组件动作的追加参数
       if (config.actionType === 'reload') {
         config.__resetPage = config.args?.resetPage;
-        config.__addParam = config.data === undefined || !!config.data;
+        config.__addParam = !!config.data;
 
         if (
           (config.data && typeof config.data === 'object') ||
@@ -2789,6 +2792,7 @@ export const getEventControlConfig = (
             !Object.keys(config.args).length &&
             config.data === undefined)
         ) {
+          config.__addParam = true;
           config.__containerType = 'appoint';
           config.dataMergeMode = 'override';
         }
@@ -2898,7 +2902,7 @@ export const getEventControlConfig = (
 
       // 刷新组件时，处理是否追加事件变量
       if (config.actionType === 'reload') {
-        action.data = null;
+        action.data = undefined;
         action.dataMergeMode = undefined;
 
         action.args =
@@ -2909,9 +2913,9 @@ export const getEventControlConfig = (
               }
             : undefined;
 
+        action.data = undefined;
         if (config.__addParam) {
           action.dataMergeMode = config.dataMergeMode || 'merge';
-          action.data = undefined;
           action.data =
             config.__containerType === 'all'
               ? config.__valueInput
