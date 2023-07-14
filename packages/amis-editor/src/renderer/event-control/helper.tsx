@@ -1121,9 +1121,10 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           ]
         },
         {
-          actionLabel: '刷新组件',
+          actionLabel: '重新请求数据',
           actionType: 'reload',
-          description: '请求并重新加载所选组件的数据',
+          description:
+            '如果开启发送数据，会先发送配置数据到目标组件，然后重新请求数据。',
           descDetail: (info: any) => {
             return (
               <div>
@@ -1143,7 +1144,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               (value: string, oldVal: any, data: any, form: any) => {
                 form.setValueByName('args.resetPage', true);
                 form.setValueByName('__addParam', true);
-                form.setValueByName('__customData', false);
                 form.setValueByName('__containerType', 'all');
                 form.setValueByName('__reloadParam', []);
               }
@@ -1165,8 +1165,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               type: 'switch',
               name: '__addParam',
               label: tipedLabel(
-                '追加数据',
-                '当选择“是”，且目标组件是增删改查组件时，数据接口请求时将带上这些数据，其他类型的目标组件只有在数据接口是post请求时才会带上这些数据。'
+                '发送数据',
+                '开启“发送数据”后，所配置的数据将发送给目标组件，这些数据将与目标组件数据域进行合并或覆盖'
               ),
               onText: '是',
               offText: '否',
@@ -1175,28 +1175,12 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               visibleOn: `data.actionType === "reload" &&  data.__isScopeContainer`
             },
             {
-              type: 'switch',
-              name: '__customData',
-              label: tipedLabel(
-                '自定义数据',
-                '数据默认为源组件所在数据域，开启“自定义”可以定制所需数据'
-              ),
-              onText: '是',
-              offText: '否',
-              mode: 'horizontal',
-              pipeIn: defaultValue(true),
-              visibleOn: `data.__addParam && data.actionType === "reload" && data.__isScopeContainer`,
-              onChange: (value: string, oldVal: any, data: any, form: any) => {
-                form.setValueByName('__containerType', 'all');
-              }
-            },
-            {
               type: 'radios',
               name: '__containerType',
               mode: 'horizontal',
               label: '',
               pipeIn: defaultValue('all'),
-              visibleOn: `data.__addParam && data.__customData && data.actionType === "reload" && data.__isScopeContainer`,
+              visibleOn: `data.__addParam && data.actionType === "reload" && data.__isScopeContainer`,
               options: [
                 {
                   label: '直接赋值',
@@ -1219,7 +1203,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               size: 'lg',
               mode: 'horizontal',
               required: true,
-              visibleOn: `data.__addParam && data.__customData && data.__containerType === "all" && data.actionType === "reload" && data.__isScopeContainer`
+              visibleOn: `data.__addParam && data.__containerType !== "appoint" && data.actionType === "reload" && data.__isScopeContainer`
             }),
             {
               type: 'combo',
@@ -1247,14 +1231,14 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   placeholder: '参数值'
                 })
               ],
-              visibleOn: `data.__addParam && data.__customData && data.__containerType === "appoint" && data.actionType === "reload" && data.__isScopeContainer`
+              visibleOn: `data.__addParam && data.__containerType === "appoint" && data.actionType === "reload" && data.__isScopeContainer`
             },
             {
               type: 'radios',
               name: 'dataMergeMode',
               mode: 'horizontal',
               label: tipedLabel(
-                '追加方式',
+                '数据处理方式',
                 '选择“合并”时，会将数据合并到目标组件的数据域。<br/>选择“覆盖”时，数据会直接覆盖目标组件的数据域。'
               ),
               pipeIn: defaultValue('merge'),
@@ -2798,7 +2782,6 @@ export const getEventControlConfig = (
       if (config.actionType === 'reload') {
         config.__resetPage = config.args?.resetPage;
         config.__addParam = config.data === undefined || !!config.data;
-        config.__customData = !!config.data;
 
         if (
           (config.data && typeof config.data === 'object') ||
@@ -2806,12 +2789,11 @@ export const getEventControlConfig = (
             !Object.keys(config.args).length &&
             config.data === undefined)
         ) {
-          config.__customData = true;
           config.__containerType = 'appoint';
           config.dataMergeMode = 'override';
         }
 
-        if (config.__addParam && config.__customData && config.data) {
+        if (config.__addParam && config.data) {
           if (typeof config.data === 'string') {
             config.__containerType = 'all';
             config.__valueInput = config.data;
@@ -2930,12 +2912,10 @@ export const getEventControlConfig = (
         if (config.__addParam) {
           action.dataMergeMode = config.dataMergeMode || 'merge';
           action.data = undefined;
-          if (config.__customData) {
-            action.data =
-              config.__containerType === 'all'
-                ? config.__valueInput
-                : comboArrayToObject(config.__reloadParams || []);
-          }
+          action.data =
+            config.__containerType === 'all'
+              ? config.__valueInput
+              : comboArrayToObject(config.__reloadParams || []);
         }
       }
 
