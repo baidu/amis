@@ -7,6 +7,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
 import {FormItem, Button, Icon, toast, Spinner, autobind} from 'amis';
+import {TooltipWrapper} from 'amis-ui';
 import {findTreeAll} from 'amis-core';
 import {JSONPipeIn} from 'amis-editor-core';
 import {DSFeature, DSFeatureType, DSFeatureEnum} from '../../builder';
@@ -17,7 +18,9 @@ import type {EditorNodeType} from 'amis-editor-core';
 import type {ColumnSchema} from 'amis/lib/renderers/Table2';
 import type {DSBuilderInterface} from '../../builder';
 
-type ActionValue = Extract<DSFeatureType, 'Insert' | 'BulkEdit' | 'BulkDelete'>;
+type ActionValue =
+  | Extract<DSFeatureType, 'Insert' | 'BulkEdit' | 'BulkDelete'>
+  | 'custom';
 
 interface Option {
   label: string;
@@ -81,7 +84,12 @@ export class CRUDToolbarControl extends React.Component<
     const store = manager.store;
     const node: EditorNodeType = store.getNodeById(nodeId);
     const actions = findTreeAll(node.children, item =>
-      ['Insert', 'BulkEdit', 'BulkDelete'].includes(item.schema.behavior)
+      [
+        DSFeatureEnum.Insert,
+        DSFeatureEnum.BulkEdit,
+        DSFeatureEnum.BulkDelete,
+        'custom'
+      ].includes(item.schema.behavior)
     ) as unknown as EditorNodeType[];
 
     return actions;
@@ -98,7 +106,7 @@ export class CRUDToolbarControl extends React.Component<
       const behavior = schema.behavior as ActionValue;
 
       return {
-        label: DSFeature[behavior].label,
+        label: this.getOptionLabel(schema, behavior),
         value: behavior,
         nodeId: schema.$$id,
         node: node,
@@ -107,6 +115,10 @@ export class CRUDToolbarControl extends React.Component<
     });
 
     this.setState({options});
+  }
+
+  getOptionLabel(schema: any, behavior: ActionValue) {
+    return behavior === 'custom' ? schema.label : DSFeature[behavior].label;
   }
 
   @autobind
@@ -188,6 +200,18 @@ export class CRUDToolbarControl extends React.Component<
           CRUDSchemaID
         );
         break;
+      default:
+        scaffold = {
+          type: 'button',
+          label: '按钮',
+          behavior: 'custom',
+          className: 'm-r-xs',
+          onEvent: {
+            click: {
+              actions: []
+            }
+          }
+        };
     }
 
     if (!scaffold) {
@@ -199,7 +223,7 @@ export class CRUDToolbarControl extends React.Component<
     const actionSchema = JSONPipeIn({...scaffold});
 
     options.push({
-      label: DSFeature[type].label,
+      label: this.getOptionLabel(actionSchema, type),
       value: type,
       nodeId: actionSchema.$$id,
       pristine: actionSchema
@@ -245,13 +269,24 @@ export class CRUDToolbarControl extends React.Component<
 
   @autobind
   renderOption(item: Option, index: number) {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, popOverContainer, env} = this.props;
 
     return (
       <li key={index} className={cx('ae-CRUDConfigControl-list-item')}>
-        <div className={cx('ae-CRUDConfigControl-list-item-info')}>
-          <span>{item.label}</span>
-        </div>
+        <TooltipWrapper
+          tooltip={{
+            content: item.label,
+            tooltipTheme: 'dark',
+            style: {fontSize: '12px'}
+          }}
+          container={popOverContainer || env?.getModalContainer?.()}
+          trigger={['hover']}
+          delay={150}
+        >
+          <div className={cx('ae-CRUDConfigControl-list-item-info')}>
+            <span>{item.label}</span>
+          </div>
+        </TooltipWrapper>
 
         <div className={cx('ae-CRUDConfigControl-list-item-actions')}>
           <Button
@@ -283,44 +318,49 @@ export class CRUDToolbarControl extends React.Component<
     const options = this.state.options;
     const actions = this.collection.concat();
 
-    options.forEach(item => {
-      if (actions.includes(item.value)) {
-        const idx = actions.indexOf(item.value);
-        if (~idx) {
-          actions.splice(idx, 1);
-        }
-      }
-    });
+    // options.forEach(item => {
+    //   if (actions.includes(item.value)) {
+    //     const idx = actions.indexOf(item.value);
+    //     if (~idx) {
+    //       actions.splice(idx, 1);
+    //     }
+    //   }
+    // });
+
+    const optionValues = options.map(item => item.value);
 
     return (
       <header className={cx('ae-CRUDConfigControl-header')}>
         <span className={cx('Form-label')}>工具栏</span>
-        {render(
-          'crud-toolbar-control-dropdown',
-          {
-            type: 'dropdown-button',
-            closeOnClick: true,
-            hideCaret: true,
-            level: 'link',
-            align: 'right',
-            trigger: ['click'],
-            popOverContainer:
-              env.getModalContainer ?? this.dom ?? document.body,
-            icon: 'column-add',
-            label: '添加操作',
-            className: cx('ae-CRUDConfigControl-dropdown'),
-            disabledTip: {
-              content: '暂无可添加操作',
-              tooltipTheme: 'dark'
-            },
-            buttons: actions.map(item => ({
+        {render('crud-toolbar-control-dropdown', {
+          type: 'dropdown-button',
+          closeOnClick: true,
+          hideCaret: true,
+          level: 'link',
+          align: 'right',
+          trigger: ['click'],
+          popOverContainer: env.getModalContainer ?? this.dom ?? document.body,
+          icon: 'column-add',
+          label: '添加操作',
+          className: cx('ae-CRUDConfigControl-dropdown'),
+          disabledTip: {
+            content: '暂无可添加操作',
+            tooltipTheme: 'dark'
+          },
+          buttons: actions
+            .map((item: Exclude<ActionValue, 'custom'>) => ({
               type: 'button',
               label: DSFeature[item].label,
+              disabled: !!~optionValues.findIndex(op => op === item),
               onClick: () => this.handleAddAction(item)
             }))
-          },
-          {disabled: actions.length === 0}
-        )}
+            .concat({
+              type: 'button',
+              label: '自定义按钮',
+              disabled: false,
+              onClick: () => this.handleAddAction('custom')
+            })
+        })}
       </header>
     );
   }

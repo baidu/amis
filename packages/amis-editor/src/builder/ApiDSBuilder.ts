@@ -277,7 +277,22 @@ export class ApiDSBuilder extends DSBuilder<
               )}</pre>`
             )
           })
-        : null
+        : null,
+      /** CRUD的快速编辑接口 */
+      ...(feat === 'List' && renderer === 'crud' && !inScaffold
+        ? [
+            getSchemaTpl('apiControl', {
+              ...baseApiSchemaConfig,
+              name: 'quickSaveApi',
+              label: tipedLabel('快速保存', '快速编辑后用来批量保存的 API')
+            }),
+            getSchemaTpl('apiControl', {
+              ...baseApiSchemaConfig,
+              name: 'quickSaveItemApi',
+              label: tipedLabel('快速保存单条', '即时保存时使用的 API')
+            })
+          ]
+        : [])
     ].filter(Boolean);
   }
 
@@ -300,7 +315,7 @@ export class ApiDSBuilder extends DSBuilder<
         label: renderLabel === false ? false : '字段',
         renderer,
         feat,
-        options: {
+        config: {
           showInputType:
             renderer === 'form' ||
             (renderer === 'crud' &&
@@ -374,7 +389,7 @@ export class ApiDSBuilder extends DSBuilder<
           label: key,
           name: key,
           displayType: 'tpl',
-          inputType: inputType,
+          inputType,
           checked: true
         });
       });
@@ -455,6 +470,7 @@ export class ApiDSBuilder extends DSBuilder<
                       actions: [
                         {
                           actionType: 'search',
+                          groupType: 'component',
                           componentId: componentId
                         }
                       ]
@@ -529,20 +545,21 @@ export class ApiDSBuilder extends DSBuilder<
 
   buildBaseFormSchema(
     options: ApiDSBuilderOptions<DSRendererType>,
-    schemaPatch?: GenericSchema
+    schemaPatch?: GenericSchema,
+    componentId?: string
   ) {
     schemaPatch = schemaPatch || {};
     const {feat, renderer, scaffoldConfig} = options || {};
 
     if (!feat) {
-      return {...schemaPatch};
+      return {...schemaPatch, ...(componentId ? {id: componentId} : {})};
     }
 
     const fieldsKey = this.getFieldsKey(options);
     const apiKey = this.getApiKey(options);
     const fields: ScaffoldField[] = (scaffoldConfig as any)?.[fieldsKey] ?? [];
     const apiSchema = (scaffoldConfig as any)?.[apiKey];
-    const id = generateNodeId();
+    const id = componentId ?? generateNodeId();
     let schema: GenericSchema = {
       id,
       type: 'form',
@@ -580,7 +597,7 @@ export class ApiDSBuilder extends DSBuilder<
       schema.static = true;
     }
 
-    return {...schema, ...schemaPatch};
+    return {...schema, ...schemaPatch, id};
   }
 
   async buildInsertSchema<T extends DSRendererType>(
@@ -591,10 +608,10 @@ export class ApiDSBuilder extends DSBuilder<
     const {insertApi} = scaffoldConfig || {};
 
     if (renderer === 'form') {
-      return this.buildBaseFormSchema({...options});
+      return this.buildBaseFormSchema({...options}, undefined, componentId);
     }
 
-    const formId = generateNodeId();
+    const formId = componentId ?? generateNodeId();
     const formActions = [
       {
         type: 'button',
@@ -693,7 +710,7 @@ export class ApiDSBuilder extends DSBuilder<
     const isForm = renderer === 'form';
 
     if (isForm) {
-      return this.buildBaseFormSchema(options);
+      return this.buildBaseFormSchema(options, undefined, componentId);
     }
 
     const {editApi, initApi} = scaffoldConfig || {};
@@ -750,7 +767,7 @@ export class ApiDSBuilder extends DSBuilder<
     const isForm = renderer === 'form';
 
     if (isForm) {
-      return this.buildBaseFormSchema(options);
+      return this.buildBaseFormSchema(options, undefined, componentId);
     }
 
     const formId = generateNodeId();
@@ -816,15 +833,14 @@ export class ApiDSBuilder extends DSBuilder<
           actions: [
             {
               actionType: 'ajax',
-              args: {
-                api: deleteApi,
-                data: {
-                  '&': '$$'
-                }
+              api: deleteApi,
+              data: {
+                '&': '$$'
               }
             },
             {
               actionType: 'search',
+              groupType: 'component',
               componentId: componentId
             }
           ]
@@ -855,12 +871,11 @@ export class ApiDSBuilder extends DSBuilder<
           actions: [
             {
               actionType: 'ajax',
-              args: {
-                api: bulkDeleteApi
-              }
+              api: bulkDeleteApi
             },
             {
               actionType: 'search',
+              groupType: 'component',
               componentId: componentId
             }
           ]
@@ -1265,18 +1280,22 @@ export class ApiDSBuilder extends DSBuilder<
             const actions = get(host, 'onEvent.click.actions', []);
             const actionSchema = actions.find(
               (action: any) =>
-                action?.actionType === 'ajax' && action?.args?.api != null
+                action?.actionType === 'ajax' &&
+                (action?.api != null || action?.args?.api != null)
             );
-            bulkDeleteApi = get(actionSchema, 'args.api', '');
+            bulkDeleteApi =
+              get(actionSchema, 'api', '') || get(actionSchema, 'args.api', '');
           } else if (value === 'Delete') {
             feats.push('Delete');
 
             const actions = get(host, 'onEvent.click.actions', []);
             const actionSchema = actions.find(
               (action: any) =>
-                action?.actionType === 'ajax' && action?.args?.api != null
+                action?.actionType === 'ajax' &&
+                (action?.api != null || action?.args?.api != null)
             );
-            deleteApi = get(actionSchema, 'args.api', '');
+            deleteApi =
+              get(actionSchema, 'api', '') || get(actionSchema, 'args.api', '');
           } else if (Array.isArray(value) && value.includes('SimpleQuery')) {
             feats.push('SimpleQuery');
 
@@ -1384,13 +1403,14 @@ export class ApiDSBuilder extends DSBuilder<
     const {feat, scaffoldConfig} = options;
     const {initApi, __pristineSchema} = scaffoldConfig || {};
     let formSchema: GenericSchema;
+    const id = __pristineSchema?.id ?? generateNodeId();
 
     if (feat === 'Insert') {
-      formSchema = await this.buildInsertSchema<'form'>(options);
+      formSchema = await this.buildInsertSchema<'form'>(options, id);
     } else if (feat === 'Edit') {
-      formSchema = await this.buildEditSchema(options);
+      formSchema = await this.buildEditSchema(options, id);
     } else {
-      formSchema = await this.buildBulkEditSchema(options);
+      formSchema = await this.buildBulkEditSchema(options, id);
     }
 
     const baseSchema = {
@@ -1400,8 +1420,6 @@ export class ApiDSBuilder extends DSBuilder<
     };
 
     if (__pristineSchema && isObject(__pristineSchema)) {
-      const id = __pristineSchema.id ?? generateNodeId();
-
       return {
         ...__pristineSchema,
         ...baseSchema,

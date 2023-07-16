@@ -17,6 +17,7 @@ import {
   Tag,
   autobind
 } from 'amis';
+import {TooltipWrapper} from 'amis-ui';
 import {DSFeatureEnum} from '../../builder/constants';
 import {traverseSchemaDeep} from '../../builder/utils';
 import {deepRemove} from '../../plugin/CRUD2/utils';
@@ -103,7 +104,7 @@ export class CRUDFiltersControl extends React.Component<
             ? (option.label as any).tpl /** 处理 SchemaObject 的场景 */
             : option.name,
         value: option.name ?? (option as any).key,
-        /** 使用$$id用于定位 */
+        /** 使用id用于定位 */
         nodeId: option.$$id,
         pristine: option
       };
@@ -455,7 +456,7 @@ export class CRUDFiltersControl extends React.Component<
                 value.filter(
                   (item: any) =>
                     item?.behavior !== DSFeatureEnum.AdvancedQuery &&
-                    item.type === 'condition-builder'
+                    item.type !== 'condition-builder'
                 )
               ];
             }
@@ -674,13 +675,24 @@ export class CRUDFiltersControl extends React.Component<
 
   @autobind
   renderOption(item: Option, index: number) {
-    const {classnames: cx, feat} = this.props;
+    const {classnames: cx, feat, popOverContainer, env} = this.props;
 
     return (
       <li key={index} className={cx('ae-CRUDConfigControl-list-item')}>
-        <div className={cx('ae-CRUDConfigControl-list-item-info')}>
-          <span>{item.label}</span>
-        </div>
+        <TooltipWrapper
+          tooltip={{
+            content: item.label,
+            tooltipTheme: 'dark',
+            style: {fontSize: '12px'}
+          }}
+          container={popOverContainer || env?.getModalContainer?.()}
+          trigger={['hover']}
+          delay={150}
+        >
+          <div className={cx('ae-CRUDConfigControl-list-item-info')}>
+            <span>{item.label}</span>
+          </div>
+        </TooltipWrapper>
 
         <div className={cx('ae-CRUDConfigControl-list-item-actions')}>
           {item?.context?.isCascadingField ? (
@@ -688,8 +700,8 @@ export class CRUDFiltersControl extends React.Component<
               label={item?.context?.modelLabel}
               displayMode="normal"
               className={cx(
-                'CRUDConfigControl-list-item-tag',
-                'CRUDConfigControl-list-item-tag--cascading'
+                'ae-CRUDConfigControl-list-item-tag',
+                'ae-CRUDConfigControl-list-item-tag--cascading'
               )}
             />
           ) : null}

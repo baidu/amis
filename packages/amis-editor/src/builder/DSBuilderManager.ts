@@ -43,7 +43,9 @@ export class DSBuilderManager {
   }
 
   getDefaultBuilderKey() {
-    const collections = Array.from(this.builders.entries());
+    const collections = Array.from(this.builders.entries()).filter(
+      ([_, builder]) => builder?.disabledOn?.() !== true
+    );
     const [defaultKey, _] =
       collections.find(([_, builder]) => builder.isDefault === true) ??
       collections.sort((lhs, rhs) => {
@@ -55,17 +57,22 @@ export class DSBuilderManager {
   }
 
   getDefaultBuilder() {
+    const collections = Array.from(this.builders.entries()).filter(
+      ([_, builder]) => builder?.disabledOn?.() !== true
+    );
     const [_, defaultBuilder] =
-      Array.from(this.builders.entries()).find(
-        ([_, builder]) => builder.isDefault === true
-      ) ?? [];
+      collections.find(([_, builder]) => builder.isDefault === true) ??
+      collections.sort((lhs, rhs) => {
+        return (lhs[1].order ?? 0) - (rhs[1].order ?? 0);
+      })?.[0] ??
+      [];
 
-    return defaultBuilder!;
+    return defaultBuilder;
   }
 
   getAvailableBuilders() {
     return Array.from(this.builders.entries())
-      .filter(item => item[1]?.defaultHidden !== true)
+      .filter(([_, builder]) => builder?.disabledOn?.() !== true)
       .sort((lhs, rhs) => {
         return (lhs[1].order ?? 0) - (rhs[1].order ?? 0);
       });

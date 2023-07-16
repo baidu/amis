@@ -51,11 +51,11 @@ export interface DSBuilderInterface<
   /** 是否为默认 */
   isDefault?: boolean;
 
-  /** 是否默认隐藏 */
-  defaultHidden?: boolean;
-
   /** 实例获取数据源的key */
   key: string;
+
+  /** 是否禁用 */
+  disabledOn?: () => boolean;
 
   /** 获取功能场景的value */
   getFeatValueByKey(feat: DSFeatureType): string;
@@ -185,7 +185,7 @@ export abstract class DSBuilder<T extends DSBuilderBaseOptions>
   readonly order: number;
   /** 是否为默认 */
   readonly isDefault?: boolean;
-  defaultHidden?: boolean;
+
   features: DSFeatureType[];
 
   constructor(readonly manager: EditorManager) {}

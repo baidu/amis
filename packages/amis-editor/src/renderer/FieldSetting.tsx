@@ -32,7 +32,7 @@ interface FieldSettingProps extends FormControlProps {
   /** 脚手架渲染类型 */
   renderer?: string;
   feat: DSFeatureType;
-  options: {
+  config: {
     showInputType?: boolean;
     showDisplayType?: boolean;
   };
@@ -50,7 +50,7 @@ export class FieldSetting extends React.Component<
   {loading: boolean}
 > {
   static defaultProps = {
-    options: {
+    config: {
       showInputType: true,
       showDisplayType: true
     }
@@ -308,11 +308,11 @@ export class FieldSetting extends React.Component<
       defaultValue: formDefaultValue,
       env,
       renderer,
-      options,
+      config,
       data: ctx,
       feat
     } = this.props;
-    const {showDisplayType, showInputType} = options || {};
+    const {showDisplayType, showInputType} = config || {};
     const isForm = renderer === 'form';
     const defaultValue = Array.isArray(formDefaultValue)
       ? {items: formDefaultValue}

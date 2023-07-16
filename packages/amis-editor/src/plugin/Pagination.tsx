@@ -7,6 +7,7 @@ import {
   getSchemaTpl,
   registerEditorPlugin
 } from 'amis-editor-core';
+import sortBy from 'lodash/sortBy';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class PaginationPlugin extends BasePlugin {
@@ -131,15 +132,29 @@ export class PaginationPlugin extends BasePlugin {
                   }
                 ],
                 pipeIn: (value: any) => {
-                  if (!value) {
-                    value = this.lastLayoutSetting;
-                  } else if (typeof value === 'string') {
+                  if (typeof value === 'string') {
                     value = (value as string).split(',');
+                  } else if (!value || !Array.isArray(value)) {
+                    value = this.lastLayoutSetting;
                   }
-                  return this.layoutOptions.map(v => ({
-                    ...v,
-                    checked: value.includes(v.value)
-                  }));
+
+                  return sortBy(
+                    this.layoutOptions.map(op => ({
+                      ...op,
+                      checked: value.includes(op.value)
+                    })),
+                    [
+                      item => {
+                        const idx = value.findIndex(v => v === item.value);
+                        return ~idx ? idx : Infinity;
+                      }
+                    ]
+                  );
+
+                  // return this.layoutOptions.map(v => ({
+                  //   ...v,
+                  //   checked: value.includes(v.value)
+                  // }));
                 },
                 pipeOut: (value: any[]) => {
                   this.lastLayoutSetting = value
@@ -191,7 +206,7 @@ export class PaginationPlugin extends BasePlugin {
               }),
               {
                 name: 'perPage',
-                type: 'input-text',
+                type: 'input-number',
                 label: '默认每页条数',
                 visibleOn:
                   '(!data.mode || data.mode === "normal") && data.layout?.includes("perPage")'
@@ -212,7 +227,11 @@ export class PaginationPlugin extends BasePlugin {
           },
           {
             title: '状态',
-            body: [getSchemaTpl('disabled')]
+            body: [
+              getSchemaTpl('disabled'),
+              getSchemaTpl('hidden'),
+              getSchemaTpl('visible')
+            ]
           }
         ])
       },

@@ -598,7 +598,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
                   )
                 )) &&
               // 弹窗期间不进行刷新
-              (!stopAutoRefreshWhenModalIsOpen || !store.dialogOpen) &&
+              (!stopAutoRefreshWhenModalIsOpen ||
+                (!store.dialogOpen && !store?.parentStore?.dialogOpen)) &&
               (this.timer = setTimeout(
                 this.getData.bind(this, silentPolling, undefined, true),
                 Math.max(interval, 1000)
@@ -1083,6 +1084,9 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       onQuery: this.handleQuerySearch
       // onAction: onAction
     };
+
+    if (schema.type === 'pagination') {
+    }
 
     return render(region, schema, {
       data,

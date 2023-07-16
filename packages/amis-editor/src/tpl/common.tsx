@@ -1702,6 +1702,5 @@ setSchemaTpl('primaryField', {
     '主键',
     '每行记录的唯一标识符，通常用于行选择、批量操作等场景。'
   ),
-  pipeIn: defaultValue('id'),
-  required: true
+  pipeIn: defaultValue('id')
 });

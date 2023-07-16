@@ -468,7 +468,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     }
     current && this.updateTableDom(current);
 
-    if (this.props.draggable) {
+    if (this.props.draggable && this.tbodyDom?.current) {
       this.initDragging();
     }
 

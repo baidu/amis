@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import flatten from 'lodash/flatten';
 import cloneDeep from 'lodash/cloneDeep';
-import {isObject, someTree} from 'amis-core';
+import {isObject} from 'amis-core';
 import {
   BasePlugin,
   tipedLabel,
@@ -13,8 +13,6 @@ import {
   defaultValue,
   getSchemaTpl,
   jsonToJsonSchema,
-  BuildPanelEventContext,
-  BasicPanelItem,
   RendererPluginAction,
   RendererPluginEvent,
   EditorNodeType,
@@ -34,12 +32,17 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {FieldSetting} from '../../renderer/FieldSetting';
 
 import type {FormSchema} from 'amis/lib/Schema';
-import type {IFormStore, IFormItemStore, RendererConfig, Schema} from 'amis-core';
+import type {
+  IFormStore,
+  IFormItemStore,
+  Schema,
+  RendererConfig
+} from 'amis-core';
 import type {FormScaffoldConfig} from '../../builder';
 
 export type FormPluginFeat = Extract<
   DSFeatureType,
-  'Insert' | 'Edit' | 'BulkEdit'
+  'Insert' | 'Edit' | 'BulkEdit' | 'View'
 >;
 
 export interface ExtendFormSchema extends FormSchema {
@@ -70,7 +73,7 @@ export class FormPlugin extends BasePlugin {
 
   $schema = '/schemas/FormSchema.json';
 
-  tags = ['功能', '数据容器'];
+  tags = ['数据容器'];
 
   order = -900;
 
@@ -365,7 +368,7 @@ export class FormPlugin extends BasePlugin {
   }> = [
     {label: '新增', value: DSFeatureEnum.Insert},
     {label: '编辑', value: DSFeatureEnum.Edit},
-    {label: '批量编辑', value: DSFeatureEnum.BulkEdit},
+    {label: '批量编辑', value: DSFeatureEnum.BulkEdit, disabled: true},
     {label: '查看', value: DSFeatureEnum.View, disabled: true}
   ];
 
@@ -380,6 +383,8 @@ export class FormPlugin extends BasePlugin {
 
   /** 表单脚手架 */
   get scaffoldForm(): ScaffoldForm {
+    const features = this.Features.filter(f => !f.disabled);
+
     return {
       title: '表单创建向导',
       mode: {
@@ -396,7 +401,7 @@ export class FormPlugin extends BasePlugin {
           name: 'feat',
           label: '使用场景',
           value: DSFeatureEnum.Insert,
-          options: this.Features,
+          options: features,
           onChange: (
             value: FormPluginFeat,
             oldValue: FormPluginFeat,
@@ -462,7 +467,7 @@ export class FormPlugin extends BasePlugin {
         }),
         /** 数据源相关配置 */
         ...flatten(
-          this.Features.map(feat =>
+          features.map(feat =>
             this.dsManager.buildCollectionFromBuilders(
               (builder, builderKey) => {
                 return {
@@ -945,6 +950,24 @@ export class FormPlugin extends BasePlugin {
                 }),
                 getSchemaTpl('horizontal'),
                 {
+                  name: 'labelAlign',
+                  label: '标签对齐方式',
+                  type: 'button-group-select',
+                  size: 'sm',
+                  visibleOn: "${mode === 'horizontal'}",
+                  pipeIn: defaultValue('right', false),
+                  options: [
+                    {
+                      label: '左对齐',
+                      value: 'left'
+                    },
+                    {
+                      label: '右对齐',
+                      value: 'right'
+                    }
+                  ]
+                },
+                {
                   label: '列数',
                   name: 'columnCount',
                   type: 'input-number',
@@ -1031,6 +1054,31 @@ export class FormPlugin extends BasePlugin {
         }
       ])
     ];
+  };
+
+  /** 重新构建 API */
+  panelFormPipeOut = async (schema: any) => {
+    const entity = schema?.api?.entity;
+
+    if (!entity || schema?.dsType !== ModelDSBuilderKey) {
+      return schema;
+    }
+
+    const builder = this.dsManager.getBuilderBySchema(schema);
+
+    try {
+      const updatedSchema = await builder.buildApiSchema({
+        schema,
+        renderer: 'form',
+        sourceKey: 'api',
+        feat: schema.feat ?? 'Insert'
+      });
+      return updatedSchema;
+    } catch (e) {
+      console.error(e);
+    }
+
+    return schema;
   };
 
   afterUpdate(event: PluginEvent<ChangeEventContext>) {

@@ -297,6 +297,7 @@ export type Table2DynamicControls = Partial<
     | 'quickSaveItemApi'
     | 'draggable'
     | 'itemDraggableOn'
+    | 'saveOrderApi'
     | 'columnTogglable',
     (context: BaseEventContext) => any
   >
@@ -654,48 +655,70 @@ export class Table2Plugin extends BasePlugin {
   }
 
   protected _dynamicControls: Table2DynamicControls = {
-    primaryField: () => {
-      return getSchemaTpl('primaryField');
+    primaryField: context => {
+      return getSchemaTpl('primaryField', {
+        /** CRUD下，该项配置提升到CRUD中 */
+        hiddenOn: `data.type && (data.type === "crud" || data.type === "crud2")`
+      });
     },
-    quickSaveApi: () => {
+    quickSaveApi: context => {
       return getSchemaTpl('apiControl', {
-        label: '快速保存',
         name: 'quickSaveApi',
-        renderLabel: true
+        renderLabel: false,
+        label: {
+          type: 'tpl',
+          tpl: '快速保存',
+          className: 'flex items-end'
+        }
       });
     },
-    quickSaveItemApi: () => {
+    quickSaveItemApi: context => {
       return getSchemaTpl('apiControl', {
-        label: '快速保存单条',
         name: 'quickSaveItemApi',
-        renderLabel: true
+        renderLabel: false,
+        label: {
+          type: 'tpl',
+          tpl: '快速保存单条',
+          className: 'flex items-end'
+        }
       });
     },
-    rowSelectionKeyField: () => {
+    rowSelectionKeyField: context => {
       return {
         type: 'input-text',
         name: 'rowSelection.keyField',
         label: '数据源key'
       };
     },
-    expandableKeyField: () => {
+    expandableKeyField: context => {
       return {
         type: 'input-text',
         name: 'rowSelection.keyField',
         label: '数据源key'
       };
     },
-    draggable: () =>
+    draggable: context =>
       getSchemaTpl('switch', {
         name: 'draggable',
         label: '可拖拽'
       }),
-    itemDraggableOn: () =>
+    itemDraggableOn: context =>
       getSchemaTpl('formulaControl', {
         label: '可拖拽条件',
         name: 'itemDraggableOn'
       }),
-    columnTogglable: () => false
+    saveOrderApi: context => {
+      return getSchemaTpl('apiControl', {
+        name: 'saveOrderApi',
+        renderLabel: false,
+        label: {
+          type: 'tpl',
+          tpl: '保存排序',
+          className: 'flex items-end'
+        }
+      });
+    },
+    columnTogglable: context => false
   };
 
   /** 需要动态控制的控件 */
@@ -713,9 +736,12 @@ export class Table2Plugin extends BasePlugin {
     this._dynamicControls = {...this._dynamicControls, ...controls};
   }
 
+  isCRUDContext(context: BaseEventContext) {
+    return context.schema.type === 'crud2' || context.schema.type === 'crud';
+  }
+
   panelBodyCreator = (context: BaseEventContext) => {
-    const isCRUDBody =
-      context.schema.type === 'crud2' || context.schema.type === 'crud';
+    const isCRUDBody = this.isCRUDContext(context);
     const dc = this.dynamicControls;
 
     return getSchemaTpl('tabs', [
@@ -734,8 +760,8 @@ export class Table2Plugin extends BasePlugin {
                   pipeIn: defaultValue('${items}')
                 }),
                 dc?.primaryField?.(context),
-                dc?.quickSaveApi?.(context),
-                dc?.quickSaveItemApi?.(context),
+                isCRUDBody ? null : dc?.quickSaveApi?.(context),
+                isCRUDBody ? null : dc?.quickSaveItemApi?.(context),
                 getSchemaTpl('switch', {
                   name: 'title',
                   label: '显示标题',
@@ -799,13 +825,14 @@ export class Table2Plugin extends BasePlugin {
                 }),
                 getSchemaTpl('tablePlaceholder', {
                   hidden: isCRUDBody
-                }),
-                {
-                  type: 'input-number',
-                  name: 'combineNum',
-                  label: '合并单元格'
-                }
-              ]
+                })
+                // TODD: 组件功能没有支持，暂时隐藏
+                // {
+                //   type: 'input-number',
+                //   name: 'combineNum',
+                //   label: '合并单元格'
+                // }
+              ].filter(Boolean)
             },
             {
               title: '列设置',
@@ -1070,6 +1097,7 @@ export class Table2Plugin extends BasePlugin {
                 },
                 dc?.draggable?.(context),
                 dc?.itemDraggableOn?.(context),
+                dc?.saveOrderApi?.(context),
                 {
                   name: 'showBadge',
                   label: '行角标',

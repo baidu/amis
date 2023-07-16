@@ -230,6 +230,37 @@ export class EditorManager {
     // 自动加载预先注册的自定义组件
     autoPreRegisterEditorCustomPlugins();
 
+    /** 在顶层对外部注册的Plugin和builtInPlugins合并去重 */
+    const externalPlugins = (config?.plugins || []).forEach(external => {
+      if (
+        Array.isArray(external) ||
+        !external.priority ||
+        !Number.isInteger(external.priority)
+      ) {
+        return;
+      }
+
+      const idx = builtInPlugins.findIndex(
+        builtIn =>
+          !Array.isArray(builtIn) &&
+          !Array.isArray(external) &&
+          builtIn.id === external.id &&
+          builtIn?.prototype instanceof BasePlugin
+      );
+
+      if (~idx) {
+        const current = builtInPlugins[idx] as PluginClass;
+        const currentPriority =
+          current.priority && Number.isInteger(current.priority)
+            ? current.priority
+            : 0;
+        /** 同ID Plugin根据优先级决定是否替换掉Builtin中的Plugin */
+        if (external.priority > currentPriority) {
+          builtInPlugins.splice(idx, 1);
+        }
+      }
+    });
+
     this.plugins = (config.disableBultinPlugin ? [] : builtInPlugins) // 页面设计器注册的插件列表
       .concat(this.normalizeScene(config?.plugins))
       .filter(p => {
