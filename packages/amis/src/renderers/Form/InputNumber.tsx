@@ -464,7 +464,7 @@ export default class NumberControl extends React.Component<
             <div
               className={cx(
                 `${ns}NumberControl-unit`,
-                ` ${ns}NumberControl-single-unit`,
+                `${ns}NumberControl-single-unit`,
                 `${ns}Select`
               )}
             >

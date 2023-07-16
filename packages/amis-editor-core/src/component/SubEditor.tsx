@@ -146,6 +146,7 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     ref={store.subEditorRef}
                     onChange={onChange}
                     data={store.subEditorContext?.data}
+                    hostNode={store.subEditorContext?.hostNode}
                     superEditorData={superEditorData}
                     schemaFilter={manager.config.schemaFilter}
                     theme={manager.env.theme}
@@ -184,6 +185,9 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     }}
                     getHostNodeDataSchema={() =>
                       manager.getContextSchemas(manager.store.activeId)
+                    }
+                    getAvaiableContextFields={node =>
+                      manager.getAvailableContextFields(node)
                     }
                   />
                 )

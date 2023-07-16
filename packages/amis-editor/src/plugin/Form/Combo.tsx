@@ -1,3 +1,4 @@
+import {setVariable} from 'amis-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -11,11 +12,9 @@ import {
   RegionConfig,
   getI18nEnabled,
   EditorNodeType,
-  EditorManager,
-  DSBuilderManager
+  EditorManager
 } from 'amis-editor-core';
-import {setVariable, someTree} from 'amis-core';
-
+import {DSBuilderManager} from '../../builder/DSBuilderManager';
 import {ValidatorTag} from '../../validator';
 import {
   getArgsWrapper,
@@ -240,11 +239,11 @@ export class ComboControlPlugin extends BasePlugin {
 
   panelJustify = true;
 
-  dsBuilderManager: DSBuilderManager;
+  dsManager: DSBuilderManager;
 
   constructor(manager: EditorManager) {
     super(manager);
-    this.dsBuilderManager = new DSBuilderManager('combo', 'api');
+    this.dsManager = new DSBuilderManager(manager);
   }
 
   panelBodyCreator = (context: BaseEventContext) => {
@@ -716,14 +715,11 @@ export class ComboControlPlugin extends BasePlugin {
       (target.parent.isRegion && target.parent.region === 'items')
     ) {
       scope = scopeNode.parent.parent;
-      builder = this.dsBuilderManager.resolveBuilderBySchema(
-        scope.schema,
-        'api'
-      );
+      builder = this.dsManager.getBuilderBySchema(scope.schema);
     }
 
     if (builder && scope.schema.api) {
-      return builder.getAvailableContextFileds(
+      return builder.getAvailableContextFields(
         {
           schema: scope.schema,
           sourceKey: 'api',

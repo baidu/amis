@@ -119,7 +119,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
 
         {clearable && !disabled && value ? (
           <a onClick={this.clearValue} className={cx('InputBox-clear')}>
-            <Icon icon="close" className="icon" />
+            <Icon icon="input-clear" className="icon" />
           </a>
         ) : null}
       </div>

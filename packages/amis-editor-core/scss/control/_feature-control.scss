@@ -8,13 +8,23 @@
     display: flex;
     height: 30px;
     margin-bottom: 12px;
+    position: relative;
+    align-items: center;
 
     :not(:last-child) {
       margin-right: px2rem(8px);
     }
 
-    &-go {
+    &-content {
       flex-grow: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      & > .ae-FeatureControlItem-go {
+        width: 100%;
+      }
     }
 
     &-label {
@@ -42,6 +52,27 @@
         }
       }
     }
+
+    &-dragBar {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 3px;
+      cursor: move;
+
+      & > svg {
+        fill: #e7e7e7;
+        color: #e7e7e7;
+      }
+    }
+
+    &:hover &-dragBar {
+      & > svg {
+        color: transparent;
+        fill: transparent;
+      }
+    }
   }
 
   &-action {
@@ -55,24 +86,9 @@
     }
 
     &--menus {
-      width: calc(100% - 12px);
-      margin-left: 6px;
+      /* width: calc(100% - 12px);
+      margin-left: 6px; */
       text-align: center;
     }
-  }
-
-  &-dragBar {
-    position: absolute;
-    display: none;
-    z-index: 2;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 3px;
-    cursor: pointer;
-  }
-
-  &:hover &-dragBar {
-    display: block;
-    color: #fff;
   }
 }

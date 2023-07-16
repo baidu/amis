@@ -1210,6 +1210,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     rowItem: any,
     rowIndex?: number
   ) {
+    event?.persist?.();
     const {dispatchEvent, data, onRow} = this.props;
 
     const rendererEvent = await dispatchEvent(
@@ -1232,6 +1233,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     rowItem: any,
     rowIndex?: number
   ) {
+    event?.persist?.();
     const {dispatchEvent, data, onRow} = this.props;
 
     const rendererEvent = await dispatchEvent(

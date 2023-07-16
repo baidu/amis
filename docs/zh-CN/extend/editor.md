@@ -4,7 +4,7 @@ title: 可视化编辑器
 
 目前 amis 可视化编辑器也作为单独的 npm 包发布了出来，可以通过 npm 安装使用。
 
-在线体验：https://aisuda.github.io/amis-editor-demo  
+在线体验：https://aisuda.github.io/amis-editor-demo
 示例代码：https://github.com/aisuda/amis-editor-demo
 
 ## 使用
@@ -47,7 +47,7 @@ render() {
 - `className?: string` 额外加个 css 类名，辅助样式定义。
 - `schemas?: JSONSchemaObject` 用来定义有哪些全局变量，辅助编辑器格式化绑定全局数据。
 - `theme?: string` amis 主题
-- `schemaFilter?: (schema: any) => any` 配置过滤器。可以用来实现 api proxy，比如原始配置中请求地址是 `http://baidu.com` 如果直接给编辑器预览请求，很可能会报跨域，可以自动转成 `/api/proxy?_url=xxxx`，走 proxy 解决。
+- `schemaFilter?: (schema: any, isPreview?: boolean) => any` 配置过滤器。可以用来实现 api proxy，比如原始配置中请求地址是 `http://baidu.com` 如果直接给编辑器预览请求，很可能会报跨域，可以自动转成 `/api/proxy?_url=xxxx`，走 proxy 解决。
 - `amisEnv?: any` 这是是给 amis 的 Env 对象，具体请前往 [env 说明](../start/getting-started#env)
 - `disableBultinPlugin?: boolean` 是否禁用内置插件
 - `disablePluginList?: Array<string> | (id: string, plugin: PluginClass) => boolean` 禁用插件列表

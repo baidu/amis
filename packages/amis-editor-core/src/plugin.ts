@@ -36,7 +36,7 @@ export interface RegionConfig {
   /**
    * 区域占位字符，用于提示
    */
-  placeholder?: string;
+  placeholder?: string | JSX.Element;
 
   /**
    * 对于复杂的控件需要用到这个配置。
@@ -342,7 +342,8 @@ export interface ScaffoldForm extends PopOverForm {
    * value 是具体错误信息。
    */
   validate?: (
-    values: any
+    values: any,
+    formStore: any
   ) =>
     | void
     | {[propName: string]: string}
@@ -820,6 +821,9 @@ export interface PluginInterface
     region?: EditorNodeType
   ) => Promise<SchemaCollection | void>;
 
+  /** 配置面板表单的 pipeOut function */
+  panelFormPipeOut?: (value: any) => any;
+
   /**
    * @deprecated 用 panelBodyCreator
    */
@@ -1061,6 +1065,18 @@ export abstract class BasePlugin implements PluginInterface {
         plugin
       });
 
+      const baseProps = {
+        definitions: plugin.panelDefinitions,
+        submitOnChange: plugin.panelSubmitOnChange,
+        api: plugin.panelApi,
+        controls: plugin.panelControlsCreator
+          ? plugin.panelControlsCreator(context)
+          : plugin.panelControls!,
+        justify: plugin.panelJustify,
+        panelById: store.activeId,
+        pipeOut: plugin.panelFormPipeOut?.bind?.(plugin)
+      };
+
       panels.push({
         key: 'config',
         icon: plugin.panelIcon || plugin.icon || 'fa fa-cog',
@@ -1071,27 +1087,13 @@ export abstract class BasePlugin implements PluginInterface {
               const panelBody = await (body as Promise<SchemaCollection>);
 
               return this.manager.makeSchemaFormRender({
-                definitions: plugin.panelDefinitions,
-                submitOnChange: plugin.panelSubmitOnChange,
-                api: plugin.panelApi,
-                body: panelBody,
-                controls: plugin.panelControlsCreator
-                  ? plugin.panelControlsCreator(context)
-                  : plugin.panelControls!,
-                justify: plugin.panelJustify,
-                panelById: store.activeId
+                ...baseProps,
+                body: panelBody
               });
             }, omit(plugin.async, 'enable'))
           : this.manager.makeSchemaFormRender({
-              definitions: plugin.panelDefinitions,
-              submitOnChange: plugin.panelSubmitOnChange,
-              api: plugin.panelApi,
-              body: body as SchemaCollection,
-              controls: plugin.panelControlsCreator
-                ? plugin.panelControlsCreator(context)
-                : plugin.panelControls!,
-              justify: plugin.panelJustify,
-              panelById: store.activeId
+              ...baseProps,
+              body: body as SchemaCollection
             })
       });
     } else if (

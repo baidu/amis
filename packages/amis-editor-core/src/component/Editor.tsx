@@ -39,6 +39,8 @@ export interface EditorProps extends PluginEventListener {
   amisDocHost?: string;
   superEditorData?: any;
   withSuperDataSchema?: boolean;
+  /** 当前 Editor 为 SubEditor 时触发的宿主节点 */
+  hostNode?: EditorNodeType;
   dataBindingChange?: (
     value: string,
     data: any,
@@ -49,7 +51,7 @@ export interface EditorProps extends PluginEventListener {
    * Preview 预览前可以修改配置。
    * 比如把api地址替换成 proxy 地址。
    */
-  schemaFilter?: (schema: any, preview?: boolean) => any;
+  schemaFilter?: (schema: any, isPreview?: boolean) => any;
   amisEnv?: RenderOptions;
 
   /**
@@ -130,6 +132,8 @@ export interface EditorProps extends PluginEventListener {
   ) => Promise<void | boolean>;
 
   getHostNodeDataSchema?: () => Promise<any>;
+
+  getAvaiableContextFields?: (node: EditorNodeType) => Promise<any>;
 }
 
 export default class Editor extends Component<EditorProps> {

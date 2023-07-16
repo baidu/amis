@@ -64,7 +64,7 @@ export class ListPlugin extends BasePlugin {
   panelTitle = '列表';
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
-    const isCRUDBody = context.schema.type === 'crud';
+    const isCRUDBody = ['crud', 'crud2'].includes(context.schema.type);
     const i18nEnabled = getI18nEnabled();
     return getSchemaTpl('tabs', [
       {
@@ -352,7 +352,7 @@ export class ListPlugin extends BasePlugin {
     const {renderer, schema} = context;
     if (
       !schema.$$id &&
-      schema.$$editor?.renderer.name === 'crud' &&
+      ['crud', 'crud2'].includes(schema.$$editor?.renderer.name) &&
       renderer.name === 'list'
     ) {
       return {

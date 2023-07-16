@@ -58,7 +58,6 @@ export class OperationPlugin extends BasePlugin {
       {
         children: (
           <Button
-            size="sm"
             block
             className="m-b-sm ae-Button--enhance"
             onClick={() => {

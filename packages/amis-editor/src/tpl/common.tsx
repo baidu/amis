@@ -6,7 +6,6 @@ import {
   tipedLabel,
   EditorManager
 } from 'amis-editor-core';
-import type {DSField} from 'amis-editor-core';
 import type {SchemaObject} from 'amis';
 import flatten from 'lodash/flatten';
 import {InputComponentName} from '../component/InputComponentName';
@@ -16,6 +15,8 @@ import reduce from 'lodash/reduce';
 import map from 'lodash/map';
 import omit from 'lodash/omit';
 import keys from 'lodash/keys';
+
+import type {DSField} from '../builder';
 
 /**
  * @deprecated 兼容当前组件的switch
@@ -418,6 +419,7 @@ setSchemaTpl(
     variables?: Array<VariableItem> | Function; // 自定义变量集合
     requiredDataPropsVariables?: boolean; // 是否再从amis数据域中取变量结合， 默认 false
     variableMode?: 'tabs' | 'tree'; // 变量展现模式
+    className?: string; // 外层类名
     [key: string]: any; // 其他属性，例如包括表单项pipeIn\Out 等等
   }) => {
     const {
@@ -453,6 +455,7 @@ setSchemaTpl(
       // 上下展示，可避免 自定义渲染器 出现挤压
       mode: mode === 'vertical' ? 'vertical' : 'horizontal',
       visibleOn,
+      className: config?.className,
       body: [
         getSchemaTpl('formulaControl', {
           label: label ?? '默认值',
@@ -1677,5 +1680,16 @@ setSchemaTpl('anchorNavTitle', {
   name: 'title',
   label: '标题',
   type: 'input-text',
+  required: true
+});
+
+setSchemaTpl('primaryField', {
+  type: 'input-text',
+  name: 'primaryField',
+  label: tipedLabel(
+    '主键',
+    '每行记录的唯一标识符，通常用于行选择、批量操作等场景。'
+  ),
+  pipeIn: defaultValue('id'),
   required: true
 });

@@ -47,6 +47,7 @@ export class Value extends React.Component<ValueProps> {
         onChange,
         disabled
       });
+      /** 生成指定类型输入框的的公式编辑器，默认覆盖用户配置 */
       const inputSettings =
         field.type !== 'custom' && formula?.inputSettings
           ? {
