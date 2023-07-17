@@ -6,11 +6,14 @@ import {
   RendererInfo,
   defaultValue,
   getSchemaTpl,
-  noop
+  noop,
+  EditorNodeType,
+  isEmpty
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {InlineModal} from './Dialog';
 import {tipedLabel} from 'amis-editor-core';
+import omit from 'lodash/omit';
 
 export class DrawerPlugin extends BasePlugin {
   static id = 'DrawerPlugin';
@@ -284,6 +287,49 @@ export class DrawerPlugin extends BasePlugin {
   };
 
   buildSubRenderers() {}
+
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
+    const renderer = this.manager.store.getNodeById(node.id)?.getComponent();
+    const data = omit(renderer.props.$schema.data, '$$id');
+    let dataSchema: any = {};
+
+    if (renderer.props.$schema.data === undefined || !isEmpty(data)) {
+      // 静态数据
+      for (const key in data) {
+        if (!['&'].includes(key)) {
+          dataSchema[key] = {
+            type: typeof data[key] ?? 'string', // 默认文本，不好确定类型
+            title: key
+          };
+        }
+      }
+
+      // 数据链
+      const hostNodeDataSchema =
+        await this.manager.config.getHostNodeDataSchema?.();
+      hostNodeDataSchema
+        .filter(
+          (item: any) => !['system-variable', 'page-global'].includes(item.$id)
+        )
+        ?.forEach((item: any) => {
+          dataSchema = {
+            ...dataSchema,
+            ...item.properties
+          };
+        });
+    }
+
+    return {
+      $id: 'drawer',
+      type: 'object',
+      title: node.schema?.label || node.schema?.name,
+      properties: dataSchema
+    };
+  }
 }
 
 registerEditorPlugin(DrawerPlugin);
