@@ -1610,11 +1610,11 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               properties: {
                 error: {
                   type: 'string',
-                  title: '错误提示'
+                  title: '错误信息'
                 },
                 errors: {
                   type: 'object',
-                  title: '错误信息'
+                  title: '错误详情'
                 },
                 payload: {
                   type: 'object',
@@ -1622,7 +1622,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 },
                 responseData: {
                   type: 'object',
-                  title: '提交请求返回的响应结果数据'
+                  title: '提交请求的响应数据'
                 }
               }
             }
@@ -1702,11 +1702,11 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               properties: {
                 error: {
                   type: 'string',
-                  title: '错误提示'
+                  title: '错误信息'
                 },
                 errors: {
                   type: 'object',
-                  title: '错误信息'
+                  title: '错误详情'
                 },
                 payload: {
                   type: 'object',

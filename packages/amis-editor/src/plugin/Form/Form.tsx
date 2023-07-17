@@ -978,7 +978,7 @@ export class FormPlugin extends BasePlugin {
                         type: 'string',
                         title: itemSchema.label || itemSchema.name
                       }),
-                  group: `${schema.label || schema.name}的当前行记录`
+                  group: `当前行记录(${schema.label || schema.name})`
                 };
               }
             }
@@ -1005,7 +1005,7 @@ export class FormPlugin extends BasePlugin {
                 jsonschema.properties[col.name] = {
                   type: 'string',
                   title: col.label || col.name,
-                  group: `${schema.label || schema.name}的当前行记录`
+                  group: `当前行记录(${schema.label || schema.name})`
                 };
               }
             }
