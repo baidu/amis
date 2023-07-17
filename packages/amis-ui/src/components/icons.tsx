@@ -250,13 +250,13 @@ export interface IconCheckedSchemaNew {
 export function Icon({
   icon,
   className,
-  wrapClassName,
   classPrefix = '',
   classNameProp,
   iconContent,
   vendor,
   cx: iconCx,
-  onClick = () => {}
+  onClick = () => {},
+  style
 }: {
   icon: string;
   iconContent?: string;
@@ -281,6 +281,7 @@ export function Icon({
         className={cx(className, `icon-${icon}`, classNameProp)}
         // @ts-ignore
         icon={icon}
+        style={style}
       />
     );
   }
@@ -309,6 +310,7 @@ export function Icon({
         onClick={onClick}
         className={cx(iconContent, className, classNameProp)}
         ref={refFn}
+        style={style}
       ></div>
     );
   }
@@ -332,6 +334,7 @@ export function Icon({
       <svg
         onClick={onClick}
         className={cx('icon', 'icon-object', className, classNameProp)}
+        style={style}
       >
         <use
           xlinkHref={`#${(icon as IconCheckedSchema).id.replace(/^svg-/, '')}`}
@@ -348,6 +351,7 @@ export function Icon({
         onClick={onClick}
         className={cx(`${classPrefix}Icon`, className, classNameProp)}
         src={icon}
+        style={style}
       />
     );
   }
@@ -371,6 +375,7 @@ export function Icon({
       <i
         onClick={onClick}
         className={cx(icon, className, classNameProp, iconPrefix)}
+        style={style}
       />
     );
   }
