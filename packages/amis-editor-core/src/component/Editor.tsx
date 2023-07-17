@@ -128,6 +128,8 @@ export interface EditorProps extends PluginEventListener {
       manager?: EditorManager;
     }
   ) => Promise<void | boolean>;
+
+  getHostNodeDataSchema?: () => Promise<any>;
 }
 
 export default class Editor extends Component<EditorProps> {
@@ -176,6 +178,7 @@ export default class Editor extends Component<EditorProps> {
     if (showCustomRenderersPanel !== undefined) {
       this.store.setShowCustomRenderersPanel(showCustomRenderersPanel);
     }
+
     this.manager = new EditorManager(config, this.store);
 
     // 子编辑器不再重新设置 editorStore

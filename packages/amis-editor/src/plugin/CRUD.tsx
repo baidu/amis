@@ -2096,7 +2096,7 @@ export class CRUDPlugin extends BasePlugin {
             }
           },
           unSelectedItems: {
-            ...childSchame.properties.selectedItems,
+            ...childSchame.properties.unSelectedItems,
             items: {
               ...childSchame.properties.unSelectedItems.items,
               properties: itemsSchema
