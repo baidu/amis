@@ -505,7 +505,11 @@ export class TreeSelector extends React.Component<
               if (child.children && child.children.length) {
                 children.push.apply(children, child.children);
               }
-              if (~index && children.value !== 'undefined' && !child.disabled) {
+              if (
+                ~index &&
+                children.value !== 'undefined' &&
+                !child?.disabled
+              ) {
                 value.splice(index, 1);
               }
             }
