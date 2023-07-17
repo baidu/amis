@@ -523,7 +523,6 @@ test('Tree: item disabled', async () => {
     transfer: 'caocao,libai1,hanxin1,yunzhongjun1'
   });
 
-
   fireEvent.click(node);
   fireEvent.click(submitBtn);
   await wait(100);
