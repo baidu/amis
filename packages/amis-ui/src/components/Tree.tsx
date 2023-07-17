@@ -492,14 +492,37 @@ export class TreeSelector extends React.Component<
           // 父级选中的时候，子节点也都选中，但是自己不选中
           !~idx && children.length && value.pop();
 
-          while (children.length) {
-            let child = children.shift();
-            let index = value.indexOf(child);
+          // 取消下选择
+          if (
+            flattenTree(children)
+              .filter(item => !item?.disabled)
+              .some(v => ~value.indexOf(v))
+          ) {
+            while (children.length) {
+              let child = children.shift();
+              let index = value.indexOf(child);
 
-            if (child.children && child.children.length) {
-              children.push.apply(children, child.children);
-            } else if (!~index && child.value !== 'undefined') {
-              value.push(child);
+              if (child.children && child.children.length) {
+                children.push.apply(children, child.children);
+              }
+              if (~index && children.value !== 'undefined' && !child.disabled) {
+                value.splice(index, 1);
+              }
+            }
+          } else {
+            while (children.length) {
+              let child = children.shift();
+              let index = value.indexOf(child);
+
+              if (child.children && child.children.length) {
+                children.push.apply(children, child.children);
+              } else if (
+                !~index &&
+                child.value !== 'undefined' &&
+                !child?.disabled
+              ) {
+                value.push(child);
+              }
             }
           }
         } else {
@@ -557,7 +580,7 @@ export class TreeSelector extends React.Component<
           while (children.length) {
             let child = children.shift();
             let index = value.indexOf(child);
-            if (~index) {
+            if (~index && !child?.disabled) {
               value.splice(index, 1);
             }
             if (child.children && child.children.length) {
