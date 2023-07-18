@@ -16,6 +16,7 @@
     "fis3-dev": "fis3 release -cwd ./public",
     "deploy-gh-page": "sh ./deploy-gh-pages.sh",
     "build": "npm run build --workspaces",
+    "build-esm": "npm run build-esm --workspaces",
     "test": "npm test --workspaces",
     "update-snapshot": "npm run update-snapshot --workspaces",
     "prepare": "husky install",

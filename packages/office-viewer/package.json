@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run clean-dist &&  cross-env NODE_ENV=production rollup -c ",
+    "build-esm": "npm run clean-dist &&  cross-env NODE_ENV=production rollup -c rollup.esm.config.js",
     "test": "jest",
     "lib": "npm run clean-dist && cross-env NODE_ENV=production IS_LIB=1 rollup -c",
     "update-snapshot": "jest --updateSnapshot",
