@@ -26,7 +26,8 @@ import {
   hasAbility,
   getTreeParent,
   getTreeAncestors,
-  flattenTree
+  flattenTree,
+  flattenTreeWithLeafNodes
 } from 'amis-core';
 import {Option, Options, value2array} from './Select';
 import {themeable, ThemeProps, highlight} from 'amis-core';
@@ -481,9 +482,16 @@ export class TreeSelector extends React.Component<
       // cascade 为 true 表示父节点跟子节点没有级联关系。
       if (autoCheckChildren) {
         const children = item.children ? item.children.concat([]) : [];
+        const hasDisabled = flattenTree(children).some(item => item?.disabled);
+
         if (onlyChildren) {
           // 父级选中的时候，子节点也都选中，但是自己不选中
           !~idx && children.length && value.pop();
+
+          // 这个 isAllChecked 主要是判断如果有disabled的item项，这时父节点还是选中的话，针对性的处理逻辑
+          const isAllChecked = flattenTreeWithLeafNodes(children)
+            .filter(item => !item?.disabled)
+            .every(v => ~value.indexOf(v));
 
           while (children.length) {
             let child = children.shift();
@@ -491,22 +499,48 @@ export class TreeSelector extends React.Component<
 
             if (child.children && child.children.length) {
               children.push.apply(children, child.children);
-            } else if (!~index && child.value !== 'undefined') {
+              continue;
+            }
+
+            if (hasDisabled && isAllChecked) {
+              if (
+                ~index &&
+                children.value !== 'undefined' &&
+                !child?.disabled
+              ) {
+                value.splice(index, 1);
+              }
+              continue;
+            }
+
+            if (!~index && child.value !== 'undefined' && !child?.disabled) {
               value.push(child);
             }
           }
         } else {
+          // 这个 isAllChecked 主要是判断如果有disabled的item项，这时父节点还是选中的话，针对性的处理逻辑
+          const isAllChecked = flattenTree(children)
+            .filter(item => !item?.disabled)
+            .every(v => ~value.indexOf(v));
+
           // 只要父节点选择了,子节点就不需要了,全部去掉勾选.  withChildren时相反
           while (children.length) {
             let child = children.shift();
             let index = value.indexOf(child);
 
-            if (~index) {
-              value.splice(index, 1);
-            }
+            if (!child?.disabled) {
+              // 判断下下面是否有禁用项
+              if (!hasDisabled) {
+                if (~index) {
+                  value.splice(index, 1);
+                }
 
-            if (withChildren || cascade) {
-              value.push(child);
+                if (withChildren || cascade) {
+                  value.push(child);
+                }
+              } else {
+                isAllChecked ? value.splice(index, 1) : value.push(child);
+              }
             }
 
             if (child.children && child.children.length) {
@@ -550,7 +584,7 @@ export class TreeSelector extends React.Component<
           while (children.length) {
             let child = children.shift();
             let index = value.indexOf(child);
-            if (~index) {
+            if (~index && !child?.disabled) {
               value.splice(index, 1);
             }
             if (child.children && child.children.length) {
