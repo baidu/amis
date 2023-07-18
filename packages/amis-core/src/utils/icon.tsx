@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {isObject} from 'lodash';
+import isObject from 'lodash/isObject';
 import {ClassNamesFn} from '../theme';
 
 interface IconCheckedSchema {

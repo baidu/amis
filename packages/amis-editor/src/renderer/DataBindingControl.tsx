@@ -11,7 +11,8 @@ import {
   Spinner
 } from 'amis';
 import {FormControlProps, Renderer, RendererProps} from 'amis-core';
-import {debounce, remove} from 'lodash';
+import debounce from 'lodash/debounce';
+import remove from 'lodash/remove';
 import React from 'react';
 import {EditorManager, EditorNodeType, autobind} from 'amis-editor-core';
 import type {DSField, DSFieldGroup} from 'amis-editor-core';

@@ -18,7 +18,8 @@ import {
   mapObject,
   keyToPath,
   isObject,
-  ValidateError
+  ValidateError,
+  extendObject
 } from '../utils/helper';
 import isEqual from 'lodash/isEqual';
 import flatten from 'lodash/flatten';
@@ -395,7 +396,7 @@ export const FormStore = ServiceStore.named('FormStore')
           throw new ServerError(self.msg, json);
         } else {
           updateSavedData();
-          let ret = options && options.onSuccess && options.onSuccess(json);
+          let ret = options?.onSuccess?.(json, json.data);
           if (ret?.then) {
             ret = yield ret;
           }

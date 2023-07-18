@@ -1,7 +1,8 @@
 import {registerEditorPlugin} from '../manager';
 import {BaseEventContext, BasePlugin, BasicToolbarItem} from '../plugin';
 import React from 'react';
-import JsonView, {InteractionProps} from 'react-json-view';
+import {InteractionProps} from 'react-json-view';
+export const JsonView = React.lazy(() => import('react-json-view'));
 
 /**
  * 添加调试功能
@@ -98,16 +99,18 @@ export class DataDebugPlugin extends BasePlugin {
             </ul>
           </div>
           <div className="aeDataChain-main">
-            <JsonView
-              name={false}
-              src={stacks[index]}
-              enableClipboard={false}
-              iconStyle="square"
-              onAdd={index === 0 && !readOnly ? emitChange : false}
-              onEdit={index === 0 && !readOnly ? emitChange : false}
-              onDelete={index === 0 && !readOnly ? emitChange : false}
-              collapsed={2}
-            />
+            <React.Suspense fallback={<div>...</div>}>
+              <JsonView
+                name={false}
+                src={stacks[index]}
+                enableClipboard={false}
+                iconStyle="square"
+                onAdd={index === 0 && !readOnly ? emitChange : false}
+                onEdit={index === 0 && !readOnly ? emitChange : false}
+                onDelete={index === 0 && !readOnly ? emitChange : false}
+                collapsed={2}
+              />
+            </React.Suspense>
           </div>
         </div>
       );

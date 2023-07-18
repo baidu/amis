@@ -590,7 +590,9 @@ export default class Form extends React.Component<FormProps, object> {
         .fetchInitData(initApi as any, store.data, {
           successMessage: fetchSuccess,
           errorMessage: fetchFailed,
-          onSuccess: () => {
+          onSuccess: (json: Payload, data: any) => {
+            store.setValues(data);
+
             if (
               !isEffectiveApi(initAsyncApi, store.data) ||
               store.data[initFinishedField || 'finished']
@@ -745,7 +747,12 @@ export default class Form extends React.Component<FormProps, object> {
       );
   }
 
-  reload(subPath?: string, query?: any, ctx?: any, silent?: boolean) {
+  async reload(
+    subPath?: string,
+    query?: any,
+    ctx?: any,
+    silent?: boolean
+  ): Promise<any> {
     if (query) {
       return this.receive(query);
     }
@@ -763,44 +770,46 @@ export default class Form extends React.Component<FormProps, object> {
         [initFinishedField || 'finished']: false
       });
 
-    isEffectiveApi(initApi, store.data)
-      ? store
-          .fetchInitData(initApi, store.data, {
-            successMessage: fetchSuccess,
-            errorMessage: fetchFailed,
-            silent,
-            onSuccess: () => {
-              if (
-                !isEffectiveApi(initAsyncApi, store.data) ||
-                store.data[initFinishedField || 'finished']
-              ) {
-                return;
-              }
+    if (isEffectiveApi(initApi, store.data)) {
+      const result: Payload = await store.fetchInitData(initApi, store.data, {
+        successMessage: fetchSuccess,
+        errorMessage: fetchFailed,
+        silent,
+        onSuccess: (json: Payload, data: any) => {
+          store.setValues(data);
 
-              return until(
-                () => store.checkRemote(initAsyncApi, store.data),
-                (ret: any) => ret && ret[initFinishedField || 'finished'],
-                cancel => (this.asyncCancel = cancel)
-              );
-            }
-          })
-          .then(async (result: Payload) => {
-            // 派发初始化接口请求完成事件
-            await this.dispatchInited(result);
+          if (
+            !isEffectiveApi(initAsyncApi, store.data) ||
+            store.data[initFinishedField || 'finished']
+          ) {
+            return;
+          }
 
-            if (result?.ok) {
-              this.initInterval(result);
-              store.reset(undefined, false);
-            }
-          })
-      : store.reset(undefined, false);
+          return until(
+            () => store.checkRemote(initAsyncApi, store.data),
+            (ret: any) => ret && ret[initFinishedField || 'finished'],
+            cancel => (this.asyncCancel = cancel)
+          );
+        }
+      });
+
+      // 派发初始化接口请求完成事件
+      await this.dispatchInited(result);
+
+      if (result?.ok) {
+        this.initInterval(result);
+        store.reset(undefined, false);
+      }
+    } else {
+      store.reset(undefined, false);
+    }
   }
 
   receive(values: object, name?: string, replace?: boolean) {
     const {store} = this.props;
 
     store.updateData(values, undefined, replace);
-    this.reload();
+    return this.reload();
   }
 
   silentReload(target?: string, query?: any) {
@@ -1742,19 +1751,13 @@ export default class Form extends React.Component<FormProps, object> {
         <input type="submit" style={{display: 'none'}} />
 
         {debug
-          ? render(
-              'form-debug-json',
-              extend(
-                {
-                  type: 'json',
-                  value: store.data,
-                  ellipsisThreshold: 120,
-                  className: cx('Form--debug')
-                },
-                /** 定制debug输出格式 */
-                isObject(debugConfig) ? debugConfig : {}
-              )
-            )
+          ? render('form-debug-json', {
+              type: 'json',
+              value: store.data,
+              ellipsisThreshold: 120,
+              className: cx('Form--debug'),
+              ...debugConfig
+            })
           : null}
 
         {render(
@@ -2009,13 +2012,13 @@ export class FormRenderer extends Form {
     scoped.close(target);
   }
 
-  reload(
+  async reload(
     target?: string,
     query?: any,
     ctx?: any,
     silent?: boolean,
     replace?: boolean
-  ) {
+  ): Promise<any> {
     if (query) {
       return this.receive(query, undefined, replace);
     }
@@ -2045,18 +2048,22 @@ export class FormRenderer extends Form {
     ) {
       component.reload(subPath, subQuery, ctx);
     } else if (target === '*') {
-      super.reload(target, query, ctx, silent);
+      await super.reload(target, query, ctx, silent);
       const components = scoped.getComponents();
       components.forEach(
         (component: any) =>
           component.reload && component.reload('', subQuery, ctx)
       );
     } else {
-      super.reload(target, query, ctx, silent);
+      return super.reload(target, query, ctx, silent);
     }
   }
 
-  receive(values: object, name?: string, replace?: boolean) {
+  async receive(
+    values: object,
+    name?: string,
+    replace?: boolean
+  ): Promise<any> {
     if (name) {
       const scoped = this.context as IScopedContext;
       const idx = name.indexOf('.');

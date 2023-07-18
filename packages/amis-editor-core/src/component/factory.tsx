@@ -25,7 +25,7 @@ import type {Schema} from 'amis';
 import type {DataScope} from 'amis-core';
 import type {RendererConfig} from 'amis-core';
 import type {SchemaCollection} from 'amis';
-import {omit} from 'lodash';
+import omit from 'lodash/omit';
 
 // 创建 Node Store 并构建成树
 export function makeWrapper(

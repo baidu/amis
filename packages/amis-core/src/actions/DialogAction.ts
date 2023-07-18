@@ -7,7 +7,7 @@ import {
   registerAction
 } from './Action';
 import {createObject, filter, render} from '../index';
-import {reject} from 'lodash';
+import reject from 'lodash/reject';
 
 export interface IAlertAction extends ListenerAction {
   actionType: 'alert';

@@ -12,7 +12,7 @@ import {
   RendererInfoResolveEventContext
 } from '../plugin';
 import {autobind} from '../util';
-import {omit} from 'lodash';
+import omit from 'lodash/omit';
 
 export interface SubEditorProps {
   store: EditorStoreType;

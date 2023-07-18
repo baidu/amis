@@ -7,7 +7,8 @@ import {FormControlProps, FormItem, styleMap} from 'amis-core';
 // @ts-ignore
 import {parse as cssParse} from 'amis-postcss';
 import {PlainObject} from './types';
-import {debounce, isEmpty} from 'lodash';
+import debounce from 'lodash/debounce';
+import isEmpty from 'lodash/isEmpty';
 import {Icon} from '../../icons/index';
 import editorFactory from './themeLanguage';
 import cx from 'classnames';
