@@ -153,7 +153,7 @@ function transpileReactCreateElement() {
     enforce: 'post',
     transform: (code, id) => {
       if (
-        /\.(?:t|j)sx/.test(id) &&
+        /\.(?:tsx|jsx|svg)$/.test(id) &&
         code.indexOf('React.createElement') !== -1
       ) {
         const separator = '\n\n;';
