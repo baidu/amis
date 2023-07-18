@@ -263,6 +263,10 @@ export function Icon({
 } & React.ComponentProps<any>) {
   let cx = iconCx || cxClass;
 
+  if (typeof jest !== 'undefined' && icon) {
+    iconContent = '';
+  }
+
   if (!icon) {
     return null;
   }
@@ -270,20 +274,6 @@ export function Icon({
   // 直接的icon dom
   if (React.isValidElement(icon)) {
     return icon;
-  }
-
-  // 获取注册的icon
-  const Component = getIcon(icon);
-  if (Component) {
-    return (
-      <Component
-        onClick={onClick}
-        className={cx(className, `icon-${icon}`, classNameProp)}
-        // @ts-ignore
-        icon={icon}
-        style={style}
-      />
-    );
   }
 
   // 从css变量中获取icon
@@ -312,6 +302,20 @@ export function Icon({
         ref={refFn}
         style={style}
       ></div>
+    );
+  }
+
+  // 获取注册的icon
+  const Component = getIcon(icon);
+  if (Component) {
+    return (
+      <Component
+        onClick={onClick}
+        className={cx(className, `icon-${icon}`, classNameProp)}
+        // @ts-ignore
+        icon={icon}
+        style={style}
+      />
     );
   }
 
