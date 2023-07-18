@@ -20,35 +20,51 @@ import TooltipWrapper from '../TooltipWrapper';
 const memberOpers = [
   {
     label: '取该成员的记录',
-    value: 'ARRAYMAP(${arr}, item => item.${member})'
+    value: 'ARRAYMAP(${arr}, item => item.${member})',
+    description: '即该列所有记录'
   },
   {
-    label: '取该成员的记录并过滤',
-    value: 'ARRAYFILTER(${arr}, item => item.${member})'
+    label: '取符合条件的该成员的记录',
+    value:
+      'ARRAYFILTER(ARRAYMAP(${arr}, item => item.${member}), item => item === 条件)',
+    description: '即该列所有记录中符合条件的记录，需补充条件，例如：item === 1'
   },
   {
-    label: '取该成员列表记录中符合条件的总数',
-    value: 'COUNT(ARRAYFILTER(${arr}, item => item.${member} === 条件))'
+    label: '取列表中符合该成员条件的记录',
+    value: 'ARRAYFILTER(${arr}, item => item.${member} === 条件)',
+    description:
+      '即当前列表中所有符合该成员条件的记录，需补充成员条件，例如：item.xxx === 1'
+  },
+  {
+    label: '取列表中符合该成员条件的记录总数',
+    value: 'COUNT(ARRAYFILTER(${arr}, item => item.${member} === 条件))',
+    description:
+      '即当前列表中所有符合该成员条件的记录总数，需补充成员条件，例如：item.xxx === 1'
   },
   {
     label: '取该成员去重之后的总数',
-    value: 'COUNT(UNIQ(${arr}, item.${member}))'
+    value: 'COUNT(UNIQ(${arr}, item.${member}))',
+    description: '即对该成员记录进行去重，并统计总数'
   },
   {
     label: '取该成员的总和',
-    value: 'SUM(ARRAYMAP(${arr}, item => item.${member}))'
+    value: 'SUM(ARRAYMAP(${arr}, item => item.${member}))',
+    description: '即计算该成员记录的总和，需确认该成员记录均为数字类型'
   },
   {
     label: '取该成员的平均值',
-    value: 'AVG(ARRAYMAP(${arr}, item => item.${member}))'
+    value: 'AVG(ARRAYMAP(${arr}, item => item.${member}))',
+    description: '即计算该成员记录的总和，需确认该成员记录均为数字类型'
   },
   {
     label: '取该成员的最大值',
-    value: 'MAX(ARRAYMAP(${arr}, item => item.${member}))'
+    value: 'MAX(ARRAYMAP(${arr}, item => item.${member}))',
+    description: '即计算该成员记录中最大值，需确认该成员记录均为数字类型'
   },
   {
     label: '取该成员的最小值',
-    value: 'MIN(ARRAYMAP(${arr}, item => item.${member}))'
+    value: 'MIN(ARRAYMAP(${arr}, item => item.${member}))',
+    description: '即计算该成员记录中最小值，需确认该成员记录均为数字类型'
   }
 ];
 
@@ -135,18 +151,23 @@ function VariableList(props: VariableListProps) {
                       <ul className={cx(`${classPrefix}-item-oper`)}>
                         {memberOpers.map((item, i) => {
                           return (
-                            <li
-                              key={i}
-                              onClick={() =>
-                                handleMemberClick(
-                                  {...item, isMember: true},
-                                  option,
-                                  onClose
-                                )
-                              }
+                            <TooltipWrapper
+                              tooltip={item.description}
+                              tooltipTheme="dark"
                             >
-                              <span>{item.label}</span>
-                            </li>
+                              <li
+                                key={i}
+                                onClick={() =>
+                                  handleMemberClick(
+                                    {...item, isMember: true},
+                                    option,
+                                    onClose
+                                  )
+                                }
+                              >
+                                <span>{item.label}</span>
+                              </li>
+                            </TooltipWrapper>
                           );
                         })}
                       </ul>
