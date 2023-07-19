@@ -275,7 +275,7 @@ export function Icon({
   if (React.isValidElement(icon)) {
     return React.cloneElement(icon, {
       ...((icon.props as any) || {}),
-      className: cx(className, classNameProp),
+      className: cx(className, classNameProp, (icon.props as any).className),
       style,
       onClick
     });
