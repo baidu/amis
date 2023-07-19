@@ -76,7 +76,7 @@ export function buildApi(
   }
 
   if (api.requestAdaptor && typeof api.requestAdaptor === 'string') {
-    api.requestAdaptor = str2function(
+    api.requestAdaptor = str2AsyncFunction(
       api.requestAdaptor,
       'api',
       'context'
@@ -84,7 +84,7 @@ export function buildApi(
   }
 
   if (api.adaptor && typeof api.adaptor === 'string') {
-    api.adaptor = str2function(
+    api.adaptor = str2AsyncFunction(
       api.adaptor,
       'payload',
       'response',
@@ -464,12 +464,16 @@ export function wrapFetcher(
     return fn as any;
   }
 
-  const wrappedFetcher = function (api: Api, data: object, options?: object) {
+  const wrappedFetcher = async function (
+    api: Api,
+    data: object,
+    options?: object
+  ) {
     api = buildApi(api, data, options) as ApiObject;
 
     if (api.requestAdaptor) {
       debug('api', 'before requestAdaptor', api);
-      api = api.requestAdaptor(api, data) || api;
+      api = (await api.requestAdaptor(api, data)) || api;
       debug('api', 'after requestAdaptor', api);
     }
 
