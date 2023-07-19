@@ -189,11 +189,13 @@
 }
 
 .#{$ns}TreeSelection {
-  max-height: px2rem(300px);
-  height: 100%;
-  overflow: auto;
-  user-select: none;
-  padding: var(--gap-xs) 0;
+  &.is-scrollable {
+    max-height: px2rem(300px);
+    height: 100%;
+    overflow: auto;
+    user-select: none;
+    padding: var(--gap-xs) 0;
+  }
 
   .#{$ns}Table-expandBtn {
     color: var(--icon-color);
