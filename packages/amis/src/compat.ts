@@ -213,6 +213,7 @@ addSchemaFilter(function (schema: Schema, renderer) {
 });
 
 // button group 的 btnClassName 和 btnActiveClassName 改成 btnLevel 和 btnActiveLevel 了
+// 2023/7/20 fix：配置面板配置按钮类名预览后失效
 addSchemaFilter(function (scheam: Schema, renderer) {
   if (renderer.component !== ButtonGroupControlRenderer) {
     return scheam;
@@ -224,9 +225,6 @@ addSchemaFilter(function (scheam: Schema, renderer) {
       btnLevel: getLevelFromClassName(scheam.btnClassName),
       btnActiveLevel: getLevelFromClassName(scheam.btnActiveClassName)
     };
-
-    delete scheam.btnClassName;
-    delete scheam.btnActiveClassName;
   }
 
   return scheam;

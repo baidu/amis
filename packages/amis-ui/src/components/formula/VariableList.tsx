@@ -20,35 +20,51 @@ import TooltipWrapper from '../TooltipWrapper';
 const memberOpers = [
   {
     label: '取该成员的记录',
-    value: 'ARRAYMAP(${arr}, item => item.${member})'
+    value: 'ARRAYMAP(${arr}, item => item.${member})',
+    description: '即该列所有记录'
   },
   {
-    label: '取该成员的记录并过滤',
-    value: 'ARRAYFILTER(${arr}, item => item.${member})'
+    label: '取符合条件的该成员的记录',
+    value:
+      'ARRAYFILTER(ARRAYMAP(${arr}, item => item.${member}), item => item === 条件)',
+    description: '即该列所有记录中符合条件的记录，需补充条件，例如：item === 1'
   },
   {
-    label: '取该成员列表记录中符合条件的总数',
-    value: 'COUNT(ARRAYFILTER(${arr}, item => item.${member} === 条件))'
+    label: '取列表中符合该成员条件的记录',
+    value: 'ARRAYFILTER(${arr}, item => item.${member} === 条件)',
+    description:
+      '即当前列表中所有符合该成员条件的记录，需补充成员条件，例如：item.xxx === 1'
+  },
+  {
+    label: '取列表中符合该成员条件的记录总数',
+    value: 'COUNT(ARRAYFILTER(${arr}, item => item.${member} === 条件))',
+    description:
+      '即当前列表中所有符合该成员条件的记录总数，需补充成员条件，例如：item.xxx === 1'
   },
   {
     label: '取该成员去重之后的总数',
-    value: 'COUNT(UNIQ(${arr}, item.${member}))'
+    value: 'COUNT(UNIQ(${arr}, item.${member}))',
+    description: '即对该成员记录进行去重，并统计总数'
   },
   {
     label: '取该成员的总和',
-    value: 'SUM(ARRAYMAP(${arr}, item => item.${member}))'
+    value: 'SUM(ARRAYMAP(${arr}, item => item.${member}))',
+    description: '即计算该成员记录的总和，需确认该成员记录均为数字类型'
   },
   {
     label: '取该成员的平均值',
-    value: 'AVG(ARRAYMAP(${arr}, item => item.${member}))'
+    value: 'AVG(ARRAYMAP(${arr}, item => item.${member}))',
+    description: '即计算该成员记录的总和，需确认该成员记录均为数字类型'
   },
   {
     label: '取该成员的最大值',
-    value: 'MAX(ARRAYMAP(${arr}, item => item.${member}))'
+    value: 'MAX(ARRAYMAP(${arr}, item => item.${member}))',
+    description: '即计算该成员记录中最大值，需确认该成员记录均为数字类型'
   },
   {
     label: '取该成员的最小值',
-    value: 'MIN(ARRAYMAP(${arr}, item => item.${member}))'
+    value: 'MIN(ARRAYMAP(${arr}, item => item.${member}))',
+    description: '即计算该成员记录中最小值，需确认该成员记录均为数字类型'
   }
 ];
 
@@ -112,7 +128,8 @@ function VariableList(props: VariableListProps) {
                       <label>{option.label}</label>
                     </Badge>
                   )}
-                {option.label &&
+                {option.memberDepth === undefined &&
+                  option.label &&
                   (!selfVariableName || option.value !== selfVariableName) && (
                     <TooltipWrapper
                       tooltip={option.description ?? option.label}
@@ -122,7 +139,10 @@ function VariableList(props: VariableListProps) {
                     </TooltipWrapper>
                   )}
                 {/* 控制只对第一层数组成员展示快捷操作入口 */}
-                {option.memberDepth < 2 ? (
+                {option.memberDepth !== undefined &&
+                option.memberDepth < 2 &&
+                option.label &&
+                (!selfVariableName || option.value !== selfVariableName) ? (
                   <PopOverContainer
                     popOverContainer={() =>
                       document.querySelector(`.${cx('FormulaPicker-Modal')}`)
@@ -131,25 +151,35 @@ function VariableList(props: VariableListProps) {
                       <ul className={cx(`${classPrefix}-item-oper`)}>
                         {memberOpers.map((item, i) => {
                           return (
-                            <li
-                              key={i}
-                              onClick={() =>
-                                handleMemberClick(
-                                  {...item, isMember: true},
-                                  option,
-                                  onClose
-                                )
-                              }
+                            <TooltipWrapper
+                              tooltip={item.description}
+                              tooltipTheme="dark"
                             >
-                              <span>{item.label}</span>
-                            </li>
+                              <li
+                                key={i}
+                                onClick={() =>
+                                  handleMemberClick(
+                                    {...item, isMember: true},
+                                    option,
+                                    onClose
+                                  )
+                                }
+                              >
+                                <span>{item.label}</span>
+                              </li>
+                            </TooltipWrapper>
                           );
                         })}
                       </ul>
                     )}
                   >
                     {({onClick, ref, isOpened}) => (
-                      <i className="fa fa-ellipsis-h" onClick={onClick} />
+                      <TooltipWrapper
+                        tooltip={option.description ?? option.label}
+                        tooltipTheme="dark"
+                      >
+                        <label onClick={onClick}>{option.label}</label>
+                      </TooltipWrapper>
                     )}
                   </PopOverContainer>
                 ) : null}
@@ -165,9 +195,10 @@ function VariableList(props: VariableListProps) {
 
   function handleMemberClick(item: any, option: any, onClose?: any) {
     // todo：暂时只提供一层的快捷操作
-    const lastPointIdx = option.value.lastIndexOf('.');
-    const arr = option.value.substring(0, lastPointIdx);
-    const member = option.value.substring(lastPointIdx + 1);
+    // const lastPointIdx = option.value.lastIndexOf('.');
+    const firstPointIdx = option.value.indexOf('.');
+    const arr = option.value.substring(0, firstPointIdx);
+    const member = option.value.substring(firstPointIdx + 1);
 
     const value = item.value
       .replace('${arr}', arr)
@@ -208,7 +239,7 @@ function VariableList(props: VariableListProps) {
   }
 
   function handleChange(item: any) {
-    if (item.isMember) {
+    if (item.isMember || item.memberDepth !== undefined) {
       return;
     }
     onSelect?.(item);

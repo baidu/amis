@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "3.2.0",
+  "version": "3.3.0-beta.4",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -11,6 +11,7 @@
     "coverage": "jest --coverage",
     "publish-to-internal": "sh build.sh && sh publish.sh",
     "build": "npm run clean-dist && sh build.sh",
+    "build-esm": "npm run clean-dist && NODE_ENV=production rollup -c rollup.esm.config.js",
     "prettier": "prettier --write '{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}'",
     "build-schemas": "ts-node -O '{\"target\":\"es6\"}' ../../scripts/build-schemas.ts",
     "clean-dist": "rimraf lib/** esm/**"
@@ -36,11 +37,11 @@
     }
   ],
   "dependencies": {
-    "amis-core": "^3.2.0",
-    "amis-ui": "^3.2.0",
+    "amis-core": "^3.3.0-beta.4",
+    "amis-ui": "^3.3.0-beta.4",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
-    "classnames": "2.3.1",
+    "classnames": "2.3.2",
     "downshift": "6.1.12",
     "echarts": "5.4.0",
     "echarts-stat": "^1.2.0",
@@ -60,7 +61,7 @@
     "mobx-state-tree": "^3.17.3",
     "moment": "^2.19.4",
     "mpegts.js": "^1.6.10",
-    "office-viewer": "^0.1.3",
+    "office-viewer": "^0.1.5",
     "prop-types": "^15.6.1",
     "qrcode.react": "^3.1.0",
     "rc-overflow": "^1.2.4",

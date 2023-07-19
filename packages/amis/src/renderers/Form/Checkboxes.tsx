@@ -31,6 +31,10 @@ export interface CheckboxesControlSchema extends FormOptionsSchema {
   defaultCheckAll?: boolean;
 
   /**
+   * 全选/不选文案
+   */
+  checkAllText?: string;
+  /**
    * 每行显示多少个
    */
   columnsCount?: number | number[];
@@ -337,6 +341,7 @@ export default class CheckboxesControl extends React.Component<
       onToggle,
       onToggleAll,
       checkAll,
+      checkAllText,
       classnames: cx,
       itemClassName,
       labelClassName,
@@ -369,7 +374,7 @@ export default class CheckboxesControl extends React.Component<
           inline={inline}
           labelClassName={labelClassName}
         >
-          {__('Checkboxes.selectAll')}
+          {checkAllText ?? __('Checkboxes.selectAll')}
         </Checkbox>
       );
     }

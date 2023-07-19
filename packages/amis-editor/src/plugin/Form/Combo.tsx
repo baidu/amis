@@ -14,7 +14,7 @@ import {
   EditorManager,
   DSBuilderManager
 } from 'amis-editor-core';
-import {setVariable} from 'amis-core';
+import {setVariable, someTree} from 'amis-core';
 
 import {ValidatorTag} from '../../validator';
 import {
@@ -659,6 +659,48 @@ export class ComboControlPlugin extends BasePlugin {
       return props;
     }
     return props;
+  }
+
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
+    const itemsSchema: any = {
+      $id: 'comboItems',
+      type: 'object',
+      properties: {}
+    };
+    const items = node.children?.find(
+      child => child.isRegion && child.region === 'items'
+    );
+    const pool = items.children.concat();
+
+    while (pool.length) {
+      const current = pool.shift() as EditorNodeType;
+      const schema = current.schema;
+
+      if (schema.name) {
+        itemsSchema.properties[schema.name] = current.info?.plugin
+          ?.buildDataSchemas
+          ? await current.info.plugin.buildDataSchemas(current, region, trigger)
+          : {
+              type: 'string',
+              title: schema.label || schema.name
+            };
+      }
+    }
+
+    if (node.schema?.multiple) {
+      return {
+        $id: 'combo',
+        type: 'array',
+        title: node.schema?.label || node.schema?.name,
+        items: itemsSchema
+      };
+    }
+
+    return {...itemsSchema, title: node.schema?.label || node.schema?.name};
   }
 
   async getAvailableContextFields(

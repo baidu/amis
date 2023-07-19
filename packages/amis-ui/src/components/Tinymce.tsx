@@ -55,6 +55,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
   };
   config?: any;
   editor?: any;
+  editorInitialized?: boolean = false;
   currentContent?: string;
 
   elementRef: React.RefObject<HTMLTextAreaElement> = React.createRef();
@@ -136,6 +137,8 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         help: {title: 'Help', items: 'help'}
       },
       paste_data_images: true,
+      // 很诡异的问题，video 会被复制放在光标上，直接用样式隐藏先
+      content_style: '[data-mce-bogus] video {display:none;}',
       ...this.props.config,
       target: this.elementRef.current,
       readOnly: this.props.disabled,
@@ -144,6 +147,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         this.editor = editor;
 
         editor.on('init', (e: Event) => {
+          this.editorInitialized = true;
           this.initEditor(e, editor);
         });
       }
@@ -159,7 +163,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       props.model !== prevProps.model &&
       props.model !== this.currentContent
     ) {
-      this.editor?.setContent(props.model || '');
+      this.editorInitialized && this.editor?.setContent(props.model || '');
     }
   }
 

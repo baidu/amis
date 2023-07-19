@@ -3,6 +3,7 @@
   align-items: center;
   color: var(--text-color);
   font-size: var(--fontSizeXs);
+  min-width: 50px;
   &-line {
     display: inline-block;
     width: 100%;
@@ -49,7 +50,6 @@
       transition: width var(--animation-duration) ease;
       border-radius: var(--Progress-borderRadius);
 
-      
       &.bg-info {
         background: var(--Progress-line-theme-color);
       }

@@ -1,0 +1,634 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`doAction:page reload 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Page数据加载请求
+            </span>
+          </button>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    我的标题：
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="title"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value="Test Page Component"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    我的年龄：
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="age"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:page reload 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Spinner-overlay in"
+          />
+          <div
+            class="cxd-Spinner cxd-Spinner--overlay in"
+            data-testid="spinner"
+          >
+            <div
+              class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+            />
+          </div>
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Page数据加载请求
+            </span>
+          </button>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    我的标题：
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="title"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value="Test Page Component"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    我的年龄：
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="age"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:page reload with data 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Page数据加载请求，同时把年龄更新为18
+            </span>
+          </button>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    我的标题：
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="title"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value="Test Page Component"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    我的年龄：
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="age"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:page reload with data 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Spinner-overlay in"
+          />
+          <div
+            class="cxd-Spinner cxd-Spinner--overlay in"
+            data-testid="spinner"
+          >
+            <div
+              class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+            />
+          </div>
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Page数据加载请求，同时把年龄更新为18
+            </span>
+          </button>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    我的标题：
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="title"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value="Test Page Component"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    我的年龄：
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="age"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value="18"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:page reload with data(same name) 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Page数据加载请求，请求返回的date会覆盖动作传递的date
+            </span>
+          </button>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    我的标题：
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="title"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value="Test Page Component"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    日期：
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="date"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value="2017-10-13"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`doAction:page reload with data(same name) 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Spinner-overlay"
+          />
+          <div
+            class="cxd-Spinner cxd-Spinner--overlay"
+            data-testid="spinner"
+          >
+            <div
+              class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+            />
+          </div>
+          <button
+            class="cxd-Button cxd-Button--primary cxd-Button--size-default mb-2"
+            type="button"
+          >
+            <span>
+              刷新Page数据加载请求，请求返回的date会覆盖动作传递的date
+            </span>
+          </button>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    我的标题：
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="title"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value="Test Page Component"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Form-item cxd-Form-item--normal"
+            data-role="form-item"
+          >
+            <label
+              class="cxd-Form-label"
+            >
+              <span>
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    日期：
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="cxd-Form-control cxd-TextControl"
+            >
+              <div
+                class="cxd-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  class=""
+                  name="date"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value="2017-10-13"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

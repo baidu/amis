@@ -5,11 +5,12 @@
 import React, {Component, useEffect, useRef, useState} from 'react';
 import cx from 'classnames';
 import {findDOMNode, render} from 'react-dom';
-import JsonView from 'react-json-view';
 import {autorun, observable} from 'mobx';
 import {observer} from 'mobx-react';
 import {uuidv4} from './helper';
 import position from './position';
+
+export const JsonView = React.lazy(() => import('react-json-view'));
 
 class Log {
   @observable cat = '';

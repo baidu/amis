@@ -146,6 +146,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
       style,
       pickerIcon,
       env,
+      popOverContainer,
       ...rest
     } = this.props;
 
@@ -173,7 +174,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
           pickerIcon={this.renderPickerIcon()}
           isAddBtnVisibleOn={this.getAddBtnVisible}
           isAddGroupBtnVisibleOn={this.getAddGroupBtnVisible}
-          popOverContainer={env.getModalContainer}
+          popOverContainer={popOverContainer || env.getModalContainer}
           {...rest}
           formula={formula}
         />

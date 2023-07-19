@@ -1,0 +1,151 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:NestedSelect with maxTagLength 3 1`] = `
+<div>
+  <form
+    class="cxd-Form cxd-Form--normal"
+    novalidate=""
+  >
+    <input
+      style="display: none;"
+      type="submit"
+    />
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="cxd-Form-label"
+      >
+        <span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              NestedSelect
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="cxd-NestedSelectControl cxd-Form-control"
+      >
+        <div
+          class="cxd-ResultBox cxd-NestedSelect cxd-NestedSelect--multi is-clickable is-group"
+          tabindex="0"
+        >
+          <div
+            class="cxd-ResultBox-value-wrap"
+          >
+            <div
+              class="cxd-ResultBox-value"
+            >
+              <span
+                class="cxd-ResultBox-valueLabel"
+              >
+                <span
+                  class="cxd-Select-valueLabel"
+                  title="水果 / 苹果"
+                >
+                  <span>
+                    水果
+                     / 
+                  </span>
+                  <span>
+                    苹果
+                  </span>
+                </span>
+              </span>
+              <a
+                data-index="0"
+              >
+                <icon-mock
+                  classname="icon icon-close"
+                  icon="close"
+                />
+              </a>
+            </div>
+            <div
+              class="cxd-ResultBox-value"
+            >
+              <span
+                class="cxd-ResultBox-valueLabel"
+              >
+                <span
+                  class="cxd-Select-valueLabel"
+                  title="水果 / 香蕉"
+                >
+                  <span>
+                    水果
+                     / 
+                  </span>
+                  <span>
+                    香蕉
+                  </span>
+                </span>
+              </span>
+              <a
+                data-index="1"
+              >
+                <icon-mock
+                  classname="icon icon-close"
+                  icon="close"
+                />
+              </a>
+            </div>
+            <div
+              class="cxd-ResultBox-value"
+            >
+              <span
+                class="cxd-ResultBox-valueLabel"
+              >
+                <span
+                  class="cxd-Select-valueLabel"
+                  title="水果 / 黑莓"
+                >
+                  <span>
+                    水果
+                     / 
+                  </span>
+                  <span>
+                    黑莓
+                  </span>
+                </span>
+              </span>
+              <a
+                data-index="2"
+              >
+                <icon-mock
+                  classname="icon icon-close"
+                  icon="close"
+                />
+              </a>
+            </div>
+            <div
+              class="cxd-ResultBox-value"
+            >
+              <span
+                class="cxd-ResultBox-valueLabel"
+              >
+                + 10 ...
+              </span>
+            </div>
+          </div>
+          <div
+            class="cxd-ResultBox-actions"
+          >
+            <span
+              class="cxd-ResultBox-pc-arrow"
+            >
+              <icon-mock
+                classname="icon icon-right-arrow-bold"
+                icon="right-arrow-bold"
+              />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;

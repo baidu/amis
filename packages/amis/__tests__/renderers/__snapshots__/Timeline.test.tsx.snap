@@ -47,7 +47,7 @@ exports[`Renderer:timeline items 1`] = `
               class="cxd-TimelineItem-detail-arrow false"
             >
               <icon-mock
-                classname=" icon-down-arrow-bold"
+                classname="icon-down-arrow-bold"
                 icon="down-arrow-bold"
               />
             </div>
@@ -813,7 +813,7 @@ exports[`Renderer:timeline source 1`] = `
               class="cxd-TimelineItem-detail-arrow false"
             >
               <icon-mock
-                classname=" icon-down-arrow-bold"
+                classname="icon-down-arrow-bold"
                 icon="down-arrow-bold"
               />
             </div>
@@ -863,7 +863,7 @@ exports[`Renderer:timeline source 1`] = `
               class="cxd-TimelineItem-detail-arrow false"
             >
               <icon-mock
-                classname=" icon-down-arrow-bold"
+                classname="icon-down-arrow-bold"
                 icon="down-arrow-bold"
               />
             </div>
@@ -913,7 +913,7 @@ exports[`Renderer:timeline source 1`] = `
               class="cxd-TimelineItem-detail-arrow false"
             >
               <icon-mock
-                classname=" icon-down-arrow-bold"
+                classname="icon-down-arrow-bold"
                 icon="down-arrow-bold"
               />
             </div>
@@ -968,7 +968,7 @@ exports[`Renderer:timeline source 1`] = `
               class="cxd-TimelineItem-detail-arrow false"
             >
               <icon-mock
-                classname=" icon-down-arrow-bold"
+                classname="icon-down-arrow-bold"
                 icon="down-arrow-bold"
               />
             </div>
@@ -1018,7 +1018,7 @@ exports[`Renderer:timeline source 1`] = `
               class="cxd-TimelineItem-detail-arrow false"
             >
               <icon-mock
-                classname=" icon-down-arrow-bold"
+                classname="icon-down-arrow-bold"
                 icon="down-arrow-bold"
               />
             </div>
@@ -1073,7 +1073,7 @@ exports[`Renderer:timeline source 1`] = `
               class="cxd-TimelineItem-detail-arrow false"
             >
               <icon-mock
-                classname=" icon-down-arrow-bold"
+                classname="icon-down-arrow-bold"
                 icon="down-arrow-bold"
               />
             </div>

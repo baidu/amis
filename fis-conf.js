@@ -7,6 +7,7 @@ const package = require('./packages/amis/package.json');
 const parserMarkdown = require('./scripts/md-parser');
 const convertSCSSIE11 = require('./scripts/scss-ie11');
 const parserCodeMarkdown = require('./scripts/code-md-parser');
+const transformNodeEnvInline = require('./scripts/transform-node-env-inline');
 fis.set('project.ignore', [
   'public/**',
   'scripts/**',
@@ -28,10 +29,32 @@ Resource.extend({
     }
 
     const map = JSON.parse(resourceMap.substring(20, resourceMap.length - 2));
+    const self = this;
 
     Object.keys(map.res).forEach(function (key) {
-      if (map.res[key].pkg) {
-        map.res[key].pkg = `${versionHash}-${map.res[key].pkg}`;
+      const item = map.res[key];
+      if (item.pkg) {
+        const pkgNode = self.getNode(item.pkg, 'pkg');
+        item.pkg = `${versionHash}-${item.pkg}`;
+
+        if (Array.isArray(item.deps) && pkgNode) {
+          item.deps = item.deps.filter(
+            dep =>
+              !pkgNode.has.find(id => {
+                const node = self.getNode(id);
+                const file = self.getFileById(id);
+                const moduleId =
+                  (node.extras && node.extras.moduleId) ||
+                  (file && file.moduleId) ||
+                  id.replace(/\.js$/i, '');
+
+                return moduleId === dep;
+              })
+          );
+          if (!item.deps.length) {
+            delete item.deps;
+          }
+        }
       }
     });
     Object.keys(map.pkg).forEach(function (key) {
@@ -242,6 +265,10 @@ fis.match(
   }
 );
 
+// 过滤掉 process.env.NODE_ENV 分支中无关代码
+// 避免被分析成依赖，因为 fis 中是通过正则分析 require 语句的
+fis.on('process:start', transformNodeEnvInline);
+
 if (fis.project.currentMedia() === 'dev') {
   fis.match('/packages/**/*.{ts,tsx,js}', {
     isMod: true
@@ -371,7 +398,7 @@ fis.match('{monaco-editor,amis,amis-core}/**', {
 });
 
 if (fis.project.currentMedia() === 'publish-sdk') {
-  const env = fis.media('publish-sdk');
+  const sdkEnv = fis.media('publish-sdk');
 
   fis.on('compile:end', function (file) {
     if (
@@ -389,32 +416,32 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     }
   });
 
-  env.get('project.ignore').push('sdk/**');
-  env.set('project.files', ['examples/sdk-placeholder.html']);
+  sdkEnv.get('project.ignore').push('sdk/**');
+  sdkEnv.set('project.files', ['examples/sdk-placeholder.html']);
 
-  env.match('/{examples,scss,src}/(**)', {
+  sdkEnv.match('/{examples,scss,src}/(**)', {
     release: '/$1'
   });
 
-  env.match('*.map', {
+  sdkEnv.match('*.map', {
     release: false
   });
 
-  env.match('/node_modules/(**)', {
+  sdkEnv.match('/node_modules/(**)', {
     release: '/thirds/$1'
   });
 
-  env.match('/node_modules/(*)/dist/(**)', {
+  sdkEnv.match('/node_modules/(*)/dist/(**)', {
     release: '/thirds/$1/$2'
   });
 
-  env.match('*.scss', {
+  sdkEnv.match('*.scss', {
     parser: fis.plugin('sass', {
       sourceMap: false
     })
   });
 
-  env.match('{*.ts,*.jsx,*.tsx,/examples/**.js,/src/**.js,/src/**.ts}', {
+  sdkEnv.match('{*.ts,*.jsx,*.tsx,/examples/**.js,/src/**.js,/src/**.ts}', {
     parser: [
       // docsGennerator,
       fis.plugin('typescript', {
@@ -440,19 +467,19 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     rExt: '.js'
   });
 
-  env.match('/examples/mod.js', {
+  sdkEnv.match('/examples/mod.js', {
     isMod: false,
     optimizer: fis.plugin('terser')
   });
 
-  env.match('*.{js,jsx,ts,tsx}', {
+  sdkEnv.match('*.{js,jsx,ts,tsx}', {
     optimizer: fis.plugin('terser'),
     moduleId: function (m, path) {
       return fis.util.md5(package.version + 'amis-sdk' + path);
     }
   });
 
-  env.match('::package', {
+  sdkEnv.match('::package', {
     packager: fis.plugin('deps-pack', {
       'sdk.js': [
         'examples/mod.js',
@@ -481,6 +508,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!reactcss/**',
         '!tinycolor2/**',
         '!cropperjs/**',
+        '!react-json-view/**',
         '!react-cropper/**',
         '!jsbarcode/**',
         '!amis-ui/lib/components/BarCode.js',
@@ -496,7 +524,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
         '!markdown-it-html5-media/**',
         '!punycode/**',
         '!office-viewer/**',
-        '!fflate/**'
+        '!fflate/**',
+        '!amis-formula/lib/doc.js'
       ],
 
       'rich-text.js': [
@@ -545,6 +574,8 @@ if (fis.project.currentMedia() === 'publish-sdk') {
       ],
 
       'office-viewer.js': ['office-viewer/**', 'fflate/**'],
+      'json-view.js': 'react-json-view/**',
+      'fomula-doc.js': 'amis-formula/lib/doc.js',
 
       'rest.js': [
         '*.js',
@@ -583,11 +614,11 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     ]
   });
 
-  env.match('{*.min.js,monaco-editor/min/**.js}', {
+  sdkEnv.match('{*.min.js,monaco-editor/min/**.js}', {
     optimizer: null
   });
 
-  env.match('monaco-editor/**.css', {
+  sdkEnv.match('monaco-editor/**.css', {
     standard: false
   });
 
@@ -620,11 +651,11 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     }
   });
 
-  env.match('/examples/loader.ts', {
+  sdkEnv.match('/examples/loader.ts', {
     isMod: false
   });
 
-  env.match('*', {
+  sdkEnv.match('*', {
     domain: '.',
     deploy: [
       fis.plugin('skip-packed'),

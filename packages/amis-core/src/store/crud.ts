@@ -55,6 +55,21 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       });
     },
 
+    get toolbarData() {
+      // 包两层，主要是为了处理以下 case
+      // 里面放了个 form，form 提交过来的时候不希望把 items 这些发送过来。
+      // 因为会把数据呈现在地址栏上。
+      return createObject(
+        createObject(self.data, {
+          ...self.query,
+          items: self.items.concat(),
+          selectedItems: self.selectedItems.concat(),
+          unSelectedItems: self.unSelectedItems.concat()
+        }),
+        {}
+      );
+    },
+
     get mergedData() {
       return extendObject(self.data, {
         ...self.query,
@@ -289,9 +304,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             items = result.items || result.rows;
           }
 
-          if (items == null) {
-            items = [];
-          } else if (!Array.isArray(items)) {
+          if (!Array.isArray(items)) {
             // 如果不按照 items 格式返回，就拿第一个数组当成 items
             for (const key of Object.keys(result)) {
               if (result.hasOwnProperty(key) && Array.isArray(result[key])) {
@@ -299,6 +312,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                 break;
               }
             }
+          } else if (items == null) {
+            items = [];
           }
 
           if (!Array.isArray(items)) {

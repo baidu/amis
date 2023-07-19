@@ -37,6 +37,8 @@ import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import {matchSorter} from 'match-sorter';
 
+import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
+
 /**
  * Nested Select
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/nested-select
@@ -77,6 +79,16 @@ export interface NestedSelectControlSchema extends FormOptionsSchema {
    * 是否隐藏选择框中已选中节点的祖先节点的文本信息
    */
   hideNodePathLabel?: boolean;
+
+  /**
+   * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
+   */
+  maxTagCount?: number;
+
+  /**
+   * 收纳标签的Popover配置
+   */
+  overflowTagPopover?: object;
 }
 
 export interface NestedSelectProps
@@ -88,6 +100,8 @@ export interface NestedSelectProps
   onlyChildren?: boolean;
   hideNodePathLabel?: boolean;
   useMobileUI?: boolean;
+  maxTagCount?: number;
+  overflowTagPopover?: TooltipObject;
 }
 
 export interface NestedSelectState {
@@ -912,8 +926,11 @@ export default class NestedSelectControl extends React.Component<
       loading,
       borderMode,
       useMobileUI,
+      popOverContainer,
       env,
-      loadingConfig
+      loadingConfig,
+      maxTagCount,
+      overflowTagPopover
     } = this.props;
 
     const mobileUI = useMobileUI && isMobile();
@@ -924,6 +941,8 @@ export default class NestedSelectControl extends React.Component<
       >
         <ResultBox
           useMobileUI={useMobileUI}
+          maxTagCount={maxTagCount}
+          overflowTagPopover={overflowTagPopover}
           disabled={disabled}
           ref={this.domRef}
           placeholder={__(placeholder ?? 'placeholder.empty')}
@@ -965,9 +984,7 @@ export default class NestedSelectControl extends React.Component<
         {mobileUI ? (
           <PopUp
             className={cx(`NestedSelect-popup`)}
-            container={
-              env && env.getModalContainer ? env.getModalContainer : undefined
-            }
+            container={env.getModalContainer}
             isShow={this.state.isOpened}
             onHide={this.close}
             showConfirm={false}

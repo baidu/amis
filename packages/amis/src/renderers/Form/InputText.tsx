@@ -23,7 +23,6 @@ import {isEffectiveApi} from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {ActionSchema} from '../Action';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
-import {generateIcon} from 'amis-core';
 import {supportStatic} from './StaticHoc';
 
 import type {Option} from 'amis-core';
@@ -681,6 +680,7 @@ export default class TextControl extends React.PureComponent<
       creatable,
       borderMode,
       showCounter,
+      data,
       maxLength,
       minLength,
       translate: __,
@@ -734,6 +734,8 @@ export default class TextControl extends React.PureComponent<
             });
           }
 
+          const filteredPlaceholder = filter(placeholder, data);
+
           return (
             <div
               className={cx(
@@ -750,12 +752,12 @@ export default class TextControl extends React.PureComponent<
               onClick={this.handleClick}
             >
               <>
-                {placeholder &&
+                {filteredPlaceholder &&
                 !selectedOptions.length &&
                 !this.state.inputValue &&
                 !this.state.isFocused ? (
                   <div className={cx('TextControl-placeholder')}>
-                    {placeholder}
+                    {filteredPlaceholder}
                   </div>
                 ) : null}
 
@@ -803,7 +805,7 @@ export default class TextControl extends React.PureComponent<
                   <Icon
                     icon="input-clear"
                     className="icon"
-                    wrapClassName={cx('TextControl-clear')}
+                    classNameProp={cx('TextControl-clear')}
                     iconContent="InputBox-clear"
                   />
                 </a>
@@ -939,7 +941,7 @@ export default class TextControl extends React.PureComponent<
         ) : null}
         <Input
           name={name}
-          placeholder={placeholder}
+          placeholder={filter(placeholder, data)}
           ref={this.inputRef}
           disabled={disabled}
           readOnly={readOnly}
@@ -977,14 +979,14 @@ export default class TextControl extends React.PureComponent<
               <Icon
                 icon="view"
                 className={cx('TextControl-icon-view')}
-                wrapClassName={cx('TextControl-icon-view')}
+                classNameProp={cx('TextControl-icon-view')}
                 iconContent="InputText-view"
               />
             ) : (
               <Icon
                 icon="invisible"
                 className={cx('TextControl-icon-invisible')}
-                wrapClassName={cx('TextControl-icon-invisible')}
+                classNameProp={cx('TextControl-icon-invisible')}
                 iconContent="InputText-invisible"
               />
             )}
@@ -1029,7 +1031,7 @@ export default class TextControl extends React.PureComponent<
           }
         : addOnRaw;
 
-    const iconElement = generateIcon(cx, addOn?.icon, 'Icon');
+    const iconElement = <Icon cx={cx} icon={addOn?.icon} className="Icon" />;
 
     let addOnDom =
       addOn && !isStatic ? (

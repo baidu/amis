@@ -1,6 +1,6 @@
 import {OptionValue, Option} from '../types';
 import {isObject} from './helper';
-import {isEqual} from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 export function matchOptionValue(
   a: OptionValue,

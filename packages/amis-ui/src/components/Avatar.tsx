@@ -1,11 +1,6 @@
 import * as React from 'react';
-import {
-  ClassNamesFn,
-  themeable,
-  ThemeProps,
-  generateIcon,
-  IconCheckedSchema
-} from 'amis-core';
+import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
+import {Icon, IconCheckedSchema} from './icons';
 
 /**
  * Avatar 属性
@@ -234,7 +229,7 @@ export class Avatar extends React.Component<AvatarCmptProps, AvatarState> {
         </span>
       );
     } else if (['string', 'object'].includes(typeof icon)) {
-      childrenRender = generateIcon(cx, icon as any);
+      childrenRender = <Icon cx={cx} icon={icon} />;
     } else if (isIconRender) {
       childrenRender = icon as any;
     } else {

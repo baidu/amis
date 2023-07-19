@@ -182,6 +182,7 @@ register('zh-CN', {
   'Log.collapse': '收起工具栏',
   'link': '链接',
   'loading': '加载中',
+  'loadingFailed': '加载失败',
   'LocationPicker.placeholder': '请选择位置',
   'Month.placeholder': '请选择月份',
   'Nav.sourceError': '获取链接错误',
@@ -365,6 +366,7 @@ register('zh-CN', {
   'FormulaEditor.variable': '变量',
   'FormulaEditor.function': '函数',
   'FormulaEditor.invalidData': '公式值校验错误，错误的位置/原因是 {{err}}',
+  'FormulaEditor.invalidValue': '值校验错误，错误的原因是值格式错误',
   'pullRefresh.pullingText': '下拉即可刷新...',
   'pullRefresh.loosingText': '释放即可刷新...',
   'pullRefresh.loadingText': '加载中...',
@@ -394,5 +396,7 @@ register('zh-CN', {
   'TimeNow': '此刻',
   'IconSelect.all': '全部',
   'IconSelect.choice': '图标选择',
-  'Steps.step': '第 {{index}} 步'
+  'Steps.step': '第 {{index}} 步',
+  'FormulaInput.True': '真',
+  'FormulaInput.False': '假'
 });

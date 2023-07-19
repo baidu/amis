@@ -245,10 +245,6 @@ exports[`Renderer:button-toolbar 2`] = `
           data-position="left"
           data-tooltip="关闭"
         >
-          <div
-            class=" Dialog-close"
-            style="display: none;"
-          />
           <icon-mock
             classname="icon icon-close"
             icon="close"

@@ -76,6 +76,7 @@ export default {
         type: 'list',
         label: 'List',
         placeholder: '-',
+        width: 400,
         size: 'sm',
         listItem: {
           title: '${title}',
@@ -85,6 +86,7 @@ export default {
 
       {
         name: 'json',
+        width: 200,
         type: 'json',
         label: 'Json'
       }

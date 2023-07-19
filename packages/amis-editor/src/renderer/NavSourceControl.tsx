@@ -197,11 +197,7 @@ export default class NavSourceControl extends React.Component<
                 tooltip: labelRemark,
                 className: cx(`Form-lableRemark`, labelRemark?.className),
                 useMobileUI,
-                container: popOverContainer
-                  ? popOverContainer
-                  : env && env.getModalContainer
-                  ? env.getModalContainer
-                  : undefined
+                container: popOverContainer || env.getModalContainer
               })
             : null}
         </label>

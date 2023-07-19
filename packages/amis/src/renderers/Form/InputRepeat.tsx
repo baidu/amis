@@ -224,10 +224,8 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
             joinValues={false}
             useMobileUI={useMobileUI}
             popOverContainer={
-              mobileUI && env && env.getModalContainer
-                ? env.getModalContainer
-                : mobileUI
-                ? undefined
+              mobileUI
+                ? env?.getModalContainer
                 : popOverContainer || env.getModalContainer
             }
           />

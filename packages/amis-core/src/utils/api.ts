@@ -76,7 +76,11 @@ export function buildApi(
   }
 
   if (api.requestAdaptor && typeof api.requestAdaptor === 'string') {
-    api.requestAdaptor = str2function(api.requestAdaptor, 'api') as any;
+    api.requestAdaptor = str2function(
+      api.requestAdaptor,
+      'api',
+      'context'
+    ) as any;
   }
 
   if (api.adaptor && typeof api.adaptor === 'string') {
@@ -84,7 +88,8 @@ export function buildApi(
       api.adaptor,
       'payload',
       'response',
-      'api'
+      'api',
+      'context'
     ) as any;
   }
 
@@ -464,7 +469,7 @@ export function wrapFetcher(
 
     if (api.requestAdaptor) {
       debug('api', 'before requestAdaptor', api);
-      api = api.requestAdaptor(api) || api;
+      api = api.requestAdaptor(api, data) || api;
       debug('api', 'after requestAdaptor', api);
     }
 
@@ -508,11 +513,11 @@ export function wrapFetcher(
     );
 
     if (api.method?.toLocaleLowerCase() === 'jsonp') {
-      return wrapAdaptor(jsonpFetcher(api), api);
+      return wrapAdaptor(jsonpFetcher(api), api, data);
     }
 
     if (api.method?.toLocaleLowerCase() === 'js') {
-      return wrapAdaptor(jsFetcher(fn, api), api);
+      return wrapAdaptor(jsFetcher(fn, api), api, data);
     }
 
     if (typeof api.cache === 'number' && api.cache > 0) {
@@ -521,7 +526,8 @@ export function wrapFetcher(
         apiCache
           ? (apiCache as ApiCacheConfig).cachedPromise
           : setApiCache(api, fn(api)),
-        api
+        api,
+        data
       );
     }
     // IE 下 get 请求会被缓存，所以自动加个时间戳
@@ -533,7 +539,7 @@ export function wrapFetcher(
         api.url = api.url + `&${timeStamp}`;
       }
     }
-    return wrapAdaptor(fn(api), api);
+    return wrapAdaptor(fn(api), api, data);
   };
 
   (wrappedFetcher as any)._wrappedFetcher = true;
@@ -541,13 +547,17 @@ export function wrapFetcher(
   return wrappedFetcher;
 }
 
-export function wrapAdaptor(promise: Promise<fetcherResult>, api: ApiObject) {
+export function wrapAdaptor(
+  promise: Promise<fetcherResult>,
+  api: ApiObject,
+  context: any
+) {
   const adaptor = api.adaptor;
   return adaptor
     ? promise
         .then(async response => {
           debug('api', 'before adaptor data', (response as any).data);
-          let result = adaptor((response as any).data, response, api);
+          let result = adaptor((response as any).data, response, api, context);
 
           if (result?.then) {
             result = await result;
@@ -697,12 +707,16 @@ export function isApiOutdated(
   nextApi = normalizeApi(nextApi);
   prevApi = (prevApi ? normalizeApi(prevApi) : prevApi) as ApiObject;
 
-  if (prevApi && prevApi.url !== nextApi.url) {
-    return true;
-  }
-
   if (nextApi.autoRefresh === false) {
     return false;
+  }
+
+  // api 本身有变化
+  if ((prevApi && prevApi.url !== nextApi.url) || !prevApi) {
+    return !!(
+      isValidApi(nextApi.url) &&
+      (!nextApi.sendOn || evalExpression(nextApi.sendOn, nextData))
+    );
   }
 
   const trackExpression = nextApi.trackExpression ?? nextApi.url;
@@ -712,22 +726,18 @@ export function isApiOutdated(
 
   let isModified = false;
 
-  if (prevApi) {
-    if (nextApi.trackExpression || prevApi.trackExpression) {
-      isModified =
-        tokenize(prevApi.trackExpression || '', prevData) !==
-        tokenize(nextApi.trackExpression || '', nextData);
-    } else {
-      prevApi = buildApi(prevApi as Api, prevData as object, {
-        ignoreData: true
-      });
-      nextApi = buildApi(nextApi as Api, nextData as object, {
-        ignoreData: true
-      });
-      isModified = prevApi.url !== nextApi.url;
-    }
+  if (nextApi.trackExpression || prevApi.trackExpression) {
+    isModified =
+      tokenize(prevApi.trackExpression || '', prevData) !==
+      tokenize(nextApi.trackExpression || '', nextData);
   } else {
-    isModified = true;
+    prevApi = buildApi(prevApi as Api, prevData as object, {
+      ignoreData: true
+    });
+    nextApi = buildApi(nextApi as Api, nextData as object, {
+      ignoreData: true
+    });
+    isModified = prevApi.url !== nextApi.url;
   }
 
   return !!(
@@ -738,10 +748,25 @@ export function isApiOutdated(
 }
 
 export function isValidApi(api: string) {
-  return (
-    api &&
-    /^(?:(https?|wss?|taf):\/\/[^\/]+)?(\/?[^\s\/\?]*){1,}(\?.*)?$/.test(api)
-  );
+  if (!api || typeof api !== 'string') {
+    return false;
+  }
+  const idx = api.indexOf('://');
+
+  // 不允许直接相对路径写 api
+  // 不允许 :// 结尾
+  if ((!~idx && api[0] !== '/') || (~idx && idx + 3 === api.length)) {
+    return false;
+  }
+
+  try {
+    // 不补一个协议，URL 判断为 false
+    api = (~idx ? '' : 'schema://domain') + api;
+    new URL(api);
+  } catch (error) {
+    return false;
+  }
+  return true;
 }
 
 export function isEffectiveApi(

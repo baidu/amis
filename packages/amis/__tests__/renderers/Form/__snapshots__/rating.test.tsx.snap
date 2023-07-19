@@ -59,10 +59,6 @@ exports[`Renderer:rating with allowClear 1`] = `
                 <li
                   class="cxd-Rating-star"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -71,10 +67,6 @@ exports[`Renderer:rating with allowClear 1`] = `
                 <li
                   class="cxd-Rating-star"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -83,10 +75,6 @@ exports[`Renderer:rating with allowClear 1`] = `
                 <li
                   class="cxd-Rating-star"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -95,10 +83,6 @@ exports[`Renderer:rating with allowClear 1`] = `
                 <li
                   class="cxd-Rating-star"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -107,10 +91,6 @@ exports[`Renderer:rating with allowClear 1`] = `
                 <li
                   class="cxd-Rating-star"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -440,10 +420,6 @@ exports[`Renderer:rating with colors & inactiveColor 1`] = `
                   class="cxd-Rating-star is-active"
                   style="color: rgb(119, 168, 141);"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -453,10 +429,6 @@ exports[`Renderer:rating with colors & inactiveColor 1`] = `
                   class="cxd-Rating-star is-active"
                   style="color: rgb(119, 168, 141);"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -466,10 +438,6 @@ exports[`Renderer:rating with colors & inactiveColor 1`] = `
                   class="cxd-Rating-star is-active"
                   style="color: rgb(119, 168, 141);"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -479,10 +447,6 @@ exports[`Renderer:rating with colors & inactiveColor 1`] = `
                   class="cxd-Rating-star"
                   style="color: yellow;"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -492,10 +456,6 @@ exports[`Renderer:rating with colors & inactiveColor 1`] = `
                   class="cxd-Rating-star"
                   style="color: yellow;"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -691,10 +651,6 @@ exports[`Renderer:rating with count & half 1`] = `
                 <li
                   class="cxd-Rating-star is-active"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -703,10 +659,6 @@ exports[`Renderer:rating with count & half 1`] = `
                 <li
                   class="cxd-Rating-star is-active"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -715,10 +667,6 @@ exports[`Renderer:rating with count & half 1`] = `
                 <li
                   class="cxd-Rating-star is-active"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -730,19 +678,11 @@ exports[`Renderer:rating with count & half 1`] = `
                   <div
                     class="cxd-Rating-star-half"
                   >
-                    <div
-                      class=" Rating-star-icon"
-                      style="display: none;"
-                    />
                     <icon-mock
                       classname="icon icon-star"
                       icon="star"
                     />
                   </div>
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -751,10 +691,6 @@ exports[`Renderer:rating with count & half 1`] = `
                 <li
                   class="cxd-Rating-star"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -884,10 +820,6 @@ exports[`Renderer:rating with readOnly 1`] = `
                 <li
                   class="cxd-Rating-star is-active is-disabled"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -896,10 +828,6 @@ exports[`Renderer:rating with readOnly 1`] = `
                 <li
                   class="cxd-Rating-star is-active is-disabled"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -908,10 +836,6 @@ exports[`Renderer:rating with readOnly 1`] = `
                 <li
                   class="cxd-Rating-star is-active is-disabled"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -920,10 +844,6 @@ exports[`Renderer:rating with readOnly 1`] = `
                 <li
                   class="cxd-Rating-star is-active is-disabled"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -932,10 +852,6 @@ exports[`Renderer:rating with readOnly 1`] = `
                 <li
                   class="cxd-Rating-star is-active is-disabled"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -1123,10 +1039,6 @@ exports[`Renderer:rating with texts & textPosition & textClassName 1`] = `
                 <li
                   class="cxd-Rating-star is-active"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -1135,10 +1047,6 @@ exports[`Renderer:rating with texts & textPosition & textClassName 1`] = `
                 <li
                   class="cxd-Rating-star is-active"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -1147,10 +1055,6 @@ exports[`Renderer:rating with texts & textPosition & textClassName 1`] = `
                 <li
                   class="cxd-Rating-star is-active"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -1159,10 +1063,6 @@ exports[`Renderer:rating with texts & textPosition & textClassName 1`] = `
                 <li
                   class="cxd-Rating-star is-active"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"
@@ -1171,10 +1071,6 @@ exports[`Renderer:rating with texts & textPosition & textClassName 1`] = `
                 <li
                   class="cxd-Rating-star is-active"
                 >
-                  <div
-                    class=" Rating-star-icon"
-                    style="display: none;"
-                  />
                   <icon-mock
                     classname="icon icon-star"
                     icon="star"

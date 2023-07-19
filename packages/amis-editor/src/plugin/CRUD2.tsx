@@ -23,7 +23,10 @@ import {
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
-import {flattenDeep, fromPairs, isObject, remove} from 'lodash';
+import flattenDeep from 'lodash/flattenDeep';
+import fromPairs from 'lodash/fromPairs';
+import isObject from 'lodash/isObject';
+import remove from 'lodash/remove';
 import type {ButtonSchema} from 'amis';
 import type {FormSchema, SchemaObject} from 'amis';
 import {findTree} from 'amis';

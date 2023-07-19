@@ -18,6 +18,7 @@ import {
 } from 'amis-core';
 import type {Word} from 'office-viewer';
 import {Spinner} from 'amis-ui';
+import {Payload} from '../types';
 
 export interface OfficeViewerSchema extends BaseSchema {
   type: 'office-viewer';
@@ -43,7 +44,10 @@ export interface OfficeViewerProps
   columnsCount: number;
 }
 
-export interface OfficeViewerState {}
+export interface OfficeViewerState {
+  // 是否加载中
+  loading: boolean | null;
+}
 
 export default class OfficeViewer extends React.Component<
   OfficeViewerProps,
@@ -55,9 +59,15 @@ export default class OfficeViewer extends React.Component<
 
   fileName?: string;
 
+  // 文档数据，避免 update 参数的时候重复加载
+  document?: any;
+
   constructor(props: OfficeViewerProps) {
     super(props);
     this.rootElement = React.createRef();
+    this.state = {
+      loading: false
+    };
   }
 
   componentDidMount() {
@@ -67,10 +77,16 @@ export default class OfficeViewer extends React.Component<
   }
 
   componentDidUpdate(prevProps: OfficeViewerProps) {
+    // 避免 loading 时更新
+    if (this.state.loading) {
+      return;
+    }
     const props = this.props;
 
     if (isApiOutdated(prevProps.src, props.src, prevProps.data, props.data)) {
-      this.renderWord();
+      this.fetchWord().then(() => {
+        this.renderWord();
+      });
     }
 
     if (props.name) {
@@ -95,8 +111,8 @@ export default class OfficeViewer extends React.Component<
       ) {
         this.renderWord();
       } else {
-        // 目前 word 渲染比较快，所以全量渲染性能可以接受
-        this.renderWord();
+        // 默认只更新变量提升性能
+        this.word?.updateVariable();
       }
     }
   }
@@ -127,18 +143,17 @@ export default class OfficeViewer extends React.Component<
   async renderWord() {
     const {src, name} = this.props;
     if (src) {
-      this.renderRemoteWord();
+      if (!this.document) {
+        await this.fetchWord();
+      }
+      await this.renderRemoteWord();
     } else if (name) {
       this.renderFormFile();
     }
   }
 
-  /**
-   * 渲染远端文件
-   */
-  async renderRemoteWord() {
-    const {wordOptions, env, src, data, display} = this.props;
-
+  async fetchWord() {
+    const {env, src, data, translate: __} = this.props;
     const finalSrc = src
       ? resolveVariableAndFilter(src, data, '| raw')
       : undefined;
@@ -151,14 +166,43 @@ export default class OfficeViewer extends React.Component<
       console.warn('file src is empty');
       return;
     }
+    let response: Payload;
 
-    const response = await env.fetcher(finalSrc, data, {
-      responseType: 'arraybuffer'
+    this.setState({
+      loading: true
     });
+
+    try {
+      response = await env.fetcher(finalSrc, data, {
+        responseType: 'arraybuffer'
+      });
+      this.document = response.data;
+    } catch (error) {
+      // 显示一下报错信息避免没法选中组件
+      if (this.rootElement?.current) {
+        this.rootElement.current.innerHTML =
+          __('loadingFailed') + ' url:' + finalSrc;
+      }
+    } finally {
+      this.setState({
+        loading: false
+      });
+    }
+  }
+
+  /**
+   * 渲染远端文件
+   */
+  async renderRemoteWord() {
+    const {wordOptions, env, src, data, display, translate: __} = this.props;
+
+    if (!this.document) {
+      return;
+    }
 
     import('office-viewer').then(async (officeViewer: any) => {
       const Word = officeViewer.Word;
-      const word = new Word(response.data, {
+      const word = new Word(this.document, {
         ...wordOptions,
         data,
         evalVar: this.evalVar.bind(this)
@@ -198,6 +242,7 @@ export default class OfficeViewer extends React.Component<
             // 设置为 false 后清空
             this.rootElement.current.innerHTML = '';
           }
+          this.word = word;
         });
       };
       reader.readAsArrayBuffer(file);
@@ -216,7 +261,7 @@ export default class OfficeViewer extends React.Component<
       loadingConfig
     } = this.props;
     return (
-      <div ref={this.rootElement} className={cx('office-viewer', className)}>
+      <div>
         {/* 避免没内容时编辑器都选不了 */}
         {display !== false && !src && !name && (
           <svg width="100%" height="100" xmlns="http://www.w3.org/2000/svg">
@@ -240,11 +285,15 @@ export default class OfficeViewer extends React.Component<
             </text>
           </svg>
         )}
+        <div
+          ref={this.rootElement}
+          className={cx('office-viewer', className)}
+        ></div>
 
         <Spinner
           overlay
           key="info"
-          show={loading}
+          show={loading && this.state.loading}
           loadingConfig={loadingConfig}
         />
       </div>

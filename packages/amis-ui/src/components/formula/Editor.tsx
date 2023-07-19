@@ -14,7 +14,6 @@ import {
   eachTree
 } from 'amis-core';
 import {functionDocs} from 'amis-formula';
-import {doc} from 'amis-formula/lib/doc';
 import type {FunctionDocMap} from 'amis-formula/lib/types';
 
 import {FormulaPlugin, editorFactory} from './plugin';
@@ -107,6 +106,7 @@ export interface FunctionProps {
 }
 
 export interface FormulaState {
+  functions: FuncGroup[];
   focused: boolean;
   isCodeMode: boolean;
   expandTree: boolean;
@@ -121,9 +121,11 @@ export class FormulaEditor extends React.Component<
     focused: false,
     isCodeMode: false,
     expandTree: false,
-    normalizeVariables: []
+    normalizeVariables: [],
+    functions: []
   };
   editorPlugin?: FormulaPlugin;
+  unmounted: boolean = false;
 
   static buildDefaultFunctions(
     doc: Array<{
@@ -244,6 +246,7 @@ export class FormulaEditor extends React.Component<
   componentDidMount(): void {
     const {variables} = this.props;
     this.normalizeVariables(variables as VariableItem[]);
+    this.buildFunctions();
   }
 
   componentDidUpdate(
@@ -254,10 +257,33 @@ export class FormulaEditor extends React.Component<
     if (prevProps.variables !== this.props.variables) {
       this.normalizeVariables(this.props.variables as VariableItem[]);
     }
+
+    if (prevProps.functions !== this.props.functions) {
+      this.buildFunctions();
+    }
   }
 
   componentWillUnmount() {
     this.editorPlugin?.dispose();
+    this.unmounted = true;
+  }
+
+  async buildFunctions() {
+    const {doc} = await import('amis-formula/lib/doc');
+    if (this.unmounted) {
+      return;
+    }
+    const customFunctions = Array.isArray(this.props.functions)
+      ? this.props.functions
+      : [];
+    const functionList = [
+      ...FormulaEditor.buildDefaultFunctions(doc),
+      ...FormulaEditor.buildCustomFunctions(functionDocs),
+      ...customFunctions
+    ];
+    this.setState({
+      functions: functionList
+    });
   }
 
   normalizeVariables(variables?: Array<VariableItem>) {
@@ -277,7 +303,8 @@ export class FormulaEditor extends React.Component<
         return {
           ...item,
           path: `${path}${path ? '.' : ''}${item.label}`,
-          ...(item.isMember
+          // 自己是数组成员或者父级有数组成员
+          ...(item.isMember || paths.some(item => item.isMember)
             ? {
                 memberDepth: paths?.filter((item: any) => item.type === 'array')
                   ?.length
@@ -413,13 +440,13 @@ export class FormulaEditor extends React.Component<
       classPrefix,
       selfVariableName
     } = this.props;
-    const {focused, isCodeMode, expandTree, normalizeVariables} = this.state;
-    const customFunctions = Array.isArray(functions) ? functions : [];
-    const functionList = [
-      ...FormulaEditor.buildDefaultFunctions(doc),
-      ...FormulaEditor.buildCustomFunctions(functionDocs),
-      ...customFunctions
-    ];
+    const {
+      focused,
+      isCodeMode,
+      expandTree,
+      normalizeVariables,
+      functions: functionList
+    } = this.state;
 
     return (
       <div

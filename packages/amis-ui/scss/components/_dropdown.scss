@@ -6,17 +6,18 @@
     margin-left: var(--DropDown-caret-marginLeft);
     display: inline-block;
     vertical-align: top;
-    transition: transform var(--animation-duration) ease;
 
     > svg {
       width: px2rem(10px);
       height: px2rem(10px);
-      top: 0.125em;
+      top: 0;
+      transform: rotate(90deg);
+      transition: transform var(--animation-duration) ease;
     }
   }
 
-  &.is-opened &-caret {
-    transform: rotate(180deg);
+  &.is-opened &-caret svg {
+    transform: rotate(270deg);
   }
 
   &.is-actived {

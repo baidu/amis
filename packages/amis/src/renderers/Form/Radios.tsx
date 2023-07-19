@@ -12,6 +12,7 @@ import {autobind, isEmpty, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
+import {filter} from 'amis-core';
 
 /**
  * Radio 单选框。
@@ -92,6 +93,13 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
     reload && reload();
   }
 
+  @autobind
+  renderLabel(option: Option, {labelField}: any) {
+    const {data} = this.props;
+    const label = option[labelField || 'label'];
+    return <>{typeof label === 'string' ? filter(label, data) : `${label}`}</>;
+  }
+
   @supportStatic()
   render() {
     const {
@@ -115,6 +123,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       optionClassName,
       labelField,
       valueField,
+      data,
       translate: __,
       optionType,
       level
@@ -136,6 +145,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         valueField={valueField}
         placeholder={__(placeholder)}
         options={options}
+        renderLabel={this.renderLabel}
         columnsCount={columnsCount}
         classPrefix={classPrefix}
         itemClassName={itemClassName}

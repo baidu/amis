@@ -1,5 +1,12 @@
 import React from 'react';
-import {AsideNav, Html, NotFound, Spinner, SpinnerExtraProps} from 'amis-ui';
+import {
+  AsideNav,
+  Html,
+  Icon,
+  NotFound,
+  Spinner,
+  SpinnerExtraProps
+} from 'amis-ui';
 import {Layout} from 'amis-ui';
 import {Renderer, RendererProps, filter, replaceText} from 'amis-core';
 import {
@@ -12,7 +19,6 @@ import {IScopedContext, ScopedContext} from 'amis-core';
 import {AppStore, IAppStore} from 'amis-core';
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
 import {autobind} from 'amis-core';
-import {generateIcon} from 'amis-core';
 
 export interface AppPage extends SpinnerExtraProps {
   /**
@@ -385,7 +391,9 @@ export default class App extends React.Component<AppProps, object> {
               );
 
             if (!subHeader && link.icon) {
-              children.push(generateIcon(cx, link.icon, 'AsideNav-itemIcon'));
+              children.push(
+                <Icon cx={cx} icon={link.icon} className="AsideNav-itemIcon" />
+              );
             } else if (store.folded && depth === 1 && !subHeader) {
               children.push(
                 <i

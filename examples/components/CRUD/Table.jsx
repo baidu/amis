@@ -70,6 +70,7 @@ export default {
     labelTpl: '${id} ${engine}',
     orderBy: 'id',
     orderDir: 'asc',
+    // affixHeader: false,
     filter: {
       title: '条件搜索',
       submitText: '',

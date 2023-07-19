@@ -217,8 +217,13 @@ export interface ApiObject extends BaseApiObject {
   operationName?: string;
   body?: PlainObject;
   query?: PlainObject;
-  adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
-  requestAdaptor?: (api: ApiObject) => ApiObject;
+  adaptor?: (
+    payload: object,
+    response: fetcherResult,
+    api: ApiObject,
+    context: any
+  ) => any;
+  requestAdaptor?: (api: ApiObject, context: any) => ApiObject;
   /** 是否过滤为空字符串的 query 参数 */
   filterEmptyQuery?: boolean;
 }
@@ -247,7 +252,7 @@ export interface fetchOptions {
   errorMessage?: string;
   autoAppend?: boolean;
   beforeSend?: (data: any) => any;
-  onSuccess?: (json: Payload) => any;
+  onSuccess?: (json: Payload, data: any) => any;
   onFailed?: (json: Payload) => any;
   silent?: boolean;
   [propName: string]: any;

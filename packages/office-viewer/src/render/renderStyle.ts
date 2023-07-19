@@ -60,7 +60,6 @@ function generateDefaultStyle(word: Word) {
   }
 
   .${classPrefix} .${classPrefix}-r {
-    white-space: pre-wrap;
     overflow-wrap: break-word;
     ${defaultRStyle}
   }

@@ -1,10 +1,10 @@
 import React = require('react');
-import {render} from '@testing-library/react';
+import {render, waitFor} from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
-import {makeEnv} from '../helper';
+import {makeEnv, wait} from '../helper';
 
-test('Renderer:json', () => {
+test('Renderer:json', async () => {
   const {container} = render(
     amisRender(
       {
@@ -25,5 +25,6 @@ test('Renderer:json', () => {
     )
   );
 
+  await wait(1000);
   expect(container).toMatchSnapshot();
 });

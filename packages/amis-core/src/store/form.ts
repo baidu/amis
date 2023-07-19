@@ -17,7 +17,9 @@ import {
   isEmpty,
   mapObject,
   keyToPath,
-  isObject
+  isObject,
+  ValidateError,
+  extendObject
 } from '../utils/helper';
 import isEqual from 'lodash/isEqual';
 import flatten from 'lodash/flatten';
@@ -394,7 +396,7 @@ export const FormStore = ServiceStore.named('FormStore')
           throw new ServerError(self.msg, json);
         } else {
           updateSavedData();
-          let ret = options && options.onSuccess && options.onSuccess(json);
+          let ret = options?.onSuccess?.(json, json.data);
           if (ret?.then) {
             ret = yield ret;
           }
@@ -526,37 +528,20 @@ export const FormStore = ServiceStore.named('FormStore')
       fn?: (values: object) => Promise<any>,
       hooks?: Array<() => Promise<any>>,
       failedMessage?: string,
-      validateErrCb?: () => void
+      validateErrCb?: () => void,
+      throwErrors?: boolean
     ) => Promise<any> = flow(function* submit(
       fn: any,
       hooks?: Array<() => Promise<any>>,
       failedMessage?: string,
-      validateErrCb?: () => void
+      validateErrCb?: () => void,
+      throwErrors?: boolean
     ) {
       self.submited = true;
       self.submiting = true;
 
       try {
-        let valid = yield validate(hooks);
-
-        // 如果不是valid，而且有包含不是remote的报错的表单项时，不可提交
-        if (
-          (!valid &&
-            self.items.some(item =>
-              item.errorData.some(e => e.tag !== 'remote')
-            )) ||
-          self.restError.length
-        ) {
-          let msg = failedMessage ?? self.__('Form.validateFailed');
-          let dispatcher: any = validateErrCb && validateErrCb();
-          if (dispatcher?.then) {
-            dispatcher = yield dispatcher;
-          }
-          if (!dispatcher?.prevented) {
-            msg && toastValidateError(msg);
-          }
-          throw new Error(msg);
-        }
+        yield validate(hooks, undefined, true, failedMessage, validateErrCb);
 
         if (fn) {
           const diff = difference(self.data, self.pristine);
@@ -581,10 +566,16 @@ export const FormStore = ServiceStore.named('FormStore')
 
     const validate: (
       hooks?: Array<() => Promise<any>>,
-      forceValidate?: boolean
+      forceValidate?: boolean,
+      throwErrors?: boolean,
+      failedMessage?: string,
+      validateErrCb?: () => void
     ) => Promise<boolean> = flow(function* validate(
       hooks?: Array<() => Promise<any>>,
-      forceValidate?: boolean
+      forceValidate?: boolean,
+      throwErrors?: boolean,
+      failedMessage?: string,
+      validateErrCb?: () => void
     ) {
       self.validated = true;
       const items = self.directItems.concat();
@@ -629,6 +620,32 @@ export const FormStore = ServiceStore.named('FormStore')
       if (hooks && hooks.length) {
         for (let i = 0, len = hooks.length; i < len; i++) {
           yield hooks[i]();
+        }
+      }
+
+      if (!self.valid) {
+        // 如果不是valid，而且有包含不是remote的报错的表单项时，不可提交
+        if (
+          self.items.some(item =>
+            item.errorData.some(e => e.tag !== 'remote')
+          ) ||
+          self.restError.length
+        ) {
+          let msg = failedMessage ?? self.__('Form.validateFailed');
+          let dispatcher: any = validateErrCb && validateErrCb();
+          if (dispatcher?.then) {
+            dispatcher = yield dispatcher;
+          }
+          if (!dispatcher?.prevented) {
+            msg && toastValidateError(msg);
+          }
+        }
+
+        if (throwErrors) {
+          throw new ValidateError(
+            failedMessage || self.__('Form.validateFailed'),
+            self.errors
+          );
         }
       }
 

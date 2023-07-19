@@ -61,7 +61,7 @@ const predefined = {
       {
         name: 'id',
         label: 'ID',
-        width: 20,
+        width: 30,
         sortable: true,
         type: 'text',
         toggled: true

@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  Renderer,
-  RendererProps,
-  generateIcon,
-  IconCheckedSchema,
-  autobind,
-  resolveEventData
-} from 'amis-core';
-import {Collapse as BasicCollapse} from 'amis-ui';
+import {Renderer, RendererProps, autobind, resolveEventData} from 'amis-core';
+import {Collapse as BasicCollapse, Icon} from 'amis-ui';
 import {BaseSchema, SchemaCollection, SchemaTpl, SchemaObject} from '../Schema';
 
 /**
@@ -195,13 +188,15 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
         disabled={disabled}
         propsUpdate={propsUpdate}
         expandIcon={
-          expandIcon
-            ? typeof (expandIcon as any).icon === 'object'
-              ? generateIcon(cx, (expandIcon as any).icon)
-              : render('arrow-icon', expandIcon || '', {
-                  className: cx('Collapse-icon-tranform')
-                })
-            : null
+          expandIcon ? (
+            typeof (expandIcon as any).icon === 'object' ? (
+              <Icon cx={cx} icon={(expandIcon as any).icon} />
+            ) : (
+              render('arrow-icon', expandIcon || '', {
+                className: cx('Collapse-icon-tranform')
+              })
+            )
+          ) : null
         }
         collapseHeader={
           collapseTitle || collapseHeader

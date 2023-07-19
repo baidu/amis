@@ -103,10 +103,11 @@
           color: var(--Timeline-detail-icon-color);
           width: var(--TimelineItem-detail-arrow-width);
           height: var(--TimelineItem-detail-arrow-width);
+          transition: transform var(--animation-duration);
         }
 
         .#{$ns}TimelineItem-detail-arrow-top {
-          transform: rotateX(180deg);
+          transform: rotate(180deg);
         }
 
         .#{$ns}TimelineItem-detail-visible {
