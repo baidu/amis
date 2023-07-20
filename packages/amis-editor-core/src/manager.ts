@@ -3,6 +3,7 @@
  * 编辑器非 UI 相关的东西应该放在这。
  */
 import {reaction} from 'mobx';
+import {isAlive} from 'mobx-state-tree';
 import {parse, stringify} from 'json-ast-comments';
 import debounce from 'lodash/debounce';
 import findIndex from 'lodash/findIndex';
@@ -1701,7 +1702,7 @@ export class EditorManager {
           patchList(node.uniqueChildren);
         }
 
-        if (!node.isRegion) {
+        if (isAlive(node) && !node.isRegion) {
           node.patch(this.store, force);
         }
       });
@@ -1845,7 +1846,6 @@ export class EditorManager {
       return;
     }
     const plugin = node.info.plugin!;
-
     const store = this.store;
     const context: PopOverFormContext = {
       node,
@@ -1964,7 +1964,7 @@ export class EditorManager {
   /**
    * 获取可用上下文待绑定字段
    */
-  async getAvailableContextFields(node: EditorNodeType) {
+  async getAvailableContextFields(node: EditorNodeType): Promise<any> {
     if (!node) {
       return;
     }
@@ -1993,6 +1993,10 @@ export class EditorManager {
     }
 
     if (!scope) {
+      /** 如果在子编辑器中，继续去上层编辑器查找，不过这里可能受限于当前层的数据映射 */
+      if (!from && this.store.isSubEditor) {
+        return this.config?.getAvaiableContextFields?.(node);
+      }
       return from?.info.plugin.getAvailableContextFields?.(from, node);
     }
 

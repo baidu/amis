@@ -46,6 +46,12 @@ export interface SwitchMoreProps extends FormControlProps {
   onClose: (e: React.UIEvent<any> | void) => void;
   clearChildValuesOnOff?: boolean; // 关闭开关时，删除子表单字段，默认 true
   defaultData?: any; // 默认数据
+  isChecked?: (options: {
+    data: any;
+    value: any;
+    name?: string;
+    bulk?: boolean;
+  }) => boolean;
 }
 
 interface SwitchMoreState {
@@ -104,13 +110,25 @@ export default class SwitchMore extends React.Component<
   }
 
   initState() {
-    const {data, value, trueValue, falseValue, name, bulk, hiddenOnDefault} =
-      this.props;
+    const {
+      data,
+      value,
+      trueValue,
+      falseValue,
+      name,
+      bulk,
+      hiddenOnDefault,
+      isChecked
+    } = this.props;
     let checked = false;
     let show = false;
 
+    if (isChecked && typeof isChecked === 'function') {
+      checked = isChecked({data, value, name, bulk});
+      show = checked;
+    }
     // 这个开关 无具体属性对应
-    if (!name) {
+    else if (!name) {
       // 子表单项是组件根属性，遍历看是否有值
       if (bulk) {
         const formNames = this.getFormItemNames();

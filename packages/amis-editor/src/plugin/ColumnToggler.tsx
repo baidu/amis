@@ -1,3 +1,4 @@
+import update from 'lodash/update';
 import {
   BaseEventContext,
   BasePlugin,
@@ -10,24 +11,47 @@ import {
 
 export class ColumnToggler extends BasePlugin {
   static id = 'ColumnToggler';
-  // 关联渲染器名字
+
   rendererName = 'column-toggler';
-  $schema = '/schemas/ColumnToggler.json';
 
-  // 组件名称
   name = '自定义显示列';
-  isBaseComponent = true;
-  disabledRendererPlugin = true;
-  description = '用来展示表格的自定义显示列按钮，你可以配置不同的展示样式。';
-
-  tags = ['自定义显示列'];
-  icon = 'fa fa-square';
 
   panelTitle = '自定义显示列';
 
+  icon = 'fa fa-square';
+
+  tags = ['自定义显示列'];
+
+  $schema = '/schemas/ColumnTogglerSchema.json';
+
+  description = '用来展示表格的自定义显示列按钮，你可以配置不同的展示样式。';
+
   panelJustify = true;
 
+  isBaseComponent = true;
+
+  disabledRendererPlugin = true;
+
+  crudInfo: {id: any; columns: any[]; schema: any};
+
   panelBodyCreator = (context: BaseEventContext) => {
+    const crud = context?.node?.getClosestParentByType('crud2');
+
+    if (crud) {
+      this.crudInfo = {
+        id: crud.id,
+        columns: crud.schema.columns || [],
+        schema: crud.schema
+      };
+    }
+
+    const columns = (this.crudInfo?.schema?.columns ?? []).map(
+      (item: any, index: number) => ({
+        label: item.title,
+        value: index
+      })
+    );
+
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -52,6 +76,64 @@ export class ColumnToggler extends BasePlugin {
               getSchemaTpl('icon', {
                 label: '按钮图标'
               })
+            ]
+          },
+          {
+            title: '列默认显示',
+            body: [
+              {
+                name: `__toggled`,
+                value: '',
+                type: 'checkboxes',
+                // className: 'b-a p-sm',
+                label: false,
+                inline: false,
+                joinValues: false,
+                extractValue: true,
+                options: columns,
+                // style: {
+                //   maxHeight: '200px',
+                //   overflow: 'auto'
+                // },
+                pipeIn: (value: any, form: any) => {
+                  const showColumnIndex: number[] = [];
+                  this.crudInfo?.schema?.columns?.forEach(
+                    (item: any, index: number) => {
+                      if (item.toggled !== false) {
+                        showColumnIndex.push(index);
+                      }
+                    }
+                  );
+
+                  return showColumnIndex;
+                },
+                onChange: (value: number[]) => {
+                  if (!this.crudInfo) {
+                    return;
+                  }
+
+                  let newColumns = this.crudInfo.schema.columns;
+
+                  newColumns = newColumns.map((item: any, index: number) => ({
+                    ...item,
+                    toggled: value.includes(index) ? undefined : false
+                  }));
+
+                  const updatedSchema = update(
+                    this.crudInfo.schema,
+                    'columns',
+                    (origin: any) => {
+                      return newColumns;
+                    }
+                  );
+
+                  this.manager.store.changeValueById(
+                    this.crudInfo.id,
+                    updatedSchema
+                  );
+                  this.crudInfo.schema = updatedSchema;
+                }
+              }
             ]
           }
         ])

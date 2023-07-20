@@ -67,11 +67,7 @@ test('Renderer:input table', async () => {
 });
 
 test('Renderer: input-table with default value column', async () => {
-  const onSubmitCallbackFn = jest
-    .fn()
-    .mockImplementation((values: any, actions: any) => {
-      return true;
-    });
+  const onSubmitCallbackFn = jest.fn();
   const {container, getByText} = render(
     amisRender(
       {
