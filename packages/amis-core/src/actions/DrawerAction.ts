@@ -33,7 +33,7 @@ export class DrawerAction implements RendererAction {
       event,
       {
         actionType: 'drawer',
-        drawer: action.drawer ?? action.args?.drawer,
+        drawer: action.drawer,
         reload: 'none'
       },
       action.data

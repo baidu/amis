@@ -1,6 +1,6 @@
 import omit from 'lodash/omit';
 import {RendererProps} from '../factory';
-import {ConditionGroupValue} from '../types';
+import {ConditionGroupValue, Api, SchemaNode} from '../types';
 import {createObject} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {evalExpressionWithConditionBuilder} from '../utils/tpl';
@@ -32,6 +32,10 @@ export interface ListenerAction {
   stopPropagation?: boolean; // 阻止后续的事件处理器执行
   expression?: string | ConditionGroupValue; // 执行条件
   execOn?: string; // 执行条件，1.9.0废弃
+  dialog?: SchemaNode;
+  drawer?: SchemaNode;
+  api?: Api;
+  [propName: string]: any;
 }
 
 export interface ILogicAction extends ListenerAction {
@@ -192,6 +196,8 @@ export const runAction = async (
   let additional: any = {
     event
   };
+  let action: ListenerAction = {...actionConfig};
+  action.args = {...actionConfig.args};
 
   // __rendererData默认为renderer.props.data，兼容表单项值变化时的data读取
   if (!event.data.__rendererData) {
@@ -214,7 +220,7 @@ export const runAction = async (
     event.data
   );
   // 兼容一下1.9.0之前的版本
-  const expression = actionConfig.expression ?? actionConfig.execOn;
+  const expression = action.expression ?? action.execOn;
   // 执行条件
   let isStop = false;
 
@@ -232,21 +238,37 @@ export const runAction = async (
 
   // 支持表达式 >=1.10.0
   let preventDefault = false;
-  if (actionConfig.preventDefault) {
+  if (action.preventDefault) {
     preventDefault = await evalExpressionWithConditionBuilder(
-      actionConfig.preventDefault,
+      action.preventDefault,
       mergeData,
       false
     );
   }
 
   let key = {
-    componentId: dataMapping(actionConfig.componentId, mergeData),
-    componentName: dataMapping(actionConfig.componentName, mergeData)
+    componentId: dataMapping(action.componentId, mergeData),
+    componentName: dataMapping(action.componentName, mergeData)
   };
 
+  // 兼容args包裹的用法
+  if (action.actionType === 'dialog') {
+    action.dialog = {...(action.dialog ?? action.args?.dialog)};
+    delete action.args?.dialog;
+  } else if (action.actionType === 'drawer') {
+    action.drawer = {...(action.drawer ?? action.args?.drawer)};
+    delete action.args?.drawer;
+  } else if (action.actionType === 'ajax') {
+    action.api = {...(action.api ?? action.args?.api)};
+    action.options = {...(action.options ?? action.args?.options)};
+    action.messages = {...(action.messages ?? action.args?.messages)};
+    delete action.args?.api;
+    delete action.args?.options;
+    delete action.args?.messages;
+  }
+
   // 动作配置
-  const args = dataMapping(actionConfig.args, mergeData, key =>
+  const args = dataMapping(action.args, mergeData, key =>
     [
       'adaptor',
       'responseAdaptor',
@@ -255,7 +277,7 @@ export const runAction = async (
       'condition'
     ].includes(key)
   );
-  const afterMappingData = dataMapping(actionConfig.data, mergeData);
+  const afterMappingData = dataMapping(action.data, mergeData);
 
   // 动作数据
   const actionData =
@@ -265,27 +287,22 @@ export const runAction = async (
             ...args, // 兼容历史（动作配置与数据混在一起的情况）
             ...(afterMappingData ?? {})
           },
-          getOmitActionProp(actionConfig.actionType)
+          getOmitActionProp(action.actionType)
         )
       : afterMappingData;
 
-  // 默认为事件数据
-  const data =
-    args && !Object.keys(args).length && actionConfig.data === undefined // 兼容历史
-      ? {}
-      : actionData !== undefined
-      ? actionData
-      : event.data;
+  // 默认为当前数据域
+  const data = actionData !== undefined ? actionData : mergeData;
 
-  console.group?.(`run action ${actionConfig.actionType}`);
-  console.debug(`[${actionConfig.actionType}] action args, data`, args, data);
+  console.group?.(`run action ${action.actionType}`);
+  console.debug(`[${action.actionType}] action args, data`, args, data);
 
   let stopped = false;
   const actionResult = await actionInstrance.run(
     {
-      ...actionConfig,
+      ...action,
       args,
-      data: actionConfig.actionType === 'reload' ? actionData : data, // 如果是刷新动作，则只传action.data
+      data: action.actionType === 'reload' ? actionData : data, // 如果是刷新动作，则只传action.data
       ...key
     },
     renderer,
@@ -293,19 +310,19 @@ export const runAction = async (
     mergeData
   );
   // 二次确认弹窗如果取消，则终止后续动作
-  if (actionConfig?.actionType === 'confirmDialog' && !actionResult) {
+  if (action?.actionType === 'confirmDialog' && !actionResult) {
     stopped = true;
   }
 
   let stopPropagation = false;
-  if (actionConfig.stopPropagation) {
+  if (action.stopPropagation) {
     stopPropagation = await evalExpressionWithConditionBuilder(
-      actionConfig.stopPropagation,
+      action.stopPropagation,
       mergeData,
       false
     );
   }
-  console.debug(`[${actionConfig.actionType}] action end event`, event);
+  console.debug(`[${action.actionType}] action end event`, event);
   console.groupEnd?.();
 
   // 阻止原有动作执行
