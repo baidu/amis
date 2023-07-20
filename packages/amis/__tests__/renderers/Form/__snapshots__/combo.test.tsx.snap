@@ -1072,7 +1072,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                               class="cxd-Button cxd-Button--info cxd-Button--size-sm"
                             >
                               <icon-mock
-                                classname="icon icon-plus-fine"
+                                classname="icon m-r-xs icon icon-plus-fine"
                                 icon="plus-fine"
                               />
                               新增

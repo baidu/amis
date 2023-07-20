@@ -190,7 +190,11 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
         expandIcon={
           expandIcon ? (
             typeof (expandIcon as any).icon === 'object' ? (
-              <Icon cx={cx} icon={(expandIcon as any).icon} />
+              <Icon
+                cx={cx}
+                icon={(expandIcon as any).icon}
+                className={cx('Collapse-icon-tranform')}
+              />
             ) : (
               render('arrow-icon', expandIcon || '', {
                 className: cx('Collapse-icon-tranform')

@@ -73,8 +73,11 @@ export class Icon extends React.Component<IconProps, object> {
       css,
       env
     } = this.props;
+    let icon = this.props.icon;
 
-    const icon = filter(this.props.icon, data);
+    if (typeof icon === 'string') {
+      icon = filter(this.props.icon, data);
+    }
 
     return (
       <>
