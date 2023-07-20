@@ -465,7 +465,8 @@ export default class Drawer extends React.Component<DrawerProps> {
       onInit: this.handleFormInit,
       onSaved: this.handleFormSaved,
       onActionSensor: this.handleActionSensor,
-      syncLocation: false
+      syncLocation: false,
+      affixOffsetTop: 0
     };
 
     if (schema.type === 'form') {

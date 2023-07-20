@@ -342,7 +342,7 @@ test('Renderers:Action tooltip', async () => {
 // });
 
 // 14. confirmText
-test('Renderers:Action with confirmText & actionType ajax', () => {
+test('Renderers:Action with confirmText & actionType ajax', async () => {
   const fetcher = jest.fn().mockImplementation(() =>
     Promise.resolve({
       data: {
@@ -372,7 +372,7 @@ test('Renderers:Action with confirmText & actionType ajax', () => {
     )
   );
   fireEvent.click(container.querySelector('.cxd-Button'));
-  wait(500);
+  await wait(500);
   expect(baseElement).toMatchSnapshot();
 
   expect(baseElement.querySelector('.cxd-Modal-content')!).toHaveTextContent(
@@ -380,14 +380,16 @@ test('Renderers:Action with confirmText & actionType ajax', () => {
   );
 
   fireEvent.click(getByText('取消'));
-  wait(500);
+  await wait(500);
   expect(fetcher).not.toBeCalled();
 
-  // fireEvent.click(container.querySelector('.cxd-Button'));
-  // wait(500);
-  // fireEvent.click(getByText('确认'));
-  // fetcher 不生效
-  // expect(fetcher).toBeCalled();
+  fireEvent.click(container.querySelector('.cxd-Button'));
+  await wait(500);
+  fireEvent.click(getByText('确认'));
+
+  await wait(200);
+  // fetcher 该被执行了
+  expect(fetcher).toBeCalled();
 });
 
 // 15.Action 作为容器组件
