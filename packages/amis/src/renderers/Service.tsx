@@ -513,7 +513,7 @@ export default class Service extends React.Component<ServiceProps> {
     // 初始化接口返回的是整个 response，
     // 保存 ajax 请求的时候返回时数据部分。
     const data = result?.hasOwnProperty('ok') ? result.data ?? {} : result;
-    const {onBulkChange, dispatchEvent, store} = this.props;
+    const {onBulkChange, dispatchEvent, store, formStore} = this.props;
 
     dispatchEvent?.(
       'fetchInited',
@@ -527,7 +527,7 @@ export default class Service extends React.Component<ServiceProps> {
       })
     );
 
-    if (!isEmpty(data) && onBulkChange) {
+    if (!isEmpty(data) && onBulkChange && formStore) {
       onBulkChange(data);
     }
 
