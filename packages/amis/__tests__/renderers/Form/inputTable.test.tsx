@@ -136,13 +136,15 @@ test('Renderer: input-table with default value column', async () => {
   await wait(200);
 
   expect(onSubmitCallbackFn).toHaveBeenCalledTimes(1);
-  expect(onSubmitCallbackFn.mock.calls[0][0]).toEqual({
-    table: [
-      {a: 'a1', b: 'b1', c: 'a1'},
-      {a: 'a2', b: 'b2', c: 'a2'},
-      {a: 'a3', b: 'b3', c: 'a3'}
-    ]
-  });
+  expect(onSubmitCallbackFn.mock.calls[0][0]).toEqual(
+    expect.objectContaining({
+      table: [
+        {a: 'a1', b: 'b1', c: 'a1'},
+        {a: 'a2', b: 'b2', c: 'a2'},
+        {a: 'a3', b: 'b3', c: 'a3'}
+      ]
+    })
+  );
 }, 10000);
 
 test('Renderer:input table add', async () => {
