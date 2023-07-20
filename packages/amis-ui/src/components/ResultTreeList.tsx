@@ -2,7 +2,9 @@
  * 结果树(暂时不支持结果排序)
  */
 import React from 'react';
-import {cloneDeep, isEqual, omit} from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
+import omit from 'lodash/omit';
 
 import {Option, Options} from './Select';
 import {ThemeProps, themeable} from 'amis-core';

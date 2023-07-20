@@ -1,4 +1,5 @@
 import {RendererEvent} from '../utils/renderer-event';
+import {createObject, isEmpty} from '../utils/helper';
 import {
   RendererAction,
   ListenerAction,
@@ -116,7 +117,32 @@ export class CmptAction implements RendererAction {
     }
 
     // 执行组件动作
-    return component?.doAction?.(action, action.args);
+    try {
+      const result = await component?.doAction?.(action, action.args, true);
+
+      if (['validate', 'submit'].includes(action.actionType)) {
+        event.setData(
+          createObject(event.data, {
+            [action.outputVar || `${action.actionType}Result`]: {
+              error: '',
+              payload: result?.__payload ?? component?.props?.store?.data,
+              responseData: result?.__response
+            }
+          })
+        );
+      }
+      return result;
+    } catch (e) {
+      event.setData(
+        createObject(event.data, {
+          [action.outputVar || `${action.actionType}Result`]: {
+            error: e.message,
+            errors: e.name === 'ValidateError' ? e.detail : e,
+            payload: component?.props?.store?.data
+          }
+        })
+      );
+    }
   }
 }
 

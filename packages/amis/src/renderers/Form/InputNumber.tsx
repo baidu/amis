@@ -13,6 +13,8 @@ import {
   filter,
   autobind,
   createObject,
+  numberFormatter,
+  safeSub,
   normalizeOptions,
   Option,
   PlainObject,
@@ -95,8 +97,6 @@ export interface NumberControlSchema extends FormBaseControlSchema {
    */
   displayMode?: 'base' | 'enhance';
 }
-
-const numberFormatter = new Intl.NumberFormat();
 
 export interface NumberProps extends FormControlProps {
   placeholder?: string;
@@ -389,18 +389,17 @@ export default class NumberControl extends React.Component<
       id,
       env
     } = this.props;
+    const {unit} = this.state;
     const finalPrecision = this.filterNum(precision);
-    const unit = this.state?.unit;
     // 数据格式化
     const formatter =
       kilobitSeparator || prefix || suffix
         ? (value: string | number) => {
             // 增加千分分隔
             if (kilobitSeparator && value) {
-              value = numberFormatter.format(value as number);
+              value = numberFormatter(value, finalPrecision);
             }
-
-            return (prefix ? prefix : '') + value + (suffix ? suffix : '');
+            return `${prefix || ''}${value}${suffix || ''}`;
           }
         : undefined;
     // 将数字还原

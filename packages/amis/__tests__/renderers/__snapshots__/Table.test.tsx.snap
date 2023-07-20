@@ -6,26 +6,32 @@ exports[`Renderer:table 1`] = `
     class="cxd-Table"
   >
     <div
-      class="cxd-Table-heading"
+      class="cxd-Table-fixedTop"
+      style="top: 0px;"
     >
-      表格1
+      <div
+        class="cxd-Table-heading"
+      >
+        表格1
+      </div>
     </div>
     <div
       class="cxd-Table-contentWrap"
     >
       <div
-        class="cxd-Table-fixedLeft"
-      />
-      <div
-        class="cxd-Table-fixedRight"
-      />
-      <div
         class="cxd-Table-content"
-        style="position: relative;"
       >
         <table
           class="cxd-Table-table"
         >
+          <colgroup>
+            <col
+              data-index="3"
+            />
+            <col
+              data-index="4"
+            />
+          </colgroup>
           <thead>
             <tr
               class=""
@@ -47,6 +53,7 @@ exports[`Renderer:table 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="3"
                 />
               </th>
               <th
@@ -66,6 +73,7 @@ exports[`Renderer:table 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="4"
                 />
               </th>
             </tr>
@@ -313,63 +321,33 @@ exports[`Renderer:table 1`] = `
             </tr>
           </tbody>
         </table>
-        <div
-          class="resize-sensor"
-          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-  
-          <div
-            class="resize-sensor-expand"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-    
-            <div
-              style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-            />
-            
-  
-          </div>
-          
-  
-          <div
-            class="resize-sensor-shrink"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-    
-            <div
-              style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-            />
-            
-  
-          </div>
-          
-  
-          <div
-            class="resize-sensor-appear"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-          />
-        </div>
       </div>
+      <span />
     </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:table align 1`] = `
+<div>
+  <div
+    class="cxd-Table"
+  >
     <div
       class="cxd-Table-fixedTop"
+      style="top: 0px;"
     >
       <div
         class="cxd-Table-heading"
       >
         表格1
       </div>
+    </div>
+    <div
+      class="cxd-Table-contentWrap"
+    >
       <div
-        class="cxd-Table-fixedLeft"
-      />
-      <div
-        class="cxd-Table-fixedRight"
-      />
-      <div
-        class="cxd-Table-wrapper"
+        class="cxd-Table-content"
       >
         <table
           class="cxd-Table-table"
@@ -382,81 +360,6 @@ exports[`Renderer:table 1`] = `
               data-index="4"
             />
           </colgroup>
-          <thead>
-            <tr>
-              <th
-                class=""
-                data-index="3"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      Engine
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-              <th
-                class=""
-                data-index="4"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      Version
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Renderer:table align 1`] = `
-<div>
-  <div
-    class="cxd-Table"
-  >
-    <div
-      class="cxd-Table-heading"
-    >
-      表格1
-    </div>
-    <div
-      class="cxd-Table-contentWrap"
-    >
-      <div
-        class="cxd-Table-fixedLeft"
-      />
-      <div
-        class="cxd-Table-fixedRight"
-      />
-      <div
-        class="cxd-Table-content"
-        style="position: relative;"
-      >
-        <table
-          class="cxd-Table-table"
-        >
           <thead>
             <tr
               class=""
@@ -478,12 +381,12 @@ exports[`Renderer:table align 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="3"
                 />
               </th>
               <th
                 class=""
                 data-index="4"
-                style="text-align: right;"
               >
                 <div
                   class="cxd-TableCell--title"
@@ -491,6 +394,7 @@ exports[`Renderer:table align 1`] = `
                 />
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="4"
                 />
               </th>
             </tr>
@@ -768,113 +672,8 @@ exports[`Renderer:table align 1`] = `
             </tr>
           </tbody>
         </table>
-        <div
-          class="resize-sensor"
-          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-  
-          <div
-            class="resize-sensor-expand"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-    
-            <div
-              style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-            />
-            
-  
-          </div>
-          
-  
-          <div
-            class="resize-sensor-shrink"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-    
-            <div
-              style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-            />
-            
-  
-          </div>
-          
-  
-          <div
-            class="resize-sensor-appear"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-          />
-        </div>
       </div>
-    </div>
-    <div
-      class="cxd-Table-fixedTop"
-    >
-      <div
-        class="cxd-Table-heading"
-      >
-        表格1
-      </div>
-      <div
-        class="cxd-Table-fixedLeft"
-      />
-      <div
-        class="cxd-Table-fixedRight"
-      />
-      <div
-        class="cxd-Table-wrapper"
-      >
-        <table
-          class="cxd-Table-table"
-        >
-          <colgroup>
-            <col
-              data-index="3"
-            />
-            <col
-              data-index="4"
-            />
-          </colgroup>
-          <thead>
-            <tr>
-              <th
-                class=""
-                data-index="3"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      Engine
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-              <th
-                class=""
-                data-index="4"
-                style="text-align: right;"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                  style="text-align: right;"
-                />
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-            </tr>
-          </thead>
-        </table>
-      </div>
+      <span />
     </div>
   </div>
 </div>
@@ -902,28 +701,49 @@ exports[`Renderer:table children 1`] = `
               class="cxd-Table m-b-none"
             >
               <div
+                class="cxd-Table-fixedTop"
+                style="top: 0px;"
+              />
+              <div
                 class="cxd-Table-contentWrap"
               >
                 <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
                   class="cxd-Table-content"
-                  style="position: relative;"
                 >
                   <table
                     class="cxd-Table-table"
                   >
+                    <colgroup>
+                      <col
+                        data-index="2"
+                      />
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                      <col
+                        data-index="5"
+                      />
+                      <col
+                        data-index="6"
+                      />
+                      <col
+                        data-index="7"
+                      />
+                      <col
+                        data-index="8"
+                      />
+                    </colgroup>
                     <thead>
                       <tr
                         class=""
                       >
                         <th
-                          class="cxd-Table-expandCell"
+                          class="cxd-Table-expandCell is-sticky is-sticky-left is-sticky-last-left"
                           data-index="2"
+                          style="left: 0px;"
                         >
                           <a
                             class="cxd-Table-expandBtn"
@@ -933,6 +753,10 @@ exports[`Renderer:table children 1`] = `
                               icon="right-arrow-bold"
                             />
                           </a>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                            data-index="2"
+                          />
                         </th>
                         <th
                           class=""
@@ -951,6 +775,7 @@ exports[`Renderer:table children 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="3"
                           />
                         </th>
                         <th
@@ -970,6 +795,7 @@ exports[`Renderer:table children 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="4"
                           />
                         </th>
                         <th
@@ -989,6 +815,7 @@ exports[`Renderer:table children 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="5"
                           />
                         </th>
                         <th
@@ -1008,6 +835,7 @@ exports[`Renderer:table children 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="6"
                           />
                         </th>
                         <th
@@ -1027,6 +855,7 @@ exports[`Renderer:table children 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="7"
                           />
                         </th>
                         <th
@@ -1046,6 +875,7 @@ exports[`Renderer:table children 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="8"
                           />
                         </th>
                       </tr>
@@ -1057,7 +887,8 @@ exports[`Renderer:table children 1`] = `
                         data-index="0"
                       >
                         <td
-                          class="cxd-Table-expandCell"
+                          class="cxd-Table-expandCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <a
                             class="cxd-Table-expandBtn"
@@ -1129,7 +960,8 @@ exports[`Renderer:table children 1`] = `
                         data-index="1"
                       >
                         <td
-                          class="cxd-Table-expandCell"
+                          class="cxd-Table-expandCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <a
                             class="cxd-Table-expandBtn"
@@ -1201,7 +1033,8 @@ exports[`Renderer:table children 1`] = `
                         data-index="2"
                       >
                         <td
-                          class="cxd-Table-expandCell"
+                          class="cxd-Table-expandCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <a
                             class="cxd-Table-expandBtn"
@@ -1273,7 +1106,8 @@ exports[`Renderer:table children 1`] = `
                         data-index="3"
                       >
                         <td
-                          class="cxd-Table-expandCell"
+                          class="cxd-Table-expandCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <a
                             class="cxd-Table-expandBtn"
@@ -1345,7 +1179,8 @@ exports[`Renderer:table children 1`] = `
                         data-index="4"
                       >
                         <td
-                          class="cxd-Table-expandCell"
+                          class="cxd-Table-expandCell is-sticky is-sticky-left is-sticky-last-left"
+                          style="left: 0px;"
                         >
                           <a
                             class="cxd-Table-expandBtn"
@@ -1413,218 +1248,8 @@ exports[`Renderer:table children 1`] = `
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
-                  </div>
                 </div>
-              </div>
-              <div
-                class="cxd-Table-fixedTop"
-              >
-                <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
-                  class="cxd-Table-wrapper"
-                >
-                  <table
-                    class="cxd-Table-table"
-                  >
-                    <colgroup>
-                      <col
-                        data-index="2"
-                      />
-                      <col
-                        data-index="3"
-                      />
-                      <col
-                        data-index="4"
-                      />
-                      <col
-                        data-index="5"
-                      />
-                      <col
-                        data-index="6"
-                      />
-                      <col
-                        data-index="7"
-                      />
-                      <col
-                        data-index="8"
-                      />
-                    </colgroup>
-                    <thead>
-                      <tr>
-                        <th
-                          class="cxd-Table-expandCell"
-                          data-index="2"
-                        >
-                          <a
-                            class="cxd-Table-expandBtn"
-                          >
-                            <icon-mock
-                              classname="icon icon-right-arrow-bold"
-                              icon="right-arrow-bold"
-                            />
-                          </a>
-                        </th>
-                        <th
-                          class=""
-                          data-index="3"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Engine
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="4"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Grade
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="5"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Version
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="6"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Browser
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="7"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                ID
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="8"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Platform
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
+                <span />
               </div>
             </div>
           </div>
@@ -1641,26 +1266,32 @@ exports[`Renderer:table classNameExpr 1`] = `
     class="cxd-Table"
   >
     <div
-      class="cxd-Table-heading"
+      class="cxd-Table-fixedTop"
+      style="top: 0px;"
     >
-      表格1
+      <div
+        class="cxd-Table-heading"
+      >
+        表格1
+      </div>
     </div>
     <div
       class="cxd-Table-contentWrap"
     >
       <div
-        class="cxd-Table-fixedLeft"
-      />
-      <div
-        class="cxd-Table-fixedRight"
-      />
-      <div
         class="cxd-Table-content"
-        style="position: relative;"
       >
         <table
           class="cxd-Table-table"
         >
+          <colgroup>
+            <col
+              data-index="3"
+            />
+            <col
+              data-index="4"
+            />
+          </colgroup>
           <thead>
             <tr
               class=""
@@ -1682,6 +1313,7 @@ exports[`Renderer:table classNameExpr 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="3"
                 />
               </th>
               <th
@@ -1701,6 +1333,7 @@ exports[`Renderer:table classNameExpr 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="4"
                 />
               </th>
             </tr>
@@ -1948,119 +1581,8 @@ exports[`Renderer:table classNameExpr 1`] = `
             </tr>
           </tbody>
         </table>
-        <div
-          class="resize-sensor"
-          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-  
-          <div
-            class="resize-sensor-expand"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-    
-            <div
-              style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-            />
-            
-  
-          </div>
-          
-  
-          <div
-            class="resize-sensor-shrink"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-    
-            <div
-              style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-            />
-            
-  
-          </div>
-          
-  
-          <div
-            class="resize-sensor-appear"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-          />
-        </div>
       </div>
-    </div>
-    <div
-      class="cxd-Table-fixedTop"
-    >
-      <div
-        class="cxd-Table-heading"
-      >
-        表格1
-      </div>
-      <div
-        class="cxd-Table-fixedLeft"
-      />
-      <div
-        class="cxd-Table-fixedRight"
-      />
-      <div
-        class="cxd-Table-wrapper"
-      >
-        <table
-          class="cxd-Table-table"
-        >
-          <colgroup>
-            <col
-              data-index="3"
-            />
-            <col
-              data-index="4"
-            />
-          </colgroup>
-          <thead>
-            <tr>
-              <th
-                class=""
-                data-index="3"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      Engine
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-              <th
-                class=""
-                data-index="4"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      Version
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-            </tr>
-          </thead>
-        </table>
-      </div>
+      <span />
     </div>
   </div>
 </div>
@@ -2072,582 +1594,20 @@ exports[`Renderer:table column head style className 1`] = `
     class="cxd-Table className"
   >
     <div
-      class="cxd-Table-heading"
-    >
-      表格1
-    </div>
-    <div
-      class="cxd-Table-contentWrap"
-    >
-      <div
-        class="cxd-Table-fixedLeft"
-      />
-      <div
-        class="cxd-Table-fixedRight"
-      >
-        <table
-          class="cxd-Table-table cxd-Table-table tableClassName"
-        >
-          <thead>
-            <tr
-              class=""
-            >
-              <th
-                class=""
-                data-index="4"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      Platform
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="1"
-              data-index="0"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 95+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="2"
-              data-index="1"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 95+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="3"
-              data-index="2"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 95+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="4"
-              data-index="3"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="5"
-              data-index="4"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="6"
-              data-index="5"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="7"
-              data-index="6"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="8"
-              data-index="7"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="9"
-              data-index="8"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="10"
-              data-index="9"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div
-        class="cxd-Table-content"
-        style="position: relative;"
-      >
-        <table
-          class="cxd-Table-table tableClassName"
-        >
-          <thead>
-            <tr
-              class=""
-            >
-              <th
-                class=""
-                data-index="3"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      Engine
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-              <th
-                class=""
-                data-index="4"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      Platform
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="1"
-              data-index="0"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Trident
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 95+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="2"
-              data-index="1"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Trident
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 95+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="3"
-              data-index="2"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Trident
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 95+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="4"
-              data-index="3"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Trident
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="5"
-              data-index="4"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Trident
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="6"
-              data-index="5"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Gecko
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="7"
-              data-index="6"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Gecko
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="8"
-              data-index="7"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Gecko
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="9"
-              data-index="8"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Gecko
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="10"
-              data-index="9"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Gecko
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div
-          class="resize-sensor"
-          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-  
-          <div
-            class="resize-sensor-expand"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-    
-            <div
-              style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-            />
-            
-  
-          </div>
-          
-  
-          <div
-            class="resize-sensor-shrink"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-    
-            <div
-              style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-            />
-            
-  
-          </div>
-          
-  
-          <div
-            class="resize-sensor-appear"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-          />
-        </div>
-      </div>
-    </div>
-    <div
       class="cxd-Table-fixedTop"
+      style="top: 0px;"
     >
       <div
         class="cxd-Table-heading"
       >
         表格1
       </div>
+    </div>
+    <div
+      class="cxd-Table-contentWrap"
+    >
       <div
-        class="cxd-Table-fixedLeft"
-      />
-      <div
-        class="cxd-Table-fixedRight"
-      >
-        <table
-          class="cxd-Table-table cxd-Table-table tableClassName"
-        >
-          <thead>
-            <tr
-              class=""
-            >
-              <th
-                class=""
-                data-index="4"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      Platform
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-      <div
-        class="cxd-Table-wrapper"
+        class="cxd-Table-content"
       >
         <table
           class="cxd-Table-table tableClassName"
@@ -2661,7 +1621,9 @@ exports[`Renderer:table column head style className 1`] = `
             />
           </colgroup>
           <thead>
-            <tr>
+            <tr
+              class=""
+            >
               <th
                 class=""
                 data-index="3"
@@ -2679,11 +1641,13 @@ exports[`Renderer:table column head style className 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="3"
                 />
               </th>
               <th
-                class=""
+                class="is-sticky is-sticky-right is-sticky-first-right"
                 data-index="4"
+                style="right: 0px;"
               >
                 <div
                   class="cxd-TableCell--title"
@@ -2698,12 +1662,266 @@ exports[`Renderer:table column head style className 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="4"
                 />
               </th>
             </tr>
           </thead>
+          <tbody>
+            <tr
+              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              data-id="1"
+              data-index="0"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Trident
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 95+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              data-id="2"
+              data-index="1"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Trident
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 95+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              data-id="3"
+              data-index="2"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Trident
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 95+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              data-id="4"
+              data-index="3"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Trident
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              data-id="5"
+              data-index="4"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Trident
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              data-id="6"
+              data-index="5"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Gecko
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98+ / OSX.2+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              data-id="7"
+              data-index="6"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Gecko
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98+ / OSX.2+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              data-id="8"
+              data-index="7"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Gecko
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98+ / OSX.2+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              data-id="9"
+              data-index="8"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Gecko
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98+ / OSX.2+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              data-id="10"
+              data-index="9"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Gecko
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98+ / OSX.2+
+                </span>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
+      <span />
     </div>
   </div>
 </div>
@@ -2731,21 +1949,35 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
               class="cxd-Table"
             >
               <div
+                class="cxd-Table-fixedTop"
+                style="top: 0px;"
+              />
+              <div
                 class="cxd-Table-contentWrap"
               >
                 <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
                   class="cxd-Table-content"
-                  style="position: relative;"
                 >
                   <table
                     class="cxd-Table-table cxd-Table-table--withCombine"
                   >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                      <col
+                        data-index="5"
+                      />
+                      <col
+                        data-index="6"
+                      />
+                      <col
+                        data-index="7"
+                      />
+                    </colgroup>
                     <thead>
                       <tr
                         class=""
@@ -2767,6 +1999,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="3"
                           />
                         </th>
                         <th
@@ -2786,6 +2019,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="4"
                           />
                         </th>
                         <th
@@ -2805,6 +2039,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="5"
                           />
                         </th>
                         <th
@@ -2824,6 +2059,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="6"
                           />
                         </th>
                         <th
@@ -2843,6 +2079,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="7"
                           />
                         </th>
                       </tr>
@@ -3215,180 +2452,8 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
-                  </div>
                 </div>
-              </div>
-              <div
-                class="cxd-Table-fixedTop"
-              >
-                <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
-                  class="cxd-Table-wrapper"
-                >
-                  <table
-                    class="cxd-Table-table cxd-Table-table--withCombine"
-                  >
-                    <colgroup>
-                      <col
-                        data-index="3"
-                      />
-                      <col
-                        data-index="4"
-                      />
-                      <col
-                        data-index="5"
-                      />
-                      <col
-                        data-index="6"
-                      />
-                      <col
-                        data-index="7"
-                      />
-                    </colgroup>
-                    <thead>
-                      <tr>
-                        <th
-                          class=""
-                          data-index="3"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Rendering engine
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="4"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Browser
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="5"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Platform(s)
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="6"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Engine version
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="7"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                CSS grade
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
+                <span />
               </div>
             </div>
           </div>
@@ -3421,21 +2486,35 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
               class="cxd-Table"
             >
               <div
+                class="cxd-Table-fixedTop"
+                style="top: 0px;"
+              />
+              <div
                 class="cxd-Table-contentWrap"
               >
                 <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
                   class="cxd-Table-content"
-                  style="position: relative;"
                 >
                   <table
                     class="cxd-Table-table cxd-Table-table--withCombine"
                   >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                      <col
+                        data-index="5"
+                      />
+                      <col
+                        data-index="6"
+                      />
+                      <col
+                        data-index="7"
+                      />
+                    </colgroup>
                     <thead>
                       <tr
                         class=""
@@ -3457,6 +2536,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="3"
                           />
                         </th>
                         <th
@@ -3476,6 +2556,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="4"
                           />
                         </th>
                         <th
@@ -3495,6 +2576,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="5"
                           />
                         </th>
                         <th
@@ -3514,6 +2596,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="6"
                           />
                         </th>
                         <th
@@ -3533,6 +2616,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="7"
                           />
                         </th>
                       </tr>
@@ -3975,180 +3059,8 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
-                  </div>
                 </div>
-              </div>
-              <div
-                class="cxd-Table-fixedTop"
-              >
-                <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
-                  class="cxd-Table-wrapper"
-                >
-                  <table
-                    class="cxd-Table-table cxd-Table-table--withCombine"
-                  >
-                    <colgroup>
-                      <col
-                        data-index="3"
-                      />
-                      <col
-                        data-index="4"
-                      />
-                      <col
-                        data-index="5"
-                      />
-                      <col
-                        data-index="6"
-                      />
-                      <col
-                        data-index="7"
-                      />
-                    </colgroup>
-                    <thead>
-                      <tr>
-                        <th
-                          class=""
-                          data-index="3"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Rendering engine
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="4"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Browser
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="5"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Platform(s)
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="6"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Engine version
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="7"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                CSS grade
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
+                <span />
               </div>
             </div>
           </div>
@@ -4181,30 +3093,35 @@ exports[`Renderer:table groupName-default 1`] = `
               class="cxd-Table m-b-none"
             >
               <div
-                class="cxd-Table-toolbar cxd-Table-headToolbar"
+                class="cxd-Table-fixedTop"
+                style="top: 0px;"
               >
                 <div
-                  class="cxd-Table-actions"
+                  class="cxd-Table-toolbar cxd-Table-headToolbar"
                 >
                   <div
-                    class="cxd-ColumnToggler is-actived"
+                    class="cxd-Table-actions"
                   >
-                    <button
-                      class="cxd-Button cxd-Button--default cxd-Button--size-sm"
+                    <div
+                      class="cxd-ColumnToggler is-actived"
                     >
-                      <icon-mock
-                        classname="icon m-r-none icon-columns"
-                        icon="columns"
-                      />
-                      <span
-                        class="cxd-ColumnToggler-caret"
+                      <button
+                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-columns"
+                          icon="columns"
                         />
-                      </span>
-                    </button>
+                        <span
+                          class="cxd-ColumnToggler-caret"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -4212,21 +3129,32 @@ exports[`Renderer:table groupName-default 1`] = `
                 class="cxd-Table-contentWrap"
               >
                 <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
                   class="cxd-Table-content"
-                  style="position: relative;"
                 >
                   <table
                     class="cxd-Table-table"
                   >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                      <col
+                        data-index="5"
+                      />
+                      <col
+                        data-index="6"
+                      />
+                      <col
+                        data-index="8"
+                      />
+                    </colgroup>
                     <thead>
                       <tr>
                         <th
+                          class=""
                           colspan="2"
                           data-index="3"
                           rowspan="1"
@@ -4240,6 +3168,7 @@ exports[`Renderer:table groupName-default 1`] = `
                           </span>
                         </th>
                         <th
+                          class=""
                           colspan="3"
                           data-index="5"
                           rowspan="1"
@@ -4273,6 +3202,7 @@ exports[`Renderer:table groupName-default 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="3"
                           />
                         </th>
                         <th
@@ -4292,6 +3222,7 @@ exports[`Renderer:table groupName-default 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="4"
                           />
                         </th>
                         <th
@@ -4311,6 +3242,7 @@ exports[`Renderer:table groupName-default 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="5"
                           />
                         </th>
                         <th
@@ -4330,6 +3262,7 @@ exports[`Renderer:table groupName-default 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="6"
                           />
                         </th>
                         <th
@@ -4349,6 +3282,7 @@ exports[`Renderer:table groupName-default 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="8"
                           />
                         </th>
                       </tr>
@@ -4866,236 +3800,8 @@ exports[`Renderer:table groupName-default 1`] = `
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
-                  </div>
                 </div>
-              </div>
-              <div
-                class="cxd-Table-fixedTop"
-              >
-                <div
-                  class="cxd-Table-toolbar cxd-Table-headToolbar"
-                >
-                  <div
-                    class="cxd-Table-actions"
-                  >
-                    <div
-                      class="cxd-ColumnToggler is-actived"
-                    >
-                      <button
-                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
-                      >
-                        <icon-mock
-                          classname="icon m-r-none icon-columns"
-                          icon="columns"
-                        />
-                        <span
-                          class="cxd-ColumnToggler-caret"
-                        >
-                          <icon-mock
-                            classname="icon icon-caret"
-                            icon="caret"
-                          />
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
-                  class="cxd-Table-wrapper"
-                >
-                  <table
-                    class="cxd-Table-table"
-                  >
-                    <colgroup>
-                      <col
-                        data-index="3"
-                      />
-                      <col
-                        data-index="4"
-                      />
-                      <col
-                        data-index="5"
-                      />
-                      <col
-                        data-index="6"
-                      />
-                      <col
-                        data-index="8"
-                      />
-                    </colgroup>
-                    <thead>
-                      <tr>
-                        <th
-                          colspan="2"
-                          data-index="3"
-                          rowspan="1"
-                        >
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              分组1
-                            </span>
-                          </span>
-                        </th>
-                        <th
-                          colspan="3"
-                          data-index="5"
-                          rowspan="1"
-                        >
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              分组2
-                            </span>
-                          </span>
-                        </th>
-                      </tr>
-                      <tr>
-                        <th
-                          class=""
-                          data-index="3"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Engine
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="4"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Grade
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="5"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Version
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="6"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Browser
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="8"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Platform
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
+                <span />
               </div>
             </div>
           </div>
@@ -5128,30 +3834,35 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
               class="cxd-Table m-b-none"
             >
               <div
-                class="cxd-Table-toolbar cxd-Table-headToolbar"
+                class="cxd-Table-fixedTop"
+                style="top: 0px;"
               >
                 <div
-                  class="cxd-Table-actions"
+                  class="cxd-Table-toolbar cxd-Table-headToolbar"
                 >
                   <div
-                    class="cxd-ColumnToggler is-actived"
+                    class="cxd-Table-actions"
                   >
-                    <button
-                      class="cxd-Button cxd-Button--default cxd-Button--size-sm"
+                    <div
+                      class="cxd-ColumnToggler is-actived"
                     >
-                      <icon-mock
-                        classname="icon m-r-none icon-columns"
-                        icon="columns"
-                      />
-                      <span
-                        class="cxd-ColumnToggler-caret"
+                      <button
+                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-columns"
+                          icon="columns"
                         />
-                      </span>
-                    </button>
+                        <span
+                          class="cxd-ColumnToggler-caret"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -5159,21 +3870,32 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                 class="cxd-Table-contentWrap"
               >
                 <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
                   class="cxd-Table-content"
-                  style="position: relative;"
                 >
                   <table
                     class="cxd-Table-table"
                   >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                      <col
+                        data-index="5"
+                      />
+                      <col
+                        data-index="6"
+                      />
+                      <col
+                        data-index="8"
+                      />
+                    </colgroup>
                     <thead>
                       <tr>
                         <th
+                          class=""
                           colspan="1"
                           data-index="3"
                           rowspan="1"
@@ -5205,6 +3927,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="4"
                           />
                         </th>
                         <th
@@ -5226,9 +3949,11 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="5"
                           />
                         </th>
                         <th
+                          class=""
                           colspan="2"
                           data-index="6"
                           rowspan="1"
@@ -5262,6 +3987,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="3"
                           />
                         </th>
                         <th
@@ -5281,6 +4007,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="6"
                           />
                         </th>
                         <th
@@ -5300,6 +4027,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="8"
                           />
                         </th>
                       </tr>
@@ -5817,242 +4545,8 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
-                  </div>
                 </div>
-              </div>
-              <div
-                class="cxd-Table-fixedTop"
-              >
-                <div
-                  class="cxd-Table-toolbar cxd-Table-headToolbar"
-                >
-                  <div
-                    class="cxd-Table-actions"
-                  >
-                    <div
-                      class="cxd-ColumnToggler is-actived"
-                    >
-                      <button
-                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
-                      >
-                        <icon-mock
-                          classname="icon m-r-none icon-columns"
-                          icon="columns"
-                        />
-                        <span
-                          class="cxd-ColumnToggler-caret"
-                        >
-                          <icon-mock
-                            classname="icon icon-caret"
-                            icon="caret"
-                          />
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
-                  class="cxd-Table-wrapper"
-                >
-                  <table
-                    class="cxd-Table-table"
-                  >
-                    <colgroup>
-                      <col
-                        data-index="3"
-                      />
-                      <col
-                        data-index="4"
-                      />
-                      <col
-                        data-index="5"
-                      />
-                      <col
-                        data-index="6"
-                      />
-                      <col
-                        data-index="8"
-                      />
-                    </colgroup>
-                    <thead>
-                      <tr>
-                        <th
-                          colspan="1"
-                          data-index="3"
-                          rowspan="1"
-                        >
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              分组1
-                            </span>
-                          </span>
-                        </th>
-                        <th
-                          class=""
-                          colspan="1"
-                          data-index="4"
-                          label="Grade"
-                          rowspan="2"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Grade
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          colspan="1"
-                          data-index="5"
-                          label="Version"
-                          rowspan="2"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Version
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          colspan="2"
-                          data-index="6"
-                          rowspan="1"
-                        >
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              分组2
-                            </span>
-                          </span>
-                        </th>
-                      </tr>
-                      <tr>
-                        <th
-                          class=""
-                          data-index="3"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Engine
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="6"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Browser
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="8"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Platform
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
+                <span />
               </div>
             </div>
           </div>
@@ -6085,30 +4579,35 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
               class="cxd-Table m-b-none"
             >
               <div
-                class="cxd-Table-toolbar cxd-Table-headToolbar"
+                class="cxd-Table-fixedTop"
+                style="top: 0px;"
               >
                 <div
-                  class="cxd-Table-actions"
+                  class="cxd-Table-toolbar cxd-Table-headToolbar"
                 >
                   <div
-                    class="cxd-ColumnToggler is-actived"
+                    class="cxd-Table-actions"
                   >
-                    <button
-                      class="cxd-Button cxd-Button--default cxd-Button--size-sm"
+                    <div
+                      class="cxd-ColumnToggler is-actived"
                     >
-                      <icon-mock
-                        classname="icon m-r-none icon-columns"
-                        icon="columns"
-                      />
-                      <span
-                        class="cxd-ColumnToggler-caret"
+                      <button
+                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-columns"
+                          icon="columns"
                         />
-                      </span>
-                    </button>
+                        <span
+                          class="cxd-ColumnToggler-caret"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -6116,18 +4615,28 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                 class="cxd-Table-contentWrap"
               >
                 <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
                   class="cxd-Table-content"
-                  style="position: relative;"
                 >
                   <table
                     class="cxd-Table-table"
                   >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                      <col
+                        data-index="5"
+                      />
+                      <col
+                        data-index="6"
+                      />
+                      <col
+                        data-index="8"
+                      />
+                    </colgroup>
                     <thead>
                       <tr>
                         <th
@@ -6149,6 +4658,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="3"
                           />
                         </th>
                         <th
@@ -6170,6 +4680,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="4"
                           />
                         </th>
                         <th
@@ -6191,9 +4702,11 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="5"
                           />
                         </th>
                         <th
+                          class=""
                           colspan="2"
                           data-index="6"
                           rowspan="1"
@@ -6227,6 +4740,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="6"
                           />
                         </th>
                         <th
@@ -6246,6 +4760,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="8"
                           />
                         </th>
                       </tr>
@@ -6763,232 +5278,8 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
-                  </div>
                 </div>
-              </div>
-              <div
-                class="cxd-Table-fixedTop"
-              >
-                <div
-                  class="cxd-Table-toolbar cxd-Table-headToolbar"
-                >
-                  <div
-                    class="cxd-Table-actions"
-                  >
-                    <div
-                      class="cxd-ColumnToggler is-actived"
-                    >
-                      <button
-                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
-                      >
-                        <icon-mock
-                          classname="icon m-r-none icon-columns"
-                          icon="columns"
-                        />
-                        <span
-                          class="cxd-ColumnToggler-caret"
-                        >
-                          <icon-mock
-                            classname="icon icon-caret"
-                            icon="caret"
-                          />
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
-                  class="cxd-Table-wrapper"
-                >
-                  <table
-                    class="cxd-Table-table"
-                  >
-                    <colgroup>
-                      <col
-                        data-index="3"
-                      />
-                      <col
-                        data-index="4"
-                      />
-                      <col
-                        data-index="5"
-                      />
-                      <col
-                        data-index="6"
-                      />
-                      <col
-                        data-index="8"
-                      />
-                    </colgroup>
-                    <thead>
-                      <tr>
-                        <th
-                          class=""
-                          colspan="1"
-                          data-index="3"
-                          label="Engine"
-                          rowspan="2"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Engine
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          colspan="1"
-                          data-index="4"
-                          label="Grade"
-                          rowspan="2"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Grade
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          colspan="1"
-                          data-index="5"
-                          label="Version"
-                          rowspan="2"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Version
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          colspan="2"
-                          data-index="6"
-                          rowspan="1"
-                        >
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              分组2
-                            </span>
-                          </span>
-                        </th>
-                      </tr>
-                      <tr>
-                        <th
-                          class=""
-                          data-index="6"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Browser
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="8"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Platform
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
+                <span />
               </div>
             </div>
           </div>
@@ -7021,30 +5312,35 @@ exports[`Renderer:table groupName-withTpl 1`] = `
               class="cxd-Table m-b-none"
             >
               <div
-                class="cxd-Table-toolbar cxd-Table-headToolbar"
+                class="cxd-Table-fixedTop"
+                style="top: 0px;"
               >
                 <div
-                  class="cxd-Table-actions"
+                  class="cxd-Table-toolbar cxd-Table-headToolbar"
                 >
                   <div
-                    class="cxd-ColumnToggler is-actived"
+                    class="cxd-Table-actions"
                   >
-                    <button
-                      class="cxd-Button cxd-Button--default cxd-Button--size-sm"
+                    <div
+                      class="cxd-ColumnToggler is-actived"
                     >
-                      <icon-mock
-                        classname="icon m-r-none icon-columns"
-                        icon="columns"
-                      />
-                      <span
-                        class="cxd-ColumnToggler-caret"
+                      <button
+                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
                       >
                         <icon-mock
-                          classname="icon icon-caret"
-                          icon="caret"
+                          classname="icon icon-columns"
+                          icon="columns"
                         />
-                      </span>
-                    </button>
+                        <span
+                          class="cxd-ColumnToggler-caret"
+                        >
+                          <icon-mock
+                            classname="icon icon-right-arrow-bold"
+                            icon="right-arrow-bold"
+                          />
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -7052,21 +5348,32 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                 class="cxd-Table-contentWrap"
               >
                 <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
                   class="cxd-Table-content"
-                  style="position: relative;"
                 >
                   <table
                     class="cxd-Table-table"
                   >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                      <col
+                        data-index="5"
+                      />
+                      <col
+                        data-index="6"
+                      />
+                      <col
+                        data-index="8"
+                      />
+                    </colgroup>
                     <thead>
                       <tr>
                         <th
+                          class=""
                           colspan="2"
                           data-index="3"
                           rowspan="1"
@@ -7080,6 +5387,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                           </span>
                         </th>
                         <th
+                          class=""
                           colspan="3"
                           data-index="5"
                           rowspan="1"
@@ -7113,6 +5421,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="3"
                           />
                         </th>
                         <th
@@ -7132,6 +5441,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="4"
                           />
                         </th>
                         <th
@@ -7151,6 +5461,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="5"
                           />
                         </th>
                         <th
@@ -7170,6 +5481,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="6"
                           />
                         </th>
                         <th
@@ -7189,6 +5501,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="8"
                           />
                         </th>
                       </tr>
@@ -7706,236 +6019,8 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
-                  </div>
                 </div>
-              </div>
-              <div
-                class="cxd-Table-fixedTop"
-              >
-                <div
-                  class="cxd-Table-toolbar cxd-Table-headToolbar"
-                >
-                  <div
-                    class="cxd-Table-actions"
-                  >
-                    <div
-                      class="cxd-ColumnToggler is-actived"
-                    >
-                      <button
-                        class="cxd-Button cxd-Button--default cxd-Button--size-sm"
-                      >
-                        <icon-mock
-                          classname="icon m-r-none icon-columns"
-                          icon="columns"
-                        />
-                        <span
-                          class="cxd-ColumnToggler-caret"
-                        >
-                          <icon-mock
-                            classname="icon icon-caret"
-                            icon="caret"
-                          />
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
-                  class="cxd-Table-wrapper"
-                >
-                  <table
-                    class="cxd-Table-table"
-                  >
-                    <colgroup>
-                      <col
-                        data-index="3"
-                      />
-                      <col
-                        data-index="4"
-                      />
-                      <col
-                        data-index="5"
-                      />
-                      <col
-                        data-index="6"
-                      />
-                      <col
-                        data-index="8"
-                      />
-                    </colgroup>
-                    <thead>
-                      <tr>
-                        <th
-                          colspan="2"
-                          data-index="3"
-                          rowspan="1"
-                        >
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              分组1
-                            </span>
-                          </span>
-                        </th>
-                        <th
-                          colspan="3"
-                          data-index="5"
-                          rowspan="1"
-                        >
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              分组2
-                            </span>
-                          </span>
-                        </th>
-                      </tr>
-                      <tr>
-                        <th
-                          class=""
-                          data-index="3"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Engine
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="4"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Grade
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="5"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Version
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="6"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Browser
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="8"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                Platform
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
+                <span />
               </div>
             </div>
           </div>
@@ -7952,582 +6037,20 @@ exports[`Renderer:table isHead fixed 1`] = `
     class="cxd-Table"
   >
     <div
-      class="cxd-Table-heading"
-    >
-      表格1
-    </div>
-    <div
-      class="cxd-Table-contentWrap"
-    >
-      <div
-        class="cxd-Table-fixedLeft"
-      />
-      <div
-        class="cxd-Table-fixedRight"
-      >
-        <table
-          class="cxd-Table-table cxd-Table-table"
-        >
-          <thead>
-            <tr
-              class=""
-            >
-              <th
-                class=""
-                data-index="4"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      Platform
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="1"
-              data-index="0"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 95+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="2"
-              data-index="1"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 95+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="3"
-              data-index="2"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 95+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="4"
-              data-index="3"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="5"
-              data-index="4"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="6"
-              data-index="5"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="7"
-              data-index="6"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="8"
-              data-index="7"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="9"
-              data-index="8"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="10"
-              data-index="9"
-            >
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div
-        class="cxd-Table-content"
-        style="position: relative;"
-      >
-        <table
-          class="cxd-Table-table"
-        >
-          <thead>
-            <tr
-              class=""
-            >
-              <th
-                class=""
-                data-index="3"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      Engine
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-              <th
-                class=""
-                data-index="4"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      Platform
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="1"
-              data-index="0"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Trident
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 95+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="2"
-              data-index="1"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Trident
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 95+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="3"
-              data-index="2"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Trident
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 95+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="4"
-              data-index="3"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Trident
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="5"
-              data-index="4"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Trident
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="6"
-              data-index="5"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Gecko
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="7"
-              data-index="6"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Gecko
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="8"
-              data-index="7"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Gecko
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
-              data-id="9"
-              data-index="8"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Gecko
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-            <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
-              data-id="10"
-              data-index="9"
-            >
-              <th
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Gecko
-                </span>
-              </th>
-              <td
-                class=""
-              >
-                <span
-                  class="cxd-PlainField"
-                >
-                  Win 98+ / OSX.2+
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div
-          class="resize-sensor"
-          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-  
-          <div
-            class="resize-sensor-expand"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-    
-            <div
-              style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-            />
-            
-  
-          </div>
-          
-  
-          <div
-            class="resize-sensor-shrink"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-    
-            <div
-              style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-            />
-            
-  
-          </div>
-          
-  
-          <div
-            class="resize-sensor-appear"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-          />
-        </div>
-      </div>
-    </div>
-    <div
       class="cxd-Table-fixedTop"
+      style="top: 0px;"
     >
       <div
         class="cxd-Table-heading"
       >
         表格1
       </div>
+    </div>
+    <div
+      class="cxd-Table-contentWrap"
+    >
       <div
-        class="cxd-Table-fixedLeft"
-      />
-      <div
-        class="cxd-Table-fixedRight"
-      >
-        <table
-          class="cxd-Table-table cxd-Table-table"
-        >
-          <thead>
-            <tr
-              class=""
-            >
-              <th
-                class=""
-                data-index="4"
-              >
-                <div
-                  class="cxd-TableCell--title"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      Platform
-                    </span>
-                  </span>
-                </div>
-                <div
-                  class="cxd-Table-content-colDragLine"
-                />
-              </th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-      <div
-        class="cxd-Table-wrapper"
+        class="cxd-Table-content"
       >
         <table
           class="cxd-Table-table"
@@ -8541,7 +6064,9 @@ exports[`Renderer:table isHead fixed 1`] = `
             />
           </colgroup>
           <thead>
-            <tr>
+            <tr
+              class=""
+            >
               <th
                 class=""
                 data-index="3"
@@ -8559,11 +6084,13 @@ exports[`Renderer:table isHead fixed 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="3"
                 />
               </th>
               <th
-                class=""
+                class="is-sticky is-sticky-right is-sticky-first-right"
                 data-index="4"
+                style="right: 0px;"
               >
                 <div
                   class="cxd-TableCell--title"
@@ -8578,12 +6105,266 @@ exports[`Renderer:table isHead fixed 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="4"
                 />
               </th>
             </tr>
           </thead>
+          <tbody>
+            <tr
+              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              data-id="1"
+              data-index="0"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Trident
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 95+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              data-id="2"
+              data-index="1"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Trident
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 95+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              data-id="3"
+              data-index="2"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Trident
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 95+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              data-id="4"
+              data-index="3"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Trident
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              data-id="5"
+              data-index="4"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Trident
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              data-id="6"
+              data-index="5"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Gecko
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98+ / OSX.2+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              data-id="7"
+              data-index="6"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Gecko
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98+ / OSX.2+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              data-id="8"
+              data-index="7"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Gecko
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98+ / OSX.2+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              data-id="9"
+              data-index="8"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Gecko
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98+ / OSX.2+
+                </span>
+              </td>
+            </tr>
+            <tr
+              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              data-id="10"
+              data-index="9"
+            >
+              <th
+                class=""
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Gecko
+                </span>
+              </th>
+              <td
+                class="is-sticky is-sticky-right is-sticky-first-right"
+                style="right: 0px;"
+              >
+                <span
+                  class="cxd-PlainField"
+                >
+                  Win 98+ / OSX.2+
+                </span>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
+      <span />
     </div>
   </div>
 </div>
@@ -8607,15 +6388,15 @@ exports[`Renderer:table list 1`] = `
             class="cxd-Button cxd-Button--default cxd-Button--size-sm"
           >
             <icon-mock
-              classname="icon m-r-none icon-columns"
+              classname="icon icon-columns"
               icon="columns"
             />
             <span
               class="cxd-ColumnToggler-caret"
             >
               <icon-mock
-                classname="icon icon-caret"
-                icon="caret"
+                classname="icon icon-right-arrow-bold"
+                icon="right-arrow-bold"
               />
             </span>
           </button>
@@ -8626,18 +6407,40 @@ exports[`Renderer:table list 1`] = `
       class="cxd-Table-contentWrap"
     >
       <div
-        class="cxd-Table-fixedLeft"
-      />
-      <div
-        class="cxd-Table-fixedRight"
-      />
-      <div
         class="cxd-Table-content"
-        style="position: relative;"
       >
         <table
           class="cxd-Table-table"
         >
+          <colgroup>
+            <col
+              data-index="3"
+            />
+            <col
+              data-index="4"
+            />
+            <col
+              data-index="5"
+            />
+            <col
+              data-index="6"
+            />
+            <col
+              data-index="7"
+            />
+            <col
+              data-index="8"
+            />
+            <col
+              data-index="9"
+            />
+            <col
+              data-index="10"
+            />
+            <col
+              data-index="11"
+            />
+          </colgroup>
           <thead>
             <tr
               class=""
@@ -8659,6 +6462,7 @@ exports[`Renderer:table list 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="3"
                 />
               </th>
               <th
@@ -8678,6 +6482,7 @@ exports[`Renderer:table list 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="4"
                 />
               </th>
               <th
@@ -8697,6 +6502,7 @@ exports[`Renderer:table list 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="5"
                 />
               </th>
               <th
@@ -8716,6 +6522,7 @@ exports[`Renderer:table list 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="6"
                 />
               </th>
               <th
@@ -8735,6 +6542,7 @@ exports[`Renderer:table list 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="7"
                 />
               </th>
               <th
@@ -8754,6 +6562,7 @@ exports[`Renderer:table list 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="8"
                 />
               </th>
               <th
@@ -8773,6 +6582,7 @@ exports[`Renderer:table list 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="9"
                 />
               </th>
               <th
@@ -8792,6 +6602,7 @@ exports[`Renderer:table list 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="10"
                 />
               </th>
               <th
@@ -8811,6 +6622,7 @@ exports[`Renderer:table list 1`] = `
                 </div>
                 <div
                   class="cxd-Table-content-colDragLine"
+                  data-index="11"
                 />
               </th>
             </tr>
@@ -8911,7 +6723,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-StatusField cxd-StatusField--1"
                 >
                   <icon-mock
-                    classname="cxd-Status-icon icon icon icon-success"
+                    classname="cxd-Status-icon icon icon-success icon"
                     icon="success"
                   />
                 </span>
@@ -8967,6 +6779,10 @@ exports[`Renderer:table list 1`] = `
                 <div
                   class="cxd-List"
                 >
+                  <div
+                    class="cxd-List-fixedTop"
+                    style="top: 0px;"
+                  />
                   <div
                     class="cxd-List-items"
                   >
@@ -9149,7 +6965,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-StatusField cxd-StatusField--1"
                 >
                   <icon-mock
-                    classname="cxd-Status-icon icon icon icon-success"
+                    classname="cxd-Status-icon icon icon-success icon"
                     icon="success"
                   />
                 </span>
@@ -9205,6 +7021,10 @@ exports[`Renderer:table list 1`] = `
                 <div
                   class="cxd-List"
                 >
+                  <div
+                    class="cxd-List-fixedTop"
+                    style="top: 0px;"
+                  />
                   <div
                     class="cxd-List-items"
                   >
@@ -9507,7 +7327,7 @@ exports[`Renderer:table list 1`] = `
                   class="cxd-StatusField cxd-StatusField--0"
                 >
                   <icon-mock
-                    classname="cxd-Status-icon icon icon icon-fail"
+                    classname="cxd-Status-icon icon icon-fail icon"
                     icon="fail"
                   />
                 </span>
@@ -9562,6 +7382,10 @@ exports[`Renderer:table list 1`] = `
                 <div
                   class="cxd-List"
                 >
+                  <div
+                    class="cxd-List-fixedTop"
+                    style="top: 0px;"
+                  />
                   <div
                     class="cxd-List-items"
                   >
@@ -9731,46 +7555,8 @@ exports[`Renderer:table list 1`] = `
             </tr>
           </tbody>
         </table>
-        <div
-          class="resize-sensor"
-          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-        >
-          
-  
-          <div
-            class="resize-sensor-expand"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-    
-            <div
-              style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-            />
-            
-  
-          </div>
-          
-  
-          <div
-            class="resize-sensor-shrink"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-          >
-            
-    
-            <div
-              style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-            />
-            
-  
-          </div>
-          
-  
-          <div
-            class="resize-sensor-appear"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-          />
-        </div>
       </div>
+      <span />
     </div>
   </div>
 </div>

@@ -13,6 +13,7 @@ import {setElementStyle} from './setElementStyle';
 import {renderTab} from './renderTab';
 import {OMath} from '../openxml/math/OMath';
 import {renderOMath} from './renderMath';
+import {Tab} from '../openxml/word/Tab';
 
 /**
  * 渲染段落
@@ -42,6 +43,28 @@ export default function renderParagraph(
   }
 
   let inFldChar = false;
+
+  if (properties.tabs && properties.tabs.length) {
+    // 目前只支持渲染第一个，因为第二个位置取决于前面内容位置，挺麻烦
+    // 虽然目前这个实现很 hack，但可以支持常见情况
+    appendChild(p, renderTab(word, properties.tabs[0], true));
+    // 同时删掉第一个 run 中的 tab
+    // let done = false;
+    // for (const child of paragraph.children) {
+    //   if (done) {
+    //     break;
+    //   }
+    //   if (child instanceof Run) {
+    //     for (const runChild of child.children) {
+    //       if (runChild instanceof Tab) {
+    //         child.children.splice(child.children.indexOf(runChild), 1);
+    //         done = true;
+    //         break;
+    //       }
+    //     }
+    //   }
+    // }
+  }
 
   for (const child of paragraph.children) {
     if (child instanceof Run) {

@@ -10,7 +10,6 @@ import ReactDOM from 'react-dom';
 import {themeable, ThemeProps} from 'amis-core';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {Icon, hasIcon} from './icons';
-import {generateIcon} from 'amis-core';
 import {types} from 'mobx-state-tree';
 import {observable, reaction} from 'mobx';
 
@@ -250,13 +249,7 @@ export class Spinner extends React.Component<
                     )}
                   >
                     {icon ? (
-                      isCustomIcon ? (
-                        icon
-                      ) : hasIcon(icon as string) ? (
-                        <Icon icon={icon} className="icon" />
-                      ) : (
-                        generateIcon(cx, icon as string, 'icon')
-                      )
+                      <Icon cx={cx} icon={icon} className="icon" />
                     ) : null}
                   </div>
                   {tip ? <span className={cx(`Spinner-tip`)}>{tip}</span> : ''}

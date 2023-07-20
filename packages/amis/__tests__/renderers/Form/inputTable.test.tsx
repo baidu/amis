@@ -14,7 +14,7 @@ afterEach(() => {
   clearStoresCache();
 });
 
-test('Renderer:input table', () => {
+test('Renderer:input table', async () => {
   const {container} = render(
     amisRender(
       {
@@ -62,6 +62,7 @@ test('Renderer:input table', () => {
     )
   );
 
+  await wait(300);
   replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
@@ -175,6 +176,7 @@ test('Renderer:input table add', async () => {
     )
   );
 
+  await wait(200);
   const add = await findByText(/新增/);
 
   fireEvent.click(add);

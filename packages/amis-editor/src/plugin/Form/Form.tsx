@@ -11,7 +11,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {jsonToJsonSchema} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
-import {setVariable} from 'amis-core';
+import {setVariable, someTree} from 'amis-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 // 用于脚手架的常用表单控件
@@ -933,7 +933,11 @@ export class FormPlugin extends BasePlugin {
     }
   }
 
-  async buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
     const jsonschema: any = {
       $id: 'formItems',
       type: 'object',
@@ -943,30 +947,91 @@ export class FormPlugin extends BasePlugin {
     const pool = node.children.concat();
     while (pool.length) {
       const current = pool.shift() as EditorNodeType;
+      const schema = current.schema;
 
       if (current.rendererConfig?.type === 'combo') {
-        const schema = current.schema;
+        if (trigger) {
+          const items = current.children?.find(
+            child => child.isRegion && child.region === 'items'
+          );
+          const isItemsChild = someTree(
+            items.children,
+            item => item.id === trigger?.id
+          );
+
+          if (isItemsChild) {
+            const itemsChilds = items.children.concat();
+
+            while (itemsChilds.length) {
+              const currentItem = itemsChilds.shift() as EditorNodeType;
+              const itemSchema = currentItem.schema;
+
+              if (itemSchema.name) {
+                jsonschema.properties[itemSchema.name] = {
+                  ...(currentItem.info?.plugin?.buildDataSchemas
+                    ? await currentItem.info.plugin.buildDataSchemas(
+                        currentItem,
+                        region,
+                        trigger
+                      )
+                    : {
+                        type: 'string',
+                        title: itemSchema.label || itemSchema.name
+                      }),
+                  group: `当前行记录(${schema.label || schema.name})`
+                };
+              }
+            }
+          }
+        }
+
         if (schema.name) {
-          jsonschema.properties[schema.name] = {
-            type: 'array',
-            title: schema.label || schema.name,
-            items: current.info?.plugin?.buildDataSchemas
-              ? await current.info.plugin.buildDataSchemas(current, region)
-              : {
-                  type: 'object',
-                  properties: {}
-                }
-          };
+          jsonschema.properties[schema.name] =
+            await current.info.plugin.buildDataSchemas?.(current, region);
+        }
+      } else if (current.rendererConfig?.type === 'input-table') {
+        if (trigger) {
+          const columns: EditorNodeType = current.children.find(
+            item => item.isRegion && item.region === 'columns'
+          );
+          const isColumnChild = someTree(
+            columns?.children,
+            item => item.id === trigger.id
+          );
+
+          if (isColumnChild) {
+            for (let col of schema?.columns) {
+              if (col.name) {
+                jsonschema.properties[col.name] = {
+                  type: 'string',
+                  title: col.label || col.name,
+                  group: `当前行记录(${schema.label || schema.name})`
+                };
+              }
+            }
+          }
+        }
+        if (schema.name) {
+          jsonschema.properties[schema.name] =
+            await current.info.plugin.buildDataSchemas?.(
+              current,
+              region,
+              trigger
+            );
         }
       } else if (current.rendererConfig?.isFormItem) {
-        const schema = current.schema;
         if (schema.name) {
           jsonschema.properties[schema.name] = current.info?.plugin
             ?.buildDataSchemas
-            ? await current.info.plugin.buildDataSchemas(current, region)
+            ? await current.info.plugin.buildDataSchemas(
+                current,
+                region,
+                trigger
+              )
             : {
                 type: 'string',
-                title: schema.label || schema.name,
+                title:
+                  typeof schema.label === 'string' ? schema.label : schema.name,
                 originalValue: schema.value // 记录原始值，循环引用检测需要
               };
         }

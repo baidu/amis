@@ -9,7 +9,7 @@ import {ClassName, localeable, LocaleProps, Schema} from 'amis-core';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {themeable, ThemeProps, noop} from 'amis-core';
 import {uncontrollable} from 'amis-core';
-import {generateIcon, isObjectShallowModified} from 'amis-core';
+import {isObjectShallowModified} from 'amis-core';
 import {autobind, guid} from 'amis-core';
 import {Icon} from './icons';
 import debounce from 'lodash/debounce';
@@ -611,7 +611,7 @@ export class Tabs extends React.Component<TabsProps, any> {
     const activeKey =
       activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
 
-    const iconElement = generateIcon(cx, icon, 'Icon');
+    const iconElement = <Icon cx={cx} icon={icon} className="Icon" />;
 
     const link = (
       <a title={typeof title === 'string' ? title : undefined}>

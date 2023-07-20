@@ -336,7 +336,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="396862412"
           data-name="Line Callout 1 (Accent Bar) 396862412"
-          style="z-index: 251735040; position: absolute; left: 465.41px; top: 707.70px; width: 46.91px; height: 36.80px; color: rgb(255, 255, 255); display: table;"
+          style="z-index: 251735040; position: absolute; left: 465.41px; top: 707.70px; width: 46.91px; height: 36.8px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="36.8px"
@@ -415,7 +415,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="396862410"
           data-name="Line Callout 2 396862410"
-          style="z-index: 251732992; position: absolute; left: 294.69px; top: 714.40px; width: 45.77px; height: 30.10px; color: rgb(255, 255, 255); display: table;"
+          style="z-index: 251732992; position: absolute; left: 294.69px; top: 714.40px; width: 45.77px; height: 30.1px; color: rgb(255, 255, 255); display: table;"
         >
           <svg
             height="30.1px"
@@ -658,7 +658,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="396862401"
           data-name="Wave 396862401"
-          style="z-index: 251724800; position: absolute; left: 294.82px; top: 651.89px; width: 40.06px; height: 35.80px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251724800; position: absolute; left: 294.82px; top: 651.89px; width: 40.06px; height: 35.8px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="35.8px"
@@ -741,7 +741,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="62"
           data-name="Curved Down Ribbon 62"
-          style="z-index: 251721728; position: absolute; left: 85.95px; top: 646.31px; width: 51.32px; height: 41.30px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251721728; position: absolute; left: 85.95px; top: 646.31px; width: 51.32px; height: 41.3px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="41.3px"
@@ -1012,7 +1012,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="51"
           data-name="7-Point Star 51"
-          style="z-index: 251710464; position: absolute; left: 196.68px; top: 585.57px; width: 33.27px; height: 36.40px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251710464; position: absolute; left: 196.68px; top: 585.57px; width: 33.27px; height: 36.4px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="36.4px"
@@ -1054,7 +1054,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="49"
           data-name="5-Point Star 49"
-          style="z-index: 251708416; position: absolute; left: 104.93px; top: 585.13px; width: 24.73px; height: 26.10px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251708416; position: absolute; left: 104.93px; top: 585.13px; width: 24.73px; height: 26.1px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="26.1px"
@@ -1096,7 +1096,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="47"
           data-name="Explosion 2 47"
-          style="z-index: 251706368; position: absolute; left: -3.35px; top: 585.13px; width: 34.60px; height: 25.67px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251706368; position: absolute; left: -3.35px; top: 585.13px; width: 34.6px; height: 25.67px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="25.67px"
@@ -1117,7 +1117,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="46"
           data-name="Explosion 1 46"
-          style="z-index: 251705344; position: absolute; left: -54.70px; top: 584.92px; width: 34.60px; height: 25.67px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251705344; position: absolute; left: -54.70px; top: 584.92px; width: 34.6px; height: 25.67px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="25.67px"
@@ -1221,7 +1221,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="42"
           data-name="Sequential Access Storage 42"
-          style="z-index: 251701248; position: absolute; left: 532.45px; top: 503.43px; width: 43.75px; height: 32.50px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251701248; position: absolute; left: 532.45px; top: 503.43px; width: 43.75px; height: 32.5px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="32.5px"
@@ -1326,7 +1326,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="37"
           data-name="Sort 37"
-          style="z-index: 251696128; position: absolute; left: 261.20px; top: 493.38px; width: 33.41px; height: 50.20px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251696128; position: absolute; left: 261.20px; top: 493.38px; width: 33.41px; height: 50.2px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="50.2px"
@@ -1409,7 +1409,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="34"
           data-name="Summing Junction 34"
-          style="z-index: 251693056; position: absolute; left: 78.14px; top: 503.43px; width: 34.60px; height: 32.33px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251693056; position: absolute; left: 78.14px; top: 503.43px; width: 34.6px; height: 32.33px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="32.33px"
@@ -1545,7 +1545,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="28"
           data-name="Manual Input 28"
-          style="z-index: 251686912; position: absolute; left: 352.74px; top: 427.52px; width: 34.60px; height: 36.79px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251686912; position: absolute; left: 352.74px; top: 427.52px; width: 34.6px; height: 36.79px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="36.79px"
@@ -1660,7 +1660,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="23"
           data-name="Internal Storage 23"
-          style="z-index: 251681792; position: absolute; left: 541.36px; top: 321.48px; width: 88.37px; height: 71.60px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251681792; position: absolute; left: 541.36px; top: 321.48px; width: 88.37px; height: 71.6px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="71.6px"
@@ -1691,7 +1691,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="22"
           data-name="Predefined Process 22"
-          style="z-index: 251680768; position: absolute; left: 423.06px; top: 327.28px; width: 89.30px; height: 65.58px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251680768; position: absolute; left: 423.06px; top: 327.28px; width: 89.3px; height: 65.58px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="65.58px"
@@ -1722,7 +1722,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="21"
           data-name="Data 21"
-          style="z-index: 251679744; position: absolute; left: 328.18px; top: 327.28px; width: 65.90px; height: 65.80px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251679744; position: absolute; left: 328.18px; top: 327.28px; width: 65.9px; height: 65.8px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="65.8px"
@@ -1827,7 +1827,7 @@ exports[`all-shape-2 1`] = `
         <div
           data-id="16"
           data-name="Equal 16"
-          style="z-index: 251674624; position: absolute; left: 334.83px; top: 244.46px; width: 59.21px; height: 37.90px; vertical-align: middle; color: rgb(255, 255, 255);"
+          style="z-index: 251674624; position: absolute; left: 334.83px; top: 244.46px; width: 59.21px; height: 37.9px; vertical-align: middle; color: rgb(255, 255, 255);"
         >
           <svg
             height="37.9px"

@@ -639,7 +639,7 @@ export class ChartRenderer extends Chart {
     const {store} = this.props;
     store.updateData(values, undefined, replace);
     // 重新渲染
-    this.renderChart(this.props.config, values);
+    this.renderChart(this.props.config, store.data);
   }
 
   getData() {

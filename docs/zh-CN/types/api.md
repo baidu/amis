@@ -591,6 +591,7 @@ amis 的 API 配置，如果无法配置出你想要的请求结构，那么可�
   - method：当前请求的方式
   - data：请求的数据体
   - headers：请求的头部信息
+- **context** 发送请求时的上下文数据
 
 ##### 字符串形式
 
@@ -604,7 +605,7 @@ amis 的 API 配置，如果无法配置出你想要的请求结构，那么可�
     "api": {
         "method": "post",
         "url": "/api/mock2/form/saveForm",
-        "requestAdaptor": "return {\n    ...api,\n    data: {\n        ...api.data,    // 获取暴露的 api 中的 data 变量\n        foo: 'bar'      // 新添加数据\n    }\n}"
+        "requestAdaptor": "console.log(context); // 打印上下文数据\nreturn {\n    ...api,\n    data: {\n        ...api.data,    // 获取暴露的 api 中的 data 变量\n        foo: 'bar'      // 新添加数据\n    }\n}"
     },
     "body": [
       {
@@ -626,6 +627,8 @@ amis 的 API 配置，如果无法配置出你想要的请求结构，那么可�
 ```js
 // 进行一些操作
 
+console.log(context); // 打印上下文数据
+
 // 一定要将调整后的 api 对象 return 出去
 return {
   ...api,
@@ -639,7 +642,7 @@ return {
 字符串形式的适配器代码最后会自动包裹成函数，你只需要补充内部的函数实现，并将修改好的 `api` 对象 `return` 出去：
 
 ```js
-function (api) {
+function (api, context) {
   // 你的适配器代码在这里
 }
 ```
@@ -654,7 +657,8 @@ const schema = {
   api: {
     method: 'post',
     url: '/api/mock2/form/saveForm',
-    requestAdaptor: function (api) {
+    requestAdaptor: function (api, context) {
+      console.log(context); // 打印上下文数据
       return {
         ...api,
         data: {
@@ -698,6 +702,7 @@ const schema = {
 - **payload**：当前请求的响应 payload，即 response.data
 - **response**：当前请求的原始响应
 - **api**：api 上的配置项，还可以通过 `api.data` 获得数据域里的内容
+- **context** 发送请求时的上下文数据
 
 ##### 字符串形式
 
@@ -705,13 +710,13 @@ const schema = {
 
 用法示例：
 
-```json
+```schema: scope="body"
 {
   "type": "form",
   "api": {
     "method": "post",
     "url": "/api/mock2/form/saveForm",
-    "adaptor": "return {\n    ...payload,\n    status: payload.code === 200 ? 0 : payload.code\n}"
+    "adaptor": "console.log(context); // 打印上下文数据 \nreturn {\n    ...payload,\n    status: payload.code === 200 ? 0 : payload.code\n}"
   },
   "body": [
     {
@@ -744,7 +749,7 @@ return {
 字符串形式的适配器代码最后会自动包裹成函数，你只需要补充内部的函数实现，并将修改好的 `payload` 对象 `return` 出去：
 
 ```js
-function (payload, response, api) {
+function (payload, response, api, context) {
   // 你的适配器代码在这里
 }
 ```
@@ -759,7 +764,8 @@ const schema = {
   api: {
     method: 'post',
     url: '/api/mock2/form/saveForm',
-    adaptor: function (payload, response) {
+    adaptor: function (payload, response, api, context) {
+      console.log(context); // 打印上下文数据
       return {
         ...payload,
         status: payload.code === 200 ? 0 : payload.code

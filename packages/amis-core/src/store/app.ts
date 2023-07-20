@@ -9,7 +9,7 @@ import {
   mapTree
 } from '../utils/helper';
 import {ServiceStore} from './service';
-import {isVisible} from '../utils';
+import {filter, isVisible, resolveVariableAndFilter} from '../utils';
 
 export const AppStore = ServiceStore.named('AppStore')
   .props({
@@ -39,7 +39,12 @@ export const AppStore = ServiceStore.named('AppStore')
             path: item.path,
             children: item.children,
             className: item.className,
-            visible
+            visible,
+            badge:
+              typeof item.badge === 'string'
+                ? filter(item.badge, self.data)
+                : item.badge,
+            badgeClassName: filter(item.badgeClassName, self.data)
           };
         });
       }

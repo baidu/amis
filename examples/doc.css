@@ -493,7 +493,7 @@ body.dark .markdown-body table:not(.table) tr:nth-child(2n) {
   position: absolute;
   top: 0;
   right: 0;
-  bottom: -1px;
+  bottom: 0px;
   width: 30px;
   transform: translate(100%);
   transition: box-shadow 0.3s;

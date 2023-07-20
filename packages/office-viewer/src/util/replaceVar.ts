@@ -25,6 +25,7 @@ function replaceText(word: Word, text: string, data: any) {
     if (result !== undefined && result !== null) {
       return String(result);
     } else {
+      console.warn('var error: [', text, '] not found in data');
       return '';
     }
   }
@@ -66,7 +67,7 @@ function replaceTableRow(word: Word, tr: Element) {
           t.textContent = t.textContent!.replace(`{{#${arrayName}}}`, '');
         }
       }
-      if (text.indexOf('{{/}}')) {
+      if (text.indexOf('{{/}}') !== -1) {
         // 去掉结束变量
         t.textContent = t.textContent!.replace('{{/}}', '');
       }
@@ -90,7 +91,7 @@ function replaceTableRow(word: Word, tr: Element) {
         replaceAlt(word, cNvPr, rowData);
       }
 
-      table.appendChild(newTr);
+      table.insertBefore(newTr, tr);
     }
     // 删除原来的行
     table.removeChild(tr);

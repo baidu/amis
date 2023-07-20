@@ -13,7 +13,7 @@ exports[`Renderer:breadcrumb 1`] = `
         href="https://baidu.gitee.com/"
       >
         <i
-          class="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+          class="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
         />
         <span
           class="cxd-TplField"
@@ -75,7 +75,7 @@ exports[`Renderer:breadcrumb className 1`] = `
         href="https://baidu.gitee.com/"
       >
         <i
-          class="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+          class="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
         />
         <span
           class="cxd-TplField"
@@ -185,7 +185,7 @@ exports[`Renderer:breadcrumb dropdown 1`] = `
                 href="https://baidu.gitee.com/"
               >
                 <i
-                  class="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+                  class="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
                   class="cxd-TplField"
@@ -272,7 +272,7 @@ exports[`Renderer:breadcrumb separator 1`] = `
                 href="https://baidu.gitee.com/"
               >
                 <i
-                  class="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+                  class="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
                 />
                 <span
                   class="cxd-TplField"
@@ -355,7 +355,8 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 1`] = `
                 href="https://baidu.gitee.com/"
               >
                 <i
-                  className="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+                  className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  onClick={[Function]}
                 />
                 <span
                   className="cxd-TplField"
@@ -443,7 +444,8 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 2`] = `
                 href="https://baidu.gitee.com/"
               >
                 <i
-                  className="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+                  className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  onClick={[Function]}
                 />
                 <span
                   className="cxd-TplField"
@@ -531,7 +533,8 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 3`] = `
                 href="https://baidu.gitee.com/"
               >
                 <i
-                  className="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+                  className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  onClick={[Function]}
                 />
                 <span
                   className="cxd-TplField"
@@ -619,7 +622,8 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 4`] = `
                 href="https://baidu.gitee.com/"
               >
                 <i
-                  className="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+                  className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
+                  onClick={[Function]}
                 />
                 <span
                   className="cxd-TplField"

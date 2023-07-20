@@ -4,7 +4,7 @@
 import React from 'react';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
-import {cloneDeep} from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {Option, Options} from './Select';
 import {ThemeProps, themeable} from 'amis-core';

@@ -7,7 +7,8 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import {FormItem, Button, Icon, FormControlProps, autobind} from 'amis';
 
-import {clone, remove} from 'lodash';
+import clone from 'lodash/clone';
+import remove from 'lodash/remove';
 import {GoConfigControl} from './GoConfigControl';
 import Sortable from 'sortablejs';
 

@@ -586,12 +586,8 @@ exports[`Renderer:text type is password: password invisible 1`] = `
               <a
                 class="cxd-TextControl-revealPassword"
               >
-                <div
-                  class="cxd-TextControl-icon-invisible InputText-invisible"
-                  style="display: none;"
-                />
                 <icon-mock
-                  classname="cxd-TextControl-icon-invisible icon-invisible"
+                  classname="cxd-TextControl-icon-invisible icon-invisible cxd-TextControl-icon-invisible"
                   icon="invisible"
                 />
               </a>
@@ -726,12 +722,8 @@ exports[`Renderer:text type is password: password visible 1`] = `
               <a
                 class="cxd-TextControl-revealPassword"
               >
-                <div
-                  class="cxd-TextControl-icon-view InputText-view"
-                  style="display: none;"
-                />
                 <icon-mock
-                  classname="cxd-TextControl-icon-view icon-view"
+                  classname="cxd-TextControl-icon-view icon-view cxd-TextControl-icon-view"
                   icon="view"
                 />
               </a>
@@ -1269,10 +1261,6 @@ exports[`Renderer:text with clearable 1`] = `
               <a
                 class="cxd-TextControl-clear"
               >
-                <div
-                  class=" InputText-clear"
-                  style="display: none;"
-                />
                 <icon-mock
                   classname="icon icon-input-clear"
                   icon="input-clear"

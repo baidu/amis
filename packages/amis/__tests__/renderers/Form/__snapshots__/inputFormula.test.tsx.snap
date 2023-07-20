@@ -195,7 +195,7 @@ exports[`Renderer:input-formula 1`] = `
                     </span>
                   </label>
                   <div
-                    class="cxd-FormulaPicker cxd-Form-control"
+                    class="cxd-FormulaPicker cxd-FormulaPicker--text cxd-Form-control"
                   >
                     <div
                       class="cxd-ResultBox cxd-FormulaPicker-input cxd-ResultBox--borderFull"
@@ -487,16 +487,12 @@ exports[`Renderer:input-formula button 1`] = `
                     </span>
                   </label>
                   <div
-                    class="cxd-FormulaPicker cxd-Form-control"
+                    class="cxd-FormulaPicker cxd-FormulaPicker--text cxd-Form-control"
                   >
                     <button
                       class="cxd-Button cxd-Button--default cxd-Button--size-default cxd-FormulaPicker-action w-full"
                       type="button"
                     >
-                      <icon-mock
-                        classname="cxd-FormulaPicker-icon icon is-filled icon-function"
-                        icon="function"
-                      />
                       <span
                         class="cxd-FormulaPicker-label"
                       >
@@ -765,7 +761,7 @@ exports[`Renderer:input-formula input-group 1`] = `
                     </span>
                   </label>
                   <div
-                    class="cxd-FormulaPicker cxd-Form-control is-input-group"
+                    class="cxd-FormulaPicker is-input-group cxd-FormulaPicker--text cxd-Form-control"
                   >
                     <div
                       class="cxd-ResultBox cxd-FormulaPicker-input cxd-ResultBox--borderFull"

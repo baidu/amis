@@ -53,6 +53,9 @@
   &-cancelBtn {
     cursor: pointer;
     color: var(--SearchBox-search-icon-color);
+    svg {
+      top: 1px;
+    }
 
     &:hover {
       color: var(--icon-onHover-color);
@@ -118,6 +121,9 @@
     height: 100%;
     color: var(--SearchBox-enhonce-icon-color);
     background: var(--SearchBox-hover-color);
+    svg {
+      top: 0;
+    }
 
     &:hover {
       background: var(--button-primary-hover-bg-color);

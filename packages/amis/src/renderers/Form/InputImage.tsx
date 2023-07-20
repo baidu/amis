@@ -779,16 +779,16 @@ export default class ImageControl extends React.Component<
                 newFile.state =
                   file.state !== 'uploading' ? file.state : 'error';
                 newFile.error = error;
-                if (!multiple) {
-                  this.current = null;
-                  return this.setState(
-                    {
-                      files: (this.files = []),
-                      error
-                    },
-                    this.tick
-                  );
-                }
+
+                this.current = null;
+                files.splice(idx, 1);
+                return this.setState(
+                  {
+                    files: (this.files = files),
+                    error
+                  },
+                  this.tick
+                );
               } else {
                 newFile = {
                   name: file.name || this.state.cropFileName,

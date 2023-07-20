@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import isInteger from 'lodash/isInteger';
 import debounce from 'lodash/debounce';
 import moment from 'moment';
@@ -8,6 +7,7 @@ import {Icon} from './icons';
 import {uncontrollable} from 'amis-core';
 import {autobind, isMobile} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
+import chain from 'lodash/chain';
 
 export interface HistoryRecord {
   /** 历史记录值 */
@@ -211,7 +211,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
     try {
       const storageValues = localStorage.getItem(key);
 
-      return _.chain(storageValues ? JSON.parse(storageValues) : [])
+      return chain(storageValues ? JSON.parse(storageValues) : [])
         .uniqBy('value')
         .orderBy(['timestamp'], ['desc'])
         .slice(0, limit)
@@ -257,7 +257,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
 
     try {
       const {key, limit} = this.getHistoryOptions();
-      const newDatasource = _.chain([
+      const newDatasource = chain([
         ...datasource,
         {value, timestamp: moment().unix()}
       ])

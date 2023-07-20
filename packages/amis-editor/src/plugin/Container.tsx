@@ -7,8 +7,10 @@ import {
   ResizeMoveEventContext,
   registerEditorPlugin,
   defaultValue,
-  getSchemaTpl
+  getSchemaTpl,
+  RendererPluginEvent
 } from 'amis-editor-core';
+import {getEventControlConfig} from '../renderer/event-control';
 
 export class ContainerPlugin extends LayoutBasePlugin {
   static id = 'ContainerPlugin';
@@ -48,6 +50,76 @@ export class ContainerPlugin extends LayoutBasePlugin {
   panelTitle = '容器';
 
   panelJustify = true;
+
+  // 事件定义
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'click',
+      eventLabel: '点击',
+      description: '点击时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            context: {
+              type: 'object',
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseenter',
+      eventLabel: '鼠标移入',
+      description: '鼠标移入时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            context: {
+              type: 'object',
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseleave',
+      eventLabel: '鼠标移出',
+      description: '鼠标移出时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            context: {
+              type: 'object',
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ];
 
   panelBodyCreator = (context: BaseEventContext) => {
     const curRendererSchema = context?.schema;
@@ -238,6 +310,16 @@ export class ContainerPlugin extends LayoutBasePlugin {
         body: getSchemaTpl('collapseGroup', [
           ...getSchemaTpl('theme:common', {exclude: ['layout']})
         ])
+      },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
+        ]
       }
     ]);
   };

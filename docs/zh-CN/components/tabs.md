@@ -841,8 +841,9 @@ order: 68
 | defaultKey            | `string` / `number`               |                                     | 组件初始化时激活的选项卡，hash 值或索引值，支持使用表达式 `2.7.1 以上版本`                                 |
 | activeKey             | `string` / `number`               |                                     | 激活的选项卡，hash 值或索引值，支持使用表达式，可响应上下文数据变化                                        |
 | className             | `string`                          |                                     | 外层 Dom 的类名                                                                                            |
+| linksClassName        | `string`                          |                                     | Tabs 标题区的类名                                                                                            |
+| contentClassName      | `string`                          |                                     | Tabs 内容区的类名                                                                                            |
 | tabsMode              | `string`                          |                                     | 展示模式，取值可以是 `line`、`card`、`radio`、`vertical`、`chrome`、`simple`、`strong`、`tiled`、`sidebar` |
-| tabsClassName         | `string`                          |                                     | Tabs Dom 的类名                                                                                            |
 | tabs                  | `Array`                           |                                     | tabs 内容                                                                                                  |
 | source                | `string`                          |                                     | tabs 关联数据，关联后可以重复生成选项卡                                                                    |
 | toolbar               | [SchemaNode](../types/schemanode) |                                     | tabs 中的工具栏                                                                                            |

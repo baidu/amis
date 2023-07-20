@@ -2,6 +2,7 @@ import React from 'react';
 import {Button} from 'amis';
 import omit from 'lodash/omit';
 import {
+  EditorNodeType,
   getSchemaTpl,
   RendererPluginAction,
   RendererPluginEvent
@@ -16,6 +17,7 @@ import {
 } from 'amis-editor-core';
 import {diff} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {resolveOptionType} from '../../util';
 
 export class PickerControlPlugin extends BasePlugin {
   static id = 'PickerControlPlugin';
@@ -285,6 +287,56 @@ export class PickerControlPlugin extends BasePlugin {
         manager.panelChangeValue(newValue, diff(value, newValue));
       }
     });
+  }
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    const type = resolveOptionType(node.schema?.options);
+    // todo:异步数据case
+    let dataSchema: any = {
+      type,
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+
+    if (node.schema?.joinValues === false) {
+      dataSchema = {
+        ...dataSchema,
+        type: 'object',
+        title: node.schema?.label || node.schema?.name,
+        properties: {
+          label: {
+            type: 'string',
+            title: '文本'
+          },
+          value: {
+            type,
+            title: '值'
+          }
+        }
+      };
+    }
+
+    if (node.schema?.multiple) {
+      if (node.schema?.extractValue) {
+        dataSchema = {
+          type: 'array',
+          title: node.schema?.label || node.schema?.name
+        };
+      } else if (node.schema?.joinValues === false) {
+        dataSchema = {
+          type: 'array',
+          title: node.schema?.label || node.schema?.name,
+          items: {
+            type: 'object',
+            title: '成员',
+            properties: dataSchema.properties
+          },
+          originalValue: dataSchema.originalValue
+        };
+      }
+    }
+
+    return dataSchema;
   }
 }
 

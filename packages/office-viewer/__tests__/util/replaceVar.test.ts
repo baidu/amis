@@ -57,3 +57,25 @@ test('table-list', async () => {
 
   expect(xmlResult).toBe(expectResult);
 });
+
+test('var-space', async () => {
+  // 之前空格会影响变量
+  const data = {
+    date: '2020-01-01'
+  };
+
+  const word = createWord('./var/space.docx', data);
+
+  document.body.innerHTML = `
+  <div id="root"></div>
+`;
+  const root = document.getElementById('root')!;
+  await word.render(root);
+
+  const spans = document.getElementsByTagName('span');
+  const lastSpan = spans.item(spans.length - 1)!;
+
+  expect(lastSpan!.innerHTML).toBe(
+    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2020-01-01'
+  );
+});

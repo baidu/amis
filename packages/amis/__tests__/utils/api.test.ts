@@ -340,4 +340,21 @@ test('api:isvalidapi', () => {
   expect(isValidApi('ftp://127.0.0.1/xxx')).toBeTruthy();
   expect(isValidApi('wss://127.0.0.1/xxx')).toBeTruthy();
   expect(isValidApi('taf://127.0.0.1/xxx')).toBeTruthy();
+  expect(
+    isValidApi(
+      'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/sample/${id}'
+    )
+  ).toBeTruthy();
+
+  expect(
+    isValidApi(
+      'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/sample/${id ? "a" : "b"}'
+    )
+  ).toBeTruthy();
+
+  expect(
+    isValidApi(
+      'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/${id ? "a" : "b"}/abc'
+    )
+  ).toBeTruthy();
 });

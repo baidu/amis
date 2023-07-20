@@ -54,7 +54,8 @@ export default {
           name: 'engine',
           label: 'Rendering engine',
           remark: 'Rendering engine',
-          groupName: 'A'
+          groupName: 'A',
+          fixed: 'left'
         },
         {
           name: 'browser',
@@ -65,7 +66,8 @@ export default {
           name: 'platform',
           label: 'Platform(s)',
           remark: 'Platform(s)',
-          groupName: 'B'
+          groupName: 'B',
+          fixed: 'right'
         },
         {
           name: 'version',

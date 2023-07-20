@@ -30,6 +30,7 @@ import {renderNotes} from './render/renderNotes';
 import {Section} from './openxml/word/Section';
 import {printIframe} from './util/print';
 import {Settings} from './openxml/Settings';
+import {get} from './util/get';
 
 /**
  * 渲染配置
@@ -185,8 +186,8 @@ const defaultRenderOptions: WordRenderOptions = {
   renderHeader: true,
   renderFooter: true,
   data: {},
-  evalVar: t => {
-    return t;
+  evalVar: (path: string, data: any) => {
+    return get(data, path);
   }
 };
 
@@ -498,12 +499,13 @@ export default class Word {
     }
     const data = this.renderOptions.data;
     if (text.indexOf('{{') !== -1) {
-      text = text.replace(/^{{/g, '').replace(/}}$/g, '');
-      const result = this.renderOptions.evalVar(text, data);
-      if (typeof result === 'undefined') {
-        return '';
-      }
-      return String(result);
+      text = text.replace(/{{([^{}]+)}}/g, (all: string, group: string) => {
+        const result = this.renderOptions.evalVar(group, data);
+        if (typeof result === 'undefined') {
+          return '';
+        }
+        return String(result);
+      });
     }
     return text;
   }
@@ -638,11 +640,14 @@ export default class Word {
 
     if (this.themes && this.themes.length > 0) {
       const theme = this.themes[0];
-      const color = theme.themeElements?.clrScheme?.colors?.[name];
+      const colors = theme.themeElements?.clrScheme?.colors;
+      const color = colors?.[name];
       if (color) {
         return color;
       } else {
+        // 找不到可能是从其它地方拷贝过来的，这时取 accent1
         console.warn('unknown theme color: ' + name);
+        return colors?.['accent1'] || '';
       }
     }
 
