@@ -1,6 +1,6 @@
 import {render as amisRender} from '../../src';
 import {wait, makeEnv} from '../helper';
-import {render, fireEvent, cleanup} from '@testing-library/react';
+import {render, fireEvent, cleanup, waitFor} from '@testing-library/react';
 import {buildApi, isApiOutdated, isValidApi} from 'amis-core';
 
 test('api:buildApi', () => {
@@ -357,4 +357,75 @@ test('api:isvalidapi', () => {
       'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/${id ? "a" : "b"}/abc'
     )
   ).toBeTruthy();
+});
+
+test('api:requestAdaptor', async () => {
+  const notify = jest.fn();
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          id: 1
+        }
+      }
+    })
+  );
+  const requestAdaptor = jest.fn().mockImplementation(api => {
+    return Promise.resolve({
+      ...api,
+      data: {
+        ...api.data,
+        email: 'appended@test.com'
+      }
+    });
+  });
+
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'form',
+            id: 'form_submit',
+            submitText: '提交表单',
+            api: {
+              method: 'post',
+              url: '/api/mock2/form/saveForm',
+              requestAdaptor: requestAdaptor
+            },
+            body: [
+              {
+                type: 'input-text',
+                name: 'name',
+                label: '姓名：',
+                value: 'fex'
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        notify,
+        fetcher
+      })
+    )
+  );
+
+  await waitFor(() => {
+    expect(getByText('提交表单')).toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText(/提交表单/));
+  await wait(300);
+
+  expect(requestAdaptor).toHaveBeenCalled();
+  expect(fetcher).toHaveBeenCalled();
+  expect(fetcher.mock.calls[0][0].data).toMatchObject({
+    name: 'fex',
+    email: 'appended@test.com'
+  });
 });
