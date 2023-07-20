@@ -98,7 +98,13 @@ import Overlay from './components/Overlay';
 import PopOver from './components/PopOver';
 import {FormRenderer} from './renderers/Form';
 import type {FormHorizontal, FormSchemaBase} from './renderers/Form';
-import {enableDebug, promisify, replaceText, wrapFetcher} from './utils/index';
+import {
+  enableDebug,
+  disableDebug,
+  promisify,
+  replaceText,
+  wrapFetcher
+} from './utils/index';
 import type {OnEventProps} from './utils/index';
 import {valueMap as styleMap} from './utils/style-helper';
 import {RENDERER_TRANSMISSION_OMIT_PROPS} from './SchemaRenderer';
@@ -195,7 +201,9 @@ export {
   OnEventProps,
   FormSchemaBase,
   filterTarget,
-  CustomStyle
+  CustomStyle,
+  enableDebug,
+  disableDebug
 };
 
 export function render(
@@ -257,13 +265,6 @@ function AMISRenderer({
         translate
       } as any;
 
-      if (options.enableAMISDebug) {
-        // 因为里面还有 render
-        setTimeout(() => {
-          enableDebug();
-        }, 10);
-      }
-
       store = RendererStore.create({}, options);
       stores[options.session || 'global'] = store;
     } else {
@@ -290,6 +291,11 @@ function AMISRenderer({
     theme = 'cxd';
   }
   env.theme = getTheme(theme);
+
+  React.useEffect(() => {
+    env.enableAMISDebug ? enableDebug() : disableDebug();
+    return () => env.enableAMISDebug || disableDebug();
+  }, [env.enableAMISDebug]);
 
   if (props.locale !== undefined) {
     env.translate = translate;

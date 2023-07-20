@@ -40,6 +40,7 @@
 
   &-tab {
     overflow: hidden;
+    border-bottom: 1px solid #3d3d3d;
   }
 
   &-tab > button {
@@ -90,6 +91,7 @@
   &-content {
     pointer-events: all;
     display: none;
+    height: 100%;
   }
 
   &-resize {
@@ -122,7 +124,7 @@
 
   &.is-expanded {
     width: 420px;
-    overflow: auto;
+
     background: #272821;
     color: #cccccc;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -166,6 +168,37 @@
 
   &-inspect {
     padding: var(--gap-sm);
+  }
+
+  &-log,
+  &-inspect {
+    height: 100%;
+    overflow: auto;
+
+    // 火狐浏览器
+    scrollbar-width: thin;
+    scrollbar-color: #6b6b6b #2b2b2b;
+    &::-webkit-scrollbar {
+      position: relative;
+      z-index: 10;
+      background-color: #2c2c2c;
+      width: 16px;
+      height: 16px;
+      border-left: 1px solid #3d3d3d;
+      // border-top: 1px solid #3d3d3d;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #6b6b6b;
+      background-clip: content-box;
+      border: 4px solid transparent;
+      border-radius: 500px;
+
+      &:hover {
+        background: #939393;
+        background-clip: content-box;
+      }
+    }
   }
 
   &-logLine {
