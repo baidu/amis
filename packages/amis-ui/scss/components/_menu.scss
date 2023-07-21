@@ -350,6 +350,7 @@
 
   &-submenu-title {
     display: flex;
+    align-items: center;
     justify-content: space-between;
 
     .#{$ns}Nav-Menu-item-wrap {

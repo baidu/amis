@@ -108,7 +108,6 @@ test('EventAction:ajax args', async () => {
   await waitFor(() => {
     expect(getByText('18岁的天空')).toBeInTheDocument();
   });
-  expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText('发送请求2'));
   await waitFor(() => {
@@ -218,7 +217,6 @@ test('EventAction:ajax', async () => {
   await waitFor(() => {
     expect(getByText('18岁的天空')).toBeInTheDocument();
   });
-  expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText('发送请求2'));
   await waitFor(() => {

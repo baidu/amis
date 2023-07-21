@@ -272,7 +272,7 @@ export class TableBody extends React.Component<TableBodyProps> {
           return (
             <Com
               key={index}
-              colSpan={item.colSpan}
+              colSpan={item.colSpan == 1 ? undefined : item.colSpan}
               className={item.cellClassName}
             >
               {render(`summary-row/${index}`, item, {

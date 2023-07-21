@@ -208,6 +208,228 @@ exports[`Renderer:Nav 1`] = `
 </div>
 `;
 
+exports[`Renderer:Nav with Dialog 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <button
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              点击弹框
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Nav with icons 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-Nav"
+          >
+            <ul
+              class="cxd-Nav-Menu cxd-Nav-Menu-root cxd-Nav-Menu-inline cxd-Nav-Menu-ltr cxd-Nav-Menu-light cxd-Nav-Menu-expand-before"
+              data-menu-list="true"
+              dir="ltr"
+              role="menu"
+              tabindex="0"
+            >
+              <ul
+                class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 0;"
+              >
+                <li
+                  aria-disabled="false"
+                  class="cxd-Nav-Menu-item"
+                  data-menu-id="rc-menu-uuid-test-1"
+                  role="menuitem"
+                  style="padding-left: 16px;"
+                  tabindex="-1"
+                >
+                  <div
+                    class="cxd-Nav-Menu-item-wrap"
+                  >
+                    <a
+                      class="cxd-Nav-Menu-item-link"
+                      data-depth="1"
+                      data-id="1"
+                      title="Nav 1"
+                    >
+                      <i
+                        class="cxd-Nav-Menu-item-icon"
+                      >
+                        <i
+                          class="fa fa-user fa fa-user"
+                        />
+                      </i>
+                      <span
+                        class="cxd-Nav-Menu-item-label"
+                        title="Nav 1"
+                      >
+                        Nav 1
+                      </span>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+              <li
+                class="cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-inline cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-open"
+                role="none"
+              >
+                <div
+                  aria-controls="rc-menu-uuid-test-2-popup"
+                  aria-expanded="true"
+                  aria-haspopup="true"
+                  class="cxd-Nav-Menu-submenu-title"
+                  data-menu-id="rc-menu-uuid-test-2"
+                  role="menuitem"
+                  style="padding-left: 16px;"
+                  tabindex="-1"
+                >
+                  <div
+                    class="cxd-Nav-Menu-item-wrap"
+                  >
+                    <a
+                      class="cxd-Nav-Menu-item-link"
+                      data-depth="1"
+                      data-id="2"
+                    >
+                      <span
+                        class="cxd-Nav-Menu-item-label cxd-Nav-Menu-item-label-subTitle"
+                        title="Nav 2"
+                      >
+                        Nav 2
+                      </span>
+                    </a>
+                  </div>
+                  <span
+                    class="cxd-Nav-Menu-submenu-arrow"
+                  >
+                    <icon-mock
+                      classname="icon icon-right-arrow-bold"
+                      icon="right-arrow-bold"
+                    />
+                  </span>
+                </div>
+                <ul
+                  class="cxd-Nav-Menu cxd-Nav-Menu-sub cxd-Nav-Menu-inline"
+                  data-menu-list="true"
+                  id="rc-menu-uuid-test-2-popup"
+                  role="menu"
+                >
+                  <li
+                    class="cxd-Nav-Menu-submenu cxd-Nav-Menu-submenu-inline cxd-Nav-Menu-submenu"
+                    role="none"
+                  >
+                    <div
+                      aria-controls="rc-menu-uuid-test-3-popup"
+                      aria-expanded="false"
+                      aria-haspopup="true"
+                      class="cxd-Nav-Menu-submenu-title"
+                      data-menu-id="rc-menu-uuid-test-3"
+                      role="menuitem"
+                      style="padding-left: 32px;"
+                      tabindex="-1"
+                    >
+                      <div
+                        class="cxd-Nav-Menu-item-wrap"
+                      >
+                        <a
+                          class="cxd-Nav-Menu-item-link"
+                          data-depth="2"
+                          data-id="2.1"
+                        >
+                          <i
+                            class="cxd-Nav-Menu-item-icon"
+                          >
+                            <icon-mock
+                              classname="icon-star"
+                              icon="star"
+                            />
+                            <icon-mock
+                              classname="icon-search"
+                              icon="search"
+                            />
+                          </i>
+                          <span
+                            class="cxd-Nav-Menu-item-label cxd-Nav-Menu-item-label-subTitle"
+                            title="Nav 2-1"
+                          >
+                            Nav 2-1
+                          </span>
+                          <i
+                            class="cxd-Nav-Menu-item-icon-after"
+                          >
+                            <img
+                              class="cxd-Icon"
+                              src="https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg"
+                            />
+                          </i>
+                        </a>
+                      </div>
+                      <span
+                        class="cxd-Nav-Menu-submenu-arrow"
+                      >
+                        <icon-mock
+                          classname="icon icon-right-arrow-bold"
+                          icon="right-arrow-bold"
+                        />
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <div
+              aria-hidden="true"
+              style="display: none;"
+            >
+              <ul
+                class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 0;"
+              />
+              <ul
+                class="cxd-Nav-Menu-item-tooltip-wrap"
+                style="order: 0;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer:Nav with itemActions 1`] = `
 <div>
   <div

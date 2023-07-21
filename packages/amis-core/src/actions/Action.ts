@@ -179,6 +179,7 @@ export const runActions = async (
 
     // 这些节点的子节点运行逻辑由节点内部实现
     await runAction(actionInstrance, actionConfig, renderer, event);
+
     if (event.stoped) {
       break;
     }
@@ -259,7 +260,8 @@ export const runAction = async (
     action.drawer = {...(action.drawer ?? action.args?.drawer)};
     delete action.args?.drawer;
   } else if (action.actionType === 'ajax') {
-    action.api = {...(action.api ?? action.args?.api)};
+    const api = action.api ?? action.args?.api;
+    action.api = typeof api === 'string' ? api : {...api};
     action.options = {...(action.options ?? action.args?.options)};
     action.messages = {...(action.messages ?? action.args?.messages)};
     delete action.args?.api;
