@@ -11,7 +11,7 @@ import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import Html from './Html';
 import type {PlainObject} from 'amis-core';
-import {createRoot} from 'react-dom/client';
+// import {createRoot} from 'react-dom/client';
 export interface AlertProps extends ThemeProps, LocaleProps {
   container?: any;
   confirmText?: string;
@@ -60,14 +60,14 @@ export class Alert extends React.Component<AlertProps, AlertState> {
       const div = document.createElement('div');
       container.appendChild(div);
 
-      if (parseInt(version.split('.')[0], 10) >= 18) {
-        const root = createRoot(div);
-        await new Promise<void>(resolve =>
-          root.render(<FinnalAlert ref={() => resolve()} />)
-        );
-      } else {
-        render(<FinnalAlert />, div);
-      }
+      // if (parseInt(version.split('.')[0], 10) >= 18) {
+      //   const root = createRoot(div);
+      //   await new Promise<void>(resolve =>
+      //     root.render(<FinnalAlert ref={() => resolve()} />)
+      //   );
+      // } else {
+      render(<FinnalAlert />, div);
+      // }
     }
 
     return Alert.instance;
