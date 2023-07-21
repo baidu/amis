@@ -51,7 +51,9 @@ export const FormStore = ServiceStore.named('FormStore')
 
         if (current.storeType === 'FormItemStore') {
           formItems.push(current);
-        } else {
+        } else if (
+          !['ComboStore', 'TableStore', 'FormStore'].includes(current.storeType)
+        ) {
           pool.push(...current.children);
         }
       }
@@ -68,33 +70,10 @@ export const FormStore = ServiceStore.named('FormStore')
         return getItems();
       },
 
-      /**
-       * 相对于 items(), 只收集直接子formItem
-       * 避免 子form 表单项的重复验证
-       */
-      get directItems() {
-        const formItems: Array<IFormItemStore> = [];
-
-        // 查找孩子节点中是 formItem 的表单项
-        const pool = self.children.concat();
-        while (pool.length) {
-          const current = pool.shift()!;
-          if (current.storeType === 'FormItemStore') {
-            formItems.push(current);
-          } else if (
-            !['ComboStore', 'TableStore'].includes(current.storeType)
-          ) {
-            pool.push(...current.children);
-          }
-        }
-
-        return formItems;
-      },
-
       /** 获取InputGroup的子元素 */
       get inputGroupItems() {
         const formItems: Record<string, IFormItemStore[]> = {};
-        const children: Array<any> = this.directItems.concat();
+        const children: Array<any> = this.items.concat();
 
         while (children.length) {
           const current = children.shift();
@@ -578,7 +557,7 @@ export const FormStore = ServiceStore.named('FormStore')
       validateErrCb?: () => void
     ) {
       self.validated = true;
-      const items = self.directItems.concat();
+      const items = self.items.concat();
       for (let i = 0, len = items.length; i < len; i++) {
         let item = items[i] as IFormItemStore;
 
