@@ -259,7 +259,7 @@ Word 渲染支持以下功能：
     {
       "type": "input-text",
       "name": "img",
-      "value": "https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg",
+      "value": "https://suda.cdn.bcebos.com/amis/images/alice-macaw.jpg",
       "label": "图片地址"
     },
     {
