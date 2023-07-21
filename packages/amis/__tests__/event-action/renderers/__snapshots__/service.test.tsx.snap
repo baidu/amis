@@ -75,7 +75,7 @@ exports[`doAction:service reload 1`] = `
                         placeholder=""
                         size="10"
                         type="text"
-                        value="Amis Renderer"
+                        value="amis"
                       />
                     </div>
                   </div>
@@ -321,7 +321,7 @@ exports[`doAction:service reload 2`] = `
                         placeholder=""
                         size="10"
                         type="text"
-                        value="Amis Renderer"
+                        value="amis"
                       />
                     </div>
                   </div>
