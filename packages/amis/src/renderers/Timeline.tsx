@@ -4,7 +4,8 @@ import {
   RendererProps,
   filter,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  createObject
 } from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig, Timeline} from 'amis-ui';
 
@@ -88,6 +89,10 @@ export interface TimelineSchema extends BaseSchema {
    * 节点倒序
    */
   reverse?: boolean;
+  /**
+   * 节点title自定一展示模板
+   */
+  itemTitleSchema?: SchemaCollection;
 }
 
 export interface TimelineProps
@@ -95,8 +100,18 @@ export interface TimelineProps
     Omit<TimelineSchema, 'className'> {}
 
 export function TimelineCmpt(props: TimelineProps) {
-  const {items, mode, style, direction, reverse, data, config, source, render} =
-    props;
+  const {
+    items,
+    mode,
+    style,
+    direction,
+    reverse,
+    data,
+    config,
+    source,
+    itemTitleSchema,
+    render
+  } = props;
 
   // 获取源数据
   const timelineItemsRow: Array<TimelineItemSchema> = config || items || [];
@@ -107,7 +122,7 @@ export function TimelineCmpt(props: TimelineProps) {
 
   // 处理源数据
   const resolveTimelineItems = timelineItemsRow?.map(
-    (timelineItem: TimelineItemSchema) => {
+    (timelineItem: TimelineItemSchema, index: number) => {
       const {icon, iconClassName, title} = timelineItem;
 
       return {
@@ -116,7 +131,11 @@ export function TimelineCmpt(props: TimelineProps) {
         icon: isPureVariable(icon)
           ? resolveVariableAndFilter(icon, data, '| raw')
           : icon,
-        title: resolveRender('title', title)
+        title: itemTitleSchema
+          ? render(`${index}/body`, itemTitleSchema, {
+              data: createObject(data, timelineItem)
+            })
+          : resolveRender('title', title)
       };
     }
   );
