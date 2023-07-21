@@ -7,7 +7,7 @@ import Transition, {
   ENTERING,
   EXITING
 } from 'react-transition-group/Transition';
-import {createRoot} from 'react-dom/client';
+// import {createRoot} from 'react-dom/client';
 const fadeStyles: {
   [propName: string]: string;
 } = {
@@ -56,14 +56,14 @@ export class ContextMenu extends React.Component<
       const div = document.createElement('div');
       container.appendChild(div);
 
-      if (parseInt(version.split('.')[0], 10) >= 18) {
-        const root = createRoot(div);
-        await new Promise<void>(resolve =>
-          root.render(<ThemedContextMenu ref={() => resolve()} />)
-        );
-      } else {
-        render(<ThemedContextMenu />, div);
-      }
+      // if (parseInt(version.split('.')[0], 10) >= 18) {
+      //   const root = createRoot(div);
+      //   await new Promise<void>(resolve =>
+      //     root.render(<ThemedContextMenu ref={() => resolve()} />)
+      //   );
+      // } else {
+      render(<ThemedContextMenu />, div);
+      // }
     }
 
     return ContextMenu.instance;

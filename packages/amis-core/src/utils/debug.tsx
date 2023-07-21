@@ -5,7 +5,7 @@
 import React, {Component, useEffect, useRef, useState, version} from 'react';
 import cx from 'classnames';
 import {findDOMNode, render, unmountComponentAtNode} from 'react-dom';
-import {createRoot} from 'react-dom/client';
+// import {createRoot} from 'react-dom/client';
 import {autorun, observable} from 'mobx';
 import {observer} from 'mobx-react';
 import {uuidv4} from './helper';
@@ -383,20 +383,20 @@ export function enableDebug() {
   document.body.appendChild(amisDebugElement);
   const element = <AMISDebug store={store} />;
 
-  if (parseInt(version.split('.')[0], 10) >= 18) {
-    const root = createRoot(amisDebugElement);
-    root.render(element);
-    unmount = () => {
-      root.unmount();
-      document.body.removeChild(amisDebugElement);
-    };
-  } else {
-    render(element, amisDebugElement);
-    unmount = () => {
-      unmountComponentAtNode(amisDebugElement);
-      document.body.removeChild(amisDebugElement);
-    };
-  }
+  // if (parseInt(version.split('.')[0], 10) >= 18) {
+  //   const root = createRoot(amisDebugElement);
+  //   root.render(element);
+  //   unmount = () => {
+  //     root.unmount();
+  //     document.body.removeChild(amisDebugElement);
+  //   };
+  // } else {
+  render(element, amisDebugElement);
+  unmount = () => {
+    unmountComponentAtNode(amisDebugElement);
+    document.body.removeChild(amisDebugElement);
+  };
+  // }
 
   document.body.appendChild(amisHoverBox);
   document.body.appendChild(amisActiveBox);
