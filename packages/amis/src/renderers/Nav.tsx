@@ -1,6 +1,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import isEqual from 'lodash/isEqual';
+import isString from 'lodash/isString';
 import {
   Renderer,
   RendererEnv,
@@ -27,7 +28,7 @@ import {
 } from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
-import {Icon, getIcon, SpinnerExtraProps} from 'amis-ui';
+import {Icon, SpinnerExtraProps} from 'amis-ui';
 import {BadgeObject} from 'amis-ui';
 import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {Spinner, Menu} from 'amis-ui';
@@ -143,11 +144,6 @@ export interface NavOverflow {
    * 自定义样式
    */
   style?: React.CSSProperties;
-
-  /**
-   * 菜单DOM挂载点
-   */
-  popOverContainer?: any;
 }
 
 /**
@@ -319,6 +315,10 @@ export interface NavigationProps
   data: Object;
   reload?: any;
   overflow?: NavOverflow;
+  /**
+   * 菜单DOM挂载点
+   */
+  popOverContainer?: () => HTMLElement;
 }
 
 export interface IDropInfo {
@@ -550,6 +550,8 @@ export class Navigation extends React.Component<
       mode,
       itemActions,
       render,
+      popOverContainer,
+      env,
       classnames: cx,
       data
     } = this.props;
@@ -562,32 +564,28 @@ export class Navigation extends React.Component<
     }
 
     return links.map((link: Link) => {
-      let beforeIcon = null;
-      let afterIcon = null;
-      if (Array.isArray(link.icon)) {
-        beforeIcon = link.icon
-          .filter(item => item.position === 'before')
-          .map(item => {
+      const beforeIcon: Array<any> = [];
+      const afterIcon: Array<any> = [];
+
+      link.icon &&
+        (Array.isArray(link.icon) ? link.icon : [link.icon]).forEach(
+          (item, i) => {
             if (React.isValidElement(item)) {
-              return item;
+              beforeIcon.push(item);
+            } else if (isString(item)) {
+              beforeIcon.push(<Icon key={`icon-${i}`} cx={cx} icon={item} />);
+            } else if (item && isObject(item)) {
+              const icon = (
+                <Icon key={`icon-${i}`} cx={cx} icon={item['icon']} />
+              );
+              if (item['position'] === 'after') {
+                afterIcon.push(icon);
+              } else {
+                beforeIcon.push(icon);
+              }
             }
-            return <Icon cx={cx} icon={link.icon} />;
-          });
-        afterIcon = link.icon
-          .filter(item => item.position === 'after')
-          .map(item => {
-            if (React.isValidElement(item)) {
-              return item;
-            }
-            return <Icon cx={cx} icon={item.icon} />;
-          });
-      } else if (link.icon) {
-        if (React.isValidElement(link.icon)) {
-          beforeIcon = link.icon;
-        } else {
-          beforeIcon = <Icon cx={cx} icon={link.icon} />;
-        }
-      }
+          }
+        );
 
       const label =
         typeof link.label === 'string'
@@ -642,10 +640,10 @@ export class Navigation extends React.Component<
       return {
         link,
         label,
-        labelExtra: afterIcon ? (
+        labelExtra: afterIcon.length ? (
           <i className={cx('Nav-Menu-item-icon-after')}>{afterIcon}</i>
         ) : null,
-        icon: beforeIcon ? <i>{beforeIcon}</i> : null,
+        icon: beforeIcon.length ? <i>{beforeIcon}</i> : null,
         children: children
           ? this.normalizeNavigations(children, depth + 1)
           : [],
@@ -654,7 +652,11 @@ export class Navigation extends React.Component<
         extra: itemActions
           ? render('inline', itemActions, {
               data: createObject(data, link),
-              popOverContainer: () => document.body,
+              popOverContainer: popOverContainer
+                ? popOverContainer
+                : env.getModalContainer
+                ? env.getModalContainer
+                : () => document.body,
               // 点击操作之后 就关闭 因为close方法里执行了preventDefault
               closeOnClick: true
             })
@@ -693,7 +695,9 @@ export class Navigation extends React.Component<
       popupClassName,
       disabled,
       id,
-      render
+      render,
+      popOverContainer,
+      env
     } = this.props;
     const {dropIndicator} = this.state;
 
@@ -796,6 +800,13 @@ export class Navigation extends React.Component<
               data={data}
               disabled={disabled}
               onDragStart={this.handleDragStart}
+              popOverContainer={
+                popOverContainer
+                  ? popOverContainer
+                  : env.getModalContainer
+                  ? env.getModalContainer
+                  : () => document.body
+              }
             ></Menu>
           ) : null}
           <Spinner show={!!loading} overlay loadingConfig={loadingConfig} />

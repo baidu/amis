@@ -223,7 +223,10 @@ export interface ApiObject extends BaseApiObject {
     api: ApiObject,
     context: any
   ) => any;
-  requestAdaptor?: (api: ApiObject, context: any) => ApiObject;
+  requestAdaptor?: (
+    api: ApiObject,
+    context: any
+  ) => ApiObject | Promise<ApiObject>;
   /** 是否过滤为空字符串的 query 参数 */
   filterEmptyQuery?: boolean;
 }

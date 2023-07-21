@@ -517,3 +517,181 @@ test('Renderer:Nav with itemActions', async () => {
   expect(container).toMatchSnapshot();
   expect(getByText('编辑')).toBeInTheDocument();
 });
+
+// 8.各种图标展示
+test('Renderer:Nav with icons', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'nav',
+          stacked: true,
+          links: [
+            {
+              label: 'Nav 1',
+              to: '?cat=1',
+              value: '1',
+              icon: 'fa fa-user',
+              __id: 1
+            },
+            {
+              label: 'Nav 2',
+              __id: 2,
+              unfolded: true,
+              children: [
+                {
+                  __id: 2.1,
+                  label: 'Nav 2-1',
+                  icon: [
+                    {
+                      icon: 'star',
+                      position: 'before'
+                    },
+                    {
+                      icon: 'search',
+                      position: 'before'
+                    },
+                    {
+                      icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
+                      position: 'after'
+                    }
+                  ],
+                  children: [
+                    {
+                      label: 'Nav 2-1-1',
+                      to: '?cat=2-1',
+                      value: '2-1',
+                      __id: 2.11
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+  expect(container).toMatchSnapshot();
+  expect(container.querySelectorAll('.fa-user').length).toBe(1);
+  expect(container.querySelectorAll('[icon=search]').length).toBe(1);
+  expect(container.querySelectorAll('img').length).toBe(1);
+});
+
+// 9.Nav在Dialog里
+test('Renderer:Nav with Dialog', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'button',
+          label: '点击弹框',
+          actionType: 'dialog',
+          dialog: {
+            title: '弹框',
+            body: [
+              {
+                type: 'nav',
+                stacked: true,
+                className: 'w-md',
+                draggable: true,
+                saveOrderApi: '/api/options/nav',
+                source: '/api/options/nav?parentId=${value}',
+                itemActions: [
+                  {
+                    type: 'icon',
+                    icon: 'cloud',
+                    visibleOn: "this.to === '?cat=1'"
+                  },
+                  {
+                    type: 'dropdown-button',
+                    level: 'link',
+                    icon: 'fa fa-ellipsis-h',
+                    hideCaret: true,
+                    buttons: [
+                      {
+                        type: 'button',
+                        label: '编辑'
+                      },
+                      {
+                        type: 'button',
+                        label: '删除'
+                      }
+                    ]
+                  }
+                ],
+                links: [
+                  {
+                    label: 'Nav 1',
+                    to: '?cat=1',
+                    value: '1',
+                    icon: 'fa fa-user',
+                    __id: 1
+                  },
+                  {
+                    label: 'Nav 2',
+                    __id: 2,
+                    unfolded: true,
+                    children: [
+                      {
+                        __id: 2.1,
+                        label: 'Nav 2-1',
+                        children: [
+                          {
+                            label: 'Nav 2-1-1',
+                            to: '?cat=2-1',
+                            value: '2-1',
+                            __id: 2.11
+                          }
+                        ]
+                      },
+                      {
+                        label: 'Nav 2-2',
+                        to: '?cat=2-2',
+                        value: '2-2',
+                        __id: 2.2
+                      }
+                    ]
+                  },
+                  {
+                    label: 'Nav 3',
+                    to: '?cat=3',
+                    value: '3',
+                    defer: true,
+                    __id: 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {},
+      makeEnv({
+        getModalContainer: () => container
+      })
+    )
+  );
+  expect(container).toMatchSnapshot();
+
+  fireEvent.click(getByText('点击弹框'));
+  await waitFor(() => {
+    expect(container.querySelector('[role="dialog"]')).toBeInTheDocument();
+  });
+
+  fireEvent.click(
+    container.querySelector(
+      '[role="dialog"] .cxd-Nav-Menu-item-extra .cxd-Button'
+    )!
+  );
+
+  await waitFor(() => {
+    expect(
+      container.querySelector('[role="dialog"] .cxd-PopOver')
+    ).toBeInTheDocument();
+  });
+});
