@@ -273,7 +273,15 @@ export function Icon({
 
   // 直接的icon dom
   if (React.isValidElement(icon)) {
-    return icon;
+    return React.cloneElement(icon, {
+      ...((icon.props as any) || {}),
+      className: cxClass(
+        cx(className, classNameProp),
+        (icon.props as any).className
+      ),
+      style,
+      onClick
+    });
   }
 
   // 从css变量中获取icon

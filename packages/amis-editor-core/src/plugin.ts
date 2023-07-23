@@ -1210,7 +1210,7 @@ export abstract class BasePlugin implements PluginInterface {
     );
   }
 
-  async buildDataSchemas(
+  buildDataSchemas(
     node: EditorNodeType,
     region?: EditorNodeType,
     trigger?: EditorNodeType,
@@ -1223,7 +1223,7 @@ export abstract class BasePlugin implements PluginInterface {
           ? node.schema.label
           : node.schema.name,
       originalValue: node.schema.value // 记录原始值，循环引用检测需要
-    };
+    } as any;
   }
 }
 

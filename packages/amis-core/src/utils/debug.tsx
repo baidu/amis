@@ -2,9 +2,10 @@
  * amis 运行时调试功能，为了避免循环引用，这个组件不要依赖 amis 里的组件
  */
 
-import React, {Component, useEffect, useRef, useState} from 'react';
+import React, {Component, useEffect, useRef, useState, version} from 'react';
 import cx from 'classnames';
-import {findDOMNode, render} from 'react-dom';
+import {findDOMNode, render, unmountComponentAtNode} from 'react-dom';
+// import {createRoot} from 'react-dom/client';
 import {autorun, observable} from 'mobx';
 import {observer} from 'mobx-react';
 import {uuidv4} from './helper';
@@ -84,16 +85,18 @@ const LogView = observer(({store}: {store: AMISDebugStore}) => {
               [{log.cat}] {log.msg}
             </div>
             {log.ext ? (
-              <JsonView
-                name={null}
-                theme="monokai"
-                src={JSON.parse(log.ext)}
-                collapsed={true}
-                enableClipboard={false}
-                displayDataTypes={false}
-                collapseStringsAfterLength={ellipsisThreshold}
-                iconStyle="square"
-              />
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <JsonView
+                  name={null}
+                  theme="monokai"
+                  src={JSON.parse(log.ext)}
+                  collapsed={true}
+                  enableClipboard={false}
+                  displayDataTypes={false}
+                  collapseStringsAfterLength={ellipsisThreshold}
+                  iconStyle="square"
+                />
+              </React.Suspense>
             ) : null}
           </div>
         );
@@ -126,16 +129,18 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
       stackDataView.push(
         <div key={`data-${level}`}>
           <h3>Data Level-{level}</h3>
-          <JsonView
-            key={`dataview-${stack}`}
-            name={null}
-            theme="monokai"
-            src={stack}
-            collapsed={level === 0 ? false : true}
-            enableClipboard={false}
-            displayDataTypes={false}
-            iconStyle="square"
-          />
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <JsonView
+              key={`dataview-${stack}`}
+              name={null}
+              theme="monokai"
+              src={stack}
+              collapsed={level === 0 ? false : true}
+              enableClipboard={false}
+              displayDataTypes={false}
+              iconStyle="square"
+            />
+          </React.Suspense>
         </div>
       );
       level += 1;
@@ -319,7 +324,7 @@ function handleMouseclick(e: MouseEvent) {
   }
   const dom = e.target as HTMLElement;
   const target = dom.closest(`[data-debug-id]`);
-  if (target) {
+  if (target && !target.closest('.AMISDebug')) {
     store.activeId = target.getAttribute('data-debug-id')!;
     store.tab = 'inspect';
   }
@@ -366,6 +371,7 @@ autorun(() => {
 
 // 页面中只能有一个实例
 let isEnabled = false;
+let unmount: () => void;
 
 export function enableDebug() {
   if (isEnabled) {
@@ -376,12 +382,38 @@ export function enableDebug() {
   const amisDebugElement = document.createElement('div');
   document.body.appendChild(amisDebugElement);
   const element = <AMISDebug store={store} />;
+
+  // if (parseInt(version.split('.')[0], 10) >= 18) {
+  //   const root = createRoot(amisDebugElement);
+  //   root.render(element);
+  //   unmount = () => {
+  //     root.unmount();
+  //     document.body.removeChild(amisDebugElement);
+  //   };
+  // } else {
   render(element, amisDebugElement);
+  unmount = () => {
+    unmountComponentAtNode(amisDebugElement);
+    document.body.removeChild(amisDebugElement);
+  };
+  // }
 
   document.body.appendChild(amisHoverBox);
   document.body.appendChild(amisActiveBox);
   document.addEventListener('mousemove', handleMouseMove);
   document.addEventListener('click', handleMouseclick);
+}
+
+export function disableDebug() {
+  if (!isEnabled) {
+    return;
+  }
+  isEnabled = false;
+  unmount?.();
+  document.body.removeChild(amisHoverBox);
+  document.body.removeChild(amisActiveBox);
+  document.removeEventListener('mousemove', handleMouseMove);
+  document.removeEventListener('click', handleMouseclick);
 }
 
 interface DebugWrapperProps {

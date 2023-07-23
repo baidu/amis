@@ -221,3 +221,49 @@ test('Renderer:timeline with reverse', async () => {
     '2019-02-10'
   );
 });
+
+test('Renderer:timeline itemTitleSchema', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'timeline',
+        itemTitleSchema: [
+          {
+            type: "tpl",
+            tpl: '<div class="itemSchemaClassName">${title}</div>'
+          },
+        ],
+        items: [
+          {
+            time: '2019-02-07',
+            title: '节点数据',
+            color: '#ffb200',
+            detail: 'detail',
+            detailCollapsedText: 'detailCollapsedText',
+            detailExpandedText: 'detailExpandedText',
+            icon: 'close'
+          },
+          {
+            time: '2019-02-08',
+            title: '节点数据',
+            color: '#4F86F4'
+          },
+          {
+            time: '2019-02-09',
+            title: '节点数据',
+            color: 'success'
+          },
+          {
+            time: '2019-02-09',
+            title: '节点数据',
+            color: 'warning'
+          }
+        ]
+      },
+      {},
+      makeEnv()
+    )
+  );
+  expect(container).toMatchSnapshot();
+  expect(container.querySelector('.itemSchemaClassName')).toBeInTheDocument();
+});

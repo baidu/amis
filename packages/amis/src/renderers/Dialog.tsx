@@ -465,6 +465,10 @@ export default class Dialog extends React.Component<DialogProps> {
       syncLocation: false // 弹框中的 crud 一般不需要同步地址栏
     };
 
+    if (this.props.size === 'full') {
+      subProps.affixOffsetTop = 0;
+    }
+
     if (!(body as Schema).type) {
       return render(`body${key ? `/${key}` : ''}`, body, subProps);
     }

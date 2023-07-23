@@ -527,7 +527,7 @@ export default class Service extends React.Component<ServiceProps> {
       })
     );
 
-    if (!isEmpty(data) && onBulkChange) {
+    if (!isEmpty(data) && onBulkChange && formStore) {
       onBulkChange(data);
     }
 
