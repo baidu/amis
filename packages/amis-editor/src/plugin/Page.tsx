@@ -1,4 +1,4 @@
-import {ContainerWrapper} from 'amis-editor-core';
+import {ContainerWrapper, JSONPipeOut} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
@@ -369,14 +369,30 @@ export class PagePlugin extends BasePlugin {
     region?: EditorNodeType,
     trigger?: EditorNodeType
   ) {
-    const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
     let jsonschema = {
-      $id: 'pageStaticData',
-      ...jsonToJsonSchema(omit(node.schema.data, '$$id'))
+      ...jsonToJsonSchema(JSONPipeOut(node.schema.data))
     };
 
-    scope?.removeSchema(jsonschema.$id);
-    scope?.addSchema(jsonschema);
+    const pool = node.children.concat();
+
+    while (pool.length) {
+      const current = pool.shift() as EditorNodeType;
+      const schema = current.schema;
+
+      if (current.rendererConfig?.isFormItem && schema?.name) {
+        jsonschema.properties[schema.name] =
+          await current.info.plugin.buildDataSchemas?.(
+            current,
+            undefined,
+            trigger,
+            node
+          );
+      } else if (!current.rendererConfig?.storeType) {
+        pool.push(...current.children);
+      }
+    }
+
+    return jsonschema;
   }
 
   rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
