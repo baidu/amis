@@ -32,9 +32,6 @@ export interface ListenerAction {
   stopPropagation?: boolean; // 阻止后续的事件处理器执行
   expression?: string | ConditionGroupValue; // 执行条件
   execOn?: string; // 执行条件，1.9.0废弃
-  dialog?: SchemaNode;
-  drawer?: SchemaNode;
-  api?: Api;
   [propName: string]: any;
 }
 

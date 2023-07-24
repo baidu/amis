@@ -1,16 +1,15 @@
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
 import {
+  registerEditorPlugin,
   BasePlugin,
-  BasicSubRenderInfo,
-  RendererEventContext,
-  SubRendererInfo,
   BaseEventContext,
-  tipedLabel
+  RendererPluginAction,
+  RendererPluginEvent,
+  tipedLabel,
+  defaultValue,
+  getSchemaTpl
 } from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class MatrixControlPlugin extends BasePlugin {
   static id = 'MatrixControlPlugin';
@@ -127,8 +126,9 @@ export class MatrixControlPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
-              getSchemaTpl('multiple', {
-                value: true
+              getSchemaTpl('switch', {
+                name: 'multiple',
+                label: '可多选'
               }),
               {
                 label: tipedLabel('模式', '行级、列级或者单个单元单选'),
@@ -140,7 +140,7 @@ export class MatrixControlPlugin extends BasePlugin {
                   left: 2,
                   justify: true
                 },
-                visibleOn: '!this.multiple',
+                visibleOn: '!data.multiple',
                 options: [
                   {
                     label: '行级',
@@ -157,37 +157,15 @@ export class MatrixControlPlugin extends BasePlugin {
                 ],
                 pipeIn: defaultValue('column')
               },
-              getSchemaTpl('autoFillApi'),
-              {
-                label: tipedLabel('列全选', '列级全选功能'),
+              getSchemaTpl('switch', {
                 name: 'yCheckAll',
-                type: 'select',
-                options: [
-                  {
-                    label: '是',
-                    value: true
-                  },
-                  {
-                    label: '否',
-                    value: false
-                  }
-                ]
-              },
-              {
-                label: tipedLabel('行全选', '行级全选功能'),
+                label: tipedLabel('列全选', '列级全选功能')
+              }),
+              getSchemaTpl('switch', {
                 name: 'xCheckAll',
-                type: 'select',
-                options: [
-                  {
-                    label: '是',
-                    value: true
-                  },
-                  {
-                    label: '否',
-                    value: false
-                  }
-                ]
-              }
+                label: tipedLabel('行全选', '行级全选功能')
+              }),
+              getSchemaTpl('autoFillApi')
             ]
           },
           {

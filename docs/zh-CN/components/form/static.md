@@ -94,7 +94,7 @@ order: 52
     "type": "form",
     "data": {
         "id": 1,
-        "image": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg",
+        "image": "https://suda.cdn.bcebos.com/amis/images/alice-macaw.jpg",
         "images": [
             {
                 "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
