@@ -107,7 +107,9 @@ export function makeWrapper(
         if (info.name) {
           const nodeSchema = manager.store.getNodeById(info.id)?.schema;
           const tag = nodeSchema?.title ?? nodeSchema?.name;
-          manager.dataSchema.current.tag = `${tag ?? ''}「${info.name}」`;
+          manager.dataSchema.current.tag = `${info.name}${
+            tag ? ` : ${tag}` : ''
+          }`;
           manager.dataSchema.current.group = '组件上下文';
         }
       }

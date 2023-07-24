@@ -760,40 +760,66 @@ export class TablePlugin extends BasePlugin {
   async buildDataSchemas(
     node: EditorNodeType,
     region?: EditorNodeType,
-    trigger?: EditorNodeType
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
   ) {
     let itemsSchema: any = {
-      $id: 'tableRow',
+      $id: `${node.id}-${node.type}-tableRows`,
       type: 'object',
       properties: {}
     };
     const columns: EditorNodeType = node.children.find(
       item => item.isRegion && item.region === 'columns'
     );
-    const cells: any = columns.children.concat();
+    const parentScopeId = `${parent?.id}-${parent?.type}${
+      node.parent?.type === 'cell' ? '-currentRow' : ''
+    }`;
+    let isColumnChild = false;
 
-    while (cells.length > 0 && cells.length <= columns.children?.length) {
+    // 追加当前行scope
+    if (trigger) {
+      isColumnChild = someTree(
+        columns?.children,
+        item => item.id === trigger.id
+      );
+
+      if (isColumnChild) {
+        const scopeId = `${node.id}-${node.type}-currentRow`;
+        if (this.manager.dataSchema.getScope(scopeId)) {
+          this.manager.dataSchema.removeScope(scopeId);
+        }
+
+        if (this.manager.dataSchema.getScope(parentScopeId)) {
+          this.manager.dataSchema.switchTo(parentScopeId);
+        }
+
+        this.manager.dataSchema.addScope([], scopeId);
+        this.manager.dataSchema.current.tag = '当前行记录';
+        this.manager.dataSchema.current.group = '组件上下文';
+      }
+    }
+
+    let index = 0;
+    const cells: any = columns.children.concat();
+    // 存在预览节点，限制下遍历数
+    while (cells.length > 0 && index < node.schema.columns.length) {
       const cell = cells.shift() as EditorNodeType;
       // cell的孩子貌似只会有一个
       const items = cell.children.concat();
       while (items.length) {
         const current = items.shift() as EditorNodeType;
         const schema = current.schema;
-
         if (schema.name) {
-          itemsSchema.properties[schema.name] = current.info?.plugin
-            ?.buildDataSchemas
-            ? await current.info.plugin.buildDataSchemas(
-                current,
-                region,
-                trigger
-              )
-            : {
-                type: 'string',
-                title: schema.label || schema.name
-              };
+          itemsSchema.properties[schema.name] =
+            await current.info.plugin.buildDataSchemas?.(
+              current,
+              region,
+              trigger,
+              node
+            );
         }
       }
+      index++;
     }
 
     // 收集source绑定的列表成员
@@ -831,28 +857,17 @@ export class TablePlugin extends BasePlugin {
       return itemsSchema;
     }
 
-    let cellProperties: any = {};
-    if (trigger) {
-      const isColumnChild = someTree(
-        columns?.children,
-        item => item.id === trigger.id
-      );
-
-      if (isColumnChild) {
-        Object.keys(itemsSchema.properties).map(key => {
-          cellProperties[key] = {
-            ...itemsSchema.properties[key],
-            group: '当前行记录'
-          };
-        });
-      }
+    // 追加当前行数据
+    if (isColumnChild) {
+      const scopeId = `${node.id}-${node.type}-currentRow`;
+      const scope = this.manager.dataSchema.getScope(scopeId);
+      scope?.addSchema(itemsSchema);
     }
 
     return {
-      $id: 'table',
+      $id: `${node.id}-${node.type}`,
       type: 'object',
       properties: {
-        ...cellProperties,
         rows: {
           type: 'array',
           title: '数据列表',

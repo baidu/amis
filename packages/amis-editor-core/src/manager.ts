@@ -1939,6 +1939,13 @@ export class EditorManager {
     let region = node;
     const trigger = node;
 
+    // 删掉当前行记录scope，保持原始scope
+    for (const key in this.dataSchema.idMap) {
+      if (/\-currentRow$/.test(key)) {
+        this.dataSchema.removeScope(key);
+      }
+    }
+
     // 查找最近一层的数据域
     while (!scope && from) {
       const nodeId = from.info?.id;
@@ -1963,12 +1970,13 @@ export class EditorManager {
       if (!nearestScope && node && !node.isSecondFactor) {
         nearestScope = scope;
       }
-
       const jsonschema = await node?.info?.plugin?.buildDataSchemas?.(
         node,
         region,
-        trigger
+        trigger,
+        node
       );
+
       if (jsonschema) {
         scope.removeSchema(jsonschema.$id);
         scope.addSchema(jsonschema);
@@ -1977,7 +1985,16 @@ export class EditorManager {
       scope = withoutSuper ? undefined : scope.parent;
     }
 
-    if (nearestScope?.id) {
+    // 存在当前行时，找到最底层（todo：暂不考虑table套service+table的场景）
+    const nearestScopeId = Object.keys(this.dataSchema.idMap).find(
+      key =>
+        /\-currentRow$/.test(key) &&
+        !this.dataSchema.idMap[key].children?.length
+    );
+
+    if (nearestScopeId) {
+      this.dataSchema.switchTo(nearestScopeId);
+    } else if (nearestScope?.id) {
       this.dataSchema.switchTo(nearestScope.id);
     }
 
