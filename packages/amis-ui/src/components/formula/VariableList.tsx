@@ -54,7 +54,7 @@ const memberOpers = [
   {
     label: '取该成员的平均值',
     value: 'AVG(ARRAYMAP(${arr}, item => item.${member}))',
-    description: '即计算该成员记录的总和，需确认该成员记录均为数字类型'
+    description: '即计算该成员记录的平均值，需确认该成员记录均为数字类型'
   },
   {
     label: '取该成员的最大值',
