@@ -18,7 +18,7 @@ import {
   EditorManager,
   DSBuilderManager
 } from 'amis-editor-core';
-import {setVariable, someTree} from 'amis-core';
+import {getTreeAncestors, setVariable, someTree} from 'amis-core';
 import {ValidatorTag} from '../../validator';
 import {
   getEventControlConfig,
@@ -1105,20 +1105,46 @@ export class TableControlPlugin extends BasePlugin {
   async buildDataSchemas(
     node: EditorNodeType,
     region?: EditorNodeType,
-    trigger?: EditorNodeType
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
   ) {
     const itemsSchema: any = {
-      $id: 'inputTableRow',
+      $id: `${node.id}-${node.type}-tableRows`,
       type: 'object',
       properties: {}
     };
-
     const columns: EditorNodeType = node.children.find(
       item => item.isRegion && item.region === 'columns'
     );
+    const parentScopeId = `${parent?.id}-${parent?.type}${
+      node.parent?.type === 'cell' ? '-currentRow' : ''
+    }`;
+    let isColumnChild = false;
+
+    // 追加当前行scope
+    if (trigger) {
+      isColumnChild = someTree(
+        columns?.children,
+        item => item.id === trigger.id
+      );
+
+      if (isColumnChild) {
+        const scopeId = `${node.id}-${node.type}-currentRow`;
+        if (this.manager.dataSchema.getScope(scopeId)) {
+          this.manager.dataSchema.removeScope(scopeId);
+        }
+
+        if (this.manager.dataSchema.getScope(parentScopeId)) {
+          this.manager.dataSchema.switchTo(parentScopeId);
+        }
+
+        this.manager.dataSchema.addScope([], scopeId);
+        this.manager.dataSchema.current.tag = '当前行记录';
+        this.manager.dataSchema.current.group = '组件上下文';
+      }
+    }
 
     const cells: any = columns.children.concat();
-
     while (cells.length > 0) {
       const cell = cells.shift() as EditorNodeType;
       // cell的孩子貌似只会有一个
@@ -1128,17 +1154,13 @@ export class TableControlPlugin extends BasePlugin {
         const schema = current.schema;
 
         if (schema.name) {
-          itemsSchema.properties[schema.name] = current.info?.plugin
-            ?.buildDataSchemas
-            ? await current.info.plugin.buildDataSchemas(
-                current,
-                region,
-                trigger
-              )
-            : {
-                type: 'string',
-                title: schema.label || schema.name
-              };
+          itemsSchema.properties[schema.name] =
+            await current.info.plugin.buildDataSchemas?.(
+              current,
+              region,
+              trigger,
+              node
+            );
         }
       }
     }
@@ -1147,8 +1169,15 @@ export class TableControlPlugin extends BasePlugin {
       return itemsSchema;
     }
 
+    // 追加当前行数据
+    if (isColumnChild) {
+      const scopeId = `${node.id}-${node.type}-currentRow`;
+      const scope = this.manager.dataSchema.getScope(scopeId);
+      scope?.addSchema(itemsSchema);
+    }
+
     return {
-      $id: 'inputTable',
+      $id: `${node.id}-${node.type}-tableData`,
       type: 'array',
       title: node.schema?.label || node.schema?.name,
       items: itemsSchema

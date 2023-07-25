@@ -916,7 +916,8 @@ export interface PluginInterface
   buildDataSchemas?: (
     node: EditorNodeType,
     region?: EditorNodeType,
-    trigger?: EditorNodeType
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
   ) => any | Promise<any>;
 
   rendererBeforeDispatchEvent?: (
@@ -1207,6 +1208,22 @@ export abstract class BasePlugin implements PluginInterface {
         ? plugin.rendererName === rendererNameOrKlass
         : plugin instanceof rendererNameOrKlass
     );
+  }
+
+  buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
+  ) {
+    return {
+      type: 'string',
+      title:
+        typeof node.schema.label === 'string'
+          ? node.schema.label
+          : node.schema.name,
+      originalValue: node.schema.value // 记录原始值，循环引用检测需要
+    } as any;
   }
 }
 

@@ -647,14 +647,12 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
       "value": true
     },
     {
-      "type": 'button-toolbar',
-      "name": 'button-toolbar',
+      "type": "button-toolbar",
       "buttons": [
         {
           "type": "button",
-          "label": "提交",
+          "label": "${isStatic ? '编辑' : '提交'}",
           "level": "primary",
-          "visibleOn": "${!isStatic}",
           "onEvent": {
             "click": {
               "actions": [
@@ -663,45 +661,26 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
                   "componentId": "allFormSwitch",
                   "args": {
                     "value": {
-                      "isStatic": true
+                      "isStatic": "${!isStatic}"
                     }
                   }
                 },
                 {
                   "actionType": "static",
-                  "componentId": "allFormSwitch"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "type": "button",
-          "label": "编辑",
-          "level": "primary",
-          "visibleOn": "${isStatic}",
-          "onEvent": {
-            "click": {
-              "actions": [
-                {
-                  "actionType": "setValue",
                   "componentId": "allFormSwitch",
-                  "args": {
-                    "value": {
-                      "isStatic": false
-                    }
-                  }
+                  "expression": "${!isStatic}"
                 },
                 {
                   "actionType": "nonstatic",
-                  "componentId": "allFormSwitch"
+                  "componentId": "allFormSwitch",
+                  "expression": "${isStatic}"
                 }
               ]
             }
           }
         }
       ]
-    },
+    }
   ],
   "actions": []
 }
