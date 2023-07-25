@@ -609,9 +609,70 @@ icon:
 
 设置这个 api，可以实现左侧选项搜索结果的检索。
 
-##### 发送
-
 默认 GET，携带 term 变量，值为搜索框输入的文字，可从上下文中取数据设置进去。
+
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "label": "searchApi",
+        "type": "transfer",
+        "name": "transfer",
+        "searchable": true,
+        "selectMode": "tree",
+        "searchApi": "/api/transfer/search?name=${term}",
+        "options": [
+          {
+            "label": "法师",
+            "children": [
+              {
+                "label": "诸葛亮",
+                "value": "zhugeliang"
+              }
+            ]
+          },
+          {
+            "label": "战士",
+            "value": "zhanshi",
+            "children": [
+              {
+                "label": "曹操",
+                "value": "caocao"
+              },
+              {
+                "label": "钟无艳",
+                "value": "zhongwuyan"
+              }
+            ]
+          },
+          {
+            "label": "打野",
+            "children": [
+              {
+                "label": "李白",
+                "value": "libai"
+              },
+              {
+                "label": "韩信",
+                "value": "hanxin"
+              },
+              {
+                "label": "云中君",
+                "value": "yunzhongjun"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
 ##### 响应
 
@@ -625,7 +686,7 @@ icon:
     "options": [
       {
         "label": "描述",
-        "value": "值" // ,
+        "value": "值"
         // "children": [] // 可以嵌套
       },
 
@@ -634,13 +695,12 @@ icon:
         "value": "值2"
       }
     ],
-
-    "value": "值" // 默认值，可以获取列表的同时设置默认值。
   }
 }
 ```
 
 适用于需选择的数据/信息源较多时，用户可直观的知道自己所选择的数据/信息的场景，一般左侧框为数据/信息源，右侧为已选数据/信息，被选中信息同时存在于 2 个框内。
+
 
 ### 结果面板跟随模式
 
