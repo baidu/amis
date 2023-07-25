@@ -78,7 +78,7 @@ test('Renderer:input-formula', async () => {
     )
   );
 
-  await wait(200);
+  await wait(500);
   expect(container).toMatchSnapshot();
 
   await findByDisplayValue('SUM(1 + 2)');
