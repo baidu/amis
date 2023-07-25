@@ -76,6 +76,23 @@ const DEFAULT_EVENT_PARAMS = [
   }
 ];
 
+const chartDefaultConfig = {
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data: [820, 932, 901, 934, 1290, 1330, 1320],
+      type: 'line'
+    }
+  ],
+  backgroundColor: 'transparent'
+};
+
 export class ChartPlugin extends BasePlugin {
   static id = 'ChartPlugin';
   // 关联渲染器名字
@@ -93,21 +110,7 @@ export class ChartPlugin extends BasePlugin {
   pluginIcon = 'chart-plugin';
   scaffold = {
     type: 'chart',
-    config: {
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
-          type: 'line'
-        }
-      ]
-    },
+    config: chartDefaultConfig,
     replaceChartOption: true
   };
   previewSchema = {
@@ -206,8 +209,34 @@ export class ChartPlugin extends BasePlugin {
               {
                 title: '数据设置',
                 body: [
+                  {
+                    type: 'select',
+                    name: 'chartDataType',
+                    label: '数据获取方式',
+                    value: 'json',
+                    onChange(value: any, oldValue: any, model: any, form: any) {
+                      if (value === 'json') {
+                        form.setValueByName('api', undefined);
+                        form.setValueByName('config', chartDefaultConfig);
+                      } else {
+                        form.setValueByName('config', undefined);
+                      }
+                    },
+                    options: [
+                      {
+                        label: '接口数据',
+                        value: 'dataApi'
+                      },
+                      {
+                        label: '静态JSON数据',
+                        value: 'json'
+                      }
+                    ]
+                  },
+
                   getSchemaTpl('apiControl', {
                     label: '数据接口',
+                    visibleOn: 'chartDataType === "dataApi"',
                     description:
                       '接口可以返回echart图表完整配置，或者图表数据，建议返回图表数据映射到 Echarts 配置中'
                   }),
@@ -215,7 +244,7 @@ export class ChartPlugin extends BasePlugin {
                   getSchemaTpl('switch', {
                     label: '初始是否拉取',
                     name: 'initFetch',
-                    visibleOn: 'data.api',
+                    visibleOn: 'chartDataType === "dataApi" && data.api',
                     pipeIn: defaultValue(true)
                   }),
 
@@ -224,17 +253,18 @@ export class ChartPlugin extends BasePlugin {
                     label: '定时刷新间隔',
                     type: 'input-number',
                     step: 500,
-                    visibleOn: 'data.api',
+                    visibleOn: 'chartDataType === "dataApi" && data.api',
                     description: '设置后将自动定时刷新，最小3000, 单位 ms'
                   },
                   {
                     name: 'config',
                     asFormItem: true,
+                    visibleOn: 'chartDataType === "json"',
                     component: ChartConfigEditor,
                     // type: 'json-editor',
                     label: tipedLabel(
                       'Echarts 配置',
-                      '支持数据映射，优先使用接口返回数据，可将接口返回的数据填充进来'
+                      '支持数据映射，可将接口返回的数据填充进来'
                     )
                   },
                   {
