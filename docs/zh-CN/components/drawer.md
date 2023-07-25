@@ -400,6 +400,30 @@ order: 43
 }
 ```
 
+> 3.3.0 及以上版本
+
+如果是表单，可以在表单上配置 `close: false`
+
+```schema: scope="body"
+{
+    "type": "button",
+    "label": "弹个框",
+    "actionType": "drawer",
+    "drawer": {
+      "type": "form",
+      "api": "/api/mock2/form/saveForm",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "name",
+          "label": "姓名"
+        }
+      ],
+      "close": false
+    }
+}
+```
+
 ## 配置弹窗的按钮
 
 默认弹窗会自动生成两个按钮，一个取消，一个确认。如果通过 `actions` 来自定义配置，则以配置的为准。
