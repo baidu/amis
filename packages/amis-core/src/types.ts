@@ -217,6 +217,7 @@ export interface ApiObject extends BaseApiObject {
   operationName?: string;
   body?: PlainObject;
   query?: PlainObject;
+  mockResponse?: PlainObject;
   adaptor?: (
     payload: object,
     response: fetcherResult,

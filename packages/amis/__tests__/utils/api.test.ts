@@ -359,7 +359,7 @@ test('api:isvalidapi', () => {
   ).toBeTruthy();
 });
 
-test('api:requestAdaptor', async () => {
+test('api:requestAdaptor1', async () => {
   const notify = jest.fn();
   const fetcher = jest.fn().mockImplementation(() =>
     Promise.resolve({
@@ -428,4 +428,84 @@ test('api:requestAdaptor', async () => {
     name: 'fex',
     email: 'appended@test.com'
   });
+});
+
+test('api:requestAdaptor2', async () => {
+  const notify = jest.fn();
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          id: 1
+        }
+      }
+    })
+  );
+  const requestAdaptor = jest.fn().mockImplementation(api => {
+    return Promise.resolve({
+      ...api,
+      mockResponse: {
+        status: 200,
+        data: {
+          status: 0,
+          msg: 'ok',
+          data: {
+            id: 2
+          }
+        }
+      }
+    });
+  });
+
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'form',
+            id: 'form_submit',
+            submitText: '提交表单',
+            api: {
+              method: 'post',
+              url: '/api/mock2/form/saveForm',
+              requestAdaptor: requestAdaptor
+            },
+            body: [
+              {
+                type: 'input-text',
+                name: 'id',
+                label: 'Id'
+              },
+              {
+                type: 'input-text',
+                name: 'name',
+                label: '姓名：',
+                value: 'fex'
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        notify,
+        fetcher
+      })
+    )
+  );
+
+  await waitFor(() => {
+    expect(getByText('提交表单')).toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText(/提交表单/));
+  await wait(300);
+
+  expect(requestAdaptor).toHaveBeenCalled();
+  expect(fetcher).toHaveBeenCalledTimes(0);
+  expect(container.querySelector('input[name="id"]')).toBeInTheDocument();
+  expect((container.querySelector('input[name="id"]') as any).value).toBe('2');
 });
