@@ -204,34 +204,30 @@ export class ContainerPlugin extends LayoutBasePlugin {
               // 自由容器不需要 display 相关配置项
               ...(!isFreeContainer ? displayTpl : []),
 
-              isFlexItem
-                ? getSchemaTpl('layout:flex', {
-                    isFlexColumnItem,
-                    label: isFlexColumnItem ? '高度设置' : '宽度设置',
-                    visibleOn:
-                      'data.style && (data.style.position === "static" || data.style.position === "relative")'
-                  })
-                : null,
-              isFlexItem
-                ? getSchemaTpl('layout:flex-grow', {
-                    visibleOn:
-                      'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
-                  })
-                : null,
-              isFlexItem
-                ? getSchemaTpl('layout:flex-basis', {
-                    label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
-                    visibleOn:
-                      'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
-                  })
-                : null,
-              isFlexItem
-                ? getSchemaTpl('layout:flex-basis', {
-                    label: isFlexColumnItem ? '固定高度' : '固定宽度',
-                    visibleOn:
-                      'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
-                  })
-                : null,
+              ...(isFlexItem
+                ? [
+                    getSchemaTpl('layout:flex', {
+                      isFlexColumnItem,
+                      label: isFlexColumnItem ? '高度设置' : '宽度设置',
+                      visibleOn:
+                        'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                    }),
+                    getSchemaTpl('layout:flex-grow', {
+                      visibleOn:
+                        'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
+                    }),
+                    getSchemaTpl('layout:flex-basis', {
+                      label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
+                      visibleOn:
+                        'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
+                    }),
+                    getSchemaTpl('layout:flex-basis', {
+                      label: isFlexColumnItem ? '固定高度' : '固定宽度',
+                      visibleOn:
+                        'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
+                    })
+                  ]
+                : []),
 
               getSchemaTpl('layout:overflow-x', {
                 visibleOn: `${
@@ -308,7 +304,11 @@ export class ContainerPlugin extends LayoutBasePlugin {
         title: '外观',
         className: 'p-none',
         body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('theme:common', {exclude: ['layout']})
+          ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+          {
+            title: '自定义 CSS 类名',
+            body: [getSchemaTpl('className')]
+          }
         ])
       },
       {

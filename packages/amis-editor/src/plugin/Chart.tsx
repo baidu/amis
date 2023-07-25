@@ -209,6 +209,7 @@ export class ChartPlugin extends BasePlugin {
               {
                 title: '数据设置',
                 body: [
+                  /*
                   {
                     type: 'select',
                     name: 'chartDataType',
@@ -233,10 +234,10 @@ export class ChartPlugin extends BasePlugin {
                       }
                     ]
                   },
-
+                  */
                   getSchemaTpl('apiControl', {
                     label: '数据接口',
-                    visibleOn: 'chartDataType === "dataApi"',
+                    // visibleOn: 'chartDataType === "dataApi"',
                     description:
                       '接口可以返回echart图表完整配置，或者图表数据，建议返回图表数据映射到 Echarts 配置中'
                   }),
@@ -244,7 +245,8 @@ export class ChartPlugin extends BasePlugin {
                   getSchemaTpl('switch', {
                     label: '初始是否拉取',
                     name: 'initFetch',
-                    visibleOn: 'chartDataType === "dataApi" && data.api',
+                    // visibleOn: 'chartDataType === "dataApi" && data.api',
+                    visibleOn: 'data.api',
                     pipeIn: defaultValue(true)
                   }),
 
@@ -253,13 +255,14 @@ export class ChartPlugin extends BasePlugin {
                     label: '定时刷新间隔',
                     type: 'input-number',
                     step: 500,
-                    visibleOn: 'chartDataType === "dataApi" && data.api',
+                    // visibleOn: 'chartDataType === "dataApi" && data.api',
+                    visibleOn: 'data.api',
                     description: '设置后将自动定时刷新，最小3000, 单位 ms'
                   },
                   {
                     name: 'config',
                     asFormItem: true,
-                    visibleOn: 'chartDataType === "json"',
+                    // visibleOn: 'chartDataType === "json"',
                     component: ChartConfigEditor,
                     // type: 'json-editor',
                     label: tipedLabel(
