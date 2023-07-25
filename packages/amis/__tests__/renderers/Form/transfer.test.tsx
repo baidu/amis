@@ -1106,3 +1106,127 @@ test('Renderer:transfer with showInvalidMatch & unmatched do not add', async () 
   expect(leftItems()!.length).toBe(3);
   expect(rightItems()!.length).toBe(4);
 });
+
+test('Renderer:transfer with searchApi', async () => {
+  const onSubmit = jest.fn();
+  const fetcher = jest.fn().mockImplementationOnce(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          options: [
+            {
+              "label": "法师",
+              "children": [
+                {
+                  "label": "诸葛亮",
+                  "value": "zhugeliang"
+                }
+              ]
+            },
+            {
+              "label": "战士",
+              "children": [
+                {
+                  "label": "钟无艳",
+                  "value": "zhongwuyan"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    })
+  );
+  const {getByText, container} = render(
+    amisRender(
+      {
+        "type": "form",
+        "api": "/api/mock2/form/saveForm",
+        "body": [
+          {
+            "label": "树型展示",
+            "type": "transfer",
+            "name": "transfer",
+            "selectMode": "tree",
+            "searchable": true,
+            "searchApi": "/api/transfer/search?name=${term}",
+            "options": [
+              {
+                "label": "法师",
+                "children": [
+                  {
+                    "label": "诸葛亮",
+                    "value": "zhugeliang"
+                  }
+                ]
+              },
+              {
+                "label": "战士",
+                "value": "zhanshi",
+                "children": [
+                  {
+                    "label": "曹操",
+                    "value": "caocao"
+                  },
+                  {
+                    "label": "钟无艳",
+                    "value": "zhongwuyan"
+                  }
+                ]
+              },
+              {
+                "label": "打野",
+                "children": [
+                  {
+                    "label": "李白",
+                    "value": "libai"
+                  },
+                  {
+                    "label": "韩信",
+                    "value": "hanxin"
+                  },
+                  {
+                    "label": "云中君",
+                    "value": "yunzhongjun"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {onSubmit},
+      makeEnv({
+        fetcher
+      })
+    )
+  );
+
+  const zhangshi = container.querySelector('span[title=战士]');
+  expect(zhangshi).not.toBeNull();
+
+  zhangshi && fireEvent.click(zhangshi);
+
+  fireEvent.click(getByText('提交'));
+
+  await wait(100);
+  expect(onSubmit).toBeCalledTimes(1);
+
+  expect(onSubmit.mock.calls[0][0]).toEqual({
+    transfer: "caocao,zhongwuyan"
+  });
+
+  const input = container.querySelector('input[placeholder=请输入关键字]');
+  expect(input).not.toBeNull();
+
+  input && fireEvent.change(input, {
+    target: {value: 'a'}
+  });
+
+  await wait(300);
+
+  const caocao = container.querySelector('span[title=曹操]');
+  expect(caocao).toBeNull();
+});
