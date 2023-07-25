@@ -155,6 +155,8 @@ let amisScoped = amis.embed(
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
     //
     // requestAdaptor(api) {
+    //   // 支持异步，可以通过 api.mockResponse 来设置返回结果，跳过真正的请求发送
+    //   // 此功能自定义 fetcher 的话会失效
     //   return api;
     // }
     //

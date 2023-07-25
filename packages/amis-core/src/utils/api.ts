@@ -505,6 +505,12 @@ export function wrapFetcher(
       api.headers['Content-Type'] = 'application/json';
     }
 
+    // 如果发送适配器中设置了 mockResponse
+    // 则直接跳过请求发送
+    if (api.mockResponse) {
+      return wrapAdaptor(Promise.resolve(api.mockResponse) as any, api, data);
+    }
+
     if (!isValidApi(api.url)) {
       throw new Error(`invalid api url:${api.url}`);
     }
