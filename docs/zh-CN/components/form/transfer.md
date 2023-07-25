@@ -623,8 +623,8 @@ icon:
         "label": "searchApi",
         "type": "transfer",
         "name": "transfer",
-        "selectMode": "tree",
         "searchable": true,
+        "selectMode": "tree",
         "searchApi": "/api/transfer/search?name=${term}",
         "options": [
           {
@@ -638,6 +638,7 @@ icon:
           },
           {
             "label": "战士",
+            "value": "zhanshi",
             "children": [
               {
                 "label": "曹操",

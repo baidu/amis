@@ -362,7 +362,7 @@ export class BaseTransferRenderer<
           // 只有 value 值有意义的时候，再去找；否则直接返回
           if (Array.isArray(options) && value !== null && value !== undefined) {
             resolved = find(options, optionValueCompare(value, valueField));
-            if (resolved?.children) {
+            if (item?.children) {
               resolved = {
                 ...resolved,
                 children: item.children
