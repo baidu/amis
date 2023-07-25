@@ -76,7 +76,7 @@ export class DialogAction implements RendererAction {
       event,
       {
         actionType: 'dialog',
-        dialog: action.dialog ?? action.args?.dialog,
+        dialog: action.dialog,
         reload: 'none'
       },
       action.data
