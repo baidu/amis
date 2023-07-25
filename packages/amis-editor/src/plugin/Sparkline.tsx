@@ -3,7 +3,7 @@
  */
 
 import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin} from 'amis-editor-core';
+import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 export class SparklinePlugin extends BasePlugin {
@@ -30,14 +30,54 @@ export class SparklinePlugin extends BasePlugin {
   };
 
   panelTitle = '走势图';
-  panelBody = [
-    getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-    {
-      name: 'height',
-      type: 'input-number',
-      label: '高度'
-    }
-  ];
+
+  panelJustify = true;
+  panelBodyCreator = (context: BaseEventContext) => {
+    return [
+      getSchemaTpl('tabs', [
+        {
+          title: '属性',
+          body: [
+            getSchemaTpl('collapseGroup', [
+              {
+                title: '基本',
+                body: [
+                  getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+                  getSchemaTpl('name')
+                ]
+              },
+              {
+                title: '宽高设置',
+                body: [
+                  {
+                    name: 'width',
+                    type: 'input-number',
+                    label: '宽度'
+                  },
+                  {
+                    name: 'height',
+                    type: 'input-number',
+                    label: '高度'
+                  }
+                ]
+              },
+              getSchemaTpl('status')
+            ])
+          ]
+        },
+        {
+          title: '外观',
+          body: getSchemaTpl('collapseGroup', [
+            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+            {
+              title: '自定义 CSS 类名',
+              body: [getSchemaTpl('className')]
+            }
+          ])
+        }
+      ])
+    ];
+  };
 }
 
 registerEditorPlugin(SparklinePlugin);
