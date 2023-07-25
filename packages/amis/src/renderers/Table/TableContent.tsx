@@ -267,6 +267,7 @@ export class TableContent extends React.Component<TableContentProps> {
             </tbody>
           ) : (
             <TableBody
+              store={store}
               itemAction={itemAction}
               classnames={cx}
               render={render}
