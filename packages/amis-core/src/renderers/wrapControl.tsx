@@ -18,8 +18,7 @@ import {
   isNeedFormula,
   isExpression,
   FormulaExec,
-  replaceExpression,
-  isNowFormula
+  replaceExpression
 } from '../utils/formula';
 import {IIRendererStore, IRendererStore} from '../store';
 import {ScopedContext, IScopedContext} from '../Scoped';
@@ -363,41 +362,30 @@ export function wrapControl<
             } else if (
               model &&
               typeof props.defaultValue !== 'undefined' &&
-              isExpression(props.defaultValue)
-            ) {
-              let nowFormulaChecked = false;
-              // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
-              if (
-                !isEqual(props.defaultValue, prevProps.defaultValue) ||
+              isExpression(props.defaultValue) &&
+              (!isEqual(props.defaultValue, prevProps.defaultValue) ||
                 (props.data !== prevProps.data &&
-                  (isNeedFormula(
+                  isNeedFormula(
                     props.defaultValue,
                     props.data,
                     prevProps.data
-                  ) ||
-                    (nowFormulaChecked = isNowFormula(props.defaultValue))))
+                  )))
+            ) {
+              const curResult = FormulaExec['formula'](
+                props.defaultValue,
+                props.data
+              );
+              const prevResult = FormulaExec['formula'](
+                prevProps.defaultValue,
+                prevProps.data
+              );
+              if (
+                !isEqual(curResult, prevResult) &&
+                !isEqual(curResult, model.tmpValue)
               ) {
-                const curResult = FormulaExec['formula'](
-                  props.defaultValue,
-                  props.data
-                );
-                const prevResult = FormulaExec['formula'](
-                  prevProps.defaultValue,
-                  prevProps.data
-                );
-                if (
-                  !isEqual(curResult, prevResult) &&
-                  !isEqual(curResult, model.tmpValue)
-                ) {
-                  // 识别上下文变动、自身数值变动、公式运算结果变动
-                  model.changeTmpValue(curResult, 'formulaChanged');
-                  props.onChange?.(curResult, model.name, false);
-                } else if (nowFormulaChecked) {
-                  const nowData = props.data[model.name];
-                  // now 表达式，计算后的值永远相同
-                  model.changeTmpValue(nowData, 'formulaChanged');
-                  props.onChange?.(nowData, model.name, false);
-                }
+                // 识别上下文变动、自身数值变动、公式运算结果变动
+                model.changeTmpValue(curResult, 'formulaChanged');
+                props.onChange?.(curResult, model.name, false);
               }
             } else if (model) {
               const valueByName = getVariable(props.data, model.name);

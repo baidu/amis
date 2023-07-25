@@ -225,7 +225,8 @@ export function isNeedFormula(
     const variables = FormulaExec.collect(expression);
     return variables.some(
       (variable: string) =>
-        FormulaExec.var(variable, prevData) !== FormulaExec.var(variable, curData)
+        FormulaExec.var(variable, prevData) !==
+        FormulaExec.var(variable, curData)
     );
   } catch (e) {
     console.warn(
@@ -236,11 +237,6 @@ export function isNeedFormula(
     );
     return false;
   }
-}
-
-export function isNowFormula(expression: string): boolean {
-  const block = expression.split(/\${|\||}/).filter(item => item);
-  return block[1] === 'now';
 }
 
 // 将 \${xx} 替换成 ${xx}
