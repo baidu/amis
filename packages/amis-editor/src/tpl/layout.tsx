@@ -599,6 +599,9 @@ setSchemaTpl(
           // 适配
           form.setValueByName('style.flexGrow', undefined);
           form.setValueByName('style.flexBasis', undefined);
+          form.setValueByName('style.overflowX', undefined);
+          form.setValueByName('style.overflowY', undefined);
+          form.setValueByName('style.overflow', undefined);
 
           if (config?.isFlexColumnItem) {
             form.setValueByName('style.height', undefined);
@@ -893,7 +896,7 @@ setSchemaTpl(
         config?.label ||
         tipedLabel(' x轴滚动模式', '用于设置水平方向的滚动模式'),
       name: config?.name || 'style.overflowX',
-      value: config?.value || 'auto',
+      value: config?.value || 'visible',
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
@@ -1099,7 +1102,7 @@ setSchemaTpl(
         config?.label ||
         tipedLabel(' y轴滚动模式', '用于设置垂直方向的滚动模式'),
       name: config?.name || 'style.overflowY',
-      value: config?.value || 'auto',
+      value: config?.value || 'visible',
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
