@@ -16,7 +16,7 @@ order: 28
 
 ```schema: scope="body"
 {
-  "type": "amis-render",
+  "type": "amis",
   "value": {
     "type": "tpl",
     "tpl": "amis render"
@@ -52,7 +52,7 @@ order: 28
                     }
                 },
                 {
-                    "type": "amis-render",
+                    "type": "amis",
                     "name": "amis"
                 }
             ]
@@ -68,7 +68,7 @@ order: 28
 
 ```schema: scope="body"
 {
-  "type": "amis-render",
+  "type": "amis",
   "props": {
     "tpl": "amis render"
   },
@@ -80,8 +80,8 @@ order: 28
 
 ## 属性表
 
-| 属性名 | 类型     | 默认值          | 说明                      |
-| ------ | -------- | --------------- | ------------------------- |
-| type   | `string` | `"amis-render"` | 指定为 amis-render 渲染器 |
-| name   | `string` |                 | 绑定上下文变量名          |
-| props  | `object` |                 | 向下传递的 props          |
+| 属性名 | 类型     | 默认值   | 说明               |
+| ------ | -------- | -------- | ------------------ |
+| type   | `string` | `"amis"` | 指定为 amis 渲染器 |
+| name   | `string` |          | 绑定上下文变量名   |
+| props  | `object` |          | 向下传递的 props   |

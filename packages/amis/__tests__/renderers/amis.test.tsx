@@ -8,7 +8,7 @@ test('Renderer:amisRender test', () => {
   const {container} = render(
     amisRender(
       {
-        type: 'amis-render',
+        type: 'amis',
         value: {
           type: 'tpl',
           tpl: 'hello world'

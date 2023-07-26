@@ -1173,9 +1173,9 @@ export const components = [
       },
       {
         label: 'amis 渲染器',
-        path: '/zh-CN/components/amis-render',
+        path: '/zh-CN/components/amis',
         component: React.lazy(() =>
-          import('../../docs/zh-CN/components/amis-render.md').then(wrapDoc)
+          import('../../docs/zh-CN/components/amis.md').then(wrapDoc)
         )
       }
     ]

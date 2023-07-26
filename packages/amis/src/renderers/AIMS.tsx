@@ -15,13 +15,13 @@ import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 
 /**
  * 渲染数据里的 amis schema
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/amis-render
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/amis
  */
 export interface AIMSRenderSchema extends BaseSchema {
   /**
    * 指定类型
    */
-  type: 'amis-render';
+  type: 'amis';
 
   /**
    * 类名
@@ -30,7 +30,7 @@ export interface AIMSRenderSchema extends BaseSchema {
 }
 
 @Renderer({
-  type: 'amis-render'
+  type: 'amis'
 })
 export class AMISRenderer extends React.Component<RendererProps> {
   render() {
@@ -40,11 +40,11 @@ export class AMISRenderer extends React.Component<RendererProps> {
       try {
         value = JSON.parse(value);
       } catch (e) {
-        console.warn('amis-render value must be json string', e);
+        console.warn('amis value must be json string', e);
         value = null;
       }
     }
 
-    return render('amis-render', value, props);
+    return render('amis', value, props);
   }
 }
