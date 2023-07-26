@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:amisRender test 1`] = `
+<div>
+  <span
+    class="cxd-TplField"
+  >
+    <span>
+      hello world
+    </span>
+  </span>
+</div>
+`;
