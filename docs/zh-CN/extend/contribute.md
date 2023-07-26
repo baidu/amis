@@ -2,11 +2,11 @@
 title: 如何贡献代码
 ---
 
-如果发现 amis 有不满足的功能，除了发 issue 等官方升级之外，最快的方法就是自己实现它，本文将介绍 amis 代码的基本结构，一步步教会你如何新增功能。
+如果发现 amis 有不满足的功能，除了发 issue 等官方升级之外，最快的方法就是自己实现它，本文将介绍 amis 代码的基本结构，并一步步教你如何新增功能。
 
 ## 准备开始
 
-1. 首先，你需要对 React 有基本了解，快速看一遍[官方文档](https://zh-hans.reactjs.org/docs/getting-started.html)就行。
+1. 首先，你需要对 React 有基本了解，快速看一遍[官方文档](https://zh-hans.react.dev/learn)即可。
 2. 在 github 上 fork amis 项目到自己的账号下。
 3. 创建分支 `git checkout -b feat-xxx`
 
