@@ -12,12 +12,12 @@ order: 28
 
 ## 基本使用
 
-只需要设置 value 或 name，值可以是 JSON 对象或字符串的 JSON
+只需要设置 schema 或 name，值可以是 JSON 对象或字符串的 JSON
 
 ```schema: scope="body"
 {
   "type": "amis",
-  "value": {
+  "schema": {
     "type": "tpl",
     "tpl": "amis render"
   }

@@ -34,8 +34,8 @@ export interface AIMSRenderSchema extends BaseSchema {
 })
 export class AMISRenderer extends React.Component<RendererProps> {
   render() {
-    const {render, props} = this.props;
-    let value = getPropValue(this.props);
+    const {render, props, schema} = this.props;
+    let value = getPropValue(this.props) || schema;
     if (typeof value === 'string') {
       try {
         value = JSON.parse(value);
