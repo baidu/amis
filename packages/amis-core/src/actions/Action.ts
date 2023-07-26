@@ -159,12 +159,19 @@ export const runActions = async (
       !actionInstrance &&
       (actionConfig.componentId || actionConfig.componentName)
     ) {
-      actionInstrance = getActionByType('component');
-    } else if (
-      actionConfig.actionType === 'url' ||
-      actionConfig.actionType === 'link' ||
-      actionConfig.actionType === 'jump'
-    ) {
+      actionInstrance = [
+        'static',
+        'nonstatic',
+        'show',
+        'visibility',
+        'hidden',
+        'enabled',
+        'disabled',
+        'usability'
+      ].includes(actionConfig.actionType)
+        ? getActionByType('status')
+        : getActionByType('component');
+    } else if (['url', 'link', 'jump'].includes(actionConfig.actionType)) {
       // 打开页面动作
       actionInstrance = getActionByType('openlink');
     }
