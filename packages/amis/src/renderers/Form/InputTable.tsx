@@ -1718,17 +1718,31 @@ export class TableControlRenderer extends FormTable {
       const items = [...this.state.items];
       let rawItems: any = [];
       const deletedItems: any = [];
-
-      if (args.index) {
-        const indexArr = args.index.split(',');
-        rawItems = items.filter(
-          (item, index) => !indexArr.includes(index.toString())
+      // 过滤掉无意义的索引
+      const indexArr = String(args?.index)
+        .split(',')
+        .map(i => String(i).trim())
+        .filter(
+          i =>
+            i !== 'undefined' &&
+            i !== '' &&
+            parseInt(i, 10) >= 0 &&
+            parseInt(i, 10) < items.length
         );
-      } else if (args.condition) {
+
+      if (!indexArr.length && !args?.condition) {
+        return;
+      }
+
+      if (indexArr.length) {
+        rawItems = items.filter(
+          (item, index) => !indexArr.includes(String(index))
+        );
+      } else if (args?.condition) {
         const itemsLength = items.length;
         for (let i = 0; i < itemsLength; i++) {
           const flag = await evalExpressionWithConditionBuilder(
-            args?.condition,
+            args.condition,
             {...items[i], rowIndex: i}
           );
           if (!flag) {
