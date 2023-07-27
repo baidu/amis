@@ -433,7 +433,7 @@
       }
 
       &:active {
-        background: transparent;
+        background: var(--Table-onHover-bg);
       }
 
       &:hover.#{$ns}Table-placeholder {
