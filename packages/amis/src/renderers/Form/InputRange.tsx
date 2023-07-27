@@ -645,10 +645,12 @@ export default class RangeControl extends React.PureComponent<
    * 获取导出格式数据
    */
   @autobind
-  getFormatValue(value: FormatValue) {
-    const {multiple, joinValues, delimiter} = this.props;
+  getFormatValue(value: FormatValue): Value {
+    const {multiple, joinValues, delimiter, extraName} = this.props;
     return multiple
-      ? joinValues
+      ? extraName
+        ? [(value as MultipleValue).min, (value as MultipleValue).max]
+        : joinValues
         ? [(value as MultipleValue).min, (value as MultipleValue).max].join(
             delimiter || ','
           )
