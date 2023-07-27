@@ -1654,7 +1654,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       replace
     );
-    this.search(undefined, undefined, undefined, forceReload);
+    this.search(undefined, undefined, replace, forceReload);
   }
 
   reload(
