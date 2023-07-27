@@ -274,22 +274,24 @@ order: 32
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名            | 类型                                    | 默认值  | 说明                                        | 版本    |
-| ----------------- | --------------------------------------- | ------- | ------------------------------------------- | ------- |
-| min               | [模板](../../../docs/concepts/template) |         | 最小值                                      |
-| max               | [模板](../../../docs/concepts/template) |         | 最大值                                      |
-| step              | `number`                                |         | 步长                                        |
-| precision         | `number`                                |         | 精度，即小数点后几位，支持 0 和正整数       |
-| showSteps         | `boolean`                               | `true`  | 是否显示上下点击按钮                        |
-| prefix            | `string`                                |         | 前缀                                        |
-| suffix            | `string`                                |         | 后缀                                        |
-| unitOptions       | `string[]`                              |         | 单位选项                                    | `1.4.0` |
-| kilobitSeparator  | `boolean`                               | `false` | 千分分隔                                    |
-| keyboard          | `boolean`                               | `true`  | 键盘事件（方向上下）                        |
-| big               | `boolean`                               | `false` | 是否使用大数                                | `2.3.0` |
-| displayMode       | `string`                                |         | 样式类型                                    |
-| resetValue        | `number \| string`                      | `""`    | 清空输入内容时，组件值将设置为 `resetValue` |
-| clearValueOnEmpty | `boolean`                               | `false` | 内容为空时从数据域中删除该表单项对应的值    | `2.8.0` |
+| 属性名            | 类型                                    | 默认值   | 说明                                        | 版本    |
+| ----------------- | --------------------------------------- | -------- | ------------------------------------------- | ------- |
+| min               | [模板](../../../docs/concepts/template) |          | 最小值                                      |
+| max               | [模板](../../../docs/concepts/template) |          | 最大值                                      |
+| step              | `number`                                |          | 步长                                        |
+| precision         | `number`                                |          | 精度，即小数点后几位，支持 0 和正整数       |
+| showSteps         | `boolean`                               | `true`   | 是否显示上下点击按钮                        |
+| readOnly          | `boolean`                               | `false`  | 只读                                        |
+| prefix            | `string`                                |          | 前缀                                        |
+| suffix            | `string`                                |          | 后缀                                        |
+| unitOptions       | `string[]`                              |          | 单位选项                                    | `1.4.0` |
+| kilobitSeparator  | `boolean`                               | `false`  | 千分分隔                                    |
+| keyboard          | `boolean`                               | `true`   | 键盘事件（方向上下）                        |
+| big               | `boolean`                               | `false`  | 是否使用大数                                | `2.3.0` |
+| displayMode       | `"base" \| "enhance"`                   | `"base"` | 样式类型                                    |
+| borderMode        | `"full" \| "half" \| "none"`            | `"full"` | 边框模式，全边框，还是半边框，或者没边框    |
+| resetValue        | `number \| string`                      | `""`     | 清空输入内容时，组件值将设置为 `resetValue` |
+| clearValueOnEmpty | `boolean`                               | `false`  | 内容为空时从数据域中删除该表单项对应的值    | `2.8.0` |
 
 ## 事件表
 
