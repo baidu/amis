@@ -4,6 +4,7 @@ import '../../../src';
 import {render as amisRender} from '../../../src';
 import {wait, makeEnv} from '../../helper';
 import {clearStoresCache} from '../../../src';
+import moment from 'moment';
 
 afterEach(() => {
   cleanup();
@@ -144,4 +145,102 @@ test('Renderer:FormItem:validateApi:failed', async () => {
 
   expect(onSubmit).not.toHaveBeenCalled();
   expect(container).toMatchSnapshot();
+});
+
+test('Renderer:FormItem:extraName', async () => {
+  const onSubmit = jest.fn();
+
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        id: 'theform',
+        body: [
+          {
+            type: 'input-date-range',
+            format: 'YYYY-MM-DD',
+            name: 'begin',
+            extraName: 'end',
+            label: 'Label'
+          }
+        ],
+        title: 'The form',
+        actions: [
+          {
+            type: 'button',
+            label: 'ChangeValue',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'setValue',
+                    componentId: 'theform',
+                    args: {
+                      value: {
+                        end: `${moment().format('YYYY-MM')}-16`
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            type: 'submit',
+            label: 'Submit'
+          }
+        ]
+      },
+      {
+        onSubmit
+      },
+      makeEnv({})
+    )
+  );
+
+  // 打开弹框
+  fireEvent.click(
+    container.querySelector('.cxd-DateRangePicker-input') as HTMLElement
+  );
+  await wait(200);
+
+  // 点击选择
+  fireEvent.click(
+    container.querySelector(
+      '.cxd-DateRangePicker-popover tr td[data-value="15"]'
+    ) as HTMLElement
+  );
+
+  // 点击选择
+  fireEvent.click(
+    container.querySelector(
+      '.cxd-DateRangePicker-popover tr td[data-value="15"]'
+    ) as HTMLElement
+  );
+
+  fireEvent.click(getByText('确认'));
+
+  fireEvent.click(getByText('Submit'));
+  await wait(300);
+
+  expect(onSubmit).toBeCalledTimes(1);
+  expect(onSubmit.mock.calls[0][0]).toMatchObject({
+    begin: `${moment().format('YYYY-MM')}-15`,
+    end: `${moment().format('YYYY-MM')}-15`
+  });
+
+  fireEvent.click(getByText('ChangeValue'));
+  await wait(200);
+  expect(
+    (container.querySelector('input[placeholder="结束时间"]') as any).value
+  ).toBe(`${moment().format('YYYY-MM')}-16`);
+
+  fireEvent.click(getByText('Submit'));
+  await wait(300);
+
+  expect(onSubmit).toBeCalledTimes(2);
+  expect(onSubmit.mock.calls[1][0]).toMatchObject({
+    begin: `${moment().format('YYYY-MM')}-15`,
+    end: `${moment().format('YYYY-MM')}-16`
+  });
 });
