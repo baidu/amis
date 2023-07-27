@@ -222,7 +222,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
 
     return (
       <FormulaPicker
-        popOverContainer={popOverContainer || env.getModalContainer}
+        popOverContainer={env.getModalContainer}
         ref={this.formulaRef}
         className={className}
         value={value}
