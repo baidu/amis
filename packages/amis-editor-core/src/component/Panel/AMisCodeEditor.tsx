@@ -9,6 +9,7 @@ import {
 import cx from 'classnames';
 import {prompt, toast} from 'amis';
 import debounce from 'lodash/debounce';
+import isArray from 'lodash/isArray';
 import findIndex from 'lodash/findIndex';
 import {parse, stringify} from 'json-ast-comments';
 import isPlainObject from 'lodash/isPlainObject';
@@ -115,12 +116,17 @@ export default class AMisCodeEditor extends React.Component<AMisCodeEditorProps>
   obj2str(value: any, props: AMisCodeEditorProps) {
     // 隐藏公共配置
     value = filterSchemaForConfig(value);
-    value = {
-      type: value?.type,
-      ...value
-    };
 
-    if (!value.type && props.$schema?.match(/PageSchema/i)) {
+    if (!isArray(value)) {
+      value = {
+        type: value?.type,
+        ...value
+      };
+    }
+
+    if (isArray(value)) {
+      return stringify(value);
+    } else if (!value.type && props.$schema?.match(/PageSchema/i)) {
       value.type = 'page';
     } else if (!value.type) {
       delete value.type;
