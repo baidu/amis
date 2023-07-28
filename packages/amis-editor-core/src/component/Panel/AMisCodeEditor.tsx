@@ -159,7 +159,7 @@ export default class AMisCodeEditor extends React.Component<AMisCodeEditorProps>
       const {onChange, value} = this.props;
       let ret: any = this.str2obj(this.state.contents);
 
-      if (!ret || !isPlainObject(ret)) {
+      if (!ret || (!isPlainObject(ret) && !isArray(ret))) {
         this.setState({
           wrongSchema: this.state.contents
         });
