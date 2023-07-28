@@ -15,7 +15,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {jsonToJsonSchema} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
-import {setVariable, someTree} from 'amis-core';
+import {RendererConfig, Schema, setVariable, someTree} from 'amis-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 // 用于脚手架的常用表单控件
@@ -979,6 +979,40 @@ export class FormPlugin extends BasePlugin {
       scope?.removeSchema(jsonschema.$id);
       scope?.addSchema(jsonschema);
     }
+  }
+
+  /**
+   * 为了让 form 的按钮可以点击编辑
+   */
+  patchSchema(schema: Schema, info: RendererConfig, props: any) {
+    if (
+      Array.isArray(schema.actions) ||
+      schema.wrapWithPanel === false ||
+      (Array.isArray(schema.body) &&
+        schema.body.some(
+          (item: any) =>
+            item &&
+            !!~['submit', 'button', 'button-group', 'reset'].indexOf(
+              (item as any)?.body?.[0]?.type ||
+                (item as any)?.body?.type ||
+                (item as any).type
+            )
+        ))
+    ) {
+      return;
+    }
+
+    return {
+      ...schema,
+      actions: [
+        {
+          type: 'submit',
+          label:
+            props?.translate(props?.submitText) || schema.submitText || '提交',
+          primary: true
+        }
+      ]
+    };
   }
 }
 

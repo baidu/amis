@@ -325,6 +325,9 @@ export class DateRangeControlPlugin extends BasePlugin {
                 getSchemaTpl('formItemName', {
                   required: true
                 }),
+
+                getSchemaTpl('formItemExtraName'),
+
                 getSchemaTpl('label'),
                 getSchemaTpl('selectDateRangeType', {
                   value: this.scaffold.type,
