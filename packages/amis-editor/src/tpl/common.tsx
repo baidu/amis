@@ -79,6 +79,28 @@ setSchemaTpl('formItemName', {
   // validateOnChange: false
 });
 
+setSchemaTpl('formItemExtraName', {
+  className: 'mb-3',
+  type: 'fieldset',
+  body: [
+    getSchemaTpl('formItemName', {
+      required: true,
+      label: '额外字段',
+      name: 'extraName',
+      visibleOn: 'typeof this.extraName === "string"'
+    }),
+
+    {
+      type: 'switch',
+      label: tipedLabel('存成两个字段', '开启后将选中范围分别存成两个字段'),
+      name: 'extraName',
+      pipeIn: (value: any) => typeof value === 'string',
+      pipeOut: (value: any) => (value ? '' : undefined),
+      inputClassName: 'is-inline'
+    }
+  ]
+});
+
 setSchemaTpl(
   'formItemMode',
   (config: {

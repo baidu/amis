@@ -14,6 +14,7 @@ import {
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import omit from 'lodash/omit';
+import type {RendererConfig, Schema} from 'amis-core';
 
 export class DialogPlugin extends BasePlugin {
   static id = 'DialogPlugin';
@@ -347,6 +348,35 @@ export class DialogPlugin extends BasePlugin {
       type: 'object',
       title: node.schema?.label || node.schema?.name,
       properties: dataSchema
+    };
+  }
+
+  /**
+   * 为了让 dialog 的按钮可以点击编辑
+   */
+  patchSchema(schema: Schema, info: RendererConfig, props?: any) {
+    if (Array.isArray(schema.actions)) {
+      return;
+    }
+
+    return {
+      ...schema,
+      actions: [
+        {
+          type: 'button',
+          actionType: 'cancel',
+          label: '取消'
+        },
+
+        props?.confirm
+          ? {
+              type: 'button',
+              actionType: 'confirm',
+              label: '确定',
+              primary: true
+            }
+          : null
+      ].filter((item: any) => item)
     };
   }
 }
