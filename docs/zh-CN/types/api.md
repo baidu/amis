@@ -659,6 +659,7 @@ const schema = {
     url: '/api/mock2/form/saveForm',
     requestAdaptor: function (api, context) {
       console.log(context); // 打印上下文数据
+
       return {
         ...api,
         data: {
@@ -686,6 +687,47 @@ const schema = {
 上面例子中，我们获取暴露的`api`对象中的`data`变量，并且为其添加了一个新的字段`foo`，并且一起返回出去就可以了，这样我们的请求数据体中就会加上我们这个新的字段。
 
 你也可以使用`debugger`自行进行调试。
+
+#### 拦截请求
+
+如果 api 发送适配器中，修改 api 对象，在 api 对象里面放入 `mockReponse` 属性，则会拦截请求发送，amis 内部会直接使用 `mockReponse` 的结果返回。
+
+```js
+const schema = {
+  type: 'form',
+  api: {
+    method: 'post',
+    url: '/api/mock2/form/saveForm',
+    requestAdaptor: function (api, context) {
+      return {
+        // 模拟 http 请求返回
+        mockResponse: {
+          status: 200, // http 返回状态
+          data: {
+            // http 返回结果
+            status: 0, // amis 返回数据的状态
+            data: {
+              name: '模拟返回的值'
+            }
+          }
+        }
+      };
+    }
+  },
+  body: [
+    {
+      type: 'input-text',
+      name: 'name',
+      label: '姓名：'
+    },
+    {
+      name: 'text',
+      type: 'input-email',
+      label: '邮箱：'
+    }
+  ]
+};
+```
 
 ### 配置接收适配器
 

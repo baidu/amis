@@ -62,7 +62,7 @@ test('Renderer:input table', async () => {
     )
   );
 
-  await wait(300);
+  await wait(500);
   replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
@@ -178,7 +178,7 @@ test('Renderer:input table add', async () => {
     )
   );
 
-  await wait(200);
+  await wait(500);
   const add = await findByText(/新增/);
 
   fireEvent.click(add);

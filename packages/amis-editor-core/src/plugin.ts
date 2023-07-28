@@ -13,7 +13,7 @@ import {EditorDNDManager} from './dnd';
 import React from 'react';
 import {DiffChange} from './util';
 import find from 'lodash/find';
-import type {RendererConfig} from 'amis-core';
+import type {RendererConfig, Schema} from 'amis-core';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
 import type {BaseSchema, SchemaCollection} from 'amis';
 import type {AsyncLayerOptions} from './component/AsyncLayer';
@@ -925,6 +925,19 @@ export interface PluginInterface
     e: any,
     data: any
   ) => void;
+
+  /**
+   * 给 schema 打补丁，纠正一下 schema 配置。
+   * @param schema
+   * @param renderer
+   * @param props
+   * @returns
+   */
+  patchSchema?: (
+    schema: Schema,
+    renderer: RendererConfig,
+    props?: any
+  ) => Schema | void;
 
   dispose?: () => void;
 }

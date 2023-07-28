@@ -217,6 +217,7 @@ export interface ApiObject extends BaseApiObject {
   operationName?: string;
   body?: PlainObject;
   query?: PlainObject;
+  mockResponse?: PlainObject;
   adaptor?: (
     payload: object,
     response: fetcherResult,
@@ -643,6 +644,21 @@ export interface BaseSchemaWithoutType {
    */
   style?: {
     [propName: string]: any;
+  };
+
+  /**
+   * 编辑器配置，运行时可以忽略
+   */
+  editorSetting?: {
+    /**
+     * 组件名称，通常是业务名称方便定位
+     */
+    displayName?: string;
+
+    /**
+     * 编辑器假数据，方便展示
+     */
+    mock?: any;
   };
 }
 

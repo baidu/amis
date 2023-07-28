@@ -33,7 +33,7 @@ order: 43
                     }
                 }
             }
-      }
+        }
     }
 }
 ```
@@ -400,6 +400,30 @@ order: 43
 }
 ```
 
+> 3.3.0 及以上版本
+
+如果是表单，可以在表单上配置 `close: false`
+
+```schema: scope="body"
+{
+    "type": "button",
+    "label": "弹个框",
+    "actionType": "drawer",
+    "drawer": {
+      "type": "form",
+      "api": "/api/mock2/form/saveForm",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "name",
+          "label": "姓名"
+        }
+      ],
+      "close": false
+    }
+}
+```
+
 ## 配置弹窗的按钮
 
 默认弹窗会自动生成两个按钮，一个取消，一个确认。如果通过 `actions` 来自定义配置，则以配置的为准。
@@ -445,8 +469,8 @@ order: 43
 | title           | [SchemaNode](../../docs/types/schemanode) |                    | 弹出层标题                                                                                        |
 | body            | [SchemaNode](../../docs/types/schemanode) |                    | 往 Drawer 内容区加内容                                                                            |
 | size            | `string`                                  |                    | 指定 Drawer 大小，支持: `xs`、`sm`、`md`、`lg`、`xl`                                              |
-| position        | `string`                                  |                    | 指定 Drawer 方向，支持: `left`、`right`、`top`、`bottom`                                          |
-| className       | `string`                                  | ``                 | Drawer 最外层容器的样式类名                                                                       |
+| position        | `string`                                  | `right`            | 指定 Drawer 方向，支持: `left`、`right`、`top`、`bottom`                                          |
+| className       | `string`                                  |                    | Drawer 最外层容器的样式类名                                                                       |
 | headerClassName | `string`                                  |                    | Drawer 头部 区域的样式类名                                                                        |
 | bodyClassName   | `string`                                  | `modal-body`       | Drawer body 区域的样式类名                                                                        |
 | footerClassName | `string`                                  |                    | Drawer 页脚 区域的样式类名                                                                        |

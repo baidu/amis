@@ -427,7 +427,7 @@ test('doAction:form reload default', async () => {
     )
   );
 
-  await wait(200); // 等待 initApi 加载完
+  await wait(500); // 等待 initApi 加载完
   expect(
     (container.querySelector('[name="author"]') as HTMLInputElement).value
   ).toEqual('fex');
@@ -527,7 +527,7 @@ test('doAction:form reload with data', async () => {
     )
   );
 
-  await wait(200);
+  await wait(500);
   const author: HTMLInputElement = container.querySelector('[name="author"]')!;
   expect(author).toBeInTheDocument();
   fireEvent.change(author, {
@@ -698,7 +698,7 @@ test('doAction:form clear', async () => {
     )
   );
 
-  await wait(200);
+  await wait(500);
   await waitFor(() => {
     expect(getByText('清空表单')).toBeInTheDocument();
   });

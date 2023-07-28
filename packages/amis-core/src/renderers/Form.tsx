@@ -1000,26 +1000,25 @@ export default class Form extends React.Component<FormProps, object> {
 
   handleBulkChange(values: Object, submit: boolean) {
     const {onChange, store, formLazyChange} = this.props;
+    store.setValues(values);
+    // store.updateData(values);
 
-    store.updateData(values);
+    // store.items.forEach(formItem => {
+    //   const updatedValue = getVariable(values, formItem.name, false);
 
-    store.items.forEach(formItem => {
-      const updatedValue = getVariable(values, formItem.name, false);
-
-      if (updatedValue !== undefined) {
-        // 更新验证状态但保留错误信息
-        formItem.reset(true);
-        // 这里需要更新value，否则提交时不会使用新的字段值校验
-        formItem.changeTmpValue(updatedValue);
-        formItem.validateOnChange && formItem.validate(values);
-      }
-    });
-
+    //   if (updatedValue !== undefined) {
+    //     // 更新验证状态但保留错误信息
+    //     formItem.reset(true);
+    //     // 这里需要更新value，否则提交时不会使用新的字段值校验
+    //     formItem.changeTmpValue(updatedValue);
+    //     formItem.validateOnChange && formItem.validate(values);
+    //   }
+    // });
     (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(submit);
   }
 
   handleFormSubmit(e: React.UIEvent<any>) {
-    const {preventEnterSubmit, onActionSensor} = this.props;
+    const {preventEnterSubmit, onActionSensor, close} = this.props;
 
     e.preventDefault();
     if (preventEnterSubmit) {
@@ -1029,7 +1028,8 @@ export default class Form extends React.Component<FormProps, object> {
     const sensor: any = this.handleAction(
       e,
       {
-        type: 'submit'
+        type: 'submit',
+        close
       },
       this.props.store.data
     );
@@ -1638,7 +1638,8 @@ export default class Form extends React.Component<FormProps, object> {
       dispatchEvent,
       labelAlign,
       labelWidth,
-      static: isStatic
+      static: isStatic,
+      canAccessSuperData
     } = props;
 
     const subProps = {

@@ -10,6 +10,7 @@ import './ParallelAction';
 import './CustomAction';
 import './BroadcastAction';
 import './CmptAction';
+import './StatusAction';
 import './AjaxAction';
 import './CopyAction';
 import './DialogAction';
