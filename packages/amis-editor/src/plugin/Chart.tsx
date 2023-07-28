@@ -334,10 +334,7 @@ export class ChartPlugin extends BasePlugin {
                   }
                 ]
               },
-              {
-                title: '状态',
-                body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
-              }
+              getSchemaTpl('status')
             ])
           ]
         },

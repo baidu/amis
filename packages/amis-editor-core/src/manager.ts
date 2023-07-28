@@ -99,7 +99,8 @@ export function autoPreRegisterEditorCustomPlugins() {
 }
 
 /**
- * 注册Editor插件。
+ * 注册Editor插件
+ * 备注: 支持覆盖原有组件，注册新的组件时需配置 priority。
  * @param editor
  */
 export function registerEditorPlugin(klass: PluginClass) {
