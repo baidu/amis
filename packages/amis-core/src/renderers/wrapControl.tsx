@@ -648,7 +648,7 @@ export function wrapControl<
 
             if (pipeOut) {
               const oldValue = this.model.value;
-              value = pipeOut(value, oldValue, data);
+              value = pipeOut.call(this, value, oldValue, data);
             }
 
             this.model.changeTmpValue(value, 'input');
@@ -767,7 +767,7 @@ export function wrapControl<
             } = this.props;
 
             if (pipeOut) {
-              value = pipeOut(value, oldValue, data);
+              value = pipeOut.call(this, value, oldValue, data);
             }
 
             if (model.extraName) {
@@ -784,7 +784,7 @@ export function wrapControl<
             let value: any = this.model ? this.model.tmpValue : control.value;
 
             if (control.pipeIn) {
-              value = control.pipeIn(value, data);
+              value = control.pipeIn.call(this, value, data);
             }
 
             return value;
