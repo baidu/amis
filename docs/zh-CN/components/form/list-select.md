@@ -52,22 +52,22 @@ ListSelect 一般用来实现选择，可以单选也可以多选，和 Radio/Ch
           {
             "label": "OptionA",
             "value": "a",
-            "image": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
+            "image": "https://suda.cdn.bcebos.com/amis/images/alice-macaw.jpg"
           },
           {
             "label": "OptionB",
             "value": "b",
-            "image": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
+            "image": "https://suda.cdn.bcebos.com/amis/images/alice-macaw.jpg"
           },
           {
             "label": "OptionC",
             "value": "c",
-            "image": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
+            "image": "https://suda.cdn.bcebos.com/amis/images/alice-macaw.jpg"
           },
           {
             "label": "OptionD",
             "value": "d",
-            "image": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
+            "image": "https://suda.cdn.bcebos.com/amis/images/alice-macaw.jpg"
           }
         ]
       }

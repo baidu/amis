@@ -207,6 +207,7 @@ order: 27
 | 属性名               | 类型                                      | 默认值    | 说明                                                     |
 | -------------------- | ----------------------------------------- | --------- | -------------------------------------------------------- |
 | type                 | `string`                                  | `"alert"` | 指定为 alert 渲染器                                      |
+| title                | `string`                                  |           | alert标题                                                |
 | className            | `string`                                  |           | 外层 Dom 的类名                                          |
 | level                | `string`                                  | `info`    | 级别，可以是：`info`、`success`、`warning` 或者 `danger` |
 | body                 | [SchemaNode](../../docs/types/schemanode) |           | 显示内容                                                 |

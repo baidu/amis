@@ -649,9 +649,19 @@ export const EditorNode = types
           );
         }
 
+        // 调用 amis 纠错补丁
         patched = filterSchema(patched, {
           component: info.renderer.component
         } as any);
+        // 调用插件上的补丁
+        patched =
+          info.plugin?.patchSchema?.(
+            patched,
+            {
+              component: info.renderer.component
+            },
+            component?.props
+          ) || patched;
         patched = JSONPipeIn(patched);
         if (patched !== schema) {
           root.changeValueById(info.id, patched, undefined, true, true);

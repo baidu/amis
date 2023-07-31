@@ -2023,7 +2023,8 @@ export class CRUDPlugin extends BasePlugin {
   async buildDataSchemas(
     node: EditorNodeType,
     region?: EditorNodeType,
-    trigger?: EditorNodeType
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
   ) {
     const child: EditorNodeType = node.children.find(
       item => !!~['table', 'table2', 'cards', 'list'].indexOf(item.type)
@@ -2036,12 +2037,12 @@ export class CRUDPlugin extends BasePlugin {
     let childSchame = await child.info.plugin.buildDataSchemas(
       child,
       undefined,
-      trigger
+      trigger,
+      node
     );
 
     // 兼容table的rows，并自行merged异步数据
     if (child.type === 'table') {
-      let cellProperties: any = {}; // 收集当前行记录中的列
       let itemsSchema: any = {}; // 收集选择记录中的列
       const columns: EditorNodeType = child.children.find(
         item => item.isRegion && item.region === 'columns'
@@ -2068,25 +2069,34 @@ export class CRUDPlugin extends BasePlugin {
           ...rowsSchema?.properties
         };
 
-        Object.keys(tmpProperties).map(key => {
-          if (isColumnChild) {
-            // 给列补充group
-            cellProperties[key] = {
-              ...cellProperties[key],
-              group: '当前行记录'
+        if (isColumnChild) {
+          Object.keys(tmpProperties).map(key => {
+            itemsSchema[key] = {
+              ...tmpProperties[key]
             };
+          });
+
+          const childScope = this.manager.dataSchema.getScope(
+            `${child.id}-${child.type}-currentRow`
+          );
+
+          if (childScope) {
+            childScope?.setSchemas([
+              {
+                $id: `${child.id}-${child.type}-currentRow`,
+                type: 'object',
+                properties: itemsSchema
+              }
+            ]);
+            childScope.tag = `当前行记录 : ${node.type}`;
           }
-          itemsSchema[key] = {
-            ...tmpProperties[key]
-          };
-        });
+        }
       }
 
       childSchame = {
         $id: childSchame.$id,
         type: childSchame.type,
         properties: {
-          ...cellProperties,
           items: childSchame.properties.rows,
           selectedItems: {
             ...childSchame.properties.selectedItems,

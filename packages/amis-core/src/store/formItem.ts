@@ -66,6 +66,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     messages: types.optional(types.frozen(), {}),
     errorData: types.optional(types.array(ErrorDetail), []),
     name: types.string,
+    extraName: '',
     itemId: '', // 因为 name 可能会重名，所以加个 id 进来，如果有需要用来定位具体某一个
     unsetValueOnInvisible: false,
     itemsRef: types.optional(types.array(types.string), []),
@@ -210,6 +211,15 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         });
 
         return selectedOptions;
+      },
+      splitExtraValue(value: any) {
+        const delimiter = self.delimiter || ',';
+        const values = Array.isArray(value)
+          ? value
+          : typeof value === 'string'
+          ? value.split(delimiter || ',')
+          : [];
+        return values;
       }
     };
   })
@@ -220,6 +230,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     let loadAutoUpdateCancel: Function | null = null;
 
     function config({
+      extraName,
       required,
       unique,
       value,
@@ -244,6 +255,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       label,
       inputGroupControl
     }: {
+      extraName?: string;
       required?: boolean;
       unique?: boolean;
       value?: any;
@@ -276,6 +288,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         rules = str2rules(rules);
       }
 
+      typeof extraName !== 'undefined' && (self.extraName = extraName);
       typeof type !== 'undefined' && (self.type = type);
       typeof id !== 'undefined' && (self.itemId = id);
       typeof messages !== 'undefined' && (self.messages = messages);
@@ -1236,6 +1249,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     function changeTmpValue(
       value: any,
       changeReason?:
+        | 'initialValue' // 初始值，读取与当前数据域，或者上层数据域
         | 'formInited' // 表单初始化
         | 'dataChanged' // 表单数据变化
         | 'formulaChanged' // 公式运算结果变化

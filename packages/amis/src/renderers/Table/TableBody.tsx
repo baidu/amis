@@ -9,9 +9,10 @@ import {trace, reaction} from 'mobx';
 import {createObject, flattenTree} from 'amis-core';
 import {LocaleProps} from 'amis-core';
 import {ActionSchema} from '../Action';
-import type {IColumn, IRow} from 'amis-core';
+import type {IColumn, IRow, ITableStore} from 'amis-core';
 
 export interface TableBodyProps extends LocaleProps {
+  store: ITableStore;
   className?: string;
   rowsProps?: any;
   tableClassName?: string;
@@ -59,7 +60,6 @@ export interface TableBodyProps extends LocaleProps {
   prefixRow?: Array<any>;
   affixRow?: Array<any>;
   itemAction?: ActionSchema;
-  fixedPosition?: 'left' | 'right';
 }
 
 @observer
@@ -186,7 +186,7 @@ export class TableBody extends React.Component<TableBodyProps> {
       rows,
       prefixRowClassName,
       affixRowClassName,
-      fixedPosition
+      store
     } = this.props;
 
     if (!(Array.isArray(items) && items.length)) {
@@ -206,13 +206,15 @@ export class TableBody extends React.Component<TableBodyProps> {
           offset += item.colSpan - 1;
         }
 
-        colIdxs = colIdxs.filter(idx =>
-          columns.find(col => col.rawIndex === idx)
-        );
+        const matchedColumns = colIdxs
+          .map(idx => columns.find(col => col.rawIndex === idx))
+          .filter(item => item);
 
         return {
           ...item,
-          colSpan: colIdxs.length
+          colSpan: matchedColumns.length,
+          firstColumn: matchedColumns[0],
+          lastColumn: matchedColumns[matchedColumns.length - 1]
         };
       })
       .filter(item => item.colSpan);
@@ -232,7 +234,7 @@ export class TableBody extends React.Component<TableBodyProps> {
 
     // 多了则干掉一些
     while (appendLen < 0) {
-      const item = fixedPosition === 'right' ? result.shift() : result.pop();
+      const item = result.pop();
       if (!item) {
         break;
       }
@@ -247,9 +249,12 @@ export class TableBody extends React.Component<TableBodyProps> {
         type: 'html',
         html: '&nbsp;'
       };
+      const column = store.filteredColumns[store.filteredColumns.length - 1];
       result.push({
         ...item,
-        colSpan: /*(item.colSpan || 1)*/ 1 + appendLen
+        colSpan: /*(item.colSpan || 1)*/ 1 + appendLen,
+        firstColumn: column,
+        lastColumn: column
       });
     }
 
@@ -269,11 +274,22 @@ export class TableBody extends React.Component<TableBodyProps> {
       >
         {result.map((item, index) => {
           const Com = item.isHead ? 'th' : 'td';
+          const firstColumn = item.firstColumn;
+          const lastColumn = item.lastColumn;
+
+          const style = {...item.style};
+          const [stickyStyle, stickyClassName] = store.getStickyStyles(
+            lastColumn.fixed === 'right' ? lastColumn : firstColumn,
+            store.filteredColumns
+          );
+          Object.assign(style, stickyStyle);
+
           return (
             <Com
               key={index}
-              colSpan={item.colSpan}
-              className={item.cellClassName}
+              colSpan={item.colSpan == 1 ? undefined : item.colSpan}
+              style={style}
+              className={(item.cellClassName || '') + ' ' + stickyClassName}
             >
               {render(`summary-row/${index}`, item, {
                 data: ctx

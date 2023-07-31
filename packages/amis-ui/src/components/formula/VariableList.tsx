@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 
-import {themeable, ThemeProps, filterTree, getTreeAncestors} from 'amis-core';
+import {themeable, ThemeProps, filterTree} from 'amis-core';
 import GroupedSelection from '../GroupedSelection';
 import Tabs, {Tab} from '../Tabs';
 import TreeSelection from '../TreeSelection';
@@ -54,7 +54,7 @@ const memberOpers = [
   {
     label: '取该成员的平均值',
     value: 'AVG(ARRAYMAP(${arr}, item => item.${member}))',
-    description: '即计算该成员记录的总和，需确认该成员记录均为数字类型'
+    description: '即计算该成员记录的平均值，需确认该成员记录均为数字类型'
   },
   {
     label: '取该成员的最大值',
@@ -140,48 +140,51 @@ function VariableList(props: VariableListProps) {
                   )}
                 {/* 控制只对第一层数组成员展示快捷操作入口 */}
                 {option.memberDepth !== undefined &&
-                option.memberDepth < 2 &&
                 option.label &&
                 (!selfVariableName || option.value !== selfVariableName) ? (
-                  <PopOverContainer
-                    popOverContainer={() =>
-                      document.querySelector(`.${cx('FormulaPicker-Modal')}`)
-                    }
-                    popOverRender={({onClose}) => (
-                      <ul className={cx(`${classPrefix}-item-oper`)}>
-                        {memberOpers.map((item, i) => {
-                          return (
-                            <TooltipWrapper
-                              tooltip={item.description}
-                              tooltipTheme="dark"
-                            >
-                              <li
-                                key={i}
-                                onClick={() =>
-                                  handleMemberClick(
-                                    {...item, isMember: true},
-                                    option,
-                                    onClose
-                                  )
-                                }
+                  option.memberDepth < 2 ? (
+                    <PopOverContainer
+                      popOverContainer={() =>
+                        document.querySelector(`.${cx('FormulaPicker-Modal')}`)
+                      }
+                      popOverRender={({onClose}) => (
+                        <ul className={cx(`${classPrefix}-item-oper`)}>
+                          {memberOpers.map((item, i) => {
+                            return (
+                              <TooltipWrapper
+                                tooltip={item.description}
+                                tooltipTheme="dark"
                               >
-                                <span>{item.label}</span>
-                              </li>
-                            </TooltipWrapper>
-                          );
-                        })}
-                      </ul>
-                    )}
-                  >
-                    {({onClick, ref, isOpened}) => (
-                      <TooltipWrapper
-                        tooltip={option.description ?? option.label}
-                        tooltipTheme="dark"
-                      >
-                        <label onClick={onClick}>{option.label}</label>
-                      </TooltipWrapper>
-                    )}
-                  </PopOverContainer>
+                                <li
+                                  key={i}
+                                  onClick={() =>
+                                    handleMemberClick(
+                                      {...item, isMember: true},
+                                      option,
+                                      onClose
+                                    )
+                                  }
+                                >
+                                  <span>{item.label}</span>
+                                </li>
+                              </TooltipWrapper>
+                            );
+                          })}
+                        </ul>
+                      )}
+                    >
+                      {({onClick, ref, isOpened}) => (
+                        <TooltipWrapper
+                          tooltip={option.description ?? option.label}
+                          tooltipTheme="dark"
+                        >
+                          <label onClick={onClick}>{option.label}</label>
+                        </TooltipWrapper>
+                      )}
+                    </PopOverContainer>
+                  ) : (
+                    <label>{option.label}</label>
+                  )
                 ) : null}
                 {option?.tag ? (
                   <span className={cx(`${classPrefix}-item-tag`)}>

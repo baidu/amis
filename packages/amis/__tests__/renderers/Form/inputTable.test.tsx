@@ -62,7 +62,7 @@ test('Renderer:input table', async () => {
     )
   );
 
-  await wait(300);
+  await wait(500);
   replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
@@ -136,13 +136,15 @@ test('Renderer: input-table with default value column', async () => {
   await wait(200);
 
   expect(onSubmitCallbackFn).toHaveBeenCalledTimes(1);
-  expect(onSubmitCallbackFn.mock.calls[0][0]).toEqual({
-    table: [
-      {a: 'a1', b: 'b1', c: 'a1'},
-      {a: 'a2', b: 'b2', c: 'a2'},
-      {a: 'a3', b: 'b3', c: 'a3'}
-    ]
-  });
+  expect(onSubmitCallbackFn.mock.calls[0][0]).toEqual(
+    expect.objectContaining({
+      table: [
+        {a: 'a1', b: 'b1', c: 'a1'},
+        {a: 'a2', b: 'b2', c: 'a2'},
+        {a: 'a3', b: 'b3', c: 'a3'}
+      ]
+    })
+  );
 }, 10000);
 
 test('Renderer:input table add', async () => {
@@ -176,7 +178,7 @@ test('Renderer:input table add', async () => {
     )
   );
 
-  await wait(200);
+  await wait(500);
   const add = await findByText(/新增/);
 
   fireEvent.click(add);

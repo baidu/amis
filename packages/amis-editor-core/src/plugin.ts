@@ -13,7 +13,7 @@ import {EditorDNDManager} from './dnd';
 import React from 'react';
 import {DiffChange} from './util';
 import find from 'lodash/find';
-import type {RendererConfig} from 'amis-core';
+import type {RendererConfig, Schema} from 'amis-core';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
 import type {BaseSchema, SchemaCollection} from 'amis';
 import type {AsyncLayerOptions} from './component/AsyncLayer';
@@ -916,7 +916,8 @@ export interface PluginInterface
   buildDataSchemas?: (
     node: EditorNodeType,
     region?: EditorNodeType,
-    trigger?: EditorNodeType
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
   ) => any | Promise<any>;
 
   rendererBeforeDispatchEvent?: (
@@ -924,6 +925,19 @@ export interface PluginInterface
     e: any,
     data: any
   ) => void;
+
+  /**
+   * 给 schema 打补丁，纠正一下 schema 配置。
+   * @param schema
+   * @param renderer
+   * @param props
+   * @returns
+   */
+  patchSchema?: (
+    schema: Schema,
+    renderer: RendererConfig,
+    props?: any
+  ) => Schema | void;
 
   dispose?: () => void;
 }
@@ -1207,6 +1221,22 @@ export abstract class BasePlugin implements PluginInterface {
         ? plugin.rendererName === rendererNameOrKlass
         : plugin instanceof rendererNameOrKlass
     );
+  }
+
+  buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
+  ) {
+    return {
+      type: 'string',
+      title:
+        typeof node.schema.label === 'string'
+          ? node.schema.label
+          : node.schema.name,
+      originalValue: node.schema.value // 记录原始值，循环引用检测需要
+    } as any;
   }
 }
 

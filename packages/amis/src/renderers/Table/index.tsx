@@ -1145,7 +1145,7 @@ export default class Table extends React.Component<TableProps, object> {
       const div = document.createElement('div');
       div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
       div.style.cssText = `position:absolute;top:0;left:0;pointer-events:none;visibility: hidden;`;
-      div.innerHTML = `<table style="table-layout:auto!important;" class="${cx(
+      div.innerHTML = `<table style="table-layout:auto!important;width:0!important;min-width:0!important;" class="${cx(
         'Table-table'
       )}"><thead><tr>${ths
         .map(

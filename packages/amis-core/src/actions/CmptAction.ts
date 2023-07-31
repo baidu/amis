@@ -1,5 +1,5 @@
 import {RendererEvent} from '../utils/renderer-event';
-import {createObject, isEmpty} from '../utils/helper';
+import {createObject} from '../utils/helper';
 import {
   RendererAction,
   ListenerAction,
@@ -8,22 +8,11 @@ import {
 } from './Action';
 
 export interface ICmptAction extends ListenerAction {
-  actionType:
-    | 'setValue'
-    | 'static'
-    | 'nonstatic'
-    | 'show'
-    | 'visibility'
-    | 'hidden'
-    | 'enabled'
-    | 'disabled'
-    | 'usability'
-    | 'reload';
+  actionType: string;
   args: {
-    /** actionType为setValue时，目标变量的path */
-    path?: string;
-    value?: string | {[key: string]: string};
-    index?: number; // setValue支持更新指定索引的数据，一般用于数组类型
+    path?: string; // setValue时，目标变量的path
+    value?: string | {[key: string]: string}; // setValue时，目标变量的值
+    index?: number; // setValue时，支持更新指定索引的数据，一般用于数组类型
   };
 }
 
@@ -45,34 +34,16 @@ export class CmptAction implements RendererAction {
      * 触发组件未指定id或未指定响应组件componentId，则使用触发组件响应
      */
     const key = action.componentId || action.componentName;
+    const dataMergeMode = action.dataMergeMode || 'merge';
+
     let component = key
       ? event.context.scoped?.[
           action.componentId ? 'getComponentById' : 'getComponentByName'
         ](key)
-      : renderer;
+      : null;
 
-    const dataMergeMode = action.dataMergeMode || 'merge';
-
-    // 显隐&状态控制
-    if (['show', 'hidden', 'visibility'].includes(action.actionType)) {
-      let visibility =
-        action.actionType === 'visibility'
-          ? action.args?.value
-          : action.actionType === 'show';
-      return renderer.props.statusStore.setVisible(key!, visibility as any);
-    } else if (['static', 'nonstatic'].includes(action.actionType)) {
-      return renderer.props.statusStore.setStatic(
-        key!,
-        action.actionType === 'static'
-      );
-    } else if (
-      ['enabled', 'disabled', 'usability'].includes(action.actionType)
-    ) {
-      let usability =
-        action.actionType === 'usability'
-          ? !action.args?.value
-          : action.actionType === 'disabled';
-      return renderer.props.statusStore.setDisable(key!, usability);
+    if (key && !component) {
+      throw Error('目标组件没有找到，请检查componentId或componentName是否正确');
     }
 
     if (action.actionType === 'setValue') {

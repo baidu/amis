@@ -251,6 +251,27 @@ order: 38
 }
 ```
 
+## 存成两个字段
+
+默认滑块多选存储一个字段，用 `delemiter` 分割，如果配置 `extraName` 则会存两个字段。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-range",
+            "multiple": true,
+            "name": "begin",
+            "extraName": "end",
+            "label": "range"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置

@@ -102,6 +102,26 @@ order: 16
 }
 ```
 
+## 存成两个字段
+
+默认日期范围存储一个字段，用 `delemiter` 分割，如果配置 `extraName` 则会存两个字段。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-datetime-range",
+            "name": "begin",
+            "extraName": "end",
+            "label": "日期范围"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -117,6 +137,7 @@ order: 16
 | utc         | `boolean`                                                                          | `false`                                                         | [保存 UTC 值](./input-datetime#utc)                                                        |
 | clearable   | `boolean`                                                                          | `true`                                                          | 是否可清除                                                                                 |
 | animation   | `boolean`                                                                          | `true`                                                          | 是否启用游标动画                                                                           | `2.2.0`                 |
+| extraName   | `string`                                                                           |                                                                 | 是否存成两个字段                                                                           | `3.3.0`                 |
 
 ## 事件表
 

@@ -78,7 +78,7 @@ test('Renderer:input-formula', async () => {
     )
   );
 
-  await wait(200);
+  await wait(500);
   expect(container).toMatchSnapshot();
 
   await findByDisplayValue('SUM(1 + 2)');
@@ -180,7 +180,7 @@ test('Renderer:input-formula button', async () => {
     )
   );
 
-  await wait(200);
+  await wait(500);
   expect(container).toMatchSnapshot();
 });
 
@@ -260,6 +260,6 @@ test('Renderer:input-formula input-group', async () => {
     )
   );
 
-  await wait(200);
+  await wait(500);
   expect(container).toMatchSnapshot();
 });

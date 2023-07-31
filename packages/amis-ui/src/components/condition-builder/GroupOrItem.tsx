@@ -126,6 +126,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 onDragStart={onDragStart}
                 config={config}
                 fields={fields}
+                formula={formula}
                 value={value as ConditionGroupValue}
                 onChange={this.handleItemChange}
                 fieldClassName={fieldClassName}

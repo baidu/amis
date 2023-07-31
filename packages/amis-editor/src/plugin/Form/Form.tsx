@@ -1,4 +1,8 @@
-import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
+import {
+  JSONPipeOut,
+  getI18nEnabled,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {
   BasePlugin,
   ChangeEventContext,
@@ -11,7 +15,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {jsonToJsonSchema} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
-import {setVariable, someTree} from 'amis-core';
+import {RendererConfig, Schema, setVariable, someTree} from 'amis-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 // 用于脚手架的常用表单控件
@@ -939,102 +943,22 @@ export class FormPlugin extends BasePlugin {
     trigger?: EditorNodeType
   ) {
     const jsonschema: any = {
-      $id: 'formItems',
-      type: 'object',
-      properties: {}
+      ...jsonToJsonSchema(JSONPipeOut(node.schema.data))
     };
-
     const pool = node.children.concat();
+
     while (pool.length) {
       const current = pool.shift() as EditorNodeType;
       const schema = current.schema;
 
-      if (current.rendererConfig?.type === 'combo') {
-        if (trigger) {
-          const items = current.children?.find(
-            child => child.isRegion && child.region === 'items'
+      if (current.rendererConfig?.isFormItem && schema.name) {
+        jsonschema.properties[schema.name] =
+          await current.info.plugin.buildDataSchemas?.(
+            current,
+            region,
+            trigger,
+            node
           );
-          const isItemsChild = someTree(
-            items.children,
-            item => item.id === trigger?.id
-          );
-
-          if (isItemsChild) {
-            const itemsChilds = items.children.concat();
-
-            while (itemsChilds.length) {
-              const currentItem = itemsChilds.shift() as EditorNodeType;
-              const itemSchema = currentItem.schema;
-
-              if (itemSchema.name) {
-                jsonschema.properties[itemSchema.name] = {
-                  ...(currentItem.info?.plugin?.buildDataSchemas
-                    ? await currentItem.info.plugin.buildDataSchemas(
-                        currentItem,
-                        region,
-                        trigger
-                      )
-                    : {
-                        type: 'string',
-                        title: itemSchema.label || itemSchema.name
-                      }),
-                  group: `当前行记录(${schema.label || schema.name})`
-                };
-              }
-            }
-          }
-        }
-
-        if (schema.name) {
-          jsonschema.properties[schema.name] =
-            await current.info.plugin.buildDataSchemas?.(current, region);
-        }
-      } else if (current.rendererConfig?.type === 'input-table') {
-        if (trigger) {
-          const columns: EditorNodeType = current.children.find(
-            item => item.isRegion && item.region === 'columns'
-          );
-          const isColumnChild = someTree(
-            columns?.children,
-            item => item.id === trigger.id
-          );
-
-          if (isColumnChild) {
-            for (let col of schema?.columns) {
-              if (col.name) {
-                jsonschema.properties[col.name] = {
-                  type: 'string',
-                  title: col.label || col.name,
-                  group: `当前行记录(${schema.label || schema.name})`
-                };
-              }
-            }
-          }
-        }
-        if (schema.name) {
-          jsonschema.properties[schema.name] =
-            await current.info.plugin.buildDataSchemas?.(
-              current,
-              region,
-              trigger
-            );
-        }
-      } else if (current.rendererConfig?.isFormItem) {
-        if (schema.name) {
-          jsonschema.properties[schema.name] = current.info?.plugin
-            ?.buildDataSchemas
-            ? await current.info.plugin.buildDataSchemas(
-                current,
-                region,
-                trigger
-              )
-            : {
-                type: 'string',
-                title:
-                  typeof schema.label === 'string' ? schema.label : schema.name,
-                originalValue: schema.value // 记录原始值，循环引用检测需要
-              };
-        }
       } else {
         pool.push(...current.children);
       }
@@ -1055,6 +979,40 @@ export class FormPlugin extends BasePlugin {
       scope?.removeSchema(jsonschema.$id);
       scope?.addSchema(jsonschema);
     }
+  }
+
+  /**
+   * 为了让 form 的按钮可以点击编辑
+   */
+  patchSchema(schema: Schema, info: RendererConfig, props: any) {
+    if (
+      Array.isArray(schema.actions) ||
+      schema.wrapWithPanel === false ||
+      (Array.isArray(schema.body) &&
+        schema.body.some(
+          (item: any) =>
+            item &&
+            !!~['submit', 'button', 'button-group', 'reset'].indexOf(
+              (item as any)?.body?.[0]?.type ||
+                (item as any)?.body?.type ||
+                (item as any).type
+            )
+        ))
+    ) {
+      return;
+    }
+
+    return {
+      ...schema,
+      actions: [
+        {
+          type: 'submit',
+          label:
+            props?.translate(props?.submitText) || schema.submitText || '提交',
+          primary: true
+        }
+      ]
+    };
   }
 }
 

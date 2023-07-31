@@ -71,6 +71,27 @@ order: 10
 }
 ```
 
+## 配置下拉框样式
+
+可以通过 `itemClassName` 指定下拉框样式，如配置最小宽度
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "name": "city",
+            "type": "input-city",
+            "label": "城市",
+            "itemClassName": "min-w-xs",
+            "searchable": true
+        }
+    ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置

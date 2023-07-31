@@ -2,6 +2,7 @@ import {Button} from 'amis';
 import React from 'react';
 import {
   EditorNodeType,
+  JSONPipeOut,
   jsonToJsonSchema,
   registerEditorPlugin
 } from 'amis-editor-core';
@@ -151,9 +152,6 @@ export class ServicePlugin extends BasePlugin {
   panelTitle = '服务';
 
   panelBodyCreator = (context: BaseEventContext) => {
-    console.log(context);
-    console.log(context.node.parent);
-    console.log(context.node.parent.getComponent());
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -290,6 +288,36 @@ export class ServicePlugin extends BasePlugin {
       }
     ]);
   };
+
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
+    let jsonschema: any = {
+      ...jsonToJsonSchema(JSONPipeOut(node.schema.data ?? {}))
+    };
+    const pool = node.children.concat();
+
+    while (pool.length) {
+      const current = pool.shift() as EditorNodeType;
+      const schema = current.schema;
+
+      if (current.rendererConfig?.isFormItem && schema?.name) {
+        jsonschema.properties[schema.name] =
+          await current.info.plugin.buildDataSchemas?.(
+            current,
+            undefined,
+            trigger,
+            node
+          );
+      } else if (!current.rendererConfig?.storeType) {
+        pool.push(...current.children);
+      }
+    }
+
+    return jsonschema;
+  }
 
   rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
     if (e === 'fetchInited') {

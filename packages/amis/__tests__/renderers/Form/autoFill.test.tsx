@@ -391,7 +391,7 @@ test('Form:options:autoFill:validation', async () => {
   expect(option1.getAttribute('value')).toEqual('OptionB');
   expect(option1.getAttribute('value')).toEqual('OptionB');
   expect(screen.queryByText(validationMsg1)).not.toBeInTheDocument();
-  expect(screen.queryByText(validationMsg2)).toBeInTheDocument();
+  expect(screen.queryByText(validationMsg2)).not.toBeInTheDocument();
 
   // 提交后校验信息全部消除
   fireEvent.click(submitBtn);

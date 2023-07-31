@@ -115,6 +115,21 @@ title: Width
 
 
 */
+
+@mixin min-width-sizing($map: $minWidths, $prefix: '.') {
+  @each $name, $value in $map {
+    @if $name == default {
+      #{$prefix}min-w {
+        min-width: $value;
+      }
+    } @else {
+      #{$prefix}min-w-#{'' + selector-escape($name)} {
+        min-width: $value;
+      }
+    }
+  }
+}
+
 @mixin max-width-sizing($map: $maxWidths, $prefix: '.') {
   @each $name, $value in $map {
     @if $name == default {
@@ -148,6 +163,7 @@ title: Width
   }
 
   @include max-width-sizing($maxWidths, $prefix);
+  @include min-width-sizing($minWidths, $prefix);
 }
 
 @include make-widths();

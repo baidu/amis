@@ -1,13 +1,12 @@
 import {Schema, SchemaNode} from '../types';
 import {RendererEvent} from '../utils/renderer-event';
+import {filter} from '../utils/tpl';
 import {
   RendererAction,
   ListenerAction,
   ListenerContext,
   registerAction
 } from './Action';
-import {createObject, filter, render} from '../index';
-import reject from 'lodash/reject';
 
 export interface IAlertAction extends ListenerAction {
   actionType: 'alert';
@@ -76,7 +75,7 @@ export class DialogAction implements RendererAction {
       event,
       {
         actionType: 'dialog',
-        dialog: action.dialog ?? action.args?.dialog,
+        dialog: action.dialog,
         reload: 'none'
       },
       action.data

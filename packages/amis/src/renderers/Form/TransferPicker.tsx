@@ -88,10 +88,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       labelField = 'label',
       valueField = 'value',
       useMobileUI,
-      env,
-      popOverContainer
+      env
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
 
     // 目前 LeftOptions 没有接口可以动态加载
     // 为了方便可以快速实现动态化，让选项的第一个成员携带
@@ -141,11 +139,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           }
           virtualThreshold={virtualThreshold}
           useMobileUI={useMobileUI}
-          popOverContainer={
-            mobileUI
-              ? env?.getModalContainer
-              : popOverContainer || env.getModalContainer
-          }
+          popOverContainer={env?.getModalContainer}
         />
 
         <Spinner

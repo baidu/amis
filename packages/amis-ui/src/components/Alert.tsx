@@ -3,7 +3,7 @@
  * @author fex
  */
 
-import React from 'react';
+import React, {version} from 'react';
 import {render} from 'react-dom';
 import Modal from './Modal';
 import Button from './Button';
@@ -11,6 +11,7 @@ import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import Html from './Html';
 import type {PlainObject} from 'amis-core';
+// import {createRoot} from 'react-dom/client';
 export interface AlertProps extends ThemeProps, LocaleProps {
   container?: any;
   confirmText?: string;
@@ -52,13 +53,21 @@ export interface AlertState {
 
 export class Alert extends React.Component<AlertProps, AlertState> {
   static instance: any = null;
-  static getInstance() {
+  static async getInstance() {
     if (!Alert.instance) {
       console.warn('Alert 组件应该没有被渲染，所以隐性的渲染到 body 了');
       const container = document.body;
       const div = document.createElement('div');
       container.appendChild(div);
+
+      // if (parseInt(version.split('.')[0], 10) >= 18) {
+      //   const root = createRoot(div);
+      //   await new Promise<void>(resolve =>
+      //     root.render(<FinnalAlert ref={() => resolve()} />)
+      //   );
+      // } else {
       render(<FinnalAlert />, div);
+      // }
     }
 
     return Alert.instance;
@@ -346,23 +355,35 @@ function renderForm(
   return renderSchemaFn?.(controls, value, callback, scopeRef, theme);
 }
 
-export const alert: (content: string, title?: string) => void = (
+export const alert: (content: string, title?: string) => Promise<void> = async (
   content,
   title
-) => Alert.getInstance().alert(content, title);
+) => {
+  const instance = await Alert.getInstance();
+  return instance.alert(content, title);
+};
 export const confirm: (
   content: string | React.ReactNode,
   title?: string,
   optionsOrCofnrimText?: string | ConfirmOptions,
   cancelText?: string
-) => Promise<any> = (content, title, optionsOrCofnrimText, cancelText) =>
-  Alert.getInstance().confirm(content, title, optionsOrCofnrimText, cancelText);
+) => Promise<any> = async (
+  content,
+  title,
+  optionsOrCofnrimText,
+  cancelText
+) => {
+  const instance = await Alert.getInstance();
+  return instance.confirm(content, title, optionsOrCofnrimText, cancelText);
+};
 export const prompt: (
   controls: any,
   defaultvalue?: any,
   title?: string,
   confirmText?: string
-) => Promise<any> = (controls, defaultvalue, title, confirmText) =>
-  Alert.getInstance().prompt(controls, defaultvalue, title, confirmText);
+) => Promise<any> = async (controls, defaultvalue, title, confirmText) => {
+  const instance = await Alert.getInstance();
+  return instance.prompt(controls, defaultvalue, title, confirmText);
+};
 export const FinnalAlert = themeable(localeable(Alert));
 export default FinnalAlert;

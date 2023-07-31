@@ -18,7 +18,8 @@ import {
   findTree,
   findTreeIndex,
   getTree,
-  spliceTree
+  spliceTree,
+  mapTree
 } from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {optionValueCompare} from 'amis-core';
@@ -354,13 +355,19 @@ export class BaseTransferRenderer<
           throw new Error(__('CRUD.invalidArray'));
         }
 
-        return result.map(item => {
+        return mapTree(result, item => {
           let resolved: any = null;
           const value = item[valueField || 'value'];
 
           // 只有 value 值有意义的时候，再去找；否则直接返回
           if (Array.isArray(options) && value !== null && value !== undefined) {
             resolved = find(options, optionValueCompare(value, valueField));
+            if (item?.children) {
+              resolved = {
+                ...resolved,
+                children: item.children
+              };
+            }
           }
 
           return resolved || item;
