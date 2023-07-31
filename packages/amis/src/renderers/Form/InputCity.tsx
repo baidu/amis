@@ -66,7 +66,7 @@ export interface InputCityControlSchema
   /**
    * 下拉框className
    */
-  itemClassName?: number;
+  itemClassName?: string;
 }
 
 export interface CityPickerProps
