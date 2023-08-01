@@ -1572,11 +1572,12 @@ export default class Table extends React.Component<TableProps, object> {
       })
     );
 
-    let showExpander = searchableColumns.length >= columnsNum * 2;
+    let showExpander = searchableColumns.length >= columnsNum;
 
     // todo 以后做动画
-    if (!store.searchFormExpanded) {
+    if (!store.searchFormExpanded && body.length) {
       body.splice(1, body.length - 1);
+      body[0].body.splice(columnsNum - 1, body[0].body.length - columnsNum + 1);
     }
 
     let lastGroup = body[body.length - 1];
