@@ -14,9 +14,12 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
       draggable: true,
       ...schema,
       multiple: true,
-      pipeIn: (value: any) => {
+      pipeIn: function (this: any, value: any) {
         if (!isObject(value)) {
           return [];
+        }
+        if (isEqual(value, this.cachedValue)) {
+          return this.cachedValueArray;
         }
         const arr: Array<any> = [];
         Object.keys(value).forEach(key => {
@@ -33,7 +36,7 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
         });
         return arr;
       },
-      pipeOut: (value: any) => {
+      pipeOut: function (this: any, value: any) {
         if (!Array.isArray(value)) {
           return value;
         }
@@ -53,6 +56,8 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
 
           obj[key] = value;
         });
+        this.cachedValue = obj;
+        this.cachedValueArray = value;
         return obj;
       },
       items: [
