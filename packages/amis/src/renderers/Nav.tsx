@@ -265,6 +265,11 @@ export interface NavSchema extends BaseSchema {
    * 子菜单项展开浮层样式
    */
   popupClassName?: string;
+
+  /**
+   * 在开通页使用 仅展示 但点击不跳转 即使配置了to也不跳转 且不处理选中项
+   */
+  disableJump?: boolean;
 }
 
 export interface Link {
@@ -694,6 +699,7 @@ export class Navigation extends React.Component<
       expandPosition,
       popupClassName,
       disabled,
+      disableJump,
       id,
       render,
       popOverContainer,
@@ -743,7 +749,8 @@ export class Navigation extends React.Component<
     return (
       <div
         className={cx('Nav', className, {
-          ['Nav-horizontal']: !stacked
+          ['Nav-horizontal']: !stacked,
+          ['Nav-disable-jump']: !!disableJump
         })}
         style={styleConfig}
       >
@@ -848,8 +855,10 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     }
 
     if (response.value && !someTree(config, item => item.active)) {
-      const {env} = props;
-
+      const {env, disableJump} = props;
+      if (disableJump) {
+        return;
+      }
       env.jumpTo(filter(response.value as string, props.data));
     }
   },
@@ -868,11 +877,15 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         location,
         level,
         defaultOpenLevel,
-        disabled
+        disabled,
+        disableJump
       } = props;
 
       const isActive = (link: Link, depth: number) => {
         if (disabled) {
+          return false;
+        }
+        if (disableJump) {
           return false;
         }
         if (!!link.disabled) {
@@ -1201,8 +1214,16 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     }
 
     async handleSelect(link: Link, depth: number) {
-      const {onSelect, env, data, level, dispatchEvent, updateConfig, config} =
-        this.props;
+      const {
+        onSelect,
+        env,
+        data,
+        level,
+        dispatchEvent,
+        updateConfig,
+        config,
+        disableJump
+      } = this.props;
 
       const rendererEvent = await dispatchEvent(
         'click',
@@ -1239,6 +1260,10 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       }
 
       if (!link.to) {
+        return;
+      }
+      // 如果nav配置了disableJump 那么点击菜单项不跳转
+      if (disableJump) {
         return;
       }
       env?.jumpTo(filter(link.to as string, data), link as any);
@@ -1350,12 +1375,14 @@ export class NavigationRenderer extends React.Component<RendererProps> {
         }
       }
       if (children.length > 0) {
-        const {env, data} = this.props;
+        const {env, data, disableJump} = this.props;
         const child = findTree(
           children,
           item => env && env.isCurrentUrl(filter(item.to as string, data), item)
         );
-
+        if (disableJump) {
+          return;
+        }
         env?.jumpTo(
           filter(child ? child.to : (children[0].to as string), data)
         );
