@@ -313,6 +313,8 @@ export interface DateProps extends LocaleProps, ThemeProps {
 
   // 是否为结束时间
   isEndDate?: boolean;
+
+  disabledDate?: (date: moment.Moment) => any;
 }
 
 export interface DatePickerState {
@@ -587,12 +589,16 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   }
 
   checkIsValidDate(currentDate: moment.Moment) {
-    const {minDate, maxDate} = this.props;
+    const {minDate, maxDate, disabledDate} = this.props;
 
     if (minDate && currentDate.isBefore(minDate, 'day')) {
       return false;
     } else if (maxDate && currentDate.isAfter(maxDate, 'day')) {
       return false;
+    }
+
+    if (typeof disabledDate === 'function') {
+      return !disabledDate(currentDate);
     }
 
     return true;
