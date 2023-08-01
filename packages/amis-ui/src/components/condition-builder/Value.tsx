@@ -39,14 +39,16 @@ export class Value extends React.Component<ValueProps> {
     let input: JSX.Element | undefined = undefined;
     if (formula) {
       // 如果配置了 formula 字段，则所有的输入变为 formula 形式
-      formula = Object.assign(formula, {
+      formula = {
+        ...formula,
         translate: __,
         classnames: cx,
         data,
         value: value ?? field.defaultValue,
         onChange,
         disabled
-      });
+      };
+
       const inputSettings =
         field.type !== 'custom' && formula?.inputSettings
           ? {

@@ -5,7 +5,7 @@ import React from 'react';
 import {Icon} from '../icons';
 import ConditionGroup from './Group';
 import ConditionItem from './Item';
-import {FormulaPickerProps} from '../formula/Picker';
+import FormulaPicker, {FormulaPickerProps} from '../formula/Picker';
 import Button from '../Button';
 import type {ConditionGroupValue, ConditionValue} from 'amis-core';
 
@@ -33,6 +33,7 @@ export interface CBGroupOrItemProps extends ThemeProps {
   depth: number;
   isAddBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
   isAddGroupBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
+  showIf?: boolean;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -67,6 +68,15 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
     });
   }
 
+  @autobind
+  handleIfChange(condition: string) {
+    const value: ConditionGroupValue = {
+      ...(this.props.value as any),
+      if: condition
+    };
+    this.props.onChange(value, this.props.index);
+  }
+
   render() {
     const {
       builderMode,
@@ -88,7 +98,8 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       isCollapsed,
       depth,
       isAddBtnVisibleOn,
-      isAddGroupBtnVisibleOn
+      isAddGroupBtnVisibleOn,
+      showIf
     } = this.props;
 
     return (
@@ -138,6 +149,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 depth={depth + 1}
                 isAddBtnVisibleOn={isAddBtnVisibleOn}
                 isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
+                showIf={showIf}
               />
             </div>
           ) : (
@@ -166,6 +178,26 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 renderEtrValue={renderEtrValue}
                 selectMode={selectMode}
               />
+              {showIf ? (
+                <FormulaPicker
+                  {...formula}
+                  evalMode={true}
+                  mixedMode={false}
+                  header="设置条件"
+                  value={value?.if || ''}
+                  onChange={this.handleIfChange}
+                >
+                  {({onClick}) => (
+                    <a
+                      className={cx('CBIf', value?.if ? 'is-active' : '')}
+                      onClick={onClick}
+                      data-tooltip="配置启动条件，当前规则只有在此条件成立时才会生效"
+                    >
+                      <Icon icon="if" className="icon" />
+                    </a>
+                  )}
+                </FormulaPicker>
+              ) : null}
               <Button
                 className={cx('CBDelete')}
                 onClick={this.handleItemRemove}

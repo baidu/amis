@@ -30,8 +30,9 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   title?: string;
   fields: ConditionBuilderFields;
   funcs?: ConditionBuilderFuncs;
-  showNot?: boolean;
-  showANDOR?: boolean;
+  showNot?: boolean; // 是否显示非按钮
+  showANDOR?: boolean; // 是否显示并或切换键按钮
+  showIf?: boolean; // 是否显示条件
   value?: ConditionGroupValue;
   data?: any;
   onChange: (value?: ConditionGroupValue) => void;
@@ -261,7 +262,8 @@ export class QueryBuilder extends React.Component<
       renderEtrValue,
       selectMode,
       isAddBtnVisibleOn,
-      isAddGroupBtnVisibleOn
+      isAddGroupBtnVisibleOn,
+      showIf
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -305,6 +307,7 @@ export class QueryBuilder extends React.Component<
         depth={1}
         isAddBtnVisibleOn={isAddBtnVisibleOn}
         isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
+        showIf={showIf}
       />
     );
   }
