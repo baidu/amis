@@ -1170,6 +1170,13 @@ export const components = [
         component: React.lazy(() =>
           import('../../docs/zh-CN/components/web-component.md').then(wrapDoc)
         )
+      },
+      {
+        label: 'amis 渲染器',
+        path: '/zh-CN/components/amis',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/amis.md').then(wrapDoc)
+        )
       }
     ]
   }
