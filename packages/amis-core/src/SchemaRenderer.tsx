@@ -48,6 +48,8 @@ export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'hiddenOn',
   'disabled',
   'disabledOn',
+  'static',
+  'staticOn',
   'component',
   'detectField',
   'defaultValue',
