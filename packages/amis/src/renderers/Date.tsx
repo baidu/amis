@@ -26,6 +26,11 @@ export interface DateSchema extends BaseSchema {
   format?: string;
 
   /**
+   * 展示的时间格式，参考 moment 中的格式说明。（新：同format）
+   */
+  displayFormat?: string;
+
+  /**
    * 占位符
    */
   placeholder?: string;
@@ -59,7 +64,12 @@ export class DateField extends React.Component<DateProps, DateState> {
 
   static defaultProps: Pick<
     DateProps,
-    'placeholder' | 'format' | 'valueFormat' | 'fromNow' | 'updateFrequency'
+    | 'placeholder'
+    | 'format'
+    | 'valueFormat'
+    | 'fromNow'
+    | 'updateFrequency'
+    | 'displayFormat'
   > = {
     placeholder: '-',
     format: 'YYYY-MM-DD',
@@ -93,6 +103,7 @@ export class DateField extends React.Component<DateProps, DateState> {
     const {
       valueFormat,
       format,
+      displayFormat,
       placeholder,
       fromNow,
       className,
@@ -111,7 +122,7 @@ export class DateField extends React.Component<DateProps, DateState> {
     let date: any = null;
     if (value && (date = normalizeDate(value, valueFormat))) {
       const normalizeDate: Moment = date;
-      viewValue = normalizeDate.format(format);
+      viewValue = normalizeDate.format(displayFormat || format);
 
       if (viewValue) {
         date = viewValue as string;
