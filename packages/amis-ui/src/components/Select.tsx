@@ -5,7 +5,11 @@
  * @date 2017-11-07
  */
 
-import {uncontrollable} from 'amis-core';
+import {
+  getOptionValue,
+  getOptionValueBindField,
+  uncontrollable
+} from 'amis-core';
 import React from 'react';
 import isInteger from 'lodash/isInteger';
 import omit from 'lodash/omit';
@@ -108,20 +112,29 @@ export function value2array(
   >,
   enableNodePath: boolean = false
 ): Array<Option> {
+  const {
+    labelField,
+    valueField = 'value',
+    pathSeparator,
+    delimiter,
+    options,
+    multi,
+    multiple
+  } = props;
   if (enableNodePath) {
     value = normalizeNodePath(
       value,
       enableNodePath,
-      props.labelField,
-      props.valueField,
-      props.pathSeparator,
-      props.delimiter
+      labelField,
+      valueField,
+      pathSeparator,
+      delimiter
     ).nodeValueArray;
   }
 
-  if (props.multi || props.multiple) {
+  if (multi || multiple) {
     if (typeof value === 'string') {
-      value = value.split(props.delimiter || ',');
+      value = value.split(delimiter || ',');
     }
 
     if (!Array.isArray(value)) {
@@ -133,27 +146,21 @@ export function value2array(
     }
 
     return value
-      .map(
-        (value: any) =>
-          expandValue(value, props.options, props.valueField) ||
-          (isObject(value) && value.hasOwnProperty(props.valueField || 'value')
-            ? value
-            : undefined)
+      .map((value: any) =>
+        expandValue(value, options, valueField) ||
+        (isObject(value) && value.hasOwnProperty(valueField))
+          ? value
+          : undefined
       )
       .filter((item: any) => item) as Array<Option>;
   } else if (Array.isArray(value)) {
     value = value[0];
   }
 
-  let expandedValue = expandValue(
-    value as OptionValue,
-    props.options,
-    props.valueField
-  );
+  let expandedValue = expandValue(value as OptionValue, options, valueField);
   return expandedValue
     ? [expandedValue]
-    : isObject(value) &&
-      (value as Option).hasOwnProperty(props.valueField || 'value')
+    : isObject(value) && (value as Option).hasOwnProperty(valueField || 'value')
     ? [value as Option]
     : [];
 }
@@ -186,10 +193,10 @@ export function expandValue(
     value = (value as Option)[valueField || 'value'] ?? '';
   }
 
-  return findTree(
-    options,
-    optionValueCompare(value, valueField || 'value')
-  ) as Option;
+  return findTree(options, optionValueCompare(value, valueField || 'value'), {
+    resolve: getOptionValueBindField(valueField),
+    value: getOptionValue(value, valueField)
+  }) as Option;
 }
 
 export function matchOptionValue(
