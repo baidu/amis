@@ -3,6 +3,13 @@
   justify-content: space-between;
   width: 100%;
 
+  &.#{$ns}Form-control--sizeXs,
+  &.#{$ns}Form-control--sizeSm,
+  &.#{$ns}Form-control--sizeMd,
+  &.#{$ns}Form-control--sizeLg {
+    display: flex;
+  }
+
   &-wrap {
     position: relative;
     flex: auto;
