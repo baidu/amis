@@ -1591,11 +1591,13 @@ export default class Table2 extends React.Component<Table2Props, object> {
       if (rowClassNameExpr) {
         classnames.push(filter(rowClassNameExpr, {record, rowIndex}));
       }
+      // row可能不存在
+      // 比如初始化给了10条数据，异步接口又替换成4条
       const row = store.getRowByIndex(rowIndex);
-      if (row.modified) {
+      if (row?.modified) {
         classnames.push('is-modified');
       }
-      if (row.moved) {
+      if (row?.moved) {
         classnames.push('is-moved');
       }
       return classnames.join(' ');
