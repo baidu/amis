@@ -387,10 +387,10 @@ exports[`Renderer:table align 1`] = `
               <th
                 class=""
                 data-index="4"
+                style="text-align: right;"
               >
                 <div
                   class="cxd-TableCell--title"
-                  style="text-align: right;"
                 />
                 <div
                   class="cxd-Table-content-colDragLine"
