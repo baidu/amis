@@ -32,8 +32,8 @@
 
 // Generate Grid row
 @mixin make-row($gutter: $Grid-gutterWidth) {
-  margin-left: math.div($gutter, -2);
-  margin-right: math.div($gutter, -2);
+  // margin-left: math.div($gutter, -2);
+  // margin-right: math.div($gutter, -2);
   display: flex;
   flex-wrap: wrap;
 }
