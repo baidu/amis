@@ -249,6 +249,46 @@ order: 58
 }
 ```
 
+### 表达式控制
+
+使用`visibleOn`或者`hiddenOn`表达式控制导航项目的显隐。
+
+```schema
+{
+    "type": "page",
+    "body": [
+        {
+
+            "type": "switch",
+            "name": "showNav",
+            "label": "切换显隐藏",
+            "onText": "显示Nav2",
+            "offText": "隐藏Nav2",
+        },
+        {
+            "type": "nav",
+            "stacked": false,
+            "links": [
+                {
+                    "label": "Nav 1",
+                    "to": "#更多操作",
+                    "icon": "fa fa-user"
+                },
+                {
+                    "label": "Nav 2",
+                    "to": "#更多操作",
+                    "visibleOn": "data.showNav === true"
+                },
+                {
+                    "label": "Nav 3",
+                    "to": "#更多操作"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 懒加载
 
 可以一次只加载部分层级，更深层次的选项可以标记为 `defer` 为 true，这样只有点开的时才会加载。

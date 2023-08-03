@@ -1,6 +1,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Overflow from 'rc-overflow';
+import isEqual from 'lodash/isEqual';
 import {Renderer, RendererEnv, RendererProps} from '../factory';
 import getExprProperties from '../utils/filter-schema';
 import {filter, evalExpression} from '../utils/tpl';
@@ -612,7 +613,7 @@ export class Navigation extends React.Component<
                       ) : (
                         generateIcon(cx, overflowIndicator, 'Nav-itemIcon')
                       )}
-                      {overflowLabel && isObject
+                      {overflowLabel && isObject(overflowLabel)
                         ? render('nav-overflow-label', overflowLabel)
                         : overflowLabel}
                     </a>
@@ -798,6 +799,8 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       if (this.props.location !== prevProps.location) {
         this.props.updateConfig(this.props.config, 'location-change');
       } else if (this.props.links !== prevProps.links) {
+        this.props.updateConfig(this.props.links, 'update');
+      } else if (!isEqual(prevProps.data, this.props.data)) {
         this.props.updateConfig(this.props.links, 'update');
       }
     }
