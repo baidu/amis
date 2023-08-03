@@ -997,7 +997,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       : 'normal'
                   }`]: horizontal.leftFixed,
                   [`Form-itemColumn--${left}`]: !horizontal.leftFixed,
-                  'Form-label--left': labelAlign === 'left'
+                  'Form-label--left': labelAlign === 'left',
+                  'Form-label-noLabel': label === ''
                 },
                 getItemLabelClassName(props)
               )}
