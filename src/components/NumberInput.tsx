@@ -3,9 +3,9 @@ import React from 'react';
 import InputNumber from 'rc-input-number';
 import getMiniDecimal, {
   DecimalClass,
-  toFixed
-} from 'rc-input-number/lib/utils/MiniDecimal';
-import {getNumberPrecision} from 'rc-input-number/lib/utils/numberUtil';
+  toFixed,
+  getNumberPrecision
+} from '@rc-component/mini-decimal';
 
 import {Icon} from './icons';
 import {ThemeProps, themeable} from '../theme';
@@ -107,9 +107,15 @@ export class NumberInput extends React.Component<NumberProps, any> {
       if (precision! >= 0) {
         return precision;
       }
-      return Math.max(getNumberPrecision(numStr), getNumberPrecision(Number(step) || 1));
+      return Math.max(
+        getNumberPrecision(numStr),
+        getNumberPrecision(Number(step) || 1)
+      );
     };
-    const triggerValueUpdate = (newValue: DecimalClass, userTyping: boolean): DecimalClass => {
+    const triggerValueUpdate = (
+      newValue: DecimalClass,
+      userTyping: boolean
+    ): DecimalClass => {
       let updateValue = newValue;
       const numStr = updateValue.toString();
       const mergedPrecision = getPrecision(numStr);
@@ -118,7 +124,6 @@ export class NumberInput extends React.Component<NumberProps, any> {
       }
 
       return updateValue;
-
     };
     const updatedValue = triggerValueUpdate(target, false);
     val = Number(updatedValue.toString());
@@ -153,28 +158,34 @@ export class NumberInput extends React.Component<NumberProps, any> {
     if (typeof precision === 'number') {
       precisionProps.precision = precision;
     }
-    return <InputNumber
-      className={cx(className, showSteps === false ? 'no-steps' : '',
-        displayMode === 'enhance' ? 'Number--enhance-input' : '', {
-        [`Number--border${ucFirst(borderMode)}`]: borderMode
-      })}
-      ref={inputRef}
-      readOnly={readOnly}
-      prefixCls={`${ns}Number`}
-      value={value}
-      step={step}
-      max={max}
-      min={min}
-      formatter={formatter}
-      parser={parser}
-      onChange={this.handleChange}
-      disabled={disabled}
-      placeholder={placeholder}
-      onFocus={this.handleFocus}
-      onBlur={this.handleBlur}
-      keyboard={keyboard}
-      {...precisionProps}
-    />
+    return (
+      <InputNumber
+        className={cx(
+          className,
+          showSteps === false ? 'no-steps' : '',
+          displayMode === 'enhance' ? 'Number--enhance-input' : '',
+          {
+            [`Number--border${ucFirst(borderMode)}`]: borderMode
+          }
+        )}
+        ref={inputRef}
+        readOnly={readOnly}
+        prefixCls={`${ns}Number`}
+        value={value}
+        step={step}
+        max={max}
+        min={min}
+        formatter={formatter}
+        parser={parser}
+        onChange={this.handleChange}
+        disabled={disabled}
+        placeholder={placeholder}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        keyboard={keyboard}
+        {...precisionProps}
+      />
+    );
   }
   render(): JSX.Element {
     const {
@@ -198,29 +209,44 @@ export class NumberInput extends React.Component<NumberProps, any> {
     }
     return (
       <>
-        {displayMode === 'enhance' ?
-          <div className={cx('Number--enhance',
-            disabled ? 'Number--enhance-disabled' : '',
-            showSteps === false ? 'Number--enhance-no-steps' : '',
-            {
-              [`Number--enhance-border${ucFirst(borderMode)}`]: borderMode
-            })}>
+        {displayMode === 'enhance' ? (
+          <div
+            className={cx(
+              'Number--enhance',
+              disabled ? 'Number--enhance-disabled' : '',
+              showSteps === false ? 'Number--enhance-no-steps' : '',
+              {
+                [`Number--enhance-border${ucFirst(borderMode)}`]: borderMode
+              }
+            )}
+          >
             <div
-              className={cx('Number--enhance-left-icon',
-              value && value === min ? 'Number--enhance-border-min': '',
-              disabled ? 'Number--enhance-border-disabled': '',
-              readOnly ? 'Number--enhance-border-readOnly': '')} onClick={() => this.handleEnhanceModeChange('subtract')}>
+              className={cx(
+                'Number--enhance-left-icon',
+                value && value === min ? 'Number--enhance-border-min' : '',
+                disabled ? 'Number--enhance-border-disabled' : '',
+                readOnly ? 'Number--enhance-border-readOnly' : ''
+              )}
+              onClick={() => this.handleEnhanceModeChange('subtract')}
+            >
               <Icon icon="minus" className="icon" />
             </div>
             {this.renderBase()}
             <div
-              className={cx('Number--enhance-right-icon',
-              value && value === max ? 'Number--enhance-border-max': '',
-              disabled ? 'Number--enhance-border-disabled': '',
-              readOnly ? 'Number--enhance-border-readOnly': '')} onClick={() => this.handleEnhanceModeChange('add')}>
+              className={cx(
+                'Number--enhance-right-icon',
+                value && value === max ? 'Number--enhance-border-max' : '',
+                disabled ? 'Number--enhance-border-disabled' : '',
+                readOnly ? 'Number--enhance-border-readOnly' : ''
+              )}
+              onClick={() => this.handleEnhanceModeChange('add')}
+            >
               <Icon icon="plus" className="icon " />
             </div>
-          </div> : this.renderBase()}
+          </div>
+        ) : (
+          this.renderBase()
+        )}
       </>
     );
   }
