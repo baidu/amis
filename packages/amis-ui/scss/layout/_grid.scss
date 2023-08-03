@@ -17,16 +17,16 @@
     min-height: 1px;
     max-width: 100%;
     width: 100%;
-    padding-left: math.div($Grid-gutterWidth, 2);
-    padding-right: math.div($Grid-gutterWidth, 2);
+    // padding-left: math.div($Grid-gutterWidth, 2);
+    // padding-right: math.div($Grid-gutterWidth, 2);
   }
 
   .#{$ns}Grid-col--#{$class}Auto {
     flex: 0 0 auto;
     width: auto;
     max-width: 100%;
-    padding-left: math.div($Grid-gutterWidth, 2);
-    padding-right: math.div($Grid-gutterWidth, 2);
+    // padding-left: math.div($Grid-gutterWidth, 2);
+    // padding-right: math.div($Grid-gutterWidth, 2);
   }
 }
 

@@ -274,6 +274,10 @@
         margin-right: var(--Form--horizontal-label-gap);
         flex-shrink: 0;
 
+        &-noLabel {
+          margin-right: 0;
+        }
+
         .#{$ns}Form-star {
           position: absolute;
           left: px2rem(-6px);
