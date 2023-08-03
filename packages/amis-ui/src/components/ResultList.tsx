@@ -16,6 +16,7 @@ import TransferSearch from './TransferSearch';
 import VirtualList, {AutoSizer} from './virtual-list';
 
 export interface ResultListProps extends ThemeProps, LocaleProps {
+  onRef?: any;
   className?: string;
   value?: Array<Option>;
   onChange?: (value: Array<Option>, optionModified?: boolean) => void;
@@ -81,9 +82,11 @@ export class ResultList extends React.Component<
   id = guid();
   sortable?: Sortable;
   unmounted = false;
+  searchRef?: any;
 
   componentDidMount() {
     this.props.sortable && this.initSortable();
+    this.props?.onRef?.(this);
   }
 
   componentDidUpdate() {
@@ -97,6 +100,12 @@ export class ResultList extends React.Component<
   componentWillUnmount() {
     this.desposeSortable();
     this.unmounted = true;
+  }
+
+  @autobind
+  domSearchRef(ref: any) {
+    console.log('domSearchRef', ref);
+    this.searchRef = ref;
   }
 
   initSortable() {
@@ -179,6 +188,18 @@ export class ResultList extends React.Component<
   @autobind
   clearSearch() {
     this.setState({searchResult: null});
+    const {searchable} = this.props;
+    if (searchable) {
+      this.searchRef?.clear?.();
+    }
+  }
+
+  @autobind
+  clearInput() {
+    if (this.props.searchable) {
+      this.searchRef?.clearInput?.();
+    }
+    this.clearSearch();
   }
 
   // 删除项
@@ -359,6 +380,7 @@ export class ResultList extends React.Component<
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
         {searchable ? (
           <TransferSearch
+            onRef={this.domSearchRef}
             placeholder={searchPlaceholder}
             onSearch={this.search}
             onCancelSearch={this.clearSearch}

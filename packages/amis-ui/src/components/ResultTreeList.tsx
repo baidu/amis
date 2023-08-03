@@ -20,6 +20,7 @@ export interface ResultTreeListProps
     LocaleProps,
     BaseSelectionProps,
     SpinnerExtraProps {
+  onRef?: any;
   className?: string;
   title?: string;
   searchable?: boolean;
@@ -163,6 +164,8 @@ export class BaseResultTreeList extends React.Component<
     searchTreeOptions: []
   };
 
+  searchRef?: any;
+
   static getDerivedStateFromProps(props: ResultTreeListProps) {
     const newOptions = getResultOptions(
       props.value,
@@ -172,6 +175,15 @@ export class BaseResultTreeList extends React.Component<
     return {
       treeOptions: cloneDeep(newOptions)
     };
+  }
+
+  componentDidMount() {
+    this.props?.onRef?.(this);
+  }
+
+  @autobind
+  domSearchRef(ref: any) {
+    this.searchRef = ref;
   }
 
   // 删除非选中节点
@@ -259,6 +271,14 @@ export class BaseResultTreeList extends React.Component<
     });
   }
 
+  @autobind
+  clearInput() {
+    if (this.props.searchable) {
+      this.searchRef?.clearInput?.();
+    }
+    this.clearSearch();
+  }
+
   renderTree() {
     const {
       className,
@@ -314,6 +334,7 @@ export class BaseResultTreeList extends React.Component<
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
         {searchable ? (
           <TransferSearch
+            onRef={this.domSearchRef}
             placeholder={searchPlaceholder}
             onSearch={this.search}
             onCancelSearch={this.clearSearch}

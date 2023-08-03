@@ -11,6 +11,7 @@ import {LocaleProps, localeable} from 'amis-core';
 import InputBox from './InputBox';
 
 export interface TransferSearchProps extends ThemeProps, LocaleProps {
+  onRef?: any;
   className?: string;
   placeholder: string;
   onSearch: Function;
@@ -36,6 +37,10 @@ export class TransferSearch extends React.Component<
   };
 
   cancelSearch?: () => void;
+
+  componentDidMount() {
+    this.props?.onRef?.(this);
+  }
 
   componentWillUnmount() {
     this.lazySearch.cancel();
@@ -79,6 +84,13 @@ export class TransferSearch extends React.Component<
   @autobind
   handleSeachCancel() {
     this.props.onCancelSearch?.();
+    this.setState({
+      inputValue: ''
+    });
+  }
+
+  @autobind
+  clearInput() {
     this.setState({
       inputValue: ''
     });

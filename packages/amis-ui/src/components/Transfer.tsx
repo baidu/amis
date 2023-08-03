@@ -155,6 +155,7 @@ export class Transfer<
   unmounted = false;
   cancelSearch?: () => void;
   treeRef: any;
+  resultRef: any;
 
   componentDidMount() {
     this.props?.onRef?.(this);
@@ -200,6 +201,11 @@ export class Transfer<
   }
 
   @autobind
+  domResultRef(ref: any) {
+    this.resultRef = ref;
+  }
+
+  @autobind
   toggleAll() {
     const {
       options,
@@ -207,7 +213,8 @@ export class Transfer<
       onChange,
       value,
       onSelectAll,
-      valueField = 'value'
+      valueField = 'value',
+      selectMode
     } = this.props;
     let valueArray = BaseSelection.value2array(
       value,
@@ -216,6 +223,11 @@ export class Transfer<
       valueField
     );
     const availableOptions = this.availableOptions;
+
+    if (selectMode === 'tree') {
+      this.treeRef?.handleToggle();
+      return;
+    }
 
     // availableOptions 中选项是否都被选中了
     // to do intersectionWith 需要优化，大数据会卡死
@@ -247,7 +259,17 @@ export class Transfer<
 
   // 全选，给予动作全选使用
   selectAll() {
-    const {options, option2value, onChange, valueField = 'value'} = this.props;
+    const {
+      options,
+      option2value,
+      onChange,
+      valueField = 'value',
+      selectMode
+    } = this.props;
+    if (selectMode === 'tree') {
+      this.treeRef?.handleToggle(true);
+      return;
+    }
     const availableOptions = flattenTree(options).filter(
       (option, index, list) =>
         !option.disabled &&
@@ -258,6 +280,20 @@ export class Transfer<
       ? availableOptions.map(item => option2value(item))
       : availableOptions;
     onChange?.(newValue);
+  }
+
+  // 清空搜索
+  clearSearch(target?: {left?: boolean; right?: boolean}) {
+    if (!target) {
+      this.handleSeachCancel();
+      this.resultRef?.clearInput();
+    }
+    if (target?.left) {
+      this.handleSeachCancel();
+    }
+    if (target?.right) {
+      this.resultRef?.clearInput();
+    }
   }
 
   @autobind
@@ -367,6 +403,22 @@ export class Transfer<
     });
 
     onChange && onChange(newArr);
+  }
+
+  @autobind
+  optionItemRender(option: Option, states: ItemRenderStates) {
+    const {optionItemRender, labelField = 'label'} = this.props;
+    return optionItemRender
+      ? optionItemRender(option, states)
+      : BaseSelection.itemRender(option, {labelField, ...states});
+  }
+
+  @autobind
+  resultItemRender(option: Option, states: ItemRenderStates) {
+    const {resultItemRender} = this.props;
+    return resultItemRender
+      ? resultItemRender(option, states)
+      : ResultList.itemRender(option, states);
   }
 
   renderSelect(
@@ -509,10 +561,14 @@ export class Transfer<
       checkAllLabel,
       onlyChildren
     } = props;
-    const {isTreeDeferLoad, searchResult} = this.state;
+    const {isTreeDeferLoad, searchResult, inputValue} = this.state;
     const options = searchResult ?? [];
     const mode = searchResultMode || selectMode;
     const resultColumns = searchResultColumns || columns;
+
+    const treeItemRender =
+      !searchResult || optionItemRender ? this.optionItemRender : undefined;
+    const highlightTxt = searchResult ? inputValue : undefined;
 
     return mode === 'table' ? (
       <TableSelection
@@ -525,7 +581,7 @@ export class Transfer<
         onChange={onChange}
         option2value={option2value}
         cellRender={cellRender}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         valueField={valueField}
         multiple={multiple}
         virtualThreshold={virtualThreshold}
@@ -548,7 +604,8 @@ export class Transfer<
         multiple={multiple}
         cascade={true}
         onlyChildren={onlyChildren ?? !isTreeDeferLoad}
-        itemRender={optionItemRender}
+        highlightTxt={highlightTxt}
+        itemRender={treeItemRender}
         labelField={labelField}
         valueField={valueField}
         virtualThreshold={virtualThreshold}
@@ -565,7 +622,7 @@ export class Transfer<
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         multiple={multiple}
         labelField={labelField}
         valueField={valueField}
@@ -584,7 +641,7 @@ export class Transfer<
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         multiple={multiple}
         labelField={labelField}
         valueField={valueField}
@@ -745,7 +802,6 @@ export class Transfer<
       cellRender,
       onChange,
       value,
-      resultItemRender,
       resultSearchable,
       resultSearchPlaceholder,
       onResultSearch,
@@ -766,6 +822,7 @@ export class Transfer<
       case 'table':
         return (
           <ResultTableList
+            onRef={this.domResultRef}
             classnames={cx}
             columns={columns!}
             options={options || []}
@@ -786,6 +843,7 @@ export class Transfer<
       case 'tree':
         return (
           <ResultTreeList
+            onRef={this.domResultRef}
             loadingConfig={loadingConfig}
             classnames={cx}
             className={cx('Transfer-value')}
@@ -793,7 +851,7 @@ export class Transfer<
             valueField={'value'}
             value={value || []}
             onChange={onChange!}
-            itemRender={resultItemRender}
+            itemRender={this.resultItemRender}
             searchable={searchable}
             placeholder={placeholder}
             searchPlaceholder={resultSearchPlaceholder}
@@ -806,6 +864,7 @@ export class Transfer<
       default:
         return (
           <ResultList
+            onRef={this.domResultRef}
             className={cx('Transfer-value')}
             sortable={sortable}
             disabled={disabled}
@@ -813,7 +872,7 @@ export class Transfer<
             onChange={onChange}
             placeholder={placeholder}
             searchPlaceholder={resultSearchPlaceholder}
-            itemRender={resultItemRender}
+            itemRender={this.resultItemRender}
             searchable={searchable}
             onSearch={onResultSearch}
             labelField={labelField}

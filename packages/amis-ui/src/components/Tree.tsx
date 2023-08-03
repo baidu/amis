@@ -1355,6 +1355,19 @@ export class TreeSelector extends React.Component<
     );
   }
 
+  @autobind
+  handleToggle(bool?: boolean) {
+    const availableOptions = this.getAvailableOptions();
+    if (bool === undefined) {
+      const checkedAll = availableOptions.every(option =>
+        this.isItemChecked(option)
+      );
+      this.handleCheckAll(availableOptions, checkedAll);
+      return;
+    }
+    this.handleCheckAll(availableOptions, bool);
+  }
+
   renderCheckAll() {
     const {
       multiple,
