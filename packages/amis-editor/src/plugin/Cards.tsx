@@ -106,11 +106,6 @@ export class CardsPlugin extends BasePlugin {
               type: 'divider'
             },
             getSchemaTpl('title'),
-            {
-              name: 'href',
-              type: 'input-text',
-              label: '打开外部链接'
-            },
 
             isCRUDBody
               ? null
