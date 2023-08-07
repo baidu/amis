@@ -1,5 +1,5 @@
 import {Api, ApiObject} from '../types';
-import {normalizeApiResponseData} from '../utils/api';
+import {normalizeApi, normalizeApiResponseData} from '../utils/api';
 import {ServerError} from '../utils/errors';
 import {createObject, isEmpty} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
@@ -42,6 +42,11 @@ export class AjaxAction implements RendererAction {
     if (!renderer.props.env?.fetcher) {
       throw new Error('env.fetcher is required!');
     }
+
+    if (!action.api) {
+      throw new Error('api is required!');
+    }
+
     if (this.fetcherType === 'download' && action.actionType === 'download') {
       if ((action as any).api) {
         (action as any).api.responseType = 'blob';
@@ -51,9 +56,19 @@ export class AjaxAction implements RendererAction {
     const env = event.context.env;
     const silent = action?.options?.silent;
     const messages = (action?.api as ApiObject)?.messages;
+    let api = normalizeApi(action.api);
+
+    // 如果没配置data数据映射，则给一个空对象，避免将当前数据域作为接口请求参数
+    if ((api as any)?.data == undefined) {
+      api = {
+        ...api,
+        data: {}
+      };
+    }
+
     try {
       const result = await env.fetcher(
-        action?.api,
+        api,
         action.data ?? {},
         action?.options ?? {}
       );
