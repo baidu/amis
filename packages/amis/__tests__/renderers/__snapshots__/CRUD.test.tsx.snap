@@ -186,6 +186,10 @@ exports[`Renderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionLeng
                               class=""
                             />
                           </label>
+                          <div
+                            class="cxd-Table-content-colDragLine"
+                            data-index="1"
+                          />
                         </th>
                         <th
                           class="cxd-TableCell--sortable"

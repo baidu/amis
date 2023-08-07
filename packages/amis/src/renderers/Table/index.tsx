@@ -1826,6 +1826,14 @@ export default class Table extends React.Component<TableProps, object> {
       ></div>
     );
 
+    // th 里面不应该设置
+    if (style?.width) {
+      delete style.width;
+    }
+    if (column.pristine.align) {
+      style.textAlign = column.pristine.align;
+    }
+
     if (column.type === '__checkme') {
       return (
         <th
@@ -1844,6 +1852,8 @@ export default class Table extends React.Component<TableProps, object> {
           ) : (
             '\u00A0'
           )}
+
+          {resizable === false ? null : resizeLine}
         </th>
       );
     } else if (column.type === '__dragme') {
@@ -1991,21 +2001,6 @@ export default class Table extends React.Component<TableProps, object> {
           popOverContainer={this.getPopOverContainer}
         />
       );
-    }
-
-    // if (column.pristine.width) {
-    //   props.style = props.style || {};
-    //   props.style.width = column.pristine.width;
-    // }
-
-    // th 里面不应该设置
-    if (props.style?.width) {
-      props.style = omit(props.style, ['width']);
-    }
-
-    if (column.pristine.align) {
-      props.style = props.style || {};
-      props.style.textAlign = column.pristine.align;
     }
 
     return (
