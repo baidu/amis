@@ -15,6 +15,6 @@ import 'core-js/es/set';
 import 'core-js/es/symbol';
 
 // @ts-ignore
-// import './cloest';
+import './cloest';
 // @ts-ignore
-// import './classList';
+import './classList';
