@@ -1131,7 +1131,7 @@ export default class Table extends React.Component<TableProps, object> {
       const cx = this.props.classnames;
       const ths = (
         [].slice.call(
-          table.querySelectorAll('thead>tr>th[data-index]')
+          table.querySelectorAll(':scope>thead>tr>th[data-index]')
         ) as HTMLTableCellElement[]
       ).filter((th, index, arr) => {
         return (
@@ -1141,6 +1141,7 @@ export default class Table extends React.Component<TableProps, object> {
           ) === index
         );
       });
+      const tbodyTr = table.querySelector(':scope>tbody>tr:first-child');
 
       const div = document.createElement('div');
       div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
@@ -1154,31 +1155,43 @@ export default class Table extends React.Component<TableProps, object> {
               'data-index'
             )}" class="${th.className}">${th.innerHTML}</th>`
         )
-        .join('')}</tr></thead></table>`;
+        .join('')}</tr></thead>${
+        tbodyTr ? `<tbody>${tbodyTr.outerHTML}</tbody>` : ''
+      }</table>`;
       document.body.appendChild(div);
       const minWidths: {
         [propName: string]: number;
       } = {};
       [].slice
-        .call(div.querySelectorAll('th[data-index]'))
+        .call(div.querySelectorAll(':scope>table>thead>tr>th[data-index]'))
         .forEach((th: HTMLTableCellElement) => {
           minWidths[th.getAttribute('data-index')!] = th.clientWidth;
         });
       document.body.removeChild(div);
 
-      forEach(table.querySelectorAll('colgroup>col'), (col: HTMLElement) => {
-        const index = parseInt(col.getAttribute('data-index')!, 10);
-        const column = store.columns[index];
-        column.setWidth(
-          Math.max(
+      if (store.useFixedLayout) {
+        table.style.cssText += `table-layout:fixed;`;
+        ths.forEach(th => {
+          const index = parseInt(th.getAttribute('data-index')!, 10);
+          const column = store.columns[index];
+          th.style.cssText += `width:${
             typeof column.pristine.width === 'number'
               ? column.pristine.width
-              : col.clientWidth,
+              : minWidths[index]
+          }px;`;
+        });
+      }
+      forEach(
+        table.querySelectorAll(':scope>colgroup>col'),
+        (col: HTMLElement) => {
+          const index = parseInt(col.getAttribute('data-index')!, 10);
+          const column = store.columns[index];
+          column.setWidth(
+            Math.max(col.clientWidth - 2, minWidths[index]),
             minWidths[index]
-          ),
-          minWidths[index]
-        );
-      });
+          );
+        }
+      );
     }
   }
 
@@ -1233,7 +1246,7 @@ export default class Table extends React.Component<TableProps, object> {
   initDragging() {
     const {store, classPrefix: ns} = this.props;
     this.sortable = new Sortable(
-      (this.table as HTMLElement).querySelector('tbody') as HTMLElement,
+      (this.table as HTMLElement).querySelector(':scope>tbody') as HTMLElement,
       {
         group: 'table',
         animation: 150,
@@ -1337,7 +1350,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     this.draggingSibling = siblings.map(item => {
       let tr: HTMLTableRowElement = tbody.querySelector(
-        `tr[data-id="${item.id}"]`
+        `:scope>tr[data-id="${item.id}"]`
       ) as HTMLTableRowElement;
 
       tr.classList.add('is-drop-allowed');
