@@ -14,7 +14,7 @@ export default class Layout_fixed_top extends FlexPluginBase {
     type: 'flex',
     isSorptionContainer: true,
     sorptionPosition: 'top',
-    className: 'p-1',
+    className: '',
     items: [
       defaultFlexColumnSchema(),
       defaultFlexColumnSchema(),

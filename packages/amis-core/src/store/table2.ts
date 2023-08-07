@@ -24,11 +24,13 @@ import {
   immutableExtends,
   isEmpty,
   extendObject,
-  findTree
+  findTree,
+  difference
 } from '../utils/helper';
 import {normalizeApiResponseData} from '../utils/api';
 import {Api, Payload, fetchOptions, ApiObject} from '../types';
 import {ServiceStore} from './service';
+import {IFormStore} from './form';
 
 class ServerError extends Error {
   type = 'ServerError';
@@ -211,7 +213,8 @@ export const TableStore2 = ServiceStore.named('TableStore2')
     pageNo: 1,
     pageSize: 10,
     dragging: false,
-    rowSelectionKeyField: 'id'
+    rowSelectionKeyField: 'id',
+    formsRef: types.optional(types.array(types.frozen()), [])
   })
   .views(self => {
     function getToggable() {
@@ -297,6 +300,25 @@ export const TableStore2 = ServiceStore.named('TableStore2')
       return getMovedRows().length;
     }
 
+    function getModifiedRows(rows: IRow2[] = [], modifiedRows: IRow2[] = []) {
+      rows = rows && rows.length ? rows : self.rows;
+      rows.forEach((item: IRow2) => {
+        if (item.children && item.children.length) {
+          getModifiedRows(item.children, modifiedRows);
+        }
+        let diff = difference(item.data, item.pristine);
+        let hasDifference = Object.keys(diff).length;
+        if (hasDifference) {
+          modifiedRows.push(item);
+        }
+      });
+      return modifiedRows;
+    }
+
+    function getModified() {
+      return getModifiedRows().length;
+    }
+
     return {
       get toggable() {
         return getToggable();
@@ -366,6 +388,14 @@ export const TableStore2 = ServiceStore.named('TableStore2')
 
       get keyField() {
         return self.rowSelectionKeyField;
+      },
+
+      get modified() {
+        return getModified();
+      },
+
+      get modifiedRows() {
+        return getModifiedRows();
       }
     };
   })
@@ -412,7 +442,7 @@ export const TableStore2 = ServiceStore.named('TableStore2')
     function exchange(fromIndex: number, toIndex: number, item?: IRow2) {
       item = item || self.rows[fromIndex];
 
-      if (item.parentId) {
+      if (item?.parentId) {
         const parent: IRow2 = self.getRowById(item.parentId) as any;
         const offset = parent.children.indexOf(item) - fromIndex;
         toIndex += offset;
@@ -735,6 +765,13 @@ export const TableStore2 = ServiceStore.named('TableStore2')
       self.dragging = false;
     }
 
+    function addForm(form: IFormStore, rowIndex: number) {
+      self.formsRef.push({
+        id: form.id,
+        rowIndex
+      });
+    }
+
     return {
       update,
       persistSaveToggledColumns,
@@ -769,7 +806,8 @@ export const TableStore2 = ServiceStore.named('TableStore2')
           }
         }, 200);
       },
-      saveRemote
+      saveRemote,
+      addForm
     };
   });
 

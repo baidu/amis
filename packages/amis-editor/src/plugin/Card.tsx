@@ -130,6 +130,11 @@ export class CardPlugin extends BasePlugin {
               label: '图片地址',
               description: '支持模板语法如： <code>\\${xxx}</code>'
             },
+            {
+              name: 'href',
+              type: 'input-text',
+              label: '打开外部链接'
+            },
             getSchemaTpl('cardDesc'),
             {
               name: 'header.highlight',

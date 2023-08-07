@@ -350,6 +350,7 @@ export type SchemaType =
   | 'words'
   | 'password'
   | 'multiline-text'
+  | 'amis'
 
   // 原生 input 类型
   | 'native-date'

@@ -3,6 +3,7 @@ import {findDOMNode} from 'react-dom';
 import {isAlive} from 'mobx-state-tree';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
+import intersection from 'lodash/intersection';
 
 import {
   ScopedContext,
@@ -47,6 +48,7 @@ import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import './TableCell';
 import './ColumnToggler';
 import {Action} from '../../types';
+import {SchemaQuickEdit} from '../QuickEdit';
 
 /**
  * Table 表格2渲染器。
@@ -145,6 +147,11 @@ export interface ColumnSchema {
    * 单元格样式
    */
   classNameExpr?: string;
+
+  /**
+   * 配置快速编辑功能
+   */
+  quickEdit?: SchemaQuickEdit;
 }
 
 export interface RowSelectionOptionsSchema {
@@ -430,6 +437,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
   renderedToolbars: Array<string> = [];
   tableRef?: any;
+  subForms: any = {};
 
   static defaultProps: Partial<Table2Props> = {
     keyField: 'id'
@@ -628,6 +636,28 @@ export default class Table2 extends React.Component<Table2Props, object> {
     return findDOMNode(this);
   }
 
+  @autobind
+  subFormRef(form: any, x: number, y: number) {
+    const {quickEditFormRef} = this.props;
+
+    quickEditFormRef && quickEditFormRef(form, x, y);
+    this.subForms[`${x}-${y}`] = form;
+    form && this.props.store.addForm(form.props.store, y);
+  }
+
+  @autobind
+  reset() {
+    const {store} = this.props;
+
+    store.reset();
+
+    const subForms: Array<any> = [];
+    Object.keys(this.subForms).forEach(
+      key => this.subForms[key] && subForms.push(this.subForms[key])
+    );
+    subForms.forEach(item => item.clearErrors());
+  }
+
   renderCellSchema(schema: any, props: any) {
     const {render} = this.props;
 
@@ -646,7 +676,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
         'cell-field',
         {
           ...rest,
-          title,
+          title: title || rest.label,
           type: 'cell-field',
           column: rest,
           data: props.data,
@@ -687,7 +717,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
   // editor传来的处理过的column 还可能包含其他字段
   buildColumns(columns: Array<any>) {
     const {
-      env,
       render,
       store,
       popOverContainer,
@@ -708,11 +737,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
         let titleSchema: any = null;
         const titleProps = {
           popOverContainer: popOverContainer || this.getPopOverContainer,
-          value: column.title
+          value: column.title || column.label
         };
         if (isObject(column.title)) {
           titleSchema = cloneDeep(column.title);
-        } else if (typeof column.title === 'string') {
+        } else if (
+          typeof column.title === 'string' ||
+          typeof column.label === 'string'
+        ) {
           titleSchema = {type: 'plain'};
         }
 
@@ -769,9 +801,10 @@ export default class Table2 extends React.Component<Table2Props, object> {
                     : column.name,
                   popOverContainer:
                     popOverContainer || this.getPopOverContainer,
+                  quickEditFormRef: this.subFormRef,
                   onQuickChange: (
                     values: object,
-                    saveImmediately?: boolean,
+                    saveImmediately?: boolean | any,
                     savePristine?: boolean,
                     options?: {
                       resetOnFailed?: boolean;
@@ -918,7 +951,56 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   @autobind
-  handleSave(
+  async handleSave() {
+    const {store, onSave, primaryField, keyField} = this.props;
+
+    if (!store.modifiedRows.length) {
+      return;
+    }
+
+    // 验证所有表单项，没有错误才继续
+    const subForms: Array<any> = [];
+    Object.keys(this.subForms).forEach(
+      key => this.subForms[key] && subForms.push(this.subForms[key])
+    );
+    if (subForms.length) {
+      const result = await Promise.all(subForms.map(item => item.validate()));
+      if (~result.indexOf(false)) {
+        return;
+      }
+    }
+
+    const rows = store.modifiedRows.map(item => item.data);
+    const rowIndexes = store.modifiedRows.map(item => item.path);
+    const diff = store.modifiedRows.map(item =>
+      difference(item.data, item.pristine, [keyField, primaryField!])
+    );
+    const unModifiedRows = store.rows
+      .filter(item => !item.modified)
+      .map(item => item.data);
+    if (!onSave) {
+      this.handleQuickSave(
+        rows,
+        diff,
+        rowIndexes,
+        unModifiedRows,
+        store.modifiedRows.map(item => item.pristine)
+      );
+      return;
+    }
+    onSave(
+      rows,
+      diff,
+      rowIndexes,
+      unModifiedRows,
+      store.modifiedRows.map(item => item.pristine)
+    );
+  }
+
+  // 方法同CRUD2里的handleSave
+  // 目的是为了让table2不依赖crud2可以支持快速编辑
+  @autobind
+  handleQuickSave(
     rows: Array<object> | object,
     diff: Array<object> | object,
     indexes: Array<string>,
@@ -1009,8 +1091,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
       return;
     }
 
-    const {onSave, onPristineChange, primaryField, keyField, quickSaveItemApi} =
-      this.props;
+    const {
+      onSave,
+      onPristineChange,
+      saveImmediately: propsSaveImmediately,
+      primaryField,
+      keyField,
+      quickSaveItemApi
+    } = this.props;
 
     item.change(values, savePristine);
 
@@ -1019,6 +1107,9 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
     if (savePristine) {
       onPristineChange?.(item.data, item.path);
+      return;
+    }
+    if (!saveImmediately && !propsSaveImmediately) {
       return;
     }
 
@@ -1036,23 +1127,26 @@ export default class Table2 extends React.Component<Table2Props, object> {
       return;
     }
 
-    onSave
-      ? onSave(
-          item.data,
-          difference(item.data, item.pristine, [keyField, primaryField!]),
-          item.path,
-          undefined,
-          item.pristine,
-          options
-        )
-      : this.handleSave(
-          quickSaveItemApi ? item.data : [item.data],
-          difference(item.data, item.pristine, [keyField, primaryField!]),
-          [item.path],
-          undefined,
-          item.pristine,
-          options
-        );
+    if (!onSave) {
+      this.handleQuickSave(
+        quickSaveItemApi ? item.data : [item.data],
+        difference(item.data, item.pristine, [keyField, primaryField!]),
+        [item.path],
+        undefined,
+        item.pristine,
+        options
+      );
+      return;
+    }
+
+    onSave(
+      item.data,
+      difference(item.data, item.pristine, [keyField, primaryField!]),
+      item.path,
+      undefined,
+      item.pristine,
+      options
+    );
   }
 
   @autobind
@@ -1285,13 +1379,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
     onSaveOrder(movedItems, items);
   }
 
-  @autobind
-  reset() {
-    const {store} = this.props;
-
-    store.reset();
-  }
-
   doAction(action: ActionObject, args: any, throwErrors: boolean): any {
     const {store, data, keyField: key, expandable, primaryField} = this.props;
 
@@ -1499,13 +1586,22 @@ export default class Table2 extends React.Component<Table2Props, object> {
       };
     }
 
-    let rowClassName = undefined;
-    // 设置了行样式
-    if (rowClassNameExpr) {
-      rowClassName = (record: any, rowIndex: number) => {
-        return filter(rowClassNameExpr, {record, rowIndex});
-      };
-    }
+    const rowClassName = (record: any, rowIndex: number) => {
+      const classnames = [];
+      if (rowClassNameExpr) {
+        classnames.push(filter(rowClassNameExpr, {record, rowIndex}));
+      }
+      // row可能不存在
+      // 比如初始化给了10条数据，异步接口又替换成4条
+      const row = store.getRowByIndex(rowIndex);
+      if (row?.modified) {
+        classnames.push('is-modified');
+      }
+      if (row?.moved) {
+        classnames.push('is-moved');
+      }
+      return classnames.join(' ');
+    };
 
     let itemActionsConfig = undefined;
     if (itemActions) {
@@ -1573,12 +1669,73 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   renderHeading() {
-    let {store, classnames: cx, headingClassName, translate: __} = this.props;
+    let {
+      title,
+      store,
+      hideQuickSaveBtn,
+      data,
+      classnames: cx,
+      headingClassName,
+      saveImmediately,
+      quickSaveApi,
+      translate: __,
+      columns
+    } = this.props;
 
-    if (store.moved) {
+    // 当被修改列的 column 开启 quickEdit.saveImmediately 时，不展示提交、放弃按钮
+    let isModifiedColumnSaveImmediately = false;
+    if (store.modifiedRows.length === 1) {
+      const saveImmediatelyColumnNames: string[] =
+        columns
+          ?.map((column: any) =>
+            column?.quickEdit?.saveImmediately ? column?.name : ''
+          )
+          .filter(a => a) || [];
+
+      const item = store.modifiedRows[0];
+      const diff = difference(item.data, item.pristine);
+      if (intersection(saveImmediatelyColumnNames, Object.keys(diff)).length) {
+        isModifiedColumnSaveImmediately = true;
+      }
+    }
+
+    if (
+      title ||
+      (quickSaveApi &&
+        !saveImmediately &&
+        !isModifiedColumnSaveImmediately &&
+        store.modified &&
+        !hideQuickSaveBtn) ||
+      store.moved
+    ) {
       return (
         <div className={cx('Table-heading', headingClassName)} key="heading">
-          {store.moved ? (
+          {!saveImmediately &&
+          store.modified &&
+          !hideQuickSaveBtn &&
+          !isModifiedColumnSaveImmediately ? (
+            <span>
+              {__('Table.modified', {
+                modified: store.modified
+              })}
+              <button
+                type="button"
+                className={cx('Button Button--size-xs Button--success m-l-sm')}
+                onClick={this.handleSave}
+              >
+                <Icon icon="check" className="icon m-r-xs" />
+                {__('Form.submit')}
+              </button>
+              <button
+                type="button"
+                className={cx('Button Button--size-xs Button--danger m-l-sm')}
+                onClick={this.reset}
+              >
+                <Icon icon="close" className="icon m-r-xs" />
+                {__('Table.discard')}
+              </button>
+            </span>
+          ) : store.moved ? (
             <span>
               {__('Table.moved', {
                 moved: store.moved
@@ -1600,7 +1757,11 @@ export default class Table2 extends React.Component<Table2Props, object> {
                 {__('Table.discard')}
               </button>
             </span>
-          ) : null}
+          ) : title ? (
+            filter(title, data)
+          ) : (
+            ''
+          )}
         </div>
       );
     }
@@ -1609,14 +1770,25 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   render() {
-    const {classnames: cx, style, loading = false, loadingConfig} = this.props;
+    const {
+      classnames: cx,
+      style,
+      loading = false,
+      loadingConfig,
+      store
+    } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了
 
     const heading = this.renderHeading();
 
     return (
-      <div className={cx('Table-render-wrapper')} style={style}>
+      <div
+        className={cx('Table-render-wrapper', {
+          'Table--unsaved': !!store.modified || !!store.moved
+        })}
+        style={style}
+      >
         {this.renderActions('header')}
         {heading}
         {this.renderTable()}

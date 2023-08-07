@@ -152,6 +152,7 @@ import './renderers/Password';
 import './renderers/DateRange';
 import './renderers/MultilineText';
 import './renderers/OfficeViewer';
+import './renderers/AMIS';
 
 import './compat';
 import './schemaExtend';

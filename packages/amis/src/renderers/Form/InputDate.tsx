@@ -3,7 +3,8 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  str2function
 } from 'amis-core';
 import cx from 'classnames';
 import {filterDate, isPureVariable, resolveVariableAndFilter} from 'amis-core';
@@ -62,6 +63,13 @@ export interface InputDateBaseControlSchema extends FormBaseControlSchema {
    * 日期快捷键
    */
   shortcuts?: string | ShortCuts[];
+
+  /**
+   * 字符串函数，用来决定是否禁用某个日期。
+   *
+   * (currentDate: moment.Moment, props: any) => boolean;
+   */
+  disabledDate?: string;
 }
 
 /**
@@ -473,6 +481,21 @@ export default class DateControl extends React.PureComponent<
     this.props.onChange(nextValue);
   }
 
+  @autobind
+  isDisabledDate(currentDate: moment.Moment) {
+    const {disabledDate} = this.props;
+    const fn =
+      typeof disabledDate === 'string'
+        ? str2function(disabledDate, 'currentDate', 'props')
+        : disabledDate;
+
+    if (typeof fn === 'function') {
+      return fn(currentDate, this.props);
+    }
+
+    return false;
+  }
+
   @supportStatic()
   render() {
     let {
@@ -534,6 +557,7 @@ export default class DateControl extends React.PureComponent<
           onChange={this.handleChange}
           onFocus={this.dispatchEvent}
           onBlur={this.dispatchEvent}
+          disabledDate={this.isDisabledDate}
         />
       </div>
     );

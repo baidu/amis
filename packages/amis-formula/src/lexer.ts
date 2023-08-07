@@ -336,9 +336,9 @@ export function lexer(input: string, options?: LexerOptions) {
       punctuator() ||
       char();
 
-    if (token?.value === '{') {
+    if (token?.value === '{' && token.type == 'Punctuator') {
       pushState(mainStates.BLOCK);
-    } else if (token?.value === '}') {
+    } else if (token?.value === '}' && token.type == 'Punctuator') {
       if (mainState === mainStates.Filter) {
         popState();
       }
@@ -366,7 +366,8 @@ export function lexer(input: string, options?: LexerOptions) {
     // filter 过滤器部分需要特殊处理
     if (
       mainState === mainStates.SCRIPT &&
-      token?.value === '|' &&
+      token?.type == 'Punctuator' &&
+      token.value === '|' &&
       allowFilter
     ) {
       pushState(mainStates.Filter);
@@ -376,7 +377,11 @@ export function lexer(input: string, options?: LexerOptions) {
         start: position(),
         end: position('|')
       };
-    } else if (mainState === mainStates.Filter && token?.value === '|') {
+    } else if (
+      mainState === mainStates.Filter &&
+      token?.value === '|' &&
+      token.type == 'Punctuator'
+    ) {
       return {
         type: TokenName[TokenEnum.OpenFilter],
         value: '|',

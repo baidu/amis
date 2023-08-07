@@ -553,7 +553,8 @@ export class Navigation extends React.Component<
       popOverContainer,
       env,
       classnames: cx,
-      data
+      data,
+      collapsed
     } = this.props;
 
     if (!links) {
@@ -563,111 +564,128 @@ export class Navigation extends React.Component<
       return [];
     }
 
-    return links.map((link: Link) => {
-      const beforeIcon: Array<any> = [];
-      const afterIcon: Array<any> = [];
+    const isCollapsedNode = collapsed && depth === 1;
 
-      link.icon &&
-        (Array.isArray(link.icon) ? link.icon : [link.icon]).forEach(
-          (item, i) => {
-            if (React.isValidElement(item)) {
-              beforeIcon.push(item);
-            } else if (isString(item)) {
-              beforeIcon.push(<Icon key={`icon-${i}`} cx={cx} icon={item} />);
-            } else if (item && isObject(item)) {
-              const icon = (
-                <Icon key={`icon-${i}`} cx={cx} icon={item['icon']} />
-              );
-              if (item['position'] === 'after') {
-                afterIcon.push(icon);
-              } else {
-                beforeIcon.push(icon);
+    return links
+      .filter((link: Link) => !(link.hidden === true || link.visible === false))
+      .map((link: Link) => {
+        const beforeIcon: Array<any> = [];
+        const afterIcon: Array<any> = [];
+
+        link.icon &&
+          (Array.isArray(link.icon) ? link.icon : [link.icon]).forEach(
+            (item, i) => {
+              if (React.isValidElement(item)) {
+                beforeIcon.push(item);
+              } else if (isString(item)) {
+                beforeIcon.push(
+                  <Icon
+                    key={`icon-${i}`}
+                    cx={cx}
+                    icon={item}
+                    className={isCollapsedNode ? '' : 'mr-2'}
+                  />
+                );
+              } else if (item && isObject(item)) {
+                const isAfter = item['position'] === 'after';
+                const icon = (
+                  <Icon
+                    key={`icon-${i}`}
+                    cx={cx}
+                    icon={item['icon']}
+                    className={isCollapsedNode ? '' : isAfter ? 'ml-2' : 'mr-2'}
+                  />
+                );
+                if (isAfter) {
+                  afterIcon.push(icon);
+                } else {
+                  beforeIcon.push(icon);
+                }
               }
             }
+          );
+
+        const label =
+          typeof link.label === 'string'
+            ? filter(link.label, data)
+            : React.isValidElement(link.label)
+            ? React.cloneElement(link.label)
+            : render('inline', link.label as SchemaCollection);
+
+        // 仅垂直内联模式支持
+        const isOverflow =
+          stacked &&
+          mode !== 'float' &&
+          !link.expanded &&
+          link.overflow &&
+          isObject(link.overflow) &&
+          link.overflow.enable;
+        let children = link.children;
+        if (isOverflow) {
+          const {
+            maxVisibleCount,
+            overflowIndicator = 'fa fa-ellipsis-h',
+            overflowLabel,
+            overflowClassName
+          } = link.overflow;
+          // 默认展示5个
+          const maxCount = maxVisibleCount || 2;
+          if (maxCount < (children?.length || 0)) {
+            children = children?.map((child: Link, index: number) => {
+              return {
+                ...child,
+                label:
+                  index === maxCount ? (
+                    <span className={cx(overflowClassName)}>
+                      <Icon
+                        icon={overflowIndicator}
+                        className="icon Nav-item-icon"
+                      />
+                      {overflowLabel && isObject(overflowLabel)
+                        ? render('nav-overflow-label', overflowLabel)
+                        : overflowLabel}
+                    </span>
+                  ) : (
+                    child.label
+                  ),
+                hidden: index > maxCount ? true : link.hidden,
+                expandMore: index === maxCount
+              };
+            });
           }
-        );
-
-      const label =
-        typeof link.label === 'string'
-          ? filter(link.label, data)
-          : React.isValidElement(link.label)
-          ? React.cloneElement(link.label)
-          : render('inline', link.label as SchemaCollection);
-
-      // 仅垂直内联模式支持
-      const isOverflow =
-        stacked &&
-        mode !== 'float' &&
-        !link.expanded &&
-        link.overflow &&
-        isObject(link.overflow) &&
-        link.overflow.enable;
-      let children = link.children;
-      if (isOverflow) {
-        const {
-          maxVisibleCount,
-          overflowIndicator = 'fa fa-ellipsis-h',
-          overflowLabel,
-          overflowClassName
-        } = link.overflow;
-        // 默认展示5个
-        const maxCount = maxVisibleCount || 2;
-        if (maxCount < (children?.length || 0)) {
-          children = children?.map((child: Link, index: number) => {
-            return {
-              ...child,
-              label:
-                index === maxCount ? (
-                  <span className={cx(overflowClassName)}>
-                    <Icon
-                      icon={overflowIndicator}
-                      className="icon Nav-item-icon"
-                    />
-                    {overflowLabel && isObject(overflowLabel)
-                      ? render('nav-overflow-label', overflowLabel)
-                      : overflowLabel}
-                  </span>
-                ) : (
-                  child.label
-                ),
-              hidden: index > maxCount ? true : link.hidden,
-              expandMore: index === maxCount
-            };
-          });
         }
-      }
 
-      return {
-        link,
-        label,
-        labelExtra: afterIcon.length ? (
-          <i className={cx('Nav-Menu-item-icon-after')}>{afterIcon}</i>
-        ) : null,
-        icon: beforeIcon.length ? <i>{beforeIcon}</i> : null,
-        children: children
-          ? this.normalizeNavigations(children, depth + 1)
-          : [],
-        path: link.to,
-        open: link.unfolded,
-        extra: itemActions
-          ? render('inline', itemActions, {
-              data: createObject(data, link),
-              popOverContainer: popOverContainer
-                ? popOverContainer
-                : env.getModalContainer
-                ? env.getModalContainer
-                : () => document.body,
-              // 点击操作之后 就关闭 因为close方法里执行了preventDefault
-              closeOnClick: true
-            })
-          : null,
-        disabled: !!link.disabled,
-        disabledTip: link.disabledTip,
-        hidden: link.hidden,
-        className: link.className,
-        mode: link.mode
-      };
-    });
+        return {
+          link,
+          label,
+          labelExtra: afterIcon.length ? (
+            <i className={cx('Nav-Menu-item-icon-after')}>{afterIcon}</i>
+          ) : null,
+          icon: beforeIcon.length ? <i>{beforeIcon}</i> : null,
+          children: children
+            ? this.normalizeNavigations(children, depth + 1)
+            : [],
+          path: link.to,
+          open: link.unfolded,
+          extra: itemActions
+            ? render('inline', itemActions, {
+                data: createObject(data, link),
+                popOverContainer: popOverContainer
+                  ? popOverContainer
+                  : env.getModalContainer
+                  ? env.getModalContainer
+                  : () => document.body,
+                // 点击操作之后 就关闭 因为close方法里执行了preventDefault
+                closeOnClick: true
+              })
+            : null,
+          disabled: !!link.disabled,
+          disabledTip: link.disabledTip,
+          hidden: link.hidden,
+          className: link.className,
+          mode: link.mode
+        };
+      });
   }
 
   render(): JSX.Element {
