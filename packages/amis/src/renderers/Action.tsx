@@ -792,6 +792,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       classPrefix: ns,
       loadingConfig,
       themeCss,
+      wrapperCustomStyle,
       css,
       id,
       env
@@ -859,9 +860,13 @@ export class Action extends React.Component<ActionProps, ActionState> {
       <>
         <Button
           loadingConfig={loadingConfig}
-          className={cx(className, {
-            [activeClassName || 'is-active']: isActive
-          })}
+          className={cx(
+            className,
+            {
+              [activeClassName || 'is-active']: isActive
+            },
+            `wrapperCustomStyle-${id?.replace('u:', '')}`
+          )}
           style={style}
           size={size}
           level={
@@ -905,17 +910,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
                   },
                   active: {suf: ':not(:disabled):not(.is-disabled)'}
                 }
-              }
-            ],
-            id
-          }}
-          env={env}
-        />
-        {/* button图标自定义样式 */}
-        <CustomStyle
-          config={{
-            themeCss: themeCss || css,
-            classNames: [
+              },
               {
                 key: 'iconClassName',
                 value: iconClassName,
@@ -934,6 +929,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
                 }
               }
             ],
+            wrapperCustomStyle,
+            componentId: id,
             id
           }}
           env={env}

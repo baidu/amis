@@ -126,7 +126,7 @@ export class IconPlugin extends BasePlugin {
           title: '外观',
           body: getSchemaTpl('collapseGroup', [
             {
-              title: '自定义样式',
+              title: '基本样式',
               body: [
                 getSchemaTpl('theme:size', {
                   label: '尺寸',

@@ -4,7 +4,8 @@ import {
   OnEventProps,
   Renderer,
   RendererProps,
-  runActions
+  runActions,
+  CustomStyle
 } from 'amis-core';
 import {filter} from 'amis-core';
 import {autobind, createObject} from 'amis-core';
@@ -222,6 +223,8 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       sandbox,
       referrerpolicy,
       translate: __,
+      id,
+      wrapperCustomStyle,
       env
     } = this.props;
 
@@ -252,18 +255,27 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     }
 
     return (
-      <iframe
-        name={name}
-        className={className}
-        frameBorder={frameBorder}
-        style={style}
-        ref={this.IFrameRef}
-        onLoad={this.onLoad}
-        src={finalSrc}
-        allow={allow}
-        referrerPolicy={referrerpolicy}
-        sandbox={sandbox}
-      />
+      <>
+        <iframe
+          name={name}
+          className={className + ` wrapperCustomStyle-${id?.replace('u:', '')}`}
+          frameBorder={frameBorder}
+          style={style}
+          ref={this.IFrameRef}
+          onLoad={this.onLoad}
+          src={finalSrc}
+          allow={allow}
+          referrerPolicy={referrerpolicy}
+          sandbox={sandbox}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            componentId: id
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

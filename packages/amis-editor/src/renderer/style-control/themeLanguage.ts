@@ -3121,7 +3121,7 @@ export default function editorFactory(
 
   const editor = monaco.editor.create(containerElement, {
     ...options,
-    'language': 'amisTheme',
+    'language': 'scss',
     'autoIndent': true,
     'formatOnType': true,
     'formatOnPaste': true,
@@ -3140,10 +3140,11 @@ export default function editorFactory(
     'glyphMargin': false,
     'wordWrap': 'on',
     'lineDecorationsWidth': 0,
-    'lineNumbersMinChars': 0
+    'lineNumbersMinChars': 0,
+    'overviewRulerBorder': false
   });
   editor.onDidChangeModelContent(() => {
-    validate(editor, monaco);
+    // validate(editor, monaco);
     options.onChange && options.onChange(editor.getValue());
   });
   return editor;

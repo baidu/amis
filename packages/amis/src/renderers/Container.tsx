@@ -6,7 +6,8 @@ import {
   autobind,
   buildStyle,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  CustomStyle
 } from 'amis-core';
 import {DndContainer as DndWrapper} from 'amis-ui';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
@@ -188,7 +189,10 @@ export default class Container<T> extends React.Component<
       style,
       data,
       draggable,
-      draggableConfig
+      draggableConfig,
+      id,
+      wrapperCustomStyle,
+      env
     } = this.props;
     const finalDraggable: boolean = isPureVariable(draggable)
       ? resolveVariableAndFilter(draggable, data, '| raw')
@@ -206,7 +210,8 @@ export default class Container<T> extends React.Component<
         className={cx(
           'Container',
           size && size !== 'none' ? `Container--${size}` : '',
-          className
+          className,
+          `wrapperCustomStyle-${id?.replace('u:', '')}`
         )}
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
@@ -214,6 +219,13 @@ export default class Container<T> extends React.Component<
         style={buildStyle(style, data)}
       >
         {this.renderBody()}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            componentId: id
+          }}
+          env={env}
+        />
       </Component>
     );
 

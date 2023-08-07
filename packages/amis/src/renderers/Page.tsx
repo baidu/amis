@@ -9,7 +9,8 @@ import {
   ActionObject,
   Location,
   ApiObject,
-  FunctionPropertyNames
+  FunctionPropertyNames,
+  CustomStyle
 } from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
 import {
@@ -865,7 +866,10 @@ export default class Page extends React.Component<PageProps> {
       pullRefresh,
       useMobileUI,
       translate: __,
-      loadingConfig
+      loadingConfig,
+      id,
+      wrapperCustomStyle,
+      env
     } = this.props;
 
     const subProps = {
@@ -916,7 +920,12 @@ export default class Page extends React.Component<PageProps> {
 
     return (
       <div
-        className={cx(`Page`, hasAside ? `Page--withSidebar` : '', className)}
+        className={cx(
+          `Page`,
+          hasAside ? `Page--withSidebar` : '',
+          className,
+          `wrapperCustomStyle-${id?.replace('u:', '')}`
+        )}
         onClick={this.handleClick}
         style={styleVar}
       >
@@ -995,6 +1004,13 @@ export default class Page extends React.Component<PageProps> {
             onQuery: initApi ? this.handleQuery : undefined
           }
         )}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            componentId: id
+          }}
+          env={env}
+        />
       </div>
     );
   }

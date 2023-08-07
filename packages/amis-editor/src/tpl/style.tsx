@@ -426,39 +426,17 @@ export const styleTpl = {
  */
 
 // css类名
-setSchemaTpl(
-  'theme:cssCode',
-  ({
-    themeClass = [],
-    isFormItem
-  }: {
-    themeClass?: any[];
-    isFormItem?: boolean;
-  } = {}) => {
-    if (isFormItem) {
-      themeClass.push(
-        ...[
-          {
-            name: 'description',
-            value: 'description',
-            className: 'descriptionClassName'
-          },
-          {name: 'label', value: 'label', className: 'labelClassName'}
-        ]
-      );
-    }
-    return {
-      title: '样式源码',
-      body: [
-        {
-          type: 'theme-cssCode',
-          label: false,
-          themeClass
-        }
-      ]
-    };
-  }
-);
+setSchemaTpl('theme:cssCode', () => {
+  return {
+    title: '自定义样式',
+    body: [
+      {
+        type: 'theme-cssCode',
+        label: false
+      }
+    ]
+  };
+});
 
 // form label
 setSchemaTpl('theme:form-label', () => {
@@ -647,18 +625,17 @@ setSchemaTpl(
         ].filter(comp => !~exclude.indexOf(comp.type.replace(/^style-/i, '')))
       },
       {
-        title: '自定义样式',
+        title: '基本样式',
         collapsed: curCollapsed,
         body: styles
       },
       {
-        title: '样式源码',
+        title: '自定义样式',
         collapsed: curCollapsed,
         body: [
           {
             type: 'theme-cssCode',
-            label: false,
-            isLayout: true
+            label: false
           }
         ]
       }
