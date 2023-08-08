@@ -2791,7 +2791,10 @@ export const getEventControlConfig = (
               if (!arr[index]) {
                 arr[index] = {};
               }
-              arr[index].item = objectToComboArray(valueItem);
+              arr[index] = {
+                key: valueItem.key,
+                val: valueItem.val
+              };
               return arr;
             },
             []
@@ -3102,6 +3105,7 @@ export const getEventControlConfig = (
         delete action.__actionExpression;
         delete action.__statusType;
       }
+      console.log('hhhh', action);
 
       delete action.config;
 
