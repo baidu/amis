@@ -11,7 +11,6 @@ import isObject from 'lodash/isObject';
 import debounce from 'lodash/debounce';
 import isEmpty from 'lodash/isEmpty';
 import {Icon} from '../../icons/index';
-import editorFactory from './themeLanguage';
 
 const editorPlaceholder = `自定义样式仅对当前组件生效。示例：
 .text-color: {
@@ -109,10 +108,8 @@ function ThemeCssCode(props: FormControlProps) {
           <Editor
             value={value}
             placeholder={editorPlaceholder}
-            editorFactory={editorFactory}
-            options={{
-              onChange: handleChange
-            }}
+            language="scss"
+            onChange={handleChange}
           />
         </div>
       </div>
@@ -142,10 +139,8 @@ function ThemeCssCode(props: FormControlProps) {
                 <Editor
                   value={value}
                   placeholder={editorPlaceholder}
-                  editorFactory={editorFactory}
-                  options={{
-                    onChange: handleChange
-                  }}
+                  language="scss"
+                  onChange={handleChange}
                 />
               </div>
             </div>
