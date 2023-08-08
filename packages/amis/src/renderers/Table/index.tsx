@@ -1,7 +1,12 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import isEqual from 'lodash/isEqual';
-import {ScopedContext, IScopedContext, SchemaExpression} from 'amis-core';
+import {
+  ScopedContext,
+  IScopedContext,
+  SchemaExpression,
+  position
+} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
 import forEach from 'lodash/forEach';
@@ -504,10 +509,10 @@ export default class Table extends React.Component<TableProps, object> {
   sortable?: Sortable;
   dragTip?: HTMLElement;
   affixedTable?: HTMLTableElement;
-  parentNode?: HTMLElement | Window;
   renderedToolbars: Array<string> = [];
   subForms: any = {};
   timer: ReturnType<typeof setTimeout>;
+  toDispose: Array<() => void> = [];
 
   constructor(props: TableProps, context: IScopedContext) {
     super(props);
@@ -645,21 +650,16 @@ export default class Table extends React.Component<TableProps, object> {
 
   componentDidMount() {
     const currentNode = findDOMNode(this) as HTMLElement;
-    let parent: HTMLElement | Window | null = getScrollParent(currentNode);
 
-    if (!parent || parent === document.body) {
-      parent = window;
+    if (this.props.autoFillHeight) {
+      let frame: number;
+      let fn = () => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(this.updateAutoFillHeight);
+      };
+      this.toDispose.push(resizeSensor(currentNode.parentElement!, fn));
+      this.updateAutoFillHeight();
     }
-
-    this.parentNode = parent;
-
-    const dom = findDOMNode(this) as HTMLElement;
-    if (dom.closest('.modal-body')) {
-      return;
-    }
-
-    this.updateAutoFillHeight();
-    window.addEventListener('resize', this.updateAutoFillHeight);
 
     const {store, autoGenerateFilter, onSearchableFromInit} = this.props;
 
@@ -684,47 +684,67 @@ export default class Table extends React.Component<TableProps, object> {
     if (!autoFillHeight) {
       return;
     }
-    const table = findDOMNode(this) as HTMLElement;
-    const tableContent = table.querySelector(
-      `.${ns}Table-content`
-    ) as HTMLElement;
-    const tableContentWrap = table.querySelector(
-      `.${ns}Table-contentWrap`
-    ) as HTMLElement;
-    const footToolbar = table.querySelector(
-      `.${ns}Table-footToolbar`
-    ) as HTMLElement;
+    const table = this.table!;
+    const tableContent = table.parentElement as HTMLElement;
 
     if (!tableContent) {
       return;
     }
 
-    // 计算 table-content 在 dom 中的位置
-    const tableContentTop = offset(tableContent).top;
-    const viewportHeight = window.innerHeight;
-    // 有时候会拿不到 footToolbar？
-    const footToolbarHeight = footToolbar ? offset(footToolbar).height : 0;
-    // 有时候会拿不到 footToolbar，等一下在执行
-    if (!footToolbarHeight && footerToolbar && footerToolbar.length) {
+    // 可能数据还没到，没有渲染 footer
+    // 也可能是弹窗中，弹窗还在动画中，等一下再执行
+    if (
+      !tableContent.offsetHeight ||
+      tableContent.getBoundingClientRect().height / tableContent.offsetHeight <
+        0.8
+    ) {
       this.timer = setTimeout(() => {
         this.updateAutoFillHeight();
       }, 100);
       return;
     }
-    const tableContentWrapMarginButtom = getStyleNumber(
-      tableContentWrap,
-      'margin-bottom'
-    );
 
-    // 循环计算父级节点的 pddding，这里不考虑父级节点还可能会有其它兄弟节点的情况了
-    let allParentPaddingButtom = 0;
-    let parentNode = tableContent.parentElement;
+    // 计算 table-content 在 dom 中的位置
+
+    let viewportHeight = window.innerHeight;
+    let tableContentTop = offset(tableContent).top;
+
+    const parent = getScrollParent(tableContent.parentElement as HTMLElement);
+    if (parent && parent !== document.body) {
+      viewportHeight = parent.clientHeight - 1;
+      tableContentTop = position(tableContent, parent).top;
+    }
+
+    let tableContentBottom = 0;
+    let selfNode = tableContent;
+    let parentNode = selfNode.parentElement;
     while (parentNode) {
-      const paddingButtom = getStyleNumber(parentNode, 'padding-bottom');
+      const paddingBottom = getStyleNumber(parentNode, 'padding-bottom');
       const borderBottom = getStyleNumber(parentNode, 'border-bottom-width');
-      allParentPaddingButtom =
-        allParentPaddingButtom + paddingButtom + borderBottom;
-      parentNode = parentNode.parentElement;
+
+      let nextSiblingHeight = 0;
+      let nextSibling = selfNode.nextElementSibling as HTMLElement;
+      while (nextSibling) {
+        const positon = getComputedStyle(nextSibling).position;
+        if (positon !== 'absolute' && positon !== 'fixed') {
+          nextSiblingHeight +=
+            nextSibling.offsetHeight +
+            getStyleNumber(nextSibling, 'margin-bottom');
+        }
+
+        nextSibling = nextSibling.nextElementSibling as HTMLElement;
+      }
+
+      const marginBottom = getStyleNumber(selfNode, 'margin-bottom');
+      tableContentBottom +=
+        paddingBottom + borderBottom + marginBottom + nextSiblingHeight;
+
+      selfNode = parentNode;
+      parentNode = selfNode.parentElement;
+
+      if (parent && parent !== document.body && parent === selfNode) {
+        break;
+      }
     }
 
     const heightField =
@@ -738,13 +758,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     const tableContentHeight = heightValue
       ? `${heightValue}px`
-      : `${
-          viewportHeight -
-          tableContentTop -
-          tableContentWrapMarginButtom -
-          footToolbarHeight -
-          allParentPaddingButtom
-        }px`;
+      : `${viewportHeight - tableContentTop - tableContentBottom}px`;
 
     tableContent.style[heightField] = tableContentHeight;
   }
@@ -827,7 +841,8 @@ export default class Table extends React.Component<TableProps, object> {
   componentWillUnmount() {
     const {formItem} = this.props;
 
-    window.removeEventListener('resize', this.updateAutoFillHeight);
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
 
     formItem && isAlive(formItem) && formItem.setSubStore(null);
     clearTimeout(this.timer);
@@ -1629,6 +1644,7 @@ export default class Table extends React.Component<TableProps, object> {
           buttons: searchableColumns.map(column => {
             return {
               type: 'checkbox',
+              label: false,
               className: cx('Table-searchableForm-checkbox'),
               inputClassName: cx('Table-searchableForm-checkbox-inner'),
               name: `__search_${column.searchable?.name ?? column.name}`,
