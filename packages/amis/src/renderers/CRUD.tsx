@@ -499,11 +499,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         items: []
       });
     }
+    // 如果picker用visibleOn来控制显隐，显隐切换时，constructor => handleSelect => componentDidMount的执行顺序
+    // 因此需要将componentDidMount中的设置选中项提前到constructor，否则handleSelect里拿不到的选中项
+    let val: any;
+    if (this.props.pickerMode && (val = getPropValue(this.props))) {
+      store.setSelectedItems(val);
+    }
   }
 
   componentDidMount() {
     const {store, autoGenerateFilter, columns} = this.props;
-
     if (this.props.perPage) {
       store.changePage(store.page, this.props.perPage);
     }
@@ -517,11 +522,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       (store.filterTogggable && !store.filterVisible)
     ) {
       this.handleFilterInit({});
-    }
-
-    let val: any;
-    if (this.props.pickerMode && (val = getPropValue(this.props))) {
-      store.setSelectedItems(val);
     }
 
     this.parentContainer = this.getClosestParentContainer();
@@ -1441,7 +1441,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     } = this.props;
     let newItems = items;
     let newUnSelectedItems = unSelectedItems;
-
     if (keepItemSelectionOnPageChange && store.selectedItems.length) {
       const oldItems = store.selectedItems.concat();
       const oldUnselectedItems = store.unSelectedItems.concat();
