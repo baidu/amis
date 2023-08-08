@@ -350,7 +350,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             fields={fields}
             allowedTypes={
               field?.valueTypes ||
-              config.valueTypes || ['value', 'field', 'func', 'formula']
+              config.valueTypes || ['value', 'field', 'func']
             }
             disabled={disabled}
             formula={formula}
@@ -370,7 +370,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             fields={fields}
             allowedTypes={
               field?.valueTypes ||
-              config.valueTypes || ['value', 'field', 'func', 'formula']
+              config.valueTypes || ['value', 'field', 'func']
             }
             disabled={disabled}
             formula={formula}
@@ -394,7 +394,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
               fields={fields}
               allowedTypes={
                 field?.valueTypes ||
-                config.valueTypes || ['value', 'field', 'func', 'formula']
+                config.valueTypes || ['value', 'field', 'func']
               }
               disabled={disabled}
               formula={formula}
@@ -416,8 +416,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         onChange={this.handleRightChange}
         fields={fields}
         allowedTypes={
-          field?.valueTypes ||
-          config.valueTypes || ['value', 'field', 'func', 'formula']
+          field?.valueTypes || config.valueTypes || ['value', 'field', 'func']
         }
         disabled={disabled}
         formula={formula}

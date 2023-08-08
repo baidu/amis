@@ -6,7 +6,8 @@ import {
   Schema,
   isPureVariable,
   resolveVariableAndFilter,
-  createObject
+  createObject,
+  evalExpression
 } from 'amis-core';
 import {
   FormBaseControlSchema,
@@ -26,6 +27,7 @@ import {
 
 import {IconSchema} from '../Icon';
 import {isMobile} from 'amis-core';
+import type {InputFormulaControlSchema} from './InputFormula';
 
 /**
  * 条件组合控件
@@ -90,7 +92,12 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
   /**
    * 表达式：控制按钮“添加条件组”的显示
    */
-  addConditionVisible?: string;
+  addGroupBtnVisibleOn?: string;
+
+  /**
+   * 将字段输入控件变成公式编辑器。
+   */
+  formula?: Omit<InputFormulaControlSchema, 'type'>;
 }
 
 export interface ConditionBuilderProps
@@ -118,11 +125,8 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
   @autobind
   getAddBtnVisible(param: {depth: number; breadth: number}) {
     const {data, addBtnVisibleOn} = this.props;
-    if (addBtnVisibleOn && isPureVariable(addBtnVisibleOn)) {
-      return resolveVariableAndFilter(
-        addBtnVisibleOn,
-        createObject(data, param)
-      );
+    if (typeof addBtnVisibleOn === 'string' && addBtnVisibleOn) {
+      return evalExpression(addBtnVisibleOn, createObject(data, param));
     }
     return true;
   }
@@ -130,11 +134,8 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
   @autobind
   getAddGroupBtnVisible(param: {depth: number; breadth: number}) {
     const {data, addGroupBtnVisibleOn} = this.props;
-    if (addGroupBtnVisibleOn && isPureVariable(addGroupBtnVisibleOn)) {
-      return resolveVariableAndFilter(
-        addGroupBtnVisibleOn,
-        createObject(data, param)
-      );
+    if (typeof addGroupBtnVisibleOn === 'string' && addGroupBtnVisibleOn) {
+      return evalExpression(addGroupBtnVisibleOn, createObject(data, param));
     }
     return true;
   }
@@ -176,7 +177,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
           isAddGroupBtnVisibleOn={this.getAddGroupBtnVisible}
           popOverContainer={popOverContainer || env.getModalContainer}
           {...rest}
-          formula={formula}
+          formula={formula as any}
         />
       </div>
     );

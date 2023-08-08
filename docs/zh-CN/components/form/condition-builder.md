@@ -1248,6 +1248,175 @@ selectMode 为`chained`时，使用`source`字段
 }
 ```
 
+## 开启条件设置
+
+通过配置 `showIf` 开启，开启后条件中额外还能配置启动条件。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "condition-builder",
+          "label": "条件组件",
+          "title": "条件组合设置",
+          "draggable": false,
+          "name": "conditions",
+          "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+          "showIf": true,
+          "pickerIcon": {
+            "type": "icon",
+            "icon": "edit",
+            "className": "w-4 h-4"
+          },
+          "value": {
+            "id": "1a23a453ce5c",
+            "conjunction": "and",
+            "children": [
+              {
+                "id": "550de894b404"
+              }
+            ]
+          },
+          "formula": {
+            "mode":"input-group",
+            "variables": [
+              {
+                "label": "表单字段",
+                "children": [
+                  {
+                    "label": "文章名",
+                    "value": "name",
+                    "tag": "文本"
+                  },
+                  {
+                    "label": "作者",
+                    "value": "author",
+                    "tag": "文本"
+                  },
+                  {
+                    "label": "售价",
+                    "value": "price",
+                    "tag": "数字"
+                  },
+                  {
+                    "label": "出版时间",
+                    "value": "time",
+                    "tag": "时间"
+                  },
+                  {
+                    "label": "版本号",
+                    "value": "version",
+                    "tag": "数字"
+                  },
+                  {
+                    "label": "出版社",
+                    "value": "publisher",
+                    "tag": "文本"
+                  }
+                ]
+              },
+              {
+                "label": "流程字段",
+                "children": [
+                  {
+                    "label": "联系电话",
+                    "value": "telphone"
+                  },
+                  {
+                    "label": "地址",
+                    "value": "addr"
+                  }
+                ]
+              },
+              {
+                "label": "长文本测试分类长文本测试分类长文本测试分类长文本测试分类",
+                "children": [
+                  {
+                    "label": "这是一段测试长文本这是一段测试长文本这是一段测试长文本",
+                    "value": "longtext",
+                    "tag": "文本"
+                  }
+                ]
+              }
+            ]
+          },
+          "fields": [
+            {
+              "label": "文本",
+              "type": "text",
+              "name": "text"
+            },
+            {
+              "label": "数字",
+              "type": "number",
+              "name": "number"
+            },
+            {
+              "label": "布尔",
+              "type": "boolean",
+              "name": "boolean"
+            },
+            {
+              "label": "选项",
+              "type": "select",
+              "name": "select",
+              "options": [
+                {
+                  "label": "A",
+                  "value": "a"
+                },
+                {
+                  "label": "B",
+                  "value": "b"
+                },
+                {
+                  "label": "C",
+                  "value": "c"
+                },
+                {
+                  "label": "D",
+                  "value": "d"
+                },
+                {
+                  "label": "E",
+                  "value": "e"
+                }
+              ]
+            },
+            {
+              "label": "动态选项",
+              "type": "select",
+              "name": "select2",
+              "source": "/api/mock2/form/getOptions?waitSeconds=1"
+            },
+            {
+              "label": "日期",
+              "children": [
+                {
+                  "label": "日期",
+                  "type": "date",
+                  "name": "date"
+                },
+                {
+                  "label": "时间",
+                  "type": "time",
+                  "name": "time"
+                },
+                {
+                  "label": "日期时间",
+                  "type": "datetime",
+                  "name": "datetime"
+                }
+              ]
+            }
+          ]
+        }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名               | 类型                                | 默认值   | 说明                                                                                                          | 版本    |
@@ -1266,6 +1435,7 @@ selectMode 为`chained`时，使用`source`字段
 | addBtnVisibleOn      | `string`                            |          | 表达式：控制按钮“添加条件”的显示。参数为`depth`、`breadth`，分别代表深度、长度。表达式需要返回`boolean`类型   | `3.2.0` |
 | addGroupBtnVisibleOn | `string`                            |          | 表达式：控制按钮“添加条件组”的显示。参数为`depth`、`breadth`，分别代表深度、长度。表达式需要返回`boolean`类型 | `3.2.0` |
 | inputSettings        | `InputSettings`                     |          | 开启公式编辑模式时的输入控件类型                                                                              | `3.2.0` |
+| showIf               | `boolean`                           |          | 开启后条件中额外还能配置启动条件。                                                                            | `3.2.0` |
 
 ### InputSettings
 
