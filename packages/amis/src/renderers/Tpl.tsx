@@ -1,5 +1,11 @@
 import React from 'react';
-import {autobind, createObject, Renderer, RendererProps} from 'amis-core';
+import {
+  autobind,
+  createObject,
+  Renderer,
+  RendererProps,
+  CustomStyle
+} from 'amis-core';
 import {filter, asyncFilter} from 'amis-core';
 import cx from 'classnames';
 import {anyChanged, getPropValue} from 'amis-core';
@@ -189,6 +195,8 @@ export class Tpl extends React.Component<TplProps, TplState> {
       style,
       showNativeTitle,
       data,
+      id,
+      wrapperCustomStyle,
       env
     } = this.props;
     const Component = wrapperComponent || (inline ? 'span' : 'div');
@@ -196,7 +204,13 @@ export class Tpl extends React.Component<TplProps, TplState> {
 
     return (
       <Component
-        className={cx('TplField', className)}
+        className={cx(
+          'TplField',
+          className,
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
+        )}
         style={buildStyle(style, data)}
         {...(showNativeTitle ? {title: this.getTitle(content)} : {})}
         onClick={this.handleClick}
@@ -206,6 +220,13 @@ export class Tpl extends React.Component<TplProps, TplState> {
         <span
           dangerouslySetInnerHTML={{__html: env.filterHtml(content)}}
         ></span>
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            componentId: id
+          }}
+          env={env}
+        />
       </Component>
     );
   }

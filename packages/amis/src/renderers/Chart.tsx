@@ -6,7 +6,8 @@ import {
   Renderer,
   RendererProps,
   loadScript,
-  buildStyle
+  buildStyle,
+  CustomStyle
 } from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 
@@ -593,7 +594,10 @@ export class Chart extends React.Component<ChartProps> {
       height,
       classPrefix: ns,
       unMountOnHidden,
-      data
+      data,
+      id,
+      wrapperCustomStyle,
+      env
     } = this.props;
     let style = this.props.style || {};
 
@@ -602,13 +606,29 @@ export class Chart extends React.Component<ChartProps> {
     const styleVar = buildStyle(style, data);
 
     return (
-      <div className={cx(`${ns}Chart`, className)} style={styleVar}>
+      <div
+        className={cx(
+          `${ns}Chart`,
+          className,
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
+        )}
+        style={styleVar}
+      >
         <LazyComponent
           unMountOnHidden={unMountOnHidden}
           placeholder="..." // 之前那个 spinner 会导致 sensor 失效
           component={() => (
             <div className={`${ns}Chart-content`} ref={this.refFn}></div>
           )}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            componentId: id
+          }}
+          env={env}
         />
       </div>
     );

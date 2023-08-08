@@ -459,7 +459,7 @@ export class ImageControlPlugin extends BasePlugin {
           [
             getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
             {
-              title: '自定义样式',
+              title: '基本样式',
               body: [
                 {
                   type: 'select',

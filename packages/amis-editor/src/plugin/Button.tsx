@@ -364,7 +364,7 @@ export class ButtonPlugin extends BasePlugin {
             ]
           },
           {
-            title: '自定义样式',
+            title: '基本样式',
             body: [
               {
                 type: 'select',

@@ -1998,16 +1998,7 @@ export default class ImageControl extends React.Component<
               {
                 key: 'inputImageControlClassName',
                 value: inputImageControlClassName
-              }
-            ],
-            id
-          }}
-          env={env}
-        />
-        <CustomStyle
-          config={{
-            themeCss,
-            classNames: [
+              },
               {
                 key: 'addBtnControlClassName',
                 value: addBtnControlClassName,
@@ -2019,16 +2010,7 @@ export default class ImageControl extends React.Component<
                     suf: ':not(:disabled):not(.is-disabled)'
                   }
                 }
-              }
-            ],
-            id: id + '-addOn'
-          }}
-          env={env}
-        />
-        <CustomStyle
-          config={{
-            themeCss,
-            classNames: [
+              },
               {
                 key: 'iconControlClassName',
                 value: iconControlClassName,
@@ -2039,7 +2021,7 @@ export default class ImageControl extends React.Component<
                 }
               }
             ],
-            id: id + '-icon'
+            id
           }}
           env={env}
         />
