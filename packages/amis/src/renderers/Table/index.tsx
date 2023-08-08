@@ -883,9 +883,13 @@ export default class Table extends React.Component<TableProps, object> {
 
     const selectedItems = value
       ? [...store.selectedRows.map(row => row.data), item.data]
-      : store.selectedRows.filter(row => row.id !== item.id);
+      : store.selectedRows
+          .filter(row => row.id !== item.id)
+          .map(row => row.data);
     const unSelectedItems = value
-      ? store.unSelectedRows.filter(row => row.id !== item.id)
+      ? store.unSelectedRows
+          .filter(row => row.id !== item.id)
+          .map(row => row.data)
       : [...store.unSelectedRows.map(row => row.data), item.data];
 
     const rendererEvent = await dispatchEvent(
