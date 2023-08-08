@@ -14,7 +14,8 @@ import {
   extendObject,
   qsparse,
   uuid,
-  JSONTraverse
+  JSONTraverse,
+  isEmpty
 } from './helper';
 import isPlainObject from 'lodash/isPlainObject';
 import {debug, warning} from './debug';
@@ -432,19 +433,11 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
 
   debug('api', 'response', payload);
 
-  if (payload.ok && api.responseData) {
+  if (api.responseData && (payload.ok || !isEmpty(payload.data))) {
     debug('api', 'before dataMapping', payload.data);
     const responseData = dataMapping(
       api.responseData,
-
-      createObject(
-        {api},
-        (Array.isArray(payload.data)
-          ? {
-              items: payload.data
-            }
-          : payload.data) || {}
-      ),
+      createObject({api}, normalizeApiResponseData(payload.data)),
       undefined,
       api.convertKeyToPath
     );
