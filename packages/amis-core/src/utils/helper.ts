@@ -27,6 +27,7 @@ import {
 import {string2regExp} from './string2regExp';
 import {getVariable} from './getVariable';
 import {keyToPath} from './keyToPath';
+import {isExpression, replaceExpression} from './formula';
 
 export {
   createObject,
@@ -1615,7 +1616,9 @@ export function getPropValue<
     value ??
     getter?.(props) ??
     resolveValueByName(data, name, canAccessSuper) ??
-    defaultValue
+    (isExpression(defaultValue)
+      ? resolveVariableAndFilter(defaultValue, data)
+      : replaceExpression(defaultValue))
   );
 }
 
