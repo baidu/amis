@@ -329,7 +329,9 @@ order: 73
 }
 ```
 
-## 远程数据
+## 动态数据
+
+### 远程数据
 
 ```schema
 {
@@ -391,25 +393,85 @@ order: 73
 }
 ```
 
+### 数据域变量配置
+
+> 3.4.0 及以上版本
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "items": [
+      {
+        "title": "First",
+        "time": "this is subTitle",
+        "detail": "this is description"
+      },
+      {
+        "title": "Second"
+      },
+      {
+        "title": "Last"
+      }
+    ]
+  },
+  "body": [
+    {
+      "type": "timeline",
+      "source": "${items}"
+    }
+  ]
+}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "items":
+      {
+        "First": "this is subTitle",
+        "detail": "this is description",
+        "title": "Second"
+      }
+  }
+  ,
+  "body": [
+    {
+      "type": "timeline",
+      "source": "${items}"
+    }
+  ]
+}
+```
+
 ## 属性表
 
-| 属性名    | 类型                                  | 默认值     | 说明                                                        |
-| --------- | ------------------------------------- | ---------- | ----------------------------------------------------------- |
-| type      | `string`                              |            | `"timeline"` 指定为 时间轴 渲染器                           |
-| items     | Array<[timelineItem](#timeline.item)> | []         | 配置节点数据                                                |
-| source    | [API](../../../docs/types/api)        |            | 数据源，可通过数据映射获取当前数据域变量、或者配置 API 对象 |
-| mode      | `left` \| `right` \| `alternate`      | `right`    | 指定文字相对于时间轴的位置，仅 direction=vertical 时支持    |
-| direction | `vertical` \| `horizontal`            | `vertical` | 时间轴方向                                                  |
-| reverse   | `boolean`                             | `false`    | 根据时间倒序显示                                            |
+| 属性名          | 类型                                                                              | 默认值     | 说明                                                        |
+| --------------- | --------------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------- |
+| type            | `string`                                                                          |            | `"timeline"` 指定为 时间轴 渲染器                           |
+| items           | Array<[timelineItem](#timeline.item)>                                             | []         | 配置节点数据                                                |
+| source          | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |            | 数据源，可通过数据映射获取当前数据域变量、或者配置 API 对象 |
+| mode            | `left` \| `right` \| `alternate`                                                  | `right`    | 指定文字相对于时间轴的位置，仅 direction=vertical 时支持    |
+| direction       | `vertical` \| `horizontal`                                                        | `vertical` | 时间轴方向                                                  |
+| reverse         | `boolean`                                                                         | `false`    | 根据时间倒序显示                                            |
+| iconClassName   | `string`                                                                          |            | 统一配置的节点图标 CSS 类（3.4.0 版本支持）名               |
+| timeClassName   | `string`                                                                          |            | 统一配置的节点时间 CSS 类（3.4.0 版本支持）名               |
+| titleClassName  | `string`                                                                          |            | 统一配置的节点标题 CSS 类（3.4.0 版本支持）名               |
+| detailClassName | `string`                                                                          |            | 统一配置的节点详情 CSS 类（3.4.0 版本支持）名               |
 
 ### timeline.item
 
-| 属性名              | 类型                                                    | 默认值    | 说明                                                        |
-| ------------------- | ------------------------------------------------------- | --------- | ----------------------------------------------------------- |
-| time                | `string `                                               |           | 节点时间                                                    |
-| title               | `string` \| [SchemaNode](../../docs/types/schemanode)   |           | 节点标题                                                    |
-| detail              | `string`                                                |           | 节点详细描述（折叠）                                        |
-| detailCollapsedText | `string`                                                | `展开`    | 详细内容折叠时按钮文案                                      |
-| detailExpandedText  | `string`                                                | `折叠`    | 详细内容展开时按钮文案                                      |
-| color               | `string \| level样式（info、success、warning、danger）` | `#DADBDD` | 时间轴节点颜色                                              |
-| icon                | `string`                                                |           | icon 名，支持 fontawesome v4 或使用 url（优先级高于 color） |
+| 属性名              | 类型                                                    | 默认值    | 说明                                                                            |
+| ------------------- | ------------------------------------------------------- | --------- | ------------------------------------------------------------------------------- |
+| time                | `string `                                               |           | 节点时间                                                                        |
+| title               | `string` \| [SchemaNode](../../docs/types/schemanode)   |           | 节点标题                                                                        |
+| detail              | `string`                                                |           | 节点详细描述（折叠）                                                            |
+| detailCollapsedText | `string`                                                | `展开`    | 详细内容折叠时按钮文案                                                          |
+| detailExpandedText  | `string`                                                | `折叠`    | 详细内容展开时按钮文案                                                          |
+| color               | `string \| level样式（info、success、warning、danger）` | `#DADBDD` | 时间轴节点颜色                                                                  |
+| icon                | `string`                                                |           | icon 名，支持 fontawesome v4 或使用 url（优先级高于 color）                     |
+| iconClassName       | `string`                                                |           | 节点图标的 CSS 类名（优先级高于统一配置的 iconClassName ，（3.4.0 版本支持））  |
+| timeClassName       | `string`                                                |           | 节点时间的 CSS 类名（优先级高于统一配置的 timeClassName，（3.4.0 版本支持））   |
+| titleClassName      | `string`                                                |           | 节点标题的 CSS 类名（优先级高于统一配置的 titleClassName，（3.4.0 版本支持））  |
+| detailClassName     | `string`                                                |           | 节点详情的 CSS 类名（优先级高于统一配置的 detailClassName，（3.4.0 版本支持）） |

@@ -43,6 +43,18 @@ export interface TimelineItemProps {
 
   /** ICON的CSS类名 */
   iconClassName?: string;
+  /**
+   * 时间的CSS类名 （优先级高于外层titleClassName）
+   */
+  timeClassName?: string;
+  /**
+   * 节点标题的CSS类名（优先级高于外层titleClassName）
+   */
+  titleClassName?: string;
+  /**
+   * 节点详情的CSS类名（优先级高于外层detailClassName）
+   */
+  detailClassName?: string;
 }
 
 export interface TimelineItem
@@ -62,6 +74,9 @@ export function TimelineItem(props: TimelineItem) {
     color,
     icon,
     iconClassName,
+    timeClassName,
+    titleClassName,
+    detailClassName,
     classnames: cx,
     translate: __,
     classPrefix,
@@ -97,7 +112,8 @@ export function TimelineItem(props: TimelineItem) {
               detailVisible
                 ? 'TimelineItem-detail-visible'
                 : 'TimelineItem-detail-invisible'
-            }`
+            }`,
+            detailClassName
           )}
         >
           {detail}
@@ -135,8 +151,8 @@ export function TimelineItem(props: TimelineItem) {
         )}
       </div>
       <div className={cx('TimelineItem-content')}>
-        <div className={cx('TimelineItem-time')}>{time}</div>
-        <div className={cx('TimelineItem-title')}>{title}</div>
+        <div className={cx('TimelineItem-time', timeClassName)}>{time}</div>
+        <div className={cx('TimelineItem-title', titleClassName)}>{title}</div>
         {detail && (
           <div className={cx('TimelineItem-detail')}>
             {renderDetail(detail, detailCollapsedText, detailExpandedText)}
