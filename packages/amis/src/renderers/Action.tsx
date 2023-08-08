@@ -860,13 +860,10 @@ export class Action extends React.Component<ActionProps, ActionState> {
       <>
         <Button
           loadingConfig={loadingConfig}
-          className={cx(
-            className,
-            {
-              [activeClassName || 'is-active']: isActive
-            },
-            `wrapperCustomStyle-${id?.replace('u:', '')}`
-          )}
+          className={cx(className, {
+            [activeClassName || 'is-active']: isActive,
+            [`wrapperCustomStyle-${id?.replace('u:', '')}`]: wrapperCustomStyle
+          })}
           style={style}
           size={size}
           level={

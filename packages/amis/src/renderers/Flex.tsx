@@ -126,7 +126,11 @@ export default class Flex extends React.Component<FlexProps, object> {
     return (
       <div
         style={flexStyle}
-        className={className + ` wrapperCustomStyle-${id?.replace('u:', '')}`}
+        className={
+          wrapperCustomStyle
+            ? className + ` wrapperCustomStyle-${id?.replace('u:', '')}`
+            : className
+        }
       >
         {(Array.isArray(items) ? items : items ? [items] : []).map(
           (item, key) =>

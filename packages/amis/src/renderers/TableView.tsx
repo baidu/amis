@@ -281,7 +281,9 @@ export default class TableView extends React.Component<TableViewProps, object> {
         className={cx(
           'TableView',
           className,
-          `wrapperCustomStyle-${id?.replace('u:', '')}`
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
         )}
         style={{width: width, borderCollapse: 'collapse'}}
       >

@@ -223,7 +223,9 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
             [`Grid--h${ucFirst(hAlign)}`]: hAlign
           },
           className,
-          `wrapperCustomStyle-${id?.replace('u:', '')}`
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
         )}
         style={styleVar}
       >

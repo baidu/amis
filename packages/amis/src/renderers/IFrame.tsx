@@ -258,7 +258,11 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       <>
         <iframe
           name={name}
-          className={className + ` wrapperCustomStyle-${id?.replace('u:', '')}`}
+          className={
+            wrapperCustomStyle
+              ? className + ` wrapperCustomStyle-${id?.replace('u:', '')}`
+              : className
+          }
           frameBorder={frameBorder}
           style={style}
           ref={this.IFrameRef}

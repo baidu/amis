@@ -211,7 +211,9 @@ export default class Container<T> extends React.Component<
           'Container',
           size && size !== 'none' ? `Container--${size}` : '',
           className,
-          `wrapperCustomStyle-${id?.replace('u:', '')}`
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
         )}
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}

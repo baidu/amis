@@ -610,7 +610,9 @@ export class Chart extends React.Component<ChartProps> {
         className={cx(
           `${ns}Chart`,
           className,
-          `wrapperCustomStyle-${id?.replace('u:', '')}`
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
         )}
         style={styleVar}
       >

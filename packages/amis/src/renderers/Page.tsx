@@ -924,7 +924,9 @@ export default class Page extends React.Component<PageProps> {
           `Page`,
           hasAside ? `Page--withSidebar` : '',
           className,
-          `wrapperCustomStyle-${id?.replace('u:', '')}`
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
         )}
         onClick={this.handleClick}
         style={styleVar}

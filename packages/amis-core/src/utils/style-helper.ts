@@ -142,7 +142,7 @@ export function formatStyle(
 
     list?.forEach(n => {
       if (
-        /(\S*[C|c]lassName-\S*)/.test(n) &&
+        n.includes('lassName-') &&
         !!~n.indexOf(
           id
             ?.replace('u:', '')

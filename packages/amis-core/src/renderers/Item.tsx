@@ -957,7 +957,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         translate: __,
         static: isStatic,
         staticClassName,
-        id
+        id,
+        wrapperCustomStyle
       } = props;
 
       // 强制不渲染 label 的话
@@ -984,7 +985,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               [`is-required`]: required
             },
             model?.errClassNames,
-            `wrapperCustomStyle-${id?.replace('u:', '')}`
+            wrapperCustomStyle
+              ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+              : ''
           )}
           style={style}
         >
