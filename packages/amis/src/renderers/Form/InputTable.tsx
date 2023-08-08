@@ -1229,7 +1229,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           label: __('Table.operation'),
           className: 'v-middle nowrap',
           fixed: 'right',
-          width: '1%',
+          width: 100,
           innerClassName: 'm-n'
         };
         columns.push(operation);
@@ -1248,7 +1248,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     if (showIndex) {
       columns.unshift({
         label: __('Table.index'),
-        width: '1%',
+        width: 50,
         children: (props: any) => {
           return <td>{props.offset + props.data.index + 1}</td>;
         }

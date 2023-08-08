@@ -1120,79 +1120,10 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   updateTableInfo(ref: any) {
-    const table = this.table;
-    if (!ref || !table || !table.offsetWidth) {
+    if (!ref) {
       return;
     }
-    const store = this.props.store;
-
-    // 自动将 table-layout: auto 改成 fixed
-    if (!store.columnWidthReady) {
-      const cx = this.props.classnames;
-      const ths = (
-        [].slice.call(
-          table.querySelectorAll(':scope>thead>tr>th[data-index]')
-        ) as HTMLTableCellElement[]
-      ).filter((th, index, arr) => {
-        return (
-          arr.findIndex(
-            item =>
-              item.getAttribute('data-index') === th.getAttribute('data-index')
-          ) === index
-        );
-      });
-      const tbodyTr = table.querySelector(':scope>tbody>tr:first-child');
-
-      const div = document.createElement('div');
-      div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
-      div.style.cssText = `position:absolute;top:0;left:0;pointer-events:none;visibility: hidden;`;
-      div.innerHTML = `<table style="table-layout:auto!important;width:0!important;min-width:0!important;" class="${cx(
-        'Table-table'
-      )}"><thead><tr>${ths
-        .map(
-          th =>
-            `<th style="width:0" data-index="${th.getAttribute(
-              'data-index'
-            )}" class="${th.className}">${th.innerHTML}</th>`
-        )
-        .join('')}</tr></thead>${
-        tbodyTr ? `<tbody>${tbodyTr.outerHTML}</tbody>` : ''
-      }</table>`;
-      document.body.appendChild(div);
-      const minWidths: {
-        [propName: string]: number;
-      } = {};
-      [].slice
-        .call(div.querySelectorAll(':scope>table>thead>tr>th[data-index]'))
-        .forEach((th: HTMLTableCellElement) => {
-          minWidths[th.getAttribute('data-index')!] = th.clientWidth;
-        });
-      document.body.removeChild(div);
-
-      if (store.useFixedLayout) {
-        table.style.cssText += `table-layout:fixed;`;
-        ths.forEach(th => {
-          const index = parseInt(th.getAttribute('data-index')!, 10);
-          const column = store.columns[index];
-          th.style.cssText += `width:${
-            typeof column.pristine.width === 'number'
-              ? column.pristine.width
-              : minWidths[index]
-          }px;`;
-        });
-      }
-      forEach(
-        table.querySelectorAll(':scope>colgroup>col'),
-        (col: HTMLElement) => {
-          const index = parseInt(col.getAttribute('data-index')!, 10);
-          const column = store.columns[index];
-          column.setWidth(
-            Math.max(col.clientWidth - 2, minWidths[index]),
-            minWidths[index]
-          );
-        }
-      );
-    }
+    this.props.store.syncTableWidth();
   }
 
   // 当表格滚动是，需要让 affixHeader 部分的表格也滚动
@@ -1225,6 +1156,7 @@ export default class Table extends React.Component<TableProps, object> {
 
   tableRef(ref: HTMLTableElement) {
     this.table = ref;
+    isAlive(this.props.store) && this.props.store.setTable(ref);
     ref && this.handleOutterScroll();
   }
 
