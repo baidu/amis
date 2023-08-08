@@ -3105,7 +3105,6 @@ export const getEventControlConfig = (
         delete action.__actionExpression;
         delete action.__statusType;
       }
-      console.log('hhhh', action);
 
       delete action.config;
 
