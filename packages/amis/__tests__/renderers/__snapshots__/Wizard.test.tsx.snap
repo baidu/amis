@@ -2717,7 +2717,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
               </span>
             </label>
             <div
-              class="cxd-Form-control cxd-TextControl"
+              class="cxd-Form-control cxd-TextControl is-disabled"
             >
               <div
                 class="cxd-TextControl-input"
