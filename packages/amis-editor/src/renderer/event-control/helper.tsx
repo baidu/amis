@@ -2787,11 +2787,10 @@ export const getEventControlConfig = (
         !config.args && (config.args = {});
         if (Array.isArray(action.args?.value)) {
           config.args.value = action.args?.value.map((valueItem: any) => {
-            valueItem = {
+            return {
               key: valueItem.key,
               val: valueItem.val
             };
-            return valueItem;
           });
           // 目前只有给combo赋值会是数组，所以认为是全量的赋值方式
           config.args['__comboType'] = 'all';
