@@ -2776,6 +2776,7 @@ export const getEventControlConfig = (
     },
     actionConfigInitFormatter: async (action: ActionConfig) => {
       let config = {...action};
+      config.args = {...action.args};
       if (['link', 'url'].includes(action.actionType) && action.args?.params) {
         config.args = {
           ...config.args,
