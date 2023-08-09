@@ -660,10 +660,9 @@ export const TableStore = iRendererStore
       },
 
       get allChecked(): boolean {
-        return !!(
-          self.selectedRows.length ===
-            (self as ITableStore).checkableRows.length &&
-          (self as ITableStore).checkableRows.length
+        // 只要selectedRows中包含checkableRows中的全部数据，就认为是全选
+        return (self as ITableStore).checkableRows.every(item =>
+          self.selectedRows.includes(item)
         );
       },
 
@@ -1211,7 +1210,11 @@ export const TableStore = iRendererStore
 
     function toggleAll() {
       if (self.allChecked) {
-        self.selectedRows.clear();
+        // 需要将不可选的row排除掉
+        // 不可选的 始终保持初始化的状态
+        self.selectedRows.replace(
+          self.selectedRows.filter(row => !row.checkable)
+        );
       } else {
         self.selectedRows.replace(getSelectedRows());
       }
