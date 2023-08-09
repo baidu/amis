@@ -132,7 +132,28 @@ export class ItemPlugin extends BasePlugin {
             }),
 
             renderer.sizeMutable !== false
-              ? getSchemaTpl('formItemSize')
+              ? getSchemaTpl('formItemSize', {
+                  options: [
+                    {
+                      label: '小',
+                      value: 'sm'
+                    },
+
+                    {
+                      label: '中',
+                      value: 'md'
+                    },
+
+                    {
+                      label: '大',
+                      value: 'lg'
+                    },
+                    {
+                      label: '默认（占满）',
+                      value: 'full'
+                    }
+                  ]
+                })
               : null,
             getSchemaTpl('formItemInline'),
 

@@ -7,7 +7,8 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   createObject,
-  evalExpression
+  evalExpression,
+  ConditionRule
 } from 'amis-core';
 import {
   FormBaseControlSchema,
@@ -138,6 +139,33 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
       return evalExpression(addGroupBtnVisibleOn, createObject(data, param));
     }
     return true;
+  }
+
+  validate(): any {
+    const {value, required, translate: __} = this.props;
+    // 校验必填
+    // 只要存在不为空条件即可通过校验
+    if (required) {
+      if (!value || !value.children) {
+        return __('Condition.isRequired');
+      }
+
+      let isEmpty = true;
+      const allowRightEmpty = ['is_empty', 'is_not_empty'];
+      value?.children?.forEach((item: ConditionRule) => {
+        // 如果左侧、操作符为空，必填不通过
+        if (
+          item.op &&
+          (item.right || !!~allowRightEmpty.indexOf(item.op as string))
+        ) {
+          isEmpty = false;
+          return;
+        }
+      });
+      return isEmpty ? __('Condition.isRequired') : null;
+    }
+
+    return;
   }
 
   render() {
