@@ -8,6 +8,7 @@ import {Icon} from './icons';
 import {uncontrollable} from 'amis-core';
 import {autobind} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
+import Input from './Input';
 
 export interface HistoryRecord {
   /** 历史记录值 */
@@ -302,17 +303,17 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
         )}
         style={style}
       >
-        <input
+        <Input
           name={name}
           ref={this.inputRef}
+          disabled={disabled}
+          placeholder={__(placeholder || 'placeholder.enter')}
+          value={inputValue ?? ''}
+          autoComplete="off"
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
-          value={inputValue ?? ''}
-          disabled={disabled}
-          placeholder={__(placeholder || 'placeholder.enter')}
-          autoComplete="off"
         />
 
         {!mini && clearable && inputValue && !disabled ? (
