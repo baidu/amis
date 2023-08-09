@@ -2776,6 +2776,7 @@ export const getEventControlConfig = (
     },
     actionConfigInitFormatter: async (action: ActionConfig) => {
       let config = {...action};
+      config.args = {...action.args};
       if (['link', 'url'].includes(action.actionType) && action.args?.params) {
         config.args = {
           ...config.args,
@@ -2786,12 +2787,16 @@ export const getEventControlConfig = (
       if (['setValue'].includes(action.actionType) && action.args?.value) {
         !config.args && (config.args = {});
         if (Array.isArray(action.args?.value)) {
-          config.args.value = action.args?.value.map((valueItem: any) => {
-            return {
-              key: valueItem.key,
-              val: valueItem.val
-            };
-          });
+          config.args.value = action.args?.value.reduce(
+            (arr: any, valueItem: any, index: number) => {
+              if (!arr[index]) {
+                arr[index] = {};
+              }
+              arr[index].item = objectToComboArray(valueItem);
+              return arr;
+            },
+            []
+          );
           // 目前只有给combo赋值会是数组，所以认为是全量的赋值方式
           config.args['__comboType'] = 'all';
         } else if (typeof action.args?.value === 'object') {
