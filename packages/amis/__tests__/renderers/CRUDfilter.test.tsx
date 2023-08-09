@@ -79,7 +79,7 @@ test('CRUD filter1', async () => {
       makeEnv({fetcher: mockFetcher})
     )
   );
-  await wait(200);
+  await wait(500);
   const a = container.querySelector('input[name="a"]')!;
   const b = container.querySelector('input[name="b"]')!;
   expect(a).toBeTruthy();
@@ -139,7 +139,7 @@ test('CRUD filter2', async () => {
       makeEnv({fetcher: mockFetcher})
     )
   );
-  await wait(200);
+  await wait(500);
   const a = container.querySelector('input[name="a"]')!;
   const b = container.querySelector('input[name="b"]')!;
   expect(a).toBeTruthy();
