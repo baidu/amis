@@ -53,6 +53,7 @@ export const Column = types
     searchable: types.maybe(types.frozen()),
     enableSearch: true,
     sortable: false,
+    canAccessSuperData: true,
     filterable: types.optional(types.frozen(), undefined),
     fixed: '',
     index: 0,

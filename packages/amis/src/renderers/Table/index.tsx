@@ -2203,9 +2203,9 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       checkOnItemClick,
       popOverContainer,
-      canAccessSuperData,
       itemBadge
     } = this.props;
+    const canAccessSuperData = column.canAccessSuperData;
 
     if (column.name && item.rowSpans[column.name] === 0) {
       return null;
