@@ -847,7 +847,7 @@ export default class Form extends React.Component<FormProps, object> {
         this.hooks['validate'] || [],
         forceValidate,
         throwErrors,
-        __(messages && messages.validateFailed)
+        __(filter(messages && messages.validateFailed, store.data))
       )
       .then((result: boolean) => {
         if (result) {
@@ -892,7 +892,7 @@ export default class Form extends React.Component<FormProps, object> {
     return store.submit(
       fn,
       this.hooks['validate'] || [],
-      __(messages && messages.validateFailed),
+      __(filter(messages && messages.validateFailed, store.data)),
       validateErrCb,
       throwErrors
     );
@@ -1172,8 +1172,8 @@ export default class Form extends React.Component<FormProps, object> {
 
           return store
             .saveRemote(action.api || (api as Api), values, {
-              successMessage: saveSuccess,
-              errorMessage: saveFailed,
+              successMessage: filter(saveSuccess, store.data),
+              errorMessage: filter(saveFailed, store.data),
               onSuccess: async (result: Payload) => {
                 // result为提交接口返回的内容
                 const dispatcher = await dispatchEvent(
@@ -1307,10 +1307,16 @@ export default class Form extends React.Component<FormProps, object> {
       return store
         .saveRemote(action.api as Api, data, {
           successMessage: __(
-            (action.messages && action.messages.success) || saveSuccess
+            filter(
+              (action.messages && action.messages.success) || saveSuccess,
+              store.data
+            )
           ),
           errorMessage: __(
-            (action.messages && action.messages.failed) || saveFailed
+            filter(
+              (action.messages && action.messages.failed) || saveFailed,
+              store.data
+            )
           )
         })
         .then(async response => {
