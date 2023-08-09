@@ -2786,19 +2786,13 @@ export const getEventControlConfig = (
       if (['setValue'].includes(action.actionType) && action.args?.value) {
         !config.args && (config.args = {});
         if (Array.isArray(action.args?.value)) {
-          config.args.value = action.args?.value.reduce(
-            (arr: any, valueItem: any, index: number) => {
-              if (!arr[index]) {
-                arr[index] = {};
-              }
-              arr[index] = {
-                key: valueItem.key,
-                val: valueItem.val
-              };
-              return arr;
-            },
-            []
-          );
+          config.args.value = action.args?.value.map((valueItem: any) => {
+            valueItem = {
+              key: valueItem.key,
+              val: valueItem.val
+            };
+            return valueItem;
+          });
           // 目前只有给combo赋值会是数组，所以认为是全量的赋值方式
           config.args['__comboType'] = 'all';
         } else if (typeof action.args?.value === 'object') {
