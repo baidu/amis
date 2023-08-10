@@ -596,7 +596,7 @@ export class Chart extends React.Component<ChartProps> {
       data
     } = this.props;
     let style = this.props.style || {};
-    style.width = style.width || width || '300px';
+    style.width = style.width || width || '100%';
     style.height = style.width || height || '300px';
     const styleVar = buildStyle(style, data);
 
