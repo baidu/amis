@@ -20,7 +20,6 @@ export interface ResultTreeListProps
     LocaleProps,
     BaseSelectionProps,
     SpinnerExtraProps {
-  onRef?: any;
   className?: string;
   title?: string;
   searchable?: boolean;
@@ -177,12 +176,11 @@ export class BaseResultTreeList extends React.Component<
     };
   }
 
-  componentDidMount() {
-    this.props?.onRef?.(this);
-  }
-
   @autobind
   domSearchRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
     this.searchRef = ref;
   }
 
@@ -334,7 +332,7 @@ export class BaseResultTreeList extends React.Component<
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
         {searchable ? (
           <TransferSearch
-            onRef={this.domSearchRef}
+            ref={this.domSearchRef}
             placeholder={searchPlaceholder}
             onSearch={this.search}
             onCancelSearch={this.clearSearch}

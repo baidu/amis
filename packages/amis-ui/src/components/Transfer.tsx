@@ -197,11 +197,17 @@ export class Transfer<
 
   @autobind
   domRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
     this.treeRef = ref;
   }
 
   @autobind
   domResultRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
     this.resultRef = ref;
   }
 
@@ -590,7 +596,7 @@ export class Transfer<
       />
     ) : mode === 'tree' ? (
       <Tree
-        onRef={this.domRef}
+        ref={this.domRef}
         placeholder={noResultsText}
         className={cx('Transfer-selection')}
         options={options}
@@ -704,7 +710,7 @@ export class Transfer<
       />
     ) : selectMode === 'tree' ? (
       <Tree
-        onRef={this.domRef}
+        ref={this.domRef}
         placeholder={noResultsText}
         className={cx('Transfer-selection')}
         options={options}
@@ -822,7 +828,7 @@ export class Transfer<
       case 'table':
         return (
           <ResultTableList
-            onRef={this.domResultRef}
+            ref={this.domResultRef}
             classnames={cx}
             columns={columns!}
             options={options || []}
@@ -843,7 +849,7 @@ export class Transfer<
       case 'tree':
         return (
           <ResultTreeList
-            onRef={this.domResultRef}
+            ref={this.domResultRef}
             loadingConfig={loadingConfig}
             classnames={cx}
             className={cx('Transfer-value')}
@@ -864,7 +870,7 @@ export class Transfer<
       default:
         return (
           <ResultList
-            onRef={this.domResultRef}
+            ref={this.domResultRef}
             className={cx('Transfer-value')}
             sortable={sortable}
             disabled={disabled}

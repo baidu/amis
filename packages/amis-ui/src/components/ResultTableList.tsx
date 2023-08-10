@@ -16,7 +16,6 @@ import {CloseIcon} from './icons';
 import TableSelection from './TableSelection';
 
 export interface ResultTableSelectionProps extends BaseSelectionProps {
-  onRef?: any;
   title?: string;
   searchPlaceholder?: string;
   placeholder?: string;
@@ -84,12 +83,11 @@ export class BaseResultTableSelection extends BaseSelection<
     };
   }
 
-  componentDidMount() {
-    this.props?.onRef?.(this);
-  }
-
   @autobind
   domSearchRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
     this.searchRef = ref;
   }
 
@@ -253,7 +251,7 @@ export class BaseResultTableSelection extends BaseSelection<
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
         {searchable ? (
           <TransferSearch
-            onRef={this.domSearchRef}
+            ref={this.domSearchRef}
             placeholder={searchPlaceholder}
             onSearch={this.search}
             onCancelSearch={this.clearSearch}
