@@ -375,6 +375,7 @@ register('de-DE', {
   'Condition.formula_placeholder': 'Bitte geben Sie eine Formel ein',
   'Condition.fun_error': 'Funktion ist undefiniert',
   'Condition.configured': 'Konfiguriert',
+  'Condition.isRequired': 'Bedingung kann nicht leer sein',
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
   'Timeline.collapseText': 'Falten',
   'Timeline.expandText': 'Entfalten',
