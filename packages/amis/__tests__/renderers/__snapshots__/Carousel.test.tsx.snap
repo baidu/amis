@@ -32,6 +32,12 @@ exports[`Renderer:Carousel 1`] = `
             >
               标题
             </div>
+            <div
+              class="cxd-Image-caption"
+              title="描述"
+            >
+              描述
+            </div>
           </div>
         </div>
       </div>
