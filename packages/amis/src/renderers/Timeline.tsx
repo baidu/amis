@@ -16,7 +16,6 @@ import type {
   SchemaTokenizeableString
 } from '../Schema';
 import type {IconCheckedSchema} from 'amis-ui';
-import {TimelineItemProps} from 'packages/amis-ui/src/components/TimelineItem';
 
 export interface TimelineItemSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -149,7 +148,7 @@ export function TimelineCmpt(props: TimelineProps) {
     typeof val === 'string' ? filter(val, data) : val && render(region, val);
 
   // 处理源数据
-  const resolveTimelineItems: Array<TimelineItemProps> = (items || []).map(
+  const resolveTimelineItems = (items || []).map(
     (timelineItem: TimelineItemSchema, index: number) => {
       const {
         icon,
