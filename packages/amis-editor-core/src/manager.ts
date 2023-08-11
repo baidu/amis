@@ -206,18 +206,14 @@ export class EditorManager {
   readonly pluginActions: PluginActions = {};
 
   dataSchema: DataSchema;
-  readonly isInFrame: boolean = false;
 
   /** 变量管理 */
   readonly variableManager;
 
   constructor(
     readonly config: EditorManagerConfig,
-    readonly store: EditorStoreType,
-    readonly parent?: EditorManager
+    readonly store: EditorStoreType
   ) {
-    const isInFrame = !!parent;
-    this.isInFrame = isInFrame;
     // 传给 amis 渲染器的默认 env
     this.env = {
       ...env, // 默认的 env 中带 jumpTo
@@ -228,78 +224,43 @@ export class EditorManager {
       this,
       this.env.beforeDispatchEvent
     );
-    this.hackIn = parent?.hackIn || hackIn;
+    this.hackIn = hackIn;
     // 自动加载预先注册的自定义组件
     autoPreRegisterEditorCustomPlugins();
-    /** 在顶层对外部注册的Plugin和builtInPlugins合并去重 */
-    if (!parent?.plugins) {
-      (config?.plugins || []).forEach(external => {
-        if (
-          Array.isArray(external) ||
-          !external.priority ||
-          !Number.isInteger(external.priority)
-        ) {
-          return;
+
+    this.plugins = (config.disableBultinPlugin ? [] : builtInPlugins) // 页面设计器注册的插件列表
+      .concat(this.normalizeScene(config?.plugins))
+      .filter(p => {
+        p = Array.isArray(p) ? p[0] : p;
+        return config.disablePluginList
+          ? typeof config.disablePluginList === 'function'
+            ? !config.disablePluginList(p.id || '', p)
+            : !config.disablePluginList.includes(p.id || 'unkown')
+          : true;
+      })
+      .map(Editor => {
+        let pluginOptions: Record<string, any> = {};
+        if (Array.isArray(Editor)) {
+          pluginOptions =
+            typeof Editor[1] === 'function' ? Editor[1]() : Editor[1];
+          Editor = Editor[0];
         }
 
-        const idx = builtInPlugins.findIndex(
-          builtIn =>
-            !Array.isArray(builtIn) &&
-            !Array.isArray(external) &&
-            builtIn.id === external.id &&
-            builtIn?.prototype instanceof BasePlugin
-        );
+        const plugin = new Editor(this, pluginOptions); // 进行一次实例化
+        plugin.order = plugin.order ?? 0;
 
-        if (~idx) {
-          const current = builtInPlugins[idx] as PluginClass;
-          const currentPriority =
-            current.priority && Number.isInteger(current.priority)
-              ? current.priority
-              : 0;
-          /** 同ID Plugin根据优先级决定是否替换掉Builtin中的Plugin */
-          if (external.priority > currentPriority) {
-            builtInPlugins.splice(idx, 1);
-          }
+        // 记录动作定义
+        if (plugin.rendererName) {
+          this.pluginEvents[plugin.rendererName] = plugin.events || [];
+          this.pluginActions[plugin.rendererName] = plugin.actions || [];
         }
-      });
-    }
 
-    this.plugins =
-      parent?.plugins ||
-      (config.disableBultinPlugin ? [] : builtInPlugins) // 页面设计器注册的插件列表
-        .concat(this.normalizeScene(config?.plugins))
-        .filter(p => {
-          p = Array.isArray(p) ? p[0] : p;
-          return config.disablePluginList
-            ? typeof config.disablePluginList === 'function'
-              ? !config.disablePluginList(p.id || '', p)
-              : !config.disablePluginList.includes(p.id || 'unkown')
-            : true;
-        })
-        .map(Editor => {
-          let pluginOptions: Record<string, any> = {};
-          if (Array.isArray(Editor)) {
-            pluginOptions =
-              typeof Editor[1] === 'function' ? Editor[1]() : Editor[1];
-            Editor = Editor[0];
-          }
-
-          const plugin = new Editor(this, pluginOptions); // 进行一次实例化
-          plugin.order = plugin.order ?? 0;
-
-          // 记录动作定义
-          if (plugin.rendererName) {
-            this.pluginEvents[plugin.rendererName] = plugin.events || [];
-            this.pluginActions[plugin.rendererName] = plugin.actions || [];
-          }
-
-          return plugin;
-        })
-        .sort((a, b) => a.order! - b.order!); // 按order排序【升序】
+        return plugin;
+      })
+      .sort((a, b) => a.order! - b.order!); // 按order排序【升序】
     this.hackRenderers();
-    this.dnd = parent?.dnd || new EditorDNDManager(this, store);
-    this.dataSchema =
-      parent?.dataSchema || new DataSchema(config.schemas || []);
+    this.dnd = new EditorDNDManager(this, store);
+    this.dataSchema = new DataSchema(config.schemas || []);
 
     /** 初始化变量管理 */
     this.variableManager = new VariableManager(
@@ -307,10 +268,6 @@ export class EditorManager {
       config?.variables,
       config?.variableOptions
     );
-
-    if (isInFrame) {
-      return;
-    }
 
     this.toDispose.push(
       // 当前节点区域数量发生变化，重新构建孩子渲染器列表。
@@ -1811,9 +1768,7 @@ export class EditorManager {
    * @param render
    */
   makeWrapper(info: RendererInfo, render: RendererConfig): any {
-    return this.parent?.makeWrapper
-      ? this.parent.makeWrapper(info, render)
-      : makeWrapper(this, info, render);
+    return makeWrapper(this, info, render);
   }
 
   /**
@@ -1935,7 +1890,7 @@ export class EditorManager {
       return [];
     }
 
-    let scope: DataScope | void;
+    let scope: DataScope | void = undefined;
     let from = node;
     let region = node;
     const trigger = node;
@@ -2012,7 +1967,7 @@ export class EditorManager {
       return;
     }
 
-    let scope: DataScope | void;
+    let scope: DataScope | void = undefined;
     let from = node;
     let region = node;
 

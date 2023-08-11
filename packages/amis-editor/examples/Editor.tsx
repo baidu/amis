@@ -643,7 +643,6 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
         theme={theme || 'cxd'}
         showCustomRenderersPanel={true}
         plugins={LayoutList} // 存放常见布局组件
-        iframeUrl={'/packages/amis-editor/editor.html'}
         $schemaUrl={`${location.protocol}//${location.host}/schema.json`}
         actionOptions={{
           showOldEntry: false
