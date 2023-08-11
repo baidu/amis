@@ -156,6 +156,102 @@ IconSchema 配置
 | -------- | ------------------------------------ | ---------------- |
 | change   | `[name]: string \| boolean` 组件的值 | 开关值变化时触发 |
 
+### change
+
+switch 值更新时弹出确认提示，确认后发送请求。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID",
+            "id": "u:daa79afa2e53"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine",
+            "id": "u:3343cf518656"
+        },
+        {
+            "name": "browser",
+            "label": "Browser",
+            "id": "u:fbdc85e45e2f"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)",
+            "id": "u:ccdb48cc1804"
+        },
+        {
+            "name": "switch",
+            "label": "开关",
+            "id": "u:30a36768acce",
+            "type": "switch",
+            "inline": true,
+            "onEvent": {
+                "change": {
+                    "weight": 0,
+                    "actions": [
+                    {
+                        "actionType": "confirmDialog",
+                        "dialog": {
+                        "type": "dialog",
+                        "title": "弹框标题",
+                        "body": [
+                            {
+                            "type": "tpl",
+                            "tpl": "确定要修改${id}吗？",
+                            "wrapperComponent": "",
+                            "inline": false,
+                            "id": "u:1965506c7599"
+                            }
+                        ],
+                        "showCloseButton": true,
+                        "showErrorMsg": true,
+                        "showLoading": true,
+                        "className": "app-popover",
+                        "id": "u:d9783223df98",
+                        "actions": [
+                            {
+                            "type": "button",
+                            "actionType": "cancel",
+                            "label": "取消",
+                            "id": "u:302efee8613b"
+                            },
+                            {
+                            "type": "button",
+                            "actionType": "confirm",
+                            "label": "确定",
+                            "primary": true,
+                            "id": "u:4a4d63cf35e1"
+                            }
+                        ]
+                        }
+                    },
+                    {
+                        "actionType": "ajax",
+                        "outputVar": "responseResult",
+                        "options": {
+                        },
+                        "api": {
+                        "method": "get",
+                        "url": "/api/mock2/form/saveForm"
+                        }
+                    }
+                    ]
+                }
+            },
+            "value": false
+    }
+    ],
+    "id": "u:6c781a765f97"
+}
+```
+
 ## 动作表
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
@@ -163,3 +259,52 @@ IconSchema 配置
 | 动作名称 | 动作配置                              | 说明     |
 | -------- | ------------------------------------- | -------- |
 | setValue | `value: string \| boolean` 更新的数据 | 更新数据 |
+
+### setValue
+
+```schema: scope="body"
+[
+    {
+      "type": "button",
+      "label": "修改开关的值",
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "u:6613bfa3a18e",
+              "actionType": "setValue",
+              "args": {
+                "value": true
+              }
+            }
+          ]
+        }
+      },
+      "id": "u:9d7d695145bb"
+    },
+    {
+      "type": "form",
+      "title": "表单",
+      "debug": true,
+      "body": [
+        {
+          "label": "开启",
+          "type": "switch",
+          "name": "switch",
+          "id": "u:6613bfa3a18e",
+          "value": false,
+          "mode": "inline"
+        }
+      ],
+      "id": "u:82d44e407eb0",
+      "actions": [
+        {
+          "type": "submit",
+          "label": "提交",
+          "primary": true
+        }
+      ]
+    }
+]
+```
