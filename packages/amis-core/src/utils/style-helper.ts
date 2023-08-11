@@ -279,3 +279,14 @@ export function getValueByPath(path: string, data: any) {
     return null;
   }
 }
+
+export interface CustomStyleClassName {
+  key: string;
+  value?: string;
+  weights?: {
+    default?: extra;
+    hover?: extra;
+    active?: extra;
+    disabled?: extra;
+  };
+}
