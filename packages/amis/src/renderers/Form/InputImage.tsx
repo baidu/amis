@@ -39,6 +39,7 @@ import {filter} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
+import isNil from 'lodash/isNil';
 import {TplSchema} from '../Tpl';
 import Sortable from 'sortablejs';
 
@@ -639,7 +640,7 @@ export default class ImageControl extends React.Component<
       currentFiles = [];
     }
 
-    const allowed = this.reuploadIndex
+    const allowed = !isNil(this.reuploadIndex)
       ? reFiles.length
       : (multiple
           ? maxLength
@@ -1116,7 +1117,7 @@ export default class ImageControl extends React.Component<
       currentFiles = [];
     }
 
-    const allowed = this.reuploadIndex
+    const allowed = !isNil(this.reuploadIndex)
       ? files.length
       : (multiple
           ? maxLength
