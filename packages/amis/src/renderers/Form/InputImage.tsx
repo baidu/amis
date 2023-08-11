@@ -546,6 +546,13 @@ export default class ImageControl extends React.Component<
     this.unmounted = true;
   }
 
+  getFileKey(file: FileValue | FileX) {
+    if (file.id) {
+      return file.id;
+    }
+    return guid();
+  }
+
   buildCrop(props: ImageProps) {
     let crop = props.crop;
     const __ = this.props.translate;
@@ -598,7 +605,7 @@ export default class ImageControl extends React.Component<
       currentFiles = [];
     }
 
-    const allowed = !isNil(this.reuploadIndex)
+    const allowed = this.reuploadIndex
       ? reFiles.length
       : (multiple
           ? maxLength
@@ -1061,7 +1068,7 @@ export default class ImageControl extends React.Component<
       currentFiles = [];
     }
 
-    const allowed = !isNil(this.reuploadIndex)
+    const allowed = this.reuploadIndex
       ? files.length
       : (multiple
           ? maxLength
@@ -1614,7 +1621,7 @@ export default class ImageControl extends React.Component<
                     {files && files.length
                       ? files.map((file, key) => (
                           <div
-                            key={file.id || key}
+                            key={`${this.getFileKey(file)}-${key}`}
                             className={cx(
                               'ImageControl-item',
                               {
