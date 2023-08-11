@@ -924,11 +924,11 @@ export class TreeSelector extends React.Component<
           return;
         }
         this.levels.set(item, level);
+        parent && this.relations.set(item, parent);
         if (paths.length === 0) {
           // 父节点
           flattenedOptions.push(item);
         } else if (this.isUnfolded(parent)) {
-          this.relations.set(item, parent);
           // 父节点是展开的状态
           flattenedOptions.push(item);
         }
