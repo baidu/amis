@@ -605,7 +605,7 @@ export default class ImageControl extends React.Component<
       currentFiles = [];
     }
 
-    const allowed = this.reuploadIndex
+    const allowed = !isNil(this.reuploadIndex)
       ? reFiles.length
       : (multiple
           ? maxLength
@@ -1068,7 +1068,7 @@ export default class ImageControl extends React.Component<
       currentFiles = [];
     }
 
-    const allowed = this.reuploadIndex
+    const allowed = !isNil(this.reuploadIndex)
       ? files.length
       : (multiple
           ? maxLength
