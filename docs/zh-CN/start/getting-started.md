@@ -175,6 +175,9 @@ let amisScoped = amis.embed(
     // 用来判断是否目标地址当前地址。
     // isCurrentUrl: url => {},
     //
+    // 用来配置弹窗等组件的挂载位置
+    // getModalContainer: () => document.getElementsByTagName('body')[0],
+    //
     // 用来实现复制到剪切板
     // copy: content => {},
     //
@@ -531,6 +534,10 @@ class MyComponent extends React.Component<any, any> {
             //   replace: boolean /*是replace，还是push？*/
             // ) => {
             //   // 地址替换，跟 jumpTo 类似
+            // },
+
+            // getModalContainer: () => {
+            //   // 弹窗挂载的 DOM 节点
             // },
 
             // isCurrentUrl: (
