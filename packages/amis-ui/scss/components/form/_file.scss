@@ -98,6 +98,11 @@
 
     &.is-invalid {
       color: var(--FileControl-danger-color);
+
+      .#{$ns}FileControl-itemInfoIcon,
+      .#{$ns}FileControl-itemInfoText {
+        color: var(--FileControl-danger-color);
+      }
     }
 
     > svg:not(:first-child) {
