@@ -639,12 +639,13 @@ export default class ImageControl extends React.Component<
       currentFiles = [];
     }
 
-    const allowed =
-      (multiple
-        ? maxLength
+    const allowed = this.reuploadIndex
+      ? reFiles.length
+      : (multiple
           ? maxLength
-          : reFiles.length + currentFiles.length
-        : 1) - currentFiles.length;
+            ? maxLength
+            : reFiles.length + currentFiles.length
+          : 1) - currentFiles.length;
 
     // 限制过多的错误文件
     if (allowed <= 0) {
@@ -1115,12 +1116,13 @@ export default class ImageControl extends React.Component<
       currentFiles = [];
     }
 
-    const allowed =
-      (multiple
-        ? maxLength
+    const allowed = this.reuploadIndex
+      ? files.length
+      : (multiple
           ? maxLength
-          : files.length + currentFiles.length
-        : 1) - currentFiles.length;
+            ? maxLength
+            : files.length + currentFiles.length
+          : 1) - currentFiles.length;
     const inputFiles: Array<FileX> = [];
 
     [].slice.call(files, 0, allowed).forEach((file: FileX) => {
@@ -1676,7 +1678,7 @@ export default class ImageControl extends React.Component<
                       <div className={cx('ImageControl-itemList')}>
                         {files.map((file, key) => (
                           <div
-                            key={this.getFileKey(file)}
+                            key={`${this.getFileKey(file)}-${key}`}
                             className={cx(
                               'ImageControl-item',
                               {
