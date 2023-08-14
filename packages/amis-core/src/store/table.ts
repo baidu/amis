@@ -256,8 +256,11 @@ export const Row = types
     }
   }))
   .actions(self => ({
-    toggle() {
-      (getParent(self, self.depth * 2) as ITableStore).toggle(self as IRow);
+    toggle(checked: boolean) {
+      (getParent(self, self.depth * 2) as ITableStore).toggle(
+        self as IRow,
+        checked
+      );
     },
 
     toggleExpanded() {
@@ -1320,7 +1323,10 @@ export const TableStore = iRendererStore
 
         return [...self.selectedRows, ...checkableRows];
       } else {
-        return self.checkableRows;
+        return [
+          ...self.selectedRows.filter(item => !item.checkable),
+          ...self.checkableRows
+        ];
       }
     }
 
@@ -1339,29 +1345,29 @@ export const TableStore = iRendererStore
     // 记录最近一次点击的多选框，主要用于 shift 多选时判断上一个选的是什么
     let lastCheckedRow: any = null;
 
-    function toggle(row: IRow) {
+    function toggle(row: IRow, checked: boolean) {
       if (!row.checkable) {
         return;
       }
 
       lastCheckedRow = row;
-
       const idx = self.selectedRows.indexOf(row);
-
       if (self.multiple) {
-        ~idx ? self.selectedRows.splice(idx, 1) : self.selectedRows.push(row);
+        ~idx
+          ? !checked && self.selectedRows.splice(idx, 1)
+          : checked && self.selectedRows.push(row);
       } else {
         ~idx
-          ? self.selectedRows.splice(idx, 1)
-          : self.selectedRows.replace([row]);
+          ? !checked && self.selectedRows.splice(idx, 1)
+          : checked && self.selectedRows.replace([row]);
       }
     }
 
     // 按住 shift 的时候点击选项
-    function toggleShift(row: IRow) {
+    function toggleShift(row: IRow, checked: boolean) {
       // 如果是同一个或非 multiple 模式下就和不用 shift 一样
       if (!lastCheckedRow || row === lastCheckedRow || !self.multiple) {
-        toggle(row);
+        toggle(row, checked);
         return;
       }
 
@@ -1380,7 +1386,7 @@ export const TableStore = iRendererStore
       rows.push(row); // 将当前行也加入进行判断
       for (const rowItem of rows) {
         const idx = self.selectedRows.indexOf(rowItem);
-        if (idx === -1) {
+        if (idx === -1 && checked) {
           // 如果上一个是选中状态，则将之间的所有 check 都变成可选
           if (lastCheckedRow.checked) {
             if (maxLength) {
@@ -1391,7 +1397,7 @@ export const TableStore = iRendererStore
               self.selectedRows.push(rowItem);
             }
           }
-        } else {
+        } else if (!checked) {
           if (!lastCheckedRow.checked) {
             self.selectedRows.splice(idx, 1);
           }
