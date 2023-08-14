@@ -22,6 +22,7 @@ exports[`Renderer:Searchbox 1`] = `
               autocomplete="off"
               name="keywords"
               placeholder="请输入"
+              type="text"
               value="searchkey"
             />
             <a
@@ -49,6 +50,7 @@ exports[`Renderer:Searchbox with clearable 1`] = `
       autocomplete="off"
       name="keywords"
       placeholder="请输入"
+      type="text"
       value="tmpvalue"
     />
     <div
@@ -93,6 +95,7 @@ exports[`Renderer:Searchbox with enhance 1`] = `
               autocomplete="off"
               name="keywords"
               placeholder="请输入"
+              type="text"
               value=""
             />
             <a
@@ -120,6 +123,7 @@ exports[`Renderer:Searchbox with mini 1`] = `
       autocomplete="off"
       name="keywords"
       placeholder="请输入"
+      type="text"
       value=""
     />
     <a
@@ -143,6 +147,7 @@ exports[`Renderer:Searchbox with mini 2`] = `
       autocomplete="off"
       name="keywords"
       placeholder="请输入"
+      type="text"
       value="what?"
     />
     <a

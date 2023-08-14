@@ -78,6 +78,10 @@ export default defineConfig({
         replacement: path.resolve(__dirname, './packages/amis/src')
       },
       {
+        find: 'amis/schema.json',
+        replacement: path.resolve(__dirname, './packages/amis/schema.json')
+      },
+      {
         find: 'amis',
         replacement: path.resolve(__dirname, './packages/amis/src')
       },

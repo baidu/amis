@@ -106,6 +106,11 @@ export interface FormOptionsControl extends FormBaseControl {
   delimiter?: string;
 
   /**
+   * 多选模式，值太多时是否避免折行
+   */
+  valuesNoWrap?: boolean;
+
+  /**
    * 开启后将选中的选项 value 的值封装为数组，作为当前表单项的值。
    */
   extractValue?: boolean;

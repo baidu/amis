@@ -28,6 +28,7 @@ import {string2regExp} from './string2regExp';
 import {getVariable} from './getVariable';
 import {keyToPath} from './keyToPath';
 import {isExpression, replaceExpression} from './formula';
+import {isNumber, isString} from 'lodash';
 
 export {
   createObject,
@@ -826,26 +827,79 @@ export function eachTree<T extends TreeItem>(
   level: number = 1,
   paths: Array<T> = []
 ) {
-  tree.map((item, index) => {
-    iterator(item, index, level, paths);
+  const length = tree.length;
+  for (let i = 0; i < length; i++) {
+    const item = tree[i];
+    const res = iterator(item, i, level, paths);
+    if (res === 'break') {
+      break;
+    } else if (res === 'continue') {
+      continue;
+    }
 
     if (item.children?.splice) {
       eachTree(item.children, iterator, level + 1, paths.concat(item));
     }
-  });
+  }
 }
 
 /**
  * 在树中查找节点。
  * @param tree
  * @param iterator
+ * @param withCache {Object} 启用缓存（new Map()），多次重复从一颗树中查找时可大幅度提升性能
+ * @param withCache.value {string} 必须，需要从缓存Map中匹配的值，使用Map.get(value) 匹配
+ * @param withCache.resolve {function} 构建Map 时，存入key 的处理函数
+ * @param withCache.foundEffect 匹配到时，额外做的一些副作用
  */
+const findTreeCache: {
+  tree: any | null;
+  map: Map<any, any> | null;
+} = {
+  tree: null,
+  map: null
+};
 export function findTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number, paths: Array<T>) => any
+  iterator: (item: T, key: number, level: number, paths: Array<T>) => any,
+  withCache?: {
+    value: string | number;
+    resolve?: (treeItem: T) => any;
+    foundEffect?: (
+      item: T,
+      key: number,
+      level: number,
+      paths?: Array<T>
+    ) => any;
+  }
 ): T | null {
-  let result: T | null = null;
+  const isValidateKey = (value: any) =>
+    value !== '' && (isString(value) || isNumber(value));
+  // 缓存优化
+  if (withCache && isValidateKey(withCache.value)) {
+    const {resolve, value, foundEffect} = withCache;
+    // 构建缓存
+    if (tree !== findTreeCache.tree || !findTreeCache.map) {
+      const map = new Map();
+      eachTree(tree, (item, key, level, paths) => {
+        const mapKey = resolve ? resolve(item) : item;
+        isValidateKey(mapKey) &&
+          map.set(String(mapKey), [item, key, level, paths]);
+      });
+      findTreeCache.map = map;
+      findTreeCache.tree = tree;
+    }
 
+    // 从缓存查找结果
+    const res = findTreeCache.map.get(String(value));
+    if (res != null) {
+      // 副作用
+      foundEffect && foundEffect.apply(null, res.slice());
+      return res[0];
+    }
+  }
+
+  let result: T | null = null;
   everyTree(tree, (item, key, level, paths) => {
     if (iterator(item, key, level, paths)) {
       result = item;
@@ -882,32 +936,56 @@ export function findTreeAll<T extends TreeItem>(
  * 在树中查找节点, 返回下标数组。
  * @param tree
  * @param iterator
+ * @param withCache {Object} 启用缓存（new Map()），多次重复从一颗树中查找时可大幅度提升性能
+ * @param withCache.value {any} 必须，需要从缓存Map中匹配的值，使用Map.get(value) 匹配
+ * @param withCache.resolve {function} 构建Map 时，存入key 的处理函数
  */
 export function findTreeIndex<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number, paths: Array<T>) => any
+  iterator: (item: T, key: number, level: number, paths: Array<T>) => any,
+  withCache?: {
+    resolve?: (treeItem: T) => any;
+    value: any;
+  }
 ): Array<number> | undefined {
   let idx: Array<number> = [];
 
-  findTree(tree, (item, index, level, paths) => {
-    if (iterator(item, index, level, paths)) {
-      idx = [index];
+  const foundEffect = (
+    item: T,
+    index: number,
+    level: number,
+    paths: Array<T>
+  ) => {
+    idx = [index];
 
-      paths = paths.concat();
-      paths.unshift({
-        children: tree
-      } as any);
+    paths = paths.concat();
+    paths.unshift({
+      children: tree
+    } as any);
 
-      for (let i = paths.length - 1; i > 0; i--) {
-        const prev = paths[i - 1];
-        const current = paths[i];
-        idx.unshift(prev.children!.indexOf(current));
-      }
-
-      return true;
+    for (let i = paths.length - 1; i > 0; i--) {
+      const prev = paths[i - 1];
+      const current = paths[i];
+      idx.unshift(prev.children!.indexOf(current));
     }
-    return false;
-  });
+  };
+
+  findTree(
+    tree,
+    (item, index, level, paths) => {
+      if (iterator(item, index, level, paths)) {
+        foundEffect(item, index, level, paths);
+        return true;
+      }
+      return false;
+    },
+    !withCache
+      ? undefined
+      : {
+          ...withCache,
+          foundEffect
+        }
+  );
 
   return idx.length ? idx : undefined;
 }
@@ -960,7 +1038,7 @@ export function filterTree<T extends TreeItem>(
           item = {...item, children: children};
         }
 
-        return item;
+        return item as T;
       })
       .filter((item, index) => iterator(item, index, level, paths));
   }
@@ -981,7 +1059,7 @@ export function filterTree<T extends TreeItem>(
           item = {...item, children: children};
         }
       }
-      return item;
+      return item as T;
     });
 }
 
@@ -1003,24 +1081,50 @@ export function everyTree<T extends TreeItem>(
   paths: Array<T> = [],
   indexes: Array<number> = []
 ): boolean {
-  if (!Array.isArray(tree) && !isObservableArray(tree)) {
-    return false;
-  }
-  return tree.every((item, index) => {
-    const value: any = iterator(item, index, level, paths, indexes);
+  const stack: {
+    item: T;
+    index: number;
+    level: number;
+    paths: Array<T>;
+    indexes: Array<number>;
+  }[] = [];
+  stack.push({item: null as any, index: -1, level: 1, paths: [], indexes: []});
+  while (stack.length > 0) {
+    const {item, index, level, paths, indexes} = stack.pop()!;
 
-    if (value && item.children?.splice) {
-      return everyTree(
-        item.children,
-        iterator,
-        level + 1,
-        paths.concat(item),
-        indexes.concat(index)
-      );
+    if (index >= 0) {
+      const value: any = iterator(item, index, level, paths, indexes);
+
+      if (value && item.children?.splice) {
+        const children = item.children;
+        for (let i = children.length - 1; i >= 0; i--) {
+          stack.push({
+            item: children[i] as T,
+            index: i,
+            level: level + 1,
+            paths: paths.concat(item),
+            indexes: indexes.concat(index)
+          });
+        }
+      } else if (!value) {
+        return false;
+      }
+    } else {
+      if (!Array.isArray(tree) && !isObservableArray(tree)) {
+        return false;
+      }
+      for (let i = tree.length - 1; i >= 0; i--) {
+        stack.push({
+          item: tree[i],
+          index: i,
+          level: 1,
+          paths: [],
+          indexes: []
+        });
+      }
     }
-
-    return value;
-  });
+  }
+  return true;
 }
 
 /**
@@ -1895,4 +1999,37 @@ export function parseQuery(
   const normalizedQuery = isPlainObject(query) ? query : {};
 
   return merge(normalizedQuery, hashQuery);
+}
+
+/**
+ * 计算两个数组的差集
+ *
+ * @template T 数组元素类型
+ * @param allOptions 包含所有元素的数组
+ * @param options 被筛选的数组
+ * @param getValue 返回数组元素值的函数
+ * @returns 两个数组的差集
+ */
+const differenceFromAllCache: any = {
+  allOptions: null,
+  options: null,
+  res: []
+};
+export function differenceFromAll<T>(
+  allOptions: Array<T>,
+  options: Array<T>,
+  getValue: (item: T) => any
+): Array<T> {
+  if (
+    allOptions === differenceFromAllCache.allOptions &&
+    options === differenceFromAllCache.options
+  ) {
+    return differenceFromAllCache.res;
+  }
+  const map = new Map(allOptions.map(item => [getValue(item), item]));
+  const res = options.filter(item => !map.get(getValue(item)));
+  differenceFromAllCache.allOptions = allOptions;
+  differenceFromAllCache.options = options;
+  differenceFromAllCache.res = res;
+  return res;
 }

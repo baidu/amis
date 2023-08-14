@@ -249,31 +249,42 @@ export class CheckboxesControlPlugin extends BasePlugin {
       originalValue: node.schema?.value // 记录原始值，循环引用检测需要
     };
 
-    if (node.schema?.extractValue) {
+    if (node.schema?.joinValues === false) {
       dataSchema = {
-        type: 'array',
-        title: node.schema?.label || node.schema?.name
-      };
-    } else if (node.schema?.joinValues === false) {
-      dataSchema = {
-        type: 'array',
+        ...dataSchema,
+        type: 'object',
         title: node.schema?.label || node.schema?.name,
-        items: {
-          type: 'object',
-          title: '成员',
-          properties: {
-            label: {
-              type: 'string',
-              title: '文本'
-            },
-            value: {
-              type,
-              title: '值'
-            }
+        properties: {
+          label: {
+            type: 'string',
+            title: '文本'
+          },
+          value: {
+            type,
+            title: '值'
           }
-        },
-        originalValue: dataSchema.originalValue
+        }
       };
+    }
+
+    if (node.schema?.multiple) {
+      if (node.schema?.extractValue) {
+        dataSchema = {
+          type: 'array',
+          title: node.schema?.label || node.schema?.name
+        };
+      } else if (node.schema?.joinValues === false) {
+        dataSchema = {
+          type: 'array',
+          title: node.schema?.label || node.schema?.name,
+          items: {
+            type: 'object',
+            title: '成员',
+            properties: dataSchema.properties
+          },
+          originalValue: dataSchema.originalValue
+        };
+      }
     }
 
     return dataSchema;

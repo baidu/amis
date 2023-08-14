@@ -29,7 +29,7 @@ export interface TimelineItemProps extends FormControlProps {
 
 export interface TimelineItemState {
   items: Array<Partial<TimelineItem>>;
-  source: 'custom' | 'api';
+  source: 'custom' | 'api' | 'variable';
   api: SchemaApi;
 }
 
@@ -54,7 +54,7 @@ export default class TimelineItemControl extends React.Component<
    * 切换选项类型
    */
   @autobind
-  handleSourceChange(source: 'custom' | 'api') {
+  handleSourceChange(source: 'custom' | 'api' | 'variable') {
     this.setState({source: source}, this.onChange);
   }
 
@@ -76,6 +76,11 @@ export default class TimelineItemControl extends React.Component<
       data.items = items.map(item => ({...item}));
     }
     if (source === 'api') {
+      const {items, api} = this.state;
+      data.items = items.map(item => ({...item}));
+      data.source = api;
+    }
+    if (source === 'variable') {
       const {items, api} = this.state;
       data.items = items.map(item => ({...item}));
       data.source = api;
@@ -339,10 +344,14 @@ export default class TimelineItemControl extends React.Component<
         {
           label: '接口获取',
           value: 'api'
+        },
+        {
+          label: '上下文变量',
+          value: 'variable'
         }
       ] as Array<{
         label: string;
-        value: 'custom' | 'api';
+        value: 'custom' | 'api' | 'variable';
       }>
     ).map(item => ({
       ...item,
@@ -562,6 +571,19 @@ export default class TimelineItemControl extends React.Component<
             </div>
           </div>
         ) : null}
+
+        {source === 'variable'
+          ? render(
+              'variable',
+              getSchemaTpl('sourceBindControl', {
+                label: false,
+                className: 'ae-ExtendMore'
+              }),
+              {
+                onChange: this.handleAPIChange
+              }
+            )
+          : null}
         {this.renderApiPanel()}
       </div>
     );

@@ -313,7 +313,7 @@ export class ContextMenu extends React.Component<
 export const ThemedContextMenu = themeable(ContextMenu);
 export default ThemedContextMenu;
 
-export function openContextMenus(
+export async function openContextMenus(
   info: Event | {x: number; y: number},
   menus: Array<MenuItem | MenuDivider>,
   onClose?: () => void
@@ -321,4 +321,8 @@ export function openContextMenus(
   return ContextMenu.getInstance().then(instance =>
     instance.openContextMenus(info, menus, onClose)
   );
+}
+
+export async function closeContextMenus() {
+  return ContextMenu.getInstance().then(instance => instance?.close());
 }

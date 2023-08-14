@@ -10,6 +10,7 @@
  * 7. 默认展开 defaultIsOpened
  * 8. 对齐方式 align
  * 9. block & size
+ * 10. buttons level & className
  */
 
 import React from 'react';
@@ -395,4 +396,37 @@ test('Renderer:dropdown-button with block & size', async () => {
     'cxd-Button--size-lg'
   );
   expect(container).toMatchSnapshot();
+});
+
+test('Renderer:dropdown-button buttons with className & level', async () => {
+  const {container} = render(
+    amisRender({
+      type: "dropdown-button",
+      level: "success",
+      label: "下拉菜单",
+      buttons: [
+        {
+          type: "button",
+          label: "按钮1",
+          level: "success",
+          className: "custom-button-class"
+        },
+        {
+          type: "button",
+          label: "按钮2"
+        }
+      ]
+    })
+  );
+
+  const dropdownButton = document.querySelector('button.cxd-Button');
+  fireEvent.click(dropdownButton as HTMLDivElement);
+
+  expect(container.querySelectorAll('.cxd-DropDown-menu-root .cxd-DropDown-button')[0]!).toHaveClass(
+    'cxd-Button--success'
+  );
+
+  expect(container.querySelectorAll('.cxd-DropDown-menu-root .cxd-DropDown-button')[0]!).toHaveClass(
+    'custom-button-class'
+  );
 });

@@ -3149,7 +3149,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | -------------- | ----------------------------------------------------------------------- | -------------------- |
 | selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行 | 手动选择表格项时触发 |
 | columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值            | 点击列排序时触发     |
-| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string` 列筛选值      | 点击列筛选时触发     |
+| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string \| undefined` 列筛选值      | 点击列筛选时触发，点击重置后事件参数`filterValue`为`undefined`     |
 | columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: object` 列搜索数据    | 点击列搜索时触发     |
 | orderChange    | `movedItems: item[]` 已排序数据                                         | 手动拖拽行排序时触发 |
 | columnToggled  | `columns: item[]` 当前显示的列配置数据                                  | 点击自定义列时触发   |
