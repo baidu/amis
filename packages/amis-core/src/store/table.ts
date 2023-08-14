@@ -823,6 +823,12 @@ export const TableStore = iRendererStore
     };
   })
   .actions(self => {
+    let tableRef: HTMLElement | null = null;
+
+    function setTable(ref: HTMLElement | null) {
+      tableRef = ref;
+    }
+
     function update(
       config: Partial<STableStore> & {tableLayout?: 'fixed' | 'auto'}
     ) {
@@ -951,6 +957,82 @@ export const TableStore = iRendererStore
           column => column.pristine.width
         );
       }
+    }
+
+    function syncTableWidth() {
+      const table = tableRef;
+      if (!table) {
+        return;
+      }
+      // 自动将 table-layout: auto 改成 fixed
+      const ths = (
+        [].slice.call(
+          table.querySelectorAll(':scope>thead>tr>th[data-index]')
+        ) as HTMLTableCellElement[]
+      ).filter((th, index, arr) => {
+        return (
+          arr.findIndex(
+            item =>
+              item.getAttribute('data-index') === th.getAttribute('data-index')
+          ) === index
+        );
+      });
+      const tbodyTr = table.querySelector(':scope>tbody>tr:first-child');
+
+      const div = document.createElement('div');
+      div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
+      div.style.cssText = `position:absolute;top:0;left:0;pointer-events:none;visibility: hidden;`;
+      div.innerHTML = `<table style="table-layout:auto!important;width:0!important;min-width:0!important;" class="${
+        table.className
+      }"><thead><tr>${ths
+        .map(
+          th =>
+            `<th style="width:0" data-index="${th.getAttribute(
+              'data-index'
+            )}" class="${th.className}">${th.innerHTML}</th>`
+        )
+        .join('')}</tr></thead>${
+        tbodyTr ? `<tbody>${tbodyTr.outerHTML}</tbody>` : ''
+      }</table>`;
+      document.body.appendChild(div);
+      const minWidths: {
+        [propName: string]: number;
+      } = {};
+      [].slice
+        .call(div.querySelectorAll(':scope>table>thead>tr>th[data-index]'))
+        .forEach((th: HTMLTableCellElement) => {
+          minWidths[th.getAttribute('data-index')!] = th.clientWidth;
+        });
+      document.body.removeChild(div);
+      const cols = [].slice.call(
+        table.querySelectorAll(':scope>colgroup>col')
+      ) as Array<HTMLElement>;
+
+      if (self.useFixedLayout) {
+        table.style.cssText += `table-layout:fixed;`;
+        cols.forEach(col => {
+          const index = parseInt(col.getAttribute('data-index')!, 10);
+          const column = self.columns[index];
+          col.style.cssText += `width:${
+            typeof column.pristine.width === 'number'
+              ? column.pristine.width
+              : minWidths[index]
+          }px;`;
+        });
+      }
+      cols.forEach((col: HTMLElement) => {
+        const index = parseInt(col.getAttribute('data-index')!, 10);
+        const column = self.columns[index];
+        column.setWidth(
+          Math.max(
+            typeof column.pristine.width === 'number'
+              ? column.pristine.width
+              : col.clientWidth - 2,
+            minWidths[index]
+          ),
+          minWidths[index]
+        );
+      });
     }
 
     function invalidTableColumnWidth() {
@@ -1152,7 +1234,6 @@ export const TableStore = iRendererStore
       }
 
       self.dragging = false;
-      invalidTableColumnWidth(); // 更新内容需要重新计算表格布局
     }
 
     // 获取所有层级的子节点id
@@ -1518,8 +1599,10 @@ export const TableStore = iRendererStore
     }
 
     return {
+      setTable,
       update,
       updateColumns,
+      syncTableWidth,
       invalidTableColumnWidth,
       initRows,
       updateSelected,
