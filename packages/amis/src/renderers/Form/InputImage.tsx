@@ -588,6 +588,13 @@ export default class ImageControl extends React.Component<
     return key;
   }
 
+  getFileKey(file: FileValue | FileX) {
+    if (file.id) {
+      return file.id;
+    }
+    return guid();
+  }
+
   buildCrop(props: ImageProps) {
     let crop = props.crop;
     const __ = this.props.translate;
