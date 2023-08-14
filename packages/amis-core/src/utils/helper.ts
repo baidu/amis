@@ -1,16 +1,14 @@
 import React from 'react';
 import moment from 'moment';
 import {isObservable, isObservableArray} from 'mobx';
-import {
-  uniq,
-  last,
-  merge,
-  isPlainObject,
-  isEqual,
-  isNaN,
-  isNumber,
-  isString
-} from 'lodash';
+import uniq from 'lodash/uniq'
+import last from 'lodash/last'
+import merge from 'lodash/merge'
+import isPlainObject from 'lodash/isPlainObject'
+import isEqual from 'lodash/isEqual'
+import isNaN from 'lodash/isNaN'
+import isNumber from 'lodash/isNumber'
+import isString from 'lodash/isString'
 import qs from 'qs';
 
 import type {Schema, PlainObject, FunctionPropertyNames} from '../types';
@@ -400,7 +398,7 @@ export function isVisible(
 ) {
   return !(
     schema.hidden ||
-    !schema.visible ||
+    schema.visible === false ||
     (schema.hiddenOn && evalExpression(schema.hiddenOn, data)) ||
     (schema.visibleOn && !evalExpression(schema.visibleOn, data))
   );
@@ -738,13 +736,13 @@ export const uuid = () => {
   return (+new Date()).toString(36);
 };
 
-export const uuidv4 = () => {
-  // 参考 https://github.com/streamich/v4-uuid
-  const createStr = () =>
-    (
-      '00000000000000000' + (Math.random() * 0xffffffffffffffff).toString(16)
-    ).slice(-16);
+// 参考 https://github.com/streamich/v4-uuid
+const createStr = () =>
+  (
+    '00000000000000000' + (Math.random() * 0xffffffffffffffff).toString(16)
+  ).slice(-16);
 
+export const uuidv4 = () => {
   const a = createStr();
   const b = createStr();
   return (

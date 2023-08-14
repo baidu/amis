@@ -8,7 +8,11 @@ import {isExpression, resolveVariableAndFilter} from 'amis-core';
 import type {VariableItem} from 'amis-ui';
 import {isObservable, reaction} from 'mobx';
 import DeepDiff, {Diff} from 'deep-diff';
-import {isPlainObject, isNumber, assign, cloneDeep, isEqual} from 'lodash';
+import assign from 'lodash/assign'
+import cloneDeep from 'lodash/cloneDeep'
+import isPlainObject from 'lodash/isPlainObject'
+import isEqual from 'lodash/isEqual'
+import isNumber from 'lodash/isNumber'
 
 const {
   guid,
