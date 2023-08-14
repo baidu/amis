@@ -545,7 +545,8 @@ export class BaseTransferRenderer<
       loadingConfig,
       showInvalidMatch,
       onlyChildren,
-      useMobileUI
+      useMobileUI,
+      noResultsText
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -607,6 +608,7 @@ export class BaseTransferRenderer<
           loadingConfig={loadingConfig}
           showInvalidMatch={showInvalidMatch}
           useMobileUI={useMobileUI}
+          noResultsText={noResultsText}
         />
 
         <Spinner
