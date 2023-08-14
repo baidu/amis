@@ -22,16 +22,22 @@ import {
   findTree,
   findTreeIndex,
   spliceTree,
-  filterTree
+  filterTree,
+  eachTree
 } from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import find from 'lodash/find';
+import isEqual from 'lodash/isEqual';
 import isPlainObject from 'lodash/isPlainObject';
 import {SimpleMap} from '../utils/SimpleMap';
 import {StoreNode} from './node';
 import {getStoreById} from './manager';
 import {normalizeOptions} from '../utils/normalizeOptions';
-import {optionValueCompare} from '../utils/optionValueCompare';
+import {
+  getOptionValue,
+  getOptionValueBindField,
+  optionValueCompare
+} from '../utils/optionValueCompare';
 import {dataMapping} from '../utils/dataMapping';
 
 interface IOption {
@@ -48,6 +54,15 @@ const ErrorDetail = types.model('ErrorDetail', {
   tag: '',
   rule: ''
 });
+
+// 用于缓存 getSelectedOptions 的计算结果
+// onChange 时很容易连续重复触发 getSelectedOptions （约4次）
+// 在大数据量时，可有效提高效率
+const getSelectedOptionsCache: any = {
+  value: null,
+  nodeValueArray: null,
+  res: null
+};
 
 export const FormItemStore = StoreNode.named('FormItemStore')
   .props({
@@ -158,57 +173,82 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         value: any = self.tmpValue,
         nodeValueArray?: any[] | undefined
       ) => {
+        // 查看是否命中缓存
+        if (
+          value != null &&
+          nodeValueArray != null &&
+          isEqual(value, getSelectedOptionsCache.value) &&
+          isEqual(nodeValueArray, getSelectedOptionsCache.nodeValueArray) &&
+          getSelectedOptionsCache.res
+        ) {
+          return getSelectedOptionsCache.res;
+        }
+
         if (typeof value === 'undefined') {
           return [];
         }
+
+        const filteredOptions = self.filteredOptions;
+        const {labelField, extractValue, multiple, delimiter} = self;
+        const valueField = self.valueField || 'value';
 
         const valueArray = nodeValueArray
           ? nodeValueArray
           : Array.isArray(value)
           ? value
           : // 单选时不应该分割
-          typeof value === 'string' && self.multiple
-          ? value.split(self.delimiter || ',')
+          typeof value === 'string' && multiple
+          ? value.split(delimiter || ',')
           : [value];
+
         const selected = valueArray.map(item =>
-          item && item.hasOwnProperty(self.valueField || 'value')
-            ? item[self.valueField || 'value']
-            : item
+          item && item.hasOwnProperty(valueField) ? item[valueField] : item
         );
 
         const selectedOptions: Array<any> = [];
 
         selected.forEach((item, index) => {
           const matched = findTree(
-            self.filteredOptions,
-            optionValueCompare(item, self.valueField || 'value')
+            filteredOptions,
+            optionValueCompare(item, valueField),
+            {
+              resolve: getOptionValueBindField(valueField),
+              value: getOptionValue(item, valueField)
+            }
           );
 
           if (matched) {
             selectedOptions.push(matched);
-          } else {
-            let unMatched = (valueArray && valueArray[index]) || item;
-
-            if (
-              unMatched &&
-              (typeof unMatched === 'string' || typeof unMatched === 'number')
-            ) {
-              unMatched = {
-                [self.valueField || 'value']: item,
-                [self.labelField || 'label']: item,
-                __unmatched: true
-              };
-            } else if (unMatched && self.extractValue) {
-              unMatched = {
-                [self.valueField || 'value']: item,
-                [self.labelField || 'label']: 'UnKnown',
-                __unmatched: true
-              };
-            }
-
-            unMatched && selectedOptions.push(unMatched);
+            return;
           }
+
+          let unMatched = (valueArray && valueArray[index]) || item;
+
+          if (
+            unMatched &&
+            (typeof unMatched === 'string' || typeof unMatched === 'number')
+          ) {
+            unMatched = {
+              [valueField || 'value']: item,
+              [labelField || 'label']: item,
+              __unmatched: true
+            };
+          } else if (unMatched && extractValue) {
+            unMatched = {
+              [valueField || 'value']: item,
+              [labelField || 'label']: 'UnKnown',
+              __unmatched: true
+            };
+          }
+
+          unMatched && selectedOptions.push(unMatched);
         });
+
+        if (selectedOptions.length) {
+          getSelectedOptionsCache.value = value;
+          getSelectedOptionsCache.nodeValueArray = nodeValueArray;
+          getSelectedOptionsCache.res = selectedOptions;
+        }
 
         return selectedOptions;
       },
@@ -513,7 +553,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         self.selectFirst &&
         self.filteredOptions.length &&
         (selectedOptions = self.getSelectedOptions(self.value)) &&
-        !selectedOptions.filter(item => !item.__unmatched).length
+        !selectedOptions.filter((item: any) => !item.__unmatched).length
       ) {
         const fistOption = getFirstAvaibleOption(self.filteredOptions);
         if (!fistOption) {
@@ -663,7 +703,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         self.selectedOptions.forEach((item: any) => {
           const exited = findTree(
             options as any,
-            optionValueCompare(item, self.valueField || 'value')
+            optionValueCompare(item, self.valueField || 'value'),
+            {
+              resolve: getOptionValueBindField(self.valueField),
+              value: getOptionValue(item, self.valueField)
+            }
           );
 
           if (!exited) {
@@ -824,7 +868,12 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       if (Array.isArray(topOption.children)) {
         const children = topOption.children.concat();
         flattenTree(newLeftOptions).forEach(item => {
-          if (!findTree(topOption.children, node => node.ref === item.value)) {
+          if (
+            !findTree(topOption.children, node => node.ref === item.value, {
+              resolve: node => node.ref,
+              value: item.value
+            })
+          ) {
             children.push({ref: item.value, defer: true});
           }
         });
@@ -1064,31 +1113,32 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
 
       const value = self.tmpValue;
+      const valueField = self.valueField || 'value';
+      const labelField = self.labelField || 'label';
 
       const selected = Array.isArray(value)
         ? value.map(item =>
-            item && item.hasOwnProperty(self.valueField || 'value')
-              ? item[self.valueField || 'value']
-              : item
+            item && item.hasOwnProperty(valueField) ? item[valueField] : item
           )
         : typeof value === 'string'
         ? value.split(self.delimiter || ',')
         : value === void 0
         ? []
         : [
-            value && value.hasOwnProperty(self.valueField || 'value')
-              ? value[self.valueField || 'value']
+            value && value.hasOwnProperty(valueField)
+              ? value[valueField]
               : value
           ];
 
-      if (value && value.hasOwnProperty(self.labelField || 'label')) {
+      if (value && value.hasOwnProperty(labelField)) {
         selected[0] = {
-          [self.labelField || 'label']: value[self.labelField || 'label'],
-          [self.valueField || 'value']: value[self.valueField || 'value']
+          [labelField]: value[labelField],
+          [valueField]: value[valueField]
         };
       }
 
       let expressionsInOptions = false;
+      const oldFilteredOptions = self.filteredOptions;
       let filteredOptions = self.options
         .filter((item: any) => {
           if (
@@ -1107,9 +1157,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         .map((item: any, index) => {
           const disabled = evalExpression(item.disabledOn, data);
           const newItem = item.disabledOn
-            ? self.filteredOptions.length > index &&
-              self.filteredOptions[index].disabled === disabled
-              ? self.filteredOptions[index]
+            ? oldFilteredOptions.length > index &&
+              oldFilteredOptions[index].disabled === disabled
+              ? oldFilteredOptions[index]
               : {
                   ...item,
                   disabled: disabled
@@ -1120,14 +1170,23 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         });
 
       self.expressionsInOptions = expressionsInOptions;
-      const flattened: Array<any> = flattenTree(filteredOptions);
+      const flattenedMap: Map<any, any> = new Map();
+      const flattened: Array<any> = [];
+      eachTree(filteredOptions, item => {
+        const value = getOptionValue(item, valueField);
+        value != null && flattenedMap.set(value, item);
+        value != null && flattened.push(item);
+      });
       const selectedOptions: Array<any> = [];
 
       selected.forEach((item, index) => {
-        let idx = findIndex(
-          flattened,
-          optionValueCompare(item, self.valueField || 'value')
-        );
+        const value = getOptionValue(item, valueField);
+        if (flattenedMap.get(value)) {
+          selectedOptions.push(item);
+          return;
+        }
+
+        let idx = findIndex(flattened, optionValueCompare(item, valueField));
 
         if (~idx) {
           selectedOptions.push(flattened[idx]);
@@ -1139,26 +1198,22 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             (typeof unMatched === 'string' || typeof unMatched === 'number')
           ) {
             unMatched = {
-              [self.valueField || 'value']: item,
-              [self.labelField || 'label']: item,
+              [valueField]: item,
+              [labelField]: item,
               __unmatched: true
             };
 
             const orgin: any =
               originOptions &&
-              find(
-                originOptions,
-                optionValueCompare(item, self.valueField || 'value')
-              );
+              find(originOptions, optionValueCompare(item, valueField));
 
             if (orgin) {
-              unMatched[self.labelField || 'label'] =
-                orgin[self.labelField || 'label'];
+              unMatched[labelField] = orgin[labelField];
             }
           } else if (unMatched && self.extractValue) {
             unMatched = {
-              [self.valueField || 'value']: item,
-              [self.labelField || 'label']: 'UnKnown',
+              [valueField]: item,
+              [labelField]: 'UnKnown',
               __unmatched: true
             };
           }
@@ -1189,6 +1244,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           );
         }
       }
+
       isArrayChildrenModified(self.selectedOptions, selectedOptions) &&
         (self.selectedOptions = selectedOptions);
       isArrayChildrenModified(self.filteredOptions, filteredOptions) &&

@@ -15,7 +15,9 @@ import {
   ThemeProps,
   autobind,
   findTree,
-  flattenTree
+  flattenTree,
+  getOptionValue,
+  getOptionValueBindField
 } from 'amis-core';
 import Checkbox from './Checkbox';
 import {Option, Options} from './Select';
@@ -81,7 +83,8 @@ export class BaseSelection<
   static value2array(
     value: any,
     options: Options,
-    option2value: (option: Option) => any = (option: Option) => option
+    option2value: (option: Option) => any = (option: Option) => option,
+    valueField?: string
   ): Options {
     if (value === void 0) {
       return [];
@@ -92,8 +95,15 @@ export class BaseSelection<
     }
 
     return value.map((value: any) => {
-      const option = findTree(options, option =>
-        isEqual(option2value(option), value)
+      const option = findTree(
+        options,
+        option => isEqual(option2value(option), value),
+        valueField
+          ? {
+              value: getOptionValue(value, valueField),
+              resolve: getOptionValueBindField(valueField)
+            }
+          : undefined
       );
       return option || value;
     });
@@ -132,14 +142,20 @@ export class BaseSelection<
       options,
       disabled,
       multiple,
-      clearable
+      clearable,
+      valueField
     } = this.props;
 
     if (disabled || option.disabled) {
       return;
     }
 
-    let valueArray = BaseSelection.value2array(value, options, option2value);
+    let valueArray = BaseSelection.value2array(
+      value,
+      options,
+      option2value,
+      valueField
+    );
     let idx = valueArray.indexOf(option);
 
     if (~idx && (multiple || clearable)) {
@@ -207,12 +223,18 @@ export class BaseSelection<
       itemRender,
       multiple,
       labelField,
+      valueField,
       onClick
     } = this.props;
 
     const __ = this.props.translate;
 
-    let valueArray = BaseSelection.value2array(value, options, option2value);
+    let valueArray = BaseSelection.value2array(
+      value,
+      options,
+      option2value,
+      valueField
+    );
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
