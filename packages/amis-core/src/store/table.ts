@@ -1008,7 +1008,7 @@ export const TableStore = iRendererStore
         table.querySelectorAll(':scope>colgroup>col')
       ) as Array<HTMLElement>;
 
-      if (self.useFixedLayout) {
+      if (self.useFixedLayout && !self.columnWidthReady) {
         table.style.cssText += `table-layout:fixed;`;
         cols.forEach(col => {
           const index = parseInt(col.getAttribute('data-index')!, 10);
