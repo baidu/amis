@@ -362,7 +362,9 @@ export default class SubFormControl extends React.PureComponent<
       type: 'dialog',
       body: {
         type: 'form',
-        ...omit(form, dialogProps)
+        canAccessSuperData: false,
+        ...omit(form, dialogProps),
+        inheritData: false
       }
     };
   }
@@ -385,7 +387,9 @@ export default class SubFormControl extends React.PureComponent<
 
     return {
       type: 'form',
-      ...omit(form, dialogProps)
+      canAccessSuperData: false,
+      ...omit(form, dialogProps),
+      inheritData: false
     };
   }
 
