@@ -1,22 +1,22 @@
 .#{$ns}Wrapper,
 .#{$ns}Container {
   &--xs {
-    // padding: var(--gap-xs);
+    padding: var(--gap-xs);
   }
 
   &--sm {
-    // padding: var(--gap-sm);
+    padding: var(--gap-sm);
   }
 
   &--md {
-    // padding: var(--gap-md);
+    padding: var(--gap-md);
   }
 
   &--lg {
-    // padding: var(--gap-lg);
+    padding: var(--gap-lg);
   }
 
   &--xl {
-    // padding: var(--gap-xl);
+    padding: var(--gap-xl);
   }
 }
