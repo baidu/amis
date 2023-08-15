@@ -832,6 +832,7 @@ export default class Table extends React.Component<TableProps, object> {
       const prevSelectedRows = store.selectedRows
         .map(item => item.id)
         .join(',');
+
       store.updateSelected(props.selected || [], props.valueField);
       const selectedRows = store.selectedRows.map(item => item.id).join(',');
       prevSelectedRows !== selectedRows && this.syncSelected();
@@ -901,9 +902,13 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     if (shift) {
-      store.toggleShift(item);
+      store.toggleShift(item, value);
     } else {
-      item.toggle();
+      // 如果picker的value是绑定的上层数量变量
+      // 那么用户只能通过事件动作来更新上层变量来实现选中
+      // 但是注册了setValue动作后，会优先通过componentDidUpdate更新了selectedRows
+      // 那么这里直接toggle就判断出错了 需要明确是选中还是取消选中
+      item.toggle(value);
     }
 
     this.syncSelected();
@@ -957,22 +962,30 @@ export default class Table extends React.Component<TableProps, object> {
   async handleCheckAll() {
     const {store, data, dispatchEvent} = this.props;
     const items = store.rows.map((row: any) => row.data);
-    const selectedItems = store.getSelectedRows().map(item => item.data);
+
+    const allChecked = store.allChecked;
+    const selectedItems = store.getSelectedRows();
 
     const rendererEvent = await dispatchEvent(
       'selectedChange',
       createObject(data, {
-        selectedItems: store.allChecked ? [] : selectedItems,
-        unSelectedItems: store.allChecked ? selectedItems : [],
+        selectedItems: allChecked
+          ? selectedItems.filter(item => !item.checkable).map(item => item.data)
+          : selectedItems.map(item => item.data),
+        unSelectedItems: allChecked ? selectedItems.map(item => item.data) : [],
         items
       })
     );
-
     if (rendererEvent?.prevented) {
       return;
     }
 
-    store.toggleAll();
+    // selectedChange事件注册的动作里，有可能已经通过setValue把selectedRows的情况改了
+    // 没有改的情况下 才会去执行store.toogleAll()
+    if (allChecked === store.allChecked) {
+      store.toggleAll();
+    }
+
     this.syncSelected();
   }
 
@@ -1096,7 +1109,6 @@ export default class Table extends React.Component<TableProps, object> {
 
   syncSelected() {
     const {store, onSelect} = this.props;
-
     onSelect &&
       onSelect(
         store.selectedRows.map(item => item.data),

@@ -579,16 +579,22 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.renderHeaderToolbar = this.renderHeaderToolbar.bind(this);
       this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     }
-
+    // picker的数据如果是异步加载，那么初始的value其实是{id: ' 7', engine: ' 7', __unmatched: true}这种样子的
+    // 拿到数据后又会变成真实数据，类似这种{browser: "Firefox 1.0", engine: "Gecko - syo6k7", grade: "A", group: "train", id: 7, platform: "Win 98+ / OSX.2+", version: "1.7"}
+    // 因此比较value是否更改，只比较关键字段即可，否则会执行多次setSelectedItems
+    // 显隐切换时，也会导致需要二次点击才能选中的问题
     let val: any;
-
+    const valueField = props.valueField || props.primaryField;
     if (
       this.props.pickerMode &&
       isArrayChildrenModified(
-        (val = getPropValue(this.props)),
-        getPropValue(prevProps)
+        (val = getPropValue(this.props)).map((item: any) => item[valueField]),
+        getPropValue(prevProps).map((item: any) => item[valueField])
       ) &&
-      !isEqual(val, store.selectedItems.concat())
+      !isEqual(
+        val.map((item: any) => item[valueField]),
+        store.selectedItems.concat().map((item: any) => item[valueField])
+      )
     ) {
       /**
        * 更新链：Table -> CRUD -> Picker -> Form
@@ -1597,11 +1603,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
-    // 用 updateSelectData 导致 CRUD 无线刷新
+    // 用 updateSelectData 导致 CRUD 无限刷新
     // store.updateSelectData(newItems, newUnSelectedItems);
     store.setSelectedItems(newItems);
     store.setUnSelectedItems(newUnSelectedItems);
-
     onSelect && onSelect(newItems, newUnSelectedItems);
   }
 
@@ -2231,6 +2236,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       labelField,
       labelTpl,
       primaryField,
+      valueField,
       translate: __,
       env
     } = this.props;
@@ -2262,7 +2268,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 />
               ) : (
                 getVariable(item, labelField || 'label') ||
-                getVariable(item, primaryField || 'id')
+                getVariable(item, valueField || primaryField || 'id')
               )}
             </span>
           </div>

@@ -198,7 +198,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           ? value
           : // 单选时不应该分割
           typeof value === 'string' && multiple
-          ? value.split(delimiter || ',')
+          ? // picker的value有可能value: "1, 2"，所以需要去掉一下空格
+            value.split(delimiter || ',').map((v: string) => v.trim())
           : [value];
 
         const selected = valueArray.map(item =>
@@ -257,7 +258,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         const values = Array.isArray(value)
           ? value
           : typeof value === 'string'
-          ? value.split(delimiter || ',')
+          ? value.split(delimiter || ',').map((v: string) => v.trim())
           : [];
         return values;
       }
@@ -1121,7 +1122,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             item && item.hasOwnProperty(valueField) ? item[valueField] : item
           )
         : typeof value === 'string'
-        ? value.split(self.delimiter || ',')
+        ? value.split(self.delimiter || ',').map((v: string) => v.trim())
         : value === void 0
         ? []
         : [
@@ -1178,7 +1179,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         value != null && flattened.push(item);
       });
       const selectedOptions: Array<any> = [];
-
       selected.forEach((item, index) => {
         const value = getOptionValue(item, valueField);
         if (flattenedMap.get(value)) {
