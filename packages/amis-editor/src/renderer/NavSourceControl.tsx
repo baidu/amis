@@ -20,7 +20,7 @@ import {autobind} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';
 import {SchemaApi} from 'amis';
 
-export type SourceType = 'custom' | 'api';
+export type SourceType = 'custom' | 'api' | '';
 
 export type NavControlItem = {
   id?: string;
@@ -178,20 +178,26 @@ export class NavSourceControl extends React.Component<
     const activeDraggingItem = get(links, `${oldPath}`);
     if (oldParentPath) {
       const oldParent = get(links, `${oldParentPath}.children`, []);
-      oldParent.splice(oldIndex, 1);
+      typeof oldIndex === 'number' && oldParent.splice(oldIndex, 1);
       set(links, `${oldParentPath}.children`, oldParent);
     } else {
-      links.splice(oldIndex, 1);
+      typeof oldIndex === 'number' && links.splice(oldIndex, 1);
     }
 
     const {parentPath: newParentPath} = this.getNodePath(nodeNewIndex);
 
     if (newParentPath) {
-      const newParent = get(links, `${newParentPath}.children`, []);
-      newParent.splice(newIndex, 0, activeDraggingItem);
+      const newParent: Array<NavControlItem> = get(
+        links,
+        `${newParentPath}.children`,
+        []
+      );
+      typeof newIndex === 'number' &&
+        newParent.splice(newIndex, 0, activeDraggingItem);
       set(links, `${newParentPath}.children`, newParent);
     } else {
-      links.splice(newIndex, 0, activeDraggingItem);
+      typeof newIndex === 'number' &&
+        links.splice(newIndex, 0, activeDraggingItem);
     }
     // 数据diff时会使得dom结构出bug，多个相同节点，先置空再重新赋值
     this.setState({source: ''}, () => {
@@ -550,11 +556,16 @@ export class NavSourceControl extends React.Component<
                   <Icon icon="drag-bar" className="icon" />
                 </a>
                 {nav.icon &&
-                  render(`render-icon-${nav.icon.id}`, {
-                    type: 'icon',
-                    icon: nav.icon,
-                    className: 'nav-links-item-icon'
-                  })}
+                  render(
+                    `render-icon-${
+                      typeof nav.icon !== 'string' ? nav.icon.id : nav.icon
+                    }`,
+                    {
+                      type: 'icon',
+                      icon: nav.icon,
+                      className: 'nav-links-item-icon'
+                    }
+                  )}
                 <TooltipWrapper tooltip={nav.label} placement="left">
                   <div className="nav-links-item-label">{nav.label}</div>
                 </TooltipWrapper>
