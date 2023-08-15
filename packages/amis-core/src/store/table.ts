@@ -937,12 +937,13 @@ export const TableStore = iRendererStore
           className: 'Table-dragCell'
         });
 
+        const originColumns = self.columns.concat();
         columns = columns.map((item, index) => ({
           ...item,
           id: guid(),
           index,
-          width: 0,
-          minWidth: 0,
+          width: originColumns[index]?.width || 0,
+          minWidth: originColumns[index]?.minWidth || 0,
           rawIndex: index - PARTITION_INDEX,
           type: item.type || 'plain',
           pristine: item.pristine || item,
