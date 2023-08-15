@@ -1,12 +1,19 @@
-import isPlainObject from 'lodash/isPlainObject';
-import isEqual from 'lodash/isEqual';
-import isNaN from 'lodash/isNaN';
-import uniq from 'lodash/uniq';
-import last from 'lodash/last';
-import merge from 'lodash/merge';
-import {Schema, PlainObject, FunctionPropertyNames} from '../types';
-import {evalExpression} from './tpl';
+import React from 'react';
+import moment from 'moment';
+import {isObservable, isObservableArray} from 'mobx';
+import uniq from 'lodash/uniq'
+import last from 'lodash/last'
+import merge from 'lodash/merge'
+import isPlainObject from 'lodash/isPlainObject'
+import isEqual from 'lodash/isEqual'
+import isNaN from 'lodash/isNaN'
+import isNumber from 'lodash/isNumber'
+import isString from 'lodash/isString'
 import qs from 'qs';
+
+import type {Schema, PlainObject, FunctionPropertyNames} from '../types';
+
+import {evalExpression} from './tpl';
 import {IIRendererStore} from '../store';
 import {IFormStore} from '../store/form';
 import {autobindMethod} from './autobind';
@@ -15,7 +22,6 @@ import {
   resolveVariable,
   resolveVariableAndFilter
 } from './tpl-builtin';
-import {isObservable, isObservableArray} from 'mobx';
 import {
   cloneObject,
   createObject,
@@ -28,7 +34,6 @@ import {string2regExp} from './string2regExp';
 import {getVariable} from './getVariable';
 import {keyToPath} from './keyToPath';
 import {isExpression, replaceExpression} from './formula';
-import {isNumber, isString} from 'lodash';
 
 export {
   createObject,
@@ -74,7 +79,7 @@ export function isSuperDataModified(
   prevData: any,
   store: IIRendererStore
 ) {
-  let keys: Array<string> = [];
+  let keys: Array<string>;
 
   if (store && store.storeType === 'FormStore') {
     keys = uniq(
@@ -232,9 +237,13 @@ export function isObjectShallowModified(
             statck
           )
         );
-  } else if (isNaN(prev) && isNaN(next)) {
+  }
+
+  if (isNaN(prev) && isNaN(next)) {
     return false;
-  } else if (
+  }
+
+  if (
     null == prev ||
     null == next ||
     !isObject(prev) ||
@@ -263,10 +272,11 @@ export function isObjectShallowModified(
   if (~statck.indexOf(prev)) {
     return false;
   }
+
   statck.push(prev);
 
   for (let i: number = keys.length - 1; i >= 0; i--) {
-    let key = keys[i];
+    const key = keys[i];
     if (
       isObjectShallowModified(
         prev[key],
@@ -344,7 +354,7 @@ export function makeColumnClassBuild(
   let count = 12;
   let step = Math.floor(count / steps);
 
-  return function (schema: Schema) {
+  return (schema: Schema) => {
     if (
       schema.columnClassName &&
       /\bcol-(?:xs|sm|md|lg)-(\d+)\b/.test(schema.columnClassName)
@@ -354,7 +364,9 @@ export function makeColumnClassBuild(
       steps--;
       step = Math.floor(count / steps);
       return schema.columnClassName;
-    } else if (schema.columnClassName) {
+    }
+
+    if (schema.columnClassName) {
       count -= step;
       steps--;
       return schema.columnClassName;
@@ -372,7 +384,7 @@ export function hasVisibleExpression(schema: {
   visible?: boolean;
   hidden?: boolean;
 }) {
-  return schema?.visibleOn || schema?.hiddenOn;
+  return !!(schema.visibleOn || schema.hiddenOn);
 }
 
 export function isVisible(
@@ -387,8 +399,8 @@ export function isVisible(
   return !(
     schema.hidden ||
     schema.visible === false ||
-    (schema.hiddenOn && evalExpression(schema.hiddenOn, data) === true) ||
-    (schema.visibleOn && evalExpression(schema.visibleOn, data) === false)
+    (schema.hiddenOn && evalExpression(schema.hiddenOn, data)) ||
+    (schema.visibleOn && !evalExpression(schema.visibleOn, data))
   );
 }
 
@@ -401,17 +413,18 @@ export function isUnfolded(
 ): boolean {
   let {foldedField, unfoldedField} = config;
 
-  unfoldedField = unfoldedField || 'unfolded';
-  foldedField = foldedField || 'folded';
+  unfoldedField ||= 'unfolded';
+  foldedField ||= 'folded';
 
-  let ret: boolean = false;
   if (unfoldedField && typeof node[unfoldedField] !== 'undefined') {
-    ret = !!node[unfoldedField];
-  } else if (foldedField && typeof node[foldedField] !== 'undefined') {
-    ret = !node[foldedField];
+    return !!node[unfoldedField];
   }
 
-  return ret;
+  if (foldedField && typeof node[foldedField] !== 'undefined') {
+    return !node[foldedField];
+  }
+
+  return false;
 }
 
 /**
@@ -494,12 +507,14 @@ export function promisify<T extends Function>(
   if ((fn as any)._promisified) {
     return fn as any;
   }
-  let promisified = function () {
+  const promisified = function () {
     try {
       const ret = fn.apply(null, arguments);
       if (ret && ret.then) {
         return ret;
-      } else if (typeof ret === 'function') {
+      }
+
+      if (typeof ret === 'function') {
         // thunk support
         return new Promise((resolve, reject) =>
           ret((error: boolean, value: any) =>
@@ -507,6 +522,7 @@ export function promisify<T extends Function>(
           )
         );
       }
+
       return Promise.resolve(ret);
     } catch (e) {
       return Promise.reject(e);
@@ -514,6 +530,7 @@ export function promisify<T extends Function>(
   };
   (promisified as any).raw = fn;
   (promisified as any)._promisified = true;
+
   return promisified;
 }
 
@@ -564,7 +581,7 @@ export function difference<
       const keys: Array<keyof T & keyof U> = uniq(
         Object.keys(object).concat(Object.keys(base))
       );
-      let result: any = {};
+      const result: any = {};
 
       keys.forEach(key => {
         const a: any = object[key as keyof T];
@@ -588,9 +605,9 @@ export function difference<
       });
 
       return result;
-    } else {
-      return object;
     }
+
+    return object;
   }
   return changes(object, base);
 }
@@ -707,11 +724,7 @@ export function omitControls(
 }
 
 export function isEmpty(thing: any) {
-  if (isObject(thing) && Object.keys(thing).length) {
-    return false;
-  }
-
-  return true;
+  return !(isObject(thing) && Object.keys(thing).length);
 }
 
 /**
@@ -724,14 +737,14 @@ export const uuid = () => {
 };
 
 // 参考 https://github.com/streamich/v4-uuid
-const str = () =>
+const createStr = () =>
   (
     '00000000000000000' + (Math.random() * 0xffffffffffffffff).toString(16)
   ).slice(-16);
 
 export const uuidv4 = () => {
-  const a = str();
-  const b = str();
+  const a = createStr();
+  const b = createStr();
   return (
     a.slice(0, 8) +
     '-' +
@@ -749,6 +762,7 @@ export interface TreeItem {
   children?: TreeArray;
   [propName: string]: any;
 }
+
 export interface TreeArray extends Array<TreeItem> {}
 
 /**
@@ -833,7 +847,8 @@ export function eachTree<T extends TreeItem>(
     const res = iterator(item, i, level, paths);
     if (res === 'break') {
       break;
-    } else if (res === 'continue') {
+    }
+    if (res === 'continue') {
       continue;
     }
 
@@ -1828,17 +1843,14 @@ export function normalizeNodePath(
 export function isClickOnInput(e: React.MouseEvent<HTMLElement>) {
   const target: HTMLElement = e.target as HTMLElement;
   let formItem;
-  if (
+  return !!(
     !e.currentTarget.contains(target) ||
     ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
     ((formItem = target.closest(
       `button, a, [data-role="form-item"], label[data-role="checkbox"]`
     )) &&
       e.currentTarget.contains(formItem))
-  ) {
-    return true;
-  }
-  return false;
+  );
 }
 
 // 计算字符串 hash
