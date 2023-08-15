@@ -9,9 +9,9 @@ import LayoutList from './layout/index';
 import themeConfig from 'amis-theme-editor-helper/lib/systemTheme/cxd';
 
 // 测试组织属性配置面板的国际化，可以放开如下注释
-// import '../renderer/InputTextI18n';
-// import '../renderer/TextareaI18n';
-// import '../utils/overwriteSchemaTpl';
+// import './renderer/InputTextI18n';
+// import './renderer/TextareaI18n';
+// import './utils/overwriteSchemaTpl';
 // const i18nEnabled = true;
 const i18nEnabled = false;
 setThemeConfig(themeConfig);
@@ -643,7 +643,6 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
         theme={theme || 'cxd'}
         showCustomRenderersPanel={true}
         plugins={LayoutList} // 存放常见布局组件
-        iframeUrl={'/packages/amis-editor/editor.html'}
         $schemaUrl={`${location.protocol}//${location.host}/schema.json`}
         actionOptions={{
           showOldEntry: false

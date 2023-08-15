@@ -318,6 +318,7 @@ export const runAction = async (
   // 二次确认弹窗如果取消，则终止后续动作
   if (action?.actionType === 'confirmDialog' && !actionResult) {
     stopped = true;
+    preventDefault = true; // 这种对表单项change比较有意义，例如switch切换时弹确认弹窗，如果取消后不能把switch修改了
   }
 
   let stopPropagation = false;

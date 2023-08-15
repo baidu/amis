@@ -5,7 +5,7 @@ import {autobind} from '../util';
 import {MainStore, EditorStoreType} from '../store/editor';
 import {EditorManager, EditorManagerConfig, PluginClass} from '../manager';
 import {reaction} from 'mobx';
-import {RenderOptions, toast} from 'amis';
+import {RenderOptions, closeContextMenus, toast} from 'amis';
 import {PluginEventListener, RendererPluginAction} from '../plugin';
 import {reGenerateID} from '../util';
 import {SubEditor} from './SubEditor';
@@ -81,10 +81,6 @@ export interface EditorProps extends PluginEventListener {
    * 传给预览器的其他属性
    */
   previewProps?: any;
-
-  // 如果配置了，编辑器变成 iframe 模式。
-  // 需要自己写代码去建立连接。
-  iframeUrl?: string;
 
   isHiddenProps?: (key: string) => boolean;
 
@@ -408,6 +404,7 @@ export default class Editor extends Component<EditorProps> {
   // 右键菜单
   @autobind
   handleContextMenu(e: React.MouseEvent<HTMLElement>) {
+    closeContextMenus();
     let targetId: string = '';
     let region = '';
 
@@ -449,11 +446,20 @@ export default class Editor extends Component<EditorProps> {
 
     e.preventDefault();
     e.stopPropagation();
-
     const manager = this.manager;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    // 说明是 iframe 里面
+    if ((e.target as HTMLElement).ownerDocument !== document) {
+      const rect = manager.store.getIframe()!.getBoundingClientRect();
+      offsetX = rect.left;
+      offsetY = rect.top;
+    }
+
     manager.openContextMenu(targetId, region, {
-      x: window.scrollX + e.clientX,
-      y: window.scrollY + e.clientY
+      x: window.scrollX + e.clientX + offsetX,
+      y: window.scrollY + e.clientY + offsetY
     });
   }
 
@@ -540,7 +546,6 @@ export default class Editor extends Component<EditorProps> {
       theme,
       appLocale,
       data,
-      iframeUrl,
       previewProps,
       autoFocus,
       isSubEditor,
@@ -573,7 +578,6 @@ export default class Editor extends Component<EditorProps> {
             )}
             <Preview
               {...previewProps}
-              iframeUrl={iframeUrl}
               editable={!preview}
               isMobile={isMobile}
               store={this.store}

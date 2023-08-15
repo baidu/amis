@@ -6,7 +6,8 @@ import {
   OptionsControl,
   FormOptionsControl,
   resolveEventData,
-  str2function
+  str2function,
+  getOptionValueBindField
 } from 'amis-core';
 import {SpinnerExtraProps, Transfer} from 'amis-ui';
 import type {Option} from 'amis-core';
@@ -233,7 +234,11 @@ export class BaseTransferRenderer<
           optionValueCompare(
             item[(valueField as string) || 'value'],
             (valueField as string) || 'value'
-          )
+          ),
+          {
+            resolve: getOptionValueBindField(valueField),
+            value: item[valueField as string] || 'value'
+          }
         );
 
         if (!indexes) {
@@ -540,7 +545,8 @@ export class BaseTransferRenderer<
       loadingConfig,
       showInvalidMatch,
       onlyChildren,
-      useMobileUI
+      useMobileUI,
+      noResultsText
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -602,6 +608,7 @@ export class BaseTransferRenderer<
           loadingConfig={loadingConfig}
           showInvalidMatch={showInvalidMatch}
           useMobileUI={useMobileUI}
+          noResultsText={noResultsText}
         />
 
         <Spinner

@@ -54,6 +54,7 @@
     "mobx": "^4.5.0",
     "mobx-react": "^6.3.1",
     "mobx-state-tree": "^3.17.3",
+    "react-frame-component": "^5.2.6",
     "react-json-view": "^1.21.3",
     "sortablejs": "^1.14.0"
   },

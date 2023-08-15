@@ -152,7 +152,6 @@
 
   &-contentWrap {
     position: relative;
-    margin-bottom: var(--Table-toolbar-marginY);
   }
 
   &-actions {
@@ -260,7 +259,7 @@
       padding-top: 0;
     }
 
-    &--affixHeader thead {
+    &--affixHeader > thead {
       visibility: collapse;
     }
 

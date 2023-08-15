@@ -40,7 +40,7 @@ exports[`Renderer:Nav 1`] = `
                   class="cxd-Nav-Menu-item-icon"
                 >
                   <img
-                    class="cxd-Icon"
+                    class="cxd-Icon mr-2"
                     src="https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg"
                   />
                 </i>
@@ -288,7 +288,7 @@ exports[`Renderer:Nav with icons 1`] = `
                         class="cxd-Nav-Menu-item-icon"
                       >
                         <i
-                          class="fa fa-user fa fa-user"
+                          class="fa fa-user mr-2 fa fa-user"
                         />
                       </i>
                       <span
@@ -372,11 +372,11 @@ exports[`Renderer:Nav with icons 1`] = `
                             class="cxd-Nav-Menu-item-icon"
                           >
                             <icon-mock
-                              classname="icon-star"
+                              classname="mr-2 icon-star"
                               icon="star"
                             />
                             <icon-mock
-                              classname="icon-search"
+                              classname="mr-2 icon-search"
                               icon="search"
                             />
                           </i>
@@ -390,7 +390,7 @@ exports[`Renderer:Nav with icons 1`] = `
                             class="cxd-Nav-Menu-item-icon-after"
                           >
                             <img
-                              class="cxd-Icon"
+                              class="cxd-Icon ml-2"
                               src="https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg"
                             />
                           </i>
@@ -479,7 +479,7 @@ exports[`Renderer:Nav with itemActions 1`] = `
                         class="cxd-Nav-Menu-item-icon"
                       >
                         <i
-                          class="fa fa-user fa fa-user"
+                          class="fa fa-user mr-2 fa fa-user"
                         />
                       </i>
                       <span
@@ -820,7 +820,7 @@ exports[`Renderer:Nav with itemActions 2`] = `
                         class="cxd-Nav-Menu-item-icon"
                       >
                         <i
-                          class="fa fa-user fa fa-user"
+                          class="fa fa-user mr-2 fa fa-user"
                         />
                       </i>
                       <span
@@ -1196,7 +1196,7 @@ exports[`Renderer:Nav with multi-level 1`] = `
                 class="cxd-Nav-Menu-item-icon"
               >
                 <i
-                  class="fa fa-user fa fa-user"
+                  class="fa fa-user mr-2 fa fa-user"
                 />
               </i>
               <span
@@ -1584,7 +1584,7 @@ exports[`Renderer:Nav with source 1`] = `
                         class="cxd-Nav-Menu-item-icon"
                       >
                         <i
-                          class="fa fa-user fa fa-user"
+                          class="fa fa-user mr-2 fa fa-user"
                         />
                       </i>
                       <span
@@ -1722,7 +1722,7 @@ exports[`Renderer:Nav with stacked 1`] = `
                 class="cxd-Nav-Menu-item-icon"
               >
                 <i
-                  class="fa fa-user fa fa-user"
+                  class="fa fa-user mr-2 fa fa-user"
                 />
               </i>
               <span

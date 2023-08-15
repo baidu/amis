@@ -69,8 +69,13 @@ export class BaseResultTableSelection extends BaseSelection<
   };
 
   static getDerivedStateFromProps(props: ResultTableSelectionProps) {
-    const {options, value, option2value} = props;
-    const valueArray = BaseSelection.value2array(value, options, option2value);
+    const {options, value, option2value, valueField} = props;
+    const valueArray = BaseSelection.value2array(
+      value,
+      options,
+      option2value,
+      valueField
+    );
     return {
       tableOptions: valueArray
     };
@@ -78,7 +83,8 @@ export class BaseResultTableSelection extends BaseSelection<
 
   @autobind
   handleCloseItem(option: Option) {
-    const {value, onChange, option2value, options, disabled} = this.props;
+    const {value, onChange, option2value, options, disabled, valueField} =
+      this.props;
 
     const {searching, searchTableOptions} = this.state;
 
@@ -87,7 +93,12 @@ export class BaseResultTableSelection extends BaseSelection<
     }
 
     // 删除普通值
-    let valueArray = BaseSelection.value2array(value, options, option2value);
+    let valueArray = BaseSelection.value2array(
+      value,
+      options,
+      option2value,
+      valueField
+    );
 
     let idx = valueArray.indexOf(option);
     valueArray.splice(idx, 1);
@@ -100,7 +111,8 @@ export class BaseResultTableSelection extends BaseSelection<
       const searchArray = BaseSelection.value2array(
         searchTableOptions,
         options,
-        option2value
+        option2value,
+        valueField
       );
       const searchIdx = searchArray.indexOf(option);
       searchTableOptions.splice(searchIdx, 1);

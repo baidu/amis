@@ -1500,7 +1500,11 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   <TooltipWrapper
                     placement="bottom"
                     container={container || env?.getModalContainer}
-                    tooltipClassName={cx('FileControl-list-tooltip')}
+                    tooltipClassName={cx(
+                      'FileControl-list-tooltip',
+                      (file.state === 'invalid' || file.state === 'error') &&
+                        'is-invalid'
+                    )}
                     tooltip={
                       file.state === 'invalid' || file.state === 'error'
                         ? (file as FileValue).error ||
@@ -1511,7 +1515,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                                 maxSize: prettyBytes(maxSize, 1024)
                               })
                             : '')
-                        : ''
+                        : filename
                     }
                   >
                     <div

@@ -279,15 +279,25 @@ export default class DropDownButton extends React.Component<
       return (
         <li
           key={index}
-          className={cx('DropDown-button', {
-            ['is-disabled']: isDisabled(button, data)
-          })}
+          className={cx(
+            'DropDown-button',
+            {
+              ['is-disabled']: isDisabled(button, data)
+            },
+            typeof button.level === 'undefined'
+              ? ''
+              : button.level
+              ? `Button--${button.level}`
+              : '',
+            button.className
+          )}
         >
           {render(
             `button/${index}`,
             {
               type: 'button',
-              ...(button as any)
+              ...(button as any),
+              className: ''
             },
             {
               isMenuItem: true,

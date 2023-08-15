@@ -256,8 +256,11 @@ export const Row = types
     }
   }))
   .actions(self => ({
-    toggle() {
-      (getParent(self, self.depth * 2) as ITableStore).toggle(self as IRow);
+    toggle(checked: boolean) {
+      (getParent(self, self.depth * 2) as ITableStore).toggle(
+        self as IRow,
+        checked
+      );
     },
 
     toggleExpanded() {
@@ -653,10 +656,9 @@ export const TableStore = iRendererStore
       },
 
       get allChecked(): boolean {
-        return !!(
-          self.selectedRows.length ===
-            (self as ITableStore).checkableRows.length &&
-          (self as ITableStore).checkableRows.length
+        // 只要selectedRows中包含checkableRows中的全部数据，就认为是全选
+        return (self as ITableStore).checkableRows.every(item =>
+          self.selectedRows.includes(item)
         );
       },
 
@@ -824,6 +826,12 @@ export const TableStore = iRendererStore
     };
   })
   .actions(self => {
+    let tableRef: HTMLElement | null = null;
+
+    function setTable(ref: HTMLElement | null) {
+      tableRef = ref;
+    }
+
     function update(
       config: Partial<STableStore> & {tableLayout?: 'fixed' | 'auto'}
     ) {
@@ -929,12 +937,13 @@ export const TableStore = iRendererStore
           className: 'Table-dragCell'
         });
 
+        const originColumns = self.columns.concat();
         columns = columns.map((item, index) => ({
           ...item,
           id: guid(),
           index,
-          width: 0,
-          minWidth: 0,
+          width: originColumns[index]?.width || 0,
+          minWidth: originColumns[index]?.minWidth || 0,
           rawIndex: index - PARTITION_INDEX,
           type: item.type || 'plain',
           pristine: item.pristine || item,
@@ -952,6 +961,82 @@ export const TableStore = iRendererStore
           column => column.pristine.width
         );
       }
+    }
+
+    function syncTableWidth() {
+      const table = tableRef;
+      if (!table) {
+        return;
+      }
+      // 自动将 table-layout: auto 改成 fixed
+      const ths = (
+        [].slice.call(
+          table.querySelectorAll(':scope>thead>tr>th[data-index]')
+        ) as HTMLTableCellElement[]
+      ).filter((th, index, arr) => {
+        return (
+          arr.findIndex(
+            item =>
+              item.getAttribute('data-index') === th.getAttribute('data-index')
+          ) === index
+        );
+      });
+      const tbodyTr = table.querySelector(':scope>tbody>tr:first-child');
+
+      const div = document.createElement('div');
+      div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
+      div.style.cssText = `position:absolute;top:0;left:0;pointer-events:none;visibility: hidden;`;
+      div.innerHTML = `<table style="table-layout:auto!important;width:0!important;min-width:0!important;" class="${
+        table.className
+      }"><thead><tr>${ths
+        .map(
+          th =>
+            `<th style="width:0" data-index="${th.getAttribute(
+              'data-index'
+            )}" class="${th.className}">${th.innerHTML}</th>`
+        )
+        .join('')}</tr></thead>${
+        tbodyTr ? `<tbody>${tbodyTr.outerHTML}</tbody>` : ''
+      }</table>`;
+      document.body.appendChild(div);
+      const minWidths: {
+        [propName: string]: number;
+      } = {};
+      [].slice
+        .call(div.querySelectorAll(':scope>table>thead>tr>th[data-index]'))
+        .forEach((th: HTMLTableCellElement) => {
+          minWidths[th.getAttribute('data-index')!] = th.clientWidth;
+        });
+      document.body.removeChild(div);
+      const cols = [].slice.call(
+        table.querySelectorAll(':scope>colgroup>col')
+      ) as Array<HTMLElement>;
+
+      if (self.useFixedLayout && !self.columnWidthReady) {
+        table.style.cssText += `table-layout:fixed;`;
+        cols.forEach(col => {
+          const index = parseInt(col.getAttribute('data-index')!, 10);
+          const column = self.columns[index];
+          col.style.cssText += `width:${
+            typeof column.pristine.width === 'number'
+              ? column.pristine.width
+              : minWidths[index]
+          }px;`;
+        });
+      }
+      cols.forEach((col: HTMLElement) => {
+        const index = parseInt(col.getAttribute('data-index')!, 10);
+        const column = self.columns[index];
+        column.setWidth(
+          Math.max(
+            typeof column.pristine.width === 'number'
+              ? column.pristine.width
+              : col.clientWidth - 2,
+            minWidths[index]
+          ),
+          minWidths[index]
+        );
+      });
     }
 
     function invalidTableColumnWidth() {
@@ -1153,7 +1238,6 @@ export const TableStore = iRendererStore
       }
 
       self.dragging = false;
-      invalidTableColumnWidth(); // 更新内容需要重新计算表格布局
     }
 
     // 获取所有层级的子节点id
@@ -1240,13 +1324,20 @@ export const TableStore = iRendererStore
 
         return [...self.selectedRows, ...checkableRows];
       } else {
-        return self.checkableRows;
+        return [
+          ...self.selectedRows.filter(item => !item.checkable),
+          ...self.checkableRows
+        ];
       }
     }
 
     function toggleAll() {
       if (self.allChecked) {
-        self.selectedRows.clear();
+        // 需要将不可选的row排除掉
+        // 不可选的 始终保持初始化的状态
+        self.selectedRows.replace(
+          self.selectedRows.filter(row => !row.checkable)
+        );
       } else {
         self.selectedRows.replace(getSelectedRows());
       }
@@ -1255,29 +1346,29 @@ export const TableStore = iRendererStore
     // 记录最近一次点击的多选框，主要用于 shift 多选时判断上一个选的是什么
     let lastCheckedRow: any = null;
 
-    function toggle(row: IRow) {
+    function toggle(row: IRow, checked: boolean) {
       if (!row.checkable) {
         return;
       }
 
       lastCheckedRow = row;
-
       const idx = self.selectedRows.indexOf(row);
-
       if (self.multiple) {
-        ~idx ? self.selectedRows.splice(idx, 1) : self.selectedRows.push(row);
+        ~idx
+          ? !checked && self.selectedRows.splice(idx, 1)
+          : checked && self.selectedRows.push(row);
       } else {
         ~idx
-          ? self.selectedRows.splice(idx, 1)
-          : self.selectedRows.replace([row]);
+          ? !checked && self.selectedRows.splice(idx, 1)
+          : checked && self.selectedRows.replace([row]);
       }
     }
 
     // 按住 shift 的时候点击选项
-    function toggleShift(row: IRow) {
+    function toggleShift(row: IRow, checked: boolean) {
       // 如果是同一个或非 multiple 模式下就和不用 shift 一样
       if (!lastCheckedRow || row === lastCheckedRow || !self.multiple) {
-        toggle(row);
+        toggle(row, checked);
         return;
       }
 
@@ -1296,7 +1387,7 @@ export const TableStore = iRendererStore
       rows.push(row); // 将当前行也加入进行判断
       for (const rowItem of rows) {
         const idx = self.selectedRows.indexOf(rowItem);
-        if (idx === -1) {
+        if (idx === -1 && checked) {
           // 如果上一个是选中状态，则将之间的所有 check 都变成可选
           if (lastCheckedRow.checked) {
             if (maxLength) {
@@ -1307,7 +1398,7 @@ export const TableStore = iRendererStore
               self.selectedRows.push(rowItem);
             }
           }
-        } else {
+        } else if (!checked) {
           if (!lastCheckedRow.checked) {
             self.selectedRows.splice(idx, 1);
           }
@@ -1515,8 +1606,10 @@ export const TableStore = iRendererStore
     }
 
     return {
+      setTable,
       update,
       updateColumns,
+      syncTableWidth,
       invalidTableColumnWidth,
       initRows,
       updateSelected,

@@ -195,7 +195,7 @@ export class Textarea extends React.Component<TextAreaProps, TextAreaState> {
           {
             [`TextareaControl--border${ucFirst(borderMode)}`]: borderMode,
             'is-focused': this.state.focused,
-            'is-disabled': disabled
+            'is-disabled': disabled || readOnly
           },
           className
         )}

@@ -101,6 +101,8 @@ import NewEdit from '../icons/new-edit.svg';
 import RotateLeft from '../icons/rotate-left.svg';
 import RotateRight from '../icons/rotate-right.svg';
 import ScaleOrigin from '../icons/scale-origin.svg';
+import If from '../icons/if.svg';
+
 import isObject from 'lodash/isObject';
 
 // 兼容原来的用法，后续不直接试用。
@@ -235,6 +237,7 @@ registerIcon('new-edit', NewEdit);
 registerIcon('rotate-left', RotateLeft);
 registerIcon('rotate-right', RotateRight);
 registerIcon('scale-origin', ScaleOrigin);
+registerIcon('if', If);
 
 export interface IconCheckedSchema {
   id: string;

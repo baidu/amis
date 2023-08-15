@@ -562,6 +562,7 @@ exports[`Renderer:input table add 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
+                    style="table-layout: fixed;"
                   >
                     <colgroup>
                       <col
@@ -572,7 +573,7 @@ exports[`Renderer:input table add 1`] = `
                       />
                       <col
                         data-index="5"
-                        style="width: 1%;"
+                        style="width: 100px;"
                       />
                     </colgroup>
                     <thead>

@@ -718,6 +718,7 @@ export interface ConditionRule {
   left?: ExpressionComplex;
   op?: OperatorType;
   right?: ExpressionComplex | Array<ExpressionComplex>;
+  if?: string;
 }
 
 export interface ConditionGroupValue {
@@ -725,6 +726,7 @@ export interface ConditionGroupValue {
   conjunction: 'and' | 'or';
   not?: boolean;
   children?: Array<ConditionRule | ConditionGroupValue>;
+  if?: string;
 }
 
 export interface ConditionValue extends ConditionGroupValue {}
