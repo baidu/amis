@@ -2,7 +2,9 @@ const {defineProperty, getPrototypeOf} = Object;
 
 // 简写
 type Fn = Function
-type SuperStore = WeakMap<Fn, Fn>
+// FIXME 正确写法，但过不了检查，暂时使用 any 兼容
+// type SuperStore = WeakMap<Fn, Fn>
+type SuperStore = WeakMap<Fn, any>
 
 export function bind(fn: Fn, thisArg: any): Fn {
   if (fn.bind) {
@@ -37,7 +39,7 @@ function getBoundSuper(obj: Object, fn: Fn) {
     superStore.set(fn, bind(fn, obj));
   }
 
-  return superStore.get(fn) as Fn;
+  return superStore.get(fn);
 }
 
 function createDefaultSetter(key: string) {
