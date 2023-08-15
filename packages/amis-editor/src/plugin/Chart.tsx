@@ -192,6 +192,7 @@ export class ChartPlugin extends BasePlugin {
   ];
 
   panelTitle = '图表';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     return [
       getSchemaTpl('tabs', [
@@ -236,34 +237,40 @@ export class ChartPlugin extends BasePlugin {
                   },
                   */
                   getSchemaTpl('apiControl', {
-                    label: '数据接口',
-                    // visibleOn: 'chartDataType === "dataApi"',
-                    description:
+                    label: tipedLabel(
+                      '数据接口',
                       '接口可以返回echart图表完整配置，或者图表数据，建议返回图表数据映射到 Echarts 配置中'
+                    ),
+                    mode: 'normal'
+                    // visibleOn: 'chartDataType === "dataApi"'
                   }),
 
                   getSchemaTpl('switch', {
                     label: '初始是否拉取',
                     name: 'initFetch',
                     // visibleOn: 'chartDataType === "dataApi" && data.api',
-                    visibleOn: 'data.api',
+                    visibleOn: 'data.api.url',
                     pipeIn: defaultValue(true)
                   }),
 
                   {
                     name: 'interval',
-                    label: '定时刷新间隔',
+                    label: tipedLabel(
+                      '定时刷新间隔',
+                      '设置后将自动定时刷新，最小3000, 单位 ms'
+                    ),
                     type: 'input-number',
                     step: 500,
                     // visibleOn: 'chartDataType === "dataApi" && data.api',
-                    visibleOn: 'data.api',
-                    description: '设置后将自动定时刷新，最小3000, 单位 ms'
+                    visibleOn: 'data.api.url',
+                    unitOptions: ['ms']
                   },
                   {
                     name: 'config',
                     asFormItem: true,
                     // visibleOn: 'chartDataType === "json"',
                     component: ChartConfigEditor,
+                    mode: 'normal',
                     // type: 'json-editor',
                     label: tipedLabel(
                       'Echarts 配置',
@@ -274,6 +281,7 @@ export class ChartPlugin extends BasePlugin {
                     name: 'dataFilter',
                     type: 'js-editor',
                     allowFullscreen: true,
+                    mode: 'normal',
                     label: '数据映射（dataFilter）',
                     size: 'lg',
                     description: `
@@ -290,16 +298,20 @@ export class ChartPlugin extends BasePlugin {
                     `
                   },
                   getSchemaTpl('switch', {
-                    label: 'Chart 配置完全替换',
-                    name: 'replaceChartOption',
-                    labelRemark: {
-                      trigger: 'click',
-                      className: 'm-l-xs',
-                      rootClose: true,
-                      content:
-                        '默认为追加模式，新的配置会跟旧的配置合并，如果勾选将直接完全覆盖。',
-                      placement: 'left'
-                    }
+                    label: tipedLabel(
+                      'Chart 配置完全替换',
+                      '默认为追加模式，新的配置会跟旧的配置合并，如果勾选将直接完全覆盖'
+                    ),
+                    name: 'replaceChartOption'
+                  }),
+                  getSchemaTpl('expressionFormulaControl', {
+                    evalMode: false,
+                    label: tipedLabel(
+                      '跟踪表达式',
+                      '如果这个表达式的值有变化时会更新图表，当 config 中用了数据映射时有用'
+                    ),
+                    name: 'trackExpression',
+                    placeholder: '\\${xxx}'
                   })
                 ]
               },
@@ -309,6 +321,7 @@ export class ChartPlugin extends BasePlugin {
                   {
                     name: 'clickAction',
                     asFormItem: true,
+                    label: false,
                     children: ({onChange, value}: any) => (
                       <div className="m-b">
                         <Button
@@ -341,11 +354,7 @@ export class ChartPlugin extends BasePlugin {
         {
           title: '外观',
           body: getSchemaTpl('collapseGroup', [
-            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
-            {
-              title: '自定义 CSS 类名',
-              body: [getSchemaTpl('className')]
-            }
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
           ])
         },
         {
