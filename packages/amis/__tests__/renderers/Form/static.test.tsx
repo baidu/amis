@@ -65,3 +65,90 @@ test('Renderer:static', async () => {
   );
   expect(container).toMatchSnapshot();
 });
+
+test('Renderer:static', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'form',
+        title: 'The form',
+        static: true,
+        data: {
+          a: 1,
+          b: 2,
+          c: 3,
+          d: 4
+        },
+        body: [
+          {
+            type: 'input-text',
+            name: 'a',
+            label: 'a'
+          },
+          {
+            type: 'input-text',
+            name: 'b',
+            static: false,
+            label: 'b'
+          },
+          {
+            type: 'input-text',
+            name: 'c',
+            static: true,
+            label: 'c'
+          },
+          {
+            type: 'group',
+            body: [
+              {
+                type: 'input-text',
+                name: 'a',
+                label: 'a'
+              },
+              {
+                type: 'input-text',
+                name: 'b',
+                static: false,
+                label: 'b'
+              },
+              {
+                type: 'input-text',
+                name: 'c',
+                static: true,
+                label: 'c'
+              }
+            ]
+          },
+          {
+            type: 'group',
+            static: false,
+            body: [
+              {
+                type: 'input-text',
+                name: 'a',
+                label: 'a'
+              },
+              {
+                type: 'input-text',
+                name: 'b',
+                static: false,
+                label: 'b'
+              },
+              {
+                type: 'input-text',
+                name: 'c',
+                static: true,
+                label: 'c'
+              }
+            ]
+          }
+        ],
+        submitText: null,
+        actions: []
+      },
+      {},
+      makeEnv()
+    )
+  );
+  expect(container).toMatchSnapshot();
+});
