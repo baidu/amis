@@ -672,7 +672,7 @@ export class Navigation extends React.Component<
                 data: createObject(data, link),
                 popOverContainer: popOverContainer
                   ? popOverContainer
-                  : env.getModalContainer
+                  : env && env.getModalContainer
                   ? env.getModalContainer
                   : () => document.body,
                 // 点击操作之后 就关闭 因为close方法里执行了preventDefault
@@ -821,7 +821,7 @@ export class Navigation extends React.Component<
               popOverContainer={
                 popOverContainer
                   ? popOverContainer
-                  : env.getModalContainer
+                  : env && env.getModalContainer
                   ? env.getModalContainer
                   : () => document.body
               }

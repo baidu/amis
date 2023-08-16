@@ -185,7 +185,12 @@ export class TableContent extends React.Component<TableContentProps> {
               : undefined
           }
           ref={tableRef}
-          className={tableClassName}
+          className={cx(
+            tableClassName,
+            store.useFixedLayout && store.columnWidthReady
+              ? 'is-layout-fixed'
+              : undefined
+          )}
         >
           <ColGroup columns={columns} store={store} />
           <thead>

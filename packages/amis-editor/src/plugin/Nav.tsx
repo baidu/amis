@@ -33,11 +33,13 @@ export class NavPlugin extends BasePlugin {
       {
         label: '页面1',
         to: '?id=1',
+        target: '_self',
         id: '0'
       },
       {
         label: '页面2',
         to: '?id=2',
+        target: '_self',
         id: '1'
       }
     ]

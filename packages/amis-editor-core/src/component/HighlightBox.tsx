@@ -137,7 +137,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     if (ref) {
       ref.addEventListener('mousedown', this.handleWResizerMouseDown);
     } else {
-      this.wResizerDom?.addEventListener(
+      this.wResizerDom?.removeEventListener(
         'mousedown',
         this.handleWResizerMouseDown
       );
@@ -153,7 +153,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     if (ref) {
       ref.addEventListener('mousedown', this.handleHResizerMouseDown);
     } else {
-      this.hResizerDom?.addEventListener(
+      this.hResizerDom?.removeEventListener(
         'mousedown',
         this.handleHResizerMouseDown
       );
@@ -169,7 +169,7 @@ export default class HighlightBox extends React.Component<HighlightBoxProps> {
     if (ref) {
       ref.addEventListener('mousedown', this.handleResizerMouseDown);
     } else {
-      this.resizerDom?.addEventListener(
+      this.resizerDom?.removeEventListener(
         'mousedown',
         this.handleResizerMouseDown
       );

@@ -847,7 +847,9 @@ export default class Form extends React.Component<FormProps, object> {
         this.hooks['validate'] || [],
         forceValidate,
         throwErrors,
-        __(messages && messages.validateFailed)
+        typeof messages?.validateFailed === 'string'
+          ? __(filter(messages.validateFailed, store.data))
+          : undefined
       )
       .then((result: boolean) => {
         if (result) {
@@ -892,7 +894,9 @@ export default class Form extends React.Component<FormProps, object> {
     return store.submit(
       fn,
       this.hooks['validate'] || [],
-      __(messages && messages.validateFailed),
+      typeof messages?.validateFailed === 'string'
+        ? __(filter(messages.validateFailed, store.data))
+        : undefined,
       validateErrCb,
       throwErrors
     );
@@ -1172,8 +1176,14 @@ export default class Form extends React.Component<FormProps, object> {
 
           return store
             .saveRemote(action.api || (api as Api), values, {
-              successMessage: saveSuccess,
-              errorMessage: saveFailed,
+              successMessage:
+                typeof saveSuccess === 'string'
+                  ? filter(saveSuccess, store.data)
+                  : undefined,
+              errorMessage:
+                typeof saveFailed === 'string'
+                  ? filter(saveFailed, store.data)
+                  : undefined,
               onSuccess: async (result: Payload) => {
                 // result为提交接口返回的内容
                 const dispatcher = await dispatchEvent(
@@ -1303,14 +1313,21 @@ export default class Form extends React.Component<FormProps, object> {
       if (!isEffectiveApi(action.api)) {
         return env.alert(__(`当 actionType 为 ajax 时，请设置 api 属性`));
       }
+      let successMsg =
+        (action.messages && action.messages.success) || saveSuccess;
+      let failMsg = (action.messages && action.messages.failed) || saveFailed;
 
       return store
         .saveRemote(action.api as Api, data, {
           successMessage: __(
-            (action.messages && action.messages.success) || saveSuccess
+            typeof successMsg === 'string'
+              ? filter(successMsg, store.data)
+              : undefined
           ),
           errorMessage: __(
-            (action.messages && action.messages.failed) || saveFailed
+            typeof failMsg === 'string'
+              ? filter(failMsg, store.data)
+              : undefined
           )
         })
         .then(async response => {

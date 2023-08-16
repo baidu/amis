@@ -1,12 +1,11 @@
 import React from 'react';
 import intersectionWith from 'lodash/intersectionWith';
-import differenceWith from 'lodash/differenceWith';
 import includes from 'lodash/includes';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import unionWith from 'lodash/unionWith';
 
-import {ThemeProps, themeable, findTree} from 'amis-core';
+import {ThemeProps, themeable, findTree, differenceFromAll} from 'amis-core';
 import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';
 import {Options, Option} from './Select';
 import {uncontrollable} from 'amis-core';
@@ -204,20 +203,38 @@ export class Transfer<
 
   @autobind
   toggleAll() {
-    const {options, option2value, onChange, value, onSelectAll} = this.props;
-    let valueArray = BaseSelection.value2array(value, options, option2value);
+    const {
+      options,
+      option2value,
+      onChange,
+      value,
+      onSelectAll,
+      valueField = 'value'
+    } = this.props;
+    let valueArray = BaseSelection.value2array(
+      value,
+      options,
+      option2value,
+      valueField
+    );
     const availableOptions = this.availableOptions;
 
     // availableOptions 中选项是否都被选中了
+    // to do intersectionWith 需要优化，大数据会卡死
     const isAvailableOptionsAllSelected =
       intersectionWith(availableOptions, valueArray, isEqual).length ===
       availableOptions.length;
     // 全不选
     if (isAvailableOptionsAllSelected) {
-      valueArray = differenceWith(valueArray, availableOptions, isEqual);
+      valueArray = differenceFromAll(
+        availableOptions,
+        valueArray,
+        item => item[valueField]
+      );
     }
     // 全选
     else {
+      // to do 需要优化
       valueArray = unionWith(valueArray, availableOptions, isEqual);
     }
 
@@ -330,10 +347,10 @@ export class Transfer<
       values,
       (a, b) => a[valueField] === b[valueField]
     );
-    const unuseArr = differenceWith(
+    const unuseArr = differenceFromAll(
       searchAvailableOptions,
       values,
-      (a, b) => a[valueField] === b[valueField]
+      item => item[valueField]
     );
 
     const newArr: Array<Option> = [];
@@ -370,7 +387,8 @@ export class Transfer<
       statistics,
       translate: __,
       searchPlaceholder = __('Transfer.searchKeyword'),
-      useMobileUI
+      useMobileUI,
+      valueField = 'value'
     } = props;
 
     if (selectRender) {
@@ -385,18 +403,19 @@ export class Transfer<
     let checkedPartial = false;
     let checkedAll = false;
 
-    checkedAll = this.availableOptions.every(
-      option => this.valueArray.indexOf(option) > -1
+    const valueArraySet = new Set(this.valueArray);
+    checkedAll = this.availableOptions.every(option =>
+      valueArraySet.has(option)
     );
-    checkedPartial = this.availableOptions.some(
-      option => this.valueArray.indexOf(option) > -1
+    checkedPartial = this.availableOptions.some(option =>
+      valueArraySet.has(option)
     );
 
     // 不在当前 availableOptions 中的已选项 数量
-    const selectedNotInAvailableOptions = differenceWith(
-      this.valueArray,
+    const selectedNotInAvailableOptions = differenceFromAll(
       this.availableOptions,
-      isEqual
+      this.valueArray,
+      item => item[valueField]
     ).length;
 
     const mobileUI = useMobileUI && isMobile();
@@ -830,7 +849,12 @@ export class Transfer<
     } = this.props as any;
     const {searchResult} = this.state;
 
-    this.valueArray = BaseSelection.value2array(value, options, option2value);
+    this.valueArray = BaseSelection.value2array(
+      value,
+      options,
+      option2value,
+      valueField
+    );
 
     this.availableOptions = flattenTree(searchResult ?? options).filter(
       (option, index, list) =>

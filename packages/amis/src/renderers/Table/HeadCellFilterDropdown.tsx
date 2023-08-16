@@ -255,8 +255,21 @@ export class HeadCellFilterDropDown extends React.Component<
     });
   }
 
-  handleReset() {
-    const {name, onQuery} = this.props;
+  async handleReset() {
+    const {name, dispatchEvent, data, onQuery} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'columnFilter',
+      createObject(data, {
+        filterName: name,
+        filterValue: undefined
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     onQuery(
       {
         [name]: undefined

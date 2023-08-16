@@ -33,7 +33,7 @@ export const defaultFlexColumnSchema = (title?: string) => {
 // 默认的布局容器Schema
 const defaultFlexContainerSchema = {
   type: 'flex',
-  className: '',
+  className: 'p-1',
   items: [
     defaultFlexColumnSchema('第一列'),
     defaultFlexColumnSchema('第二列'),

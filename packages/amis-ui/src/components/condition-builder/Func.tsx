@@ -29,7 +29,7 @@ export interface ConditionFuncProps extends ThemeProps, LocaleProps {
   config: ConditionBuilderConfig;
   fields?: ConditionBuilderField[];
   funcs?: ConditionBuilderFuncs;
-  allowedTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
+  allowedTypes?: Array<'value' | 'field' | 'func'>;
   fieldClassName?: string;
 }
 

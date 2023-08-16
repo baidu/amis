@@ -536,11 +536,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         items: []
       });
     }
+    // 如果picker用visibleOn来控制显隐，显隐切换时，constructor => handleSelect => componentDidMount的执行顺序
+    // 因此需要将componentDidMount中的设置选中项提前到constructor，否则handleSelect里拿不到的选中项
+    let val: any;
+    if (this.props.pickerMode && (val = getPropValue(this.props))) {
+      store.setSelectedItems(val);
+    }
   }
 
   componentDidMount() {
     const {store, autoGenerateFilter, columns} = this.props;
-
     if (this.props.perPage) {
       store.changePage(store.page, this.props.perPage);
     }
@@ -554,11 +559,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       (store.filterTogggable && !store.filterVisible)
     ) {
       this.handleFilterInit({});
-    }
-
-    let val: any;
-    if (this.props.pickerMode && (val = getPropValue(this.props))) {
-      store.setSelectedItems(val);
     }
 
     this.parentContainer = this.getClosestParentContainer();
@@ -579,16 +579,22 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.renderHeaderToolbar = this.renderHeaderToolbar.bind(this);
       this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     }
-
+    // picker的数据如果是异步加载，那么初始的value其实是{id: ' 7', engine: ' 7', __unmatched: true}这种样子的
+    // 拿到数据后又会变成真实数据，类似这种{browser: "Firefox 1.0", engine: "Gecko - syo6k7", grade: "A", group: "train", id: 7, platform: "Win 98+ / OSX.2+", version: "1.7"}
+    // 因此比较value是否更改，只比较关键字段即可，否则会执行多次setSelectedItems
+    // 显隐切换时，也会导致需要二次点击才能选中的问题
     let val: any;
-
+    const valueField = props.valueField || props.primaryField;
     if (
       this.props.pickerMode &&
       isArrayChildrenModified(
-        (val = getPropValue(this.props)),
-        getPropValue(prevProps)
+        (val = getPropValue(this.props)).map((item: any) => item[valueField]),
+        getPropValue(prevProps).map((item: any) => item[valueField])
       ) &&
-      !isEqual(val, store.selectedItems.concat())
+      !isEqual(
+        val.map((item: any) => item[valueField]),
+        store.selectedItems.concat().map((item: any) => item[valueField])
+      )
     ) {
       /**
        * 更新链：Table -> CRUD -> Picker -> Form
@@ -1529,7 +1535,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     } = this.props;
     let newItems = items;
     let newUnSelectedItems = unSelectedItems;
-
     if (keepItemSelectionOnPageChange && store.selectedItems.length) {
       const oldItems = store.selectedItems.concat();
       const oldUnselectedItems = store.unSelectedItems.concat();
@@ -1598,11 +1603,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
-    // 用 updateSelectData 导致 CRUD 无线刷新
+    // 用 updateSelectData 导致 CRUD 无限刷新
     // store.updateSelectData(newItems, newUnSelectedItems);
     store.setSelectedItems(newItems);
     store.setUnSelectedItems(newUnSelectedItems);
-
     onSelect && onSelect(newItems, newUnSelectedItems);
   }
 
@@ -1655,7 +1659,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       replace
     );
-    this.search(undefined, undefined, undefined, forceReload);
+    this.search(undefined, undefined, replace, forceReload);
   }
 
   reload(
@@ -2232,6 +2236,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       labelField,
       labelTpl,
       primaryField,
+      valueField,
       translate: __,
       env
     } = this.props;
@@ -2263,7 +2268,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 />
               ) : (
                 getVariable(item, labelField || 'label') ||
-                getVariable(item, primaryField || 'id')
+                getVariable(item, valueField || primaryField || 'id')
               )}
             </span>
           </div>

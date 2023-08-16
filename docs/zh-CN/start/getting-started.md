@@ -175,6 +175,9 @@ let amisScoped = amis.embed(
     // 用来判断是否目标地址当前地址。
     // isCurrentUrl: url => {},
     //
+    // 用来配置弹窗等组件的挂载位置
+    // getModalContainer: () => document.getElementsByTagName('body')[0],
+    //
     // 用来实现复制到剪切板
     // copy: content => {},
     //
@@ -533,6 +536,10 @@ class MyComponent extends React.Component<any, any> {
             //   // 地址替换，跟 jumpTo 类似
             // },
 
+            // getModalContainer: () => {
+            //   // 弹窗挂载的 DOM 节点
+            // },
+
             // isCurrentUrl: (
             //   url: string /*url地址*/,
             // ) => {
@@ -775,3 +782,11 @@ Toast 提示弹出位置，默认为`'top-center'`。
 ```
 'top-right' | 'top-center' | 'top-left' | 'bottom-center' | 'bottom-left' | 'bottom-right' | 'center'
 ```
+
+#### loadChartExtends
+
+可以用来加载 echarts 插件，首次加载 echarts 完毕后调用，支持异步返回一个 promise 即可。
+
+#### loadTinymcePlugin
+
+可以用来加载 tinymce 插件，每次渲染 tinymce 的时候执行，可以用来加载 tinymce 插件。

@@ -237,6 +237,22 @@
 //   }
 // }
 
+.#{$ns}CBIf {
+  margin-left: 10px;
+  font-size: 16px;
+  color: #84868c;
+
+  &:hover {
+    font-size: 16px;
+  }
+
+  &.is-active {
+    color: #2468f1;
+  }
+  cursor: pointer;
+  // margin-left: auto;
+}
+
 .#{$ns}CBGroupOrItem {
   position: relative;
   transition: box-shadow 0.3s ease;

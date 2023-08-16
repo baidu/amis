@@ -77,6 +77,7 @@
 
       .#{$ns}TimelineItem-title {
         display: flex;
+        word-break: break-word;
         color: var(--TimelineItem--text-primary-color);
         font-size: var(--Timeline-title-fontSize);
         font-weight: var(--Timeline-title-fontWeight);
@@ -112,8 +113,8 @@
 
         .#{$ns}TimelineItem-detail-visible {
           display: block;
+          word-break: break-word;
           border-radius: var(--Timeline-visible-border-radius);
-          max-width: var(--TimelineItem-detail-visible-max-width);
           font-size: var(--Timeline-detail-content-fontSize);
           font-weight: var(--Timeline-detail-content-fontWeight);
           color: var(--Timeline-detail-content-color);
@@ -131,6 +132,15 @@
   &.#{$ns}Timeline-left {
     .#{$ns}TimelineItem {
       flex-direction: row-reverse;
+      .#{$ns}TimelineItem-title {
+        text-align: right;
+      }
+      .#{$ns}TimelineItem-content,
+      .#{$ns}TimelineItem-detail {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
     }
   }
 
@@ -138,6 +148,15 @@
     .#{$ns}TimelineItem:nth-child(odd) {
       flex-direction: row-reverse;
       max-width: 50%;
+      .#{$ns}TimelineItem-title {
+        text-align: right;
+      }
+      .#{$ns}TimelineItem-content,
+      .#{$ns}TimelineItem-detail {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
     }
 
     .#{$ns}TimelineItem:nth-child(even) {
@@ -253,8 +272,8 @@
 
         .#{$ns}TimelineItem-detail-visible {
           display: block;
+          word-break: break-word;
           border-radius: var(--Timeline-visible-border-radius);
-          max-width: var(--TimelineItem-detail-visible-max-width);
           font-size: var(--Timeline-detail-content-fontSize);
           font-weight: var(--Timeline-detail-content-fontWeight);
           color: var(--Timeline-detail-content-color);

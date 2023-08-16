@@ -281,7 +281,22 @@ run action ajax
           ]
         }
       }
-    },
+    }
+  ]
+}
+```
+
+#### 静默模式
+
+当配置`options.silent: true`时，请求完成后不会弹出提示信息。
+
+```schema
+{
+  type: 'page',
+  data: {
+    name: 'lll'
+  },
+  body: [
     {
       type: 'button',
       id: 'b_001',
@@ -321,6 +336,106 @@ run action ajax
       }
     }
   ]
+}
+```
+
+#### 可读取的数据
+
+请求配置中可读取的数据包含事件源所在数据域和动作执行产生的数据。可以通过`api.data`配置数据映射来读取所需数据。例如：
+
+- 取所在数据域的数据：通过`"name": "${name}", "email": "${email}"`来映射表单校验数据（只适用于事件源在表单内的情况）
+- 取动作产生的数据：通过`"name": "${event.data.validateResult.payload.name}", "email": "${event.data.validateResult.payload.email}"`来映射表单校验数据，这种是获取前面表单校验动作的校验结果数据。通过`"&": "${event.data.validateResult.payload}"`展开表单校验数据，结果相同，这是一个数据映射小技巧
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "button",
+      "label": "表单外的校验按钮",
+      "className": "mb-2",
+      level: 'primary',
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "form_validate",
+              "outputVar": "validateResult",
+              "actionType": "validate"
+            },
+            {
+              "outputVar": "responseResult",
+              "actionType": "ajax",
+              "api": {
+                "method": "post",
+                "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+                "data": {
+                  "name": "${name}",
+                  "email": "${email}"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "id": "u:bd7adb583ec8"
+    },
+    {
+      "type": "form",
+      "id": "form_validate",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "name",
+          "label": "姓名：",
+          "required": true,
+          "id": "u:fbbc02500df6"
+        },
+        {
+          "name": "email",
+          "type": "input-text",
+          "label": "邮箱：",
+          "required": true,
+          "validations": {
+            "isEmail": true
+          },
+          "id": "u:830d0bad3e6a"
+        }
+      ],
+      "actions": [
+        {
+          "type": "button",
+          "label": "表单内的校验按钮",
+          level: 'primary',
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "componentId": "form_validate",
+                  "outputVar": "validateResult",
+                  "actionType": "validate"
+                },
+                {
+                  "outputVar": "responseResult",
+                  "actionType": "ajax",
+                  "api": {
+                    "method": "post",
+                    "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+                    "data": {
+                      "name": "${name}",
+                      "email": "${email}"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "id": "u:bd7adb583ec8"
+        }
+      ]
+    }
+  ],
+  "id": "u:d79af3431de1"
 }
 ```
 
