@@ -148,6 +148,7 @@ function InnerComponent({
 
   const handleClick = React.useCallback((e: MouseEvent) => {
     const target = (e.target as HTMLElement).closest(`[data-editor-id]`);
+    closeContextMenus();
 
     if (e.defaultPrevented) {
       return;

@@ -1853,7 +1853,7 @@ export class EditorManager {
       value: store.getValueOf(node.id),
       callback: this.panelChangeValue,
       target: () =>
-        document.querySelector(`[data-editor-id="${node.id}"]`) as HTMLElement
+        document.querySelector(`[data-hlbox-id="${node.id}"]`) as HTMLElement
     };
     store.openPopOverForm(context);
   }
