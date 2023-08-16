@@ -1076,7 +1076,7 @@ export class PageRenderer extends Page {
 
     if (reload) {
       scoped.reload(reload, store.data);
-    } else if (scoped?.component?.reload) {
+    } else if (scoped?.component !== this && scoped.component?.reload) {
       scoped.component.reload();
     } else {
       // 没有设置，则自动让页面中 crud 刷新。
@@ -1103,7 +1103,7 @@ export class PageRenderer extends Page {
     setTimeout(() => {
       if (reload) {
         scoped.reload(reload, store.data);
-      } else if (scoped?.component?.reload) {
+      } else if (scoped.component !== this && scoped?.component?.reload) {
         scoped.component.reload();
       } else {
         (this.context as IScopedContext)
