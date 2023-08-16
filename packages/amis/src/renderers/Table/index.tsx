@@ -2198,10 +2198,10 @@ export default class Table extends React.Component<TableProps, object> {
             <div className={cx('Table-wrapper')}>
               <table
                 ref={this.affixedTableRef}
-                style={
-                  store.useFixedLayout ? {tableLayout: 'fixed'} : undefined
-                }
-                className={tableClassName}
+                className={cx(
+                  tableClassName,
+                  store.useFixedLayout ? 'is-layout-fixed' : ''
+                )}
               >
                 <ColGroup columns={store.filteredColumns} store={store} />
                 <thead>

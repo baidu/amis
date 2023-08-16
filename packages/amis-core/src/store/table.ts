@@ -995,6 +995,26 @@ export const TableStore = iRendererStore
               'data-index'
             )}" class="${th.className}">${th.innerHTML}</th>`
         )
+        .join(
+          ''
+        )}</tr></thead></table><table style="table-layout:auto!important;min-width:${
+        table.offsetWidth
+      }px!important;" class="${table.className.replace(
+        'is-layout-fixed',
+        ''
+      )}"><thead><tr>${ths
+        .map(th => {
+          const index = parseInt(th.getAttribute('data-index')!, 10);
+          const column = self.columns[index];
+
+          return `<th style="${
+            typeof column.pristine.width === 'number'
+              ? `width: ${column.pristine.width}px;`
+              : ''
+          }" data-index="${th.getAttribute('data-index')}" class="${
+            th.className
+          }">${th.innerHTML}</th>`;
+        })
         .join('')}</tr></thead>${
         tbodyTr ? `<tbody>${tbodyTr.outerHTML}</tbody>` : ''
       }</table>`;
@@ -1003,40 +1023,36 @@ export const TableStore = iRendererStore
         [propName: string]: number;
       } = {};
       [].slice
-        .call(div.querySelectorAll(':scope>table>thead>tr>th[data-index]'))
+        .call(
+          div.querySelectorAll(
+            ':scope>table:first-child>thead>tr>th[data-index]'
+          )
+        )
         .forEach((th: HTMLTableCellElement) => {
           minWidths[th.getAttribute('data-index')!] = th.clientWidth;
         });
-      document.body.removeChild(div);
-      const cols = [].slice.call(
-        table.querySelectorAll(':scope>colgroup>col')
-      ) as Array<HTMLElement>;
 
-      if (self.useFixedLayout && !self.columnWidthReady) {
-        table.style.cssText += `table-layout:fixed;`;
-        cols.forEach(col => {
+      [].slice
+        .call(
+          div.querySelectorAll(
+            ':scope>table:last-child>thead>tr>th[data-index]'
+          )
+        )
+        .forEach((col: HTMLElement) => {
           const index = parseInt(col.getAttribute('data-index')!, 10);
           const column = self.columns[index];
-          col.style.cssText += `width:${
-            typeof column.pristine.width === 'number'
-              ? column.pristine.width
-              : minWidths[index]
-          }px;`;
-        });
-      }
-      cols.forEach((col: HTMLElement) => {
-        const index = parseInt(col.getAttribute('data-index')!, 10);
-        const column = self.columns[index];
-        column.setWidth(
-          Math.max(
-            typeof column.pristine.width === 'number'
-              ? column.pristine.width
-              : col.clientWidth - 2,
+          column.setWidth(
+            Math.max(
+              typeof column.pristine.width === 'number'
+                ? column.pristine.width
+                : col.clientWidth - 2,
+              minWidths[index]
+            ),
             minWidths[index]
-          ),
-          minWidths[index]
-        );
-      });
+          );
+        });
+
+      document.body.removeChild(div);
     }
 
     function invalidTableColumnWidth() {

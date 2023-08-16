@@ -195,6 +195,10 @@
     border-spacing: 0;
     border-collapse: separate;
 
+    &.is-layout-fixed {
+      table-layout: fixed !important;
+    }
+
     & th,
     & td {
       text-align: left;
@@ -229,6 +233,11 @@
         content: '';
         pointer-events: none;
       }
+    }
+
+    &.is-layout-fixed td {
+      white-space: normal;
+      word-break: break-all;
     }
 
     &.table-fixed-left .is-sticky-last-left:after {
