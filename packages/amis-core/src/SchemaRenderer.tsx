@@ -453,7 +453,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       render: this.renderChild,
       rootStore,
       statusStore,
-      dispatchEvent: this.dispatchEvent
+      dispatchEvent: this.dispatchEvent,
+      mobileUI: schema.useMobileUI === false ? false : rest.mobileUI
     };
 
     if (disable !== undefined) {

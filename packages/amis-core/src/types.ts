@@ -660,6 +660,11 @@ export interface BaseSchemaWithoutType {
      */
     mock?: any;
   };
+
+  /**
+   * 可以组件级别用来关闭移动端样式
+   */
+  useMobileUI?: boolean;
 }
 
 export type OperatorType =
