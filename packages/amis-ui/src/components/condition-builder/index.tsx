@@ -325,7 +325,8 @@ export class QueryBuilder extends React.Component<
       value,
       title,
       disabled,
-      popOverContainer
+      popOverContainer,
+      mobileUI
     } = this.props;
 
     if (embed) {
@@ -371,7 +372,7 @@ export class QueryBuilder extends React.Component<
                 </span>
               )
             }
-            useMobileUI
+            mobileUI={mobileUI}
             onResultClick={onClick}
           ></ResultBox>
         )}

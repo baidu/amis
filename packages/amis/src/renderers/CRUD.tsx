@@ -1953,14 +1953,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   renderSwitchPerPage(childProps: any) {
     const {
-      useMobileUI,
+      mobileUI,
       store,
       perPageAvailable,
       classnames: cx,
       classPrefix: ns,
       translate: __
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
 
     const items = childProps.items;
 
@@ -2087,9 +2086,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
-    const {render, store, useMobileUI, translate: __} = this.props;
+    const {render, store, mobileUI, translate: __} = this.props;
     const type = (toolbar as Schema).type || toolbar;
-    const mobileUI = useMobileUI && isMobile();
 
     if (type === 'bulkActions' || type === 'bulk-actions') {
       return this.renderBulkActions(childProps);

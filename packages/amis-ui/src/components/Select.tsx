@@ -27,8 +27,7 @@ import {
   findTree,
   autobind,
   ucFirst,
-  normalizeNodePath,
-  isMobile
+  normalizeNodePath
 } from 'amis-core';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
@@ -370,7 +369,6 @@ export interface SelectProps
   defaultCheckAll?: boolean;
   simpleValue?: boolean;
   defaultOpen?: boolean;
-  useMobileUI?: boolean;
 
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
@@ -1003,7 +1001,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       renderMenu,
       mobileClassName,
       virtualThreshold = 100,
-      useMobileUI = false,
+      mobileUI,
       filterOption = defaultFilterOption,
       overlay
     } = this.props;
@@ -1161,8 +1159,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
       );
     };
 
-    const mobileUI = isMobile() && useMobileUI;
-
     const menu = (
       <div
         ref={this.menu}
@@ -1306,7 +1302,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       disabled,
       checkAll,
       borderMode,
-      useMobileUI,
+      mobileUI,
       hasError,
       loadingConfig
     } = this.props;
@@ -1314,7 +1310,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const selection = this.state.selection;
     const inputValue = this.state.inputValue;
     const resetValue = this.props.resetValue;
-    const mobileUI = useMobileUI && isMobile();
+
     return (
       <Downshift
         selectedItem={selection}

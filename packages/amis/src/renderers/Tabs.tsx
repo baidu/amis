@@ -756,7 +756,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       collapseOnExceed,
       collapseBtnLabel,
       disabled,
-      useMobileUI,
+      mobileUI,
       swipeable
     } = this.props;
 
@@ -793,7 +793,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 : tabs.length - 1
             }
             swipeable={swipeable}
-            useMobileUI={useMobileUI}
+            mobileUI={mobileUI}
             mountOnEnter={mountOnEnter}
             unmountOnExit={
               typeof tab.reload === 'boolean'
@@ -834,7 +834,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 : tabs.length - 1
             }
             swipeable={swipeable}
-            useMobileUI={useMobileUI}
+            mobileUI={mobileUI}
             mountOnEnter={mountOnEnter}
             unmountOnExit={
               typeof tab.reload === 'boolean'
@@ -890,7 +890,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         sidePosition={sidePosition}
         collapseOnExceed={collapseOnExceed}
         collapseBtnLabel={collapseBtnLabel}
-        useMobileUI={useMobileUI}
+        mobileUI={mobileUI}
       >
         {children}
       </CTabs>

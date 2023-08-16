@@ -154,7 +154,7 @@ class Remark extends React.Component<RemarkProps> {
       data,
       env,
       tooltipClassName,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     const finalIcon = tooltip?.icon ?? icon;
@@ -163,7 +163,7 @@ class Remark extends React.Component<RemarkProps> {
     const parsedTip = filterContents(tooltip || content, data);
 
     // 移动端使用弹框提示
-    if (isMobile() && useMobileUI) {
+    if (mobileUI) {
       return (
         <div
           className={cx(

@@ -513,11 +513,10 @@ export default class DateControl extends React.PureComponent<
       env,
       largeMode,
       render,
-      useMobileUI,
+      mobileUI,
       placeholder,
       ...rest
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
 
     if (type === 'time' && timeFormat) {
       format = timeFormat;
@@ -538,7 +537,7 @@ export default class DateControl extends React.PureComponent<
           {...rest}
           env={env}
           placeholder={placeholder ?? this.placeholder}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
           popOverContainer={
             mobileUI
               ? env?.getModalContainer

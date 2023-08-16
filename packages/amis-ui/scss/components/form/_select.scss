@@ -148,7 +148,12 @@
   }
 
   .#{$ns}PopOver.#{$ns}Select-popover {
-    margin-top: px2rem(4px);
+    &.#{$ns}PopOver--v-top {
+      margin-top: px2rem(4px);
+    }
+    &.#{$ns}PopOver--v-bottom {
+      margin-bottom: px2rem(4px);
+    }
     .#{$ns}Select-menu {
       .#{$ns}Checkbox span {
         line-height: var(--select-base-default-option-line-height);

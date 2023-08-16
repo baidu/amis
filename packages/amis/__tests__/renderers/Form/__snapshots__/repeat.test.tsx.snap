@@ -208,7 +208,7 @@ exports[`Renderer:repeat 1`] = `
                     />
                   </span>
                   <div
-                    class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop"
+                    class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
                     style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                     theme="cxd"
                   >

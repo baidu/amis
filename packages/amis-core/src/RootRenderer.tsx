@@ -104,7 +104,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    const {env, messages, onAction, render} = this.props;
+    const {env, messages, onAction, mobileUI, render} = this.props;
     const store = this.store;
 
     if (
@@ -188,7 +188,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
                   data: ctx
                 })
               : null,
-            useMobileUI: env.useMobileUI
+            mobileUI: mobileUI
           }
         );
       });

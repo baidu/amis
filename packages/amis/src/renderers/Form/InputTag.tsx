@@ -302,8 +302,8 @@ export default class TagControl extends React.PureComponent<
 
   // 移动端特殊处理
   addItem2(option: Option) {
-    const {useMobileUI, valueField = 'value'} = this.props;
-    const mobileUI = useMobileUI && isMobile();
+    const {mobileUI, valueField = 'value'} = this.props;
+
     if (mobileUI) {
       const selectedOptions = this.state.selectedOptions.concat();
       let index = selectedOptions.findIndex(
@@ -390,8 +390,8 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   async handleBlur(e: any) {
-    const {selectedOptions, onChange, useMobileUI, options} = this.props;
-    const mobileUI = useMobileUI && isMobile();
+    const {selectedOptions, onChange, mobileUI, options} = this.props;
+
     if (mobileUI && options.length) {
       return;
     }
@@ -510,8 +510,8 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   handleOptionChange(option: Option) {
-    const {useMobileUI} = this.props;
-    const mobileUI = useMobileUI && isMobile();
+    const {mobileUI} = this.props;
+
     if (mobileUI) {
       this.addItem2(option);
       return;
@@ -573,9 +573,9 @@ export default class TagControl extends React.PureComponent<
       loadingConfig,
       valueField,
       env,
-      useMobileUI
+      mobileUI
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
+
     const finnalOptions = Array.isArray(options)
       ? filterTree(
           options,
@@ -625,7 +625,7 @@ export default class TagControl extends React.PureComponent<
                 overflowTagPopover={overflowTagPopover}
                 popOverContainer={popOverContainer || env.getModalContainer}
                 allowInput={!mobileUI || (mobileUI && !options?.length)}
-                useMobileUI={useMobileUI}
+                mobileUI={mobileUI}
               >
                 {loading ? (
                   <Spinner loadingConfig={loadingConfig} size="sm" />
@@ -649,7 +649,7 @@ export default class TagControl extends React.PureComponent<
                     <div>
                       <ListMenu
                         selectedOptions={selectedOptions}
-                        useMobileUI={useMobileUI}
+                        mobileUI={mobileUI}
                         options={finnalOptions.concat(this.state.cacheOptions)}
                         itemRender={this.renderItem}
                         highlightIndex={highlightedIndex}
@@ -679,7 +679,7 @@ export default class TagControl extends React.PureComponent<
                             placeholder={__('placeholder.enter') + '...'}
                             allowInput
                             value={this.state.inputValue}
-                            useMobileUI={useMobileUI}
+                            mobileUI={mobileUI}
                             clearable
                             maxTagCount={maxTagCount}
                             onChange={value => {

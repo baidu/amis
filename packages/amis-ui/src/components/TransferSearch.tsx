@@ -85,7 +85,7 @@ export class TransferSearch extends React.Component<
   }
 
   render() {
-    const {classnames: cx, translate: __, placeholder} = this.props;
+    const {classnames: cx, translate: __, placeholder, mobileUI} = this.props;
 
     const {inputValue} = this.state;
 
@@ -97,7 +97,7 @@ export class TransferSearch extends React.Component<
           clearable={false}
           onKeyDown={this.handleSearchKeyDown}
           placeholder={placeholder}
-          useMobileUI
+          mobileUI={mobileUI}
         >
           {!!inputValue ? (
             <a onClick={this.handleSeachCancel}>

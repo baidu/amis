@@ -302,7 +302,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       valueField = 'value',
       labelField = 'label',
       data,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     return (
@@ -333,7 +333,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
           labelField={labelField}
           valueField={valueField}
           ctx={data}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
         />
 
         <Spinner

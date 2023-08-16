@@ -863,7 +863,7 @@ export default class Page extends React.Component<PageProps> {
       data,
       asideResizor,
       pullRefresh,
-      useMobileUI,
+      mobileUI,
       translate: __,
       loadingConfig
     } = this.props;
@@ -948,7 +948,7 @@ export default class Page extends React.Component<PageProps> {
           </div>
         ) : null}
 
-        {useMobileUI && isMobile() && pullRefresh && !pullRefresh.disabled ? (
+        {mobileUI && pullRefresh && !pullRefresh.disabled ? (
           <PullRefresh
             {...pullRefresh}
             translate={__}

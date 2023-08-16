@@ -255,10 +255,10 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       data,
       format,
       env,
-      useMobileUI,
+      mobileUI,
       ...rest
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
+
     const comptType = this.props?.type;
 
     return (
@@ -274,7 +274,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       >
         <DateRangePicker
           {...rest}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
           classPrefix={ns}
           popOverContainer={
             mobileUI

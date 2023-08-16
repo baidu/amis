@@ -29,18 +29,17 @@ export default class YearRangeControl extends InputDateRange {
       maxDuration,
       data,
       format,
-      useMobileUI,
+      mobileUI,
       env,
       ...rest
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div className={cx(`${ns}DateRangeControl`, className)}>
         <DateRangePicker
           viewMode="years"
           format={format}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
           classPrefix={ns}
           popOverContainer={
             mobileUI

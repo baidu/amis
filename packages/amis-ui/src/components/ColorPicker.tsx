@@ -13,7 +13,7 @@ import {uncontrollable} from 'amis-core';
 import {PopOver} from 'amis-core';
 import PopUp from './PopUp';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
-import {autobind, isMobile, isObject} from 'amis-core';
+import {autobind, isObject} from 'amis-core';
 import {localeable, LocaleProps} from 'amis-core';
 
 export type PresetColor = {color: string; title: string} | string;
@@ -33,7 +33,6 @@ export interface ColorProps extends LocaleProps, ThemeProps {
   presetColors?: PresetColor[];
   resetValue?: string;
   allowCustomColor?: boolean;
-  useMobileUI?: boolean;
 }
 
 export interface ColorControlState {
@@ -250,14 +249,13 @@ export class ColorControl extends React.PureComponent<
       classnames: cx,
       presetColors,
       allowCustomColor,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     const __ = this.props.translate;
     const isOpened = this.state.isOpened;
     const isFocused = this.state.isFocused;
     const tempValue = this.state.tempValue;
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div

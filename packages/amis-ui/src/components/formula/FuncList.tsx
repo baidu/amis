@@ -22,7 +22,8 @@ export function FuncList(props: FuncListProps) {
     className,
     classnames: cx,
     bodyClassName,
-    descClassName
+    descClassName,
+    mobileUI
   } = props;
   const [filteredFuncs, setFiteredFuncs] = React.useState(props.data);
   const [activeFunc, setActiveFunc] = React.useState<any>(null);
@@ -56,7 +57,7 @@ export function FuncList(props: FuncListProps) {
         <div className={cx('FormulaEditor-panel-header')}>{title}</div>
         <div className={cx('FormulaEditor-panel-body')}>
           <div className={cx('FormulaEditor-FuncList-searchBox')}>
-            <SearchBox mini={false} onSearch={onSearch} useMobileUI />
+            <SearchBox mini={false} onSearch={onSearch} mobileUI={mobileUI} />
           </div>
           <div className={cx('FormulaEditor-FuncList-body', bodyClassName)}>
             <CollapseGroup

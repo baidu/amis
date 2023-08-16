@@ -1,5 +1,5 @@
 import React from 'react';
-import {autobind, createObject, filter} from 'amis-core';
+import {ThemeProps, autobind, createObject, filter} from 'amis-core';
 import Tabs, {Tab} from './Tabs';
 import InputBox from './InputBox';
 import TableCheckboxes from './TableSelection';
@@ -15,7 +15,6 @@ import {ItemRenderStates} from './Selection';
 import {Icon} from './icons';
 import debounce from 'lodash/debounce';
 import {SpinnerExtraProps} from './Spinner';
-import {isMobile} from 'amis-core';
 
 export interface TabsTransferProps
   extends Omit<
@@ -27,7 +26,8 @@ export interface TabsTransferProps
       | 'onSearch'
       | 'optionItemRender'
     >,
-    SpinnerExtraProps {
+    SpinnerExtraProps,
+    ThemeProps {
   onSearch: (
     term: string,
     option: Option,
@@ -52,7 +52,6 @@ export interface TabsTransferProps
   activeKey: number;
   onlyChildren?: boolean;
   ctx?: Record<string, any>;
-  useMobileUI?: boolean;
 }
 
 export interface TabsTransferState {
@@ -269,10 +268,9 @@ export class TabsTransfer extends React.Component<
       classnames: cx,
       translate: __,
       ctx,
-      useMobileUI
+      mobileUI
     } = this.props;
     const showOptions = options.filter(item => item.visible !== false);
-    const mobileUI = useMobileUI && isMobile();
 
     if (!Array.isArray(options) || !options.length) {
       return (
@@ -484,14 +482,14 @@ export class TabsTransfer extends React.Component<
       classnames: cx,
       optionItemRender,
       onSearch,
-      useMobileUI,
+      mobileUI,
       ...reset
     } = this.props;
 
     return (
       <Transfer
         {...reset}
-        useMobileUI={useMobileUI}
+        mobileUI={mobileUI}
         statistics={false}
         classnames={cx}
         className={cx('TabsTransfer', className)}

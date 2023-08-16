@@ -15,7 +15,7 @@ import {Icon} from './icons';
 import debounce from 'lodash/debounce';
 import {findDOMNode} from 'react-dom';
 import TooltipWrapper from './TooltipWrapper';
-import {resizeSensor, isMobile} from 'amis-core';
+import {resizeSensor} from 'amis-core';
 import PopOverContainer from './PopOverContainer';
 
 import Sortable from 'sortablejs';
@@ -56,7 +56,6 @@ export interface TabProps extends ThemeProps {
   unmountOnExit?: boolean;
   toolbar?: React.ReactNode;
   children?: React.ReactNode | Array<React.ReactNode>;
-  useMobileUI?: boolean;
   swipeable?: boolean;
   onSelect?: (eventKey: string | number) => void;
 }
@@ -113,10 +112,8 @@ class TabComponent extends React.PureComponent<TabProps> {
       children,
       className,
       swipeable,
-      useMobileUI
+      mobileUI
     } = this.props;
-
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <Transition
@@ -183,7 +180,6 @@ export interface TabsProps extends ThemeProps, LocaleProps {
   collapseBtnLabel?: string;
   popOverContainer?: any;
   children?: React.ReactNode | Array<React.ReactNode>;
-  useMobileUI?: boolean;
 }
 
 export interface IDragInfo {
@@ -325,8 +321,7 @@ export class Tabs extends React.Component<TabsProps, any> {
     }
 
     // 移动端取消箭头切换，改为滚动切换激活项居中
-    const {classPrefix: ns, activeKey, useMobileUI} = this.props;
-    const mobileUI = useMobileUI && isMobile();
+    const {classPrefix: ns, activeKey, mobileUI} = this.props;
     if (mobileUI && preProps.activeKey !== activeKey) {
       const {classPrefix: ns} = this.props;
       const dom = findDOMNode(this) as HTMLElement;
@@ -839,10 +834,9 @@ export class Tabs extends React.Component<TabsProps, any> {
       draggable,
       sidePosition,
       addBtnText,
-      useMobileUI
+      mobileUI
     } = this.props;
 
-    const mobileUI = useMobileUI && isMobile();
     const {isOverflow} = this.state;
     if (!Array.isArray(children)) {
       return null;

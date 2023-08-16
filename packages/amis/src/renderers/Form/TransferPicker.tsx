@@ -87,7 +87,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       loadingConfig,
       labelField = 'label',
       valueField = 'value',
-      useMobileUI,
+      mobileUI,
       env
     } = this.props;
 
@@ -138,7 +138,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
           virtualThreshold={virtualThreshold}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
           popOverContainer={env?.getModalContainer}
         />
 

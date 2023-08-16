@@ -161,7 +161,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       disabled,
       collapsed,
       propsUpdate,
-      useMobileUI,
+      mobileUI,
       divideLine
     } = this.props;
 
@@ -217,7 +217,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
             ? render('body', body)
             : null
         }
-        useMobileUI={useMobileUI}
+        mobileUI={mobileUI}
         onCollapse={this.handleCollapseChange}
         divideLine={divideLine}
       ></BasicCollapse>

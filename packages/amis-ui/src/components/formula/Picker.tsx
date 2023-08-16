@@ -16,7 +16,6 @@ import {
   themeable,
   localeable,
   parse,
-  isMobile,
   Evaluator,
   evaluate,
   isPureVariable
@@ -153,8 +152,6 @@ export interface FormulaPickerProps
   onRef?: (node: any) => void;
 
   popOverContainer?: any;
-
-  useMobileUI?: boolean;
 
   variables?:
     | Array<VariableItem>
@@ -453,13 +450,12 @@ export class FormulaPicker extends React.Component<
       mixedMode,
       evalMode,
       popOverContainer,
-      useMobileUI,
+      mobileUI,
       inputSettings,
       ...rest
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
     const iconElement = <Icon cx={cx} icon={icon} className="Icon" />;
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <>

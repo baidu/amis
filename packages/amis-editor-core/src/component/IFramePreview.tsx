@@ -72,6 +72,17 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
     isAlive(store) && store.setIframe(iframe);
   }
 
+  @autobind
+  getModalContainer() {
+    const store = this.props.store;
+    return store.getDoc().body;
+  }
+
+  @autobind
+  isMobile() {
+    return true;
+  }
+
   render() {
     const {editable, store, appLocale, autoFocus, env, data, manager, ...rest} =
       this.props;
@@ -92,7 +103,13 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
             data: data ?? store.ctx,
             locale: appLocale
           },
-          env
+          {
+            ...env,
+            session: `${env.session}-iframe-preview`,
+            useMobileUI: true,
+            isMobile: this.isMobile,
+            getModalContainer: this.getModalContainer
+          }
         )}
       </Frame>
     );
@@ -110,6 +127,7 @@ function InnerComponent({
 }) {
   // Hook returns iframe's window and document instances from Frame context
   const {document: doc} = useFrame();
+  const editableRef = React.useRef(editable);
 
   const handleMouseLeave = React.useCallback(() => {
     store.setHoverId('');
@@ -128,42 +146,37 @@ function InnerComponent({
     closeContextMenus();
   }, []);
 
-  const handleClick = React.useCallback(
-    (e: MouseEvent) => {
-      const target = (e.target as HTMLElement).closest(`[data-editor-id]`);
+  const handleClick = React.useCallback((e: MouseEvent) => {
+    const target = (e.target as HTMLElement).closest(`[data-editor-id]`);
+    closeContextMenus();
 
-      if (e.defaultPrevented) {
-        return;
-      }
+    if (e.defaultPrevented) {
+      return;
+    }
 
-      if (target) {
-        store.setActiveId(target.getAttribute('data-editor-id')!);
-      }
+    if (target) {
+      store.setActiveId(target.getAttribute('data-editor-id')!);
+    }
 
-      if (editable) {
-        // 让渲染器不可点，只能点击选中。
-        const event = manager.trigger('prevent-click', {
-          data: e
-        });
+    if (editableRef.current) {
+      // 让渲染器不可点，只能点击选中。
+      const event = manager.trigger('prevent-click', {
+        data: e
+      });
 
-        if (!event.prevented && !event.stoped) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      }
-    },
-    [editable]
-  );
-
-  const handeMouseOver = React.useCallback(
-    (e: MouseEvent) => {
-      if (editable) {
+      if (!event.prevented && !event.stoped) {
         e.preventDefault();
         e.stopPropagation();
       }
-    },
-    [editable]
-  );
+    }
+  }, []);
+
+  const handeMouseOver = React.useCallback((e: MouseEvent) => {
+    if (editableRef.current) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, []);
 
   const syncIframeHeight = React.useCallback(() => {
     const iframe = manager.store.getIframe()!;
@@ -201,6 +214,7 @@ function InnerComponent({
     doc
       ?.querySelector('body>div:first-child')
       ?.classList.toggle('is-edting', editable);
+    editableRef.current = editable;
   }, [editable]);
 
   return null;
