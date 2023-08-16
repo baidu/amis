@@ -1010,6 +1010,8 @@ export const TableStore = iRendererStore
           return `<th style="${
             typeof column.pristine.width === 'number'
               ? `width: ${column.pristine.width}px;`
+              : column.pristine.width
+              ? `width: ${column.pristine.width};`
               : ''
           }" data-index="${th.getAttribute('data-index')}" class="${
             th.className
