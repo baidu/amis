@@ -17,7 +17,6 @@ import type {ThemeProps} from 'amis-core';
 import {themeable} from 'amis-core';
 import {autobind, camel} from 'amis-core';
 import {stripNumber} from 'amis-core';
-import {isMobile} from 'amis-core';
 import {safeAdd, safeSub} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import {Icon} from './icons';
@@ -56,7 +55,6 @@ interface HandleItemProps extends ThemeProps {
   tipFormatter?: (value: Value) => boolean;
   unit?: string;
   tooltipPlacement?: string;
-  useMobileUI?: boolean;
 }
 
 interface LabelProps extends ThemeProps {
@@ -205,15 +203,13 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
       tipFormatter,
       unit,
       tooltipPlacement = 'auto',
-      useMobileUI
+      mobileUI
     } = this.props;
     const {isDrag, labelActive} = this.state;
     const style = {
       left: valueToOffsetLeft(value, min, max),
       zIndex: isDrag ? 2 : 1
     };
-
-    const mobileUI = useMobileUI && isMobile();
 
     return disabled ? (
       <div className={cx('InputRange-handle')} style={style}>
@@ -313,7 +309,6 @@ class Label extends React.Component<LabelProps, any> {
 // @todo 丰富这个
 export interface RangeItemProps extends ThemeProps {
   [propName: string]: any;
-  useMobileUI?: boolean;
 }
 
 export class Range extends React.Component<RangeItemProps, any> {
@@ -500,8 +495,7 @@ export class Range extends React.Component<RangeItemProps, any> {
    */
   @autobind
   getMarkMaxWidth(value: keyof MarksType, marks: MarksType) {
-    const {max, min, useMobileUI} = this.props;
-    const mobileUI = useMobileUI && isMobile();
+    const {max, min, mobileUI} = this.props;
     const curNum = isString(value) ? parseInt(value, 10) : value;
     // 给最大宽度赋初始值 默认最大
     let maxWidth = Math.abs(max - min);
@@ -532,7 +526,7 @@ export class Range extends React.Component<RangeItemProps, any> {
       tooltipPlacement,
       tipFormatter,
       onAfterChange,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     // trace
@@ -601,7 +595,7 @@ export class Range extends React.Component<RangeItemProps, any> {
                 tooltipVisible={tooltipVisible}
                 tipFormatter={tipFormatter}
                 unit={unit}
-                useMobileUI={useMobileUI}
+                mobileUI={mobileUI}
                 tooltipPlacement={tooltipPlacement}
                 onAfterChange={onAfterChange}
                 onChange={this.onGetChangeValue.bind(this)}
@@ -618,7 +612,7 @@ export class Range extends React.Component<RangeItemProps, any> {
               tooltipVisible={tooltipVisible}
               tipFormatter={tipFormatter}
               unit={unit}
-              useMobileUI={useMobileUI}
+              mobileUI={mobileUI}
               tooltipPlacement={tooltipPlacement}
               onAfterChange={onAfterChange}
               onChange={this.onChange.bind(this)}

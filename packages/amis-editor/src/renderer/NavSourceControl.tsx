@@ -159,7 +159,7 @@ export default class NavSourceControl extends React.Component<
       render,
       label,
       labelRemark,
-      useMobileUI,
+      mobileUI,
       env,
       popOverContainer,
       hasApiCenter
@@ -196,7 +196,7 @@ export default class NavSourceControl extends React.Component<
                 icon: labelRemark.icon || 'warning-mark',
                 tooltip: labelRemark,
                 className: cx(`Form-lableRemark`, labelRemark?.className),
-                useMobileUI,
+                mobileUI,
                 container: popOverContainer || env.getModalContainer
               })
             : null}

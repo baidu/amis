@@ -9,7 +9,6 @@ import {ThemeProps, themeable, findTree, differenceFromAll} from 'amis-core';
 import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';
 import {Options, Option} from './Select';
 import {uncontrollable} from 'amis-core';
-import {isMobile} from 'amis-core';
 import ResultList from './ResultList';
 import TableSelection from './TableSelection';
 import {autobind, flattenTree} from 'amis-core';
@@ -112,7 +111,6 @@ export interface TransferProps
   checkAllLabel?: string;
   /** 树形模式下，给 tree 的属性 */
   onlyChildren?: boolean;
-  useMobileUI?: boolean;
 }
 
 export interface TransferState {
@@ -387,7 +385,7 @@ export class Transfer<
       statistics,
       translate: __,
       searchPlaceholder = __('Transfer.searchKeyword'),
-      useMobileUI,
+      mobileUI,
       valueField = 'value'
     } = props;
 
@@ -417,8 +415,6 @@ export class Transfer<
       this.valueArray,
       item => item[valueField]
     ).length;
-
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <>
@@ -469,7 +465,7 @@ export class Transfer<
               clearable={false}
               onKeyDown={this.handleSearchKeyDown}
               placeholder={searchPlaceholder}
-              useMobileUI
+              mobileUI={mobileUI}
             >
               {this.state.searchResult !== null ? (
                 <a onClick={this.handleSeachCancel}>
@@ -845,7 +841,7 @@ export class Transfer<
       selectMode = 'list',
       translate: __,
       valueField = 'value',
-      useMobileUI
+      mobileUI
     } = this.props as any;
     const {searchResult} = this.state;
 
@@ -864,7 +860,6 @@ export class Transfer<
     );
 
     const tableType = resultListModeFollowSelect && selectMode === 'table';
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div

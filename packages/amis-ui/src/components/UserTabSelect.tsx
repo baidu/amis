@@ -210,7 +210,8 @@ export class UserTabSelect extends React.Component<
       tabOptions,
       onSearch,
       deferLoad,
-      data
+      data,
+      mobileUI
     } = this.props;
     const {activeKey, isOpened} = this.state;
 
@@ -223,7 +224,7 @@ export class UserTabSelect extends React.Component<
           onResultChange={this.handleImmediateChange}
           onResultClick={this.onOpen}
           placeholder={placeholder}
-          useMobileUI
+          mobileUI={mobileUI}
         />
         <PopUp
           isShow={isOpened}

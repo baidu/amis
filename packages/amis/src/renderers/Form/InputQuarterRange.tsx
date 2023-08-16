@@ -29,17 +29,16 @@ export default class QuarterRangeControl extends InputDateRange {
       data,
       format,
       env,
-      useMobileUI,
+      mobileUI,
       ...rest
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div className={cx(`${ns}DateRangeControl`, className)}>
         <DateRangePicker
           viewMode="quarters"
           format={format}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
           classPrefix={ns}
           popOverContainer={
             mobileUI

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import {LocaleProps, localeable, utils, getRange, isMobile} from 'amis-core';
+import {LocaleProps, localeable, utils, getRange} from 'amis-core';
 import Picker from '../Picker';
 
 interface CustomYearsViewProps extends LocaleProps {
@@ -22,7 +22,7 @@ interface CustomYearsViewProps extends LocaleProps {
   onChange?: () => void;
   onClose?: () => void;
   onConfirm?: (value: number[], types: string[]) => void;
-  useMobileUI: boolean;
+  mobileUI: boolean;
   updateOn?: string;
   setDate?: (date: string) => void;
   renderYear?: (props: any, year: number) => JSX.Element;
@@ -180,7 +180,7 @@ export class CustomYearsView extends React.Component<CustomYearsViewProps> {
     let year = this.props.viewDate.year();
     year = year - (year % 10);
     const __ = this.props.translate;
-    if (isMobile() && this.props.useMobileUI) {
+    if (this.props.mobileUI) {
       return <div className="rdtYears">{this.renderYearPicker()}</div>;
     }
     return (

@@ -81,7 +81,7 @@ export interface CityPickerProps
   allowCity: boolean;
   allowDistrict: boolean;
   allowStreet: boolean;
-  useMobileUI?: boolean;
+  mobileUI?: boolean;
   style?: {
     [propName: string]: any;
   };
@@ -576,11 +576,11 @@ export class LocationControl extends React.Component<LocationControlProps> {
       disabled,
       searchable,
       env,
-      useMobileUI,
+      mobileUI,
       popOverContainer,
       itemClassName
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
+
     return mobileUI ? (
       <CityArea
         value={value}
@@ -592,7 +592,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
         joinValues={joinValues}
         allowStreet={allowStreet}
         disabled={disabled}
-        useMobileUI={useMobileUI}
+        mobileUI={mobileUI}
       />
     ) : (
       <ThemedCity

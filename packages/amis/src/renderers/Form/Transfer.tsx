@@ -545,7 +545,7 @@ export class BaseTransferRenderer<
       loadingConfig,
       showInvalidMatch,
       onlyChildren,
-      useMobileUI,
+      mobileUI,
       noResultsText
     } = this.props;
 
@@ -607,7 +607,7 @@ export class BaseTransferRenderer<
           }
           loadingConfig={loadingConfig}
           showInvalidMatch={showInvalidMatch}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
           noResultsText={noResultsText}
         />
 

@@ -2,13 +2,7 @@ import React from 'react';
 import Modal from './Modal';
 import Button from './Button';
 import Drawer from './Drawer';
-import {
-  localeable,
-  LocaleProps,
-  themeable,
-  ThemeProps,
-  isMobile
-} from 'amis-core';
+import {localeable, LocaleProps, themeable, ThemeProps} from 'amis-core';
 import Spinner from './Spinner';
 import PopUp from './PopUp';
 
@@ -41,7 +35,6 @@ export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   headerClassName?: string;
   bodyClassName?: string;
   footerClassName?: string;
-  useMobileUI?: boolean;
 }
 
 export function ConfirmBox({
@@ -65,7 +58,7 @@ export function ConfirmBox({
   className,
   bodyClassName,
   footerClassName,
-  useMobileUI
+  mobileUI
 }: ConfirmBoxProps) {
   const [loading, setLoading] = React.useState<boolean>();
   const [error, setError] = React.useState<string>();
@@ -99,7 +92,6 @@ export function ConfirmBox({
   }, [show]);
 
   function renderDialog() {
-    const mobileUI = useMobileUI && isMobile();
     return mobileUI ? (
       <PopUp
         isShow={show}

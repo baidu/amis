@@ -75,13 +75,11 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
       placeholder,
       disabled,
       classPrefix: ns,
-      useMobileUI,
+      mobileUI,
       popOverContainer,
       env,
       translate: __
     } = this.props;
-
-    const mobileUI = useMobileUI && isMobile();
 
     let optionsArray: Array<Option> = [];
 
@@ -222,7 +220,7 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
             searchable={false}
             disabled={disabled}
             joinValues={false}
-            useMobileUI={useMobileUI}
+            mobileUI={mobileUI}
             popOverContainer={
               mobileUI
                 ? env?.getModalContainer

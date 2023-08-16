@@ -33,7 +33,7 @@ import {Option, Options, value2array} from './Select';
 import {themeable, ThemeProps, highlight} from 'amis-core';
 import {Icon, getIcon} from './icons';
 import Checkbox from './Checkbox';
-import {LocaleProps, localeable, isMobile} from 'amis-core';
+import {LocaleProps, localeable} from 'amis-core';
 import Spinner, {SpinnerExtraProps} from './Spinner';
 import {ItemRenderStates} from './Selection';
 import VirtualList from './virtual-list';
@@ -150,7 +150,6 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   // 全选按钮文案
   checkAllLabel?: string;
   enableDefaultIcon?: boolean;
-  useMobileUI?: boolean;
 }
 
 interface TreeSelectorState {
@@ -759,9 +758,8 @@ export class TreeSelector extends React.Component<
   }
 
   renderInput(prfix: JSX.Element | null = null) {
-    const {classnames: cx, useMobileUI, translate: __} = this.props;
+    const {classnames: cx, mobileUI, translate: __} = this.props;
     const {inputValue} = this.state;
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
@@ -1119,10 +1117,9 @@ export class TreeSelector extends React.Component<
       loadingConfig,
       enableDefaultIcon,
       valueField,
-      useMobileUI
+      mobileUI
     } = this.props;
 
-    const mobileUI = useMobileUI && isMobile();
     const item = this.state.flattenedOptions[index];
 
     if (!item) {
@@ -1366,7 +1363,7 @@ export class TreeSelector extends React.Component<
       classnames: cx,
       translate: __,
       disabled,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     if (!multiple || !checkAll) {
@@ -1381,7 +1378,6 @@ export class TreeSelector extends React.Component<
     const checkedPartial = availableOptions.some(option =>
       this.isItemChecked(option)
     );
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div

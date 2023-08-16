@@ -47,7 +47,7 @@ export interface AreaProps extends LocaleProps, ThemeProps {
    * 是否禁用
    */
   disabled?: boolean;
-  useMobileUI?: boolean;
+  mobileUI?: boolean;
   onChange: (value: any) => void;
   /** 点击完成按钮时触发	 */
   onConfirm?: (result: AreaColumnOption[], index: number) => void;
@@ -91,7 +91,7 @@ const CityArea = memo<AreaProps>(props => {
     translate: __,
     disabled = false,
     popOverContainer,
-    useMobileUI
+    mobileUI
   } = props;
 
   const [values, setValues] = useState<Array<number>>([]);
@@ -282,7 +282,7 @@ const CityArea = memo<AreaProps>(props => {
         onResultChange={() => {}}
         onResultClick={() => setIsOpened(!isOpened)}
         placeholder={__('Select.placeholder')}
-        useMobileUI={useMobileUI}
+        mobileUI={mobileUI}
       ></ResultBox>
       {allowStreet && values[0] ? (
         <input

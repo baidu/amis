@@ -2799,7 +2799,7 @@ export default class Table extends React.Component<TableProps, object> {
       affixHeader,
       autoFillHeight,
       autoGenerateFilter,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -2810,7 +2810,6 @@ export default class Table extends React.Component<TableProps, object> {
     const tableClassName = cx('Table-table', this.props.tableClassName, {
       'Table-table--withCombine': store.combineNum > 0
     });
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div

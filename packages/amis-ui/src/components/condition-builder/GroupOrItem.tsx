@@ -1,6 +1,6 @@
 import {ConditionBuilderConfig} from './config';
 import {ConditionBuilderFields, ConditionBuilderFuncs} from './types';
-import {ThemeProps, themeable, autobind, isMobile} from 'amis-core';
+import {ThemeProps, themeable, autobind} from 'amis-core';
 import React from 'react';
 import {Icon} from '../icons';
 import ConditionGroup from './Group';
@@ -52,7 +52,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
 
   @autobind
   handlerHoverIn(e: any) {
-    if (isMobile()) {
+    if (this.props.mobileUI) {
       return;
     }
     e.stopPropagation();
@@ -99,14 +99,15 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       depth,
       isAddBtnVisibleOn,
       isAddGroupBtnVisibleOn,
-      showIf
+      showIf,
+      mobileUI
     } = this.props;
 
     return (
       <div
         className={cx(
           `CBGroupOrItem${builderMode === 'simple' ? '-simple' : ''}`,
-          {'is-mobile': isMobile()}
+          {'is-mobile': mobileUI}
         )}
         data-id={value?.id}
       >
@@ -114,7 +115,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
           {value?.conjunction ? (
             <div
               className={cx('CBGroupOrItem-body-group', {
-                'is-hover': this.state.hover || isMobile()
+                'is-hover': this.state.hover || mobileUI
               })}
               onMouseOver={this.handlerHoverIn}
               onMouseOut={this.handlerHoverOut}

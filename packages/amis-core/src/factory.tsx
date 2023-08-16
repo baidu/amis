@@ -8,7 +8,8 @@ import {
   promisify,
   qsparse,
   string2regExp,
-  parseQuery
+  parseQuery,
+  isMobile
 } from './utils/helper';
 import {
   fetcherResult,
@@ -82,6 +83,7 @@ export interface RendererProps
     [propName: string]: any;
   };
   onBroadcast?: (type: string, rawEvent: RendererEvent<any>, ctx: any) => any;
+  mobileUI?: boolean;
   [propName: string]: any;
 }
 
@@ -343,7 +345,8 @@ export const defaultOptions: RenderOptions = {
   /**
    * 过滤 html 标签，可用来添加 xss 保护逻辑
    */
-  filterHtml: (input: string) => input
+  filterHtml: (input: string) => input,
+  isMobile: isMobile
 };
 
 export const stores: {

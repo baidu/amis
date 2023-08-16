@@ -195,7 +195,7 @@ export class InputGroup extends React.Component<
       classnames: cx,
       static: isStatic,
       disabled,
-      useMobileUI
+      mobileUI
     } = this.props;
     const {errorMode} = this.getValidationConfig();
 
@@ -223,7 +223,6 @@ export class InputGroup extends React.Component<
       (formHorizontal
         ? makeHorizontalDeeper(formHorizontal as any, inputs.length)
         : undefined);
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
