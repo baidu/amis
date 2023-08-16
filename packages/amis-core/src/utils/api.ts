@@ -756,15 +756,14 @@ export function isValidApi(api: string) {
   }
   const idx = api.indexOf('://');
 
-  // 不允许直接相对路径写 api
   // 不允许 :// 结尾
-  if ((!~idx && api[0] !== '/') || (~idx && idx + 3 === api.length)) {
+  if (~idx && idx + 3 === api.length) {
     return false;
   }
 
   try {
     // 不补一个协议，URL 判断为 false
-    api = (~idx ? '' : 'schema://domain') + api;
+    api = (~idx ? '' : `schema://domain${api[0] === '/' ? '' : '/'}`) + api;
     new URL(api);
   } catch (error) {
     return false;
