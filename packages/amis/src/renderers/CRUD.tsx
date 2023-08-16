@@ -585,14 +585,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     // 显隐切换时，也会导致需要二次点击才能选中的问题
     let val: any;
     const valueField = props.valueField || props.primaryField;
+
     if (
       this.props.pickerMode &&
       isArrayChildrenModified(
-        (val = getPropValue(this.props)).map((item: any) => item[valueField]),
-        getPropValue(prevProps).map((item: any) => item[valueField])
+        (val = getPropValue(this.props))?.map((item: any) => item[valueField]),
+        getPropValue(prevProps)?.map((item: any) => item[valueField])
       ) &&
       !isEqual(
-        val.map((item: any) => item[valueField]),
+        val?.map((item: any) => item[valueField]),
         store.selectedItems.concat().map((item: any) => item[valueField])
       )
     ) {
