@@ -23,7 +23,7 @@ import {reaction} from 'mobx';
 import {resolveVariableAndFilter} from './utils/tpl-builtin';
 import {buildStyle} from './utils/style';
 import {StatusScopedProps} from './StatusScoped';
-import {filter} from './utils/tpl';
+import {evalExpression, filter} from './utils/tpl';
 
 interface SchemaRendererProps
   extends Partial<Omit<RendererProps, 'statusStore'>>,
@@ -83,6 +83,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
   reaction: any;
   unbindEvent: (() => void) | undefined = undefined;
+  isStatic: any = undefined;
 
   constructor(props: SchemaRendererProps) {
     super(props);
@@ -255,6 +256,11 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     return render!(`${$path}${region ? `/${region}` : ''}`, node || '', {
       ...omit(rest, omitList),
+      defaultStatic:
+        this.isStatic ??
+        (_.staticOn
+          ? evalExpression(_.staticOn, rest.data)
+          : _.static ?? rest.defaultStatic),
       ...subProps,
       data: subProps.data || rest.data,
       env: env
@@ -306,6 +312,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const isStatic = isAlive(statusStore)
       ? statusStore.staticState[id] ?? statusStore.staticState[name]
       : undefined;
+    this.isStatic = isStatic;
 
     if (
       visible === false ||
