@@ -995,6 +995,26 @@ export const TableStore = iRendererStore
               'data-index'
             )}" class="${th.className}">${th.innerHTML}</th>`
         )
+        .join(
+          ''
+        )}</tr></thead></table><table style="table-layout:auto!important;min-width:${
+        table.offsetWidth
+      }px!important;" class="${table.className.replace(
+        'is-layout-fixed',
+        ''
+      )}"><thead><tr>${ths
+        .map(th => {
+          const index = parseInt(th.getAttribute('data-index')!, 10);
+          const column = self.columns[index];
+
+          return `<th style="${
+            typeof column.pristine.width === 'number'
+              ? `width: ${column.pristine.width}px;`
+              : ''
+          }" data-index="${th.getAttribute('data-index')}" class="${
+            th.className
+          }">${th.innerHTML}</th>`;
+        })
         .join('')}</tr></thead>${
         tbodyTr ? `<tbody>${tbodyTr.outerHTML}</tbody>` : ''
       }</table>`;
@@ -1003,40 +1023,36 @@ export const TableStore = iRendererStore
         [propName: string]: number;
       } = {};
       [].slice
-        .call(div.querySelectorAll(':scope>table>thead>tr>th[data-index]'))
+        .call(
+          div.querySelectorAll(
+            ':scope>table:first-child>thead>tr>th[data-index]'
+          )
+        )
         .forEach((th: HTMLTableCellElement) => {
           minWidths[th.getAttribute('data-index')!] = th.clientWidth;
         });
-      document.body.removeChild(div);
-      const cols = [].slice.call(
-        table.querySelectorAll(':scope>colgroup>col')
-      ) as Array<HTMLElement>;
 
-      if (self.useFixedLayout && !self.columnWidthReady) {
-        table.style.cssText += `table-layout:fixed;`;
-        cols.forEach(col => {
+      [].slice
+        .call(
+          div.querySelectorAll(
+            ':scope>table:last-child>thead>tr>th[data-index]'
+          )
+        )
+        .forEach((col: HTMLElement) => {
           const index = parseInt(col.getAttribute('data-index')!, 10);
           const column = self.columns[index];
-          col.style.cssText += `width:${
-            typeof column.pristine.width === 'number'
-              ? column.pristine.width
-              : minWidths[index]
-          }px;`;
-        });
-      }
-      cols.forEach((col: HTMLElement) => {
-        const index = parseInt(col.getAttribute('data-index')!, 10);
-        const column = self.columns[index];
-        column.setWidth(
-          Math.max(
-            typeof column.pristine.width === 'number'
-              ? column.pristine.width
-              : col.clientWidth - 2,
+          column.setWidth(
+            Math.max(
+              typeof column.pristine.width === 'number'
+                ? column.pristine.width
+                : col.clientWidth - 2,
+              minWidths[index]
+            ),
             minWidths[index]
-          ),
-          minWidths[index]
-        );
-      });
+          );
+        });
+
+      document.body.removeChild(div);
     }
 
     function invalidTableColumnWidth() {
@@ -1364,13 +1380,13 @@ export const TableStore = iRendererStore
       }
     }
 
-    // 按住 shift 的时候点击选项
-    function toggleShift(row: IRow, checked: boolean) {
+    function getToggleShiftRows(row: IRow) {
       // 如果是同一个或非 multiple 模式下就和不用 shift 一样
       if (!lastCheckedRow || row === lastCheckedRow || !self.multiple) {
-        toggle(row, checked);
-        return;
+        return [row];
       }
+
+      const toggleRows = [];
 
       const maxLength = self.maxKeepItemSelectionLength;
       const checkableRows = self.checkableRows;
@@ -1379,31 +1395,44 @@ export const TableStore = iRendererStore
       );
       const rowIndex = checkableRows.findIndex(rowItem => row === rowItem);
       const minIndex =
-        lastCheckedRowIndex > rowIndex ? rowIndex : lastCheckedRowIndex;
+        lastCheckedRowIndex > rowIndex ? rowIndex : lastCheckedRowIndex + 1;
       const maxIndex =
-        lastCheckedRowIndex > rowIndex ? lastCheckedRowIndex : rowIndex;
+        lastCheckedRowIndex > rowIndex ? lastCheckedRowIndex : rowIndex + 1;
 
       const rows = checkableRows.slice(minIndex, maxIndex);
-      rows.push(row); // 将当前行也加入进行判断
       for (const rowItem of rows) {
-        const idx = self.selectedRows.indexOf(rowItem);
-        if (idx === -1 && checked) {
-          // 如果上一个是选中状态，则将之间的所有 check 都变成可选
-          if (lastCheckedRow.checked) {
-            if (maxLength) {
-              if (self.selectedRows.length < maxLength) {
-                self.selectedRows.push(rowItem);
-              }
-            } else {
-              self.selectedRows.push(rowItem);
-            }
-          }
-        } else if (!checked) {
-          if (!lastCheckedRow.checked) {
-            self.selectedRows.splice(idx, 1);
-          }
+        // 如果上一个是选中状态，则将之间的所有 check 都变成可选
+        if (
+          !(
+            lastCheckedRow.checked &&
+            maxLength &&
+            self.selectedRows.length + toggleRows.length >= maxLength
+          )
+        ) {
+          toggleRows.push(rowItem);
         }
       }
+
+      return toggleRows;
+    }
+
+    // 按住 shift 的时候点击选项
+    function toggleShift(row: IRow, checked: boolean) {
+      const toggleRows = getToggleShiftRows(row);
+
+      if (toggleRows?.length === 1) {
+        toggle(row, checked);
+        return;
+      }
+
+      toggleRows.forEach(row => {
+        const idx = self.selectedRows.indexOf(row);
+        if (idx === -1 && checked) {
+          self.selectedRows.push(row);
+        } else if (~idx && !checked) {
+          self.selectedRows.splice(idx, 1);
+        }
+      });
 
       lastCheckedRow = row;
     }
@@ -1617,6 +1646,7 @@ export const TableStore = iRendererStore
       getSelectedRows,
       toggle,
       toggleShift,
+      getToggleShiftRows,
       toggleExpandAll,
       toggleExpanded,
       collapseAllAtDepth,

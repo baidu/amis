@@ -562,7 +562,6 @@ exports[`Renderer:input table add 1`] = `
                 >
                   <table
                     class="cxd-Table-table"
-                    style="table-layout: fixed;"
                   >
                     <colgroup>
                       <col

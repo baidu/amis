@@ -145,11 +145,12 @@ export function value2array(
     }
 
     return value
-      .map((value: any) =>
-        expandValue(value, options, valueField) ||
-        (isObject(value) && value.hasOwnProperty(valueField))
-          ? value
-          : undefined
+      .map(
+        (value: any) =>
+          expandValue(value, options, valueField) ||
+          (isObject(value) && value.hasOwnProperty(valueField)
+            ? value
+            : undefined)
       )
       .filter((item: any) => item) as Array<Option>;
   } else if (Array.isArray(value)) {

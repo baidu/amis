@@ -878,16 +878,33 @@ export default class Table extends React.Component<TableProps, object> {
       return;
     }
 
+    let rows = [item];
+    if (shift) {
+      rows = store.getToggleShiftRows(item);
+    }
+
     const selectedItems = value
-      ? [...store.selectedRows.map(row => row.data), item.data]
+      ? [
+          ...store.selectedRows.map((row: IRow) => row.data),
+          ...rows.map((row: IRow) => row.data)
+        ]
       : store.selectedRows
-          .filter(row => row.id !== item.id)
-          .map(row => row.data);
+          .filter(
+            (row: IRow) =>
+              rows.findIndex((rowItem: IRow) => rowItem === row) === -1
+          )
+          .map((row: IRow) => row.data);
     const unSelectedItems = value
       ? store.unSelectedRows
-          .filter(row => row.id !== item.id)
-          .map(row => row.data)
-      : [...store.unSelectedRows.map(row => row.data), item.data];
+          .filter(
+            (row: IRow) =>
+              rows.findIndex((rowItem: IRow) => rowItem === row) === -1
+          )
+          .map((row: IRow) => row.data)
+      : [
+          ...store.unSelectedRows.map((row: IRow) => row.data),
+          ...rows.map((row: IRow) => row.data)
+        ];
 
     const rendererEvent = await dispatchEvent(
       'selectedChange',
@@ -2198,10 +2215,10 @@ export default class Table extends React.Component<TableProps, object> {
             <div className={cx('Table-wrapper')}>
               <table
                 ref={this.affixedTableRef}
-                style={
-                  store.useFixedLayout ? {tableLayout: 'fixed'} : undefined
-                }
-                className={tableClassName}
+                className={cx(
+                  tableClassName,
+                  store.useFixedLayout ? 'is-layout-fixed' : ''
+                )}
               >
                 <ColGroup columns={store.filteredColumns} store={store} />
                 <thead>
