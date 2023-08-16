@@ -1380,13 +1380,13 @@ export const TableStore = iRendererStore
       }
     }
 
-    // 按住 shift 的时候点击选项
-    function toggleShift(row: IRow, checked: boolean) {
+    function getToggleShiftRows(row: IRow) {
       // 如果是同一个或非 multiple 模式下就和不用 shift 一样
       if (!lastCheckedRow || row === lastCheckedRow || !self.multiple) {
-        toggle(row, checked);
-        return;
+        return [row];
       }
+
+      const toggleRows = [];
 
       const maxLength = self.maxKeepItemSelectionLength;
       const checkableRows = self.checkableRows;
@@ -1395,31 +1395,44 @@ export const TableStore = iRendererStore
       );
       const rowIndex = checkableRows.findIndex(rowItem => row === rowItem);
       const minIndex =
-        lastCheckedRowIndex > rowIndex ? rowIndex : lastCheckedRowIndex;
+        lastCheckedRowIndex > rowIndex ? rowIndex : lastCheckedRowIndex + 1;
       const maxIndex =
-        lastCheckedRowIndex > rowIndex ? lastCheckedRowIndex : rowIndex;
+        lastCheckedRowIndex > rowIndex ? lastCheckedRowIndex : rowIndex + 1;
 
       const rows = checkableRows.slice(minIndex, maxIndex);
-      rows.push(row); // 将当前行也加入进行判断
       for (const rowItem of rows) {
-        const idx = self.selectedRows.indexOf(rowItem);
-        if (idx === -1 && checked) {
-          // 如果上一个是选中状态，则将之间的所有 check 都变成可选
-          if (lastCheckedRow.checked) {
-            if (maxLength) {
-              if (self.selectedRows.length < maxLength) {
-                self.selectedRows.push(rowItem);
-              }
-            } else {
-              self.selectedRows.push(rowItem);
-            }
-          }
-        } else if (!checked) {
-          if (!lastCheckedRow.checked) {
-            self.selectedRows.splice(idx, 1);
-          }
+        // 如果上一个是选中状态，则将之间的所有 check 都变成可选
+        if (
+          !(
+            lastCheckedRow.checked &&
+            maxLength &&
+            self.selectedRows.length + toggleRows.length >= maxLength
+          )
+        ) {
+          toggleRows.push(rowItem);
         }
       }
+
+      return toggleRows;
+    }
+
+    // 按住 shift 的时候点击选项
+    function toggleShift(row: IRow, checked: boolean) {
+      const toggleRows = getToggleShiftRows(row);
+
+      if (toggleRows?.length === 1) {
+        toggle(row, checked);
+        return;
+      }
+
+      toggleRows.forEach(row => {
+        const idx = self.selectedRows.indexOf(row);
+        if (idx === -1 && checked) {
+          self.selectedRows.push(row);
+        } else if (~idx && !checked) {
+          self.selectedRows.splice(idx, 1);
+        }
+      });
 
       lastCheckedRow = row;
     }
@@ -1633,6 +1646,7 @@ export const TableStore = iRendererStore
       getSelectedRows,
       toggle,
       toggleShift,
+      getToggleShiftRows,
       toggleExpandAll,
       toggleExpanded,
       collapseAllAtDepth,
