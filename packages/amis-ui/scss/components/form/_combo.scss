@@ -336,7 +336,11 @@
 
     .#{$ns}Combo-item {
       align-items: center;
-      border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+      position: relative;
+
+      &::before {
+        @include hairline-bottom(var(--borderColor));
+      }
     }
   }
 

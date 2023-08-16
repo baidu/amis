@@ -1073,3 +1073,23 @@
     margin-right: px2rem(10px);
   }
 }
+
+/* 移动端样式调整 */
+@include media-breakpoint-down(sm) {
+  .#{$ns}Table-table > thead > tr > th {
+    border-bottom: none;
+
+    &::before {
+      @include hairline-bottom(var(--Table-thead-borderColor));
+    }
+  }
+  .#{$ns}Table-table th,
+  .#{$ns}Table-table td {
+    position: relative;
+    border-bottom: none;
+
+    &::before {
+      @include hairline-bottom(var(--Table-borderColor));
+    }
+  }
+}

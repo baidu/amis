@@ -524,7 +524,8 @@
       right: 0;
       bottom: 0;
       left: 0;
-      border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+      border-bottom: 1px solid var(--borderColor);
+      transform: scaleY(0.5);
     }
 
     .#{$ns}InputGroup-addOn,
