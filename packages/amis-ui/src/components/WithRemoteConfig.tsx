@@ -283,9 +283,17 @@ export function withRemoteConfig<P = any>(
           async loadConfig(ctx = this.props.data) {
             const env: RendererEnv =
               this.props.env || (this.context as RendererEnv);
-            const {store} = this.props;
-            const source = (this.props as any)[config.sourceField || 'source'];
-
+            const {store, data} = this.props;
+            let source = (this.props as any)[config.sourceField || 'source'];
+            // source: ${nav}、source: ${online ? '/api/v1' : '/api/v2'}
+            // 如果是配置source: ${nav} isEffectiveApi也会认为是api 发出一个无效请求
+            if (isPureVariable(source)) {
+              source = resolveVariableAndFilter(
+                source as string,
+                data,
+                '| raw'
+              );
+            }
             if (env && isEffectiveApi(source, ctx)) {
               await store.load(env, source, ctx, config);
             }
@@ -321,14 +329,16 @@ export function withRemoteConfig<P = any>(
 
           syncConfig() {
             const {store, data} = this.props;
-            const source = (this.props as any)[config.sourceField || 'source'];
+            let source = (this.props as any)[config.sourceField || 'source'];
 
             if (isPureVariable(source)) {
-              store.setConfig(
-                resolveVariableAndFilter(source as string, data, '| raw') || [],
-                config,
-                'syncConfig'
-              );
+              source =
+                resolveVariableAndFilter(source as string, data, '| raw') || [];
+              if (isEffectiveApi(source, data)) {
+                this.loadConfig();
+              } else {
+                store.setConfig(source, config, 'syncConfig');
+              }
             } else if (isObject(source) && !isEffectiveApi(source, data)) {
               store.setConfig(source, config, 'syncConfig');
             }
