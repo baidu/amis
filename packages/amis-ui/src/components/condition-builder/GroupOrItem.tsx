@@ -8,6 +8,7 @@ import ConditionItem from './Item';
 import FormulaPicker, {FormulaPickerProps} from '../formula/Picker';
 import Button from '../Button';
 import type {ConditionGroupValue, ConditionValue} from 'amis-core';
+import TooltipWrapper from '../TooltipWrapper';
 
 export interface CBGroupOrItemProps extends ThemeProps {
   builderMode?: 'simple' | 'full';
@@ -189,13 +190,20 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                   onChange={this.handleIfChange}
                 >
                   {({onClick}) => (
-                    <a
-                      className={cx('CBIf', value?.if ? 'is-active' : '')}
-                      onClick={onClick}
-                      data-tooltip="配置启动条件，当前规则只有在此条件成立时才会生效"
+                    <TooltipWrapper
+                      tooltip={
+                        '配置启动条件，当前规则只有在此条件成立时才会生效'
+                      }
+                      tooltipTheme="dark"
+                      container={popOverContainer}
                     >
-                      <Icon icon="if" className="icon" />
-                    </a>
+                      <a
+                        className={cx('CBIf', value?.if ? 'is-active' : '')}
+                        onClick={onClick}
+                      >
+                        <Icon icon="if" className="icon" />
+                      </a>
+                    </TooltipWrapper>
                   )}
                 </FormulaPicker>
               ) : null}
