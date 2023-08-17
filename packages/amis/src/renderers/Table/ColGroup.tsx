@@ -1,5 +1,5 @@
 import React from 'react';
-import type {IColumn, ITableStore} from 'amis-core/lib/store/table';
+import type {IColumn, ITableStore} from 'amis-core';
 import {observer} from 'mobx-react';
 
 export function ColGroup({
