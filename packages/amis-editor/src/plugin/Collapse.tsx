@@ -75,10 +75,9 @@ export class CollapsePlugin extends BasePlugin {
             title: '基本',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-              {
+              getSchemaTpl('title', {
                 name: 'header',
                 label: '标题',
-                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 pipeIn: defaultValue(
                   context?.schema?.title || context?.schema?.header || ''
                 ),
@@ -92,7 +91,7 @@ export class CollapsePlugin extends BasePlugin {
                   form.setValueByName('header', value);
                   form.setValueByName('title', undefined);
                 }
-              },
+              }),
               getSchemaTpl('collapseOpenHeader'),
               {
                 name: 'headerPosition',
