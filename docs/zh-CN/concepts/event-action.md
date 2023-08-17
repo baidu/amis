@@ -2548,7 +2548,7 @@ registerAction('my-action', new MyAction());
 
 ## 循环
 
-通过配置`actionType: 'for'`实现循环逻辑。
+通过配置`actionType: 'loop'`实现循环逻辑。
 
 ### 单层循环
 
@@ -2713,7 +2713,7 @@ registerAction('my-action', new MyAction());
 
 ### Break 动作
 
-通过配置`actionType: 'for'`和`actionType: 'break'`实现循环跳出。
+通过配置`actionType: 'loop'`和`actionType: 'break'`实现循环跳出。
 
 ```schema
 {
@@ -2780,7 +2780,7 @@ registerAction('my-action', new MyAction());
 
 ### Continue 动作
 
-通过配置`actionType: 'for'`和`actionType: 'continue'`实现循环跳过。
+通过配置`actionType: 'loop'`和`actionType: 'continue'`实现循环跳过。
 
 ```schema
 {
