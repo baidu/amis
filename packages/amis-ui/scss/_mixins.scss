@@ -203,7 +203,8 @@
   &:hover:active {
     @content;
   }
-  &.active {
+  &.active,
+  &.is-active {
     @content;
   }
 }

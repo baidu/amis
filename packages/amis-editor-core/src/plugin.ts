@@ -940,6 +940,13 @@ export interface PluginInterface
   ) => Schema | void;
 
   dispose?: () => void;
+
+  /**
+   * 组件 ref 回调，mount 和 unmount 的时候都会调用
+   * @param ref
+   * @returns
+   */
+  componentRef?: (node: EditorNodeType, ref: any) => void;
 }
 
 export interface RendererPluginEvent {

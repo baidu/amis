@@ -32,6 +32,7 @@ import {
   schemaToArray,
   resolveArrayDatasource
 } from '../util';
+import {reaction} from 'mobx';
 
 export class TablePlugin extends BasePlugin {
   static id = 'TablePlugin';
@@ -941,6 +942,26 @@ export class TablePlugin extends BasePlugin {
           manager.panelChangeValue(newValue, diff(value, newValue));
         }
       });
+  }
+
+  unWatchWidthChange: {[propName: string]: () => void} = {};
+  componentRef(node: EditorNodeType, ref: any) {
+    if (ref) {
+      const store = ref.props.store;
+      this.unWatchWidthChange[node.id] = reaction(
+        () =>
+          store.columns.map((column: any) => column.pristine.width).join(','),
+        () => {
+          ref.updateTableInfoLazy(() => {
+            this.manager.store.highlightNodes.forEach(node =>
+              node.calculateHighlightBox()
+            );
+          });
+        }
+      );
+    } else {
+      this.unWatchWidthChange[node.id]?.();
+    }
   }
 }
 
