@@ -3194,7 +3194,7 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
 | id     | 组件 ID，即组件的 id 属性的值 |
 | path   | 数据路径，即数据变量的路径    |
 
-# 事件动作干预
+# 干预动作执行
 
 事件动作干预是指执行完当前动作后，干预所监听事件默认处理逻辑和后续其他动作的执行。通过`preventDefault`、`stopPropagation`分别阻止监听事件默认行为和停止下一个动作执行。
 
@@ -3305,6 +3305,65 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
 }
 ```
 
+## 忽略动作报错继续执行
+
+> `3.3.1` 及以上版本
+
+默认情况下，尝试执行一个不存在的目标组件动作、JS 脚本执行错误等程序错误都会导致动作执行终止，可以通过`ignoreError: true`来忽略动作报错继续执行后面的动作。
+
+```schema
+{
+  "type": "page",
+  "title": "第一个按钮发生错误直接阻塞执行，第二个按钮发生错误后仍然执行",
+  "body": [
+    {
+      type: 'button',
+      label: '无法弹出提示',
+      level: 'primary',
+      className: 'mr-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'reload',
+              componentId: 'notfound'
+            },
+            {
+              actionType: 'toast',
+              args: {
+                msg: 'okk'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      label: '可以弹出提示',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'reload',
+              componentId: 'notfound',
+              ignoreError: true
+            },
+            {
+              actionType: 'toast',
+              args: {
+                msg: 'okk'
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
 # 自定义组件接入事件动作
 
 需求场景主要是想要自定义组件的内部事件暴露出去，能够通过对事件的监听来执行所需动作，并希望自定义组件自身的动作能够被其他组件调用。接入方法是通过`props.dispatchEvent`派发自身的各种事件，使其具备更灵活的交互设计能力；通过实现`doAction`方法实现其他组件对其专属动作的调用，需要注意的是，此处依赖内部的 `Scoped Context`来实现自身的注册，可以参考 [组件间通信](../../docs/extend/custom-react#组件间通信)。
@@ -3321,3 +3380,4 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
 | stopPropagation | `boolean`\|[表达式](../concepts/expression)\|[ConditionBuilder](../../components/form/condition-builder) | false   | 停止后续动作执行，`> 1.10.0 及以上版本支持表达式，> 2.9.0 及以上版本支持ConditionBuilder`                     |
 | expression      | `boolean`\|[表达式](../concepts/expression)\|[ConditionBuilder](../../components/form/condition-builder) | -       | 执行条件，不设置表示默认执行，`> 1.10.0 及以上版本支持表达式，> 2.9.0 及以上版本支持ConditionBuilder`         |
 | outputVar       | `string`                                                                                                 | -       | 输出数据变量名                                                                                                |
+| ignoreError     | `boolean`                                                                                                | false   | 当动作执行出错后，是否忽略错误继续执行。`3.3.1 及以上版本支持`                                                |
