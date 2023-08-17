@@ -695,3 +695,167 @@ test('Renderer:Nav with Dialog', async () => {
     ).toBeInTheDocument();
   });
 });
+
+// 10.Nav配置reload动作
+test('Renderer:Nav with reload1', async () => {
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: ''
+      }
+    })
+  );
+  const {container}: any = render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          nav: [
+            {
+              label: 'Nav 1',
+              to: '/docs/index',
+              icon: 'fa fa-user'
+            },
+            {
+              label: 'Nav 2',
+              to: '/docs/api'
+            },
+            {
+              label: 'Nav 3',
+              to: '/docs/renderers'
+            }
+          ]
+        },
+        body: [
+          {
+            type: 'nav',
+            stacked: true,
+            id: 'xxNav',
+            source: '${nav}'
+          },
+          {
+            type: 'button',
+            level: 'primary',
+            className: 'mr-4',
+            label: 'reload',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    componentId: 'xxNav',
+                    actionType: 'reload'
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        session: 'test-case-action-no',
+        fetcher
+      })
+    )
+  );
+  fireEvent.click(container.querySelector('.cxd-Button'));
+  await wait(500);
+  expect(fetcher).not.toBeCalled();
+});
+
+// 11.Nav配置reload动作
+test('Renderer:Nav with reload2', async () => {
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          links: [
+            {
+              label: 'Nav 1',
+              to: '?cat=1',
+              value: '1',
+              icon: 'fa fa-user'
+            },
+            {
+              label: 'Nav 2',
+              unfolded: true,
+              children: [
+                {
+                  label: 'Nav 2-1',
+                  children: [
+                    {
+                      label: 'Nav 2-1-1',
+                      to: '?cat=2-1',
+                      value: '2-1'
+                    }
+                  ]
+                },
+                {
+                  label: 'Nav 2-2',
+                  to: '?cat=2-2',
+                  value: '2-2'
+                }
+              ]
+            },
+            {
+              label: 'Nav 3',
+              to: '?cat=3',
+              value: '3',
+              defer: true
+            }
+          ],
+          value: '?cat=1'
+        }
+      }
+    })
+  );
+  const {container}: any = render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          url: '/api/options/nav'
+        },
+        body: [
+          {
+            type: 'nav',
+            stacked: true,
+            id: 'xxNav',
+            source: '${url}'
+          },
+          {
+            type: 'button',
+            level: 'primary',
+            className: 'mr-4',
+            label: 'reload',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    componentId: 'xxNav',
+                    actionType: 'reload'
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        session: 'test-case-action-no',
+        fetcher
+      })
+    )
+  );
+  await wait(500);
+  const navItem = container.querySelector('.cxd-Nav-Menu-item');
+  expect(navItem).toBeInTheDocument();
+  fireEvent.click(container.querySelector('.cxd-Button'));
+  await wait(500);
+  expect(fetcher).toBeCalled();
+});
