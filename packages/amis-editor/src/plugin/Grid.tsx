@@ -338,6 +338,7 @@ export class GridPlugin extends BasePlugin {
                     size: 'sm',
                     label: '垂直对齐',
                     tiled: true,
+                    inputClassName: 'flex-nowrap',
                     pipeIn: defaultValue('top'),
                     options: [
                       {
