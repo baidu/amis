@@ -15,7 +15,15 @@ interface Rect {
 
 interface AnimationState {
   rect: Rect;
-  target: HTMLElement;
+  target: HTMLElement & {
+    toRect?: any;
+    animationResetTimer?: NodeJS.Timeout;
+    animationTime?: number;
+    prevFromRect?: any;
+    fromRect?: any;
+    prevToRect?: any;
+    thisAnimationDuration?: any;
+  };
 }
 
 function userAgent(pattern: RegExp): any {
@@ -34,8 +42,176 @@ const IE11OrLess = userAgent(
 // const IOS = userAgent(/iP(ad|od|hone)/i);
 // const ChromeForAndroid = userAgent(/chrome/i) && userAgent(/android/i);
 
-const AnimationDurtation = 150;
+const AnimationDuration = 150;
 const AnimationEasing = 'cubic-bezier(1, 0, 0, 1)';
+
+const toUpperCamelCase = (s: string) => {
+  return [s[0].toUpperCase(), ...s.slice(1)].join('');
+};
+
+function css(
+  el: HTMLElement & {currentStyle?: CSSStyleDeclaration},
+  prop: keyof CSSStyleDeclaration,
+  val?: string | number
+) {
+  if (val == null) {
+    return (document.defaultView?.getComputedStyle(el, '') ??
+      el.currentStyle)?.[prop];
+  }
+
+  const style = el.style;
+
+  if (
+    !(prop in style) &&
+    typeof prop === 'string' &&
+    prop.indexOf('webkit') === -1
+  ) {
+    prop = ('webkit' + toUpperCamelCase(prop)) as keyof CSSStyleDeclaration;
+  }
+
+  (style[prop] as string) = val + (typeof val === 'number' ? 'px' : '');
+  return null;
+}
+
+function matrix(el: HTMLElement) {
+  const transform = css(el, 'transform');
+  let appliedTransforms = '';
+
+  if (transform && transform !== 'none') {
+    appliedTransforms = transform + ' ' + appliedTransforms;
+  }
+
+  const matrixFn =
+    window.DOMMatrix ||
+    window.WebKitCSSMatrix ||
+    (window as any).CSSMatrix ||
+    (window as any).MSCSSMatrix;
+
+  /*jshint -W056 */
+  return matrixFn && new matrixFn(appliedTransforms);
+}
+
+function isRectEqual(rect1: Rect, rect2: Rect) {
+  return (
+    Math.round(rect1.top) === Math.round(rect2.top) &&
+    Math.round(rect1.left) === Math.round(rect2.left) &&
+    Math.round(rect1.height) === Math.round(rect2.height) &&
+    Math.round(rect1.width) === Math.round(rect2.width)
+  );
+}
+
+function calculateRealTime(animatingRect: Rect, fromRect: Rect, toRect: Rect) {
+  return (
+    (Math.sqrt(
+      Math.pow(fromRect.top - animatingRect.top, 2) +
+        Math.pow(fromRect.left - animatingRect.left, 2)
+    ) /
+      Math.sqrt(
+        Math.pow(fromRect.top - toRect.top, 2) +
+          Math.pow(fromRect.left - toRect.left, 2)
+      )) *
+    AnimationDuration
+  );
+}
+
+function getWindowScrollingElement() {
+  return document.scrollingElement || document.documentElement;
+}
+
+function getRect(
+  el: HTMLElement,
+  relativeToContainingBlock?: boolean,
+  relativeToNonStaticParent?: boolean,
+  undoScale?: boolean,
+  container?: HTMLElement
+) {
+  if (!el.getBoundingClientRect && (el as any) !== window) {
+    return;
+  }
+
+  let elRect, top, left, bottom, right, height, width;
+
+  if ((el as any) !== window && el !== getWindowScrollingElement()) {
+    elRect = el.getBoundingClientRect();
+    top = elRect.top;
+    left = elRect.left;
+    bottom = elRect.bottom;
+    right = elRect.right;
+    height = elRect.height;
+    width = elRect.width;
+  } else {
+    top = 0;
+    left = 0;
+    bottom = window.innerHeight;
+    right = window.innerWidth;
+    height = window.innerHeight;
+    width = window.innerWidth;
+  }
+
+  if (
+    (relativeToContainingBlock || relativeToNonStaticParent) &&
+    (el as any) !== window
+  ) {
+    // Adjust for translate()
+    container = container || (el.parentNode as HTMLElement);
+
+    // solves #1123 (see: https://stackoverflow.com/a/37953806/6088312)
+    // Not needed on <= IE11
+    if (!IE11OrLess) {
+      do {
+        if (
+          container &&
+          container.getBoundingClientRect &&
+          (css(container, 'transform') !== 'none' ||
+            (relativeToNonStaticParent &&
+              css(container, 'position') !== 'static'))
+        ) {
+          const containerRect = container.getBoundingClientRect();
+
+          // Set relative to edges of padding box of container
+          top -=
+            containerRect.top +
+            parseInt(css(container, 'borderTopWidth') as string);
+          left -=
+            containerRect.left +
+            parseInt(css(container, 'borderLeftWidth') as string);
+          bottom = top + (elRect as any).height;
+          right = left + (elRect as any).width;
+
+          break;
+        }
+        /* jshint boss:true */
+      } while ((container = container.parentNode as HTMLElement));
+    }
+  }
+
+  if (undoScale && (el as any) !== window) {
+    // Adjust for scale()
+    const elMatrix = matrix(container || el);
+    if (elMatrix) {
+      const scaleX = elMatrix.a;
+      const scaleY = elMatrix.d;
+
+      top /= scaleY;
+      left /= scaleX;
+
+      width /= scaleX;
+      height /= scaleY;
+
+      bottom = top + height;
+      right = left + width;
+    }
+  }
+
+  return {
+    top,
+    left,
+    bottom,
+    right,
+    width,
+    height
+  };
+}
 
 export class AnimationManager {
   animating: boolean = false;
@@ -60,7 +236,7 @@ export class AnimationManager {
         return;
       }
 
-      let fromRect = {...rect};
+      const fromRect = {...rect};
 
       const state: AnimationState = {
         target: child,
@@ -127,7 +303,7 @@ export class AnimationManager {
         (target as any).prevToRect = toRect;
 
         if (!time) {
-          time = AnimationDurtation;
+          time = AnimationDuration;
         }
         this.animate(target, animatingRect, toRect, time);
       }
@@ -135,13 +311,13 @@ export class AnimationManager {
       if (time) {
         this.animating = true;
         animationTime = Math.max(animationTime, time);
-        clearTimeout((target as any).animationResetTimer);
-        (target as any).animationResetTimer = setTimeout(function () {
-          (target as any).animationTime = 0;
-          (target as any).prevFromRect = null;
-          (target as any).fromRect = null;
-          (target as any).prevToRect = null;
-          (target as any).thisAnimationDuration = null;
+        clearTimeout(target.animationResetTimer);
+        target.animationResetTimer = setTimeout(function () {
+          target.animationTime = 0;
+          target.prevFromRect = null;
+          target.fromRect = null;
+          target.prevToRect = null;
+          target.thisAnimationDuration = null;
         }, time);
         (target as any).thisAnimationDuration = time;
       }
@@ -149,7 +325,7 @@ export class AnimationManager {
 
     clearTimeout(this.animationCallbackId);
     if (!this.animating) {
-      if (typeof callback === 'function') callback();
+      typeof callback === 'function' && callback();
     } else {
       this.animationCallbackId = setTimeout(() => {
         this.animating = false;
@@ -160,7 +336,8 @@ export class AnimationManager {
   }
 
   animate(
-    target: HTMLElement,
+    // TODO 补充扩展类型
+    target: HTMLElement & {animatingX?: boolean; animatingY?: boolean},
     currentRect: Rect,
     toRect: Rect,
     duration: number
@@ -172,8 +349,8 @@ export class AnimationManager {
       let translateX = currentRect.left - toRect.left,
         translateY = currentRect.top - toRect.top;
 
-      (target as any).animatingX = !!translateX;
-      (target as any).animatingY = !!translateY;
+      target.animatingX = !!translateX;
+      target.animatingY = !!translateY;
 
       css(
         target,
@@ -210,174 +387,6 @@ export class AnimationManager {
       }, duration);
     }
   }
-}
-
-function matrix(el: HTMLElement) {
-  let appliedTransforms = '';
-  if (typeof el === 'string') {
-    appliedTransforms = el;
-  } else {
-    let transform = css(el, 'transform');
-
-    if (transform && transform !== 'none') {
-      appliedTransforms = transform + ' ' + appliedTransforms;
-    }
-  }
-
-  const matrixFn =
-    window.DOMMatrix ||
-    window.WebKitCSSMatrix ||
-    (window as any).CSSMatrix ||
-    (window as any).MSCSSMatrix;
-
-  /*jshint -W056 */
-  return matrixFn && new matrixFn(appliedTransforms);
-}
-
-function css(el: HTMLElement, prop: string, val?: any) {
-  let style = el && el.style;
-
-  if (style) {
-    if (val === void 0) {
-      if (document.defaultView && document.defaultView.getComputedStyle) {
-        val = document.defaultView.getComputedStyle(el, '');
-      } else if ((el as any).currentStyle) {
-        val = (el as any).currentStyle;
-      }
-
-      return prop === void 0 ? val : val[prop];
-    } else {
-      if (!(prop in style) && prop.indexOf('webkit') === -1) {
-        prop = '-webkit-' + prop;
-      }
-
-      (style as any)[prop] = val + (typeof val === 'string' ? '' : 'px');
-    }
-  }
-}
-
-function isRectEqual(rect1: Rect, rect2: Rect) {
-  return (
-    Math.round(rect1.top) === Math.round(rect2.top) &&
-    Math.round(rect1.left) === Math.round(rect2.left) &&
-    Math.round(rect1.height) === Math.round(rect2.height) &&
-    Math.round(rect1.width) === Math.round(rect2.width)
-  );
-}
-
-function calculateRealTime(animatingRect: Rect, fromRect: Rect, toRect: Rect) {
-  return (
-    (Math.sqrt(
-      Math.pow(fromRect.top - animatingRect.top, 2) +
-        Math.pow(fromRect.left - animatingRect.left, 2)
-    ) /
-      Math.sqrt(
-        Math.pow(fromRect.top - toRect.top, 2) +
-          Math.pow(fromRect.left - toRect.left, 2)
-      )) *
-    AnimationDurtation
-  );
-}
-
-function getWindowScrollingElement() {
-  let scrollingElement = document.scrollingElement;
-
-  if (scrollingElement) {
-    return scrollingElement;
-  } else {
-    return document.documentElement;
-  }
-}
-
-function getRect(
-  el: HTMLElement,
-  relativeToContainingBlock?: boolean,
-  relativeToNonStaticParent?: boolean,
-  undoScale?: boolean,
-  container?: HTMLElement
-) {
-  if (!el.getBoundingClientRect && (el as any) !== window) return;
-
-  let elRect, top, left, bottom, right, height, width;
-
-  if ((el as any) !== window && el !== getWindowScrollingElement()) {
-    elRect = el.getBoundingClientRect();
-    top = elRect.top;
-    left = elRect.left;
-    bottom = elRect.bottom;
-    right = elRect.right;
-    height = elRect.height;
-    width = elRect.width;
-  } else {
-    top = 0;
-    left = 0;
-    bottom = window.innerHeight;
-    right = window.innerWidth;
-    height = window.innerHeight;
-    width = window.innerWidth;
-  }
-
-  if (
-    (relativeToContainingBlock || relativeToNonStaticParent) &&
-    (el as any) !== window
-  ) {
-    // Adjust for translate()
-    container = container || (el.parentNode as HTMLElement);
-
-    // solves #1123 (see: https://stackoverflow.com/a/37953806/6088312)
-    // Not needed on <= IE11
-    if (!IE11OrLess) {
-      do {
-        if (
-          container &&
-          container.getBoundingClientRect &&
-          (css(container, 'transform') !== 'none' ||
-            (relativeToNonStaticParent &&
-              css(container, 'position') !== 'static'))
-        ) {
-          let containerRect = container.getBoundingClientRect();
-
-          // Set relative to edges of padding box of container
-          top -=
-            containerRect.top + parseInt(css(container, 'border-top-width'));
-          left -=
-            containerRect.left + parseInt(css(container, 'border-left-width'));
-          bottom = top + (elRect as any).height;
-          right = left + (elRect as any).width;
-
-          break;
-        }
-        /* jshint boss:true */
-      } while ((container = container.parentNode as HTMLElement));
-    }
-  }
-
-  if (undoScale && (el as any) !== window) {
-    // Adjust for scale()
-    let elMatrix = matrix(container || el),
-      scaleX = elMatrix && elMatrix.a,
-      scaleY = elMatrix && elMatrix.d;
-
-    if (elMatrix) {
-      top /= scaleY;
-      left /= scaleX;
-
-      width /= scaleX;
-      height /= scaleY;
-
-      bottom = top + height;
-      right = left + width;
-    }
-  }
-
-  return {
-    top: top,
-    left: left,
-    bottom: bottom,
-    right: right,
-    width: width,
-    height: height
-  };
 }
 
 export default new AnimationManager();
