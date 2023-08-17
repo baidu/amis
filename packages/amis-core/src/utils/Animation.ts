@@ -13,17 +13,21 @@ interface Rect {
   height: number;
 }
 
+interface AnimationEleProps {
+  toRect?: Rect | null;
+  fromRect?: Rect | null;
+  prevToRect?: Rect | null;
+  prevFromRect?: Rect | null;
+  animationTime?: number;
+  thisAnimationDuration?: number;
+  animationResetTimer?: NodeJS.Timeout;
+}
+
+type AnimationEle = HTMLElement & AnimationEleProps;
+
 interface AnimationState {
   rect: Rect;
-  target: HTMLElement & {
-    toRect?: any;
-    animationResetTimer?: NodeJS.Timeout;
-    animationTime?: number;
-    prevFromRect?: any;
-    fromRect?: any;
-    prevToRect?: any;
-    thisAnimationDuration?: any;
-  };
+  target: AnimationEle;
 }
 
 function userAgent(pattern: RegExp): any {
@@ -129,7 +133,8 @@ function getRect(
     return;
   }
 
-  let elRect, top, left, bottom, right, height, width;
+  let elRect: DOMRect | null = null;
+  let top, left, bottom, right, height, width;
 
   if ((el as any) !== window && el !== getWindowScrollingElement()) {
     elRect = el.getBoundingClientRect();
@@ -175,8 +180,8 @@ function getRect(
           left -=
             containerRect.left +
             parseInt(css(container, 'borderLeftWidth') as string);
-          bottom = top + (elRect as any).height;
-          right = left + (elRect as any).width;
+          bottom = top + (elRect?.height ?? 0);
+          right = left + (elRect?.width ?? 0);
 
           break;
         }
@@ -215,64 +220,52 @@ function getRect(
 
 export class AnimationManager {
   animating: boolean = false;
-  animationCallbackId: any;
+  animationCallbackId: NodeJS.Timeout;
   states: Array<AnimationState> = [];
 
   capture(el: HTMLElement) {
-    // 清空，重复调用，旧的不管了
-    this.states = [];
+    // 重置
+    this.states = ([...el.children] as Array<AnimationEle>)
+      // 过滤 ghost 和隐藏节点
+      .filter(
+        child => child.classList.contains('is-ghost') || !getRect(child)?.width
+      )
+      .map<AnimationState>(target => {
+        const rect = getRect(target)!;
+        const fromRect = {...rect};
+        // 还在动画中
+        if (target.thisAnimationDuration) {
+          const childMatrix = matrix(target);
 
-    let children: Array<HTMLElement> = [].slice.call(el.children);
-    children.forEach(child => {
-      // 如果是 ghost
-      if (child.classList.contains('is-ghost')) {
-        return;
-      }
-
-      const rect = getRect(child)!;
-
-      // 通常是隐藏节点
-      if (!rect.width) {
-        return;
-      }
-
-      const fromRect = {...rect};
-
-      const state: AnimationState = {
-        target: child,
-        rect
-      };
-
-      // 还在动画中
-      if ((child as any).thisAnimationDuration) {
-        let childMatrix = matrix(child);
-
-        if (childMatrix) {
-          fromRect.top -= childMatrix.f;
-          fromRect.left -= childMatrix.e;
+          if (childMatrix) {
+            fromRect.top -= childMatrix.f;
+            fromRect.left -= childMatrix.e;
+          }
         }
-      }
 
-      (child as any).fromRect = fromRect;
-      this.states.push(state);
-    });
+        target.fromRect = fromRect;
+
+        return {
+          rect,
+          target
+        };
+      });
   }
 
   animateAll(callback?: () => void) {
     this.animating = false;
     let animationTime = 0;
 
-    this.states.forEach(state => {
-      let time = 0,
-        target = state.target,
-        fromRect = (target as any).fromRect,
-        toRect = {
-          ...getRect(target)!
-        },
-        prevFromRect = (target as any).prevFromRect,
-        prevToRect = (target as any).prevToRect,
-        animatingRect = state.rect,
-        targetMatrix = matrix(target);
+    this.states.forEach(({target, rect: animatingRect}) => {
+      const toRect = {
+        ...getRect(target)!
+      };
+      const fromRect = target.fromRect;
+      const prevFromRect = target.prevFromRect;
+      const prevToRect = target.prevToRect;
+      const targetMatrix = matrix(target);
+
+      let time = 0;
 
       if (targetMatrix) {
         // Compensate for current animation
@@ -280,11 +273,14 @@ export class AnimationManager {
         toRect.left -= targetMatrix.e;
       }
 
-      (target as any).toRect = toRect;
+      target.toRect = toRect;
 
-      if ((target as any).thisAnimationDuration) {
+      if (target.thisAnimationDuration) {
         // Could also check if animatingRect is between fromRect and toRect
         if (
+          prevFromRect &&
+          fromRect &&
+          prevToRect &&
           isRectEqual(prevFromRect, toRect) &&
           !isRectEqual(fromRect, toRect) &&
           // Make sure animatingRect is on line between toRect & fromRect
@@ -298,9 +294,9 @@ export class AnimationManager {
       }
 
       // if fromRect != toRect: animate
-      if (!isRectEqual(toRect, fromRect)) {
-        (target as any).prevFromRect = fromRect;
-        (target as any).prevToRect = toRect;
+      if (fromRect && !isRectEqual(toRect, fromRect)) {
+        target.prevFromRect = fromRect;
+        target.prevToRect = toRect;
 
         if (!time) {
           time = AnimationDuration;
@@ -312,14 +308,14 @@ export class AnimationManager {
         this.animating = true;
         animationTime = Math.max(animationTime, time);
         clearTimeout(target.animationResetTimer);
-        target.animationResetTimer = setTimeout(function () {
+        target.animationResetTimer = setTimeout(() => {
           target.animationTime = 0;
           target.prevFromRect = null;
           target.fromRect = null;
           target.prevToRect = null;
-          target.thisAnimationDuration = null;
+          target.thisAnimationDuration = 0;
         }, time);
-        (target as any).thisAnimationDuration = time;
+        target.thisAnimationDuration = time;
       }
     });
 
@@ -329,25 +325,27 @@ export class AnimationManager {
     } else {
       this.animationCallbackId = setTimeout(() => {
         this.animating = false;
-        if (typeof callback === 'function') callback();
+        typeof callback === 'function' && callback();
       }, animationTime);
     }
     this.states = [];
   }
 
   animate(
-    // TODO 补充扩展类型
-    target: HTMLElement & {animatingX?: boolean; animatingY?: boolean},
+    target: AnimationEle & {
+      animated?: NodeJS.Timeout;
+      animatingX?: boolean;
+      animatingY?: boolean;
+    },
     currentRect: Rect,
     toRect: Rect,
     duration: number
   ) {
     if (duration) {
-      let affectDisplay = false;
       css(target, 'transition', '');
       css(target, 'transform', '');
-      let translateX = currentRect.left - toRect.left,
-        translateY = currentRect.top - toRect.top;
+      const translateX = currentRect.left - toRect.left;
+      const translateY = currentRect.top - toRect.top;
 
       target.animatingX = !!translateX;
       target.animatingY = !!translateY;
@@ -357,6 +355,8 @@ export class AnimationManager {
         'transform',
         'translate3d(' + translateX + 'px,' + translateY + 'px,0)'
       );
+
+      let affectDisplay = false;
 
       if (css(target, 'display') === 'inline') {
         affectDisplay = true;
@@ -374,16 +374,15 @@ export class AnimationManager {
           (AnimationEasing ? ' ' + AnimationEasing : '')
       );
       css(target, 'transform', 'translate3d(0,0,0)');
-      typeof (target as any).animated === 'number' &&
-        clearTimeout((target as any).animated);
-      (target as any).animated = setTimeout(function () {
+      clearTimeout(target.animated);
+      target.animated = setTimeout(() => {
         css(target, 'transition', '');
         css(target, 'transform', '');
         affectDisplay && css(target, 'display', '');
-        (target as any).animated = false;
 
-        (target as any).animatingX = false;
-        (target as any).animatingY = false;
+        target.animated = undefined;
+        target.animatingX = false;
+        target.animatingY = false;
       }, duration);
     }
   }
