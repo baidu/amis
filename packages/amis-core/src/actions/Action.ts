@@ -98,6 +98,7 @@ const getOmitActionProp = (type: string) => {
       omitList = ['msg', 'title'];
       break;
     case 'ajax':
+    case 'download':
       omitList = ['api', 'messages', 'options'];
       break;
     case 'setValue':
@@ -275,7 +276,7 @@ export const runAction = async (
   } else if (action.actionType === 'drawer') {
     action.drawer = {...(action.drawer ?? action.args?.drawer)};
     delete action.args?.drawer;
-  } else if (action.actionType === 'ajax') {
+  } else if (['ajax', 'download'].includes(action.actionType)) {
     const api = action.api ?? action.args?.api;
     action.api = typeof api === 'string' ? api : {...api};
     action.options = {...(action.options ?? action.args?.options)};
