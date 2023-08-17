@@ -283,6 +283,22 @@ test('EventAction:ajax data1', async () => {
                         }
                       }
                     }
+                  },
+                  {
+                    actionType: 'ajax',
+                    args: {
+                      api: {
+                        url: '/api/xxx?name=${event.data.name}',
+                        method: 'post',
+                        data: {
+                          myname1: '${name}',
+                          myname2: '\\${name}',
+                          myname3: '${text}',
+                          myname4: '\\${text}'
+                        }
+                      },
+                      other: '${name}'
+                    }
                   }
                 ]
               }
@@ -308,7 +324,7 @@ test('EventAction:ajax data1', async () => {
   fireEvent.click(getByText(/发送请求/));
 
   await waitFor(() => {
-    expect(fetcher).toHaveBeenCalledTimes(2);
+    expect(fetcher).toHaveBeenCalledTimes(3);
     expect(fetcher.mock.calls[0][0].url).toEqual('/api/xxx?name=lll');
     expect(fetcher.mock.calls[0][0].data).toMatchObject({
       myname1: 'lll',
@@ -322,6 +338,14 @@ test('EventAction:ajax data1', async () => {
       param2: 'amis',
       param3: 'amis',
       param4: 'amis'
+    });
+    // 测试干扰配置
+    expect(fetcher.mock.calls[0][0].url).toEqual('/api/xxx?name=lll');
+    expect(fetcher.mock.calls[0][0].data).toMatchObject({
+      myname1: 'lll',
+      myname2: '${name}',
+      myname3: '${lll}',
+      myname4: '${text}'
     });
   });
 });

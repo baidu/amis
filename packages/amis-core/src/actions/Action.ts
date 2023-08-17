@@ -311,7 +311,11 @@ export const runAction = async (
       : afterMappingData;
 
   // 默认为当前数据域
-  const data = actionData !== undefined ? actionData : mergeData;
+  const data =
+    actionData !== undefined &&
+    !['ajax', 'download', 'dialog', 'drawer'].includes(action.actionType) // 避免非法配置影响对actionData的判断，导致动作配置中的数据映射失败
+      ? actionData
+      : mergeData;
 
   console.group?.(`run action ${action.actionType}`);
   console.debug(`[${action.actionType}] action args, data`, args, data);
