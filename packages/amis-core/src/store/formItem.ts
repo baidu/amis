@@ -1182,7 +1182,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       selected.forEach((item, index) => {
         const value = getOptionValue(item, valueField);
         if (flattenedMap.get(value)) {
-          selectedOptions.push(item);
+          selectedOptions.push(flattenedMap.get(value));
           return;
         }
 
