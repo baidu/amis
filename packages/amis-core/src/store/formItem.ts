@@ -701,7 +701,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       options = normalizeOptions(options as any, undefined, self.valueField);
 
       if (config?.extendsOptions && self.selectedOptions.length > 0) {
-        self.filteredOptions.forEach((item: any) => {
+        self.selectedOptions.forEach((item: any) => {
           const exited = findTree(
             options as any,
             optionValueCompare(item, self.valueField || 'value'),
