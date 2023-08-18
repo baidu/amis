@@ -18,7 +18,7 @@ import {getSchemaTpl} from 'amis-editor';
 
 import {autobind} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';
-import {SchemaApi} from 'amis';
+import type {SchemaApi} from 'amis';
 
 export type SourceType = 'custom' | 'api' | '';
 
