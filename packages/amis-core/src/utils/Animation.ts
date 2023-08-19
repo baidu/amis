@@ -123,20 +123,34 @@ function getWindowScrollingElement() {
 }
 
 function getRect(
-  el: HTMLElement,
+  // 暂定
+  el: HTMLElement | Window,
   relativeToContainingBlock?: boolean,
   relativeToNonStaticParent?: boolean,
   undoScale?: boolean,
   container?: HTMLElement
 ) {
-  if (!el.getBoundingClientRect && (el as any) !== window) {
+  if (el === window) {
+    return {
+      top: 0,
+      left: 0,
+      bottom: window.innerHeight,
+      right: window.innerWidth,
+      width: window.innerWidth,
+      height: window.innerHeight
+    };
+  }
+
+  el = el as HTMLElement;
+
+  if (!el.getBoundingClientRect) {
     return;
   }
 
   let elRect: DOMRect | null = null;
   let top, left, bottom, right, height, width;
 
-  if ((el as any) !== window && el !== getWindowScrollingElement()) {
+  if (el !== getWindowScrollingElement()) {
     elRect = el.getBoundingClientRect();
     top = elRect.top;
     left = elRect.left;
@@ -153,10 +167,7 @@ function getRect(
     width = window.innerWidth;
   }
 
-  if (
-    (relativeToContainingBlock || relativeToNonStaticParent) &&
-    (el as any) !== window
-  ) {
+  if (relativeToContainingBlock || relativeToNonStaticParent) {
     // Adjust for translate()
     container = container || (el.parentNode as HTMLElement);
 
@@ -190,7 +201,7 @@ function getRect(
     }
   }
 
-  if (undoScale && (el as any) !== window) {
+  if (undoScale) {
     // Adjust for scale()
     const elMatrix = matrix(container || el);
     if (elMatrix) {
