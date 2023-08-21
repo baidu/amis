@@ -257,6 +257,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     return render!(`${$path}${region ? `/${region}` : ''}`, node || '', {
       ...omit(rest, omitList),
       defaultStatic:
+        (this.renderer?.type &&
+        ['drawer', 'dialog'].includes(this.renderer.type)
+          ? false
+          : undefined) ??
         this.isStatic ??
         (_.staticOn
           ? evalExpression(_.staticOn, rest.data)
