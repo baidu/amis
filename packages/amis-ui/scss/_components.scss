@@ -3620,6 +3620,8 @@
   --Pick-base-value-icon-color: var(--colors-other-5);
   --Picker-iconColor: var(--Pick-base-icon-color);
   --Picker-onHover-iconColor: var(--icon-onHover-color);
+  --Picker-tag-height: #{px2rem(24px)};
+  --Picker-tag-marginBottom: var(--select-multiple-marginBottom);
   --Pick-status-hover-top-border-color: var(--colors-other-5);
   --Pick-status-hover-top-border-width: var(--borders-width-2);
   --Pick-status-hover-top-border-style: var(--borders-style-2);
