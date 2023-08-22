@@ -32,9 +32,6 @@ var PROXY_THEME = process.env.PROXY_THEME
     ]
   : [];
 
-if (I18N) {
-}
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
