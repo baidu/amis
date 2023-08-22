@@ -25,6 +25,7 @@ export interface PickerContainerProps
     value: any;
     onChange: (value: any) => void;
     setState: (state: any) => void;
+    loading?: boolean;
     [propName: string]: any;
   }) => JSX.Element | null;
   value?: any;
@@ -63,6 +64,7 @@ export class PickerContainer extends React.Component<
   @autobind
   async handleClick() {
     const state = {
+      value: this.props.value,
       ...(await this.props.onPickerOpen?.(this.props)),
       isOpened: true
     };
@@ -159,7 +161,7 @@ export class PickerContainer extends React.Component<
           popOverContainer={popOverContainer}
           mobileUI={mobileUI}
         >
-          {() =>
+          {({popOverContainer, loading}) =>
             popOverRender({
               ...(this.state as any),
               ref: this.bodyRef,
@@ -167,7 +169,8 @@ export class PickerContainer extends React.Component<
               onClose: this.close,
               onChange: this.handleChange,
               onConfirm: this.confirm,
-              popOverContainer
+              popOverContainer,
+              loading
             })!
           }
         </ConfirmBox>
