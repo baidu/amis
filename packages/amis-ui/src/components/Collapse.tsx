@@ -123,10 +123,14 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       return;
     }
 
-    this.props.onCollapse?.(this.props, targetState);
-    this.setState({
-      collapsed: targetState
-    });
+    this.setState(
+      {
+        collapsed: targetState
+      },
+      () => {
+        this.props.onCollapse?.(this.props, targetState);
+      }
+    );
   }
 
   contentDom: any;

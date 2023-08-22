@@ -124,6 +124,8 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
     'size'
   ];
 
+  basicCollapse = React.createRef<any>();
+
   @autobind
   async handleCollapseChange(props: any, collapsed: boolean) {
     const {dispatchEvent, onCollapse} = this.props;
@@ -149,8 +151,8 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       const targetState = action.actionType === 'collapse';
       this.handleCollapseChange(this.props, targetState);
       const collapseInstance = (
-        this.refs.basicCollapse as any
-      ).getWrappedInstance?.();
+        this.basicCollapse?.current as any
+      )?.getWrappedInstance?.();
       collapseInstance?.changeCollapsedState?.(targetState);
     }
   }
@@ -194,7 +196,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
     return (
       <BasicCollapse
         id={id}
-        ref="basicCollapse"
+        ref={this.basicCollapse}
         classnames={cx}
         classPrefix={ns}
         mountOnEnter={mountOnEnter}
