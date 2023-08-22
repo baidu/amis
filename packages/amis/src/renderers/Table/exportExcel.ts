@@ -441,6 +441,12 @@ export async function exportExcel(
           sheetRow.getCell(columIndex).value = value;
         }
       }
+
+      // 如果是纯数字，不用科学计数法
+      const cellValue = sheetRow.getCell(columIndex).value;
+      if (Number.isInteger(cellValue)) {
+        sheetRow.getCell(columIndex).numFmt = '0';
+      }
     }
   }
 
