@@ -8,6 +8,7 @@ import fis3 from './scripts/fis3plugin';
 import markdown from './scripts/markdownPlugin';
 import mockApi from './scripts/mockApiPlugin';
 import transformMobileHtml from './scripts/transformMobileHtml';
+//@ts-ignore
 import i18nPlugin from 'plugin-react-i18n';
 import i18nConfig from './i18nConfig';
 
