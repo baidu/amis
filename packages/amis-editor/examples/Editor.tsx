@@ -194,27 +194,27 @@ const variableSchemas = {
   type: 'object',
   $id: 'appVariables',
   properties: {
-    'appVariables.ProductName': {
+    ProductName: {
       type: 'string',
       title: '产品名称',
       default: '对象存储'
     },
-    'appVariables.Banlance': {
+    Banlance: {
       type: 'number',
       title: '账户余额',
       default: '0.00'
     },
-    'appVariables.ProductNum': {
+    ProductNum: {
       type: 'integer',
       title: '产品数量',
       default: '0.00'
     },
-    'appVariables.isOnline': {
+    isOnline: {
       type: 'boolean',
       title: '是否线上环境',
       default: 'false'
     },
-    'appVariables.ProductList': {
+    ProductList: {
       type: 'array',
       items: {
         type: 'string',
@@ -223,7 +223,7 @@ const variableSchemas = {
       title: '产品列表',
       default: '["BOS", "CFS", "PFS", "CloudFlow", "MongoDB"]'
     },
-    'appVariables.PROFILE': {
+    PROFILE: {
       type: 'object',
       title: '个人信息',
       properties: {
@@ -661,7 +661,8 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
         ctx={{
           __page: {
             num: 2
-          }
+          },
+          ...variableDefaultData
         }}
       />
     );
