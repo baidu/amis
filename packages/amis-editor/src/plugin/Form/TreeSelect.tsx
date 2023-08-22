@@ -20,7 +20,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
   $schema = '/schemas/TreeSelectControlSchema.json';
 
   // 组件名称
-  name = '树选择框';
+  name = '树组件';
   isBaseComponent = true;
   disabledRendererPlugin = true;
   icon = 'fa fa-list-alt';

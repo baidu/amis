@@ -24,7 +24,7 @@ export class TreeControlPlugin extends BasePlugin {
   $schema = '/schemas/TreeControlSchema.json';
 
   // 组件名称
-  name = '树选择框';
+  name = '树组件';
   isBaseComponent = true;
   icon = 'fa fa-list-alt';
   pluginIcon = 'input-tree-plugin';
@@ -34,7 +34,7 @@ export class TreeControlPlugin extends BasePlugin {
   tags = ['表单项'];
   scaffold = {
     type: 'input-tree',
-    label: '树选择框',
+    label: '树组件',
     name: 'tree',
     options: [
       {
