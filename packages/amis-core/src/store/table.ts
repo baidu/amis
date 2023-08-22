@@ -363,7 +363,6 @@ export const TableStore = iRendererStore
     formsRef: types.optional(types.array(types.frozen()), []),
     maxKeepItemSelectionLength: Infinity,
     keepItemSelectionOnPageChange: false,
-    useFixedLayout: false, // 默认 table-layout 为 auto，主要这种方式下宽度设置不准确
     // 导出 Excel 按钮的 loading 状态
     exportExcelLoading: false,
     searchFormExpanded: false // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
@@ -832,9 +831,7 @@ export const TableStore = iRendererStore
       tableRef = ref;
     }
 
-    function update(
-      config: Partial<STableStore> & {tableLayout?: 'fixed' | 'auto'}
-    ) {
+    function update(config: Partial<STableStore>) {
       config.primaryField !== void 0 &&
         (self.primaryField = config.primaryField);
       config.selectable !== void 0 && (self.selectable = config.selectable);
@@ -901,10 +898,6 @@ export const TableStore = iRendererStore
 
         updateColumns(columns);
       }
-
-      if (config.tableLayout === 'fixed') {
-        self.useFixedLayout = true;
-      }
     }
 
     function updateColumns(columns: Array<SColumn>) {
@@ -963,9 +956,6 @@ export const TableStore = iRendererStore
         });
 
         self.columns.replace(columns as any);
-        self.useFixedLayout = self.columns.some(
-          column => column.pristine.width
-        );
       }
     }
 
@@ -1643,9 +1633,6 @@ export const TableStore = iRendererStore
       persistSaveToggledColumns,
       setSearchFormExpanded,
       toggleSearchFormExpanded,
-      setUseFixedLayout(value: any) {
-        self.useFixedLayout = !!value;
-      },
 
       // events
       afterCreate() {
