@@ -578,6 +578,7 @@ export default class TreeSelectControl extends React.Component<
       maxLength,
       minLength,
       labelField,
+      deferField,
       nodePath,
       onAdd,
       creatable,
@@ -619,6 +620,7 @@ export default class TreeSelectControl extends React.Component<
         onlyLeaf={onlyLeaf}
         labelField={labelField}
         valueField={valueField}
+        deferField={deferField}
         disabled={disabled}
         onChange={mobileUI ? this.handleTempChange : this.handleChange}
         joinValues={joinValues}
