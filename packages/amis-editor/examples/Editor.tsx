@@ -700,13 +700,19 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
 
             <div className="Editor-header-actions">
               <ShortcutKey />
-              {/* <Select
-                className="margin-left-space "
-                options={editorLanguages}
-                value={curLanguage}
-                clearable={false}
-                onChange={(e: any) => this.changeLocale(e.value)}
-              /> */}
+              {
+                // @ts-ignore
+                // vite编译时替换
+                __editor_i18n ? (
+                  <Select
+                    className="margin-left-space "
+                    options={editorLanguages}
+                    value={curLanguage}
+                    clearable={false}
+                    onChange={(e: any) => this.changeLocale(e.value)}
+                  />
+                ) : null
+              }
 
               {i18nEnabled && (
                 <Button
