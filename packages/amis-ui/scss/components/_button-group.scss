@@ -48,6 +48,9 @@
   &--block {
     display: block;
   }
+  &-button--active {
+    z-index: 1;
+  }
 }
 
 .#{$ns}ButtonToolbar {

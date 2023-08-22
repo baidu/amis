@@ -127,10 +127,9 @@
   }
 
   &-actions {
+    width: var(--gap-md);
     display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    padding-left: px2rem(5px);
+    justify-content: center;
 
     > * {
       &:not(:last-child) {
