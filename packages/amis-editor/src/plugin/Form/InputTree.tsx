@@ -30,10 +30,11 @@ export class TreeControlPlugin extends BasePlugin {
   pluginIcon = 'input-tree-plugin';
   description = '树型结构选择，支持 [内嵌模式] 与 [浮层模式] 的外观切换';
   searchKeywords = 'tree、树下拉、树下拉框、tree-select';
-  docLink = '/amis/zh-CN/components/form/input-tree';
+  // docLink = '/amis/zh-CN/components/form/input-tree'; // 内嵌模式
+  docLink = '/amis/zh-CN/components/form/treeselect'; // 浮层模式
   tags = ['表单项'];
   scaffold = {
-    type: 'input-tree',
+    type: 'tree-select', // 默认使用浮层模式
     label: '树组件',
     name: 'tree',
     options: [
@@ -66,7 +67,7 @@ export class TreeControlPlugin extends BasePlugin {
     body: [
       {
         ...this.scaffold,
-        label: '树选择框 - 内嵌模式',
+        label: '树组件 - 浮层模式',
         mode: 'normal'
       }
     ]
