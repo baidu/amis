@@ -1701,3 +1701,13 @@ setSchemaTpl('anchorNavTitle', {
   type: 'input-text',
   required: true
 });
+
+/**
+ * 懒加载字段
+ */
+setSchemaTpl('deferField', {
+  label: '懒加载字段',
+  name: 'deferField',
+  type: 'input-text',
+  placeholder: '懒加载对应的字段'
+});

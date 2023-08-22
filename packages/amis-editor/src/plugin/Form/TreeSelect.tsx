@@ -436,6 +436,12 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 label: '数据',
                 showIconField: true
               }),
+              getSchemaTpl('apiControl', {
+                name: 'deferApi',
+                label: '懒加载接口',
+                labelClassName: 'none'
+              }),
+              getSchemaTpl('deferField'),
               getSchemaTpl(
                 'loadingConfig',
                 {
