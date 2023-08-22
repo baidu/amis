@@ -1156,6 +1156,10 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | -------- | -------------------------------------- | --------------------------------------------------------------------------------------- |
 | expand   | openLevel: `number`                    | 展开指定层级                                                                            |
 | collapse | -                                      | 收起                                                                                    |
+| add      | parent: ` Option` \| `null`            | 新增数据项，存在 parent 参数，则添加子节点，否则添加一级节点                            |
+| edit     | item: ` Option`                        | 编辑数据项，存在 item 参数，则编辑该节点                                                |
+| delete   | item: ` Option`                        | 删除数据项，存在 item 参数，则删除该节点                                                |
+| reload   | -                                      | 刷新                                                                                    |
 | clear    | -                                      | 清空                                                                                    |
 | reset    | -                                      | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                  |
 | setValue | `value: string` \| `string[]` 更新的值 | 更新数据，开启`multiple`支持设置多项，开启`joinValues`时，多值用`,`分隔，否则多值用数组 |

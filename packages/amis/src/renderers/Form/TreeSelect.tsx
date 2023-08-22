@@ -496,6 +496,14 @@ export default class TreeSelectControl extends React.Component<
   doAction(action: ActionObject, data: any, throwErrors: boolean) {
     if (action.actionType && ['clear', 'reset'].includes(action.actionType)) {
       this.clearValue();
+    } else if (action.actionType === 'add') {
+      this.treeRef.handleAdd(action.args?.parent);
+    } else if (action.actionType === 'edit') {
+      this.treeRef.syncUnFolded(action.args?.item);
+    } else if (action.actionType === 'delete') {
+      this.treeRef.syncUnFolded(action.args?.item);
+    } else if (action.actionType === 'reload') {
+      this.reload();
     }
   }
 

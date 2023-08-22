@@ -238,6 +238,26 @@ export class TreeControlPlugin extends BasePlugin {
       description: '收起树节点'
     },
     {
+      actionType: 'add',
+      actionLabel: '新增',
+      description: '新增数据项'
+    },
+    {
+      actionType: 'edit',
+      actionLabel: '编辑',
+      description: '编辑数据项'
+    },
+    {
+      actionType: 'delete',
+      actionLabel: '删除',
+      description: '删除数据项'
+    },
+    {
+      actionType: 'reload',
+      actionLabel: '刷新',
+      description: '刷新数据'
+    },
+    {
       actionType: 'clear',
       actionLabel: '清空',
       description: '清除数据'
