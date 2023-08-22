@@ -115,6 +115,11 @@ export interface TreeControlSchema extends FormOptionsSchema {
   searchable?: boolean;
 
   /**
+   * 搜索 API
+   */
+  searchApi?: SchemaApi;
+
+  /**
    * 搜索框的配置
    */
   searchConfig?: {
@@ -282,9 +287,37 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     onChange && onChange(value);
   }
 
-  handleSearch(keyword: string) {
-    const {options} = this.props;
-    const filterOptions = this.filterOptions(options, keyword);
+  async handleSearch(keyword: string) {
+    const {searchApi, options, env, data, translate: __} = this.props;
+
+    let filterOptions: Array<Option> = [];
+
+    if (searchApi) {
+      try {
+        const payload = await env.fetcher(
+          searchApi,
+          createObject(data, {term: keyword})
+        );
+
+        if (!payload.ok) {
+          throw new Error(__(payload.msg || 'networkError'));
+        }
+
+        const result =
+          payload.data.options || payload.data.items || payload.data;
+        if (!Array.isArray(result)) {
+          throw new Error(__('CRUD.invalidArray'));
+        }
+
+        filterOptions = result;
+      } catch (e) {
+        if (!env.isCancel(e)) {
+          env.notify('error', e.message);
+        }
+      }
+    } else if (keyword) {
+      filterOptions = this.filterOptions(options, keyword);
+    }
 
     this.setState({
       keyword,
