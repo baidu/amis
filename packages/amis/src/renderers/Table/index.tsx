@@ -327,11 +327,6 @@ export interface TableSchema extends BaseSchema {
    * 表格自动计算高度
    */
   autoFillHeight?: boolean | AutoFillHeightObject;
-
-  /**
-   * 配置 table-layout 属性
-   */
-  tableLayout?: 'auto' | 'fixed';
 }
 
 export interface TableProps extends RendererProps, SpinnerExtraProps {
@@ -573,8 +568,7 @@ export default class Table extends React.Component<TableProps, object> {
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength,
       onQuery,
-      autoGenerateFilter,
-      tableLayout
+      autoGenerateFilter
     } = props;
 
     let combineNum = props.combineNum;
@@ -602,8 +596,7 @@ export default class Table extends React.Component<TableProps, object> {
       combineNum,
       combineFromIndex,
       keepItemSelectionOnPageChange,
-      maxKeepItemSelectionLength,
-      tableLayout
+      maxKeepItemSelectionLength
     });
 
     if (
@@ -1519,7 +1512,6 @@ export default class Table extends React.Component<TableProps, object> {
     const column = store.columns[index];
 
     column.setWidth(Math.max(this.lineStartWidth + moveX, 30, column.minWidth));
-    store.setUseFixedLayout(true);
   }
 
   // 垂直线拖拽结束
@@ -2235,10 +2227,7 @@ export default class Table extends React.Component<TableProps, object> {
             <div className={cx('Table-wrapper')}>
               <table
                 ref={this.affixedTableRef}
-                className={cx(
-                  tableClassName,
-                  store.useFixedLayout ? 'is-layout-fixed' : ''
-                )}
+                className={cx(tableClassName, 'is-layout-fixed')}
               >
                 <ColGroup columns={store.filteredColumns} store={store} />
                 <thead>
