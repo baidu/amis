@@ -1142,7 +1142,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 | 事件名称     | 事件参数                                                                                        | 说明                         |
 | ------------ | ----------------------------------------------------------------------------------------------- | ---------------------------- |
-| change       | `[name]: string` 组件的值                                                                       | 选中值变化时触发             |
+| change       | `items: object[]`选项集合（< 3.4.0 及以下版本 不支持该参数）<br/>`[name]: string` 组件的值      | 选中值变化时触发             |
 | add          | `items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）<br/>`[name]: object` 新增的节点信息 | 新增节点提交时触发           |
 | edit         | `items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）<br/>`[name]: object` 编辑的节点信息 | 编辑节点提交时触发           |
 | delete       | `items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）<br/>`[name]: object` 删除的节点信息 | 删除节点提交时触发           |

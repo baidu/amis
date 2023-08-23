@@ -509,11 +509,11 @@ export default class TreeSelectControl extends React.Component<
 
   @autobind
   async resultChangeEvent(value: any) {
-    const {onChange, dispatchEvent, data} = this.props;
+    const {onChange, options, dispatchEvent, data} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value})
+      resolveEventData(this.props, {value, items: options})
     );
 
     if (rendererEvent?.prevented) {

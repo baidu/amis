@@ -94,6 +94,10 @@ export class TreeControlPlugin extends BasePlugin {
                 value: {
                   type: 'string',
                   title: '变化的节点值'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项集合'
                 }
               }
             }
