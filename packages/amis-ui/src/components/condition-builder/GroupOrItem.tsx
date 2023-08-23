@@ -35,6 +35,7 @@ export interface CBGroupOrItemProps extends ThemeProps {
   isAddBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
   isAddGroupBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
   showIf?: boolean;
+  formulaForIf?: FormulaPickerProps;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -101,6 +102,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       isAddBtnVisibleOn,
       isAddGroupBtnVisibleOn,
       showIf,
+      formulaForIf,
       mobileUI
     } = this.props;
 
@@ -152,6 +154,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 isAddBtnVisibleOn={isAddBtnVisibleOn}
                 isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
                 showIf={showIf}
+                formulaForIf={formulaForIf}
               />
             </div>
           ) : (
@@ -182,7 +185,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
               />
               {showIf ? (
                 <FormulaPicker
-                  {...formula}
+                  {...formulaForIf}
                   evalMode={true}
                   mixedMode={false}
                   header="设置条件"
