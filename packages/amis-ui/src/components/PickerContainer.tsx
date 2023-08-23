@@ -31,7 +31,7 @@ export interface PickerContainerProps
   value?: any;
   onFocus?: () => void;
   onClose?: () => void;
-
+  disabled?: boolean;
   onPickerOpen?: (props: PickerContainerProps) => any;
   popOverContainer?: any;
 }
@@ -136,7 +136,8 @@ export class PickerContainer extends React.Component<
       showFooter,
       closeOnEsc,
       popOverContainer,
-      mobileUI
+      mobileUI,
+      disabled
     } = this.props;
     return (
       <>
@@ -160,6 +161,7 @@ export class PickerContainer extends React.Component<
           beforeConfirm={this.confirm}
           popOverContainer={popOverContainer}
           mobileUI={mobileUI}
+          disabled={disabled}
         >
           {({popOverContainer, loading}) =>
             popOverRender({
