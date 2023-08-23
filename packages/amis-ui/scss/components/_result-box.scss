@@ -115,10 +115,6 @@
     }
   }
 
-  &.#{$ns}NestedSelect {
-    padding-left: var(--gap-base);
-  }
-
   &-value-wrap {
     flex-grow: 1;
     display: flex;
@@ -127,15 +123,9 @@
   }
 
   &-actions {
-    width: var(--gap-md);
+    margin-left: px2rem(4px);
     display: flex;
     justify-content: center;
-
-    > * {
-      &:not(:last-child) {
-        margin-right: px2rem(5px);
-      }
-    }
   }
 
   &-singleValue {
@@ -148,10 +138,12 @@
   }
 
   &-pc-arrow {
+    width: var(--gap-md);
     height: 100%;
     margin: auto 0;
     display: flex;
     align-items: center;
+    justify-content: center;
     transition: transform var(--animation-duration) ease;
     transform: rotate(90deg);
 
@@ -172,15 +164,6 @@
     height: 100%;
     margin: auto 0;
     background-color: unset;
-
-    &-wrap {
-      width: px2rem(16px);
-      height: px2rem(16px);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
 
     &-with-arrow {
       right: 33px;

@@ -369,8 +369,7 @@
   &-input--multiple {
     height: auto;
     min-height: var(--Form-input-height);
-    padding: calc(var(--Form-input-paddingY) - #{px2rem(2px)})
-      calc(var(--Form-input-paddingX) - #{px2rem(3px)});
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
   }
 
   &-input--multiple &-placeholder {

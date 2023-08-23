@@ -180,6 +180,7 @@
     width: auto;
     max-width: 100%;
     overflow: hidden;
+    padding-right: px2rem(4px);
   }
   &-valuesNoWrap {
     white-space: nowrap;
@@ -222,10 +223,6 @@
         display: inline-block;
         width: px2rem(100px);
         margin-bottom: var(--gap-xs);
-      }
-
-      .#{$ns}Select-placeholder {
-        margin-left: var(--gap-sm);
       }
     }
     .#{$ns}Select-values + .#{$ns}Select-input {
