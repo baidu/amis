@@ -570,11 +570,15 @@ export class Chart extends React.Component<ChartProps> {
 
         recoverFunctionType(config!);
 
+        /* 
+        // 备注1: 图表renderChart时，其他组件可能已触发store.loading，导致图表渲染后一直处于loadding状态；
+        // 备注2: 图表有可能是单体（即整个页面就是一个chart组件，或者图表并未添加到任何带store的组件中），store可能为空。
         if (isAlive(store) && store.loading) {
           this.echarts?.showLoading();
         } else {
           this.echarts?.hideLoading();
         }
+        */
         this.reloadEcharts(config);
       } catch (e) {
         console.warn(e);
