@@ -9,6 +9,7 @@ import {findDOMNode} from 'react-dom';
 
 export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   show?: boolean;
+  disabled?: boolean;
   closeOnEsc?: boolean;
   beforeConfirm?: (bodyRef?: any) => any;
   onConfirm?: (data: any) => void;
@@ -60,7 +61,8 @@ export function ConfirmBox({
   className,
   bodyClassName,
   footerClassName,
-  mobileUI
+  mobileUI,
+  disabled
 }: ConfirmBoxProps) {
   const [loading, setLoading] = React.useState<boolean>();
   const [error, setError] = React.useState<string>();
@@ -154,7 +156,11 @@ export function ConfirmBox({
             <Button disabled={loading} onClick={onCancel}>
               {__('cancel')}
             </Button>
-            <Button disabled={loading} onClick={handleConfirm} level="primary">
+            <Button
+              disabled={loading || disabled}
+              onClick={handleConfirm}
+              level="primary"
+            >
               {__('confirm')}
             </Button>
           </Modal.Footer>
