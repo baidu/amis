@@ -1311,3 +1311,81 @@ test('Renderer:transfer tree onlyChildren true', async () => {
     transfer: "zhugeliang,zhongwuyan,libai,hanxin,yunzhongjun"
   });
 });
+
+test('Renderer:transfer tree onlyChildren true', async () => {
+  const onSubmit = jest.fn();
+  const schema = {
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+      {
+        "label": "默认",
+        "type": "transfer",
+        "name": "transfer",
+        "selectMode": "tree",
+        "searchable": true,
+        "options": [
+          {
+            "label": "法师",
+            "children": [
+              {
+                "label": "诸葛亮",
+                "value": "zhugeliang"
+              }
+            ]
+          },
+          {
+            "label": "战士",
+            "children": [
+              {
+                "label": "曹操",
+                "disabled": true,
+                "value": "caocao"
+              },
+              {
+                "label": "钟无艳",
+                "value": "zhongwuyan"
+              }
+            ]
+          },
+          {
+            "label": "打野",
+            "children": [
+              {
+                "label": "李白",
+                "value": "libai"
+              },
+              {
+                "label": "韩信",
+                "value": "hanxin"
+              },
+              {
+                "label": "云中君",
+                "value": "yunzhongjun"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+
+  const {container} = render(
+    amisRender(schema, {onSubmit}, makeEnv({}))
+  );
+
+  const input = container.querySelector('input')!;
+  expect(input).not.toBeNull();
+
+  fireEvent.change(input, {
+    target: {
+      value: '战士'
+    }
+  });
+
+  await wait(300);
+
+  const isMatchDom = container.querySelector('.is-matched');
+  expect(isMatchDom).not.toBeNull();
+});
