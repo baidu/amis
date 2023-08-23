@@ -1312,79 +1312,80 @@ test('Renderer:transfer tree onlyChildren true', async () => {
   });
 });
 
-test('Renderer:transfer tree onlyChildren true', async () => {
+test('Renderer:transfer search highlight', async () => {
+
   const onSubmit = jest.fn();
-  const schema = {
-    "type": "form",
-    "api": "/api/mock2/form/saveForm",
-    "debug": true,
-    "body": [
+  const {container} = render(
+    amisRender(
       {
-        "label": "默认",
-        "type": "transfer",
-        "name": "transfer",
-        "selectMode": "tree",
-        "searchable": true,
-        "options": [
+        "type": "form",
+        "api": "/api/mock2/form/saveForm",
+        "body": [
           {
-            "label": "法师",
-            "children": [
+            "label": "默认",
+            "type": "transfer",
+            "name": "transfer",
+            "selectMode": "tree",
+            "searchable": true,
+            "options": [
               {
-                "label": "诸葛亮",
-                "value": "zhugeliang"
-              }
-            ]
-          },
-          {
-            "label": "战士",
-            "children": [
-              {
-                "label": "曹操",
-                "disabled": true,
-                "value": "caocao"
+                "label": "法师",
+                "children": [
+                  {
+                    "label": "诸葛亮",
+                    "value": "zhugeliang"
+                  }
+                ]
               },
               {
-                "label": "钟无艳",
-                "value": "zhongwuyan"
-              }
-            ]
-          },
-          {
-            "label": "打野",
-            "children": [
-              {
-                "label": "李白",
-                "value": "libai"
+                "label": "战士",
+                "children": [
+                  {
+                    "label": "曹操",
+                    "disabled": true,
+                    "value": "caocao"
+                  },
+                  {
+                    "label": "钟无艳",
+                    "value": "zhongwuyan"
+                  }
+                ]
               },
               {
-                "label": "韩信",
-                "value": "hanxin"
-              },
-              {
-                "label": "云中君",
-                "value": "yunzhongjun"
+                "label": "打野",
+                "children": [
+                  {
+                    "label": "李白",
+                    "value": "libai"
+                  },
+                  {
+                    "label": "韩信",
+                    "value": "hanxin"
+                  },
+                  {
+                    "label": "云中君",
+                    "value": "yunzhongjun"
+                  }
+                ]
               }
             ]
           }
         ]
-      }
-    ]
-  };
+      },
+      {onSubmit},
+      makeEnv({})
+    )
+  )
 
-  const {container} = render(
-    amisRender(schema, {onSubmit}, makeEnv({}))
-  );
+  const input = container.querySelectorAll('input[type=text]')[0];
 
-  const input = container.querySelector('input')!;
   expect(input).not.toBeNull();
 
   fireEvent.change(input, {
-    target: {
-      value: '战士'
-    }
+    target: {value: '战士'}
   });
 
-  await wait(300);
+  await wait(500);
 
   const isMatchDom = container.querySelector('.is-matched');
   expect(isMatchDom).not.toBeNull();
