@@ -676,7 +676,6 @@ export class Transfer<
       rightMode,
       cellRender,
       leftDefaultValue,
-      optionItemRender,
       multiple,
       noResultsText,
       labelField,
@@ -717,7 +716,7 @@ export class Transfer<
         value={value}
         onChange={onChange!}
         onlyChildren={onlyChildren ?? !this.state.isTreeDeferLoad}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         onDeferLoad={onDeferLoad}
         joinValues={false}
         showIcon={false}
@@ -740,7 +739,7 @@ export class Transfer<
         onChange={onChange}
         option2value={option2value}
         onDeferLoad={onDeferLoad}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         multiple={multiple}
         labelField={labelField}
         valueField={valueField}
@@ -765,7 +764,7 @@ export class Transfer<
         leftMode={leftMode}
         rightMode={rightMode}
         leftDefaultValue={leftDefaultValue}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         multiple={multiple}
         labelField={labelField}
         valueField={valueField}
@@ -785,7 +784,7 @@ export class Transfer<
         onChange={onChange}
         option2value={option2value}
         onDeferLoad={onDeferLoad}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         multiple={multiple}
         labelField={labelField}
         valueField={valueField}
