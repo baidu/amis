@@ -333,6 +333,7 @@ type Value = ValueGroup;
 - `source` 动态选项，请配置 api。
 - `searchable` 是否可以搜索
 - `autoComplete` 自动提示补全，每次输入新内容后，将调用接口，根据接口返回更新选项。
+- `maxTagCount` 可以限制标签的最大展示数量，超出数量的部分会收纳到 Popover 中，可以通过 `overflowTagPopover` 配置 Popover 相关的属性，注意该属性仅在多选模式开启后生效。
 
 ```schema: scope="body"
 {

@@ -64,6 +64,8 @@ export interface TransferProps
   leftMode?: 'tree' | 'list' | 'group';
   leftDefaultValue?: any;
   rightMode?: 'table' | 'list' | 'group' | 'tree' | 'chained';
+  maxTagCount?: number;
+  overflowTagPopover?: any;
 
   // search 相关
   searchResultMode?: 'table' | 'list' | 'group' | 'tree' | 'chained';
@@ -388,8 +390,8 @@ export class Transfer<
       (a, b) => a[valueField] === b[valueField]
     );
     const unuseArr = differenceFromAll(
-      values,
       searchAvailableOptions,
+      values,
       item => item[valueField]
     );
 
