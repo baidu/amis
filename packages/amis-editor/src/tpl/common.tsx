@@ -1071,6 +1071,8 @@ setSchemaTpl('buttonLevel', {
   label: '按钮样式',
   type: 'select',
   name: 'level',
+  menuTpl:
+    '<div class="ae-ButtonLevel-MenuTpl"><button type="button" class="cxd-Button cxd-Button--${value} cxd-Button--size-sm cxd-Button--block">${label}</button></div>',
   options: [
     {
       label: '默认',
