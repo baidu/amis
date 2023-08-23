@@ -646,6 +646,17 @@ export class TreeSelector extends React.Component<
   }
 
   @autobind
+  findItemFromAction(parent: Option | null = null) {
+    let item: Option | null = null;
+    for (let option of this.state.flattenedOptions) {
+      if (JSON.stringify(option) === JSON.stringify(parent)) {
+        item = option;
+      }
+    }
+    return item;
+  }
+
+  @autobind
   handleAdd(parent: Option | null = null) {
     const {bultinCUD, onAdd, options} = this.props;
 

@@ -386,8 +386,13 @@ export class TreeControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('switch', {
                 label: '可检索',
-                name: 'searchable',
-                visibleOn: 'data.type === "tree-select"'
+                name: 'searchable'
+              }),
+              getSchemaTpl('apiControl', {
+                name: 'searchApi',
+                label: '选项搜索接口',
+                labelClassName: 'none',
+                visibleOn: 'data.type === "input-tree" && data.searchable'
               }),
               getSchemaTpl('multiple', {
                 body: [
