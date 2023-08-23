@@ -53,7 +53,7 @@ exports[`Renderer:button-group with btnActiveLevel 1`] = `
             class="cxd-ButtonGroup cxd-Form-control"
           >
             <button
-              class="cxd-Button cxd-Button--warning cxd-Button--size-default is-active"
+              class="cxd-Button cxd-Button--warning cxd-Button--size-default cxd-ButtonGroup-button--active"
               type="button"
             >
               <span>
@@ -406,7 +406,7 @@ exports[`Renderer:button-group:multiple clearable 1`] = `
             class="cxd-ButtonGroup cxd-Form-control"
           >
             <button
-              class="cxd-Button cxd-Button--primary cxd-Button--size-default is-active"
+              class="cxd-Button cxd-Button--primary cxd-Button--size-default cxd-ButtonGroup-button--active"
               type="button"
             >
               <span>
@@ -552,7 +552,7 @@ exports[`Renderer:button-group:multiple clearable 2`] = `
             class="cxd-ButtonGroup cxd-Form-control"
           >
             <button
-              class="cxd-Button cxd-Button--primary cxd-Button--size-default is-active"
+              class="cxd-Button cxd-Button--primary cxd-Button--size-default cxd-ButtonGroup-button--active"
               type="button"
             >
               <span>
@@ -560,7 +560,7 @@ exports[`Renderer:button-group:multiple clearable 2`] = `
               </span>
             </button>
             <button
-              class="cxd-Button cxd-Button--primary cxd-Button--size-default is-active"
+              class="cxd-Button cxd-Button--primary cxd-Button--size-default cxd-ButtonGroup-button--active"
               type="button"
             >
               <span>
@@ -698,7 +698,7 @@ exports[`Renderer:button-group:multiple clearable 3`] = `
             class="cxd-ButtonGroup cxd-Form-control"
           >
             <button
-              class="cxd-Button cxd-Button--primary cxd-Button--size-default is-active"
+              class="cxd-Button cxd-Button--primary cxd-Button--size-default cxd-ButtonGroup-button--active"
               type="button"
             >
               <span>
