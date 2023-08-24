@@ -17,7 +17,9 @@ import {
   isEmpty,
   mapObject,
   keyToPath,
-  isObject
+  isObject,
+  ValidateError,
+  extendObject
 } from '../utils/helper';
 import isEqual from 'lodash/isEqual';
 import flatten from 'lodash/flatten';
@@ -49,7 +51,9 @@ export const FormStore = ServiceStore.named('FormStore')
 
         if (current.storeType === 'FormItemStore') {
           formItems.push(current);
-        } else {
+        } else if (
+          !['ComboStore', 'TableStore', 'FormStore'].includes(current.storeType)
+        ) {
           pool.push(...current.children);
         }
       }
@@ -66,33 +70,10 @@ export const FormStore = ServiceStore.named('FormStore')
         return getItems();
       },
 
-      /**
-       * 相对于 items(), 只收集直接子formItem
-       * 避免 子form 表单项的重复验证
-       */
-      get directItems() {
-        const formItems: Array<IFormItemStore> = [];
-
-        // 查找孩子节点中是 formItem 的表单项
-        const pool = self.children.concat();
-        while (pool.length) {
-          const current = pool.shift()!;
-          if (current.storeType === 'FormItemStore') {
-            formItems.push(current);
-          } else if (
-            !['ComboStore', 'TableStore'].includes(current.storeType)
-          ) {
-            pool.push(...current.children);
-          }
-        }
-
-        return formItems;
-      },
-
       /** 获取InputGroup的子元素 */
       get inputGroupItems() {
         const formItems: Record<string, IFormItemStore[]> = {};
-        const children = self.children.concat();
+        const children: Array<any> = this.items.concat();
 
         while (children.length) {
           const current = children.shift();
@@ -188,11 +169,31 @@ export const FormStore = ServiceStore.named('FormStore')
 
       // 如果数据域中有数据变化，就都reset一下，去掉之前残留的验证消息
       self.items.forEach(item => {
-        const value = item.value;
-        if (typeof value !== 'undefined' && value !== item.tmpValue) {
-          item.changeTmpValue(value);
+        if (item.extraName) {
+          const value = [
+            getVariable(values, item.name, false),
+            getVariable(values, item.extraName, false)
+          ];
+          if (
+            value.some(item => item !== undefined) &&
+            !isEqual(value, item.tmpValue)
+          ) {
+            const origin = item.splitExtraValue(item.tmpValue);
+            item.changeTmpValue(
+              value.map((item, idx) => item ?? origin[idx]),
+              'dataChanged'
+            );
+            item.changeEmitedValue(undefined);
+          }
+        } else {
+          const value = getVariable(values, item.name, false);
+          if (value !== undefined && value !== item.tmpValue) {
+            item.changeTmpValue(value, 'dataChanged');
+            item.changeEmitedValue(undefined);
+          }
         }
         item.reset();
+        item.validateOnChange && item.validate(self.data);
       });
 
       // 同步 options
@@ -394,7 +395,7 @@ export const FormStore = ServiceStore.named('FormStore')
           throw new ServerError(self.msg, json);
         } else {
           updateSavedData();
-          let ret = options && options.onSuccess && options.onSuccess(json);
+          let ret = options?.onSuccess?.(json, json.data);
           if (ret?.then) {
             ret = yield ret;
           }
@@ -526,37 +527,20 @@ export const FormStore = ServiceStore.named('FormStore')
       fn?: (values: object) => Promise<any>,
       hooks?: Array<() => Promise<any>>,
       failedMessage?: string,
-      validateErrCb?: () => void
+      validateErrCb?: () => void,
+      throwErrors?: boolean
     ) => Promise<any> = flow(function* submit(
       fn: any,
       hooks?: Array<() => Promise<any>>,
       failedMessage?: string,
-      validateErrCb?: () => void
+      validateErrCb?: () => void,
+      throwErrors?: boolean
     ) {
       self.submited = true;
       self.submiting = true;
 
       try {
-        let valid = yield validate(hooks);
-
-        // 如果不是valid，而且有包含不是remote的报错的表单项时，不可提交
-        if (
-          (!valid &&
-            self.items.some(item =>
-              item.errorData.some(e => e.tag !== 'remote')
-            )) ||
-          self.restError.length
-        ) {
-          let msg = failedMessage ?? self.__('Form.validateFailed');
-          let dispatcher: any = validateErrCb && validateErrCb();
-          if (dispatcher?.then) {
-            dispatcher = yield dispatcher;
-          }
-          if (!dispatcher?.prevented) {
-            msg && toastValidateError(msg);
-          }
-          throw new Error(msg);
-        }
+        yield validate(hooks, undefined, true, failedMessage, validateErrCb);
 
         if (fn) {
           const diff = difference(self.data, self.pristine);
@@ -581,13 +565,19 @@ export const FormStore = ServiceStore.named('FormStore')
 
     const validate: (
       hooks?: Array<() => Promise<any>>,
-      forceValidate?: boolean
+      forceValidate?: boolean,
+      throwErrors?: boolean,
+      failedMessage?: string,
+      validateErrCb?: () => void
     ) => Promise<boolean> = flow(function* validate(
       hooks?: Array<() => Promise<any>>,
-      forceValidate?: boolean
+      forceValidate?: boolean,
+      throwErrors?: boolean,
+      failedMessage?: string,
+      validateErrCb?: () => void
     ) {
       self.validated = true;
-      const items = self.directItems.concat();
+      const items = self.items.concat();
       for (let i = 0, len = items.length; i < len; i++) {
         let item = items[i] as IFormItemStore;
 
@@ -629,6 +619,32 @@ export const FormStore = ServiceStore.named('FormStore')
       if (hooks && hooks.length) {
         for (let i = 0, len = hooks.length; i < len; i++) {
           yield hooks[i]();
+        }
+      }
+
+      if (!self.valid) {
+        // 如果不是valid，而且有包含不是remote的报错的表单项时，不可提交
+        if (
+          self.items.some(item =>
+            item.errorData.some(e => e.tag !== 'remote')
+          ) ||
+          self.restError.length
+        ) {
+          let msg = failedMessage ?? self.__('Form.validateFailed');
+          let dispatcher: any = validateErrCb && validateErrCb();
+          if (dispatcher?.then) {
+            dispatcher = yield dispatcher;
+          }
+          if (!dispatcher?.prevented) {
+            msg && toastValidateError(msg);
+          }
+        }
+
+        if (throwErrors) {
+          throw new ValidateError(
+            failedMessage || self.__('Form.validateFailed'),
+            self.errors
+          );
         }
       }
 

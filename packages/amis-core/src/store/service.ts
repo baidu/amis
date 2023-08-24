@@ -108,7 +108,7 @@ export const ServiceStore = iRendererStore
           reInitData(data, replace);
           self.hasRemoteData = true;
           if (options && options.onSuccess) {
-            const ret = options.onSuccess(json);
+            const ret = options.onSuccess(json, data);
 
             if (ret && ret.then) {
               yield ret;
@@ -215,7 +215,7 @@ export const ServiceStore = iRendererStore
           );
         } else {
           if (options && options.onSuccess) {
-            const ret = options.onSuccess(json);
+            const ret = options.onSuccess(json, json.data);
 
             if (ret && ret.then) {
               yield ret;
@@ -310,7 +310,7 @@ export const ServiceStore = iRendererStore
           throw new ServerError(self.msg, json);
         } else {
           if (options && options.onSuccess) {
-            const ret = options.onSuccess(json);
+            const ret = options.onSuccess(json, json.data);
 
             if (ret && ret.then) {
               yield ret;
@@ -437,11 +437,15 @@ export const ServiceStore = iRendererStore
 
             self.schema = Array.isArray(json.data)
               ? json.data
-              : {
-                  type: 'wrapper',
-                  wrap: false,
-                  ...normalizeApiResponseData(json.data)
-                };
+              : Object.assign(
+                  json.data?.type
+                    ? {}
+                    : {
+                        type: 'wrapper',
+                        wrap: false
+                      },
+                  normalizeApiResponseData(json.data)
+                );
             self.schemaKey = '' + Date.now();
             isObject(json.data.data) &&
               self.updateData(

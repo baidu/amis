@@ -1,5 +1,5 @@
 import React from 'react';
-import {autobind, createObject, filter} from 'amis-core';
+import {ThemeProps, autobind, createObject, filter} from 'amis-core';
 import Tabs, {Tab} from './Tabs';
 import InputBox from './InputBox';
 import TableCheckboxes from './TableSelection';
@@ -26,7 +26,8 @@ export interface TabsTransferProps
       | 'onSearch'
       | 'optionItemRender'
     >,
-    SpinnerExtraProps {
+    SpinnerExtraProps,
+    ThemeProps {
   onSearch: (
     term: string,
     option: Option,
@@ -266,7 +267,8 @@ export class TabsTransfer extends React.Component<
       activeKey,
       classnames: cx,
       translate: __,
-      ctx
+      ctx,
+      mobileUI
     } = this.props;
     const showOptions = options.filter(item => item.visible !== false);
 
@@ -296,7 +298,9 @@ export class TabsTransfer extends React.Component<
             className="TabsTransfer-tab"
           >
             {option.searchable ? (
-              <div className={cx('TabsTransfer-search')}>
+              <div
+                className={cx('TabsTransfer-search', {'is-mobile': mobileUI})}
+              >
                 <InputBox
                   value={this.state.inputValue}
                   onChange={(text: string) => this.handleSearch(text, option)}
@@ -478,12 +482,14 @@ export class TabsTransfer extends React.Component<
       classnames: cx,
       optionItemRender,
       onSearch,
+      mobileUI,
       ...reset
     } = this.props;
 
     return (
       <Transfer
         {...reset}
+        mobileUI={mobileUI}
         statistics={false}
         classnames={cx}
         className={cx('TabsTransfer', className)}

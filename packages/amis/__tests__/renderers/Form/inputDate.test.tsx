@@ -437,3 +437,30 @@ test('Renderer:inputDate with closeOnSelect', async () => {
     conDontClose.querySelector('.cxd-PopOver.cxd-DatePicker-popover')
   ).toBeInTheDocument();
 });
+
+test('Renderer:inputDate disabledDate', async () => {
+  const {container} = await setup([
+    {
+      type: 'input-date',
+      name: 'date',
+      label: '日期',
+      format: 'YYYY-MM-DD',
+      disabledDate: 'return currentDate.day() == 1'
+    }
+  ]);
+
+  // 打开弹框
+  fireEvent.click(container.querySelector('.cxd-DatePicker') as HTMLElement);
+
+  const monday = moment().day(1);
+  const tuesday = moment().day(2);
+  const mondayCell = container.querySelector(
+    '.cxd-DatePicker-popover tr td[data-value="' + monday.date() + '"]'
+  ) as HTMLElement;
+  const tuesdayCell = container.querySelector(
+    '.cxd-DatePicker-popover tr td[data-value="' + tuesday.date() + '"]'
+  ) as HTMLElement;
+
+  expect(mondayCell).toHaveClass('rdtDisabled');
+  expect(tuesdayCell).not.toHaveClass('rdtDisabled');
+});

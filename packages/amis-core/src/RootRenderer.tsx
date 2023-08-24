@@ -104,7 +104,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    const {env, messages, onAction, render} = this.props;
+    const {env, messages, onAction, mobileUI, render} = this.props;
     const store = this.store;
 
     if (
@@ -160,7 +160,12 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       window.open(mailto);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(ctx, undefined, undefined, delegate);
+      store.openDialog(
+        ctx,
+        undefined,
+        action.callback,
+        delegate || (this.context as any)
+      );
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
       store.openDrawer(ctx, undefined, undefined, delegate);
@@ -183,7 +188,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
                   data: ctx
                 })
               : null,
-            useMobileUI: env.useMobileUI
+            mobileUI: mobileUI
           }
         );
       });
@@ -323,9 +328,14 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         actionType: 'dialog',
         dialog: dialog
       });
-      store.openDialog(ctx, undefined, confirmed => {
-        resolve(confirmed);
-      });
+      store.openDialog(
+        ctx,
+        undefined,
+        confirmed => {
+          resolve(confirmed);
+        },
+        this.context as any
+      );
     });
   }
 

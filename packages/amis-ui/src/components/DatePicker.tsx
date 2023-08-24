@@ -19,10 +19,11 @@ import {Overlay} from 'amis-core';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
 import Calendar from './calendar/Calendar';
 import {localeable, LocaleProps, TranslateFn} from 'amis-core';
-import {isMobile, ucFirst} from 'amis-core';
+import {ucFirst} from 'amis-core';
 import CalendarMobile from './CalendarMobile';
 import Input from './Input';
 import type {PlainObject} from 'amis-core';
+import type {RendererEnv} from 'amis-core';
 
 const availableShortcuts: {[propName: string]: any} = {
   now: {
@@ -295,10 +296,10 @@ export interface DateProps extends LocaleProps, ThemeProps {
     className?: string;
   }>;
   scheduleClassNames?: Array<string>;
+  env?: RendererEnv;
   largeMode?: boolean;
   todayActiveStyle?: React.CSSProperties;
   onScheduleClick?: (scheduleData: any) => void;
-  useMobileUI?: boolean;
   // 在移动端日期展示有多种形式，一种是picker 滑动选择，一种是日历展开选择，mobileCalendarMode为calendar表示日历展开选择
   mobileCalendarMode?: 'picker' | 'calendar';
 
@@ -308,6 +309,11 @@ export interface DateProps extends LocaleProps, ThemeProps {
   onBlur?: Function;
   onRef?: any;
   data?: any;
+
+  // 是否为结束时间
+  isEndDate?: boolean;
+
+  disabledDate?: (date: moment.Moment) => any;
 }
 
 export interface DatePickerState {
@@ -582,12 +588,16 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   }
 
   checkIsValidDate(currentDate: moment.Moment) {
-    const {minDate, maxDate} = this.props;
+    const {minDate, maxDate, disabledDate} = this.props;
 
     if (minDate && currentDate.isBefore(minDate, 'day')) {
       return false;
     } else if (maxDate && currentDate.isAfter(maxDate, 'day')) {
       return false;
+    }
+
+    if (typeof disabledDate === 'function') {
+      return !disabledDate(currentDate);
     }
 
     return true;
@@ -706,13 +716,14 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       clearable,
       shortcuts,
       utc,
+      isEndDate,
       overlayPlacement,
       locale,
       format,
       borderMode,
       embed,
       minDate,
-      useMobileUI,
+      mobileUI,
       maxDate,
       schedules,
       largeMode,
@@ -720,7 +731,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       todayActiveStyle,
       onScheduleClick,
       mobileCalendarMode,
-      label
+      label,
+      env
     } = this.props;
 
     const __ = this.props.translate;
@@ -746,6 +758,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'
         }
         timeConstraints={timeConstraints}
+        isEndDate={isEndDate}
       />
     );
     const CalendarMobileTitle = (
@@ -754,9 +767,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       </div>
     );
     const useCalendarMobile =
-      useMobileUI &&
-      isMobile() &&
-      ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
+      mobileUI && ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
 
     if (embed) {
       let schedulesData: DateProps['schedules'] = undefined;
@@ -806,11 +817,13 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             maxDate={maxDate}
             // utc={utc}
             schedules={schedulesData}
+            env={env}
             largeMode={largeMode}
             todayActiveStyle={todayActiveStyle}
             onScheduleClick={onScheduleClick}
             embed={embed}
-            useMobileUI={useMobileUI}
+            mobileUI={mobileUI}
+            isEndDate={isEndDate}
           />
         </div>
       );
@@ -828,7 +841,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             'is-disabled': disabled,
             'is-focused': !disabled && this.state.isFocused,
             [`DatePicker--border${ucFirst(borderMode)}`]: borderMode,
-            'is-mobile': useMobileUI && isMobile()
+            'is-mobile': mobileUI
           },
           className
         )}
@@ -844,7 +857,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           autoComplete="off"
           value={this.state.inputValue || ''}
           disabled={disabled}
-          readOnly={useMobileUI && isMobile()}
+          readOnly={mobileUI}
         />
 
         {clearable && !disabled && normalizeDate(value, format) ? (
@@ -865,7 +878,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           />
         </a>
 
-        {!(useMobileUI && isMobile()) && isOpened ? (
+        {!mobileUI && isOpened ? (
           <Overlay
             target={this.getTarget}
             container={popOverContainer || this.getParent}
@@ -897,13 +910,14 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 locale={locale}
                 minDate={minDate}
                 maxDate={maxDate}
-                useMobileUI={useMobileUI}
+                mobileUI={mobileUI}
+                isEndDate={isEndDate}
                 // utc={utc}
               />
             </PopOver>
           </Overlay>
         ) : null}
-        {useMobileUI && isMobile() ? (
+        {mobileUI ? (
           mobileCalendarMode === 'calendar' && useCalendarMobile ? (
             <PopUp
               isShow={isOpened}
@@ -936,7 +950,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 locale={locale}
                 minDate={minDate}
                 maxDate={maxDate}
-                useMobileUI={useMobileUI}
+                mobileUI={mobileUI}
                 // utc={utc}
               />
             </PopUp>

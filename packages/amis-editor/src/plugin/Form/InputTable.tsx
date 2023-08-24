@@ -1,5 +1,3 @@
-import React from 'react';
-import {Button} from 'amis';
 import {
   registerEditorPlugin,
   BaseEventContext,
@@ -16,9 +14,11 @@ import {
   getI18nEnabled,
   repeatArray,
   mockValue,
-  EditorNodeType
+  EditorNodeType,
+  EditorManager,
+  DSBuilderManager
 } from 'amis-editor-core';
-import {setVariable, someTree} from 'amis-core';
+import {getTreeAncestors, setVariable, someTree} from 'amis-core';
 import {ValidatorTag} from '../../validator';
 import {
   getEventControlConfig,
@@ -28,6 +28,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import {resolveArrayDatasource} from '../../util';
 
 export class TableControlPlugin extends BasePlugin {
+  static id = 'TableControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-table';
   $schema = '/schemas/TableControlSchema.json';
@@ -295,13 +296,19 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.index': {
-              type: 'array',
-              title: '新增行记录索引'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                index: {
+                  type: 'array',
+                  title: '新增索引'
+                }
+              }
             }
           }
         }
@@ -316,17 +323,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '新增行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '新增行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '新增行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '新增索引'
+                }
+              }
             }
           }
         }
@@ -341,17 +354,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '新增行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '新增行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '新增行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '新增索引'
+                }
+              }
             }
           }
         }
@@ -366,21 +385,27 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '新增行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '新增行记录索引'
-            },
-            'event.data.error': {
-              type: 'object',
-              title: '请求失败后接口返回的错误信息'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '新增行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '新增索引'
+                },
+                error: {
+                  type: 'object',
+                  title: '请求失败后接口返回的错误信息'
+                }
+              }
             }
           }
         }
@@ -394,17 +419,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '所在行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '所在行记录索引'
+                }
+              }
             }
           }
         }
@@ -419,17 +450,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '所在行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '所在行记录索引'
+                }
+              }
             }
           }
         }
@@ -444,17 +481,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '所在行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '所在行记录索引'
+                }
+              }
             }
           }
         }
@@ -469,21 +512,27 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'number',
-              title: '所在行记录索引'
-            },
-            'event.data.error': {
-              type: 'object',
-              title: '请求错误后返回的错误信息'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '所在行记录索引'
+                },
+                error: {
+                  type: 'object',
+                  title: '请求错误后返回的错误信息'
+                }
+              }
             }
           }
         }
@@ -497,17 +546,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'object',
-              title: '所在行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'object',
+                  title: '所在行记录索引'
+                }
+              }
             }
           }
         }
@@ -521,17 +576,23 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'object',
-              title: '所在行记录索引'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'object',
+                  title: '所在行记录索引'
+                }
+              }
             }
           }
         }
@@ -545,21 +606,27 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
-            },
-            'event.data.item': {
+            data: {
               type: 'object',
-              title: '所在行记录'
-            },
-            'event.data.index': {
-              type: 'object',
-              title: '所在行记录索引'
-            },
-            'event.data.error': {
-              type: 'object',
-              title: '请求失败后接口返回的错误信息'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                },
+                item: {
+                  type: 'object',
+                  title: '所在行记录'
+                },
+                index: {
+                  type: 'object',
+                  title: '所在行记录索引'
+                },
+                error: {
+                  type: 'object',
+                  title: '请求失败后接口返回的错误信息'
+                }
+              }
             }
           }
         }
@@ -573,9 +640,15 @@ export class TableControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'array',
-              title: '列表记录'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'array',
+                  title: '列表记录'
+                }
+              }
             }
           }
         }
@@ -606,7 +679,7 @@ export class TableControlPlugin extends BasePlugin {
             },
             label: '插入位置',
             size: 'lg',
-            placeholder: '请输入行号，为空则在头部插入'
+            placeholder: '请输入行号，为空则在尾部插入'
           },
           {
             type: 'combo',
@@ -740,6 +813,13 @@ export class TableControlPlugin extends BasePlugin {
       description: '清空组件数据'
     }
   ];
+
+  dsBuilderManager: DSBuilderManager;
+
+  constructor(manager: EditorManager) {
+    super(manager);
+    this.dsBuilderManager = new DSBuilderManager('input-table', 'api');
+  }
 
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
@@ -1022,26 +1102,66 @@ export class TableControlPlugin extends BasePlugin {
     }
   }
 
-  async buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
+  ) {
     const itemsSchema: any = {
-      $id: 'inputTableRow',
+      $id: `${node.id}-${node.type}-tableRows`,
       type: 'object',
       properties: {}
     };
-
     const columns: EditorNodeType = node.children.find(
       item => item.isRegion && item.region === 'columns'
     );
-    for (let current of columns?.children) {
-      const schema = current.schema;
-      if (schema.name) {
-        itemsSchema.properties[schema.name] = current.info?.plugin
-          ?.buildDataSchemas
-          ? await current.info.plugin.buildDataSchemas(current, region)
-          : {
-              type: 'string',
-              title: schema.label || schema.name
-            };
+    const parentScopeId = `${parent?.id}-${parent?.type}${
+      node.parent?.type === 'cell' ? '-currentRow' : ''
+    }`;
+    let isColumnChild = false;
+
+    // 追加当前行scope
+    if (trigger) {
+      isColumnChild = someTree(
+        columns?.children,
+        item => item.id === trigger.id
+      );
+
+      if (isColumnChild) {
+        const scopeId = `${node.id}-${node.type}-currentRow`;
+        if (this.manager.dataSchema.getScope(scopeId)) {
+          this.manager.dataSchema.removeScope(scopeId);
+        }
+
+        if (this.manager.dataSchema.getScope(parentScopeId)) {
+          this.manager.dataSchema.switchTo(parentScopeId);
+        }
+
+        this.manager.dataSchema.addScope([], scopeId);
+        this.manager.dataSchema.current.tag = '当前行记录';
+        this.manager.dataSchema.current.group = '组件上下文';
+      }
+    }
+
+    const cells: any = columns.children.concat();
+    while (cells.length > 0) {
+      const cell = cells.shift() as EditorNodeType;
+      // cell的孩子貌似只会有一个
+      const items = cell.children.concat();
+      while (items.length) {
+        const current = items.shift() as EditorNodeType;
+        const schema = current.schema;
+
+        if (schema.name) {
+          itemsSchema.properties[schema.name] =
+            await current.info.plugin.buildDataSchemas?.(
+              current,
+              region,
+              trigger,
+              node
+            );
+        }
       }
     }
 
@@ -1049,12 +1169,52 @@ export class TableControlPlugin extends BasePlugin {
       return itemsSchema;
     }
 
+    // 追加当前行数据
+    if (isColumnChild) {
+      const scopeId = `${node.id}-${node.type}-currentRow`;
+      const scope = this.manager.dataSchema.getScope(scopeId);
+      scope?.addSchema(itemsSchema);
+    }
+
     return {
-      $id: 'inputTable',
+      $id: `${node.id}-${node.type}-tableData`,
       type: 'array',
-      title: '表格表单数据',
+      title: node.schema?.label || node.schema?.name,
       items: itemsSchema
     };
+  }
+
+  async getAvailableContextFields(
+    scopeNode: EditorNodeType,
+    target: EditorNodeType,
+    region?: EditorNodeType
+  ) {
+    let scope;
+    let builder;
+
+    if (
+      target.type === scopeNode.type ||
+      (target.parent.isRegion && target.parent.region === 'columns')
+    ) {
+      scope = scopeNode.parent.parent;
+      builder = this.dsBuilderManager.resolveBuilderBySchema(
+        scope.schema,
+        'api'
+      );
+    }
+
+    if (builder && scope.schema.api) {
+      return builder.getAvailableContextFileds(
+        {
+          schema: scope.schema,
+          sourceKey: 'api',
+          feat: scope.schema?.feat ?? 'List',
+          scopeNode
+        },
+        /** ID相同为本体，否则为子项 */
+        target?.id === scopeNode?.id ? scopeNode : target
+      );
+    }
   }
 }
 

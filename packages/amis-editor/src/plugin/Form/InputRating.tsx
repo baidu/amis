@@ -1,4 +1,5 @@
 import {
+  EditorNodeType,
   defaultValue,
   getI18nEnabled,
   getSchemaTpl,
@@ -12,6 +13,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class RateControlPlugin extends BasePlugin {
+  static id = 'RateControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-rating';
   $schema = '/schemas/RatingControlSchema.json';
@@ -57,9 +59,15 @@ export class RateControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '评分值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'number',
+                  title: '当前分值'
+                }
+              }
             }
           }
         }
@@ -390,6 +398,14 @@ export class RateControlPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    return {
+      type: 'number',
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+  }
 }
 
 registerEditorPlugin(RateControlPlugin);

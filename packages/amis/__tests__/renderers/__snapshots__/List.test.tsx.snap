@@ -44,6 +44,10 @@ exports[`Renderer:list 1`] = `
                   class="cxd-List"
                 >
                   <div
+                    class="cxd-List-fixedTop"
+                    style="top: 0px;"
+                  />
+                  <div
                     class="cxd-List-items"
                   >
                     <div
@@ -800,9 +804,14 @@ exports[`Renderer:list with itemAction 1`] = `
               class="cxd-List"
             >
               <div
-                class="cxd-List-heading"
+                class="cxd-List-fixedTop"
+                style="top: 0px;"
               >
-                listTitleForTest
+                <div
+                  class="cxd-List-heading"
+                >
+                  listTitleForTest
+                </div>
               </div>
               <div
                 class="cxd-List-items"
@@ -964,10 +973,6 @@ exports[`Renderer:list with itemAction 1`] = `
           data-position="left"
           data-tooltip="关闭"
         >
-          <div
-            class=" Dialog-close"
-            style="display: none;"
-          />
           <icon-mock
             classname="icon icon-close"
             icon="close"
@@ -1034,6 +1039,10 @@ exports[`Renderer:list with listItem actions & actionsPosition 1`] = `
           <div
             class="cxd-List"
           >
+            <div
+              class="cxd-List-fixedTop"
+              style="top: 0px;"
+            />
             <div
               class="cxd-List-items"
             >
@@ -1233,6 +1242,10 @@ exports[`Renderer:list with listItem avatar & avatarClassName 1`] = `
             class="cxd-List"
           >
             <div
+              class="cxd-List-fixedTop"
+              style="top: 0px;"
+            />
+            <div
               class="cxd-List-items"
             >
               <div
@@ -1418,6 +1431,10 @@ exports[`Renderer:list with listItem title & titleClassName & subTitle & desc 1`
           <div
             class="cxd-List"
           >
+            <div
+              class="cxd-List-fixedTop"
+              style="top: 0px;"
+            />
             <div
               class="cxd-List-items"
             >
@@ -1639,6 +1656,7 @@ exports[`Renderer:list with title & header & footer & headerClassName & footerCl
           >
             <div
               class="cxd-List-fixedTop"
+              style="top: 0px;"
             >
               <div
                 class="cxd-List-header headerTplClassName"
@@ -1656,22 +1674,6 @@ exports[`Renderer:list with title & header & footer & headerClassName & footerCl
               >
                 listTitleForTest
               </div>
-            </div>
-            <div
-              class="cxd-List-header headerTplClassName"
-            >
-              <span
-                class="cxd-TplField"
-              >
-                <span>
-                  头部标题
-                </span>
-              </span>
-            </div>
-            <div
-              class="cxd-List-heading"
-            >
-              listTitleForTest
             </div>
             <div
               class="cxd-List-placeholder"

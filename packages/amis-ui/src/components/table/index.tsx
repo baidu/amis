@@ -38,7 +38,7 @@ export interface ColumnProps {
   name: string;
   className?: Function;
   children?: Array<ColumnProps>;
-  render: Function;
+  render?: Function;
   fixed?: boolean | string;
   width?: number | string;
   sorter?: (a: any, b: any) => number | boolean; // 设置为true时，执行onSort，否则执行前端排序
@@ -114,12 +114,12 @@ export interface OnRowProps {
 
 export interface SortProps {
   orderBy: string;
-  order: string;
+  orderDir: string;
 }
 
 export interface TableProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   title: string | React.ReactNode | Function;
-  footer: string | React.ReactNode | Function;
+  footer?: string | React.ReactNode | Function;
   className?: string;
   dataSource: Array<any>;
   classnames: ClassNamesFn;
@@ -1459,14 +1459,18 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       ) : null;
 
     const cells = tdColumns.map((item, i) => {
+      // 为了支持灵活合并单元格，renderers层的Table2传递的render方法，返回{children: <ReactElement>, props: {rowSpan, colSpan}}
+      // 但直接使用amis-ui的table，render方法一般直接返回ReactElement
       const render =
         item.render && typeof item.render === 'function'
           ? item.render(data[item.name], data, rowIndex, i)
           : null;
       let props = {rowSpan: 1, colSpan: 1};
       let children = render;
-      if (render && isObject(render)) {
-        props = render.props;
+      if (render && !React.isValidElement(render) && isObject(render)) {
+        if (render.props) {
+          props = render.props;
+        }
         children = render.children;
         // 如果合并行 且有展开行，那么合并行不生效
         if (props.rowSpan > 1 && isExpandableRow && hasChildrenRow) {

@@ -10,11 +10,11 @@ import type {VariableItem, CodeMirror} from 'amis-ui';
 import {Icon, Button, FormItem, TooltipWrapper} from 'amis';
 import {autobind, FormControlProps} from 'amis-core';
 import {FormulaPlugin, editorFactory} from './textarea-formula/plugin';
-import {getVariables} from './textarea-formula/utils';
 import {renderFormulaValue} from './FormulaControl';
 import FormulaPicker, {
   CustomFormulaPickerProps
 } from './textarea-formula/FormulaPicker';
+import {getVariables} from 'amis-editor-core';
 
 export interface TplFormulaControlProps extends FormControlProps {
   /**
@@ -61,6 +61,8 @@ interface TplFormulaControlState {
   expressionBrace?: Array<CodeMirror.Position>; // 表达式所在位置
 
   tooltipStyle: {[key: string]: string}; // 提示框样式
+
+  loading: boolean;
 }
 
 // 暂时记录输入的字符，用于快捷键判断
@@ -74,7 +76,7 @@ export class TplFormulaControl extends React.Component<
   TplFormulaControlState
 > {
   static defaultProps: Partial<TplFormulaControlProps> = {
-    variableMode: 'tabs',
+    variableMode: 'tree',
     requiredDataPropsVariables: false,
     placeholder: '请输入'
   };
@@ -96,7 +98,8 @@ export class TplFormulaControl extends React.Component<
       formulaPickerValue: '',
       tooltipStyle: {
         display: 'none'
-      }
+      },
+      loading: false
     };
   }
 
@@ -109,17 +112,9 @@ export class TplFormulaControl extends React.Component<
       async () => {
         this.appLocale = editorStore?.appLocale;
         this.appCorpusData = editorStore?.appCorpusData;
-        const variablesArr = await getVariables(this);
-        this.setState({
-          variables: variablesArr
-        });
       }
     );
 
-    const variablesArr = await getVariables(this);
-    this.setState({
-      variables: variablesArr
-    });
     if (this.tooltipRef.current) {
       this.tooltipRef.current.addEventListener(
         'mouseleave',
@@ -135,15 +130,6 @@ export class TplFormulaControl extends React.Component<
     }
   }
 
-  async componentDidUpdate(prevProps: TplFormulaControlProps) {
-    if (this.props.data !== prevProps.data) {
-      const variablesArr = await getVariables(this);
-      this.setState({
-        variables: variablesArr
-      });
-    }
-  }
-
   componentWillUnmount() {
     if (this.tooltipRef.current) {
       this.tooltipRef.current.removeEventListener(
@@ -156,15 +142,6 @@ export class TplFormulaControl extends React.Component<
     }
     this.editorPlugin?.dispose();
     this.unReaction?.();
-  }
-
-  @autobind
-  onExpressionClick(expression: string, brace?: Array<CodeMirror.Position>) {
-    this.setState({
-      formulaPickerValue: expression,
-      formulaPickerOpen: true,
-      expressionBrace: brace
-    });
   }
 
   @autobind
@@ -307,13 +284,55 @@ export class TplFormulaControl extends React.Component<
     this.editorPlugin?.setValue('');
   }
 
+  /**
+   * 公式编辑器打开完成一些异步任务的加载
+   */
   @autobind
-  handleFormulaClick() {
+  async beforeFormulaEditorOpen() {
+    const {node, manager, data} = this.props;
+    const onFormulaEditorOpen = manager?.config?.onFormulaEditorOpen;
+
+    this.setState({loading: true});
+
+    try {
+      if (
+        manager &&
+        onFormulaEditorOpen &&
+        typeof onFormulaEditorOpen === 'function'
+      ) {
+        const res = await onFormulaEditorOpen(node, manager, data);
+
+        if (res !== false) {
+          const variables = await getVariables(this);
+          this.setState({variables});
+        }
+      } else {
+        const variables = await getVariables(this);
+        this.setState({variables});
+      }
+    } catch (error) {
+      console.error('[amis-editor] onFormulaEditorOpen failed: ', error?.stack);
+    }
+
+    this.setState({loading: false});
+  }
+
+  @autobind
+  async handleFormulaClick(e: React.MouseEvent, type?: string) {
+    try {
+      await this.beforeFormulaEditorOpen();
+    } catch (error) {}
+
     this.setState({
-      formulaPickerOpen: true,
-      formulaPickerValue: '',
-      expressionBrace: undefined
+      formulaPickerOpen: true
     });
+
+    if (type !== 'update') {
+      this.setState({
+        formulaPickerValue: '',
+        expressionBrace: undefined
+      });
+    }
   }
 
   @autobind
@@ -329,7 +348,6 @@ export class TplFormulaControl extends React.Component<
     const variables = this.props.variables || this.state.variables;
     this.editorPlugin = new FormulaPlugin(editor, {
       getProps: () => ({...this.props, variables}),
-      onExpressionClick: this.onExpressionClick,
       onExpressionMouseEnter: this.onExpressionMouseEnter,
       showPopover: false,
       showClearIcon: true
@@ -351,8 +369,13 @@ export class TplFormulaControl extends React.Component<
       clearable,
       ...rest
     } = this.props;
-    const {formulaPickerOpen, formulaPickerValue, variables, tooltipStyle} =
-      this.state;
+    const {
+      formulaPickerOpen,
+      formulaPickerValue,
+      variables,
+      tooltipStyle,
+      loading
+    } = this.state;
 
     const FormulaPickerCmp = customFormulaPicker ?? FormulaPicker;
 
@@ -404,6 +427,7 @@ export class TplFormulaControl extends React.Component<
             mouseLeaveDelay: 0
           }}
           onClick={this.handleFormulaClick}
+          loading={loading}
         >
           <Icon
             icon="input-add-fx"
@@ -424,9 +448,7 @@ export class TplFormulaControl extends React.Component<
             className="ae-TplFormulaControl-tooltip"
             style={tooltipStyle}
             ref={this.tooltipRef}
-            onClick={() => {
-              this.setState({formulaPickerOpen: true});
-            }}
+            onClick={e => this.handleFormulaClick(e, 'update')}
           ></div>
         </TooltipWrapper>
 

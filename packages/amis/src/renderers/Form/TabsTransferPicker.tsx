@@ -9,6 +9,7 @@ import {Selection as BaseSelection} from 'amis-ui';
 import {ActionObject, toNumber} from 'amis-core';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
 import {supportStatic} from './StaticHoc';
+import {isMobile} from 'amis-core';
 
 /**
  * TabsTransferPicker 穿梭器的弹框形态
@@ -106,7 +107,9 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
       virtualThreshold,
       loadingConfig,
       labelField = 'label',
-      valueField = 'value'
+      valueField = 'value',
+      mobileUI,
+      env
     } = this.props;
 
     return (
@@ -139,6 +142,8 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
           virtualThreshold={virtualThreshold}
           labelField={labelField}
           valueField={valueField}
+          mobileUI={mobileUI}
+          popOverContainer={env?.getModalContainer}
         />
 
         <Spinner

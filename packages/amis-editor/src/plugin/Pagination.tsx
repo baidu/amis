@@ -12,6 +12,7 @@ import {RendererPluginEvent} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 export class PaginationPlugin extends BasePlugin {
+  static id = 'PaginationPlugin';
   // 关联渲染器名字
   rendererName = 'pagination';
   $schema = '/schemas/PaginationSchema.json';
@@ -48,14 +49,6 @@ export class PaginationPlugin extends BasePlugin {
   };
   panelTitle = '分页器';
 
-  // 事件定义
-  events: RendererPluginEvent[] = [
-    {
-      eventName: 'pageChange',
-      eventLabel: '分页改变',
-      description: '分页改变'
-    }
-  ];
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {

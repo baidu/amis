@@ -3,6 +3,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {DateRangeControlPlugin} from './InputDateRange';
 
 export class YearRangeControlPlugin extends DateRangeControlPlugin {
+  static id = 'YearRangeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-year-range';
   $schema = '/schemas/DateRangeControlSchema.json';

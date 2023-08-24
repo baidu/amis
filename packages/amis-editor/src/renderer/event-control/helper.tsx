@@ -295,22 +295,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               type: 'wrapper',
               className: 'p-none',
               body: [
-                /**
-                {
-                  label: '页面地址',
-                  type: 'input-formula',
-                  variables: '${variables}',
-                  evalMode: false,
-                  variableMode: 'tabs',
-                  inputMode: 'input-group',
-                  name: 'url',
-                  placeholder: 'http://',
-                  mode: 'horizontal',
-                  size: 'lg',
-                  required: true,
-                  visibleOn: 'data.actionType === "url"'
-                },
-                */
                 getSchemaTpl('textareaFormulaControl', {
                   name: 'url',
                   label: '页面地址',
@@ -334,22 +318,9 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       placeholder: '参数名',
                       type: 'input-text'
                     },
-                    /**
-                     {
-                      name: 'val',
-                      placeholder: '参数值',
-                      type: 'input-formula',
-                      variables: '${variables}',
-                      evalMode: false,
-                      variableMode: 'tabs',
-                      inputMode: 'input-group',
-                      size: 'xs'
-                    },
-                     */
                     getSchemaTpl('formulaControl', {
                       variables: '${variables}',
                       name: 'val',
-                      variableMode: 'tabs',
                       placeholder: '参数值'
                     })
                   ]
@@ -514,7 +485,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               )
             },
             {
-              name: 'args',
+              name: 'dialog',
               label: '弹框内容',
               mode: 'horizontal',
               required: true,
@@ -629,20 +600,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   level: 'default'
                 }))
               },
-              /*
-              {
-                name: 'msg',
-                label: '消息内容',
-                mode: 'horizontal',
-                type: 'input-formula',
-                variables: '${variables}',
-                evalMode: false,
-                variableMode: 'tabs',
-                inputMode: 'input-group',
-                size: 'lg',
-                required: true
-              },
-              */
               getSchemaTpl('textareaFormulaControl', {
                 name: 'msg',
                 label: '消息内容',
@@ -651,19 +608,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 size: 'lg',
                 required: true
               }),
-              /*
-            {
-              name: 'title',
-              type: 'input-formula',
-              variables: '${variables}',
-              evalMode: false,
-              variableMode: 'tabs',
-              inputMode: 'input-group',
-              label: '标题内容',
-              size: 'lg',
-              mode: 'horizontal'
-            },
-            */
               getSchemaTpl('textareaFormulaControl', {
                 name: 'title',
                 label: '标题内容',
@@ -671,19 +615,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 mode: 'horizontal',
                 size: 'lg'
               }),
-              /*
-            {
-              name: 'timeout',
-              type: 'input-formula',
-              variables: '${variables}',
-              evalMode: false,
-              variableMode: 'tabs',
-              inputMode: 'input-group',
-              label: '持续时间(ms)',
-              size: 'lg',
-              mode: 'horizontal'
-            },
-            */
               getSchemaTpl('formulaControl', {
                 name: 'timeout',
                 label: '持续时间(ms)',
@@ -759,9 +690,9 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '发送请求',
           actionType: 'ajax',
           description: '配置并发送API请求',
-          innerArgs: ['api', 'options'],
+          // innerArgs: ['api', 'options'],
           descDetail: (info: any) => {
-            let apiInfo = info?.args?.api;
+            let apiInfo = info?.api ?? info?.args?.api;
             if (typeof apiInfo === 'string') {
               apiInfo = normalizeApi(apiInfo);
             }
@@ -780,47 +711,76 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             type: 'wrapper',
             className: 'p-none',
             body: [
-              getArgsWrapper(
-                [
-                  getSchemaTpl('apiControl', {
-                    name: 'api',
-                    label: '配置请求',
-                    mode: 'horizontal',
-                    size: 'lg',
-                    inputClassName: 'm-b-none',
-                    renderLabel: true,
-                    required: true
-                  }),
+              // getArgsWrapper(
+              //   [
+              //     getSchemaTpl('apiControl', {
+              //       name: 'api',
+              //       label: '配置请求',
+              //       mode: 'horizontal',
+              //       size: 'lg',
+              //       inputClassName: 'm-b-none',
+              //       renderLabel: true,
+              //       required: true
+              //     }),
+              //     {
+              //       name: 'options',
+              //       type: 'combo',
+              //       label: tipedLabel(
+              //         '静默请求',
+              //         '开启后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
+              //       ),
+              //       mode: 'horizontal',
+              //       items: [
+              //         {
+              //           type: 'switch',
+              //           name: 'silent',
+              //           label: false,
+              //           onText: '开启',
+              //           offText: '关闭',
+              //           mode: 'horizontal',
+              //           pipeIn: defaultValue(false)
+              //         }
+              //       ]
+              //     }
+              //   ],
+              //   false,
+              //   {
+              //     className: 'action-apiControl'
+              //   }
+              // ),
+              getSchemaTpl('apiControl', {
+                name: 'api',
+                label: '配置请求',
+                mode: 'horizontal',
+                size: 'lg',
+                inputClassName: 'm-b-none',
+                renderLabel: true,
+                required: true
+              }),
+              {
+                name: 'options',
+                type: 'combo',
+                label: tipedLabel(
+                  '静默请求',
+                  '开启后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
+                ),
+                mode: 'horizontal',
+                items: [
                   {
-                    name: 'options',
-                    type: 'combo',
-                    label: tipedLabel(
-                      '静默请求',
-                      '开启后，服务请求将以静默模式发送，即不会弹出成功或报错提示。'
-                    ),
+                    type: 'switch',
+                    name: 'silent',
+                    label: false,
+                    onText: '开启',
+                    offText: '关闭',
                     mode: 'horizontal',
-                    items: [
-                      {
-                        type: 'switch',
-                        name: 'silent',
-                        label: false,
-                        onText: '开启',
-                        offText: '关闭',
-                        mode: 'horizontal',
-                        pipeIn: defaultValue(false)
-                      }
-                    ]
+                    pipeIn: defaultValue(false)
                   }
-                ],
-                false,
-                {
-                  className: 'action-apiControl'
-                }
-              ),
+                ]
+              },
               {
                 name: 'outputVar',
                 type: 'input-text',
-                label: '存储结果',
+                label: '请求结果',
                 placeholder: '请输入存储请求结果的变量名称',
                 description:
                   '如需执行多次发送请求，可以修改此变量名用于区分不同请求返回的结果',
@@ -834,16 +794,17 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           outputVarDataSchema: [
             {
               type: 'object',
+              title: 'responseResult',
               properties: {
-                'event.data.${outputVar}.responseData': {
+                responseData: {
                   type: 'object',
-                  title: '数据'
+                  title: '响应数据'
                 },
-                'event.data.${outputVar}.responseStatus': {
+                responseStatus: {
                   type: 'number',
                   title: '状态标识'
                 },
-                'event.data.${outputVar}.responseMsg': {
+                responseMsg: {
                   type: 'string',
                   title: '提示信息'
                 }
@@ -855,26 +816,35 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           actionLabel: '下载文件',
           actionType: 'download',
           description: '触发下载文件',
-          innerArgs: ['api'],
+          // innerArgs: ['api'],
           schema: {
             type: 'wrapper',
             style: {padding: '0'},
             body: [
-              getArgsWrapper(
-                getSchemaTpl('apiControl', {
-                  name: 'api',
-                  label: '配置请求',
-                  mode: 'horizontal',
-                  inputClassName: 'm-b-none',
-                  size: 'lg',
-                  renderLabel: true,
-                  required: true
-                }),
-                false,
-                {
-                  className: 'action-apiControl'
-                }
-              )
+              // getArgsWrapper(
+              //   getSchemaTpl('apiControl', {
+              //     name: 'api',
+              //     label: '配置请求',
+              //     mode: 'horizontal',
+              //     inputClassName: 'm-b-none',
+              //     size: 'lg',
+              //     renderLabel: true,
+              //     required: true
+              //   }),
+              //   false,
+              //   {
+              //     className: 'action-apiControl'
+              //   }
+              // )
+              getSchemaTpl('apiControl', {
+                name: 'api',
+                label: '配置请求',
+                mode: 'horizontal',
+                inputClassName: 'm-b-none',
+                size: 'lg',
+                renderLabel: true,
+                required: true
+              })
             ]
           }
         }
@@ -1151,9 +1121,10 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           ]
         },
         {
-          actionLabel: '刷新组件',
+          actionLabel: '重新请求数据',
           actionType: 'reload',
-          description: '请求并重新加载所选组件的数据',
+          description:
+            '如果开启发送数据，会先发送配置数据到目标组件，然后重新请求数据。',
           descDetail: (info: any) => {
             return (
               <div>
@@ -1172,8 +1143,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               true,
               (value: string, oldVal: any, data: any, form: any) => {
                 form.setValueByName('args.resetPage', true);
-                form.setValueByName('__addParam', true);
-                form.setValueByName('__customData', false);
+                form.setValueByName('__addParam', false);
                 form.setValueByName('__containerType', 'all');
                 form.setValueByName('__reloadParam', []);
               }
@@ -1195,27 +1165,14 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               type: 'switch',
               name: '__addParam',
               label: tipedLabel(
-                '追加数据',
-                '当选择“是”，且目标组件是增删改查组件时，数据接口请求时将带上这些数据，其他类型的目标组件只有在数据接口是post请求时才会带上这些数据。'
+                '发送数据',
+                '开启“发送数据”后，所配置的数据将发送给目标组件，这些数据将与目标组件数据域进行合并或覆盖'
               ),
               onText: '是',
               offText: '否',
               mode: 'horizontal',
-              pipeIn: defaultValue(true),
-              visibleOn: `data.actionType === "reload" &&  data.__isScopeContainer`
-            },
-            {
-              type: 'switch',
-              name: '__customData',
-              label: tipedLabel(
-                '自定义数据',
-                '数据默认为源组件所在数据域，开启“自定义”可以定制所需数据'
-              ),
-              onText: '是',
-              offText: '否',
-              mode: 'horizontal',
-              pipeIn: defaultValue(true),
-              visibleOn: `data.__addParam && data.actionType === "reload" && data.__isScopeContainer`,
+              pipeIn: defaultValue(false),
+              visibleOn: `data.actionType === "reload" &&  data.__isScopeContainer`,
               onChange: (value: string, oldVal: any, data: any, form: any) => {
                 form.setValueByName('__containerType', 'all');
               }
@@ -1226,7 +1183,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               mode: 'horizontal',
               label: '',
               pipeIn: defaultValue('all'),
-              visibleOn: `data.__addParam && data.__customData && data.actionType === "reload" && data.__isScopeContainer`,
+              visibleOn: `data.__addParam && data.actionType === "reload" && data.__isScopeContainer`,
               options: [
                 {
                   label: '直接赋值',
@@ -1242,21 +1199,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 form.setValueByName('__valueInput', undefined);
               }
             },
-            /*
-            {
-              name: '__valueInput',
-              type: 'input-formula',
-              variables: '${variables}',
-              evalMode: false,
-              required: true,
-              variableMode: 'tabs',
-              inputMode: 'input-group',
-              label: '',
-              size: 'lg',
-              mode: 'horizontal',
-              visibleOn: `data.__addParam && data.__customData && data.__containerType === "all" && data.actionType === "reload" && data.__isScopeContainer`
-            },
-            */
             getSchemaTpl('formulaControl', {
               name: '__valueInput',
               label: '',
@@ -1264,7 +1206,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               size: 'lg',
               mode: 'horizontal',
               required: true,
-              visibleOn: `data.__addParam && data.__customData && data.__containerType === "all" && data.actionType === "reload" && data.__isScopeContainer`
+              visibleOn: `data.__addParam && data.__containerType === "all" && data.actionType === "reload" && data.__isScopeContainer`
             }),
             {
               type: 'combo',
@@ -1286,31 +1228,20 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   valueField: 'value',
                   required: true
                 },
-                /*
-                {
-                  name: 'val',
-                  type: 'input-formula',
-                  placeholder: '参数值',
-                  variables: '${variables}',
-                  evalMode: false,
-                  variableMode: 'tabs',
-                  inputMode: 'input-group'
-                }
-                */
                 getSchemaTpl('formulaControl', {
                   name: 'val',
                   variables: '${variables}',
                   placeholder: '参数值'
                 })
               ],
-              visibleOn: `data.__addParam && data.__customData && data.__containerType === "appoint" && data.actionType === "reload" && data.__isScopeContainer`
+              visibleOn: `data.__addParam && data.__containerType === "appoint" && data.actionType === "reload" && data.__isScopeContainer`
             },
             {
               type: 'radios',
               name: 'dataMergeMode',
               mode: 'horizontal',
               label: tipedLabel(
-                '追加方式',
+                '数据处理方式',
                 '选择“合并”时，会将数据合并到目标组件的数据域。<br/>选择“覆盖”时，数据会直接覆盖目标组件的数据域。'
               ),
               pipeIn: defaultValue('merge'),
@@ -1506,17 +1437,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                           valueField: 'value',
                           required: true
                         },
-                        /*
-                        {
-                          name: 'val',
-                          type: 'input-formula',
-                          placeholder: '字段值',
-                          variables: '${variables}',
-                          evalMode: false,
-                          variableMode: 'tabs',
-                          inputMode: 'input-group'
-                        }
-                        */
                         getSchemaTpl('formulaControl', {
                           name: 'val',
                           variables: '${variables}',
@@ -1562,16 +1482,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                               required: true,
                               visibleOn: `data.__rendererName`
                             },
-                            /*
-                            {
-                              name: 'val',
-                              type: 'input-formula',
-                              variables: '${variables}',
-                              evalMode: false,
-                              variableMode: 'tabs',
-                              inputMode: 'input-group'
-                            }
-                            */
                             getSchemaTpl('formulaControl', {
                               name: 'val',
                               variables: '${variables}'
@@ -1582,21 +1492,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       visibleOn: `(data.__rendererName === 'combo' || data.__rendererName === 'input-table')
                       && data.__comboType === 'all'`
                     },
-                    /*
-                    {
-                      name: '__valueInput',
-                      type: 'input-formula',
-                      variables: '${variables}',
-                      evalMode: false,
-                      variableMode: 'tabs',
-                      inputMode: 'input-group',
-                      label: '',
-                      size: 'lg',
-                      mode: 'horizontal',
-                      visibleOn: `(data.__isScopeContainer || ${SHOW_SELECT_PROP}) && data.__containerType === 'all'`,
-                      required: true
-                    },
-                    */
                     getSchemaTpl('formulaControl', {
                       name: '__valueInput',
                       label: '',
@@ -1606,21 +1501,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       visibleOn: `(data.__isScopeContainer || ${SHOW_SELECT_PROP}) && data.__containerType === 'all'`,
                       required: true
                     }),
-                    /*
-                    {
-                      name: '__valueInput',
-                      type: 'input-formula',
-                      variables: '${variables}',
-                      evalMode: false,
-                      variableMode: 'tabs',
-                      inputMode: 'input-group',
-                      label: '数据设置',
-                      size: 'lg',
-                      mode: 'horizontal',
-                      visibleOn: `data.__rendererName && !data.__isScopeContainer && data.__rendererName !== 'combo'`,
-                      required: true
-                    }
-                   */
                     getSchemaTpl('formulaControl', {
                       name: '__valueInput',
                       label: '数据设置',
@@ -1708,7 +1588,45 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             );
           },
           supportComponents: 'form',
-          schema: renderCmptSelect('目标组件', true)
+          schema: [
+            ...renderCmptSelect('目标组件', true),
+            {
+              name: 'outputVar',
+              type: 'input-text',
+              label: '提交结果',
+              placeholder: '请输入存储提交结果的变量名称',
+              description:
+                '如需执行多次表单提交，可以修改此变量名用于区分不同的提交结果',
+              mode: 'horizontal',
+              size: 'lg',
+              value: 'submitResult',
+              required: true
+            }
+          ],
+          outputVarDataSchema: [
+            {
+              type: 'object',
+              title: 'submitResult',
+              properties: {
+                error: {
+                  type: 'string',
+                  title: '错误信息'
+                },
+                errors: {
+                  type: 'object',
+                  title: '错误详情'
+                },
+                payload: {
+                  type: 'object',
+                  title: '提交的表单数据'
+                },
+                responseData: {
+                  type: 'object',
+                  title: '提交请求的响应数据'
+                }
+              }
+            }
+          ]
         },
         {
           actionLabel: '清空表单',
@@ -1762,7 +1680,41 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             );
           },
           supportComponents: 'form',
-          schema: renderCmptSelect('目标组件', true)
+          schema: [
+            ...renderCmptSelect('目标组件', true),
+            {
+              name: 'outputVar',
+              type: 'input-text',
+              label: '校验结果',
+              placeholder: '请输入存储校验结果的变量名称',
+              description:
+                '如需执行多次表单校验，可以修改此变量名用于区分不同的校验结果',
+              mode: 'horizontal',
+              size: 'lg',
+              value: 'validateResult',
+              required: true
+            }
+          ],
+          outputVarDataSchema: [
+            {
+              type: 'object',
+              title: 'validateResult',
+              properties: {
+                error: {
+                  type: 'string',
+                  title: '错误信息'
+                },
+                errors: {
+                  type: 'object',
+                  title: '错误详情'
+                },
+                payload: {
+                  type: 'object',
+                  title: '提交的表单数据'
+                }
+              }
+            }
+          ]
         },
         {
           actionLabel: '组件特性动作',
@@ -1796,21 +1748,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             type: 'wrapper',
             className: 'p-none',
             body: [
-              /*
-               {
-                name: 'content',
-                type: 'input-formula',
-                variables: '${variables}',
-                evalMode: false,
-                variableMode: 'tabs',
-                inputMode: 'input-group',
-                label: '内容模板',
-                mode: 'horizontal',
-                size: 'lg',
-                visibleOn: 'data.actionType === "copy"',
-                required: true
-              },
-              */
               getSchemaTpl('textareaFormulaControl', {
                 name: 'content',
                 label: '内容模板',
@@ -1962,28 +1899,8 @@ export const renderCmptActionSelect = (
       componentLabel || '选择组件',
       true,
       async (value: string, oldVal: any, data: any, form: any) => {
-        // 获取组件上下文.
-        const rendererType = form.data.__rendererName;
+        // 获取组件上下文
         if (form.data.__nodeId) {
-          const dataSchema: any = await form.data.getContextSchemas?.(
-            form.data.__nodeId,
-            true
-          );
-          const dataSchemaIns = new DataSchema(dataSchema || []);
-          const variables = dataSchemaIns?.getDataPropsAsOptions() || [];
-
-          form.setValueByName('__cmptDataSchema', dataSchema);
-          form.setValueByName('__cmptVariables', variables); // 组件上下文（不含父级）
-          form.setValueByName('__cmptVariablesWithSys', [
-            // 组件上下文+页面+系统
-            {
-              label: `${form.data.__rendererLabel}变量`,
-              children: variables
-            },
-            ...form.data.rawVariables.filter((item: ContextVariables) =>
-              ['页面变量', '系统变量'].includes(item.label)
-            )
-          ]);
           if (form.data.actionType === 'setValue') {
             // todo:这里会闪一下，需要从amis查下问题
             form.setValueByName('args.value', []);
@@ -1991,7 +1908,14 @@ export const renderCmptActionSelect = (
             form.setValueByName('args.__valueInput', undefined);
             form.setValueByName('args.__containerType', undefined);
 
-            if (SELECT_PROPS_CONTAINER.includes(rendererType)) {
+            if (SELECT_PROPS_CONTAINER.includes(form.data.__rendererName)) {
+              const contextSchema: any = await form.data.getContextSchemas?.(
+                form.data.__nodeId,
+                true
+              );
+
+              const dataSchema = new DataSchema(contextSchema || []);
+              const variables = dataSchema?.getDataPropsAsOptions() || [];
               form.setValueByName(
                 '__setValueDs',
                 variables.filter(item => item.value !== '$$id')
@@ -2070,17 +1994,6 @@ export const COMMON_ACTION_SCHEMA_MAP: {
               valueField: 'value',
               required: true
             },
-            /*
-            {
-              name: 'val',
-              type: 'input-formula',
-              placeholder: '变量值',
-              variables: '${variables}',
-              evalMode: false,
-              variableMode: 'tabs',
-              inputMode: 'input-group'
-            }
-            */
             getSchemaTpl('formulaControl', {
               name: 'val',
               variables: '${variables}',
@@ -2120,16 +2033,6 @@ export const COMMON_ACTION_SCHEMA_MAP: {
                   type: 'input-text',
                   required: true
                 },
-                /*
-                {
-                  name: 'val',
-                  type: 'input-formula',
-                  variables: '${variables}',
-                  evalMode: false,
-                  variableMode: 'tabs',
-                  inputMode: 'input-group'
-                }
-                */
                 getSchemaTpl('formulaControl', {
                   name: 'val',
                   variables: '${variables}'
@@ -2139,21 +2042,6 @@ export const COMMON_ACTION_SCHEMA_MAP: {
           ],
           visibleOn: `data.__rendererName === 'combo' || data.__rendererName === 'input-table'`
         },
-        /*
-        {
-          name: '__valueInput',
-          type: 'input-formula',
-          variables: '${variables}',
-          evalMode: false,
-          variableMode: 'tabs',
-          inputMode: 'input-group',
-          label: '变量赋值',
-          size: 'lg',
-          mode: 'horizontal',
-          visibleOn: `!data.__isScopeContainer && data.__rendererName !== 'combo'`,
-          required: true
-        }
-        */
         getSchemaTpl('formulaControl', {
           name: '__valueInput',
           label: '变量赋值',
@@ -2886,14 +2774,9 @@ export const getEventControlConfig = (
       );
       return result;
     },
-    actionConfigInitFormatter: async (
-      action: ActionConfig,
-      variables: {
-        eventVariables: ContextVariables[];
-        rawVariables: ContextVariables[];
-      }
-    ) => {
+    actionConfigInitFormatter: async (action: ActionConfig) => {
       let config = {...action};
+      config.args = {...action.args};
       if (['link', 'url'].includes(action.actionType) && action.args?.params) {
         config.args = {
           ...config.args,
@@ -2953,11 +2836,13 @@ export const getEventControlConfig = (
         config.__actionExpression = action.args?.value;
       }
 
-      if (
-        action.actionType === 'ajax' &&
-        typeof action?.args?.api === 'string'
-      ) {
-        action.args.api = normalizeApi(action?.args?.api);
+      if (['ajax', 'download'].includes(action.actionType)) {
+        config.api = action.api ?? action?.args?.api;
+        config.options = action.options ?? action?.args?.options;
+        if (typeof action?.api === 'string') {
+          config.api = normalizeApi(action?.api);
+        }
+        delete config.args;
       }
 
       // 获取动作专有配置参数
@@ -2972,8 +2857,7 @@ export const getEventControlConfig = (
       // 处理刷新组件动作的追加参数
       if (config.actionType === 'reload') {
         config.__resetPage = config.args?.resetPage;
-        config.__addParam = config.data === undefined || !!config.data;
-        config.__customData = !!config.data;
+        config.__addParam = !!config.data;
 
         if (
           (config.data && typeof config.data === 'object') ||
@@ -2981,12 +2865,12 @@ export const getEventControlConfig = (
             !Object.keys(config.args).length &&
             config.data === undefined)
         ) {
-          config.__customData = true;
+          config.__addParam = true;
           config.__containerType = 'appoint';
           config.dataMergeMode = 'override';
         }
 
-        if (config.__addParam && config.__customData && config.data) {
+        if (config.__addParam && config.data) {
           if (typeof config.data === 'string') {
             config.__containerType = 'all';
             config.__valueInput = config.data;
@@ -3008,7 +2892,9 @@ export const getEventControlConfig = (
       // 处理下 addItem 的初始化
       if (action.actionType === 'addItem') {
         if (Array.isArray(action.args?.item)) {
-          const comboArray = (action.args?.item || []).map((raw: any) => objectToComboArray(raw));
+          const comboArray = (action.args?.item || []).map((raw: any) =>
+            objectToComboArray(raw)
+          );
           config.args = {
             ...config.args,
             value: comboArray.map(combo => ({item: combo}))
@@ -3049,37 +2935,11 @@ export const getEventControlConfig = (
 
       // 获取左侧命中的动作节点
       const hasSubActionNode = findSubActionNode(actionTree, action.actionType);
-      // 如果args配置中存在组件id，则自动获取一次该组件的上下文
-      let datasource = [];
-      if (action.args?.componentId) {
-        const schema = manager?.store?.getSchema(
-          action.args?.componentId,
-          'id'
-        );
-        const dataSchema: any = await manager.getContextSchemas(
-          schema?.$$id,
-          true
-        );
-        const dataSchemaIns = new DataSchema(dataSchema || []);
-        datasource = dataSchemaIns?.getDataPropsAsOptions() || [];
-      }
 
       return {
         ...config,
         actionType: getActionType(action, hasSubActionNode),
-        args: {
-          ...config.args,
-          __dataContainerVariables: datasource?.length
-            ? [
-                ...variables.eventVariables,
-                {
-                  label: '数据来源变量',
-                  children: datasource
-                },
-                ...variables.rawVariables
-              ]
-            : [...variables.eventVariables, ...variables.rawVariables]
-        }
+        args: config.args
       };
     },
     actionConfigSubmitFormatter: (config: ActionConfig) => {
@@ -3115,7 +2975,7 @@ export const getEventControlConfig = (
 
       // 刷新组件时，处理是否追加事件变量
       if (config.actionType === 'reload') {
-        action.data = null;
+        action.data = undefined;
         action.dataMergeMode = undefined;
 
         action.args =
@@ -3126,15 +2986,13 @@ export const getEventControlConfig = (
               }
             : undefined;
 
+        action.data = undefined;
         if (config.__addParam) {
           action.dataMergeMode = config.dataMergeMode || 'merge';
-          action.data = undefined;
-          if (config.__customData) {
-            action.data =
-              config.__containerType === 'all'
-                ? config.__valueInput
-                : comboArrayToObject(config.__reloadParams || []);
-          }
+          action.data =
+            config.__containerType === 'all'
+              ? config.__valueInput
+              : comboArrayToObject(config.__reloadParams || []);
         }
       }
 
@@ -3222,7 +3080,9 @@ export const getEventControlConfig = (
         action.actionType === 'addItem' &&
         action.__rendererName === 'input-table'
       ) {
-        const comboArray = (config.args?.value! || []).map((combo: any) => combo.item || {});
+        const comboArray = (config.args?.value! || []).map(
+          (combo: any) => combo.item || {}
+        );
         action.args = {
           ...action.args,
           item: comboArray.map((raw: any) => comboArrayToObject(raw))

@@ -11,6 +11,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {JSONPipeIn, JSONUpdate, makeHorizontalDeeper} from 'amis-editor-core';
 
 export class GroupControlPlugin extends BasePlugin {
+  static id = 'GroupControlPlugin';
   // 关联渲染器名字
   rendererName = 'group';
   $schema = '/schemas/GroupControlSchema.json';

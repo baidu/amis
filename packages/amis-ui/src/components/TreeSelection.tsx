@@ -39,10 +39,9 @@ export class TreeSelection extends BaseSelection<
 
   componentDidUpdate(prevProps: TreeSelectionProps) {
     const props = this.props;
-
     if (
-      !this.state.expanded.length &&
-      (props.expand !== prevProps.expand || props.options !== prevProps.options)
+      props.expand !== prevProps.expand ||
+      props.options !== prevProps.options
     ) {
       this.syncExpanded();
     }
@@ -51,7 +50,7 @@ export class TreeSelection extends BaseSelection<
   syncExpanded() {
     const options = this.props.options;
     const mode = this.props.expand;
-    const expanded: Array<string> = [];
+    let expanded: Array<string> = [];
 
     if (!Array.isArray(options)) {
       return;
@@ -86,7 +85,8 @@ export class TreeSelection extends BaseSelection<
       onDeferLoad,
       disabled,
       multiple,
-      clearable
+      clearable,
+      valueField
     } = this.props;
 
     if (disabled || option.disabled) {
@@ -96,7 +96,12 @@ export class TreeSelection extends BaseSelection<
       return;
     }
 
-    let valueArray = BaseSelection.value2array(value, options, option2value);
+    let valueArray = BaseSelection.value2array(
+      value,
+      options,
+      option2value,
+      valueField
+    );
 
     if (
       option.value === void 0 &&
@@ -290,10 +295,16 @@ export class TreeSelection extends BaseSelection<
       classnames: cx,
       option2value,
       placeholderRender,
+      valueField,
       translate: __
     } = this.props;
 
-    this.valueArray = BaseSelection.value2array(value, options, option2value);
+    this.valueArray = BaseSelection.value2array(
+      value,
+      options,
+      option2value,
+      valueField
+    );
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {

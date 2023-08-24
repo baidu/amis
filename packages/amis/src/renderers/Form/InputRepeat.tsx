@@ -7,6 +7,7 @@
 
 import React from 'react';
 import cx from 'classnames';
+import {isMobile} from 'amis-core';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
 
 /**
@@ -74,6 +75,9 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
       placeholder,
       disabled,
       classPrefix: ns,
+      mobileUI,
+      popOverContainer,
+      env,
       translate: __
     } = this.props;
 
@@ -216,6 +220,12 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
             searchable={false}
             disabled={disabled}
             joinValues={false}
+            mobileUI={mobileUI}
+            popOverContainer={
+              mobileUI
+                ? env?.getModalContainer
+                : popOverContainer || env.getModalContainer
+            }
           />
         </div>
       </div>

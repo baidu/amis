@@ -24,6 +24,26 @@
 
       color: var(--Form-input-color);
     }
+
+    &.is-mobile {
+      & > span {
+        border-radius: 0;
+        border: none;
+        border-bottom: var(--Form-input-borderWidth) solid
+          var(--Form-input-borderColor);
+      }
+
+      .#{$ns}InputBox {
+        height: 100%;
+        line-height: 1;
+
+        > .#{$ns}InputBox-caret {
+          svg {
+            top: 0.125em;
+          }
+        }
+      }
+    }
   }
 
   &-value {
@@ -59,7 +79,7 @@
     transition: transform var(--animation-duration);
     color: var(--icon-color);
     margin-top: calc((var(--Form-input-height) - var(--Switch-height)) / 2);
-
+    transform: rotate(90deg);
     > svg {
       width: 10px;
       height: 10px;
@@ -68,7 +88,7 @@
   }
 
   &-caret.is-collapsed {
-    transform: rotate(-90deg);
+    transform: rotate(0deg);
   }
 
   &.is-expanded {
@@ -119,6 +139,14 @@
         left: -33px;
         border-top: dashed 1px var(--icon-color);
       }
+    }
+  }
+
+  &.is-mobile {
+    .#{$ns}Number {
+      border-radius: 0;
+      border-bottom: var(--Number-borderWidth) solid
+        var(--Form-input-borderColor);
     }
   }
 }

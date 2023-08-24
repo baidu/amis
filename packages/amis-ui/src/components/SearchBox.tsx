@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import isInteger from 'lodash/isInteger';
 import debounce from 'lodash/debounce';
 import moment from 'moment';
@@ -8,6 +7,8 @@ import {Icon} from './icons';
 import {uncontrollable} from 'amis-core';
 import {autobind} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
+import chain from 'lodash/chain';
+import Input from './Input';
 
 export interface HistoryRecord {
   /** 历史记录值 */
@@ -210,7 +211,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
     try {
       const storageValues = localStorage.getItem(key);
 
-      return _.chain(storageValues ? JSON.parse(storageValues) : [])
+      return chain(storageValues ? JSON.parse(storageValues) : [])
         .uniqBy('value')
         .orderBy(['timestamp'], ['desc'])
         .slice(0, limit)
@@ -256,7 +257,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
 
     try {
       const {key, limit} = this.getHistoryOptions();
-      const newDatasource = _.chain([
+      const newDatasource = chain([
         ...datasource,
         {value, timestamp: moment().unix()}
       ])
@@ -284,6 +285,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
       mini,
       enhance,
       clearable,
+      mobileUI,
       translate: __
     } = this.props;
     const {isFocused, inputValue} = this.state;
@@ -298,21 +300,22 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
           disabled ? 'is-disabled' : '',
           isFocused ? 'is-focused' : '',
           !mini || active ? 'is-active' : '',
-          {'is-history': enable}
+          {'is-history': enable},
+          {'is-mobile': mobileUI}
         )}
         style={style}
       >
-        <input
+        <Input
           name={name}
           ref={this.inputRef}
+          disabled={disabled}
+          placeholder={__(placeholder || 'placeholder.enter')}
+          value={inputValue ?? ''}
+          autoComplete="off"
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
-          value={inputValue ?? ''}
-          disabled={disabled}
-          placeholder={__(placeholder || 'placeholder.enter')}
-          autoComplete="off"
         />
 
         {!mini && clearable && inputValue && !disabled ? (

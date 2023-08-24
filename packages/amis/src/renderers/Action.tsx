@@ -388,6 +388,7 @@ const ActionProps = [
   'url',
   'link',
   'confirmText',
+  'confirmTitle',
   'tooltip',
   'disabledTip',
   'className',
@@ -444,8 +445,7 @@ import {
 import {DialogSchema, DialogSchemaBase} from './Dialog';
 import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 import {ToastSchemaBase} from '../Schema';
-import {generateIcon} from 'amis-core';
-import {withBadge} from 'amis-ui';
+import {withBadge, Icon} from 'amis-ui';
 import {normalizeApi, str2AsyncFunction} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
 
@@ -838,12 +838,21 @@ export class Action extends React.Component<ActionProps, ActionState> {
       disabled = true;
     }
 
-    const iconElement = generateIcon(cx, icon, 'Button-icon', iconClassName);
-    const rightIconElement = generateIcon(
-      cx,
-      rightIcon,
-      'Button-icon',
-      rightIconClassName
+    const iconElement = (
+      <Icon
+        cx={cx}
+        icon={icon}
+        className="Button-icon"
+        classNameProp={iconClassName}
+      />
+    );
+    const rightIconElement = (
+      <Icon
+        cx={cx}
+        icon={rightIcon}
+        className="Button-icon"
+        classNameProp={rightIconClassName}
+      />
     );
 
     return (
@@ -1003,7 +1012,10 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
       env.confirm &&
       (confirmText = filter(action.confirmText, mergedData))
     ) {
-      let confirmed = await env.confirm(confirmText);
+      let confirmed = await env.confirm(
+        confirmText,
+        filter(action.confirmTitle, mergedData) || undefined
+      );
       if (confirmed) {
         // 触发渲染器事件
         const rendererEvent = await dispatchEvent(
@@ -1079,9 +1091,7 @@ export class ActionRenderer extends React.Component<ActionRendererProps> {
         onMouseLeave={this.handleMouseLeave}
         loading={loading}
         isCurrentUrl={this.isCurrentAction}
-        tooltipContainer={
-          env.getModalContainer ? env.getModalContainer : undefined
-        }
+        tooltipContainer={rest.popOverContainer || env.getModalContainer}
       />
     );
   }

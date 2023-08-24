@@ -98,18 +98,41 @@ export class DataSchema {
     return this;
   }
 
+  pushVariable(current: DataScope, variables: any[]) {
+    if (current.tag) {
+      variables.push({
+        label: current.tag,
+        children: current.getDataPropsAsOptions()
+      });
+    } else {
+      variables.push(...current.getDataPropsAsOptions());
+    }
+  }
+
   getDataPropsAsOptions() {
     const variables: Array<any> = [];
     let current: DataScope | void = this.current;
 
     while (current) {
-      if (current.tag) {
-        variables.push({
-          label: current.tag,
-          children: current.getDataPropsAsOptions()
-        });
+      if (current.group) {
+        const subVars: Array<any> = [];
+
+        this.pushVariable(current, subVars);
+
+        const index = variables.findIndex(
+          item => item.label === current?.group
+        );
+
+        if (~index) {
+          variables[index].children.push(...subVars);
+        } else {
+          variables.push({
+            label: current.group,
+            children: subVars
+          });
+        }
       } else {
-        variables.push(...current.getDataPropsAsOptions());
+        this.pushVariable(current, variables);
       }
 
       current = current.parent;

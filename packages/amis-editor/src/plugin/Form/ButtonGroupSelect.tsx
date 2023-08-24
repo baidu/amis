@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {EditorNodeType, registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {
@@ -8,8 +8,11 @@ import {
 } from 'amis-editor-core';
 import {getSchemaTpl, defaultValue} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {ValidatorTag} from '../../validator';
+import {resolveOptionType} from '../../util';
 
 export class ButtonGroupControlPlugin extends BasePlugin {
+  static id = 'ButtonGroupControlPlugin';
   // 关联渲染器名字
   rendererName = 'button-group-select';
   $schema = '/schemas/ButtonGroupControlSchema.json';
@@ -65,9 +68,15 @@ export class ButtonGroupControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选中的值'
+                }
+              }
             }
           }
         }
@@ -130,7 +139,8 @@ export class ButtonGroupControlPlugin extends BasePlugin {
             },
             getSchemaTpl('status', {
               isFormItem: true
-            })
+            }),
+            getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})
           ])
         ]
       },
@@ -192,6 +202,56 @@ export class ButtonGroupControlPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    const type = resolveOptionType(node.schema?.options);
+    // todo:异步数据case
+    let dataSchema: any = {
+      type,
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+
+    if (node.schema?.joinValues === false) {
+      dataSchema = {
+        ...dataSchema,
+        type: 'object',
+        title: node.schema?.label || node.schema?.name,
+        properties: {
+          label: {
+            type: 'string',
+            title: '文本'
+          },
+          value: {
+            type,
+            title: '值'
+          }
+        }
+      };
+    }
+
+    if (node.schema?.multiple) {
+      if (node.schema?.extractValue) {
+        dataSchema = {
+          type: 'array',
+          title: node.schema?.label || node.schema?.name
+        };
+      } else if (node.schema?.joinValues === false) {
+        dataSchema = {
+          type: 'array',
+          title: node.schema?.label || node.schema?.name,
+          items: {
+            type: 'object',
+            title: '成员',
+            properties: dataSchema.properties
+          },
+          originalValue: dataSchema.originalValue
+        };
+      }
+    }
+
+    return dataSchema;
+  }
 }
 
 registerEditorPlugin(ButtonGroupControlPlugin);

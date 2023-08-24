@@ -2,6 +2,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {TextControlPlugin} from './InputText';
 
 export class EmailControlPlugin extends TextControlPlugin {
+  static id = 'EmailControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-email';
   $schema = '/schemas/TextControlSchema.json';

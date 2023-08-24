@@ -60,7 +60,7 @@ test('EventAction:prevent', async () => {
                               actionType: 'ajax',
                               args: {
                                 api: {
-                                  url: 'api/xxx',
+                                  url: '/api/xxx',
                                   method: 'get'
                                 }
                               }
@@ -96,4 +96,71 @@ test('EventAction:prevent', async () => {
   });
   expect(container).toMatchSnapshot();
   expect(fetcher).not.toHaveBeenCalled();
+});
+
+test('EventAction:ignoreError', async () => {
+  const notify = jest.fn();
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          age: 18
+        }
+      }
+    })
+  );
+  const {getByText, container}: any = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'button',
+            label: '按钮',
+            level: 'primary',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'reload',
+                    componentId: 'notfound',
+                    ignoreError: true
+                  },
+                  {
+                    actionType: 'ajax',
+                    api: '/api/test3'
+                  },
+                  {
+                    actionType: 'custom',
+                    script:
+                      "const myMsg = '我是自定义JS';\nsdfsdfsdf();\ndoAction({\n  actionType: 'toast',\n  args: {\n    msg: myMsg\n  }\n});\n",
+                    ignoreError: true
+                  },
+                  {
+                    actionType: 'ajax',
+                    api: '/api/test4'
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        getModalContainer: () => container,
+        notify,
+        fetcher
+      })
+    )
+  );
+
+  fireEvent.click(getByText('按钮'));
+  await waitFor(() => {
+    expect(fetcher).toHaveBeenCalledTimes(2);
+    expect(fetcher.mock.calls[0][0].url).toEqual('/api/test3');
+    expect(fetcher.mock.calls[1][0].url).toEqual('/api/test4');
+  });
 });

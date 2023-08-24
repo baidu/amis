@@ -221,3 +221,97 @@ test('Renderer:timeline with reverse', async () => {
     '2019-02-10'
   );
 });
+
+test('Renderer:timeline itemTitleSchema', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'timeline',
+        itemTitleSchema: [
+          {
+            type: 'tpl',
+            tpl: '<div class="itemSchemaClassName">${title}</div>'
+          }
+        ],
+        items: [
+          {
+            time: '2019-02-07',
+            title: '节点数据',
+            color: '#ffb200',
+            detail: 'detail',
+            detailCollapsedText: 'detailCollapsedText',
+            detailExpandedText: 'detailExpandedText',
+            icon: 'close'
+          },
+          {
+            time: '2019-02-08',
+            title: '节点数据',
+            color: '#4F86F4'
+          },
+          {
+            time: '2019-02-09',
+            title: '节点数据',
+            color: 'success'
+          },
+          {
+            time: '2019-02-09',
+            title: '节点数据',
+            color: 'warning'
+          }
+        ]
+      },
+      {},
+      makeEnv()
+    )
+  );
+  expect(container).toMatchSnapshot();
+  expect(container.querySelector('.itemSchemaClassName')).toBeInTheDocument();
+});
+
+test('Renderer:timeline detailClassName timeClassName', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'timeline',
+        detailClassName: 'auto-detail-class',
+        items: [
+          {
+            time: '2019-02-07',
+            title: '节点数据',
+            detail: '#ffb200',
+            detailCollapsedText: 'detailCollapsedText',
+            detailExpandedText: 'detailExpandedText',
+            icon: 'close'
+          },
+          {
+            time: '2019-02-08',
+            title: '节点数据',
+            titleClassName: 'auto-item-title-class',
+            detail: '#4F86F4'
+          },
+          {
+            time: '2019-02-09',
+            title: '节点数据',
+            detail: 'success'
+          },
+          {
+            time: '2019-02-09',
+            title: '节点数据',
+            detail: 'warning'
+          }
+        ]
+      },
+      {},
+      makeEnv()
+    )
+  );
+
+  fireEvent.click(getByText('detailExpandedText'));
+  const timelineDetail = () =>
+    container.querySelector('.cxd-TimelineItem-detail-visible')!;
+  expect(timelineDetail()).toHaveClass('auto-detail-class');
+
+  const timelineTitles = () =>
+    container.querySelectorAll('.cxd-TimelineItem-title')!;
+  expect(timelineTitles()[1]).toHaveClass('auto-item-title-class');
+});

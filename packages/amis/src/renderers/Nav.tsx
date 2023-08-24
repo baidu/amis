@@ -1,6 +1,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import isEqual from 'lodash/isEqual';
+import isString from 'lodash/isString';
 import {
   Renderer,
   RendererEnv,
@@ -25,10 +26,9 @@ import {
   findTree,
   isObject
 } from 'amis-core';
-import {generateIcon} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
-import {Icon, getIcon, SpinnerExtraProps} from 'amis-ui';
+import {Icon, SpinnerExtraProps} from 'amis-ui';
 import {BadgeObject} from 'amis-ui';
 import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {Spinner, Menu} from 'amis-ui';
@@ -83,11 +83,7 @@ export type NavItemSchema = {
 
   className?: string; // 自定义菜单项样式
 
-  accordion?: boolean; // 手风琴展开 仅垂直inline模式支持
-
   mode?: string; // 菜单项模式 分组模式：group、divider
-
-  popupClassName?: string; // 子菜单项展开浮层样式
 } & Omit<BaseSchema, 'type'>;
 
 export interface NavOverflow {
@@ -148,11 +144,6 @@ export interface NavOverflow {
    * 自定义样式
    */
   style?: React.CSSProperties;
-
-  /**
-   * 菜单DOM挂载点
-   */
-  popOverContainer?: any;
 }
 
 /**
@@ -241,7 +232,7 @@ export interface NavSchema extends BaseSchema {
   showKey?: string;
 
   /**
-   * 控制仅展示指定key菜单下的子菜单项
+   * 控制菜单缩起
    */
   collapsed?: boolean;
 
@@ -264,6 +255,16 @@ export interface NavSchema extends BaseSchema {
    * 主题配色 默认light
    */
   themeColor?: 'light' | 'dark';
+
+  /**
+   * 手风琴展开 仅垂直inline模式支持
+   */
+  accordion?: boolean;
+
+  /**
+   * 子菜单项展开浮层样式
+   */
+  popupClassName?: string;
 }
 
 export interface Link {
@@ -314,6 +315,10 @@ export interface NavigationProps
   data: Object;
   reload?: any;
   overflow?: NavOverflow;
+  /**
+   * 菜单DOM挂载点
+   */
+  popOverContainer?: () => HTMLElement;
 }
 
 export interface IDropInfo {
@@ -363,6 +368,12 @@ export class Navigation extends React.Component<
 
     await onSelect?.(link, depth);
     return false;
+  }
+
+  @autobind
+  async handleChange(links: Array<Link>) {
+    const {onChange} = this.props;
+    onChange && onChange(links);
   }
 
   @autobind
@@ -539,8 +550,11 @@ export class Navigation extends React.Component<
       mode,
       itemActions,
       render,
+      popOverContainer,
+      env,
       classnames: cx,
-      data
+      data,
+      collapsed
     } = this.props;
 
     if (!links) {
@@ -550,112 +564,128 @@ export class Navigation extends React.Component<
       return [];
     }
 
-    return links.map((link: Link) => {
-      let beforeIcon = null;
-      let afterIcon = null;
-      if (Array.isArray(link.icon)) {
-        beforeIcon = link.icon
-          .filter(item => item.position === 'before')
-          .map(item => {
-            if (React.isValidElement(item)) {
-              return item;
+    const isCollapsedNode = collapsed && depth === 1;
+
+    return links
+      .filter((link: Link) => !(link.hidden === true || link.visible === false))
+      .map((link: Link) => {
+        const beforeIcon: Array<any> = [];
+        const afterIcon: Array<any> = [];
+
+        link.icon &&
+          (Array.isArray(link.icon) ? link.icon : [link.icon]).forEach(
+            (item, i) => {
+              if (React.isValidElement(item)) {
+                beforeIcon.push(item);
+              } else if (isString(item)) {
+                beforeIcon.push(
+                  <Icon
+                    key={`icon-${i}`}
+                    cx={cx}
+                    icon={item}
+                    className={isCollapsedNode ? '' : 'mr-2'}
+                  />
+                );
+              } else if (item && isObject(item)) {
+                const isAfter = item['position'] === 'after';
+                const icon = (
+                  <Icon
+                    key={`icon-${i}`}
+                    cx={cx}
+                    icon={item['icon']}
+                    className={isCollapsedNode ? '' : isAfter ? 'ml-2' : 'mr-2'}
+                  />
+                );
+                if (isAfter) {
+                  afterIcon.push(icon);
+                } else {
+                  beforeIcon.push(icon);
+                }
+              }
             }
-            return generateIcon(cx, item.icon);
-          });
-        afterIcon = link.icon
-          .filter(item => item.position === 'after')
-          .map(item => {
-            if (React.isValidElement(item)) {
-              return item;
-            }
-            return generateIcon(cx, item.icon);
-          });
-      } else if (link.icon) {
-        if (React.isValidElement(link.icon)) {
-          beforeIcon = link.icon;
-        } else {
-          beforeIcon = generateIcon(cx, link.icon);
+          );
+
+        const label =
+          typeof link.label === 'string'
+            ? filter(link.label, data)
+            : React.isValidElement(link.label)
+            ? React.cloneElement(link.label)
+            : render('inline', link.label as SchemaCollection);
+
+        // 仅垂直内联模式支持
+        const isOverflow =
+          stacked &&
+          mode !== 'float' &&
+          !link.expanded &&
+          link.overflow &&
+          isObject(link.overflow) &&
+          link.overflow.enable;
+        let children = link.children;
+        if (isOverflow) {
+          const {
+            maxVisibleCount,
+            overflowIndicator = 'fa fa-ellipsis-h',
+            overflowLabel,
+            overflowClassName
+          } = link.overflow;
+          // 默认展示5个
+          const maxCount = maxVisibleCount || 2;
+          if (maxCount < (children?.length || 0)) {
+            children = children?.map((child: Link, index: number) => {
+              return {
+                ...child,
+                label:
+                  index === maxCount ? (
+                    <span className={cx(overflowClassName)}>
+                      <Icon
+                        icon={overflowIndicator}
+                        className="icon Nav-item-icon"
+                      />
+                      {overflowLabel && isObject(overflowLabel)
+                        ? render('nav-overflow-label', overflowLabel)
+                        : overflowLabel}
+                    </span>
+                  ) : (
+                    child.label
+                  ),
+                hidden: index > maxCount ? true : link.hidden,
+                expandMore: index === maxCount
+              };
+            });
+          }
         }
-      }
 
-      const label =
-        typeof link.label === 'string'
-          ? link.label
-          : React.isValidElement(link.label)
-          ? React.cloneElement(link.label)
-          : render('inline', link.label as SchemaCollection);
-
-      // 仅垂直内联模式支持
-      const isOverflow =
-        stacked &&
-        mode !== 'float' &&
-        !link.expanded &&
-        link.overflow &&
-        isObject(link.overflow) &&
-        link.overflow.enable;
-      let children = link.children;
-      if (isOverflow) {
-        const {
-          maxVisibleCount,
-          overflowIndicator = 'fa fa-ellipsis-h',
-          overflowLabel,
-          overflowClassName
-        } = link.overflow;
-        // 默认展示5个
-        const maxCount = maxVisibleCount || 2;
-        if (maxCount < (children?.length || 0)) {
-          children = children?.map((child: Link, index: number) => {
-            return {
-              ...child,
-              label:
-                index === maxCount ? (
-                  <span className={cx(overflowClassName)}>
-                    {getIcon(overflowIndicator!) ? (
-                      <Icon icon={overflowIndicator} className="icon" />
-                    ) : (
-                      generateIcon(cx, overflowIndicator, 'Nav-item-icon')
-                    )}
-                    {overflowLabel && isObject(overflowLabel)
-                      ? render('nav-overflow-label', overflowLabel)
-                      : overflowLabel}
-                  </span>
-                ) : (
-                  child.label
-                ),
-              hidden: index > maxCount ? true : link.hidden,
-              expandMore: index === maxCount
-            };
-          });
-        }
-      }
-
-      return {
-        link,
-        label,
-        labelExtra: afterIcon ? (
-          <i className={cx('Nav-Menu-item-icon-after')}>{afterIcon}</i>
-        ) : null,
-        icon: beforeIcon ? <i>{beforeIcon}</i> : null,
-        children: children
-          ? this.normalizeNavigations(children, depth + 1)
-          : [],
-        path: link.to,
-        open: link.unfolded,
-        extra: itemActions
-          ? render('inline', itemActions, {
-              data: createObject(data, link),
-              popOverContainer: () => document.body,
-              // 点击操作之后 就关闭 因为close方法里执行了preventDefault
-              closeOnClick: true
-            })
-          : null,
-        disabled: !!link.disabled,
-        disabledTip: link.disabledTip,
-        hidden: link.hidden,
-        className: link.className,
-        mode: link.mode
-      };
-    });
+        return {
+          link,
+          label,
+          labelExtra: afterIcon.length ? (
+            <i className={cx('Nav-Menu-item-icon-after')}>{afterIcon}</i>
+          ) : null,
+          icon: beforeIcon.length ? <i>{beforeIcon}</i> : null,
+          children: children
+            ? this.normalizeNavigations(children, depth + 1)
+            : [],
+          path: link.to,
+          open: link.unfolded,
+          extra: itemActions
+            ? render('inline', itemActions, {
+                data: createObject(data, link),
+                popOverContainer: popOverContainer
+                  ? popOverContainer
+                  : env && env.getModalContainer
+                  ? env.getModalContainer
+                  : () => document.body,
+                // 点击操作之后 就关闭 因为close方法里执行了preventDefault
+                closeOnClick: true
+              })
+            : null,
+          disabled: !!link.disabled,
+          disabledTip: link.disabledTip,
+          hidden: link.hidden,
+          className: link.className,
+          mode: link.mode
+        };
+      });
   }
 
   render(): JSX.Element {
@@ -683,7 +713,9 @@ export class Navigation extends React.Component<
       popupClassName,
       disabled,
       id,
-      render
+      render,
+      popOverContainer,
+      env
     } = this.props;
     const {dropIndicator} = this.state;
 
@@ -697,11 +729,7 @@ export class Navigation extends React.Component<
       overflowedIndicator = (
         <span className={cx(overflowClassName)}>
           <>
-            {getIcon(overflowIndicator!) ? (
-              <Icon icon={overflowIndicator} className="icon" />
-            ) : (
-              generateIcon(cx, overflowIndicator, 'Nav-item-icon')
-            )}
+            <Icon icon={overflowIndicator} className="icon Nav-item-icon" />
             {overflowLabel && isObject(overflowLabel)
               ? render('nav-overflow-label', overflowLabel)
               : overflowLabel}
@@ -756,6 +784,7 @@ export class Navigation extends React.Component<
               themeColor={themeColor}
               onSelect={this.handleClick}
               onToggle={this.toggleLink}
+              onChange={this.handleChange}
               renderLink={(link: MenuItemProps) => link.link}
               badge={itemBadge || badge}
               collapsed={collapsed}
@@ -789,6 +818,13 @@ export class Navigation extends React.Component<
               data={data}
               disabled={disabled}
               onDragStart={this.handleDragStart}
+              popOverContainer={
+                popOverContainer
+                  ? popOverContainer
+                  : env && env.getModalContainer
+                  ? env.getModalContainer
+                  : () => document.body
+              }
             ></Menu>
           ) : null}
           <Spinner show={!!loading} overlay loadingConfig={loadingConfig} />
@@ -803,25 +839,6 @@ export class Navigation extends React.Component<
 
 const ThemedNavigation = themeable(Navigation);
 
-function getActiveItems(config: Array<any>, depth: number, level: number) {
-  if (depth > level) {
-    return [];
-  }
-  let activeItems: Array<any> = [];
-  config &&
-    config.forEach(item => {
-      if (item.active) {
-        activeItems.push(item);
-      }
-      if (item.children) {
-        activeItems = activeItems.concat(
-          getActiveItems(item.children, depth + 1, level)
-        );
-      }
-    });
-  return activeItems;
-}
-
 const ConditionBuilderWithRemoteOptions = withRemoteConfig({
   adaptor: (config: any, props: any) => {
     const links = Array.isArray(config)
@@ -835,12 +852,15 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     return links;
   },
   afterLoad: async (response: any, config: any, props: any) => {
-    const {dispatchEvent} = props;
+    const {dispatchEvent, data} = props;
 
-    const rendererEvent = await dispatchEvent('loaded', {
-      data: response.value
-    });
-
+    const rendererEvent = await dispatchEvent(
+      'loaded',
+      createObject(data, {
+        data: response.value,
+        items: response.links
+      })
+    );
     if (rendererEvent?.prevented) {
       return;
     }
@@ -866,9 +886,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         location,
         level,
         defaultOpenLevel,
-        dispatchEvent,
-        disabled,
-        store
+        disabled
       } = props;
 
       const isActive = (link: Link, depth: number) => {
@@ -930,14 +948,6 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         1,
         true
       );
-
-      const currentActiveItems = getActiveItems(links, 1, level);
-      const prevActiveItems = getActiveItems(store.config, 1, level);
-      setTimeout(() => {
-        if (!isEqual(currentActiveItems, prevActiveItems)) {
-          dispatchEvent('change', {value: currentActiveItems});
-        }
-      }, 0);
     }
 
     return links;
@@ -957,12 +967,15 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     links: Array<Link>,
     props: any
   ) {
-    const {dispatchEvent} = props;
+    const {dispatchEvent, data} = props;
 
-    const rendererEvent = await dispatchEvent('loaded', {
-      data: ret.data,
-      item: {...item}
-    });
+    const rendererEvent = await dispatchEvent(
+      'loaded',
+      createObject(data, {
+        data: ret.data,
+        item: {...item}
+      })
+    );
 
     if (rendererEvent?.prevented) {
       return;
@@ -1010,6 +1023,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       this.toggleLink = this.toggleLink.bind(this);
       this.handleSelect = this.handleSelect.bind(this);
       this.dragUpdate = this.dragUpdate.bind(this);
+      this.handleChange = this.handleChange.bind(this);
 
       props?.onRef(this);
     }
@@ -1037,9 +1051,12 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       }
 
       if (prevState.collapsed !== this.state.collapsed) {
-        this.props.dispatchEvent('collapsed', {
-          collapsed: this.state.collapsed
-        });
+        this.props.dispatchEvent(
+          'collapsed',
+          createObject(this.props.data, {
+            collapsed: this.state.collapsed
+          })
+        );
       }
     }
 
@@ -1061,15 +1078,19 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         dispatchEvent,
         stacked,
         mode,
-        accordion
+        accordion,
+        data
       } = this.props;
 
       const isAccordion = stacked && mode !== 'float' && accordion;
 
-      const rendererEvent = await dispatchEvent('toggled', {
-        item: {...target},
-        open: typeof forceFold !== 'undefined' ? !forceFold : !target.unfolded
-      });
+      const rendererEvent = await dispatchEvent(
+        'toggled',
+        createObject(data, {
+          item: {...target},
+          open: typeof forceFold !== 'undefined' ? !forceFold : !target.unfolded
+        })
+      );
 
       if (rendererEvent?.prevented) {
         return;
@@ -1189,13 +1210,24 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       );
     }
 
+    handleChange(links: Array<Link>) {
+      const {dispatchEvent, data} = this.props;
+      // 如果同时2个nav nav1选中，通过动作更新nav2的数据源，需要异步处理一下，才能执行
+      setTimeout(() => {
+        dispatchEvent('change', createObject(data, {value: links}));
+      });
+    }
+
     async handleSelect(link: Link, depth: number) {
       const {onSelect, env, data, level, dispatchEvent, updateConfig, config} =
         this.props;
 
-      const rendererEvent = await dispatchEvent('click', {
-        item: {...link}
-      });
+      const rendererEvent = await dispatchEvent(
+        'click',
+        createObject(data, {
+          item: {...link}
+        })
+      );
 
       if (rendererEvent?.prevented) {
         return;
@@ -1244,6 +1276,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
           disabled={disabled || loading}
           onSelect={this.handleSelect}
           onToggle={this.toggleLink}
+          onChange={this.handleChange}
           onDragUpdate={this.dragUpdate}
         />
       );

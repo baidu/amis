@@ -11,13 +11,13 @@ const tpls: {
 export function getSchemaTpl(
   name: string,
   patch?: object,
-  rendererSchema?: any
+  options?: object
 ): any {
   const tpl = tpls[name] || {};
   let schema = null;
 
   if (typeof tpl === 'function') {
-    schema = tpl(patch, rendererSchema);
+    schema = tpl(patch, options);
   } else {
     schema = patch
       ? {

@@ -15,7 +15,8 @@ export class Formula extends React.Component<FormulaProps> {
       value,
       onChange,
       disabled,
-      translate: __
+      translate: __,
+      mobileUI
     } = this.props;
 
     return (
@@ -30,6 +31,7 @@ export class Formula extends React.Component<FormulaProps> {
               {__('Condition.expression')}
             </span>
           }
+          mobileUI={mobileUI}
         />
       </div>
     );

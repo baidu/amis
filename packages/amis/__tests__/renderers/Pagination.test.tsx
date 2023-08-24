@@ -15,7 +15,7 @@
 import {fireEvent, render, waitFor, within} from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
-import {makeEnv, wait} from '../helper';
+import {makeEnv, replaceReactAriaIds, wait} from '../helper';
 import rows from '../mockData/rows';
 
 // 1. pagination-wrapper
@@ -57,7 +57,7 @@ test('Renderer:Pagination', () => {
       makeEnv({})
     )
   );
-
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -86,6 +86,7 @@ test('Renderer:Pagination', () => {
     ]
   };
   const {container} = render(amisRender(schema, {}, makeEnv({})));
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -140,7 +141,7 @@ test('Renderer:Pagination with simple mode', async () => {
   await wait(100);
 
   expect(next).toHaveClass('is-disabled');
-
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -172,6 +173,7 @@ test('Renderer:Pagination with layout', () => {
   expect(children[2]).toHaveClass('cxd-Pagination-perpage');
   expect(children[3]).toHaveClass('cxd-Pagination');
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -196,6 +198,7 @@ test('Renderer:Pagination with maxButtons', () => {
   );
   expect(pager.length).toBe(10);
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -277,6 +280,7 @@ test('Renderer:Pagination with showPerPage & perPageAvailable & showPageInput', 
       makeEnv({})
     )
   );
+  replaceReactAriaIds(container);
 
   function getLastPagerItem() {
     const pager = container.querySelectorAll(
@@ -353,5 +357,6 @@ test('Renderer:Pagination with disabled', async () => {
   await wait(200);
   expect(pageChange).not.toBeCalled();
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });

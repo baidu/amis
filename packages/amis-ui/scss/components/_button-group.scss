@@ -2,6 +2,7 @@
   position: relative;
   display: inline-flex;
   vertical-align: middle;
+  flex-wrap: wrap;
 
   > .#{$ns}Button {
     position: relative;
@@ -46,6 +47,9 @@
 
   &--block {
     display: block;
+  }
+  &-button--active {
+    z-index: 1;
   }
 }
 

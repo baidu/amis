@@ -83,6 +83,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
       children,
       borderMode,
       onClick,
+      mobileUI,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
@@ -90,6 +91,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
     return (
       <div
         className={cx('InputBox', className, {
+          'is-mobile': mobileUI,
           'is-focused': isFocused,
           'is-disabled': disabled,
           'is-error': hasError,

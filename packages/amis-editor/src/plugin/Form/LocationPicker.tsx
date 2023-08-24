@@ -1,9 +1,10 @@
-import {getSchemaTpl} from 'amis-editor-core';
+import {EditorNodeType, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 
 export class LocationControlPlugin extends BasePlugin {
+  static id = 'LocationControlPlugin';
   // 关联渲染器名字
   rendererName = 'location-picker';
   $schema = '/schemas/LocationControlSchema.json';
@@ -126,6 +127,36 @@ export class LocationControlPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    return {
+      type: 'object',
+      title: node.schema?.label || node.schema?.name,
+      properties: {
+        city: {
+          type: 'string',
+          title: '城市'
+        },
+        address: {
+          type: 'string',
+          title: '地址'
+        },
+        lng: {
+          type: 'number',
+          title: '经度'
+        },
+        lat: {
+          type: 'number',
+          title: '纬度'
+        },
+        vendor: {
+          type: 'string',
+          title: '地图厂商'
+        }
+      },
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+  }
 }
 
 registerEditorPlugin(LocationControlPlugin);

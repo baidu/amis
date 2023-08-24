@@ -164,10 +164,6 @@ exports[`Renderer:InputSubForm base 1`] = `
           data-position="left"
           data-tooltip="关闭"
         >
-          <div
-            class=" Dialog-close"
-            style="display: none;"
-          />
           <icon-mock
             classname="icon icon-close"
             icon="close"
@@ -357,13 +353,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
                 <span
                   class="cxd-SubForm-valueLabel"
                 >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      设置
-                    </span>
-                  </span>
+                  设置
                 </span>
                 <a
                   class="cxd-SubForm-valueEdit"
@@ -390,13 +380,7 @@ exports[`Renderer:InputSubForm with addButtonClassName & itemsClassName & itemCl
                 <span
                   class="cxd-SubForm-valueLabel"
                 >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      设置
-                    </span>
-                  </span>
+                  设置
                 </span>
                 <a
                   class="cxd-SubForm-valueEdit"

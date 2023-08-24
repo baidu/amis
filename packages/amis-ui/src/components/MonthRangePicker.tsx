@@ -15,7 +15,7 @@ import {PopOver} from 'amis-core';
 import PopUp from './PopUp';
 import {themeable, ThemeProps} from 'amis-core';
 
-import {isMobile, noop} from 'amis-core';
+import {noop} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import {DateRangePicker} from './DateRangePicker';
 import capitalize from 'lodash/capitalize';
@@ -54,7 +54,6 @@ export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   resetValue?: any;
   popOverContainer?: any;
   embed?: boolean;
-  useMobileUI?: boolean;
   onFocus?: Function;
   onBlur?: Function;
   label?: string | false;
@@ -483,7 +482,7 @@ export class MonthRangePicker extends React.Component<
 
     return (
       <div className={`${ns}DateRangePicker-wrap`}>
-        {this.renderShortcuts(shortcuts ?? ranges)}
+        {this.renderShortcuts(ranges || shortcuts)}
         <Calendar
           className={`${ns}DateRangePicker-start`}
           value={startDate}
@@ -569,7 +568,7 @@ export class MonthRangePicker extends React.Component<
       disabled,
       embed,
       overlayPlacement,
-      useMobileUI,
+      mobileUI,
       timeFormat,
       minDate,
       maxDate,
@@ -580,7 +579,6 @@ export class MonthRangePicker extends React.Component<
       label,
       translate: __
     } = this.props;
-    const mobileUI = isMobile() && useMobileUI;
     const {isOpened, isFocused, startDate, endDate} = this.state;
     const selectedDate = DateRangePicker.unFormatValue(
       value,
@@ -614,7 +612,7 @@ export class MonthRangePicker extends React.Component<
         close={this.close}
         confirm={this.confirm}
         onChange={this.handleMobileChange}
-        footerExtra={this.renderShortcuts(shortcuts ?? ranges)}
+        footerExtra={this.renderShortcuts(ranges || shortcuts)}
         showViewMode="years"
       />
     );
@@ -652,7 +650,7 @@ export class MonthRangePicker extends React.Component<
           {
             'is-disabled': disabled,
             'is-focused': isFocused,
-            'is-mobile': useMobileUI && isMobile()
+            'is-mobile': mobileUI
           },
           className
         )}

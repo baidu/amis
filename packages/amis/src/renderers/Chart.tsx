@@ -94,12 +94,12 @@ export interface ChartSchema extends BaseSchema {
   /**
    * 宽度设置
    */
-  width?: number;
+  width?: number | string;
 
   /**
    * 高度设置
    */
-  height?: number;
+  height?: number | string;
 
   /**
    * 刷新时间
@@ -344,7 +344,9 @@ export class Chart extends React.Component<ChartProps> {
         // @ts-ignore 官方没提供 type
         import('echarts/extension/dataTool'),
         // @ts-ignore 官方没提供 type
-        import('echarts/extension/bmap/bmap')
+        import('echarts/extension/bmap/bmap'),
+        // @ts-ignore 官方没提供 type
+        import('echarts-wordcloud/dist/echarts-wordcloud')
       ]).then(async ([echarts, ecStat]) => {
         (window as any).echarts = echarts;
         (window as any).ecStat = ecStat?.default || ecStat;
@@ -594,9 +596,8 @@ export class Chart extends React.Component<ChartProps> {
       data
     } = this.props;
     let style = this.props.style || {};
-
-    width && (style.width = width);
-    height && (style.height = height);
+    style.width = style.width || width || '100%';
+    style.height = style.height || height || '300px';
     const styleVar = buildStyle(style, data);
 
     return (
@@ -637,7 +638,7 @@ export class ChartRenderer extends Chart {
     const {store} = this.props;
     store.updateData(values, undefined, replace);
     // 重新渲染
-    this.renderChart(this.props.config, values);
+    this.renderChart(this.props.config, store.data);
   }
 
   getData() {

@@ -10,8 +10,10 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut} from 'amis-editor-core';
+import {schemaToArray} from '../util';
 
 export class EachPlugin extends BasePlugin {
+  static id = 'EachPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'each';
@@ -56,7 +58,7 @@ export class EachPlugin extends BasePlugin {
         children: (
           <Button
             size="sm"
-            level="danger"
+            level="primary"
             className="m-b"
             block
             onClick={this.editDetail.bind(this, context.id)}
@@ -131,7 +133,7 @@ export class EachPlugin extends BasePlugin {
       value &&
       this.manager.openSubEditor({
         title: '配置成员渲染器',
-        value: value.items,
+        value: schemaToArray(value.items),
         slot: {
           type: 'container',
           body: '$$'

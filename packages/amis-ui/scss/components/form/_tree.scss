@@ -147,9 +147,10 @@
 
     &:hover {
       .#{$ns}Tree {
-        &-itemLabel-item {
-          background-color: var(--Tree-item-onHover-bg-pure);
-        }
+        // &-itemLabel-item:not(.is-mobile) {
+        //  background-color: var(--Tree-item-onHover-bg-pure);
+        // }
+
         &-item-icons {
           visibility: visible;
         }
@@ -162,6 +163,10 @@
   }
 
   &-item {
+    &:hover {
+      background-color: var(--Tree-item-onHover-bg-pure);
+    }
+
     .is-checked {
       border-radius: var(--Tree-item-onChekced-bg-borderRadius);
       .#{$ns}Tree {
@@ -210,7 +215,7 @@
   }
 
   &-itemInput {
-    padding-left: var(--Tree-itemArrowWidth);
+    // padding-left: var(--Tree-itemArrowWidth);
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -253,6 +258,15 @@
         border-color: var(--Form-input-onFocused-borderColor);
         box-shadow: var(--Form-input-boxShadow);
         background: var(--Form-input-onFocused-bg);
+      }
+    }
+
+    &.is-mobile {
+      > input {
+        border-radius: 0;
+        border: none;
+        border-bottom: var(--Form-input-borderWidth) solid
+          var(--Form-input-borderColor);
       }
     }
   }
@@ -394,6 +408,22 @@
 
       &::after {
         display: none;
+      }
+    }
+  }
+}
+
+.#{$ns}PopUp {
+  .#{$ns}Tree {
+    flex: 1;
+
+    .#{$ns}Tree-itemLabel {
+      &:hover {
+        .#{$ns}Tree {
+          &-itemLabel-item {
+            background-color: none !important;
+          }
+        }
       }
     }
   }

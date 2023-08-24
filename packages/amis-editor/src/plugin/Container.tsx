@@ -7,10 +7,13 @@ import {
   ResizeMoveEventContext,
   registerEditorPlugin,
   defaultValue,
-  getSchemaTpl
+  getSchemaTpl,
+  RendererPluginEvent
 } from 'amis-editor-core';
+import {getEventControlConfig} from '../renderer/event-control';
 
 export class ContainerPlugin extends LayoutBasePlugin {
+  static id = 'ContainerPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'container';
@@ -47,6 +50,76 @@ export class ContainerPlugin extends LayoutBasePlugin {
   panelTitle = '容器';
 
   panelJustify = true;
+
+  // 事件定义
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'click',
+      eventLabel: '点击',
+      description: '点击时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            context: {
+              type: 'object',
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseenter',
+      eventLabel: '鼠标移入',
+      description: '鼠标移入时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            context: {
+              type: 'object',
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseleave',
+      eventLabel: '鼠标移出',
+      description: '鼠标移出时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            context: {
+              type: 'object',
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ];
 
   panelBodyCreator = (context: BaseEventContext) => {
     const curRendererSchema = context?.schema;
@@ -131,34 +204,30 @@ export class ContainerPlugin extends LayoutBasePlugin {
               // 自由容器不需要 display 相关配置项
               ...(!isFreeContainer ? displayTpl : []),
 
-              isFlexItem
-                ? getSchemaTpl('layout:flex', {
-                    isFlexColumnItem,
-                    label: isFlexColumnItem ? '高度设置' : '宽度设置',
-                    visibleOn:
-                      'data.style && (data.style.position === "static" || data.style.position === "relative")'
-                  })
-                : null,
-              isFlexItem
-                ? getSchemaTpl('layout:flex-grow', {
-                    visibleOn:
-                      'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
-                  })
-                : null,
-              isFlexItem
-                ? getSchemaTpl('layout:flex-basis', {
-                    label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
-                    visibleOn:
-                      'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
-                  })
-                : null,
-              isFlexItem
-                ? getSchemaTpl('layout:flex-basis', {
-                    label: isFlexColumnItem ? '固定高度' : '固定宽度',
-                    visibleOn:
-                      'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
-                  })
-                : null,
+              ...(isFlexItem
+                ? [
+                    getSchemaTpl('layout:flex', {
+                      isFlexColumnItem,
+                      label: isFlexColumnItem ? '高度设置' : '宽度设置',
+                      visibleOn:
+                        'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                    }),
+                    getSchemaTpl('layout:flex-grow', {
+                      visibleOn:
+                        'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
+                    }),
+                    getSchemaTpl('layout:flex-basis', {
+                      label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
+                      visibleOn:
+                        'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
+                    }),
+                    getSchemaTpl('layout:flex-basis', {
+                      label: isFlexColumnItem ? '固定高度' : '固定宽度',
+                      visibleOn:
+                        'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
+                    })
+                  ]
+                : []),
 
               getSchemaTpl('layout:overflow-x', {
                 visibleOn: `${
@@ -235,8 +304,22 @@ export class ContainerPlugin extends LayoutBasePlugin {
         title: '外观',
         className: 'p-none',
         body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('theme:common', ['layout'])
+          ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+          {
+            title: '自定义 CSS 类名',
+            body: [getSchemaTpl('className')]
+          }
         ])
+      },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
+        ]
       }
     ]);
   };

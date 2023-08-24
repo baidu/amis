@@ -2,6 +2,12 @@
  * @file 把一些功能性的东西放在了这个里面，辅助 compoennt/Editor.tsx 组件的。
  * 编辑器非 UI 相关的东西应该放在这。
  */
+import {reaction} from 'mobx';
+import {parse, stringify} from 'json-ast-comments';
+import debounce from 'lodash/debounce';
+import findIndex from 'lodash/findIndex';
+import omit from 'lodash/omit';
+import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
 import {getRenderers, RenderOptions, mapTree} from 'amis-core';
 import {
   PluginInterface,
@@ -29,14 +35,14 @@ import {
   DeleteEventContext,
   RendererPluginEvent,
   PluginEvents,
-  PluginActions
+  PluginActions,
+  BasePlugin
 } from './plugin';
 import {
   EditorStoreType,
   PopOverFormContext,
   SubEditorContext
 } from './store/editor';
-
 import {
   autobind,
   camelize,
@@ -47,29 +53,18 @@ import {
   isString,
   isObject,
   isLayoutPlugin,
-  JSONPipeOut,
-  generateNodeId,
-  JSONTraverse
+  JSONPipeOut
 } from './util';
-import {reaction} from 'mobx';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
-import debounce from 'lodash/debounce';
-import sortBy from 'lodash/sortBy';
-import reverse from 'lodash/reverse';
-import cloneDeep from 'lodash/cloneDeep';
-import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
-import {parse, stringify} from 'json-ast-comments';
 import {EditorNodeType} from './store/node';
 import {EditorProps} from './component/Editor';
-import findIndex from 'lodash/findIndex';
 import {EditorDNDManager} from './dnd';
 import {VariableManager} from './variable';
-import {IScopedContext} from 'amis';
+
+import type {IScopedContext} from 'amis';
 import type {SchemaObject, SchemaCollection} from 'amis';
 import type {RendererConfig} from 'amis-core';
-import isPlainObject from 'lodash/isPlainObject';
-import {omit} from 'lodash';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -77,6 +72,8 @@ export interface EditorManagerConfig
 export interface PluginClass {
   new (manager: EditorManager, options?: any): PluginInterface;
   id?: string;
+  /** 优先级，值为整数，当存在两个ID相同的Plugin时，数字更大的优先级更高 */
+  priority?: number;
   scene?: Array<string>;
 }
 
@@ -102,29 +99,66 @@ export function autoPreRegisterEditorCustomPlugins() {
 }
 
 /**
- * 注册Editor插件。
+ * 注册Editor插件
+ * 备注: 支持覆盖原有组件，注册新的组件时需配置 priority。
  * @param editor
  */
 export function registerEditorPlugin(klass: PluginClass) {
   // 处理插件身上的场景信息
   const scene = Array.from(new Set(['global'].concat(klass.scene || 'global')));
   klass.scene = scene;
-  let isExitPlugin: any = null;
+
+  let exsitedPluginIdx: any = null;
   if (klass.prototype && klass.prototype.isNpmCustomWidget) {
-    isExitPlugin = builtInPlugins.find(item =>
+    exsitedPluginIdx = builtInPlugins.findIndex(item =>
       Array.isArray(item)
         ? item[0].prototype.name === klass.prototype.name
         : item.prototype.name === klass.prototype.name
     );
   } else {
     // 待进一步优化
-    isExitPlugin = builtInPlugins.find(item => item === klass);
+    exsitedPluginIdx = builtInPlugins.findIndex(item => item === klass);
   }
-  if (!isExitPlugin) {
+
+  /** 先给新加入的plugin加一个ID */
+  if (!~exsitedPluginIdx) {
     klass.id = klass.id || klass.name || guid();
-    builtInPlugins.push(klass);
+  }
+
+  /** 因为class的继承关系，未设置ID的子class会和父class共用ID, 只有设置了priority的时候才会执行同ID去重 */
+  if (klass.priority == null || !Number.isInteger(klass.priority)) {
+    if (!~exsitedPluginIdx) {
+      builtInPlugins.push(klass);
+    } else {
+      console.warn(`注册插件「${klass.id}」异常，已存在同名插件：`, klass);
+    }
   } else {
-    console.warn(`注册插件异常，已存在同名插件：`, klass);
+    exsitedPluginIdx = ~exsitedPluginIdx
+      ? exsitedPluginIdx
+      : builtInPlugins.findIndex(
+          item =>
+            !Array.isArray(item) &&
+            item.id === klass.id &&
+            item?.prototype instanceof BasePlugin
+        );
+
+    if (!~exsitedPluginIdx) {
+      builtInPlugins.push(klass);
+    } else {
+      const current = builtInPlugins[exsitedPluginIdx] as PluginClass;
+
+      /** 同ID的插件根据优先级决定是否update */
+      const currentPriority =
+        current.priority && Number.isInteger(current.priority)
+          ? current.priority
+          : 0;
+
+      if (klass.priority > currentPriority) {
+        builtInPlugins.splice(exsitedPluginIdx, 1, klass);
+      } else {
+        console.warn(`注册插件「${klass.id}」异常，已存在同名插件：`, klass);
+      }
+    }
   }
 }
 
@@ -172,18 +206,14 @@ export class EditorManager {
   readonly pluginActions: PluginActions = {};
 
   dataSchema: DataSchema;
-  readonly isInFrame: boolean = false;
 
   /** 变量管理 */
   readonly variableManager;
 
   constructor(
     readonly config: EditorManagerConfig,
-    readonly store: EditorStoreType,
-    readonly parent?: EditorManager
+    readonly store: EditorStoreType
   ) {
-    const isInFrame = !!parent;
-    this.isInFrame = isInFrame;
     // 传给 amis 渲染器的默认 env
     this.env = {
       ...env, // 默认的 env 中带 jumpTo
@@ -194,47 +224,43 @@ export class EditorManager {
       this,
       this.env.beforeDispatchEvent
     );
-    this.hackIn = parent?.hackIn || hackIn;
+    this.hackIn = hackIn;
     // 自动加载预先注册的自定义组件
     autoPreRegisterEditorCustomPlugins();
-    const scene = config.scene || 'global';
-    this.plugins =
-      parent?.plugins ||
-      (config.disableBultinPlugin ? [] : builtInPlugins) // 页面设计器注册的插件列表
-        .concat(this.normalizeScene(config?.plugins))
-        .filter(p => {
-          p = Array.isArray(p) ? p[0] : p;
-          return config.disablePluginList
-            ? typeof config.disablePluginList === 'function'
-              ? !config.disablePluginList(p.id || '', p)
-              : !config.disablePluginList.includes(p.id || 'unkown')
-            : true;
-        })
-        .map(Editor => {
-          let pluginOptions: Record<string, any> = {};
-          if (Array.isArray(Editor)) {
-            pluginOptions =
-              typeof Editor[1] === 'function' ? Editor[1]() : Editor[1];
-            Editor = Editor[0];
-          }
 
-          const plugin = new Editor(this, pluginOptions); // 进行一次实例化
-          plugin.order = plugin.order ?? 0;
+    this.plugins = (config.disableBultinPlugin ? [] : builtInPlugins) // 页面设计器注册的插件列表
+      .concat(this.normalizeScene(config?.plugins))
+      .filter(p => {
+        p = Array.isArray(p) ? p[0] : p;
+        return config.disablePluginList
+          ? typeof config.disablePluginList === 'function'
+            ? !config.disablePluginList(p.id || '', p)
+            : !config.disablePluginList.includes(p.id || 'unkown')
+          : true;
+      })
+      .map(Editor => {
+        let pluginOptions: Record<string, any> = {};
+        if (Array.isArray(Editor)) {
+          pluginOptions =
+            typeof Editor[1] === 'function' ? Editor[1]() : Editor[1];
+          Editor = Editor[0];
+        }
 
-          // 记录动作定义
-          if (plugin.rendererName) {
-            this.pluginEvents[plugin.rendererName] = plugin.events || [];
-            this.pluginActions[plugin.rendererName] = plugin.actions || [];
-          }
+        const plugin = new Editor(this, pluginOptions); // 进行一次实例化
+        plugin.order = plugin.order ?? 0;
 
-          return plugin;
-        })
-        .sort((a, b) => a.order! - b.order!); // 按order排序【升序】
+        // 记录动作定义
+        if (plugin.rendererName) {
+          this.pluginEvents[plugin.rendererName] = plugin.events || [];
+          this.pluginActions[plugin.rendererName] = plugin.actions || [];
+        }
+
+        return plugin;
+      })
+      .sort((a, b) => a.order! - b.order!); // 按order排序【升序】
     this.hackRenderers();
-    this.dnd = parent?.dnd || new EditorDNDManager(this, store);
-    this.dataSchema =
-      parent?.dataSchema || new DataSchema(config.schemas || []);
-    this.dataSchema.current.tag = '系统变量';
+    this.dnd = new EditorDNDManager(this, store);
+    this.dataSchema = new DataSchema(config.schemas || []);
 
     /** 初始化变量管理 */
     this.variableManager = new VariableManager(
@@ -242,10 +268,6 @@ export class EditorManager {
       config?.variables,
       config?.variableOptions
     );
-
-    if (isInFrame) {
-      return;
-    }
 
     this.toDispose.push(
       // 当前节点区域数量发生变化，重新构建孩子渲染器列表。
@@ -1227,6 +1249,7 @@ export class EditorManager {
     }
 
     store.changeValue(value, diff);
+
     this.trigger('after-update', context);
   }
 
@@ -1632,10 +1655,12 @@ export class EditorManager {
   }
 
   async scaffold(form: any, value: any): Promise<SchemaObject> {
+    const scaffoldFormData = form.pipeIn ? await form.pipeIn(value) : value;
+
     return new Promise(resolve => {
       this.store.openScaffoldForm({
         ...form,
-        value: form.pipeIn ? form.pipeIn(value) : value,
+        value: scaffoldFormData,
         callback: resolve
       });
     });
@@ -1743,9 +1768,7 @@ export class EditorManager {
    * @param render
    */
   makeWrapper(info: RendererInfo, render: RendererConfig): any {
-    return this.parent?.makeWrapper
-      ? this.parent.makeWrapper(info, render)
-      : makeWrapper(this, info, render);
+    return makeWrapper(this, info, render);
   }
 
   /**
@@ -1823,13 +1846,14 @@ export class EditorManager {
 
     const store = this.store;
     const context: PopOverFormContext = {
+      node,
       body: plugin.popOverBodyCreator
         ? plugin.popOverBodyCreator(this.buildEventContext(node))
         : plugin.popOverBody!,
       value: store.getValueOf(node.id),
       callback: this.panelChangeValue,
       target: () =>
-        document.querySelector(`[data-editor-id="${node.id}"]`) as HTMLElement
+        document.querySelector(`[data-hlbox-id="${node.id}"]`) as HTMLElement
     };
     store.openPopOverForm(context);
   }
@@ -1866,10 +1890,17 @@ export class EditorManager {
       return [];
     }
 
-    let scope: DataScope | void;
+    let scope: DataScope | void = undefined;
     let from = node;
     let region = node;
     const trigger = node;
+
+    // 删掉当前行记录scope，保持原始scope
+    for (const key in this.dataSchema.idMap) {
+      if (/\-currentRow$/.test(key)) {
+        this.dataSchema.removeScope(key);
+      }
+    }
 
     // 查找最近一层的数据域
     while (!scope && from) {
@@ -1895,12 +1926,13 @@ export class EditorManager {
       if (!nearestScope && node && !node.isSecondFactor) {
         nearestScope = scope;
       }
-
       const jsonschema = await node?.info?.plugin?.buildDataSchemas?.(
         node,
         region,
-        trigger
+        trigger,
+        node
       );
+
       if (jsonschema) {
         scope.removeSchema(jsonschema.$id);
         scope.addSchema(jsonschema);
@@ -1909,7 +1941,16 @@ export class EditorManager {
       scope = withoutSuper ? undefined : scope.parent;
     }
 
-    if (nearestScope?.id) {
+    // 存在当前行时，找到最底层（todo：暂不考虑table套service+table的场景）
+    const nearestScopeId = Object.keys(this.dataSchema.idMap).find(
+      key =>
+        /\-currentRow$/.test(key) &&
+        !this.dataSchema.idMap[key].children?.length
+    );
+
+    if (nearestScopeId) {
+      this.dataSchema.switchTo(nearestScopeId);
+    } else if (nearestScope?.id) {
       this.dataSchema.switchTo(nearestScope.id);
     }
 
@@ -1926,7 +1967,7 @@ export class EditorManager {
       return;
     }
 
-    let scope: DataScope | void;
+    let scope: DataScope | void = undefined;
     let from = node;
     let region = node;
 
@@ -1935,10 +1976,22 @@ export class EditorManager {
       scope = this.dataSchema.hasScope(`${from.id}-${from.type}`)
         ? this.dataSchema.getScope(`${from.id}-${from.type}`)
         : undefined;
+
+      /** Combo和InputTable作为也有自己的Scope */
+      if (!scope) {
+        if (['combo', 'input-table'].includes(from?.info?.type)) {
+          break;
+        }
+      }
+
       from = from.parent;
       if (from?.isRegion) {
         region = from;
       }
+    }
+
+    if (!scope) {
+      return from?.info.plugin.getAvailableContextFields?.(from, node);
     }
 
     while (scope) {

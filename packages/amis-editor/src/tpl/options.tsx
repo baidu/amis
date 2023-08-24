@@ -125,6 +125,7 @@ setSchemaTpl('multiple', (schema: any = {}) => {
     label: '可多选',
     value: false,
     hiddenOnDefault: true,
+    clearChildValuesOnOff: false,
     formType: 'extend',
     ...(schema.patch || {}),
     form: {
@@ -138,6 +139,25 @@ setSchemaTpl('multiple', (schema: any = {}) => {
           ]
     }
   };
+});
+
+setSchemaTpl('strictMode', {
+  type: 'switch',
+  label: '严格模式',
+  name: 'strictMode',
+  value: false,
+  mode: 'horizontal',
+  horizontal: {
+    justify: true,
+    left: 8
+  },
+  inputClassName: 'is-inline ',
+  labelRemark: {
+    trigger: ['hover', 'focus'],
+    setting: true,
+    title: '',
+    content: '启用严格模式将采用值严格相等比较'
+  }
 });
 
 setSchemaTpl('checkAllLabel', {

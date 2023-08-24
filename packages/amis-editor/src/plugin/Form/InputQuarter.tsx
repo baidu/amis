@@ -3,6 +3,7 @@ import {registerEditorPlugin} from 'amis-editor-core';
 import {DateControlPlugin} from './InputDate';
 
 export class InputQuarterPlugin extends DateControlPlugin {
+  static id = 'InputQuarterPlugin';
   // 关联渲染器名字
   rendererName = 'input-quarter';
   $schema = '/schemas/QuarterControlSchema.json';

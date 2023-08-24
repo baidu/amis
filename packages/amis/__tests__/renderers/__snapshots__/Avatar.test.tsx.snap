@@ -110,7 +110,7 @@ exports[`Renderer:avatar icon 1`] = `
     class="cxd-Avatar cxd-Avatar--circle"
   >
     <i
-      class="fa fa-user"
+      class="fa fa-user fa fa-user"
     />
   </span>
 </div>
@@ -178,21 +178,21 @@ exports[`Renderer:avatar size 1`] = `
             class="cxd-Avatar cxd-Avatar--circle cxd-Avatar--lg"
           >
             <i
-              class="fa fa-user"
+              class="fa fa-user fa fa-user"
             />
           </span>
           <span
             class="cxd-Avatar cxd-Avatar--circle"
           >
             <i
-              class="fa fa-user"
+              class="fa fa-user fa fa-user"
             />
           </span>
           <span
             class="cxd-Avatar cxd-Avatar--circle cxd-Avatar--sm"
           >
             <i
-              class="fa fa-user"
+              class="fa fa-user fa fa-user"
             />
           </span>
           <span
@@ -286,7 +286,7 @@ exports[`Renderer:avatar var 1`] = `
             class="cxd-Avatar cxd-Avatar--circle"
           >
             <i
-              class="fa fa-user"
+              class="fa fa-user fa fa-user"
             />
           </span>
           <span

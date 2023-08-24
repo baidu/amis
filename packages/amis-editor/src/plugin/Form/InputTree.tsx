@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  EditorNodeType,
   getI18nEnabled,
   RendererPluginAction,
   RendererPluginEvent
@@ -14,8 +15,10 @@ import {
 } from '../../renderer/event-control/helper';
 import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
+import {resolveOptionType} from '../../util';
 
 export class TreeControlPlugin extends BasePlugin {
+  static id = 'TreeControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-tree';
   $schema = '/schemas/TreeControlSchema.json';
@@ -83,9 +86,15 @@ export class TreeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中节点的值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '变化的节点值'
+                }
+              }
             }
           }
         }
@@ -99,13 +108,19 @@ export class TreeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            data: {
               type: 'object',
-              title: '新增的节点信息'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '新增的节点信息'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项集合'
+                }
+              }
             }
           }
         }
@@ -119,13 +134,19 @@ export class TreeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            data: {
               type: 'object',
-              title: '编辑的节点信息'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '编辑的节点信息'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项集合'
+                }
+              }
             }
           }
         }
@@ -139,13 +160,19 @@ export class TreeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            data: {
               type: 'object',
-              title: '删除的节点信息'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '删除的节点信息'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项集合'
+                }
+              }
             }
           }
         }
@@ -159,9 +186,15 @@ export class TreeControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
+            data: {
               type: 'object',
-              title: 'deferApi 懒加载远程请求成功后返回的数据'
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: 'deferApi 懒加载远程请求成功后返回的数据'
+                }
+              }
             }
           }
         }
@@ -189,18 +222,6 @@ export class TreeControlPlugin extends BasePlugin {
         );
       },
       schema: getArgsWrapper(
-        /*
-        {
-          type: 'input-formula',
-          variables: '${variables}',
-          evalMode: false,
-          variableMode: 'tabs',
-          label: '展开层级',
-          size: 'lg',
-          name: 'openLevel',
-          mode: 'horizontal'
-        },
-       */
         getSchemaTpl('formulaControl', {
           name: 'openLevel',
           label: '展开层级',
@@ -611,6 +632,56 @@ export class TreeControlPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    const type = resolveOptionType(node.schema?.options);
+    // todo:异步数据case
+    let dataSchema: any = {
+      type,
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+
+    if (node.schema?.joinValues === false) {
+      dataSchema = {
+        ...dataSchema,
+        type: 'object',
+        title: node.schema?.label || node.schema?.name,
+        properties: {
+          label: {
+            type: 'string',
+            title: '文本'
+          },
+          value: {
+            type,
+            title: '值'
+          }
+        }
+      };
+    }
+
+    if (node.schema?.multiple) {
+      if (node.schema?.extractValue) {
+        dataSchema = {
+          type: 'array',
+          title: node.schema?.label || node.schema?.name
+        };
+      } else if (node.schema?.joinValues === false) {
+        dataSchema = {
+          type: 'array',
+          title: node.schema?.label || node.schema?.name,
+          items: {
+            type: 'object',
+            title: '成员',
+            properties: dataSchema.properties
+          },
+          originalValue: dataSchema.originalValue
+        };
+      }
+    }
+
+    return dataSchema;
+  }
 }
 
 registerEditorPlugin(TreeControlPlugin);

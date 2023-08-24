@@ -34,7 +34,7 @@ import {
   SchemaMessage
 } from '../Schema';
 import {SchemaRemark} from './Remark';
-import {onAction} from 'mobx-state-tree';
+import {isAlive, onAction} from 'mobx-state-tree';
 import mapValues from 'lodash/mapValues';
 import {resolveVariable} from 'amis-core';
 import {buildStyle} from 'amis-core';
@@ -406,10 +406,10 @@ export default class Page extends React.Component<PageProps> {
 
     // Page加载完成时触发 pageLoaded 事件
     if (env?.tracker) {
-      env.tracker({eventType: 'pageLoaded'});
+      env.tracker({eventType: 'pageLoaded'}, this.props);
     }
 
-    if (rendererEvent?.prevented) {
+    if (rendererEvent?.prevented || !isAlive(store)) {
       return;
     }
 
@@ -484,7 +484,12 @@ export default class Page extends React.Component<PageProps> {
 
     if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(ctx, undefined, undefined, delegate);
+      store.openDialog(
+        ctx,
+        undefined,
+        action.callback,
+        delegate || (this.context as any)
+      );
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
       store.openDrawer(ctx, undefined, undefined, delegate);
@@ -528,8 +533,31 @@ export default class Page extends React.Component<PageProps> {
     }
   }
 
-  handleQuery(query: any) {
-    this.receive(query);
+  handleQuery(query: any): any {
+    if (this.props.initApi) {
+      // 如果是分页动作，则看接口里面有没有用，没用则  return false
+      // 让组件自己去排序
+      if (
+        query?.hasOwnProperty('orderBy') &&
+        !isApiOutdated(
+          this.props.initApi,
+          this.props.initApi,
+          this.props.store.data,
+          createObject(this.props.store.data, query)
+        )
+      ) {
+        return false;
+      }
+
+      this.receive(query);
+      return;
+    }
+
+    if (this.props.onQuery) {
+      return this.props.onQuery(query);
+    } else {
+      return false;
+    }
   }
 
   handleDialogConfirm(
@@ -641,9 +669,14 @@ export default class Page extends React.Component<PageProps> {
         actionType: 'dialog',
         dialog: dialog
       });
-      store.openDialog(ctx, undefined, confirmed => {
-        resolve(confirmed);
-      });
+      store.openDialog(
+        ctx,
+        undefined,
+        confirmed => {
+          resolve(confirmed);
+        },
+        this.context as any
+      );
     });
   }
 
@@ -701,7 +734,8 @@ export default class Page extends React.Component<PageProps> {
       })
     );
 
-    interval &&
+    value?.ok && // 接口正常返回才继续轮训
+      interval &&
       this.mounted &&
       (!stopAutoRefreshWhen || !evalExpression(stopAutoRefreshWhen, data)) &&
       (this.timer = setTimeout(
@@ -752,6 +786,7 @@ export default class Page extends React.Component<PageProps> {
       render,
       store,
       initApi,
+      popOverContainer,
       env,
       classnames: cx,
       regions,
@@ -777,10 +812,7 @@ export default class Page extends React.Component<PageProps> {
                     type: 'remark',
                     tooltip: remark,
                     placement: remarkPlacement || 'bottom',
-                    container:
-                      env && env.getModalContainer
-                        ? env.getModalContainer
-                        : undefined
+                    container: popOverContainer || env.getModalContainer
                   })
                 : null}
             </h2>
@@ -831,7 +863,7 @@ export default class Page extends React.Component<PageProps> {
       data,
       asideResizor,
       pullRefresh,
-      useMobileUI,
+      mobileUI,
       translate: __,
       loadingConfig
     } = this.props;
@@ -916,7 +948,7 @@ export default class Page extends React.Component<PageProps> {
           </div>
         ) : null}
 
-        {useMobileUI && isMobile() && pullRefresh && !pullRefresh.disabled ? (
+        {mobileUI && pullRefresh && !pullRefresh.disabled ? (
           <PullRefresh
             {...pullRefresh}
             translate={__}
@@ -1044,9 +1076,11 @@ export class PageRenderer extends Page {
 
     if (reload) {
       scoped.reload(reload, store.data);
+    } else if (scoped?.component !== this && scoped.component?.reload) {
+      scoped.component.reload();
     } else {
       // 没有设置，则自动让页面中 crud 刷新。
-      scoped
+      (this.context as IScopedContext)
         .getComponents()
         .filter((item: any) => item.props.type === 'crud')
         .forEach((item: any) => item.reload && item.reload());
@@ -1069,9 +1103,10 @@ export class PageRenderer extends Page {
     setTimeout(() => {
       if (reload) {
         scoped.reload(reload, store.data);
+      } else if (scoped.component !== this && scoped?.component?.reload) {
+        scoped.component.reload();
       } else {
-        // 没有设置，则自动让页面中 crud 刷新。
-        scoped
+        (this.context as IScopedContext)
           .getComponents()
           .filter((item: any) => item.props.type === 'crud')
           .forEach((item: any) => item.reload && item.reload());

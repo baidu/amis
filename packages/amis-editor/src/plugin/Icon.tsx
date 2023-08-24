@@ -4,6 +4,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control';
 
 export class IconPlugin extends BasePlugin {
+  static id = 'IconPlugin';
   // 关联渲染器名字
   rendererName = 'icon';
   $schema = '/schemas/Icon.json';
@@ -42,9 +43,15 @@ export class IconPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }
@@ -58,9 +65,15 @@ export class IconPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }
@@ -74,9 +87,15 @@ export class IconPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }

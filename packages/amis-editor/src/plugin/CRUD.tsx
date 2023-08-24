@@ -2,6 +2,7 @@ import {toast, normalizeApiResponseData} from 'amis';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import React from 'react';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 import {
   getI18nEnabled,
@@ -55,6 +56,7 @@ const viewTypeToEditType = (type: string) => {
 };
 
 export class CRUDPlugin extends BasePlugin {
+  static id = 'CRUDPlugin';
   // 关联渲染器名字
   rendererName = 'crud';
   $schema = '/schemas/CRUDSchema.json';
@@ -100,17 +102,249 @@ export class CRUDPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.responseData': {
+            data: {
               type: 'object',
-              title: '响应数据'
-            },
-            'event.data.responseStatus': {
-              type: 'number',
-              title: '响应状态(0表示成功)'
-            },
-            'event.data.responseMsg': {
-              type: 'string',
-              title: '响应消息'
+              title: '数据',
+              properties: {
+                responseData: {
+                  type: 'object',
+                  title: '响应数据'
+                },
+                responseStatus: {
+                  type: 'number',
+                  title: '响应状态(0表示成功)'
+                },
+                responseMsg: {
+                  type: 'string',
+                  title: '响应消息'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'selectedChange',
+      eventLabel: '选择表格项',
+      description: '手动选择表格项事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                selectedItems: {
+                  type: 'array',
+                  title: '已选择行记录'
+                },
+                unSelectedItems: {
+                  type: 'array',
+                  title: '未选择行记录'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'columnSort',
+      eventLabel: '列排序',
+      description: '点击列排序事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                orderBy: {
+                  type: 'string',
+                  title: '列名'
+                },
+                orderDir: {
+                  type: 'string',
+                  title: '排序值'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'columnFilter',
+      eventLabel: '列筛选',
+      description: '点击列筛选事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                filterName: {
+                  type: 'string',
+                  title: '列名'
+                },
+                filterValue: {
+                  type: 'string',
+                  title: '筛选值'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'columnSearch',
+      eventLabel: '列搜索',
+      description: '点击列搜索事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                searchName: {
+                  type: 'string',
+                  title: '列名'
+                },
+                searchValue: {
+                  type: 'object',
+                  title: '搜索值'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'orderChange',
+      eventLabel: '行排序',
+      description: '手动拖拽行排序事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                movedItems: {
+                  type: 'array',
+                  title: '已排序记录'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'columnToggled',
+      eventLabel: '列显示变化',
+      description: '点击自定义列事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                columns: {
+                  type: 'array',
+                  title: '当前显示的列配置'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowClick',
+      eventLabel: '行单击',
+      description: '点击整行事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '当前行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '当前行索引'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowMouseEnter',
+      eventLabel: '鼠标移入行事件',
+      description: '移入整行时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '当前行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '当前行索引'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowMouseLeave',
+      eventLabel: '鼠标移出行事件',
+      description: '移出整行时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '当前行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '当前行索引'
+                }
+              }
             }
           }
         }
@@ -123,6 +357,11 @@ export class CRUDPlugin extends BasePlugin {
       actionType: 'reload',
       actionLabel: '重新加载',
       description: '触发组件数据刷新并重新渲染'
+    },
+    {
+      actionLabel: '变量赋值',
+      actionType: 'setValue',
+      description: '更新列表记录'
     }
   ];
 
@@ -1504,6 +1743,17 @@ export class CRUDPlugin extends BasePlugin {
       },
 
       {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
+        ]
+      },
+
+      {
         title: '其他',
         body: [
           getSchemaTpl('ref'),
@@ -1773,7 +2023,8 @@ export class CRUDPlugin extends BasePlugin {
   async buildDataSchemas(
     node: EditorNodeType,
     region?: EditorNodeType,
-    trigger?: EditorNodeType
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
   ) {
     const child: EditorNodeType = node.children.find(
       item => !!~['table', 'table2', 'cards', 'list'].indexOf(item.type)
@@ -1786,15 +2037,17 @@ export class CRUDPlugin extends BasePlugin {
     let childSchame = await child.info.plugin.buildDataSchemas(
       child,
       undefined,
-      trigger
+      trigger,
+      node
     );
 
     // 兼容table的rows，并自行merged异步数据
     if (child.type === 'table') {
-      let cellProperties = {};
+      let itemsSchema: any = {}; // 收集选择记录中的列
       const columns: EditorNodeType = child.children.find(
         item => item.isRegion && item.region === 'columns'
       );
+      const rowsSchema = childSchame.properties.rows?.items;
 
       if (trigger) {
         const isColumnChild = someTree(
@@ -1803,23 +2056,40 @@ export class CRUDPlugin extends BasePlugin {
         );
 
         // merge异步数据中的单列成员，因为rendererBeforeDispatchEvent无法区分是否需要单列成员
-        if (isColumnChild) {
-          const scope = this.manager.dataSchema.getScope(
-            `${node.id}-${node.type}`
-          );
-          const menberProps = (
-            scope.getSchemaById('crudFetchInitedData')?.properties?.items as any
-          )?.items?.properties;
+        const scope = this.manager.dataSchema.getScope(
+          `${node.id}-${node.type}`
+        );
+        // 列表记录成员字段
+        const menberProps = (
+          scope.getSchemaById('crudFetchInitedData')?.properties?.items as any
+        )?.items?.properties;
+        // 所有字段
+        let tmpProperties: any = {
+          ...menberProps,
+          ...rowsSchema?.properties
+        };
 
-          cellProperties = {
-            ...menberProps,
-            ...omit(
-              childSchame.properties,
-              'rows',
-              'selectedItems',
-              'unSelectedItems'
-            )
-          };
+        if (isColumnChild) {
+          Object.keys(tmpProperties).map(key => {
+            itemsSchema[key] = {
+              ...tmpProperties[key]
+            };
+          });
+
+          const childScope = this.manager.dataSchema.getScope(
+            `${child.id}-${child.type}-currentRow`
+          );
+
+          if (childScope) {
+            childScope?.setSchemas([
+              {
+                $id: `${child.id}-${child.type}-currentRow`,
+                type: 'object',
+                properties: itemsSchema
+              }
+            ]);
+            childScope.tag = `当前行记录 : ${node.type}`;
+          }
         }
       }
 
@@ -1827,10 +2097,21 @@ export class CRUDPlugin extends BasePlugin {
         $id: childSchame.$id,
         type: childSchame.type,
         properties: {
-          ...cellProperties,
           items: childSchame.properties.rows,
-          selectedItems: childSchame.properties.selectedItems,
-          unSelectedItems: childSchame.properties.unSelectedItems,
+          selectedItems: {
+            ...childSchame.properties.selectedItems,
+            items: {
+              ...childSchame.properties.selectedItems.items,
+              properties: itemsSchema
+            }
+          },
+          unSelectedItems: {
+            ...childSchame.properties.unSelectedItems,
+            items: {
+              ...childSchame.properties.unSelectedItems.items,
+              properties: itemsSchema
+            }
+          },
           count: {
             type: 'number',
             title: '总行数'

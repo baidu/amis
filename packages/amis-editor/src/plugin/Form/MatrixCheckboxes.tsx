@@ -1,18 +1,18 @@
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
 import {
+  registerEditorPlugin,
   BasePlugin,
-  BasicSubRenderInfo,
-  RendererEventContext,
-  SubRendererInfo,
   BaseEventContext,
-  tipedLabel
+  RendererPluginAction,
+  RendererPluginEvent,
+  tipedLabel,
+  defaultValue,
+  getSchemaTpl
 } from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class MatrixControlPlugin extends BasePlugin {
+  static id = 'MatrixControlPlugin';
   // 关联渲染器名字
   rendererName = 'matrix-checkboxes';
   $schema = '/schemas/MatrixControlSchema.json';
@@ -73,9 +73,15 @@ export class MatrixControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选中的值'
+                }
+              }
             }
           }
         }
@@ -120,8 +126,9 @@ export class MatrixControlPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
-              getSchemaTpl('multiple', {
-                value: true
+              getSchemaTpl('switch', {
+                name: 'multiple',
+                label: '可多选'
               }),
               {
                 label: tipedLabel('模式', '行级、列级或者单个单元单选'),
@@ -133,7 +140,7 @@ export class MatrixControlPlugin extends BasePlugin {
                   left: 2,
                   justify: true
                 },
-                visibleOn: '!this.multiple',
+                visibleOn: '!data.multiple',
                 options: [
                   {
                     label: '行级',
@@ -150,6 +157,14 @@ export class MatrixControlPlugin extends BasePlugin {
                 ],
                 pipeIn: defaultValue('column')
               },
+              getSchemaTpl('switch', {
+                name: 'yCheckAll',
+                label: tipedLabel('列全选', '列级全选功能')
+              }),
+              getSchemaTpl('switch', {
+                name: 'xCheckAll',
+                label: tipedLabel('行全选', '行级全选功能')
+              }),
               getSchemaTpl('autoFillApi')
             ]
           },
@@ -201,7 +216,30 @@ export class MatrixControlPlugin extends BasePlugin {
         body: [
           getSchemaTpl('collapseGroup', [
             getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
-            getSchemaTpl('style:classNames')
+            getSchemaTpl('style:classNames'),
+            {
+              label: tipedLabel('对齐方式', '默认当开启全选后居左排列'),
+              name: 'textAlign',
+              type: 'select',
+              options: [
+                {
+                  label: '居中',
+                  value: 'center'
+                },
+                {
+                  label: '居左',
+                  value: 'left'
+                },
+                {
+                  label: '居右',
+                  value: 'right'
+                },
+                {
+                  label: '两端对齐',
+                  value: 'justify'
+                }
+              ]
+            }
           ])
         ]
       },

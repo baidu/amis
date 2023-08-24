@@ -155,6 +155,8 @@ let amisScoped = amis.embed(
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
     //
     // requestAdaptor(api) {
+    //   // 支持异步，可以通过 api.mockResponse 来设置返回结果，跳过真正的请求发送
+    //   // 此功能自定义 fetcher 的话会失效
     //   return api;
     // }
     //
@@ -172,6 +174,9 @@ let amisScoped = amis.embed(
     //
     // 用来判断是否目标地址当前地址。
     // isCurrentUrl: url => {},
+    //
+    // 用来配置弹窗等组件的挂载位置
+    // getModalContainer: () => document.getElementsByTagName('body')[0],
     //
     // 用来实现复制到剪切板
     // copy: content => {},
@@ -236,6 +241,34 @@ amisScoped.updateProps(
 );
 ```
 
+### 更新配置
+
+可以通过 amisScoped 对象的 udpateSchema 方法来更新更新内容配置。
+
+```js
+let amisJSON = {
+  type: 'page',
+  body: [
+    'inital string',
+
+    {
+      type: 'button',
+      label: 'Change',
+      onClick: handleChange
+    }
+  ]
+};
+let amisScoped = amis.embed('#root', amisJSON);
+
+function handleChange() {
+  const schema = {
+    ...amisJSON,
+    body: ['changed']
+  };
+  amisScoped.updateSchema(schema);
+}
+```
+
 ### 多页模式
 
 默认 amis 渲染是单页模式，如果想实现多页应用，请使用 [app 渲染器](../../components/app)。
@@ -253,6 +286,10 @@ amisScoped.updateProps(
 ```ts
 amisScoped.unmount();
 ```
+
+## vue
+
+可以基于 SDK 版本封装成 component 供 vue 使用，具体请参考示例：https://github.com/aisuda/vue2-amis-demo
 
 ## react
 
@@ -499,6 +536,10 @@ class MyComponent extends React.Component<any, any> {
             //   // 地址替换，跟 jumpTo 类似
             // },
 
+            // getModalContainer: () => {
+            //   // 弹窗挂载的 DOM 节点
+            // },
+
             // isCurrentUrl: (
             //   url: string /*url地址*/,
             // ) => {
@@ -675,7 +716,7 @@ render 有三个参数，后面会详细说明这三个参数内的属性
 (schema: any, path: string) => Promise<Function>;
 ```
 
-可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/__tests__/factory.test.tsx#L64-L91。
+可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/packages/amis-core/__tests__/factory.test.tsx#L64-L91。
 
 #### affixOffsetTop: number
 
@@ -741,3 +782,11 @@ Toast 提示弹出位置，默认为`'top-center'`。
 ```
 'top-right' | 'top-center' | 'top-left' | 'bottom-center' | 'bottom-left' | 'bottom-right' | 'center'
 ```
+
+#### loadChartExtends
+
+可以用来加载 echarts 插件，首次加载 echarts 完毕后调用，支持异步返回一个 promise 即可。
+
+#### loadTinymcePlugin
+
+可以用来加载 tinymce 插件，每次渲染 tinymce 的时候执行，可以用来加载 tinymce 插件。

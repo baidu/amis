@@ -1,4 +1,5 @@
 import {RendererEvent} from '../utils/renderer-event';
+import {createObject} from '../utils/helper';
 import {
   RendererAction,
   ListenerAction,
@@ -7,22 +8,11 @@ import {
 } from './Action';
 
 export interface ICmptAction extends ListenerAction {
-  actionType:
-    | 'setValue'
-    | 'static'
-    | 'nonstatic'
-    | 'show'
-    | 'visibility'
-    | 'hidden'
-    | 'enabled'
-    | 'disabled'
-    | 'usability'
-    | 'reload';
+  actionType: string;
   args: {
-    /** actionType为setValue时，目标变量的path */
-    path?: string;
-    value?: string | {[key: string]: string};
-    index?: number; // setValue支持更新指定索引的数据，一般用于数组类型
+    path?: string; // setValue时，目标变量的path
+    value?: string | {[key: string]: string}; // setValue时，目标变量的值
+    index?: number; // setValue时，支持更新指定索引的数据，一般用于数组类型
   };
 }
 
@@ -44,35 +34,22 @@ export class CmptAction implements RendererAction {
      * 触发组件未指定id或未指定响应组件componentId，则使用触发组件响应
      */
     const key = action.componentId || action.componentName;
-    let component =
-      key && renderer.props.$schema[action.componentId ? 'id' : 'name'] !== key
-        ? event.context.scoped?.[
-            action.componentId ? 'getComponentById' : 'getComponentByName'
-          ](key)
-        : renderer;
-
     const dataMergeMode = action.dataMergeMode || 'merge';
 
-    // 显隐&状态控制
-    if (['show', 'hidden', 'visibility'].includes(action.actionType)) {
-      let visibility =
-        action.actionType === 'visibility'
-          ? action.args?.value
-          : action.actionType === 'show';
-      return renderer.props.statusStore.setVisible(key!, visibility as any);
-    } else if (['static', 'nonstatic'].includes(action.actionType)) {
-      return renderer.props.statusStore.setStatic(
-        key!,
-        action.actionType === 'static'
-      );
-    } else if (
-      ['enabled', 'disabled', 'usability'].includes(action.actionType)
-    ) {
-      let usability =
-        action.actionType === 'usability'
-          ? !action.args?.value
-          : action.actionType === 'disabled';
-      return renderer.props.statusStore.setDisable(key!, usability);
+    let component = key
+      ? event.context.scoped?.[
+          action.componentId ? 'getComponentById' : 'getComponentByName'
+        ](key)
+      : null;
+
+    if (key && !component) {
+      const msg =
+        '尝试执行一个不存在的目标组件动作，请检查目标组件非隐藏状态，且正确指定了componentId或componentName';
+      if (action.ignoreError === false) {
+        throw Error(msg);
+      } else {
+        console.warn(msg);
+      }
     }
 
     if (action.actionType === 'setValue') {
@@ -117,7 +94,32 @@ export class CmptAction implements RendererAction {
     }
 
     // 执行组件动作
-    return component?.doAction?.(action, action.args);
+    try {
+      const result = await component?.doAction?.(action, action.args, true);
+
+      if (['validate', 'submit'].includes(action.actionType)) {
+        event.setData(
+          createObject(event.data, {
+            [action.outputVar || `${action.actionType}Result`]: {
+              error: '',
+              payload: result?.__payload ?? component?.props?.store?.data,
+              responseData: result?.__response
+            }
+          })
+        );
+      }
+      return result;
+    } catch (e) {
+      event.setData(
+        createObject(event.data, {
+          [action.outputVar || `${action.actionType}Result`]: {
+            error: e.message,
+            errors: e.name === 'ValidateError' ? e.detail : e,
+            payload: component?.props?.store?.data
+          }
+        })
+      );
+    }
   }
 }
 

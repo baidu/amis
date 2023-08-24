@@ -26,7 +26,8 @@ import {
   hasAbility,
   getTreeParent,
   getTreeAncestors,
-  flattenTree
+  flattenTree,
+  flattenTreeWithLeafNodes
 } from 'amis-core';
 import {Option, Options, value2array} from './Select';
 import {themeable, ThemeProps, highlight} from 'amis-core';
@@ -153,6 +154,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
 
 interface TreeSelectorState {
   value: Array<any>;
+  valueSet: Set<any>;
   inputValue: string;
   addingParent: Option | null;
   isAdding: boolean;
@@ -225,19 +227,21 @@ export class TreeSelector extends React.Component<
 
   constructor(props: TreeSelectorProps) {
     super(props);
+    const value = value2array(
+      props.value,
+      {
+        multiple: props.multiple,
+        delimiter: props.delimiter,
+        valueField: props.valueField,
+        labelField: props.labelField,
+        options: props.options,
+        pathSeparator: props.pathSeparator
+      },
+      props.enableNodePath
+    );
     this.state = {
-      value: value2array(
-        props.value,
-        {
-          multiple: props.multiple,
-          delimiter: props.delimiter,
-          valueField: props.valueField,
-          labelField: props.labelField,
-          options: props.options,
-          pathSeparator: props.pathSeparator
-        },
-        props.enableNodePath
-      ),
+      value,
+      valueSet: new Set(value),
       flattenedOptions: [],
       inputValue: '',
       addingParent: null,
@@ -271,19 +275,21 @@ export class TreeSelector extends React.Component<
       prevProps.value !== props.value ||
       prevProps.options !== props.options
     ) {
+      const newValue = value2array(
+        props.value,
+        {
+          multiple: props.multiple,
+          delimiter: props.delimiter,
+          valueField: props.valueField,
+          pathSeparator: props.pathSeparator,
+          options: props.options,
+          labelField: props.labelField
+        },
+        props.enableNodePath
+      );
       this.setState({
-        value: value2array(
-          props.value,
-          {
-            multiple: props.multiple,
-            delimiter: props.delimiter,
-            valueField: props.valueField,
-            pathSeparator: props.pathSeparator,
-            options: props.options,
-            labelField: props.labelField
-          },
-          props.enableNodePath
-        )
+        value: newValue,
+        valueSet: new Set(newValue)
       });
     }
   }
@@ -479,40 +485,79 @@ export class TreeSelector extends React.Component<
   handleCheck(item: any, checked: boolean) {
     // TODO: 重新梳理这里的逻辑
     const props = this.props;
-    const value = this.state.value.concat();
-    const idx = value.indexOf(item);
+    const value = this.state.valueSet;
     const {onlyChildren, withChildren, cascade, autoCheckChildren} = props;
     if (checked) {
-      ~idx || value.push(item);
+      if (!value.has(item)) {
+        value.add(item);
+      }
       // cascade 为 true 表示父节点跟子节点没有级联关系。
       if (autoCheckChildren) {
-        const children = item.children ? item.children.concat([]) : [];
+        const children = item.children ? [...item.children] : [];
+        const hasDisabled = flattenTree(children).some(item => item?.disabled);
+
         if (onlyChildren) {
+          // 这个 isAllChecked 主要是判断如果有disabled的item项，这时父节点还是选中的话，针对性的处理逻辑
+          const isAllChecked = flattenTreeWithLeafNodes(children)
+            .filter(item => !item?.disabled)
+            .every(v => value.has(v));
           // 父级选中的时候，子节点也都选中，但是自己不选中
-          !~idx && children.length && value.pop();
+          if (value.has(item) && children.length) {
+            value.delete(item);
+          }
 
           while (children.length) {
             let child = children.shift();
-            let index = value.indexOf(child);
 
             if (child.children && child.children.length) {
               children.push.apply(children, child.children);
-            } else if (!~index && child.value !== 'undefined') {
-              value.push(child);
+              continue;
+            }
+
+            if (hasDisabled && isAllChecked) {
+              if (
+                value.has(child) &&
+                child.value !== 'undefined' &&
+                !child?.disabled
+              ) {
+                value.delete(child);
+              }
+              continue;
+            }
+
+            if (
+              !value.has(child) &&
+              child.value !== 'undefined' &&
+              !child?.disabled
+            ) {
+              value.add(child);
             }
           }
         } else {
+          // 这个 isAllChecked 主要是判断如果有disabled的item项，这时父节点还是选中的话，针对性的处理逻辑
+          const isAllChecked = flattenTree(children)
+            .filter(item => !item?.disabled)
+            .every(v => value.has(v));
+
           // 只要父节点选择了,子节点就不需要了,全部去掉勾选.  withChildren时相反
           while (children.length) {
             let child = children.shift();
-            let index = value.indexOf(child);
 
-            if (~index) {
-              value.splice(index, 1);
+            if (child?.disabled) {
+              continue;
             }
 
-            if (withChildren || cascade) {
-              value.push(child);
+            // 判断下下面是否有禁用项
+            if (!hasDisabled) {
+              if (value.has(child)) {
+                value.delete(child);
+              }
+
+              if (withChildren || cascade) {
+                value.add(child);
+              }
+            } else {
+              isAllChecked ? value.delete(child) : value.add(child);
             }
 
             if (child.children && child.children.length) {
@@ -525,21 +570,18 @@ export class TreeSelector extends React.Component<
           while (true) {
             const parent = getTreeParent(props.options, toCheck);
             // 判断 parent 节点是否已经勾选，避免重复值
-            if (parent?.value && !~value.indexOf(parent)) {
+            if (parent?.value && !value.has(parent)) {
               // 如果所有孩子节点都勾选了，应该自动勾选父级。
 
-              if (
-                parent.children.every((child: any) => ~value.indexOf(child))
-              ) {
+              if (parent.children.every((child: any) => value.has(child))) {
                 if (!cascade && !withChildren) {
                   parent.children.forEach((child: any) => {
-                    const index = value.indexOf(child);
-                    if (~index) {
-                      value.splice(index, 1);
+                    if (value.has(child)) {
+                      value.delete(child);
                     }
                   });
                 }
-                value.push(parent);
+                value.add(parent);
                 toCheck = parent;
                 continue;
               }
@@ -549,15 +591,14 @@ export class TreeSelector extends React.Component<
         }
       }
     } else {
-      ~idx && value.splice(idx, 1);
+      value.has(item) && value.delete(item);
       if (autoCheckChildren) {
         if (cascade || withChildren || onlyChildren) {
-          const children = item.children ? item.children.concat([]) : [];
+          const children = item.children ? [...item.children] : [];
           while (children.length) {
             let child = children.shift();
-            let index = value.indexOf(child);
-            if (~index) {
-              value.splice(index, 1);
+            if (value.has(child) && !child?.disabled) {
+              value.delete(child);
             }
             if (child.children && child.children.length) {
               children.push.apply(children, child.children);
@@ -569,9 +610,9 @@ export class TreeSelector extends React.Component<
 
     this.setState(
       {
-        value
+        value: [...value]
       },
-      () => this.fireChange(value)
+      () => this.fireChange([...value])
     );
   }
 
@@ -618,10 +659,11 @@ export class TreeSelector extends React.Component<
           const result = [] as Option[];
 
           for (let option of this.state.flattenedOptions) {
+            result.push(option);
             if (option === parent) {
-              result.push({...option, isAdding: true});
-            } else {
-              result.push(option);
+              const insert = {isAdding: true};
+              this.levels.set(insert, (this.levels.get(option) || 0) + 1);
+              result.push(insert);
             }
           }
           this.setState({flattenedOptions: result});
@@ -716,12 +758,20 @@ export class TreeSelector extends React.Component<
   }
 
   renderInput(prfix: JSX.Element | null = null) {
-    const {classnames: cx, translate: __} = this.props;
+    const {classnames: cx, mobileUI, translate: __} = this.props;
     const {inputValue} = this.state;
 
     return (
-      <div className={cx('Tree-itemLabel')}>
-        <div className={cx('Tree-itemInput')}>
+      <div
+        className={cx('Tree-itemLabel', {
+          'is-mobile': mobileUI
+        })}
+      >
+        <div
+          className={cx('Tree-itemInput', {
+            'is-mobile': mobileUI
+          })}
+        >
           {prfix}
           <input
             onChange={this.handleInputChange}
@@ -878,12 +928,12 @@ export class TreeSelector extends React.Component<
         if (!isVisible(item)) {
           return;
         }
+        this.levels.set(item, level);
+        parent && this.relations.set(item, parent);
         if (paths.length === 0) {
           // 父节点
           flattenedOptions.push(item);
         } else if (this.isUnfolded(parent)) {
-          this.relations.set(item, parent);
-          this.levels.set(item, level);
           // 父节点是展开的状态
           flattenedOptions.push(item);
         }
@@ -907,11 +957,21 @@ export class TreeSelector extends React.Component<
     if (!item || !this.relations.get(item)) {
       return false;
     }
-    const itemParent = this.relations.get(item);
-    const {value} = this.state;
-    const checked = !!~value.indexOf(itemParent);
 
-    return checked || this.isParentChecked(itemParent);
+    const {valueSet} = this.state;
+    let currentItem = item;
+    while (currentItem) {
+      const itemParent = this.relations.get(currentItem);
+      if (!itemParent) {
+        return false;
+      }
+      if (valueSet.has(itemParent)) {
+        return true;
+      }
+      currentItem = itemParent;
+    }
+
+    return false;
   }
 
   /**
@@ -954,30 +1014,25 @@ export class TreeSelector extends React.Component<
 
     const {autoCheckChildren, onlyChildren, multiple, withChildren, cascade} =
       this.props;
-    const {value} = this.state;
-    const checked = !!~value.indexOf(item);
+    const {valueSet} = this.state;
+    const checked = valueSet.has(item);
 
     if (checked) {
       return true;
     }
 
     if (item.children?.length) {
-      if (
-        onlyChildren &&
-        autoCheckChildren &&
-        this.isItemChildrenChecked(item) // TODO: 优化这个逻辑
-      ) {
-        // 当前元素没有在 value 中，但是子组件全部勾选了
-        return true;
+      if (onlyChildren && autoCheckChildren) {
+        if (this.isItemChildrenChecked(item)) {
+          // 当前元素没有在 value 中，但是子组件全部勾选了
+          return true;
+        }
       }
     }
     const itemParent = this.relations.get(item);
     if (itemParent && multiple && autoCheckChildren) {
       // 当前节点为子节点
-      if (withChildren) {
-        return false;
-      }
-      if (cascade) {
+      if (withChildren || cascade) {
         return false;
       }
       return this.isParentChecked(item);
@@ -1024,13 +1079,10 @@ export class TreeSelector extends React.Component<
 
     const itemParent = this.relations.get(item);
 
-    if (
-      autoCheckChildren &&
-      multiple &&
-      checked &&
-      itemParent &&
-      this.isItemChecked(itemParent)
-    ) {
+    if (autoCheckChildren && multiple && checked && itemParent) {
+      if (!this.isItemChecked(itemParent)) {
+        return false;
+      }
       // 子节点
       if (onlyChildren) {
         return false;
@@ -1064,7 +1116,8 @@ export class TreeSelector extends React.Component<
       draggable,
       loadingConfig,
       enableDefaultIcon,
-      valueField
+      valueField,
+      mobileUI
     } = this.props;
 
     const item = this.state.flattenedOptions[index];
@@ -1113,7 +1166,9 @@ export class TreeSelector extends React.Component<
     if (isEditing && editingItem === item) {
       body = this.renderInput(checkbox);
     } else if (item.isAdding) {
-      body = this.renderInput(checkbox);
+      body = this.renderInput(
+        <span className={cx('Tree-itemArrowPlaceholder')} />
+      );
     } else {
       body = (
         <div
@@ -1160,7 +1215,7 @@ export class TreeSelector extends React.Component<
 
           {checkbox}
 
-          <div className={cx('Tree-itemLabel-item')}>
+          <div className={cx('Tree-itemLabel-item', {'is-mobile': mobileUI})}>
             {showIcon ? (
               <i
                 className={cx(
@@ -1263,8 +1318,7 @@ export class TreeSelector extends React.Component<
         })}
         style={{
           ...style,
-          left: `calc(${level} * var(--Tree-indent))`,
-          width: `calc(100% - ${level} * var(--Tree-indent))`
+          paddingLeft: `calc(${level} * var(--Tree-indent))`
         }}
       >
         {body}
@@ -1301,6 +1355,19 @@ export class TreeSelector extends React.Component<
     );
   }
 
+  @autobind
+  handleToggle(bool?: boolean) {
+    const availableOptions = this.getAvailableOptions();
+    if (bool === undefined) {
+      const checkedAll = availableOptions.every(option =>
+        this.isItemChecked(option)
+      );
+      this.handleCheckAll(availableOptions, checkedAll);
+      return;
+    }
+    this.handleCheckAll(availableOptions, bool);
+  }
+
   renderCheckAll() {
     const {
       multiple,
@@ -1308,7 +1375,8 @@ export class TreeSelector extends React.Component<
       checkAllLabel,
       classnames: cx,
       translate: __,
-      disabled
+      disabled,
+      mobileUI
     } = this.props;
 
     if (!multiple || !checkAll) {
@@ -1336,7 +1404,11 @@ export class TreeSelector extends React.Component<
           partial={checkedPartial && !checkedAll}
         />
 
-        <div className={cx('Tree-itemLabel-item')}>
+        <div
+          className={cx('Tree-itemLabel-item', {
+            'is-mobile': mobileUI
+          })}
+        >
           <span className={cx('Tree-itemText')}>{__(checkAllLabel)}</span>
         </div>
       </div>

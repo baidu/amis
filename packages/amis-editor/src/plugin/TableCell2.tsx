@@ -15,12 +15,13 @@ import {
   tipedLabel
 } from 'amis-editor-core';
 import type {DSField} from 'amis-editor-core';
-import {fromPairs} from 'lodash';
+import fromPairs from 'lodash/fromPairs';
 import type {TabsSchema} from 'amis';
 import type {SchemaObject} from 'amis';
 import {remarkTpl} from '../component/BaseControl';
 
 export class TableCell2Plugin extends BasePlugin {
+  static id = 'TableCell2Plugin';
   panelTitle = '列配置';
   panelIcon = 'fa fa-columns';
 

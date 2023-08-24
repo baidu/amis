@@ -257,7 +257,6 @@ export class Pagination extends React.Component<
   render() {
     const {
       layout,
-      maxButtons,
       mode,
       activePage,
       total,
@@ -271,8 +270,10 @@ export class Pagination extends React.Component<
       hasNext,
       popOverContainer,
       popOverContainerSelector,
+      mobileUI,
       translate: __
     } = this.props;
+    let maxButtons = this.props.maxButtons;
     const {pageNum, perPage} = this.state;
     const lastPage = this.getLastPage();
 
@@ -441,11 +442,21 @@ export class Pagination extends React.Component<
       </li>
     );
 
+    if (mobileUI) {
+      pageButtons = [
+        pageButtons[0],
+        this.renderPageItem(activePage),
+        pageButtons[pageButtons.length - 1]
+      ];
+    }
+
     const go = (
       <div className={cx('Pagination-inputGroup Pagination-item')} key="go">
-        <span className={cx('Pagination-inputGroup-left')} key="go-left">
-          {__('Pagination.goto')}
-        </span>
+        {!mobileUI ? (
+          <span className={cx('Pagination-inputGroup-left')} key="go-left">
+            {__('Pagination.goto')}
+          </span>
+        ) : null}
         <input
           className={cx('Pagination-inputGroup-input')}
           key="go-input"

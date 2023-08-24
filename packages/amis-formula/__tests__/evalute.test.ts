@@ -117,6 +117,10 @@ test('evalute:filter4', () => {
   ).toBe('a is 1,2,3,7');
 });
 
+test('evalute:keywords', () => {
+  expect(evaluate('a is ${JOIN([1, 2, 3], "|")}', {})).toBe('a is 1|2|3');
+});
+
 test('evalute:oldVariable', () => {
   expect(
     evaluate('a is $a', {
@@ -256,14 +260,14 @@ test('evalute:literal', () => {
 
 test('evalute:variableName', () => {
   const data = {
-    'a-b': 'c',
+    'a_b': 'c',
     '222': 10222,
     '222_221': 233,
     '222_abcde': 'abcde',
     '222-221': 333
   };
 
-  expect(evaluate('${a-b}', data)).toBe('c');
+  expect(evaluate('${a_b}', data)).toBe('c');
   expect(evaluate('${222}', data)).toBe(222);
   expect(evaluate('${222_221}', data)).toBe('233');
   expect(evaluate('${222-221}', data)).toBe(1);

@@ -17,7 +17,7 @@ import React from 'react';
 import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv, wait} from '../../helper';
+import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
 
 const testSchema = {
   type: 'page',
@@ -114,6 +114,7 @@ const testSchema = {
 test('Renderer:condition-builder', () => {
   const {container} = render(amisRender(testSchema, {}, makeEnv({})));
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -554,7 +555,7 @@ test('Renderer:condition-builder with source fields', async () => {
             type: 'condition-builder',
             label: '条件组件',
             name: 'conditions',
-            source: '/api/condition-fields'
+            source: '/api/condition-fields/custom'
           }
         ]
       },
@@ -669,9 +670,7 @@ test('Renderer:condition-builder with selectMode', async () => {
   fireEvent.click(await findByText('添加条件'));
   fireEvent.click(await findByText('请选择字段'));
 
-  expect(
-    container.querySelector('.cxd-CBGroup-field  .cxd-TreeSelection')
-  ).toBeInTheDocument();
+  expect(container.querySelector('.cxd-TreeSelection')).toBeInTheDocument();
   // expect(container).toMatchSnapshot();
 });
 

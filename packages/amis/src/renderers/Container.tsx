@@ -3,6 +3,7 @@ import merge from 'lodash/merge';
 import {
   Renderer,
   RendererProps,
+  autobind,
   buildStyle,
   isPureVariable,
   resolveVariableAndFilter
@@ -128,6 +129,24 @@ export default class Container<T> extends React.Component<
     }
   };
 
+  @autobind
+  handleClick(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(e, data);
+  }
+
+  @autobind
+  handleMouseEnter(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(e, data);
+  }
+
+  @autobind
+  handleMouseLeave(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(e, data);
+  }
+
   renderBody(): JSX.Element | null {
     const {
       children,
@@ -189,6 +208,9 @@ export default class Container<T> extends React.Component<
           size && size !== 'none' ? `Container--${size}` : '',
           className
         )}
+        onClick={this.handleClick}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
         style={buildStyle(style, data)}
       >
         {this.renderBody()}

@@ -102,6 +102,7 @@ exports[`Renderer:cards color 1`] = `
           >
             <div
               class="cxd-Cards-fixedTop"
+              style="top: 0px;"
             />
             <div
               class="cxd-Cards-body cxd-Grid"
@@ -376,7 +377,7 @@ exports[`Renderer:cards hightlight 1`] = `
           role="page-body"
         >
           <div
-            class="cxd-Card"
+            class="cxd-Card cxd-Card--link"
           >
             <div
               class="cxd-Card-multiMedia--left"
@@ -473,7 +474,7 @@ exports[`Renderer:cards hightlight 1`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                         >
                           <i
-                            class="m-r-xs fa fa-ellipsis-h"
+                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -506,7 +507,7 @@ exports[`Renderer:cards hightlight 2`] = `
           role="page-body"
         >
           <div
-            class="cxd-Card"
+            class="cxd-Card cxd-Card--link"
           >
             <div
               class="cxd-Card-multiMedia--left"
@@ -603,7 +604,7 @@ exports[`Renderer:cards hightlight 2`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                         >
                           <i
-                            class="m-r-xs fa fa-ellipsis-h"
+                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>
@@ -636,7 +637,7 @@ exports[`Renderer:cards media 1`] = `
           role="page-body"
         >
           <div
-            class="cxd-Card"
+            class="cxd-Card cxd-Card--link"
           >
             <div
               class="cxd-Card-multiMedia--left"
@@ -730,7 +731,7 @@ exports[`Renderer:cards media 1`] = `
                           class="cxd-Button cxd-Button--link cxd-Button--size-sm"
                         >
                           <i
-                            class="m-r-xs fa fa-ellipsis-h"
+                            class="fa fa-ellipsis-h icon m-r-xs fa fa-ellipsis-h"
                           />
                         </button>
                       </div>

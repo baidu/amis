@@ -44,6 +44,42 @@ order: 30
 }
 ```
 
+## 全选
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "matrix-checkboxes",
+      "name": "matrix",
+      "label": "Matrix",
+      "rowLabel": "行标题说明",
+      "xCheckAll": true,
+      "yCheckAll": true,
+      "columns": [
+        {
+          "label": "列1"
+        },
+        {
+          "label": "列2"
+        }
+      ],
+      "rows": [
+        {
+          "label": "行1"
+        },
+        {
+          "label": "行2"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 单选模式
 
 配置`"multiple": false`可以设置单选，配置`singleSelectMode`可以设置单选模式
@@ -281,6 +317,9 @@ row 模式，每行只能单选某个单元格
 | source           | [API](../../../docs/types/api) |            | Api 地址，如果选项组不固定，可以通过配置 `source` 动态拉取。                                                                                                |
 | multiple         | `boolean`                      | `true`     | 是否多选                                                                                                                                                    |
 | singleSelectMode | `string`                       | `"column"` | 设置单选模式，`multiple`为`false`时有效，可设置为`cell`, `row`, `column` 分别为全部选项中只能单选某个单元格、每行只能单选某个单元格，每列只能单选某个单元格 |
+| textAlign        | `string`                       | `"center"` | 当开启多选+全选时，默认为'left'                                                                                                                             |
+| yCheckAll        | `boolean`                      | `false`    | 列上的全选                                                                                                                                                  |
+| xCheckAll        | `boolean`                      | `false`    | 行上的全选                                                                                                                                                  |
 
 ## 事件表
 

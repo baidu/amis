@@ -6,6 +6,7 @@ import {TransferPicker} from 'amis-ui';
 import {autobind, createObject} from 'amis-core';
 import {ActionObject, toNumber} from 'amis-core';
 import {supportStatic} from './StaticHoc';
+import {isMobile} from 'amis-core';
 
 /**
  * TransferPicker 穿梭器的弹框形态
@@ -85,7 +86,11 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       virtualThreshold,
       loadingConfig,
       labelField = 'label',
-      valueField = 'value'
+      valueField = 'value',
+      menuTpl,
+      valueTpl,
+      mobileUI,
+      env
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -125,8 +130,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           columns={columns}
           leftMode={leftMode}
           leftOptions={leftOptions}
-          optionItemRender={this.optionItemRender}
-          resultItemRender={this.resultItemRender}
+          optionItemRender={menuTpl ? this.optionItemRender : undefined}
+          resultItemRender={valueTpl ? this.resultItemRender : undefined}
           onFocus={() => this.dispatchEvent('focus')}
           onBlur={() => this.dispatchEvent('blur')}
           labelField={labelField}
@@ -135,6 +140,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
           virtualThreshold={virtualThreshold}
+          mobileUI={mobileUI}
+          popOverContainer={env?.getModalContainer}
         />
 
         <Spinner

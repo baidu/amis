@@ -1,11 +1,17 @@
-import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
+import {
+  RendererPluginEvent,
+  getI18nEnabled,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {BasePlugin, RegionConfig, BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 import {tipedLabel} from 'amis-editor-core';
 import {isObject} from 'amis-editor-core';
+import {getEventControlConfig} from '../renderer/event-control/helper';
 
 export class CollapseGroupPlugin extends BasePlugin {
+  static id = 'CollapseGroupPlugin';
   // 关联渲染器名字
   rendererName = 'collapse-group';
   $schema = '/schemas/CollapseGroupSchema.json';
@@ -54,6 +60,39 @@ export class CollapseGroupPlugin extends BasePlugin {
   previewSchema = {
     ...this.scaffold
   };
+
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'change',
+      eventLabel: '折叠状态改变',
+      description: '折叠面板折叠状态改变时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              title: '数据',
+              type: 'object',
+              properties: {
+                activeKeys: {
+                  type: 'array',
+                  title: '当前展开的索引列表'
+                },
+                collapseId: {
+                  type: 'string',
+                  title: '折叠器索引'
+                },
+                collapsed: {
+                  type: 'boolean',
+                  title: '折叠器状态'
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ];
 
   activeKeyData: any = [];
   panelTitle = '折叠面板';
@@ -168,11 +207,10 @@ export class CollapseGroupPlugin extends BasePlugin {
                         '默认展开此面板'
                       )
                     },
-                    {
+                    getSchemaTpl('title', {
                       name: 'header',
-                      placeholder: '标题',
-                      type: i18nEnabled ? 'input-text-i18n' : 'input-text'
-                    }
+                      placeholder: '标题'
+                    })
                   ],
                   onChange: (
                     value: Array<any>,
@@ -234,6 +272,16 @@ export class CollapseGroupPlugin extends BasePlugin {
               isFormItem: false
             })
           ])
+        },
+        {
+          title: '事件',
+          className: 'p-none',
+          body: [
+            getSchemaTpl('eventControl', {
+              name: 'onEvent',
+              ...getEventControlConfig(this.manager, context)
+            })
+          ]
         }
       ])
     ];

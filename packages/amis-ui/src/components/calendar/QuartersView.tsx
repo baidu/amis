@@ -1,6 +1,10 @@
 import moment from 'moment';
 import React from 'react';
 import {localeable, LocaleProps, ThemeProps} from 'amis-core';
+import Picker from '../Picker';
+import {PickerColumnItem} from '../PickerColumn';
+import {getRange} from 'amis-core';
+import {autobind} from 'amis-core';
 
 export interface QuarterViewProps extends LocaleProps, ThemeProps {
   viewDate: moment.Moment;
@@ -23,9 +27,16 @@ export interface QuarterViewProps extends LocaleProps, ThemeProps {
   renderQuarter: any;
   isValidDate: (date: moment.Moment) => boolean;
   hideHeader?: boolean;
+  onConfirm?: (value: number[], types?: string[]) => void;
+  onClose?: () => void;
 }
 
 export class QuarterView extends React.Component<QuarterViewProps> {
+  state = {
+    columns: [],
+    pickerValue: [this.props.viewDate.year(), this.props.viewDate.quarter()]
+  };
+
   renderYear() {
     const __ = this.props.translate;
     const showYearHead = !/^mm$/i.test(this.props.inputFormat || '');
@@ -139,10 +150,58 @@ export class QuarterView extends React.Component<QuarterViewProps> {
     return true;
   }
 
-  render() {
-    const {classnames: cx, hideHeader} = this.props;
+  onPickerConfirm = (value: number[]) => {
+    this.props.onConfirm && this.props.onConfirm(value, ['year', 'quarter']);
+  };
+
+  onPickerChange = (value: number[], index: number) => {
+    this.setState({pickerValue: value});
+  };
+
+  @autobind
+  cancel() {
+    this.props.onClose?.();
+  }
+
+  renderPicker() {
+    const {translate: __} = this.props;
+    const title = __('Date.titleQuarter');
+    const minYear = new Date().getFullYear() - 100;
+    const maxYear = new Date().getFullYear() + 100;
+    const columns: PickerColumnItem[] = [
+      {
+        options: getRange(minYear, maxYear, 1)
+      },
+      {
+        options: getRange(1, 4).map(item => {
+          return {
+            text: 'Q' + item,
+            value: item
+          };
+        })
+      }
+    ];
 
     return (
+      <Picker
+        translate={this.props.translate}
+        locale={this.props.locale}
+        title={title}
+        columns={columns}
+        value={this.state.pickerValue}
+        onChange={this.onPickerChange}
+        onConfirm={this.onPickerConfirm}
+        onClose={this.cancel}
+      />
+    );
+  }
+
+  render() {
+    const {classnames: cx, hideHeader, mobileUI} = this.props;
+
+    return mobileUI ? (
+      this.renderPicker()
+    ) : (
       <div className={cx('ClalendarQuarter')}>
         {hideHeader ? null : this.renderYear()}
         <table>

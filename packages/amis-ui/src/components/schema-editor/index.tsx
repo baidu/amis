@@ -171,7 +171,8 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
       definitions,
       enableAdvancedSetting,
       popOverContainer,
-      placeholder
+      placeholder,
+      mobileUI
     } = this.props;
     const value: JSONSchema = this.props.value || {
       type: defaultType || 'object'
@@ -231,6 +232,7 @@ export class SchemaEditor extends React.Component<SchemaEditorProps> {
           enableAdvancedSetting={enableAdvancedSetting}
           popOverContainer={popOverContainer}
           placeholder={placeholder}
+          mobileUI={mobileUI}
         />
       </div>
     );

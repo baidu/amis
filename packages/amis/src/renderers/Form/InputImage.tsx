@@ -39,6 +39,7 @@ import {filter} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
+import isNil from 'lodash/isNil';
 import {TplSchema} from '../Tpl';
 import Sortable from 'sortablejs';
 
@@ -373,7 +374,8 @@ export default class ImageControl extends React.Component<
     delimiter: ',',
     autoUpload: true,
     multiple: false,
-    dropCrop: true
+    dropCrop: true,
+    initAutoFill: true
   };
 
   static valueToFile(
@@ -428,7 +430,7 @@ export default class ImageControl extends React.Component<
   resolve?: (value?: any) => void;
   emitValue: any;
   unmounted = false;
-  initAutoFill: boolean;
+  initedFilled = false;
   // 文件重新上传的位置标记，用以定位替换
   reuploadIndex: undefined | number = undefined;
 
@@ -439,7 +441,6 @@ export default class ImageControl extends React.Component<
     const joinValues = props.joinValues;
     const delimiter = props.delimiter as string;
     let files: Array<FileValue> = [];
-    this.initAutoFill = !!(props.initAutoFill ?? true);
 
     if (value) {
       // files = (multiple && Array.isArray(value) ? value : joinValues ? (value as string).split(delimiter) : [value])
@@ -488,11 +489,16 @@ export default class ImageControl extends React.Component<
   }
 
   componentDidMount() {
-    if (this.initAutoFill) {
-      const {formInited, addHook} = this.props;
-      formInited || !addHook
-        ? this.syncAutoFill()
-        : addHook(this.syncAutoFill, 'init');
+    const {formInited, addHook} = this.props;
+
+    if (formInited || !addHook) {
+      this.initedFilled = true;
+      this.props.initAutoFill && this.syncAutoFill();
+    } else if (addHook) {
+      addHook(() => {
+        this.initedFilled = true;
+        this.props.initAutoFill && this.syncAutoFill();
+      }, 'init');
     }
 
     if (this.props.initCrop && this.files.length) {
@@ -532,7 +538,7 @@ export default class ImageControl extends React.Component<
               obj = {
                 ...org,
                 ...obj,
-                id: org.id || obj.id
+                id: org.id || obj.id || guid()
               };
             }
 
@@ -545,7 +551,9 @@ export default class ImageControl extends React.Component<
         {
           files: (this.files = files)
         },
-        this.initAutoFill ? this.syncAutoFill : () => {}
+        props.changeMotivation !== 'formInited' && this.initedFilled
+          ? this.syncAutoFill
+          : undefined
       );
     }
 
@@ -568,6 +576,9 @@ export default class ImageControl extends React.Component<
   }
 
   getFileKey(file: FileValue | FileX) {
+    if (file.id) {
+      return file.id;
+    }
     if (this.fileKeys.has(file)) {
       return this.fileKeys.get(file);
     }
@@ -629,12 +640,13 @@ export default class ImageControl extends React.Component<
       currentFiles = [];
     }
 
-    const allowed =
-      (multiple
-        ? maxLength
+    const allowed = !isNil(this.reuploadIndex)
+      ? reFiles.length
+      : (multiple
           ? maxLength
-          : reFiles.length + currentFiles.length
-        : 1) - currentFiles.length;
+            ? maxLength
+            : reFiles.length + currentFiles.length
+          : 1) - currentFiles.length;
 
     // 限制过多的错误文件
     if (allowed <= 0) {
@@ -769,16 +781,16 @@ export default class ImageControl extends React.Component<
                 newFile.state =
                   file.state !== 'uploading' ? file.state : 'error';
                 newFile.error = error;
-                if (!multiple) {
-                  this.current = null;
-                  return this.setState(
-                    {
-                      files: (this.files = []),
-                      error
-                    },
-                    this.tick
-                  );
-                }
+
+                this.current = null;
+                files.splice(idx, 1);
+                return this.setState(
+                  {
+                    files: (this.files = files),
+                    error
+                  },
+                  this.tick
+                );
               } else {
                 newFile = {
                   name: file.name || this.state.cropFileName,
@@ -1105,12 +1117,13 @@ export default class ImageControl extends React.Component<
       currentFiles = [];
     }
 
-    const allowed =
-      (multiple
-        ? maxLength
+    const allowed = !isNil(this.reuploadIndex)
+      ? files.length
+      : (multiple
           ? maxLength
-          : files.length + currentFiles.length
-        : 1) - currentFiles.length;
+            ? maxLength
+            : files.length + currentFiles.length
+          : 1) - currentFiles.length;
     const inputFiles: Array<FileX> = [];
 
     [].slice.call(files, 0, allowed).forEach((file: FileX) => {
@@ -1377,7 +1390,7 @@ export default class ImageControl extends React.Component<
           },
           () => {
             if (!needUploading) {
-              this.onChange(false, true, this.initAutoFill);
+              this.onChange(false, true, this.props.initAutoFill);
             }
           }
         );
@@ -1666,7 +1679,7 @@ export default class ImageControl extends React.Component<
                       <div className={cx('ImageControl-itemList')}>
                         {files.map((file, key) => (
                           <div
-                            key={this.getFileKey(file)}
+                            key={`${this.getFileKey(file)}-${key}`}
                             className={cx(
                               'ImageControl-item',
                               {

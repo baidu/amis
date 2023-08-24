@@ -5,6 +5,7 @@ import {filterDate, parseDuration} from 'amis-core';
 import InputDateRange, {DateRangeControlSchema} from './InputDateRange';
 import {DateRangePicker} from 'amis-ui';
 import {supportStatic} from './StaticHoc';
+import {isMobile} from 'amis-core';
 /**
  * QuarterRange 季度范围控件
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-quarter-range
@@ -28,6 +29,7 @@ export default class QuarterRangeControl extends InputDateRange {
       data,
       format,
       env,
+      mobileUI,
       ...rest
     } = this.props;
 
@@ -36,7 +38,13 @@ export default class QuarterRangeControl extends InputDateRange {
         <DateRangePicker
           viewMode="quarters"
           format={format}
+          mobileUI={mobileUI}
           classPrefix={ns}
+          popOverContainer={
+            mobileUI
+              ? env?.getModalContainer
+              : rest.popOverContainer || env.getModalContainer
+          }
           data={data}
           {...rest}
           minDate={minDate ? filterDate(minDate, data, format) : undefined}

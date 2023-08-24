@@ -1,12 +1,14 @@
 import React from 'react';
-import {getSchemaTpl} from 'amis-editor-core';
+import {EditorNodeType, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {resolveOptionType} from '../../util';
 
 export class TabsTransferPlugin extends BasePlugin {
+  static id = 'TabsTransferPlugin';
   // 关联渲染器名字
   rendererName = 'tabs-transfer';
   $schema = '/schemas/TransferControlSchema.json';
@@ -141,13 +143,19 @@ export class TabsTransferPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中值'
-            },
-            'event.data.items': {
-              type: 'array',
-              title: '选项集合'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '选中的值'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项列表'
+                }
+              }
             }
           }
         }
@@ -161,9 +169,15 @@ export class TabsTransferPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.key': {
-              type: 'string',
-              title: '当前激活的选项卡索引'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                key: {
+                  type: 'string',
+                  title: '激活的索引'
+                }
+              }
             }
           }
         }
@@ -366,6 +380,45 @@ export class TabsTransferPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    const type = resolveOptionType(node.schema?.options);
+    // todo:异步数据case
+    let dataSchema: any = {
+      type,
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+
+    if (node.schema?.extractValue) {
+      dataSchema = {
+        type: 'array',
+        title: node.schema?.label || node.schema?.name
+      };
+    } else if (node.schema?.joinValues === false) {
+      dataSchema = {
+        type: 'array',
+        title: node.schema?.label || node.schema?.name,
+        items: {
+          type: 'object',
+          title: '成员',
+          properties: {
+            label: {
+              type: 'string',
+              title: '文本'
+            },
+            value: {
+              type,
+              title: '值'
+            }
+          }
+        },
+        originalValue: dataSchema.originalValue
+      };
+    }
+
+    return dataSchema;
+  }
 }
 
 registerEditorPlugin(TabsTransferPlugin);

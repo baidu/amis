@@ -7,14 +7,14 @@ import {
 } from '@testing-library/react';
 import '../../../src';
 import {render as amisRender, clearStoresCache} from '../../../src';
-import {makeEnv, wait} from '../../helper';
+import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
 
 afterEach(() => {
   cleanup();
   clearStoresCache();
 });
 
-test('Renderer:input table', () => {
+test('Renderer:input table', async () => {
   const {container} = render(
     amisRender(
       {
@@ -62,6 +62,8 @@ test('Renderer:input table', () => {
     )
   );
 
+  await wait(500);
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -134,13 +136,15 @@ test('Renderer: input-table with default value column', async () => {
   await wait(200);
 
   expect(onSubmitCallbackFn).toHaveBeenCalledTimes(1);
-  expect(onSubmitCallbackFn.mock.calls[0][0]).toEqual({
-    table: [
-      {a: 'a1', b: 'b1', c: 'a1'},
-      {a: 'a2', b: 'b2', c: 'a2'},
-      {a: 'a3', b: 'b3', c: 'a3'}
-    ]
-  });
+  expect(onSubmitCallbackFn.mock.calls[0][0]).toEqual(
+    expect.objectContaining({
+      table: [
+        {a: 'a1', b: 'b1', c: 'a1'},
+        {a: 'a2', b: 'b2', c: 'a2'},
+        {a: 'a3', b: 'b3', c: 'a3'}
+      ]
+    })
+  );
 }, 10000);
 
 test('Renderer:input table add', async () => {
@@ -174,6 +178,7 @@ test('Renderer:input table add', async () => {
     )
   );
 
+  await wait(500);
   const add = await findByText(/新增/);
 
   fireEvent.click(add);
@@ -192,6 +197,7 @@ test('Renderer:input table add', async () => {
 
   // TODO: 这里不对，难道是点击出错了
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
 
@@ -271,6 +277,7 @@ test('Renderer:input-table with combo column', async () => {
   });
   // input-table 中套 combo。多次 lazy change， 所以时间需要长点
   await wait(1000);
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
   fireEvent.click(submitBtn);
 
@@ -345,6 +352,7 @@ test('Renderer:input-table verifty', async () => {
   const submitBtn = await findByText('submitBtn');
   fireEvent.click(submitBtn);
 
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 
   const input = await findByPlaceholderText('请输入数字');
@@ -434,5 +442,106 @@ test('Renderer:input-table cell selects delete', async () => {
       }
     ]
   });
+  replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
+});
+
+test('Renderer:input-table doaction:additem', async () => {
+  const onSubmit = jest.fn();
+  const {container, findByRole, findByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        data: {
+          table: [{a: 2}]
+        },
+        body: [
+          {
+            label: 'addItem1',
+            type: 'button',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'addItem',
+                    componentId: 'inputtable',
+                    args: {
+                      item: {
+                        a: 3
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            label: 'addItem2',
+            type: 'button',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'addItem',
+                    componentId: 'inputtable',
+                    args: {
+                      index: 0,
+                      item: {
+                        a: 1
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            type: 'input-table',
+            id: 'inputtable',
+            name: 'table',
+            label: 'Table',
+            needConfirm: false,
+            columns: [
+              {
+                type: 'text',
+                name: 'a',
+                quickEdit: false
+              }
+            ]
+          },
+          {
+            type: 'submit',
+            label: 'submitBtn'
+          }
+        ]
+      },
+      {onSubmit},
+      makeEnv({})
+    )
+  );
+
+  const addItem1 = await findByText('addItem1');
+  fireEvent.click(addItem1);
+
+  const addItem2 = await findByText('addItem2');
+  fireEvent.click(addItem2);
+
+  const submitBtn = await findByText('submitBtn');
+  fireEvent.click(submitBtn);
+  await wait(200);
+
+  expect(onSubmit).toBeCalled();
+  expect(onSubmit.mock.calls[0][0]).toEqual({
+    table: [
+      {
+        a: 1
+      },
+      {
+        a: 2
+      },
+      {
+        a: 3
+      }
+    ]
+  });
 });

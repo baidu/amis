@@ -20,7 +20,6 @@ import {
   autobind,
   isExpression,
   ITableStore,
-  generateIcon,
   isPureVariable,
   resolveVariableAndFilter,
   getRendererByName,
@@ -939,18 +938,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               key={key}
               level="link"
               tooltip={__('Table.addRow')}
-              tooltipContainer={
-                env && env.getModalContainer ? env.getModalContainer : undefined
-              }
+              tooltipContainer={props.popOverContainer || env.getModalContainer}
               disabled={disabled}
               onClick={this.addItem.bind(this, rowIndex + offset, undefined)}
             >
               {props.addBtnIcon ? (
-                typeof props.addBtnIcon === 'string' ? (
-                  <Icon icon={props.addBtnIcon} className="icon" />
-                ) : (
-                  generateIcon(props.classnames, props.addBtnIcon)
-                )
+                <Icon
+                  cx={props.classnames}
+                  icon={props.addBtnIcon}
+                  className="icon"
+                />
               ) : null}
               {props.addBtnLabel ? <span>{props.addBtnLabel}</span> : null}
             </Button>
@@ -976,18 +973,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               key={key}
               level="link"
               tooltip={__('Table.copyRow')}
-              tooltipContainer={
-                env && env.getModalContainer ? env.getModalContainer : undefined
-              }
+              tooltipContainer={props.popOverContainer || env.getModalContainer}
               disabled={disabled}
               onClick={this.copyItem.bind(this, rowIndex + offset, undefined)}
             >
               {props.copyBtnIcon ? (
-                typeof props.copyBtnIcon === 'string' ? (
-                  <Icon icon={props.copyBtnIcon} className="icon" />
-                ) : (
-                  generateIcon(props.classnames, props.copyBtnIcon)
-                )
+                <Icon
+                  cx={props.classnames}
+                  icon={props.copyBtnIcon}
+                  className="icon"
+                />
               ) : null}
               {props.copyBtnLabel ? <span>{props.copyBtnLabel}</span> : null}
             </Button>
@@ -1066,9 +1061,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 level="link"
                 tooltip={__('Table.editRow')}
                 tooltipContainer={
-                  env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
+                  props.popOverContainer || env.getModalContainer
                 }
                 disabled={disabled}
                 onClick={() => this.editItem(rowIndex + offset)}
@@ -1076,18 +1069,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 {/* 兼容之前的写法 */}
                 {typeof props.updateBtnIcon !== 'undefined' ? (
                   props.updateBtnIcon ? (
-                    typeof props.updateBtnIcon === 'string' ? (
-                      <Icon icon={props.updateBtnIcon} className="icon" />
-                    ) : (
-                      generateIcon(props.classnames, props.updateBtnIcon)
-                    )
+                    <Icon
+                      cx={props.classnames}
+                      icon={props.updateBtnIcon}
+                      className="icon"
+                    />
                   ) : null
                 ) : props.editBtnIcon ? (
-                  typeof props.editBtnIcon === 'string' ? (
-                    <Icon icon={props.editBtnIcon} className="icon" />
-                  ) : (
-                    generateIcon(props.classnames, props.editBtnIcon)
-                  )
+                  <Icon
+                    cx={props.classnames}
+                    icon={props.editBtnIcon}
+                    className="icon"
+                  />
                 ) : null}
                 {props.updateBtnLabel || props.editBtnLabel ? (
                   <span>{props.updateBtnLabel || props.editBtnLabel}</span>
@@ -1115,18 +1108,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 level="link"
                 tooltip={__('save')}
                 tooltipContainer={
-                  env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
+                  props.popOverContainer || env.getModalContainer
                 }
                 onClick={this.confirmEdit}
               >
                 {props.confirmBtnIcon ? (
-                  typeof props.confirmBtnIcon === 'string' ? (
-                    <Icon icon={props.confirmBtnIcon} className="icon" />
-                  ) : (
-                    generateIcon(props.classnames, props.confirmBtnIcon)
-                  )
+                  <Icon
+                    cx={props.classnames}
+                    icon={props.confirmBtnIcon}
+                    className="icon"
+                  />
                 ) : null}
                 {props.confirmBtnLabel ? (
                   <span>{props.confirmBtnLabel}</span>
@@ -1154,18 +1145,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 level="link"
                 tooltip={__('cancel')}
                 tooltipContainer={
-                  env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
+                  props.popOverContainer || env.getModalContainer
                 }
                 onClick={this.cancelEdit}
               >
                 {props.cancelBtnIcon ? (
-                  typeof props.cancelBtnIcon === 'string' ? (
-                    <Icon icon={props.cancelBtnIcon} className="icon" />
-                  ) : (
-                    generateIcon(props.classnames, props.cancelBtnIcon)
-                  )
+                  <Icon
+                    cx={props.classnames}
+                    icon={props.cancelBtnIcon}
+                    className="icon"
+                  />
                 ) : null}
                 {props.cancelBtnLabel ? (
                   <span>{props.cancelBtnLabel}</span>
@@ -1211,18 +1200,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               key={key}
               level="link"
               tooltip={__('Table.deleteRow')}
-              tooltipContainer={
-                env && env.getModalContainer ? env.getModalContainer : undefined
-              }
+              tooltipContainer={props.popOverContainer || env.getModalContainer}
               disabled={disabled}
               onClick={this.removeItem.bind(this, rowIndex + offset)}
             >
               {props.deleteBtnIcon ? (
-                typeof props.deleteBtnIcon === 'string' ? (
-                  <Icon icon={props.deleteBtnIcon} className="icon" />
-                ) : (
-                  generateIcon(props.classnames, props.deleteBtnIcon)
-                )
+                <Icon
+                  cx={props.classnames}
+                  icon={props.deleteBtnIcon}
+                  className="icon"
+                />
               ) : null}
               {props.deleteBtnLabel ? (
                 <span>{props.deleteBtnLabel}</span>
@@ -1242,7 +1229,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           label: __('Table.operation'),
           className: 'v-middle nowrap',
           fixed: 'right',
-          width: '1%',
+          width: 100,
           innerClassName: 'm-n'
         };
         columns.push(operation);
@@ -1261,7 +1248,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     if (showIndex) {
       columns.unshift({
         label: __('Table.index'),
-        width: '1%',
+        width: 50,
         children: (props: any) => {
           return <td>{props.offset + props.data.index + 1}</td>;
         }
@@ -1694,21 +1681,25 @@ export class TableControlRenderer extends FormTable {
           toAdd = args.item;
         }
 
-        toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
-        // 如果没指定插入的位置（args.index），则默认在头部插入
-        const pushIndex = args.index || 0;
-        // 从右往左插入
-        for (let i = toAdd.length; i >= 1; i--) {
-          if (
+        toAdd = (Array.isArray(toAdd) ? toAdd : [toAdd]).filter(
+          a =>
             !valueField ||
             !find(
               items,
-              item =>
-                item[valueField as string] == toAdd[i - 1][valueField as string]
+              item => item[valueField as string] == a[valueField as string]
             )
-          ) {
-            items.splice(pushIndex, 0, toAdd[i - 1]);
-          }
+        );
+
+        let index = args.index;
+        if (typeof index === 'string' && /^\d+$/.test(index)) {
+          index = parseInt(index, 10);
+        }
+
+        if (typeof index === 'number') {
+          items.splice(index, 0, ...toAdd);
+        } else {
+          // 没有指定默认插入在最后
+          items.push(...toAdd);
         }
 
         this.setState(
@@ -1731,17 +1722,31 @@ export class TableControlRenderer extends FormTable {
       const items = [...this.state.items];
       let rawItems: any = [];
       const deletedItems: any = [];
-
-      if (args.index) {
-        const indexArr = args.index.split(',');
-        rawItems = items.filter(
-          (item, index) => !indexArr.includes(index.toString())
+      // 过滤掉无意义的索引
+      const indexArr = String(args?.index)
+        .split(',')
+        .map(i => String(i).trim())
+        .filter(
+          i =>
+            i !== 'undefined' &&
+            i !== '' &&
+            parseInt(i, 10) >= 0 &&
+            parseInt(i, 10) < items.length
         );
-      } else if (args.condition) {
+
+      if (!indexArr.length && !args?.condition) {
+        return;
+      }
+
+      if (indexArr.length) {
+        rawItems = items.filter(
+          (item, index) => !indexArr.includes(String(index))
+        );
+      } else if (args?.condition) {
         const itemsLength = items.length;
         for (let i = 0; i < itemsLength; i++) {
           const flag = await evalExpressionWithConditionBuilder(
-            args?.condition,
+            args.condition,
             {...items[i], rowIndex: i}
           );
           if (!flag) {

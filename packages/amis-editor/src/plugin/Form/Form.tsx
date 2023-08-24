@@ -1,4 +1,8 @@
-import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
+import {
+  JSONPipeOut,
+  getI18nEnabled,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {
   BasePlugin,
   ChangeEventContext,
@@ -11,7 +15,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {jsonToJsonSchema} from 'amis-editor-core';
 import {EditorNodeType} from 'amis-editor-core';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
-import {setVariable} from 'amis-core';
+import {RendererConfig, Schema, setVariable, someTree} from 'amis-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 // 用于脚手架的常用表单控件
@@ -124,6 +128,7 @@ const autoAddOptions = (values: any) => {
 };
 
 export class FormPlugin extends BasePlugin {
+  static id = 'FormPlugin';
   // 关联渲染器名字
   rendererName = 'form';
   $schema = '/schemas/FormSchema.json';
@@ -254,17 +259,23 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.responseData': {
+            data: {
               type: 'object',
-              title: '响应数据'
-            },
-            'event.data.responseStatus': {
-              type: 'number',
-              title: '响应状态(0表示成功)'
-            },
-            'event.data.responseMsg': {
-              type: 'string',
-              title: '响应消息'
+              title: '数据',
+              properties: {
+                responseData: {
+                  type: 'object',
+                  title: '响应数据'
+                },
+                responseStatus: {
+                  type: 'number',
+                  title: '响应状态(0表示成功)'
+                },
+                responseMsg: {
+                  type: 'string',
+                  title: '响应消息'
+                }
+              }
             }
           }
         }
@@ -278,9 +289,10 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据',
+              description: '当前表单数据，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -294,9 +306,10 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据',
+              description: '当前表单数据，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -310,9 +323,10 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据',
+              description: '当前表单数据，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -326,9 +340,10 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据',
+              description: '当前表单数据，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -342,9 +357,10 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据',
+              description: '当前表单数据，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -359,9 +375,10 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前表单数据'
+              title: '数据',
+              description: '当前表单数据，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -376,9 +393,15 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.result': {
+            data: {
               type: 'object',
-              title: '保存接口请求成功后返回的数据'
+              title: '数据',
+              properties: {
+                result: {
+                  type: 'object',
+                  title: '保存接口请求成功后返回的数据'
+                }
+              }
             }
           }
         }
@@ -392,9 +415,32 @@ export class FormPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.error': {
+            data: {
               type: 'object',
-              title: '保存接口请求失败后返回的错误信息'
+              title: '数据',
+              properties: {
+                error: {
+                  type: 'object',
+                  title: '保存接口请求失败后返回的错误信息'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'asyncApiFinished',
+      eventLabel: '远程请求轮询结束',
+      description: 'asyncApi 远程请求轮询结束后触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              description: '当前数据域，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -635,7 +681,7 @@ export class FormPlugin extends BasePlugin {
                   label: '异步检测接口',
                   visibleOn: 'data.asyncApi != null',
                   description:
-                    '设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
+                    '设置此属性后，表单提交发送保存接口后，还会继续轮询请求该接口，直到返回 finished 属性为 true 才 结束'
                 }),
 
                 {
@@ -729,7 +775,7 @@ export class FormPlugin extends BasePlugin {
                   label: '异步检测接口',
                   visibleOn: 'data.initAsyncApi != null',
                   description:
-                    '设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束'
+                    '设置此属性后，表单请求 initApi 后，还会继续轮询请求该接口，直到返回 finished 属性为 true 才 结束'
                 }),
 
                 {
@@ -827,6 +873,25 @@ export class FormPlugin extends BasePlugin {
               ]
             },
 
+            {
+              name: 'labelAlign',
+              label: '标签对齐方式',
+              type: 'button-group-select',
+              size: 'sm',
+              visibleOn: "${mode === 'horizontal'}",
+              pipeIn: defaultValue('right', false),
+              options: [
+                {
+                  label: '左对齐',
+                  value: 'left'
+                },
+                {
+                  label: '右对齐',
+                  value: 'right'
+                }
+              ]
+            },
+
             getSchemaTpl('horizontal', {
               visibleOn: 'this.mode == "horizontal"'
             }),
@@ -891,43 +956,28 @@ export class FormPlugin extends BasePlugin {
     }
   }
 
-  async buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
     const jsonschema: any = {
-      $id: 'formItems',
-      type: 'object',
-      properties: {}
+      ...jsonToJsonSchema(JSONPipeOut(node.schema.data))
     };
-
     const pool = node.children.concat();
+
     while (pool.length) {
       const current = pool.shift() as EditorNodeType;
+      const schema = current.schema;
 
-      if (current.rendererConfig?.type === 'combo') {
-        const schema = current.schema;
-        if (schema.name) {
-          jsonschema.properties[schema.name] = {
-            type: 'array',
-            title: schema.label || schema.name,
-            items: current.info?.plugin?.buildDataSchemas
-              ? await current.info.plugin.buildDataSchemas(current, region)
-              : {
-                  type: 'object',
-                  properties: {}
-                }
-          };
-        }
-      } else if (current.rendererConfig?.isFormItem) {
-        const schema = current.schema;
-        if (schema.name) {
-          jsonschema.properties[schema.name] = current.info?.plugin
-            ?.buildDataSchemas
-            ? await current.info.plugin.buildDataSchemas(current, region)
-            : {
-                type: 'string',
-                title: schema.label || schema.name,
-                originalValue: schema.value // 记录原始值，循环引用检测需要
-              };
-        }
+      if (current.rendererConfig?.isFormItem && schema.name) {
+        jsonschema.properties[schema.name] =
+          await current.info.plugin.buildDataSchemas?.(
+            current,
+            region,
+            trigger,
+            node
+          );
       } else {
         pool.push(...current.children);
       }
@@ -948,6 +998,40 @@ export class FormPlugin extends BasePlugin {
       scope?.removeSchema(jsonschema.$id);
       scope?.addSchema(jsonschema);
     }
+  }
+
+  /**
+   * 为了让 form 的按钮可以点击编辑
+   */
+  patchSchema(schema: Schema, info: RendererConfig, props: any) {
+    if (
+      Array.isArray(schema.actions) ||
+      schema.wrapWithPanel === false ||
+      (Array.isArray(schema.body) &&
+        schema.body.some(
+          (item: any) =>
+            item &&
+            !!~['submit', 'button', 'button-group', 'reset'].indexOf(
+              (item as any)?.body?.[0]?.type ||
+                (item as any)?.body?.type ||
+                (item as any).type
+            )
+        ))
+    ) {
+      return;
+    }
+
+    return {
+      ...schema,
+      actions: [
+        {
+          type: 'submit',
+          label:
+            props?.translate(props?.submitText) || schema.submitText || '提交',
+          primary: true
+        }
+      ]
+    };
   }
 }
 

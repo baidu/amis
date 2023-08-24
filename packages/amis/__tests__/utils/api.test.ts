@@ -1,7 +1,7 @@
 import {render as amisRender} from '../../src';
 import {wait, makeEnv} from '../helper';
-import {render, fireEvent, cleanup} from '@testing-library/react';
-import {buildApi, isApiOutdated} from 'amis-core';
+import {render, fireEvent, cleanup, waitFor} from '@testing-library/react';
+import {buildApi, isApiOutdated, isValidApi} from 'amis-core';
 
 test('api:buildApi', () => {
   expect(buildApi('/api/xxx')).toMatchObject({
@@ -321,4 +321,327 @@ test('api:cache', async () => {
   await wait(300);
   expect(fetcher).toHaveBeenCalledTimes(1); // 只请求一次，第二次请求从缓存中取
   expect(container).toMatchSnapshot();
+});
+
+test('api:isvalidapi', () => {
+  expect(isValidApi('api/xxx')).toBeTruthy();
+  expect(isValidApi('api/xxx?a=1')).toBeTruthy();
+  expect(isValidApi('/x')).toBeTruthy();
+  expect(isValidApi('/api/xxx?a=1&b=2&c=3')).toBeTruthy();
+  expect(isValidApi('http://xxxdomain')).toBeTruthy();
+  expect(isValidApi('http://xxxdomain/')).toBeTruthy();
+  expect(isValidApi('http://xxxdomain/api')).toBeTruthy();
+  expect(isValidApi('app://')).toBeFalsy();
+  expect(isValidApi('app://x')).toBeTruthy();
+  expect(isValidApi('app://x?a=1')).toBeTruthy();
+  expect(isValidApi('app://x?a=1&b=2')).toBeTruthy();
+  expect(isValidApi('app://x b?a=1&b=2')).toBeFalsy();
+  expect(isValidApi('app://x%20b?a=1&b=2')).toBeTruthy();
+  expect(isValidApi('ftp://127.0.0.1/xxx')).toBeTruthy();
+  expect(isValidApi('wss://127.0.0.1/xxx')).toBeTruthy();
+  expect(isValidApi('taf://127.0.0.1/xxx')).toBeTruthy();
+  expect(
+    isValidApi(
+      'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/sample/${id}'
+    )
+  ).toBeTruthy();
+
+  expect(
+    isValidApi(
+      'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/sample/${id ? "a" : "b"}'
+    )
+  ).toBeTruthy();
+
+  expect(
+    isValidApi(
+      'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/${id ? "a" : "b"}/abc'
+    )
+  ).toBeTruthy();
+});
+
+test('api:requestAdaptor1', async () => {
+  const notify = jest.fn();
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          id: 1
+        }
+      }
+    })
+  );
+  const requestAdaptor = jest.fn().mockImplementation(api => {
+    return Promise.resolve({
+      ...api,
+      data: {
+        ...api.data,
+        email: 'appended@test.com'
+      }
+    });
+  });
+
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'form',
+            id: 'form_submit',
+            submitText: '提交表单',
+            api: {
+              method: 'post',
+              url: '/api/mock2/form/saveForm',
+              requestAdaptor: requestAdaptor
+            },
+            body: [
+              {
+                type: 'input-text',
+                name: 'name',
+                label: '姓名：',
+                value: 'fex'
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        notify,
+        fetcher
+      })
+    )
+  );
+
+  await waitFor(() => {
+    expect(getByText('提交表单')).toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText(/提交表单/));
+  await wait(300);
+
+  expect(requestAdaptor).toHaveBeenCalled();
+  expect(fetcher).toHaveBeenCalled();
+  expect(fetcher.mock.calls[0][0].data).toMatchObject({
+    name: 'fex',
+    email: 'appended@test.com'
+  });
+});
+
+test('api:requestAdaptor2', async () => {
+  const notify = jest.fn();
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          id: 1
+        }
+      }
+    })
+  );
+  const requestAdaptor = jest.fn().mockImplementation(api => {
+    return Promise.resolve({
+      ...api,
+      mockResponse: {
+        status: 200,
+        data: {
+          status: 0,
+          msg: 'ok',
+          data: {
+            id: 2
+          }
+        }
+      }
+    });
+  });
+
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'form',
+            id: 'form_submit',
+            submitText: '提交表单',
+            api: {
+              method: 'post',
+              url: '/api/mock2/form/saveForm',
+              requestAdaptor: requestAdaptor
+            },
+            body: [
+              {
+                type: 'input-text',
+                name: 'id',
+                label: 'Id'
+              },
+              {
+                type: 'input-text',
+                name: 'name',
+                label: '姓名：',
+                value: 'fex'
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        notify,
+        fetcher
+      })
+    )
+  );
+
+  await waitFor(() => {
+    expect(getByText('提交表单')).toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText(/提交表单/));
+  await wait(300);
+
+  expect(requestAdaptor).toHaveBeenCalled();
+  expect(fetcher).toHaveBeenCalledTimes(0);
+  expect(container.querySelector('input[name="id"]')).toBeInTheDocument();
+  expect((container.querySelector('input[name="id"]') as any).value).toBe('2');
+});
+
+test('api:responseData1', async () => {
+  const notify = jest.fn();
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          id: 1
+        }
+      }
+    })
+  );
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'form',
+            id: 'form_submit',
+            submitText: '提交表单',
+            api: {
+              method: 'post',
+              url: '/api/mock2/form/saveForm',
+              responseData: {
+                id: '${id}',
+                id2: '${id + 1}'
+              }
+            },
+            body: [
+              {
+                type: 'input-text',
+                name: 'id',
+                label: 'Id'
+              },
+              {
+                type: 'input-text',
+                name: 'id2',
+                label: 'Id2'
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        notify,
+        fetcher
+      })
+    )
+  );
+
+  await waitFor(() => {
+    expect(getByText('提交表单')).toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText(/提交表单/));
+  await wait(300);
+
+  expect(fetcher).toHaveBeenCalledTimes(1);
+  expect(container.querySelector('input[name="id"]')).toBeInTheDocument();
+  expect((container.querySelector('input[name="id"]') as any).value).toBe('1');
+
+  expect(container.querySelector('input[name="id2"]')).toBeInTheDocument();
+  expect((container.querySelector('input[name="id2"]') as any).value).toBe('2');
+});
+
+test('api:responseData2', async () => {
+  const notify = jest.fn();
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 500,
+        msg: 'ok',
+        data: {
+          id: 1
+        }
+      }
+    })
+  );
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'form',
+            id: 'form_submit',
+            submitText: '提交表单',
+            api: {
+              method: 'post',
+              url: '/api/mock2/form/saveForm',
+              responseData: {
+                id: '${id}',
+                id2: '${id + 1}'
+              }
+            },
+            body: [
+              {
+                type: 'input-text',
+                name: 'id',
+                label: 'Id'
+              },
+              {
+                type: 'input-text',
+                name: 'id2',
+                label: 'Id2'
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        notify,
+        fetcher
+      })
+    )
+  );
+
+  await waitFor(() => {
+    expect(getByText('提交表单')).toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText(/提交表单/));
+  await wait(300);
+
+  expect(fetcher).toHaveBeenCalledTimes(1);
+  expect(container.querySelector('input[name="id"]')).toBeInTheDocument();
+  expect((container.querySelector('input[name="id"]') as any).value).toBe('1');
+
+  expect(container.querySelector('input[name="id2"]')).toBeInTheDocument();
+  expect((container.querySelector('input[name="id2"]') as any).value).toBe('2');
 });

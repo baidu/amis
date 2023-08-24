@@ -1,16 +1,18 @@
 /**
  * @file 功能类函数集合。
  */
-import {utils, hasIcon, mapObject} from 'amis';
-import isEqual from 'lodash/isEqual';
+import {hasIcon, mapObject, utils} from 'amis';
+import type {Schema} from 'amis';
+import {getGlobalData} from 'amis-theme-editor-helper';
+import {isExpression, resolveVariableAndFilter} from 'amis-core';
+import type {VariableItem} from 'amis-ui';
 import {isObservable, reaction} from 'mobx';
 import DeepDiff, {Diff} from 'deep-diff';
-import isPlainObject from 'lodash/isPlainObject';
-import isNumber from 'lodash/isNumber';
-import type {Schema} from 'amis';
-import type {SchemaObject} from 'amis';
-import {assign, cloneDeep} from 'lodash';
-import {getGlobalData} from 'amis-theme-editor-helper';
+import assign from 'lodash/assign'
+import cloneDeep from 'lodash/cloneDeep'
+import isPlainObject from 'lodash/isPlainObject'
+import isEqual from 'lodash/isEqual'
+import isNumber from 'lodash/isNumber'
 
 const {
   guid,
@@ -71,7 +73,9 @@ export function cleanUndefined(obj: any) {
 export function JSONPipeIn(obj: any): any {
   if (!isObject(obj) || obj.$$typeof) {
     return obj;
-  } else if (Array.isArray(obj)) {
+  }
+
+  if (Array.isArray(obj)) {
     return obj.map(JSONPipeIn);
   }
 
@@ -306,7 +310,7 @@ export function JSONGetParentById(
   id: string,
   skipArray: boolean = false
 ): any {
-  let paths = JSONGetPathById(json, id);
+  const paths = JSONGetPathById(json, id);
   if (paths === null || !paths.length) {
     return null;
   }
@@ -441,7 +445,9 @@ export function JSONDelete(
 export function JSONMerge(json: any, target: any) {
   if (!isObject(json) || !isObject(target)) {
     return target;
-  } else if (!isObjectShallowModified(json, target)) {
+  }
+
+  if (!isObjectShallowModified(json, target)) {
     return json;
   }
 
@@ -472,7 +478,7 @@ export function JSONChangeInArray(
   id: string,
   operation: (arr: Array<any>, node: any, index: number) => void
 ) {
-  let paths = JSONGetPathById(json, id);
+  const paths = JSONGetPathById(json, id);
 
   if (paths === null) {
     return json;
@@ -614,7 +620,7 @@ export function JsonGenerateID(json: any) {
 }
 
 export function createElementFromHTML(htmlString: string): HTMLElement {
-  var div = document.createElement('div');
+  const div = document.createElement('div');
   // bca-disable-next-line
   div.innerHTML = htmlString.trim();
 
@@ -685,7 +691,9 @@ export function filterSchemaForConfig(schema: any, valueWithConfig?: any): any {
 export function filterSchemaForEditor(schema: any): any {
   if (Array.isArray(schema)) {
     return schema.map(item => filterSchemaForEditor(item));
-  } else if (isPlainObject(schema)) {
+  }
+
+  if (isPlainObject(schema)) {
     const mapped: any = {};
     let modified = false;
 
@@ -713,8 +721,7 @@ export function filterSchemaForEditor(schema: any): any {
         modified = true;
       }
     });
-    const finalSchema = modified ? mapped : schema;
-    return finalSchema;
+    return modified ? mapped : schema;
   }
 
   return schema;
@@ -924,11 +931,7 @@ export function isString(obj: any) {
  *  判断是否是对象类型
  * */
 export function isObject(curObj: any) {
-  let isObject = false;
-  if (Object.prototype.toString.call(curObj).slice(8, -1) === 'Object') {
-    isObject = true;
-  }
-  return isObject;
+  return Object.prototype.toString.call(curObj).slice(8, -1) === 'Object';
 }
 
 export function jsonToJsonSchema(
@@ -958,7 +961,9 @@ export function jsonToJsonSchema(
           title: titleBuilder?.(type, key) || key,
           ...(type === 'object'
             ? jsonToJsonSchema(value, titleBuilder, maxDepth - 1)
-            : {items: jsonToJsonSchema(value[0], titleBuilder, maxDepth - 1)})
+            : typeof value[0] === 'object'
+            ? {items: jsonToJsonSchema(value[0], titleBuilder, maxDepth - 1)}
+            : {})
         };
       } else {
         jsonschema.properties[key] = {
@@ -988,10 +993,7 @@ export function isHasPluginIcon(plugin: any) {
  * 备注：当前只有一个flex布局容器
  */
 export function isLayoutPlugin(plugin: any) {
-  if (plugin && plugin.type === 'flex') {
-    return true;
-  }
-  return false;
+  return !!(plugin && plugin.type === 'flex');
 }
 
 /**
@@ -1045,10 +1047,7 @@ export function needDefaultWidth(elemType: string) {
     'input-range',
     'flex'
   ];
-  if (needDefaultWidthElemType.indexOf(elemType) > -1) {
-    return true;
-  }
-  return false;
+  return needDefaultWidthElemType.includes(elemType);
 }
 
 /** 是否开启应用国际化 */
@@ -1079,7 +1078,6 @@ export function appTranslate(value?: string) {
  * 判断是否需要给组件增加填充占位样式
  */
 export function needFillPlaceholder(curProps: any) {
-  let needFillPlaceholder = false;
   if (!curProps) {
     return false;
   }
@@ -1094,13 +1092,9 @@ export function needFillPlaceholder(curProps: any) {
   if (curProps.node?.schema?.isFreeContainer) {
     return true;
   }
+
   // 支持在plugin中配置
-  if (curProps.$$editor?.needFillPlaceholder) {
-    needFillPlaceholder = true;
-  } else if (curProps.regionConfig?.needFillPlaceholder) {
-    needFillPlaceholder = true;
-  }
-  return needFillPlaceholder;
+  return !!(curProps.$$editor?.needFillPlaceholder || curProps.regionConfig?.needFillPlaceholder);
 }
 // 设置主题数据
 export function setThemeConfig(config: any) {
@@ -1130,3 +1124,90 @@ export function deleteThemeConfigData(data: any) {
 
   return schemaData;
 }
+
+/**
+ * 从amis数据域中取变量数据
+ * @param node
+ * @param manager
+ * @returns
+ */
+export async function resolveVariablesFromScope(node: any, manager: any) {
+  await manager?.getContextSchemas(node);
+  // 获取当前组件内相关变量，如表单、增删改查
+  const dataPropsAsOptions: VariableItem[] = updateComponentContext(
+    (await manager?.dataSchema?.getDataPropsAsOptions()) ?? []
+  );
+
+  const variables: VariableItem[] =
+    manager?.variableManager?.getVariableFormulaOptions() || [];
+
+  return [...dataPropsAsOptions, ...variables].filter(
+    (item: any) => item.children?.length
+  );
+}
+
+/**
+ * 整合 props & amis数据域 中的 variables
+ * @param that  为组件的实例 this
+ **/
+export async function getVariables(that: any) {
+  let variablesArr: any[] = [];
+
+  const {variables, requiredDataPropsVariables} = that.props;
+  if (!variables || requiredDataPropsVariables) {
+    // 从amis数据域中取变量数据
+    const {node, manager} = that.props.formProps || that.props;
+    let vars = await resolveVariablesFromScope(node, manager);
+    if (Array.isArray(vars)) {
+      if (!that.isUnmount) {
+        variablesArr = vars;
+      }
+    }
+  }
+  if (variables) {
+    if (Array.isArray(variables)) {
+      variablesArr = [...variables, ...variablesArr];
+    } else if (typeof variables === 'function') {
+      variablesArr = [...variables(that), ...variablesArr];
+    } else if (isExpression(variables)) {
+      variablesArr = [
+        ...resolveVariableAndFilter(
+          that.props.variables as any,
+          that.props.data,
+          '| raw'
+        ),
+        ...variablesArr
+      ];
+    }
+  }
+
+  // 如果存在应用语言类型，则进行翻译
+  if (that.appLocale && that.appCorpusData) {
+    return translateSchema(variablesArr, that.appCorpusData);
+  }
+
+  return variablesArr;
+}
+
+/**
+ * 更新组件上下文中label为带层级说明
+ * @param variables 变量列表
+ * @returns
+ */
+export const updateComponentContext = (variables: any[]) => {
+  const items = [...variables];
+  const idx = items.findIndex(item => item.label === '组件上下文');
+  if (~idx) {
+    items.splice(idx, 1, {
+      ...items[idx],
+      children: items[idx].children.map((child: any, index: number) => ({
+        ...child,
+        label:
+          index === 0
+            ? `当前层${child.label ? '(' + child.label + ')' : ''}`
+            : `上${index}层${child.label ? '(' + child.label + ')' : ''}`
+      }))
+    });
+  }
+  return items;
+};

@@ -15,6 +15,7 @@ import type {SchemaObject} from 'amis';
 import {getOldActionSchema} from '../renderer/event-control/helper';
 
 export class ButtonPlugin extends BasePlugin {
+  static id = 'ButtonPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'button';
@@ -54,9 +55,15 @@ export class ButtonPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }
@@ -70,9 +77,15 @@ export class ButtonPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }
@@ -86,9 +99,15 @@ export class ButtonPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            nativeEvent: {
+            context: {
               type: 'object',
-              title: '鼠标事件对象'
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
             }
           }
         }

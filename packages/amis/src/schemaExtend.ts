@@ -9,13 +9,17 @@ import {isObject} from 'amis-core';
 // input-kv 实际上是 combo 的一种扩展
 addSchemaFilter(function (schema: Schema, renderer, props?: any) {
   if (schema && schema.type === 'input-kv') {
+    const autoParseJSON = schema.autoParseJSON ?? true;
     return {
       draggable: true,
       ...schema,
       multiple: true,
-      pipeIn: (value: any) => {
+      pipeIn: function (this: any, value: any) {
         if (!isObject(value)) {
           return [];
+        }
+        if (isEqual(value, this.cachedValue)) {
+          return this.cachedValueArray;
         }
         const arr: Array<any> = [];
         Object.keys(value).forEach(key => {
@@ -32,7 +36,7 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
         });
         return arr;
       },
-      pipeOut: (value: any) => {
+      pipeOut: function (this: any, value: any) {
         if (!Array.isArray(value)) {
           return value;
         }
@@ -40,7 +44,11 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
         value.forEach((item: any) => {
           const key: string = item.key ?? '';
           let value: any = item.value ?? schema.defaultValue ?? '';
-          if (typeof value === 'string' && value.startsWith('{')) {
+          if (
+            autoParseJSON &&
+            typeof value === 'string' &&
+            value.startsWith('{')
+          ) {
             try {
               value = JSON.parse(value);
             } catch (e) {}
@@ -48,6 +56,8 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
 
           obj[key] = value;
         });
+        this.cachedValue = obj;
+        this.cachedValueArray = value;
         return obj;
       },
       items: [

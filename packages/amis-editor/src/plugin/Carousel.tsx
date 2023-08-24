@@ -4,6 +4,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
 
 export class CarouselPlugin extends BasePlugin {
+  static id = 'CarouselPlugin';
   // 关联渲染器名字
   rendererName = 'carousel';
   $schema = '/schemas/CarouselSchema.json';
@@ -159,6 +160,7 @@ export class CarouselPlugin extends BasePlugin {
                       (item: {
                         html?: string;
                         image?: string;
+                        href?: string;
                         title?: string;
                         titleClassName?: string;
                         description?: string;
@@ -173,6 +175,7 @@ export class CarouselPlugin extends BasePlugin {
                               type: 'image',
                               content: item.image,
                               title: item.title,
+                              href: item.href,
                               titleClassName: item.titleClassName,
                               description: item.description,
                               descriptionClassName: item.descriptionClassName
@@ -186,6 +189,7 @@ export class CarouselPlugin extends BasePlugin {
                       (item: {
                         type: string;
                         content: string;
+                        href?: string;
                         title?: string;
                         titleClassName?: string;
                         description?: string;
@@ -197,6 +201,7 @@ export class CarouselPlugin extends BasePlugin {
                             }
                           : {
                               image: item.content,
+                              href: item.href,
                               title: item.title,
                               titleClassName: item.titleClassName,
                               description: item.description,

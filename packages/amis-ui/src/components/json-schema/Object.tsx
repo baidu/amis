@@ -25,7 +25,8 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     translate: __,
     renderKey,
     collapsable,
-    renderValue
+    renderValue,
+    mobileUI
   } = props;
   const buildMembers = React.useCallback((schema: any, value: any) => {
     const members: Array<JSONSchemaObjectMember> = [];
@@ -199,12 +200,13 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
           })}
           onClick={toggleCollapsed}
         >
-          <Icon icon="caret" className="icon" />
+          <Icon icon="right-arrow-bold" className="icon" />
         </a>
       ) : null}
 
       <div
         className={cx('JSONSchemaObject', {
+          'is-mobile': mobileUI,
           'is-expanded': collapsable && !collapsed
         })}
       >
@@ -228,7 +230,11 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
 
             return (
               <div key={member.key} className={cx('JSONSchemaMember')}>
-                <div className={cx('JSONSchemaMember-key')}>
+                <div
+                  className={cx('JSONSchemaMember-key', {
+                    'is-mobile': mobileUI
+                  })}
+                >
                   {member.nameMutable ? (
                     <>
                       {renderKey ? (
@@ -247,6 +253,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
                             clearable={false}
                             placeholder={__('JSONSchema.key')}
                             options={filtedOptions}
+                            mobileUI={mobileUI}
                           />
                         ) : (
                           <Select
@@ -258,6 +265,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
                             clearable={false}
                             placeholder={__('JSONSchema.key')}
                             options={filtedOptions}
+                            mobileUI={mobileUI}
                           />
                         )
                       ) : (
@@ -267,6 +275,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
                           onChange={onMemberKeyChange.bind(null, member)}
                           clearable={false}
                           placeholder={__('JSONSchema.key')}
+                          mobileUI={mobileUI}
                         />
                       )}
                     </>

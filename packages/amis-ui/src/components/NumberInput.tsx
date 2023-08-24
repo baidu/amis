@@ -194,6 +194,9 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
 
     // 严格判断大数模式，因为初始化value为empty string时，修改value值格式仍然为string
     this.isBig = !!props.big;
+    this.state = {
+      focused: false
+    };
   }
 
   componentDidUpdate(prevProps: NumberProps) {
@@ -304,7 +307,8 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       displayMode,
       inputRef,
       keyboard,
-      inputControlClassName
+      inputControlClassName,
+      mobileUI
     } = this.props;
     const precisionProps: any = {
       precision: NumberInput.normalizePrecision(precision, step)
@@ -320,6 +324,9 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
             : inputControlClassName,
           {
             [`Number--border${ucFirst(borderMode)}`]: borderMode
+          },
+          {
+            'is-mobile': mobileUI
           }
         )}
         ref={inputRef}
@@ -353,7 +360,8 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       borderMode,
       readOnly,
       displayMode,
-      inputControlClassName
+      inputControlClassName,
+      mobileUI
     } = this.props;
 
     return (
@@ -383,7 +391,7 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
               <Icon
                 icon="minus"
                 className="icon"
-                wrapClassName={cx('InputNumber-enhance-minus icon')}
+                classNameProp={cx('InputNumber-enhance-minus icon')}
                 iconContent="InputNumber-enhance-minus"
               />
             </div>
@@ -400,7 +408,7 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
               <Icon
                 icon="plus"
                 className="icon"
-                wrapClassName={cx('InputNumber-enhance-plus icon')}
+                classNameProp={cx('InputNumber-enhance-plus icon')}
                 iconContent="InputNumber-enhance-plus"
               />
             </div>

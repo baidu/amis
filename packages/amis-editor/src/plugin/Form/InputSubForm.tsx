@@ -14,6 +14,7 @@ import {
 } from 'amis-editor-core';
 
 export class SubFormControlPlugin extends BasePlugin {
+  static id = 'SubFormControlPlugin';
   // 关联渲染器名字
   rendererName = 'input-sub-form';
   $schema = '/schemas/SubFormControlSchema.json';
@@ -62,7 +63,7 @@ export class SubFormControlPlugin extends BasePlugin {
           return (
             <Button
               size="sm"
-              level="danger"
+              level="primary"
               className="m-b"
               block
               onClick={this.editDetail.bind(this, context.id)}

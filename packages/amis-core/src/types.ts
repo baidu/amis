@@ -162,7 +162,7 @@ export interface BaseApiObject {
 
   /**
    * 当开启自动刷新的时候，默认是 api 的 url 来自动跟踪变量变化的。
-   * 如果你希望监控 url 外的变量，请配置 traceExpression。
+   * 如果你希望监控 url 外的变量，请配置 trackExpression。
    */
   trackExpression?: string;
 
@@ -217,8 +217,17 @@ export interface ApiObject extends BaseApiObject {
   operationName?: string;
   body?: PlainObject;
   query?: PlainObject;
-  adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
-  requestAdaptor?: (api: ApiObject) => ApiObject;
+  mockResponse?: PlainObject;
+  adaptor?: (
+    payload: object,
+    response: fetcherResult,
+    api: ApiObject,
+    context: any
+  ) => any;
+  requestAdaptor?: (
+    api: ApiObject,
+    context: any
+  ) => ApiObject | Promise<ApiObject>;
   /** 是否过滤为空字符串的 query 参数 */
   filterEmptyQuery?: boolean;
 }
@@ -247,7 +256,7 @@ export interface fetchOptions {
   errorMessage?: string;
   autoAppend?: boolean;
   beforeSend?: (data: any) => any;
-  onSuccess?: (json: Payload) => any;
+  onSuccess?: (json: Payload, data: any) => any;
   onFailed?: (json: Payload) => any;
   silent?: boolean;
   [propName: string]: any;
@@ -330,7 +339,8 @@ export interface ActionObject extends ButtonObject {
     | 'collapse'
     | 'step-submit'
     | 'selectAll'
-    | 'changeTabKey';
+    | 'changeTabKey'
+    | 'clearSearch';
   api?: BaseApiObject | string;
   asyncApi?: BaseApiObject | string;
   payload?: any;
@@ -380,7 +390,10 @@ export type FunctionPropertyNames<T> = {
 
 // 先只支持 JSONSchema draft07 好了
 
-export type JSONSchema = JSONSchema7;
+export type JSONSchema = JSONSchema7 & {
+  group?: string; // 分组
+  typeLabel?: string; // 类型说明
+};
 
 // export type Omit<T, K extends keyof T & any> = Pick<T, Exclude<keyof T, K>>;
 // export type Override<M, N> = Omit<M, Extract<keyof M, keyof N>> & N;
@@ -633,6 +646,26 @@ export interface BaseSchemaWithoutType {
   style?: {
     [propName: string]: any;
   };
+
+  /**
+   * 编辑器配置，运行时可以忽略
+   */
+  editorSetting?: {
+    /**
+     * 组件名称，通常是业务名称方便定位
+     */
+    displayName?: string;
+
+    /**
+     * 编辑器假数据，方便展示
+     */
+    mock?: any;
+  };
+
+  /**
+   * 可以组件级别用来关闭移动端样式
+   */
+  useMobileUI?: boolean;
 }
 
 export type OperatorType =
@@ -691,6 +724,7 @@ export interface ConditionRule {
   left?: ExpressionComplex;
   op?: OperatorType;
   right?: ExpressionComplex | Array<ExpressionComplex>;
+  if?: string;
 }
 
 export interface ConditionGroupValue {
@@ -698,6 +732,7 @@ export interface ConditionGroupValue {
   conjunction: 'and' | 'or';
   not?: boolean;
   children?: Array<ConditionRule | ConditionGroupValue>;
+  if?: string;
 }
 
 export interface ConditionValue extends ConditionGroupValue {}

@@ -89,11 +89,20 @@
   }
 
   &-body {
-    padding: var(--drawer-content-paddingTop) var(--drawer-content-paddingRight)
+    padding: 0 var(--drawer-content-paddingRight)
       var(--drawer-content-paddingBottom) var(--drawer-content-paddingLeft);
     flex-basis: 0;
     flex-grow: 1;
     overflow: auto;
+
+    // 因为如果成员里面有 position:sticky 的内容
+    // 用 padding 会导致位置不正确
+    // 所以改成这种写法
+    &:before {
+      content: '';
+      display: block;
+      height: var(--drawer-content-paddingTop);
+    }
   }
 
   &-footer {

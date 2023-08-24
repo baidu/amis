@@ -184,7 +184,6 @@ exports[`Renderer:repeat 1`] = `
                 <div
                   aria-expanded="true"
                   aria-haspopup="listbox"
-                  aria-labelledby="downshift-0-label"
                   aria-owns="downshift-0-menu"
                   class="cxd-Select is-opened pull-right has-popover"
                   role="combobox"
@@ -209,7 +208,7 @@ exports[`Renderer:repeat 1`] = `
                     />
                   </span>
                   <div
-                    class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop"
+                    class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
                     style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                     theme="cxd"
                   >

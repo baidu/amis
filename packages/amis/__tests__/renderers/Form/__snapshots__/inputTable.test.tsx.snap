@@ -221,7 +221,197 @@ exports[`Renderer:input table 1`] = `
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
-                />
+                >
+                  <div
+                    class="cxd-InputTable cxd-Form-control"
+                    style="position: relative;"
+                  >
+                    <div
+                      class="cxd-Table"
+                    >
+                      <div
+                        class="cxd-Table-contentWrap"
+                      >
+                        <div
+                          class="cxd-Table-content"
+                        >
+                          <table
+                            class="cxd-Table-table"
+                          >
+                            <colgroup>
+                              <col
+                                data-index="3"
+                              />
+                              <col
+                                data-index="4"
+                              />
+                            </colgroup>
+                            <thead>
+                              <tr
+                                class=""
+                              >
+                                <th
+                                  class=""
+                                  data-index="3"
+                                >
+                                  <div
+                                    class="cxd-TableCell--title"
+                                  >
+                                    <span
+                                      class="cxd-TplField"
+                                    >
+                                      <span>
+                                        A
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div
+                                    class="cxd-Table-content-colDragLine"
+                                    data-index="3"
+                                  />
+                                </th>
+                                <th
+                                  class=""
+                                  data-index="4"
+                                >
+                                  <div
+                                    class="cxd-TableCell--title"
+                                  >
+                                    <span
+                                      class="cxd-TplField"
+                                    >
+                                      <span>
+                                        B
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div
+                                    class="cxd-Table-content-colDragLine"
+                                    data-index="4"
+                                  />
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                                data-id="1"
+                                data-index="0"
+                              >
+                                <td
+                                  class=""
+                                >
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    a1
+                                  </span>
+                                </td>
+                                <td
+                                  class=""
+                                >
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    b1
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class="cxd-Table-tr--even cxd-Table-tr--1th"
+                                data-id="2"
+                                data-index="1"
+                              >
+                                <td
+                                  class=""
+                                >
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    a2
+                                  </span>
+                                </td>
+                                <td
+                                  class=""
+                                >
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    b2
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                                data-id="3"
+                                data-index="2"
+                              >
+                                <td
+                                  class=""
+                                >
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    a3
+                                  </span>
+                                </td>
+                                <td
+                                  class=""
+                                >
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    b3
+                                  </span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <span />
+                      </div>
+                    </div>
+                    <div
+                      class="resize-sensor"
+                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+  
+                      <div
+                        class="resize-sensor-expand"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+    
+                        <div
+                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                        />
+                        
+  
+                      </div>
+                      
+  
+                      <div
+                        class="resize-sensor-shrink"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+    
+                        <div
+                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                        />
+                        
+  
+                      </div>
+                      
+  
+                      <div
+                        class="resize-sensor-appear"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                      />
+                    </div>
+                  </div>
+                </div>
               </form>
             </div>
             <div
@@ -400,6 +590,7 @@ exports[`Renderer:input table add 1`] = `
         >
           <div
             class="cxd-InputTable cxd-Form-control"
+            style="position: relative;"
           >
             <div
               class="cxd-Table"
@@ -408,87 +599,23 @@ exports[`Renderer:input table add 1`] = `
                 class="cxd-Table-contentWrap"
               >
                 <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                >
-                  <table
-                    class="cxd-Table-table cxd-Table-table"
-                    style="width: 0px; table-layout: auto;"
-                  >
-                    <thead>
-                      <tr
-                        class=""
-                      >
-                        <th
-                          class="cxd-Table-operationCell"
-                          data-index="5"
-                          style="width: 0px; height: 0px;"
-                        >
-                          <div
-                            class="cxd-TableCell--title v-middle nowrap"
-                            style="width: 1%;"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                操作
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                          />
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
-                        data-id="1"
-                        data-index="0"
-                        style="height: 0px;"
-                      >
-                        <td
-                          class="v-middle nowrap"
-                          style="width: 1%;"
-                        >
-                          <div
-                            class="cxd-OperationField m-n"
-                          >
-                            <button
-                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                              type="button"
-                            >
-                              <icon-mock
-                                classname="icon icon-check"
-                                icon="check"
-                              />
-                            </button>
-                            <button
-                              class="cxd-Button cxd-Button--link cxd-Button--size-sm"
-                              type="button"
-                            >
-                              <icon-mock
-                                classname="icon icon-close"
-                                icon="close"
-                              />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div
                   class="cxd-Table-content"
-                  style="position: relative;"
                 >
                   <table
                     class="cxd-Table-table"
                   >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                      <col
+                        data-index="5"
+                        style="width: 100px;"
+                      />
+                    </colgroup>
                     <thead>
                       <tr
                         class=""
@@ -510,6 +637,7 @@ exports[`Renderer:input table add 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="3"
                           />
                         </th>
                         <th
@@ -529,16 +657,16 @@ exports[`Renderer:input table add 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="4"
                           />
                         </th>
                         <th
-                          class="cxd-Table-operationCell"
+                          class="is-sticky is-sticky-right is-sticky-first-right cxd-Table-operationCell"
                           data-index="5"
-                          style="width: 1%;"
+                          style="right: 0px;"
                         >
                           <div
                             class="cxd-TableCell--title v-middle nowrap"
-                            style="width: 1%;"
                           >
                             <span
                               class="cxd-TplField"
@@ -550,6 +678,7 @@ exports[`Renderer:input table add 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="5"
                           />
                         </th>
                       </tr>
@@ -632,8 +761,8 @@ exports[`Renderer:input table add 1`] = `
                           </div>
                         </td>
                         <td
-                          class="v-middle nowrap"
-                          style="width: 1%;"
+                          class="v-middle nowrap is-sticky is-sticky-right is-sticky-first-right"
+                          style="right: 0px;"
                         >
                           <div
                             class="cxd-OperationField m-n"
@@ -661,46 +790,8 @@ exports[`Renderer:input table add 1`] = `
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
-                  </div>
                 </div>
+                <span />
               </div>
             </div>
             <div
@@ -711,12 +802,51 @@ exports[`Renderer:input table add 1`] = `
                 disabled=""
               >
                 <i
-                  class="cxd-Button-icon fa fa-plus"
+                  class="fa fa-plus cxd-Button-icon fa fa-plus"
                 />
                 <span>
                   新增
                 </span>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -832,6 +962,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
           </label>
           <div
             class="cxd-InputTable cxd-Form-control"
+            style="position: relative;"
           >
             <div
               class="cxd-Table"
@@ -840,18 +971,19 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                 class="cxd-Table-contentWrap"
               >
                 <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
                   class="cxd-Table-content"
-                  style="position: relative;"
                 >
                   <table
                     class="cxd-Table-table"
                   >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                      <col
+                        data-index="4"
+                      />
+                    </colgroup>
                     <thead>
                       <tr
                         class=""
@@ -873,6 +1005,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="3"
                           />
                         </th>
                         <th
@@ -892,6 +1025,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="4"
                           />
                         </th>
                       </tr>
@@ -923,7 +1057,6 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                                 <div
                                   aria-expanded="false"
                                   aria-haspopup="listbox"
-                                  aria-labelledby="downshift-4-label"
                                   class="cxd-Select cxd-Select--multi"
                                   role="combobox"
                                   tabindex="0"
@@ -995,47 +1128,48 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
-                  </div>
                 </div>
+                <span />
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -1249,6 +1383,7 @@ exports[`Renderer:input-table with combo column 1`] = `
         >
           <div
             class="cxd-InputTable cxd-Form-control"
+            style="position: relative;"
           >
             <div
               class="cxd-Table"
@@ -1257,18 +1392,16 @@ exports[`Renderer:input-table with combo column 1`] = `
                 class="cxd-Table-contentWrap"
               >
                 <div
-                  class="cxd-Table-fixedLeft"
-                />
-                <div
-                  class="cxd-Table-fixedRight"
-                />
-                <div
                   class="cxd-Table-content"
-                  style="position: relative;"
                 >
                   <table
                     class="cxd-Table-table"
                   >
+                    <colgroup>
+                      <col
+                        data-index="3"
+                      />
+                    </colgroup>
                     <thead>
                       <tr
                         class=""
@@ -1290,6 +1423,7 @@ exports[`Renderer:input-table with combo column 1`] = `
                           </div>
                           <div
                             class="cxd-Table-content-colDragLine"
+                            data-index="3"
                           />
                         </th>
                       </tr>
@@ -1442,47 +1576,48 @@ exports[`Renderer:input-table with combo column 1`] = `
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="resize-sensor"
-                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-  
-                    <div
-                      class="resize-sensor-expand"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-shrink"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                    >
-                      
-    
-                      <div
-                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                      />
-                      
-  
-                    </div>
-                    
-  
-                    <div
-                      class="resize-sensor-appear"
-                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                    />
-                  </div>
                 </div>
+                <span />
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>

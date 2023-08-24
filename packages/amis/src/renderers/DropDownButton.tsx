@@ -6,16 +6,21 @@ import {TooltipWrapper} from 'amis-ui';
 import {isDisabled, isVisible, noop} from 'amis-core';
 import {filter} from 'amis-core';
 import {Icon, hasIcon} from 'amis-ui';
-import {BaseSchema, SchemaClassName, SchemaIcon} from '../Schema';
+import {
+  BaseSchema,
+  SchemaClassName,
+  SchemaCollection,
+  SchemaIcon
+} from '../Schema';
 import {ActionSchema} from './Action';
 import {DividerSchema} from './Divider';
 import {RootClose} from 'amis-core';
-import {generateIcon} from 'amis-core';
 import type {
   TooltipObject,
   Trigger
 } from 'amis-ui/lib/components/TooltipWrapper';
 import {resolveVariableAndFilter} from 'amis-core';
+import {isMobile} from 'amis-core';
 
 export type DropdownButton =
   | (ActionSchema & {children?: Array<DropdownButton>})
@@ -46,6 +51,11 @@ export interface DropdownButtonSchema extends BaseSchema {
    * 按钮集合，支持分组
    */
   buttons?: Array<DropdownButton>;
+
+  /**
+   * 内容区域
+   */
+  body?: SchemaCollection;
 
   /**
    * 按钮文字
@@ -239,14 +249,19 @@ export default class DropDownButton extends React.Component<
     button: DropdownButton,
     index: number | string
   ): React.ReactNode {
-    const {render, classnames: cx, data} = this.props;
+    const {render, classnames: cx, data, ignoreConfirm} = this.props;
     index = typeof index === 'number' ? index.toString() : index;
 
     if (typeof button !== 'string' && Array.isArray(button?.children)) {
       return (
-        <div key={index} className={cx('DropDown-menu')}>
+        <div
+          key={index}
+          className={cx('DropDown-menu', {'is-mobile': isMobile()})}
+        >
           <li key={`${index}/0`} className={cx('DropDown-groupTitle')}>
-            {button.icon ? generateIcon(cx, button.icon, 'm-r-xs') : null}
+            {button.icon ? (
+              <Icon cx={cx} icon={button.icon} className="m-r-xs" />
+            ) : null}
             <span>{button.label}</span>
           </li>
           {button.children.map((child, childIndex) =>
@@ -264,15 +279,31 @@ export default class DropDownButton extends React.Component<
       return (
         <li
           key={index}
-          className={cx('DropDown-button', {
-            ['is-disabled']: isDisabled(button, data)
-          })}
+          className={cx(
+            'DropDown-button',
+            {
+              ['is-disabled']: isDisabled(button, data)
+            },
+            typeof button.level === 'undefined'
+              ? ''
+              : button.level
+              ? `Button--${button.level}`
+              : '',
+            button.className
+          )}
         >
-          {render(`button/${index}`, {
-            type: 'button',
-            ...(button as any),
-            isMenuItem: true
-          })}
+          {render(
+            `button/${index}`,
+            {
+              type: 'button',
+              ...(button as any),
+              className: ''
+            },
+            {
+              isMenuItem: true,
+              ignoreConfirm: ignoreConfirm
+            }
+          )}
         </li>
       );
     }
@@ -287,6 +318,7 @@ export default class DropDownButton extends React.Component<
       classnames: cx,
       classPrefix: ns,
       children,
+      body,
       align,
       closeOnClick,
       closeOnOutside,
@@ -300,7 +332,7 @@ export default class DropDownButton extends React.Component<
         ? resolveVariableAndFilter(_buttons, data, '| raw')
         : _buttons;
 
-    let body = (
+    let popOverBody = (
       <RootClose
         disabled={!this.state.isOpened}
         onRootClose={closeOnOutside !== false ? this.close : noop}
@@ -311,6 +343,9 @@ export default class DropDownButton extends React.Component<
               className={cx(
                 'DropDown-menu-root',
                 'DropDown-menu',
+                {
+                  'is-mobile': isMobile()
+                },
                 menuClassName
               )}
               onClick={closeOnClick ? this.close : noop}
@@ -319,6 +354,8 @@ export default class DropDownButton extends React.Component<
             >
               {children
                 ? children
+                : body
+                ? render('body', body)
                 : Array.isArray(buttons)
                 ? buttons.map((button, index) =>
                     this.renderButton(button, index)
@@ -344,13 +381,13 @@ export default class DropDownButton extends React.Component<
             className={cx('DropDown-popover', menuClassName)}
             style={{minWidth: this.target?.offsetWidth}}
           >
-            {body}
+            {popOverBody}
           </PopOver>
         </Overlay>
       );
     }
 
-    return body;
+    return popOverBody;
   }
 
   render() {
@@ -391,7 +428,8 @@ export default class DropDownButton extends React.Component<
             'DropDown--block': block,
             'DropDown--alignRight': align === 'right',
             'is-opened': this.state.isOpened,
-            'is-actived': isActived
+            'is-actived': isActived,
+            'is-mobile': isMobile()
           },
           className
         )}
@@ -426,20 +464,14 @@ export default class DropDownButton extends React.Component<
               `Button--size-${size}`
             )}
           >
-            {hasIcon(icon) ? (
-              <Icon icon={icon} className="icon" />
-            ) : (
-              generateIcon(cx, icon, 'm-r-xs')
-            )}
+            <Icon c={cx} icon={icon} className="icon m-r-xs" />
             {typeof label === 'string' ? filter(label, data) : label}
-            {rightIcon && hasIcon(rightIcon) ? (
-              <Icon icon={icon} className="icon" />
-            ) : (
-              generateIcon(cx, rightIcon, 'm-l-xs')
+            {rightIcon && (
+              <Icon cx={cx} icon={rightIcon} className="icon m-l-xs" />
             )}
             {!hideCaret ? (
               <span className={cx('DropDown-caret')}>
-                <Icon icon="caret" className="icon" />
+                <Icon icon="right-arrow-bold" className="icon" />
               </span>
             ) : null}
           </button>

@@ -128,11 +128,13 @@ export interface ThemeProps {
   classPrefix: string;
   classnames: ClassNamesFn;
   theme?: string;
+  mobileUI?: boolean;
 }
 
 export interface ThemeOutterProps {
   theme?: string;
   className?: string;
+  mobileUI?: boolean;
   style?: {
     [propName: string]: any;
   };

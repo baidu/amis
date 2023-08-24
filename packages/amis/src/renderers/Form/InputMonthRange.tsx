@@ -5,6 +5,7 @@ import {filterDate, parseDuration} from 'amis-core';
 import InputDateRange, {DateRangeControlSchema} from './InputDateRange';
 import {DateRangePicker} from 'amis-ui';
 import {supportStatic} from './StaticHoc';
+import {isMobile} from 'amis-core';
 
 /**
  * MonthRange 月范围控件
@@ -29,6 +30,7 @@ export default class MonthRangeControl extends InputDateRange {
       maxDuration,
       data,
       format,
+      mobileUI,
       env,
       ...rest
     } = this.props;
@@ -37,8 +39,14 @@ export default class MonthRangeControl extends InputDateRange {
       <div className={cx(`${ns}DateRangeControl`, className)}>
         <DateRangePicker
           viewMode="months"
+          mobileUI={mobileUI}
           format={format}
           classPrefix={ns}
+          popOverContainer={
+            mobileUI
+              ? env?.getModalContainer
+              : rest.popOverContainer || env.getModalContainer
+          }
           data={data}
           {...rest}
           minDate={minDate ? filterDate(minDate, data, format) : undefined}
@@ -65,7 +73,7 @@ export class MonthRangeControlRenderer extends MonthRangeControl {
     delimiter: ',',
     timeFormat: '',
     /** shortcuts的兼容配置 */
-    ranges: 'thismonth,prevmonth',
+    ranges: '',
     shortcuts: 'thismonth,prevmonth',
     animation: true
   };

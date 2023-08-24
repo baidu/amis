@@ -303,7 +303,7 @@ exports[`Renderer:textarea with readOnly 1`] = `
             </span>
           </label>
           <div
-            class="cxd-TextareaControl cxd-Form-control"
+            class="cxd-TextareaControl is-disabled cxd-Form-control"
           >
             <textarea
               autocomplete="off"

@@ -126,7 +126,7 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
                     <div className={cx(`${ns}PopUp-toolbar`)}>
                       <Button
                         className={cx(`${ns}PopUp-cancel`)}
-                        level="text"
+                        level="link"
                         onClick={onHide}
                       >
                         {__('cancel')}
@@ -136,7 +136,7 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
                       )}
                       <Button
                         className={cx(`${ns}PopUp-confirm`)}
-                        level="text"
+                        level="link"
                         onClick={onConfirm}
                       >
                         {__('confirm')}

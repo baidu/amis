@@ -9,10 +9,13 @@ import {
 import type {DSField} from 'amis-editor-core';
 import type {SchemaObject} from 'amis';
 import flatten from 'lodash/flatten';
-import _ from 'lodash';
 import {InputComponentName} from '../component/InputComponentName';
 import {FormulaDateType} from '../renderer/FormulaControl';
 import {VariableItem} from 'amis-ui/lib/components/formula/Editor';
+import reduce from 'lodash/reduce';
+import map from 'lodash/map';
+import omit from 'lodash/omit';
+import keys from 'lodash/keys';
 
 /**
  * @deprecated 兼容当前组件的switch
@@ -77,6 +80,16 @@ setSchemaTpl('formItemName', {
 });
 
 setSchemaTpl(
+  'formItemExtraName',
+  getSchemaTpl('formItemName', {
+    required: false,
+    label: '结尾字段名',
+    name: 'extraName',
+    description: '配置了结尾字段名，该组件将开始和结尾存成两个字段'
+  })
+);
+
+setSchemaTpl(
   'formItemMode',
   (config: {
     // 是不是独立表单，没有可以集成的内容
@@ -114,6 +127,7 @@ setSchemaTpl(
 setSchemaTpl('formulaControl', (schema: object = {}) => {
   return {
     type: 'ae-formulaControl',
+    variableMode: 'tree',
     ...schema
   };
 });
@@ -121,6 +135,7 @@ setSchemaTpl('formulaControl', (schema: object = {}) => {
 setSchemaTpl('expressionFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-expressionFormulaControl',
+    variableMode: 'tree',
     ...schema
   };
 });
@@ -128,6 +143,7 @@ setSchemaTpl('expressionFormulaControl', (schema: object = {}) => {
 setSchemaTpl('textareaFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-textareaFormulaControl',
+    variableMode: 'tree',
     ...schema
   };
 });
@@ -135,6 +151,7 @@ setSchemaTpl('textareaFormulaControl', (schema: object = {}) => {
 setSchemaTpl('tplFormulaControl', (schema: object = {}) => {
   return {
     type: 'ae-tplFormulaControl',
+    variableMode: 'tree',
     ...schema
   };
 });
@@ -337,6 +354,7 @@ setSchemaTpl(
       key: string;
       visibleOn: string;
       body: Array<any>;
+      collapsed?: boolean;
     }>
   ) => {
     const collapseGroupBody = config
@@ -345,17 +363,19 @@ setSchemaTpl(
       )
       .map(item => ({
         type: 'collapse',
-        collapsed: false,
         headingClassName: 'ae-formItemControl-header',
         bodyClassName: 'ae-formItemControl-body',
         ...item,
+        collapsed: item.collapsed ?? false,
         key: item.title,
         body: flatten(item.body)
       }));
 
     return {
       type: 'collapse-group',
-      activeKey: collapseGroupBody.map(panel => panel.title),
+      activeKey: collapseGroupBody
+        .filter(item => item && !item.collapsed)
+        .map(panel => panel.title),
       expandIconPosition: 'right',
       expandIcon: {
         type: 'icon',
@@ -578,7 +598,7 @@ setSchemaTpl(
         });
       }
       if (schema.options) {
-        let optionItem = _.reduce(
+        let optionItem = reduce(
           schema.options,
           function (result, item) {
             return {...result, ...item};
@@ -587,12 +607,12 @@ setSchemaTpl(
         );
         delete optionItem?.$$id;
 
-        optionItem = _.omit(
+        optionItem = omit(
           optionItem,
-          _.map(children, item => item?.label)
+          map(children, item => item?.label)
         );
 
-        let otherItem = _.map(_.keys(optionItem), item => ({
+        let otherItem = map(keys(optionItem), item => ({
           label:
             item === 'label' ? '选项文本' : item === 'value' ? '选项值' : item,
           value: item,
@@ -631,7 +651,7 @@ setSchemaTpl('sourceBindControl', (schema: object = {}) => ({
   type: 'ae-formulaControl',
   name: 'source',
   label: '数据',
-  variableMode: 'tabs',
+  variableMode: 'tree',
   inputMode: 'input-group',
   placeholder: '请输入表达式',
   requiredDataPropsVariables: true,
@@ -1051,6 +1071,8 @@ setSchemaTpl('buttonLevel', {
   label: '按钮样式',
   type: 'select',
   name: 'level',
+  menuTpl:
+    '<div class="ae-ButtonLevel-MenuTpl"><button type="button" class="cxd-Button cxd-Button--${value} cxd-Button--size-sm cxd-Button--block">${label}</button></div>',
   options: [
     {
       label: '默认',
@@ -1215,17 +1237,6 @@ setSchemaTpl('app-page-args', {
       valueField: 'value',
       required: true
     },
-    /*
-     {
-      name: 'val',
-      type: 'input-formula',
-      placeholder: '参数值',
-      variables: '${variables}',
-      evalMode: false,
-      variableMode: 'tabs',
-      inputMode: 'input-group'
-    }
-     */
     getSchemaTpl('formulaControl', {
       name: 'val',
       variables: '${variables}',

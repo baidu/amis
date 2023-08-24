@@ -2,6 +2,7 @@ import {Button} from 'amis';
 import React from 'react';
 import {
   EditorNodeType,
+  JSONPipeOut,
   jsonToJsonSchema,
   registerEditorPlugin
 } from 'amis-editor-core';
@@ -12,6 +13,7 @@ import {getEventControlConfig} from '../renderer/event-control/helper';
 import type {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 export class ServicePlugin extends BasePlugin {
+  static id = 'ServicePlugin';
   // 关联渲染器名字
   rendererName = 'service';
   $schema = '/schemas/ServiceSchema.json';
@@ -58,9 +60,10 @@ export class ServicePlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data': {
+            data: {
               type: 'object',
-              title: '当前数据域'
+              title: '数据',
+              description: '当前数据域，可以通过.字段名读取对应的值'
             }
           }
         }
@@ -74,17 +77,23 @@ export class ServicePlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.responseData': {
+            data: {
               type: 'object',
-              title: '响应数据'
-            },
-            'event.data.responseStatus': {
-              type: 'object',
-              title: '响应状态'
-            },
-            'event.data.responseMsg': {
-              type: 'object',
-              title: '响应消息'
+              title: '数据',
+              properties: {
+                responseData: {
+                  type: 'object',
+                  title: '响应数据'
+                },
+                responseStatus: {
+                  type: 'number',
+                  title: '响应状态(0表示成功)'
+                },
+                responseMsg: {
+                  type: 'string',
+                  title: '响应消息'
+                }
+              }
             }
           }
         }
@@ -98,17 +107,23 @@ export class ServicePlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.responseData': {
+            data: {
               type: 'object',
-              title: '响应数据'
-            },
-            'event.data.responseStatus': {
-              type: 'number',
-              title: '响应状态(0表示成功)'
-            },
-            'event.data.responseMsg': {
-              type: 'string',
-              title: '响应消息'
+              title: '数据',
+              properties: {
+                responseData: {
+                  type: 'object',
+                  title: '响应数据'
+                },
+                responseStatus: {
+                  type: 'number',
+                  title: '响应状态(0表示成功)'
+                },
+                responseMsg: {
+                  type: 'string',
+                  title: '响应消息'
+                }
+              }
             }
           }
         }
@@ -137,9 +152,6 @@ export class ServicePlugin extends BasePlugin {
   panelTitle = '服务';
 
   panelBodyCreator = (context: BaseEventContext) => {
-    console.log(context);
-    console.log(context.node.parent);
-    console.log(context.node.parent.getComponent());
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -276,6 +288,36 @@ export class ServicePlugin extends BasePlugin {
       }
     ]);
   };
+
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
+    let jsonschema: any = {
+      ...jsonToJsonSchema(JSONPipeOut(node.schema.data ?? {}))
+    };
+    const pool = node.children.concat();
+
+    while (pool.length) {
+      const current = pool.shift() as EditorNodeType;
+      const schema = current.schema;
+
+      if (current.rendererConfig?.isFormItem && schema?.name) {
+        jsonschema.properties[schema.name] =
+          await current.info.plugin.buildDataSchemas?.(
+            current,
+            undefined,
+            trigger,
+            node
+          );
+      } else if (!current.rendererConfig?.storeType) {
+        pool.push(...current.children);
+      }
+    }
+
+    return jsonschema;
+  }
 
   rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
     if (e === 'fetchInited') {

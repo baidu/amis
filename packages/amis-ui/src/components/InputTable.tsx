@@ -161,7 +161,7 @@ export function InputTable({
 
   function renderBody() {
     return (
-      <div className={cx(`Table`, className)}>
+      <div className={cx(`Table`)}>
         <div className={cx(`Table-contentWrap`)}>
           <table className={cx(`Table-table`)}>
             <thead>

@@ -185,7 +185,7 @@ Word 渲染支持以下功能：
 
 目前变量使用的写法是 `{{name}}`，其中 `name` 代表变量名，另外这里可以是 amis 表达式，比如前面示例的 `{{DATETOSTR(TODAY(), 'YYYY-MM-DD')}}`
 
-> 为了避免 Word 自作主张添加额外标签，对于复杂的变量建议先在记事本之类的纯文本编辑器里编辑，再粘贴进 Word 里。
+**Word 经常会自作主张进行语法检查，生成无关的标签导致变量替换出错，解决办法是参考这个[文档](https://support.microsoft.com/zh-cn/office/%E5%9C%A8-word-%E4%B8%AD%E6%A3%80%E6%9F%A5%E8%AF%AD%E6%B3%95-%E6%8B%BC%E5%86%99%E7%AD%89-0f43bf32-ccde-40c5-b16a-c6a282c0d251?ui=zh-cn&rs=zh-cn&ad=cn)，将所有语法检查都忽略掉，也就是文档里不再有飘红的文字**
 
 ### 表格行循环
 
@@ -259,7 +259,7 @@ Word 渲染支持以下功能：
     {
       "type": "input-text",
       "name": "img",
-      "value": "https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg",
+      "value": "https://suda.cdn.bcebos.com/amis/images/alice-macaw.jpg",
       "label": "图片地址"
     },
     {

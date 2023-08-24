@@ -124,6 +124,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
       label,
       name,
       ...$schema,
+      style: $schema.innerStyle,
       type: subType
     };
 

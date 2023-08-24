@@ -1,5 +1,5 @@
 import {ClassNamesFn, themeable} from 'amis-core';
-import React from 'react';
+import React, {version} from 'react';
 import {render} from 'react-dom';
 import {autobind, calculatePosition} from 'amis-core';
 import Transition, {
@@ -7,6 +7,7 @@ import Transition, {
   ENTERING,
   EXITING
 } from 'react-transition-group/Transition';
+// import {createRoot} from 'react-dom/client';
 const fadeStyles: {
   [propName: string]: string;
 } = {
@@ -49,12 +50,20 @@ export class ContextMenu extends React.Component<
   ContextMenuState
 > {
   static instance: any = null;
-  static getInstance() {
+  static async getInstance() {
     if (!ContextMenu.instance) {
       const container = document.body;
       const div = document.createElement('div');
       container.appendChild(div);
+
+      // if (parseInt(version.split('.')[0], 10) >= 18) {
+      //   const root = createRoot(div);
+      //   await new Promise<void>(resolve =>
+      //     root.render(<ThemedContextMenu ref={() => resolve()} />)
+      //   );
+      // } else {
       render(<ThemedContextMenu />, div);
+      // }
     }
 
     return ContextMenu.instance;
@@ -304,10 +313,16 @@ export class ContextMenu extends React.Component<
 export const ThemedContextMenu = themeable(ContextMenu);
 export default ThemedContextMenu;
 
-export function openContextMenus(
+export async function openContextMenus(
   info: Event | {x: number; y: number},
   menus: Array<MenuItem | MenuDivider>,
   onClose?: () => void
 ) {
-  return ContextMenu.getInstance().openContextMenus(info, menus, onClose);
+  return ContextMenu.getInstance().then(instance =>
+    instance.openContextMenus(info, menus, onClose)
+  );
+}
+
+export async function closeContextMenus() {
+  return ContextMenu.getInstance().then(instance => instance?.close());
 }

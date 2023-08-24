@@ -31,18 +31,11 @@
   }
 
   &-fixedTop {
-    position: absolute;
+    position: sticky;
     background: var(--white);
-    z-index: -1;
-    opacity: 0;
-    box-shadow: var(--Cards-fixedTop-boxShadow);
+    // box-shadow: var(--Cards-fixedTop-boxShadow);
     padding: var(--gap-sm);
-
-    &.in {
-      position: fixed;
-      opacity: 1;
-      z-index: $zindex-affix;
-    }
+    z-index: $zindex-sticky;
 
     .#{$ns}Cards-toolbar {
       margin-bottom: 0;

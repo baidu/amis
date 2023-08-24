@@ -31,6 +31,7 @@ class InputInner extends React.Component<InputProps, InputState> {
   @autobind
   handleComposition(e: React.CompositionEvent<HTMLInputElement>) {
     this.isOnComposition = e.type !== 'compositionend';
+
     if (!this.isOnComposition) {
       this.handleChange(e as any);
     }
@@ -47,6 +48,17 @@ class InputInner extends React.Component<InputProps, InputState> {
     });
   }
 
+  @autobind
+  handleKeyDown(e: React.KeyboardEvent<any>) {
+    const {onKeyDown} = this.props;
+
+    if (this.isOnComposition) {
+      return;
+    }
+
+    onKeyDown?.(e);
+  }
+
   render() {
     const {forwardedRef, ...rest} = this.props;
 
@@ -57,6 +69,7 @@ class InputInner extends React.Component<InputProps, InputState> {
         value={this.state.value}
         ref={forwardedRef}
         onChange={this.handleChange}
+        onKeyDown={this.handleKeyDown}
         onCompositionStart={this.handleComposition}
         onCompositionUpdate={this.handleComposition}
         onCompositionEnd={this.handleComposition}

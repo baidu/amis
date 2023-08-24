@@ -18,6 +18,7 @@ import flatten from 'lodash/flatten';
 import {VRenderer} from 'amis-editor-core';
 
 export class CardPlugin extends BasePlugin {
+  static id = 'CardPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'card';
@@ -128,6 +129,11 @@ export class CardPlugin extends BasePlugin {
               type: 'input-text',
               label: '图片地址',
               description: '支持模板语法如： <code>\\${xxx}</code>'
+            },
+            {
+              name: 'href',
+              type: 'input-text',
+              label: '打开外部链接'
             },
             getSchemaTpl('cardDesc'),
             {

@@ -20,6 +20,7 @@ import {
 } from '../util';
 
 export class ListPlugin extends BasePlugin {
+  static id = 'ListPlugin';
   // 关联渲染器名字
   rendererName = 'list';
   $schema = '/schemas/ListSchema.json';
@@ -80,7 +81,7 @@ export class ListPlugin extends BasePlugin {
                     block
                     onClick={this.editDetail.bind(this, context.id)}
                   >
-                    配置成员详情
+                    配置成员渲染器
                   </Button>
                 )
               },
@@ -289,7 +290,7 @@ export class ListPlugin extends BasePlugin {
     node &&
       value &&
       this.manager.openSubEditor({
-        title: '配置成员详情',
+        title: '配置成员渲染器',
         value: {
           ...value.listItem
         },
@@ -337,7 +338,7 @@ export class ListPlugin extends BasePlugin {
       (info.renderer.name === 'crud' && schema.mode === 'list')
     ) {
       menus.push('|', {
-        label: '配置成员详情',
+        label: '配置成员渲染器',
         onSelect: this.editDetail.bind(this, id)
       });
     }

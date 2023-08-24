@@ -13,7 +13,7 @@ import {uncontrollable} from 'amis-core';
 import {PopOver} from 'amis-core';
 import PopUp from './PopUp';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
-import {autobind, isMobile, isObject} from 'amis-core';
+import {autobind, isObject} from 'amis-core';
 import {localeable, LocaleProps} from 'amis-core';
 
 export type PresetColor = {color: string; title: string} | string;
@@ -33,13 +33,13 @@ export interface ColorProps extends LocaleProps, ThemeProps {
   presetColors?: PresetColor[];
   resetValue?: string;
   allowCustomColor?: boolean;
-  useMobileUI?: boolean;
 }
 
 export interface ColorControlState {
   isOpened: boolean;
   isFocused: boolean;
   inputValue: string;
+  tempValue: string;
 }
 
 export class ColorControl extends React.PureComponent<
@@ -56,7 +56,8 @@ export class ColorControl extends React.PureComponent<
   state = {
     isOpened: false,
     isFocused: false,
-    inputValue: this.props.value || ''
+    inputValue: this.props.value || '',
+    tempValue: this.props.value || ''
   };
   popover: any;
   closeTimer: number;
@@ -70,6 +71,8 @@ export class ColorControl extends React.PureComponent<
     this.focus = this.focus.bind(this);
     this.blur = this.blur.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleTempChange = this.handleTempChange.bind(this);
+    this.handleConfirm = this.handleConfirm.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.clearValue = this.clearValue.bind(this);
@@ -206,6 +209,31 @@ export class ColorControl extends React.PureComponent<
     // closeOnSelect && this.close();
   }
 
+  handleTempChange(color: ColorResult) {
+    let {tempValue} = this.state;
+    const {format} = this.props;
+
+    if (format === 'rgba') {
+      tempValue = `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`;
+    } else if (format === 'rgb') {
+      tempValue = `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`;
+    } else if (format === 'hsl') {
+      tempValue = `hsl(${Math.round(color.hsl.h)}, ${Math.round(
+        color.hsl.s * 100
+      )}%, ${Math.round(color.hsl.l * 100)}%)`;
+    } else {
+      tempValue = color.hex;
+    }
+    this.setState({tempValue});
+  }
+
+  handleConfirm() {
+    const {onChange} = this.props;
+    const {tempValue} = this.state;
+    onChange(tempValue);
+    this.close();
+  }
+
   render() {
     const {
       classPrefix: ns,
@@ -221,13 +249,13 @@ export class ColorControl extends React.PureComponent<
       classnames: cx,
       presetColors,
       allowCustomColor,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     const __ = this.props.translate;
     const isOpened = this.state.isOpened;
     const isFocused = this.state.isFocused;
-    const mobileUI = useMobileUI && isMobile();
+    const tempValue = this.state.tempValue;
 
     return (
       <div
@@ -272,7 +300,11 @@ export class ColorControl extends React.PureComponent<
         ) : null}
 
         <span className={cx('ColorPicker-arrow')}>
-          <Icon icon="caret" className="icon" onClick={this.handleClick} />
+          <Icon
+            icon="right-arrow-bold"
+            className="icon"
+            onClick={this.handleClick}
+          />
         </span>
 
         {!mobileUI && isOpened ? (
@@ -328,18 +360,20 @@ export class ColorControl extends React.PureComponent<
             container={popOverContainer}
             isShow={isOpened}
             onHide={this.handleClick}
+            showConfirm
+            onConfirm={this.handleConfirm}
           >
             {allowCustomColor ? (
               <SketchPicker
                 styles={{}}
                 disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
-                color={value}
+                color={tempValue}
                 presetColors={presetColors}
-                onChangeComplete={this.handleChange}
+                onChangeComplete={this.handleTempChange}
               />
             ) : (
               <GithubPicker
-                color={value}
+                color={tempValue}
                 colors={
                   Array.isArray(presetColors)
                     ? (presetColors
@@ -355,7 +389,7 @@ export class ColorControl extends React.PureComponent<
                         ) as string[])
                     : undefined
                 }
-                onChangeComplete={this.handleChange}
+                onChangeComplete={this.handleTempChange}
               />
             )}
           </PopUp>

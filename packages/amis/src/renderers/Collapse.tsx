@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  Renderer,
-  RendererProps,
-  generateIcon,
-  IconCheckedSchema
-} from 'amis-core';
-import {Collapse as BasicCollapse} from 'amis-ui';
+import {Renderer, RendererProps, autobind, resolveEventData} from 'amis-core';
+import {Collapse as BasicCollapse, Icon} from 'amis-ui';
 import {BaseSchema, SchemaCollection, SchemaTpl, SchemaObject} from '../Schema';
 
 /**
@@ -92,6 +87,10 @@ export interface CollapseSchema extends BaseSchema {
    * 卡片隐藏就销毁内容。
    */
   unmountOnExit?: boolean;
+  /**
+   * 标题内容分割线
+   */
+  divideLine?: boolean;
 }
 
 export interface CollapseProps
@@ -116,6 +115,21 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
     'collapseHeader',
     'size'
   ];
+
+  @autobind
+  async handleCollapseChange(props: any, collapsed: boolean) {
+    const {dispatchEvent, onCollapse} = this.props;
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(this.props, {
+        collapsed
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    onCollapse?.(props, collapsed);
+  }
 
   render() {
     const {
@@ -147,8 +161,11 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       disabled,
       collapsed,
       propsUpdate,
-      onCollapse
+      mobileUI,
+      divideLine
     } = this.props;
+
+    const heading = title || header || '';
 
     return (
       <BasicCollapse
@@ -171,20 +188,26 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
         disabled={disabled}
         propsUpdate={propsUpdate}
         expandIcon={
-          expandIcon
-            ? typeof (expandIcon as any).icon === 'object'
-              ? generateIcon(cx, (expandIcon as any).icon)
-              : render('arrow-icon', expandIcon || '', {
-                  className: cx('Collapse-icon-tranform')
-                })
-            : null
+          expandIcon ? (
+            typeof (expandIcon as any).icon === 'object' ? (
+              <Icon
+                cx={cx}
+                icon={(expandIcon as any).icon}
+                className={cx('Collapse-icon-tranform')}
+              />
+            ) : (
+              render('arrow-icon', expandIcon || '', {
+                className: cx('Collapse-icon-tranform')
+              })
+            )
+          ) : null
         }
         collapseHeader={
           collapseTitle || collapseHeader
             ? render('heading', collapseTitle || collapseHeader)
             : null
         }
-        header={render('heading', title || header || '')}
+        header={heading ? render('heading', heading) : null}
         body={
           children
             ? typeof children === 'function'
@@ -194,7 +217,9 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
             ? render('body', body)
             : null
         }
-        onCollapse={onCollapse}
+        mobileUI={mobileUI}
+        onCollapse={this.handleCollapseChange}
+        divideLine={divideLine}
       ></BasicCollapse>
     );
   }

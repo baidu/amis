@@ -6,6 +6,7 @@ import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl, tipedLabel} from 'amis-editor-core';
 
 export class LogPlugin extends BasePlugin {
+  static id = 'LogPlugin';
   // 关联渲染器名字
   rendererName = 'log';
   $schema = '/schemas/LogSchema.json';

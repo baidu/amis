@@ -28,17 +28,31 @@
   }
 
   &-content {
-    border-radius: var(--borderRadius);
-    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+    flex: 1;
+    height: 100%;
+    max-width: #{px2rem(530px)};
+    border-top: var(--Form-input-borderWidth) solid
+      var(--Form-input-borderColor);
+    border-bottom: var(--Form-input-borderWidth) solid
+      var(--Form-input-borderColor);
   }
 
   &-header {
     @include panel-header();
+
+    &-toolbar {
+      font-size: 12px;
+      float: right;
+      > span {
+        margin-right: 5px;
+      }
+    }
   }
 
   &-editor {
     @include scrollbar();
-    height: px2rem(200px);
+    min-height: px2rem(200px);
+    height: calc(100% - 35px);
     padding: #{px2rem(5px)};
     padding-right: 0;
 
@@ -61,11 +75,13 @@
     flex-flow: row nowrap;
     align-items: stretch;
     justify-content: space-between;
-    height: #{px2rem(250px)};
+    height: #{px2rem(450px)};
     margin-top: #{px2rem(10px)};
 
-    & > div {
-      width: 0;
+    &.is-mobile {
+      width: 100%;
+      overflow-x: scroll;
+      overflow-y: hidden;
     }
   }
 
@@ -75,21 +91,12 @@
 
   &-panel {
     display: flex;
-    flex: 1;
     flex-flow: column nowrap;
     justify-content: space-between;
     align-items: stretch;
     height: 100%;
-    border-radius: var(--borderRadius);
+    width: #{px2rem(188px)};
     border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
-
-    &:not(:last-child) {
-      margin-right: #{px2rem(10px)};
-    }
-
-    &:last-child {
-      flex: 1;
-    }
 
     &-header {
       @include panel-header();
@@ -108,8 +115,19 @@
     }
   }
 
+  &-panel.left {
+    justify-content: normal !important;
+    border-radius: var(--borderRadius) 0 0 var(--borderRadius);
+  }
+
+  &-panel.right {
+    width: #{px2rem(330px)};
+    border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
+  }
+
   /* 变量列表 */
   &-VariableList {
+    height: 100%;
     &-root {
       max-height: 100%;
     }
@@ -129,7 +147,7 @@
 
     &-base.is-scrollable {
       @include scrollbar();
-      overflow-x: hidden;
+      overflow-x: auto;
       overflow-y: auto;
     }
 
@@ -169,7 +187,6 @@
           .#{$ns}FormulaEditor-VariableList {
             &-sub {
               .#{$ns}FormulaEditor-VariableList-body {
-                max-height: #{px2rem(220px)};
                 overflow-y: hidden;
               }
               &-FormulaEditor-VariableList-base {
@@ -232,6 +249,14 @@
         flex: 1;
         width: 0;
         display: inline-block;
+        min-width: #{px2rem(50px)};
+      }
+
+      .fa-ellipsis-h {
+        margin-right: #{px2rem(5px)};
+        &:hover {
+          color: var(--primary);
+        }
       }
 
       &-tag {
@@ -245,12 +270,33 @@
         line-height: #{px2rem(24px)};
         height: #{px2rem(24px)};
       }
+
+      &-oper {
+        list-style: none;
+        max-width: #{px2rem(235px)};
+        font-size: var(--fontSizeSm);
+        min-width: 100px;
+        padding: 0 5px;
+        margin: 5px;
+        text-align: center;
+        li {
+          line-height: 24px;
+          &:hover {
+            cursor: pointer;
+            background: var(--Form-select-menu-onHover-bg);
+          }
+        }
+      }
     }
     .#{$ns}GroupedSelection {
+      max-height: 100%;
       &-item {
         &-tag {
           line-height: 17px;
         }
+      }
+      &-itemLabel {
+        font-size: var(--fontSizeSm);
       }
     }
   }
@@ -258,18 +304,8 @@
   /* 函数列表 */
   &-FuncList {
     display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: stretch;
-    flex: 1;
-
-    .#{$ns}FormulaEditor-panel {
-      width: #{px2rem(188px)};
-    }
-
-    &:not(:last-child) {
-      margin-right: #{px2rem(10px)};
-    }
+    flex-flow: column nowrap;
+    height: 100%;
 
     &-searchBox {
       display: flex;
@@ -335,19 +371,30 @@
     &-doc {
       display: flex;
       flex-flow: column nowrap;
-      padding: #{px2rem(10px)};
-      max-height: #{px2rem(200px)};
+      padding: 0 #{px2rem(10px)};
+      font-size: 12px;
+      height: 100%;
+      overflow: hidden;
 
       pre {
         white-space: pre-wrap;
         word-wrap: break-word;
-        background: var(--InputFormula-code-bgColor);
-        padding: #{px2rem(5px)} #{px2rem(10px)};
         border-radius: var(--borderRadius);
         margin-top: 0;
 
         code {
           color: #2468f2;
+        }
+      }
+
+      &-example {
+        font-size: var(--fontSizeSm) !important;
+        th {
+          padding: #{px2rem(5px)} !important;
+          font-size: var(--fontSizeSm) !important;
+        }
+        td {
+          padding: #{px2rem(5px)} !important;
         }
       }
 
@@ -361,6 +408,16 @@
     }
   }
 
+  &-FuncList.withDoc {
+    max-height: 50% !important;
+  }
+
+  &-FuncDoc {
+    height: 300px;
+    overflow: hidden;
+    background: var(--InputFormula-code-bgColor);
+  }
+
   .cm-field,
   .cm-func {
     border-radius: 3px;
@@ -370,7 +427,7 @@
   }
 
   .cm-field {
-    padding: 3px 5px;
+    padding: 2px 5px;
   }
 
   .cm-field {
@@ -388,6 +445,16 @@
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
+
+  &-popup {
+    height: px2rem(580px);
+
+    &-inner {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 px2rem(16px);
+    }
+  }
 
   &-input {
     flex: 1;
@@ -444,10 +511,15 @@
 
 .#{$ns}FormulaPicker.is-input-group {
   border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
-  padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  padding: 0 var(--Form-input-paddingX) 0 0;
   border-radius: var(--borderRadius);
   background-color: #fff;
   height: var(--Form-input-height);
+
+  &.#{$ns}FormulaPicker--text {
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  }
+
   .#{$ns}FormulaPicker-input {
     display: flex;
     align-items: center;
@@ -455,19 +527,49 @@
     padding: 0;
     border: 0;
     margin: 0;
+    margin-right: #{px2rem(10px)};
+    max-width: unset;
+
     &:focus {
       border: none;
       outline: none;
       box-sizing: none;
     }
+
+    &-number,
+    &-select,
+    &-boolean,
+    &-date,
+    &-time,
+    &-datetime {
+      height: var(--InputFormula-input-schema-height);
+      padding-left: var(--Form-input-paddingX);
+    }
+
+    &-number {
+      .#{$ns}Number-handler-wrap {
+        height: unset; /* 避免调节器超出Input框 */
+      }
+    }
+
+    &-variable {
+      border: none;
+      min-height: unset;
+      line-height: #{px2rem(18px)};
+      padding-top: 0;
+      padding-bottom: 0;
+    }
   }
+
   .#{$ns}FormulaPicker-toggler {
     .icon-function {
-      transform: scale(1.8);
+      transform: scale(1.3);
     }
+
     .icon-ellipsis-v {
       transform: rotate(90deg);
     }
+
     &:hover {
       cursor: pointer;
     }

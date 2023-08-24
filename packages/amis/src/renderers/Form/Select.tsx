@@ -163,7 +163,7 @@ export interface SelectProps extends OptionsControlProps, SpinnerExtraProps {
   searchable?: boolean;
   showInvalidMatch?: boolean;
   defaultOpen?: boolean;
-  useMobileUI?: boolean;
+  mobileUI?: boolean;
   maxTagCount?: number;
   overflowTagPopover?: TooltipObject;
 }
@@ -464,7 +464,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       borderMode,
       selectMode,
       env,
-      useMobileUI,
+      mobileUI,
       overlay,
       filterOption,
       ...rest
@@ -473,8 +473,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     if (noResultsText) {
       noResultsText = render('noResultText', noResultsText);
     }
-
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div className={cx(`${classPrefix}SelectControl`, className)}>
@@ -485,13 +483,11 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         ) : (
           <Select
             {...rest}
-            useMobileUI={useMobileUI}
+            mobileUI={mobileUI}
             popOverContainer={
-              mobileUI && env && env.getModalContainer
-                ? env.getModalContainer
-                : mobileUI
-                ? undefined
-                : rest.popOverContainer
+              mobileUI
+                ? env?.getModalContainer
+                : rest.popOverContainer || env.getModalContainer
             }
             borderMode={borderMode}
             placeholder={placeholder}
@@ -538,7 +534,7 @@ export interface TransferDropDownProps
     >,
     SpinnerExtraProps {
   borderMode?: 'full' | 'half' | 'none';
-  useMobileUI?: boolean;
+  mobileUI?: boolean;
 }
 
 class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProps> {
@@ -567,7 +563,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       columns,
       leftMode,
       borderMode,
-      useMobileUI,
+      mobileUI,
+      env,
       popOverContainer,
       maxTagCount,
       overflowTagPopover,
@@ -623,8 +620,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           rightMode={rightMode}
           leftOptions={leftOptions}
           borderMode={borderMode}
-          useMobileUI={useMobileUI}
-          popOverContainer={popOverContainer}
+          mobileUI={mobileUI}
+          popOverContainer={popOverContainer || env.getModalContainer}
           maxTagCount={maxTagCount}
           overflowTagPopover={overflowTagPopover}
           placeholder={placeholder}

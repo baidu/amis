@@ -65,7 +65,8 @@ export class InputBoxWithSuggestion extends React.Component<InputBoxWithSuggesti
       searchable,
       popOverContainer,
       clearable,
-      hasError
+      hasError,
+      mobileUI
     } = this.props;
     const options = this.filterOptions(
       Array.isArray(this.props.options) ? this.props.options : []
@@ -103,9 +104,10 @@ export class InputBoxWithSuggestion extends React.Component<InputBoxWithSuggesti
             clearable={clearable}
             onClick={onClick}
             hasError={hasError}
+            mobileUI={mobileUI}
           >
             <span className={cx('InputBox-caret')}>
-              <Icon icon="caret" className="icon" />
+              <Icon icon="right-arrow-bold" className="icon" />
             </span>
           </InputBox>
         )}

@@ -33,8 +33,7 @@ module.exports = function (req, res) {
           'https://news-bos.cdn.bcebos.com/mvideo/%E7%9A%87%E5%90%8E%E5%A4%A7%E9%81%93%E4%B8%9C.aac',
         carousel: [
           {
-            image:
-              'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'
+            image: 'https://suda.cdn.bcebos.com/amis/images/alice-macaw.jpg'
           },
           {
             html: '<div style="width: 100%; height: 200px; background: #e3e3e3; text-align: center; line-height: 200px;">carousel data in crud</div>'
@@ -45,8 +44,7 @@ module.exports = function (req, res) {
           }
         ],
         date: Math.round(Date.now() / 1000),
-        image:
-          'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'
+        image: 'https://suda.cdn.bcebos.com/amis/images/alice-macaw.jpg'
       }),
       parseInt(req.query.perPage, 10) || 10
     )

@@ -11,6 +11,7 @@ import {getEventControlConfig} from '../renderer/event-control/helper';
 import type {Schema} from 'amis-core';
 
 export class SearchBoxPlugin extends BasePlugin {
+  static id = 'SearchBoxPlugin';
   // 关联渲染器名字
   rendererName = 'search-box';
   $schema = '/schemas/SearchBoxSchema.json';
@@ -54,9 +55,15 @@ export class SearchBoxPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '搜索内容'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '搜索值'
+                }
+              }
             }
           }
         }
@@ -70,9 +77,15 @@ export class SearchBoxPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '搜索内容'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '搜索值'
+                }
+              }
             }
           }
         }
@@ -86,9 +99,15 @@ export class SearchBoxPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '搜索内容'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '搜索值'
+                }
+              }
             }
           }
         }
@@ -102,9 +121,15 @@ export class SearchBoxPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '搜索内容'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '搜索值'
+                }
+              }
             }
           }
         }

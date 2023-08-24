@@ -6,7 +6,9 @@ import {
   FormOptionsControl,
   resolveEventData,
   CustomStyle,
-  getValueByPath
+  getValueByPath,
+  PopOver,
+  Overlay
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
 import Downshift, {StateChangeOptions} from 'downshift';
@@ -21,7 +23,6 @@ import {isEffectiveApi} from 'amis-core';
 import {Spinner} from 'amis-ui';
 import {ActionSchema} from '../Action';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
-import {generateIcon} from 'amis-core';
 import {supportStatic} from './StaticHoc';
 
 import type {Option} from 'amis-core';
@@ -141,6 +142,8 @@ export interface TextProps extends OptionsControlProps, SpinnerExtraProps {
   inputControlClassName?: string;
   /** 原生input标签的CSS类名 */
   nativeInputClassName?: string;
+
+  popOverContainer?: any;
 }
 
 export interface TextState {
@@ -372,6 +375,13 @@ export default class TextControl extends React.PureComponent<
     }
 
     onBlur && onBlur(e);
+  }
+
+  @autobind
+  close() {
+    this.setState({
+      isFocused: false
+    });
   }
 
   async handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
@@ -641,6 +651,11 @@ export default class TextControl extends React.PureComponent<
       : JSON.stringify(value);
   }
 
+  @autobind
+  getTarget() {
+    return this.input?.parentElement;
+  }
+
   renderSugestMode() {
     const {
       className,
@@ -665,10 +680,12 @@ export default class TextControl extends React.PureComponent<
       creatable,
       borderMode,
       showCounter,
+      data,
       maxLength,
       minLength,
       translate: __,
-      loadingConfig
+      loadingConfig,
+      popOverContainer
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
 
@@ -717,6 +734,8 @@ export default class TextControl extends React.PureComponent<
             });
           }
 
+          const filteredPlaceholder = filter(placeholder, data);
+
           return (
             <div
               className={cx(
@@ -733,12 +752,12 @@ export default class TextControl extends React.PureComponent<
               onClick={this.handleClick}
             >
               <>
-                {placeholder &&
+                {filteredPlaceholder &&
                 !selectedOptions.length &&
                 !this.state.inputValue &&
                 !this.state.isFocused ? (
                   <div className={cx('TextControl-placeholder')}>
-                    {placeholder}
+                    {filteredPlaceholder}
                   </div>
                 ) : null}
 
@@ -786,7 +805,7 @@ export default class TextControl extends React.PureComponent<
                   <Icon
                     icon="input-clear"
                     className="icon"
-                    wrapClassName={cx('TextControl-clear')}
+                    classNameProp={cx('TextControl-clear')}
                     iconContent="InputBox-clear"
                   />
                 </a>
@@ -812,42 +831,56 @@ export default class TextControl extends React.PureComponent<
                 />
               ) : null}
 
-              {isOpen && filtedOptions.length ? (
-                <div className={cx('TextControl-sugs')}>
-                  {filtedOptions.map((option: any) => {
-                    const label = option[labelField || 'label'];
-                    const value = option[valueField || 'value'];
+              <Overlay
+                container={popOverContainer || this.getTarget}
+                target={this.getTarget}
+                show={!!(isOpen && filtedOptions.length)}
+              >
+                <PopOver
+                  className={cx('TextControl-popover')}
+                  style={{
+                    width: this.input
+                      ? this.input.parentElement!.offsetWidth
+                      : 'auto'
+                  }}
+                >
+                  <div className={cx('TextControl-sugs')}>
+                    {filtedOptions.map((option: any) => {
+                      const label = option[labelField || 'label'];
+                      const value = option[valueField || 'value'];
 
-                    return (
-                      <div
-                        {...getItemProps({
-                          item: value,
-                          disabled: option.disabled,
-                          className: cx(`TextControl-sugItem`, {
-                            'is-highlight': highlightedIndex === indices[value],
-                            'is-disabled': option.disabled
-                          })
-                        })}
-                        key={value}
-                      >
-                        {option.isNew ? (
-                          <span>
-                            {__('Text.add', {label: label})}
-                            <Icon icon="enter" className="icon" />
-                          </span>
-                        ) : (
-                          <span>
-                            {option.disabled
-                              ? label
-                              : highlight(label, inputValue as string)}
-                            {option.tip}
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : null}
+                      return (
+                        <div
+                          {...getItemProps({
+                            item: value,
+                            disabled: option.disabled,
+                            className: cx(`TextControl-sugItem`, {
+                              'is-highlight':
+                                highlightedIndex === indices[value],
+                              'is-disabled': option.disabled || option.readOnly
+                            })
+                          })}
+                          key={value}
+                        >
+                          {option.isNew ? (
+                            <span>
+                              {__('Text.add', {label: label})}
+                              <Icon icon="enter" className="icon" />
+                            </span>
+                          ) : (
+                            <span>
+                              {option.disabled
+                                ? label
+                                : highlight(label, inputValue as string)}
+                              {option.tip}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </PopOver>
+              </Overlay>
             </div>
           );
         }}
@@ -908,7 +941,7 @@ export default class TextControl extends React.PureComponent<
         ) : null}
         <Input
           name={name}
-          placeholder={placeholder}
+          placeholder={filter(placeholder, data)}
           ref={this.inputRef}
           disabled={disabled}
           readOnly={readOnly}
@@ -946,14 +979,14 @@ export default class TextControl extends React.PureComponent<
               <Icon
                 icon="view"
                 className={cx('TextControl-icon-view')}
-                wrapClassName={cx('TextControl-icon-view')}
+                classNameProp={cx('TextControl-icon-view')}
                 iconContent="InputText-view"
               />
             ) : (
               <Icon
                 icon="invisible"
                 className={cx('TextControl-icon-invisible')}
-                wrapClassName={cx('TextControl-icon-invisible')}
+                classNameProp={cx('TextControl-icon-invisible')}
                 iconContent="InputText-invisible"
               />
             )}
@@ -985,6 +1018,7 @@ export default class TextControl extends React.PureComponent<
       render,
       data,
       disabled,
+      readOnly,
       inputOnly,
       static: isStatic,
       addOnClassName
@@ -998,7 +1032,7 @@ export default class TextControl extends React.PureComponent<
           }
         : addOnRaw;
 
-    const iconElement = generateIcon(cx, addOn?.icon, 'Icon');
+    const iconElement = <Icon cx={cx} icon={addOn?.icon} className="Icon" />;
 
     let addOnDom =
       addOn && !isStatic ? (
@@ -1025,7 +1059,7 @@ export default class TextControl extends React.PureComponent<
       ? cx(className, `${ns}TextControl`, {
           [`${ns}TextControl--withAddOn`]: !!addOnDom,
           'is-focused': this.state.isFocused,
-          'is-disabled': disabled
+          'is-disabled': disabled || readOnly
         })
       : cx(`${ns}TextControl`, {
           [`${ns}TextControl--withAddOn`]: !!addOnDom

@@ -112,6 +112,18 @@
           height: 100%;
           overflow-x: hidden;
 
+          &.is-mobile {
+            overflow-x: auto;
+            -ms-overflow-style: none;
+            overflow: -moz-scrollbars-none;
+
+            &::-webkit-scrollbar {
+              display: none;
+              width: 0 !important;
+              height: 0 !important;
+            }
+          }
+
           .#{$ns}Tabs-links-drag {
             position: absolute;
             height: 100%;

@@ -225,8 +225,6 @@
   }
 
   &-item-icon {
-    margin-right: var(--gap-sm);
-
     &-collapsed {
       font-size: var(--Menu-fontSize--collapsed);
       margin: 0 auto;
@@ -238,12 +236,6 @@
         margin: 0 auto;
       }
     }
-  }
-
-  // 悬浮菜单是挂在body下面的
-  &-item-icon-after {
-    margin-right: 0;
-    margin-left: var(--gap-sm);
   }
 
   &-item-label {
@@ -350,6 +342,7 @@
 
   &-submenu-title {
     display: flex;
+    align-items: center;
     justify-content: space-between;
 
     .#{$ns}Nav-Menu-item-wrap {

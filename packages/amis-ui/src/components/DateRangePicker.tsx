@@ -17,7 +17,6 @@ import {
   filterDate,
   themeable,
   getComputedStyle,
-  isMobile,
   noop,
   ucFirst,
   localeable
@@ -68,7 +67,6 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   embed?: boolean;
   viewMode?: 'days' | 'months' | 'years' | 'time' | 'quarters';
   borderMode?: 'full' | 'half' | 'none';
-  useMobileUI?: boolean;
   onFocus?: Function;
   onBlur?: Function;
   type?: string;
@@ -455,7 +453,7 @@ export class DateRangePicker extends React.Component<
     joinValues: true,
     clearable: true,
     delimiter: ',',
-    ranges: 'yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter',
+    ranges: '',
     shortcuts: 'yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter',
     resetValue: '',
     closeOnSelect: true,
@@ -1035,7 +1033,8 @@ export class DateRangePicker extends React.Component<
   }
 
   selectShortcut(shortcut: PlainObject) {
-    const {closeOnSelect, minDateRaw, maxDateRaw, format, data} = this.props;
+    const {closeOnSelect, minDateRaw, maxDateRaw, format, data, mobileUI} =
+      this.props;
     const now = moment();
     /** minDate和maxDate要实时计算，因为用户可能设置为${NOW()}，暂时不考虑毫秒级的时间差 */
     const minDate = minDateRaw
@@ -1056,7 +1055,7 @@ export class DateRangePicker extends React.Component<
         endDate:
           maxDate && maxDate?.isValid() ? moment.min(maxDate, endDate) : endDate
       },
-      closeOnSelect ? this.confirm : noop
+      closeOnSelect && !mobileUI ? this.confirm : noop
     );
   }
 
@@ -1110,11 +1109,13 @@ export class DateRangePicker extends React.Component<
                       FormulaExec['formula'](shortcutRaw.startDate, data),
                       format
                     )
+                  : typeof shortcutRaw.startDate === 'string'
+                  ? moment(shortcutRaw.startDate, format)
                   : shortcutRaw.startDate;
 
                 return startDate &&
                   moment.isMoment(startDate) &&
-                  startDate?.isValid()
+                  startDate.isValid()
                   ? startDate
                   : (item as ShortCutDateRange).startDate;
               },
@@ -1124,9 +1125,11 @@ export class DateRangePicker extends React.Component<
                       FormulaExec['formula'](shortcutRaw.endDate, data),
                       format
                     )
-                  : shortcutRaw.startDate;
+                  : typeof shortcutRaw.endDate === 'string'
+                  ? moment(shortcutRaw.endDate, format)
+                  : shortcutRaw.endDate;
 
-                return endDate && moment.isMoment(endDate) && endDate?.isValid()
+                return endDate && moment.isMoment(endDate) && endDate.isValid()
                   ? endDate
                   : (item as ShortCutDateRange).endDate;
               }
@@ -1382,7 +1385,9 @@ export class DateRangePicker extends React.Component<
       locale,
       embed,
       type,
-      viewMode = 'days'
+      viewMode = 'days',
+      label,
+      mobileUI
     } = this.props;
     const __ = this.props.translate;
     const {startDate, endDate, editState} = this.state;
@@ -1402,10 +1407,45 @@ export class DateRangePicker extends React.Component<
           !endDate?.isValid()));
 
     return (
-      <div className={cx(`${ns}DateRangePicker-wrap`)} ref={this.calendarRef}>
-        {this.renderShortcuts(shortcuts ?? ranges)}
-        <div className={cx(`${ns}DateRangePicker-picker-wrap`)}>
-          {(!isTimeRange || (editState === 'start' && !embed)) && (
+      <div
+        className={cx(`${ns}DateRangePicker-wrap`, {'is-mobile': mobileUI})}
+        ref={this.calendarRef}
+      >
+        {mobileUI && !embed ? (
+          <div className={cx('PickerColumns-header')}>
+            {
+              <Button
+                className="PickerColumns-cancel"
+                level="link"
+                onClick={() => this.close(false)}
+              >
+                {__('cancel')}
+              </Button>
+            }
+            {label && typeof label === 'string'
+              ? label
+              : __('Calendar.datepicker')}
+            {
+              <Button
+                className="PickerColumns-confirm"
+                level="link"
+                disabled={isConfirmBtnDisbaled || !startDate || !endDate}
+                onClick={this.confirm}
+              >
+                {__('confirm')}
+              </Button>
+            }
+          </div>
+        ) : null}
+        {this.renderShortcuts(ranges || shortcuts)}
+        <div
+          className={cx(`${ns}DateRangePicker-picker-wrap`, {
+            'is-vertical': embed
+          })}
+        >
+          {(!isTimeRange ||
+            (editState === 'start' && !embed) ||
+            (mobileUI && isTimeRange)) && (
             <Calendar
               className={`${ns}DateRangePicker-start`}
               value={startDate}
@@ -1432,9 +1472,12 @@ export class DateRangePicker extends React.Component<
               renderYear={this.renderYear}
               locale={locale}
               timeRangeHeader="开始时间"
+              embed={embed}
             />
           )}
-          {(!isTimeRange || (editState === 'end' && !embed)) && (
+          {(!isTimeRange ||
+            (editState === 'end' && !embed) ||
+            (mobileUI && isTimeRange)) && (
             <Calendar
               className={`${ns}DateRangePicker-end`}
               value={endDate}
@@ -1461,11 +1504,12 @@ export class DateRangePicker extends React.Component<
               renderYear={this.renderYear}
               locale={locale}
               timeRangeHeader="结束时间"
+              embed={embed}
             />
           )}
         </div>
 
-        {embed ? null : (
+        {embed || mobileUI ? null : (
           <div key="button" className={`${ns}DateRangePicker-actions`}>
             {/* this.close 这里不可以传参 */}
             <Button size="sm" onClick={() => this.close()}>
@@ -1588,7 +1632,7 @@ export class DateRangePicker extends React.Component<
       embed,
       overlayPlacement,
       borderMode,
-      useMobileUI,
+      mobileUI,
       timeFormat,
       minDate,
       maxDate,
@@ -1602,9 +1646,7 @@ export class DateRangePicker extends React.Component<
       animation
     } = this.props;
     const useCalendarMobile =
-      useMobileUI &&
-      isMobile() &&
-      ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
+      mobileUI && ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
     const {isOpened, isFocused, startDate, endDate} = this.state;
     const __ = this.props.translate;
 
@@ -1624,7 +1666,7 @@ export class DateRangePicker extends React.Component<
         close={this.close}
         confirm={this.confirm}
         onChange={this.handleMobileChange}
-        footerExtra={this.renderShortcuts(shortcuts ?? ranges)}
+        footerExtra={this.renderShortcuts(ranges || shortcuts)}
         showViewMode={
           viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'
         }
@@ -1636,6 +1678,9 @@ export class DateRangePicker extends React.Component<
         <div
           className={cx(
             `${ns}DateRangeCalendar`,
+            {
+              'is-mobile': mobileUI
+            },
             {
               'is-disabled': disabled
             },
@@ -1667,7 +1712,7 @@ export class DateRangePicker extends React.Component<
             'is-disabled': disabled,
             'is-focused': isFocused,
             [`${ns}DateRangePicker--border${ucFirst(borderMode)}`]: borderMode,
-            'is-mobile': useMobileUI && isMobile()
+            'is-mobile': mobileUI
           },
           className
         )}
@@ -1685,7 +1730,7 @@ export class DateRangePicker extends React.Component<
           autoComplete="off"
           value={this.state.startInputValue || ''}
           disabled={disabled}
-          readOnly={useMobileUI && isMobile()}
+          readOnly={mobileUI}
         />
         <span
           className={cx('DateRangePicker-input-separator')}
@@ -1705,7 +1750,7 @@ export class DateRangePicker extends React.Component<
           autoComplete="off"
           value={this.state.endInputValue || ''}
           disabled={disabled}
-          readOnly={useMobileUI && isMobile()}
+          readOnly={mobileUI}
         />
 
         {/* 指示游标 */}
@@ -1730,7 +1775,7 @@ export class DateRangePicker extends React.Component<
         </a>
 
         {isOpened ? (
-          useMobileUI && isMobile() ? (
+          mobileUI ? (
             <PopUp
               isShow={isOpened}
               container={popOverContainer}
@@ -1740,6 +1785,7 @@ export class DateRangePicker extends React.Component<
               )}
               onHide={this.close}
               header={CalendarMobileTitle}
+              showClose={false}
             >
               {useCalendarMobile ? calendarMobile : this.renderCalendar()}
             </PopUp>

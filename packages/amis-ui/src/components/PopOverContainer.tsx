@@ -1,5 +1,5 @@
 import React from 'react';
-import {autobind, isMobile, PopOver, Overlay, toNumber} from 'amis-core';
+import {autobind, PopOver, Overlay, toNumber} from 'amis-core';
 import PopUp from './PopUp';
 import {findDOMNode} from 'react-dom';
 import isNumber from 'lodash/isNumber';
@@ -20,16 +20,18 @@ export interface PopOverContainerProps {
   popOverRender: (props: {onClose: () => void}) => JSX.Element;
   popOverContainer?: any;
   popOverClassName?: string;
-  useMobileUI?: boolean;
+  mobileUI?: boolean;
   placement?: string;
   overlayWidth?: number | string;
   overlayWidthField?: 'minWidth' | 'width';
+  showConfirm?: boolean;
   // 相当于 placement 的简化版
   align?: OverlayAlignType;
   /** Popover层隐藏前触发的事件 */
   onBeforeHide?: () => void;
   /** Popover层隐藏后触发的事件 */
   onAfterHide?: () => void;
+  onConfirm?: () => void;
 }
 
 export interface PopOverContainerState {
@@ -91,6 +93,12 @@ export class PopOverContainer extends React.Component<
     return this.getTarget()?.parentElement;
   }
 
+  @autobind
+  onConfirm() {
+    this.props.onConfirm?.();
+    this.close();
+  }
+
   static calcOverlayWidth(overlay: PopOverOverlay, targetWidth: number) {
     const overlayWidth = overlay && overlay.width;
 
@@ -136,15 +144,17 @@ export class PopOverContainer extends React.Component<
 
   render() {
     const {
-      useMobileUI,
+      mobileUI,
       children,
       popOverContainer,
       popOverClassName,
       popOverRender: dropdownRender,
       placement,
-      align
+      align,
+      showConfirm,
+      onConfirm
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
+
     return (
       <>
         {children({
@@ -155,9 +165,11 @@ export class PopOverContainer extends React.Component<
         {mobileUI ? (
           <PopUp
             isShow={this.state.isOpened}
-            container={popOverContainer}
+            container={document.body}
             className={popOverClassName}
+            showConfirm={showConfirm}
             onHide={this.close}
+            onConfirm={this.onConfirm}
           >
             {dropdownRender({onClose: this.close})}
           </PopUp>

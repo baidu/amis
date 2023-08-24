@@ -4,7 +4,7 @@
 import React from 'react';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
-import {cloneDeep} from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {Option, Options} from './Select';
 import {ThemeProps, themeable} from 'amis-core';
@@ -81,6 +81,7 @@ export class ResultList extends React.Component<
   id = guid();
   sortable?: Sortable;
   unmounted = false;
+  searchRef?: any;
 
   componentDidMount() {
     this.props.sortable && this.initSortable();
@@ -97,6 +98,14 @@ export class ResultList extends React.Component<
   componentWillUnmount() {
     this.desposeSortable();
     this.unmounted = true;
+  }
+
+  @autobind
+  domSearchRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
+    this.searchRef = ref;
   }
 
   initSortable() {
@@ -179,6 +188,14 @@ export class ResultList extends React.Component<
   @autobind
   clearSearch() {
     this.setState({searchResult: null});
+  }
+
+  @autobind
+  clearInput() {
+    if (this.props.searchable) {
+      this.searchRef?.clearInput?.();
+    }
+    this.clearSearch();
   }
 
   // 删除项
@@ -359,6 +376,7 @@ export class ResultList extends React.Component<
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
         {searchable ? (
           <TransferSearch
+            ref={this.domSearchRef}
             placeholder={searchPlaceholder}
             onSearch={this.search}
             onCancelSearch={this.clearSearch}

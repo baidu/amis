@@ -342,35 +342,82 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 
 ### reload
 
+#### 只做刷新
+
+重新发送`initApi`请求，刷新 Page 时，只配置`componentId`目标组件 ID 即可。
+
 ```schema
 {
   "type": "page",
-  "id": "page01",
+  "id": "page_reload_1",
   "initApi": "/api/mock2/page/initData",
   "body": [
     {
-      "type": "tpl",
-      "tpl": "当前时间是：${date}"
-    },
-    {
       "type": "button",
-      "label": "刷新请求",
+      "label": "刷新Page数据加载请求",
+      "className": "mb-2",
       "onEvent": {
         "click": {
           "actions": [
             {
-              "componentId": "page01",
+              "componentId": "page_reload_1",
               "actionType": "reload"
             }
           ]
         }
       }
+    },
+    {
+      "type": "tpl",
+      "tpl": "当前时间是：${date}"
+    }
+  ]
+}
+```
+
+#### 发送数据并刷新
+
+刷新 Page 组件时，如果配置了`data`，将先发送`data`给目标组件，并将该数据合并到目标组件的数据域中（如果配置`"dataMergeMode": "override"`将覆盖目标组件的数据），然后重新请求数据。
+
+```schema
+{
+  "type": "page",
+  "id": "page_reload_2",
+  "initApi": "/api/mock2/page/initData",
+  "body": [
+    {
+      "type": "button",
+      "label": "刷新Page数据加载请求，并将我的年龄设置为18",
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "page_reload_2",
+              "actionType": "reload",
+              "data": {
+                "age": 18
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "tpl",
+      "tpl": "当前时间是：${date}， 我的年龄：${age|default:'-'}"
     }
   ]
 }
 ```
 
 ### setValue
+
+通过`setValue`更新指定页面组件的数据。
+
+#### 合并数据
+
+默认`setValue`会将新数据与目标组件数据进行合并。
 
 ```schema
 {
@@ -379,12 +426,9 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
   "initApi": "/api/mock2/page/initData",
   "body": [
     {
-      "type": "tpl",
-      "tpl": "当前时间是：${date}"
-    },
-    {
       "type": "button",
       "label": "更新数据",
+      "className": "mb-2",
       "onEvent": {
         "click": {
           "actions": [
@@ -398,6 +442,47 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
           ]
         }
       }
+    },
+    {
+      "type": "tpl",
+      "tpl": "标题：${title} 当前时间是：${date}"
+    }
+  ]
+}
+```
+
+#### 覆盖数据
+
+可以通过`"dataMergeMode": "override"`来覆盖目标组件数据。
+
+```schema
+{
+  "type": "page",
+  "id": "page02",
+  "initApi": "/api/mock2/page/initData",
+  "body": [
+    {
+      "type": "button",
+      "label": "更新数据",
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "page02",
+              "actionType": "setValue",
+              "args": {
+                "value": {"date": "2023-05-01"}
+              },
+              "dataMergeMode": "override"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "tpl",
+      "tpl": "标题：${title|default:'-'} 当前时间是：${date}"
     }
   ]
 }

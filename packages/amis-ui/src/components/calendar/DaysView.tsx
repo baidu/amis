@@ -13,10 +13,9 @@ import {
   LocaleProps,
   localeable,
   ClassNamesFn,
-  utils,
-  convertArrayValueToMoment,
-  isMobile
+  convertArrayValueToMoment
 } from 'amis-core';
+import type {RendererEnv} from 'amis-core';
 import Picker from '../Picker';
 import {PickerOption} from '../PickerColumn';
 import {DateType} from './Calendar';
@@ -31,7 +30,7 @@ interface CustomDaysViewProps extends LocaleProps {
   selectedDate: moment.Moment;
   minDate: moment.Moment;
   maxDate: moment.Moment;
-  useMobileUI: boolean;
+  mobileUI: boolean;
   embed: boolean;
   timeFormat: string;
   requiredConfirm?: boolean;
@@ -73,6 +72,7 @@ interface CustomDaysViewProps extends LocaleProps {
     content: any;
     className?: string;
   }>;
+  env?: RendererEnv;
   largeMode?: boolean;
   todayActiveStyle?: React.CSSProperties;
   onScheduleClick?: (scheduleData: any) => void;
@@ -356,9 +356,17 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     this.props.onClose && this.props.onClose();
   };
 
+  curfilterHtml = (content: any) => {
+    const {env} = this.props;
+    if (env?.filterHtml) {
+      return env.filterHtml(content);
+    }
+    return content;
+  };
+
   renderDay = (props: any, currentDate: moment.Moment) => {
     const {todayActiveStyle} = props; /** 只有today才会传入这个属性 */
-    const {classnames: cx, translate: __} = this.props;
+    const {classnames: cx, translate: __, env} = this.props;
     const injectedProps = omit(props, ['todayActiveStyle']);
     /** 某些情况下需要用inline style覆盖动态class，需要hack important的样式 */
     const todayDomRef = (node: HTMLSpanElement | null) => {
@@ -462,6 +470,11 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
           });
           // 最多展示3个
           showSchedule = showSchedule.slice(0, 3);
+
+          const locale = this.props.viewDate.localeData();
+          // 以周几作为一周的开始，0表示周日，1表示周一
+          const firstDayOfWeek = locale.firstDayOfWeek();
+
           const scheduleDiv = showSchedule.map((item: any, index: number) => {
             let diffDays = moment(item.endTime).diff(
               moment(item.startTime),
@@ -476,9 +489,9 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
             /* 前面的计算结果是闭区间，所以最终结果要补足1 */
             diffDays += 1;
 
-            const width =
-              item.width ||
-              Math.min(diffDays, 7 - moment(item.startTime).weekday());
+            const endWidth =
+              7 - (moment(item.startTime).weekday() - firstDayOfWeek + 1);
+            const width = item.width || Math.min(diffDays, endWidth) || 1;
 
             return (
               <div
@@ -493,9 +506,12 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                   this.props.onScheduleClick(scheduleData)
                 }
               >
-                <div className={cx('ScheduleCalendar-text-overflow')}>
-                  {item.content}
-                </div>
+                <div
+                  className={cx('ScheduleCalendar-text-overflow')}
+                  dangerouslySetInnerHTML={{
+                    __html: this.curfilterHtml(item.content)
+                  }}
+                ></div>
               </div>
             );
           });
@@ -757,14 +773,14 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
   render() {
     const {
       viewDate: date,
-      useMobileUI,
+      mobileUI,
       embed,
       timeFormat,
       classnames: cx
     } = this.props;
     const locale = date.localeData();
     const __ = this.props.translate;
-    if (isMobile() && useMobileUI && !embed) {
+    if (mobileUI && !embed) {
       return <div className="rdtYears">{this.renderPicker()}</div>;
     }
 

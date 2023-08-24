@@ -2,7 +2,9 @@
  * 结果树(暂时不支持结果排序)
  */
 import React from 'react';
-import {cloneDeep, isEqual, omit} from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
+import omit from 'lodash/omit';
 
 import {Option, Options} from './Select';
 import {ThemeProps, themeable} from 'amis-core';
@@ -161,6 +163,8 @@ export class BaseResultTreeList extends React.Component<
     searchTreeOptions: []
   };
 
+  searchRef?: any;
+
   static getDerivedStateFromProps(props: ResultTreeListProps) {
     const newOptions = getResultOptions(
       props.value,
@@ -170,6 +174,14 @@ export class BaseResultTreeList extends React.Component<
     return {
       treeOptions: cloneDeep(newOptions)
     };
+  }
+
+  @autobind
+  domSearchRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
+    this.searchRef = ref;
   }
 
   // 删除非选中节点
@@ -257,6 +269,14 @@ export class BaseResultTreeList extends React.Component<
     });
   }
 
+  @autobind
+  clearInput() {
+    if (this.props.searchable) {
+      this.searchRef?.clearInput?.();
+    }
+    this.clearSearch();
+  }
+
   renderTree() {
     const {
       className,
@@ -312,6 +332,7 @@ export class BaseResultTreeList extends React.Component<
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
         {searchable ? (
           <TransferSearch
+            ref={this.domSearchRef}
             placeholder={searchPlaceholder}
             onSearch={this.search}
             onCancelSearch={this.clearSearch}

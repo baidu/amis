@@ -20,6 +20,7 @@ import {Icon} from 'amis-editor-core';
 import {JSONChangeInArray, JSONPipeIn, repeatArray} from 'amis-editor-core';
 
 export class GridPlugin extends BasePlugin {
+  static id = 'GridPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'grid';
@@ -312,6 +313,7 @@ export class GridPlugin extends BasePlugin {
                     label: '水平对齐',
                     tiled: true,
                     pipeIn: defaultValue('left'),
+                    inputClassName: 'flex-nowrap',
                     options: [
                       {
                         value: 'left',
@@ -338,6 +340,7 @@ export class GridPlugin extends BasePlugin {
                     label: '垂直对齐',
                     tiled: true,
                     pipeIn: defaultValue('top'),
+                    inputClassName: 'flex-nowrap',
                     options: [
                       {
                         value: 'top',
@@ -371,7 +374,7 @@ export class GridPlugin extends BasePlugin {
                   getSchemaTpl('subFormItemMode'),
                   getSchemaTpl('subFormHorizontalMode'),
                   getSchemaTpl('subFormHorizontal'),
-                  ...getSchemaTpl('theme:common', ['layout'])
+                  ...getSchemaTpl('theme:common', {exclude: ['layout']})
                 ])
               ]
             }
@@ -521,6 +524,7 @@ export class GridPlugin extends BasePlugin {
                       label: false,
                       tiled: true,
                       clearable: true,
+                      inputClassName: 'flex-nowrap',
                       options: [
                         {
                           value: 'top',
@@ -549,7 +553,7 @@ export class GridPlugin extends BasePlugin {
             title: '外观',
             body: [
               getSchemaTpl('collapseGroup', [
-                ...getSchemaTpl('theme:common', ['layout'])
+                ...getSchemaTpl('theme:common', {exclude: ['layout']})
               ])
             ]
           }

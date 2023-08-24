@@ -23,7 +23,10 @@ import {
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
-import {flattenDeep, fromPairs, isObject, remove} from 'lodash';
+import flattenDeep from 'lodash/flattenDeep';
+import fromPairs from 'lodash/fromPairs';
+import isObject from 'lodash/isObject';
+import remove from 'lodash/remove';
 import type {ButtonSchema} from 'amis';
 import type {FormSchema, SchemaObject} from 'amis';
 import {findTree} from 'amis';
@@ -477,6 +480,7 @@ const DataOperators: Array<FeatOption> = [
 ];
 
 export class CRUDPlugin extends BasePlugin {
+  static id = 'CRUD2Plugin';
   constructor(manager: EditorManager) {
     super(manager);
     this.dsBuilderMgr = new DSBuilderManager('crud2', 'api');
@@ -1304,14 +1308,6 @@ export class CRUDPlugin extends BasePlugin {
       canRebuild: true
     };
   }
-
-  events: RendererPluginEvent[] = [
-    {
-      eventName: 'get-data',
-      eventLabel: '数据加载',
-      description: '列表数据翻页'
-    }
-  ];
 
   actions: RendererPluginAction[] = [
     {

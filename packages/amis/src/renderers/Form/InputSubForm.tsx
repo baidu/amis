@@ -8,6 +8,9 @@ import {Icon} from 'amis-ui';
 import {FormBaseControlSchema, FormSchema, SchemaClassName} from '../../Schema';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
+import {isMobile} from 'amis-core';
+import {PopUp} from 'amis-ui';
+import {autobind} from 'amis-core';
 
 /**
  * SubForm 子表单
@@ -142,7 +145,7 @@ export default class SubFormControl extends React.PureComponent<
     addButtonClassName: '',
     itemClassName: '',
     labelField: 'label',
-    btnLabel: 'SubForm.button',
+    defaultLabel: 'SubForm.button',
     placeholder: 'placeholder.empty'
   };
 
@@ -152,6 +155,7 @@ export default class SubFormControl extends React.PureComponent<
   dragTip?: HTMLElement;
   sortable?: Sortable;
   id: string = guid();
+  tempValue: any;
   constructor(props: SubFormProps) {
     super(props);
 
@@ -211,6 +215,7 @@ export default class SubFormControl extends React.PureComponent<
       return;
     }
 
+    this.tempValue = value[index];
     this.setState({
       dialogData: createObject(this.props.data, value[index]),
       dialogCtx: {
@@ -249,6 +254,36 @@ export default class SubFormControl extends React.PureComponent<
       onChange({
         ...value,
         ...values[0]
+      });
+    }
+
+    this.close();
+  }
+
+  @autobind
+  handlePopupConfirm() {
+    const values = this.tempValue;
+    const {multiple, onChange, value} = this.props;
+    const ctx = this.state.dialogCtx;
+
+    if (multiple) {
+      let newValue = Array.isArray(value) ? value.concat() : [];
+
+      if (ctx?.mode === 'add') {
+        newValue.push({
+          ...values
+        });
+      } else {
+        newValue[ctx!.index!] = {
+          ...newValue[ctx!.index!],
+          ...values
+        };
+      }
+      onChange(newValue);
+    } else {
+      onChange({
+        ...value,
+        ...values
       });
     }
 
@@ -327,8 +362,34 @@ export default class SubFormControl extends React.PureComponent<
       type: 'dialog',
       body: {
         type: 'form',
-        ...omit(form, dialogProps)
+        canAccessSuperData: false,
+        ...omit(form, dialogProps),
+        inheritData: false
       }
+    };
+  }
+
+  buildFormSchema() {
+    let {form} = this.props;
+
+    const dialogProps = [
+      'title',
+      'actions',
+      'name',
+      'size',
+      'closeOnEsc',
+      'closeOnOutside',
+      'showErrorMsg',
+      'showCloseButton',
+      'bodyClassName',
+      'type'
+    ];
+
+    return {
+      type: 'form',
+      canAccessSuperData: false,
+      ...omit(form, dialogProps),
+      inheritData: false
     };
   }
 
@@ -340,6 +401,7 @@ export default class SubFormControl extends React.PureComponent<
       disabled,
       maxLength,
       labelField,
+      defaultLabel,
       value,
       btnLabel,
       render,
@@ -377,10 +439,7 @@ export default class SubFormControl extends React.PureComponent<
                 ) : null}
 
                 <span className={cx('SubForm-valueLabel')}>
-                  {(item &&
-                    labelField &&
-                    item[labelField] &&
-                    stripTag(item[labelField])) ||
+                  {btnLabel &&
                     render(
                       'label',
                       {
@@ -391,6 +450,12 @@ export default class SubFormControl extends React.PureComponent<
                         data: createObject(data, item)
                       }
                     )}
+                  {!btnLabel &&
+                    ((item &&
+                      labelField &&
+                      item[labelField] &&
+                      stripTag(item[labelField])) ||
+                      __(defaultLabel))}
                 </span>
                 <a
                   data-index={key}
@@ -457,6 +522,7 @@ export default class SubFormControl extends React.PureComponent<
       disabled,
       value,
       labelField,
+      defaultLabel,
       btnLabel,
       render,
       data,
@@ -478,10 +544,7 @@ export default class SubFormControl extends React.PureComponent<
           data-position="bottom"
         >
           <span className={cx('SubForm-valueLabel')}>
-            {(value &&
-              labelField &&
-              value[labelField] &&
-              stripTag(value[labelField])) ||
+            {btnLabel &&
               render(
                 'label',
                 {
@@ -492,6 +555,12 @@ export default class SubFormControl extends React.PureComponent<
                   data: createObject(data, value)
                 }
               )}
+            {!btnLabel &&
+              ((value &&
+                labelField &&
+                value[labelField] &&
+                stripTag(value[labelField])) ||
+                __(defaultLabel))}
           </span>
           <a className={cx('SubForm-valueEdit')}>
             <Icon icon="pencil" className="icon" />
@@ -502,20 +571,54 @@ export default class SubFormControl extends React.PureComponent<
   }
 
   render() {
-    const {multiple, classPrefix: ns, className, style, render} = this.props;
+    const {
+      multiple,
+      classPrefix: ns,
+      className,
+      style,
+      render,
+      mobileUI,
+      env,
+      popOverContainer
+    } = this.props;
     const dialogData = this.state.dialogData;
     const dialogCtx = this.state.dialogCtx;
 
     return (
       <div className={cx(`${ns}SubFormControl`, className)}>
         {multiple ? this.renderMultipe() : this.renderSingle()}
-        {render(`modal`, this.buildDialogSchema(), {
-          show: !!dialogCtx,
-          onClose: this.close,
-          onConfirm: this.handleDialogConfirm,
-          data: dialogData,
-          formStore: undefined
-        })}
+        {!mobileUI ? (
+          render(`modal`, this.buildDialogSchema(), {
+            show: !!dialogCtx,
+            onClose: this.close,
+            onConfirm: this.handleDialogConfirm,
+            data: dialogData,
+            formStore: undefined
+          })
+        ) : (
+          <PopUp
+            isShow={!!dialogCtx}
+            showConfirm
+            onConfirm={this.handlePopupConfirm}
+            onHide={this.close}
+            container={
+              mobileUI
+                ? env?.getModalContainer
+                : popOverContainer || env.getModalContainer
+            }
+          >
+            <div className="flex-1 pl-10 pr-10">
+              {render('form', this.buildFormSchema(), {
+                data: dialogData,
+                formStore: undefined,
+                wrapWithPanel: false,
+                onChange: (val: any) => {
+                  this.tempValue = val;
+                }
+              })}
+            </div>
+          </PopUp>
+        )}
       </div>
     );
   }

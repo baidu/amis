@@ -3,10 +3,9 @@ import cx from 'classnames';
 import Preview from './Preview';
 import {autobind} from '../util';
 import {MainStore, EditorStoreType} from '../store/editor';
-import type {SchemaObject} from 'amis';
 import {EditorManager, EditorManagerConfig, PluginClass} from '../manager';
 import {reaction} from 'mobx';
-import {RenderOptions, toast} from 'amis';
+import {RenderOptions, closeContextMenus, toast} from 'amis';
 import {PluginEventListener, RendererPluginAction} from '../plugin';
 import {reGenerateID} from '../util';
 import {SubEditor} from './SubEditor';
@@ -17,7 +16,9 @@ import {PopOverForm} from './PopOverForm';
 import {ContextMenuPanel} from './Panel/ContextMenuPanel';
 import {LeftPanels} from './Panel/LeftPanels';
 import {RightPanels} from './Panel/RightPanels';
+import type {SchemaObject} from 'amis';
 import type {VariableGroup, VariableOptions} from '../variable';
+import type {EditorNodeType} from '../store/node';
 
 export interface EditorProps extends PluginEventListener {
   value: SchemaObject;
@@ -48,7 +49,7 @@ export interface EditorProps extends PluginEventListener {
    * Preview 预览前可以修改配置。
    * 比如把api地址替换成 proxy 地址。
    */
-  schemaFilter?: (schema: any) => any;
+  schemaFilter?: (schema: any, preview?: boolean) => any;
   amisEnv?: RenderOptions;
 
   /**
@@ -81,10 +82,6 @@ export interface EditorProps extends PluginEventListener {
    */
   previewProps?: any;
 
-  // 如果配置了，编辑器变成 iframe 模式。
-  // 需要自己写代码去建立连接。
-  iframeUrl?: string;
-
   isHiddenProps?: (key: string) => boolean;
 
   /**
@@ -116,6 +113,19 @@ export interface EditorProps extends PluginEventListener {
   onRedo?: () => void; // 用于触发外部 redo 事件
   onSave?: () => void; // 用于触发外部 save 事件
   onPreview?: (preview: boolean) => void; // 用于触发外部 预览 事件
+
+  /** 打开公式编辑器之前触发的事件 */
+  onFormulaEditorOpen?: (
+    node: EditorNodeType,
+    manager: EditorManager,
+    ctx: Record<string, any>,
+    host?: {
+      node?: EditorNodeType;
+      manager?: EditorManager;
+    }
+  ) => Promise<void | boolean>;
+
+  getHostNodeDataSchema?: () => Promise<any>;
 }
 
 export default class Editor extends Component<EditorProps> {
@@ -164,6 +174,7 @@ export default class Editor extends Component<EditorProps> {
     if (showCustomRenderersPanel !== undefined) {
       this.store.setShowCustomRenderersPanel(showCustomRenderersPanel);
     }
+
     this.manager = new EditorManager(config, this.store);
 
     // 子编辑器不再重新设置 editorStore
@@ -393,6 +404,7 @@ export default class Editor extends Component<EditorProps> {
   // 右键菜单
   @autobind
   handleContextMenu(e: React.MouseEvent<HTMLElement>) {
+    closeContextMenus();
     let targetId: string = '';
     let region = '';
 
@@ -434,11 +446,20 @@ export default class Editor extends Component<EditorProps> {
 
     e.preventDefault();
     e.stopPropagation();
-
     const manager = this.manager;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    // 说明是 iframe 里面
+    if ((e.target as HTMLElement).ownerDocument !== document) {
+      const rect = manager.store.getIframe()!.getBoundingClientRect();
+      offsetX = rect.left;
+      offsetY = rect.top;
+    }
+
     manager.openContextMenu(targetId, region, {
-      x: window.scrollX + e.clientX,
-      y: window.scrollY + e.clientY
+      x: window.scrollX + e.clientX + offsetX,
+      y: window.scrollY + e.clientY + offsetY
     });
   }
 
@@ -525,7 +546,6 @@ export default class Editor extends Component<EditorProps> {
       theme,
       appLocale,
       data,
-      iframeUrl,
       previewProps,
       autoFocus,
       isSubEditor,
@@ -558,7 +578,6 @@ export default class Editor extends Component<EditorProps> {
             )}
             <Preview
               {...previewProps}
-              iframeUrl={iframeUrl}
               editable={!preview}
               isMobile={isMobile}
               store={this.store}

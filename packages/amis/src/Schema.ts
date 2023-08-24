@@ -350,6 +350,7 @@ export type SchemaType =
   | 'words'
   | 'password'
   | 'multiline-text'
+  | 'amis'
 
   // 原生 input 类型
   | 'native-date'
@@ -582,7 +583,7 @@ export interface SchemaApiObject {
 
   /**
    * 当开启自动刷新的时候，默认是 api 的 url 来自动跟踪变量变化的。
-   * 如果你希望监控 url 外的变量，请配置 traceExpression。
+   * 如果你希望监控 url 外的变量，请配置 trackExpression。
    */
   trackExpression?: string;
 

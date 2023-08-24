@@ -513,11 +513,7 @@ export default class OptionControl extends React.Component<
                 tooltip: labelRemark,
                 className: cx(`Form-lableRemark`, labelRemark?.className),
                 useMobileUI,
-                container: popOverContainer
-                  ? popOverContainer
-                  : env && env.getModalContainer
-                  ? env.getModalContainer
-                  : undefined
+                container: popOverContainer || env.getModalContainer
               })
             : null}
         </label>
@@ -635,14 +631,13 @@ export default class OptionControl extends React.Component<
                   }
                 ]
               },
-              {
-                type: 'ae-expressionFormulaControl',
+              getSchemaTpl('expressionFormulaControl', {
                 name: 'optionHiddenOn',
                 label: '隐藏',
                 labelClassName: 'ae-OptionControlItem-EditLabel',
                 valueClassName: 'ae-OptionControlItem-EditValue',
                 onChange: (v: string) => this.handleHiddenValueChange(index, v)
-              },
+              }),
               {
                 type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 placeholder: '请输入角标文本',

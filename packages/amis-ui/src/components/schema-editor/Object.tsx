@@ -199,7 +199,8 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
       onTypeChange,
       enableAdvancedSetting,
       popOverContainer,
-      placeholder
+      placeholder,
+      mobileUI
     } = this.props;
     const members = this.state.members;
 
@@ -212,6 +213,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
         {members.length ? (
           members.map((member, index) => (
             <SchemaEditorItem
+              mobileUI={mobileUI}
               key={member.id}
               types={types}
               onTypeChange={onTypeChange}
@@ -226,6 +228,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
                     onChange={this.handlePropKeyChange.bind(this, index)}
                     placeholder={__(placeholder?.key ?? '')}
                     disabled={disabled || !!value?.$ref}
+                    mobileUI={mobileUI}
                   />
 
                   <InputBox
@@ -234,6 +237,7 @@ export class SchemaEditorItemObject extends SchemaEditorItemCommon<
                     onChange={this.handlePropTitleChange.bind(this, index)}
                     placeholder={__(placeholder?.title ?? '')}
                     disabled={disabled || !!value?.$ref}
+                    mobileUI={mobileUI}
                   />
                 </>
               }

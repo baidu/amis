@@ -17,7 +17,7 @@ Container 是一种容器组件，它可以渲染其他 amis 组件。
 ```schema: scope="body"
 {
     "type": "container",
-    "body":"这里是容器内容区"
+    "body": "这里是容器内容区"
 }
 ```
 
@@ -57,3 +57,87 @@ container 可以通过 style 来设置样式，比如背景色或背景图，注
 | wrapperComponent | `string`                                  | `"div"`       | 容器标签名              |
 | style            | `Object`                                  |               | 自定义样式              |
 | body             | [SchemaNode](../../docs/types/schemanode) |               | 容器内容                |
+
+## 事件表
+
+> 3.3.0 及以上版本
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称   | 事件参数 | 说明           |
+| ---------- | -------- | -------------- |
+| click      | -        | 点击时触发     |
+| mouseenter | -        | 鼠标移入时触发 |
+| mouseleave | -        | 鼠标移出时触发 |
+
+### click
+
+鼠标点击。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+    "type": "container",
+    "body": "这里是容器内容区",
+    "onEvent": {
+        "click": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                        "msgType": "info",
+                        "msg": "${event.context.nativeEvent.type}"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+### mouseenter
+
+鼠标移入。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+    "type": "container",
+    "body": "这里是容器内容区",
+    "onEvent": {
+        "mouseenter": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                        "msgType": "info",
+                        "msg": "${event.context.nativeEvent.type}"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+### mouseleave
+
+鼠标移出。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+    "type": "container",
+    "body": "这里是容器内容区",
+    "onEvent": {
+        "mouseleave": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                        "msgType": "info",
+                        "msg": "${event.context.nativeEvent.type}"
+                    }
+                }
+            ]
+        }
+    }
+}
+```

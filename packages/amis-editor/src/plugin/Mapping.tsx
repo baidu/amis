@@ -13,6 +13,7 @@ import {
 import {schemaArrayFormat, schemaToArray} from '../util';
 
 export class MappingPlugin extends BasePlugin {
+  static id = 'MappingPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'mapping';
@@ -29,7 +30,7 @@ export class MappingPlugin extends BasePlugin {
   pluginIcon = 'mapping-plugin';
   scaffold = {
     type: 'mapping',
-    value: 2,
+    value: 1,
     map: {
       1: '开心',
       2: '愤怒',

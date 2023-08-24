@@ -11,11 +11,16 @@ import {
   autobind,
   stripNumber,
   filter,
-  ActionObject
+  ActionObject,
+  isMobile,
+  isPureVariable,
+  resolveVariableAndFilter
 } from 'amis-core';
 import {Range as InputRange, NumberInput, Icon} from 'amis-ui';
 import {FormBaseControlSchema, SchemaObject} from '../../Schema';
 import {supportStatic} from './StaticHoc';
+
+import type {SchemaTokenizeableString} from '../../Schema';
 
 /**
  * Range
@@ -38,17 +43,17 @@ export interface RangeControlSchema extends FormBaseControlSchema {
   /**
    * 最大值
    */
-  max?: number;
+  max?: number | SchemaTokenizeableString;
 
   /**
    * 最小值
    */
-  min?: number;
+  min?: number | SchemaTokenizeableString;
 
   /**
    * 步长
    */
-  step?: number;
+  step?: number | SchemaTokenizeableString;
 
   /**
    * 单位
@@ -130,17 +135,17 @@ export interface RangeProps extends FormControlProps {
   /**
    * 最小值
    */
-  min: number;
+  min: number | SchemaTokenizeableString;
 
   /**
    * 最大值
    */
-  max: number;
+  max: number | SchemaTokenizeableString;
 
   /**
    * 步长
    */
-  step: number;
+  step: number | SchemaTokenizeableString;
 
   /**
    * 是否展示步长
@@ -240,7 +245,11 @@ export interface DefaultProps {
   tooltipPlacement: TooltipPosType;
 }
 
-export interface RangeItemProps extends RangeProps {
+export interface RangeItemProps
+  extends Omit<RangeProps, 'min' | 'max' | 'step'> {
+  min: number;
+  max: number;
+  step: number;
   value: FormatValue;
   onChange: (value: Value) => void;
   onAfterChange: () => void;
@@ -249,6 +258,29 @@ export interface RangeItemProps extends RangeProps {
 export interface RangeState {
   value: FormatValue;
 }
+
+const resolveNumVariable = (
+  value: number | string | undefined,
+  data: Record<string, any> = {},
+  fallback: number
+) => {
+  if (typeof value === 'string') {
+    value = isPureVariable(value)
+      ? resolveVariableAndFilter(value, data)
+      : value;
+
+    if (typeof value === 'string') {
+      const result = parseFloat(value);
+      return isNaN(result) ? fallback : result;
+    } else if (typeof value === 'number') {
+      return value;
+    }
+  } else if (typeof value === 'number') {
+    return value;
+  }
+
+  return value ?? fallback;
+};
 
 /**
  * 格式化初始value值
@@ -335,7 +367,8 @@ export class Input extends React.Component<RangeItemProps, any> {
    * @returns
    */
   getStepPrecision() {
-    const {step} = this.props;
+    const {step: rawStep, data} = this.props;
+    const step = resolveNumVariable(rawStep, data, 1);
     const stepIsDecimal = /^\d+\.\d+$/.test(step.toString());
     return !stepIsDecimal || step < 0
       ? 0
@@ -349,7 +382,8 @@ export class Input extends React.Component<RangeItemProps, any> {
    * @returns 处理之后数据
    */
   getValue(value: string | number, type?: string) {
-    const {max, min, step, value: stateValue} = this.props as RangeItemProps;
+    const {min, max, step, value: stateValue} = this.props as RangeItemProps;
+
     // value为null、undefined时，取对应的min/max
     value = value ?? (type === 'min' ? min : max);
     // 校正value为step的倍数
@@ -436,7 +470,8 @@ export class Input extends React.Component<RangeItemProps, any> {
       classPrefix: ns,
       disabled,
       max,
-      min
+      min,
+      mobileUI
     } = this.props;
     const _value = multiple
       ? type === 'min'
@@ -454,6 +489,7 @@ export class Input extends React.Component<RangeItemProps, any> {
           disabled={disabled}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
+          mobileUI={mobileUI}
         />
       </div>
     );
@@ -485,12 +521,13 @@ export default class RangeControl extends React.PureComponent<
 
   constructor(props: RangeProps) {
     super(props);
-    const {value: propsValue, multiple, delimiter, min, max} = this.props;
+    const {value: propsValue, multiple, delimiter, min, max, data} = this.props;
+
     const value = formatValue(propsValue, {
       multiple,
       delimiter,
-      min,
-      max
+      min: resolveNumVariable(min, data, 0),
+      max: resolveNumVariable(max, data, 0)
     });
 
     this.state = {
@@ -499,26 +536,31 @@ export default class RangeControl extends React.PureComponent<
   }
 
   componentDidUpdate(prevProps: RangeProps) {
-    const {value, min, max} = prevProps;
+    const {value, min, max, data: prevData} = prevProps;
     const {
       value: nextPropsValue,
       multiple,
       delimiter,
       min: nextPropsMin,
       max: nextPropsMax,
+      data,
       onChange
     } = this.props;
+    const prevMin = resolveNumVariable(min, prevData, 0);
+    const prevMax = resolveNumVariable(max, prevData, 100);
+    const nextMin = resolveNumVariable(nextPropsMin, data, 0);
+    const nextMax = resolveNumVariable(nextPropsMax, data, 100);
 
     if (
       value !== nextPropsValue ||
-      min !== nextPropsMin ||
-      max !== nextPropsMax
+      prevMin !== nextMin ||
+      prevMax !== nextMax
     ) {
       const value = formatValue(nextPropsValue, {
         multiple,
         delimiter,
-        min: nextPropsMin,
-        max: nextPropsMax
+        min: nextMin,
+        max: nextMax
       });
       this.setState({
         value: this.getValue(value)
@@ -528,7 +570,6 @@ export default class RangeControl extends React.PureComponent<
 
   doAction(action: ActionObject, data: object, throwErrors: boolean) {
     const actionType = action?.actionType as string;
-    const {multiple, min, max} = this.props;
 
     if (!!~['clear', 'reset'].indexOf(actionType)) {
       this.clearValue(actionType);
@@ -537,7 +578,10 @@ export default class RangeControl extends React.PureComponent<
 
   @autobind
   clearValue(type: string = 'clear') {
-    const {multiple, min, max, onChange} = this.props;
+    const {multiple, min: rawMin, max: rawMax, data, onChange} = this.props;
+    const min = resolveNumVariable(rawMin, data, 0);
+    const max = resolveNumVariable(rawMax, data, 100);
+
     let resetValue = this.props.resetValue;
 
     if (type === 'clear') {
@@ -601,10 +645,12 @@ export default class RangeControl extends React.PureComponent<
    * 获取导出格式数据
    */
   @autobind
-  getFormatValue(value: FormatValue) {
-    const {multiple, joinValues, delimiter} = this.props;
+  getFormatValue(value: FormatValue): Value {
+    const {multiple, joinValues, delimiter, extraName} = this.props;
     return multiple
-      ? joinValues
+      ? extraName
+        ? [(value as MultipleValue).min, (value as MultipleValue).max]
+        : joinValues
         ? [(value as MultipleValue).min, (value as MultipleValue).max].join(
             delimiter || ','
           )
@@ -620,6 +666,10 @@ export default class RangeControl extends React.PureComponent<
     const {value} = this.state;
     const props: RangeItemProps = {
       ...this.props,
+      /** 解析变量，下面组件透传属性时使用 props 即可 */
+      min: resolveNumVariable(this.props.min, this.props.data, 0),
+      max: resolveNumVariable(this.props.max, this.props.data, 0),
+      step: resolveNumVariable(this.props.step, this.props.data, 1),
       value,
       onChange: this.handleChange,
       onAfterChange: this.onAfterChange
@@ -638,7 +688,8 @@ export default class RangeControl extends React.PureComponent<
       max,
       render,
       marks,
-      region
+      region,
+      mobileUI
     } = props;
 
     // 处理自定义json配置
@@ -660,6 +711,7 @@ export default class RangeControl extends React.PureComponent<
           'RangeControl',
           `${ns}InputRange`,
           {'is-disabled': disabled},
+          {'is-mobile': mobileUI},
           className
         )}
       >

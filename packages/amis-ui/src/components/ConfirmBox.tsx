@@ -4,9 +4,12 @@ import Button from './Button';
 import Drawer from './Drawer';
 import {localeable, LocaleProps, themeable, ThemeProps} from 'amis-core';
 import Spinner from './Spinner';
+import PopUp from './PopUp';
+import {findDOMNode} from 'react-dom';
 
 export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
   show?: boolean;
+  disabled?: boolean;
   closeOnEsc?: boolean;
   beforeConfirm?: (bodyRef?: any) => any;
   onConfirm?: (data: any) => void;
@@ -24,6 +27,7 @@ export interface ConfirmBoxProps extends LocaleProps, ThemeProps {
             }
           | undefined
         >;
+        popOverContainer: () => HTMLElement | null | undefined;
       }) => JSX.Element);
   popOverContainer?: any;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -56,13 +60,23 @@ export function ConfirmBox({
   classnames: cx,
   className,
   bodyClassName,
-  footerClassName
+  footerClassName,
+  mobileUI,
+  disabled
 }: ConfirmBoxProps) {
   const [loading, setLoading] = React.useState<boolean>();
   const [error, setError] = React.useState<string>();
   const bodyRef = React.useRef<
     {submit: () => Promise<Record<string, any>>} | undefined
   >();
+  const bodyDomRef = React.useRef<HTMLElement | null>();
+  const getPopOverContainer = React.useCallback(() => {
+    const dom =
+      bodyDomRef.current && !(bodyDomRef.current as HTMLElement).nodeType
+        ? findDOMNode(bodyDomRef.current)
+        : null;
+    return dom?.parentElement;
+  }, []);
   const handleConfirm = React.useCallback(async () => {
     setError('');
     setLoading(true);
@@ -90,7 +104,23 @@ export function ConfirmBox({
   }, [show]);
 
   function renderDialog() {
-    return (
+    return mobileUI ? (
+      <PopUp
+        isShow={show}
+        showConfirm
+        onConfirm={handleConfirm}
+        onHide={onCancel}
+        container={popOverContainer}
+      >
+        {typeof children === 'function'
+          ? children({
+              bodyRef: bodyRef,
+              loading,
+              popOverContainer: getPopOverContainer
+            })
+          : children}
+      </PopUp>
+    ) : (
       <Modal
         size={size}
         closeOnEsc={closeOnEsc}
@@ -104,11 +134,12 @@ export function ConfirmBox({
             {title}
           </Modal.Header>
         ) : null}
-        <Modal.Body className={bodyClassName}>
+        <Modal.Body ref={bodyDomRef as any} className={bodyClassName}>
           {typeof children === 'function'
             ? children({
                 bodyRef: bodyRef,
-                loading
+                loading,
+                popOverContainer: getPopOverContainer
               })
             : children}
         </Modal.Body>
@@ -125,7 +156,11 @@ export function ConfirmBox({
             <Button disabled={loading} onClick={onCancel}>
               {__('cancel')}
             </Button>
-            <Button disabled={loading} onClick={handleConfirm} level="primary">
+            <Button
+              disabled={loading || disabled}
+              onClick={handleConfirm}
+              level="primary"
+            >
               {__('confirm')}
             </Button>
           </Modal.Footer>
@@ -152,10 +187,15 @@ export function ConfirmBox({
             <div className={cx('Drawer-title')}>{title}</div>
           </div>
         ) : null}
-        <div className={cx('Drawer-body', bodyClassName)}>
+        <div
+          ref={bodyDomRef as any}
+          className={cx('Drawer-body', bodyClassName)}
+        >
           {typeof children === 'function'
             ? children({
-                bodyRef: bodyRef
+                bodyRef: bodyRef,
+                loading,
+                popOverContainer: getPopOverContainer
               })
             : children}
         </div>

@@ -29,6 +29,7 @@ import {
 } from '../../Schema';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
+import {filter} from 'amis-core';
 
 /**
  * File 文件上传控件
@@ -348,7 +349,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     file: any;
     executor: () => void;
   }> = [];
-  initAutoFill: boolean;
+  initedFilled = false;
 
   static valueToFile(
     value: string | FileValue,
@@ -398,7 +399,6 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     const joinValues = props.joinValues;
     const delimiter = props.delimiter as string;
     let files: Array<FileValue> = [];
-    this.initAutoFill = !!props.initAutoFill;
 
     if (value && value instanceof Blob) {
       files = [value as any];
@@ -438,11 +438,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   componentDidMount() {
-    if (this.initAutoFill) {
-      const {formInited, addHook} = this.props;
-      formInited || !addHook
-        ? this.syncAutoFill()
-        : addHook(this.syncAutoFill, 'init');
+    const {formInited, addHook} = this.props;
+
+    if (formInited || !addHook) {
+      this.initedFilled = true;
+      this.props.initAutoFill && this.syncAutoFill();
+    } else if (addHook) {
+      addHook(() => {
+        this.initedFilled = true;
+        this.props.initAutoFill && this.syncAutoFill();
+      }, 'init');
     }
   }
 
@@ -494,7 +499,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         {
           files: files
         },
-        props.formInited !== false ? this.syncAutoFill : undefined
+        props.changeMotivation !== 'formInited' && this.initedFilled
+          ? this.syncAutoFill
+          : undefined
       );
     }
   }
@@ -1347,6 +1354,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       downloadUrl,
       templateUrl,
       drag,
+      data,
       documentation,
       documentLink,
       env,
@@ -1456,9 +1464,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                         ? __('File.repick')
                         : multiple && files.length
                         ? __('File.continueAdd')
-                        : btnLabel
-                        ? btnLabel
-                        : __('File.upload')}
+                        : filter(btnLabel, data) || __('File.upload')}
                     </span>
                   </Button>
                 </>
@@ -1486,14 +1492,19 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             {files.map((file, index) => {
               const filename =
                 file[nameField as keyof typeof file] ||
-                (file as FileValue).filename;
+                (file as FileValue).filename ||
+                file.name;
 
               return (
                 <li key={file.id}>
                   <TooltipWrapper
                     placement="bottom"
                     container={container || env?.getModalContainer}
-                    tooltipClassName={cx('FileControl-list-tooltip')}
+                    tooltipClassName={cx(
+                      'FileControl-list-tooltip',
+                      (file.state === 'invalid' || file.state === 'error') &&
+                        'is-invalid'
+                    )}
                     tooltip={
                       file.state === 'invalid' || file.state === 'error'
                         ? (file as FileValue).error ||
@@ -1504,7 +1515,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                                 maxSize: prettyBytes(maxSize, 1024)
                               })
                             : '')
-                        : ''
+                        : filename
                     }
                   >
                     <div

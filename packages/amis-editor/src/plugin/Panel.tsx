@@ -14,6 +14,7 @@ import {
 } from 'amis-editor-core';
 
 export class PanelPlugin extends BasePlugin {
+  static id = 'PanelPlugin';
   // 关联渲染器名字
   rendererName = 'panel';
   $schema = '/schemas/panelSchema.json';

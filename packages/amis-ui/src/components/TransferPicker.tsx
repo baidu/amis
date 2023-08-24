@@ -20,6 +20,7 @@ export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
   onFocus?: () => void;
 
   onBlur?: () => void;
+  popOverContainer?: any;
 }
 
 export class TransferPicker extends React.Component<TransferPickerProps> {
@@ -51,6 +52,8 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
       size,
       borderMode,
       labelField = 'label',
+      mobileUI,
+      popOverContainer,
       ...rest
     } = this.props;
 
@@ -59,9 +62,12 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
         title={__('Select.placeholder')}
         onFocus={this.onFoucs}
         onClose={this.onBlur}
+        mobileUI={mobileUI}
+        popOverContainer={popOverContainer}
         bodyRender={({onClose, value, onChange, setState, ...states}) => {
           return (
             <Transfer
+              mobileUI={mobileUI}
               {...rest}
               {...states}
               value={value}
@@ -103,10 +109,13 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
             itemRender={option => (
               <span>{(option && option[labelField]) || 'undefined'}</span>
             )}
+            mobileUI={mobileUI}
           >
-            <span className={cx('TransferPicker-icon')}>
-              <Icon icon="pencil" className="icon" />
-            </span>
+            {!mobileUI ? (
+              <span className={cx('TransferPicker-icon')}>
+                <Icon icon="pencil" className="icon" />
+              </span>
+            ) : null}
           </ResultBox>
         )}
       </PickerContainer>

@@ -52,7 +52,7 @@ export interface ConditionItemProps extends ThemeProps, LocaleProps {
   formula?: FormulaPickerProps;
   popOverContainer?: any;
   renderEtrValue?: any;
-  selectMode?: 'list' | 'tree';
+  selectMode?: 'list' | 'tree' | 'chained';
 }
 
 export class ConditionItem extends React.Component<ConditionItemProps> {
@@ -174,7 +174,8 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       value,
       classnames: cx,
       disabled,
-      popOverContainer
+      popOverContainer,
+      mobileUI
     } = this.props;
     const left = value?.left;
     let operators: any[] = [];
@@ -213,6 +214,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       });
       return (
         <PopOverContainer
+          mobileUI={mobileUI}
           popOverContainer={popOverContainer || (() => findDOMNode(this))}
           popOverRender={({onClose}) => (
             <GroupedSelection
@@ -242,10 +244,13 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
                 onResultClick={onClick}
                 disabled={disabled}
                 placeholder={__('Condition.cond_placeholder')}
+                mobileUI={mobileUI}
               >
-                <span className={cx('CBGroup-operatorCaret')}>
-                  <Icon icon="caret" className="icon" />
-                </span>
+                {!mobileUI ? (
+                  <span className={cx('CBGroup-operatorCaret')}>
+                    <Icon icon="right-arrow-bold" className="icon" />
+                  </span>
+                ) : null}
               </ResultBox>
             </div>
           )}
@@ -345,7 +350,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             fields={fields}
             allowedTypes={
               field?.valueTypes ||
-              config.valueTypes || ['value', 'field', 'func', 'formula']
+              config.valueTypes || ['value', 'field', 'func']
             }
             disabled={disabled}
             formula={formula}
@@ -365,7 +370,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             fields={fields}
             allowedTypes={
               field?.valueTypes ||
-              config.valueTypes || ['value', 'field', 'func', 'formula']
+              config.valueTypes || ['value', 'field', 'func']
             }
             disabled={disabled}
             formula={formula}
@@ -389,7 +394,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
               fields={fields}
               allowedTypes={
                 field?.valueTypes ||
-                config.valueTypes || ['value', 'field', 'func', 'formula']
+                config.valueTypes || ['value', 'field', 'func']
               }
               disabled={disabled}
               formula={formula}
@@ -411,8 +416,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         onChange={this.handleRightChange}
         fields={fields}
         allowedTypes={
-          field?.valueTypes ||
-          config.valueTypes || ['value', 'field', 'func', 'formula']
+          field?.valueTypes || config.valueTypes || ['value', 'field', 'func']
         }
         disabled={disabled}
         formula={formula}

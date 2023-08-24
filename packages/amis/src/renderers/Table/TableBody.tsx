@@ -9,9 +9,10 @@ import {trace, reaction} from 'mobx';
 import {createObject, flattenTree} from 'amis-core';
 import {LocaleProps} from 'amis-core';
 import {ActionSchema} from '../Action';
-import type {IColumn, IRow} from 'amis-core';
+import type {IColumn, IRow, ITableStore} from 'amis-core';
 
 export interface TableBodyProps extends LocaleProps {
+  store: ITableStore;
   className?: string;
   rowsProps?: any;
   tableClassName?: string;
@@ -63,6 +64,10 @@ export interface TableBodyProps extends LocaleProps {
 
 @observer
 export class TableBody extends React.Component<TableBodyProps> {
+  componentDidMount(): void {
+    this.props.store.syncTableWidth();
+  }
+
   renderRows(
     rows: Array<any>,
     columns = this.props.columns,
@@ -105,7 +110,10 @@ export class TableBody extends React.Component<TableBodyProps> {
               ? filter(rowClassNameExpr, item.locals)
               : rowClassName,
             {
-              'is-last': item.depth > 1 && rowIndex === rows.length - 1
+              'is-last':
+                item.depth > 1 &&
+                rowIndex === rows.length - 1 &&
+                !item.children.length
             }
           )}
           columns={columns}
@@ -181,40 +189,79 @@ export class TableBody extends React.Component<TableBodyProps> {
       classnames: cx,
       rows,
       prefixRowClassName,
-      affixRowClassName
+      affixRowClassName,
+      store
     } = this.props;
 
     if (!(Array.isArray(items) && items.length)) {
       return null;
     }
 
-    const result: any[] = items;
+    let offset = 0;
 
-    //  如果是勾选栏，让它和下一列合并。
-    if (columns[0]?.type === '__checkme' && result[0]) {
-      result[0].colSpan = (result[0].colSpan || 1) + 1;
-    }
+    // 将列的隐藏对应的把总结行也隐藏起来
+    const result: any[] = items
+      .map((item, index) => {
+        let colIdxs: number[] = [offset + index];
+        if (item.colSpan > 1) {
+          for (let i = 1; i < item.colSpan; i++) {
+            colIdxs.push(offset + index + i);
+          }
+          offset += item.colSpan - 1;
+        }
 
-    //  如果是展开栏，让它和下一列合并。
-    if (columns[0]?.type === '__expandme' && result[0]) {
+        const matchedColumns = colIdxs
+          .map(idx => columns.find(col => col.rawIndex === idx))
+          .filter(item => item);
+
+        return {
+          ...item,
+          colSpan: matchedColumns.length,
+          firstColumn: matchedColumns[0],
+          lastColumn: matchedColumns[matchedColumns.length - 1]
+        };
+      })
+      .filter(item => item.colSpan);
+
+    //  如果是勾选栏，或者是展开栏，或者是拖拽栏，让它和下一列合并。
+    if (
+      result[0] &&
+      typeof columns[0]?.type === 'string' &&
+      columns[0]?.type.substring(0, 2) === '__'
+    ) {
       result[0].colSpan = (result[0].colSpan || 1) + 1;
     }
 
     // 缺少的单元格补齐
-    const appendLen =
+    let appendLen =
       columns.length - result.reduce((p, c) => p + (c.colSpan || 1), 0);
 
+    // 多了则干掉一些
+    while (appendLen < 0) {
+      const item = result.pop();
+      if (!item) {
+        break;
+      }
+      appendLen += item.colSpan || 1;
+    }
+
+    // 少了则补个空的
     if (appendLen) {
-      const item = result.length
+      const item = /*result.length
         ? result.pop()
-        : {
-            type: 'plain'
-          };
+        : */ {
+        type: 'html',
+        html: '&nbsp;'
+      };
+      const column = store.filteredColumns[store.filteredColumns.length - 1];
       result.push({
         ...item,
-        colSpan: (item.colSpan || 1) + appendLen
+        colSpan: /*(item.colSpan || 1)*/ 1 + appendLen,
+        firstColumn: column,
+        lastColumn: column
       });
     }
+
     const ctx = createObject(data, {
       items: rows.map(row => row.locals)
     });
@@ -231,11 +278,25 @@ export class TableBody extends React.Component<TableBodyProps> {
       >
         {result.map((item, index) => {
           const Com = item.isHead ? 'th' : 'td';
+          const firstColumn = item.firstColumn;
+          const lastColumn = item.lastColumn;
+
+          const style = {...item.style};
+          if (item.align) {
+            style.textAlign = item.align;
+          }
+          const [stickyStyle, stickyClassName] = store.getStickyStyles(
+            lastColumn.fixed === 'right' ? lastColumn : firstColumn,
+            store.filteredColumns
+          );
+          Object.assign(style, stickyStyle);
+
           return (
             <Com
               key={index}
-              colSpan={item.colSpan}
-              className={item.cellClassName}
+              colSpan={item.colSpan == 1 ? undefined : item.colSpan}
+              style={style}
+              className={(item.cellClassName || '') + ' ' + stickyClassName}
             >
               {render(`summary-row/${index}`, item, {
                 data: ctx

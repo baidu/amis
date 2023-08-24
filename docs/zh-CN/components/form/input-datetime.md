@@ -248,6 +248,32 @@ order: 14
 }
 ```
 
+### 通过 js 来控制
+
+> 3.3.0 及以上版本
+
+可以通过 `disabledDate` 字符函数来控制，比如不允许选择周一、周六、周日
+
+函数签名: `(currentDate: moment.Moment, props: any) => boolean`  
+示例： `"return currentDate.day() == 1 || currentDate.day() == 0 || currentDate.day() == 6"`
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-datetime",
+            "name": "start",
+            "label": "开始时间",
+            "description": "限制不能选周一、周六、周日",
+            "disabledDate": "return currentDate.day() == 1 || currentDate.day() == 0 || currentDate.day() == 6"
+        }
+    ]
+}
+```
+
 ## 快捷键
 
 你也可以配置`shortcuts`属性支持快捷选择日期
@@ -370,6 +396,8 @@ order: 14
 | clearable       | `boolean`                                                      | `true`                 | 是否可清除                                                                                                      |
 | embed           | `boolean`                                                      | `false`                | 是否内联                                                                                                        |
 | timeConstraints | `object`                                                       | `true`                 | 请参考 [input-time](./input-time#控制输入范围) 里的说明                                                         |
+| isEndDate       | `boolean`                                                      | `false`                | 如果配置为 true，会自动默认为 23:59:59 秒                                                                       |
+| disabledDate    | `string`                                                       |                        | 用字符函数来控制哪些天不可以被点选                                                                              |
 
 ## 事件表
 

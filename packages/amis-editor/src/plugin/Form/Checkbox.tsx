@@ -2,7 +2,8 @@ import {
   defaultValue,
   setSchemaTpl,
   getSchemaTpl,
-  valuePipeOut
+  valuePipeOut,
+  EditorNodeType
 } from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
@@ -23,6 +24,7 @@ setSchemaTpl('option', {
   label: tipedLabel('说明', '选项说明')
 });
 export class CheckboxControlPlugin extends BasePlugin {
+  static id = 'CheckboxControlPlugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'checkbox';
@@ -67,9 +69,15 @@ export class CheckboxControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '选中状态'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '状态值'
+                }
+              }
             }
           }
         }
@@ -141,19 +149,21 @@ export class CheckboxControlPlugin extends BasePlugin {
                 needDeleteProps: ['option'],
                 label: '默认勾选',
                 rendererWrapper: true, // 浅色线框包裹一下，增加边界感
-                valueType: 'boolean',
-                pipeIn: (value: any, data: any) => {
-                  return value === (data?.data?.trueValue ?? true);
-                },
-                pipeOut: (value: any, origin: any, data: any) => {
-                  const {trueValue = true, falseValue = false} = data;
-                  return value ? trueValue : falseValue;
-                }
+                valueType: 'boolean'
+                // pipeIn: (value: any, data: any) => {
+                //   return value === (data?.data?.trueValue ?? true);
+                // },
+                // pipeOut: (value: any, origin: any, data: any) => {
+                //   const {trueValue = true, falseValue = false} = data;
+                //   return value ? trueValue : falseValue;
+                // }
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('description'),
-              getSchemaTpl('autoFillApi')
+              getSchemaTpl('autoFillApi', {
+                trigger: 'change'
+              })
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),
@@ -181,6 +191,15 @@ export class CheckboxControlPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    // 默认trueValue和falseValue是同类型
+    return {
+      type: node.schema?.trueValue ? typeof node.schema?.trueValue : 'boolean',
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+  }
 }
 
 registerEditorPlugin(CheckboxControlPlugin);

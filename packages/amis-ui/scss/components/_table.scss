@@ -8,82 +8,24 @@
     margin-bottom: var(--gap-sm);
   }
 
-  &-fixedLeft,
-  &-fixedRight {
-    position: absolute;
-    background: var(--Table-bg);
-    z-index: var(--Table-fixed-zIndex);
-    top: auto;
-    box-shadow: none;
-
-    &--autoFillHeight {
-      & > table thead {
-        position: sticky; // 简单实现表头吸顶效果，不考虑 IE 11 不然太麻烦
-        top: 0;
-        z-index: 1; // 由于 badge 导致 tbody 里 tr 的 position: relative 了
-      }
-    }
-  }
-
-  &-fixedLeft {
-    // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
-    left: 0;
-    top: -999999px;
-
-    &.in {
-      box-shadow: var(--Table-fixedLeft-boxShadow);
-      top: auto;
-    }
-
-    & > .#{$ns}Table-table {
-      > thead > tr > th:last-child,
-      > tbody > tr > td:last-child {
-        padding-right: var(--TableCell-paddingX);
-      }
-
-      // > thead > tr > th:last-child {
-      //   border-right: var(--Table-thead-borderWidth) solid var(--Table-thead-borderColor);
-      // }
-    }
-  }
-
-  &-fixedRight {
-    // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
-    right: 0;
-    top: -999999px;
-
-    &.in {
-      box-shadow: var(--Table-fixedRight-boxShadow);
-      top: auto;
-    }
-
-    & > .#{$ns}Table-table {
-      > thead > tr > th:first-child,
-      > tbody > tr > td:first-child {
-        padding-left: var(--TableCell-paddingX);
-      }
-
-      // > thead > tr > th:first-child {
-      //   border-left: var(--Table-thead-borderWidth) solid var(--Table-thead-borderColor);
-      // }
-    }
-  }
-
   &-fixedTop {
-    position: absolute;
+    position: sticky;
     background: var(--Table-bg);
-    z-index: -1;
-    opacity: 0;
+    display: block;
+    opacity: 1;
+    z-index: $zindex-sticky;
 
     &:after {
       content: '';
       position: absolute;
       width: 100%;
       box-shadow: var(--Table-fixedTop-boxShadow);
-      z-index: 10;
-      height: 1px;
-      margin-top: -3px;
+      z-index: 30;
+      height: 30px;
+      top: 100%;
+      pointer-events: none;
       background-color: transparent;
+      margin-top: -2px;
     }
 
     // box-sizing: content-box;
@@ -94,22 +36,11 @@
     //   box-sizing: border-box;
     // }
 
-    &.in {
-      position: fixed;
-      opacity: 1;
-      z-index: $zindex-affix;
-    }
-
-    > .#{$ns}Table-fixedLeft,
-    > .#{$ns}Table-fixedRight {
-      z-index: $zindex-affix + 10;
-      // box-shadow: none;
-      background: transparent;
-    }
+    // &.in {
+    //   // position: fixed;
+    // }
 
     &.is-fakeHide {
-      > .#{$ns}Table-fixedLeft,
-      > .#{$ns}Table-fixedRight,
       > .#{$ns}Table-wrapper {
         visibility: hidden;
         position: absolute;
@@ -207,13 +138,20 @@
     }
   }
 
+  &.is-mobile {
+    .#{$ns}Table-toolbar {
+      .#{$ns}Form-item {
+        padding: 0;
+      }
+    }
+  }
+
   &-header + &-toolbar {
     padding-top: 0;
   }
 
   &-contentWrap {
     position: relative;
-    margin-bottom: var(--Table-toolbar-marginY);
   }
 
   &-actions {
@@ -228,10 +166,6 @@
     min-height: 0.01%;
     overflow-x: auto;
     transform: translateZ(0);
-
-    th {
-      position: relative;
-    }
   }
 
   &-content-colDragLine {
@@ -243,9 +177,10 @@
     cursor: col-resize;
     user-select: none;
     opacity: 0.5;
-    z-index: $zindex-top;
+    z-index: 15;
 
-    &:hover {
+    &:hover,
+    &.is-resizing {
       background: var(--primary);
     }
   }
@@ -258,12 +193,63 @@
     color: var(--Table-color);
     background: var(--Table-bg);
     border-spacing: 0;
-    border-collapse: collapse;
-    border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
+    border-collapse: separate;
+
+    &.is-layout-fixed {
+      table-layout: fixed !important;
+    }
 
     & th,
     & td {
       text-align: left;
+      border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
+
+      &.is-sticky {
+        position: sticky !important;
+        z-index: 20;
+        background: inherit;
+      }
+
+      &.is-sticky-last-left:after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: -1px;
+        width: 30px;
+        transform: translateX(100%);
+        transition: box-shadow 0.3s;
+        content: '';
+        pointer-events: none;
+      }
+
+      &.is-sticky-first-right:after {
+        position: absolute;
+        top: 0;
+        bottom: -1px;
+        left: 0;
+        width: 30px;
+        transform: translateX(-100%);
+        transition: box-shadow 0.3s;
+        content: '';
+        pointer-events: none;
+      }
+    }
+
+    &.is-layout-fixed td {
+      white-space: normal;
+      word-break: break-all;
+    }
+
+    &.table-fixed-left .is-sticky-last-left:after {
+      box-shadow: var(--Table-fixedLeft-boxShadow);
+    }
+
+    &.table-fixed-right .is-sticky-first-right:after {
+      box-shadow: var(--Table-fixedRight-boxShadow);
+    }
+
+    & th {
+      position: relative;
     }
 
     & th.text-center,
@@ -282,6 +268,10 @@
       padding-top: 0;
     }
 
+    &--affixHeader > thead {
+      visibility: collapse;
+    }
+
     &--withCombine {
       > thead > tr > th,
       > tbody > tr > td {
@@ -296,7 +286,7 @@
 
       // reset
       > tbody > tr {
-        @if $Table-strip-bg !=transparent {
+        @if $Table-strip-bg != transparent {
           &.#{$ns}Table-tr--odd {
             background: transparent;
           }
@@ -323,8 +313,9 @@
     }
 
     > thead > tr {
+      background: var(--Table-thead-bg);
       > th {
-        background: var(--Table-thead-bg);
+        background: inherit;
         padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
         text-align: left;
 
@@ -391,6 +382,7 @@
 
     > tbody > tr {
       position: relative;
+      background: var(--Table-bg);
 
       & + tr {
         border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
@@ -407,6 +399,7 @@
         color: var(--Table-thead-color);
         font-weight: var(--fontWeightNormal);
         white-space: nowrap;
+
         border-right: var(--Table-thead-borderWidth) solid
           var(--Table-thead-borderColor);
       }
@@ -448,7 +441,7 @@
       }
 
       &:active {
-        background: transparent;
+        background: var(--Table-onHover-bg);
       }
 
       &:hover.#{$ns}Table-placeholder {
@@ -525,51 +518,48 @@
       }
     }
 
+    .#{$ns}Table-divider2 {
+      content: '';
+      position: absolute;
+      height: px2rem(1px);
+      top: 50%;
+      width: px2rem(10px);
+      background: var(--Table-tree-borderColor);
+    }
+
+    .#{$ns}Table-divider3 {
+      position: absolute;
+      width: px2rem(1px);
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      background: var(--Table-tree-borderColor);
+    }
+
     @for $i from 2 through 10 {
       tr.#{$ns}Table-tr--#{$i}th.is-expanded {
         .#{$ns}Table-expandCell:before {
-          right: px2rem(7px) + px2rem(-18px) * ($i - 1);
+          left: px2rem(23px) + px2rem(18px) * ($i - 1);
         }
       }
 
       tr.#{$ns}Table-tr--#{$i}th {
         .#{$ns}Table-expandBtn {
           position: relative;
-          right: -(px2rem(18px)) * ($i - 1);
+          left: px2rem(1px) + (px2rem(18px)) * ($i - 1);
         }
 
-        .#{$ns}Table-expandCell + td {
-          position: relative;
+        .#{$ns}Table-divider2 {
+          left: px2rem(5px) + (px2rem(18px)) * ($i - 1);
+        }
 
-          &::before {
-            content: '';
-            position: absolute;
-            width: px2rem(1px);
-            top: 0;
-            bottom: 0;
-            left: px2rem(-8px) + px2rem(18px) * ($i - 2);
-            height: auto;
-            background: var(--Table-tree-borderColor);
-          }
-
-          &::after {
-            content: '';
-            position: absolute;
-            height: px2rem(1px);
-            top: 50%;
-            left: px2rem(-8px) + px2rem(18px) * ($i - 2);
-            width: px2rem(10px);
-            background: var(--Table-tree-borderColor);
-          }
-
-          padding-left: px2rem(18px) * $i - px2rem(18px);
+        .#{$ns}Table-divider3 {
+          left: px2rem(5px) + (px2rem(18px)) * ($i - 1);
         }
       }
 
-      tr.#{$ns}Table-tr--#{$i}th.is-expandable {
-        .#{$ns}Table-expandCell + td {
-          padding-left: px2rem(18px) * ($i - 1);
-        }
+      tr.#{$ns}Table-tr--#{$i}th.is-last .#{$ns}Table-divider3 {
+        height: 50%;
       }
 
       tr.#{$ns}Table-tr--#{$i}th.is-last:not(.is-expanded) {
@@ -628,7 +618,7 @@
           bottom: 0;
           height: 100%;
           background: var(--Table-tree-borderColor);
-          right: px2rem(7px) + px2rem(-18px) * ($i - 1);
+          left: px2rem(23px) + px2rem(18px) * ($i - 1);
         }
       }
     }
@@ -642,7 +632,7 @@
         width: px2rem(1px);
         top: 50%;
         bottom: 0;
-        right: px2rem(7px);
+        left: px2rem(23px);
         height: auto;
         background: var(--Table-tree-borderColor);
       }
@@ -653,6 +643,21 @@
     > thead > tr > th.#{$ns}TableCell--filterable {
       > .#{$ns}TableCell--title {
         display: inline-block;
+      }
+    }
+  }
+
+  &.is-mobile {
+    .#{$ns}Table-table > tbody > tr {
+      &:hover,
+      &.is-hovered {
+        background: var(--Table-bg);
+        border-color: var(--Table-borderColor);
+        color: var(--Table-color);
+
+        & + tr {
+          border-color: var(--Table-borderColor);
+        }
       }
     }
   }
@@ -962,12 +967,8 @@
       > .#{$ns}Table-content table thead {
         position: sticky; // 简单实现表头吸顶效果，不考虑 IE 11 不然太麻烦
         top: 0;
-        z-index: 1; // 由于 badge 导致 tbody 里 tr 的 position: relative 了
+        z-index: 21; // 由于 badge 导致 tbody 里 tr 的 position: relative 了
       }
-    }
-
-    > .#{$ns}Table-fixedTop {
-      display: none;
     }
 
     > .#{$ns}Table-footToolbar {
@@ -981,6 +982,11 @@
     margin-left: var(--gap-sm);
     display: inline-flex;
     cursor: pointer;
+
+    &:hover {
+      color: var(--link-color);
+      font-size: var(--Button--sm-fontSize);
+    }
 
     &-arrow {
       width: var(--gap-md);

@@ -53,6 +53,9 @@
   &-cancelBtn {
     cursor: pointer;
     color: var(--SearchBox-search-icon-color);
+    svg {
+      top: 1px;
+    }
 
     &:hover {
       color: var(--icon-onHover-color);
@@ -118,6 +121,9 @@
     height: 100%;
     color: var(--SearchBox-enhonce-icon-color);
     background: var(--SearchBox-hover-color);
+    svg {
+      top: 0;
+    }
 
     &:hover {
       background: var(--button-primary-hover-bg-color);
@@ -131,6 +137,12 @@
   &--enhance.is-active.is-disabled &-searchBtn {
     background: var(--SearchBox-enhonce-disabled-color);
     color: var(--SearchBox-enhonce-disabled-search-color);
+  }
+
+  &.is-mobile {
+    border-radius: 0;
+    border: none;
+    border-bottom: var(--borderWidth) solid var(--borderColor);
   }
 }
 

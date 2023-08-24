@@ -34,7 +34,7 @@ import {ActionSchema} from './Action';
 import {tokenize, evalExpressionWithConditionBuilder} from 'amis-core';
 import {StepSchema} from './Steps';
 import isEqual from 'lodash/isEqual';
-import {omit} from 'lodash';
+import omit from 'lodash/omit';
 
 export type WizardStepSchema = Omit<FormSchema, 'type'> &
   StepSchema & {
@@ -286,37 +286,43 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             );
           }
         })
-        .then(value => {
-          this.handleFetchInitEvent(value);
+        .then(result => {
+          this.handleFetchInitEvent(result);
 
           const state = {
             currentStep:
               typeof this.props.startStep === 'string'
-                ? toNumber(tokenize(this.props.startStep, this.props.data), 1)
+                ? toNumber(
+                    tokenize(
+                      this.props.startStep,
+                      createObject(this.props.data, result?.data || {})
+                    ),
+                    1
+                  )
                 : 1
           };
 
           if (
-            value &&
-            value.data &&
-            (typeof value.data.step === 'number' ||
-              (typeof value.data.step === 'string' &&
-                /^\d+$/.test(value.data.step)))
+            result &&
+            result.data &&
+            (typeof result.data.step === 'number' ||
+              (typeof result.data.step === 'string' &&
+                /^\d+$/.test(result.data.step)))
           ) {
-            state.currentStep = toNumber(value.data.step, 1);
+            state.currentStep = toNumber(result.data.step, 1);
           }
 
           this.setState(state, () => {
             // 如果 initApi 返回的状态是正在提交，则进入轮顺状态。
             if (
-              value &&
-              value.data &&
-              (value.data.submiting || value.data.submited)
+              result &&
+              result.data &&
+              (result.data.submiting || result.data.submited)
             ) {
               this.checkSubmit();
             }
           });
-          return value;
+          return result;
         });
     } else {
       this.setState({
@@ -644,7 +650,12 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       this.form.reset();
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
-      store.openDialog(data);
+      store.openDialog(
+        data,
+        undefined,
+        action.callback,
+        delegate || (this.context as any)
+      );
     } else if (action.actionType === 'ajax') {
       if (!action.api) {
         return env.alert(`当 actionType 为 ajax 时，请设置 api 属性`);
@@ -704,9 +715,28 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   @autobind
   handleQuery(query: any) {
     if (this.props.initApi) {
+      // 如果是分页动作，则看接口里面有没有用，没用则  return false
+      // 让组件自己去排序
+      if (
+        query?.hasOwnProperty('orderBy') &&
+        !isApiOutdated(
+          this.props.initApi,
+          this.props.initApi,
+          this.props.store.data,
+          createObject(this.props.store.data, query)
+        )
+      ) {
+        return false;
+      }
+
       this.receive(query);
+      return;
+    }
+
+    if (this.props.onQuery) {
+      return this.props.onQuery(query);
     } else {
-      this.props.onQuery?.(query);
+      return false;
     }
   }
 
@@ -718,9 +748,14 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         actionType: 'dialog',
         dialog: dialog
       });
-      store.openDialog(ctx, undefined, confirmed => {
-        resolve(confirmed);
-      });
+      store.openDialog(
+        ctx,
+        undefined,
+        confirmed => {
+          resolve(confirmed);
+        },
+        this.context as any
+      );
     });
   }
 
@@ -885,8 +920,24 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         })
         .catch(error => {});
     } else {
-      onFinished && onFinished(store.data, action);
       this.setState({completeStep: steps.length});
+
+      if (onFinished && onFinished(store.data, action) === false) {
+        return;
+      }
+
+      const finalRedirect =
+        (action.redirect || step.redirect || redirect) &&
+        filter(action.redirect || step.redirect || redirect, store.data);
+
+      if (finalRedirect) {
+        env.jumpTo(finalRedirect, action);
+      } else if (action.reload || step.reload || reload) {
+        this.reloadTarget(
+          filterTarget(action.reload || step.reload || reload!, store.data),
+          store.data
+        );
+      }
     }
   }
 

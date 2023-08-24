@@ -500,6 +500,190 @@ order: 35
 }
 ```
 
+可以配置`visibleOn`属性控制 picker 显隐来支持更复杂的表单场景。如果 picker 的初始值需要绑定上层数据域变量，可以通过配置事件动作来更新上层数据域变量。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "form",
+      "api": "",
+      "id": "test",
+      "data": {
+        "selectedValue": [{id: 1}, {id: 53}]
+      },
+      "body": [
+        {
+          "type": "button-group-select",
+          "name": "buttonGroupSelect",
+          "label": "按钮点选",
+          "inline": false,
+          "options": [
+            {
+              "label": "大模型训练",
+              "value": "train"
+            },
+            {
+              "label": "预测服务",
+              "value": "service"
+            }
+          ],
+          "value": "train"
+        },
+        {
+          "type": "picker",
+          "name": "type4",
+          "joinValues": true,
+          "valueField": "id",
+          "labelField": "engine",
+          "label": "",
+          "embed": true,
+          "source": "${trainList}",
+          "size": "lg",
+          "multiple": true,
+          "pickerSchema": {
+            "mode": "table",
+            "name": "thelist",
+            "columns": [
+              {
+                "name": "engine",
+                "label": "Rendering engine",
+                "sortable": true,
+                "searchable": true,
+                "type": "text",
+                "toggled": true
+              },
+              {
+                "name": "browser",
+                "label": "Browser",
+                "sortable": true,
+                "type": "text",
+                "toggled": true
+              },
+              {
+                "name": "platform",
+                "label": "Platform(s)",
+                "sortable": true,
+                "type": "text",
+                "toggled": true
+              }
+            ],
+            "onEvent": {
+              "selectedChange": {
+                "actions": [
+                  {
+                    "actionType": "toast",
+                    "args": {
+                      "msg": "已选择${event.data.selectedItems.length}条记录"
+                    }
+                  },
+                  {
+                      "actionType": "setValue",
+                      "args": {
+                        "value": {
+                          "selectedValue": "${event.data.selectedItems}"
+                        }
+                      },
+                      "componentId": "test"
+                    }
+                ]
+              }
+            },
+            "itemCheckableOn": "${id !== 1 && id !== 53}"
+          },
+          "validateApiFromAPIHub": false,
+          "visibleOn": "${buttonGroupSelect === 'train'}",
+          "sourceFromAPIHub": false,
+          "modalMode": "dialog",
+          "value": "${selectedValue}",
+          "valueField": "id",
+          "joinValues": false
+        },
+        {
+          "type": "picker",
+          "name": "type5",
+          "joinValues": false,
+          "labelField": "engine",
+          "label": "",
+          "embed": true,
+          "source": "${serviceList}",
+          "size": "lg",
+          "multiple": true,
+          "pickerSchema": {
+            "mode": "table",
+            "name": "thelist",
+            "columns": [
+              {
+                "name": "engine",
+                "label": "Rendering engine",
+                "sortable": true,
+                "searchable": true,
+                "type": "text",
+                "toggled": true
+              },
+              {
+                "name": "browser",
+                "label": "Browser",
+                "sortable": true,
+                "type": "text",
+                "toggled": true
+              },
+              {
+                "name": "platform",
+                "label": "Platform(s)",
+                "sortable": true,
+                "type": "text",
+                "toggled": true
+              }
+            ],
+            "onEvent": {
+              "selectedChange": {
+                "actions": [
+                  {
+                    "actionType": "toast",
+                    "args": {
+                      "msg": "已选择${event.data.selectedItems.length}条记录"
+                    }
+                  }
+                ]
+              }
+            },
+            "itemCheckableOn": "${id !== 2 && id !== 50}"
+          },
+          "validateApiFromAPIHub": false,
+          "style": {
+            "boxShadow": "var(--shadows-shadow-none)"
+          },
+          "value": "2,50",
+          "valueField": "id",
+          "visibleOn": "${buttonGroupSelect === 'service'}",
+          "joinValues": false
+        }
+      ],
+      "debug": true
+    }
+  ],
+  "asideResizor": false,
+  "style": {
+    "boxShadow": "var(--shadows-shadow-none)"
+  },
+  "pullRefresh": {
+    "disabled": true
+  },
+  "regions": [
+    "body"
+  ],
+  "initApi": {
+    "method": "get",
+    "url": "/api/mock2/sample",
+    "dataType": "json",
+    "initFetch": true,
+    "adaptor": "const data = payload.data.rows || payload.result.rows;\nconsole.log(' data', data)\nconst trainList = data.filter(item => item.grade === 'X');\nconst serviceList = data.filter(item => item.grade === 'C');\nreturn {\n  allList: data,\n  trainList,\n  serviceList,\n};"
+  }
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置

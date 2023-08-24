@@ -14,6 +14,7 @@ import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginEvent, RendererPluginAction} from 'amis-editor-core';
 
 export class DiffEditorControlPlugin extends BasePlugin {
+  static id = 'DiffEditorControlPlugin';
   // 关联渲染器名字
   rendererName = 'diff-editor';
   $schema = '/schemas/DiffEditorControlSchema.json';
@@ -56,9 +57,15 @@ export class DiffEditorControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '当前代码'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前代码内容'
+                }
+              }
             }
           }
         }
@@ -72,9 +79,15 @@ export class DiffEditorControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '当前代码'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前代码内容'
+                }
+              }
             }
           }
         }
@@ -88,9 +101,15 @@ export class DiffEditorControlPlugin extends BasePlugin {
         {
           type: 'object',
           properties: {
-            'event.data.value': {
-              type: 'string',
-              title: '当前代码'
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前代码内容'
+                }
+              }
             }
           }
         }

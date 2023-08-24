@@ -5,7 +5,10 @@ import {
   FormBaseControl,
   Schema,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  createObject,
+  evalExpression,
+  ConditionRule
 } from 'amis-core';
 import {
   FormBaseControlSchema,
@@ -24,6 +27,8 @@ import {
 } from 'amis-ui';
 
 import {IconSchema} from '../Icon';
+import {isMobile} from 'amis-core';
+import type {InputFormulaControlSchema} from './InputFormula';
 
 /**
  * 条件组合控件
@@ -74,6 +79,26 @@ export interface ConditionBuilderControlSchema extends FormBaseControlSchema {
    * 是否显示并或切换键按钮，只在简单模式下有用
    */
   showANDOR?: boolean;
+
+  /**
+   * 是否可拖拽，默认为 true
+   */
+  draggable?: boolean;
+
+  /*
+   * 表达式：控制按钮“添加条件”的显示
+   */
+  addBtnVisibleOn?: string;
+
+  /**
+   * 表达式：控制按钮“添加条件组”的显示
+   */
+  addGroupBtnVisibleOn?: string;
+
+  /**
+   * 将字段输入控件变成公式编辑器。
+   */
+  formula?: Omit<InputFormulaControlSchema, 'type'>;
 }
 
 export interface ConditionBuilderProps
@@ -98,8 +123,61 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
     return pickerIcon ? render('picker-icon', pickerIcon) : undefined;
   }
 
+  @autobind
+  getAddBtnVisible(param: {depth: number; breadth: number}) {
+    const {data, addBtnVisibleOn} = this.props;
+    if (typeof addBtnVisibleOn === 'string' && addBtnVisibleOn) {
+      return evalExpression(addBtnVisibleOn, createObject(data, param));
+    }
+    return true;
+  }
+
+  @autobind
+  getAddGroupBtnVisible(param: {depth: number; breadth: number}) {
+    const {data, addGroupBtnVisibleOn} = this.props;
+    if (typeof addGroupBtnVisibleOn === 'string' && addGroupBtnVisibleOn) {
+      return evalExpression(addGroupBtnVisibleOn, createObject(data, param));
+    }
+    return true;
+  }
+
+  validate(): any {
+    const {value, required, translate: __} = this.props;
+    // 校验必填
+    // 只要存在不为空条件即可通过校验
+    if (required) {
+      if (!value || !value.children) {
+        return __('Condition.isRequired');
+      }
+
+      let isEmpty = true;
+      const allowRightEmpty = ['is_empty', 'is_not_empty'];
+      value?.children?.forEach((item: ConditionRule) => {
+        // 如果左侧、操作符为空，必填不通过
+        if (
+          item.op &&
+          (item.right || !!~allowRightEmpty.indexOf(item.op as string))
+        ) {
+          isEmpty = false;
+          return;
+        }
+      });
+      return isEmpty ? __('Condition.isRequired') : null;
+    }
+
+    return;
+  }
+
   render() {
-    const {className, classnames: cx, style, pickerIcon, ...rest} = this.props;
+    const {
+      className,
+      classnames: cx,
+      style,
+      pickerIcon,
+      env,
+      popOverContainer,
+      ...rest
+    } = this.props;
 
     // 处理一下formula类型值的变量列表
     let formula = this.props.formula ? {...this.props.formula} : undefined;
@@ -113,12 +191,21 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
     }
 
     return (
-      <div className={cx(`ConditionBuilderControl`, className)}>
+      <div
+        className={cx(
+          `ConditionBuilderControl`,
+          {'is-mobile': isMobile()},
+          className
+        )}
+      >
         <ConditionBuilderWithRemoteOptions
           renderEtrValue={this.renderEtrValue}
           pickerIcon={this.renderPickerIcon()}
+          isAddBtnVisibleOn={this.getAddBtnVisible}
+          isAddGroupBtnVisibleOn={this.getAddGroupBtnVisible}
+          popOverContainer={popOverContainer || env.getModalContainer}
           {...rest}
-          formula={formula}
+          formula={formula as any}
         />
       </div>
     );

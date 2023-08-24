@@ -19,7 +19,7 @@ exports[`Renderer:status 1`] = `
             class="cxd-StatusField cxd-StatusField--0"
           >
             <icon-mock
-              classname="cxd-Status-icon icon icon icon-fail"
+              classname="cxd-Status-icon icon icon-fail icon"
               icon="fail"
             />
           </span>
@@ -27,7 +27,7 @@ exports[`Renderer:status 1`] = `
             class="cxd-StatusField cxd-StatusField--1"
           >
             <icon-mock
-              classname="cxd-Status-icon icon icon icon-success"
+              classname="cxd-Status-icon icon icon-success icon"
               icon="success"
             />
           </span>
@@ -35,7 +35,7 @@ exports[`Renderer:status 1`] = `
             class="cxd-StatusField cxd-StatusField--success"
           >
             <icon-mock
-              classname="cxd-Status-icon icon icon icon-success"
+              classname="cxd-Status-icon icon icon-success icon"
               icon="success"
             />
             <span
@@ -48,7 +48,7 @@ exports[`Renderer:status 1`] = `
             class="cxd-StatusField cxd-StatusField--pending"
           >
             <i
-              class="cxd-Status-icon rolling"
+              class="rolling cxd-Status-icon icon rolling rolling"
             />
             <span
               class="cxd-StatusField-label"
@@ -60,7 +60,7 @@ exports[`Renderer:status 1`] = `
             class="cxd-StatusField cxd-StatusField--fail"
           >
             <icon-mock
-              classname="cxd-Status-icon icon icon icon-fail"
+              classname="cxd-Status-icon icon icon-fail icon"
               icon="fail"
             />
             <span
@@ -73,7 +73,7 @@ exports[`Renderer:status 1`] = `
             class="cxd-StatusField cxd-StatusField--fail"
           >
             <icon-mock
-              classname="cxd-Status-icon icon icon icon-fail"
+              classname="cxd-Status-icon icon icon-fail icon"
               icon="fail"
             />
             <span
@@ -86,7 +86,7 @@ exports[`Renderer:status 1`] = `
             class="cxd-StatusField cxd-StatusField--queue"
           >
             <icon-mock
-              classname="cxd-Status-icon icon icon icon-warning"
+              classname="cxd-Status-icon icon icon-warning icon"
               icon="warning"
             />
             <span
@@ -99,7 +99,7 @@ exports[`Renderer:status 1`] = `
             class="cxd-StatusField cxd-StatusField--schedule"
           >
             <icon-mock
-              classname="cxd-Status-icon icon icon icon-schedule"
+              classname="cxd-Status-icon icon icon-schedule icon"
               icon="schedule"
             />
             <span

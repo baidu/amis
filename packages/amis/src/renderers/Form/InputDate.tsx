@@ -3,7 +3,8 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  str2function
 } from 'amis-core';
 import cx from 'classnames';
 import {filterDate, isPureVariable, resolveVariableAndFilter} from 'amis-core';
@@ -62,6 +63,13 @@ export interface InputDateBaseControlSchema extends FormBaseControlSchema {
    * 日期快捷键
    */
   shortcuts?: string | ShortCuts[];
+
+  /**
+   * 字符串函数，用来决定是否禁用某个日期。
+   *
+   * (currentDate: moment.Moment, props: any) => boolean;
+   */
+  disabledDate?: string;
 }
 
 /**
@@ -145,6 +153,11 @@ export interface DateTimeControlSchema extends InputDateBaseControlSchema {
    * 时间输入范围限制
    */
   timeConstraints?: any;
+
+  /**
+   * 是否为结束时间，如果是，那么会自动加上 23:59:59
+   */
+  isEndDate?: boolean;
 }
 
 /**
@@ -468,6 +481,21 @@ export default class DateControl extends React.PureComponent<
     this.props.onChange(nextValue);
   }
 
+  @autobind
+  isDisabledDate(currentDate: moment.Moment) {
+    const {disabledDate} = this.props;
+    const fn =
+      typeof disabledDate === 'string'
+        ? str2function(disabledDate, 'currentDate', 'props')
+        : disabledDate;
+
+    if (typeof fn === 'function') {
+      return fn(currentDate, this.props);
+    }
+
+    return false;
+  }
+
   @supportStatic()
   render() {
     let {
@@ -485,11 +513,10 @@ export default class DateControl extends React.PureComponent<
       env,
       largeMode,
       render,
-      useMobileUI,
+      mobileUI,
       placeholder,
       ...rest
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
 
     if (type === 'time' && timeFormat) {
       format = timeFormat;
@@ -508,14 +535,13 @@ export default class DateControl extends React.PureComponent<
       >
         <DatePicker
           {...rest}
+          env={env}
           placeholder={placeholder ?? this.placeholder}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
           popOverContainer={
-            mobileUI && env && env.getModalContainer
-              ? env.getModalContainer
-              : mobileUI
-              ? undefined
-              : rest.popOverContainer
+            mobileUI
+              ? env?.getModalContainer
+              : rest.popOverContainer || env.getModalContainer
           }
           timeFormat={timeFormat}
           format={valueFormat || format}
@@ -530,6 +556,7 @@ export default class DateControl extends React.PureComponent<
           onChange={this.handleChange}
           onFocus={this.dispatchEvent}
           onBlur={this.dispatchEvent}
+          disabledDate={this.isDisabledDate}
         />
       </div>
     );

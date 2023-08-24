@@ -19,7 +19,8 @@ export function InputJSONSchemaArray(props: InputJSONSchemaItemProps) {
     disabled,
     translate: __,
     collapsable,
-    renderValue
+    renderValue,
+    mobileUI
   } = props;
   const buildMembers = React.useCallback((schema: any, value: any) => {
     const members: Array<JSONSchemaArrayMember> = [];
@@ -147,12 +148,13 @@ export function InputJSONSchemaArray(props: InputJSONSchemaItemProps) {
           })}
           onClick={toggleCollapsed}
         >
-          <Icon icon="caret" className="icon" />
+          <Icon icon="right-arrow-bold" className="icon" />
         </a>
       ) : null}
 
       <div
         className={cx('JSONSchemaObject', {
+          'is-mobile': mobileUI,
           'is-expanded': collapsable && !collapsed
         })}
       >

@@ -1017,3 +1017,145 @@ describe('dbClick', () => {
     });
   });
 });
+
+test('Renderer:table-accessSuperData1', () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'table',
+        data: {
+          abc: 'super-abc',
+          items: [{id: 'id-1', efg: 'efg-2'}]
+        },
+        columns: [
+          {name: 'id', label: 'Id'},
+          {name: 'abc', label: 'Abc'}
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const td1 = container.querySelector('tr:first-child>td:nth-child(1)');
+  const td2 = container.querySelector('tr:first-child>td:nth-child(2)');
+
+  expect(td1?.textContent).toBe('id-1');
+  expect(td2?.textContent).toBe('-');
+});
+
+test('Renderer:table-accessSuperData2', () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'table',
+        canAccessSuperData: true,
+        data: {
+          abc: 'super-abc',
+          items: [{id: 'id-1', efg: 'efg-2'}]
+        },
+        columns: [
+          {name: 'id', label: 'Id'},
+          {name: 'abc', label: 'Abc'}
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const td1 = container.querySelector('tr:first-child>td:nth-child(1)');
+  const td2 = container.querySelector('tr:first-child>td:nth-child(2)');
+
+  expect(td1?.textContent).toBe('id-1');
+  expect(td2?.textContent).toBe('super-abc');
+});
+
+test('Renderer:table-accessSuperData3', () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'table',
+
+        data: {
+          abc: 'super-abc',
+          items: [{id: 'id-1', efg: 'efg-2'}]
+        },
+        columns: [
+          {name: 'id', label: 'Id'},
+          {name: 'abc', label: 'Abc', canAccessSuperData: true}
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const td1 = container.querySelector('tr:first-child>td:nth-child(1)');
+  const td2 = container.querySelector('tr:first-child>td:nth-child(2)');
+
+  expect(td1?.textContent).toBe('id-1');
+  expect(td2?.textContent).toBe('super-abc');
+});
+
+test('Renderer:table-accessSuperData4', () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'table',
+        canAccessSuperData: true,
+        data: {
+          abc: 'super-abc',
+          items: [{id: 'id-1', efg: 'efg-2'}]
+        },
+        columns: [
+          {name: 'id', label: 'Id'},
+          {name: 'abc', label: 'Abc', canAccessSuperData: false}
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const td1 = container.querySelector('tr:first-child>td:nth-child(1)');
+  const td2 = container.querySelector('tr:first-child>td:nth-child(2)');
+
+  expect(td1?.textContent).toBe('id-1');
+  expect(td2?.textContent).toBe('-');
+});
+
+test('Renderer:table-each', () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'table',
+
+        data: {
+          items: [{id: 'id-1', eachData: 'a,b,c'}]
+        },
+        columns: [
+          {name: 'id', label: 'Id'},
+          {
+            source: '${eachData|split}',
+            label: '循环',
+            type: 'each',
+            placeholder: '暂无内容',
+            items: {
+              type: 'tpl',
+              tpl: "<span class='label label-info m-l-sm'><%= this.item %></span>"
+            }
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const td2 = container.querySelector('tr:first-child>td:nth-child(2)');
+
+  expect(td2?.innerHTML).toBe(
+    '<div class="cxd-Each"><span class="cxd-TplField"><span><span class="label label-info m-l-sm">a</span></span></span><span class="cxd-TplField"><span><span class="label label-info m-l-sm">b</span></span></span><span class="cxd-TplField"><span><span class="label label-info m-l-sm">c</span></span></span></div>'
+  );
+});

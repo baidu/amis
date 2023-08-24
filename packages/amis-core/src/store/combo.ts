@@ -147,9 +147,15 @@ export const ComboStore = iRendererStore
           });
 
           self.forms.forEach(form =>
-            form.items.forEach(
-              item => item.unique && item.syncOptions(undefined, form.data)
-            )
+            form.items.forEach(item => {
+              if (item.unique) {
+                item.syncOptions(undefined, form.data);
+
+                if (item.errors.length) {
+                  item.validate(item.tmpValue);
+                }
+              }
+            })
           );
         }
       }

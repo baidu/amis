@@ -5,7 +5,11 @@
  * @date 2017-11-07
  */
 
-import {uncontrollable} from 'amis-core';
+import {
+  getOptionValue,
+  getOptionValueBindField,
+  uncontrollable
+} from 'amis-core';
 import React from 'react';
 import isInteger from 'lodash/isInteger';
 import omit from 'lodash/omit';
@@ -23,8 +27,7 @@ import {
   findTree,
   autobind,
   ucFirst,
-  normalizeNodePath,
-  isMobile
+  normalizeNodePath
 } from 'amis-core';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
@@ -41,6 +44,7 @@ import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import Picker from './Picker';
 import PopUp from './PopUp';
 import BasePopover, {PopOverOverlay} from './PopOverContainer';
+import SelectMobile from './SelectMobile';
 
 import type {TooltipObject} from '../components/TooltipWrapper';
 
@@ -50,7 +54,11 @@ export const defaultFilterOption = (
   options: Option[],
   inputValue: string,
   option: {keys: string[]}
-): Option[] => matchSorter(options, inputValue, option);
+): Option[] =>
+  matchSorter(options, inputValue, {
+    threshold: matchSorter.rankings.CONTAINS,
+    ...option
+  });
 
 export type FilterOption = typeof defaultFilterOption;
 
@@ -103,20 +111,29 @@ export function value2array(
   >,
   enableNodePath: boolean = false
 ): Array<Option> {
+  const {
+    labelField,
+    valueField = 'value',
+    pathSeparator,
+    delimiter,
+    options,
+    multi,
+    multiple
+  } = props;
   if (enableNodePath) {
     value = normalizeNodePath(
       value,
       enableNodePath,
-      props.labelField,
-      props.valueField,
-      props.pathSeparator,
-      props.delimiter
+      labelField,
+      valueField,
+      pathSeparator,
+      delimiter
     ).nodeValueArray;
   }
 
-  if (props.multi || props.multiple) {
+  if (multi || multiple) {
     if (typeof value === 'string') {
-      value = value.split(props.delimiter || ',');
+      value = value.split(delimiter || ',');
     }
 
     if (!Array.isArray(value)) {
@@ -130,8 +147,8 @@ export function value2array(
     return value
       .map(
         (value: any) =>
-          expandValue(value, props.options, props.valueField) ||
-          (isObject(value) && value.hasOwnProperty(props.valueField || 'value')
+          expandValue(value, options, valueField) ||
+          (isObject(value) && value.hasOwnProperty(valueField)
             ? value
             : undefined)
       )
@@ -140,15 +157,10 @@ export function value2array(
     value = value[0];
   }
 
-  let expandedValue = expandValue(
-    value as OptionValue,
-    props.options,
-    props.valueField
-  );
+  let expandedValue = expandValue(value as OptionValue, options, valueField);
   return expandedValue
     ? [expandedValue]
-    : isObject(value) &&
-      (value as Option).hasOwnProperty(props.valueField || 'value')
+    : isObject(value) && (value as Option).hasOwnProperty(valueField || 'value')
     ? [value as Option]
     : [];
 }
@@ -181,10 +193,10 @@ export function expandValue(
     value = (value as Option)[valueField || 'value'] ?? '';
   }
 
-  return findTree(
-    options,
-    optionValueCompare(value, valueField || 'value')
-  ) as Option;
+  return findTree(options, optionValueCompare(value, valueField || 'value'), {
+    resolve: getOptionValueBindField(valueField),
+    value: getOptionValue(value, valueField)
+  }) as Option;
 }
 
 export function matchOptionValue(
@@ -303,7 +315,7 @@ export function normalizeOptions(
 
 const DownshiftChangeTypes = Downshift.stateChangeTypes;
 
-interface SelectProps
+export interface SelectProps
   extends OptionProps,
     ThemeProps,
     LocaleProps,
@@ -357,7 +369,6 @@ interface SelectProps
   defaultCheckAll?: boolean;
   simpleValue?: boolean;
   defaultOpen?: boolean;
-  useMobileUI?: boolean;
 
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
@@ -767,6 +778,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       overflowTagPopover,
       showInvalidMatch,
       renderValueLabel,
+      popOverContainer,
       translate: __
     } = this.props;
     const selection = this.state.selection;
@@ -806,6 +818,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           return (
             <TooltipWrapper
               key={selection.length}
+              container={popOverContainer}
               tooltip={{
                 ...tooltipProps,
                 children: () => (
@@ -865,6 +878,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
         return (
           <TooltipWrapper
+            container={popOverContainer}
             placement={'top'}
             tooltip={item[labelField || 'label']}
             trigger={'hover'}
@@ -918,6 +932,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         }`
       ) : (
         <TooltipWrapper
+          container={popOverContainer}
           placement={'top'}
           tooltip={item[labelField || 'label']}
           trigger={'hover'}
@@ -986,7 +1001,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       renderMenu,
       mobileClassName,
       virtualThreshold = 100,
-      useMobileUI = false,
+      mobileUI,
       filterOption = defaultFilterOption,
       overlay
     } = this.props;
@@ -1144,11 +1159,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
       );
     };
 
-    const mobileUI = isMobile() && useMobileUI;
-    const column = {
-      labelField: 'label',
-      options: filtedOptions
-    };
     const menu = (
       <div
         ref={this.menu}
@@ -1229,14 +1239,21 @@ export class Select extends React.Component<SelectProps, SelectState> {
       </div>
     );
     return mobileUI ? (
-      <PopUp
-        className={cx(`Select-popup`)}
-        container={popOverContainer}
-        isShow={this.state.isOpen}
-        onHide={this.close}
-      >
-        {menu}
-      </PopUp>
+      <SelectMobile
+        {...this.props}
+        highlightedIndex={highlightedIndex}
+        isOpen={isOpen}
+        getItemProps={getItemProps}
+        getInputProps={getInputProps}
+        selectedItem={selectedItem}
+        onChange={selection => {
+          this.setState({
+            isOpen: false
+          });
+          this.props.onChange(selection);
+        }}
+        onClose={this.close}
+      />
     ) : (
       <Overlay
         container={popOverContainer || this.getTarget}
@@ -1285,7 +1302,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       disabled,
       checkAll,
       borderMode,
-      useMobileUI,
+      mobileUI,
       hasError,
       loadingConfig
     } = this.props;
@@ -1293,7 +1310,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const selection = this.state.selection;
     const inputValue = this.state.inputValue;
     const resetValue = this.props.resetValue;
-    const mobileUI = useMobileUI && isMobile();
+
     return (
       <Downshift
         selectedItem={selection}

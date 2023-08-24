@@ -314,16 +314,15 @@
     }
   }
 
-  &-sugs {
-    position: absolute;
+  &-popover {
+    margin-top: px2rem(4px);
     background: var(--Form-select-menu-bg);
     color: var(--Form-select-menu-color);
     border-radius: px2rem(2px);
     box-shadow: var(--menu-box-shadow);
-    left: px2rem(-1px);
-    right: px2rem(-1px);
-    top: calc(100% + #{px2rem(4px)});
-    z-index: 10;
+  }
+
+  &-sugs {
     max-height: px2rem(300px);
     overflow: auto;
   }
@@ -370,8 +369,7 @@
   &-input--multiple {
     height: auto;
     min-height: var(--Form-input-height);
-    padding: calc(var(--Form-input-paddingY) - #{px2rem(2px)})
-      calc(var(--Form-input-paddingX) - #{px2rem(3px)});
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
   }
 
   &-input--multiple &-placeholder {

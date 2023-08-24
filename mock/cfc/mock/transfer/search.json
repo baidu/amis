@@ -1,0 +1,27 @@
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "options": [
+      {
+        "label": "法师",
+        "children": [
+          {
+            "label": "诸葛亮",
+            "value": "zhugeliang"
+          }
+        ]
+      },
+      {
+        "label": "战士",
+        "value": "zhanshi",
+        "children": [
+          {
+            "label": "钟无艳",
+            "value": "zhongwuyan"
+          }
+        ]
+      }
+    ]
+  }
+}

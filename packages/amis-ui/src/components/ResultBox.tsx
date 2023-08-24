@@ -6,7 +6,7 @@ import {InputBoxProps} from './InputBox';
 import {uncontrollable} from 'amis-core';
 import {Icon} from './icons';
 import Input from './Input';
-import {autobind, isMobile, ucFirst} from 'amis-core';
+import {autobind, ucFirst} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import TooltipWrapper, {TooltipObject} from './TooltipWrapper';
@@ -23,22 +23,28 @@ export interface ResultBoxProps
   onClear?: (e: React.MouseEvent<HTMLElement>) => void;
   allowInput?: boolean;
   inputPlaceholder: string;
-  useMobileUI?: boolean;
   hasDropDownArrow?: boolean;
   maxTagCount?: number;
   overflowTagPopover?: TooltipObject;
   actions?: JSX.Element | JSX.Element[];
   showInvalidMatch?: boolean;
+  popOverContainer?: any;
+  showArrow?: boolean;
 }
 
 export class ResultBox extends React.Component<ResultBoxProps> {
   static defaultProps: Pick<
     ResultBoxProps,
-    'clearable' | 'placeholder' | 'itemRender' | 'inputPlaceholder'
+    | 'clearable'
+    | 'placeholder'
+    | 'itemRender'
+    | 'inputPlaceholder'
+    | 'showArrow'
   > = {
     clearable: false,
     placeholder: 'placeholder.noData',
     inputPlaceholder: 'placeholder.enter',
+    showArrow: true,
     itemRender: (option: any) => (
       <span>{`${option.scopeLabel || ''}${option.label}`}</span>
     )
@@ -109,7 +115,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       overflowTagPopover,
       itemRender,
       classnames: cx,
-      showInvalidMatch
+      showInvalidMatch,
+      popOverContainer
     } = this.props;
 
     if (
@@ -139,6 +146,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         return index === maxVisibleCount ? (
           <TooltipWrapper
             key={tags.length}
+            container={popOverContainer}
             tooltip={{
               ...tooltipProps,
               children: () => (
@@ -235,16 +243,17 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       onFocus,
       onBlur,
       borderMode,
-      useMobileUI,
+      mobileUI,
       hasDropDownArrow,
       actions,
       onClear,
       maxTagCount,
       overflowTagPopover,
+      showArrow,
+      popOverContainer,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
@@ -326,7 +335,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               <Icon icon="right-arrow-bold" className="icon" />
             </span>
           )}
-          {!allowInput && mobileUI ? (
+          {!allowInput && mobileUI && showArrow ? (
             <span className={cx('ResultBox-arrow')}>
               <Icon icon="caret" className="icon" />
             </span>

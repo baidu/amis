@@ -27,7 +27,7 @@
     line-height: 1;
     background: var(--Checkbox-gb);
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: text-bottom;
     position: relative;
     pointer-events: all;
 
@@ -61,6 +61,14 @@
       transition: all var(--animation-duration);
       transform-origin: 50% 50%;
       transform: translate(-50%, -50%);
+    }
+  }
+
+  &.is-mobile {
+    > i {
+      + span {
+        vertical-align: middle;
+      }
     }
   }
 
@@ -354,7 +362,9 @@
     margin-right: 0;
     border-radius: calc(var(--Checkbox-borderRadius) * 2);
     min-width: var(--Checkbox-button-min-width);
-
+    > span {
+      line-height: var(--Checkbox-button-line-height);
+    }
     &:hover:not(:disabled) {
       color: var(--Checkbox-onHover-color);
       border-color: var(--Checkbox-onHover-color);

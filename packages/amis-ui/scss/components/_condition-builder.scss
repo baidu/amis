@@ -1,3 +1,6 @@
+.#{$ns}ConditionBuilderControl.is-mobile {
+  overflow-x: auto;
+}
 .#{$ns}CBGroup {
   font-size: var(--fontSizeSm);
   position: relative;
@@ -195,6 +198,7 @@
       width: px2rem(10px);
       height: px2rem(10px);
       top: 0;
+      transform: rotate(90deg);
     }
   }
 
@@ -232,6 +236,22 @@
 //     border-left-color: #2468f1;
 //   }
 // }
+
+.#{$ns}CBIf {
+  margin-left: 10px;
+  font-size: 16px;
+  color: #84868c;
+
+  &:hover {
+    font-size: 16px;
+  }
+
+  &.is-active {
+    color: #2468f1;
+  }
+  cursor: pointer;
+  // margin-left: auto;
+}
 
 .#{$ns}CBGroupOrItem {
   position: relative;
@@ -278,7 +298,7 @@
         padding: 10px;
         margin: -10px 0px;
         background: $white;
-        z-index: 1;
+        z-index: 2;
       }
       > .#{$ns}CBGroupOrItem-dragbar {
         left: px2rem(-5px);
@@ -331,9 +351,31 @@
     opacity: 0;
   }
 
-  &:hover > &-body > &-body-item > &-dragbar,
-  &:hover > &-body > &-body-item > .#{$ns}CBDelete {
-    opacity: 1;
+  &:is(.is-mobile) {
+    > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-group
+      > .#{$ns}CBGroupOrItem-dragbar,
+    > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-item
+      > .#{$ns}CBGroupOrItem-dragbar,
+    > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-item
+      > .#{$ns}CBDelete {
+      opacity: 1;
+    }
+  }
+
+  &:not(.is-mobile) {
+    &:hover
+      > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-item
+      > .#{$ns}CBGroupOrItem-dragbar,
+    &:hover
+      > .#{$ns}CBGroupOrItem-body
+      > .#{$ns}CBGroupOrItem-body-item
+      > .#{$ns}CBDelete {
+      opacity: 1;
+    }
   }
 
   &-simple {

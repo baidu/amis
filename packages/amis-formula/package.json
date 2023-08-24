@@ -1,12 +1,13 @@
 {
   "name": "amis-formula",
-  "version": "3.1.0",
+  "version": "3.3.0",
   "description": "负责 amis 里面的表达式实现，内置公式，编辑器等",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "npm run clean-dist && npm run genDoc && cross-env NODE_ENV=production rollup -c && cp src/doc.md lib/doc.md && cp src/doc.md esm/doc.md",
+    "build-esm": "npm run clean-dist && cross-env NODE_ENV=production rollup -c rollup.esm.config.js",
     "lib": "npm run clean-dist && cross-env NODE_ENV=production IS_LIB=1 rollup -c",
     "clean-dist": "rimraf lib/**",
     "declaration": "tsc --project tsconfig-for-declaration.json --allowJs --declaration --emitDeclarationOnly --declarationDir ./lib --rootDir ./src",
@@ -81,6 +82,10 @@
   "browserslist": "IE >= 11",
   "jest": {
     "testEnvironment": "jsdom",
+    "coverageReporters": [
+      "text",
+      "cobertura"
+    ],
     "collectCoverageFrom": [
       "src/**/*"
     ],

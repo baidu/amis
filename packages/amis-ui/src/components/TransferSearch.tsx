@@ -2,7 +2,7 @@
  * Tranasfer搜索
  */
 import React from 'react';
-import {debounce} from 'lodash';
+import debounce from 'lodash/debounce';
 
 import {ThemeProps, themeable} from 'amis-core';
 import {Icon} from './icons';
@@ -31,7 +31,6 @@ export class TransferSearch extends React.Component<
   TransferSearchProps,
   TransferSearchState
 > {
-
   state: TransferSearchState = {
     inputValue: ''
   };
@@ -85,12 +84,15 @@ export class TransferSearch extends React.Component<
     });
   }
 
+  @autobind
+  clearInput() {
+    this.setState({
+      inputValue: ''
+    });
+  }
+
   render() {
-    const {
-      classnames: cx,
-      translate: __,
-      placeholder
-    } = this.props;
+    const {classnames: cx, translate: __, placeholder, mobileUI} = this.props;
 
     const {inputValue} = this.state;
 
@@ -102,6 +104,7 @@ export class TransferSearch extends React.Component<
           clearable={false}
           onKeyDown={this.handleSearchKeyDown}
           placeholder={placeholder}
+          mobileUI={mobileUI}
         >
           {!!inputValue ? (
             <a onClick={this.handleSeachCancel}>

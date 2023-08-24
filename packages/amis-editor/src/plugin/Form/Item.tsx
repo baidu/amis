@@ -18,6 +18,7 @@ import {JSONDelete, JSONPipeIn, JSONUpdate} from 'amis-editor-core';
 import {SUPPORT_STATIC_FORMITEM_CMPTS} from '../../renderer/event-control/helper';
 
 export class ItemPlugin extends BasePlugin {
+  static id = 'ItemPlugin';
   // panelTitle = '表单项通配';
   panelTitle = '表单项';
   order = -990;
@@ -104,16 +105,7 @@ export class ItemPlugin extends BasePlugin {
                   label: '只读模式'
                 })
               : null,
-            getSchemaTpl('switch', {
-              name: 'disabled',
-              label: '禁用',
-              mode: 'horizontal',
-              horizontal: {
-                justify: true,
-                left: 8
-              },
-              inputClassName: 'is-inline '
-            }),
+            getSchemaTpl('disabled'),
             ignoreValidator ? null : getSchemaTpl('required'),
             getSchemaTpl('description'),
             getSchemaTpl('placeholder'),
@@ -140,7 +132,28 @@ export class ItemPlugin extends BasePlugin {
             }),
 
             renderer.sizeMutable !== false
-              ? getSchemaTpl('formItemSize')
+              ? getSchemaTpl('formItemSize', {
+                  options: [
+                    {
+                      label: '小',
+                      value: 'sm'
+                    },
+
+                    {
+                      label: '中',
+                      value: 'md'
+                    },
+
+                    {
+                      label: '大',
+                      value: 'lg'
+                    },
+                    {
+                      label: '默认（占满）',
+                      value: 'full'
+                    }
+                  ]
+                })
               : null,
             getSchemaTpl('formItemInline'),
 
@@ -172,8 +185,6 @@ export class ItemPlugin extends BasePlugin {
         {
           title: '显隐',
           body: [
-            // TODO: 有些表单项没有 disabled
-            getSchemaTpl('disabled'),
             getSchemaTpl('visible'),
             supportStatic ? getSchemaTpl('static') : null,
             getSchemaTpl('switch', {
@@ -207,7 +218,7 @@ export class ItemPlugin extends BasePlugin {
     const context = event.context;
 
     if (
-      /\$/.test(context.info.renderer.name!) &&
+      context.info.renderer.isFormItem &&
       context.diff?.some(change => change.path?.join('.') === 'value')
     ) {
       const change: any = find(

@@ -901,10 +901,6 @@ exports[`Renderer:Wizard dialog 1`] = `
           data-position="left"
           data-tooltip="关闭"
         >
-          <div
-            class=" Dialog-close"
-            style="display: none;"
-          />
           <icon-mock
             classname="icon icon-close"
             icon="close"
@@ -2721,7 +2717,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
               </span>
             </label>
             <div
-              class="cxd-Form-control cxd-TextControl"
+              class="cxd-Form-control cxd-TextControl is-disabled"
             >
               <div
                 class="cxd-TextControl-input"
