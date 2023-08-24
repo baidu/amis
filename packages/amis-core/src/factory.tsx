@@ -109,6 +109,10 @@ export interface RenderOptions
   session?: string;
   theme?: string;
   fetcher?: (config: fetcherConfig) => Promise<fetcherResult>;
+  JSONPipeOut?: (
+    obj: any,
+    filterHiddenProps?: boolean | ((key: string, prop: any) => boolean)
+  ) => any;
 }
 
 export interface fetcherConfig {

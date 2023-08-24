@@ -50,24 +50,38 @@ export class RegionWrapper extends React.Component<RegionWrapperProps> {
       return;
     }
 
-    this.editorNode = this.parentNode.addChild({
-      id: this.parentNode.id,
-      type: this.parentNode.type,
-      label: this.props.label,
-      path: `${this.parentNode.path}/${this.props.name}`,
-      region: this.props.name, // regions中的key值
-      regionInfo: this.props.regionConfig,
-      preferTag: this.props.preferTag
-    });
+    if (manager.store.previewDialogId) {
+      this.editorNode = this.parentNode.addDialogChild({
+        id: this.parentNode.id,
+        type: this.parentNode.type,
+        label: this.props.label,
+        path: `${this.parentNode.path}/${this.props.name}`,
+        region: this.props.name, // regions中的key值
+        regionInfo: this.props.regionConfig,
+        preferTag: this.props.preferTag
+      });
+    } else {
+      this.editorNode = this.parentNode.addChild({
+        id: this.parentNode.id,
+        type: this.parentNode.type,
+        label: this.props.label,
+        path: `${this.parentNode.path}/${this.props.name}`,
+        region: this.props.name, // regions中的key值
+        regionInfo: this.props.regionConfig,
+        preferTag: this.props.preferTag
+      });
+    }
   }
 
   componentDidMount() {
-    this.editorNode &&
-      this.markDom(
-        this.editorNode.id,
-        this.props.name,
-        this.props.rendererName
-      );
+    if (this.editorNode && isAlive(this.editorNode)) {
+      this.editorNode &&
+        this.markDom(
+          this.editorNode.id,
+          this.props.name,
+          this.props.rendererName
+        );
+    }
   }
 
   componentDidUpdate(prevProps: RegionWrapperProps) {
@@ -80,8 +94,24 @@ export class RegionWrapper extends React.Component<RegionWrapperProps> {
   }
 
   componentWillUnmount() {
+    const store = this.props.manager.store;
     if (this.editorNode && isAlive(this.editorNode) && this.parentNode) {
-      this.parentNode.removeChild(this.editorNode);
+      // 查找最顶层容器，如果是在弹窗或页面弹窗模式下是dialog,其他情况为page
+      let topHost = this.editorNode;
+      while (topHost.host) {
+        topHost = topHost.host;
+      }
+
+      if (
+        topHost?.type === 'dialog' ||
+        topHost?.type === 'drawer' ||
+        this.editorNode?.host?.type === 'dialog' ||
+        this.editorNode?.host?.type === 'drawer'
+      ) {
+        this.parentNode.removeDialogChild(this.editorNode);
+      } else {
+        this.parentNode.removeChild(this.editorNode);
+      }
     }
   }
 

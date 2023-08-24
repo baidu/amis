@@ -19,7 +19,8 @@ import {
   needDefaultWidth,
   guid,
   addStyleClassName,
-  appTranslate
+  appTranslate,
+  JSONGetByPath
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -133,6 +134,8 @@ export const MainStore = types
     hoverId: '',
     hoverRegion: '',
     activeId: '',
+    previewDialogId: '', // 选择要进行编辑的弹窗id
+    activeDialogPath: '', // 记录选中设计的弹框path
     activeRegion: '', // 记录当前激活的子区域
     mouseMoveRegion: '', // 记录当前鼠标hover到的区域，后续需要优化（合并MouseMoveRegion和hoverRegion）
 
@@ -179,6 +182,7 @@ export const MainStore = types
 
     showCustomRenderersPanel: false, // 是否显示自定义组件面板，默认不显示
     renderersTabsKey: 'base-renderers', // 组件面板tabs，默认显示「基础组件」，custom 则显示「自定义组件」
+    outlineTabsKey: 'component-outline', // 视图结构tabs，默认显示「组件大纲」，dialog 则显示「弹窗大纲」
     // 存放预置组件和自定义组件
     subRenderers: types.optional(types.frozen<Array<SubRendererInfo>>(), []),
     subRenderersKeywords: '', // 基础组件的查询关键字
@@ -225,8 +229,12 @@ export const MainStore = types
     return {
       // 给编辑状态时的
       get filteredSchema() {
+        let schema = self.schema;
+        if (self.previewDialogId) {
+          schema = this.getSchema(self.previewDialogId);
+        }
         return filterSchemaForEditor(
-          getEnv(self).schemaFilter?.(self.schema) ?? self.schema
+          getEnv(self).schemaFilter?.(schema) ?? schema
         );
       },
 
@@ -371,6 +379,10 @@ export const MainStore = types
       ): EditorNodeType | undefined {
         let pool = self.root.children.concat();
 
+        if (self.root.dialogChildren?.length) {
+          pool = pool.concat(self.root.dialogChildren.concat());
+        }
+
         while (pool.length) {
           const item = pool.shift();
           if (
@@ -386,6 +398,9 @@ export const MainStore = types
           if (item.children.length) {
             pool.push.apply(pool, item.children);
           }
+          if (item.dialogChildren.length) {
+            pool.push.apply(pool, item.dialogChildren);
+          }
         }
 
         return undefined;
@@ -397,6 +412,10 @@ export const MainStore = types
 
       getSchema(id?: string, idKey?: string) {
         return id ? JSONGetById(self.schema, id, idKey) : self.schema;
+      },
+
+      getSchemaByPath(path: Array<string>) {
+        return JSONGetByPath(self.schema, path);
       },
 
       getSchemaParentById(id: string, skipArray: boolean = false) {
@@ -562,16 +581,27 @@ export const MainStore = types
       get bcn() {
         let bcn: Array<EditorNodeType> = [];
 
+        let children;
+        let childrenName = '';
+        if (self.previewDialogId) {
+          children = self.root.dialogChildren;
+          childrenName = 'dialogChildren';
+        } else {
+          children = self.root.children;
+          childrenName = 'children';
+        }
+
         if (self.activeId) {
           findTree(
-            self.root.children,
+            children,
             (item: EditorNodeType, index: number, leve, paths: any[]) => {
               if (item.id === self.activeId) {
                 bcn = paths.concat(item);
                 return true;
               }
               return false;
-            }
+            },
+            childrenName
           );
         }
 
@@ -598,13 +628,19 @@ export const MainStore = types
               return false;
             } else if (node.children && node.children.length) {
               return iterator(node.children, parents.concat(node));
+            } else if (node.dialogChildren && node.dialogChildren.length) {
+              return iterator(node.dialogChildren, parents.concat(node));
             }
 
             return true;
           });
         };
 
-        iterator(self.root.children);
+        if (self.root.children?.length) {
+          iterator(self.root.children);
+        } else if (self.root.dialogChildren?.length) {
+          iterator(self.root.dialogChildren);
+        }
 
         return paths;
       },
@@ -1215,6 +1251,14 @@ export const MainStore = types
         // }
       },
 
+      setActiveDialogPath(path: string) {
+        self.activeDialogPath = path;
+      },
+
+      setPreviewDialogId(id?: string) {
+        self.previewDialogId = id ? id : '';
+      },
+
       setSelections(ids: Array<string>) {
         self.activeId = '';
         self.activeRegion = '';
@@ -1344,6 +1388,12 @@ export const MainStore = types
         }
       },
 
+      changeOutlineTabsKey(key: string) {
+        if (key !== self.outlineTabsKey) {
+          self.outlineTabsKey = key;
+        }
+      },
+
       changeLeftPanelOpenStatus(isOpenStatus: boolean) {
         if (isOpenStatus !== self.leftPanelOpenStatus) {
           self.leftPanelOpenStatus = isOpenStatus;
@@ -1371,6 +1421,10 @@ export const MainStore = types
           return;
         }
         this.changeValueById(self.activeId, value, diff);
+      },
+
+      definitionOnchangeValue(value: Schema, diff?: any) {
+        this.changeValueById(self.getRootId(), value, diff);
       },
 
       changeValueById(

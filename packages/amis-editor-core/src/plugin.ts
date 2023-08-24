@@ -296,6 +296,7 @@ export interface RendererInfo extends RendererScaffoldInfo {
   tipName?: string;
   /** 共享上下文 */
   sharedContext?: Record<string, any>;
+  dialogTitle?: string; //弹窗标题用于弹窗大纲的展示
 }
 
 export type BasicRendererInfo = Omit<

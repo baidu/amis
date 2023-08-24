@@ -15,7 +15,8 @@ import IFrameBridge from './IFrameBridge';
 import {isAlive} from 'mobx-state-tree';
 import {findTree} from 'amis-core';
 import BackTop from './base/BackTop';
-import type {RendererConfig} from 'amis-core';
+import {RendererConfig} from 'amis-core';
+import {reaction} from 'mobx';
 
 export interface PreviewProps {
   // isEditorEnabled?: (
@@ -72,7 +73,7 @@ export default class Preview extends Component<PreviewProps> {
 
     this.currentDom.addEventListener('mouseleave', this.handleMouseLeave);
     this.currentDom.addEventListener('mousemove', this.handleMouseMove);
-    this.currentDom.addEventListener('click', this.handleClick);
+    this.currentDom.addEventListener('click', this.handleClick, true);
     this.currentDom.addEventListener('mouseover', this.handeMouseOver);
 
     this.currentDom.addEventListener('mousedown', this.handeMouseDown);
@@ -520,16 +521,19 @@ export default class Preview extends Component<PreviewProps> {
                 autoFocus={autoFocus}
               ></IFrameBridge>
             ) : (
-              <SmartPreview
-                {...rest}
-                editable={editable}
-                autoFocus={autoFocus}
-                store={store}
-                env={env}
-                manager={manager}
-                key="pc"
-                appLocale={appLocale}
-              />
+              // 弹框挂载节点
+              <div className="dialog-preview-mount-node">
+                <SmartPreview
+                  {...rest}
+                  editable={editable}
+                  autoFocus={autoFocus}
+                  store={store}
+                  env={env}
+                  manager={manager}
+                  key="pc"
+                  appLocale={appLocale}
+                />
+              </div>
             )}
 
             {iframeUrl && isMobile && store.contextId ? (
@@ -601,6 +605,8 @@ export interface SmartPreviewProps {
 }
 @observer
 class SmartPreview extends React.Component<SmartPreviewProps> {
+  dialogReaction: any;
+
   componentDidMount() {
     const store = this.props.store;
 
@@ -620,10 +626,27 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
     } else {
       this.props.manager.buildRenderersAndPanels();
     }
+
+    this.dialogReaction = reaction(
+      () => store.root.dialogChildren?.length,
+      length => {
+        if (length) {
+          store.changeOutlineTabsKey('dialog-outline');
+          store.setActiveId(store.previewDialogId);
+        } else {
+          store.setActiveId(store.getRootId());
+        }
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.dialogReaction?.();
   }
 
   componentDidUpdate(prevProps: SmartPreviewProps) {
     const props = this.props;
+    const store = props.store;
 
     if (props.editable !== prevProps.editable) {
       if (props.editable) {
@@ -632,6 +655,13 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
           data: this.props.manager
         });
       }
+    }
+    if (store.activeDialogPath) {
+      let activeId = store.getSchemaByPath(
+        store.activeDialogPath.split('/')
+      ).$$id;
+      store.setPreviewDialogId(activeId);
+      store.setActiveDialogPath('');
     }
   }
 

@@ -1,5 +1,11 @@
 import React from 'react';
-import {ScopedContext, IScopedContext, filterTarget} from 'amis-core';
+import {
+  ScopedContext,
+  IScopedContext,
+  filterTarget,
+  isPureVariable,
+  resolveVariableAndFilter
+} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {Drawer as DrawerContainer, SpinnerExtraProps} from 'amis-ui';
@@ -15,7 +21,7 @@ import {findDOMNode} from 'react-dom';
 import {IModalStore, ModalStore} from 'amis-core';
 import {filter} from 'amis-core';
 import {Spinner} from 'amis-ui';
-import {IServiceStore} from 'amis-core';
+import {IServiceStore, CustomStyle} from 'amis-core';
 import {
   BaseSchema,
   SchemaClassName,
@@ -484,7 +490,14 @@ export default class Drawer extends React.Component<DrawerProps> {
   renderFooter() {
     const actions = this.buildActions();
 
-    if (!actions || !actions.length) {
+    let {hideActions, hideActionsOn, data} = this.props;
+
+    if (isPureVariable(hideActionsOn)) {
+      hideActionsOn = resolveVariableAndFilter(hideActionsOn, data);
+    }
+    let isHidden = hideActions || hideActionsOn;
+
+    if (!actions || !actions.length || isHidden) {
       return null;
     }
 
@@ -493,11 +506,14 @@ export default class Drawer extends React.Component<DrawerProps> {
       render,
       classnames: cx,
       showErrorMsg,
-      footerClassName
+      footerClassName,
+      drawerFooterClassName
     } = this.props;
 
     return (
-      <div className={cx('Drawer-footer', footerClassName)}>
+      <div
+        className={cx('Drawer-footer', footerClassName, drawerFooterClassName)}
+      >
         {store.loading || store.error ? (
           <div className={cx('Drawer-info')}>
             <Spinner size="sm" key="info" show={store.loading} />
@@ -564,13 +580,37 @@ export default class Drawer extends React.Component<DrawerProps> {
       classnames: cx,
       drawerContainer,
       loadingConfig,
-      popOverContainer
+      popOverContainer,
+      inDesign,
+      themeCss,
+      css,
+      id,
+      drawerClassName,
+      drawerMaskClassName,
+      drawerHeaderClassName,
+      drawerTitleClassName,
+      drawerBodyClassName,
+      drawerFooterClassName
     } = {
       ...this.props,
       ...store.schema
     } as DrawerProps;
 
-    const Container = wrapperComponent || DrawerContainer;
+    // 设计态下挂在在画布下
+    const Container = inDesign
+      ? DrawerContainer
+      : wrapperComponent || DrawerContainer;
+    let previewContainer = document.getElementsByClassName(
+      'dialog-preview-mount-node'
+    )[0];
+
+    let container = inDesign
+      ? previewContainer
+      : drawerContainer
+      ? drawerContainer
+      : env?.getModalContainer
+      ? env.getModalContainer
+      : undefined;
 
     return (
       <Container
@@ -578,6 +618,8 @@ export default class Drawer extends React.Component<DrawerProps> {
         classPrefix={ns}
         className={className}
         style={style}
+        drawerClassName={drawerClassName}
+        drawerMaskClassName={drawerMaskClassName}
         size={size}
         onHide={this.handleSelfClose}
         disabled={store.loading}
@@ -593,11 +635,17 @@ export default class Drawer extends React.Component<DrawerProps> {
         closeOnOutside={
           !store.drawerOpen && !store.dialogOpen && closeOnOutside
         }
-        container={drawerContainer ? drawerContainer : env?.getModalContainer}
+        container={container}
       >
-        <div className={cx('Drawer-header', headerClassName)}>
+        <div
+          className={cx(
+            'Drawer-header',
+            headerClassName,
+            drawerHeaderClassName
+          )}
+        >
           {title ? (
-            <div className={cx('Drawer-title')}>
+            <div className={cx('Drawer-title', drawerTitleClassName)}>
               {render('title', title, {
                 data: store.formData,
                 onConfirm: this.handleDrawerConfirm,
@@ -617,13 +665,51 @@ export default class Drawer extends React.Component<DrawerProps> {
         </div>
 
         {!store.entered ? (
-          <div className={cx('Drawer-body', bodyClassName)}>
+          <div
+            className={cx('Drawer-body', bodyClassName, drawerBodyClassName)}
+          >
             <Spinner overlay show size="lg" loadingConfig={loadingConfig} />
           </div>
         ) : body ? (
           // dialog-body 用于在 editor 中定位元素
-          <div className={cx('Drawer-body', bodyClassName)} role="dialog-body">
+          <div
+            className={cx('Drawer-body', bodyClassName, drawerBodyClassName)}
+            role="dialog-body"
+          >
             {this.renderBody(body, 'body')}
+            <CustomStyle
+              config={{
+                themeCss: themeCss || css,
+                classNames: [
+                  {
+                    key: 'drawerClassName',
+                    value: drawerClassName
+                  },
+                  {
+                    key: 'drawerMaskClassName',
+                    value: drawerMaskClassName
+                  },
+                  {
+                    key: 'drawerHeaderClassName',
+                    value: drawerHeaderClassName
+                  },
+                  {
+                    key: 'drawerTitleClassName',
+                    value: drawerTitleClassName
+                  },
+                  {
+                    key: 'drawerBodyClassName',
+                    value: drawerBodyClassName
+                  },
+                  {
+                    key: 'drawerFooterClassName',
+                    value: drawerFooterClassName
+                  }
+                ],
+                id: id
+              }}
+              env={env}
+            />
           </div>
         ) : null}
 
