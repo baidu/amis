@@ -432,7 +432,7 @@ export const FormStore = ServiceStore.named('FormStore')
         if (ret?.dispatcher?.prevented) {
           return;
         }
-        if (e.type === 'ServerError') {
+        if (e.type === 'ServerError' && !(api as ApiObject)?.silent) {
           const result = (e as ServerError).response;
           getEnv(self).notify(
             'error',
@@ -445,7 +445,8 @@ export const FormStore = ServiceStore.named('FormStore')
               : undefined
           );
         } else {
-          getEnv(self).notify('error', e.message);
+          !(api as ApiObject)?.silent &&
+            getEnv(self).notify('error', e.message);
         }
         throw e;
       }

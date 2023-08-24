@@ -470,7 +470,7 @@ export class Chart extends React.Component<ChartProps> {
       .then(result => {
         isAlive(store) && store.markFetching(false);
 
-        if (!result.ok) {
+        if (!(api as ApiObject)?.silent && !result.ok) {
           return env.notify(
             'error',
             (api as ApiObject)?.messages?.failed ??
@@ -506,7 +506,7 @@ export class Chart extends React.Component<ChartProps> {
         }
 
         isAlive(store) && store.markFetching(false);
-        env.notify('error', reason);
+        !(api as ApiObject)?.silent && env.notify('error', reason);
         this.echarts?.hideLoading();
       });
   }

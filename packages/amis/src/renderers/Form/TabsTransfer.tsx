@@ -21,7 +21,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * TabsTransfer
- * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer
+`* 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer
  */
 export interface TabsTransferControlSchema
   extends Omit<TransferControlSchema, 'type'>,
@@ -76,9 +76,9 @@ export class BaseTabsTransferRenderer<
       valueField,
       env,
       data,
+      searchApi,
       translate: __
     } = this.props;
-    const {searchApi} = option;
 
     if (searchApi) {
       try {
@@ -113,7 +113,7 @@ export class BaseTabsTransferRenderer<
         });
       } catch (e) {
         if (!env.isCancel(e)) {
-          env.notify('error', e.message);
+          !searchApi.silent && env.notify('error', e.message);
         }
 
         return [];

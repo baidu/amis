@@ -572,17 +572,18 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           if (!msg) {
             msg = `status: ${json.status}`;
           }
-          getEnv(self).notify(
-            'error',
-            apiObject.messages?.failed ??
-              (self.errors.join('') || `${apiObject.url}: ${msg}`),
-            json.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: json.msgTimeout
-                }
-              : undefined
-          );
+          !(api as any)?.silent &&
+            getEnv(self).notify(
+              'error',
+              apiObject.messages?.failed ??
+                (self.errors.join('') || `${apiObject.url}: ${msg}`),
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
         } else {
           result = json;
         }
@@ -602,7 +603,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         }
 
         console.error(e);
-        env.notify('error', e.message);
+        !(api as any)?.silent && env.notify('error', e.message);
         return;
       }
     } as any);
@@ -704,6 +705,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
 
       !silent &&
+        !(api as any)?.silent &&
         getEnv(self).notify('info', self.__('FormItem.autoFillLoadFailed'));
 
       return;

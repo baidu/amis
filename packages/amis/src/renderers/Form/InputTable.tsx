@@ -490,7 +490,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
         if (isEffectiveApi(addApi, ctx)) {
           const payload = await env.fetcher(addApi, ctx);
-          if (payload && !payload.ok) {
+          if (payload && !payload.ok && !(addApi as ApiObject)?.silent) {
             env.notify(
               'error',
               (addApi as ApiObject)?.messages?.failed ??
@@ -765,7 +765,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     if (remote && !remote.ok) {
-      env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
+      !((isNew ? addApi : updateApi) as ApiObject)?.silent &&
+        env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
       const failEventName = isNew ? 'addFail' : 'editFail';
       this.dispatchEvent(failEventName, {
         index: this.state.editIndex,
@@ -853,7 +854,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
       const result = await env.fetcher(deleteApi, ctx);
 
-      if (!result.ok) {
+      if (!result.ok && !(deleteApi as ApiObject)?.silent) {
         env.notify(
           'error',
           (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
@@ -1654,7 +1655,7 @@ export class TableControlRenderer extends FormTable {
 
         if (isEffectiveApi(addApi, ctx)) {
           const payload = await env.fetcher(addApi, ctx);
-          if (payload && !payload.ok) {
+          if (payload && !payload.ok && !(addApi as ApiObject)?.silent) {
             env.notify(
               'error',
               (addApi as ApiObject)?.messages?.failed ??
@@ -1730,7 +1731,7 @@ export class TableControlRenderer extends FormTable {
           deleteApi,
           createObject(ctx, {deletedItems})
         );
-        if (payload && !payload.ok) {
+        if (payload && !payload.ok && !(deleteApi as ApiObject)?.silent) {
           env.notify(
             'error',
             (deleteApi as ApiObject)?.messages?.failed ??

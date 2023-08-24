@@ -1023,7 +1023,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             method: 'post'
           });
 
-          if (!payload.ok) {
+          if (!payload.ok && !(addApi as BaseApiObject).silent) {
             env.notify(
               'error',
               (addApi as BaseApiObject)?.messages?.failed ??
@@ -1036,7 +1036,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         } catch (e) {
           result = null;
           console.error(e);
-          env.notify('error', e.message);
+          !(addApi as BaseApiObject).silent && env.notify('error', e.message);
         }
       }
 
@@ -1149,7 +1149,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             }
           );
 
-          if (!payload.ok) {
+          if (!payload.ok && !(editApi as BaseApiObject).silent) {
             env.notify(
               'error',
               (editApi as BaseApiObject)?.messages?.failed ??
@@ -1162,7 +1162,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         } catch (e) {
           result = null;
           console.error(e);
-          env.notify('error', e.message);
+          !(editApi as BaseApiObject).silent && env.notify('error', e.message);
         }
       }
 
@@ -1237,11 +1237,12 @@ export function registerOptionsControl(config: OptionsConfig) {
             method: 'delete'
           });
           if (!result.ok) {
-            env.notify(
-              'error',
-              (deleteApi as BaseApiObject)?.messages?.failed ??
-                (result.msg || __('deleteFailed'))
-            );
+            !(deleteApi as BaseApiObject).silent &&
+              env.notify(
+                'error',
+                (deleteApi as BaseApiObject)?.messages?.failed ??
+                  (result.msg || __('deleteFailed'))
+              );
             return;
           }
         }
@@ -1270,7 +1271,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         }
       } catch (e) {
         console.error(e);
-        env.notify('error', e.message);
+        !(deleteApi as BaseApiObject).silent && env.notify('error', e.message);
       }
     }
 

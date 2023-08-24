@@ -671,7 +671,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
       const result = await env.fetcher(deleteApi as Api, ctx);
 
-      if (!result.ok) {
+      if (!result.ok && !(deleteApi as ApiObject)?.silent) {
         env.notify(
           'error',
           (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')

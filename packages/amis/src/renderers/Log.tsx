@@ -5,6 +5,7 @@ import React from 'react';
 import {buildApi, isApiOutdated, Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {Icon, SearchBox, VirtualList} from 'amis-ui';
+import {log} from 'console';
 
 export type LogOperation =
   | 'stop'
@@ -255,7 +256,9 @@ export class Log extends React.Component<LogProps, LogState> {
         }
       }
     } else {
-      env.notify('error', api?.messages?.failed ?? __('fetchFailed'));
+      if (!api.silent) {
+        env.notify('error', api?.messages?.failed ?? __('fetchFailed'));
+      }
     }
   }
 

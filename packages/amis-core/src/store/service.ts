@@ -88,16 +88,17 @@ export const ServiceStore = iRendererStore
               (options && options.errorMessage),
             true
           );
-          getEnv(self).notify(
-            'error',
-            self.msg,
-            json.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: json.msgTimeout
-                }
-              : undefined
-          );
+          !(api as ApiObject).silent &&
+            getEnv(self).notify(
+              'error',
+              self.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
         } else {
           self.updatedAt = Date.now();
           let replace = !!(api as ApiObject).replaceData;
@@ -147,7 +148,7 @@ export const ServiceStore = iRendererStore
         if (e && e.message === 'Network Error') {
           message = self.__('networkError');
         }
-        env.notify('error', message);
+        !(api as ApiObject).silent && env.notify('error', message);
         return;
       }
     });
@@ -176,7 +177,8 @@ export const ServiceStore = iRendererStore
           return;
         }
 
-        (options && options.silent) || markFetching(true);
+        (options && options.silent && (api as ApiObject).silent) ||
+          markFetching(true);
         const json: Payload = yield getEnv(self).fetcher(api, data, {
           ...options,
           cancelExecutor: (executor: Function) => (fetchCancel = executor)
@@ -203,16 +205,17 @@ export const ServiceStore = iRendererStore
               (options && options.errorMessage),
             true
           );
-          getEnv(self).notify(
-            'error',
-            self.msg,
-            json.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: json.msgTimeout
-                }
-              : undefined
-          );
+          !(api as ApiObject).silent &&
+            getEnv(self).notify(
+              'error',
+              self.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
         } else {
           if (options && options.onSuccess) {
             const ret = options.onSuccess(json);
@@ -253,7 +256,7 @@ export const ServiceStore = iRendererStore
         if (e && e.message === 'Network Error') {
           message = self.__('networkError');
         }
-        env.notify('error', message);
+        !(api as ApiObject).silent && env.notify('error', message);
         return;
       }
     });
@@ -345,6 +348,10 @@ export const ServiceStore = iRendererStore
         }
 
         console.error(e);
+
+        if ((api as ApiObject).silent) {
+          return;
+        }
         if (e.type === 'ServerError') {
           const result = (e as ServerError).response;
           getEnv(self).notify(
@@ -416,16 +423,17 @@ export const ServiceStore = iRendererStore
               self.__('fetchFailed'),
             true
           );
-          getEnv(self).notify(
-            'error',
-            self.msg,
-            json.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: json.msgTimeout
-                }
-              : undefined
-          );
+          !(api as ApiObject)?.silent &&
+            getEnv(self).notify(
+              'error',
+              self.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
         } else {
           if (json.data) {
             const env = getEnv(self);
@@ -482,7 +490,7 @@ export const ServiceStore = iRendererStore
         if (e && e.message === 'Network Error') {
           message = self.__('networkError');
         }
-        env.notify('error', message);
+        !(api as ApiObject)?.silent && env.notify('error', message);
       }
     });
 

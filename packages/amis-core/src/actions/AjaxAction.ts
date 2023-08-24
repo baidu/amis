@@ -76,7 +76,10 @@ export class AjaxAction implements RendererAction {
         })
       );
 
-      if (!action.args?.options?.silent) {
+      if (
+        !action.args?.options?.silent &&
+        !(action.args?.api as ApiObject)?.silent
+      ) {
         if (!result.ok) {
           throw new ServerError(
             (action.args?.api as ApiObject)?.messages?.failed ??
@@ -106,7 +109,10 @@ export class AjaxAction implements RendererAction {
 
       return result.data;
     } catch (e) {
-      if (!action.args?.options?.silent) {
+      if (
+        !action.args?.options?.silent &&
+        !(action.args?.api as ApiObject)?.silent
+      ) {
         if (e.type === 'ServerError') {
           const result = (e as ServerError).response;
           env.notify(
