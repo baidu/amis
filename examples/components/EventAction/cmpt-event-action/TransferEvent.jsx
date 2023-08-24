@@ -56,6 +56,29 @@ export default {
           name: 'transferEvent2',
           id: 'transferEvent2',
           type: 'action',
+          label: '清空搜索',
+          level: 'primary',
+          className: 'mr-3 mb-3',
+          debugger: true,
+          onEvent: {
+            click: {
+              actions: [
+                {
+                  actionType: 'clearSearch',
+                  componentId: 'transfer-receiver',
+                  args: {
+                    left: true,
+                    right: true
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          name: 'transferEvent2',
+          id: 'transferEvent2',
+          type: 'action',
           label: '重置功能',
           level: 'primary',
           className: 'mr-3 mb-3',
@@ -84,6 +107,8 @@ export default {
           id: 'transfer-receiver',
           type: 'transfer',
           name: 'transfer',
+          searchable: true,
+          resultSearchable: true,
           debugger: true,
           resetValue: 'c',
           source: '/api/mock2/form/getTreeOptions',

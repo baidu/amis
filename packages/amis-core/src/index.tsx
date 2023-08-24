@@ -304,7 +304,7 @@ function AMISRenderer({
 
   // 默认将开启移动端原生 UI
   if (options.useMobileUI !== false) {
-    props.useMobileUI = true;
+    props.mobileUI = env.isMobile();
   }
 
   // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations

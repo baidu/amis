@@ -283,6 +283,22 @@ test('EventAction:ajax data1', async () => {
                         }
                       }
                     }
+                  },
+                  {
+                    actionType: 'ajax',
+                    args: {
+                      api: {
+                        url: '/api/xxx?name=${event.data.name}',
+                        method: 'post',
+                        data: {
+                          myname1: '${name}',
+                          myname2: '\\${name}',
+                          myname3: '${text}',
+                          myname4: '\\${text}'
+                        }
+                      },
+                      other: '${name}'
+                    }
                   }
                 ]
               }
@@ -308,7 +324,7 @@ test('EventAction:ajax data1', async () => {
   fireEvent.click(getByText(/发送请求/));
 
   await waitFor(() => {
-    expect(fetcher).toHaveBeenCalledTimes(2);
+    expect(fetcher).toHaveBeenCalledTimes(3);
     expect(fetcher.mock.calls[0][0].url).toEqual('/api/xxx?name=lll');
     expect(fetcher.mock.calls[0][0].data).toMatchObject({
       myname1: 'lll',
@@ -322,6 +338,14 @@ test('EventAction:ajax data1', async () => {
       param2: 'amis',
       param3: 'amis',
       param4: 'amis'
+    });
+    // 测试干扰配置
+    expect(fetcher.mock.calls[0][0].url).toEqual('/api/xxx?name=lll');
+    expect(fetcher.mock.calls[0][0].data).toMatchObject({
+      myname1: 'lll',
+      myname2: '${name}',
+      myname3: '${lll}',
+      myname4: '${text}'
     });
   });
 });
@@ -420,5 +444,192 @@ test('EventAction:ajax data2', async () => {
       param3: 'amis',
       param4: 'amis'
     });
+  });
+});
+
+test('EventAction:ajax data3', async () => {
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          name: 'amis',
+          age: 18
+        }
+      }
+    })
+  );
+  const {getByText, container}: any = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'button',
+            label: '表单外的校验按钮',
+            className: 'mb-2',
+            level: 'primary',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    componentId: 'form_validate',
+                    outputVar: 'validateResult',
+                    actionType: 'validate'
+                  },
+                  {
+                    outputVar: 'responseResult',
+                    actionType: 'ajax',
+                    api: {
+                      method: 'post',
+                      url: '/api/xxx1',
+                      data: {
+                        name: '${name}',
+                        email: '${email}'
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            type: 'form',
+            id: 'form_validate',
+            data: {
+              name: 'amis',
+              email: 'amis@baidu.com'
+            },
+            body: [
+              {
+                type: 'input-text',
+                name: 'name',
+                label: '姓名：',
+                required: true
+              },
+              {
+                name: 'email',
+                type: 'input-text',
+                label: '邮箱：',
+                required: true,
+                validations: {
+                  isEmail: true
+                }
+              }
+            ],
+            actions: [
+              {
+                type: 'button',
+                label: '表单内的校验按钮',
+                level: 'primary',
+                onEvent: {
+                  click: {
+                    actions: [
+                      {
+                        componentId: 'form_validate',
+                        outputVar: 'validateResult',
+                        actionType: 'validate'
+                      },
+                      {
+                        outputVar: 'responseResult',
+                        actionType: 'ajax',
+                        api: {
+                          method: 'post',
+                          url: '/api/xxx2',
+                          data: {
+                            name: '${name}',
+                            email: '${email}'
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                type: 'button',
+                label: '无data',
+                level: 'primary',
+                onEvent: {
+                  click: {
+                    actions: [
+                      {
+                        componentId: 'form_validate',
+                        outputVar: 'validateResult',
+                        actionType: 'validate'
+                      },
+                      {
+                        outputVar: 'responseResult',
+                        actionType: 'ajax',
+                        api: {
+                          method: 'post',
+                          url: '/api/xxx3'
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                type: 'button',
+                label: '字符串api无参数',
+                level: 'primary',
+                onEvent: {
+                  click: {
+                    actions: [
+                      {
+                        componentId: 'form_validate',
+                        outputVar: 'validateResult',
+                        actionType: 'validate'
+                      },
+                      {
+                        outputVar: 'responseResult',
+                        actionType: 'ajax',
+                        api: 'post:/api/xxx4'
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        fetcher
+      })
+    )
+  );
+
+  await waitFor(() => {
+    expect(getByText('表单外的校验按钮')).toBeInTheDocument();
+    expect(getByText('表单内的校验按钮')).toBeInTheDocument();
+    expect(getByText('无data')).toBeInTheDocument();
+    expect(getByText('字符串api无参数')).toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText(/表单外的校验按钮/));
+  fireEvent.click(getByText(/表单内的校验按钮/));
+  fireEvent.click(getByText(/无data/));
+  fireEvent.click(getByText(/字符串api无参数/));
+
+  await waitFor(() => {
+    expect(fetcher).toHaveBeenCalledTimes(4);
+    expect(fetcher.mock.calls[0][0].url).toEqual('/api/xxx1');
+    expect(fetcher.mock.calls[0][0].data).toMatchObject({
+      name: '',
+      email: ''
+    });
+    expect(fetcher.mock.calls[1][0].url).toEqual('/api/xxx2');
+    expect(fetcher.mock.calls[1][0].data).toMatchObject({
+      name: 'amis',
+      email: 'amis@baidu.com'
+    });
+    expect(fetcher.mock.calls[2][0].url).toEqual('/api/xxx3');
+    expect(fetcher.mock.calls[2][0].data).toMatchObject({});
+    expect(fetcher.mock.calls[3][0].url).toEqual('/api/xxx4');
+    expect(fetcher.mock.calls[3][0].data).toMatchObject({});
   });
 });

@@ -679,7 +679,7 @@ export class TableControlPlugin extends BasePlugin {
             },
             label: '插入位置',
             size: 'lg',
-            placeholder: '请输入行号，为空则在头部插入'
+            placeholder: '请输入行号，为空则在尾部插入'
           },
           {
             type: 'combo',

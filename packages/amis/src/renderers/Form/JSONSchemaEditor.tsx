@@ -139,13 +139,12 @@ export default class JSONSchemaEditorControl extends React.PureComponent<JSONSch
   }
 
   render() {
-    const {enableAdvancedSetting, useMobileUI, env, ...rest} = this.props;
-    const mobileUI = useMobileUI && isMobile();
+    const {enableAdvancedSetting, mobileUI, env, ...rest} = this.props;
 
     return (
       <JSONSchemaEditor
         {...rest}
-        useMobileUI={useMobileUI}
+        mobileUI={mobileUI}
         placeholder={this.normalizePlaceholder()}
         enableAdvancedSetting={enableAdvancedSetting}
         renderModalProps={this.renderModalProps}

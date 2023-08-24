@@ -79,27 +79,15 @@ setSchemaTpl('formItemName', {
   // validateOnChange: false
 });
 
-setSchemaTpl('formItemExtraName', {
-  className: 'mb-3',
-  type: 'fieldset',
-  body: [
-    getSchemaTpl('formItemName', {
-      required: true,
-      label: '额外字段',
-      name: 'extraName',
-      visibleOn: 'typeof this.extraName === "string"'
-    }),
-
-    {
-      type: 'switch',
-      label: tipedLabel('存成两个字段', '开启后将选中范围分别存成两个字段'),
-      name: 'extraName',
-      pipeIn: (value: any) => typeof value === 'string',
-      pipeOut: (value: any) => (value ? '' : undefined),
-      inputClassName: 'is-inline'
-    }
-  ]
-});
+setSchemaTpl(
+  'formItemExtraName',
+  getSchemaTpl('formItemName', {
+    required: false,
+    label: '结尾字段名',
+    name: 'extraName',
+    description: '配置了结尾字段名，该组件将开始和结尾存成两个字段'
+  })
+);
 
 setSchemaTpl(
   'formItemMode',
@@ -1083,6 +1071,8 @@ setSchemaTpl('buttonLevel', {
   label: '按钮样式',
   type: 'select',
   name: 'level',
+  menuTpl:
+    '<div class="ae-ButtonLevel-MenuTpl"><button type="button" class="cxd-Button cxd-Button--${value} cxd-Button--size-sm cxd-Button--block">${label}</button></div>',
   options: [
     {
       label: '默认',

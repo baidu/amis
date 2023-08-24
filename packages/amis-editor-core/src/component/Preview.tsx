@@ -11,12 +11,12 @@ import {EditorManager} from '../manager';
 import HighlightBox from './HighlightBox';
 import RegionHighlightBox from './RegionHLBox';
 import {ErrorRenderer} from './base/ErrorRenderer';
-import IFrameBridge from './IFrameBridge';
 import {isAlive} from 'mobx-state-tree';
 import {findTree} from 'amis-core';
 import BackTop from './base/BackTop';
-import {RendererConfig} from 'amis-core';
 import {reaction} from 'mobx';
+import type {RendererConfig} from 'amis-core';
+import IFramePreview from './IFramePreview';
 
 export interface PreviewProps {
   // isEditorEnabled?: (
@@ -36,7 +36,6 @@ export interface PreviewProps {
   store: EditorStoreType;
   manager: EditorManager;
   data?: any;
-  iframeUrl?: string;
   autoFocus?: boolean;
 
   toolbarContainer?: () => any;
@@ -462,7 +461,6 @@ export default class Preview extends Component<PreviewProps> {
       amisEnv,
       theme,
       isMobile,
-      iframeUrl,
       autoFocus,
       toolbarContainer,
       appLocale,
@@ -496,7 +494,7 @@ export default class Preview extends Component<PreviewProps> {
           )}
           ref={this.contentsRef}
         >
-          {iframeUrl && isMobile && (
+          {isMobile && (
             <React.Fragment>
               <div className="mobile-sound"></div>
               <div className="mobile-receiver"></div>
@@ -506,20 +504,17 @@ export default class Preview extends Component<PreviewProps> {
             </React.Fragment>
           )}
           <div className="ae-Preview-inner">
-            {iframeUrl && isMobile ? (
-              <IFrameBridge
+            {isMobile ? (
+              <IFramePreview
                 {...rest}
                 key="mobile"
-                className="ae-PreviewFrame"
                 editable={editable}
-                isMobile={isMobile}
                 store={store}
                 env={env}
                 manager={manager}
-                url={iframeUrl}
-                theme={theme}
                 autoFocus={autoFocus}
-              ></IFrameBridge>
+                appLocale={appLocale}
+              ></IFramePreview>
             ) : (
               // 弹框挂载节点
               <div className="dialog-preview-mount-node">
@@ -535,10 +530,6 @@ export default class Preview extends Component<PreviewProps> {
                 />
               </div>
             )}
-
-            {iframeUrl && isMobile && store.contextId ? (
-              <span className="ae-IframeMask"></span>
-            ) : null}
 
             <div className="ae-Preview-widgets" id="aePreviewHighlightBox">
               {store.highlightNodes.map(node => (

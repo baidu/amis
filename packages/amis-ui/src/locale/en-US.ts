@@ -363,6 +363,7 @@ register('en-US', {
   'Condition.formula_placeholder': 'Please enter a formula',
   'Condition.fun_error': 'Function is undefined',
   'Condition.configured': 'Configured',
+  'Condition.isRequired': 'Condition is required',
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
   'Timeline.collapseText': 'Unfold',
   'Timeline.expandText': 'Fold',

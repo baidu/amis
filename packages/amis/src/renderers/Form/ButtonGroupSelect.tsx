@@ -71,7 +71,8 @@ export default class ButtonGroupControl extends React.Component<
 
   getBadgeConfig(config: BadgeObject, item: Option) {
     return config
-      ? item?.badge && (typeof item.badge === 'string' || typeof item.badge === 'number')
+      ? item?.badge &&
+        (typeof item.badge === 'string' || typeof item.badge === 'number')
         ? {...config, text: item.badge}
         : item?.badge && isObject(item.badge)
         ? {...config, ...item.badge}
@@ -129,9 +130,12 @@ export default class ButtonGroupControl extends React.Component<
           },
           {
             key: key,
-            active,
             level: (active ? btnActiveLevel : '') || option.level || btnLevel,
-            className: cx(option.className, btnClassName),
+            className: cx(
+              option.className,
+              btnClassName,
+              active && 'ButtonGroup-button--active'
+            ),
             disabled: option.disabled || disabled,
             onClick: (e: React.UIEvent<any>) => {
               if (disabled) {
@@ -146,7 +150,6 @@ export default class ButtonGroupControl extends React.Component<
     } else if (Array.isArray(buttons)) {
       body = buttons.map((button, key) => {
         const buttonBadge = this.getBadgeConfig(badge, button);
-
         return render(
           `button/${key}`,
           {

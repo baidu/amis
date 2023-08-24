@@ -4,7 +4,8 @@ import {
   IScopedContext,
   filterTarget,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  setVariable
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
@@ -403,9 +404,11 @@ export default class Dialog extends React.Component<DialogProps> {
 
     // 如果 dialog 里面不放 form，而是直接放表单项就会进到这里来。
     if (typeof name === 'string') {
-      data = {
-        [name]: data
+      const mergedData = {
+        ...store.form
       };
+      setVariable(mergedData, name, data);
+      data = mergedData;
     }
 
     store.setFormData(data);
@@ -470,10 +473,6 @@ export default class Dialog extends React.Component<DialogProps> {
       onActionSensor: this.handleActionSensor,
       syncLocation: false // 弹框中的 crud 一般不需要同步地址栏
     };
-
-    if (this.props.size === 'full') {
-      subProps.affixOffsetTop = 0;
-    }
 
     if (!(body as Schema).type) {
       return render(`body${key ? `/${key}` : ''}`, body, subProps);
@@ -1105,7 +1104,7 @@ export class DialogRenderer extends Dialog {
 
     if (reload) {
       scoped.reload(reload, store.data);
-    } else if (scoped.component?.reload) {
+    } else if (scoped.component !== this && scoped.component?.reload) {
       scoped.component.reload();
     } else {
       // 没有设置，则自动让页面中 crud 刷新。
@@ -1131,7 +1130,7 @@ export class DialogRenderer extends Dialog {
     setTimeout(() => {
       if (reload) {
         scoped.reload(reload, store.data);
-      } else if (scoped.component?.reload) {
+      } else if (scoped.component !== this && scoped.component?.reload) {
         scoped.component.reload();
       } else {
         // 没有设置，则自动让页面中 crud 刷新。

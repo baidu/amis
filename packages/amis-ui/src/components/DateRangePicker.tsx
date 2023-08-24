@@ -17,7 +17,6 @@ import {
   filterDate,
   themeable,
   getComputedStyle,
-  isMobile,
   noop,
   ucFirst,
   localeable
@@ -68,7 +67,6 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   embed?: boolean;
   viewMode?: 'days' | 'months' | 'years' | 'time' | 'quarters';
   borderMode?: 'full' | 'half' | 'none';
-  useMobileUI?: boolean;
   onFocus?: Function;
   onBlur?: Function;
   type?: string;
@@ -1035,9 +1033,8 @@ export class DateRangePicker extends React.Component<
   }
 
   selectShortcut(shortcut: PlainObject) {
-    const {closeOnSelect, minDateRaw, maxDateRaw, format, data, useMobileUI} =
+    const {closeOnSelect, minDateRaw, maxDateRaw, format, data, mobileUI} =
       this.props;
-    const mobileUI = useMobileUI && isMobile();
     const now = moment();
     /** minDate和maxDate要实时计算，因为用户可能设置为${NOW()}，暂时不考虑毫秒级的时间差 */
     const minDate = minDateRaw
@@ -1390,7 +1387,7 @@ export class DateRangePicker extends React.Component<
       type,
       viewMode = 'days',
       label,
-      useMobileUI
+      mobileUI
     } = this.props;
     const __ = this.props.translate;
     const {startDate, endDate, editState} = this.state;
@@ -1408,7 +1405,6 @@ export class DateRangePicker extends React.Component<
           !endDate ||
           !startDate?.isValid() ||
           !endDate?.isValid()));
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
@@ -1636,7 +1632,7 @@ export class DateRangePicker extends React.Component<
       embed,
       overlayPlacement,
       borderMode,
-      useMobileUI,
+      mobileUI,
       timeFormat,
       minDate,
       maxDate,
@@ -1650,9 +1646,7 @@ export class DateRangePicker extends React.Component<
       animation
     } = this.props;
     const useCalendarMobile =
-      useMobileUI &&
-      isMobile() &&
-      ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
+      mobileUI && ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
     const {isOpened, isFocused, startDate, endDate} = this.state;
     const __ = this.props.translate;
 
@@ -1678,8 +1672,6 @@ export class DateRangePicker extends React.Component<
         }
       />
     );
-
-    const mobileUI = useMobileUI && isMobile();
 
     if (embed) {
       return (
@@ -1720,7 +1712,7 @@ export class DateRangePicker extends React.Component<
             'is-disabled': disabled,
             'is-focused': isFocused,
             [`${ns}DateRangePicker--border${ucFirst(borderMode)}`]: borderMode,
-            'is-mobile': useMobileUI && isMobile()
+            'is-mobile': mobileUI
           },
           className
         )}
@@ -1738,7 +1730,7 @@ export class DateRangePicker extends React.Component<
           autoComplete="off"
           value={this.state.startInputValue || ''}
           disabled={disabled}
-          readOnly={useMobileUI && isMobile()}
+          readOnly={mobileUI}
         />
         <span
           className={cx('DateRangePicker-input-separator')}
@@ -1758,7 +1750,7 @@ export class DateRangePicker extends React.Component<
           autoComplete="off"
           value={this.state.endInputValue || ''}
           disabled={disabled}
-          readOnly={useMobileUI && isMobile()}
+          readOnly={mobileUI}
         />
 
         {/* 指示游标 */}
@@ -1783,7 +1775,7 @@ export class DateRangePicker extends React.Component<
         </a>
 
         {isOpened ? (
-          useMobileUI && isMobile() ? (
+          mobileUI ? (
             <PopUp
               isShow={isOpened}
               container={popOverContainer}

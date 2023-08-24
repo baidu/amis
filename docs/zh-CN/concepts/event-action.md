@@ -281,7 +281,22 @@ run action ajax
           ]
         }
       }
-    },
+    }
+  ]
+}
+```
+
+#### 静默模式
+
+当配置`options.silent: true`时，请求完成后不会弹出提示信息。
+
+```schema
+{
+  type: 'page',
+  data: {
+    name: 'lll'
+  },
+  body: [
     {
       type: 'button',
       id: 'b_001',
@@ -321,6 +336,106 @@ run action ajax
       }
     }
   ]
+}
+```
+
+#### 可读取的数据
+
+请求配置中可读取的数据包含事件源所在数据域和动作执行产生的数据。可以通过`api.data`配置数据映射来读取所需数据。例如：
+
+- 取所在数据域的数据：通过`"name": "${name}", "email": "${email}"`来映射表单校验数据（只适用于事件源在表单内的情况）
+- 取动作产生的数据：通过`"name": "${event.data.validateResult.payload.name}", "email": "${event.data.validateResult.payload.email}"`来映射表单校验数据，这种是获取前面表单校验动作的校验结果数据。通过`"&": "${event.data.validateResult.payload}"`展开表单校验数据，结果相同，这是一个数据映射小技巧
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "button",
+      "label": "表单外的校验按钮",
+      "className": "mb-2",
+      level: 'primary',
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "form_validate",
+              "outputVar": "validateResult",
+              "actionType": "validate"
+            },
+            {
+              "outputVar": "responseResult",
+              "actionType": "ajax",
+              "api": {
+                "method": "post",
+                "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+                "data": {
+                  "name": "${name}",
+                  "email": "${email}"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "id": "u:bd7adb583ec8"
+    },
+    {
+      "type": "form",
+      "id": "form_validate",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "name",
+          "label": "姓名：",
+          "required": true,
+          "id": "u:fbbc02500df6"
+        },
+        {
+          "name": "email",
+          "type": "input-text",
+          "label": "邮箱：",
+          "required": true,
+          "validations": {
+            "isEmail": true
+          },
+          "id": "u:830d0bad3e6a"
+        }
+      ],
+      "actions": [
+        {
+          "type": "button",
+          "label": "表单内的校验按钮",
+          level: 'primary',
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "componentId": "form_validate",
+                  "outputVar": "validateResult",
+                  "actionType": "validate"
+                },
+                {
+                  "outputVar": "responseResult",
+                  "actionType": "ajax",
+                  "api": {
+                    "method": "post",
+                    "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+                    "data": {
+                      "name": "${name}",
+                      "email": "${email}"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "id": "u:bd7adb583ec8"
+        }
+      ]
+    }
+  ],
+  "id": "u:d79af3431de1"
 }
 ```
 
@@ -2433,7 +2548,7 @@ registerAction('my-action', new MyAction());
 
 ## 循环
 
-通过配置`actionType: 'for'`实现循环逻辑。
+通过配置`actionType: 'loop'`实现循环逻辑。
 
 ### 单层循环
 
@@ -2598,7 +2713,7 @@ registerAction('my-action', new MyAction());
 
 ### Break 动作
 
-通过配置`actionType: 'for'`和`actionType: 'break'`实现循环跳出。
+通过配置`actionType: 'loop'`和`actionType: 'break'`实现循环跳出。
 
 ```schema
 {
@@ -2665,7 +2780,7 @@ registerAction('my-action', new MyAction());
 
 ### Continue 动作
 
-通过配置`actionType: 'for'`和`actionType: 'continue'`实现循环跳过。
+通过配置`actionType: 'loop'`和`actionType: 'continue'`实现循环跳过。
 
 ```schema
 {
@@ -3079,7 +3194,7 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
 | id     | 组件 ID，即组件的 id 属性的值 |
 | path   | 数据路径，即数据变量的路径    |
 
-# 事件动作干预
+# 干预动作执行
 
 事件动作干预是指执行完当前动作后，干预所监听事件默认处理逻辑和后续其他动作的执行。通过`preventDefault`、`stopPropagation`分别阻止监听事件默认行为和停止下一个动作执行。
 
@@ -3190,6 +3305,65 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
 }
 ```
 
+## 忽略动作报错继续执行
+
+> `3.3.1` 及以上版本
+
+默认情况下，尝试执行一个不存在的目标组件动作、JS 脚本执行错误等程序错误都会导致动作执行终止，可以通过`ignoreError: true`来忽略动作报错继续执行后面的动作。
+
+```schema
+{
+  "type": "page",
+  "title": "第一个按钮发生错误直接阻塞执行，第二个按钮发生错误后仍然执行",
+  "body": [
+    {
+      type: 'button',
+      label: '无法弹出提示',
+      level: 'primary',
+      className: 'mr-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'reload',
+              componentId: 'notfound'
+            },
+            {
+              actionType: 'toast',
+              args: {
+                msg: 'okk'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      label: '可以弹出提示',
+      level: 'primary',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'reload',
+              componentId: 'notfound',
+              ignoreError: true
+            },
+            {
+              actionType: 'toast',
+              args: {
+                msg: 'okk'
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
 # 自定义组件接入事件动作
 
 需求场景主要是想要自定义组件的内部事件暴露出去，能够通过对事件的监听来执行所需动作，并希望自定义组件自身的动作能够被其他组件调用。接入方法是通过`props.dispatchEvent`派发自身的各种事件，使其具备更灵活的交互设计能力；通过实现`doAction`方法实现其他组件对其专属动作的调用，需要注意的是，此处依赖内部的 `Scoped Context`来实现自身的注册，可以参考 [组件间通信](../../docs/extend/custom-react#组件间通信)。
@@ -3206,3 +3380,4 @@ http 请求动作执行结束后，后面的动作可以通过 `${responseResult
 | stopPropagation | `boolean`\|[表达式](../concepts/expression)\|[ConditionBuilder](../../components/form/condition-builder) | false   | 停止后续动作执行，`> 1.10.0 及以上版本支持表达式，> 2.9.0 及以上版本支持ConditionBuilder`                     |
 | expression      | `boolean`\|[表达式](../concepts/expression)\|[ConditionBuilder](../../components/form/condition-builder) | -       | 执行条件，不设置表示默认执行，`> 1.10.0 及以上版本支持表达式，> 2.9.0 及以上版本支持ConditionBuilder`         |
 | outputVar       | `string`                                                                                                 | -       | 输出数据变量名                                                                                                |
+| ignoreError     | `boolean`                                                                                                | false   | 当动作执行出错后，是否忽略错误继续执行。`3.3.1 及以上版本支持`                                                |

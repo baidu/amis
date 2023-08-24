@@ -536,11 +536,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         items: []
       });
     }
+    // 如果picker用visibleOn来控制显隐，显隐切换时，constructor => handleSelect => componentDidMount的执行顺序
+    // 因此需要将componentDidMount中的设置选中项提前到constructor，否则handleSelect里拿不到的选中项
+    let val: any;
+    if (this.props.pickerMode && (val = getPropValue(this.props))) {
+      store.setSelectedItems(val);
+    }
   }
 
   componentDidMount() {
     const {store, autoGenerateFilter, columns} = this.props;
-
     if (this.props.perPage) {
       store.changePage(store.page, this.props.perPage);
     }
@@ -554,11 +559,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       (store.filterTogggable && !store.filterVisible)
     ) {
       this.handleFilterInit({});
-    }
-
-    let val: any;
-    if (this.props.pickerMode && (val = getPropValue(this.props))) {
-      store.setSelectedItems(val);
     }
 
     this.parentContainer = this.getClosestParentContainer();
@@ -1529,7 +1529,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     } = this.props;
     let newItems = items;
     let newUnSelectedItems = unSelectedItems;
-
     if (keepItemSelectionOnPageChange && store.selectedItems.length) {
       const oldItems = store.selectedItems.concat();
       const oldUnselectedItems = store.unSelectedItems.concat();
@@ -1598,11 +1597,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
-    // 用 updateSelectData 导致 CRUD 无线刷新
+    // 用 updateSelectData 导致 CRUD 无限刷新
     // store.updateSelectData(newItems, newUnSelectedItems);
     store.setSelectedItems(newItems);
     store.setUnSelectedItems(newUnSelectedItems);
-
     onSelect && onSelect(newItems, newUnSelectedItems);
   }
 
@@ -1655,7 +1653,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       replace
     );
-    this.search(undefined, undefined, undefined, forceReload);
+    this.search(undefined, undefined, replace, forceReload);
   }
 
   reload(
@@ -1948,14 +1946,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   renderSwitchPerPage(childProps: any) {
     const {
-      useMobileUI,
+      mobileUI,
       store,
       perPageAvailable,
       classnames: cx,
       classPrefix: ns,
       translate: __
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
 
     const items = childProps.items;
 
@@ -2082,9 +2079,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
-    const {render, store, useMobileUI, translate: __} = this.props;
+    const {render, store, mobileUI, translate: __} = this.props;
     const type = (toolbar as Schema).type || toolbar;
-    const mobileUI = useMobileUI && isMobile();
 
     if (type === 'bulkActions' || type === 'bulk-actions') {
       return this.renderBulkActions(childProps);
@@ -2232,6 +2228,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       labelField,
       labelTpl,
       primaryField,
+      valueField,
       translate: __,
       env
     } = this.props;
@@ -2263,7 +2260,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 />
               ) : (
                 getVariable(item, labelField || 'label') ||
-                getVariable(item, primaryField || 'id')
+                getVariable(item, valueField || primaryField || 'id')
               )}
             </span>
           </div>

@@ -186,9 +186,11 @@ export function makeWrapper(
         ref = ref.getWrappedInstance();
       }
 
-      this.editorNode &&
-        isAlive(this.editorNode) &&
+      if (this.editorNode && isAlive(this.editorNode)) {
         this.editorNode.setComponent(ref);
+
+        info.plugin?.componentRef?.(this.editorNode, ref);
+      }
     }
 
     /**

@@ -700,7 +700,7 @@ export class CalendarMobile extends React.Component<
           input={false}
           onClose={close}
           locale={locale}
-          useMobileUI={true}
+          mobileUI={true}
           showToolbar={false}
           viewDate={moment().set({
             hour: dateTime[0],

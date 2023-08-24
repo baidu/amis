@@ -152,7 +152,6 @@
 
   &-contentWrap {
     position: relative;
-    margin-bottom: var(--Table-toolbar-marginY);
   }
 
   &-actions {
@@ -196,6 +195,10 @@
     border-spacing: 0;
     border-collapse: separate;
 
+    &.is-layout-fixed {
+      table-layout: fixed !important;
+    }
+
     & th,
     & td {
       text-align: left;
@@ -232,6 +235,11 @@
       }
     }
 
+    &.is-layout-fixed td {
+      white-space: normal;
+      word-break: break-all;
+    }
+
     &.table-fixed-left .is-sticky-last-left:after {
       box-shadow: var(--Table-fixedLeft-boxShadow);
     }
@@ -260,7 +268,7 @@
       padding-top: 0;
     }
 
-    &--affixHeader thead {
+    &--affixHeader > thead {
       visibility: collapse;
     }
 

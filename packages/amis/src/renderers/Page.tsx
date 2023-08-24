@@ -863,7 +863,7 @@ export default class Page extends React.Component<PageProps> {
       data,
       asideResizor,
       pullRefresh,
-      useMobileUI,
+      mobileUI,
       translate: __,
       loadingConfig
     } = this.props;
@@ -948,7 +948,7 @@ export default class Page extends React.Component<PageProps> {
           </div>
         ) : null}
 
-        {useMobileUI && isMobile() && pullRefresh && !pullRefresh.disabled ? (
+        {mobileUI && pullRefresh && !pullRefresh.disabled ? (
           <PullRefresh
             {...pullRefresh}
             translate={__}
@@ -1076,7 +1076,7 @@ export class PageRenderer extends Page {
 
     if (reload) {
       scoped.reload(reload, store.data);
-    } else if (scoped?.component?.reload) {
+    } else if (scoped?.component !== this && scoped.component?.reload) {
       scoped.component.reload();
     } else {
       // 没有设置，则自动让页面中 crud 刷新。
@@ -1103,7 +1103,7 @@ export class PageRenderer extends Page {
     setTimeout(() => {
       if (reload) {
         scoped.reload(reload, store.data);
-      } else if (scoped?.component?.reload) {
+      } else if (scoped.component !== this && scoped?.component?.reload) {
         scoped.component.reload();
       } else {
         (this.context as IScopedContext)

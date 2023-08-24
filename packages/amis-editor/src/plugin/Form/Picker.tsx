@@ -189,9 +189,6 @@ export class PickerControlPlugin extends BasePlugin {
 
               getSchemaTpl('strictMode'),
               getSchemaTpl('multiple'),
-              getSchemaTpl('joinValues'),
-              getSchemaTpl('delimiter'),
-              getSchemaTpl('extractValue'),
               getSchemaTpl('autoFillApi', {
                 visibleOn:
                   '!this.autoFill || this.autoFill.scene && this.autoFill.action'

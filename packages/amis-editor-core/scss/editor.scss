@@ -52,6 +52,9 @@
 @import './style-control/style-common';
 @import './style-control/theme-css-code';
 
+/* 组件样式 */
+@import './components/button';
+
 @keyframes growing {
   0% {
     box-shadow: 0 0 10px rgba(#23b7e5, 0) inset;
@@ -158,10 +161,19 @@
     position: relative;
     height: 100%;
     width: 100%;
-    padding: 24px 16px 16px;
+    padding: 0 16px 16px;
     min-width: 300px;
     background-color: $default-bg-color;
     overflow: auto;
+
+    // 因为如果成员里面有 position:sticky 的内容
+    // 用 padding 会导致位置不正确
+    // 所以改成这种写法
+    &:before {
+      content: '';
+      display: block;
+      height: 24px;
+    }
 
     @include minScrollBar();
 
@@ -183,7 +195,7 @@
     .ae-Preview-inner {
       position: relative;
       // display: flex;
-      min-height: 100%;
+      min-height: calc(100% - 40px);
       background: #fff;
       box-shadow: 0 2px 6px 0 rgba(211, 211, 211, 0.5);
       border-radius: 4px;
@@ -192,7 +204,7 @@
       display: flex;
       flex-direction: column;
 
-      > *:first-child {
+      > *:not(iframe):first-child {
         // min-width: 100%;
         position: relative;
         // min-height: calc(100vh - 131px); // 确保能撑开画布区
@@ -222,7 +234,7 @@
 
     &.is-mobile {
       position: relative;
-      border-width: 64px 22px;
+      border-width: 24px 22px 36px;
       border-color: #ddd;
       border-style: solid;
       border-radius: 40px;
@@ -235,18 +247,34 @@
       padding: 0;
       overflow: visible;
 
+      // 这里覆盖 padding 没用
+      &:before {
+        content: none;
+      }
+
       > .ae-Preview-inner {
-        min-height: 100%;
-        height: 100%;
-        width: 100%;
+        background: transparent;
         overflow-x: hidden;
         overflow-y: auto;
-        padding: 0;
         transform: scale(1);
         transform-origin: center top;
+        height: 100%;
+        display: block;
+        position: relative;
 
         &::-webkit-scrollbar {
           display: none;
+        }
+
+        &::before {
+          content: '';
+          height: 40px;
+          position: sticky;
+          top: 0;
+          width: 100%;
+          background: #ddd;
+          flex-shrink: 0;
+          display: block;
         }
       }
 
@@ -263,14 +291,14 @@
       }
       // 音响
       .mobile-sound {
-        top: -35px; // 29px - 64px;
+        top: 5px;
         left: 142px; // 164px - 22px;
         width: 58px;
         height: 6px;
       }
       // 听筒
       .mobile-receiver {
-        top: -37px; // 27px - 64px;
+        top: 3px;
         left: 224px; // 246px - 22px;
         width: 10px;
         height: 10px;
@@ -327,17 +355,25 @@
   width: 100%;
 }
 
-.ae-IframeMask {
-  position: absolute;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+.ae-PreviewIFrame {
+  pointer-events: all !important;
+  border: 0 !important;
+  min-height: calc(100% - 46px);
+  width: 100%;
 }
 
 .ae-IFramePreview {
-  > *:first-child {
+  &,
+  & > .frame-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  > .frame-content > *:first-child {
+    flex: 1;
     min-width: 100%;
     position: relative;
     min-height: 100%;
@@ -1288,14 +1324,16 @@
   }
 }
 
-// 优化画布区页面展示效果
-[data-region='aside'][data-renderer='page'] {
-  min-height: calc(100vh - 131px);
-}
+// 移动端有问题，先注释了
 
-[data-region='body'][data-renderer='page'] {
-  min-height: calc(100vh - 165px);
-}
+// 优化画布区页面展示效果
+// [data-region='aside'][data-renderer='page'] {
+//   min-height: calc(100vh - 131px);
+// }
+
+// [data-region='body'][data-renderer='page'] {
+//   min-height: calc(100vh - 165px);
+// }
 
 .ae-Editor-rhlbox {
   position: absolute;

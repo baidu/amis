@@ -324,8 +324,8 @@ test('api:cache', async () => {
 });
 
 test('api:isvalidapi', () => {
-  expect(isValidApi('api/xxx')).toBeFalsy();
-  expect(isValidApi('api/xxx?a=1')).toBeFalsy();
+  expect(isValidApi('api/xxx')).toBeTruthy();
+  expect(isValidApi('api/xxx?a=1')).toBeTruthy();
   expect(isValidApi('/x')).toBeTruthy();
   expect(isValidApi('/api/xxx?a=1&b=2&c=3')).toBeTruthy();
   expect(isValidApi('http://xxxdomain')).toBeTruthy();
@@ -508,4 +508,140 @@ test('api:requestAdaptor2', async () => {
   expect(fetcher).toHaveBeenCalledTimes(0);
   expect(container.querySelector('input[name="id"]')).toBeInTheDocument();
   expect((container.querySelector('input[name="id"]') as any).value).toBe('2');
+});
+
+test('api:responseData1', async () => {
+  const notify = jest.fn();
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          id: 1
+        }
+      }
+    })
+  );
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'form',
+            id: 'form_submit',
+            submitText: '提交表单',
+            api: {
+              method: 'post',
+              url: '/api/mock2/form/saveForm',
+              responseData: {
+                id: '${id}',
+                id2: '${id + 1}'
+              }
+            },
+            body: [
+              {
+                type: 'input-text',
+                name: 'id',
+                label: 'Id'
+              },
+              {
+                type: 'input-text',
+                name: 'id2',
+                label: 'Id2'
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        notify,
+        fetcher
+      })
+    )
+  );
+
+  await waitFor(() => {
+    expect(getByText('提交表单')).toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText(/提交表单/));
+  await wait(300);
+
+  expect(fetcher).toHaveBeenCalledTimes(1);
+  expect(container.querySelector('input[name="id"]')).toBeInTheDocument();
+  expect((container.querySelector('input[name="id"]') as any).value).toBe('1');
+
+  expect(container.querySelector('input[name="id2"]')).toBeInTheDocument();
+  expect((container.querySelector('input[name="id2"]') as any).value).toBe('2');
+});
+
+test('api:responseData2', async () => {
+  const notify = jest.fn();
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 500,
+        msg: 'ok',
+        data: {
+          id: 1
+        }
+      }
+    })
+  );
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'form',
+            id: 'form_submit',
+            submitText: '提交表单',
+            api: {
+              method: 'post',
+              url: '/api/mock2/form/saveForm',
+              responseData: {
+                id: '${id}',
+                id2: '${id + 1}'
+              }
+            },
+            body: [
+              {
+                type: 'input-text',
+                name: 'id',
+                label: 'Id'
+              },
+              {
+                type: 'input-text',
+                name: 'id2',
+                label: 'Id2'
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        notify,
+        fetcher
+      })
+    )
+  );
+
+  await waitFor(() => {
+    expect(getByText('提交表单')).toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText(/提交表单/));
+  await wait(300);
+
+  expect(fetcher).toHaveBeenCalledTimes(1);
+  expect(container.querySelector('input[name="id"]')).toBeInTheDocument();
+  expect((container.querySelector('input[name="id"]') as any).value).toBe('1');
+
+  expect(container.querySelector('input[name="id2"]')).toBeInTheDocument();
+  expect((container.querySelector('input[name="id2"]') as any).value).toBe('2');
 });

@@ -14,7 +14,6 @@ import {
 import {PickerOption} from '../PickerColumn';
 import 'moment/locale/zh-cn';
 import 'moment/locale/de';
-import {isMobile} from 'amis-core';
 import type {RendererEnv} from 'amis-core';
 
 export type DateType =
@@ -98,7 +97,7 @@ interface BaseDatePickerProps {
   onScheduleClick?: (scheduleData: any) => void;
   hideHeader?: boolean;
   updateOn?: string;
-  useMobileUI?: boolean;
+  mobileUI?: boolean;
   embed?: boolean;
   closeOnSelect?: boolean;
   showToolbar?: boolean;
@@ -420,7 +419,7 @@ class BaseDatePicker extends React.Component<
       'onScheduleClick',
       'hideHeader',
       'updateOn',
-      'useMobileUI',
+      'mobileUI',
       'showToolbar',
       'embed',
       'env'
@@ -659,7 +658,8 @@ class BaseDatePicker extends React.Component<
   };
 
   render() {
-    const {viewMode, timeFormat, dateFormat, timeRangeHeader} = this.props;
+    const {viewMode, timeFormat, dateFormat, timeRangeHeader, mobileUI} =
+      this.props;
     const Component = CustomCalendarContainer as any;
     const viewProps = this.getComponentProps();
 
@@ -698,8 +698,10 @@ class BaseDatePicker extends React.Component<
           key="dt"
           className={cx(
             'rdtPicker',
-            {'is-mobile-year': isMobile() && viewMode === 'years'},
-            {'is-mobile-embed': isMobile() && viewProps.embed},
+            {
+              'is-mobile-year': mobileUI && viewMode === 'years'
+            },
+            {'is-mobile-embed': mobileUI && viewProps.embed},
             timeFormat && !dateFormat
               ? 'rdtPickerTimeWithoutD'
               : timeFormat && dateFormat

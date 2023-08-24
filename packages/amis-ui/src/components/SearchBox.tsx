@@ -5,9 +5,10 @@ import moment from 'moment';
 import {ThemeProps, themeable} from 'amis-core';
 import {Icon} from './icons';
 import {uncontrollable} from 'amis-core';
-import {autobind, isMobile} from 'amis-core';
+import {autobind} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import chain from 'lodash/chain';
+import Input from './Input';
 
 export interface HistoryRecord {
   /** 历史记录值 */
@@ -48,7 +49,6 @@ export interface SearchBoxProps extends ThemeProps, LocaleProps {
   /** 历史记录配置 */
   history?: SearchHistoryOptions;
   clearAndSubmit?: boolean;
-  useMobileUI?: boolean;
 }
 
 export interface SearchBoxState {
@@ -285,12 +285,11 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
       mini,
       enhance,
       clearable,
-      useMobileUI,
+      mobileUI,
       translate: __
     } = this.props;
     const {isFocused, inputValue} = this.state;
     const {enable} = this.getHistoryOptions();
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
@@ -306,17 +305,17 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
         )}
         style={style}
       >
-        <input
+        <Input
           name={name}
           ref={this.inputRef}
+          disabled={disabled}
+          placeholder={__(placeholder || 'placeholder.enter')}
+          value={inputValue ?? ''}
+          autoComplete="off"
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
-          value={inputValue ?? ''}
-          disabled={disabled}
-          placeholder={__(placeholder || 'placeholder.enter')}
-          autoComplete="off"
         />
 
         {!mini && clearable && inputValue && !disabled ? (

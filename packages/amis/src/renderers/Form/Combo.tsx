@@ -1293,11 +1293,9 @@ export default class ComboControl extends React.Component<ComboProps> {
       disabled,
       removable,
       deleteBtn,
-      useMobileUI,
+      mobileUI,
       data
     } = this.props;
-
-    const mobileUI = useMobileUI && isMobile();
 
     const finnalRemovable =
       store.removable !== false && // minLength ?
@@ -1478,12 +1476,11 @@ export default class ComboControl extends React.Component<ComboProps> {
       itemClassName,
       itemsWrapperClassName,
       static: isStatic,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     let items = this.props.items;
     let value = this.props.value;
-    const mobileUI = useMobileUI && isMobile();
 
     if (flat && typeof value === 'string') {
       value = value.split(delimiter || ',');
@@ -1612,10 +1609,9 @@ export default class ComboControl extends React.Component<ComboProps> {
       nullable,
       translate: __,
       itemClassName,
-      useMobileUI
+      mobileUI
     } = this.props;
 
-    const mobileUI = useMobileUI && isMobile();
     let items = this.props.items;
     const data = isObject(value) ? this.formatValue(value) : this.defaultValue;
     let condition: ComboCondition | null = null;

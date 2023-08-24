@@ -24,7 +24,7 @@ interface customOperator {
 interface BaseField {
   type: FieldTypes;
   label: string;
-  valueTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
+  valueTypes?: Array<'value' | 'field' | 'func'>;
   operators?: Array<string | customOperator>;
 
   // valueTypes 里面配置 func 才有效。
@@ -147,5 +147,5 @@ export type ConditionBuilderType = {
   defaultOp?: OperatorType;
   operators: Array<OperatorType>;
   placeholder?: string;
-  valueTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
+  valueTypes?: Array<'value' | 'field' | 'func'>;
 };

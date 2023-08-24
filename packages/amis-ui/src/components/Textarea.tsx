@@ -60,7 +60,6 @@ export interface TextAreaProps extends ThemeProps, LocaleProps {
   disabled?: boolean;
 
   forwardRef?: {current: HTMLTextAreaElement | null};
-  useMobileUI?: boolean;
 }
 
 export interface TextAreaState {
@@ -195,7 +194,7 @@ export class Textarea extends React.Component<TextAreaProps, TextAreaState> {
           {
             [`TextareaControl--border${ucFirst(borderMode)}`]: borderMode,
             'is-focused': this.state.focused,
-            'is-disabled': disabled
+            'is-disabled': disabled || readOnly
           },
           className
         )}

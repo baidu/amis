@@ -10,7 +10,6 @@ import PopOverContainer, {
   OverlayAlignType,
   PopOverOverlay
 } from './PopOverContainer';
-import {isMobile} from 'amis-core';
 
 import type {TooltipObject} from './TooltipWrapper';
 
@@ -18,7 +17,6 @@ export interface TransferDropDownProps extends TransferProps {
   // 新的属性？
   multiple?: boolean;
   borderMode?: 'full' | 'half' | 'none';
-  useMobileUI?: boolean;
   popOverContainer?: any;
   itemRender: (value: any) => JSX.Element | string;
   maxTagCount?: number;
@@ -55,8 +53,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
 
   @autobind
   handleChange(value: any, onClose: () => void) {
-    const {multiple, onChange, useMobileUI} = this.props;
-    const mobileUI = useMobileUI && isMobile();
+    const {multiple, onChange, mobileUI} = this.props;
 
     if (mobileUI) {
       this.setState({tempValue: value});
@@ -87,7 +84,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       onSearch,
       multiple,
       borderMode,
-      useMobileUI,
+      mobileUI,
       popOverContainer,
       placeholder,
       maxTagCount,
@@ -98,12 +95,11 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       overlay
     } = this.props;
     const {inputValue, searchResult} = this.state;
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <PopOverContainer
         onAfterHide={this.handleAfterPopoverHide}
-        useMobileUI={useMobileUI}
+        mobileUI={mobileUI}
         popOverContainer={popOverContainer}
         overlayWidth={overlay && overlay?.width}
         align={overlay && overlay?.align}
@@ -124,7 +120,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
                   placeholder={placeholder ?? __('Transfer.searchKeyword')}
                   clearable={false}
                   onKeyDown={this.handleSearchKeyDown}
-                  useMobileUI
+                  mobileUI={mobileUI}
                 >
                   {searchResult !== null ? (
                     <a onClick={this.handleSeachCancel}>
@@ -172,7 +168,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
             popOverContainer={popOverContainer}
             ref={ref}
             itemRender={itemRender}
-            useMobileUI={useMobileUI}
+            mobileUI={mobileUI}
             hasDropDownArrow={!mobileUI}
             showInvalidMatch={showInvalidMatch}
           />

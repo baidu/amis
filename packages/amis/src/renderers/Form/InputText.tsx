@@ -857,7 +857,7 @@ export default class TextControl extends React.PureComponent<
                             className: cx(`TextControl-sugItem`, {
                               'is-highlight':
                                 highlightedIndex === indices[value],
-                              'is-disabled': option.disabled
+                              'is-disabled': option.disabled || option.readOnly
                             })
                           })}
                           key={value}
@@ -1018,6 +1018,7 @@ export default class TextControl extends React.PureComponent<
       render,
       data,
       disabled,
+      readOnly,
       inputOnly,
       static: isStatic,
       addOnClassName
@@ -1058,7 +1059,7 @@ export default class TextControl extends React.PureComponent<
       ? cx(className, `${ns}TextControl`, {
           [`${ns}TextControl--withAddOn`]: !!addOnDom,
           'is-focused': this.state.isFocused,
-          'is-disabled': disabled
+          'is-disabled': disabled || readOnly
         })
       : cx(`${ns}TextControl`, {
           [`${ns}TextControl--withAddOn`]: !!addOnDom

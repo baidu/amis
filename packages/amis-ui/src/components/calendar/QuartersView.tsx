@@ -2,9 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import {localeable, LocaleProps, ThemeProps} from 'amis-core';
 import Picker from '../Picker';
-import {PickerOption} from '../PickerColumn';
 import {PickerColumnItem} from '../PickerColumn';
-import {isMobile} from 'amis-core';
 import {getRange} from 'amis-core';
 import {autobind} from 'amis-core';
 
@@ -29,7 +27,6 @@ export interface QuarterViewProps extends LocaleProps, ThemeProps {
   renderQuarter: any;
   isValidDate: (date: moment.Moment) => boolean;
   hideHeader?: boolean;
-  useMobileUI?: boolean;
   onConfirm?: (value: number[], types?: string[]) => void;
   onClose?: () => void;
 }
@@ -200,8 +197,7 @@ export class QuarterView extends React.Component<QuarterViewProps> {
   }
 
   render() {
-    const {classnames: cx, hideHeader, useMobileUI} = this.props;
-    const mobileUI = useMobileUI && isMobile();
+    const {classnames: cx, hideHeader, mobileUI} = this.props;
 
     return mobileUI ? (
       this.renderPicker()

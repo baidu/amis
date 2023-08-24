@@ -1,16 +1,14 @@
 import React from 'react';
 import intersectionWith from 'lodash/intersectionWith';
-import differenceWith from 'lodash/differenceWith';
 import includes from 'lodash/includes';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import unionWith from 'lodash/unionWith';
 
-import {ThemeProps, themeable, findTree} from 'amis-core';
+import {ThemeProps, themeable, findTree, differenceFromAll} from 'amis-core';
 import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';
 import {Options, Option} from './Select';
 import {uncontrollable} from 'amis-core';
-import {isMobile} from 'amis-core';
 import ResultList from './ResultList';
 import TableSelection from './TableSelection';
 import {autobind, flattenTree} from 'amis-core';
@@ -113,7 +111,6 @@ export interface TransferProps
   checkAllLabel?: string;
   /** 树形模式下，给 tree 的属性 */
   onlyChildren?: boolean;
-  useMobileUI?: boolean;
 }
 
 export interface TransferState {
@@ -158,6 +155,7 @@ export class Transfer<
   unmounted = false;
   cancelSearch?: () => void;
   treeRef: any;
+  resultRef: any;
 
   componentDidMount() {
     this.props?.onRef?.(this);
@@ -199,25 +197,60 @@ export class Transfer<
 
   @autobind
   domRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
     this.treeRef = ref;
   }
 
   @autobind
+  domResultRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
+    this.resultRef = ref;
+  }
+
+  @autobind
   toggleAll() {
-    const {options, option2value, onChange, value, onSelectAll} = this.props;
-    let valueArray = BaseSelection.value2array(value, options, option2value);
+    const {
+      options,
+      option2value,
+      onChange,
+      value,
+      onSelectAll,
+      valueField = 'value',
+      selectMode
+    } = this.props;
+    let valueArray = BaseSelection.value2array(
+      value,
+      options,
+      option2value,
+      valueField
+    );
     const availableOptions = this.availableOptions;
 
+    if (selectMode === 'tree') {
+      this.treeRef?.handleToggle();
+      return;
+    }
+
     // availableOptions 中选项是否都被选中了
+    // to do intersectionWith 需要优化，大数据会卡死
     const isAvailableOptionsAllSelected =
       intersectionWith(availableOptions, valueArray, isEqual).length ===
       availableOptions.length;
     // 全不选
     if (isAvailableOptionsAllSelected) {
-      valueArray = differenceWith(valueArray, availableOptions, isEqual);
+      valueArray = differenceFromAll(
+        availableOptions,
+        valueArray,
+        item => item[valueField]
+      );
     }
     // 全选
     else {
+      // to do 需要优化
       valueArray = unionWith(valueArray, availableOptions, isEqual);
     }
 
@@ -232,7 +265,17 @@ export class Transfer<
 
   // 全选，给予动作全选使用
   selectAll() {
-    const {options, option2value, onChange, valueField = 'value'} = this.props;
+    const {
+      options,
+      option2value,
+      onChange,
+      valueField = 'value',
+      selectMode
+    } = this.props;
+    if (selectMode === 'tree') {
+      this.treeRef?.handleToggle(true);
+      return;
+    }
     const availableOptions = flattenTree(options).filter(
       (option, index, list) =>
         !option.disabled &&
@@ -243,6 +286,20 @@ export class Transfer<
       ? availableOptions.map(item => option2value(item))
       : availableOptions;
     onChange?.(newValue);
+  }
+
+  // 清空搜索
+  clearSearch(target?: {left?: boolean; right?: boolean}) {
+    if (!target) {
+      this.handleSeachCancel();
+      this.resultRef?.clearInput();
+    }
+    if (target?.left) {
+      this.handleSeachCancel();
+    }
+    if (target?.right) {
+      this.resultRef?.clearInput();
+    }
   }
 
   @autobind
@@ -330,10 +387,10 @@ export class Transfer<
       values,
       (a, b) => a[valueField] === b[valueField]
     );
-    const unuseArr = differenceWith(
+    const unuseArr = differenceFromAll(
       searchAvailableOptions,
       values,
-      (a, b) => a[valueField] === b[valueField]
+      item => item[valueField]
     );
 
     const newArr: Array<Option> = [];
@@ -354,6 +411,22 @@ export class Transfer<
     onChange && onChange(newArr);
   }
 
+  @autobind
+  optionItemRender(option: Option, states: ItemRenderStates) {
+    const {optionItemRender, labelField = 'label'} = this.props;
+    return optionItemRender
+      ? optionItemRender(option, states)
+      : BaseSelection.itemRender(option, {labelField, ...states});
+  }
+
+  @autobind
+  resultItemRender(option: Option, states: ItemRenderStates) {
+    const {resultItemRender} = this.props;
+    return resultItemRender
+      ? resultItemRender(option, states)
+      : ResultList.itemRender(option, states);
+  }
+
   renderSelect(
     props: TransferProps & {
       onToggleAll?: () => void;
@@ -370,7 +443,8 @@ export class Transfer<
       statistics,
       translate: __,
       searchPlaceholder = __('Transfer.searchKeyword'),
-      useMobileUI
+      mobileUI,
+      valueField = 'value'
     } = props;
 
     if (selectRender) {
@@ -385,21 +459,20 @@ export class Transfer<
     let checkedPartial = false;
     let checkedAll = false;
 
-    checkedAll = this.availableOptions.every(
-      option => this.valueArray.indexOf(option) > -1
+    const valueArraySet = new Set(this.valueArray);
+    checkedAll = this.availableOptions.every(option =>
+      valueArraySet.has(option)
     );
-    checkedPartial = this.availableOptions.some(
-      option => this.valueArray.indexOf(option) > -1
+    checkedPartial = this.availableOptions.some(option =>
+      valueArraySet.has(option)
     );
 
     // 不在当前 availableOptions 中的已选项 数量
-    const selectedNotInAvailableOptions = differenceWith(
-      this.valueArray,
+    const selectedNotInAvailableOptions = differenceFromAll(
       this.availableOptions,
-      isEqual
+      this.valueArray,
+      item => item[valueField]
     ).length;
-
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <>
@@ -450,7 +523,7 @@ export class Transfer<
               clearable={false}
               onKeyDown={this.handleSearchKeyDown}
               placeholder={searchPlaceholder}
-              useMobileUI
+              mobileUI={mobileUI}
             >
               {this.state.searchResult !== null ? (
                 <a onClick={this.handleSeachCancel}>
@@ -494,10 +567,14 @@ export class Transfer<
       checkAllLabel,
       onlyChildren
     } = props;
-    const {isTreeDeferLoad, searchResult} = this.state;
+    const {isTreeDeferLoad, searchResult, inputValue} = this.state;
     const options = searchResult ?? [];
     const mode = searchResultMode || selectMode;
     const resultColumns = searchResultColumns || columns;
+
+    const treeItemRender =
+      !searchResult || optionItemRender ? this.optionItemRender : undefined;
+    const highlightTxt = searchResult ? inputValue : undefined;
 
     return mode === 'table' ? (
       <TableSelection
@@ -510,7 +587,7 @@ export class Transfer<
         onChange={onChange}
         option2value={option2value}
         cellRender={cellRender}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         valueField={valueField}
         multiple={multiple}
         virtualThreshold={virtualThreshold}
@@ -519,7 +596,7 @@ export class Transfer<
       />
     ) : mode === 'tree' ? (
       <Tree
-        onRef={this.domRef}
+        ref={this.domRef}
         placeholder={noResultsText}
         className={cx('Transfer-selection')}
         options={options}
@@ -533,7 +610,8 @@ export class Transfer<
         multiple={multiple}
         cascade={true}
         onlyChildren={onlyChildren ?? !isTreeDeferLoad}
-        itemRender={optionItemRender}
+        highlightTxt={highlightTxt}
+        itemRender={treeItemRender}
         labelField={labelField}
         valueField={valueField}
         virtualThreshold={virtualThreshold}
@@ -550,7 +628,7 @@ export class Transfer<
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         multiple={multiple}
         labelField={labelField}
         valueField={valueField}
@@ -569,7 +647,7 @@ export class Transfer<
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         multiple={multiple}
         labelField={labelField}
         valueField={valueField}
@@ -598,7 +676,6 @@ export class Transfer<
       rightMode,
       cellRender,
       leftDefaultValue,
-      optionItemRender,
       multiple,
       noResultsText,
       labelField,
@@ -632,14 +709,14 @@ export class Transfer<
       />
     ) : selectMode === 'tree' ? (
       <Tree
-        onRef={this.domRef}
+        ref={this.domRef}
         placeholder={noResultsText}
         className={cx('Transfer-selection')}
         options={options}
         value={value}
         onChange={onChange!}
         onlyChildren={onlyChildren ?? !this.state.isTreeDeferLoad}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         onDeferLoad={onDeferLoad}
         joinValues={false}
         showIcon={false}
@@ -662,7 +739,7 @@ export class Transfer<
         onChange={onChange}
         option2value={option2value}
         onDeferLoad={onDeferLoad}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         multiple={multiple}
         labelField={labelField}
         valueField={valueField}
@@ -687,7 +764,7 @@ export class Transfer<
         leftMode={leftMode}
         rightMode={rightMode}
         leftDefaultValue={leftDefaultValue}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         multiple={multiple}
         labelField={labelField}
         valueField={valueField}
@@ -707,7 +784,7 @@ export class Transfer<
         onChange={onChange}
         option2value={option2value}
         onDeferLoad={onDeferLoad}
-        itemRender={optionItemRender}
+        itemRender={this.optionItemRender}
         multiple={multiple}
         labelField={labelField}
         valueField={valueField}
@@ -730,7 +807,6 @@ export class Transfer<
       cellRender,
       onChange,
       value,
-      resultItemRender,
       resultSearchable,
       resultSearchPlaceholder,
       onResultSearch,
@@ -751,6 +827,7 @@ export class Transfer<
       case 'table':
         return (
           <ResultTableList
+            ref={this.domResultRef}
             classnames={cx}
             columns={columns!}
             options={options || []}
@@ -771,6 +848,7 @@ export class Transfer<
       case 'tree':
         return (
           <ResultTreeList
+            ref={this.domResultRef}
             loadingConfig={loadingConfig}
             classnames={cx}
             className={cx('Transfer-value')}
@@ -778,7 +856,7 @@ export class Transfer<
             valueField={'value'}
             value={value || []}
             onChange={onChange!}
-            itemRender={resultItemRender}
+            itemRender={this.resultItemRender}
             searchable={searchable}
             placeholder={placeholder}
             searchPlaceholder={resultSearchPlaceholder}
@@ -791,6 +869,7 @@ export class Transfer<
       default:
         return (
           <ResultList
+            ref={this.domResultRef}
             className={cx('Transfer-value')}
             sortable={sortable}
             disabled={disabled}
@@ -798,7 +877,7 @@ export class Transfer<
             onChange={onChange}
             placeholder={placeholder}
             searchPlaceholder={resultSearchPlaceholder}
-            itemRender={resultItemRender}
+            itemRender={this.resultItemRender}
             searchable={searchable}
             onSearch={onResultSearch}
             labelField={labelField}
@@ -826,11 +905,16 @@ export class Transfer<
       selectMode = 'list',
       translate: __,
       valueField = 'value',
-      useMobileUI
+      mobileUI
     } = this.props as any;
     const {searchResult} = this.state;
 
-    this.valueArray = BaseSelection.value2array(value, options, option2value);
+    this.valueArray = BaseSelection.value2array(
+      value,
+      options,
+      option2value,
+      valueField
+    );
 
     this.availableOptions = flattenTree(searchResult ?? options).filter(
       (option, index, list) =>
@@ -840,7 +924,6 @@ export class Transfer<
     );
 
     const tableType = resultListModeFollowSelect && selectMode === 'table';
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div

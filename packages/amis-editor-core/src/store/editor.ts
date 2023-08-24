@@ -429,8 +429,7 @@ export const MainStore = types
 
       // 用于剔除多余的字段
       getSimpleSchema(curSchema: any) {
-        const schema = JSONPipeOut(curSchema);
-        return getEnv(self).schemaFilter?.(schema) ?? schema;
+        return JSONPipeOut(curSchema);
       },
 
       getPanelKey() {

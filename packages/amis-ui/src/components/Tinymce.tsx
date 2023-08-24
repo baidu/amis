@@ -36,6 +36,11 @@ import 'tinymce/plugins/nonbreaking';
 import 'tinymce/plugins/emoticons';
 import 'tinymce/plugins/emoticons/js/emojis';
 import 'tinymce/plugins/quickbars/plugin';
+
+import 'tinymce/plugins/help/js/i18n/keynav/zh_CN';
+import 'tinymce/plugins/help/js/i18n/keynav/en';
+import 'tinymce/plugins/help/js/i18n/keynav/de';
+
 import {LocaleProps} from 'amis-core';
 
 interface TinymceEditorProps extends LocaleProps {
@@ -44,7 +49,10 @@ interface TinymceEditorProps extends LocaleProps {
   onFocus?: () => void;
   onBlur?: () => void;
   disabled?: boolean;
-  config?: any;
+  config?: {
+    onLoaded?: (tinymce: any) => void | Promise<void>;
+    [propName: string]: any;
+  };
   outputFormat?: 'html' | 'text';
   receiver?: string;
 }
@@ -55,14 +63,16 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
   };
   config?: any;
   editor?: any;
+  unmounted = false;
   editorInitialized?: boolean = false;
   currentContent?: string;
 
   elementRef: React.RefObject<HTMLTextAreaElement> = React.createRef();
 
-  componentDidMount() {
+  async componentDidMount() {
     const locale = this.props.locale;
 
+    const {onLoaded, ...rest} = this.props.config || {};
     this.config = {
       inline: false,
       skin: false,
@@ -139,7 +149,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       paste_data_images: true,
       // 很诡异的问题，video 会被复制放在光标上，直接用样式隐藏先
       content_style: '[data-mce-bogus] video {display:none;}',
-      ...this.props.config,
+      ...rest,
       target: this.elementRef.current,
       readOnly: this.props.disabled,
       promotion: false,
@@ -153,7 +163,8 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       }
     };
 
-    tinymce.init(this.config);
+    await onLoaded?.(tinymce);
+    this.unmounted || tinymce.init(this.config);
   }
 
   componentDidUpdate(prevProps: TinymceEditorProps) {
@@ -169,6 +180,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
 
   componentWillUnmount() {
     tinymce.remove(this.editor);
+    this.unmounted = true;
   }
 
   initEditor(e: any, editor: any) {

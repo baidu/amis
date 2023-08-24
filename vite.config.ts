@@ -8,10 +8,36 @@ import fis3 from './scripts/fis3plugin';
 import markdown from './scripts/markdownPlugin';
 import mockApi from './scripts/mockApiPlugin';
 import transformMobileHtml from './scripts/transformMobileHtml';
+//@ts-ignore
+import i18nPlugin from 'plugin-react-i18n';
+import i18nConfig from './i18nConfig';
+
+var I18N = process.env.I18N;
+
+var PROXY_THEME = process.env.PROXY_THEME
+  ? [
+      {
+        find: 'amis-theme-editor/lib/renderers.css',
+        replacement: path.resolve(
+          __dirname,
+          '../editor/packages/amis-theme-editor/src/renderers/style/_index.scss'
+        )
+      },
+      {
+        find: 'amis-theme-editor/lib',
+        replacement: path.resolve(
+          __dirname,
+          '../editor/packages/amis-theme-editor/src'
+        )
+      }
+    ]
+  : [];
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    I18N && i18nPlugin(i18nConfig),
+
     fis3(),
     markdown(),
     mockApi(),
@@ -34,8 +60,11 @@ export default defineConfig({
         dimensions: false
       }
     }),
-    monacoEditorPlugin({})
-  ],
+    monacoEditorPlugin({}),
+    replace({
+      __editor_i18n: !!I18N
+    })
+  ].filter(n => n),
   optimizeDeps: {
     include: ['amis-formula/lib/doc'],
     exclude: ['amis-core', 'amis-formula', 'amis', 'amis-ui'],
@@ -78,6 +107,10 @@ export default defineConfig({
         replacement: path.resolve(__dirname, './packages/amis/src')
       },
       {
+        find: 'amis/schema.json',
+        replacement: path.resolve(__dirname, './packages/amis/schema.json')
+      },
+      {
         find: 'amis',
         replacement: path.resolve(__dirname, './packages/amis/src')
       },
@@ -93,6 +126,6 @@ export default defineConfig({
         find: 'office-viewer',
         replacement: path.resolve(__dirname, './packages/office-viewer/src')
       }
-    ]
+    ].concat(PROXY_THEME)
   }
 });

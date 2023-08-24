@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`EventAction:dialog 1`] = `
+exports[`1. EventAction:dialog args 1`] = `
 <div>
   <div
     class="cxd-Page"
@@ -118,7 +118,7 @@ exports[`EventAction:dialog 1`] = `
 </div>
 `;
 
-exports[`EventAction:dialog 2`] = `
+exports[`1. EventAction:dialog args 2`] = `
 <div>
   <div
     class="cxd-Page"
@@ -148,7 +148,7 @@ exports[`EventAction:dialog 2`] = `
 </div>
 `;
 
-exports[`EventAction:dialog 3`] = `
+exports[`1. EventAction:dialog args 3`] = `
 <div>
   <div
     class="cxd-Page"
@@ -178,7 +178,7 @@ exports[`EventAction:dialog 3`] = `
 </div>
 `;
 
-exports[`EventAction:dialog 4`] = `
+exports[`1. EventAction:dialog args 4`] = `
 <div>
   <div
     class="cxd-Page"
@@ -208,7 +208,7 @@ exports[`EventAction:dialog 4`] = `
 </div>
 `;
 
-exports[`EventAction:dialog 5`] = `
+exports[`1. EventAction:dialog args 5`] = `
 <div>
   <div
     class="cxd-Page"
@@ -238,7 +238,7 @@ exports[`EventAction:dialog 5`] = `
 </div>
 `;
 
-exports[`EventAction:dialog 6`] = `
+exports[`1. EventAction:dialog args 6`] = `
 <div>
   <div
     class="cxd-Page"
@@ -268,7 +268,7 @@ exports[`EventAction:dialog 6`] = `
 </div>
 `;
 
-exports[`EventAction:dialog 7`] = `
+exports[`1. EventAction:dialog args 7`] = `
 <div>
   <div
     class="cxd-Page"
@@ -298,7 +298,7 @@ exports[`EventAction:dialog 7`] = `
 </div>
 `;
 
-exports[`EventAction:dialog args 1`] = `
+exports[`2. EventAction:dialog 1`] = `
 <div>
   <div
     class="cxd-Page"
@@ -416,7 +416,7 @@ exports[`EventAction:dialog args 1`] = `
 </div>
 `;
 
-exports[`EventAction:dialog args 2`] = `
+exports[`2. EventAction:dialog 2`] = `
 <div>
   <div
     class="cxd-Page"
@@ -446,7 +446,7 @@ exports[`EventAction:dialog args 2`] = `
 </div>
 `;
 
-exports[`EventAction:dialog args 3`] = `
+exports[`2. EventAction:dialog 3`] = `
 <div>
   <div
     class="cxd-Page"
@@ -476,7 +476,7 @@ exports[`EventAction:dialog args 3`] = `
 </div>
 `;
 
-exports[`EventAction:dialog args 4`] = `
+exports[`2. EventAction:dialog 4`] = `
 <div>
   <div
     class="cxd-Page"
@@ -506,7 +506,7 @@ exports[`EventAction:dialog args 4`] = `
 </div>
 `;
 
-exports[`EventAction:dialog args 5`] = `
+exports[`2. EventAction:dialog 5`] = `
 <div>
   <div
     class="cxd-Page"
@@ -536,7 +536,7 @@ exports[`EventAction:dialog args 5`] = `
 </div>
 `;
 
-exports[`EventAction:dialog args 6`] = `
+exports[`2. EventAction:dialog 6`] = `
 <div>
   <div
     class="cxd-Page"
@@ -566,7 +566,7 @@ exports[`EventAction:dialog args 6`] = `
 </div>
 `;
 
-exports[`EventAction:dialog args 7`] = `
+exports[`2. EventAction:dialog 7`] = `
 <div>
   <div
     class="cxd-Page"

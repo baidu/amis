@@ -885,11 +885,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       sizeMutable,
       size,
       defaultSize,
-      useMobileUI,
+      mobileUI,
       ...rest
     } = this.props;
-
-    const mobileUI = useMobileUI && isMobile();
 
     if (renderControl) {
       const controlSize = size || defaultSize;
@@ -953,7 +951,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         hint,
         data,
         showErrorMsg,
-        useMobileUI,
+        mobileUI,
         translate: __,
         static: isStatic,
         staticClassName
@@ -1019,7 +1017,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       type: 'remark',
                       icon: labelRemark.icon || 'warning-mark',
                       tooltip: labelRemark,
-                      useMobileUI,
+                      mobileUI,
                       className: cx(`Form-labelRemark`),
                       container: props.popOverContainer || env.getModalContainer
                     })
@@ -1049,7 +1047,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                   icon: remark.icon || 'warning-mark',
                   tooltip: remark,
                   className: cx(`Form-remark`),
-                  useMobileUI,
+                  mobileUI,
                   container: props.popOverContainer || env.getModalContainer
                 })
               : null}
@@ -1103,12 +1101,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         hint,
         data,
         showErrorMsg,
-        useMobileUI,
+        mobileUI,
         translate: __,
         static: isStatic,
         staticClassName
       } = props;
-      const mobileUI = useMobileUI && isMobile();
+
       description = description || desc;
 
       return (
@@ -1143,7 +1141,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       icon: labelRemark.icon || 'warning-mark',
                       tooltip: labelRemark,
                       className: cx(`Form-lableRemark`),
-                      useMobileUI,
+                      mobileUI,
                       container: props.popOverContainer || env.getModalContainer
                     })
                   : null}
@@ -1167,7 +1165,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                     icon: remark.icon || 'warning-mark',
                     className: cx(`Form-remark`),
                     tooltip: remark,
-                    useMobileUI,
+                    mobileUI,
                     container: props.popOverContainer || env.getModalContainer
                   })
                 : null}
@@ -1211,7 +1209,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                     icon: remark.icon || 'warning-mark',
                     className: cx(`Form-remark`),
                     tooltip: remark,
-                    useMobileUI,
+                    mobileUI,
                     container: props.popOverContainer || env.getModalContainer
                   })
                 : null}
@@ -1266,7 +1264,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         renderDescription,
         data,
         showErrorMsg,
-        useMobileUI,
+        mobileUI,
         translate: __,
         static: isStatic,
         staticClassName
@@ -1309,7 +1307,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       icon: labelRemark.icon || 'warning-mark',
                       tooltip: labelRemark,
                       className: cx(`Form-lableRemark`),
-                      useMobileUI,
+                      mobileUI,
                       container: props.popOverContainer || env.getModalContainer
                     })
                   : null}
@@ -1332,7 +1330,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                   icon: remark.icon || 'warning-mark',
                   className: cx(`Form-remark`),
                   tooltip: remark,
-                  useMobileUI,
+                  mobileUI,
                   container: props.popOverContainer || env.getModalContainer
                 })
               : null}
@@ -1386,7 +1384,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         hint,
         data,
         showErrorMsg,
-        useMobileUI,
+        mobileUI,
         translate: __,
         static: isStatic,
         staticClassName
@@ -1428,7 +1426,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                         icon: labelRemark.icon || 'warning-mark',
                         tooltip: labelRemark,
                         className: cx(`Form-lableRemark`),
-                        useMobileUI,
+                        mobileUI,
                         container:
                           props.popOverContainer || env.getModalContainer
                       })
@@ -1743,19 +1741,19 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
               type,
               size,
               defaultSize,
-              useMobileUI,
+              mobileUI,
               ...rest
             } = this.props;
 
             const controlSize = size || defaultSize;
-            const mobileUI = useMobileUI && isMobile();
+
             //@ts-ignore
             const isOpened = this.state.isOpened;
             return (
               <>
                 <Control
                   {...rest}
-                  useMobileUI={useMobileUI}
+                  mobileUI={mobileUI}
                   onOpenDialog={this.handleOpenDialog}
                   size={config.sizeMutable !== false ? undefined : size}
                   onFocus={this.handleFocus}

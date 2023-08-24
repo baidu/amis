@@ -14,7 +14,8 @@ import {
   extendObject,
   qsparse,
   uuid,
-  JSONTraverse
+  JSONTraverse,
+  isEmpty
 } from './helper';
 import isPlainObject from 'lodash/isPlainObject';
 import {debug, warning} from './debug';
@@ -432,19 +433,11 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
 
   debug('api', 'response', payload);
 
-  if (payload.ok && api.responseData) {
+  if (api.responseData && (payload.ok || !isEmpty(payload.data))) {
     debug('api', 'before dataMapping', payload.data);
     const responseData = dataMapping(
       api.responseData,
-
-      createObject(
-        {api},
-        (Array.isArray(payload.data)
-          ? {
-              items: payload.data
-            }
-          : payload.data) || {}
-      ),
+      createObject({api}, normalizeApiResponseData(payload.data)),
       undefined,
       api.convertKeyToPath
     );
@@ -763,15 +756,14 @@ export function isValidApi(api: string) {
   }
   const idx = api.indexOf('://');
 
-  // 不允许直接相对路径写 api
   // 不允许 :// 结尾
-  if ((!~idx && api[0] !== '/') || (~idx && idx + 3 === api.length)) {
+  if (~idx && idx + 3 === api.length) {
     return false;
   }
 
   try {
     // 不补一个协议，URL 判断为 false
-    api = (~idx ? '' : 'schema://domain') + api;
+    api = (~idx ? '' : `schema://domain${api[0] === '/' ? '' : '/'}`) + api;
     new URL(api);
   } catch (error) {
     return false;

@@ -153,7 +153,6 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     onBuildPanels={this.handleBuildPanels}
                     isMobile={store.isMobile}
                     isSubEditor={true}
-                    iframeUrl={config.iframeUrl}
                     ctx={store.ctx}
                     schemas={manager.config?.schemas}
                     variables={variables}

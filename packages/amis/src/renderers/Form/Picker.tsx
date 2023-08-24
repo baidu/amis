@@ -535,10 +535,8 @@ export default class PickerControl extends React.PureComponent<
       popOverContainer,
       modalTitle,
       data,
-      useMobileUI
+      mobileUI
     } = this.props;
-
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div className={cx(`PickerControl`, {'is-mobile': mobileUI}, className)}>

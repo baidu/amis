@@ -148,7 +148,12 @@
   }
 
   .#{$ns}PopOver.#{$ns}Select-popover {
-    margin-top: px2rem(4px);
+    &.#{$ns}PopOver--v-top {
+      margin-top: px2rem(4px);
+    }
+    &.#{$ns}PopOver--v-bottom {
+      margin-bottom: px2rem(4px);
+    }
     .#{$ns}Select-menu {
       .#{$ns}Checkbox span {
         line-height: var(--select-base-default-option-line-height);
@@ -171,10 +176,10 @@
     user-select: none;
     position: relative;
     flex-grow: 1;
-    line-height: 1;
     width: auto;
     max-width: 100%;
     overflow: hidden;
+    padding-right: px2rem(4px);
   }
   &-valuesNoWrap {
     white-space: nowrap;
@@ -217,10 +222,6 @@
         display: inline-block;
         width: px2rem(100px);
         margin-bottom: var(--gap-xs);
-      }
-
-      .#{$ns}Select-placeholder {
-        margin-left: var(--gap-sm);
       }
     }
     .#{$ns}Select-values + .#{$ns}Select-input {
@@ -298,7 +299,6 @@
     overflow: auto;
     user-select: none;
     .#{$ns}Checkbox--sm > i {
-      margin-top: px2rem(-3px);
       margin-right: px2rem(4px);
     }
     &.is-mobile {

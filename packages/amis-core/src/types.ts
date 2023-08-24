@@ -339,7 +339,8 @@ export interface ActionObject extends ButtonObject {
     | 'collapse'
     | 'step-submit'
     | 'selectAll'
-    | 'changeTabKey';
+    | 'changeTabKey'
+    | 'clearSearch';
   api?: BaseApiObject | string;
   asyncApi?: BaseApiObject | string;
   payload?: any;
@@ -660,6 +661,11 @@ export interface BaseSchemaWithoutType {
      */
     mock?: any;
   };
+
+  /**
+   * 可以组件级别用来关闭移动端样式
+   */
+  useMobileUI?: boolean;
 }
 
 export type OperatorType =
@@ -718,6 +724,7 @@ export interface ConditionRule {
   left?: ExpressionComplex;
   op?: OperatorType;
   right?: ExpressionComplex | Array<ExpressionComplex>;
+  if?: string;
 }
 
 export interface ConditionGroupValue {
@@ -725,6 +732,7 @@ export interface ConditionGroupValue {
   conjunction: 'and' | 'or';
   not?: boolean;
   children?: Array<ConditionRule | ConditionGroupValue>;
+  if?: string;
 }
 
 export interface ConditionValue extends ConditionGroupValue {}

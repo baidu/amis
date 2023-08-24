@@ -7,9 +7,7 @@ import {SchemaEditorItemObject} from './Object';
 export interface SchemaEditorItemProps
   extends SchemaEditorItemCommonProps,
     LocaleProps,
-    ThemeProps {
-  useMobileUI?: boolean;
-}
+    ThemeProps {}
 
 export class SchemaEditorItem extends React.Component<SchemaEditorItemProps> {
   render() {
