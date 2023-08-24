@@ -115,7 +115,7 @@ export default class ButtonGroupControl extends React.Component<
 
     if (options && options.length) {
       body = options.map((option, key) => {
-        const active = !!~selectedOptions.indexOf(option);
+        const active = !!~selectedOptions?.indexOf(option);
         const optionBadge = this.getBadgeConfig(badge, option);
 
         return render(
@@ -150,7 +150,6 @@ export default class ButtonGroupControl extends React.Component<
     } else if (Array.isArray(buttons)) {
       body = buttons.map((button, key) => {
         const buttonBadge = this.getBadgeConfig(badge, button);
-        const active = !!~selectedOptions.indexOf(button);
         return render(
           `button/${key}`,
           {
@@ -164,11 +163,7 @@ export default class ButtonGroupControl extends React.Component<
           },
           {
             key,
-            className: cx(
-              button.className,
-              btnClassName,
-              active && 'ButtonGroup-button--active'
-            )
+            className: cx(button.className, btnClassName)
           }
         );
       });
