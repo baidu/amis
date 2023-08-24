@@ -1501,5 +1501,4 @@ test('Renderer:transfer tree search', async () => {
   expect(onSubmit.mock.calls[0][0]).toEqual({
     transfer: "caocao,libai"
   });
-  
 });
