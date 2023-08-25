@@ -40,10 +40,19 @@ export interface InputDateBaseControlSchema extends FormBaseControlSchema {
   format?: string;
 
   /**
+   * 替代format
+   */
+  valueFormat?: string;
+
+  /**
    * 日期展示格式
    */
   inputFormat?: string;
 
+  /**
+   * 日期展示格式(新：替代inputFormat)
+   */
+  displayFormat?: string;
   /**
    * 设定是否存储 utc 时间。
    */
@@ -95,6 +104,16 @@ export interface DateControlSchema extends InputDateBaseControlSchema {
   inputFormat?: string;
 
   /**
+   * 替代format
+   */
+  valueFormat?: string;
+
+  /**
+   * 日期展示格式(新：替代inputFormat)
+   */
+  displayFormat?: string;
+
+  /**
    * 点选日期后是否关闭弹窗
    */
   closeOnSelect?: boolean;
@@ -131,6 +150,16 @@ export interface DateTimeControlSchema extends InputDateBaseControlSchema {
    * @default YYYY-MM-DD HH:mm
    */
   inputFormat?: string;
+
+  /**
+   * 替代format
+   */
+  valueFormat?: string;
+
+  /**
+   * 日期展示格式(新：替代inputFormat)
+   */
+  displayFormat?: string;
 
   /**
    * 时间的格式。
@@ -183,6 +212,16 @@ export interface TimeControlSchema extends InputDateBaseControlSchema {
   inputFormat?: string;
 
   /**
+   * 替代format
+   */
+  valueFormat?: string;
+
+  /**
+   * 日期展示格式(新：替代inputFormat)
+   */
+  displayFormat?: string;
+
+  /**
    * 时间的格式。
    *
    * @default HH:mm
@@ -216,6 +255,16 @@ export interface MonthControlSchema extends InputDateBaseControlSchema {
    * @default YYYY-MM
    */
   inputFormat?: string;
+
+  /**
+   * 替代format
+   */
+  valueFormat?: string;
+
+  /**
+   * 日期展示格式(新：替代inputFormat)
+   */
+  displayFormat?: string;
 }
 
 /**
@@ -238,6 +287,16 @@ export interface QuarterControlSchema extends InputDateBaseControlSchema {
    * @default YYYY-MM
    */
   inputFormat?: string;
+
+  /**
+   * 替代format
+   */
+  valueFormat?: string;
+
+  /**
+   * 日期展示格式(新：替代inputFormat)
+   */
+  displayFormat?: string;
 }
 
 /**
@@ -260,6 +319,16 @@ export interface YearControlSchema extends InputDateBaseControlSchema {
    * @default YYYY-MM
    */
   inputFormat?: string;
+
+  /**
+   * 替代format
+   */
+  valueFormat?: string;
+
+  /**
+   * 日期展示格式(新：替代inputFormat)
+   */
+  displayFormat?: string;
 }
 
 export interface DateProps extends FormControlProps {
@@ -267,6 +336,7 @@ export interface DateProps extends FormControlProps {
   timeFormat?: string;
   format?: string;
   valueFormat?: string;
+  displayFormat?: string;
   timeConstraints?: {
     hours?: {
       min: number;
@@ -333,12 +403,15 @@ export default class DateControl extends React.PureComponent<
       setPrinstineValue,
       data,
       format,
+      valueFormat,
       utc
     } = props;
 
     if (defaultValue && value === defaultValue) {
-      const date = filterDate(defaultValue, data, format);
-      setPrinstineValue((utc ? moment.utc(date) : date).format(format));
+      const date = filterDate(defaultValue, data, valueFormat || format);
+      setPrinstineValue(
+        (utc ? moment.utc(date) : date).format(valueFormat || format)
+      );
     }
 
     let schedulesData = props.schedules;
@@ -350,8 +423,12 @@ export default class DateControl extends React.PureComponent<
     }
 
     this.state = {
-      minDate: minDate ? filterDate(minDate, data, format) : undefined,
-      maxDate: maxDate ? filterDate(maxDate, data, format) : undefined,
+      minDate: minDate
+        ? filterDate(minDate, data, valueFormat || format)
+        : undefined,
+      maxDate: maxDate
+        ? filterDate(maxDate, data, valueFormat || format)
+        : undefined,
       schedules: schedulesData
     };
   }
@@ -360,9 +437,15 @@ export default class DateControl extends React.PureComponent<
     const props = this.props;
 
     if (prevProps.defaultValue !== props.defaultValue) {
-      const date = filterDate(props.defaultValue, props.data, props.format);
+      const date = filterDate(
+        props.defaultValue,
+        props.data,
+        props.valueFormat || props.format
+      );
       props.setPrinstineValue(
-        (props.utc ? moment.utc(date) : date).format(props.format)
+        (props.utc ? moment.utc(date) : date).format(
+          props.valueFormat || props.format
+        )
       );
     }
 
@@ -373,10 +456,18 @@ export default class DateControl extends React.PureComponent<
     ) {
       this.setState({
         minDate: props.minDate
-          ? filterDate(props.minDate, props.data, this.props.format)
+          ? filterDate(
+              props.minDate,
+              props.data,
+              this.props.valueFormat || this.props.format
+            )
           : undefined,
         maxDate: props.maxDate
-          ? filterDate(props.maxDate, props.data, this.props.format)
+          ? filterDate(
+              props.maxDate,
+              props.data,
+              this.props.valueFormat || this.props.format
+            )
           : undefined
       });
     }
@@ -519,7 +610,7 @@ export default class DateControl extends React.PureComponent<
     } = this.props;
 
     if (type === 'time' && timeFormat) {
-      format = timeFormat;
+      valueFormat = format = timeFormat;
     }
 
     return (
@@ -543,9 +634,8 @@ export default class DateControl extends React.PureComponent<
               ? env?.getModalContainer
               : rest.popOverContainer || env.getModalContainer
           }
-          timeFormat={timeFormat}
-          format={valueFormat || format}
           {...this.state}
+          valueFormat={valueFormat || format}
           minDateRaw={this.props.minDate}
           maxDateRaw={this.props.maxDate}
           classnames={cx}
@@ -571,8 +661,6 @@ export class DateControlRenderer extends DateControl {
   placeholder = this.props.translate('Date.placeholder');
   static defaultProps = {
     ...DateControl.defaultProps,
-    dateFormat: 'YYYY-MM-DD',
-    timeFormat: '',
     strictMode: false
   };
 }
@@ -585,9 +673,7 @@ export class DatetimeControlRenderer extends DateControl {
   static defaultProps = {
     ...DateControl.defaultProps,
     inputFormat: 'YYYY-MM-DD HH:mm:ss',
-    dateFormat: 'LL',
-    timeFormat: 'HH:mm:ss',
-    closeOnSelect: false,
+    closeOnSelect: true,
     strictMode: false
   };
 }
@@ -600,10 +686,8 @@ export class TimeControlRenderer extends DateControl {
   static defaultProps = {
     ...DateControl.defaultProps,
     inputFormat: 'HH:mm',
-    dateFormat: '',
-    timeFormat: 'HH:mm',
     viewMode: 'time',
-    closeOnSelect: false
+    closeOnSelect: true
   };
 }
 
@@ -615,8 +699,6 @@ export class MonthControlRenderer extends DateControl {
   static defaultProps = {
     ...DateControl.defaultProps,
     inputFormat: 'YYYY-MM',
-    dateFormat: 'MM',
-    timeFormat: '',
     viewMode: 'months',
     closeOnSelect: true,
     strictMode: false
@@ -631,8 +713,6 @@ export class QuarterControlRenderer extends DateControl {
   static defaultProps = {
     ...DateControl.defaultProps,
     inputFormat: 'YYYY [Q]Q',
-    dateFormat: 'YYYY [Q]Q',
-    timeFormat: '',
     viewMode: 'quarters',
     closeOnSelect: true,
     strictMode: false
@@ -647,8 +727,6 @@ export class YearControlRenderer extends DateControl {
   static defaultProps = {
     ...DateControl.defaultProps,
     inputFormat: 'YYYY',
-    dateFormat: 'YYYY',
-    timeFormat: '',
     viewMode: 'years',
     closeOnSelect: true,
     strictMode: false

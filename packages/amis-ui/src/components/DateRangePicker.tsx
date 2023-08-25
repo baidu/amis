@@ -37,9 +37,11 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   startPlaceholder?: string;
   endPlaceholder?: string;
   theme?: any;
-  format: string;
   utc?: boolean;
+  format?: string;
   inputFormat?: string;
+  valueFormat: string;
+  displayFormat?: string;
   /**
    * @deprecated 3.1.0后废弃，用shortcuts替代
    */
@@ -94,6 +96,8 @@ export interface DateRangePickerState {
   /** 结束时间输入值 */
   endInputValue?: string;
   endDateOpenedFirst: boolean;
+  curTimeFormat?: string;
+  curDateFormat?: string;
 }
 
 export const availableShortcuts: {[propName: string]: any} = {
@@ -441,6 +445,21 @@ export const advancedRanges = [
   }
 ];
 
+const dateFormats = {
+  Y: {format: 'YYYY'},
+  Q: {format: 'YYYY [Q]Q'},
+  M: {format: 'YYYY-MM'},
+  D: {format: 'YYYY-MM-DD'}
+} as Record<string, {format: string}>;
+
+const timeFormats = {
+  h: {format: 'HH'},
+  H: {format: 'HH'},
+  m: {format: 'mm'},
+  s: {format: 'ss'},
+  S: {format: 'ss'}
+} as Record<string, {format: string}>;
+
 export class DateRangePicker extends React.Component<
   DateRangePickerProps,
   DateRangePickerState
@@ -470,16 +489,18 @@ export class DateRangePicker extends React.Component<
 
   static formatValue(
     newValue: any,
-    format: string,
+    valueFormat: string,
     joinValues: boolean,
     delimiter: string,
     utc = false
   ) {
     newValue = [
       (utc ? moment.utc(newValue.startDate) : newValue.startDate)?.format(
-        format
+        valueFormat
       ),
-      (utc ? moment.utc(newValue.endDate) : newValue.endDate)?.format(format)
+      (utc ? moment.utc(newValue.endDate) : newValue.endDate)?.format(
+        valueFormat
+      )
     ];
 
     if (joinValues) {
@@ -564,13 +585,44 @@ export class DateRangePicker extends React.Component<
     this.renderYear = this.renderYear.bind(this);
     this.handleMobileChange = this.handleMobileChange.bind(this);
     this.handleOutClick = this.handleOutClick.bind(this);
-    const {format, joinValues, delimiter, value, inputFormat} = this.props;
+    const {
+      format,
+      valueFormat,
+      joinValues,
+      delimiter,
+      value,
+      inputFormat,
+      displayFormat,
+      dateFormat,
+      timeFormat
+    } = this.props;
     const {startDate, endDate} = DateRangePicker.unFormatValue(
       value,
-      format,
+      valueFormat || (format as string),
       joinValues,
       delimiter
     );
+
+    let curDateFormat = dateFormat ?? '';
+    let curTimeFormat = timeFormat ?? '';
+    let curTimeFormatArr = [] as string[];
+
+    !dateFormat &&
+      Object.keys(dateFormats).forEach((item: string) => {
+        if ((displayFormat || inputFormat)?.includes(item)) {
+          curDateFormat = dateFormats[item].format;
+        }
+      });
+    !timeFormat &&
+      Object.keys(timeFormats).forEach((item: string) => {
+        if ((displayFormat || inputFormat)?.includes(item)) {
+          curTimeFormatArr.push(timeFormats[item].format);
+        }
+      });
+    curTimeFormat = curTimeFormatArr.length
+      ? curTimeFormatArr.join(':')
+      : curTimeFormat;
+
     this.state = {
       isOpened: false,
       isFocused: false,
@@ -579,9 +631,11 @@ export class DateRangePicker extends React.Component<
       endDate,
       oldStartDate: startDate,
       oldEndDate: endDate,
-      startInputValue: startDate?.format(inputFormat),
-      endInputValue: endDate?.format(inputFormat),
-      endDateOpenedFirst: false
+      startInputValue: startDate?.format(displayFormat || inputFormat),
+      endInputValue: endDate?.format(displayFormat || inputFormat),
+      endDateOpenedFirst: false,
+      curDateFormat,
+      curTimeFormat
     };
   }
   componentDidMount() {
@@ -611,12 +665,50 @@ export class DateRangePicker extends React.Component<
 
   componentDidUpdate(prevProps: DateRangePickerProps) {
     const props = this.props;
-    const {value, format, joinValues, inputFormat, delimiter} = props;
+    const {
+      value,
+      format,
+      valueFormat,
+      joinValues,
+      inputFormat,
+      displayFormat,
+      dateFormat,
+      timeFormat,
+      delimiter
+    } = props;
+    if (
+      prevProps.displayFormat != displayFormat ||
+      prevProps.inputFormat != inputFormat
+    ) {
+      let curDateFormat = dateFormat ?? '';
+      let curTimeFormat = timeFormat ?? '';
+      let curTimeFormatArr = [] as string[];
+
+      !dateFormat &&
+        Object.keys(dateFormats).forEach((item: string) => {
+          if ((displayFormat || inputFormat)?.includes(item)) {
+            curDateFormat = dateFormats[item].format;
+          }
+        });
+      !timeFormat &&
+        Object.keys(timeFormats).forEach((item: string) => {
+          if ((displayFormat || inputFormat)?.includes(item)) {
+            curTimeFormatArr.push(timeFormats[item].format);
+          }
+        });
+
+      this.setState({
+        curDateFormat,
+        curTimeFormat: curTimeFormatArr.length
+          ? curTimeFormatArr.join(':')
+          : curTimeFormat
+      });
+    }
 
     if (prevProps.value !== value) {
       const {startDate, endDate} = DateRangePicker.unFormatValue(
         value,
-        format,
+        valueFormat || (format as string),
         joinValues,
         delimiter
       );
@@ -625,10 +717,12 @@ export class DateRangePicker extends React.Component<
         endDate,
         startInputValue:
           startDate && startDate?.isValid()
-            ? startDate?.format(inputFormat)
+            ? startDate?.format(displayFormat || inputFormat)
             : '',
         endInputValue:
-          endDate && endDate?.isValid() ? endDate?.format(inputFormat) : ''
+          endDate && endDate?.isValid()
+            ? endDate?.format(displayFormat || inputFormat)
+            : ''
       });
     }
   }
@@ -699,10 +793,18 @@ export class DateRangePicker extends React.Component<
   close(isConfirm: boolean = false) {
     if (!isConfirm) {
       /** 未点击确认关闭时，将日期恢复至未做任何选择的状态 */
-      const {value, format, joinValues, delimiter, inputFormat} = this.props;
-      const {startDate, endDate} = DateRangePicker.unFormatValue(
+      const {
         value,
         format,
+        valueFormat,
+        joinValues,
+        delimiter,
+        inputFormat,
+        displayFormat
+      } = this.props;
+      const {startDate, endDate} = DateRangePicker.unFormatValue(
+        value,
+        valueFormat || (format as string),
         joinValues,
         delimiter
       );
@@ -713,11 +815,11 @@ export class DateRangePicker extends React.Component<
         oldEndDate: endDate,
         startInputValue:
           startDate && moment(startDate).isValid()
-            ? startDate.format(inputFormat)
+            ? startDate.format(displayFormat || inputFormat)
             : '',
         endInputValue:
           endDate && moment(endDate).isValid()
-            ? endDate.format(inputFormat)
+            ? endDate.format(displayFormat || inputFormat)
             : ''
       });
     } else {
@@ -753,7 +855,7 @@ export class DateRangePicker extends React.Component<
   }
 
   confirm() {
-    const {format, joinValues, delimiter, utc} = this.props;
+    const {format, valueFormat, joinValues, delimiter, utc} = this.props;
     const {startDate, endDate} = this.state;
 
     if (!startDate && !endDate) {
@@ -765,7 +867,7 @@ export class DateRangePicker extends React.Component<
     this.props.onChange(
       DateRangePicker.formatValue(
         {startDate, endDate},
-        format,
+        valueFormat || (format as string),
         joinValues,
         delimiter,
         utc
@@ -814,7 +916,7 @@ export class DateRangePicker extends React.Component<
   }
 
   handleStartDateChange(newValue: moment.Moment) {
-    const {timeFormat, minDate, inputFormat, type} = this.props;
+    const {timeFormat, minDate, inputFormat, displayFormat, type} = this.props;
     let {startDate, endDateOpenedFirst} = this.state;
     if (minDate && newValue.isBefore(minDate)) {
       newValue = minDate;
@@ -827,7 +929,7 @@ export class DateRangePicker extends React.Component<
     );
     const newState = {
       startDate: date,
-      startInputValue: date.format(inputFormat)
+      startInputValue: date.format(displayFormat || inputFormat)
     } as any;
     // 这些没有时间的选择点第一次后第二次就是选结束时间
     if (
@@ -843,7 +945,7 @@ export class DateRangePicker extends React.Component<
   }
 
   handelEndDateChange(newValue: moment.Moment) {
-    const {embed, timeFormat, inputFormat, type} = this.props;
+    const {embed, timeFormat, inputFormat, displayFormat, type} = this.props;
     let {startDate, endDate, endDateOpenedFirst} = this.state;
     newValue = this.getEndDateByDuration(newValue);
     const editState = endDateOpenedFirst ? 'start' : 'end';
@@ -852,7 +954,7 @@ export class DateRangePicker extends React.Component<
     this.setState(
       {
         endDate: date,
-        endInputValue: date.format(inputFormat)
+        endInputValue: date.format(displayFormat || inputFormat)
       },
       () => {
         embed && this.confirm();
@@ -866,25 +968,29 @@ export class DateRangePicker extends React.Component<
 
   // 手动控制输入时间
   startInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange, inputFormat, format, utc} = this.props;
+    const {onChange, displayFormat, inputFormat, utc} = this.props;
     const value = e.currentTarget.value;
     this.setState({startInputValue: value});
     if (value === '') {
       onChange('');
     } else {
-      let newDate = this.getStartDateByDuration(moment(value, inputFormat));
+      let newDate = this.getStartDateByDuration(
+        moment(value, displayFormat || inputFormat)
+      );
       this.setState({startDate: newDate});
     }
   }
 
   endInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange, inputFormat, format, utc} = this.props;
+    const {onChange, displayFormat, inputFormat, utc} = this.props;
     const value = e.currentTarget.value;
     this.setState({endInputValue: value});
     if (value === '') {
       onChange('');
     } else {
-      let newDate = this.getEndDateByDuration(moment(value, inputFormat));
+      let newDate = this.getEndDateByDuration(
+        moment(value, displayFormat || inputFormat)
+      );
       this.setState({endDate: newDate});
     }
   }
@@ -952,8 +1058,14 @@ export class DateRangePicker extends React.Component<
 
   // 主要用于处理时间的情况
   handleTimeStartChange(newValue: moment.Moment) {
-    const {embed, timeFormat, inputFormat, minDuration, maxDuration, minDate} =
-      this.props;
+    const {
+      embed,
+      inputFormat,
+      displayFormat,
+      minDuration,
+      maxDuration,
+      minDate
+    } = this.props;
     const {startDate, endDate} = this.state;
 
     // 时间范围必须统一成同一天，不然会不一致
@@ -972,7 +1084,7 @@ export class DateRangePicker extends React.Component<
     this.setState(
       {
         startDate: newValue,
-        startInputValue: newValue.format(inputFormat)
+        startInputValue: newValue.format(displayFormat || inputFormat)
       },
       () => {
         embed && this.confirm();
@@ -981,8 +1093,14 @@ export class DateRangePicker extends React.Component<
   }
 
   handleTimeEndChange(newValue: moment.Moment) {
-    const {embed, timeFormat, inputFormat, minDuration, maxDuration, maxDate} =
-      this.props;
+    const {
+      embed,
+      inputFormat,
+      displayFormat,
+      minDuration,
+      maxDuration,
+      maxDate
+    } = this.props;
     const {startDate, endDate} = this.state;
     if (startDate) {
       newValue.set({
@@ -1014,7 +1132,7 @@ export class DateRangePicker extends React.Component<
     this.setState(
       {
         endDate: newValue,
-        endInputValue: newValue.format(inputFormat)
+        endInputValue: newValue.format(displayFormat || inputFormat)
       },
       () => {
         embed && this.confirm();
@@ -1033,15 +1151,22 @@ export class DateRangePicker extends React.Component<
   }
 
   selectShortcut(shortcut: PlainObject) {
-    const {closeOnSelect, minDateRaw, maxDateRaw, format, data, mobileUI} =
-      this.props;
+    const {
+      closeOnSelect,
+      minDateRaw,
+      maxDateRaw,
+      format,
+      valueFormat,
+      data,
+      mobileUI
+    } = this.props;
     const now = moment();
     /** minDate和maxDate要实时计算，因为用户可能设置为${NOW()}，暂时不考虑毫秒级的时间差 */
     const minDate = minDateRaw
-      ? filterDate(minDateRaw, data, format)
+      ? filterDate(minDateRaw, data, valueFormat || format)
       : undefined;
     const maxDate = maxDateRaw
-      ? filterDate(maxDateRaw, data, format)
+      ? filterDate(maxDateRaw, data, valueFormat || format)
       : undefined;
     const startDate = shortcut.startDate(now.clone());
     const endDate = shortcut.endDate(now.clone());
@@ -1063,7 +1188,7 @@ export class DateRangePicker extends React.Component<
     if (!shortcuts) {
       return null;
     }
-    const {classPrefix: ns, format, data} = this.props;
+    const {classPrefix: ns, format, valueFormat, data} = this.props;
     let shortcutArr: Array<string | ShortCuts>;
     if (typeof shortcuts === 'string') {
       shortcutArr = shortcuts.split(',');
@@ -1107,10 +1232,10 @@ export class DateRangePicker extends React.Component<
                 const startDate = isExpression(shortcutRaw.startDate)
                   ? moment(
                       FormulaExec['formula'](shortcutRaw.startDate, data),
-                      format
+                      valueFormat || format
                     )
                   : typeof shortcutRaw.startDate === 'string'
-                  ? moment(shortcutRaw.startDate, format)
+                  ? moment(shortcutRaw.startDate, valueFormat || format)
                   : shortcutRaw.startDate;
 
                 return startDate &&
@@ -1123,10 +1248,10 @@ export class DateRangePicker extends React.Component<
                 const endDate = isExpression(shortcutRaw.endDate)
                   ? moment(
                       FormulaExec['formula'](shortcutRaw.endDate, data),
-                      format
+                      valueFormat || format
                     )
                   : typeof shortcutRaw.endDate === 'string'
-                  ? moment(shortcutRaw.endDate, format)
+                  ? moment(shortcutRaw.endDate, valueFormat || format)
                   : shortcutRaw.endDate;
 
                 return endDate && moment.isMoment(endDate) && endDate.isValid()
@@ -1170,21 +1295,29 @@ export class DateRangePicker extends React.Component<
 
   // 重置
   reset() {
-    const {resetValue, onChange, format, joinValues, delimiter, inputFormat} =
-      this.props;
+    const {
+      resetValue,
+      onChange,
+      format,
+      valueFormat,
+      joinValues,
+      delimiter,
+      inputFormat,
+      displayFormat
+    } = this.props;
     if (!resetValue) {
       return;
     }
     const {startDate, endDate} = DateRangePicker.unFormatValue(
       resetValue,
-      format,
+      valueFormat || (format as string),
       joinValues,
       delimiter
     );
     onChange(resetValue);
     this.setState({
-      startInputValue: startDate?.format(inputFormat),
-      endInputValue: endDate?.format(inputFormat)
+      startInputValue: startDate?.format(displayFormat || inputFormat),
+      endInputValue: endDate?.format(displayFormat || inputFormat)
     });
   }
 
@@ -1377,9 +1510,8 @@ export class DateRangePicker extends React.Component<
     const {
       classPrefix: ns,
       classnames: cx,
-      dateFormat,
-      timeFormat,
       inputFormat,
+      displayFormat,
       ranges,
       shortcuts,
       locale,
@@ -1390,7 +1522,8 @@ export class DateRangePicker extends React.Component<
       mobileUI
     } = this.props;
     const __ = this.props.translate;
-    const {startDate, endDate, editState} = this.state;
+    const {startDate, endDate, editState, curDateFormat, curTimeFormat} =
+      this.state;
     const isDateTimeRange = type === 'input-datetime-range';
     const isDateRange = type === 'input-date-range';
     // timeRange需要单独选择范围
@@ -1459,9 +1592,9 @@ export class DateRangePicker extends React.Component<
                   : this.handleDateChange
               }
               requiredConfirm={false}
-              dateFormat={dateFormat}
-              inputFormat={inputFormat}
-              timeFormat={timeFormat}
+              dateFormat={curDateFormat}
+              displayForamt={displayFormat || inputFormat}
+              timeFormat={curTimeFormat}
               isValidDate={this.checkStartIsValidDate}
               viewMode={viewMode}
               input={false}
@@ -1489,9 +1622,9 @@ export class DateRangePicker extends React.Component<
                   : this.handleDateChange
               }
               requiredConfirm={false}
-              dateFormat={dateFormat}
-              inputFormat={inputFormat}
-              timeFormat={timeFormat}
+              dateFormat={curDateFormat}
+              displayForamt={displayFormat || inputFormat}
+              timeFormat={curTimeFormat}
               viewDate={isDateTimeRange ? this.currentMonth : this.nextMonth}
               // isEndDate
               isValidDate={this.checkEndIsValidDate}
@@ -1624,7 +1757,7 @@ export class DateRangePicker extends React.Component<
       endPlaceholder,
       popOverContainer,
       inputFormat,
-      format,
+      displayFormat,
       joinValues,
       delimiter,
       clearable,
@@ -1647,20 +1780,27 @@ export class DateRangePicker extends React.Component<
     } = this.props;
     const useCalendarMobile =
       mobileUI && ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
-    const {isOpened, isFocused, startDate, endDate} = this.state;
-    const __ = this.props.translate;
 
+    const {
+      isOpened,
+      isFocused,
+      startDate,
+      endDate,
+      curDateFormat,
+      curTimeFormat
+    } = this.state;
+    const __ = this.props.translate;
     const calendarMobile = (
       <CalendarMobile
-        timeFormat={timeFormat}
-        inputFormat={inputFormat}
+        timeFormat={curTimeFormat}
+        displayForamt={displayFormat || inputFormat}
         startDate={startDate}
         endDate={endDate}
         minDate={minDate}
         maxDate={maxDate}
         minDuration={minDuration}
         maxDuration={maxDuration}
-        dateFormat={dateFormat}
+        dateFormat={curDateFormat}
         embed={embed}
         viewMode={viewMode}
         close={this.close}
