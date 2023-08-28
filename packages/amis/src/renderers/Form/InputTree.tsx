@@ -14,7 +14,10 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   resolveEventData,
-  toNumber
+  toNumber,
+  findTreeIndex,
+  hasAbility,
+  eachTree
 } from 'amis-core';
 import {Spinner, SearchBox} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
@@ -245,20 +248,58 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     } else if (action.actionType === 'collapse') {
       this.treeRef.syncUnFolded(this.props, 1);
     } else if (action.actionType === 'add') {
-      this.treeRef.handleAdd(
-        this.treeRef.findItemFromAction(action.args?.parent)
-      );
+      this.addItemFromAction(action.args?.item, action.args?.parentValue);
     } else if (action.actionType === 'edit') {
-      this.treeRef.handleEdit(
-        this.treeRef.findItemFromAction(action.args?.item)
-      );
+      this.editItemFromAction(action.args?.item, action.args?.originValue);
     } else if (action.actionType === 'delete') {
-      this.treeRef.handleRemove(
-        this.treeRef.findItemFromAction(action.args?.item)
-      );
+      this.deleteItemFromAction(action.args?.value);
     } else if (action.actionType === 'reload') {
       this.reload();
     }
+  }
+
+  @autobind
+  addItemFromAction(item: Option, parentValue?: any) {
+    const {onAdd, options, valueField} = this.props;
+    const idxes =
+      findTreeIndex(options, item => {
+        const valueAbility = valueField || 'value';
+        const value = hasAbility(item, valueAbility) ? item[valueAbility] : '';
+        return value === parentValue;
+      }) || [];
+    onAdd && onAdd(idxes.concat(0), item, true);
+  }
+
+  @autobind
+  editItemFromAction(item: Option, originValue: any) {
+    const {onEdit, options, valueField} = this.props;
+    let editItem: Option | null = null;
+    eachTree(options, item => {
+      const valueAbility = valueField || 'value';
+      const value = hasAbility(item, valueAbility) ? item[valueAbility] : '';
+      if (value === originValue) {
+        editItem = item;
+        return;
+      }
+    });
+    onEdit && onEdit(item, editItem!, true);
+  }
+
+  @autobind
+  deleteItemFromAction(value: any) {
+    const {onDelete, options, valueField} = this.props;
+    let deleteItem: Option | null = null;
+    eachTree(options, item => {
+      const valueAbility = valueField || 'value';
+      const itemValue = hasAbility(item, valueAbility)
+        ? item[valueAbility]
+        : '';
+      if (itemValue === value) {
+        deleteItem = item;
+        return;
+      }
+    });
+    onDelete && deleteItem && onDelete(deleteItem);
   }
 
   filterOptions(options: Array<Option>, keywords: string): Array<Option> {
