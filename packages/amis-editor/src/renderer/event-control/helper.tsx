@@ -2141,6 +2141,16 @@ export const COMMON_ACTION_SCHEMA_MAP: {
       );
     }
   },
+  expand: {
+    descDetail: (info: any) => {
+      return (
+        <div>
+          <span className="variable-right">{info?.rendererLabel}</span>
+          展开
+        </div>
+      );
+    }
+  },
   collapse: {
     descDetail: (info: any) => {
       return (
