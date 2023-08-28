@@ -134,12 +134,18 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
     });
 
     // 触发折叠器状态变更事件
-    const rendererEvent = await dispatchEvent('change', eventData);
+    const changeEvent = await dispatchEvent('change', eventData);
+
     // 单独触发折叠 or 收起事件
-    await dispatchEvent(collapsed ? 'collapse' : 'expand', eventData);
-    if (rendererEvent?.prevented) {
+    const toggleEvent = await dispatchEvent(
+      collapsed ? 'collapse' : 'expand',
+      eventData
+    );
+
+    if (changeEvent?.prevented || toggleEvent?.prevented) {
       return;
     }
+
     onCollapse?.(props, collapsed);
   }
 
