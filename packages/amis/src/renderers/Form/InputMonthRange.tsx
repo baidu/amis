@@ -31,6 +31,9 @@ export default class MonthRangeControl extends InputDateRange {
       data,
       format,
       mobileUI,
+      valueFormat,
+      inputFormat,
+      displayFormat,
       env,
       ...rest
     } = this.props;
@@ -40,7 +43,8 @@ export default class MonthRangeControl extends InputDateRange {
         <DateRangePicker
           viewMode="months"
           mobileUI={mobileUI}
-          format={format}
+          valueFormat={valueFormat || format}
+          displayFormat={displayFormat || inputFormat}
           classPrefix={ns}
           popOverContainer={
             mobileUI
@@ -49,8 +53,16 @@ export default class MonthRangeControl extends InputDateRange {
           }
           data={data}
           {...rest}
-          minDate={minDate ? filterDate(minDate, data, format) : undefined}
-          maxDate={maxDate ? filterDate(maxDate, data, format) : undefined}
+          minDate={
+            minDate
+              ? filterDate(minDate, data, valueFormat || format)
+              : undefined
+          }
+          maxDate={
+            maxDate
+              ? filterDate(maxDate, data, valueFormat || format)
+              : undefined
+          }
           minDuration={minDuration ? parseDuration(minDuration) : undefined}
           maxDuration={maxDuration ? parseDuration(maxDuration) : undefined}
           onChange={this.handleChange}
@@ -71,7 +83,6 @@ export class MonthRangeControlRenderer extends MonthRangeControl {
     inputFormat: 'YYYY-MM',
     joinValues: true,
     delimiter: ',',
-    timeFormat: '',
     /** shortcuts的兼容配置 */
     ranges: '',
     shortcuts: 'thismonth,prevmonth',

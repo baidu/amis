@@ -1,4 +1,5 @@
 import React from 'react';
+import toString from 'lodash/toString';
 import {getPropValue, FormControlProps} from 'amis-core';
 
 function renderCommonStatic(props: any, defaultValue: string) {
@@ -132,7 +133,11 @@ export function supportStatic<T extends FormControlProps>() {
           body = renderCommonStatic(props, displayValue);
         }
 
-        return <div className={cx(`${ns}Form-static`, className)}>{body}</div>;
+        return (
+          <div className={cx(`${ns}Form-static`, className)}>
+            {React.isValidElement(body) ? body : toString(body)}
+          </div>
+        );
       }
 
       return original.apply(this, args);

@@ -117,8 +117,12 @@ icon:
 ```
 
 ## 属性表
+下面属性为`transfer-picker`独占属性, 更多属性用法，参考[穿梭器（Transfer）](./transfer)
 
-更多配置请参考[穿梭器（Transfer）](./transfer)。
+| 属性名            | 类型      | 默认值  | 说明                                              
+| ----------------- | --------- | ------- | ------------------------------------------------- 
+| borderMode | `'full'` \| `'half'` \| `'none'` |  | 边框模式，`'full'`为全边框，`'half'`为半边框，`'none'`为没边框       |
+| pickerSize          | string |  | 弹窗大小，支持: xs、sm、md、lg、xl、full                                |
 
 ## 事件表
 

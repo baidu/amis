@@ -24,6 +24,11 @@ export interface DateRangeSchema extends BaseSchema {
   format?: string;
 
   /**
+   * 展示的时间格式，参考 moment 中的格式说明。（新：同format）
+   */
+  displayFormat?: string;
+
+  /**
    * 分割符
    */
   delimiter?: string;
@@ -43,7 +48,7 @@ export class DateRangeField extends React.Component<DateRangeProps, Object> {
 
   static defaultProps: Pick<
     DateRangeProps,
-    'valueFormat'| 'format' | 'connector'
+    'valueFormat' | 'format' | 'connector' | 'displayFormat'
   > = {
     format: 'YYYY-MM-DD',
     valueFormat: 'X',
@@ -57,6 +62,7 @@ export class DateRangeField extends React.Component<DateRangeProps, Object> {
       value,
       valueFormat,
       format = 'YYYY-MM-DD',
+      displayFormat,
       classnames: cx,
       className,
       style
@@ -74,20 +80,18 @@ export class DateRangeField extends React.Component<DateRangeProps, Object> {
     if (valueFormat) {
       startTime = moment(startTime, valueFormat);
       endTime = moment(endTime, valueFormat);
-    }
-    else {
+    } else {
       startTime = moment(startTime * 1000);
       endTime = moment(endTime * 1000);
     }
 
-    startTime = startTime.isValid() ? startTime.format(format) : '';
-    endTime = endTime.isValid() ? endTime.format(format) : '';
+    startTime = startTime.isValid()
+      ? startTime.format(displayFormat || format)
+      : '';
+    endTime = endTime.isValid() ? endTime.format(displayFormat || format) : '';
 
     return (
-      <span
-        className={cx('DateRangeField', className)}
-        style={style}
-      >
+      <span className={cx('DateRangeField', className)} style={style}>
         {[startTime, endTime].join(` ${connector} `)}
       </span>
     );
@@ -97,4 +101,4 @@ export class DateRangeField extends React.Component<DateRangeProps, Object> {
 @Renderer({
   type: 'date-range'
 })
-export class DateRangeFieldRenderer extends DateRangeField {};
+export class DateRangeFieldRenderer extends DateRangeField {}

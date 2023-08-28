@@ -363,7 +363,6 @@ export const TableStore = iRendererStore
     formsRef: types.optional(types.array(types.frozen()), []),
     maxKeepItemSelectionLength: Infinity,
     keepItemSelectionOnPageChange: false,
-    useFixedLayout: false, // 默认 table-layout 为 auto，主要这种方式下宽度设置不准确
     // 导出 Excel 按钮的 loading 状态
     exportExcelLoading: false,
     searchFormExpanded: false // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
@@ -832,9 +831,7 @@ export const TableStore = iRendererStore
       tableRef = ref;
     }
 
-    function update(
-      config: Partial<STableStore> & {tableLayout?: 'fixed' | 'auto'}
-    ) {
+    function update(config: Partial<STableStore>) {
       config.primaryField !== void 0 &&
         (self.primaryField = config.primaryField);
       config.selectable !== void 0 && (self.selectable = config.selectable);
@@ -901,10 +898,6 @@ export const TableStore = iRendererStore
 
         updateColumns(columns);
       }
-
-      if (config.tableLayout === 'fixed') {
-        self.useFixedLayout = true;
-      }
     }
 
     function updateColumns(columns: Array<SColumn>) {
@@ -938,28 +931,31 @@ export const TableStore = iRendererStore
         });
 
         const originColumns = self.columns.concat();
-        columns = columns.map((item, index) => ({
-          ...item,
-          id: guid(),
-          index,
-          width: originColumns[index]?.width || 0,
-          minWidth: originColumns[index]?.minWidth || 0,
-          rawIndex: index - PARTITION_INDEX,
-          type: item.type || 'plain',
-          pristine: item.pristine || item,
-          toggled: item.toggled !== false,
-          breakpoint: item.breakpoint,
-          isPrimary: index === PARTITION_INDEX,
-          /** 提前映射变量，方便后续view中使用 */
-          label: isPureVariable(item.label)
-            ? resolveVariableAndFilter(item.label, self.data)
-            : item.label
-        }));
+        columns = columns.map((item, index) => {
+          const origin = item.id
+            ? originColumns.find(column => column.id === item.id)
+            : originColumns[index];
+
+          return {
+            ...item,
+            id: guid(),
+            index,
+            width: origin?.width || 0,
+            minWidth: origin?.minWidth || 0,
+            rawIndex: index - PARTITION_INDEX,
+            type: item.type || 'plain',
+            pristine: item.pristine || item,
+            toggled: item.toggled !== false,
+            breakpoint: item.breakpoint,
+            isPrimary: index === PARTITION_INDEX,
+            /** 提前映射变量，方便后续view中使用 */
+            label: isPureVariable(item.label)
+              ? resolveVariableAndFilter(item.label, self.data)
+              : item.label
+          };
+        });
 
         self.columns.replace(columns as any);
-        self.useFixedLayout = self.columns.some(
-          column => column.pristine.width
-        );
       }
     }
 
@@ -968,91 +964,63 @@ export const TableStore = iRendererStore
       if (!table) {
         return;
       }
-      // 自动将 table-layout: auto 改成 fixed
-      const ths = (
-        [].slice.call(
-          table.querySelectorAll(':scope>thead>tr>th[data-index]')
-        ) as HTMLTableCellElement[]
-      ).filter((th, index, arr) => {
-        return (
-          arr.findIndex(
-            item =>
-              item.getAttribute('data-index') === th.getAttribute('data-index')
-          ) === index
-        );
-      });
+      const tableWidth = table.parentElement!.offsetWidth;
+      const thead = table.querySelector(':scope>thead')!;
       const tbodyTr = table.querySelector(':scope>tbody>tr:first-child');
-
       const div = document.createElement('div');
       div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
-      div.style.cssText = `position:absolute;top:0;left:0;pointer-events:none;visibility: hidden;`;
-      div.innerHTML = `<table style="table-layout:auto!important;width:0!important;min-width:0!important;" class="${
-        table.className
-      }"><thead><tr>${ths
-        .map(
-          th =>
-            `<th style="width:0" data-index="${th.getAttribute(
-              'data-index'
-            )}" class="${th.className}">${th.innerHTML}</th>`
-        )
-        .join(
+      div.style.cssText += `visibility: hidden!important;`;
+      div.innerHTML =
+        `<table style="table-layout:auto!important;width:0!important;min-width:0!important;" class="${table.className}">${thead.outerHTML}</table>` +
+        `<table style="table-layout:auto!important;min-width:${tableWidth}px!important;width:${tableWidth}px!important;" class="${table.className.replace(
+          'is-layout-fixed',
           ''
-        )}</tr></thead></table><table style="table-layout:auto!important;min-width:${
-        table.offsetWidth
-      }px!important;" class="${table.className.replace(
-        'is-layout-fixed',
-        ''
-      )}"><thead><tr>${ths
-        .map(th => {
-          const index = parseInt(th.getAttribute('data-index')!, 10);
-          const column = self.columns[index];
+        )}">${thead.outerHTML}${
+          tbodyTr ? `<tbody>${tbodyTr.outerHTML}</tbody>` : ''
+        }</table>`;
+      const ths1: Array<HTMLTableCellElement> = [].slice.call(
+        div.querySelectorAll(':scope>table:first-child>thead>tr>th[data-index]')
+      );
+      const ths2: Array<HTMLTableCellElement> = [].slice.call(
+        div.querySelectorAll(':scope>table:last-child>thead>tr>th[data-index]')
+      );
 
-          return `<th style="${
-            typeof column.pristine.width === 'number'
-              ? `width: ${column.pristine.width}px;`
-              : column.pristine.width
-              ? `width: ${column.pristine.width};`
-              : ''
-          }" data-index="${th.getAttribute('data-index')}" class="${
-            th.className
-          }">${th.innerHTML}</th>`;
-        })
-        .join('')}</tr></thead>${
-        tbodyTr ? `<tbody>${tbodyTr.outerHTML}</tbody>` : ''
-      }</table>`;
+      ths1.forEach(th => {
+        th.style.cssText += 'width: 0';
+      });
+      ths2.forEach(th => {
+        const index = parseInt(th.getAttribute('data-index')!, 10);
+        const column = self.columns[index];
+
+        th.style.cssText += `${
+          typeof column.pristine.width === 'number'
+            ? `width: ${column.pristine.width}px;`
+            : column.pristine.width
+            ? `width: ${column.pristine.width};`
+            : ''
+        }`;
+      });
       document.body.appendChild(div);
       const minWidths: {
         [propName: string]: number;
       } = {};
-      [].slice
-        .call(
-          div.querySelectorAll(
-            ':scope>table:first-child>thead>tr>th[data-index]'
-          )
-        )
-        .forEach((th: HTMLTableCellElement) => {
-          minWidths[th.getAttribute('data-index')!] = th.clientWidth;
-        });
+      ths1.forEach((th: HTMLTableCellElement) => {
+        minWidths[th.getAttribute('data-index')!] = th.clientWidth;
+      });
 
-      [].slice
-        .call(
-          div.querySelectorAll(
-            ':scope>table:last-child>thead>tr>th[data-index]'
-          )
-        )
-        .forEach((col: HTMLElement) => {
-          const index = parseInt(col.getAttribute('data-index')!, 10);
-          const column = self.columns[index];
-          column.setWidth(
-            Math.max(
-              typeof column.pristine.width === 'number'
-                ? column.pristine.width
-                : col.clientWidth - 2,
-              minWidths[index]
-            ),
+      ths2.forEach((col: HTMLElement) => {
+        const index = parseInt(col.getAttribute('data-index')!, 10);
+        const column = self.columns[index];
+        column.setWidth(
+          Math.max(
+            typeof column.pristine.width === 'number'
+              ? column.pristine.width
+              : col.clientWidth - 2,
             minWidths[index]
-          );
-        });
+          ),
+          minWidths[index]
+        );
+      });
 
       document.body.removeChild(div);
     }
@@ -1665,9 +1633,6 @@ export const TableStore = iRendererStore
       persistSaveToggledColumns,
       setSearchFormExpanded,
       toggleSearchFormExpanded,
-      setUseFixedLayout(value: any) {
-        self.useFixedLayout = !!value;
-      },
 
       // events
       afterCreate() {

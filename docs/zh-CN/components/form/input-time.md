@@ -27,7 +27,7 @@ order: 58
 
 ## 显示格式
 
-选中任意时间，可以看到默认显示时间的格式是像`01:01`这样的格式，如果你想要自定义显示格式，那么可以配置`inputFormat`。
+选中任意时间，可以看到默认显示时间的格式是像`01:01`这样的格式，如果你想要自定义显示格式，那么可以配置`displayFormat`。
 
 例如你想显示`01时01分`这样的格式，查找 moment 文档可知配置格式应为 `HH时mm分`，即：
 
@@ -40,7 +40,7 @@ order: 58
             "type": "input-time",
             "name": "time",
             "label": "时间",
-            "inputFormat": "HH时mm分"
+            "displayFormat": "HH时mm分"
         }
     ]
 }
@@ -67,7 +67,7 @@ order: 58
 }
 ```
 
-如果你想要其他格式的日期值，那么可以配置`format`参数用于调整表单项的值格式。
+如果你想要其他格式的日期值，那么可以配置`valueFormat`参数用于调整表单项的值格式。
 
 例如你调整值为`01:11`这样的格式，查找 moment 文档可知配置格式应为 `HH:mm`，即：
 
@@ -81,7 +81,7 @@ order: 58
             "type": "input-time",
             "name": "time",
             "label": "时间",
-            "format": "HH:mm"
+            "valueFormat": "HH:mm"
         }
     ]
 }
@@ -91,7 +91,7 @@ order: 58
 
 ## 显示秒
 
-默认显示的是时和分，要显示秒请参考以下配置
+默认显示的是时和分，要显示秒可通过配置`displayFormat`实现，请参考以下配置，若配置`valueFormat`需与`displayFormat`精确度相同
 
 ```schema: scope="body"
 {
@@ -103,9 +103,14 @@ order: 58
             "type": "input-time",
             "name": "time",
             "label": "时间",
-            "format": "HH:mm:ss",
-            "timeFormat": "HH:mm:ss",
-            "inputFormat": "HH:mm:ss"
+            "valueFormat": "HH:mm:ss",
+            "displayFormat": "HH:mm:ss"
+        },
+        {
+            "type": "input-time",
+            "name": "time2",
+            "label": "时间2",
+            "displayFormat": "HH:mm:ss"
         }
     ]
 }
@@ -243,12 +248,11 @@ order: 58
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名          | 类型      | 默认值         | 说明                                                                                |
-| --------------- | --------- | -------------- | ----------------------------------------------------------------------------------- |
+| 属性名          | 类型      | 默认值         | 说明                                                                                | 版本             |
+| --------------- | --------- | -------------- | ----------------------------------------------------------------------------------- | ---------------- |
 | value           | `string`  |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                        |
-| timeFormat      | `string`  | `HH:mm`        | 时间选择器值格式，更多格式类型请参考 [moment](http://momentjs.com/)                 |
-| format          | `string`  | `X`            | 时间选择器值格式，更多格式类型请参考 [moment](http://momentjs.com/)                 |
-| inputFormat     | `string`  | `HH:mm`        | 时间选择器显示格式，即时间戳格式，更多格式类型请参考 [moment](http://momentjs.com/) |
+| valueFormat     | `string`  | `X`            | 时间选择器值格式，更多格式类型请参考 [moment](http://momentjs.com/)                 | 3.4.0 版本后支持 |
+| displayFormat   | `string`  | `HH:mm`        | 时间选择器显示格式，即时间戳格式，更多格式类型请参考 [moment](http://momentjs.com/) | 3.4.0 版本后支持 |
 | placeholder     | `string`  | `"请选择时间"` | 占位文本                                                                            |
 | clearable       | `boolean` | `true`         | 是否可清除                                                                          |
 | timeConstraints | `object`  | `true`         |                                                                                     |

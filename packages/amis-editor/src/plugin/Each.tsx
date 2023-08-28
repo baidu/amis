@@ -58,7 +58,7 @@ export class EachPlugin extends BasePlugin {
         children: (
           <Button
             size="sm"
-            level="danger"
+            level="primary"
             className="m-b"
             block
             onClick={this.editDetail.bind(this, context.id)}

@@ -301,6 +301,8 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       loadingConfig,
       valueField = 'value',
       labelField = 'label',
+      valueTpl,
+      menuTpl,
       data,
       mobileUI
     } = this.props;
@@ -323,8 +325,8 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
           onLeftDeferLoad={leftDeferLoad}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
-          optionItemRender={this.optionItemRender}
-          resultItemRender={this.resultItemRender}
+          optionItemRender={menuTpl ? this.optionItemRender : undefined}
+          resultItemRender={valueTpl ? this.resultItemRender : undefined}
           onTabChange={this.onTabChange}
           itemHeight={
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined

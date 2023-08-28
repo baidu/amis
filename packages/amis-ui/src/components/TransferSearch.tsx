@@ -84,6 +84,13 @@ export class TransferSearch extends React.Component<
     });
   }
 
+  @autobind
+  clearInput() {
+    this.setState({
+      inputValue: ''
+    });
+  }
+
   render() {
     const {classnames: cx, translate: __, placeholder, mobileUI} = this.props;
 

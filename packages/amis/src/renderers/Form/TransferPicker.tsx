@@ -87,6 +87,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       loadingConfig,
       labelField = 'label',
       valueField = 'value',
+      menuTpl,
+      valueTpl,
       mobileUI,
       env
     } = this.props;
@@ -128,8 +130,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           columns={columns}
           leftMode={leftMode}
           leftOptions={leftOptions}
-          optionItemRender={this.optionItemRender}
-          resultItemRender={this.resultItemRender}
+          optionItemRender={menuTpl ? this.optionItemRender : undefined}
+          resultItemRender={valueTpl ? this.resultItemRender : undefined}
           onFocus={() => this.dispatchEvent('focus')}
           onBlur={() => this.dispatchEvent('blur')}
           labelField={labelField}
