@@ -1047,6 +1047,41 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 }
 ```
 
+## searchApi
+
+**发送**
+
+默认 GET，携带 term 变量，值为搜索框输入的文字，可从上下文中取数据设置进去。
+
+**响应**
+
+格式要求如下：
+
+```json
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "options": [
+      {
+        "label": "描述",
+        "value": "值" // ,
+        // "children": [] // 可以嵌套
+      },
+
+      {
+        "label": "描述2",
+        "value": "值2"
+      }
+    ],
+
+    "value": "值" // 默认值，可以获取列表的同时设置默认值。
+  }
+}
+```
+
+适用于需选择的数据/信息源较多时，用户可直观的知道自己所选择的数据/信息的场景。
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -1061,6 +1096,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | labelField             | `string`                                     | `"label"`        | [选项标签字段](./options#%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE%E5%AD%97%E6%AE%B5-labelfield)                                          |
 | valueField             | `string`                                     | `"value"`        | [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)                                                     |
 | iconField              | `string`                                     | `"icon"`         | 图标值字段                                                                                                                           |
+| deferField             | `string`                                     | `"defer"`        | 懒加载字段                                                                                                                           |
 | joinValues             | `boolean`                                    | `true`           | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                                           |
 | extractValue           | `boolean`                                    | `false`          | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                                       |
 | creatable              | `boolean`                                    | `false`          | [新增选项](./options#%E5%89%8D%E7%AB%AF%E6%96%B0%E5%A2%9E-creatable)                                                                 |
@@ -1106,7 +1142,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 | 事件名称     | 事件参数                                                                                        | 说明                         |
 | ------------ | ----------------------------------------------------------------------------------------------- | ---------------------------- |
-| change       | `[name]: string` 组件的值                                                                       | 选中值变化时触发             |
+| change       | `items: object[]`选项集合（< 3.4.0 及以下版本 不支持该参数）<br/>`[name]: string` 组件的值      | 选中值变化时触发             |
 | add          | `items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）<br/>`[name]: object` 新增的节点信息 | 新增节点提交时触发           |
 | edit         | `items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）<br/>`[name]: object` 编辑的节点信息 | 编辑节点提交时触发           |
 | delete       | `items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）<br/>`[name]: object` 删除的节点信息 | 删除节点提交时触发           |
@@ -1116,10 +1152,14 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称 | 动作配置                               | 说明                                                                                    |
-| -------- | -------------------------------------- | --------------------------------------------------------------------------------------- |
-| expand   | openLevel: `number`                    | 展开指定层级                                                                            |
-| collapse | -                                      | 收起                                                                                    |
-| clear    | -                                      | 清空                                                                                    |
-| reset    | -                                      | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                  |
-| setValue | `value: string` \| `string[]` 更新的值 | 更新数据，开启`multiple`支持设置多项，开启`joinValues`时，多值用`,`分隔，否则多值用数组 |
+| 动作名称 | 动作配置                               | 说明                                                                                                       |
+| -------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| expand   | openLevel: `number`                    | 展开指定层级                                                                                               |
+| collapse | -                                      | 收起                                                                                                       |
+| add      | `item: Option, parentValue?: any`      | item 新增的数据项；parentValue 父级数据项的 value（如果配置了 valueField，以 valueField 的字段值为准）     |
+| edit     | `item: Option, originValue: any`       | item 编辑后的数据项；originValue 编辑前数据项的 value（如果配置了 valueField，以 valueField 的字段值为准） |
+| delete   | value: ` any`                          | 删除数据项的 value，（如果配置了 valueField，以 valueField 的字段值为准）                                  |
+| reload   | -                                      | 刷新                                                                                                       |
+| clear    | -                                      | 清空                                                                                                       |
+| reset    | -                                      | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                                     |
+| setValue | `value: string` \| `string[]` 更新的值 | 更新数据，开启`multiple`支持设置多项，开启`joinValues`时，多值用`,`分隔，否则多值用数组                    |

@@ -8,7 +8,10 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import cloneDeep from 'lodash/cloneDeep';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {
+  getArgsWrapper,
+  getEventControlConfig
+} from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
 import {tipedLabel} from 'amis-editor-core';
 import {resolveOptionType} from '../../util';
@@ -20,7 +23,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
   $schema = '/schemas/TreeSelectControlSchema.json';
 
   // 组件名称
-  name = '树选择框';
+  name = '树组件';
   isBaseComponent = true;
   disabledRendererPlugin = true;
   icon = 'fa fa-list-alt';
@@ -86,6 +89,10 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 value: {
                   type: 'string',
                   title: '选中的节点值'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项列表'
                 }
               }
             }
@@ -236,6 +243,102 @@ export class TreeSelectControlPlugin extends BasePlugin {
   // 动作定义
   actions: RendererPluginAction[] = [
     {
+      actionType: 'add',
+      actionLabel: '新增',
+      description: '新增数据项',
+      innerArgs: ['item', 'parentValue'],
+      schema: getArgsWrapper({
+        type: 'container',
+        body: [
+          {
+            type: 'input-kv',
+            label: '数据项',
+            name: 'item',
+            mode: 'horizontal',
+            inputClassName: 'ml-2',
+            size: 'lg',
+            required: true,
+            draggable: false,
+            valueType: 'ae-formulaControl',
+            value: {
+              label: '',
+              value: ''
+            }
+          },
+          getSchemaTpl('formulaControl', {
+            label: '父级数据项的值',
+            name: 'parentValue',
+            mode: 'horizontal',
+            inputClassName: 'ml-2',
+            size: 'lg',
+            variables: '${variables}',
+            inputMode: 'input-group',
+            placeholder: '请输入父级数据项的值，为空则在头部插入'
+          })
+        ]
+      })
+    },
+    {
+      actionType: 'edit',
+      actionLabel: '编辑',
+      description: '编辑数据项',
+      innerArgs: ['item', 'originValue'],
+      schema: getArgsWrapper({
+        type: 'container',
+        body: [
+          {
+            type: 'input-kv',
+            label: '数据项',
+            name: 'item',
+            mode: 'horizontal',
+            inputClassName: 'ml-2',
+            size: 'lg',
+            required: true,
+            draggable: false,
+            valueType: 'ae-formulaControl',
+            value: {
+              label: '',
+              value: ''
+            }
+          },
+          getSchemaTpl('formulaControl', {
+            label: '数据编辑项的值',
+            name: 'originValue',
+            mode: 'horizontal',
+            inputClassName: 'ml-2',
+            required: true,
+            size: 'lg',
+            variables: '${variables}',
+            inputMode: 'input-group',
+            placeholder: '请输入数据项编辑前的值'
+          })
+        ]
+      })
+    },
+    {
+      actionType: 'delete',
+      actionLabel: '删除',
+      description: '删除数据项',
+      innerArgs: ['value'],
+      schema: getArgsWrapper([
+        getSchemaTpl('formulaControl', {
+          label: '数据删除项的值',
+          name: 'value',
+          mode: 'horizontal',
+          inputClassName: 'ml-2',
+          required: true,
+          size: 'lg',
+          variables: '${variables}',
+          inputMode: 'input-group'
+        })
+      ])
+    },
+    {
+      actionType: 'reload',
+      actionLabel: '刷新',
+      description: '刷新数据'
+    },
+    {
       actionType: 'clear',
       actionLabel: '清空',
       description: '清除数据'
@@ -368,8 +471,13 @@ export class TreeSelectControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('switch', {
                 label: '可检索',
-                name: 'searchable',
-                visibleOn: 'data.type === "tree-select"'
+                name: 'searchable'
+              }),
+              getSchemaTpl('apiControl', {
+                name: 'searchApi',
+                label: '选项搜索接口',
+                labelClassName: 'none',
+                visibleOn: 'data.type === "input-tree" && data.searchable'
               }),
               getSchemaTpl('multiple', {
                 body: [
@@ -445,6 +553,12 @@ export class TreeSelectControlPlugin extends BasePlugin {
               getSchemaTpl('optionsMenuTpl', {
                 manager: this.manager
               }),
+              getSchemaTpl('apiControl', {
+                name: 'deferApi',
+                label: '懒加载接口',
+                labelClassName: 'none'
+              }),
+              getSchemaTpl('deferField'),
               getSchemaTpl(
                 'loadingConfig',
                 {

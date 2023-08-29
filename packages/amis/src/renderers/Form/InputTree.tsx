@@ -14,7 +14,10 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   resolveEventData,
-  toNumber
+  toNumber,
+  findTreeIndex,
+  hasAbility,
+  findTree
 } from 'amis-core';
 import {Spinner, SearchBox} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
@@ -113,6 +116,11 @@ export interface TreeControlSchema extends FormOptionsSchema {
    * 是否开启搜索
    */
   searchable?: boolean;
+
+  /**
+   * 搜索 API
+   */
+  searchApi?: SchemaApi;
 
   /**
    * 搜索框的配置
@@ -239,7 +247,51 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       this.treeRef.syncUnFolded(this.props, action.args?.openLevel);
     } else if (action.actionType === 'collapse') {
       this.treeRef.syncUnFolded(this.props, 1);
+    } else if (action.actionType === 'add') {
+      this.addItemFromAction(action.args?.item, action.args?.parentValue);
+    } else if (action.actionType === 'edit') {
+      this.editItemFromAction(action.args?.item, action.args?.originValue);
+    } else if (action.actionType === 'delete') {
+      this.deleteItemFromAction(action.args?.value);
+    } else if (action.actionType === 'reload') {
+      this.reload();
     }
+  }
+
+  @autobind
+  addItemFromAction(item: Option, parentValue?: any) {
+    const {onAdd, options, valueField} = this.props;
+    const idxes =
+      findTreeIndex(options, item => {
+        const valueAbility = valueField || 'value';
+        const value = hasAbility(item, valueAbility) ? item[valueAbility] : '';
+        return value === parentValue;
+      }) || [];
+    onAdd && onAdd(idxes.concat(0), item, true);
+  }
+
+  @autobind
+  editItemFromAction(item: Option, originValue: any) {
+    const {onEdit, options, valueField} = this.props;
+    const editItem = findTree(options, item => {
+      const valueAbility = valueField || 'value';
+      const value = hasAbility(item, valueAbility) ? item[valueAbility] : '';
+      return value === originValue;
+    });
+    onEdit && onEdit(item, editItem!, true);
+  }
+
+  @autobind
+  deleteItemFromAction(value: any) {
+    const {onDelete, options, valueField} = this.props;
+    const deleteItem = findTree(options, item => {
+      const valueAbility = valueField || 'value';
+      const itemValue = hasAbility(item, valueAbility)
+        ? item[valueAbility]
+        : '';
+      return itemValue === value;
+    });
+    onDelete && deleteItem && onDelete(deleteItem);
   }
 
   filterOptions(options: Array<Option>, keywords: string): Array<Option> {
@@ -269,11 +321,11 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
   @autobind
   async handleChange(value: any) {
-    const {onChange, dispatchEvent} = this.props;
+    const {onChange, options, dispatchEvent} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value})
+      resolveEventData(this.props, {value, items: options})
     );
 
     if (rendererEvent?.prevented) {
@@ -283,9 +335,37 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     onChange && onChange(value);
   }
 
-  handleSearch(keyword: string) {
-    const {options} = this.props;
-    const filterOptions = this.filterOptions(options, keyword);
+  async handleSearch(keyword: string) {
+    const {searchApi, options, env, data, translate: __} = this.props;
+
+    let filterOptions: Array<Option> = [];
+
+    if (searchApi) {
+      try {
+        const payload = await env.fetcher(
+          searchApi,
+          createObject(data, {term: keyword})
+        );
+
+        if (!payload.ok) {
+          throw new Error(__(payload.msg || 'networkError'));
+        }
+
+        const result =
+          payload.data.options || payload.data.items || payload.data;
+        if (!Array.isArray(result)) {
+          throw new Error(__('CRUD.invalidArray'));
+        }
+
+        filterOptions = result;
+      } catch (e) {
+        if (!env.isCancel(e)) {
+          env.notify('error', e.message);
+        }
+      }
+    } else if (keyword) {
+      filterOptions = this.filterOptions(options, keyword);
+    }
 
     this.setState({
       keyword,
@@ -367,6 +447,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       rootCreateTip,
       labelField,
       iconField,
+      deferField,
       nodePath,
       deferLoad,
       expandTreeOptions,
@@ -396,6 +477,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         labelField={labelField}
         valueField={valueField}
         iconField={iconField}
+        deferField={deferField}
         disabled={disabled}
         onChange={this.handleChange}
         joinValues={joinValues}

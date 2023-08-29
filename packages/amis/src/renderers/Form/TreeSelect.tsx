@@ -1,5 +1,11 @@
 import React from 'react';
-import {Overlay, resolveEventData} from 'amis-core';
+import {
+  Overlay,
+  findTree,
+  findTreeIndex,
+  hasAbility,
+  resolveEventData
+} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {PopUp, SpinnerExtraProps} from 'amis-ui';
 
@@ -497,16 +503,60 @@ export default class TreeSelectControl extends React.Component<
   doAction(action: ActionObject, data: any, throwErrors: boolean) {
     if (action.actionType && ['clear', 'reset'].includes(action.actionType)) {
       this.clearValue();
+    } else if (action.actionType === 'add') {
+      this.addItemFromAction(action.args?.item, action.args?.parentValue);
+    } else if (action.actionType === 'edit') {
+      this.editItemFromAction(action.args?.item, action.args?.originValue);
+    } else if (action.actionType === 'delete') {
+      this.deleteItemFromAction(action.args?.value);
+    } else if (action.actionType === 'reload') {
+      this.reload();
     }
   }
 
   @autobind
+  addItemFromAction(item: Option, parentValue?: any) {
+    const {onAdd, options, valueField} = this.props;
+    const idxes =
+      findTreeIndex(options, item => {
+        const valueAbility = valueField || 'value';
+        const value = hasAbility(item, valueAbility) ? item[valueAbility] : '';
+        return value === parentValue;
+      }) || [];
+    onAdd && onAdd(idxes.concat(0), item, true);
+  }
+
+  @autobind
+  editItemFromAction(item: Option, originValue: any) {
+    const {onEdit, options, valueField} = this.props;
+    const editItem = findTree(options, item => {
+      const valueAbility = valueField || 'value';
+      const value = hasAbility(item, valueAbility) ? item[valueAbility] : '';
+      return value === originValue;
+    });
+    onEdit && onEdit(item, editItem!, true);
+  }
+
+  @autobind
+  deleteItemFromAction(value: any) {
+    const {onDelete, options, valueField} = this.props;
+    const deleteItem = findTree(options, item => {
+      const valueAbility = valueField || 'value';
+      const itemValue = hasAbility(item, valueAbility)
+        ? item[valueAbility]
+        : '';
+      return itemValue === value;
+    });
+    onDelete && deleteItem && onDelete(deleteItem);
+  }
+
+  @autobind
   async resultChangeEvent(value: any) {
-    const {onChange, dispatchEvent, data} = this.props;
+    const {onChange, options, dispatchEvent, data} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value})
+      resolveEventData(this.props, {value, items: options})
     );
 
     if (rendererEvent?.prevented) {
@@ -579,6 +629,7 @@ export default class TreeSelectControl extends React.Component<
       maxLength,
       minLength,
       labelField,
+      deferField,
       nodePath,
       onAdd,
       creatable,
@@ -620,6 +671,7 @@ export default class TreeSelectControl extends React.Component<
         onlyLeaf={onlyLeaf}
         labelField={labelField}
         valueField={valueField}
+        deferField={deferField}
         disabled={disabled}
         onChange={mobileUI ? this.handleTempChange : this.handleChange}
         joinValues={joinValues}
