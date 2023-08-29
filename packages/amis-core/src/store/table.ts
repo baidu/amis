@@ -966,7 +966,7 @@ export const TableStore = iRendererStore
       }
       const tableWidth = table.parentElement!.offsetWidth;
       const thead = table.querySelector(':scope>thead')!;
-      const tbodyTr = table.querySelector(':scope>tbody>tr:first-child');
+      const tbody = table.querySelector(':scope>tbody');
       const div = document.createElement('div');
       div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
       div.style.cssText += `visibility: hidden!important;`;
@@ -976,7 +976,7 @@ export const TableStore = iRendererStore
           'is-layout-fixed',
           ''
         )}">${thead.outerHTML}${
-          tbodyTr ? `<tbody>${tbodyTr.outerHTML}</tbody>` : ''
+          tbody ? `<tbody>${tbody.innerHTML}</tbody>` : ''
         }</table>`;
       const ths1: Array<HTMLTableCellElement> = [].slice.call(
         div.querySelectorAll(':scope>table:first-child>thead>tr>th[data-index]')
