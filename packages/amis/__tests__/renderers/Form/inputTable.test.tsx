@@ -21,7 +21,6 @@ test('Renderer:input table', async () => {
         type: 'page',
         body: {
           type: 'form',
-          debug: 'true',
           data: {
             table: [
               {
