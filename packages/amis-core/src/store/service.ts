@@ -177,8 +177,7 @@ export const ServiceStore = iRendererStore
           return;
         }
 
-        (options && options.silent && (api as ApiObject).silent) ||
-          markFetching(true);
+        (options && options.silent) || markFetching(true);
         const json: Payload = yield getEnv(self).fetcher(api, data, {
           ...options,
           cancelExecutor: (executor: Function) => (fetchCancel = executor)

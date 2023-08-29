@@ -5,7 +5,6 @@ import React from 'react';
 import {buildApi, isApiOutdated, Renderer, RendererProps} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {Icon, SearchBox, VirtualList} from 'amis-ui';
-import {log} from 'console';
 
 export type LogOperation =
   | 'stop'
