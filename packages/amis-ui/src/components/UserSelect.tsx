@@ -800,7 +800,8 @@ export class UserSelect extends React.Component<
       classnames: cx,
       multiple,
       translate: __,
-      loadingConfig
+      loadingConfig,
+      mobileUI
     } = this.props;
 
     const {breadList, options, isSearch, searchList, searchLoading} =
@@ -827,7 +828,7 @@ export class UserSelect extends React.Component<
               onChange={this.handleSearch}
               placeholder={searchPlaceholder}
               clearable={false}
-              useMobileUI
+              mobileUI={mobileUI}
             >
               {this.state.isSearch ? (
                 <a onClick={this.handleSeachCancel}>
@@ -983,7 +984,8 @@ export class UserSelect extends React.Component<
       placeholder = '请选择',
       showResultBox,
       labelField = 'label',
-      valueField = 'value'
+      valueField = 'value',
+      mobileUI
     } = this.props;
 
     const {isOpened, isEdit, isSelectOpened} = this.state;
@@ -1020,7 +1022,7 @@ export class UserSelect extends React.Component<
             onResultChange={value => this.handleSelectChange(value, true)}
             onResultClick={this.onOpen}
             placeholder={placeholder}
-            useMobileUI
+            mobileUI={mobileUI}
           />
         ) : null}
 

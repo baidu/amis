@@ -14,7 +14,7 @@ test('Renderer:date', async () => {
         name: 'date',
         label: 'date',
         value: '1559836800',
-        format: 'YYYY-MM-DD',
+        valueFormat: 'YYYY-MM-DD',
         placeholder: '请选择时间',
         minDate: '1559664000',
         maxDate: '1561737600',

@@ -65,6 +65,7 @@ import {isMobile} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import omit from 'lodash/omit';
 import ColGroup from './ColGroup';
+import debounce from 'lodash/debounce';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -326,11 +327,6 @@ export interface TableSchema extends BaseSchema {
    * 表格自动计算高度
    */
   autoFillHeight?: boolean | AutoFillHeightObject;
-
-  /**
-   * 配置 table-layout 属性
-   */
-  tableLayout?: 'auto' | 'fixed';
 }
 
 export interface TableProps extends RendererProps, SpinnerExtraProps {
@@ -513,6 +509,10 @@ export default class Table extends React.Component<TableProps, object> {
   subForms: any = {};
   timer: ReturnType<typeof setTimeout>;
   toDispose: Array<() => void> = [];
+  updateTableInfoLazy = debounce(this.updateTableInfo.bind(this), 250, {
+    trailing: true,
+    leading: false
+  });
 
   constructor(props: TableProps, context: IScopedContext) {
     super(props);
@@ -524,6 +524,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.tableRef = this.tableRef.bind(this);
     this.affixedTableRef = this.affixedTableRef.bind(this);
     this.updateTableInfo = this.updateTableInfo.bind(this);
+    this.updateTableInfoRef = this.updateTableInfoRef.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
@@ -567,8 +568,7 @@ export default class Table extends React.Component<TableProps, object> {
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength,
       onQuery,
-      autoGenerateFilter,
-      tableLayout
+      autoGenerateFilter
     } = props;
 
     let combineNum = props.combineNum;
@@ -596,8 +596,7 @@ export default class Table extends React.Component<TableProps, object> {
       combineNum,
       combineFromIndex,
       keepItemSelectionOnPageChange,
-      maxKeepItemSelectionLength,
-      tableLayout
+      maxKeepItemSelectionLength
     });
 
     if (
@@ -661,6 +660,9 @@ export default class Table extends React.Component<TableProps, object> {
       this.updateAutoFillHeight();
     }
 
+    this.toDispose.push(
+      resizeSensor(currentNode.parentElement!, this.updateTableInfoLazy)
+    );
     const {store, autoGenerateFilter, onSearchableFromInit} = this.props;
 
     // autoGenerateFilter 开启后
@@ -845,6 +847,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
 
+    this.updateTableInfoLazy.cancel();
     formItem && isAlive(formItem) && formItem.setSubStore(null);
     clearTimeout(this.timer);
 
@@ -871,12 +874,14 @@ export default class Table extends React.Component<TableProps, object> {
     onAction(e, action, ctx);
   }
 
-  async handleCheck(item: IRow, value: boolean, shift?: boolean) {
+  async handleCheck(item: IRow, value?: boolean, shift?: boolean) {
     const {store, data, dispatchEvent, selectable} = this.props;
 
     if (!selectable) {
       return;
     }
+
+    value = value !== undefined ? value : !item.checked;
 
     let rows = [item];
     if (shift) {
@@ -1167,11 +1172,19 @@ export default class Table extends React.Component<TableProps, object> {
     return store.selectedRows.map(item => item.data);
   }
 
-  updateTableInfo(ref: any) {
-    if (!ref) {
+  updateTableInfo(callback?: () => void) {
+    if (this.resizeLine) {
       return;
     }
     this.props.store.syncTableWidth();
+    callback && setTimeout(callback, 20);
+  }
+
+  updateTableInfoRef(ref: any) {
+    if (!ref) {
+      return;
+    }
+    this.updateTableInfo();
   }
 
   // 当表格滚动是，需要让 affixHeader 部分的表格也滚动
@@ -1499,7 +1512,6 @@ export default class Table extends React.Component<TableProps, object> {
     const column = store.columns[index];
 
     column.setWidth(Math.max(this.lineStartWidth + moveX, 30, column.minWidth));
-    store.setUseFixedLayout(true);
   }
 
   // 垂直线拖拽结束
@@ -2215,10 +2227,7 @@ export default class Table extends React.Component<TableProps, object> {
             <div className={cx('Table-wrapper')}>
               <table
                 ref={this.affixedTableRef}
-                className={cx(
-                  tableClassName,
-                  store.useFixedLayout ? 'is-layout-fixed' : ''
-                )}
+                className={cx(tableClassName, 'is-layout-fixed')}
               >
                 <ColGroup columns={store.filteredColumns} store={store} />
                 <thead>
@@ -2816,7 +2825,7 @@ export default class Table extends React.Component<TableProps, object> {
       affixHeader,
       autoFillHeight,
       autoGenerateFilter,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -2827,7 +2836,6 @@ export default class Table extends React.Component<TableProps, object> {
     const tableClassName = cx('Table-table', this.props.tableClassName, {
       'Table-table--withCombine': store.combineNum > 0
     });
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
@@ -2849,7 +2857,9 @@ export default class Table extends React.Component<TableProps, object> {
 
           {
             // 利用这个将 table-layout: auto 转成 table-layout: fixed
-            store.columnWidthReady ? null : <span ref={this.updateTableInfo} />
+            store.columnWidthReady ? null : (
+              <span ref={this.updateTableInfoRef} />
+            )
           }
         </div>
 

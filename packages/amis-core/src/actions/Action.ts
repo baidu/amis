@@ -24,6 +24,7 @@ export interface ListenerAction {
   description?: string; // 事件描述，actionType: broadcast
   componentId?: string; // 组件ID，用于直接执行指定组件的动作，指定多个组件时使用英文逗号分隔
   componentName?: string; // 组件Name，用于直接执行指定组件的动作，指定多个组件时使用英文逗号分隔
+  ignoreError?: boolean; // 当执行动作发生错误时，是否忽略并继续执行
   args?: Record<string, any>; // 动作配置，可以配置数据映射。注意：存在schema配置的动作都不能放在args里面，避免数据域不同导致的解析错误问题
   data?: Record<string, any> | null; // 动作数据参数，可以配置数据映射
   dataMergeMode?: 'merge' | 'override'; // 参数模式，合并或者覆盖
@@ -97,6 +98,7 @@ const getOmitActionProp = (type: string) => {
       omitList = ['msg', 'title'];
       break;
     case 'ajax':
+    case 'download':
       omitList = ['api', 'messages', 'options'];
       break;
     case 'setValue':
@@ -181,8 +183,19 @@ export const runActions = async (
       actionInstrance = getActionByType('component');
     }
 
-    // 这些节点的子节点运行逻辑由节点内部实现
-    await runAction(actionInstrance, actionConfig, renderer, event);
+    try {
+      // 这些节点的子节点运行逻辑由节点内部实现
+      await runAction(actionInstrance, actionConfig, renderer, event);
+    } catch (e) {
+      const ignore = actionConfig.ignoreError ?? false;
+      if (!ignore) {
+        throw Error(
+          `${actionConfig.actionType} 动作执行失败，原因：${
+            e.message || '未知'
+          }`
+        );
+      }
+    }
 
     if (event.stoped) {
       break;
@@ -263,7 +276,7 @@ export const runAction = async (
   } else if (action.actionType === 'drawer') {
     action.drawer = {...(action.drawer ?? action.args?.drawer)};
     delete action.args?.drawer;
-  } else if (action.actionType === 'ajax') {
+  } else if (['ajax', 'download'].includes(action.actionType)) {
     const api = action.api ?? action.args?.api;
     action.api = typeof api === 'string' ? api : {...api};
     action.options = {...(action.options ?? action.args?.options)};
@@ -298,7 +311,11 @@ export const runAction = async (
       : afterMappingData;
 
   // 默认为当前数据域
-  const data = actionData !== undefined ? actionData : mergeData;
+  const data =
+    actionData !== undefined &&
+    !['ajax', 'download', 'dialog', 'drawer'].includes(action.actionType) // 避免非法配置影响对actionData的判断，导致动作配置中的数据映射失败
+      ? actionData
+      : mergeData;
 
   console.group?.(`run action ${action.actionType}`);
   console.debug(`[${action.actionType}] action args, data`, args, data);

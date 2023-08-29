@@ -102,7 +102,7 @@ export function StepsCmpt(props: StepsProps) {
     data,
     source,
     render,
-    useMobileUI
+    mobileUI
   } = props;
   let sourceResult: Array<StepSchema> = resolveVariableAndFilter(
     source,
@@ -164,7 +164,7 @@ export function StepsCmpt(props: StepsProps) {
       mode={mode}
       progressDot={progressDot}
       labelPlacement={labelPlacement}
-      useMobileUI={useMobileUI}
+      mobileUI={mobileUI}
     ></Steps>
   );
 }

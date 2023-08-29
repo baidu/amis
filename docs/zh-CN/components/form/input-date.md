@@ -415,8 +415,8 @@ order: 13
 | 属性名        | 类型                                                           | 默认值         | 说明                                                                                                        | 版本                    |
 | ------------- | -------------------------------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------- |
 | value         | `string`                                                       |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
-| format        | `string`                                                       | `X`            | 日期选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 |
-| inputFormat   | `string`                                                       | `YYYY-MM-DD`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) |
+| valueFormat   | `string`                                                       | `X`            | 日期选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 | 3.4.0 版本后支持        |
+| displayFormat | `string`                                                       | `YYYY-MM-DD`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) | 3.4.0 版本后支持        |
 | closeOnSelect | `boolean`                                                      | `false`        | 点选日期后，是否马上关闭选择框                                                                              |
 | placeholder   | `string`                                                       | `"请选择日期"` | 占位文本                                                                                                    |
 | shortcuts     | `string \| string[] \| Array<{"label": string; date: string}>` |                | 日期快捷键，字符串格式为预设值，对象格式支持写表达式                                                        | `3.1.0`版本后支持表达式 |

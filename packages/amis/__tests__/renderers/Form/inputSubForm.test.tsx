@@ -338,3 +338,100 @@ test('Renderer:InputSubForm with addButtonClassName & itemsClassName & itemClass
     '自定义的新增'
   );
 });
+
+test('Renderer:InputSubForm-can-access-superdata-1', async () => {
+  const onChange = jest.fn();
+  const {getByText, container, baseElement} = render(
+    amisRender({
+      type: 'form',
+      data: {
+        a: '123',
+        b: '233'
+      },
+      body: [
+        {
+          type: 'input-sub-form',
+          name: 'form',
+          label: '子Form',
+          btnLabel: '设置子表单',
+          onChange,
+          form: {
+            title: '配置子表单',
+            body: [
+              {
+                name: 'a',
+                label: 'A',
+                type: 'input-text'
+              },
+              {
+                name: 'b',
+                label: 'B',
+                type: 'input-text'
+              }
+            ]
+          }
+        }
+      ]
+    })
+  );
+
+  fireEvent.click(getByText('设置子表单'));
+
+  expect(baseElement.querySelector('.cxd-Modal .cxd-Form')).toBeInTheDocument();
+
+  const inputs = baseElement.querySelectorAll(
+    '.cxd-Modal .cxd-Form .cxd-TextControl-input input'
+  );
+  expect(inputs!.length).toBe(2);
+  expect((inputs[0] as HTMLInputElement).value).toBe('');
+  expect((inputs[1] as HTMLInputElement).value).toBe('');
+});
+
+test('Renderer:InputSubForm-can-access-superdata-2', async () => {
+  const onChange = jest.fn();
+  const {getByText, container, baseElement} = render(
+    amisRender({
+      type: 'form',
+      data: {
+        a: '123',
+        b: '233'
+      },
+      body: [
+        {
+          type: 'input-sub-form',
+          name: 'form',
+          label: '子Form',
+          btnLabel: '设置子表单',
+          onChange,
+          form: {
+            canAccessSuperData: true,
+            title: '配置子表单',
+            body: [
+              {
+                name: 'a',
+                label: 'A',
+                type: 'input-text'
+              },
+              {
+                name: 'b',
+                label: 'B',
+                type: 'input-text'
+              }
+            ]
+          }
+        }
+      ]
+    })
+  );
+
+  fireEvent.click(getByText('设置子表单'));
+
+  expect(baseElement.querySelector('.cxd-Modal .cxd-Form')).toBeInTheDocument();
+
+  const inputs = baseElement.querySelectorAll(
+    '.cxd-Modal .cxd-Form .cxd-TextControl-input input'
+  );
+  expect(inputs!.length).toBe(2);
+  expect((inputs[0] as HTMLInputElement).value).toBe('123');
+  expect((inputs[1] as HTMLInputElement).value).toBe('233');
+});

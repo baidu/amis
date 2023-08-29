@@ -108,7 +108,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
       loadingConfig,
       labelField = 'label',
       valueField = 'value',
-      useMobileUI,
+      mobileUI,
       env
     } = this.props;
 
@@ -142,7 +142,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
           virtualThreshold={virtualThreshold}
           labelField={labelField}
           valueField={valueField}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
           popOverContainer={env?.getModalContainer}
         />
 

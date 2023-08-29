@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {ClassNamesFn, themeable} from 'amis-core';
+import {ClassNamesFn, ThemeProps, themeable} from 'amis-core';
 import Transition, {
   EXITED,
   ENTERING,
@@ -14,7 +14,6 @@ import Transition, {
 import {autobind} from 'amis-core';
 import {isClickOnInput} from 'amis-core';
 import {TranslateFn} from 'amis-core';
-import {isMobile} from 'amis-core';
 import {Icon} from './icons';
 
 const collapseStyles: {
@@ -25,7 +24,7 @@ const collapseStyles: {
   [ENTERING]: 'in'
 };
 
-export interface CollapseProps {
+export interface CollapseProps extends ThemeProps {
   id?: string;
   key?: string;
   collapseId?: string;
@@ -34,8 +33,6 @@ export interface CollapseProps {
   unmountOnExit?: boolean;
   className?: string;
   style?: any;
-  classPrefix: string;
-  classnames: ClassNamesFn;
   headerPosition?: 'top' | 'bottom';
   header?: React.ReactNode;
   body: any;
@@ -55,7 +52,6 @@ export interface CollapseProps {
   propsUpdate?: boolean;
   partial?: boolean;
   children?: React.ReactNode | Array<React.ReactNode>;
-  useMobileUI?: boolean;
   divideLine?: boolean;
 }
 
@@ -117,6 +113,26 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
     });
   }
 
+  /** 变更组件的折叠状态 */
+  @autobind
+  changeCollapsedState(targetState: boolean) {
+    const {disabled, collapsable} = this.props;
+    const {collapsed: currentState} = this.state;
+
+    if (disabled || collapsable === false || currentState === targetState) {
+      return;
+    }
+
+    this.setState(
+      {
+        collapsed: targetState
+      },
+      () => {
+        this.props.onCollapse?.(this.props, targetState);
+      }
+    );
+  }
+
   contentDom: any;
   contentRef = (ref: any) => (this.contentDom = ref);
 
@@ -175,13 +191,12 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       expandIcon,
       disabled,
       children,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     const finalHeader = this.state.collapsed
       ? header
       : collapseHeader || header;
-    const mobileUI = useMobileUI && isMobile();
 
     let dom = [
       finalHeader ? (

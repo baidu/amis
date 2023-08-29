@@ -1,13 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import {
-  LocaleProps,
-  localeable,
-  TranslateFn,
-  utils,
-  getRange,
-  isMobile
-} from 'amis-core';
+import {LocaleProps, localeable, getRange} from 'amis-core';
 import Picker from '../Picker';
 import {PickerOption} from '../PickerColumn';
 import {DateType} from './Calendar';
@@ -53,7 +46,7 @@ export interface CustomMonthsViewProps extends LocaleProps {
   isValidDate?(value: any): boolean;
   timeCell: (value: number, type: DateType) => string;
   getDateBoundary: (currentDate: moment.Moment) => any;
-  useMobileUI: boolean;
+  mobileUI: boolean;
 }
 
 export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
@@ -244,7 +237,7 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
       !/^mm$/i.test(this.props.inputFormat || '') && !this.props.hideHeader;
     const canClick = /yy/i.test(this.props.inputFormat || '');
 
-    if (isMobile() && this.props.useMobileUI) {
+    if (this.props.mobileUI) {
       return <div className="rdtYears">{this.renderPicker()}</div>;
     }
     return (

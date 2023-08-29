@@ -17,6 +17,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
         >
           <div
             class="cxd-Crud"
+            style="position: relative;"
           >
             <div
               class="cxd-Table cxd-Crud-body"
@@ -792,6 +793,45 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                   </div>
                 </div>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -2108,6 +2148,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
         >
           <div
             class="cxd-Crud"
+            style="position: relative;"
           >
             <div
               class="cxd-Table cxd-Crud-body"
@@ -2601,6 +2642,45 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -2626,6 +2706,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
         >
           <div
             class="cxd-Crud"
+            style="position: relative;"
           >
             <div
               class="cxd-Crud-selection"
@@ -2640,8 +2721,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
               >
                 <span
                   class="cxd-Crud-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>
@@ -2660,8 +2739,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
               >
                 <span
                   class="cxd-Crud-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>
@@ -2680,8 +2757,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
               >
                 <span
                   class="cxd-Crud-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>
@@ -2700,8 +2775,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
               >
                 <span
                   class="cxd-Crud-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>
@@ -3536,6 +3609,45 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                   </div>
                 </div>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>

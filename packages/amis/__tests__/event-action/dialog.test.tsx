@@ -3,7 +3,7 @@ import '../../src';
 import {render as amisRender} from '../../src';
 import {makeEnv, wait} from '../helper';
 
-test('EventAction:dialog args', async () => {
+test('1. EventAction:dialog args', async () => {
   const notify = jest.fn();
   const {getByText, container}: any = render(
     amisRender(
@@ -220,7 +220,7 @@ test('EventAction:dialog args', async () => {
   expect(container).toMatchSnapshot();
 }, 7000);
 
-test('EventAction:dialog', async () => {
+test('2. EventAction:dialog', async () => {
   const notify = jest.fn();
   const {getByText, container}: any = render(
     amisRender(
@@ -433,7 +433,7 @@ test('EventAction:dialog', async () => {
   expect(container).toMatchSnapshot();
 }, 7000);
 
-test('EventAction:dialog data', async () => {
+test('3. EventAction:dialog data', async () => {
   const {getByText, container}: any = render(
     amisRender(
       {
@@ -490,7 +490,7 @@ test('EventAction:dialog data', async () => {
   });
 }, 7000);
 
-test('EventAction:dialog data2', async () => {
+test('4. EventAction:dialog data2', async () => {
   const {getByText, container}: any = render(
     amisRender(
       {
@@ -639,3 +639,77 @@ test('EventAction:dialog data2', async () => {
 // //   );
 // //   expect(confirm.mock.calls[0][1]).toEqual('操作确认');
 // // });
+
+test('5. EventAction:dialog formitem without form', async () => {
+  const onAction = jest.fn();
+  const {getByText, container}: any = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'button',
+            label: 'Dialog',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'dialog',
+                    dialog: {
+                      title: '表单页面',
+                      body: [
+                        {
+                          label: 'A',
+                          type: 'input-text',
+                          name: 'a'
+                        },
+                        {
+                          label: 'B',
+                          type: 'input-text',
+                          name: 'b'
+                        }
+                      ],
+                      onEvent: {
+                        confirm: {
+                          actions: [
+                            {
+                              actionType: 'custom',
+                              script: onAction
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        getModalContainer: () => container
+      })
+    )
+  );
+
+  const button = getByText('Dialog');
+  fireEvent.click(button);
+  await wait(200);
+
+  fireEvent.change(container.querySelector('[name="a"]')!, {
+    target: {value: '1'}
+  });
+
+  await wait(200);
+  fireEvent.change(container.querySelector('[name="b"]')!, {
+    target: {value: '2'}
+  });
+
+  await wait(200);
+  fireEvent.click(getByText('确认'));
+  await wait(300);
+  expect(onAction).toHaveBeenCalled();
+  expect(onAction.mock.calls[0][2].data).toMatchObject({a: '1', b: '2'});
+});

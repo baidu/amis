@@ -1230,3 +1230,275 @@ test('Renderer:transfer with searchApi', async () => {
   const caocao = container.querySelector('span[title=曹操]');
   expect(caocao).toBeNull();
 });
+
+test('Renderer:transfer tree onlyChildren true', async () => {
+  const onSubmit = jest.fn();
+  const schema = {
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+      {
+        "label": "默认",
+        "type": "transfer",
+        "name": "transfer",
+        "value": "libai",
+        "selectMode": "tree",
+        "searchable": true,
+        "onlyChildren": true,
+        "options": [
+          {
+            "label": "法师",
+            "children": [
+              {
+                "label": "诸葛亮",
+                "value": "zhugeliang"
+              }
+            ]
+          },
+          {
+            "label": "战士",
+            "value": "战士",
+            "children": [
+              {
+                "label": "曹操",
+                "disabled": true,
+                "value": "caocao"
+              },
+              {
+                "label": "钟无艳",
+                "value": "zhongwuyan"
+              }
+            ]
+          },
+          {
+            "label": "打野",
+            "children": [
+              {
+                "label": "李白",
+                "value": "libai"
+              },
+              {
+                "label": "韩信",
+                "value": "hanxin"
+              },
+              {
+                "label": "云中君",
+                "value": "yunzhongjun"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+
+  const {getByText, container} = render(
+    amisRender(schema, {onSubmit}, makeEnv({}))
+  );
+
+  const checkbox = container.querySelector('.cxd-Checkbox');
+  expect(checkbox).not.toBeNull();
+
+  checkbox && fireEvent.click(checkbox);
+
+  fireEvent.click(getByText('提交'));
+
+  await wait(100);
+  expect(onSubmit).toBeCalledTimes(1);
+
+  expect(onSubmit.mock.calls[0][0]).toEqual({
+    transfer: "zhugeliang,zhongwuyan,libai,hanxin,yunzhongjun"
+  });
+});
+
+test('Renderer:transfer search highlight', async () => {
+
+  const onSubmit = jest.fn();
+  const {container} = render(
+    amisRender(
+      {
+        "type": "form",
+        "api": "/api/mock2/form/saveForm",
+        "body": [
+          {
+            "label": "默认",
+            "type": "transfer",
+            "name": "transfer",
+            "selectMode": "tree",
+            "searchable": true,
+            "options": [
+              {
+                "label": "法师",
+                "children": [
+                  {
+                    "label": "诸葛亮",
+                    "value": "zhugeliang"
+                  }
+                ]
+              },
+              {
+                "label": "战士",
+                "children": [
+                  {
+                    "label": "曹操",
+                    "disabled": true,
+                    "value": "caocao"
+                  },
+                  {
+                    "label": "钟无艳",
+                    "value": "zhongwuyan"
+                  }
+                ]
+              },
+              {
+                "label": "打野",
+                "children": [
+                  {
+                    "label": "李白",
+                    "value": "libai"
+                  },
+                  {
+                    "label": "韩信",
+                    "value": "hanxin"
+                  },
+                  {
+                    "label": "云中君",
+                    "value": "yunzhongjun"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {onSubmit},
+      makeEnv({})
+    )
+  )
+
+  const input = container.querySelectorAll('input[type=text]')[0];
+
+  expect(input).not.toBeNull();
+
+  fireEvent.change(input, {
+    target: {value: '战士'}
+  });
+
+  await wait(500);
+
+  const isMatchDom = container.querySelector('.is-matched');
+  expect(isMatchDom).not.toBeNull();
+});
+
+test('Renderer:transfer tree search', async () => {
+
+  const onSubmit = jest.fn();
+  const {container, findByText, getByText} = render(
+    amisRender(
+      {
+        "type": "form",
+        "api": "/api/mock2/form/saveForm",
+        "body": [
+          {
+            "label": "默认",
+            "type": "transfer",
+            "name": "transfer",
+            "selectMode": "tree",
+            "searchable": true,
+            "options": [
+              {
+                "label": "法师",
+                "children": [
+                  {
+                    "label": "诸葛亮",
+                    "value": "zhugeliang"
+                  }
+                ]
+              },
+              {
+                "label": "战士",
+                "children": [
+                  {
+                    "label": "曹操",
+                    "value": "caocao"
+                  },
+                  {
+                    "label": "钟无艳",
+                    "value": "zhongwuyan"
+                  }
+                ]
+              },
+              {
+                "label": "打野",
+                "children": [
+                  {
+                    "label": "李白",
+                    "value": "libai"
+                  },
+                  {
+                    "label": "韩信",
+                    "value": "hanxin"
+                  },
+                  {
+                    "label": "云中君",
+                    "value": "yunzhongjun"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {onSubmit},
+      makeEnv({})
+    )
+  )
+
+  const input = container.querySelectorAll('input[type=text]')[0];
+
+  expect(input).not.toBeNull();
+
+  fireEvent.change(input, {
+    target: {
+      value: '战士'
+    }
+  });
+
+  await(300);
+
+  const caocao = getByText('曹操');
+  expect(caocao).not.toBeNull();
+  fireEvent.click(caocao);
+
+  fireEvent.change(input, {
+    target: {
+      value: ''
+    }
+  });
+
+  await(300);
+
+  fireEvent.change(input, {
+    target: {
+      value: '打野'
+    }
+  });
+
+  await(300);
+  
+  const libai = getByText('李白');
+  expect(libai).not.toBeNull();
+  fireEvent.click(libai);
+
+  await wait(500);
+
+  fireEvent.click(getByText('提交'));
+
+  await wait(300);
+  expect(onSubmit).toBeCalledTimes(1);
+
+  expect(onSubmit.mock.calls[0][0]).toEqual({
+    transfer: "caocao,libai"
+  });
+});

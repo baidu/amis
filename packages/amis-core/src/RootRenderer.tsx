@@ -26,18 +26,17 @@ export class RootRenderer extends React.Component<RootRendererProps> {
 
   constructor(props: RootRendererProps) {
     super(props);
-
     this.store = props.rootStore.addStore({
       id: guid(),
       path: this.props.$path,
       storeType: RootStore.name,
       parentId: ''
     }) as IRootStore;
-
     this.store.setContext(props.context);
     this.store.initData(props.data);
     this.store.updateLocation(props.location, this.props.env?.parseLocation);
 
+    // 将数据里面的函数批量的绑定到 this 上
     bulkBindFunctions<RootRenderer /*为毛 this 的类型自动识别不出来？*/>(this, [
       'handleAction',
       'handleDialogConfirm',
@@ -104,7 +103,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    const {env, messages, onAction, render} = this.props;
+    const {env, messages, onAction, mobileUI, render} = this.props;
     const store = this.store;
 
     if (
@@ -188,7 +187,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
                   data: ctx
                 })
               : null,
-            useMobileUI: env.useMobileUI
+            mobileUI: mobileUI
           }
         );
       });
@@ -343,30 +342,118 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     scoped.reload(target, data);
   }
 
+  renderRuntimeError() {
+    const {render, ...rest} = this.props;
+    const {store} = this;
+    return render(
+      'error',
+      {
+        type: 'alert',
+        level: 'danger'
+      },
+      {
+        ...rest,
+        topStore: store,
+        body: (
+          <>
+            <h3>{store.runtimeError?.toString()}</h3>
+            <pre>
+              <code>{store.runtimeErrorStack.componentStack}</code>
+            </pre>
+          </>
+        )
+      }
+    );
+  }
+
+  renderSpinner() {
+    const {render, ...rest} = this.props;
+    const {store} = this;
+    return render(
+      'spinner',
+      {
+        type: 'spinner'
+      },
+      {
+        ...rest,
+        topStore: store,
+        show: store.loading
+      }
+    );
+  }
+
+  renderError() {
+    const {render, ...rest} = this.props;
+    const store = this.store;
+    return store.error
+      ? render(
+          'error',
+          {
+            type: 'alert'
+          },
+          {
+            ...rest,
+            topStore: this.store,
+            body: store.msg,
+            showCloseButton: true,
+            onClose: store.clearMessage
+          }
+        )
+      : null;
+  }
+
+  renderDialog() {
+    const {render, ...rest} = this.props;
+    const store = this.store;
+    return render(
+      'dialog',
+      {
+        ...((store.action as ActionObject) &&
+          ((store.action as ActionObject).dialog as object)),
+        type: 'dialog'
+      },
+      {
+        ...rest,
+        key: 'dialog',
+        topStore: this.store,
+        data: store.dialogData,
+        onConfirm: this.handleDialogConfirm,
+        onClose: this.handleDialogClose,
+        show: store.dialogOpen,
+        onAction: this.handleAction
+      }
+    );
+  }
+
+  renderDrawer() {
+    const {render, ...rest} = this.props;
+    const store = this.store;
+    return render(
+      'drawer',
+      {
+        ...((store.action as ActionObject) &&
+          ((store.action as ActionObject).drawer as object)),
+        type: 'drawer'
+      },
+      {
+        ...rest,
+        key: 'drawer',
+        topStore: this.store,
+        data: store.drawerData,
+        onConfirm: this.handleDrawerConfirm,
+        onClose: this.handleDrawerClose,
+        show: store.drawerOpen,
+        onAction: this.handleAction
+      }
+    );
+  }
+
   render() {
     const {pathPrefix, schema, render, ...rest} = this.props;
     const store = this.store;
 
     if (store.runtimeError) {
-      return render(
-        'error',
-        {
-          type: 'alert',
-          level: 'danger'
-        },
-        {
-          ...rest,
-          topStore: this.store,
-          body: (
-            <>
-              <h3>{this.store.runtimeError?.toString()}</h3>
-              <pre>
-                <code>{this.store.runtimeErrorStack.componentStack}</code>
-              </pre>
-            </>
-          )
-        }
-      );
+      this.renderRuntimeError();
     }
 
     return (
@@ -380,71 +467,13 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           }) as JSX.Element
         }
 
-        {render(
-          'spinner',
-          {
-            type: 'spinner'
-          },
-          {
-            ...rest,
-            topStore: this.store,
-            show: store.loading
-          }
-        )}
+        {this.renderSpinner()}
 
-        {store.error
-          ? render(
-              'error',
-              {
-                type: 'alert'
-              },
-              {
-                ...rest,
-                topStore: this.store,
-                body: store.msg,
-                showCloseButton: true,
-                onClose: store.clearMessage
-              }
-            )
-          : null}
+        {this.renderError()}
 
-        {render(
-          'dialog',
-          {
-            ...((store.action as ActionObject) &&
-              ((store.action as ActionObject).dialog as object)),
-            type: 'dialog'
-          },
-          {
-            ...rest,
-            key: 'dialog',
-            topStore: this.store,
-            data: store.dialogData,
-            onConfirm: this.handleDialogConfirm,
-            onClose: this.handleDialogClose,
-            show: store.dialogOpen,
-            onAction: this.handleAction
-          }
-        )}
+        {this.renderDialog()}
 
-        {render(
-          'drawer',
-          {
-            ...((store.action as ActionObject) &&
-              ((store.action as ActionObject).drawer as object)),
-            type: 'drawer'
-          },
-          {
-            ...rest,
-            key: 'drawer',
-            topStore: this.store,
-            data: store.drawerData,
-            onConfirm: this.handleDrawerConfirm,
-            onClose: this.handleDrawerClose,
-            show: store.drawerOpen,
-            onAction: this.handleAction
-          }
-        )}
+        {this.renderDrawer()}
       </>
     );
   }

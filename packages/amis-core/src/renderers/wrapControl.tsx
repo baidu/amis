@@ -815,7 +815,8 @@ export function wrapControl<
               $schema: control,
               store,
               data,
-              invisible
+              invisible,
+              defaultStatic
             } = this.props;
 
             if (invisible) {
@@ -828,6 +829,7 @@ export function wrapControl<
             const injectedProps: any = {
               defaultSize: controlWidth,
               disabled: disabled ?? control.disabled,
+              static: control.static ?? defaultStatic,
               formItem: this.model,
               formMode: control.mode || formMode,
               ref: this.controlRef,

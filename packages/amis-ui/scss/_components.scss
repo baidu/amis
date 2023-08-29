@@ -1027,8 +1027,8 @@
   --inputNumber-base-default-bottom-left-border-radius: var(--borders-radius-3);
   --inputNumber-base-default-paddingTop: var(--sizes-size-3);
   --inputNumber-base-default-paddingBottom: var(--sizes-size-3);
-  --inputNumber-base-default-paddingLeft: var(--sizes-size-7);
-  --inputNumber-base-default-paddingRight: var(--sizes-size-7);
+  --inputNumber-base-default-paddingLeft: var(--sizes-size-6);
+  --inputNumber-base-default-paddingRight: var(--sizes-size-6);
   --inputNumber-base-default-bg-color: var(--colors-neutral-fill-11);
   --inputNumber-base-hover-top-border-color: var(--colors-brand-5);
   --inputNumber-base-hover-top-border-width: var(--borders-width-2);
@@ -2945,7 +2945,7 @@
   --inputDate-default-paddingTop: var(--sizes-size-3);
   --inputDate-default-paddingBottom: var(--sizes-size-3);
   --inputDate-default-paddingLeft: var(--sizes-size-6);
-  --inputDate-default-paddingRight: var(--sizes-base-6);
+  --inputDate-default-paddingRight: var(--sizes-size-6);
   --inputDate-default-fontSize: var(--fonts-size-7);
   --inputDate-default-fontWeight: var(--fonts-weight-6);
   --inputDate-default-height: var(--sizes-base-16);
@@ -3620,6 +3620,8 @@
   --Pick-base-value-icon-color: var(--colors-other-5);
   --Picker-iconColor: var(--Pick-base-icon-color);
   --Picker-onHover-iconColor: var(--icon-onHover-color);
+  --Picker-tag-height: #{px2rem(24px)};
+  --Picker-tag-marginBottom: var(--select-multiple-marginBottom);
   --Pick-status-hover-top-border-color: var(--colors-other-5);
   --Pick-status-hover-top-border-width: var(--borders-width-2);
   --Pick-status-hover-top-border-style: var(--borders-style-2);

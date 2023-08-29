@@ -480,6 +480,7 @@ export class EventControl extends React.Component<
         this.setState({
           onEvent: onEventConfig
         });
+        this.props.onChange && this.props.onChange(onEventConfig);
       }
     });
   }

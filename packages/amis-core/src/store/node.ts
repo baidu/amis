@@ -60,7 +60,7 @@ export const StoreNode = types
         callback?.();
       } else if (!self.childrenIds.length) {
         const parent = self.parentStore;
-        parent?.onChildStoreDispose?.(self);
+        parent && isAlive(parent) && parent.onChildStoreDispose(self);
         destroy(self);
         callback?.();
         // destroy(self);

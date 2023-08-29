@@ -20,7 +20,6 @@ export interface InputBoxWithSuggestionProps extends ThemeProps, LocaleProps {
   hasError?: boolean;
   placeholder?: string;
   clearable?: boolean;
-  useMobileUI?: boolean;
 }
 
 const option2value = (item: any) => item.value;
@@ -67,7 +66,7 @@ export class InputBoxWithSuggestion extends React.Component<InputBoxWithSuggesti
       popOverContainer,
       clearable,
       hasError,
-      useMobileUI
+      mobileUI
     } = this.props;
     const options = this.filterOptions(
       Array.isArray(this.props.options) ? this.props.options : []
@@ -105,7 +104,7 @@ export class InputBoxWithSuggestion extends React.Component<InputBoxWithSuggesti
             clearable={clearable}
             onClick={onClick}
             hasError={hasError}
-            useMobileUI={useMobileUI}
+            mobileUI={mobileUI}
           >
             <span className={cx('InputBox-caret')}>
               <Icon icon="right-arrow-bold" className="icon" />

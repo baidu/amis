@@ -84,7 +84,7 @@ export class CollapseGroupRender extends React.Component<
       className,
       style,
       render,
-      useMobileUI
+      mobileUI
     } = this.props;
     return (
       <CollapseGroup
@@ -94,7 +94,7 @@ export class CollapseGroupRender extends React.Component<
         expandIconPosition={expandIconPosition}
         className={className}
         style={style}
-        useMobileUI={useMobileUI}
+        mobileUI={mobileUI}
         onCollapseChange={this.handleCollapseChange}
       >
         {render('body', body || '')}

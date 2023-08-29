@@ -252,7 +252,6 @@ export class ChartPlugin extends BasePlugin {
                     visibleOn: 'data.api.url',
                     pipeIn: defaultValue(true)
                   }),
-
                   {
                     name: 'interval',
                     label: tipedLabel(
@@ -265,6 +264,15 @@ export class ChartPlugin extends BasePlugin {
                     visibleOn: 'data.api.url',
                     unitOptions: ['ms']
                   },
+                  getSchemaTpl('expressionFormulaControl', {
+                    evalMode: false,
+                    label: tipedLabel(
+                      '跟踪表达式',
+                      '如果这个表达式的值有变化时会更新图表，当 config 中用了数据映射时有用'
+                    ),
+                    name: 'trackExpression',
+                    placeholder: '\\${xxx}'
+                  }),
                   {
                     name: 'config',
                     asFormItem: true,
@@ -303,15 +311,6 @@ export class ChartPlugin extends BasePlugin {
                       '默认为追加模式，新的配置会跟旧的配置合并，如果勾选将直接完全覆盖'
                     ),
                     name: 'replaceChartOption'
-                  }),
-                  getSchemaTpl('expressionFormulaControl', {
-                    evalMode: false,
-                    label: tipedLabel(
-                      '跟踪表达式',
-                      '如果这个表达式的值有变化时会更新图表，当 config 中用了数据映射时有用'
-                    ),
-                    name: 'trackExpression',
-                    placeholder: '\\${xxx}'
                   })
                 ]
               },
@@ -354,6 +353,27 @@ export class ChartPlugin extends BasePlugin {
         {
           title: '外观',
           body: getSchemaTpl('collapseGroup', [
+            {
+              title: '宽高设置',
+              body: [
+                getSchemaTpl('style:widthHeight', {
+                  widthSchema: {
+                    label: tipedLabel(
+                      '宽度',
+                      '默认宽度为父容器宽度，值单位默认为 px，也支持百分比等单位 ，如：100%'
+                    ),
+                    pipeIn: defaultValue('100%')
+                  },
+                  heightSchema: {
+                    label: tipedLabel(
+                      '高度',
+                      '默认高度为300px，值单位默认为 px，也支持百分比等单位 ，如：100%'
+                    ),
+                    pipeIn: defaultValue('300px')
+                  }
+                })
+              ]
+            },
             ...getSchemaTpl('theme:common', {exclude: ['layout']})
           ])
         },

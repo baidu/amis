@@ -15,10 +15,11 @@ import {
   getVariable,
   qsstringify,
   qsparse,
-  isArrayChildrenModified
+  isArrayChildrenModified,
+  isIntegerInRange
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
-import {Button, SpinnerExtraProps} from 'amis-ui';
+import {Button, SpinnerExtraProps, TooltipWrapper} from 'amis-ui';
 import {Select} from 'amis-ui';
 import {getExprProperties} from 'amis-core';
 import pick from 'lodash/pick';
@@ -441,7 +442,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'onSave',
     'onQuery',
     'formStore',
-    'autoFillHeight'
+    'autoFillHeight',
+    'maxTagCount',
+    'overflowTagPopover'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -579,22 +582,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.renderHeaderToolbar = this.renderHeaderToolbar.bind(this);
       this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     }
-    // picker的数据如果是异步加载，那么初始的value其实是{id: ' 7', engine: ' 7', __unmatched: true}这种样子的
-    // 拿到数据后又会变成真实数据，类似这种{browser: "Firefox 1.0", engine: "Gecko - syo6k7", grade: "A", group: "train", id: 7, platform: "Win 98+ / OSX.2+", version: "1.7"}
-    // 因此比较value是否更改，只比较关键字段即可，否则会执行多次setSelectedItems
-    // 显隐切换时，也会导致需要二次点击才能选中的问题
+
     let val: any;
-    const valueField = props.valueField || props.primaryField;
+
     if (
       this.props.pickerMode &&
       isArrayChildrenModified(
-        (val = getPropValue(this.props)).map((item: any) => item[valueField]),
-        getPropValue(prevProps).map((item: any) => item[valueField])
+        (val = getPropValue(this.props)),
+        getPropValue(prevProps)
       ) &&
-      !isEqual(
-        val.map((item: any) => item[valueField]),
-        store.selectedItems.concat().map((item: any) => item[valueField])
-      )
+      !isEqual(val, store.selectedItems.concat())
     ) {
       /**
        * 更新链：Table -> CRUD -> Picker -> Form
@@ -1952,14 +1949,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   renderSwitchPerPage(childProps: any) {
     const {
-      useMobileUI,
+      mobileUI,
       store,
       perPageAvailable,
       classnames: cx,
       classPrefix: ns,
       translate: __
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
 
     const items = childProps.items;
 
@@ -2086,9 +2082,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
-    const {render, store, useMobileUI, translate: __} = this.props;
+    const {render, store, mobileUI, translate: __} = this.props;
     const type = (toolbar as Schema).type || toolbar;
-    const mobileUI = useMobileUI && isMobile();
 
     if (type === 'bulkActions' || type === 'bulk-actions') {
       return this.renderBulkActions(childProps);
@@ -2229,9 +2224,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     return this.renderToolbar(footerToolbar, 0, childProps, toolbarRenderer);
   }
 
-  renderSelection(): React.ReactNode {
+  renderTag(item: any, index: number) {
     const {
-      store,
       classnames: cx,
       labelField,
       labelTpl,
@@ -2241,8 +2235,63 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       env
     } = this.props;
 
+    return (
+      <div key={index} className={cx(`Crud-value`)}>
+        <span
+          className={cx('Crud-valueIcon')}
+          onClick={this.unSelectItem.bind(this, item, index)}
+        >
+          ×
+        </span>
+        <span className={cx('Crud-valueLabel')}>
+          {labelTpl ? (
+            <Html html={filter(labelTpl, item)} filterHtml={env.filterHtml} />
+          ) : (
+            getVariable(item, labelField || 'label') ||
+            getVariable(item, valueField || primaryField || 'id')
+          )}
+        </span>
+      </div>
+    );
+  }
+
+  renderSelection(): React.ReactNode {
+    const {
+      store,
+      classPrefix: ns,
+      classnames: cx,
+      labelField,
+      labelTpl,
+      primaryField,
+      valueField,
+      translate: __,
+      env,
+      popOverContainer,
+      multiple,
+      maxTagCount,
+      overflowTagPopover
+    } = this.props;
+
     if (!store.selectedItems.length) {
       return null;
+    }
+
+    const totalCount = store.selectedItems.length;
+    let tags: any[] = store.selectedItems;
+    const enableOverflow =
+      multiple !== false &&
+      isIntegerInRange(maxTagCount, {
+        start: 0,
+        end: totalCount,
+        left: 'inclusive',
+        right: 'exclusive'
+      });
+
+    if (enableOverflow) {
+      tags = [
+        ...store.selectedItems.slice(0, maxTagCount),
+        {label: `+ ${totalCount - maxTagCount} ...`, value: '__overflow_tag__'}
+      ];
     }
 
     return (
@@ -2250,29 +2299,53 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         <div className={cx('Crud-selectionLabel')}>
           {__('CRUD.selected', {total: store.selectedItems.length})}
         </div>
-        {store.selectedItems.map((item, index) => (
-          <div key={index} className={cx(`Crud-value`)}>
-            <span
-              data-tooltip={__('delete')}
-              data-position="bottom"
-              className={cx('Crud-valueIcon')}
-              onClick={this.unSelectItem.bind(this, item, index)}
-            >
-              ×
-            </span>
-            <span className={cx('Crud-valueLabel')}>
-              {labelTpl ? (
-                <Html
-                  html={filter(labelTpl, item)}
-                  filterHtml={env.filterHtml}
-                />
-              ) : (
-                getVariable(item, labelField || 'label') ||
-                getVariable(item, valueField || primaryField || 'id')
-              )}
-            </span>
-          </div>
-        ))}
+        {tags.map((item, index) => {
+          if (enableOverflow && index === maxTagCount) {
+            return (
+              <TooltipWrapper
+                key={index}
+                container={popOverContainer}
+                tooltip={{
+                  placement: 'top',
+                  trigger: 'hover',
+                  showArrow: false,
+                  offset: [0, -10],
+                  tooltipClassName: cx(
+                    'Crud-selection-overflow',
+                    overflowTagPopover?.tooltipClassName
+                  ),
+                  title: __('已选项'),
+                  ...omit(overflowTagPopover, [
+                    'children',
+                    'content',
+                    'tooltipClassName'
+                  ]),
+                  children: () => {
+                    return (
+                      <div
+                        className={cx(`${ns}Crud-selection-overflow-wrapper`)}
+                      >
+                        {store.selectedItems
+                          .slice(maxTagCount, totalCount)
+                          .map((overflowItem, rawIndex) => {
+                            const key = rawIndex + maxTagCount;
+
+                            return this.renderTag(overflowItem, key);
+                          })}
+                      </div>
+                    );
+                  }
+                }}
+              >
+                <div key={index} className={cx(`Crud-value`)}>
+                  <span className={cx('Crud-valueLabel')}>{item.label}</span>
+                </div>
+              </TooltipWrapper>
+            );
+          }
+
+          return this.renderTag(item, index);
+        })}
         <a onClick={this.clearSelection} className={cx('Crud-selectionClear')}>
           {__('clear')}
         </a>

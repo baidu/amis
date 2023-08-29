@@ -8,7 +8,6 @@ import Alert2 from './Alert2';
 import BaiduMapPicker from './BaiduMapPicker';
 import GaodeMapPicker from './GaodeMapPicker';
 import {LocaleProps, localeable} from 'amis-core';
-import {isMobile} from 'amis-core';
 import PopUp from './PopUp';
 
 export interface LocationProps extends ThemeProps, LocaleProps {
@@ -28,7 +27,6 @@ export interface LocationProps extends ThemeProps, LocaleProps {
   popoverClassName?: string;
   onChange: (value: any) => void;
   popOverContainer?: any;
-  useMobileUI?: boolean;
 }
 
 export interface LocationState {
@@ -162,11 +160,10 @@ export class LocationPicker extends React.Component<
       vendor,
       coordinatesType,
       ak,
-      useMobileUI
+      mobileUI
     } = this.props;
     const __ = this.props.translate;
     const {isFocused, isOpened} = this.state;
-    const mobileUI = useMobileUI && isMobile();
 
     const picker = (() => {
       switch (vendor) {

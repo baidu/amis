@@ -18,7 +18,7 @@ import {getSchemaTpl} from 'amis-editor';
 
 import {autobind} from 'amis-editor-core';
 import type {FormControlProps} from 'amis-core';
-import {SchemaApi} from 'amis';
+import type {SchemaApi} from 'amis';
 
 export type SourceType = 'custom' | 'api' | '';
 
@@ -471,7 +471,7 @@ export class NavSourceControl extends React.Component<
   }
 
   renderHeader() {
-    const {render, label, labelRemark, useMobileUI, env, popOverContainer} =
+    const {render, label, labelRemark, mobileUI, env, popOverContainer} =
       this.props;
     const classPrefix = env?.theme?.classPrefix;
     const {source} = this.state;
@@ -505,7 +505,7 @@ export class NavSourceControl extends React.Component<
                 icon: labelRemark.icon || 'warning-mark',
                 tooltip: labelRemark,
                 className: cx(`Form-lableRemark`, labelRemark?.className),
-                useMobileUI,
+                mobileUI,
                 container: popOverContainer || env.getModalContainer
               })
             : null}

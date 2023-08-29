@@ -324,8 +324,8 @@ test('api:cache', async () => {
 });
 
 test('api:isvalidapi', () => {
-  expect(isValidApi('api/xxx')).toBeFalsy();
-  expect(isValidApi('api/xxx?a=1')).toBeFalsy();
+  expect(isValidApi('api/xxx')).toBeTruthy();
+  expect(isValidApi('api/xxx?a=1')).toBeTruthy();
   expect(isValidApi('/x')).toBeTruthy();
   expect(isValidApi('/api/xxx?a=1&b=2&c=3')).toBeTruthy();
   expect(isValidApi('http://xxxdomain')).toBeTruthy();

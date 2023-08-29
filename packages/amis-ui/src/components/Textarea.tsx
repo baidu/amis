@@ -60,7 +60,6 @@ export interface TextAreaProps extends ThemeProps, LocaleProps {
   disabled?: boolean;
 
   forwardRef?: {current: HTMLTextAreaElement | null};
-  useMobileUI?: boolean;
 }
 
 export interface TextAreaState {

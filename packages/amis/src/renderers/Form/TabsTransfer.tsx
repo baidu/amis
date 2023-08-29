@@ -301,8 +301,10 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       loadingConfig,
       valueField = 'value',
       labelField = 'label',
+      valueTpl,
+      menuTpl,
       data,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     return (
@@ -323,8 +325,8 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
           onLeftDeferLoad={leftDeferLoad}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
-          optionItemRender={this.optionItemRender}
-          resultItemRender={this.resultItemRender}
+          optionItemRender={menuTpl ? this.optionItemRender : undefined}
+          resultItemRender={valueTpl ? this.resultItemRender : undefined}
           onTabChange={this.onTabChange}
           itemHeight={
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
@@ -333,7 +335,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
           labelField={labelField}
           valueField={valueField}
           ctx={data}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
         />
 
         <Spinner

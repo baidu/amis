@@ -52,6 +52,9 @@
 @import './style-control/style-common';
 @import './style-control/theme-css-code';
 
+/* 组件样式 */
+@import './components/button';
+
 @keyframes growing {
   0% {
     box-shadow: 0 0 10px rgba(#23b7e5, 0) inset;

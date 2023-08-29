@@ -1,7 +1,6 @@
 import React from 'react';
 import {ClassName, themeable, ThemeProps} from 'amis-core';
 import {Icon} from './icons';
-import {isMobile} from 'amis-core';
 
 export enum StepStatus {
   wait = 'wait',
@@ -89,7 +88,6 @@ export interface StepsProps extends ThemeProps {
   mode?: 'horizontal' | 'vertical' | 'simple';
   labelPlacement?: 'horizontal' | 'vertical';
   progressDot?: boolean;
-  useMobileUI?: boolean;
   onClickStep?: (i: number, step: StepObject) => void;
 }
 
@@ -104,7 +102,7 @@ export function Steps(props: StepsProps) {
     mode = 'horizontal',
     labelPlacement = 'horizontal',
     progressDot = false,
-    useMobileUI,
+    mobileUI,
     onClickStep
   } = props;
   const FINISH_ICON = 'check';
@@ -140,7 +138,6 @@ export function Steps(props: StepsProps) {
     };
   }
 
-  const mobileUI = useMobileUI && isMobile();
   return (
     <ul
       className={cx(
@@ -168,27 +165,37 @@ export function Steps(props: StepsProps) {
               `is-${stepStatus}`,
               step.className,
               `${progressDot ? 'StepsItem-ProgressDot' : ''}`,
-              `${onClickStep && stepStatus === StepStatus.finish ? 'is-clickable' : ''}`
+              `${
+                onClickStep && stepStatus === StepStatus.finish
+                  ? 'is-clickable'
+                  : ''
+              }`
             )}
           >
             <div className={cx('StepsItem-container')}>
               <div className={cx('StepsItem-containerTail')}></div>
               {progressDot ? (
-                <div className={cx('StepsItem-containerProgressDot')} onClick={() => (onClickStep && onClickStep(i, step))}></div>
+                <div
+                  className={cx('StepsItem-containerProgressDot')}
+                  onClick={() => onClickStep && onClickStep(i, step)}
+                ></div>
               ) : (
                 <div
                   className={cx(
                     'StepsItem-containerIcon',
                     i < current && 'is-success'
                   )}
-                  onClick={() => (onClickStep && onClickStep(i, step))}
+                  onClick={() => onClickStep && onClickStep(i, step)}
                 >
                   <span className={cx('StepsItem-icon', step.iconClassName)}>
                     {icon ? <Icon icon={icon} className="icon" /> : i + 1}
                   </span>
                 </div>
               )}
-              <div className={cx('StepsItem-containerWrapper')} onClick={() => (onClickStep && onClickStep(i, step))}>
+              <div
+                className={cx('StepsItem-containerWrapper')}
+                onClick={() => onClickStep && onClickStep(i, step)}
+              >
                 <div className={cx('StepsItem-body')}>
                   <div
                     className={cx(

@@ -428,29 +428,21 @@ export class BaseTransferRenderer<
 
   @autobind
   optionItemRender(option: Option, states: ItemRenderStates) {
-    const {menuTpl, render, data, labelField = 'label'} = this.props;
+    const {menuTpl, render, data} = this.props;
 
-    if (menuTpl) {
-      return render(`item/${states.index}`, menuTpl, {
-        data: createObject(createObject(data, states), option)
-      });
-    }
-
-    return BaseSelection.itemRender(option, {labelField, ...states});
+    return render(`item/${states.index}`, menuTpl, {
+      data: createObject(createObject(data, states), option)
+    });
   }
 
   @autobind
   resultItemRender(option: Option, states: ItemRenderStates) {
     const {valueTpl, render, data} = this.props;
 
-    if (valueTpl) {
-      return render(`value/${states.index}`, valueTpl, {
-        onChange: states.onChange,
-        data: createObject(createObject(data, states), option)
-      });
-    }
-
-    return ResultList.itemRender(option, states);
+    return render(`value/${states.index}`, valueTpl, {
+      onChange: states.onChange,
+      data: createObject(createObject(data, states), option)
+    });
   }
 
   @autobind
@@ -508,6 +500,10 @@ export class BaseTransferRenderer<
       case 'selectAll':
         this.tranferRef?.selectAll();
         break;
+      case 'clearSearch': {
+        this.tranferRef?.clearSearch(data);
+        break;
+      }
     }
   }
 
@@ -533,6 +529,7 @@ export class BaseTransferRenderer<
       selectTitle,
       resultTitle,
       menuTpl,
+      valueTpl,
       searchPlaceholder,
       resultListModeFollowSelect = false,
       resultSearchPlaceholder,
@@ -545,7 +542,7 @@ export class BaseTransferRenderer<
       loadingConfig,
       showInvalidMatch,
       onlyChildren,
-      useMobileUI,
+      mobileUI,
       noResultsText
     } = this.props;
 
@@ -597,8 +594,8 @@ export class BaseTransferRenderer<
           statistics={statistics}
           labelField={labelField}
           valueField={valueField}
-          optionItemRender={this.optionItemRender}
-          resultItemRender={this.resultItemRender}
+          optionItemRender={menuTpl ? this.optionItemRender : undefined}
+          resultItemRender={valueTpl ? this.resultItemRender : undefined}
           onSelectAll={this.onSelectAll}
           onRef={this.getRef}
           virtualThreshold={virtualThreshold}
@@ -607,7 +604,7 @@ export class BaseTransferRenderer<
           }
           loadingConfig={loadingConfig}
           showInvalidMatch={showInvalidMatch}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
           noResultsText={noResultsText}
         />
 

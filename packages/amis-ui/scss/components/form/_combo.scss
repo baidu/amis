@@ -20,6 +20,9 @@
     margin-top: var(--gap-xs);
     display: inline-block;
   }
+  &-itemInner {
+    margin-right: px2rem(12px);
+  }
 
   &-addBtn {
     > svg {

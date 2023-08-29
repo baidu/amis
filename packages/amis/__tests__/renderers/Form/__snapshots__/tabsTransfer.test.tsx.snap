@@ -213,11 +213,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                           class="cxd-Tree-itemText"
                                           title="法师"
                                         >
-                                          <span
-                                            class=""
-                                          >
-                                            法师
-                                          </span>
+                                          法师
                                         </span>
                                         <div
                                           class="cxd-Tree-item-icons"
@@ -253,11 +249,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                           class="cxd-Tree-itemText"
                                           title="诸葛亮"
                                         >
-                                          <span
-                                            class=""
-                                          >
-                                            诸葛亮
-                                          </span>
+                                          诸葛亮
                                         </span>
                                         <div
                                           class="cxd-Tree-item-icons"
@@ -298,11 +290,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                           class="cxd-Tree-itemText"
                                           title="战士"
                                         >
-                                          <span
-                                            class=""
-                                          >
-                                            战士
-                                          </span>
+                                          战士
                                         </span>
                                         <div
                                           class="cxd-Tree-item-icons"
@@ -338,11 +326,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                           class="cxd-Tree-itemText"
                                           title="曹操"
                                         >
-                                          <span
-                                            class=""
-                                          >
-                                            曹操
-                                          </span>
+                                          曹操
                                         </span>
                                         <div
                                           class="cxd-Tree-item-icons"
@@ -378,11 +362,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                           class="cxd-Tree-itemText"
                                           title="钟无艳"
                                         >
-                                          <span
-                                            class=""
-                                          >
-                                            钟无艳
-                                          </span>
+                                          钟无艳
                                         </span>
                                         <div
                                           class="cxd-Tree-item-icons"
@@ -423,11 +403,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                           class="cxd-Tree-itemText"
                                           title="打野"
                                         >
-                                          <span
-                                            class=""
-                                          >
-                                            打野
-                                          </span>
+                                          打野
                                         </span>
                                         <div
                                           class="cxd-Tree-item-icons"
@@ -463,11 +439,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                           class="cxd-Tree-itemText"
                                           title="李白"
                                         >
-                                          <span
-                                            class=""
-                                          >
-                                            李白
-                                          </span>
+                                          李白
                                         </span>
                                         <div
                                           class="cxd-Tree-item-icons"
@@ -503,11 +475,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                           class="cxd-Tree-itemText"
                                           title="韩信"
                                         >
-                                          <span
-                                            class=""
-                                          >
-                                            韩信
-                                          </span>
+                                          韩信
                                         </span>
                                         <div
                                           class="cxd-Tree-item-icons"
@@ -543,11 +511,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                           class="cxd-Tree-itemText"
                                           title="云中君"
                                         >
-                                          <span
-                                            class=""
-                                          >
-                                            云中君
-                                          </span>
+                                          云中君
                                         </span>
                                         <div
                                           class="cxd-Tree-item-icons"

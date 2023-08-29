@@ -20,7 +20,8 @@ export default {
             version: '4/2'
           },
           date: '1591326307',
-          city: '310100'
+          city: '310100',
+          num: '12312334234234523'
         },
         {
           link: 'https://www.microsoft.com/',
@@ -33,7 +34,8 @@ export default {
           },
           notExport: '1',
           grade: 'B',
-          date: '1591322307'
+          date: '1591322307',
+          num: 1231233423232
         },
         {
           link: 'https://www.microsoft.com/',
@@ -206,6 +208,10 @@ export default {
         name: 'city',
         label: 'city',
         type: 'input-city'
+      },
+      {
+        name: 'num',
+        label: 'num'
       }
     ]
   }

@@ -1681,21 +1681,25 @@ export class TableControlRenderer extends FormTable {
           toAdd = args.item;
         }
 
-        toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
-        // 如果没指定插入的位置（args.index），则默认在头部插入
-        const pushIndex = args.index || 0;
-        // 从右往左插入
-        for (let i = toAdd.length; i >= 1; i--) {
-          if (
+        toAdd = (Array.isArray(toAdd) ? toAdd : [toAdd]).filter(
+          a =>
             !valueField ||
             !find(
               items,
-              item =>
-                item[valueField as string] == toAdd[i - 1][valueField as string]
+              item => item[valueField as string] == a[valueField as string]
             )
-          ) {
-            items.splice(pushIndex, 0, toAdd[i - 1]);
-          }
+        );
+
+        let index = args.index;
+        if (typeof index === 'string' && /^\d+$/.test(index)) {
+          index = parseInt(index, 10);
+        }
+
+        if (typeof index === 'number') {
+          items.splice(index, 0, ...toAdd);
+        } else {
+          // 没有指定默认插入在最后
+          items.push(...toAdd);
         }
 
         this.setState(

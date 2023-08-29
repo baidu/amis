@@ -6,7 +6,7 @@ import {InputBoxProps} from './InputBox';
 import {uncontrollable} from 'amis-core';
 import {Icon} from './icons';
 import Input from './Input';
-import {autobind, isMobile, ucFirst} from 'amis-core';
+import {autobind, ucFirst} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import TooltipWrapper, {TooltipObject} from './TooltipWrapper';
@@ -23,7 +23,6 @@ export interface ResultBoxProps
   onClear?: (e: React.MouseEvent<HTMLElement>) => void;
   allowInput?: boolean;
   inputPlaceholder: string;
-  useMobileUI?: boolean;
   hasDropDownArrow?: boolean;
   maxTagCount?: number;
   overflowTagPopover?: TooltipObject;
@@ -244,7 +243,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       onFocus,
       onBlur,
       borderMode,
-      useMobileUI,
+      mobileUI,
       hasDropDownArrow,
       actions,
       onClear,
@@ -255,7 +254,6 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
