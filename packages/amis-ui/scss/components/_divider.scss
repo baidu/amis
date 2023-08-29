@@ -8,4 +8,15 @@
   &--solid {
     border-bottom-style: solid;
   }
+
+  &--dashed {
+    border-bottom-style: dashed;
+  }
+}
+
+/* 移动端样式调整 */
+@include media-breakpoint-down(sm) {
+  .#{$ns}Divider {
+    transform: scaleY(0.5);
+  }
 }

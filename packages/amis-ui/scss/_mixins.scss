@@ -617,6 +617,31 @@
   white-space: nowrap;
 }
 
+@mixin hairline-common() {
+  position: absolute;
+  box-sizing: border-box;
+  content: ' ';
+  pointer-events: none;
+}
+
+@mixin hairline-top($color: var(--van-border-color), $left: 0, $right: 0) {
+  @include hairline-common();
+  top: 0;
+  right: $right;
+  left: $left;
+  border-top: 1px solid $color;
+  transform: scaleY(0.5);
+}
+
+@mixin hairline-bottom($color: var(--van-border-color), $left: 0, $right: 0) {
+  @include hairline-common();
+  right: $right;
+  bottom: 0;
+  left: $left;
+  border-bottom: 1px solid $color;
+  transform: scaleY(0.5);
+}
+
 @mixin tag-item($component-prefix) {
   .#{$ns}#{$component-prefix}-value {
     cursor: pointer;

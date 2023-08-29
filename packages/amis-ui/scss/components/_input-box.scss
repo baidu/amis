@@ -77,8 +77,11 @@
   &.is-mobile {
     border: none;
     border-radius: 0;
-    border-bottom: var(--Form-input-borderWidth) solid
-      var(--Form-input-borderColor);
+    position: relative;
+
+    &::before {
+      @include hairline-bottom(var(--Form-input-borderColor));
+    }
 
     &.is-error,
     .is-error > & {
