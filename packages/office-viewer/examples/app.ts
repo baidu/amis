@@ -19,6 +19,7 @@ const fileLists = {
     'hideMark.xml',
     'highlight.xml',
     'image.xml',
+    'image-var.docx',
     'info.xml',
     'link.xml',
     'list.xml',
@@ -119,16 +120,32 @@ const data = {
   date: 'amis',
   list: [
     {
-      item1: 'item1',
-      item2: 'item2'
+      item1: 'item1.0',
+      item2: 'item2.0',
+      img: '/examples/static/image/firefox.jpg'
     },
     {
       item1: 'item1.1',
-      item2: 'item2.2'
+      item2: 'item2.1',
+      img: '/examples/static/image/ie.png'
     }
   ],
-  sum: 'sum20'
+  list2: [
+    {
+      item1: 'item2-1.0',
+      item2: 'item2-2.0',
+      img: '/examples/static/image/firefox.jpg'
+    },
+    {
+      item1: 'item2-1.1',
+      item2: 'item2-2.1',
+      img: '/examples/static/image/ie.png'
+    }
+  ],
+  sum: 'sum20',
+  aImg: '/examples/static/image/ie.png'
 };
+
 const renderOptions = {
   debug: true,
   page,
