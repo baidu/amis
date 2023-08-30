@@ -1320,6 +1320,8 @@ export default class ImageControl extends React.Component<
     // Note: File类型字段放在后面，可以支持第三方云存储鉴权
     fd.append(fileField, file, (file as File).name || this.state.cropFileName);
 
+    api.data = fd;
+
     const env = this.props.env;
 
     if (!env || !env.fetcher) {
@@ -1327,7 +1329,7 @@ export default class ImageControl extends React.Component<
     }
 
     try {
-      return await env.fetcher(api, fd, {
+      return await env.fetcher(api, this.props.data, {
         method: 'post',
         cancelExecutor: (cancelExecutor: () => void) => {
           // 记录取消器，取消的时候要调用

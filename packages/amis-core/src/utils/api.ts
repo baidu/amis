@@ -94,7 +94,7 @@ export function buildApi(
     ) as any;
   }
 
-  if (!data) {
+  if (!data || api.data instanceof FormData) {
     return api;
   } else if (
     data instanceof FormData ||
