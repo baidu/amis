@@ -879,7 +879,6 @@ const findTreeCache: {
 export function findTree<T extends TreeItem>(
   tree: Array<T>,
   iterator: (item: T, key: number, level: number, paths: Array<T>) => any,
-  childrenName?: string,
   withCache?: {
     value: string | number;
     resolve?: (treeItem: T) => any;
@@ -889,7 +888,8 @@ export function findTree<T extends TreeItem>(
       level: number,
       paths?: Array<T>
     ) => any;
-  }
+  },
+  childrenName?: string
 ): T | null {
   const isValidateKey = (value: any) =>
     value !== '' && (isString(value) || isNumber(value));
@@ -1001,7 +1001,6 @@ export function findTreeIndex<T extends TreeItem>(
       }
       return false;
     },
-    'children',
     !withCache
       ? undefined
       : {

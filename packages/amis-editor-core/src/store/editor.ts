@@ -600,6 +600,7 @@ export const MainStore = types
               }
               return false;
             },
+            undefined,
             childrenName
           );
         }

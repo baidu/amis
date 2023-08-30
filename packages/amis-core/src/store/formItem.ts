@@ -212,7 +212,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           const matched = findTree(
             filteredOptions,
             optionValueCompare(item, valueField),
-            'children',
             {
               resolve: getOptionValueBindField(valueField),
               value: getOptionValue(item, valueField)
@@ -872,15 +871,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         const children = topOption.children.concat();
         flattenTree(newLeftOptions).forEach(item => {
           if (
-            !findTree(
-              topOption.children,
-              node => node.ref === item.value,
-              'children',
-              {
-                resolve: node => node.ref,
-                value: item.value
-              }
-            )
+            !findTree(topOption.children, node => node.ref === item.value, {
+              resolve: node => node.ref,
+              value: item.value
+            })
           ) {
             children.push({ref: item.value, defer: true});
           }

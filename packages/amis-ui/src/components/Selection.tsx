@@ -98,7 +98,6 @@ export class BaseSelection<
       const option = findTree(
         options,
         option => isEqual(option2value(option), value),
-        'children',
         valueField
           ? {
               value: getOptionValue(value, valueField),

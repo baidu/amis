@@ -193,15 +193,10 @@ export function expandValue(
     value = (value as Option)[valueField || 'value'] ?? '';
   }
 
-  return findTree(
-    options,
-    optionValueCompare(value, valueField || 'value'),
-    'children',
-    {
-      resolve: getOptionValueBindField(valueField),
-      value: getOptionValue(value, valueField)
-    }
-  ) as Option;
+  return findTree(options, optionValueCompare(value, valueField || 'value'), {
+    resolve: getOptionValueBindField(valueField),
+    value: getOptionValue(value, valueField)
+  }) as Option;
 }
 
 export function matchOptionValue(
