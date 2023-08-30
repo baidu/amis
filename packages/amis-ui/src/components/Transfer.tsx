@@ -390,8 +390,8 @@ export class Transfer<
       (a, b) => a[valueField] === b[valueField]
     );
     const unuseArr = differenceFromAll(
-      searchAvailableOptions,
       values,
+      searchAvailableOptions,
       item => item[valueField]
     );
 
