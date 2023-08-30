@@ -170,10 +170,12 @@ export default class TextAreaControl extends React.Component<
       'static-textarea',
       {
         type: 'multiline-text',
-        text: displayValue,
-        maxRows: staticSchema.limit || 5
+        maxRows: staticSchema.limit || 5,
+        ...staticSchema
       },
-      staticSchema
+      {
+        value: displayValue
+      }
     );
   }
 
