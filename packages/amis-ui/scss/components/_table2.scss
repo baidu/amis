@@ -383,6 +383,7 @@
 
       &.is-dragging {
         opacity: var(--Table-onDragging-opacity);
+        background-color: var(--Table-onDragging-bg);
       }
     }
 
