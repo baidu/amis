@@ -10,7 +10,7 @@ export const env: RenderOptions = {
   jumpTo: () => {
     toast.info('温馨提示：预览模式下禁止跳转');
   },
-  fetcher: async ({url, method, data, config}: any) => {
+  fetcher: async ({url, method, data, config, headers}: any) => {
     config = config || {};
     config.url = url;
     config.withCredentials = true;
@@ -19,7 +19,9 @@ export const env: RenderOptions = {
       config.cancelToken = new axios.CancelToken(config.cancelExecutor);
     }
 
-    config.headers = config.headers || {};
+    config.headers = headers
+      ? {...config.headers, ...headers}
+      : config.headers ?? {};
     config.method = method;
     config.data = data;
 
