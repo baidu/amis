@@ -214,8 +214,15 @@
         box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
         margin-bottom: 0;
       }
-      .dialog-preview-mount-node .amis-dialog-widget {
-        z-index: 0;
+      .dialog-preview-mount-node {
+        display: flex;
+        flex-direction: column;
+        > *:first-child {
+          flex: 1;
+        }
+        .amis-dialog-widget {
+          z-index: 0;
+        }
       }
     }
 

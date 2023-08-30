@@ -370,15 +370,13 @@ function currentDialogOnchagne(
   let schema = cloneDeep(store.schema);
   let definitions = schema.definitions || {};
   let dialogIndexList = [];
-  if (definitions) {
-    for (let k in definitions) {
-      if (k.includes('dialog-')) {
-        let index = Number(k.split('-')[1]);
-        dialogIndexList.push(index);
-      }
+  for (let k in definitions) {
+    if (k.includes('dialog-')) {
+      let index = Number(k.split('-')[1]);
+      dialogIndexList.push(index);
     }
-    dialogIndexList.sort((a: number, b: number) => b - a);
   }
+  dialogIndexList.sort((a: number, b: number) => b - a);
   if (diffs?.length) {
     for (const diff of diffs) {
       const {path, kind, item, rhs} = diff;
@@ -427,7 +425,6 @@ function currentDialogOnchagne(
       ) {
         let newPath = path.slice(0, -1);
         let selectDialog = JSONGetByPath(newValue, newPath);
-        console.log('selectDialog', selectDialog);
         const {newSchema, dialogRefsName} = addDefinitions(
           schema,
           definitions,
@@ -439,6 +436,7 @@ function currentDialogOnchagne(
       }
     }
   }
+  return null;
 }
 
 function SchemaFrom({

@@ -85,7 +85,6 @@ export interface ActionData {
   variables?: ContextVariables[];
   pluginActions: PluginActions;
   getContextSchemas?: (id?: string, withoutSuper?: boolean) => DataSchema;
-  rawVariables: ContextVariables[];
   groupType?: string;
   __actionDesc?: string;
   __cmptTreeSource?: ComponentInfo[];

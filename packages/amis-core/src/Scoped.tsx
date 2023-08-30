@@ -62,6 +62,7 @@ export interface IScopedContext {
   component?: ScopedComponentType;
   parent?: AliasIScopedContext;
   children?: AliasIScopedContext[];
+  dialogChildren?: AliasIScopedContext[];
   registerComponent: (component: ScopedComponentType) => void;
   unRegisterComponent: (component: ScopedComponentType) => void;
   getComponentByName: (name: string) => ScopedComponentType;

@@ -70,10 +70,6 @@ export interface RendererEnv {
     schema: Schema,
     props: any
   ) => null | RendererConfig;
-  JSONPipeOut?: (
-    obj: any,
-    filterHiddenProps?: boolean | ((key: string, prop: any) => boolean)
-  ) => any;
   copy?: (contents: string, format?: any) => void;
   getModalContainer?: () => HTMLElement;
   theme: ThemeInstance;
