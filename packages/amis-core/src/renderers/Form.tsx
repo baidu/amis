@@ -1736,7 +1736,7 @@ export default class Form extends React.Component<FormProps, object> {
 
     const padDom = repeatCount(
       columnCount && Array.isArray(body)
-        ? columnCount - (body.length % columnCount)
+        ? (columnCount - (body.length % columnCount)) % columnCount
         : 0,
       index => (
         <div
