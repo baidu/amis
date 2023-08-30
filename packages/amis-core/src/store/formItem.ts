@@ -705,7 +705,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           const exited = findTree(
             options as any,
             optionValueCompare(item, self.valueField || 'value'),
-            'children',
             {
               resolve: getOptionValueBindField(self.valueField),
               value: getOptionValue(item, self.valueField)
