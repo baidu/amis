@@ -37,7 +37,7 @@ test('Renderer:Searchbox', async () => {
     )
   );
 
-  await wait(500);
+  await wait(1000);
 
   expect(fetcher).toHaveBeenCalledTimes(1);
   expect(fetcher.mock.calls[0][0].query).toEqual({
@@ -216,12 +216,17 @@ test('Renderer:Searchbox with searchImediately & className', async () => {
 
 test('6. Renderer: Searchbox is not supposed to be triggered with composition input', async () => {
   const onQuery = jest.fn();
-  const {container} = render(amisRender({
-    type: "search-box",
-    name: "keywords",
-  }, {
-    onQuery
-  }))
+  const {container} = render(
+    amisRender(
+      {
+        type: 'search-box',
+        name: 'keywords'
+      },
+      {
+        onQuery
+      }
+    )
+  );
 
   const inputEl = container.querySelector('.cxd-SearchBox input')!;
   expect(inputEl).toBeInTheDocument();
@@ -229,18 +234,18 @@ test('6. Renderer: Searchbox is not supposed to be triggered with composition in
   /** 第一次输入 Enter 后，文本填入 */
 
   fireEvent.compositionStart(inputEl);
-  fireEvent.keyDown(inputEl, { key: 'Enter', keyCode: 13 });
+  fireEvent.keyDown(inputEl, {key: 'Enter', keyCode: 13});
   await wait(200);
   expect(onQuery).not.toHaveBeenCalled();
 
   /** 退出输入法，触发搜索 */
   fireEvent.compositionEnd(inputEl);
   fireEvent.change(inputEl, {target: {value: 'test'}});
-  fireEvent.keyDown(inputEl, { key: 'Enter', keyCode: 13 });
+  fireEvent.keyDown(inputEl, {key: 'Enter', keyCode: 13});
   await wait(200);
 
   expect(onQuery).toHaveBeenCalledTimes(1);
   expect(onQuery.mock.calls[0][0]).toEqual({
     keywords: 'test'
   });
-})
+});

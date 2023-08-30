@@ -64,6 +64,8 @@ export interface TransferProps
   leftMode?: 'tree' | 'list' | 'group';
   leftDefaultValue?: any;
   rightMode?: 'table' | 'list' | 'group' | 'tree' | 'chained';
+  maxTagCount?: number;
+  overflowTagPopover?: any;
 
   // search 相关
   searchResultMode?: 'table' | 'list' | 'group' | 'tree' | 'chained';
