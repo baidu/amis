@@ -151,6 +151,7 @@ export interface TransferProps
     perPage?: number,
     direction?: 'forward' | 'backward'
   ) => void;
+  deferField: string;
 }
 
 export interface TransferState {
@@ -173,6 +174,7 @@ export class Transfer<
     | 'virtualThreshold'
     | 'checkAllLabel'
     | 'valueField'
+    | 'deferField'
   > = {
     multiple: true,
     resultListModeFollowSelect: false,
@@ -180,7 +182,8 @@ export class Transfer<
     statistics: true,
     virtualThreshold: 100,
     checkAllLabel: 'Select.checkAll',
-    valueField: 'value'
+    valueField: 'value',
+    deferField: 'defer'
   };
 
   state: TransferState = {
@@ -207,7 +210,7 @@ export class Transfer<
       props.selectMode === 'tree' &&
       !!findTree(
         props.options,
-        (option: Option) => option.deferApi || option.defer
+        (option: Option) => option.deferApi || option[props.deferField]
       );
 
     // 计算结果的selectMode

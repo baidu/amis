@@ -32,6 +32,7 @@ export interface UserSelectProps
   selection?: Array<Option>;
   valueField?: string;
   labelField?: string;
+  deferField: string;
   multi?: boolean;
   multiple?: boolean;
   isDep?: boolean;
@@ -113,7 +114,8 @@ export class UserSelect extends React.Component<
   static defaultProps = {
     showResultBox: true,
     labelField: 'label',
-    valueField: 'value'
+    valueField: 'value',
+    deferField: 'defer'
   };
 
   componentDidMount() {}
@@ -541,7 +543,8 @@ export class UserSelect extends React.Component<
       controlled,
       displayFields,
       isTab,
-      multiple
+      multiple,
+      deferField
     } = this.props;
     let selection = controlled
       ? this.props.selection || []
@@ -554,7 +557,7 @@ export class UserSelect extends React.Component<
           {options.map((option: Option, index: number) => {
             const hasChildren =
               (isRef && !option.isRef) ||
-              (isDep && (option.defer || option.children?.length));
+              (isDep && (option[deferField] || option.children?.length));
             const checkVisible =
               (isDep && isRef) ||
               (isRef && option.isRef) ||

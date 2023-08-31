@@ -100,6 +100,14 @@ export interface TreeControlSchema extends FormOptionsSchema {
    */
   showOutline?: boolean;
 
+  /**
+   * 懒加载字段
+   */
+  deferField?: string;
+
+  /**
+   * 懒加载接口
+   */
   deferApi?: SchemaApi;
 
   /**
@@ -321,11 +329,15 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
   @autobind
   async handleChange(value: any) {
-    const {onChange, options, dispatchEvent} = this.props;
+    const {onChange, searchable, options, dispatchEvent} = this.props;
+    const {filteredOptions} = this.state;
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value, items: options})
+      resolveEventData(this.props, {
+        value,
+        items: searchable ? filteredOptions : options
+      })
     );
 
     if (rendererEvent?.prevented) {

@@ -960,6 +960,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         source,
         data,
         valueField,
+        deferField,
         formItem: model,
         createBtnLabel,
         env,
@@ -1072,7 +1073,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       // 如果是懒加载的，只懒加载当前节点。
-      if (parent?.defer) {
+      if (parent.hasOwnProperty(deferField) && parent[deferField]) {
         await this.deferLoad(parent);
       } else if (source && addApi) {
         // 如果配置了 source 且配置了 addApi 直接重新拉取接口就够了

@@ -217,6 +217,11 @@ export interface MenuProps extends Omit<RcMenuProps, 'mode'> {
    * 浮层自定义样式
    */
   popupClassName?: string;
+
+  /**
+   * 懒加载字段
+   */
+  deferField: string;
 }
 
 interface MenuState {
@@ -242,6 +247,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     | 'isActive'
     | 'isOpen'
     | 'inlineIndent'
+    | 'deferField'
   > = {
     collapsed: false,
     themeColor: 'light',
@@ -251,6 +257,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     prefix: '',
     triggerSubMenuAction: 'hover',
     inlineIndent: 15,
+    deferField: 'defer',
     popOverContainer: () => document.body,
     renderLink: (link: MenuItemProps) => {
       return {pathname: link.path};
@@ -577,7 +584,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       collapsed,
       overflowedIndicator,
       overflowMaxCount,
-      popupClassName
+      popupClassName,
+      deferField
     } = this.props;
 
     return list.map((item: NavigationItem, index: number) => {
@@ -601,7 +609,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       const link = item.link;
 
       if (
-        (link && link.defer && !link.loaded) ||
+        (link && link[deferField] && !link.loaded) ||
         (item.children && item.children.length)
       ) {
         return (

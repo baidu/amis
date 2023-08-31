@@ -29,7 +29,7 @@ import {autobind, getTreeAncestors, isMobile, createObject} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import {normalizeOptions} from 'amis-core';
 import {ActionObject} from 'amis-core';
-import {FormOptionsSchema} from '../../Schema';
+import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import {TooltipWrapperSchema} from '../TooltipWrapper';
 import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
@@ -105,6 +105,16 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
    * 是否显示展开线
    */
   showOutline?: boolean;
+
+  /**
+   * 懒加载字段
+   */
+  deferField?: string;
+
+  /**
+   * 懒加载接口
+   */
+  deferApi?: SchemaApi;
 
   /**
    * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效

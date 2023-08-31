@@ -13,6 +13,7 @@ export interface TreeSelectionProps
   extends BaseSelectionProps,
     SpinnerExtraProps {
   expand?: 'all' | 'first' | 'root' | 'none';
+  deferField: string;
 }
 
 export interface TreeSelectionState {
@@ -30,7 +31,8 @@ export class TreeSelection extends BaseSelection<
 
   static defaultProps = {
     ...BaseSelection.defaultProps,
-    expand: 'first' as 'first'
+    expand: 'first' as 'first',
+    deferField: 'defer'
   };
 
   componentDidMount() {
@@ -86,12 +88,13 @@ export class TreeSelection extends BaseSelection<
       disabled,
       multiple,
       clearable,
-      valueField
+      valueField,
+      deferField
     } = this.props;
 
     if (disabled || option.disabled) {
       return;
-    } else if (option.defer && !option.loaded) {
+    } else if (option[deferField] && !option.loaded) {
       onDeferLoad?.(option);
       return;
     }
@@ -152,6 +155,7 @@ export class TreeSelection extends BaseSelection<
 
   toggleCollapsed(option: Option, index: string) {
     const onDeferLoad = this.props.onDeferLoad;
+    const deferField = this.props.deferField;
     const expanded = this.state.expanded.concat();
     const idx = expanded.indexOf(index);
 
@@ -165,7 +169,7 @@ export class TreeSelection extends BaseSelection<
       {
         expanded: expanded
       },
-      option.defer && onDeferLoad ? () => onDeferLoad(option) : undefined
+      option[deferField] && onDeferLoad ? () => onDeferLoad(option) : undefined
     );
   }
 
@@ -177,7 +181,8 @@ export class TreeSelection extends BaseSelection<
       itemClassName,
       itemRender,
       multiple,
-      loadingConfig
+      loadingConfig,
+      deferField
     } = this.props;
     const id = indexes.join('-');
     const valueArray = this.valueArray;
@@ -219,7 +224,7 @@ export class TreeSelection extends BaseSelection<
         key={index}
         className={cx(
           'TreeSelection-item',
-          disabled || option.disabled || (option.defer && option.loading)
+          disabled || option.disabled || (option[deferField] && option.loading)
             ? 'is-disabled'
             : '',
           expaned ? 'is-expanded' : ''
@@ -234,7 +239,7 @@ export class TreeSelection extends BaseSelection<
           )}
           onClick={() => this.toggleOption(option)}
         >
-          {hasChildren || option.defer ? (
+          {hasChildren || option[deferField] ? (
             <a
               onClick={(e: React.MouseEvent<any>) => {
                 e.stopPropagation();
@@ -246,11 +251,11 @@ export class TreeSelection extends BaseSelection<
             </a>
           ) : null}
 
-          {option.defer && option.loading ? (
+          {option[deferField] && option.loading ? (
             <Spinner loadingConfig={loadingConfig} show size="sm" />
           ) : null}
 
-          {multiple && (!option.defer || option.loaded) ? (
+          {multiple && (!option[deferField] || option.loaded) ? (
             <Checkbox
               size="sm"
               checked={checked}
@@ -272,7 +277,7 @@ export class TreeSelection extends BaseSelection<
             })}
           </div>
 
-          {option.defer && option.loading ? (
+          {option[deferField] && option.loading ? (
             <Spinner loadingConfig={loadingConfig} show size="sm" />
           ) : null}
         </div>

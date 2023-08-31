@@ -184,6 +184,11 @@ export interface TransferControlSchema
     PaginationSchema,
     'layout' | 'maxButtons' | 'perPageAvailable' | 'popOverContainerSelector'
   >;
+
+  /**
+   * 懒加载字段
+   */
+  deferField?: string;
 }
 
 export interface BaseTransferProps
@@ -204,6 +209,7 @@ export interface BaseTransferProps
    * 检索函数
    */
   filterOption?: 'string';
+  deferField: string;
 }
 
 type OptionsControlWithSpinnerProps = OptionsControlProps & SpinnerExtraProps;
@@ -222,7 +228,8 @@ export class BaseTransferRenderer<
   T extends OptionsControlWithSpinnerProps = BaseTransferProps
 > extends React.Component<T> {
   static defaultProps = {
-    multiple: true
+    multiple: true,
+    deferField: 'defer'
   };
 
   tranferRef?: any;
@@ -245,7 +252,8 @@ export class BaseTransferRenderer<
       dispatchEvent,
       setOptions,
       selectMode,
-      deferApi
+      deferApi,
+      deferField
     } = this.props;
     let newValue: any = value;
     let newOptions = options.concat();
@@ -318,7 +326,7 @@ export class BaseTransferRenderer<
       (!!deferApi ||
         !!findTree(
           options,
-          (option: Option) => option.deferApi || option.defer
+          (option: Option) => option.deferApi || option[deferField]
         ));
 
     if (
