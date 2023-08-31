@@ -187,12 +187,21 @@ export class Tpl extends React.Component<TplProps, TplState> {
       inline,
       classnames: cx,
       style,
+      maxLine,
       showNativeTitle,
       data,
       env
     } = this.props;
     const Component = wrapperComponent || (inline ? 'span' : 'div');
     const {content} = this.state;
+
+    // 显示行数处理
+    let styles: React.CSSProperties = {};
+    let cln = className || '';
+    if (maxLine > 0) {
+      cln = 'max-line';
+      styles.WebkitLineClamp = +maxLine;
+    }
 
     return (
       <Component
@@ -204,6 +213,8 @@ export class Tpl extends React.Component<TplProps, TplState> {
         onMouseLeave={this.handleMouseLeave}
       >
         <span
+          className={cln}
+          style={styles}
           dangerouslySetInnerHTML={{__html: env.filterHtml(content)}}
         ></span>
       </Component>
