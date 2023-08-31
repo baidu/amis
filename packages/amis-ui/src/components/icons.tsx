@@ -3,8 +3,8 @@
  * @description
  * @author fex
  */
-import React, {useState, useEffect, useRef} from 'react';
-import cx from 'classnames';
+import React, {createElement} from 'react';
+import cxClass from 'classnames';
 import CloseIcon from '../icons/close.svg';
 import CloseSmallIcon from '../icons/close-small.svg';
 import StatusCloseIcon from '../icons/status-close.svg';
@@ -101,6 +101,8 @@ import NewEdit from '../icons/new-edit.svg';
 import RotateLeft from '../icons/rotate-left.svg';
 import RotateRight from '../icons/rotate-right.svg';
 import ScaleOrigin from '../icons/scale-origin.svg';
+
+import isObject from 'lodash/isObject';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -235,72 +237,183 @@ registerIcon('rotate-left', RotateLeft);
 registerIcon('rotate-right', RotateRight);
 registerIcon('scale-origin', ScaleOrigin);
 
+export interface IconCheckedSchema {
+  id: string;
+  name?: string;
+  svg?: string;
+}
+
+export interface IconCheckedSchemaNew {
+  type: 'icon';
+  icon: IconCheckedSchema;
+}
+
 export function Icon({
   icon,
   className,
-  wrapClassName,
   classPrefix = '',
+  classNameProp,
   iconContent,
-  ...rest
+  vendor,
+  cx: iconCx,
+  onClick = () => {},
+  style
 }: {
   icon: string;
   iconContent?: string;
 } & React.ComponentProps<any>) {
-  // jest 运行环境下，把指定的 icon 也输出到 snapshot 中。
-  if (typeof jest !== 'undefined') {
-    rest.icon = icon;
+  let cx = iconCx || cxClass;
+
+  if (typeof jest !== 'undefined' && icon) {
+    iconContent = '';
   }
 
-  const [showCssIcon, setShowCssIcon] = useState(false);
+  if (!icon) {
+    return null;
+  }
 
-  function refFn(dom: any) {
-    if (dom) {
-      const style = getComputedStyle(dom);
-      const svgStr = style.getPropertyValue('content');
-      const svg = /(<svg.*<\/svg>)/.exec(svgStr);
+  // 直接的icon dom
+  if (React.isValidElement(icon)) {
+    return React.cloneElement(icon, {
+      ...((icon.props as any) || {}),
+      className: cxClass(
+        cx(className, classNameProp),
+        (icon.props as any).className
+      ),
+      style,
+      onClick
+    });
+  }
 
-      if (svg) {
-        const svgHTML = svg[0].replace(/\\"/g, '"');
-        if (dom.svgHTMLClone !== svgHTML) {
-          dom.innerHTML = svgHTML;
-          // 存储svg，不直接用innerHTML是防止<circle />渲染后变成<circle></circle>的情况
-          dom.svgHTMLClone = svgHTML;
-          dom.style.display = '';
-          setShowCssIcon(true);
+  if (iconContent) {
+    // 从css变量中获取icon
+    const refFn = function (dom: any) {
+      if (dom) {
+        const domStyle = getComputedStyle(dom);
+        const svgStr = domStyle.getPropertyValue('content');
+        const svg = /(<svg.*<\/svg>)/.exec(svgStr);
+
+        if (svg) {
+          const svgHTML = svg[0].replace(/\\"/g, '"');
+          if (dom.svgHTMLClone !== svgHTML) {
+            dom.innerHTML = svgHTML;
+            // 存储svg，不直接用innerHTML是防止<circle />渲染后变成<circle></circle>的情况
+            dom.svgHTMLClone = svgHTML;
+            dom.style.display = '';
+          }
         }
-      } else {
-        // 当传入svg为空时，隐藏div，展示原icon
-        dom.style.display = 'none';
-        setShowCssIcon(false);
       }
+    };
+
+    return (
+      <div
+        onClick={onClick}
+        className={cx(iconContent, className, classNameProp)}
+        ref={refFn}
+        style={style}
+      ></div>
+    );
+  }
+
+  // 获取注册的icon
+  const Component = getIcon(icon);
+  if (Component) {
+    return (
+      <Component
+        onClick={onClick}
+        className={cx(className, `icon-${icon}`, classNameProp)}
+        // @ts-ignore
+        icon={icon}
+        style={style}
+      />
+    );
+  }
+
+  // 符合schema的icon
+  if (
+    isObject(icon) &&
+    (icon as IconCheckedSchemaNew).type === 'icon' &&
+    (icon as IconCheckedSchemaNew).icon
+  ) {
+    icon = (icon as IconCheckedSchemaNew).icon;
+  }
+
+  // icon是引用svg的情况
+  if (
+    isObject(icon) &&
+    typeof (icon as IconCheckedSchema).id === 'string' &&
+    (icon as IconCheckedSchema).id.startsWith('svg-')
+  ) {
+    const svg = icon as IconCheckedSchema;
+    const id = `${svg.id.replace(/^svg-/, '')}`;
+    if (!document.getElementById(id)) {
+      // 如果svg symbol不存在，则尝试将svg字符串赋值给icon，走svg字符串的逻辑
+      icon = svg.svg?.replace(/'/g, '');
+    } else {
+      return (
+        <svg
+          onClick={onClick}
+          className={cx('icon', 'icon-object', className, classNameProp)}
+          style={style}
+        >
+          <use xlinkHref={'#' + id}></use>
+        </svg>
+      );
     }
   }
 
-  const Component = getIcon(icon);
-  const isURLIcon = typeof icon === 'string' && icon?.indexOf('.') !== -1;
-  const isIconfont =
-    typeof icon === 'string' &&
-    (~icon?.indexOf('iconfont') || ~icon?.indexOf('fa'));
+  // 直接传入svg字符串
+  if (typeof icon === 'string' && icon.startsWith('<svg')) {
+    const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
+    const svgHTML = createElement('svg', {
+      onClick,
+      className: cx('icon', className, classNameProp),
+      style,
+      dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
+      viewBox: '0 0 16 16'
+    });
+    return svgHTML;
+  }
 
-  return Component ? (
-    <>
-      {iconContent ? (
-        <div
-          className={`${wrapClassName || ''}` + ' ' + iconContent}
-          ref={refFn}
-        ></div>
-      ) : null}
-      {!showCssIcon ? (
-        <Component {...rest} className={`${className || ''} icon-${icon}`} />
-      ) : null}
-    </>
-  ) : isURLIcon ? (
-    <img className={cx(`${classPrefix}Icon`, className)} src={icon} />
-  ) : isIconfont ? (
-    <i className={cx(icon, className)} />
-  ) : (
-    <span className="text-danger">没有 icon {icon}</span>
-  );
+  // icon是链接
+  const isURLIcon = typeof icon === 'string' && icon?.indexOf('.') !== -1;
+  if (isURLIcon) {
+    return (
+      <img
+        onClick={onClick}
+        className={cx(`${classPrefix}Icon`, className, classNameProp)}
+        src={icon}
+        style={style}
+      />
+    );
+  }
+
+  // icon是普通字符串
+  const isIconfont = typeof icon === 'string';
+
+  let iconPrefix = '';
+  if (vendor === 'iconfont') {
+    iconPrefix = `iconfont icon-${icon}`;
+  } else if (vendor === 'fa') {
+    //默认是fontawesome v4，兼容之前配置
+    iconPrefix = `${vendor} ${vendor}-${icon}`;
+  } else {
+    // 如果vendor为空，则不设置前缀,这样可以支持fontawesome v5、fontawesome v6或者其他框架
+    iconPrefix = icon;
+  }
+
+  if (isIconfont) {
+    return (
+      <i
+        onClick={onClick}
+        className={cx(icon, className, classNameProp, iconPrefix)}
+        style={style}
+      />
+    );
+  }
+
+  // 没有合适的图标
+  return <span className="text-danger">没有 icon {icon}</span>;
 }
 
 export {
