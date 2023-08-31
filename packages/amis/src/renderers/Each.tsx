@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, buildStyle, isPureVariable} from 'amis-core';
 import {Schema} from 'amis-core';
 import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
 import {createObject, getPropValue, isObject} from 'amis-core';
@@ -61,7 +61,7 @@ export default class Each extends React.Component<EachProps> {
         : undefined
     );
 
-    const arr = isObject(value)
+    let arr = isObject(value)
       ? Object.keys(value).map(key => ({
           key: key,
           value: value[key]
@@ -70,8 +70,17 @@ export default class Each extends React.Component<EachProps> {
       ? value
       : [];
 
+    // 最大循环次数支持
+    const maxLength = isPureVariable(this.props.maxLength)
+      ? resolveVariableAndFilter(this.props.maxLength, this.props.data) || 0
+      : this.props.maxLength;
+
+    if (Array.isArray(arr) && maxLength >= 1 && arr.length > maxLength) {
+      arr = arr.slice(0, maxLength);
+    }
+
     return (
-      <div className={cx('Each', className)} style={style}>
+      <div className={cx('Each', className)} style={buildStyle(style, data)}>
         {Array.isArray(arr) && arr.length && items ? (
           arr.map((item: any, index: number) =>
             render(`item/${index}`, items, {
