@@ -290,20 +290,21 @@ export class ChartPlugin extends BasePlugin {
                     type: 'js-editor',
                     allowFullscreen: true,
                     mode: 'normal',
-                    label: '数据映射（dataFilter）',
+                    label: tipedLabel(
+                      '数据映射（dataFilter）',
+                      '如果后端没有直接返回 Echart 配置，可以自己写一段函数来包装'
+                    ),
                     size: 'lg',
-                    description: `
-                    如果后端没有直接返回 Echart 配置，可以自己写一段函数来包装。
-                    <p>签名：(config, echarts, data) => config</p>
-                    <p>参数说明</p>
-                    <ul>
-                    <li><code>config</code> 原始数据</li>
-                    <li><code>echarts</code> echarts 对象</li>
-                    <li><code>data</code> 如果配置了数据接口，接口返回的数据通过此变量传入</li>
-                    </ul>
-                    <p>示例</p>
-                    <pre>debugger; // 可以浏览器中断点调试\n\n// 查看原始数据\nconsole.log(config)\n\n// 返回新的结果 \nreturn {}</pre>
-                    `
+                    placeholder: `/* 参数说明
+    * config 原始数据
+    * echarts echarts 对象
+    * data 如果配置了数据接口，接口返回的数据通过此变量传入
+    示例
+    * debugger; // 可以浏览器中断点调试
+    * console.log(config); // 查看原始数据
+    * return {}; // 返回新的结果
+  */
+  (config, echarts, data) => config`
                   },
                   getSchemaTpl('switch', {
                     label: tipedLabel(
