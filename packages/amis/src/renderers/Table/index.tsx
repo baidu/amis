@@ -1178,6 +1178,7 @@ export default class Table extends React.Component<TableProps, object> {
       return;
     }
     this.props.store.syncTableWidth();
+    this.handleOutterScroll();
     callback && setTimeout(callback, 20);
   }
 
