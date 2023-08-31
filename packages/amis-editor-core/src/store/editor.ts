@@ -782,7 +782,7 @@ export const MainStore = types
         const grouped: {
           [propName: string]: Array<SubRendererInfo>;
         } = {
-          全部: []
+          ['全部']: []
         };
         const keywords = self.insertRenderersKeywords;
         const r = new RegExp(stringRegExp(keywords), 'i');
