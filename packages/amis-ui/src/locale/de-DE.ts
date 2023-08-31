@@ -269,6 +269,7 @@ register('de-DE', {
   'Tree.addChild': 'Untergeordnetes Element hinzufügen',
   'Tree.addRoot': 'Stammknoten hinzufügen',
   'Tree.editNode': 'Diesen Knoten bearbeiten',
+  'Tree.invalidArray': '"data" muss ein Array sein',
   'Tree.removeNode': 'Diesen Knoten entfernen',
   'Tree.root': 'Stamm',
   'validate.equals': 'Wert muss $1 sein',

@@ -366,7 +366,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         const result =
           payload.data.options || payload.data.items || payload.data;
         if (!Array.isArray(result)) {
-          throw new Error(__('CRUD.invalidArray'));
+          throw new Error(__('Tree.invalidArray'));
         }
 
         filterOptions = result;

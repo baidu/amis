@@ -67,7 +67,8 @@ export class TabsTransfer extends React.Component<
 > {
   static defaultProps = {
     multiple: true,
-    onlyChildren: true
+    onlyChildren: true,
+    deferField: 'defer'
   };
 
   state = {

@@ -237,7 +237,8 @@ export class BaseTabsTransferRenderer<
 })
 export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferProps> {
   static defaultProps = {
-    multiple: true
+    multiple: true,
+    deferField: 'defer'
   };
 
   @autobind

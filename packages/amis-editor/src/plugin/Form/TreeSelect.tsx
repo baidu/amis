@@ -260,6 +260,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
             required: true,
             draggable: false,
             valueType: 'ae-formulaControl',
+            keyPlaceholder: 'Option中属性的Key',
             value: {
               label: '',
               value: ''
@@ -273,7 +274,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
             size: 'lg',
             variables: '${variables}',
             inputMode: 'input-group',
-            placeholder: '请输入父级数据项的值，为空则在头部插入'
+            placeholder: '请输入父级数据项 valueField 的值'
           })
         ]
       })
@@ -296,6 +297,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
             required: true,
             draggable: false,
             valueType: 'ae-formulaControl',
+            keyPlaceholder: 'Option中属性的Key',
             value: {
               label: '',
               value: ''
@@ -310,7 +312,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
             size: 'lg',
             variables: '${variables}',
             inputMode: 'input-group',
-            placeholder: '请输入数据项编辑前的值'
+            placeholder: '请输入数据项编辑前 valueField 的值'
           })
         ]
       })
@@ -329,7 +331,8 @@ export class TreeSelectControlPlugin extends BasePlugin {
           required: true,
           size: 'lg',
           variables: '${variables}',
-          inputMode: 'input-group'
+          inputMode: 'input-group',
+          placeholder: '请输入删除项 valueField 的值'
         })
       ])
     },

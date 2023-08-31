@@ -562,11 +562,20 @@ export default class TreeSelectControl extends React.Component<
 
   @autobind
   async resultChangeEvent(value: any) {
-    const {onChange, options, dispatchEvent, data} = this.props;
+    const {onChange, options, dispatchEvent, searchable, autoComplete} =
+      this.props;
+
+    let filtedOptions =
+      !isEffectiveApi(autoComplete) && searchable && this.state.inputValue
+        ? this.filterOptions(options, this.state.inputValue)
+        : options;
 
     const rendererEvent = await dispatchEvent(
       'change',
-      resolveEventData(this.props, {value, items: options})
+      resolveEventData(this.props, {
+        value,
+        items: filtedOptions
+      })
     );
 
     if (rendererEvent?.prevented) {

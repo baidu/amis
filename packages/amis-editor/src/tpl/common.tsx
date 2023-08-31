@@ -1745,5 +1745,5 @@ setSchemaTpl('deferField', {
   label: '懒加载字段',
   name: 'deferField',
   type: 'input-text',
-  placeholder: '懒加载对应的字段'
+  placeholder: '自定义开启懒加载的字段'
 });
