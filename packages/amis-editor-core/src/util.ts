@@ -644,6 +644,29 @@ export function deepFind(schema: any, keyValue: any, result: any = {}): any {
 }
 
 /**
+ * 深度合并json对象
+ * @param target 原始对象
+ * @param ...sources 合并属性
+ */
+export function JSONDeepMerge(target: any, ...sources: any) {
+  if (!sources.length) return target;
+  const source = sources.shift();
+
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) Object.assign(target, {[key]: {}});
+        JSONDeepMerge(target[key], source[key]);
+      } else {
+        Object.assign(target, {[key]: source[key]});
+      }
+    }
+  }
+
+  return JSONDeepMerge(target, ...sources);
+}
+
+/**
  * 处理一下schema的$$commonSchema
  * @param schema
  * @valueWithConfig 带commonConfig 配置项的schema
