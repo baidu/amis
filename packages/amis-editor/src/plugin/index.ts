@@ -86,6 +86,7 @@ export * from './Tpl'; // 文字
 export * from './Icon'; // 图标
 export * from './Link'; // 链接
 export * from './List'; // 列表
+export * from './List2'; // 列表
 export * from './Mapping'; // 映射
 export * from './Avatar'; // 头像
 export * from './Card'; // 卡片

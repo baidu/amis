@@ -200,6 +200,12 @@ export interface RendererInfo extends RendererScaffoldInfo {
 
   isBaseComponent?: boolean;
 
+  /**
+   * 是否列表类型组件，自身没数据但是绑定了数据源里面的数组字段
+   * 子组件需要能获取到单项字段，如list、each、cards
+   */
+  isListComponent?: boolean;
+
   disabledRendererPlugin?: boolean;
 
   /**
@@ -1039,6 +1045,7 @@ export abstract class BasePlugin implements PluginInterface {
         scaffoldForm: plugin.scaffoldForm,
         disabledRendererPlugin: plugin.disabledRendererPlugin,
         isBaseComponent: plugin.isBaseComponent,
+        isListComponent: plugin.isListComponent,
         rendererName: plugin.rendererName
       };
     }

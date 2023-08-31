@@ -9,7 +9,7 @@ import debounce from 'lodash/debounce';
 import findIndex from 'lodash/findIndex';
 import omit from 'lodash/omit';
 import {openContextMenus, toast, alert, DataScope, DataSchema} from 'amis';
-import {getRenderers, RenderOptions, mapTree} from 'amis-core';
+import {getRenderers, RenderOptions, mapTree, isEmpty} from 'amis-core';
 import {
   PluginInterface,
   BasicPanelItem,
@@ -988,6 +988,29 @@ export class EditorManager {
   }
 
   /**
+   * 判断当前节点是否可以添加同级节点
+   */
+  canAppendSiblings() {
+    const store = this.store;
+    const id = store.activeId;
+    const node = store.getNodeById(id)!; // 当前选中节点
+    if (!node) {
+      return false;
+    }
+    const regionNode = node.parent as EditorNodeType; // 父级节点
+    if (
+      regionNode &&
+      !regionNode.region &&
+      !regionNode.schema.body &&
+      regionNode.schema?.type !== 'flex'
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
    * 在当前选中元素追加新的schema
    * 备注：目前主要用在复制&粘贴快捷功能键中
    * @param rendererSchema
@@ -1918,42 +1941,74 @@ export class EditorManager {
     }
 
     let nearestScope;
+    let listScope = [];
 
     // 更新组件树中的所有上下文数据声明为最新数据
     while (scope) {
-      const [id, type] = scope.id.split('-');
-      const node = this.store.getNodeById(id, type);
+      const [nodeId, type] = scope.id.split('-');
+      const scopeNode = this.store.getNodeById(nodeId, type);
 
       // 拿非重复组件id的父组件作为主数据域展示，如CRUD，不展示表格，只展示增删改查信息，避免变量面板出现两份数据
-      if (!nearestScope && node && !node.isSecondFactor) {
+      if (!nearestScope && scopeNode && !scopeNode.isSecondFactor) {
         nearestScope = scope;
       }
-      const jsonschema = await node?.info?.plugin?.buildDataSchemas?.(
-        node,
-        region,
-        trigger,
-        node
-      );
 
+      const jsonschema = await scopeNode?.info?.plugin?.buildDataSchemas?.(
+        scopeNode,
+        region,
+        trigger
+      );
       if (jsonschema) {
         scope.removeSchema(jsonschema.$id);
         scope.addSchema(jsonschema);
       }
 
+      // 记录each列表等组件顺序
+      if (scopeNode?.info?.isListComponent) {
+        listScope.unshift(scope);
+
+        // 如果当前节点是list类型节点，当前scope从父节点上取
+        if (nodeId === id) {
+          nearestScope = scope.parent;
+        }
+      }
+
       scope = withoutSuper ? undefined : scope.parent;
     }
 
+    // each列表类型嵌套时需要从上到下获取数据，重新执行一遍
+    if (listScope.length > 1) {
+      for (let scope of listScope) {
+        const [id, type] = scope.id.split('-');
+        const node = this.store.getNodeById(id, type);
+        const jsonschema = await node?.info?.plugin?.buildDataSchemas?.(
+          node,
+          region,
+          trigger
+        );
+        if (jsonschema) {
+          scope.removeSchema(jsonschema.$id);
+          scope.addSchema(jsonschema);
+        }
+      }
+    }
+
     // 存在当前行时，找到最底层（todo：暂不考虑table套service+table的场景）
-    const nearestScopeId = Object.keys(this.dataSchema.idMap).find(
-      key =>
-        /\-currentRow$/.test(key) &&
-        !this.dataSchema.idMap[key].children?.length
-    );
+    const nearestScopeId =
+      Object.keys(this.dataSchema.idMap).find(
+        key =>
+          /\-currentRow$/.test(key) &&
+          !this.dataSchema.idMap[key].children?.length
+      ) || nearestScope?.id;
 
     if (nearestScopeId) {
       this.dataSchema.switchTo(nearestScopeId);
-    } else if (nearestScope?.id) {
-      this.dataSchema.switchTo(nearestScope.id);
+    }
+
+    // 如果当前容器是list非数据组件，scope从父scope开始
+    if (node.info.isListComponent) {
+      let lastScope = listScope[listScope.length - 1];
+      this.dataSchema.switchTo(lastScope.parent!);
     }
 
     return withoutSuper
@@ -2004,7 +2059,7 @@ export class EditorManager {
       const [id, type] = scope.id.split('-');
       const scopeNode = this.store.getNodeById(id, type);
 
-      if (scopeNode) {
+      if (scopeNode && !scopeNode.info?.isListComponent) {
         return scopeNode?.info.plugin.getAvailableContextFields?.(
           scopeNode,
           node

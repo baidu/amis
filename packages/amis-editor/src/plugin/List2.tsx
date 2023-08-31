@@ -4,30 +4,24 @@ import {EditorNodeType, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
-  BasicPanelItem,
   BasicRendererInfo,
-  BasicToolbarItem,
-  ContextMenuEventContext,
-  ContextMenuItem,
   PluginInterface,
-  RegionConfig,
-  RendererInfo,
   RendererInfoResolveEventContext
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
+import {repeatArray} from 'amis-editor-core';
 import set from 'lodash/set';
 import {escapeFormula, resolveArrayDatasource} from '../util';
 
-export class CardsPlugin extends BasePlugin {
-  static id = 'CardsPlugin';
+export class List2Plugin extends BasePlugin {
+  static id = 'List2Plugin';
   static scene = ['layout'];
   // 关联渲染器名字
   rendererName = 'cards';
   $schema = '/schemas/CardsSchema.json';
 
   // 组件名称
-  name = '卡片列表';
+  name = '列表';
   isBaseComponent = true;
   isListComponent = true;
   description =
@@ -38,7 +32,7 @@ export class CardsPlugin extends BasePlugin {
   pluginIcon = 'cards-plugin';
   scaffold = {
     type: 'cards',
-    columnsCount: 4,
+    columnsCount: 1,
     card: {
       type: 'container',
       body: [
@@ -46,106 +40,54 @@ export class CardsPlugin extends BasePlugin {
           type: 'container',
           body: [
             {
-              type: 'container',
-              body: [
-                {
-                  type: 'icon',
-                  icon: 'fa fa-check',
-                  vendor: '',
-                  themeCss: {
-                    className: {
-                      'font': {
-                        color: 'var(--colors-brand-6)',
-                        fontSize: '20px'
-                      },
-                      'padding-and-margin:default': {
-                        marginRight: '10px'
-                      }
-                    }
-                  }
-                },
-                {
-                  type: 'tpl',
-                  tpl: '流水线任务实例 ',
-                  inline: true,
-                  wrapperComponent: '',
-                  editorSetting: {
-                    mock: {}
-                  },
-                  style: {
-                    fontSize: 'var(--fonts-size-6)',
-                    color: 'var(--colors-neutral-text-2)',
-                    fontWeight: 'var(--fonts-weight-3)'
-                  }
-                }
-              ],
-              style: {
-                position: 'static',
-                display: 'flex',
-                flexWrap: 'nowrap',
-                alignItems: 'center',
-                marginBottom: '15px'
-              },
-              wrapperBody: false,
-              isFixedHeight: false,
-              isFixedWidth: false,
-              size: 'none'
-            },
-            {
               type: 'flex',
-              className: 'p-1',
               items: [
                 {
                   type: 'container',
                   body: [
                     {
-                      type: 'container',
-                      body: [
-                        {
-                          type: 'tpl',
-                          tpl: '12/',
-                          inline: true,
-                          wrapperComponent: '',
-                          style: {
-                            fontSize: 'var(--fonts-size-6)',
-                            color: 'var(--colors-neutral-text-2)',
-                            fontWeight: 'var(--fonts-weight-3)'
-                          }
-                        },
-                        {
-                          type: 'tpl',
-                          tpl: '19',
-                          inline: true,
-                          wrapperComponent: '',
-                          style: {
-                            color: 'var(--colors-neutral-text-6)',
-                            fontSize: 'var(--fonts-size-6)'
-                          }
-                        }
-                      ],
+                      type: 'tpl',
+                      tpl: '01',
+                      inline: true,
+                      wrapperComponent: '',
                       style: {
-                        position: 'static',
-                        display: 'block',
-                        flex: '0 0 auto',
-                        marginTop: 'var(--sizes-size-0)',
-                        marginRight: 'var(--sizes-size-0)',
-                        marginBottom: 'var(--sizes-size-0)',
-                        marginLeft: 'var(--sizes-size-0)'
+                        color: 'var(--colors-neutral-text-2)',
+                        fontSize: 'var(--fonts-size-3)',
+                        fontWeight: 'var(--fonts-weight-5)',
+                        marginRight: '10px'
+                      }
+                    },
+                    {
+                      type: 'tpl',
+                      tpl: '/',
+                      inline: true,
+                      wrapperComponent: '',
+                      style: {
+                        marginRight: '10px',
+                        fontSize: 'var(--fonts-size-3)',
+                        color: '#cccccc'
                       },
-                      wrapperBody: false,
-                      isFixedWidth: false,
-                      size: 'none'
+                      id: 'u:95d2a3ac3e70'
                     },
                     {
                       type: 'container',
                       body: [
                         {
                           type: 'tpl',
-                          tpl: '单元测试',
+                          tpl: '3月',
                           inline: true,
                           wrapperComponent: '',
                           style: {
-                            color: 'var(--colors-neutral-text-5)'
+                            fontSize: 'var(--fonts-size-6)'
+                          }
+                        },
+                        {
+                          type: 'tpl',
+                          tpl: '2023',
+                          inline: true,
+                          wrapperComponent: '',
+                          style: {
+                            fontSize: 'var(--fonts-size-6)'
                           }
                         }
                       ],
@@ -154,27 +96,30 @@ export class CardsPlugin extends BasePlugin {
                         display: 'flex',
                         flexWrap: 'nowrap',
                         flexDirection: 'column',
-                        justifyContent: 'center',
                         alignItems: 'center',
-                        flex: '0 0 auto'
+                        justifyContent: 'center'
                       },
                       wrapperBody: false,
                       isFixedHeight: false,
-                      isFixedWidth: false,
-                      size: 'none'
+                      isFixedWidth: false
                     }
                   ],
-                  size: 'xs',
+                  size: 'none',
                   style: {
-                    position: 'static',
-                    display: 'flex',
-                    flex: '1 1 auto',
-                    flexGrow: 1,
-                    flexBasis: 'auto',
-                    flexWrap: 'nowrap',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center'
+                    'position': 'static',
+                    'display': 'flex',
+                    'flex': '1 1 auto',
+                    'flexGrow': 0,
+                    'flexBasis': 'auto',
+                    'flexWrap': 'nowrap',
+                    'justifyContent': 'flex-start',
+                    'alignItems': 'center',
+                    'paddingLeft': '20px',
+                    'paddingRight': '40px',
+                    'right-border-width': 'var(--borders-width-2)',
+                    'right-border-style': 'var(--borders-style-2)',
+                    'right-border-color': '#ececec',
+                    'marginRight': '40px'
                   },
                   wrapperBody: false,
                   isFixedHeight: false,
@@ -185,26 +130,31 @@ export class CardsPlugin extends BasePlugin {
                   body: [
                     {
                       type: 'tpl',
-                      tpl: '100%',
+                      tpl: '列表标题',
                       inline: true,
                       wrapperComponent: '',
                       style: {
-                        fontSize: 'var(--fonts-size-6)',
-                        color: 'var(--colors-neutral-text-2)',
-                        fontWeight: 'var(--fonts-weight-3)'
-                      }
+                        fontSize: 'var(--fonts-size-5)',
+                        color: 'var(--colors-neutral-text-4)',
+                        fontWeight: 'var(--fonts-weight-4)',
+                        marginBottom: '10px'
+                      },
+                      maxLine: 1,
+                      id: 'u:105ca9cda3ef'
                     },
                     {
                       type: 'tpl',
-                      tpl: '通过率',
+                      tpl: '这是内容简介，可以设置显示行数',
                       inline: true,
                       wrapperComponent: '',
+                      maxLine: 1,
                       style: {
+                        fontSize: '13px',
                         color: 'var(--colors-neutral-text-5)'
                       }
                     }
                   ],
-                  size: 'xs',
+                  size: 'none',
                   style: {
                     position: 'static',
                     display: 'flex',
@@ -213,8 +163,7 @@ export class CardsPlugin extends BasePlugin {
                     flexBasis: 'auto',
                     flexWrap: 'nowrap',
                     flexDirection: 'column',
-                    justifyContent: 'flex-start',
-                    alignItems: 'center'
+                    alignItems: 'flex-start'
                   },
                   wrapperBody: false,
                   isFixedHeight: false,
@@ -224,23 +173,46 @@ export class CardsPlugin extends BasePlugin {
                   type: 'container',
                   body: [
                     {
-                      type: 'tpl',
-                      tpl: '99.9%',
-                      inline: true,
-                      wrapperComponent: '',
-                      style: {
-                        fontSize: 'var(--fonts-size-6)',
-                        color: 'var(--colors-neutral-text-2)',
-                        fontWeight: 'var(--fonts-weight-3)'
-                      }
-                    },
-                    {
-                      type: 'tpl',
-                      tpl: '任务实例',
-                      inline: true,
-                      wrapperComponent: '',
-                      style: {
-                        color: 'var(--colors-neutral-text-5)'
+                      type: 'button',
+                      label: '查看详情',
+                      onEvent: {
+                        click: {
+                          actions: []
+                        }
+                      },
+                      level: 'default',
+                      size: 'default',
+                      editorState: 'default',
+                      themeCss: {
+                        className: {
+                          'border:default': {
+                            'top-border-width': 'var(--borders-width-2)',
+                            'left-border-width': 'var(--borders-width-2)',
+                            'right-border-width': 'var(--borders-width-2)',
+                            'bottom-border-width': 'var(--borders-width-2)',
+                            'top-border-style': 'var(--borders-style-2)',
+                            'left-border-style': 'var(--borders-style-2)',
+                            'right-border-style': 'var(--borders-style-2)',
+                            'bottom-border-style': 'var(--borders-style-2)',
+                            'top-border-color': 'var(--colors-brand-6)',
+                            'left-border-color': 'var(--colors-brand-6)',
+                            'right-border-color': 'var(--colors-brand-6)',
+                            'bottom-border-color': 'var(--colors-brand-6)'
+                          },
+                          'padding-and-margin:default': {
+                            paddingLeft: '20px',
+                            paddingRight: '20px'
+                          },
+                          'radius:default': {
+                            'top-left-border-radius': '20px',
+                            'top-right-border-radius': '20px',
+                            'bottom-left-border-radius': '20px',
+                            'bottom-right-border-radius': '20px'
+                          },
+                          'font:default': {
+                            color: 'var(--colors-brand-6)'
+                          }
+                        }
                       }
                     }
                   ],
@@ -249,56 +221,21 @@ export class CardsPlugin extends BasePlugin {
                     position: 'static',
                     display: 'flex',
                     flex: '1 1 auto',
-                    flexGrow: 1,
+                    flexGrow: 0,
                     flexBasis: 'auto',
                     flexWrap: 'nowrap',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'column'
+                    flexDirection: 'column',
+                    justifyContent: 'center'
                   },
                   wrapperBody: false,
                   isFixedHeight: false,
-                  isFixedWidth: false
+                  isFixedWidth: false,
+                  id: 'u:77cb3edb2288'
                 }
               ],
               style: {
                 position: 'relative'
               }
-            },
-            {
-              type: 'container',
-              body: [
-                {
-                  type: 'tpl',
-                  tpl: '报告',
-                  inline: true,
-                  wrapperComponent: '',
-                  style: {
-                    fontSize: '14px',
-                    color: 'var(--colors-neutral-text-5)'
-                  }
-                },
-                {
-                  type: 'tpl',
-                  tpl: '2023-01-01 12:00',
-                  inline: true,
-                  wrapperComponent: '',
-                  style: {
-                    fontSize: '12px',
-                    color: 'var(--colors-neutral-text-6)'
-                  }
-                }
-              ],
-              style: {
-                position: 'static',
-                display: 'flex',
-                flexWrap: 'nowrap',
-                justifyContent: 'space-between',
-                marginTop: '20px'
-              },
-              wrapperBody: false,
-              isFixedHeight: false,
-              isFixedWidth: false
             }
           ],
           size: 'none',
@@ -317,21 +254,22 @@ export class CardsPlugin extends BasePlugin {
               'bottom-left-border-radius': '6px',
               'bottom-right-border-radius': '6px'
             },
-            'top-border-width': 'var(--borders-width-4)',
-            'left-border-width': 'var(--borders-width-2)',
-            'right-border-width': 'var(--borders-width-2)',
-            'bottom-border-width': 'var(--borders-width-2)',
-            'top-border-style': 'var(--borders-style-2)',
-            'left-border-style': 'var(--borders-style-2)',
-            'right-border-style': 'var(--borders-style-2)',
-            'bottom-border-style': 'var(--borders-style-2)',
-            'top-border-color': 'var(--colors-brand-6)',
-            'left-border-color': 'var(--colors-brand-10)',
-            'right-border-color': 'var(--colors-brand-10)',
-            'bottom-border-color': 'var(--colors-brand-10)',
+            'top-border-width': 'var(--borders-width-1)',
+            'left-border-width': 'var(--borders-width-1)',
+            'right-border-width': 'var(--borders-width-1)',
+            'bottom-border-width': 'var(--borders-width-1)',
+            'top-border-style': 'var(--borders-style-1)',
+            'left-border-style': 'var(--borders-style-1)',
+            'right-border-style': 'var(--borders-style-1)',
+            'bottom-border-style': 'var(--borders-style-1)',
+            'top-border-color': '#3be157',
+            'left-border-color': '#3be157',
+            'right-border-color': '#3be157',
+            'bottom-border-color': '#3be157',
             'flex': '0 0 150px',
             'marginRight': '15px',
-            'flexBasis': '100%'
+            'flexBasis': '100%',
+            'boxShadow': ' 0px 0px 10px 0px var(--colors-neutral-line-8)'
           },
           wrapperBody: false,
           isFixedHeight: false,
@@ -347,8 +285,8 @@ export class CardsPlugin extends BasePlugin {
       style: {
         position: 'static',
         display: 'flex',
-        width: '1000%',
-        overflowX: 'auto',
+        width: '100%',
+        overflowX: 'visible',
         margin: '0',
         flexWrap: 'nowrap',
         justifyContent: 'space-between'
@@ -358,18 +296,18 @@ export class CardsPlugin extends BasePlugin {
       wrapperBody: false
     },
     placeholder: '',
-    name: '',
+    name: 'items',
     style: {
-      gutterX: 15,
-      gutterY: 15
+      gutterY: 10
     }
   };
+
   previewSchema = {
     ...this.scaffold,
     className: 'text-left '
   };
 
-  panelTitle = '卡片集';
+  panelTitle = '列表';
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
@@ -410,26 +348,22 @@ export class CardsPlugin extends BasePlugin {
                   name: 'columnsCount',
                   type: 'input-range',
                   visibleOn: '!this.leftFixed',
-                  min: 0,
+                  min: 1,
                   max: 12,
                   step: 1,
-                  label: '每行个数',
-                  description: '不设置时，由卡片 CSS 类名决定'
+                  label: '每行个数'
                 },
                 {
                   type: 'input-number',
                   label: '左右间距',
-                  name: 'style.gutterX'
+                  name: 'style.gutterX',
+                  visibleOn: 'this.columnsCount > 1'
                 },
                 {
                   type: 'input-number',
                   label: '上下间距',
                   name: 'style.gutterY'
                 },
-                getSchemaTpl('switch', {
-                  name: 'masonryLayout',
-                  label: '启用瀑布流'
-                }),
                 getSchemaTpl('layout:originPosition', {
                   visibleOn: isAbsolute ? isAbsolute : undefined,
                   value: 'left-top'
@@ -522,4 +456,4 @@ export class CardsPlugin extends BasePlugin {
   }
 }
 
-registerEditorPlugin(CardsPlugin);
+registerEditorPlugin(List2Plugin);

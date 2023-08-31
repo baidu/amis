@@ -197,7 +197,7 @@ export class Tpl extends React.Component<TplProps, TplState> {
 
     // 显示行数处理
     let styles: React.CSSProperties = {};
-    let cln = className || '';
+    let cln = '';
     if (maxLine > 0) {
       cln = 'max-line';
       styles.WebkitLineClamp = +maxLine;
