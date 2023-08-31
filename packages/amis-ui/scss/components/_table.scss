@@ -965,6 +965,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 25; // 因为 sticky 的时候是 20
   }
 
   &--autoFillHeight {
