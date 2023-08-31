@@ -61,11 +61,7 @@ async function replaceAlt(
       blip.setAttribute('r:embed', newId);
       const imageResponse = await fetch(imageURL);
       const imageData = await imageResponse.arrayBuffer();
-      let ext = '';
-      if (imageURL.indexOf('.') !== -1) {
-        ext = '.' + imageURL.split('.').pop()!;
-      }
-      word.saveNewImage(newId, new Uint8Array(imageData), ext);
+      word.saveNewImage(newId, new Uint8Array(imageData));
       cNvPr.setAttribute('downloaded', 'true');
       newRelId++;
     }

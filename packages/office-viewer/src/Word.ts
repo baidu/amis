@@ -31,6 +31,7 @@ import {Section} from './openxml/word/Section';
 import {printIframe} from './util/print';
 import {Settings} from './openxml/Settings';
 import {get} from './util/get';
+import {fileTypeFromBuffer} from './util/fileType';
 
 /**
  * 渲染配置
@@ -543,7 +544,7 @@ export default class Word {
    * @param blob 文件数据
    * @param ext 扩展名
    */
-  saveNewImage(newRelId: string, data: Uint8Array, ext: string = '') {
+  saveNewImage(newRelId: string, data: Uint8Array) {
     if (this.parser.fileExists(this.DOCUMENT_RELS)) {
       const documentRels = this.parser.getXML(this.DOCUMENT_RELS);
       // 基于一个克隆更稳妥
@@ -557,6 +558,12 @@ export default class Word {
         'Type',
         'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image'
       );
+      let ext = '';
+      const fileType = fileTypeFromBuffer(data);
+      if (fileType) {
+        ext = '.' + fileType.ext;
+      }
+
       const imagePath = 'media/image' + newRelId + ext;
       newRelation.setAttributeNS(null, 'Target', imagePath);
       documentRels
