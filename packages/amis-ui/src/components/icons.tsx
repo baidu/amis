@@ -358,6 +358,11 @@ export function Icon({
     );
   }
 
+  // 直接传入svg字符串
+  if (typeof icon === 'string' && icon.startsWith('<svg')) {
+    return <i dangerouslySetInnerHTML={{__html: icon}} />;
+  }
+
   // icon是链接
   const isURLIcon = typeof icon === 'string' && icon?.indexOf('.') !== -1;
   if (isURLIcon) {
