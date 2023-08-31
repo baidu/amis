@@ -189,7 +189,6 @@
   }
 
   &-item-link {
-    max-width: var(--Menu-width);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -215,12 +214,21 @@
 
   &-item-icon,
   &-item-icon-after {
+    display: inline-block;
+    zoom: 1;
+    vertical-align: middle;
+
     img,
     svg {
       width: var(--Tabs-linkFontSize);
       height: var(--Tabs-linkFontSize);
-      vertical-align: middle;
       fill: currentColor;
+    }
+
+    i,
+    img,
+    svg {
+      float: left;
     }
   }
 
@@ -331,9 +339,6 @@
     position: relative;
     padding: 0 px2rem(16px);
     display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 
     &:active {
       @include item-active();
@@ -440,6 +445,10 @@
             display: none;
           }
         }
+      }
+
+      .#{$ns}Nav-Menu-item-link {
+        max-width: var(--Menu-width);
       }
     }
   }
