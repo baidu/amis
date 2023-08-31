@@ -1144,7 +1144,7 @@ export class TableControlPlugin extends BasePlugin {
       }
     }
 
-    const cells: any = columns.children.concat();
+    const cells: any = columns?.children.concat() || [];
     while (cells.length > 0) {
       const cell = cells.shift() as EditorNodeType;
       // cell的孩子貌似只会有一个
