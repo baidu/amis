@@ -874,6 +874,23 @@ export class FormPlugin extends BasePlugin {
             },
 
             {
+              name: 'columnCount',
+              label: '列数',
+              type: 'input-number',
+              step: 1,
+              min: 2,
+              max: 10,
+              labelRemark: {
+                className: 'm-l-xs',
+                trigger: 'click',
+                rootClose: true,
+                content:
+                  '当输入 2 - 10 整数时，表单将固定分成若干列展示表单元素，留空时不分列。',
+                placement: 'left'
+              }
+            },
+
+            {
               name: 'labelAlign',
               label: '标签对齐方式',
               type: 'button-group-select',
