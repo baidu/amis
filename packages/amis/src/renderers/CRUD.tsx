@@ -2,7 +2,7 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps, filterTarget} from 'amis-core';
+import {Renderer, RendererProps, filterTarget, mapTree} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
@@ -1492,23 +1492,33 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     if (orderField) {
       const start = (store.page - 1) * store.perPage || 0;
-      rows = rows.map((item, key) =>
+      rows = mapTree(rows as any, (item, key, level) =>
         extendObject(item, {
-          [orderField]: start + key + 1
+          [orderField]: (level === 1 ? start : 0) + key + 1
         })
       );
     }
 
     model.rows = rows.concat();
-    hasIdField &&
-      (model.ids = rows
-        .map((item: any) => item[primaryField as string])
-        .join(','));
-    hasIdField &&
+    if (hasIdField) {
+      let joinIdFields: (items: Array<any>) => string = items =>
+        items
+          .map(
+            (item: any) =>
+              `${item[primaryField as string]}${
+                Array.isArray(item.children) && item.children.length
+                  ? `[${joinIdFields(item.children)}]`
+                  : ''
+              }`
+          )
+          .join(',');
+      model.ids = joinIdFields(rows);
+
       orderField &&
-      (model.order = rows.map(item =>
-        pick(item, [primaryField as string, orderField])
-      ));
+        (model.order = mapTree(rows, item =>
+          pick(item, [primaryField as string, orderField, 'children'])
+        ));
+    }
 
     isEffectiveApi(saveOrderApi, model) &&
       store

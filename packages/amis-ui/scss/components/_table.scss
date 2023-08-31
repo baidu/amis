@@ -515,7 +515,18 @@
 
       &.is-dragging {
         opacity: var(--Table-onDragging-opacity);
+        background-color: var(--Table-onDragging-bg);
       }
+    }
+
+    > tbody.is-dragging > tr:not(.is-dragging) {
+      background: var(--Table-bg);
+      color: var(--Table-color);
+    }
+
+    > tbody.is-dragging > tr:not(.is-drop-allowed):not(.is-dragging) {
+      color: var(--table-body-disabled-color);
+      background-color: var(--table-body-disabled-bg-color);
     }
 
     .#{$ns}Table-divider2 {

@@ -3985,7 +3985,8 @@
   --Table-onChecked-onHover-bg: var(--colors-neutral-fill-10);
   --Table-onChecked-onHover-borderColor: var(--colors-neutral-line-8);
   --Table-onChecked-onHover-color: var(--colors-neutral-line-4);
-  --Table-onDragging-opacity: 0.1;
+  --Table-onDragging-opacity: 1;
+  --Table-onDragging-bg: var(--table-body-hover-bg-color);
   // 背景用到了 rgba，所以必须再提供这种写法，搜一下这个变量就知道为什么了
   --Table-onHover-bg-rgb: 245, 251, 255;
   --Table-onHover-bg: var(--table-body-hover-bg-color);
