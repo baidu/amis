@@ -310,18 +310,20 @@ export function getValueByPath(path: string, data: any) {
 // 递归处理嵌套的样式，转化成一维对象
 function traverseStyle(style: any, path: string, result: any) {
   for (let key in style) {
-    if (key === '$$id') {
-      continue;
-    }
-    if (isObject(style[key])) {
-      const nowPath = path ? `${path} ${key}` : key;
-      traverseStyle(style[key], nowPath, result);
-    } else if (path === '') {
-      !result[key] && (result[key] = {});
-      result[key] = style[key];
-    } else {
-      !result[path] && (result[path] = {});
-      result[path][key] = style[key];
+    if (style.hasOwnProperty(key)) {
+      if (key === '$$id') {
+        continue;
+      }
+      if (isObject(style[key])) {
+        const nowPath = path ? `${path} ${key}` : key;
+        traverseStyle(style[key], nowPath, result);
+      } else if (path === '') {
+        !result[key] && (result[key] = {});
+        result[key] = style[key];
+      } else {
+        !result[path] && (result[path] = {});
+        result[path][key] = style[key];
+      }
     }
   }
 }
@@ -329,7 +331,6 @@ function traverseStyle(style: any, path: string, result: any) {
 /**
  * 设置源码编辑自定义样式
  */
-
 export function insertEditCustomStyle(customStyle: any, id?: string) {
   let styles: any = {};
   traverseStyle(customStyle, '', styles);
@@ -338,11 +339,13 @@ export function insertEditCustomStyle(customStyle: any, id?: string) {
   if (!isEmpty(styles)) {
     const className = `wrapperCustomStyle-${id?.replace('u:', '')}`;
     for (let key in styles) {
-      if (isObject(styles[key])) {
-        const res = map(styles[key], (value, key) => `${key}: ${value};`);
-        content += `\n.${className} ${key} {\n  ${res.join('\n  ')}\n}`;
-      } else {
-        content += `\n.${className} {\n  ${key}: ${styles[key]}\n}`;
+      if (styles.hasOwnProperty(key)) {
+        if (isObject(styles[key])) {
+          const res = map(styles[key], (value, key) => `${key}: ${value};`);
+          content += `\n.${className} ${key} {\n  ${res.join('\n  ')}\n}`;
+        } else {
+          content += `\n.${className} {\n  ${key}: ${styles[key]}\n}`;
+        }
       }
     }
   }

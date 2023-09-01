@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, CustomStyle} from 'amis-core';
 import {filter} from 'amis-core';
 import {
   resolveVariable,
@@ -191,7 +191,12 @@ export class ImagesField extends React.Component<ImagesProps> {
       options,
       showToolbar,
       toolbarActions,
-      imageGallaryClassName
+      imageGallaryClassName,
+      id,
+      wrapperCustomStyle,
+      env,
+      themeCss,
+      imagesControlClassName
     } = this.props;
 
     let value: any;
@@ -217,7 +222,17 @@ export class ImagesField extends React.Component<ImagesProps> {
     this.list = list;
 
     return (
-      <div className={cx('ImagesField', className)} style={style}>
+      <div
+        className={cx(
+          'ImagesField',
+          className,
+          imagesControlClassName,
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
+        )}
+        style={style}
+      >
         {Array.isArray(list) ? (
           <div className={cx('Images', listClassName)}>
             {list.map((item: any, index: number) => (
@@ -259,6 +274,20 @@ export class ImagesField extends React.Component<ImagesProps> {
         ) : (
           placeholder
         )}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            componentId: id,
+            themeCss,
+            classNames: [
+              {
+                key: 'imagesControlClassName',
+                value: imagesControlClassName
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

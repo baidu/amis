@@ -6,6 +6,7 @@ import {
 } from 'amis-editor-core';
 import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
+import compact from 'lodash/compact';
 
 /**
  * 布局相关配置项
@@ -232,8 +233,9 @@ setSchemaTpl(
     isFlexItem?: boolean;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
+    flexHide?: boolean;
   }) => {
-    const configOptions = [
+    const configOptions = compact([
       {
         label: '块级(block)',
         icon: 'block-display',
@@ -249,12 +251,12 @@ setSchemaTpl(
         icon: 'inline-display',
         value: 'inline'
       },
-      {
+      !config?.flexHide && {
         label: '弹性布局(flex)',
         icon: 'flex-display',
         value: 'flex'
       }
-    ];
+    ]);
     const configSchema = {
       type: 'icon-button-group',
       label:

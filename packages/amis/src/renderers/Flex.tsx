@@ -103,7 +103,10 @@ export default class Flex extends React.Component<FlexProps, object> {
       data,
       id,
       wrapperCustomStyle,
-      env
+      env,
+      themeCss,
+      baseControlClassName,
+      classnames: cx
     } = this.props;
     const styleVar = buildStyle(style, data);
     const flexStyle = {
@@ -126,11 +129,14 @@ export default class Flex extends React.Component<FlexProps, object> {
     return (
       <div
         style={flexStyle}
-        className={
+        className={cx(
+          'Flex',
+          className,
+          baseControlClassName,
           wrapperCustomStyle
-            ? className + ` wrapperCustomStyle-${id?.replace('u:', '')}`
-            : className
-        }
+            ? ` wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
+        )}
       >
         {(Array.isArray(items) ? items : items ? [items] : []).map(
           (item, key) =>
@@ -142,7 +148,14 @@ export default class Flex extends React.Component<FlexProps, object> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id
+            componentId: id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName
+              }
+            ]
           }}
           env={env}
         />
