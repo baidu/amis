@@ -9,7 +9,8 @@ import {
   ActionObject,
   Location,
   ApiObject,
-  FunctionPropertyNames
+  FunctionPropertyNames,
+  CustomStyle
 } from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
 import {
@@ -781,6 +782,8 @@ export default class Page extends React.Component<PageProps> {
       remark,
       remarkPlacement,
       headerClassName,
+      headerControlClassName,
+      toolbarControlClassName,
       toolbarClassName,
       toolbar,
       render,
@@ -803,7 +806,9 @@ export default class Page extends React.Component<PageProps> {
       Array.isArray(regions) ? ~regions.indexOf('header') : title || subTitle
     ) {
       header = (
-        <div className={cx(`Page-header`, headerClassName)}>
+        <div
+          className={cx(`Page-header`, headerClassName, headerControlClassName)}
+        >
           {title ? (
             <h2 className={cx('Page-title')}>
               {render('title', title, subProps)}
@@ -828,7 +833,13 @@ export default class Page extends React.Component<PageProps> {
 
     if (Array.isArray(regions) ? ~regions.indexOf('toolbar') : toolbar) {
       right = (
-        <div className={cx(`Page-toolbar`, toolbarClassName)}>
+        <div
+          className={cx(
+            `Page-toolbar`,
+            toolbarClassName,
+            toolbarControlClassName
+          )}
+        >
           {render('toolbar', toolbar || '', subProps)}
         </div>
       );
@@ -865,7 +876,15 @@ export default class Page extends React.Component<PageProps> {
       pullRefresh,
       mobileUI,
       translate: __,
-      loadingConfig
+      loadingConfig,
+      id,
+      wrapperCustomStyle,
+      env,
+      themeCss,
+      bodyControlClassName,
+      headerControlClassName,
+      toolbarControlClassName,
+      asideControlClassName
     } = this.props;
 
     const subProps = {
@@ -887,7 +906,10 @@ export default class Page extends React.Component<PageProps> {
         <div className={cx('Page-main')}>
           {this.renderHeader()}
           {/* role 用于 editor 定位 Spinner */}
-          <div className={cx(`Page-body`, bodyClassName)} role="page-body">
+          <div
+            className={cx(`Page-body`, bodyClassName, bodyControlClassName)}
+            role="page-body"
+          >
             <Spinner
               size="lg"
               overlay
@@ -916,7 +938,14 @@ export default class Page extends React.Component<PageProps> {
 
     return (
       <div
-        className={cx(`Page`, hasAside ? `Page--withSidebar` : '', className)}
+        className={cx(
+          `Page`,
+          hasAside ? `Page--withSidebar` : '',
+          className,
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
+        )}
         onClick={this.handleClick}
         style={styleVar}
       >
@@ -925,7 +954,8 @@ export default class Page extends React.Component<PageProps> {
             className={cx(
               `Page-aside`,
               asideResizor ? 'relative' : 'Page-aside--withWidth',
-              asideClassName
+              asideClassName,
+              asideControlClassName
             )}
           >
             <div className={cx(`Page-asideInner`)} ref={this.asideInner}>
@@ -995,6 +1025,32 @@ export default class Page extends React.Component<PageProps> {
             onQuery: initApi ? this.handleQuery : undefined
           }
         )}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            componentId: id,
+            themeCss,
+            classNames: [
+              {
+                key: 'bodyControlClassName',
+                value: bodyControlClassName
+              },
+              {
+                key: 'headerControlClassName',
+                value: headerControlClassName
+              },
+              {
+                key: 'toolbarControlClassName',
+                value: toolbarControlClassName
+              },
+              {
+                key: 'asideControlClassName',
+                value: asideControlClassName
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

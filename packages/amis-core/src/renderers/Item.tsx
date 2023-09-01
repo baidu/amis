@@ -954,7 +954,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         mobileUI,
         translate: __,
         static: isStatic,
-        staticClassName
+        staticClassName,
+        id,
+        wrapperCustomStyle
       } = props;
 
       // 强制不渲染 label 的话
@@ -980,7 +982,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               [`is-error`]: model && !model.valid,
               [`is-required`]: required
             },
-            model?.errClassNames
+            model?.errClassNames,
+            wrapperCustomStyle
+              ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+              : ''
           )}
           style={style}
         >
@@ -1493,6 +1498,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       id,
       labelClassName,
       descriptionClassName,
+      wrapperCustomStyle,
       env
     } = this.props;
     const mode = this.props.mode || formMode;
@@ -1532,22 +1538,15 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               {
                 key: 'labelClassName',
                 value: labelClassName
-              }
-            ],
-            id: id + '-label'
-          }}
-          env={env}
-        />
-        <CustomStyle
-          config={{
-            themeCss: themeCss || css,
-            classNames: [
+              },
               {
                 key: 'descriptionClassName',
                 value: descriptionClassName
               }
             ],
-            id: id + '-description'
+            wrapperCustomStyle,
+            componentId: id,
+            id: id + '-item'
           }}
           env={env}
         />

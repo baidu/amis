@@ -223,7 +223,7 @@ test('Picker filter1', async () => {
 
   fireEvent.click(pickerBtn);
 
-  await wait(500);
+  await wait(1000);
   const a = container.querySelector('input[name="a"]')!;
   const b = container.querySelector('input[name="b"]')!;
 

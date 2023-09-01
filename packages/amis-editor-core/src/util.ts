@@ -211,9 +211,9 @@ export function JSONPipeOut(
  * 如果存在themeCss属性，则给对应的className加上name
  */
 export function addStyleClassName(obj: Schema) {
-  const themeCss = obj.themeCss || obj.css;
+  const themeCss = obj.type === 'page' ? obj.themeCss : obj.themeCss || obj.css;
   // page暂时不做处理
-  if (!themeCss || obj.type === 'page') {
+  if (!themeCss) {
     return obj;
   }
   let toUpdate: any = {};
