@@ -13,7 +13,7 @@ import {EditorNodeContext, EditorNodeType} from '../store/node';
 import {EditorManager} from '../manager';
 import flatten from 'lodash/flatten';
 import {render as reactRender, unmountComponentAtNode} from 'react-dom';
-import {autobind, diff, getThemeDefaultData} from '../util';
+import {autobind, diff, getThemeConfig} from '../util';
 import {createObject, createObjectFromChain} from 'amis-core';
 import {CommonConfigWrapper} from './CommonConfigWrapper';
 import type {Schema} from 'amis';
@@ -305,7 +305,7 @@ function SchemaFrom({
 
   value = value || {};
   const finalValue = pipeIn ? pipeIn(value) : value;
-  const themeConfig = getThemeDefaultData();
+  const themeConfig = getThemeConfig();
 
   return render(
     schema,
@@ -315,9 +315,7 @@ function SchemaFrom({
         const diffValue = diff(value, newValue);
         onChange(newValue, diffValue);
       },
-      data: ctx
-        ? createObjectFromChain([ctx, themeConfig, finalValue])
-        : createObject(themeConfig, finalValue),
+      data: createObjectFromChain([ctx, themeConfig, finalValue]),
       node: node,
       manager: manager,
       popOverContainer

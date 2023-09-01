@@ -1106,8 +1106,8 @@ export function setThemeConfig(config: any) {
   themeOptionsData = getGlobalData(themeConfig);
 }
 
-// 将主题数据传入组件的schema
-export function getThemeDefaultData() {
+// 获取主题数据和样式选择器数据
+export function getThemeConfig() {
   return {themeConfig, ...themeOptionsData};
 }
 
