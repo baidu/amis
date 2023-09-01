@@ -8,11 +8,12 @@ import {isExpression, resolveVariableAndFilter} from 'amis-core';
 import type {VariableItem} from 'amis-ui';
 import {isObservable, reaction} from 'mobx';
 import DeepDiff, {Diff} from 'deep-diff';
-import assign from 'lodash/assign'
-import cloneDeep from 'lodash/cloneDeep'
-import isPlainObject from 'lodash/isPlainObject'
-import isEqual from 'lodash/isEqual'
-import isNumber from 'lodash/isNumber'
+import assign from 'lodash/assign';
+import cloneDeep from 'lodash/cloneDeep';
+import isPlainObject from 'lodash/isPlainObject';
+import isEqual from 'lodash/isEqual';
+import isNumber from 'lodash/isNumber';
+import debounce from 'lodash/debounce';
 
 const {
   guid,
@@ -1094,7 +1095,10 @@ export function needFillPlaceholder(curProps: any) {
   }
 
   // 支持在plugin中配置
-  return !!(curProps.$$editor?.needFillPlaceholder || curProps.regionConfig?.needFillPlaceholder);
+  return !!(
+    curProps.$$editor?.needFillPlaceholder ||
+    curProps.regionConfig?.needFillPlaceholder
+  );
 }
 // 设置主题数据
 export function setThemeConfig(config: any) {
@@ -1211,3 +1215,16 @@ export const updateComponentContext = (variables: any[]) => {
   }
   return items;
 };
+
+/**
+ * dom 滚动到可见区域
+ * @param selector dom 选择器
+ */
+export const scrollToActive = debounce((selector: string) => {
+  const dom = document.querySelector(selector);
+  if (dom) {
+    (dom as any).scrollIntoViewIfNeeded
+      ? (dom as any).scrollIntoViewIfNeeded()
+      : dom.scrollIntoView();
+  }
+}, 200);
