@@ -498,12 +498,12 @@ export class ImageControlPlugin extends BasePlugin {
                   type: 'icon-select',
                   returnSvg: true
                 },
-                getSchemaTpl('theme:size', {
+                getSchemaTpl('theme:select', {
                   name: `${IconCssClassName}.font-size`,
                   label: '图标大小',
                   editorThemePath: `${editorPath}.default.body.icon-size`
                 }),
-                getSchemaTpl('theme:size', {
+                getSchemaTpl('theme:select', {
                   name: `${IconCssClassName}.margin-bottom`,
                   label: '图标底边距',
                   editorThemePath: `${editorPath}.default.body.icon-margin`

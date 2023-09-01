@@ -168,7 +168,7 @@ export class ButtonPlugin extends BasePlugin {
           visibleOn: visibleOn,
           editorThemePath: `button1.size.\${size}.body.border`
         }),
-        getSchemaTpl('theme:size', {
+        getSchemaTpl('theme:select', {
           label: '图标尺寸',
           name: `themeCss.iconClassName.iconSize:${state}`,
           visibleOn: visibleOn,

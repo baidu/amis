@@ -39,15 +39,17 @@ function ThemeCssCode(props: FormControlProps) {
       return '';
     }
     for (let key in data) {
-      if (isObject(data[key])) {
-        str += getSpaceByDep(dep) + `${key} {\n`;
-        str += getCssAndSetValue(data[key], '', dep + 1);
-        str += getSpaceByDep(dep) + `}\n`;
-        if (dep === 0) {
-          str += '\n';
+      if (data.hasOwnProperty(key)) {
+        if (isObject(data[key])) {
+          str += getSpaceByDep(dep) + `${key} {\n`;
+          str += getCssAndSetValue(data[key], '', dep + 1);
+          str += getSpaceByDep(dep) + `}\n`;
+          if (dep === 0) {
+            str += '\n';
+          }
+        } else {
+          str += getSpaceByDep(dep) + `${key}: ${data[key]};\n`;
         }
-      } else {
-        str += getSpaceByDep(dep) + `${key}: ${data[key]};\n`;
       }
     }
     return str;

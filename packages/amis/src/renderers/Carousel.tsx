@@ -12,7 +12,8 @@ import {
   createObject,
   isObject,
   isArrayChildrenModified,
-  getPropValue
+  getPropValue,
+  CustomStyle
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {Icon} from 'amis-ui';
@@ -457,7 +458,12 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       duration,
       multiple,
       alwaysShowArrow,
-      icons
+      icons,
+      id,
+      wrapperCustomStyle,
+      env,
+      themeCss,
+      baseControlClassName
     } = this.props;
     const {options, current, nextAnimation} = this.state;
 
@@ -608,7 +614,11 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         className={cx(
           `Carousel Carousel--${controlsTheme}`,
           {['Carousel-arrow--always']: !!alwaysShowArrow},
-          className
+          className,
+          baseControlClassName,
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
         )}
         style={carouselStyles}
       >
@@ -641,6 +651,20 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             )}
           </div>
         ) : null}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            componentId: id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }
