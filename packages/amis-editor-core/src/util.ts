@@ -1107,26 +1107,8 @@ export function setThemeConfig(config: any) {
 }
 
 // 将主题数据传入组件的schema
-export function setThemeDefaultData(data: any) {
-  const schemaData = cloneDeep(data);
-  schemaData.themeConfig = themeConfig;
-  assign(schemaData, themeOptionsData);
-  return schemaData;
-}
-
-// 删除主题的配置数据
-export function deleteThemeConfigData(data: any) {
-  if (!data) {
-    return data;
-  }
-  const schemaData = cloneDeep(data);
-
-  delete schemaData.themeConfig;
-  Object.keys(themeOptionsData).forEach(key => {
-    delete schemaData[key];
-  });
-
-  return schemaData;
+export function getThemeDefaultData() {
+  return {themeConfig, ...themeOptionsData};
 }
 
 /**
