@@ -210,7 +210,9 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
       data,
       id,
       wrapperCustomStyle,
-      env
+      env,
+      themeCss,
+      baseControlClassName
     } = this.props;
     const styleVar = buildStyle(style, data);
     return (
@@ -223,6 +225,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
             [`Grid--h${ucFirst(hAlign)}`]: hAlign
           },
           className,
+          baseControlClassName,
           wrapperCustomStyle
             ? `wrapperCustomStyle-${id?.replace('u:', '')}`
             : ''
@@ -234,7 +237,14 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id
+            componentId: id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName
+              }
+            ]
           }}
           env={env}
         />

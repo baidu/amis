@@ -197,7 +197,9 @@ export class Tpl extends React.Component<TplProps, TplState> {
       data,
       id,
       wrapperCustomStyle,
-      env
+      env,
+      themeCss,
+      baseControlClassName
     } = this.props;
     const Component = wrapperComponent || (inline ? 'span' : 'div');
     const {content} = this.state;
@@ -207,6 +209,7 @@ export class Tpl extends React.Component<TplProps, TplState> {
         className={cx(
           'TplField',
           className,
+          baseControlClassName,
           wrapperCustomStyle
             ? `wrapperCustomStyle-${id?.replace('u:', '')}`
             : ''
@@ -223,7 +226,14 @@ export class Tpl extends React.Component<TplProps, TplState> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id
+            componentId: id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName
+              }
+            ]
           }}
           env={env}
         />

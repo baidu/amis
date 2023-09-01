@@ -225,7 +225,9 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       translate: __,
       id,
       wrapperCustomStyle,
-      env
+      env,
+      themeCss,
+      baseControlClassName
     } = this.props;
 
     let tempStyle: any = {};
@@ -260,8 +262,10 @@ export default class IFrame extends React.Component<IFrameProps, object> {
           name={name}
           className={
             wrapperCustomStyle
-              ? className + ` wrapperCustomStyle-${id?.replace('u:', '')}`
-              : className
+              ? className +
+                (baseControlClassName || '') +
+                ` wrapperCustomStyle-${id?.replace('u:', '')}`
+              : className + (baseControlClassName || '')
           }
           frameBorder={frameBorder}
           style={style}
@@ -275,7 +279,14 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id
+            componentId: id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName
+              }
+            ]
           }}
           env={env}
         />

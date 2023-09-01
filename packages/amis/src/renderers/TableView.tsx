@@ -273,7 +273,9 @@ export default class TableView extends React.Component<TableViewProps, object> {
       className,
       id,
       wrapperCustomStyle,
-      env
+      env,
+      themeCss,
+      baseControlClassName
     } = this.props;
 
     return (
@@ -281,6 +283,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
         className={cx(
           'TableView',
           className,
+          baseControlClassName,
           wrapperCustomStyle
             ? `wrapperCustomStyle-${id?.replace('u:', '')}`
             : ''
@@ -293,7 +296,14 @@ export default class TableView extends React.Component<TableViewProps, object> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id
+            componentId: id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName
+              }
+            ]
           }}
           env={env}
         />
