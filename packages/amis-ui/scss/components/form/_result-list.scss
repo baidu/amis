@@ -53,6 +53,13 @@
     > label {
       flex-basis: px2rem(50px);
       flex-grow: 1;
+      width: px2rem(50px);
+
+      .ellipsis-line {
+        display: inline-block;
+        width: 100%;
+        @include truncate();
+      }
 
       &.is-invalid {
         color: var(--Form-selectValue-onInvalid-color);
@@ -76,6 +83,7 @@
   }
 
   &-delBtn {
+    flex: 0;
     color: var(--icon-color);
     cursor: pointer;
 

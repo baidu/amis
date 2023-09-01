@@ -63,10 +63,21 @@ export class BaseSelection<
   S = any
 > extends React.Component<T, S> {
   static itemRender(option: Option, states: ItemRenderStates) {
+    const label = option[states?.labelField || 'label'];
+    const tip = option.tip || '';
+
+    const canlabelTitle =
+      typeof label === 'string' || typeof label === 'number';
+    const canTipTitle = typeof tip === 'string' || typeof label === 'number';
+    const title = canlabelTitle && canTipTitle ? `${label} ${tip}` : '';
+
     return (
-      <span className={cx({'is-invalid': option?.__unmatched})}>
-        {option[states?.labelField || 'label']}
-        {option.tip || ''}
+      <span
+        title={title}
+        className={cx({'is-invalid': option?.__unmatched}, 'ellipsis-line')}
+      >
+        {label}
+        {tip}
       </span>
     );
   }

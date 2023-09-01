@@ -5,6 +5,7 @@ import React from 'react';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
+import cx from 'classnames';
 
 import {Option, Options} from './Select';
 import {ThemeProps, themeable} from 'amis-core';
@@ -51,10 +52,19 @@ export class ResultList extends React.Component<
   ResultListState
 > {
   static itemRender(option: Option, states: ItemRenderStates) {
+    const scopeLabel = option.scopeLabel || '';
+    const label = option[states?.labelField || 'label'];
+    const canScopeLabelTitle =
+      typeof scopeLabel === 'string' || typeof scopeLabel === 'number';
+    const canLabelTitle =
+      typeof label === 'string' || typeof label === 'number';
+    const title =
+      canScopeLabelTitle && canLabelTitle ? `${scopeLabel}${label}` : '';
     return (
-      <span>{`${option.scopeLabel || ''}${
-        option[states?.labelField || 'label']
-      }`}</span>
+      <span title={title} className={cx('ellipsis-line')}>
+        {scopeLabel}
+        {label}
+      </span>
     );
   }
 
