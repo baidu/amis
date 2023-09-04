@@ -90,6 +90,14 @@ export class ImagePlugin extends BasePlugin {
                     label: '缩略图地址',
                     description: '如果已绑定字段名，可以不用设置，支持用变量。'
                   }),
+
+              getSchemaTpl('backgroundImageUrl', {
+                name: 'editorSetting.mock.src',
+                label: tipedLabel(
+                  '假数据图片',
+                  '只在编辑区显示的模拟图片，运行时将显示图片实际内容'
+                )
+              }),
               {
                 type: 'ae-switch-more',
                 mode: 'normal',

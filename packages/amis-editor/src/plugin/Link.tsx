@@ -1,7 +1,9 @@
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, RegionConfig, RendererInfo} from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {tipedLabel} from 'amis-editor-core';
+import {
+  registerEditorPlugin,
+  BasePlugin,
+  getSchemaTpl,
+  tipedLabel
+} from 'amis-editor-core';
 
 export class LinkPlugin extends BasePlugin {
   static id = 'LinkPlugin';
@@ -37,15 +39,23 @@ export class LinkPlugin extends BasePlugin {
             title: '基本',
             body: [
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-              {
+              getSchemaTpl('valueFormula', {
                 name: 'href',
-                type: 'input-text',
                 label: tipedLabel(
                   '目标地址',
                   '支持取变量，如果已绑定字段名，可以不用设置'
-                )
+                ),
+                rendererSchema: {
+                  type: 'input-text'
+                }
+              }),
+              {
+                label: tipedLabel('内容', '不填写时，自动使用目标地址值'),
+                type: 'ae-textareaFormulaControl',
+                mode: 'normal',
+                pipeIn: (value: any, data: any) => value || (data && data.html),
+                name: 'body'
               },
-              getSchemaTpl('inputBody'),
               getSchemaTpl('switch', {
                 name: 'blank',
                 label: '在新窗口打开'

@@ -807,13 +807,13 @@ export const components = [
           import('../../docs/zh-CN/components/table.md').then(wrapDoc)
         )
       },
-      // {
-      //   label: 'Table2 表格',
-      //   path: '/zh-CN/components/table2',
-      //   component: React.lazy(() =>
-      //     import('../../docs/zh-CN/components/table2.md').then(wrapDoc)
-      //   )
-      // },
+      {
+        label: 'Table2 表格',
+        path: '/zh-CN/components/table2',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/table2.md').then(wrapDoc)
+        )
+      },
       {
         label: 'Table View 表格视图',
         path: '/zh-CN/components/table-view',

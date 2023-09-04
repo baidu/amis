@@ -233,7 +233,7 @@ export const MainStore = types
       // 给预览状态时的
       get filteredSchemaForPreview() {
         const schema = JSONPipeOut(self.schema);
-        return getEnv(self).schemaFilter?.(schema) ?? schema;
+        return getEnv(self).schemaFilter?.(schema, true) ?? schema;
       },
 
       // 判断当前元素是否是根节点

@@ -26,6 +26,8 @@ export function mockValue(schema: any) {
     return placeholderImage;
   } else if (schema.type === 'images' || schema.type === 'static-images') {
     return [placeholderImage];
+  } else if (schema.type === 'number' || schema.type === 'input-number') {
+    return (Math.random() * 1000).toFixed(schema.precision ?? 0);
   }
 
   return '假数据';

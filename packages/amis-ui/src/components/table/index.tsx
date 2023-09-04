@@ -468,7 +468,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     }
     current && this.updateTableDom(current);
 
-    if (this.props.draggable) {
+    if (this.props.draggable && this.tbodyDom?.current) {
       this.initDragging();
     }
 
@@ -1140,8 +1140,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
     if (record) {
       let target = event.target;
-      if (target.tagName !== 'TR') {
-        target = target.closest('tr');
+      if (target?.tagName !== 'TR') {
+        target = target?.closest('tr');
       }
 
       this.setState({hoverRow: {target, rowIndex, record}});

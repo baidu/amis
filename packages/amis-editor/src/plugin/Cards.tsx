@@ -1,6 +1,6 @@
-import {Button} from 'amis';
+import {Button, JSONValueMap, isObject} from 'amis';
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
+import {EditorNodeType, registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
   BasePlugin,
@@ -16,7 +16,8 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {diff, JSONPipeOut, repeatArray} from 'amis-editor-core';
-import {resolveArrayDatasource} from '../util';
+import set from 'lodash/set';
+import {escapeFormula, resolveArrayDatasource} from '../util';
 
 export class CardsPlugin extends BasePlugin {
   static id = 'CardsPlugin';
@@ -28,6 +29,7 @@ export class CardsPlugin extends BasePlugin {
   // 组件名称
   name = '卡片列表';
   isBaseComponent = true;
+  isListComponent = true;
   description =
     '功能类似于表格，但是用一个个小卡片来展示数据。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。';
   docLink = '/amis/zh-CN/components/cards';
@@ -36,36 +38,330 @@ export class CardsPlugin extends BasePlugin {
   pluginIcon = 'cards-plugin';
   scaffold = {
     type: 'cards',
-    data: {
-      items: [
-        {a: 1, b: 2},
-        {a: 3, b: 4}
-      ]
-    },
-    columnsCount: 2,
+    columnsCount: 4,
     card: {
-      type: 'card',
-      className: 'm-b-none',
-      header: {
-        title: '标题',
-        subTitle: '副标题'
-      },
+      type: 'container',
       body: [
         {
-          name: 'a',
-          label: 'A'
-        },
-        {
-          name: 'b',
-          label: 'B'
+          type: 'container',
+          body: [
+            {
+              type: 'container',
+              body: [
+                {
+                  type: 'icon',
+                  icon: 'fa fa-check',
+                  vendor: '',
+                  themeCss: {
+                    className: {
+                      'font': {
+                        color: 'var(--colors-brand-6)',
+                        fontSize: '20px'
+                      },
+                      'padding-and-margin:default': {
+                        marginRight: '10px'
+                      }
+                    }
+                  }
+                },
+                {
+                  type: 'tpl',
+                  tpl: '流水线任务实例 ',
+                  inline: true,
+                  wrapperComponent: '',
+                  editorSetting: {
+                    mock: {}
+                  },
+                  style: {
+                    fontSize: 'var(--fonts-size-6)',
+                    color: 'var(--colors-neutral-text-2)',
+                    fontWeight: 'var(--fonts-weight-3)'
+                  }
+                }
+              ],
+              style: {
+                position: 'static',
+                display: 'flex',
+                flexWrap: 'nowrap',
+                alignItems: 'center',
+                marginBottom: '15px'
+              },
+              wrapperBody: false,
+              isFixedHeight: false,
+              isFixedWidth: false,
+              size: 'none'
+            },
+            {
+              type: 'flex',
+              className: 'p-1',
+              items: [
+                {
+                  type: 'container',
+                  body: [
+                    {
+                      type: 'container',
+                      body: [
+                        {
+                          type: 'tpl',
+                          tpl: '12/',
+                          inline: true,
+                          wrapperComponent: '',
+                          style: {
+                            fontSize: 'var(--fonts-size-6)',
+                            color: 'var(--colors-neutral-text-2)',
+                            fontWeight: 'var(--fonts-weight-3)'
+                          }
+                        },
+                        {
+                          type: 'tpl',
+                          tpl: '19',
+                          inline: true,
+                          wrapperComponent: '',
+                          style: {
+                            color: 'var(--colors-neutral-text-6)',
+                            fontSize: 'var(--fonts-size-6)'
+                          }
+                        }
+                      ],
+                      style: {
+                        position: 'static',
+                        display: 'block',
+                        flex: '0 0 auto',
+                        marginTop: 'var(--sizes-size-0)',
+                        marginRight: 'var(--sizes-size-0)',
+                        marginBottom: 'var(--sizes-size-0)',
+                        marginLeft: 'var(--sizes-size-0)'
+                      },
+                      wrapperBody: false,
+                      isFixedWidth: false,
+                      size: 'none'
+                    },
+                    {
+                      type: 'container',
+                      body: [
+                        {
+                          type: 'tpl',
+                          tpl: '单元测试',
+                          inline: true,
+                          wrapperComponent: '',
+                          style: {
+                            color: 'var(--colors-neutral-text-5)'
+                          }
+                        }
+                      ],
+                      style: {
+                        position: 'static',
+                        display: 'flex',
+                        flexWrap: 'nowrap',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flex: '0 0 auto'
+                      },
+                      wrapperBody: false,
+                      isFixedHeight: false,
+                      isFixedWidth: false,
+                      size: 'none'
+                    }
+                  ],
+                  size: 'xs',
+                  style: {
+                    position: 'static',
+                    display: 'flex',
+                    flex: '1 1 auto',
+                    flexGrow: 1,
+                    flexBasis: 'auto',
+                    flexWrap: 'nowrap',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  },
+                  wrapperBody: false,
+                  isFixedHeight: false,
+                  isFixedWidth: false
+                },
+                {
+                  type: 'container',
+                  body: [
+                    {
+                      type: 'tpl',
+                      tpl: '100%',
+                      inline: true,
+                      wrapperComponent: '',
+                      style: {
+                        fontSize: 'var(--fonts-size-6)',
+                        color: 'var(--colors-neutral-text-2)',
+                        fontWeight: 'var(--fonts-weight-3)'
+                      }
+                    },
+                    {
+                      type: 'tpl',
+                      tpl: '通过率',
+                      inline: true,
+                      wrapperComponent: '',
+                      style: {
+                        color: 'var(--colors-neutral-text-5)'
+                      }
+                    }
+                  ],
+                  size: 'xs',
+                  style: {
+                    position: 'static',
+                    display: 'flex',
+                    flex: '1 1 auto',
+                    flexGrow: 1,
+                    flexBasis: 'auto',
+                    flexWrap: 'nowrap',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center'
+                  },
+                  wrapperBody: false,
+                  isFixedHeight: false,
+                  isFixedWidth: false
+                },
+                {
+                  type: 'container',
+                  body: [
+                    {
+                      type: 'tpl',
+                      tpl: '99.9%',
+                      inline: true,
+                      wrapperComponent: '',
+                      style: {
+                        fontSize: 'var(--fonts-size-6)',
+                        color: 'var(--colors-neutral-text-2)',
+                        fontWeight: 'var(--fonts-weight-3)'
+                      }
+                    },
+                    {
+                      type: 'tpl',
+                      tpl: '任务实例',
+                      inline: true,
+                      wrapperComponent: '',
+                      style: {
+                        color: 'var(--colors-neutral-text-5)'
+                      }
+                    }
+                  ],
+                  size: 'xs',
+                  style: {
+                    position: 'static',
+                    display: 'flex',
+                    flex: '1 1 auto',
+                    flexGrow: 1,
+                    flexBasis: 'auto',
+                    flexWrap: 'nowrap',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'column'
+                  },
+                  wrapperBody: false,
+                  isFixedHeight: false,
+                  isFixedWidth: false
+                }
+              ],
+              style: {
+                position: 'relative'
+              }
+            },
+            {
+              type: 'container',
+              body: [
+                {
+                  type: 'tpl',
+                  tpl: '报告',
+                  inline: true,
+                  wrapperComponent: '',
+                  style: {
+                    fontSize: '14px',
+                    color: 'var(--colors-neutral-text-5)'
+                  }
+                },
+                {
+                  type: 'tpl',
+                  tpl: '2023-01-01 12:00',
+                  inline: true,
+                  wrapperComponent: '',
+                  style: {
+                    fontSize: '12px',
+                    color: 'var(--colors-neutral-text-6)'
+                  }
+                }
+              ],
+              style: {
+                position: 'static',
+                display: 'flex',
+                flexWrap: 'nowrap',
+                justifyContent: 'space-between',
+                marginTop: '20px'
+              },
+              wrapperBody: false,
+              isFixedHeight: false,
+              isFixedWidth: false
+            }
+          ],
+          size: 'none',
+          style: {
+            'position': 'static',
+            'display': 'block',
+            'overflowY': 'auto',
+            'overflowX': 'auto',
+            'paddingTop': '10px',
+            'paddingRight': '10px',
+            'paddingBottom': '10px',
+            'paddingLeft': '10px',
+            'radius': {
+              'top-left-border-radius': '6px',
+              'top-right-border-radius': '6px',
+              'bottom-left-border-radius': '6px',
+              'bottom-right-border-radius': '6px'
+            },
+            'top-border-width': 'var(--borders-width-4)',
+            'left-border-width': 'var(--borders-width-2)',
+            'right-border-width': 'var(--borders-width-2)',
+            'bottom-border-width': 'var(--borders-width-2)',
+            'top-border-style': 'var(--borders-style-2)',
+            'left-border-style': 'var(--borders-style-2)',
+            'right-border-style': 'var(--borders-style-2)',
+            'bottom-border-style': 'var(--borders-style-2)',
+            'top-border-color': 'var(--colors-brand-6)',
+            'left-border-color': 'var(--colors-brand-10)',
+            'right-border-color': 'var(--colors-brand-10)',
+            'bottom-border-color': 'var(--colors-brand-10)',
+            'flex': '0 0 150px',
+            'marginRight': '15px',
+            'flexBasis': '100%'
+          },
+          wrapperBody: false,
+          isFixedHeight: false,
+          isFixedWidth: true,
+          onEvent: {
+            click: {
+              weight: 0,
+              actions: []
+            }
+          }
         }
       ],
-      actions: [
-        {
-          label: '详情',
-          type: 'button'
-        }
-      ]
+      style: {
+        position: 'static',
+        display: 'flex',
+        width: '1000%',
+        overflowX: 'auto',
+        margin: '0',
+        flexWrap: 'nowrap',
+        justifyContent: 'space-between'
+      },
+      isFixedHeight: false,
+      isFixedWidth: true,
+      wrapperBody: false
+    },
+    placeholder: '',
+    name: '',
+    style: {
+      gutterX: 15,
+      gutterY: 15
     }
   };
   previewSchema = {
@@ -74,6 +370,7 @@ export class CardsPlugin extends BasePlugin {
   };
 
   panelTitle = '卡片集';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     const isCRUDBody = context.schema.type === 'crud';
     const curPosition = context?.schema?.style?.position;
@@ -82,200 +379,119 @@ export class CardsPlugin extends BasePlugin {
     return [
       getSchemaTpl('tabs', [
         {
-          title: '常规',
-          body: [
-            getSchemaTpl('layout:originPosition', {
-              visibleOn: isAbsolute ? isAbsolute : undefined,
-              value: 'left-top'
-            }),
+          title: '属性',
+          body: getSchemaTpl('collapseGroup', [
             {
-              children: (
-                <div className="m-b">
-                  <Button
-                    level="primary"
-                    size="sm"
-                    block
-                    onClick={this.editDetail.bind(this, context.id)}
-                  >
-                    配置单项信息
-                  </Button>
-                </div>
-              )
-            },
-            {
-              type: 'divider'
-            },
-            getSchemaTpl('title'),
-
-            isCRUDBody
-              ? null
-              : {
-                  name: 'source',
+              title: '基本',
+              body: [
+                {
                   type: 'input-text',
-                  label: '数据源',
-                  pipeIn: defaultValue('${items}'),
-                  description: '绑定当前环境变量',
-                  test: !isCRUDBody
+                  label: '组件名称',
+                  name: 'editorSetting.displayName'
                 },
-            getSchemaTpl('cardsPlaceholder')
-          ]
+                isCRUDBody
+                  ? null
+                  : getSchemaTpl('formItemName', {
+                      label: '绑定字段名'
+                    }),
+                getSchemaTpl('cardsPlaceholder')
+              ]
+            },
+            getSchemaTpl('status')
+          ])
         },
         {
           title: '外观',
-          body: [
-            getSchemaTpl('switch', {
-              name: 'showHeader',
-              label: '是否显示头部',
-              pipeIn: defaultValue(true)
-            }),
-
-            getSchemaTpl('switch', {
-              name: 'showFooter',
-              label: '是否显示底部',
-              pipeIn: defaultValue(true)
-            }),
-
-            getSchemaTpl('className', {
-              label: 'CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              name: 'headerClassName',
-              label: '头部 CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              name: 'footerClassName',
-              label: '底部 CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              name: 'itemsClassName',
-              label: '内容 CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              pipeIn: defaultValue('Grid-col--sm6 Grid-col--md4 Grid-col--lg3'),
-              name: 'itemClassName',
-              label: '卡片 CSS 类名'
-            }),
+          body: getSchemaTpl('collapseGroup', [
             {
-              name: 'columnsCount',
-              type: 'input-range',
-              visibleOn: '!this.leftFixed',
-              min: 0,
-              max: 12,
-              step: 1,
-              label: '每行显示个数',
-              description: '不设置时，由卡片 CSS 类名决定'
+              title: '组件',
+              body: [
+                {
+                  name: 'columnsCount',
+                  type: 'input-range',
+                  visibleOn: '!this.leftFixed',
+                  min: 0,
+                  max: 12,
+                  step: 1,
+                  label: '每行个数',
+                  description: '不设置时，由卡片 CSS 类名决定'
+                },
+                {
+                  type: 'input-number',
+                  label: '左右间距',
+                  name: 'style.gutterX'
+                },
+                {
+                  type: 'input-number',
+                  label: '上下间距',
+                  name: 'style.gutterY'
+                },
+                getSchemaTpl('switch', {
+                  name: 'masonryLayout',
+                  label: '启用瀑布流'
+                }),
+                getSchemaTpl('layout:originPosition', {
+                  visibleOn: isAbsolute ? isAbsolute : undefined,
+                  value: 'left-top'
+                })
+              ]
             },
-            getSchemaTpl('switch', {
-              name: 'masonryLayout',
-              label: '启用瀑布流'
-            })
-          ]
-        },
-        {
-          title: '显隐',
-          body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
+          ])
         }
       ])
     ];
   };
 
-  editDetail(id: string) {
-    const manager = this.manager;
-    const store = manager.store;
-    const node = store.getNodeById(id);
-    const value = store.getValueOf(id);
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    let dataSchema: any = {
+      $id: 'cards',
+      type: 'object',
+      title: '当前列表项',
+      properties: {}
+    };
 
-    node &&
-      value &&
-      this.manager.openSubEditor({
-        title: '配置成员渲染器',
-        value: {
-          type: 'card',
-          ...value.card
-        },
-        slot: {
-          type: 'container',
-          body: '$$'
-        },
-        typeMutable: false,
-        onChange: newValue => {
-          newValue = {...value, card: newValue};
-          manager.panelChangeValue(newValue, diff(value, newValue));
-        },
-        data: {
-          item: 'mocked data',
-          index: 0
-        }
-      });
-  }
+    let match =
+      node.schema.source && String(node.schema.source).match(/{(.*)}/);
+    let field = node.schema.name || match?.[1];
+    const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
+    const schema = scope?.parent?.getSchemaByPath(field);
+    if (isObject(schema?.items)) {
+      dataSchema = {
+        ...dataSchema,
+        ...(schema!.items as any)
+      };
 
-  buildEditorToolbar(
-    {id, info, schema}: BaseEventContext,
-    toolbars: Array<BasicToolbarItem>
-  ) {
-    if (
-      info.renderer.name === 'cards' ||
-      (info.renderer.name === 'crud' && schema.mode === 'cards')
-    ) {
-      toolbars.push({
-        icon: 'fa fa-expand',
-        order: 100,
-        tooltip: '配置成员渲染器',
-        onClick: this.editDetail.bind(this, id)
+      // 列表添加序号方便处理
+      set(dataSchema, 'properties.index', {
+        type: 'number',
+        title: '索引'
       });
     }
-  }
 
-  buildEditorContextMenu(
-    {id, schema, region, info, selections}: ContextMenuEventContext,
-    menus: Array<ContextMenuItem>
-  ) {
-    if (selections.length || info?.plugin !== this) {
-      return;
-    }
-    if (
-      info.renderer.name === 'cards' ||
-      (info.renderer.name === 'crud' && schema.mode === 'cards')
-    ) {
-      menus.push('|', {
-        label: '配置成员渲染器',
-        onSelect: this.editDetail.bind(this, id)
-      });
-    }
+    return dataSchema;
   }
 
   filterProps(props: any) {
-    const data = {
-      ...props.defaultData,
-      ...props.data
-    };
-    const arr = resolveArrayDatasource({
-      value: props.value,
-      data,
-      source: props.source
-    });
-
-    if (!Array.isArray(arr) || !arr.length) {
-      const mockedData: any = {
-        id: 666,
-        title: '假数据',
-        description: '假数据',
-        a: '假数据',
-        b: '假数据'
-      };
-
-      props.value = repeatArray(mockedData, 1).map((item, index) => ({
+    // 编辑时显示两行假数据
+    const count = (props.columnsCount || 3) * 2;
+    props.value = repeatArray({}, count).map((item, index) => {
+      return {
         ...item,
         id: index + 1
-      }));
+      };
+    });
+
+    props.className = `${props.className || ''} ae-Editor-list`;
+    props.itemsClassName = `${props.itemsClassName || ''} cards-items`;
+    if (props.card && !props.card.className?.includes('listItem')) {
+      props.card.className = `${props.card.className || ''} ae-Editor-listItem`;
     }
 
-    const {$schema, ...rest} = props;
+    // 列表类型内的文本元素显示原始公式
+    props = escapeFormula(props);
 
-    return {
-      ...JSONPipeOut(rest),
-      $schema
-    };
+    return props;
   }
 
   getRendererInfo(

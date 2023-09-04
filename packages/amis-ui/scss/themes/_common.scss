@@ -11,7 +11,7 @@
 @import '../layout/aside';
 @import '../layout/hbox';
 @import '../layout/vbox';
-@import '../components/button'; // 这个要放在最前面
+@import '../components/button';
 @import '../components/avatar';
 @import '../components/breadcrumb';
 @import '../components/badge';
@@ -126,6 +126,8 @@
 @import '../components/form/icon-select';
 @import '../components/form/form';
 @import '../components/form/user-select';
+@import '../components/form/input-table';
+
 @import '../components/anchor-nav';
 @import '../components/markdown';
 @import '../components/link';

@@ -12,12 +12,7 @@ export * from './Tabs'; // 选项卡
 
 // 数据容器
 export * from './CRUD'; // 增删改查
-export {
-  TableCRUDPlugin,
-  ListCRUDPlugin,
-  CardsCRUDPlugin,
-  CRUDPlugin as CRUD2Plugin
-} from './CRUD2';
+export * from './CRUD2/CRUDTable'; // 增删改查v2.0
 export * from './Form/Form'; // 表单
 export * from './Service'; // 服务service
 
@@ -91,6 +86,7 @@ export * from './Tpl'; // 文字
 export * from './Icon'; // 图标
 export * from './Link'; // 链接
 export * from './List'; // 列表
+export * from './List2'; // 列表
 export * from './Mapping'; // 映射
 export * from './Avatar'; // 头像
 export * from './Card'; // 卡片

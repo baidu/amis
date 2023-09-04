@@ -1,16 +1,10 @@
-import {Button} from 'amis';
+import {isObject} from 'amis';
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {
-  BaseEventContext,
-  BasePlugin,
-  BasicToolbarItem,
-  ContextMenuEventContext,
-  ContextMenuItem
-} from 'amis-editor-core';
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
-import {diff, JSONPipeOut} from 'amis-editor-core';
-import {schemaToArray} from '../util';
+import {EditorNodeType, registerEditorPlugin} from 'amis-editor-core';
+import {BaseEventContext, BasePlugin} from 'amis-editor-core';
+import {getSchemaTpl} from 'amis-editor-core';
+import {escapeFormula} from '../util';
+import {set} from 'lodash';
 
 export class EachPlugin extends BasePlugin {
   static id = 'EachPlugin';
@@ -22,132 +16,355 @@ export class EachPlugin extends BasePlugin {
   // 组件名称
   name = '循环 Each';
   isBaseComponent = true;
+  isListComponent = true;
   description = '功能渲染器，可以基于现有变量循环输出渲染器。';
   tags = ['功能'];
   icon = 'fa fa-repeat';
   pluginIcon = 'each-plugin';
   scaffold = {
     type: 'each',
-    name: 'arr',
+    name: '',
     items: {
-      type: 'tpl',
-      tpl: '<%= data.index + 1 %>. 内容：<%= data.item %>',
-      wrapperComponent: '',
-      inline: false
-    }
+      type: 'container',
+      body: [
+        {
+          type: 'container',
+          body: [
+            {
+              type: 'icon',
+              icon: 'fa fa-plane',
+              vendor: '',
+              themeCss: {
+                className: {
+                  'padding-and-margin:default': {
+                    marginRight: '4px'
+                  },
+                  'font': {
+                    color: '#2856ad',
+                    fontSize: '20px'
+                  }
+                }
+              }
+            },
+            {
+              type: 'tpl',
+              style: {
+                fontWeight: 'var(--fonts-weight-3)',
+                fontSize: '16px',
+                color: 'var(--colors-brand-6)'
+              },
+              tpl: '回访数量TOP1',
+              inline: true,
+              wrapperComponent: ''
+            }
+          ],
+          style: {
+            position: 'static',
+            display: 'flex',
+            flexWrap: 'nowrap',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            marginBottom: '6px'
+          },
+          wrapperBody: false,
+          isFixedHeight: false,
+          isFixedWidth: false
+        },
+        {
+          type: 'container',
+          body: [
+            {
+              type: 'tpl',
+              tpl: '北京分公司',
+              inline: true,
+              wrapperComponent: '',
+              style: {
+                'fontSize': 'var(--fonts-size-4)',
+                'color': 'var(--colors-neutral-text-2)',
+                'fontWeight': 'var(--fonts-weight-3)',
+                'font-family': '-apple-system'
+              }
+            }
+          ],
+          style: {
+            position: 'static',
+            display: 'block'
+          },
+          wrapperBody: false
+        }
+      ],
+      size: 'none',
+      style: {
+        position: 'static',
+        display: 'block',
+        flex: '0 0 150px',
+        marginRight: '20px',
+        paddingTop: '20px',
+        paddingRight: '15px',
+        paddingBottom: '20px',
+        paddingLeft: '15px',
+        flexBasis: '250px',
+        overflowX: 'auto',
+        overflowY: 'auto',
+        boxShadow: ' 0px 0px 8px 0px rgba(3, 3, 3, 0.1)',
+        radius: {
+          'top-left-border-radius': 'var(--borders-radius-3)',
+          'top-right-border-radius': 'var(--borders-radius-3)',
+          'bottom-left-border-radius': 'var(--borders-radius-3)',
+          'bottom-right-border-radius': 'var(--borders-radius-3)'
+        }
+      },
+      wrapperBody: false,
+      isFixedHeight: false
+    },
+    placeholder: '',
+    style: {
+      position: 'static',
+      display: 'flex',
+      flexWrap: 'nowrap',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      marginTop: '10px',
+      marginBottom: '10px'
+    },
+    isFixedHeight: false,
+    isFixedWidth: false,
+    size: 'none'
   };
+
   previewSchema = {
     ...this.scaffold,
     value: ['a', 'b', 'c']
   };
 
   panelTitle = '循环';
+  panelJustify = true;
+
   panelBodyCreator = (context: BaseEventContext) => {
-    return [
-      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-      {
-        type: 'input-text',
-        name: 'name',
-        label: '关联字段',
-        placeholder: 'varname',
-        description:
-          '如果所在容器有下发 value 则不需要配置，如果没有请配置变量名，支持多层级如：a.b，表示关联a对象下的b属性。目标变量可以是数组，也可以是对象。'
-      },
+    const curRendererSchema = context?.schema;
+    const isFreeContainer = curRendererSchema?.isFreeContainer || false;
+    const isFlexItem = this.manager?.isFlexItem(context?.id);
+    const isFlexColumnItem = this.manager?.isFlexColumnItem(context?.id);
 
-      {
-        children: (
-          <Button
-            size="sm"
-            level="primary"
-            className="m-b"
-            block
-            onClick={this.editDetail.bind(this, context.id)}
-          >
-            配置成员渲染器
-          </Button>
-        )
-      },
+    const displayTpl = [
+      getSchemaTpl('layout:display'),
 
-      getSchemaTpl('placeholder', {
-        label: '占位符',
-        pipeIn: defaultValue('暂无内容'),
-        description:
-          '当没有关联变量，或者目标变量不是数组或者对象时显示此占位信息'
+      getSchemaTpl('layout:flex-setting', {
+        visibleOn:
+          'data.style && (data.style.display === "flex" || data.style.display === "inline-flex")',
+        direction: curRendererSchema.direction,
+        justify: curRendererSchema.justify,
+        alignItems: curRendererSchema.alignItems
       }),
 
-      getSchemaTpl('className')
+      getSchemaTpl('layout:flex-wrap', {
+        visibleOn:
+          'data.style && (data.style.display === "flex" || data.style.display === "inline-flex")'
+      })
     ];
+
+    return getSchemaTpl('tabs', [
+      {
+        title: '属性',
+        body: getSchemaTpl('collapseGroup', [
+          {
+            title: '基本',
+            body: [
+              {
+                type: 'input-text',
+                label: '组件名称',
+                name: 'editorSetting.displayName'
+              },
+              getSchemaTpl('formItemName', {
+                label: '绑定字段名',
+                paramType: 'output'
+              }),
+              getSchemaTpl('valueFormula', {
+                rendererSchema: {
+                  type: 'input-number',
+                  min: 1
+                },
+                name: 'maxLength',
+                label: '最大显示个数',
+                valueType: 'number'
+              }),
+              getSchemaTpl('valueFormula', {
+                rendererSchema: {
+                  type: 'input-text'
+                },
+                name: 'placeholder',
+                label: '空数据提示'
+              })
+            ]
+          },
+          getSchemaTpl('status')
+        ])
+      },
+      {
+        title: '外观',
+        body: getSchemaTpl('collapseGroup', [
+          {
+            title: '布局',
+            body: [
+              getSchemaTpl('layout:padding'),
+              getSchemaTpl('layout:position', {
+                visibleOn: '!data.stickyStatus'
+              }),
+              getSchemaTpl('layout:originPosition'),
+              getSchemaTpl('layout:inset', {
+                mode: 'vertical'
+              }),
+
+              // 自由容器不需要 display 相关配置项
+              ...(!isFreeContainer ? displayTpl : []),
+
+              isFlexItem
+                ? getSchemaTpl('layout:flex', {
+                    isFlexColumnItem,
+                    label: isFlexColumnItem ? '高度设置' : '宽度设置',
+                    visibleOn:
+                      'data.style && (data.style.position === "static" || data.style.position === "relative")'
+                  })
+                : null,
+              isFlexItem
+                ? getSchemaTpl('layout:flex-grow', {
+                    visibleOn:
+                      'data.style && data.style.flex === "1 1 auto" && (data.style.position === "static" || data.style.position === "relative")'
+                  })
+                : null,
+              isFlexItem
+                ? getSchemaTpl('layout:flex-basis', {
+                    label: isFlexColumnItem ? '弹性高度' : '弹性宽度',
+                    visibleOn:
+                      'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "1 1 auto"'
+                  })
+                : null,
+              isFlexItem
+                ? getSchemaTpl('layout:flex-basis', {
+                    label: isFlexColumnItem ? '固定高度' : '固定宽度',
+                    visibleOn:
+                      'data.style && (data.style.position === "static" || data.style.position === "relative") && data.style.flex === "0 0 150px"'
+                  })
+                : null,
+
+              getSchemaTpl('layout:overflow-x', {
+                visibleOn: `${
+                  isFlexItem && !isFlexColumnItem
+                } && data.style.flex === '0 0 150px'`
+              }),
+
+              getSchemaTpl('layout:isFixedHeight', {
+                visibleOn: `${!isFlexItem || !isFlexColumnItem}`,
+                onChange: (value: boolean) => {
+                  context?.node.setHeightMutable(value);
+                }
+              }),
+              getSchemaTpl('layout:height', {
+                visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+              }),
+              getSchemaTpl('layout:max-height', {
+                visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+              }),
+              getSchemaTpl('layout:min-height', {
+                visibleOn: `${!isFlexItem || !isFlexColumnItem}`
+              }),
+              getSchemaTpl('layout:overflow-y', {
+                visibleOn: `${
+                  !isFlexItem || !isFlexColumnItem
+                } && (data.isFixedHeight || data.style && data.style.maxHeight) || (${
+                  isFlexItem && isFlexColumnItem
+                } && data.style.flex === '0 0 150px')`
+              }),
+
+              getSchemaTpl('layout:isFixedWidth', {
+                visibleOn: `${!isFlexItem || isFlexColumnItem}`,
+                onChange: (value: boolean) => {
+                  context?.node.setWidthMutable(value);
+                }
+              }),
+              getSchemaTpl('layout:width', {
+                visibleOn: `${!isFlexItem || isFlexColumnItem}`
+              }),
+              getSchemaTpl('layout:max-width', {
+                visibleOn: `${!isFlexItem || isFlexColumnItem}`
+              }),
+              getSchemaTpl('layout:min-width', {
+                visibleOn: `${!isFlexItem || isFlexColumnItem}`
+              }),
+
+              getSchemaTpl('layout:overflow-x', {
+                visibleOn: `${
+                  !isFlexItem || isFlexColumnItem
+                } && (data.isFixedWidth || data.style && data.style.maxWidth)`
+              }),
+
+              !isFlexItem ? getSchemaTpl('layout:margin-center') : null,
+              !isFlexItem && !isFreeContainer
+                ? getSchemaTpl('layout:textAlign', {
+                    name: 'style.textAlign',
+                    label: '内部对齐方式',
+                    visibleOn:
+                      'data.style && data.style.display !== "flex" && data.style.display !== "inline-flex"'
+                  })
+                : null,
+              getSchemaTpl('layout:z-index'),
+              getSchemaTpl('layout:sticky', {
+                visibleOn:
+                  'data.style && (data.style.position !== "fixed" && data.style.position !== "absolute")'
+              }),
+              getSchemaTpl('layout:stickyPosition')
+            ]
+          },
+          ...getSchemaTpl('theme:common', {exclude: ['layout']})
+        ])
+      }
+    ]);
   };
 
   filterProps(props: any) {
-    props = JSONPipeOut(props);
+    // 列表类型内的文本元素显示{{公式}}或者自定义展位，不显示实际值
+    props = escapeFormula(props);
+    // 循环编辑态显示2个元素
+    props.value = [{}, {}];
 
-    // 至少显示一个成员，否则啥都不显示。
-    if (!props.value) {
-      props.value = [
-        {
-          item: 'mocked data'
-        }
-      ];
+    props.className = `${props.className || ''} ae-Editor-list`;
+    if (props.items && !props.items.className?.includes('listItem')) {
+      props.items.className = `${
+        props.items.className || ''
+      } ae-Editor-eachItem`;
     }
 
     return props;
   }
 
-  buildEditorToolbar(
-    {id, info}: BaseEventContext,
-    toolbars: Array<BasicToolbarItem>
-  ) {
-    if (info.renderer.name === 'each') {
-      toolbars.push({
-        icon: 'fa fa-expand',
-        order: 100,
-        tooltip: '配置成员渲染器',
-        onClick: this.editDetail.bind(this, id)
+  buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
+    let dataSchema: any = {
+      $id: 'each',
+      type: 'object',
+      title: '当前循环项',
+      properties: {}
+    };
+
+    let match =
+      node.schema.source && String(node.schema.source).match(/{(.*)}/);
+    let field = node.schema.name || match?.[1];
+    const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
+    const schema = scope?.parent?.getSchemaByPath(field);
+
+    if (isObject(schema?.items)) {
+      dataSchema = {
+        ...dataSchema,
+        ...(schema!.items as any)
+      };
+
+      // 循环添加索引方便渲染序号
+      set(dataSchema, 'properties.index', {
+        type: 'number',
+        title: '索引'
       });
     }
-  }
 
-  buildEditorContextMenu(
-    {id, schema, region, info, selections}: ContextMenuEventContext,
-    menus: Array<ContextMenuItem>
-  ) {
-    if (selections.length || info?.plugin !== this) {
-      return;
-    }
-    if (info.renderer.name === 'each') {
-      menus.push('|', {
-        label: '配置成员渲染器',
-        onSelect: this.editDetail.bind(this, id)
-      });
-    }
-  }
-
-  editDetail(id: string) {
-    const manager = this.manager;
-    const store = manager.store;
-    const node = store.getNodeById(id);
-    const value = store.getValueOf(id);
-
-    node &&
-      value &&
-      this.manager.openSubEditor({
-        title: '配置成员渲染器',
-        value: schemaToArray(value.items),
-        slot: {
-          type: 'container',
-          body: '$$'
-        },
-        typeMutable: true,
-        onChange: newValue => {
-          newValue = {...value, items: newValue};
-          manager.panelChangeValue(newValue, diff(value, newValue));
-        },
-        data: {
-          item: 'mocked data',
-          index: 0
-        }
-      });
+    return dataSchema;
   }
 }
 

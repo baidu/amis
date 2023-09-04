@@ -418,7 +418,7 @@ export class EventControl extends React.Component<
     // 找到激活的事件面板
     Object.keys(onEvent)
       .filter((key: string) => {
-        return onEvent[key].actions.length && eventPanelActive[key];
+        return onEvent[key]?.actions?.length && eventPanelActive[key];
       })
       .forEach((key: string, index: number) => {
         if (!this.eventPanelSortMap[key]) {
@@ -748,7 +748,7 @@ export class EventControl extends React.Component<
         getContextSchemas,
         ...actionConfig,
         groupType: actionConfig?.__actionType || action.actionType,
-        __actionDesc: actionNode!.description!, // 树节点描述
+        __actionDesc: actionNode?.description ?? '', // 树节点描述
         __actionSchema: actionNode!.schema, // 树节点schema
         __subActions: hasSubActionNode?.actions, // 树节点子动作
         __cmptTreeSource: supportComponents ?? [],

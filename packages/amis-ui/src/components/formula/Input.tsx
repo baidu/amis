@@ -132,7 +132,16 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
     );
   };
 
-  const cmptValue = pipInValue(value ?? inputSettings.defaultValue);
+  let cmptValue = pipInValue(value ?? inputSettings.defaultValue);
+
+  /** 数据来源可能是从 query中下发的（CRUD查询表头），导致数字或者布尔值被转为 string 格式，这里预处理一下 */
+  if (schemaType === 'number') {
+    cmptValue = isNaN(+cmptValue) ? cmptValue : +cmptValue;
+  } else if (schemaType === 'boolean') {
+    cmptValue =
+      cmptValue === 'true' ? true : cmptValue === 'false' ? false : cmptValue;
+  }
+
   const targetVariable =
     variables && cmptValue != null && typeof cmptValue === 'string'
       ? findTree(variables, item => {

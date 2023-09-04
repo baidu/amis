@@ -2702,7 +2702,7 @@ export const getEventControlConfig = (
     : ACTION_TYPE_TREE(manager);
   const allComponents = manager?.store?.getComponentTreeSource();
   const checkComponent = (node: any, action: RendererPluginAction) => {
-    const actionType = action.actionType!;
+    const actionType = action?.actionType;
     const actions = manager?.pluginActions[node.type];
     const haveChild = !!node.children?.length;
     let isSupport = false;
@@ -2711,7 +2711,7 @@ export const getEventControlConfig = (
         action.supportComponents === '*' ||
         action.supportComponents === node.type;
       // 内置逻辑
-      if (action.supportComponents === 'byComponent') {
+      if (action.supportComponents === 'byComponent' && actionType) {
         isSupport = hasActionType(actionType, actions);
         node.scoped = isSupport;
       }
@@ -2756,6 +2756,10 @@ export const getEventControlConfig = (
       return manager.dataSchema;
     },
     getComponents: (action: RendererPluginAction) => {
+      if (!action) {
+        return [];
+      }
+
       let components = manager?.store?.getComponentTreeSource();
       let finalCmpts: any[] = [];
       if (isSubEditor) {

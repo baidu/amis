@@ -1,9 +1,10 @@
 import React from 'react';
-import {registerEditorPlugin} from 'amis-editor-core';
 import {
+  registerEditorPlugin,
   BaseEventContext,
   BasePlugin,
-  RendererPluginEvent
+  RendererPluginEvent,
+  RendererPluginAction
 } from 'amis-editor-core';
 import {getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
@@ -18,6 +19,7 @@ export class SearchBoxPlugin extends BasePlugin {
 
   // 组件名称
   name = '搜索框';
+  searchKeywords = '搜索框、searchbox';
   isBaseComponent = true;
   description =
     '用于展示一个简单搜索框，通常需要搭配其他组件使用。比如 page 配置 initApi 后，可以用来实现简单数据过滤查找，name keywords 会作为参数传递给 page 的 initApi。';
@@ -28,6 +30,7 @@ export class SearchBoxPlugin extends BasePlugin {
 
   scaffold: Schema = {
     type: 'search-box',
+    name: 'keyword',
     body: {
       type: 'tpl',
       tpl: '搜索框',
@@ -134,6 +137,19 @@ export class SearchBoxPlugin extends BasePlugin {
           }
         }
       ]
+    }
+  ];
+
+  actions: RendererPluginAction[] = [
+    {
+      actionType: 'clear',
+      actionLabel: '清空',
+      description: '清空输入框'
+    },
+    {
+      actionType: 'setValue',
+      actionLabel: '更新数据',
+      description: '更新数据'
     }
   ];
 
