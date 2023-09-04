@@ -306,15 +306,19 @@ export class PagePlugin extends BasePlugin {
                         label: '文字',
                         name: 'font'
                       })
-                    ]
+                    ],
+                    hiddenOn: 'data.regions && !data.regions.includes("header")'
                   }),
                   getSchemaTpl('theme:base', {
                     classname: 'toolbarControlClassName',
-                    title: '工具栏样式'
+                    title: '工具栏样式',
+                    hiddenOn:
+                      'data.regions && !data.regions.includes("toolbar")'
                   }),
                   getSchemaTpl('theme:base', {
                     classname: 'asideControlClassName',
-                    title: '边栏样式'
+                    title: '边栏样式',
+                    hiddenOn: 'data.regions && !data.regions.includes("aside")'
                   })
                 ]
               })

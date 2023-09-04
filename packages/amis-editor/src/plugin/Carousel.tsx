@@ -337,8 +337,7 @@ export class CarouselPlugin extends BasePlugin {
                     type: 'button',
                     label: 'px'
                   }
-                },
-                getSchemaTpl('className')
+                }
               ]
             },
             {

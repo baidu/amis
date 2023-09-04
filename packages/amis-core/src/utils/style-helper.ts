@@ -340,11 +340,18 @@ export function insertEditCustomStyle(customStyle: any, id?: string) {
     const className = `wrapperCustomStyle-${id?.replace('u:', '')}`;
     for (let key in styles) {
       if (styles.hasOwnProperty(key)) {
-        if (isObject(styles[key])) {
+        if (!isObject(styles[key])) {
+          content += `\n.${className} {\n  ${key}: ${styles[key]}\n}`;
+        } else if (key === 'root') {
+          const res = map(styles[key], (value, key) => `${key}: ${value};`);
+          content += `\n.${className} {\n  ${res.join('\n  ')}\n}`;
+        } else if (/^root:/.test(key)) {
+          const res = map(styles[key], (value, key) => `${key}: ${value};`);
+          const nowKey = key.replace('root', '');
+          content += `\n.${className} ${nowKey} {\n  ${res.join('\n  ')}\n}`;
+        } else {
           const res = map(styles[key], (value, key) => `${key}: ${value};`);
           content += `\n.${className} ${key} {\n  ${res.join('\n  ')}\n}`;
-        } else {
-          content += `\n.${className} {\n  ${key}: ${styles[key]}\n}`;
         }
       }
     }

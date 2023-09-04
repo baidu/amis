@@ -278,19 +278,7 @@ export class TooltipWrapperPlugin extends BasePlugin {
                   title: '浮层样式'
                 })
               ]
-            }),
-            {
-              title: 'CSS 类名',
-              body: [
-                getSchemaTpl('className', {
-                  label: '内容区CSS类名'
-                }),
-                getSchemaTpl('className', {
-                  label: '浮层CSS类名',
-                  name: 'tooltipClassName'
-                })
-              ]
-            }
+            })
           ])
         }
       ])
