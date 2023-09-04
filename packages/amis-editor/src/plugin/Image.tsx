@@ -235,25 +235,7 @@ export class ImagePlugin extends BasePlugin {
               })
             ]
           },
-          getSchemaTpl('theme:cssCode'),
-          {
-            title: 'CSS类名',
-            body: [
-              getSchemaTpl('className', {
-                label: '外层'
-              }),
-
-              getSchemaTpl('className', {
-                name: 'imageClassName',
-                label: '图片'
-              }),
-
-              getSchemaTpl('className', {
-                name: 'thumbClassName',
-                label: '缩略图'
-              })
-            ]
-          }
+          getSchemaTpl('theme:cssCode')
         ])
       }
     ]);

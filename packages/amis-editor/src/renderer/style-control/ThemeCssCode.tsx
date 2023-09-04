@@ -13,6 +13,11 @@ import isEmpty from 'lodash/isEmpty';
 import {Icon} from '../../icons/index';
 
 const editorPlaceholder = `自定义样式仅对当前组件生效。示例：
+// 当前层级
+root {
+  color: #000;
+}
+// 子层级
 .text-color: {
   color: #fff;
 }
@@ -131,7 +136,7 @@ function ThemeCssCode(props: FormControlProps) {
         >
           <Icon icon="expand-alt" className="icon" />
         </a>
-        <div className="ThemeCssCode-editor-wrap" style={{height: '120px'}}>
+        <div className="ThemeCssCode-editor-wrap" style={{height: '180px'}}>
           <Editor
             value={value}
             placeholder={editorPlaceholder}

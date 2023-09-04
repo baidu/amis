@@ -578,12 +578,14 @@ setSchemaTpl(
     extra?: any[];
     classname?: string;
     title?: string;
+    hiddenOn?: string;
   }) => {
     const {
       collapsed = false,
       extra = [],
       classname = 'baseControlClassName',
-      title = '基本样式'
+      title = '基本样式',
+      hiddenOn
     } = option;
     const styleStateFunc = (visibleOn: string, state: string) => {
       return [
@@ -654,7 +656,8 @@ setSchemaTpl(
     return {
       title,
       collapsed,
-      body: styles
+      body: styles,
+      hiddenOn
     };
   }
 );
