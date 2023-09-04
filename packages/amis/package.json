@@ -6,7 +6,7 @@
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest --watch",
     "update-snapshot": "jest --updateSnapshot",
     "coverage": "jest --coverage",
     "publish-to-internal": "sh build.sh && sh publish.sh",
