@@ -1064,12 +1064,14 @@ export class TableControlPlugin extends BasePlugin {
   filterProps(props: any) {
     const arr = resolveArrayDatasource(props);
 
+    /** 可 */
     if (!Array.isArray(arr) || !arr.length) {
       const mockedData: any = {};
 
       if (Array.isArray(props.columns)) {
         props.columns.forEach((column: any) => {
-          if (column.name) {
+          /** 可编辑状态下不写入 Mock 数据，避免误导用户 */
+          if (column.name && !props.editable) {
             setVariable(mockedData, column.name, mockValue(column));
           }
         });

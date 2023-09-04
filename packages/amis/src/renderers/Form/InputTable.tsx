@@ -212,6 +212,11 @@ export interface TableControlSchema
    * 底部新增按钮配置
    */
   footerAddBtn?: SchemaCollection;
+
+  /**
+   * 新增内容时是否自动聚焦
+   */
+  autoFocus?: boolean;
 }
 
 export interface TableProps
@@ -603,7 +608,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   async addItem(index: number, isDispatch: boolean = true) {
-    const {needConfirm, scaffold, columns, data} = this.props;
+    const {needConfirm, scaffold, columns, data, autoFocus} = this.props;
     const items = this.state.items.concat();
     let value: any = {
       __isPlaceholder: true
@@ -667,6 +672,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         } else {
           this.startEdit(index, true);
         }
+
+        requestAnimationFrame(() => {
+          this.tableRef?.current?.scrollIntoView?.({
+            behavior: 'smooth',
+            block: 'end',
+            inline: 'nearest'
+          });
+        });
       }
     );
 

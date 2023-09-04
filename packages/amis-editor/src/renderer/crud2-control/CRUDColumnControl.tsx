@@ -6,8 +6,8 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Sortable from 'sortablejs';
-import get from 'lodash/get';
 import {FormItem, Button, Icon, toast, Tag, Spinner, autobind} from 'amis';
+import {TooltipWrapper} from 'amis-ui';
 import {JSONPipeIn} from 'amis-editor-core';
 import AddColumnModal from './AddColumnModal';
 
@@ -208,14 +208,17 @@ export class CRUDColumnControl extends React.Component<
 
   @autobind
   handleEdit(item: Option) {
-    const {manager} = this.props;
+    const {manager, node} = this.props;
+    const columns = node?.schema?.columns ?? [];
+    const idx = columns.findIndex(c => c.id === item.pristine.id);
 
-    if (!item.nodeId) {
+    if (!~idx) {
       toast.warning(`未找到对应列「${item.label}」`);
       return;
     }
 
-    manager.setActiveId(item.nodeId);
+    // FIXME: 理论上用item.nodeId就可以，不知道为何会重新构建一次导致store中node.id更新
+    manager.setActiveId(columns[idx]?.$$id);
   }
 
   /** 添加列 */
@@ -322,16 +325,33 @@ export class CRUDColumnControl extends React.Component<
 
   @autobind
   renderOption(item: Option, index: number) {
-    const {classnames: cx, data: ctx, render} = this.props;
+    const {
+      classnames: cx,
+      data: ctx,
+      render,
+      popOverContainer,
+      env
+    } = this.props;
 
     return (
       <li
         key={index}
         className={cx('ae-CRUDConfigControl-list-item', 'is-draggable')}
       >
-        <div className={cx('ae-CRUDConfigControl-list-item-info')}>
-          <span>{item.label}</span>
-        </div>
+        <TooltipWrapper
+          tooltip={{
+            content: item.label,
+            tooltipTheme: 'dark',
+            style: {fontSize: '12px'}
+          }}
+          container={popOverContainer || env?.getModalContainer?.()}
+          trigger={['hover']}
+          delay={150}
+        >
+          <div className={cx('ae-CRUDConfigControl-list-item-info')}>
+            <span>{item.label}</span>
+          </div>
+        </TooltipWrapper>
 
         <div className={cx('ae-CRUDConfigControl-list-item-actions')}>
           {item.hidden || !item?.context?.isCascadingField ? null : (

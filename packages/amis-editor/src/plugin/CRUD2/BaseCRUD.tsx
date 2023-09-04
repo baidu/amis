@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import cx from 'classnames';
 import isFunction from 'lodash/isFunction';
 import flattenDeep from 'lodash/flattenDeep';
 import cloneDeep from 'lodash/cloneDeep';
@@ -12,7 +13,7 @@ import uniqBy from 'lodash/uniqBy';
 import get from 'lodash/get';
 import uniq from 'lodash/uniq';
 import sortBy from 'lodash/sortBy';
-import {toast, autobind, isObject} from 'amis';
+import {toast, autobind, isObject, Icon} from 'amis';
 import {
   BasePlugin,
   ScaffoldForm,
@@ -46,9 +47,8 @@ import type {CRUDScaffoldConfig} from '../../builder/type';
 /** 需要动态控制的属性 */
 export type CRUD2DynamicControls = Partial<
   Record<
-    'columns' | 'toolbar' | 'filters',
-    | Record<string, any>
-    | ((context: BuildPanelEventContext) => Record<string, any>)
+    'columns' | 'toolbar' | 'filters' | 'primaryField',
+    (context: BuildPanelEventContext) => any
   >
 >;
 export class BaseCRUDPlugin extends BasePlugin {
@@ -214,7 +214,9 @@ export class BaseCRUDPlugin extends BasePlugin {
                 };
               }
             ),
-            getSchemaTpl('primaryField')
+            getSchemaTpl('primaryField', {
+              visibleOn: `!data.dsType || data.dsType !== '${ModelDSBuilderKey}'`
+            })
           ]
         },
         {
@@ -332,7 +334,8 @@ export class BaseCRUDPlugin extends BasePlugin {
           return errors;
         }
 
-        const fieldErrors = FieldSetting.validator(form.data[fieldsKey]);
+        const fieldErrors = false;
+        // FieldSetting.validator(form.data[fieldsKey]);
 
         if (fieldErrors) {
           errors[fieldsKey] = fieldErrors;
@@ -441,7 +444,9 @@ export class BaseCRUDPlugin extends BasePlugin {
     /** 工具栏配置 */
     toolbar: context => this.renderToolbarCollapse(context),
     /** 搜索栏 */
-    filters: context => this.renderFiltersCollapse(context)
+    filters: context => this.renderFiltersCollapse(context),
+    /** 主键 */
+    primaryField: context => getSchemaTpl('primaryField')
   };
 
   /** 需要动态控制的控件 */
@@ -494,7 +499,10 @@ export class BaseCRUDPlugin extends BasePlugin {
             /** 其他类别 */
             this.renderOthersCollapse(context),
             /** 状态类别 */
-            getSchemaTpl('status', {readonly: false})
+            {
+              title: '状态',
+              body: [getSchemaTpl('hidden'), getSchemaTpl('visible')]
+            }
           ].filter(Boolean)
         )
       ]
@@ -503,6 +511,9 @@ export class BaseCRUDPlugin extends BasePlugin {
 
   /** 基础配置 */
   renderBasicPropsCollapse(context: BuildPanelEventContext) {
+    /** 动态加载的配置集合 */
+    const dc = this.dynamicControls;
+
     return {
       title: '基本',
       order: 1,
@@ -552,7 +563,7 @@ export class BaseCRUDPlugin extends BasePlugin {
           };
         }),
         /** 主键配置，TODO：支持联合主键 */
-        getSchemaTpl('primaryField'),
+        dc?.primaryField?.(context),
         {
           name: 'placeholder',
           pipeIn: defaultValue('暂无数据'),
@@ -653,12 +664,15 @@ export class BaseCRUDPlugin extends BasePlugin {
 
   /** 分页类别 */
   renderPaginationCollapse(context: BuildPanelEventContext) {
+    const isPagination = 'data.loadType === "pagination"';
+    const isInfinity = 'data.loadType === "more"';
+
     return {
       order: 30,
       title: '分页设置',
       body: [
         {
-          label: '更多模式',
+          label: '分页模式',
           type: 'select',
           name: 'loadType',
           options: [
@@ -725,20 +739,55 @@ export class BaseCRUDPlugin extends BasePlugin {
         getSchemaTpl('switch', {
           name: 'loadDataOnce',
           label: '前端分页',
-          visibleOn: 'data.loadType === "pagination"'
+          visibleOn: isPagination
         }),
+        getSchemaTpl('switch', {
+          name: 'loadDataOnceFetchOnFilter',
+          label: tipedLabel(
+            '过滤时刷新',
+            '在开启前端分页时，表头过滤后是否重新请求初始化 API'
+          ),
+          visibleOn: isPagination + ' && data.loadDataOnce'
+        }),
+        getSchemaTpl('switch', {
+          name: 'keepItemSelectionOnPageChange',
+          label: tipedLabel(
+            '保留选择项',
+            '默认切换页面、搜索后，用户选择项会被清空，开启此功能后会保留用户选择，可以实现跨页面批量操作。'
+          ),
+          pipeIn: defaultValue(false),
+          visibleOn: isPagination
+        }),
+        getSchemaTpl('switch', {
+          name: 'autoJumpToTopOnPagerChange',
+          label: tipedLabel('翻页后回到顶部', '当切分页的时候，是否自动跳顶部'),
+          pipeIn: defaultValue(true),
+          visibleOn: isPagination
+        }),
+        {
+          name: 'perPage',
+          type: 'input-number',
+          label: tipedLabel(
+            '每页数量',
+            '无限加载时，根据此项设置其每页加载数量，留空即不限制'
+          ),
+          clearValueOnEmpty: true,
+          clearable: true,
+          pipeIn: defaultValue(10),
+          visibleOn: isInfinity
+        },
         {
           type: 'button',
           label: '点击编辑分页组件',
           block: true,
-          className: 'm-b',
+          className: 'mb-1',
           level: 'enhance',
-          // icon: 'fa fa-plus',
           visibleOn: 'data.loadType === "pagination"',
           onClick: () => {
             const findPage: any = findSchema(
-              context?.schema ?? context?.node?.schema ?? {},
-              item => item.type === 'pagination',
+              context?.node?.schema ?? {},
+              item =>
+                item.type === 'pagination' || item.behavior === 'Pagination',
               'headerToolbar',
               'footerToolbar'
             );
@@ -749,26 +798,7 @@ export class BaseCRUDPlugin extends BasePlugin {
             }
             this.manager.setActiveId(findPage.$$id);
           }
-        },
-        {
-          name: 'perPage',
-          type: 'input-number',
-          label: '每页数量',
-          visibleOn: 'data.loadType === "more"'
-        },
-        getSchemaTpl('switch', {
-          name: 'keepItemSelectionOnPageChange',
-          label: tipedLabel(
-            '保留选择项',
-            '默认切换页面、搜索后，用户选择项会被清空，开启此功能后会保留用户选择，可以实现跨页面批量操作。'
-          ),
-          visibleOn: 'data.loadType === "pagination"'
-        }),
-        getSchemaTpl('switch', {
-          name: 'autoJumpToTopOnPagerChange',
-          label: tipedLabel('翻页后回到顶部', '当切分页的时候，是否自动跳顶部'),
-          visibleOn: 'data.loadType === "pagination"'
-        })
+        }
       ]
     };
   }
@@ -779,27 +809,47 @@ export class BaseCRUDPlugin extends BasePlugin {
       order: 25,
       title: '其他',
       body: [
-        getSchemaTpl('interval', {
-          formItems: [
-            getSchemaTpl('switch', {
-              name: 'silentPolling',
-              label: '静默拉取',
-              pipeIn: defaultValue(false)
-            })
-          ],
-          intervalConfig: {
-            control: {
-              type: 'input-number',
-              name: 'interval'
-            }
-          },
-          switchMoreConfig: {
-            isChecked: (e: any) => {
-              return !!get(e.data, 'interval');
-            },
-            autoFocus: false,
-            trueValue: 10000
+        {
+          type: 'ae-switch-more',
+          mode: 'normal',
+          formType: 'extend',
+          visibleOn: 'data.api',
+          label: tipedLabel(
+            '接口轮询',
+            '开启初始化接口轮询，开启后会按照设定的时间间隔轮询调用接口'
+          ),
+          autoFocus: false,
+          form: {
+            body: [
+              {
+                type: 'input-number',
+                name: 'interval',
+                label: tipedLabel('轮询间隔', '定时刷新间隔，单位 ms'),
+                step: 10,
+                min: 1000
+              },
+              getSchemaTpl('tplFormulaControl', {
+                name: 'stopAutoRefreshWhen',
+                label: tipedLabel(
+                  '停止条件',
+                  '定时刷新停止表达式，条件满足后则停止定时刷新，否则会持续轮询调用初始化接口。'
+                ),
+                visibleOn: '!!data.interval'
+              }),
+              getSchemaTpl('switch', {
+                name: 'stopAutoRefreshWhenModalIsOpen',
+                label: tipedLabel(
+                  '模态窗口期间停止',
+                  '当页面中存在弹窗时停止接口轮询，避免中断操作'
+                )
+              })
+            ]
           }
+        },
+        getSchemaTpl('switch', {
+          name: 'silentPolling',
+          label: tipedLabel('静默拉取', '刷新时是否隐藏加载动画'),
+          pipeIn: defaultValue(false)
         })
       ]
     };
@@ -821,12 +871,12 @@ export class BaseCRUDPlugin extends BasePlugin {
 
             getSchemaTpl('className', {
               name: 'headerToolbarClassName',
-              label: '顶部外层'
+              label: '顶部工具栏'
             }),
 
             getSchemaTpl('className', {
               name: 'footerToolbarClassName',
-              label: '底部外层'
+              label: '底部工具栏'
             })
           ]
         })
@@ -847,6 +897,30 @@ export class BaseCRUDPlugin extends BasePlugin {
       ]
     };
   }
+
+  /** 重新构建 API */
+  panelFormPipeOut = async (schema: any) => {
+    const entity = schema?.api?.entity;
+
+    if (!entity || schema?.dsType !== ModelDSBuilderKey) {
+      return schema;
+    }
+
+    const builder = this.dsManager.getBuilderBySchema(schema);
+
+    try {
+      const updatedSchema = await builder.buildApiSchema({
+        schema,
+        renderer: 'crud',
+        sourceKey: 'api'
+      });
+      return updatedSchema;
+    } catch (e) {
+      console.error(e);
+    }
+
+    return schema;
+  };
 
   emptyContainer = (align?: 'left' | 'right', body: any[] = []) => ({
     type: 'container',

@@ -168,11 +168,15 @@ export default class TableColumnWidthControl extends React.Component<
           control: {
             type: 'input-number',
             min: 0,
-            value,
-            onChange: (val: number) => this.handleChange('fixed', val)
+            value
+            // onChange: (val: number) => this.handleChange('fixed', val)
           },
-          unit: 'px'
-        })
+          unit: 'px',
+          className: 'mt-3'
+        }),
+        {
+          onChange: (val: number) => this.handleChange('fixed', val)
+        }
       );
     }
 

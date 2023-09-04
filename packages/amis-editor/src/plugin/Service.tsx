@@ -328,6 +328,29 @@ export class ServicePlugin extends BasePlugin {
     ]);
   };
 
+  panelFormPipeOut = async (schema: any) => {
+    const entity = schema?.api?.entity;
+
+    if (!entity || schema?.dsType !== ModelDSBuilderKey) {
+      return schema;
+    }
+
+    const builder = this.dsManager.getBuilderBySchema(schema);
+
+    try {
+      const updatedSchema = await builder.buildApiSchema({
+        schema,
+        renderer: 'service',
+        sourceKey: 'api'
+      });
+      return updatedSchema;
+    } catch (e) {
+      console.error(e);
+    }
+
+    return schema;
+  };
+
   async buildDataSchemas(
     node: EditorNodeType,
     region?: EditorNodeType,
@@ -357,29 +380,6 @@ export class ServicePlugin extends BasePlugin {
 
     return jsonschema;
   }
-
-  panelFormPipeOut = async (schema: any) => {
-    const entity = schema?.api?.entity;
-
-    if (!entity || schema?.dsType !== ModelDSBuilderKey) {
-      return schema;
-    }
-
-    const builder = this.dsManager.getBuilderBySchema(schema);
-
-    try {
-      const updatedSchema = await builder.buildApiSchema({
-        schema,
-        renderer: 'service',
-        sourceKey: 'api'
-      });
-      return updatedSchema;
-    } catch (e) {
-      console.error(e);
-    }
-
-    return schema;
-  };
 
   rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
     if (e === 'fetchInited') {
