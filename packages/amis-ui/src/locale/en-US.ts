@@ -212,6 +212,7 @@ register('en-US', {
   'Select.createLabel': 'New option',
   'Select.placeholder': 'Select',
   'Select.searchPromptText': 'Input to search',
+  'Select.selected': 'Selected',
   'sort': 'Sort',
   'stop': 'Stop',
   'SubForm.button': 'Config',
