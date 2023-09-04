@@ -148,7 +148,7 @@ export default class Flex extends React.Component<FlexProps, object> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id,
+            id,
             themeCss,
             classNames: [
               {

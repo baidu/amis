@@ -237,7 +237,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id,
+            id,
             themeCss,
             classNames: [
               {

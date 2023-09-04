@@ -166,7 +166,7 @@ export function formatStyle(
         disabled: {}
       };
       for (let key in body) {
-        if (key === '$$id') {
+        if (key === '$$id' || body[key] === '') {
           continue;
         }
         if (!!~key.indexOf(':default')) {

@@ -480,7 +480,7 @@ setSchemaTpl('theme:form-description', () => {
 // 带提示的值输入框
 setSchemaTpl('theme:select', (option: any = {}) => {
   return {
-    mode: 'default',
+    mode: 'horizontal',
     type: 'amis-theme-select',
     label: '大小',
     name: `themeCss.className.select:default`,

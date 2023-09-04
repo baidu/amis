@@ -192,6 +192,7 @@ export class ImagesField extends React.Component<ImagesProps> {
       showToolbar,
       toolbarActions,
       imageGallaryClassName,
+      galleryControlClassName,
       id,
       wrapperCustomStyle,
       env,
@@ -257,7 +258,11 @@ export class ImagesField extends React.Component<ImagesProps> {
                 enlargeWithGallary={enlargeWithGallary}
                 onEnlarge={this.handleEnlarge}
                 showToolbar={showToolbar}
-                imageGallaryClassName={imageGallaryClassName}
+                imageGallaryClassName={
+                  galleryControlClassName
+                    ? imageGallaryClassName + ' ' + galleryControlClassName
+                    : imageGallaryClassName
+                }
                 toolbarActions={toolbarActions}
               />
             ))}
@@ -277,12 +282,16 @@ export class ImagesField extends React.Component<ImagesProps> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id,
+            id,
             themeCss,
             classNames: [
               {
                 key: 'imagesControlClassName',
                 value: imagesControlClassName
+              },
+              {
+                key: 'galleryControlClassName',
+                value: galleryControlClassName
               }
             ]
           }}
