@@ -286,7 +286,7 @@ export default class TooltipWrapper extends React.Component<
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id,
+            id,
             themeCss,
             classNames: [
               {

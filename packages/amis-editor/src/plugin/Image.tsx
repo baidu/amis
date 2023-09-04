@@ -195,23 +195,44 @@ export class ImagePlugin extends BasePlugin {
             body: [
               getSchemaTpl('theme:font', {
                 label: '标题文字',
-                name: 'themeCss.titleControlClassName.font:default',
+                name: 'themeCss.titleControlClassName.font',
                 editorThemePath: 'image.image.default.normal.body.font'
               }),
               getSchemaTpl('theme:paddingAndMargin', {
                 label: '标题边距',
-                name: 'themeCss.titleControlClassName.padding-and-margin:default'
+                name: 'themeCss.titleControlClassName.padding-and-margin'
+              }),
+              getSchemaTpl('theme:font', {
+                label: '描述文字',
+                name: 'themeCss.desControlClassName.font',
+                editorThemePath: 'image.image.default.description.body.font'
               }),
               getSchemaTpl('theme:paddingAndMargin', {
                 label: '描述边距',
-                name: 'themeCss.desControlClassName.padding-and-margin:default'
+                name: 'themeCss.desControlClassName.padding-and-margin'
               }),
               {
                 name: 'themeCss.iconControlClassName.--image-image-normal-icon',
                 label: '放大图标',
                 type: 'icon-select',
                 returnSvg: true
-              }
+              },
+              {
+                name: 'themeCss.galleryControlClassName.--image-images-prev-icon',
+                label: '左切换图标',
+                type: 'icon-select',
+                returnSvg: true
+              },
+              {
+                name: 'themeCss.galleryControlClassName.--image-images-next-icon',
+                label: '右切换图标',
+                type: 'icon-select',
+                returnSvg: true
+              },
+              getSchemaTpl('theme:select', {
+                label: '切换图标大小',
+                name: 'themeCss.galleryControlClassName.--image-images-item-size'
+              })
             ]
           },
           getSchemaTpl('theme:cssCode'),

@@ -226,7 +226,7 @@ export class Tpl extends React.Component<TplProps, TplState> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id,
+            id,
             themeCss,
             classNames: [
               {

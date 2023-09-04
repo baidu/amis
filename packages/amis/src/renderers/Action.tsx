@@ -927,7 +927,6 @@ export class Action extends React.Component<ActionProps, ActionState> {
               }
             ],
             wrapperCustomStyle,
-            componentId: id,
             id
           }}
           env={env}

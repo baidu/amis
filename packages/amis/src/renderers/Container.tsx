@@ -227,7 +227,7 @@ export default class Container<T> extends React.Component<
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id,
+            id,
             themeCss,
             classNames: [
               {

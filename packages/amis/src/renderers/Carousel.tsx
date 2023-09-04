@@ -463,7 +463,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       wrapperCustomStyle,
       env,
       themeCss,
-      baseControlClassName
+      baseControlClassName,
+      galleryControlClassName
     } = this.props;
     const {options, current, nextAnimation} = this.state;
 
@@ -626,7 +627,10 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
         {dots ? this.renderDots() : null}
         {arrows ? (
-          <div className={cx('Carousel-leftArrow')} onClick={this.prev}>
+          <div
+            className={cx('Carousel-leftArrow', galleryControlClassName)}
+            onClick={this.prev}
+          >
             {icons && icons.prev ? (
               React.isValidElement(icons.prev) ? (
                 icons.prev
@@ -634,12 +638,19 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                 render('arrow-prev', icons.prev)
               )
             ) : (
-              <Icon icon="left-arrow" className="icon" />
+              <Icon
+                icon="left-arrow"
+                className="icon"
+                iconContent="ImageGallery-prevBtn"
+              />
             )}
           </div>
         ) : null}
         {arrows ? (
-          <div className={cx('Carousel-rightArrow')} onClick={this.next}>
+          <div
+            className={cx('Carousel-rightArrow', galleryControlClassName)}
+            onClick={this.next}
+          >
             {icons && icons.next ? (
               React.isValidElement(icons.next) ? (
                 icons.next
@@ -647,19 +658,33 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                 render('arrow-next', icons.next)
               )
             ) : (
-              <Icon icon="right-arrow" className="icon" />
+              <Icon
+                icon="right-arrow"
+                className="icon"
+                iconContent="ImageGallery-nextBtn"
+              />
             )}
           </div>
         ) : null}
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id,
+            id,
             themeCss,
             classNames: [
               {
                 key: 'baseControlClassName',
                 value: baseControlClassName
+              },
+              {
+                key: 'galleryControlClassName',
+                value: galleryControlClassName,
+                weights: {
+                  default: {
+                    suf: ' svg',
+                    important: true
+                  }
+                }
               }
             ]
           }}

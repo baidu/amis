@@ -16,14 +16,8 @@ interface CustomStyleProps {
 }
 
 export default function (props: CustomStyleProps) {
-  const {
-    themeCss,
-    classNames,
-    id,
-    defaultData,
-    wrapperCustomStyle,
-    componentId
-  } = props.config;
+  const {themeCss, classNames, id, defaultData, wrapperCustomStyle} =
+    props.config;
   useEffect(() => {
     insertCustomStyle(
       themeCss,
@@ -35,7 +29,7 @@ export default function (props: CustomStyleProps) {
   }, [props.config.themeCss]);
 
   useEffect(() => {
-    insertEditCustomStyle(wrapperCustomStyle, componentId);
+    insertEditCustomStyle(wrapperCustomStyle, id);
   }, [props.config.wrapperCustomStyle]);
 
   return null;

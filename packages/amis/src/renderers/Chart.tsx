@@ -629,7 +629,7 @@ export class Chart extends React.Component<ChartProps> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id,
+            id,
             themeCss,
             classNames: [
               {

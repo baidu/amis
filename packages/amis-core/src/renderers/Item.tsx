@@ -986,7 +986,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             },
             model?.errClassNames,
             wrapperCustomStyle
-              ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+              ? `wrapperCustomStyle-${id?.replace('u:', '')}-item`
               : ''
           )}
           style={style}
@@ -1547,7 +1547,6 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               }
             ],
             wrapperCustomStyle,
-            componentId: id,
             id: id + '-item'
           }}
           env={env}

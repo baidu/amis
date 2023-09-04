@@ -3319,6 +3319,8 @@
   --image-images-preview-paddingBottom: var(--sizes-size-3);
   --image-images-preview-paddingLeft: var(--sizes-size-9);
   --image-images-preview-paddingRight: var(--sizes-size-9);
+  --image-images-prev-icon: '<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd"><polyline stroke="currentColor" transform="translate(10.496854, 8.006854) rotate(-135.000000) translate(-10.496854, -8.006854) " points="6.49685425 4.00685425 14.4968542 4.00685425 14.4968542 12.0068542" stroke-width="1" fill="none" stroke-linecap="butt" stroke-linejoin="round"/></g></svg>';
+  --image-images-next-icon: '<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd"><polyline stroke="currentColor" transform="translate(5.496854, 8.006854) scale(-1, 1) rotate(-135.000000) translate(-5.496854, -8.006854) " points="1.49685425 4.00685425 9.49685425 4.00685425 9.49685425 12.0068542" stroke-width="1" fill="none" stroke-linecap="butt" stroke-linejoin="round"/></g></svg>';
 
   --Tag-base-fontSize: var(--fonts-size-8);
   --Tag-base-fontWeight: var(--fonts-weight-6);
