@@ -216,131 +216,140 @@ export class CarouselPlugin extends BasePlugin {
         },
         {
           title: '外观',
-          body: [
-            getSchemaTpl('switch', {
-              name: 'auto',
-              label: '自动轮播',
-              pipeIn: defaultValue(true)
-            }),
-            getSchemaTpl('valueFormula', {
-              rendererSchema: {
-                type: 'input-number'
-              },
-              name: 'interval',
-              label: '动画间隔(ms)',
-              valueType: 'number',
-              pipeIn: defaultValue(5000)
-            }),
+          body: getSchemaTpl('collapseGroup', [
             {
-              name: 'duration',
-              type: 'input-number',
-              label: '动画时长(ms)',
-              min: 100,
-              step: 10,
-              size: 'sm',
-              pipeIn: defaultValue(500)
-            },
-            {
-              name: 'animation',
-              label: '动画效果',
-              type: 'button-group-select',
-              pipeIn: defaultValue('fade'),
-              options: [
+              title: '基本',
+              body: [
+                getSchemaTpl('switch', {
+                  name: 'auto',
+                  label: '自动轮播',
+                  pipeIn: defaultValue(true)
+                }),
+                getSchemaTpl('valueFormula', {
+                  rendererSchema: {
+                    type: 'input-number'
+                  },
+                  name: 'interval',
+                  label: '动画间隔(ms)',
+                  valueType: 'number',
+                  pipeIn: defaultValue(5000)
+                }),
                 {
-                  label: 'fade',
-                  value: 'fade'
+                  name: 'duration',
+                  type: 'input-number',
+                  label: '动画时长(ms)',
+                  min: 100,
+                  step: 10,
+                  size: 'sm',
+                  pipeIn: defaultValue(500)
                 },
                 {
-                  label: 'slide',
-                  value: 'slide'
-                }
-              ]
-            },
-            {
-              name: 'controlsTheme',
-              label: '控制按钮主题',
-              type: 'button-group-select',
-              pipeIn: defaultValue('light'),
-              options: [
-                {
-                  label: 'light',
-                  value: 'light'
+                  name: 'animation',
+                  label: '动画效果',
+                  type: 'button-group-select',
+                  pipeIn: defaultValue('fade'),
+                  options: [
+                    {
+                      label: 'fade',
+                      value: 'fade'
+                    },
+                    {
+                      label: 'slide',
+                      value: 'slide'
+                    }
+                  ]
                 },
                 {
-                  label: 'dark',
-                  value: 'dark'
-                }
-              ]
-            },
-            {
-              name: 'controls',
-              label: '控制显示',
-              type: 'button-group-select',
-              pipeIn: defaultValue('dots,arrows'),
-              multiple: true,
-              options: [
-                {
-                  label: '底部圆点',
-                  value: 'dots'
+                  name: 'controlsTheme',
+                  label: '控制按钮主题',
+                  type: 'button-group-select',
+                  pipeIn: defaultValue('light'),
+                  options: [
+                    {
+                      label: 'light',
+                      value: 'light'
+                    },
+                    {
+                      label: 'dark',
+                      value: 'dark'
+                    }
+                  ]
                 },
                 {
-                  label: '左右箭头',
-                  value: 'arrows'
-                }
-              ]
-            },
-            getSchemaTpl('switch', {
-              name: 'alwaysShowArrow',
-              label: '箭头一直显示',
-              clearValueOnHidden: true,
-              hiddenOn: '!~this.controls.indexOf("arrows")',
-              pipeIn: defaultValue(false)
-            }),
-            {
-              type: 'ae-switch-more',
-              bulk: true,
-              mode: 'normal',
-              name: 'multiple',
-              label: '多图展示',
-              formType: 'extend',
-              form: {
-                body: [
-                  {
-                    name: 'multiple.count',
-                    label: '数量',
-                    type: 'input-number',
-                    min: 2,
-                    step: 1
+                  name: 'controls',
+                  label: '控制显示',
+                  type: 'button-group-select',
+                  pipeIn: defaultValue('dots,arrows'),
+                  multiple: true,
+                  options: [
+                    {
+                      label: '底部圆点',
+                      value: 'dots'
+                    },
+                    {
+                      label: '左右箭头',
+                      value: 'arrows'
+                    }
+                  ]
+                },
+                getSchemaTpl('switch', {
+                  name: 'alwaysShowArrow',
+                  label: '箭头一直显示',
+                  clearValueOnHidden: true,
+                  hiddenOn: '!~this.controls.indexOf("arrows")',
+                  pipeIn: defaultValue(false)
+                }),
+                {
+                  type: 'ae-switch-more',
+                  bulk: true,
+                  mode: 'normal',
+                  name: 'multiple',
+                  label: '多图展示',
+                  formType: 'extend',
+                  form: {
+                    body: [
+                      {
+                        name: 'multiple.count',
+                        label: '数量',
+                        type: 'input-number',
+                        min: 2,
+                        step: 1
+                      }
+                    ]
                   }
-                ]
-              }
+                },
+                {
+                  name: 'width',
+                  type: 'input-text',
+                  label: '宽度',
+                  validations: 'isNumeric',
+                  addOn: {
+                    type: 'button',
+                    label: 'px'
+                  }
+                },
+                {
+                  name: 'height',
+                  type: 'input-text',
+                  label: '高度',
+                  validations: 'isNumeric',
+                  addOn: {
+                    type: 'button',
+                    label: 'px'
+                  }
+                },
+                getSchemaTpl('className')
+              ]
             },
             {
-              name: 'width',
-              type: 'input-text',
-              label: '宽度',
-              validations: 'isNumeric',
-              addOn: {
-                type: 'button',
-                label: 'px'
-              }
+              title: '显隐',
+              body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
             },
-            {
-              name: 'height',
-              type: 'input-text',
-              label: '高度',
-              validations: 'isNumeric',
-              addOn: {
-                type: 'button',
-                label: 'px'
-              }
-            },
-            getSchemaTpl('className')
-          ]
-        },
-        {
-          title: '显隐',
-          body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
+            getSchemaTpl('theme:base', {
+              title: '轮播图'
+            }),
+            getSchemaTpl('theme:cssCode')
+          ])
         }
       ])
     ];

@@ -139,11 +139,17 @@ export class ImagePlugin extends BasePlugin {
               //   name: 'showDimensions',
               //   label: '显示图片尺寸'
               // }),
+              getSchemaTpl('layout:display', {
+                flexHide: true,
+                value: 'inline-block',
+                label: '显示类型'
+              }),
 
               {
                 name: 'thumbMode',
+                visibleOn: 'imageMode ===  "thumb"',
                 type: 'select',
-                label: '缩略图展示模式',
+                label: '展示模式',
                 mode: 'horizontal',
                 labelAlign: 'left',
                 horizontal: {
@@ -173,31 +179,42 @@ export class ImagePlugin extends BasePlugin {
                   }
                 ]
               },
+
+              getSchemaTpl('theme:size', {
+                label: '尺寸',
+                name: 'themeCss.imageControlClassName.size:default'
+              })
+            ]
+          },
+          getSchemaTpl('theme:base', {
+            classname: 'imageControlClassName',
+            title: '图片'
+          }),
+          {
+            title: '其他',
+            body: [
+              getSchemaTpl('theme:font', {
+                label: '标题文字',
+                name: 'themeCss.titleControlClassName.font:default',
+                editorThemePath: 'image.image.default.normal.body.font'
+              }),
+              getSchemaTpl('theme:paddingAndMargin', {
+                label: '标题边距',
+                name: 'themeCss.titleControlClassName.padding-and-margin:default'
+              }),
+              getSchemaTpl('theme:paddingAndMargin', {
+                label: '描述边距',
+                name: 'themeCss.desControlClassName.padding-and-margin:default'
+              }),
               {
-                name: 'thumbRatio',
-                type: 'button-group-select',
-                label: '缩略图比率',
-                size: 'sm',
-                pipeIn: defaultValue('1:1'),
-                options: [
-                  {
-                    label: '1:1',
-                    value: '1:1'
-                  },
-
-                  {
-                    label: '4:3',
-                    value: '4:3'
-                  },
-
-                  {
-                    label: '16:9',
-                    value: '16:9'
-                  }
-                ]
+                name: 'themeCss.iconControlClassName.--image-image-normal-icon',
+                label: '放大图标',
+                type: 'icon-select',
+                returnSvg: true
               }
             ]
           },
+          getSchemaTpl('theme:cssCode'),
           {
             title: 'CSS类名',
             body: [

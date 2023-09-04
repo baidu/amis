@@ -242,7 +242,12 @@ export class TplPlugin extends BasePlugin {
         body: getSchemaTpl('collapseGroup', [
           ...getSchemaTpl('theme:common', {
             exclude: ['layout'],
-            include: ['font']
+            baseExtra: [
+              getSchemaTpl('theme:font', {
+                label: '文字',
+                name: 'font'
+              })
+            ]
           })
         ])
       },

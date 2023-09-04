@@ -293,7 +293,31 @@ export class PagePlugin extends BasePlugin {
           className: 'p-none',
           body: [
             getSchemaTpl('collapseGroup', [
-              ...getSchemaTpl('theme:common', {exclude: ['layout']})
+              ...getSchemaTpl('theme:common', {
+                exclude: ['layout'],
+                classname: 'bodyControlClassName',
+                baseTitle: '内容区样式',
+                extra: [
+                  getSchemaTpl('theme:base', {
+                    classname: 'headerControlClassName',
+                    title: '标题栏样式',
+                    extra: [
+                      getSchemaTpl('theme:font', {
+                        label: '文字',
+                        name: 'font'
+                      })
+                    ]
+                  }),
+                  getSchemaTpl('theme:base', {
+                    classname: 'toolbarControlClassName',
+                    title: '工具栏样式'
+                  }),
+                  getSchemaTpl('theme:base', {
+                    classname: 'asideControlClassName',
+                    title: '边栏样式'
+                  })
+                ]
+              })
             ])
           ]
         },

@@ -1,7 +1,17 @@
 .ThemeCssCode {
   position: relative;
   &-button {
-    width: 100%;
+    position: absolute;
+    top: 4px;
+    right: 12px;
+    z-index: 100;
+  }
+  &-icon {
+    cursor: pointer;
+    color: #5c5f66;
+    &:hover {
+      color: #151b26;
+    }
   }
   .is-group {
     overflow: auto;
@@ -66,6 +76,12 @@
         margin-bottom: px2rem(10px);
         border-bottom: 1px solid #e8e9eb;
       }
+    }
+  }
+  &-wrap {
+    border: 1px solid #e8e9eb;
+    .cxd-MonacoEditor-placeholder {
+      left: 1rem;
     }
   }
 }

@@ -211,6 +211,11 @@ export class ImagesPlugin extends BasePlugin {
               }
             ]
           },
+          getSchemaTpl('theme:base', {
+            classname: 'imagesControlClassName',
+            title: '图片集'
+          }),
+          getSchemaTpl('theme:cssCode'),
           {
             title: 'CSS类名',
             body: [
