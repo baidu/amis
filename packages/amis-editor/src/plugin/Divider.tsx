@@ -78,14 +78,16 @@ export class DividerPlugin extends BasePlugin {
               label: '长度',
               name: 'style.width',
               placeholder: '100%',
-              visibleOn: 'direction !== "vertical"'
+              visibleOn: 'direction !== "vertical"',
+              clearValueOnHidden: true
             }),
             getSchemaTpl('theme:select', {
               mode: 'horizontal',
               label: '长度',
               name: 'style.height',
               placeholder: 'var(--sizes-base-15)',
-              visibleOn: 'direction === "vertical"'
+              visibleOn: 'direction === "vertical"',
+              clearValueOnHidden: true
             }),
             getSchemaTpl('theme:select', {
               mode: 'horizontal',
