@@ -437,6 +437,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       showToolbar,
       toolbarActions,
       imageGallaryClassName,
+      galleryControlClassName,
       enlargeWithGallary
     } = this.props;
 
@@ -451,7 +452,9 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
           thumbRatio,
           showToolbar,
           toolbarActions,
-          imageGallaryClassName,
+          imageGallaryClassName: galleryControlClassName
+            ? imageGallaryClassName + ' ' + galleryControlClassName
+            : imageGallaryClassName,
           enlargeWithGallary
         },
         this.props
@@ -495,6 +498,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       titleControlClassName,
       desControlClassName,
       iconControlClassName,
+      galleryControlClassName,
       env
     } = this.props;
 
@@ -534,6 +538,10 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             enlargeAble={enlargeAble && value !== defaultImage}
             onEnlarge={this.handleEnlarge}
             imageMode={imageMode}
+            imageControlClassName={imageControlClassName}
+            titleControlClassName={titleControlClassName}
+            desControlClassName={desControlClassName}
+            iconControlClassName={iconControlClassName}
           />
         ) : (
           <span className="text-muted">{placeholder}</span>
@@ -541,7 +549,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id,
+            id,
             themeCss,
             classNames: [
               {
@@ -559,6 +567,10 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
               {
                 key: 'iconControlClassName',
                 value: iconControlClassName
+              },
+              {
+                key: 'galleryControlClassName',
+                value: galleryControlClassName
               }
             ]
           }}

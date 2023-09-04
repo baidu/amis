@@ -296,7 +296,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id,
+            id,
             themeCss,
             classNames: [
               {

@@ -18,6 +18,31 @@ const editorPlaceholder = `自定义样式仅对当前组件生效。示例：
 }
 `;
 
+const editorOptions = {
+  autoIndent: true,
+  formatOnType: true,
+  formatOnPaste: true,
+  selectOnLineNumbers: true,
+  scrollBeyondLastLine: false,
+  folding: true,
+  minimap: {
+    enabled: false
+  },
+  scrollbar: {
+    alwaysConsumeMouseWheel: false
+  },
+  bracketPairColorization: {
+    enabled: true
+  },
+  automaticLayout: true,
+  lineNumbers: 'off',
+  glyphMargin: false,
+  wordWrap: 'on',
+  lineDecorationsWidth: 0,
+  lineNumbersMinChars: 0,
+  overviewRulerBorder: false
+};
+
 function ThemeCssCode(props: FormControlProps) {
   const {data, onBulkChange} = props;
   const {wrapperCustomStyle} = data;
@@ -112,6 +137,7 @@ function ThemeCssCode(props: FormControlProps) {
             placeholder={editorPlaceholder}
             language="scss"
             onChange={handleChange}
+            options={editorOptions}
           />
         </div>
       </div>
@@ -143,6 +169,7 @@ function ThemeCssCode(props: FormControlProps) {
                   placeholder={editorPlaceholder}
                   language="scss"
                   onChange={handleChange}
+                  options={editorOptions}
                 />
               </div>
             </div>

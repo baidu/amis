@@ -336,7 +336,11 @@ export class ImageGallery extends React.Component<
                       )}
                       onClick={this.prev}
                     >
-                      <Icon icon="prev" className="icon" />
+                      <Icon
+                        icon="prev"
+                        className="icon"
+                        iconContent="ImageGallery-prevBtn"
+                      />
                     </a>
                     <a
                       className={cx(
@@ -345,7 +349,11 @@ export class ImageGallery extends React.Component<
                       )}
                       onClick={this.next}
                     >
-                      <Icon icon="next" className="icon" />
+                      <Icon
+                        icon="next"
+                        className="icon"
+                        iconContent="ImageGallery-nextBtn"
+                      />
                     </a>
                   </>
                 ) : null}

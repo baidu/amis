@@ -1028,7 +1028,7 @@ export default class Page extends React.Component<PageProps> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id,
+            id,
             themeCss,
             classNames: [
               {

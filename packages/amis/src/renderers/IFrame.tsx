@@ -281,7 +281,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         <CustomStyle
           config={{
             wrapperCustomStyle,
-            componentId: id,
+            id,
             themeCss,
             classNames: [
               {
