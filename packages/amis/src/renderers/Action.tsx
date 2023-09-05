@@ -483,93 +483,29 @@ export const createSyntheticEvent = <T extends Element, E extends Event>(
   };
 };
 
+type CommonKeys =
+  | 'type'
+  | 'className'
+  | 'iconClassName'
+  | 'rightIconClassName'
+  | 'loadingClassName';
+
 export interface ActionProps
   extends Omit<
       ButtonSchema,
       'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     >,
     ThemeProps,
-    Omit<
-      AjaxActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      UrlActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      LinkActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      DialogActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      DrawerActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      ToastSchemaBase,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      CopyActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      ReloadActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      EmailActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-      | 'body'
-    >,
-    Omit<
-      OtherActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
+    Omit<AjaxActionSchema, CommonKeys>,
+    Omit<UrlActionSchema, CommonKeys>,
+    Omit<LinkActionSchema, CommonKeys>,
+    Omit<DialogActionSchema, CommonKeys>,
+    Omit<DrawerActionSchema, CommonKeys>,
+    Omit<ToastSchemaBase, CommonKeys>,
+    Omit<CopyActionSchema, CommonKeys>,
+    Omit<ReloadActionSchema, CommonKeys>,
+    Omit<EmailActionSchema, CommonKeys | 'body'>,
+    Omit<OtherActionSchema, CommonKeys>,
     SpinnerExtraProps {
   actionType: any;
   onAction?: (
