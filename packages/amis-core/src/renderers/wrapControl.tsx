@@ -643,7 +643,8 @@ export function wrapControl<
 
             if (pipeOut) {
               const oldValue = this.model.value;
-              value = callStrFunction(
+              value = callStrFunction.call(
+                this,
                 pipeOut,
                 ['value', 'oldValue', 'data'],
                 value,
@@ -768,7 +769,8 @@ export function wrapControl<
             } = this.props;
 
             if (pipeOut) {
-              value = callStrFunction(
+              value = callStrFunction.call(
+                this,
                 pipeOut,
                 ['value', 'oldValue', 'data'],
                 value,
@@ -791,7 +793,8 @@ export function wrapControl<
             let value: any = this.model ? this.model.tmpValue : control.value;
 
             if (control.pipeIn) {
-              value = callStrFunction(
+              value = callStrFunction.call(
+                this,
                 control.pipeIn,
                 ['value', 'data'],
                 value,
