@@ -5,12 +5,14 @@ import {
   FormBaseControl,
   buildApi,
   qsstringify,
+  resolveEventData,
   autobind
 } from 'amis-core';
 import cx from 'classnames';
 import {LazyComponent} from 'amis-core';
 import {tokenize} from 'amis-core';
 import {normalizeApi} from 'amis-core';
+import debounce from 'lodash/debounce';
 import {ucFirst} from 'amis-core';
 import type {FormBaseControlSchema, SchemaApi} from '../../Schema';
 
@@ -60,6 +62,8 @@ export interface RichTextProps extends FormControlProps {
   options?: any;
   vendor?: 'froala' | 'tinymce';
 }
+
+export type RichTextRendererEvent = 'change';
 
 function loadRichText(
   type: 'tinymce' | 'froala' = 'froala'
@@ -264,6 +268,7 @@ export default class RichTextControl extends React.Component<
     }
 
     onChange?.(value, submitOnChange, changeImmediately);
+    this.dispatchEvent('change', {value});
   }
 
   @autobind
@@ -271,6 +276,24 @@ export default class RichTextControl extends React.Component<
     const env = this.props.env;
     return env?.loadTinymcePlugin?.(tinymce);
   }
+
+  dispatchEvent = debounce(
+    async (eventName: RichTextRendererEvent, eventData: any = {}) => {
+      const {dispatchEvent} = this.props;
+
+      await dispatchEvent(
+        eventName,
+        resolveEventData(this.props, {
+          value: eventData.value
+        })
+      );
+    },
+    250,
+    {
+      trailing: true,
+      leading: false
+    }
+  );
 
   render() {
     const {

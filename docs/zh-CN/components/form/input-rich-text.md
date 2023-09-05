@@ -230,3 +230,13 @@ froala 可以通过设置 buttons 参数来控制显示哪些按钮，默认是�
 | size          | `string`                       |        | 框的大小，可设置为 `md` 或者 `lg`                                                                                                                       |
 | options       | `object`                       |        | 需要参考 [tinymce](https://www.tiny.cloud/docs/configure/integration-and-setup/) 或 [froala](https://www.froala.com/wysiwyg-editor/docs/options) 的文档 |
 | buttons       | `Array<string>`                |        | froala 专用，配置显示的按钮，tinymce 可以通过前面的 options 设置 [toolbar](https://www.tiny.cloud/docs/demo/custom-toolbar-button/) 字符串              |
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称 | 事件参数                              | 说明                                        |
+| -------- | ------------------------------------- | ------------------------------------------- |
+| change   | `[value]: object` 富文本组件的值<br/> | 富文本值改变时触发,自带防抖，防抖间隔 250ms |
