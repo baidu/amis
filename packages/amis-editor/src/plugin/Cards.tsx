@@ -452,7 +452,7 @@ export class CardsPlugin extends BasePlugin {
     };
 
     let match =
-      node.schema.source && String(node.schema.source).match(/{(.*)}/);
+      node.schema.source && String(node.schema.source).match(/{([\w-_]+)}/);
     let field = node.schema.name || match?.[1];
     const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
     const schema = scope?.parent?.getSchemaByPath(field);

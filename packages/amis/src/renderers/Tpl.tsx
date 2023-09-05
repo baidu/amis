@@ -7,7 +7,7 @@ import {
   CustomStyle
 } from 'amis-core';
 import {filter, asyncFilter} from 'amis-core';
-import cx from 'classnames';
+import isEmpty from 'lodash/isEmpty';
 import {anyChanged, getPropValue} from 'amis-core';
 import {escapeHtml} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
@@ -231,7 +231,7 @@ export class Tpl extends React.Component<TplProps, TplState> {
       >
         <span
           className={cln ? cx(cln) : undefined}
-          style={styles}
+          style={!isEmpty(styles) ? styles : undefined}
           dangerouslySetInnerHTML={{__html: env.filterHtml(content)}}
         ></span>
         <CustomStyle
