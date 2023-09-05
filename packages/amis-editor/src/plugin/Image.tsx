@@ -84,7 +84,7 @@ export class ImagePlugin extends BasePlugin {
 
               isUnderField
                 ? null
-                : getSchemaTpl('formulaControl', {
+                : getSchemaTpl('imageUrl', {
                     name: 'src',
                     label: '缩略图地址',
                     description: '如果已绑定字段名，可以不用设置，支持用变量。'
@@ -118,7 +118,7 @@ export class ImagePlugin extends BasePlugin {
                 hiddenOn: 'this.enlargeAble',
                 clearValueOnHidden: true
               },
-              getSchemaTpl('formulaControl', {
+              getSchemaTpl('imageUrl', {
                 name: 'defaultImage',
                 label: tipedLabel('占位图', '无数据时显示的图片')
               })
