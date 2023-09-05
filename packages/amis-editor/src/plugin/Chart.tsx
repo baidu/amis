@@ -9,7 +9,8 @@ import {
   defaultValue,
   getSchemaTpl,
   CodeEditor as AmisCodeEditor,
-  RendererPluginEvent
+  RendererPluginEvent,
+  tipedLabel
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
@@ -75,6 +76,23 @@ const DEFAULT_EVENT_PARAMS = [
   }
 ];
 
+const chartDefaultConfig = {
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data: [820, 932, 901, 934, 1290, 1330, 1320],
+      type: 'line'
+    }
+  ],
+  backgroundColor: 'transparent'
+};
+
 export class ChartPlugin extends BasePlugin {
   static id = 'ChartPlugin';
   // 关联渲染器名字
@@ -92,21 +110,7 @@ export class ChartPlugin extends BasePlugin {
   pluginIcon = 'chart-plugin';
   scaffold = {
     type: 'chart',
-    config: {
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
-          type: 'line'
-        }
-      ]
-    },
+    config: chartDefaultConfig,
     replaceChartOption: true
   };
   previewSchema = {
@@ -188,120 +192,191 @@ export class ChartPlugin extends BasePlugin {
   ];
 
   panelTitle = '图表';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     return [
       getSchemaTpl('tabs', [
         {
-          title: '常规',
+          title: '属性',
           body: [
-            getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-            getSchemaTpl('api', {
-              label: '接口拉取',
-              description:
-                '接口可以返回配置，或者数据，建议返回数据可映射到 Echarts 配置中'
-            }),
+            getSchemaTpl('collapseGroup', [
+              {
+                title: '基本',
+                body: [
+                  getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+                  getSchemaTpl('name')
+                ]
+              },
+              {
+                title: '数据设置',
+                body: [
+                  /*
+                  {
+                    type: 'select',
+                    name: 'chartDataType',
+                    label: '数据获取方式',
+                    value: 'json',
+                    onChange(value: any, oldValue: any, model: any, form: any) {
+                      if (value === 'json') {
+                        form.setValueByName('api', undefined);
+                        form.setValueByName('config', chartDefaultConfig);
+                      } else {
+                        form.setValueByName('config', undefined);
+                      }
+                    },
+                    options: [
+                      {
+                        label: '接口数据',
+                        value: 'dataApi'
+                      },
+                      {
+                        label: '静态JSON数据',
+                        value: 'json'
+                      }
+                    ]
+                  },
+                  */
+                  getSchemaTpl('apiControl', {
+                    label: tipedLabel(
+                      '数据接口',
+                      '接口可以返回echart图表完整配置，或者图表数据，建议返回图表数据映射到 Echarts 配置中'
+                    ),
+                    mode: 'normal'
+                    // visibleOn: 'chartDataType === "dataApi"'
+                  }),
 
-            getSchemaTpl('switch', {
-              label: '初始是否拉取',
-              name: 'initFetch',
-              visibleOn: 'data.api',
-              pipeIn: defaultValue(true)
-            }),
+                  getSchemaTpl('switch', {
+                    label: '初始是否拉取',
+                    name: 'initFetch',
+                    // visibleOn: 'chartDataType === "dataApi" && data.api',
+                    visibleOn: 'data.api.url',
+                    pipeIn: defaultValue(true)
+                  }),
+                  {
+                    name: 'interval',
+                    label: tipedLabel(
+                      '定时刷新间隔',
+                      '设置后将自动定时刷新，最小3000, 单位 ms'
+                    ),
+                    type: 'input-number',
+                    step: 500,
+                    // visibleOn: 'chartDataType === "dataApi" && data.api',
+                    visibleOn: 'data.api.url',
+                    unitOptions: ['ms']
+                  },
+                  getSchemaTpl('expressionFormulaControl', {
+                    evalMode: false,
+                    label: tipedLabel(
+                      '跟踪表达式',
+                      '如果这个表达式的值有变化时会更新图表，当 config 中用了数据映射时有用'
+                    ),
+                    name: 'trackExpression',
+                    placeholder: '\\${xxx}'
+                  }),
+                  {
+                    name: 'config',
+                    asFormItem: true,
+                    // visibleOn: 'chartDataType === "json"',
+                    component: ChartConfigEditor,
+                    mode: 'normal',
+                    // type: 'json-editor',
+                    label: tipedLabel(
+                      'Echarts 配置',
+                      '支持数据映射，可将接口返回的数据填充进来'
+                    )
+                  },
+                  {
+                    name: 'dataFilter',
+                    type: 'js-editor',
+                    allowFullscreen: true,
+                    mode: 'normal',
+                    label: tipedLabel(
+                      '数据映射（dataFilter）',
+                      '如果后端没有直接返回 Echart 配置，可以自己写一段函数来包装'
+                    ),
+                    size: 'lg',
+                    placeholder: `/* 参数说明
+    * config 原始数据
+    * echarts echarts 对象
+    * data 如果配置了数据接口，接口返回的数据通过此变量传入
+    示例
+    * debugger; // 可以浏览器中断点调试
+    * console.log(config); // 查看原始数据
+    * return {}; // 返回新的结果
+  */
+  (config, echarts, data) => config`
+                  },
+                  getSchemaTpl('switch', {
+                    label: tipedLabel(
+                      'Chart 配置完全替换',
+                      '默认为追加模式，新的配置会跟旧的配置合并，如果勾选将直接完全覆盖'
+                    ),
+                    name: 'replaceChartOption'
+                  })
+                ]
+              },
+              {
+                title: '图表下钻',
+                body: [
+                  {
+                    name: 'clickAction',
+                    asFormItem: true,
+                    label: false,
+                    children: ({onChange, value}: any) => (
+                      <div className="m-b">
+                        <Button
+                          size="sm"
+                          level={value ? 'danger' : 'info'}
+                          onClick={this.editDrillDown.bind(this, context.id)}
+                        >
+                          配置 DrillDown
+                        </Button>
 
-            {
-              name: 'interval',
-              label: '定时刷新间隔',
-              type: 'input-number',
-              step: 500,
-              visibleOn: 'data.api',
-              description: '设置后将自动定时刷新，最小3000, 单位 ms'
-            },
-            {
-              name: 'config',
-              asFormItem: true,
-              component: ChartConfigEditor,
-              // type: 'json-editor',
-              label: 'Echarts 配置',
-              description: '支持数据映射，可将接口返回的数据填充进来'
-              // size: 'lg'
-              // pipeOut: (value: any) => {
-              //   try {
-              //     return value ? JSON.parse(value) : null;
-              //   } catch (e) {}
-              //   return null;
-              // }
-            },
-            {
-              name: 'clickAction',
-              asFormItem: true,
-              children: ({onChange, value}: any) => (
-                <div className="m-b">
-                  <Button
-                    size="sm"
-                    level={value ? 'danger' : 'info'}
-                    onClick={this.editDrillDown.bind(this, context.id)}
-                  >
-                    配置 DrillDown
-                  </Button>
-
-                  {value ? (
-                    <Button
-                      size="sm"
-                      level="link"
-                      className="m-l"
-                      onClick={() => onChange('')}
-                    >
-                      删除 DrillDown
-                    </Button>
-                  ) : null}
-                </div>
-              )
-            },
-            {
-              name: 'dataFilter',
-              type: 'js-editor',
-              allowFullscreen: true,
-              label: '数据加工',
-              size: 'lg',
-              description: `
-              如果后端没有直接返回 Echart 配置，可以自己写一段函数来包装。
-              <p>签名：(config, echarts, data) => config</p>
-              <p>参数说明</p>
-              <ul>
-              <li><code>config</code> 原始数据</li>
-              <li><code>echarts</code> echarts 对象</li>
-              <li><code>data</code> 如果配置了数据接口，接口返回的数据通过此变量传入</li>
-              </ul>
-              <p>示例</p>
-              <pre>debugger; // 可以浏览器中断点调试\n\n// 查看原始数据\nconsole.log(config)\n\n// 返回新的结果 \nreturn {}</pre>
-              `
-            },
-
-            getSchemaTpl('switch', {
-              label: 'Chart 配置完全替换',
-              name: 'replaceChartOption',
-              labelRemark: {
-                trigger: 'click',
-                className: 'm-l-xs',
-                rootClose: true,
-                content:
-                  '默认为追加模式，新的配置会跟旧的配置合并，如果勾选将直接完全覆盖。',
-                placement: 'left'
-              }
-            })
+                        {value ? (
+                          <Button
+                            size="sm"
+                            level="link"
+                            className="m-l"
+                            onClick={() => onChange('')}
+                          >
+                            删除 DrillDown
+                          </Button>
+                        ) : null}
+                      </div>
+                    )
+                  }
+                ]
+              },
+              getSchemaTpl('status')
+            ])
           ]
         },
         {
           title: '外观',
-          body: [getSchemaTpl('className')]
-        },
-        {
-          title: '显隐',
-          body: [getSchemaTpl('visible')]
-        },
-        {
-          title: '其他',
-          body: [getSchemaTpl('name')]
+          body: getSchemaTpl('collapseGroup', [
+            {
+              title: '宽高设置',
+              body: [
+                getSchemaTpl('style:widthHeight', {
+                  widthSchema: {
+                    label: tipedLabel(
+                      '宽度',
+                      '默认宽度为父容器宽度，值单位默认为 px，也支持百分比等单位 ，如：100%'
+                    ),
+                    pipeIn: defaultValue('100%')
+                  },
+                  heightSchema: {
+                    label: tipedLabel(
+                      '高度',
+                      '默认高度为300px，值单位默认为 px，也支持百分比等单位 ，如：100%'
+                    ),
+                    pipeIn: defaultValue('300px')
+                  }
+                })
+              ]
+            },
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
+          ])
         },
         {
           title: '事件',

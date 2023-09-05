@@ -472,7 +472,7 @@ exports[`Renderer:images images:basic 1`] = `
             </div>
           </div>
           <div
-            class="cxd-Divider cxd-Divider--dashed"
+            class="cxd-Divider cxd-Divider--dashed cxd-Divider--horizontal"
           />
           <div
             class="cxd-ImagesField"

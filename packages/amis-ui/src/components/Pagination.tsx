@@ -5,7 +5,7 @@
  */
 import React from 'react';
 import isInteger from 'lodash/isInteger';
-import {isMobile, localeable, LocaleProps} from 'amis-core';
+import {localeable, LocaleProps} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import {autobind} from 'amis-core';
 import {Icon} from './icons';
@@ -94,8 +94,6 @@ export interface BasicPaginationProps {
   popOverContainerSelector?: string;
 
   onPageChange?: (page: number, perPage?: number) => void;
-
-  useMobileUI?: boolean;
 }
 export interface PaginationProps
   extends BasicPaginationProps,
@@ -272,13 +270,12 @@ export class Pagination extends React.Component<
       hasNext,
       popOverContainer,
       popOverContainerSelector,
-      useMobileUI,
+      mobileUI,
       translate: __
     } = this.props;
     let maxButtons = this.props.maxButtons;
     const {pageNum, perPage} = this.state;
     const lastPage = this.getLastPage();
-    const mobileUI = useMobileUI && isMobile();
 
     // 简易模式
     if (mode === 'simple') {

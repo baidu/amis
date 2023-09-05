@@ -10,7 +10,7 @@
  * 7. 边框模式：无边框 & 半边框
  * 8. 大数模式
  */
-
+import React = require('react');
 import {render, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
@@ -280,4 +280,16 @@ test('Renderer:number with big value', async () => {
 
   replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
+});
+
+test('Renderer:number with static', async () => {
+  const {input: stringValInput} = await setup({
+    value: '123'
+  });
+  const {input: numberValInput} = await setup({
+    value: 123
+  });
+
+  expect(stringValInput.value).toEqual('123');
+  expect(numberValInput.value).toEqual('123');
 });

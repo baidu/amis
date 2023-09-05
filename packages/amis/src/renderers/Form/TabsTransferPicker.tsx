@@ -108,11 +108,11 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
       loadingConfig,
       labelField = 'label',
       valueField = 'value',
-      useMobileUI,
+      mobileUI,
       env,
-      popOverContainer
+      maxTagCount,
+      overflowTagPopover
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div className={cx('TabsTransferControl', className)}>
@@ -144,12 +144,10 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
           virtualThreshold={virtualThreshold}
           labelField={labelField}
           valueField={valueField}
-          useMobileUI={useMobileUI}
-          popOverContainer={
-            mobileUI
-              ? env?.getModalContainer
-              : popOverContainer || env.getModalContainer
-          }
+          mobileUI={mobileUI}
+          popOverContainer={env?.getModalContainer}
+          maxTagCount={maxTagCount}
+          overflowTagPopover={overflowTagPopover}
         />
 
         <Spinner

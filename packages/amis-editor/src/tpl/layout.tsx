@@ -6,6 +6,7 @@ import {
 } from 'amis-editor-core';
 import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
+import compact from 'lodash/compact';
 
 /**
  * 布局相关配置项
@@ -232,8 +233,9 @@ setSchemaTpl(
     isFlexItem?: boolean;
     pipeIn?: (value: any, data: any) => void;
     pipeOut?: (value: any, data: any) => void;
+    flexHide?: boolean;
   }) => {
-    const configOptions = [
+    const configOptions = compact([
       {
         label: '块级(block)',
         icon: 'block-display',
@@ -249,12 +251,12 @@ setSchemaTpl(
         icon: 'inline-display',
         value: 'inline'
       },
-      {
+      !config?.flexHide && {
         label: '弹性布局(flex)',
         icon: 'flex-display',
         value: 'flex'
       }
-    ];
+    ]);
     const configSchema = {
       type: 'icon-button-group',
       label:
@@ -599,6 +601,9 @@ setSchemaTpl(
           // 适配
           form.setValueByName('style.flexGrow', undefined);
           form.setValueByName('style.flexBasis', undefined);
+          form.setValueByName('style.overflowX', undefined);
+          form.setValueByName('style.overflowY', undefined);
+          form.setValueByName('style.overflow', undefined);
 
           if (config?.isFlexColumnItem) {
             form.setValueByName('style.height', undefined);
@@ -893,7 +898,7 @@ setSchemaTpl(
         config?.label ||
         tipedLabel(' x轴滚动模式', '用于设置水平方向的滚动模式'),
       name: config?.name || 'style.overflowX',
-      value: config?.value || 'auto',
+      value: config?.value || 'visible',
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,
@@ -1099,7 +1104,7 @@ setSchemaTpl(
         config?.label ||
         tipedLabel(' y轴滚动模式', '用于设置垂直方向的滚动模式'),
       name: config?.name || 'style.overflowY',
-      value: config?.value || 'auto',
+      value: config?.value || 'visible',
       visibleOn: config?.visibleOn,
       pipeIn: config?.pipeIn,
       pipeOut: config?.pipeOut,

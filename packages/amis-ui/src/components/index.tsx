@@ -12,7 +12,11 @@ import {
   prompt,
   setRenderSchemaFn
 } from './Alert';
-import {default as ContextMenu, openContextMenus} from './ContextMenu';
+import {
+  default as ContextMenu,
+  openContextMenus,
+  closeContextMenus
+} from './ContextMenu';
 import AsideNav from './AsideNav';
 import Avatar from './Avatar';
 import Button from './Button';
@@ -136,6 +140,7 @@ export {
   setRenderSchemaFn,
   ContextMenu,
   openContextMenus,
+  closeContextMenus,
   Alert2,
   AsideNav,
   Button,

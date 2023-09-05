@@ -82,7 +82,9 @@ export interface RendererEnv {
     reRender: Function
   ) => Promise<React.ElementType> | React.ElementType | JSX.Element | void;
   loadChartExtends?: () => void | Promise<void>;
+  loadTinymcePlugin?: (tinymce: any) => void | Promise<void>;
   useMobileUI?: boolean;
+  isMobile: () => boolean;
   /**
    * 过滤 html 标签，可用来添加 xss 保护逻辑
    */

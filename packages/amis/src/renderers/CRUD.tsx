@@ -2,7 +2,7 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps, filterTarget, generateIcon} from 'amis-core';
+import {Renderer, RendererProps, filterTarget, mapTree} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
@@ -15,10 +15,11 @@ import {
   getVariable,
   qsstringify,
   qsparse,
-  isArrayChildrenModified
+  isArrayChildrenModified,
+  isIntegerInRange
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
-import {Button, SpinnerExtraProps} from 'amis-ui';
+import {Button, SpinnerExtraProps, TooltipWrapper} from 'amis-ui';
 import {Select} from 'amis-ui';
 import {getExprProperties} from 'amis-core';
 import pick from 'lodash/pick';
@@ -97,6 +98,13 @@ export type AutoGenerateFilterObject = {
    * 是否显示展开/收起
    */
   // showExpand?: boolean;
+
+  /**
+   * 是否默认收起
+   *
+   * @default true
+   */
+  defaultCollapsed?: boolean;
 };
 
 export type CRUDRendererEvent = TableRendererEvent | CardsRendererEvent;
@@ -434,7 +442,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'onSave',
     'onQuery',
     'formStore',
-    'autoFillHeight'
+    'autoFillHeight',
+    'maxTagCount',
+    'overflowTagPopover'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -529,11 +539,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         items: []
       });
     }
+    // 如果picker用visibleOn来控制显隐，显隐切换时，constructor => handleSelect => componentDidMount的执行顺序
+    // 因此需要将componentDidMount中的设置选中项提前到constructor，否则handleSelect里拿不到的选中项
+    let val: any;
+    if (this.props.pickerMode && (val = getPropValue(this.props))) {
+      store.setSelectedItems(val);
+    }
   }
 
   componentDidMount() {
     const {store, autoGenerateFilter, columns} = this.props;
-
     if (this.props.perPage) {
       store.changePage(store.page, this.props.perPage);
     }
@@ -547,11 +562,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       (store.filterTogggable && !store.filterVisible)
     ) {
       this.handleFilterInit({});
-    }
-
-    let val: any;
-    if (this.props.pickerMode && (val = getPropValue(this.props))) {
-      store.setSelectedItems(val);
     }
 
     this.parentContainer = this.getClosestParentContainer();
@@ -702,7 +712,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           prevIndex: idx - 1,
           index: idx
         },
-        action.callback
+        action.callback,
+        delegate || (this.context as any)
       );
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
@@ -1130,9 +1141,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         actionType: 'dialog',
         dialog: dialog
       });
-      store.openDialog(ctx, undefined, confirmed => {
-        resolve(confirmed);
-      });
+      store.openDialog(
+        ctx,
+        undefined,
+        confirmed => {
+          resolve(confirmed);
+        },
+        this.context as any
+      );
     });
   }
 
@@ -1476,23 +1492,33 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     if (orderField) {
       const start = (store.page - 1) * store.perPage || 0;
-      rows = rows.map((item, key) =>
+      rows = mapTree(rows as any, (item, key, level) =>
         extendObject(item, {
-          [orderField]: start + key + 1
+          [orderField]: (level === 1 ? start : 0) + key + 1
         })
       );
     }
 
     model.rows = rows.concat();
-    hasIdField &&
-      (model.ids = rows
-        .map((item: any) => item[primaryField as string])
-        .join(','));
-    hasIdField &&
+    if (hasIdField) {
+      let joinIdFields: (items: Array<any>) => string = items =>
+        items
+          .map(
+            (item: any) =>
+              `${item[primaryField as string]}${
+                Array.isArray(item.children) && item.children.length
+                  ? `[${joinIdFields(item.children)}]`
+                  : ''
+              }`
+          )
+          .join(',');
+      model.ids = joinIdFields(rows);
+
       orderField &&
-      (model.order = rows.map(item =>
-        pick(item, [primaryField as string, orderField])
-      ));
+        (model.order = mapTree(rows, item =>
+          pick(item, [primaryField as string, orderField, 'children'])
+        ));
+    }
 
     isEffectiveApi(saveOrderApi, model) &&
       store
@@ -1516,7 +1542,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     } = this.props;
     let newItems = items;
     let newUnSelectedItems = unSelectedItems;
-
     if (keepItemSelectionOnPageChange && store.selectedItems.length) {
       const oldItems = store.selectedItems.concat();
       const oldUnselectedItems = store.unSelectedItems.concat();
@@ -1585,11 +1610,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         newItems.splice(0, newItems.length - 1)
       );
     }
-    // 用 updateSelectData 导致 CRUD 无线刷新
+    // 用 updateSelectData 导致 CRUD 无限刷新
     // store.updateSelectData(newItems, newUnSelectedItems);
     store.setSelectedItems(newItems);
     store.setUnSelectedItems(newUnSelectedItems);
-
     onSelect && onSelect(newItems, newUnSelectedItems);
   }
 
@@ -1642,7 +1666,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       replace
     );
-    this.search(undefined, undefined, undefined, forceReload);
+    this.search(undefined, undefined, replace, forceReload);
   }
 
   reload(
@@ -1935,14 +1959,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   renderSwitchPerPage(childProps: any) {
     const {
-      useMobileUI,
+      mobileUI,
       store,
       perPageAvailable,
       classnames: cx,
       classPrefix: ns,
       translate: __
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
 
     const items = childProps.items;
 
@@ -2028,7 +2051,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         })}
       >
         {custom.icon ? (
-          generateIcon(cx, custom.icon)
+          <Icon icon={custom.icon} className="icon m-r-xs" />
         ) : custom?.icon !== false ? (
           <Icon icon="filter" className="icon m-r-xs" />
         ) : null}
@@ -2069,9 +2092,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
-    const {render, store, useMobileUI, translate: __} = this.props;
+    const {render, store, mobileUI, translate: __} = this.props;
     const type = (toolbar as Schema).type || toolbar;
-    const mobileUI = useMobileUI && isMobile();
 
     if (type === 'bulkActions' || type === 'bulk-actions') {
       return this.renderBulkActions(childProps);
@@ -2152,17 +2174,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const $$editable = childProps.$$editable;
     return render(`toolbar/${index}`, toolbar, {
-      // 包两层，主要是为了处理以下 case
-      // 里面放了个 form，form 提交过来的时候不希望把 items 这些发送过来。
-      // 因为会把数据呈现在地址栏上。
-      data: createObject(
-        createObject(store.filterData, {
-          items: childProps.items,
-          selectedItems: store.selectedItems.concat(),
-          unSelectedItems: store.unSelectedItems.concat()
-        }),
-        {}
-      ),
+      data: store.toolbarData,
       page: store.page,
       lastPage: store.lastPage,
       perPage: store.perPage,
@@ -2222,19 +2234,74 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     return this.renderToolbar(footerToolbar, 0, childProps, toolbarRenderer);
   }
 
-  renderSelection(): React.ReactNode {
+  renderTag(item: any, index: number) {
     const {
-      store,
       classnames: cx,
       labelField,
       labelTpl,
       primaryField,
+      valueField,
       translate: __,
       env
     } = this.props;
 
+    return (
+      <div key={index} className={cx(`Crud-value`)}>
+        <span
+          className={cx('Crud-valueIcon')}
+          onClick={this.unSelectItem.bind(this, item, index)}
+        >
+          ×
+        </span>
+        <span className={cx('Crud-valueLabel')}>
+          {labelTpl ? (
+            <Html html={filter(labelTpl, item)} filterHtml={env.filterHtml} />
+          ) : (
+            getVariable(item, labelField || 'label') ||
+            getVariable(item, valueField || primaryField || 'id')
+          )}
+        </span>
+      </div>
+    );
+  }
+
+  renderSelection(): React.ReactNode {
+    const {
+      store,
+      classPrefix: ns,
+      classnames: cx,
+      labelField,
+      labelTpl,
+      primaryField,
+      valueField,
+      translate: __,
+      env,
+      popOverContainer,
+      multiple,
+      maxTagCount,
+      overflowTagPopover
+    } = this.props;
+
     if (!store.selectedItems.length) {
       return null;
+    }
+
+    const totalCount = store.selectedItems.length;
+    let tags: any[] = store.selectedItems;
+    const enableOverflow =
+      multiple !== false &&
+      isIntegerInRange(maxTagCount, {
+        start: 0,
+        end: totalCount,
+        left: 'inclusive',
+        right: 'exclusive'
+      });
+
+    if (enableOverflow) {
+      tags = [
+        ...store.selectedItems.slice(0, maxTagCount),
+        {label: `+ ${totalCount - maxTagCount} ...`, value: '__overflow_tag__'}
+      ];
     }
 
     return (
@@ -2242,29 +2309,53 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         <div className={cx('Crud-selectionLabel')}>
           {__('CRUD.selected', {total: store.selectedItems.length})}
         </div>
-        {store.selectedItems.map((item, index) => (
-          <div key={index} className={cx(`Crud-value`)}>
-            <span
-              data-tooltip={__('delete')}
-              data-position="bottom"
-              className={cx('Crud-valueIcon')}
-              onClick={this.unSelectItem.bind(this, item, index)}
-            >
-              ×
-            </span>
-            <span className={cx('Crud-valueLabel')}>
-              {labelTpl ? (
-                <Html
-                  html={filter(labelTpl, item)}
-                  filterHtml={env.filterHtml}
-                />
-              ) : (
-                getVariable(item, labelField || 'label') ||
-                getVariable(item, primaryField || 'id')
-              )}
-            </span>
-          </div>
-        ))}
+        {tags.map((item, index) => {
+          if (enableOverflow && index === maxTagCount) {
+            return (
+              <TooltipWrapper
+                key={index}
+                container={popOverContainer}
+                tooltip={{
+                  placement: 'top',
+                  trigger: 'hover',
+                  showArrow: false,
+                  offset: [0, -10],
+                  tooltipClassName: cx(
+                    'Crud-selection-overflow',
+                    overflowTagPopover?.tooltipClassName
+                  ),
+                  title: __('已选项'),
+                  ...omit(overflowTagPopover, [
+                    'children',
+                    'content',
+                    'tooltipClassName'
+                  ]),
+                  children: () => {
+                    return (
+                      <div
+                        className={cx(`${ns}Crud-selection-overflow-wrapper`)}
+                      >
+                        {store.selectedItems
+                          .slice(maxTagCount, totalCount)
+                          .map((overflowItem, rawIndex) => {
+                            const key = rawIndex + maxTagCount;
+
+                            return this.renderTag(overflowItem, key);
+                          })}
+                      </div>
+                    );
+                  }
+                }}
+              >
+                <div key={index} className={cx(`Crud-value`)}>
+                  <span className={cx('Crud-valueLabel')}>{item.label}</span>
+                </div>
+              </TooltipWrapper>
+            );
+          }
+
+          return this.renderTag(item, index);
+        })}
         <a onClick={this.clearSelection} className={cx('Crud-selectionClear')}>
           {__('clear')}
         </a>
@@ -2344,7 +2435,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 onReset: this.handleFilterReset,
                 onSubmit: this.handleFilterSubmit,
                 onInit: this.handleFilterInit,
-                formStore: undefined
+                formStore: undefined,
+                canAccessSuperData: false
               }
             )
           : null}

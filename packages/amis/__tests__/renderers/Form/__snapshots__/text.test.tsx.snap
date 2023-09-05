@@ -586,12 +586,8 @@ exports[`Renderer:text type is password: password invisible 1`] = `
               <a
                 class="cxd-TextControl-revealPassword"
               >
-                <div
-                  class="cxd-TextControl-icon-invisible InputText-invisible"
-                  style="display: none;"
-                />
                 <icon-mock
-                  classname="cxd-TextControl-icon-invisible icon-invisible"
+                  classname="cxd-TextControl-icon-invisible icon-invisible cxd-TextControl-icon-invisible"
                   icon="invisible"
                 />
               </a>
@@ -726,12 +722,8 @@ exports[`Renderer:text type is password: password visible 1`] = `
               <a
                 class="cxd-TextControl-revealPassword"
               >
-                <div
-                  class="cxd-TextControl-icon-view InputText-view"
-                  style="display: none;"
-                />
                 <icon-mock
-                  classname="cxd-TextControl-icon-view icon-view"
+                  classname="cxd-TextControl-icon-view icon-view cxd-TextControl-icon-view"
                   icon="view"
                 />
               </a>
@@ -1269,10 +1261,6 @@ exports[`Renderer:text with clearable 1`] = `
               <a
                 class="cxd-TextControl-clear"
               >
-                <div
-                  class=" InputText-clear"
-                  style="display: none;"
-                />
                 <icon-mock
                   classname="icon icon-input-clear"
                   icon="input-clear"
@@ -2230,7 +2218,7 @@ exports[`Renderer:text with options and multiple and delimiter: first option sel
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop"
+                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
                 style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                 theme="cxd"
               >
@@ -2501,7 +2489,7 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop"
+                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
                 style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                 theme="cxd"
               >
@@ -2799,7 +2787,7 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop"
+                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
                 style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                 theme="cxd"
               >
@@ -3096,7 +3084,7 @@ exports[`Renderer:text with options and multiple and delimiter: second option se
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop"
+                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
                 style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                 theme="cxd"
               >
@@ -3546,7 +3534,7 @@ exports[`Renderer:text with options: options is open 1`] = `
                 value=""
               />
               <div
-                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop"
+                class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
                 style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                 theme="cxd"
               >

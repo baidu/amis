@@ -2152,10 +2152,6 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
           data-position="left"
           data-tooltip="关闭"
         >
-          <div
-            class=" Dialog-close"
-            style="display: none;"
-          />
           <icon-mock
             classname="icon icon-close"
             icon="close"
@@ -2791,10 +2787,6 @@ exports[`Renderer:checkboxes with editable & editControls & editApi: dialog open
           data-position="left"
           data-tooltip="关闭"
         >
-          <div
-            class=" Dialog-close"
-            style="display: none;"
-          />
           <icon-mock
             classname="icon icon-close"
             icon="close"

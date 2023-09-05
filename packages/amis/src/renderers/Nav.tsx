@@ -1,6 +1,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import isEqual from 'lodash/isEqual';
+import isString from 'lodash/isString';
 import {
   Renderer,
   RendererEnv,
@@ -25,10 +26,9 @@ import {
   findTree,
   isObject
 } from 'amis-core';
-import {generateIcon} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
-import {Icon, getIcon, SpinnerExtraProps} from 'amis-ui';
+import {Icon, SpinnerExtraProps} from 'amis-ui';
 import {BadgeObject} from 'amis-ui';
 import {RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {Spinner, Menu} from 'amis-ui';
@@ -144,11 +144,6 @@ export interface NavOverflow {
    * 自定义样式
    */
   style?: React.CSSProperties;
-
-  /**
-   * 菜单DOM挂载点
-   */
-  popOverContainer?: any;
 }
 
 /**
@@ -320,6 +315,10 @@ export interface NavigationProps
   data: Object;
   reload?: any;
   overflow?: NavOverflow;
+  /**
+   * 菜单DOM挂载点
+   */
+  popOverContainer?: () => HTMLElement;
 }
 
 export interface IDropInfo {
@@ -551,8 +550,11 @@ export class Navigation extends React.Component<
       mode,
       itemActions,
       render,
+      popOverContainer,
+      env,
       classnames: cx,
-      data
+      data,
+      collapsed
     } = this.props;
 
     if (!links) {
@@ -562,112 +564,128 @@ export class Navigation extends React.Component<
       return [];
     }
 
-    return links.map((link: Link) => {
-      let beforeIcon = null;
-      let afterIcon = null;
-      if (Array.isArray(link.icon)) {
-        beforeIcon = link.icon
-          .filter(item => item.position === 'before')
-          .map(item => {
-            if (React.isValidElement(item)) {
-              return item;
+    const isCollapsedNode = collapsed && depth === 1;
+
+    return links
+      .filter((link: Link) => !(link.hidden === true || link.visible === false))
+      .map((link: Link) => {
+        const beforeIcon: Array<any> = [];
+        const afterIcon: Array<any> = [];
+
+        link.icon &&
+          (Array.isArray(link.icon) ? link.icon : [link.icon]).forEach(
+            (item, i) => {
+              if (React.isValidElement(item)) {
+                beforeIcon.push(item);
+              } else if (isString(item)) {
+                beforeIcon.push(
+                  <Icon
+                    key={`icon-${i}`}
+                    cx={cx}
+                    icon={item}
+                    className={isCollapsedNode ? '' : 'mr-2'}
+                  />
+                );
+              } else if (item && isObject(item)) {
+                const isAfter = item['position'] === 'after';
+                const icon = (
+                  <Icon
+                    key={`icon-${i}`}
+                    cx={cx}
+                    icon={item['icon']}
+                    className={isCollapsedNode ? '' : isAfter ? 'ml-2' : 'mr-2'}
+                  />
+                );
+                if (isAfter) {
+                  afterIcon.push(icon);
+                } else {
+                  beforeIcon.push(icon);
+                }
+              }
             }
-            return generateIcon(cx, item.icon);
-          });
-        afterIcon = link.icon
-          .filter(item => item.position === 'after')
-          .map(item => {
-            if (React.isValidElement(item)) {
-              return item;
-            }
-            return generateIcon(cx, item.icon);
-          });
-      } else if (link.icon) {
-        if (React.isValidElement(link.icon)) {
-          beforeIcon = link.icon;
-        } else {
-          beforeIcon = generateIcon(cx, link.icon);
+          );
+
+        const label =
+          typeof link.label === 'string'
+            ? filter(link.label, data)
+            : React.isValidElement(link.label)
+            ? React.cloneElement(link.label)
+            : render('inline', link.label as SchemaCollection);
+
+        // 仅垂直内联模式支持
+        const isOverflow =
+          stacked &&
+          mode !== 'float' &&
+          !link.expanded &&
+          link.overflow &&
+          isObject(link.overflow) &&
+          link.overflow.enable;
+        let children = link.children;
+        if (isOverflow) {
+          const {
+            maxVisibleCount,
+            overflowIndicator = 'fa fa-ellipsis-h',
+            overflowLabel,
+            overflowClassName
+          } = link.overflow;
+          // 默认展示5个
+          const maxCount = maxVisibleCount || 2;
+          if (maxCount < (children?.length || 0)) {
+            children = children?.map((child: Link, index: number) => {
+              return {
+                ...child,
+                label:
+                  index === maxCount ? (
+                    <span className={cx(overflowClassName)}>
+                      <Icon
+                        icon={overflowIndicator}
+                        className="icon Nav-item-icon"
+                      />
+                      {overflowLabel && isObject(overflowLabel)
+                        ? render('nav-overflow-label', overflowLabel)
+                        : overflowLabel}
+                    </span>
+                  ) : (
+                    child.label
+                  ),
+                hidden: index > maxCount ? true : link.hidden,
+                expandMore: index === maxCount
+              };
+            });
+          }
         }
-      }
 
-      const label =
-        typeof link.label === 'string'
-          ? link.label
-          : React.isValidElement(link.label)
-          ? React.cloneElement(link.label)
-          : render('inline', link.label as SchemaCollection);
-
-      // 仅垂直内联模式支持
-      const isOverflow =
-        stacked &&
-        mode !== 'float' &&
-        !link.expanded &&
-        link.overflow &&
-        isObject(link.overflow) &&
-        link.overflow.enable;
-      let children = link.children;
-      if (isOverflow) {
-        const {
-          maxVisibleCount,
-          overflowIndicator = 'fa fa-ellipsis-h',
-          overflowLabel,
-          overflowClassName
-        } = link.overflow;
-        // 默认展示5个
-        const maxCount = maxVisibleCount || 2;
-        if (maxCount < (children?.length || 0)) {
-          children = children?.map((child: Link, index: number) => {
-            return {
-              ...child,
-              label:
-                index === maxCount ? (
-                  <span className={cx(overflowClassName)}>
-                    {getIcon(overflowIndicator!) ? (
-                      <Icon icon={overflowIndicator} className="icon" />
-                    ) : (
-                      generateIcon(cx, overflowIndicator, 'Nav-item-icon')
-                    )}
-                    {overflowLabel && isObject(overflowLabel)
-                      ? render('nav-overflow-label', overflowLabel)
-                      : overflowLabel}
-                  </span>
-                ) : (
-                  child.label
-                ),
-              hidden: index > maxCount ? true : link.hidden,
-              expandMore: index === maxCount
-            };
-          });
-        }
-      }
-
-      return {
-        link,
-        label,
-        labelExtra: afterIcon ? (
-          <i className={cx('Nav-Menu-item-icon-after')}>{afterIcon}</i>
-        ) : null,
-        icon: beforeIcon ? <i>{beforeIcon}</i> : null,
-        children: children
-          ? this.normalizeNavigations(children, depth + 1)
-          : [],
-        path: link.to,
-        open: link.unfolded,
-        extra: itemActions
-          ? render('inline', itemActions, {
-              data: createObject(data, link),
-              popOverContainer: () => document.body,
-              // 点击操作之后 就关闭 因为close方法里执行了preventDefault
-              closeOnClick: true
-            })
-          : null,
-        disabled: !!link.disabled,
-        disabledTip: link.disabledTip,
-        hidden: link.hidden,
-        className: link.className,
-        mode: link.mode
-      };
-    });
+        return {
+          link,
+          label,
+          labelExtra: afterIcon.length ? (
+            <i className={cx('Nav-Menu-item-icon-after')}>{afterIcon}</i>
+          ) : null,
+          icon: beforeIcon.length ? <i>{beforeIcon}</i> : null,
+          children: children
+            ? this.normalizeNavigations(children, depth + 1)
+            : [],
+          path: link.to,
+          open: link.unfolded,
+          extra: itemActions
+            ? render('inline', itemActions, {
+                data: createObject(data, link),
+                popOverContainer: popOverContainer
+                  ? popOverContainer
+                  : env && env.getModalContainer
+                  ? env.getModalContainer
+                  : () => document.body,
+                // 点击操作之后 就关闭 因为close方法里执行了preventDefault
+                closeOnClick: true
+              })
+            : null,
+          disabled: !!link.disabled,
+          disabledTip: link.disabledTip,
+          hidden: link.hidden,
+          className: link.className,
+          mode: link.mode
+        };
+      });
   }
 
   render(): JSX.Element {
@@ -695,7 +713,9 @@ export class Navigation extends React.Component<
       popupClassName,
       disabled,
       id,
-      render
+      render,
+      popOverContainer,
+      env
     } = this.props;
     const {dropIndicator} = this.state;
 
@@ -709,11 +729,7 @@ export class Navigation extends React.Component<
       overflowedIndicator = (
         <span className={cx(overflowClassName)}>
           <>
-            {getIcon(overflowIndicator!) ? (
-              <Icon icon={overflowIndicator} className="icon" />
-            ) : (
-              generateIcon(cx, overflowIndicator, 'Nav-item-icon')
-            )}
+            <Icon icon={overflowIndicator} className="icon Nav-item-icon" />
             {overflowLabel && isObject(overflowLabel)
               ? render('nav-overflow-label', overflowLabel)
               : overflowLabel}
@@ -802,6 +818,13 @@ export class Navigation extends React.Component<
               data={data}
               disabled={disabled}
               onDragStart={this.handleDragStart}
+              popOverContainer={
+                popOverContainer
+                  ? popOverContainer
+                  : env && env.getModalContainer
+                  ? env.getModalContainer
+                  : () => document.body
+              }
             ></Menu>
           ) : null}
           <Spinner show={!!loading} overlay loadingConfig={loadingConfig} />

@@ -62,6 +62,11 @@ export interface InputCityControlSchema
    * 是否显示搜索框
    */
   searchable?: boolean;
+
+  /**
+   * 下拉框className
+   */
+  itemClassName?: string;
 }
 
 export interface CityPickerProps
@@ -76,7 +81,7 @@ export interface CityPickerProps
   allowCity: boolean;
   allowDistrict: boolean;
   allowStreet: boolean;
-  useMobileUI?: boolean;
+  mobileUI?: boolean;
   style?: {
     [propName: string]: any;
   };
@@ -413,7 +418,8 @@ export class CityPicker extends React.Component<
       searchable,
       translate: __,
       loadingConfig,
-      popOverContainer
+      popOverContainer,
+      itemClassName
     } = this.props;
 
     const {provinceCode, cityCode, districtCode, street, db} = this.state;
@@ -421,6 +427,7 @@ export class CityPicker extends React.Component<
     return db ? (
       <div className={cx('CityPicker', className)}>
         <Select
+          className={cx(itemClassName)}
           searchable={searchable}
           disabled={disabled}
           options={db.province.map(item => ({
@@ -434,6 +441,7 @@ export class CityPicker extends React.Component<
 
         {allowCity && db.city[provinceCode] && db.city[provinceCode].length ? (
           <Select
+            className={cx(itemClassName)}
             searchable={searchable}
             disabled={disabled}
             options={db.city[provinceCode].map(item => ({
@@ -450,6 +458,7 @@ export class CityPicker extends React.Component<
         allowDistrict &&
         (db.district[provinceCode]?.[cityCode] as any)?.length ? (
           <Select
+            className={cx(itemClassName)}
             searchable={searchable}
             disabled={disabled}
             options={(db.district[provinceCode][cityCode] as Array<number>).map(
@@ -567,10 +576,11 @@ export class LocationControl extends React.Component<LocationControlProps> {
       disabled,
       searchable,
       env,
-      useMobileUI,
-      popOverContainer
+      mobileUI,
+      popOverContainer,
+      itemClassName
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
+
     return mobileUI ? (
       <CityArea
         value={value}
@@ -582,10 +592,11 @@ export class LocationControl extends React.Component<LocationControlProps> {
         joinValues={joinValues}
         allowStreet={allowStreet}
         disabled={disabled}
-        useMobileUI={useMobileUI}
+        mobileUI={mobileUI}
       />
     ) : (
       <ThemedCity
+        itemClassName={itemClassName}
         popOverContainer={popOverContainer || env?.getModalContainer}
         searchable={searchable}
         value={value}

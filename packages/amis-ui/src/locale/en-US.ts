@@ -177,6 +177,7 @@ register('en-US', {
   'Log.collapse': 'Collapse Operation',
   'link': 'Link',
   'loading': 'Loading',
+  'loadingFailed': 'Loading failed',
   'LocationPicker.placeholder': 'Pick location',
   'Month.placeholder': 'Select a month',
   'Nav.sourceError': 'Fetch link error',
@@ -211,6 +212,7 @@ register('en-US', {
   'Select.createLabel': 'New option',
   'Select.placeholder': 'Select',
   'Select.searchPromptText': 'Input to search',
+  'Select.selected': 'Selected',
   'sort': 'Sort',
   'stop': 'Stop',
   'SubForm.button': 'Config',
@@ -362,6 +364,7 @@ register('en-US', {
   'Condition.formula_placeholder': 'Please enter a formula',
   'Condition.fun_error': 'Function is undefined',
   'Condition.configured': 'Configured',
+  'Condition.isRequired': 'Condition is required',
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
   'Timeline.collapseText': 'Unfold',
   'Timeline.expandText': 'Fold',
@@ -372,6 +375,7 @@ register('en-US', {
   'FormulaEditor.variable': 'Variable',
   'FormulaEditor.function': 'Function',
   'FormulaEditor.invalidData': 'invalid data, position or reason is {{err}}',
+  'FormulaEditor.invalidValue': 'invalid value, reason is wrong value format',
   'pullRefresh.pullingText': 'Pull down to refresh...',
   'pullRefresh.loosingText': 'Release to refresh...',
   'pullRefresh.loadingText': 'Loading...',
@@ -399,5 +403,7 @@ register('en-US', {
   'TimeNow': 'Now',
   'IconSelect.all': 'All',
   'IconSelect.choice': 'Icon selection',
-  'Steps.step': 'Step {{index}}'
+  'Steps.step': 'Step {{index}}',
+  'FormulaInput.True': 'True',
+  'FormulaInput.False': 'False'
 });

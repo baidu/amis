@@ -8,9 +8,13 @@ import {
   RendererInfo,
   getSchemaTpl,
   noop,
-  defaultValue
+  defaultValue,
+  EditorNodeType,
+  isEmpty
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
+import omit from 'lodash/omit';
+import type {RendererConfig, Schema} from 'amis-core';
 
 export class DialogPlugin extends BasePlugin {
   static id = 'DialogPlugin';
@@ -303,6 +307,78 @@ export class DialogPlugin extends BasePlugin {
   };
 
   buildSubRenderers() {}
+
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
+    const renderer = this.manager.store.getNodeById(node.id)?.getComponent();
+    const data = omit(renderer.props.$schema.data, '$$id');
+    let dataSchema: any = {};
+
+    if (renderer.props.$schema.data === undefined || !isEmpty(data)) {
+      // 静态数据
+      for (const key in data) {
+        if (!['&'].includes(key)) {
+          dataSchema[key] = {
+            type: typeof data[key] ?? 'string', // 默认文本，不好确定类型
+            title: key
+          };
+        }
+      }
+
+      // 数据链
+      const hostNodeDataSchema =
+        await this.manager.config.getHostNodeDataSchema?.();
+      hostNodeDataSchema
+        .filter(
+          (item: any) => !['system-variable', 'page-global'].includes(item.$id)
+        )
+        ?.forEach((item: any) => {
+          dataSchema = {
+            ...dataSchema,
+            ...item.properties
+          };
+        });
+    }
+
+    return {
+      $id: 'dialog',
+      type: 'object',
+      title: node.schema?.label || node.schema?.name,
+      properties: dataSchema
+    };
+  }
+
+  /**
+   * 为了让 dialog 的按钮可以点击编辑
+   */
+  patchSchema(schema: Schema, info: RendererConfig, props?: any) {
+    if (Array.isArray(schema.actions)) {
+      return;
+    }
+
+    return {
+      ...schema,
+      actions: [
+        {
+          type: 'button',
+          actionType: 'cancel',
+          label: '取消'
+        },
+
+        props?.confirm
+          ? {
+              type: 'button',
+              actionType: 'confirm',
+              label: '确定',
+              primary: true
+            }
+          : null
+      ].filter((item: any) => item)
+    };
+  }
 }
 
 registerEditorPlugin(DialogPlugin);

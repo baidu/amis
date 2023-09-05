@@ -12,8 +12,7 @@ import {
   render,
   fireEvent,
   cleanup,
-  waitFor,
-  getByText
+  screen
 } from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
@@ -25,7 +24,7 @@ afterEach(() => {
   clearStoresCache();
 });
 
-test('Renderer:Picker base', async () => {
+test('1. Renderer:Picker base', async () => {
   const {container, rerender, getByText, getByPlaceholderText, baseElement} =
     render(
       amisRender({
@@ -73,7 +72,7 @@ test('Renderer:Picker base', async () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:Picker with pickerSchema & valueField & labelField & multiple & value & size', async () => {
+test('2. Renderer:Picker with pickerSchema & valueField & labelField & multiple & value & size', async () => {
   const fetcher = jest.fn().mockImplementation(() =>
     Promise.resolve({
       data: {
@@ -168,7 +167,7 @@ test('Renderer:Picker with pickerSchema & valueField & labelField & multiple & v
   });
 });
 
-test('Renderer:Picker with embed', async () => {
+test('3. Renderer:Picker with embed', async () => {
   const fetcher = jest.fn().mockImplementation(() =>
     Promise.resolve({
       data: {
@@ -241,7 +240,7 @@ test('Renderer:Picker with embed', async () => {
   ).toBeInTheDocument();
 });
 
-test('Renderer:Picker with drawer modalMode', async () => {
+test('4. Renderer:Picker with drawer modalMode', async () => {
   const {container, rerender, getByText, getByPlaceholderText, baseElement} =
     render(
       amisRender({
@@ -273,4 +272,73 @@ test('Renderer:Picker with drawer modalMode', async () => {
   expect(
     baseElement.querySelector('.cxd-Drawer .cxd-Crud')!
   ).toBeInTheDocument();
+});
+
+describe('5. Renderer:Picker with overflowConfig', () => {
+  test('5-1. Renderer:Picker select', async () => {
+    const {container, rerender, getByText, getByPlaceholderText, baseElement} =
+      render(
+        amisRender({
+          type: 'picker',
+          name: 'picker',
+          label: 'picker',
+          modalMode: 'dialog',
+          placeholder: 'picker-placeholder',
+          multiple: true,
+          overflowConfig: {
+            maxTagCount: 2
+          },
+          value: 'a,b,c',
+          options: [
+            {label: 'A', value: 'a'},
+            {label: 'B', value: 'b'},
+            {label: 'C', value: 'c'},
+            {label: 'D', value: 'd'}
+          ]
+        })
+      );
+
+    await wait(500);
+
+    const tags = container.querySelector('.cxd-Picker-values');
+
+    expect(tags).toBeInTheDocument();
+    /** tag 元素数量正确 */
+    expect(tags?.childElementCount).toEqual(3);
+    /** 收纳标签文案正确 */
+    expect(tags?.lastElementChild).toHaveTextContent('+ 1 ...');
+  });
+
+  test('5-2. Renderer:Picker embeded', async () => {
+    const {container, rerender, getByText, getByPlaceholderText, baseElement} =
+      render(
+        amisRender({
+          type: 'picker',
+          name: 'picker',
+          label: 'picker',
+          modalMode: 'dialog',
+          placeholder: 'picker-placeholder',
+          embed: true,
+          multiple: true,
+          overflowConfig: {
+            maxTagCount: 2
+          },
+          value: 'a,b,c',
+          options: [
+            {label: 'A', value: 'a'},
+            {label: 'B', value: 'b'},
+            {label: 'C', value: 'c'},
+            {label: 'D', value: 'd'}
+          ]
+        })
+      );
+
+    await wait(500);
+
+    const tags = container.querySelectorAll('.cxd-Crud-selection .cxd-Crud-value');
+    /** tag 元素数量正确 */
+    expect(tags?.length).toEqual(3);
+    /** 收纳标签文案正确 */
+    expect(tags[tags?.length - 1]).toHaveTextContent('+ 1 ...');
+  });
 });

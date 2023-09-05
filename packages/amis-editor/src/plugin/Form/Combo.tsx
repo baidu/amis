@@ -14,7 +14,7 @@ import {
   EditorManager,
   DSBuilderManager
 } from 'amis-editor-core';
-import {setVariable} from 'amis-core';
+import {setVariable, someTree} from 'amis-core';
 
 import {ValidatorTag} from '../../validator';
 import {
@@ -659,6 +659,82 @@ export class ComboControlPlugin extends BasePlugin {
       return props;
     }
     return props;
+  }
+
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
+  ) {
+    const itemsSchema: any = {
+      $id: `${node.id}-${node.type}-tableRows`,
+      type: 'object',
+      properties: {}
+    };
+    const items = node.children?.find(
+      child => child.isRegion && child.region === 'items'
+    );
+    const parentScopeId = `${parent?.id}-${parent?.type}${
+      node.parent?.type === 'cell' ? '-currentRow' : ''
+    }`;
+    let isColumnChild = false;
+
+    if (trigger) {
+      isColumnChild = someTree(items.children, item => item.id === trigger?.id);
+
+      if (isColumnChild) {
+        const scopeId = `${node.id}-${node.type}-currentRow`;
+        if (this.manager.dataSchema.getScope(scopeId)) {
+          this.manager.dataSchema.removeScope(scopeId);
+        }
+
+        if (this.manager.dataSchema.getScope(parentScopeId)) {
+          this.manager.dataSchema.switchTo(parentScopeId);
+        }
+
+        this.manager.dataSchema.addScope([], scopeId);
+        this.manager.dataSchema.current.tag = '当前行记录';
+        this.manager.dataSchema.current.group = '组件上下文';
+      }
+    }
+
+    const pool = items.children.concat();
+
+    while (pool.length) {
+      const current = pool.shift() as EditorNodeType;
+      const schema = current.schema;
+
+      if (schema.name) {
+        itemsSchema.properties[schema.name] =
+          await current.info.plugin.buildDataSchemas?.(
+            current,
+            region,
+            trigger,
+            node
+          );
+      }
+    }
+
+    if (isColumnChild) {
+      const scopeId = `${node.id}-${node.type}-currentRow`;
+      const scope = this.manager.dataSchema.getScope(scopeId);
+      scope?.addSchema(itemsSchema);
+    }
+
+    if (node.schema?.multiple) {
+      return {
+        $id: 'combo',
+        type: 'array',
+        title: node.schema?.label || node.schema?.name,
+        items: itemsSchema
+      };
+    }
+
+    return {
+      ...itemsSchema,
+      title: node.schema?.label || node.schema?.name
+    };
   }
 
   async getAvailableContextFields(

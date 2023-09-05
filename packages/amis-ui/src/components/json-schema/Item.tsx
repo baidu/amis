@@ -20,7 +20,7 @@ export function InputJSONSchemaItem(props: InputJSONSchemaItemProps) {
         value={props.value}
         onChange={props.onChange}
         placeholder={props.placeholder}
-        useMobileUI={props.useMobileUI}
+        mobileUI={props.mobileUI}
       />
     );
   } else if (schema.type == 'integer') {
@@ -30,7 +30,7 @@ export function InputJSONSchemaItem(props: InputJSONSchemaItemProps) {
         onChange={props.onChange}
         precision={0}
         placeholder={props.placeholder}
-        useMobileUI={props.useMobileUI}
+        mobileUI={props.mobileUI}
       />
     );
   } else if (schema.type == 'boolean') {
@@ -44,7 +44,7 @@ export function InputJSONSchemaItem(props: InputJSONSchemaItemProps) {
       value={props.value}
       onChange={props.onChange}
       placeholder={props.placeholder}
-      useMobileUI={props.useMobileUI}
+      mobileUI={props.mobileUI}
     />
   );
 }

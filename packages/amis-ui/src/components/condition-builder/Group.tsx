@@ -31,6 +31,8 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   funcs?: ConditionBuilderFuncs;
   showNot?: boolean;
   showANDOR?: boolean;
+  showIf?: boolean;
+  formulaForIf?: FormulaPickerProps;
   data?: any;
   disabled?: boolean;
   searchable?: boolean;
@@ -192,7 +194,9 @@ export class ConditionGroup extends React.Component<
       draggable,
       depth,
       isAddBtnVisibleOn,
-      isAddGroupBtnVisibleOn
+      isAddGroupBtnVisibleOn,
+      showIf,
+      formulaForIf
     } = this.props;
     const {isCollapsed} = this.state;
 
@@ -283,6 +287,8 @@ export class ConditionGroup extends React.Component<
                   depth={depth}
                   isAddBtnVisibleOn={isAddBtnVisibleOn}
                   isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
+                  showIf={showIf}
+                  formulaForIf={formulaForIf}
                 />
               ))
             ) : (

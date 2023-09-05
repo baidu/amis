@@ -29,6 +29,7 @@ import {
 } from '../../Schema';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
+import {filter} from 'amis-core';
 
 /**
  * File 文件上传控件
@@ -1353,6 +1354,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       downloadUrl,
       templateUrl,
       drag,
+      data,
       documentation,
       documentLink,
       env,
@@ -1462,9 +1464,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                         ? __('File.repick')
                         : multiple && files.length
                         ? __('File.continueAdd')
-                        : btnLabel
-                        ? btnLabel
-                        : __('File.upload')}
+                        : filter(btnLabel, data) || __('File.upload')}
                     </span>
                   </Button>
                 </>
@@ -1500,7 +1500,11 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   <TooltipWrapper
                     placement="bottom"
                     container={container || env?.getModalContainer}
-                    tooltipClassName={cx('FileControl-list-tooltip')}
+                    tooltipClassName={cx(
+                      'FileControl-list-tooltip',
+                      (file.state === 'invalid' || file.state === 'error') &&
+                        'is-invalid'
+                    )}
                     tooltip={
                       file.state === 'invalid' || file.state === 'error'
                         ? (file as FileValue).error ||
@@ -1511,7 +1515,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                                 maxSize: prettyBytes(maxSize, 1024)
                               })
                             : '')
-                        : ''
+                        : filename
                     }
                   >
                     <div

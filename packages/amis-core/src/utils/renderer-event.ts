@@ -1,7 +1,7 @@
 import {ListenerAction, ListenerContext, runActions} from '../actions/Action';
 import {RendererProps} from '../factory';
 import {IScopedContext} from '../Scoped';
-import {createObject} from './object';
+import {createObject, extendObject} from './object';
 import debounce from 'lodash/debounce';
 
 export interface debounceConfig {
@@ -65,7 +65,7 @@ export function createRendererEvent<T extends RendererEventContext>(
   context: T
 ): RendererEvent<T> {
   const rendererEvent = {
-    context,
+    context: extendObject({pristineData: context.data}, context),
     type,
     prevented: false,
     stoped: false,
@@ -79,6 +79,10 @@ export function createRendererEvent<T extends RendererEventContext>(
 
     get data() {
       return rendererEvent.context.data;
+    },
+
+    get pristineData() {
+      return rendererEvent.context.pristineData;
     },
 
     setData(data: any) {

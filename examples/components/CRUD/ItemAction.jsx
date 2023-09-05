@@ -5,6 +5,7 @@ export default {
     type: 'grid',
     columns: [
       {
+        md: 6,
         body: [
           {
             type: 'crud',
@@ -20,7 +21,7 @@ export default {
               {
                 name: 'id',
                 label: 'ID',
-                width: 20,
+                width: 30,
                 type: 'text'
               },
               {
@@ -33,6 +34,7 @@ export default {
         ]
       },
       {
+        md: 6,
         body: [
           {
             type: 'crud',

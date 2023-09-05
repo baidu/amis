@@ -14,7 +14,8 @@ import {
   extendObject,
   qsparse,
   uuid,
-  JSONTraverse
+  JSONTraverse,
+  isEmpty
 } from './helper';
 import isPlainObject from 'lodash/isPlainObject';
 import {debug, warning} from './debug';
@@ -76,15 +77,20 @@ export function buildApi(
   }
 
   if (api.requestAdaptor && typeof api.requestAdaptor === 'string') {
-    api.requestAdaptor = str2function(api.requestAdaptor, 'api') as any;
+    api.requestAdaptor = str2AsyncFunction(
+      api.requestAdaptor,
+      'api',
+      'context'
+    ) as any;
   }
 
   if (api.adaptor && typeof api.adaptor === 'string') {
-    api.adaptor = str2function(
+    api.adaptor = str2AsyncFunction(
       api.adaptor,
       'payload',
       'response',
-      'api'
+      'api',
+      'context'
     ) as any;
   }
 
@@ -337,6 +343,20 @@ export function str2AsyncFunction(
   }
 }
 
+export function callStrFunction(
+  this: any,
+  fn: string | Function,
+  argNames: Array<string>,
+  ...args: Array<any>
+) {
+  if (typeof fn === 'function') {
+    return fn.apply(this, args);
+  } else if (typeof fn === 'string' && fn) {
+    const func = str2function(fn, ...argNames)!;
+    return func?.apply(this, args);
+  }
+}
+
 export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   let data = ret.data;
   let hasStatusField = true;
@@ -427,19 +447,11 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
 
   debug('api', 'response', payload);
 
-  if (payload.ok && api.responseData) {
+  if (api.responseData && (payload.ok || !isEmpty(payload.data))) {
     debug('api', 'before dataMapping', payload.data);
     const responseData = dataMapping(
       api.responseData,
-
-      createObject(
-        {api},
-        (Array.isArray(payload.data)
-          ? {
-              items: payload.data
-            }
-          : payload.data) || {}
-      ),
+      createObject({api}, normalizeApiResponseData(payload.data)),
       undefined,
       api.convertKeyToPath
     );
@@ -459,12 +471,16 @@ export function wrapFetcher(
     return fn as any;
   }
 
-  const wrappedFetcher = function (api: Api, data: object, options?: object) {
+  const wrappedFetcher = async function (
+    api: Api,
+    data: object,
+    options?: object
+  ) {
     api = buildApi(api, data, options) as ApiObject;
 
     if (api.requestAdaptor) {
       debug('api', 'before requestAdaptor', api);
-      api = api.requestAdaptor(api) || api;
+      api = (await api.requestAdaptor(api, data)) || api;
       debug('api', 'after requestAdaptor', api);
     }
 
@@ -496,6 +512,12 @@ export function wrapFetcher(
       api.headers['Content-Type'] = 'application/json';
     }
 
+    // 如果发送适配器中设置了 mockResponse
+    // 则直接跳过请求发送
+    if (api.mockResponse) {
+      return wrapAdaptor(Promise.resolve(api.mockResponse) as any, api, data);
+    }
+
     if (!isValidApi(api.url)) {
       throw new Error(`invalid api url:${api.url}`);
     }
@@ -508,11 +530,11 @@ export function wrapFetcher(
     );
 
     if (api.method?.toLocaleLowerCase() === 'jsonp') {
-      return wrapAdaptor(jsonpFetcher(api), api);
+      return wrapAdaptor(jsonpFetcher(api), api, data);
     }
 
     if (api.method?.toLocaleLowerCase() === 'js') {
-      return wrapAdaptor(jsFetcher(fn, api), api);
+      return wrapAdaptor(jsFetcher(fn, api), api, data);
     }
 
     if (typeof api.cache === 'number' && api.cache > 0) {
@@ -521,7 +543,8 @@ export function wrapFetcher(
         apiCache
           ? (apiCache as ApiCacheConfig).cachedPromise
           : setApiCache(api, fn(api)),
-        api
+        api,
+        data
       );
     }
     // IE 下 get 请求会被缓存，所以自动加个时间戳
@@ -533,7 +556,7 @@ export function wrapFetcher(
         api.url = api.url + `&${timeStamp}`;
       }
     }
-    return wrapAdaptor(fn(api), api);
+    return wrapAdaptor(fn(api), api, data);
   };
 
   (wrappedFetcher as any)._wrappedFetcher = true;
@@ -541,13 +564,17 @@ export function wrapFetcher(
   return wrappedFetcher;
 }
 
-export function wrapAdaptor(promise: Promise<fetcherResult>, api: ApiObject) {
+export function wrapAdaptor(
+  promise: Promise<fetcherResult>,
+  api: ApiObject,
+  context: any
+) {
   const adaptor = api.adaptor;
   return adaptor
     ? promise
         .then(async response => {
           debug('api', 'before adaptor data', (response as any).data);
-          let result = adaptor((response as any).data, response, api);
+          let result = adaptor((response as any).data, response, api, context);
 
           if (result?.then) {
             result = await result;
@@ -743,15 +770,14 @@ export function isValidApi(api: string) {
   }
   const idx = api.indexOf('://');
 
-  // 不允许直接相对路径写 api
   // 不允许 :// 结尾
-  if ((!~idx && api[0] !== '/') || (~idx && idx + 3 === api.length)) {
+  if (~idx && idx + 3 === api.length) {
     return false;
   }
 
   try {
     // 不补一个协议，URL 判断为 false
-    api = (~idx ? '' : 'schema://domain') + api;
+    api = (~idx ? '' : `schema://domain${api[0] === '/' ? '' : '/'}`) + api;
     new URL(api);
   } catch (error) {
     return false;

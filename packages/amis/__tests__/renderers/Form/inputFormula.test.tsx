@@ -2,7 +2,7 @@ import React = require('react');
 import {fireEvent, render, screen} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv} from '../../helper';
+import {makeEnv, wait} from '../../helper';
 
 test('Renderer:input-formula', async () => {
   const {container, findByText, findByDisplayValue} = render(
@@ -78,6 +78,7 @@ test('Renderer:input-formula', async () => {
     )
   );
 
+  await wait(500);
   expect(container).toMatchSnapshot();
 
   await findByDisplayValue('SUM(1 + 2)');
@@ -103,7 +104,7 @@ test('Renderer:input-formula', async () => {
   // });
 });
 
-test('Renderer:input-formula button', () => {
+test('Renderer:input-formula button', async () => {
   const {container} = render(
     amisRender(
       {
@@ -179,10 +180,11 @@ test('Renderer:input-formula button', () => {
     )
   );
 
+  await wait(500);
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:input-formula input-group', () => {
+test('Renderer:input-formula input-group', async () => {
   const {container} = render(
     amisRender(
       {
@@ -258,5 +260,6 @@ test('Renderer:input-formula input-group', () => {
     )
   );
 
+  await wait(500);
   expect(container).toMatchSnapshot();
 });

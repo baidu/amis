@@ -53,7 +53,8 @@ import {
   isString,
   isObject,
   isLayoutPlugin,
-  JSONPipeOut
+  JSONPipeOut,
+  scrollToActive
 } from './util';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
@@ -99,7 +100,8 @@ export function autoPreRegisterEditorCustomPlugins() {
 }
 
 /**
- * 注册Editor插件。
+ * 注册Editor插件
+ * 备注: 支持覆盖原有组件，注册新的组件时需配置 priority。
  * @param editor
  */
 export function registerEditorPlugin(klass: PluginClass) {
@@ -205,18 +207,14 @@ export class EditorManager {
   readonly pluginActions: PluginActions = {};
 
   dataSchema: DataSchema;
-  readonly isInFrame: boolean = false;
 
   /** 变量管理 */
   readonly variableManager;
 
   constructor(
     readonly config: EditorManagerConfig,
-    readonly store: EditorStoreType,
-    readonly parent?: EditorManager
+    readonly store: EditorStoreType
   ) {
-    const isInFrame = !!parent;
-    this.isInFrame = isInFrame;
     // 传给 amis 渲染器的默认 env
     this.env = {
       ...env, // 默认的 env 中带 jumpTo
@@ -227,78 +225,43 @@ export class EditorManager {
       this,
       this.env.beforeDispatchEvent
     );
-    this.hackIn = parent?.hackIn || hackIn;
+    this.hackIn = hackIn;
     // 自动加载预先注册的自定义组件
     autoPreRegisterEditorCustomPlugins();
-    /** 在顶层对外部注册的Plugin和builtInPlugins合并去重 */
-    if (!parent?.plugins) {
-      (config?.plugins || []).forEach(external => {
-        if (
-          Array.isArray(external) ||
-          !external.priority ||
-          !Number.isInteger(external.priority)
-        ) {
-          return;
+
+    this.plugins = (config.disableBultinPlugin ? [] : builtInPlugins) // 页面设计器注册的插件列表
+      .concat(this.normalizeScene(config?.plugins))
+      .filter(p => {
+        p = Array.isArray(p) ? p[0] : p;
+        return config.disablePluginList
+          ? typeof config.disablePluginList === 'function'
+            ? !config.disablePluginList(p.id || '', p)
+            : !config.disablePluginList.includes(p.id || 'unkown')
+          : true;
+      })
+      .map(Editor => {
+        let pluginOptions: Record<string, any> = {};
+        if (Array.isArray(Editor)) {
+          pluginOptions =
+            typeof Editor[1] === 'function' ? Editor[1]() : Editor[1];
+          Editor = Editor[0];
         }
 
-        const idx = builtInPlugins.findIndex(
-          builtIn =>
-            !Array.isArray(builtIn) &&
-            !Array.isArray(external) &&
-            builtIn.id === external.id &&
-            builtIn?.prototype instanceof BasePlugin
-        );
+        const plugin = new Editor(this, pluginOptions); // 进行一次实例化
+        plugin.order = plugin.order ?? 0;
 
-        if (~idx) {
-          const current = builtInPlugins[idx] as PluginClass;
-          const currentPriority =
-            current.priority && Number.isInteger(current.priority)
-              ? current.priority
-              : 0;
-          /** 同ID Plugin根据优先级决定是否替换掉Builtin中的Plugin */
-          if (external.priority > currentPriority) {
-            builtInPlugins.splice(idx, 1);
-          }
+        // 记录动作定义
+        if (plugin.rendererName) {
+          this.pluginEvents[plugin.rendererName] = plugin.events || [];
+          this.pluginActions[plugin.rendererName] = plugin.actions || [];
         }
-      });
-    }
 
-    this.plugins =
-      parent?.plugins ||
-      (config.disableBultinPlugin ? [] : builtInPlugins) // 页面设计器注册的插件列表
-        .concat(this.normalizeScene(config?.plugins))
-        .filter(p => {
-          p = Array.isArray(p) ? p[0] : p;
-          return config.disablePluginList
-            ? typeof config.disablePluginList === 'function'
-              ? !config.disablePluginList(p.id || '', p)
-              : !config.disablePluginList.includes(p.id || 'unkown')
-            : true;
-        })
-        .map(Editor => {
-          let pluginOptions: Record<string, any> = {};
-          if (Array.isArray(Editor)) {
-            pluginOptions =
-              typeof Editor[1] === 'function' ? Editor[1]() : Editor[1];
-            Editor = Editor[0];
-          }
-
-          const plugin = new Editor(this, pluginOptions); // 进行一次实例化
-          plugin.order = plugin.order ?? 0;
-
-          // 记录动作定义
-          if (plugin.rendererName) {
-            this.pluginEvents[plugin.rendererName] = plugin.events || [];
-            this.pluginActions[plugin.rendererName] = plugin.actions || [];
-          }
-
-          return plugin;
-        })
-        .sort((a, b) => a.order! - b.order!); // 按order排序【升序】
+        return plugin;
+      })
+      .sort((a, b) => a.order! - b.order!); // 按order排序【升序】
     this.hackRenderers();
-    this.dnd = parent?.dnd || new EditorDNDManager(this, store);
-    this.dataSchema =
-      parent?.dataSchema || new DataSchema(config.schemas || []);
+    this.dnd = new EditorDNDManager(this, store);
+    this.dataSchema = new DataSchema(config.schemas || []);
 
     /** 初始化变量管理 */
     this.variableManager = new VariableManager(
@@ -306,10 +269,6 @@ export class EditorManager {
       config?.variables,
       config?.variableOptions
     );
-
-    if (isInFrame) {
-      return;
-    }
 
     this.toDispose.push(
       // 当前节点区域数量发生变化，重新构建孩子渲染器列表。
@@ -339,6 +298,7 @@ export class EditorManager {
           this.buildToolbars();
           await this.buildRenderers();
           this.buildPanels();
+          scrollToActive(`[data-node-id="${id}"]`);
 
           this.trigger(
             'active',
@@ -1810,9 +1770,7 @@ export class EditorManager {
    * @param render
    */
   makeWrapper(info: RendererInfo, render: RendererConfig): any {
-    return this.parent?.makeWrapper
-      ? this.parent.makeWrapper(info, render)
-      : makeWrapper(this, info, render);
+    return makeWrapper(this, info, render);
   }
 
   /**
@@ -1897,7 +1855,7 @@ export class EditorManager {
       value: store.getValueOf(node.id),
       callback: this.panelChangeValue,
       target: () =>
-        document.querySelector(`[data-editor-id="${node.id}"]`) as HTMLElement
+        document.querySelector(`[data-hlbox-id="${node.id}"]`) as HTMLElement
     };
     store.openPopOverForm(context);
   }
@@ -1934,10 +1892,17 @@ export class EditorManager {
       return [];
     }
 
-    let scope: DataScope | void;
+    let scope: DataScope | void = undefined;
     let from = node;
     let region = node;
     const trigger = node;
+
+    // 删掉当前行记录scope，保持原始scope
+    for (const key in this.dataSchema.idMap) {
+      if (/\-currentRow$/.test(key)) {
+        this.dataSchema.removeScope(key);
+      }
+    }
 
     // 查找最近一层的数据域
     while (!scope && from) {
@@ -1963,12 +1928,13 @@ export class EditorManager {
       if (!nearestScope && node && !node.isSecondFactor) {
         nearestScope = scope;
       }
-
       const jsonschema = await node?.info?.plugin?.buildDataSchemas?.(
         node,
         region,
-        trigger
+        trigger,
+        node
       );
+
       if (jsonschema) {
         scope.removeSchema(jsonschema.$id);
         scope.addSchema(jsonschema);
@@ -1977,7 +1943,16 @@ export class EditorManager {
       scope = withoutSuper ? undefined : scope.parent;
     }
 
-    if (nearestScope?.id) {
+    // 存在当前行时，找到最底层（todo：暂不考虑table套service+table的场景）
+    const nearestScopeId = Object.keys(this.dataSchema.idMap).find(
+      key =>
+        /\-currentRow$/.test(key) &&
+        !this.dataSchema.idMap[key].children?.length
+    );
+
+    if (nearestScopeId) {
+      this.dataSchema.switchTo(nearestScopeId);
+    } else if (nearestScope?.id) {
       this.dataSchema.switchTo(nearestScope.id);
     }
 
@@ -1994,7 +1969,7 @@ export class EditorManager {
       return;
     }
 
-    let scope: DataScope | void;
+    let scope: DataScope | void = undefined;
     let from = node;
     let region = node;
 

@@ -117,6 +117,10 @@ test('evalute:filter4', () => {
   ).toBe('a is 1,2,3,7');
 });
 
+test('evalute:keywords', () => {
+  expect(evaluate('a is ${JOIN([1, 2, 3], "|")}', {})).toBe('a is 1|2|3');
+});
+
 test('evalute:oldVariable', () => {
   expect(
     evaluate('a is $a', {

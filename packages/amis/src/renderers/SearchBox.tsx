@@ -197,7 +197,7 @@ export class SearchBoxRenderer extends React.Component<
       onChange,
       className,
       style,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     const value = this.state.value;
@@ -222,7 +222,7 @@ export class SearchBoxRenderer extends React.Component<
         onChange={this.handleChange}
         onFocus={() => this.dispatchEvent('focus')}
         onBlur={() => this.dispatchEvent('blur')}
-        useMobileUI={useMobileUI}
+        mobileUI={mobileUI}
       />
     );
   }

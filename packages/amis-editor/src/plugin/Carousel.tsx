@@ -160,6 +160,7 @@ export class CarouselPlugin extends BasePlugin {
                       (item: {
                         html?: string;
                         image?: string;
+                        href?: string;
                         title?: string;
                         titleClassName?: string;
                         description?: string;
@@ -174,6 +175,7 @@ export class CarouselPlugin extends BasePlugin {
                               type: 'image',
                               content: item.image,
                               title: item.title,
+                              href: item.href,
                               titleClassName: item.titleClassName,
                               description: item.description,
                               descriptionClassName: item.descriptionClassName
@@ -187,6 +189,7 @@ export class CarouselPlugin extends BasePlugin {
                       (item: {
                         type: string;
                         content: string;
+                        href?: string;
                         title?: string;
                         titleClassName?: string;
                         description?: string;
@@ -198,6 +201,7 @@ export class CarouselPlugin extends BasePlugin {
                             }
                           : {
                               image: item.content,
+                              href: item.href,
                               title: item.title,
                               titleClassName: item.titleClassName,
                               description: item.description,
@@ -212,131 +216,160 @@ export class CarouselPlugin extends BasePlugin {
         },
         {
           title: '外观',
-          body: [
-            getSchemaTpl('switch', {
-              name: 'auto',
-              label: '自动轮播',
-              pipeIn: defaultValue(true)
-            }),
-            getSchemaTpl('valueFormula', {
-              rendererSchema: {
-                type: 'input-number'
-              },
-              name: 'interval',
-              label: '动画间隔(ms)',
-              valueType: 'number',
-              pipeIn: defaultValue(5000)
-            }),
+          body: getSchemaTpl('collapseGroup', [
             {
-              name: 'duration',
-              type: 'input-number',
-              label: '动画时长(ms)',
-              min: 100,
-              step: 10,
-              size: 'sm',
-              pipeIn: defaultValue(500)
-            },
-            {
-              name: 'animation',
-              label: '动画效果',
-              type: 'button-group-select',
-              pipeIn: defaultValue('fade'),
-              options: [
+              title: '基本',
+              body: [
+                getSchemaTpl('switch', {
+                  name: 'auto',
+                  label: '自动轮播',
+                  pipeIn: defaultValue(true)
+                }),
+                getSchemaTpl('valueFormula', {
+                  rendererSchema: {
+                    type: 'input-number'
+                  },
+                  name: 'interval',
+                  label: '动画间隔(ms)',
+                  valueType: 'number',
+                  pipeIn: defaultValue(5000)
+                }),
                 {
-                  label: 'fade',
-                  value: 'fade'
+                  name: 'duration',
+                  type: 'input-number',
+                  label: '动画时长(ms)',
+                  min: 100,
+                  step: 10,
+                  size: 'sm',
+                  pipeIn: defaultValue(500)
                 },
                 {
-                  label: 'slide',
-                  value: 'slide'
-                }
-              ]
-            },
-            {
-              name: 'controlsTheme',
-              label: '控制按钮主题',
-              type: 'button-group-select',
-              pipeIn: defaultValue('light'),
-              options: [
-                {
-                  label: 'light',
-                  value: 'light'
+                  name: 'animation',
+                  label: '动画效果',
+                  type: 'button-group-select',
+                  pipeIn: defaultValue('fade'),
+                  options: [
+                    {
+                      label: 'fade',
+                      value: 'fade'
+                    },
+                    {
+                      label: 'slide',
+                      value: 'slide'
+                    }
+                  ]
                 },
                 {
-                  label: 'dark',
-                  value: 'dark'
-                }
-              ]
-            },
-            {
-              name: 'controls',
-              label: '控制显示',
-              type: 'button-group-select',
-              pipeIn: defaultValue('dots,arrows'),
-              multiple: true,
-              options: [
-                {
-                  label: '底部圆点',
-                  value: 'dots'
+                  name: 'controlsTheme',
+                  label: '控制按钮主题',
+                  type: 'button-group-select',
+                  pipeIn: defaultValue('light'),
+                  options: [
+                    {
+                      label: 'light',
+                      value: 'light'
+                    },
+                    {
+                      label: 'dark',
+                      value: 'dark'
+                    }
+                  ]
                 },
                 {
-                  label: '左右箭头',
-                  value: 'arrows'
-                }
-              ]
-            },
-            getSchemaTpl('switch', {
-              name: 'alwaysShowArrow',
-              label: '箭头一直显示',
-              clearValueOnHidden: true,
-              hiddenOn: '!~this.controls.indexOf("arrows")',
-              pipeIn: defaultValue(false)
-            }),
-            {
-              type: 'ae-switch-more',
-              bulk: true,
-              mode: 'normal',
-              name: 'multiple',
-              label: '多图展示',
-              formType: 'extend',
-              form: {
-                body: [
-                  {
-                    name: 'multiple.count',
-                    label: '数量',
-                    type: 'input-number',
-                    min: 2,
-                    step: 1
+                  name: 'controls',
+                  label: '控制显示',
+                  type: 'button-group-select',
+                  pipeIn: defaultValue('dots,arrows'),
+                  multiple: true,
+                  options: [
+                    {
+                      label: '底部圆点',
+                      value: 'dots'
+                    },
+                    {
+                      label: '左右箭头',
+                      value: 'arrows'
+                    }
+                  ]
+                },
+                getSchemaTpl('switch', {
+                  name: 'alwaysShowArrow',
+                  label: '箭头一直显示',
+                  clearValueOnHidden: true,
+                  hiddenOn: '!~this.controls.indexOf("arrows")',
+                  pipeIn: defaultValue(false)
+                }),
+                {
+                  type: 'ae-switch-more',
+                  bulk: true,
+                  mode: 'normal',
+                  name: 'multiple',
+                  label: '多图展示',
+                  formType: 'extend',
+                  form: {
+                    body: [
+                      {
+                        name: 'multiple.count',
+                        label: '数量',
+                        type: 'input-number',
+                        min: 2,
+                        step: 1
+                      }
+                    ]
                   }
-                ]
-              }
+                },
+                {
+                  name: 'width',
+                  type: 'input-text',
+                  label: '宽度',
+                  validations: 'isNumeric',
+                  addOn: {
+                    type: 'button',
+                    label: 'px'
+                  }
+                },
+                {
+                  name: 'height',
+                  type: 'input-text',
+                  label: '高度',
+                  validations: 'isNumeric',
+                  addOn: {
+                    type: 'button',
+                    label: 'px'
+                  }
+                }
+              ]
             },
             {
-              name: 'width',
-              type: 'input-text',
-              label: '宽度',
-              validations: 'isNumeric',
-              addOn: {
-                type: 'button',
-                label: 'px'
-              }
+              title: '显隐',
+              body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
             },
+            getSchemaTpl('theme:base', {
+              title: '轮播图'
+            }),
             {
-              name: 'height',
-              type: 'input-text',
-              label: '高度',
-              validations: 'isNumeric',
-              addOn: {
-                type: 'button',
-                label: 'px'
-              }
+              title: '其他',
+              body: [
+                {
+                  name: 'themeCss.baseControlClassName.--image-images-prev-icon',
+                  label: '左切换图标',
+                  type: 'icon-select',
+                  returnSvg: true
+                },
+                {
+                  name: 'themeCss.baseControlClassName.--image-images-next-icon',
+                  label: '右切换图标',
+                  type: 'icon-select',
+                  returnSvg: true
+                },
+                getSchemaTpl('theme:select', {
+                  label: '切换图标大小',
+                  name: 'themeCss.galleryControlClassName.width:default'
+                })
+              ]
             },
-            getSchemaTpl('className')
-          ]
-        },
-        {
-          title: '显隐',
-          body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
+            getSchemaTpl('theme:cssCode')
+          ])
         }
       ])
     ];

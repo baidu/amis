@@ -13,19 +13,14 @@ import {EditorNodeContext, EditorNodeType} from '../store/node';
 import {EditorManager} from '../manager';
 import flatten from 'lodash/flatten';
 import {render as reactRender, unmountComponentAtNode} from 'react-dom';
-import {
-  autobind,
-  deleteThemeConfigData,
-  diff,
-  setThemeDefaultData
-} from '../util';
-import {createObject} from 'amis-core';
+import {autobind, diff, getThemeConfig} from '../util';
+import {createObject, createObjectFromChain} from 'amis-core';
 import {CommonConfigWrapper} from './CommonConfigWrapper';
 import type {Schema} from 'amis';
 import type {DataScope} from 'amis-core';
 import type {RendererConfig} from 'amis-core';
 import type {SchemaCollection} from 'amis';
-import {omit} from 'lodash';
+import omit from 'lodash/omit';
 
 // 创建 Node Store 并构建成树
 export function makeWrapper(
@@ -107,7 +102,9 @@ export function makeWrapper(
         if (info.name) {
           const nodeSchema = manager.store.getNodeById(info.id)?.schema;
           const tag = nodeSchema?.title ?? nodeSchema?.name;
-          manager.dataSchema.current.tag = `${tag ?? ''}「${info.name}」`;
+          manager.dataSchema.current.tag = `${info.name}${
+            tag ? ` : ${tag}` : ''
+          }`;
           manager.dataSchema.current.group = '组件上下文';
         }
       }
@@ -151,9 +148,11 @@ export function makeWrapper(
         ref = ref.getWrappedInstance();
       }
 
-      this.editorNode &&
-        isAlive(this.editorNode) &&
+      if (this.editorNode && isAlive(this.editorNode)) {
         this.editorNode.setComponent(ref);
+
+        info.plugin?.componentRef?.(this.editorNode, ref);
+      }
     }
 
     /**
@@ -164,7 +163,7 @@ export function makeWrapper(
       const {render} = this.props; // render: amis渲染器
 
       // $$id 变化，渲染器最好也变化
-      if (node.$$id) {
+      if (node?.$$id) {
         props = props || {}; // props 可能为 undefined
         props.key = node.$$id || props.key;
       }
@@ -305,19 +304,18 @@ function SchemaFrom({
   }
 
   value = value || {};
-  const finalValue = setThemeDefaultData(pipeIn ? pipeIn(value) : value);
+  const finalValue = pipeIn ? pipeIn(value) : value;
+  const themeConfig = getThemeConfig();
 
   return render(
     schema,
     {
       onFinished: async (newValue: any) => {
-        newValue = deleteThemeConfigData(
-          pipeOut ? await pipeOut(newValue) : newValue
-        );
+        newValue = pipeOut ? await pipeOut(newValue) : newValue;
         const diffValue = diff(value, newValue);
         onChange(newValue, diffValue);
       },
-      data: ctx ? createObject(ctx, finalValue) : finalValue,
+      data: createObjectFromChain([ctx, themeConfig, finalValue]),
       node: node,
       manager: manager,
       popOverContainer

@@ -1,13 +1,14 @@
 import React from 'react';
 import {
+  ActionObject,
+  IScopedContext,
   Renderer,
   RendererProps,
-  generateIcon,
-  IconCheckedSchema,
+  ScopedContext,
   autobind,
   resolveEventData
 } from 'amis-core';
-import {Collapse as BasicCollapse} from 'amis-ui';
+import {Collapse as BasicCollapse, Icon} from 'amis-ui';
 import {BaseSchema, SchemaCollection, SchemaTpl, SchemaObject} from '../Schema';
 
 /**
@@ -123,19 +124,43 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
     'size'
   ];
 
+  basicCollapse = React.createRef<any>();
+
   @autobind
   async handleCollapseChange(props: any, collapsed: boolean) {
     const {dispatchEvent, onCollapse} = this.props;
-    const rendererEvent = await dispatchEvent(
-      'change',
-      resolveEventData(this.props, {
-        collapsed
-      })
+    const eventData = resolveEventData(this.props, {
+      collapsed
+    });
+
+    // 触发折叠器状态变更事件
+    const changeEvent = await dispatchEvent('change', eventData);
+
+    // 单独触发折叠 or 收起事件
+    const toggleEvent = await dispatchEvent(
+      collapsed ? 'collapse' : 'expand',
+      eventData
     );
-    if (rendererEvent?.prevented) {
+
+    if (changeEvent?.prevented || toggleEvent?.prevented) {
       return;
     }
+
     onCollapse?.(props, collapsed);
+  }
+
+  doAction(action: ActionObject, args: object, throwErrors: boolean): any {
+    if (this.props.disabled || this.props.collapsable === false) {
+      return;
+    }
+    if (['expand', 'collapse'].includes(action.actionType!)) {
+      const targetState = action.actionType === 'collapse';
+      this.handleCollapseChange(this.props, targetState);
+      const collapseInstance = (
+        this.basicCollapse?.current as any
+      )?.getWrappedInstance?.();
+      collapseInstance?.changeCollapsedState?.(targetState);
+    }
   }
 
   render() {
@@ -168,7 +193,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       disabled,
       collapsed,
       propsUpdate,
-      useMobileUI,
+      mobileUI,
       divideLine
     } = this.props;
 
@@ -177,6 +202,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
     return (
       <BasicCollapse
         id={id}
+        ref={this.basicCollapse}
         classnames={cx}
         classPrefix={ns}
         mountOnEnter={mountOnEnter}
@@ -195,13 +221,19 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
         disabled={disabled}
         propsUpdate={propsUpdate}
         expandIcon={
-          expandIcon
-            ? typeof (expandIcon as any).icon === 'object'
-              ? generateIcon(cx, (expandIcon as any).icon)
-              : render('arrow-icon', expandIcon || '', {
-                  className: cx('Collapse-icon-tranform')
-                })
-            : null
+          expandIcon ? (
+            typeof (expandIcon as any).icon === 'object' ? (
+              <Icon
+                cx={cx}
+                icon={(expandIcon as any).icon}
+                className={cx('Collapse-icon-tranform')}
+              />
+            ) : (
+              render('arrow-icon', expandIcon || '', {
+                className: cx('Collapse-icon-tranform')
+              })
+            )
+          ) : null
         }
         collapseHeader={
           collapseTitle || collapseHeader
@@ -218,7 +250,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
             ? render('body', body)
             : null
         }
-        useMobileUI={useMobileUI}
+        mobileUI={mobileUI}
         onCollapse={this.handleCollapseChange}
         divideLine={divideLine}
       ></BasicCollapse>
@@ -229,4 +261,18 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
 @Renderer({
   type: 'collapse'
 })
-export class CollapseRenderer extends Collapse {}
+export class CollapseRenderer extends Collapse {
+  static contextType = ScopedContext;
+
+  constructor(props: CollapseProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
+    scoped.registerComponent(this);
+  }
+
+  componentWillUnmount() {
+    const scoped = this.context as IScopedContext;
+    scoped.unRegisterComponent(this);
+  }
+}

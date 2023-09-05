@@ -2,8 +2,10 @@ import {
   defaultValue,
   setSchemaTpl,
   getSchemaTpl,
-  valuePipeOut
+  valuePipeOut,
+  EditorNodeType
 } from 'amis-editor-core';
+import {isPureVariable} from 'amis';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
   BasePlugin,
@@ -16,6 +18,7 @@ import {
 import {ValidatorTag} from '../../validator';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import omit from 'lodash/omit';
 
 setSchemaTpl('option', {
   name: 'option',
@@ -128,34 +131,69 @@ export class CheckboxControlPlugin extends BasePlugin {
                       label: '勾选值',
                       name: 'trueValue',
                       pipeIn: defaultValue(true),
-                      pipeOut: valuePipeOut
+                      pipeOut: valuePipeOut,
+                      onChange: (
+                        value: any,
+                        oldValue: any,
+                        model: any,
+                        form: any
+                      ) => {
+                        const defaultValue = form?.data?.value;
+                        if (isPureVariable(defaultValue)) {
+                          return;
+                        }
+                        if (oldValue === defaultValue) {
+                          form.setValues({value});
+                        }
+                      }
                     },
                     {
                       type: 'input-text',
                       label: '未勾选值',
                       name: 'falseValue',
                       pipeIn: defaultValue(false),
-                      pipeOut: valuePipeOut
+                      pipeOut: valuePipeOut,
+                      onChange: (
+                        value: any,
+                        oldValue: any,
+                        model: any,
+                        form: any
+                      ) => {
+                        const {value: defaultValue, trueValue} =
+                          form?.data || {};
+                        if (isPureVariable(defaultValue)) {
+                          return;
+                        }
+                        if (trueValue !== defaultValue) {
+                          form.setValues({value});
+                        }
+                      }
                     }
                   ]
                 }
               },
               getSchemaTpl('valueFormula', {
                 rendererSchema: {
-                  ...context?.schema,
+                  ...omit(context?.schema, ['trueValue', 'falseValue']),
                   type: 'switch'
                 },
                 needDeleteProps: ['option'],
                 label: '默认勾选',
                 rendererWrapper: true, // 浅色线框包裹一下，增加边界感
-                valueType: 'boolean'
-                // pipeIn: (value: any, data: any) => {
-                //   return value === (data?.data?.trueValue ?? true);
-                // },
-                // pipeOut: (value: any, origin: any, data: any) => {
-                //   const {trueValue = true, falseValue = false} = data;
-                //   return value ? trueValue : falseValue;
-                // }
+                valueType: 'boolean',
+                pipeIn: (value: any, data: any) => {
+                  if (isPureVariable(value)) {
+                    return value;
+                  }
+                  return value === (data?.data?.trueValue ?? true);
+                },
+                pipeOut: (value: any, origin: any, data: any) => {
+                  if (isPureVariable(value)) {
+                    return value;
+                  }
+                  const {trueValue = true, falseValue = false} = data;
+                  return value ? trueValue : falseValue;
+                }
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
@@ -190,6 +228,15 @@ export class CheckboxControlPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    // 默认trueValue和falseValue是同类型
+    return {
+      type: node.schema?.trueValue ? typeof node.schema?.trueValue : 'boolean',
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+  }
 }
 
 registerEditorPlugin(CheckboxControlPlugin);

@@ -15,7 +15,7 @@ import {ActionObject} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import find from 'lodash/find';
-import {isEmpty} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 /**
  * 链式下拉框
@@ -317,7 +317,7 @@ export default class ChainedSelectControl extends React.Component<
       joinValues,
       extractValue,
       multiple,
-      useMobileUI,
+      mobileUI,
       env,
       ...rest
     } = this.props;
@@ -329,12 +329,11 @@ export default class ChainedSelectControl extends React.Component<
 
     const hasStackLoading = this.state.stack.find((a: StackItem) => a.loading);
 
-    const mobileUI = useMobileUI && isMobile();
     return (
       <div className={cx(`${ns}ChainedSelectControl`, className)}>
         <Select
           {...rest}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
           popOverContainer={
             mobileUI
               ? env?.getModalContainer
@@ -354,7 +353,7 @@ export default class ChainedSelectControl extends React.Component<
           visible === false || loading ? null : (
             <Select
               {...rest}
-              useMobileUI={useMobileUI}
+              mobileUI={mobileUI}
               popOverContainer={
                 mobileUI
                   ? env.getModalContainer

@@ -1,4 +1,4 @@
-import {resolveVariableAndFilter} from 'amis';
+import {findTree, resolveVariableAndFilter} from 'amis';
 import isString from 'lodash/isString';
 
 /**
@@ -41,4 +41,26 @@ export const schemaToArray = (value: any) => {
 
 export const schemaArrayFormat = (value: any) => {
   return value && Array.isArray(value) && value.length === 1 ? value[0] : value;
+};
+
+/**
+ * 解析选项值类型
+ * @param options
+ * @returns
+ */
+export const resolveOptionType = (options: any) => {
+  if (!options) {
+    return 'string';
+  }
+
+  // 默认options内选项是同类型
+  let option = options[0];
+
+  if (typeof option === 'object') {
+    option = findTree(options, item => item.value !== undefined);
+  }
+
+  const value = option?.value ?? option;
+
+  return value !== undefined ? typeof value : 'string';
 };

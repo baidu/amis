@@ -2,7 +2,7 @@ import React = require('react');
 import {render, fireEvent} from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
-import {makeEnv} from '../helper';
+import {makeEnv, wait} from '../helper';
 import moment from 'moment';
 import {act} from 'react-test-renderer';
 
@@ -14,7 +14,7 @@ test('Renderer:date', async () => {
         name: 'date',
         label: 'date',
         value: '1559836800',
-        format: 'YYYY-MM-DD',
+        valueFormat: 'YYYY-MM-DD',
         placeholder: '请选择时间',
         minDate: '1559664000',
         maxDate: '1561737600',
@@ -88,4 +88,45 @@ test('Renderer:date reset', async () => {
   });
   // 重制后的日期 等于初始化的日期
   expect(inputElement?.value === defaultValue).toBeTruthy();
+});
+
+test('Renderer:date defaultValue', async () => {
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        data: {updateTime: 1680255708}
+      }
+    })
+  );
+
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        initApi: {
+          url: '/amis/initData',
+          method: 'GET'
+        },
+        title: '编辑',
+        body: [
+          {
+            type: 'input-date',
+            label: '日期',
+            name: 'updateTime',
+            format: 'YYYY-MM-DD',
+            value: '${NOW()}'
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        fetcher
+      })
+    )
+  );
+
+  await wait(500);
+  const inputElement = container.querySelector('input[type="text"]') as any;
+  expect(inputElement?.value).toBe('2023-03-31'); // 默认值的优先级没有接口返回的高，所以应该是 2023-03-31
 });

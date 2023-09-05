@@ -42,7 +42,7 @@ exports[`EventAction:ajax 1`] = `
             class="cxd-TplField"
           >
             <span>
-              岁的天空，status:，msg:
+              18岁的天空，status:0，msg:ok
             </span>
           </span>
         </div>
@@ -52,7 +52,7 @@ exports[`EventAction:ajax 1`] = `
 </div>
 `;
 
-exports[`EventAction:ajax 2`] = `
+exports[`EventAction:ajax args 1`] = `
 <div>
   <div
     class="cxd-Page"

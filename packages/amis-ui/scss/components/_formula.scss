@@ -51,7 +51,8 @@
 
   &-editor {
     @include scrollbar();
-    height: px2rem(200px);
+    min-height: px2rem(200px);
+    height: calc(100% - 35px);
     padding: #{px2rem(5px)};
     padding-right: 0;
 
@@ -510,10 +511,15 @@
 
 .#{$ns}FormulaPicker.is-input-group {
   border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
-  padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  padding: 0 var(--Form-input-paddingX) 0 0;
   border-radius: var(--borderRadius);
   background-color: #fff;
   height: var(--Form-input-height);
+
+  &.#{$ns}FormulaPicker--text {
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  }
+
   .#{$ns}FormulaPicker-input {
     display: flex;
     align-items: center;
@@ -521,19 +527,49 @@
     padding: 0;
     border: 0;
     margin: 0;
+    margin-right: #{px2rem(10px)};
+    max-width: unset;
+
     &:focus {
       border: none;
       outline: none;
       box-sizing: none;
     }
+
+    &-number,
+    &-select,
+    &-boolean,
+    &-date,
+    &-time,
+    &-datetime {
+      height: var(--InputFormula-input-schema-height);
+      padding-left: var(--Form-input-paddingX);
+    }
+
+    &-number {
+      .#{$ns}Number-handler-wrap {
+        height: unset; /* 避免调节器超出Input框 */
+      }
+    }
+
+    &-variable {
+      border: none;
+      min-height: unset;
+      line-height: #{px2rem(18px)};
+      padding-top: 0;
+      padding-bottom: 0;
+    }
   }
+
   .#{$ns}FormulaPicker-toggler {
     .icon-function {
-      transform: scale(1.8);
+      transform: scale(1.3);
     }
+
     .icon-ellipsis-v {
       transform: rotate(90deg);
     }
+
     &:hover {
       cursor: pointer;
     }

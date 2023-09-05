@@ -237,6 +237,22 @@
 //   }
 // }
 
+.#{$ns}CBIf {
+  margin-left: 10px;
+  font-size: 16px;
+  color: #84868c;
+
+  &:hover {
+    font-size: 16px;
+  }
+
+  &.is-active {
+    color: #2468f1;
+  }
+  cursor: pointer;
+  // margin-left: auto;
+}
+
 .#{$ns}CBGroupOrItem {
   position: relative;
   transition: box-shadow 0.3s ease;
@@ -282,7 +298,7 @@
         padding: 10px;
         margin: -10px 0px;
         background: $white;
-        z-index: 1;
+        z-index: 2;
       }
       > .#{$ns}CBGroupOrItem-dragbar {
         left: px2rem(-5px);

@@ -1,13 +1,14 @@
 import {ConditionBuilderConfig} from './config';
 import {ConditionBuilderFields, ConditionBuilderFuncs} from './types';
-import {ThemeProps, themeable, autobind, isMobile} from 'amis-core';
+import {ThemeProps, themeable, autobind} from 'amis-core';
 import React from 'react';
 import {Icon} from '../icons';
 import ConditionGroup from './Group';
 import ConditionItem from './Item';
-import {FormulaPickerProps} from '../formula/Picker';
+import FormulaPicker, {FormulaPickerProps} from '../formula/Picker';
 import Button from '../Button';
 import type {ConditionGroupValue, ConditionValue} from 'amis-core';
+import TooltipWrapper from '../TooltipWrapper';
 
 export interface CBGroupOrItemProps extends ThemeProps {
   builderMode?: 'simple' | 'full';
@@ -33,6 +34,8 @@ export interface CBGroupOrItemProps extends ThemeProps {
   depth: number;
   isAddBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
   isAddGroupBtnVisibleOn?: (param: {depth: number; breadth: number}) => boolean;
+  showIf?: boolean;
+  formulaForIf?: FormulaPickerProps;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -51,7 +54,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
 
   @autobind
   handlerHoverIn(e: any) {
-    if (isMobile()) {
+    if (this.props.mobileUI) {
       return;
     }
     e.stopPropagation();
@@ -65,6 +68,15 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
     this.setState({
       hover: false
     });
+  }
+
+  @autobind
+  handleIfChange(condition: string) {
+    const value: ConditionGroupValue = {
+      ...(this.props.value as any),
+      if: condition
+    };
+    this.props.onChange(value, this.props.index);
   }
 
   render() {
@@ -88,14 +100,17 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       isCollapsed,
       depth,
       isAddBtnVisibleOn,
-      isAddGroupBtnVisibleOn
+      isAddGroupBtnVisibleOn,
+      showIf,
+      formulaForIf,
+      mobileUI
     } = this.props;
 
     return (
       <div
         className={cx(
           `CBGroupOrItem${builderMode === 'simple' ? '-simple' : ''}`,
-          {'is-mobile': isMobile()}
+          {'is-mobile': mobileUI}
         )}
         data-id={value?.id}
       >
@@ -103,7 +118,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
           {value?.conjunction ? (
             <div
               className={cx('CBGroupOrItem-body-group', {
-                'is-hover': this.state.hover || isMobile()
+                'is-hover': this.state.hover || mobileUI
               })}
               onMouseOver={this.handlerHoverIn}
               onMouseOut={this.handlerHoverOut}
@@ -126,6 +141,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 onDragStart={onDragStart}
                 config={config}
                 fields={fields}
+                formula={formula}
                 value={value as ConditionGroupValue}
                 onChange={this.handleItemChange}
                 fieldClassName={fieldClassName}
@@ -137,6 +153,8 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 depth={depth + 1}
                 isAddBtnVisibleOn={isAddBtnVisibleOn}
                 isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
+                showIf={showIf}
+                formulaForIf={formulaForIf}
               />
             </div>
           ) : (
@@ -165,6 +183,33 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 renderEtrValue={renderEtrValue}
                 selectMode={selectMode}
               />
+              {showIf ? (
+                <FormulaPicker
+                  {...formulaForIf}
+                  evalMode={true}
+                  mixedMode={false}
+                  header="设置条件"
+                  value={value?.if || ''}
+                  onChange={this.handleIfChange}
+                >
+                  {({onClick}) => (
+                    <TooltipWrapper
+                      tooltip={
+                        '配置启动条件，当前规则只有在此条件成立时才会生效'
+                      }
+                      tooltipTheme="dark"
+                      container={popOverContainer}
+                    >
+                      <a
+                        className={cx('CBIf', value?.if ? 'is-active' : '')}
+                        onClick={onClick}
+                      >
+                        <Icon icon="if" className="icon" />
+                      </a>
+                    </TooltipWrapper>
+                  )}
+                </FormulaPicker>
+              ) : null}
               <Button
                 className={cx('CBDelete')}
                 onClick={this.handleItemRemove}

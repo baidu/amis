@@ -6,7 +6,7 @@ import {
 } from 'amis-editor-core';
 import React from 'react';
 import {buildApi, Html} from 'amis';
-import {get} from 'lodash';
+import get from 'lodash/get';
 
 setSchemaTpl('api', (patch: any = {}) => {
   const {name, label, value, description, sampleBuilder, apiDesc, ...rest} =

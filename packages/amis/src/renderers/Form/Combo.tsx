@@ -1293,10 +1293,9 @@ export default class ComboControl extends React.Component<ComboProps> {
       disabled,
       removable,
       deleteBtn,
-      useMobileUI
+      mobileUI,
+      data
     } = this.props;
-
-    const mobileUI = useMobileUI && isMobile();
 
     const finnalRemovable =
       store.removable !== false && // minLength ?
@@ -1315,38 +1314,44 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     // deleteBtn是对象，则根据自定义配置渲染按钮
     if (isObject(deleteBtn)) {
-      return render('delete-btn', {
-        ...deleteBtn,
-        type: 'button',
-        className: cx(
-          'Combo-delController',
-          deleteBtn ? deleteBtn.className : ''
-        ),
-        onClick: (e: any) => {
-          if (!deleteBtn.onClick) {
-            this.deleteItem(index);
-            return;
-          }
-
-          let originClickHandler = deleteBtn.onClick;
-          if (typeof originClickHandler === 'string') {
-            originClickHandler = str2AsyncFunction(
-              deleteBtn.onClick,
-              'e',
-              'index',
-              'props'
-            );
-          }
-          const result = originClickHandler(e, index, this.props);
-          if (result && result.then) {
-            result.then(() => {
+      return render(
+        'delete-btn',
+        {
+          ...deleteBtn,
+          type: 'button',
+          className: cx(
+            'Combo-delController',
+            deleteBtn ? deleteBtn.className : ''
+          ),
+          onClick: (e: any) => {
+            if (!deleteBtn.onClick) {
               this.deleteItem(index);
-            });
-          } else {
-            this.deleteItem(index);
+              return;
+            }
+
+            let originClickHandler = deleteBtn.onClick;
+            if (typeof originClickHandler === 'string') {
+              originClickHandler = str2AsyncFunction(
+                deleteBtn.onClick,
+                'e',
+                'index',
+                'props'
+              );
+            }
+            const result = originClickHandler(e, index, this.props);
+            if (result && result.then) {
+              result.then(() => {
+                this.deleteItem(index);
+              });
+            } else {
+              this.deleteItem(index);
+            }
           }
+        },
+        {
+          data: extendObject(data, {index})
         }
-      });
+      );
     }
 
     // deleteBtn是string，则渲染按钮文本
@@ -1407,7 +1412,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               'add-button',
               {
                 type: 'dropdown-button',
-                icon: addIcon ? <Icon icon="plus" className="icon" /> : '',
+                icon: addIcon ? <Icon icon="plus-fine" className="icon" /> : '',
                 label: __(addButtonText || 'add'),
                 level: 'info',
                 size: 'sm',
@@ -1426,7 +1431,7 @@ export default class ComboControl extends React.Component<ComboProps> {
             )
           ) : tabsMode ? (
             <a onClick={this.addItem}>
-              {addIcon ? <Icon icon="plus" className="icon" /> : null}
+              {addIcon ? <Icon icon="plus-fine" className="icon" /> : null}
               <span>{__(addButtonText || 'add')}</span>
             </a>
           ) : isObject(addBtn) ? (
@@ -1440,7 +1445,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               className={cx(`Combo-addBtn`, addButtonClassName)}
               onClick={this.addItem}
             >
-              {addIcon ? <Icon icon="plus" className="icon" /> : null}
+              {addIcon ? <Icon icon="plus-fine" className="icon" /> : null}
               <span>{__(addButtonText || 'add')}</span>
             </Button>
           ))}
@@ -1471,12 +1476,11 @@ export default class ComboControl extends React.Component<ComboProps> {
       itemClassName,
       itemsWrapperClassName,
       static: isStatic,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     let items = this.props.items;
     let value = this.props.value;
-    const mobileUI = useMobileUI && isMobile();
 
     if (flat && typeof value === 'string') {
       value = value.split(delimiter || ',');
@@ -1605,10 +1609,9 @@ export default class ComboControl extends React.Component<ComboProps> {
       nullable,
       translate: __,
       itemClassName,
-      useMobileUI
+      mobileUI
     } = this.props;
 
-    const mobileUI = useMobileUI && isMobile();
     let items = this.props.items;
     const data = isObject(value) ? this.formatValue(value) : this.defaultValue;
     let condition: ComboCondition | null = null;

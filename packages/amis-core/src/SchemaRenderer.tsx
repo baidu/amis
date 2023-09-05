@@ -23,7 +23,7 @@ import {reaction} from 'mobx';
 import {resolveVariableAndFilter} from './utils/tpl-builtin';
 import {buildStyle} from './utils/style';
 import {StatusScopedProps} from './StatusScoped';
-import {filter} from './utils/tpl';
+import {evalExpression, filter} from './utils/tpl';
 
 interface SchemaRendererProps
   extends Partial<Omit<RendererProps, 'statusStore'>>,
@@ -48,6 +48,8 @@ export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'hiddenOn',
   'disabled',
   'disabledOn',
+  'static',
+  'staticOn',
   'component',
   'detectField',
   'defaultValue',
@@ -61,7 +63,8 @@ export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'inputOnly',
   'label',
   'renderLabel',
-  'trackExpression'
+  'trackExpression',
+  'editorSetting'
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
@@ -80,6 +83,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
   reaction: any;
   unbindEvent: (() => void) | undefined = undefined;
+  isStatic: any = undefined;
 
   constructor(props: SchemaRendererProps) {
     super(props);
@@ -252,6 +256,15 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     return render!(`${$path}${region ? `/${region}` : ''}`, node || '', {
       ...omit(rest, omitList),
+      defaultStatic:
+        (this.renderer?.type &&
+        ['drawer', 'dialog'].includes(this.renderer.type)
+          ? false
+          : undefined) ??
+        this.isStatic ??
+        (_.staticOn
+          ? evalExpression(_.staticOn, rest.data)
+          : _.static ?? rest.defaultStatic),
       ...subProps,
       data: subProps.data || rest.data,
       env: env
@@ -303,6 +316,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const isStatic = isAlive(statusStore)
       ? statusStore.staticState[id] ?? statusStore.staticState[name]
       : undefined;
+    this.isStatic = isStatic;
 
     if (
       visible === false ||
@@ -450,7 +464,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       render: this.renderChild,
       rootStore,
       statusStore,
-      dispatchEvent: this.dispatchEvent
+      dispatchEvent: this.dispatchEvent,
+      mobileUI: schema.useMobileUI === false ? false : rest.mobileUI
     };
 
     if (disable !== undefined) {

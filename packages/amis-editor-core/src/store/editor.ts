@@ -410,8 +410,7 @@ export const MainStore = types
 
       // 用于剔除多余的字段
       getSimpleSchema(curSchema: any) {
-        const schema = JSONPipeOut(curSchema);
-        return getEnv(self).schemaFilter?.(schema) ?? schema;
+        return JSONPipeOut(curSchema);
       },
 
       getPanelKey() {
@@ -783,7 +782,7 @@ export const MainStore = types
         const grouped: {
           [propName: string]: Array<SubRendererInfo>;
         } = {
-          全部: []
+          ['全部']: []
         };
         const keywords = self.insertRenderersKeywords;
         const r = new RegExp(stringRegExp(keywords), 'i');

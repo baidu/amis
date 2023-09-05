@@ -43,11 +43,12 @@ exports[`Renderer:Page 1`] = `
                 onMouseOver={[Function]}
               >
                 <span
-                  className="cxd-Remark-icon icon"
+                  className="cxd-Remark-icon"
                 >
                   <icon-mock
-                    className=" icon-question-mark"
+                    className="icon-question-mark"
                     icon="question-mark"
+                    onClick={[Function]}
                   />
                 </span>
               </div>
@@ -168,10 +169,10 @@ exports[`Renderer:Page classNames 1`] = `
                 class="cxd-Remark cxd-Remark--warning"
               >
                 <span
-                  class="cxd-Remark-icon icon"
+                  class="cxd-Remark-icon"
                 >
                   <icon-mock
-                    classname=" icon-question-mark"
+                    classname="icon-question-mark"
                     icon="question-mark"
                   />
                 </span>
@@ -275,10 +276,6 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
           data-position="left"
           data-tooltip="关闭"
         >
-          <div
-            class=" Dialog-close"
-            style="display: none;"
-          />
           <icon-mock
             classname="icon icon-close"
             icon="close"
@@ -531,10 +528,6 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
           data-position="left"
           data-tooltip="关闭"
         >
-          <div
-            class=" Dialog-close"
-            style="display: none;"
-          />
           <icon-mock
             classname="icon icon-close"
             icon="close"
@@ -700,10 +693,6 @@ exports[`Renderer:Page handleAction actionType=drawer default 1`] = `
       <a
         class="cxd-Drawer-close"
       >
-        <div
-          class=" Drawer-close"
-          style="display: none;"
-        />
         <icon-mock
           classname="icon icon-close"
           icon="close"
@@ -836,10 +825,6 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
       <a
         class="cxd-Drawer-close"
       >
-        <div
-          class=" Drawer-close"
-          style="display: none;"
-        />
         <icon-mock
           classname="icon icon-close"
           icon="close"
@@ -1215,10 +1200,6 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
           data-position="left"
           data-tooltip="关闭"
         >
-          <div
-            class=" Dialog-close"
-            style="display: none;"
-          />
           <icon-mock
             classname="icon icon-close"
             icon="close"
@@ -1433,10 +1414,6 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
       <a
         class="cxd-Drawer-close"
       >
-        <div
-          class=" Drawer-close"
-          style="display: none;"
-        />
         <icon-mock
           classname="icon icon-close"
           icon="close"

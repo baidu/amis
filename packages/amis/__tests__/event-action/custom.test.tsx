@@ -35,7 +35,7 @@ test('EventAction:custom', async () => {
                     actionType: 'custom',
                     args: {
                       script:
-                        "doAction({actionType: 'ajax', args: {api: '/api/xxx'}, outputVar: 'result'});"
+                        "doAction({actionType: 'ajax', api: '/api/xxx', outputVar: 'result'});"
                     }
                   },
                   {
@@ -60,7 +60,7 @@ test('EventAction:custom', async () => {
                     actionType: 'custom',
                     args: {
                       script:
-                        "doAction({actionType: 'ajax', args: {api: '/api/xxx'}, outputVar: 'result'});event.stopPropagation();"
+                        "doAction({actionType: 'ajax', api: '/api/xxx', outputVar: 'result'});event.stopPropagation();"
                     }
                   },
                   {

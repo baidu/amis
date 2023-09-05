@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:date 1`] = `
+exports[`Renderer:datetime 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -74,10 +74,6 @@ exports[`Renderer:date 1`] = `
               <a
                 class="cxd-DatePicker-toggler"
               >
-                <div
-                  class=" DatePicker-toggler-date"
-                  style="display: none;"
-                />
                 <icon-mock
                   classname="icon icon-date"
                   icon="date"

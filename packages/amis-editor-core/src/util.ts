@@ -1,18 +1,19 @@
 /**
  * @file 功能类函数集合。
  */
-import {utils, hasIcon, mapObject} from 'amis';
-import isEqual from 'lodash/isEqual';
-import {isObservable, reaction} from 'mobx';
-import DeepDiff, {Diff} from 'deep-diff';
-import isPlainObject from 'lodash/isPlainObject';
-import isNumber from 'lodash/isNumber';
+import {hasIcon, mapObject, utils} from 'amis';
 import type {Schema} from 'amis';
-import type {SchemaObject} from 'amis';
-import {assign, cloneDeep} from 'lodash';
 import {getGlobalData} from 'amis-theme-editor-helper';
 import {isExpression, resolveVariableAndFilter} from 'amis-core';
 import type {VariableItem} from 'amis-ui';
+import {isObservable, reaction} from 'mobx';
+import DeepDiff, {Diff} from 'deep-diff';
+import assign from 'lodash/assign';
+import cloneDeep from 'lodash/cloneDeep';
+import isPlainObject from 'lodash/isPlainObject';
+import isEqual from 'lodash/isEqual';
+import isNumber from 'lodash/isNumber';
+import debounce from 'lodash/debounce';
 
 const {
   guid,
@@ -73,7 +74,9 @@ export function cleanUndefined(obj: any) {
 export function JSONPipeIn(obj: any): any {
   if (!isObject(obj) || obj.$$typeof) {
     return obj;
-  } else if (Array.isArray(obj)) {
+  }
+
+  if (Array.isArray(obj)) {
     return obj.map(JSONPipeIn);
   }
 
@@ -208,9 +211,9 @@ export function JSONPipeOut(
  * 如果存在themeCss属性，则给对应的className加上name
  */
 export function addStyleClassName(obj: Schema) {
-  const themeCss = obj.themeCss || obj.css;
+  const themeCss = obj.type === 'page' ? obj.themeCss : obj.themeCss || obj.css;
   // page暂时不做处理
-  if (!themeCss || obj.type === 'page') {
+  if (!themeCss) {
     return obj;
   }
   let toUpdate: any = {};
@@ -308,7 +311,7 @@ export function JSONGetParentById(
   id: string,
   skipArray: boolean = false
 ): any {
-  let paths = JSONGetPathById(json, id);
+  const paths = JSONGetPathById(json, id);
   if (paths === null || !paths.length) {
     return null;
   }
@@ -443,7 +446,9 @@ export function JSONDelete(
 export function JSONMerge(json: any, target: any) {
   if (!isObject(json) || !isObject(target)) {
     return target;
-  } else if (!isObjectShallowModified(json, target)) {
+  }
+
+  if (!isObjectShallowModified(json, target)) {
     return json;
   }
 
@@ -474,7 +479,7 @@ export function JSONChangeInArray(
   id: string,
   operation: (arr: Array<any>, node: any, index: number) => void
 ) {
-  let paths = JSONGetPathById(json, id);
+  const paths = JSONGetPathById(json, id);
 
   if (paths === null) {
     return json;
@@ -616,7 +621,7 @@ export function JsonGenerateID(json: any) {
 }
 
 export function createElementFromHTML(htmlString: string): HTMLElement {
-  var div = document.createElement('div');
+  const div = document.createElement('div');
   // bca-disable-next-line
   div.innerHTML = htmlString.trim();
 
@@ -687,7 +692,9 @@ export function filterSchemaForConfig(schema: any, valueWithConfig?: any): any {
 export function filterSchemaForEditor(schema: any): any {
   if (Array.isArray(schema)) {
     return schema.map(item => filterSchemaForEditor(item));
-  } else if (isPlainObject(schema)) {
+  }
+
+  if (isPlainObject(schema)) {
     const mapped: any = {};
     let modified = false;
 
@@ -715,8 +722,7 @@ export function filterSchemaForEditor(schema: any): any {
         modified = true;
       }
     });
-    const finalSchema = modified ? mapped : schema;
-    return finalSchema;
+    return modified ? mapped : schema;
   }
 
   return schema;
@@ -926,11 +932,7 @@ export function isString(obj: any) {
  *  判断是否是对象类型
  * */
 export function isObject(curObj: any) {
-  let isObject = false;
-  if (Object.prototype.toString.call(curObj).slice(8, -1) === 'Object') {
-    isObject = true;
-  }
-  return isObject;
+  return Object.prototype.toString.call(curObj).slice(8, -1) === 'Object';
 }
 
 export function jsonToJsonSchema(
@@ -992,10 +994,7 @@ export function isHasPluginIcon(plugin: any) {
  * 备注：当前只有一个flex布局容器
  */
 export function isLayoutPlugin(plugin: any) {
-  if (plugin && plugin.type === 'flex') {
-    return true;
-  }
-  return false;
+  return !!(plugin && plugin.type === 'flex');
 }
 
 /**
@@ -1049,10 +1048,7 @@ export function needDefaultWidth(elemType: string) {
     'input-range',
     'flex'
   ];
-  if (needDefaultWidthElemType.indexOf(elemType) > -1) {
-    return true;
-  }
-  return false;
+  return needDefaultWidthElemType.includes(elemType);
 }
 
 /** 是否开启应用国际化 */
@@ -1083,7 +1079,6 @@ export function appTranslate(value?: string) {
  * 判断是否需要给组件增加填充占位样式
  */
 export function needFillPlaceholder(curProps: any) {
-  let needFillPlaceholder = false;
   if (!curProps) {
     return false;
   }
@@ -1098,13 +1093,12 @@ export function needFillPlaceholder(curProps: any) {
   if (curProps.node?.schema?.isFreeContainer) {
     return true;
   }
+
   // 支持在plugin中配置
-  if (curProps.$$editor?.needFillPlaceholder) {
-    needFillPlaceholder = true;
-  } else if (curProps.regionConfig?.needFillPlaceholder) {
-    needFillPlaceholder = true;
-  }
-  return needFillPlaceholder;
+  return !!(
+    curProps.$$editor?.needFillPlaceholder ||
+    curProps.regionConfig?.needFillPlaceholder
+  );
 }
 // 设置主题数据
 export function setThemeConfig(config: any) {
@@ -1112,27 +1106,9 @@ export function setThemeConfig(config: any) {
   themeOptionsData = getGlobalData(themeConfig);
 }
 
-// 将主题数据传入组件的schema
-export function setThemeDefaultData(data: any) {
-  const schemaData = cloneDeep(data);
-  schemaData.themeConfig = themeConfig;
-  assign(schemaData, themeOptionsData);
-  return schemaData;
-}
-
-// 删除主题的配置数据
-export function deleteThemeConfigData(data: any) {
-  if (!data) {
-    return data;
-  }
-  const schemaData = cloneDeep(data);
-
-  delete schemaData.themeConfig;
-  Object.keys(themeOptionsData).forEach(key => {
-    delete schemaData[key];
-  });
-
-  return schemaData;
+// 获取主题数据和样式选择器数据
+export function getThemeConfig() {
+  return {themeConfig, ...themeOptionsData};
 }
 
 /**
@@ -1221,3 +1197,16 @@ export const updateComponentContext = (variables: any[]) => {
   }
   return items;
 };
+
+/**
+ * dom 滚动到可见区域
+ * @param selector dom 选择器
+ */
+export const scrollToActive = debounce((selector: string) => {
+  const dom = document.querySelector(selector);
+  if (dom) {
+    (dom as any).scrollIntoViewIfNeeded
+      ? (dom as any).scrollIntoViewIfNeeded()
+      : dom.scrollIntoView();
+  }
+}, 200);

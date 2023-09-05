@@ -45,6 +45,7 @@ export const Column = types
     type: types.optional(types.string, 'plain'),
     name: types.maybe(types.string),
     value: types.frozen(),
+    id: '',
     groupName: '',
     toggled: false,
     toggable: true,
@@ -58,6 +59,8 @@ export const Column = types
     fixed: '',
     index: 0,
     rawIndex: 0,
+    width: 0,
+    minWidth: 0,
     breakpoint: types.optional(types.frozen(), undefined),
     pristine: types.optional(types.frozen(), undefined),
     remark: types.optional(types.frozen(), undefined),
@@ -84,6 +87,13 @@ export const Column = types
 
       const table = getParent(self, 2) as ITableStore;
       table.persistSaveToggledColumns();
+    },
+
+    setWidth(value: number, minWidth?: number) {
+      self.width = value;
+      if (typeof minWidth === 'number') {
+        self.minWidth = minWidth;
+      }
     }
   }));
 
@@ -246,8 +256,11 @@ export const Row = types
     }
   }))
   .actions(self => ({
-    toggle() {
-      (getParent(self, self.depth * 2) as ITableStore).toggle(self as IRow);
+    toggle(checked: boolean) {
+      (getParent(self, self.depth * 2) as ITableStore).toggle(
+        self as IRow,
+        checked
+      );
     },
 
     toggleExpanded() {
@@ -425,31 +438,6 @@ export const TableStore = iRendererStore
       );
     }
 
-    function getLeftFixedColumns() {
-      if (self.dragging) {
-        return [];
-      }
-
-      let columns = getFilteredColumns().filter(item => item.fixed === 'left');
-
-      // 有才带过去，没有就不带了
-      if (columns.length) {
-        columns = getFilteredColumns().filter(
-          item => item.fixed === 'left' || /^__/.test(item.type)
-        );
-      }
-
-      return columns;
-    }
-
-    function getRightFixedColumns() {
-      if (self.dragging) {
-        return [];
-      }
-
-      return getFilteredColumns().filter(item => item.fixed === 'right');
-    }
-
     function isSelected(row: IRow): boolean {
       return !!~self.selectedRows.indexOf(row);
     }
@@ -597,10 +585,17 @@ export const TableStore = iRendererStore
           (item.has.length === 1 && item.label === item.has[0].label)
             ? 2
             : 1;
+
         return {
           ...item,
           rowSpan,
-          label: rowSpan === 2 ? item.label || item.has[0].label : item.label
+          label: rowSpan === 2 ? item.label || item.has[0].label : item.label,
+          fixed: item.has.every(column => column.fixed)
+            ? item.has[0].fixed
+            : undefined,
+          get width() {
+            return item.has.reduce((a, b) => a + b.width, 0);
+          }
         };
       });
     }
@@ -647,14 +642,6 @@ export const TableStore = iRendererStore
         return getFootableColumns();
       },
 
-      get leftFixedColumns() {
-        return getLeftFixedColumns();
-      },
-
-      get rightFixedColumns() {
-        return getRightFixedColumns();
-      },
-
       get toggableColumns() {
         return getToggableColumns();
       },
@@ -668,10 +655,9 @@ export const TableStore = iRendererStore
       },
 
       get allChecked(): boolean {
-        return !!(
-          self.selectedRows.length ===
-            (self as ITableStore).checkableRows.length &&
-          (self as ITableStore).checkableRows.length
+        // 只要selectedRows中包含checkableRows中的全部数据，就认为是全选
+        return (self as ITableStore).checkableRows.every(item =>
+          self.selectedRows.includes(item)
         );
       },
 
@@ -771,10 +757,80 @@ export const TableStore = iRendererStore
         });
 
         return list;
+      },
+
+      get columnWidthReady() {
+        return getFilteredColumns().every(column => column.width);
+      },
+
+      getStickyStyles(column: IColumn, columns: Array<IColumn>) {
+        let stickyClassName = '';
+        const style: any = {};
+        const autoFixLeftColumns = ['__checkme', '__dragme', '__expandme'];
+
+        if (
+          column.fixed === 'left' ||
+          autoFixLeftColumns.includes(column.type)
+        ) {
+          stickyClassName = 'is-sticky is-sticky-left';
+          let index = columns.indexOf(column) - 1;
+
+          if (
+            columns
+              .slice(index + 2)
+              .every(
+                col =>
+                  !(
+                    (col && col.fixed === 'left') ||
+                    autoFixLeftColumns.includes(col.type)
+                  )
+              )
+          ) {
+            stickyClassName += ' is-sticky-last-left';
+          }
+
+          let left = 0;
+          while (index >= 0) {
+            const col = columns[index];
+            if (
+              (col && col.fixed === 'left') ||
+              autoFixLeftColumns.includes(col.type)
+            ) {
+              left += col.width;
+            }
+            index--;
+          }
+          style.left = left;
+        } else if (column.fixed === 'right') {
+          stickyClassName = 'is-sticky is-sticky-right';
+          let right = 0;
+          let index = columns.indexOf(column) + 1;
+
+          if (columns.slice(0, index - 1).every(col => col.fixed !== 'right')) {
+            stickyClassName += ' is-sticky-first-right';
+          }
+
+          const len = columns.length;
+          while (index < len) {
+            const col = columns[index];
+            if (col && col.fixed === 'right') {
+              right += col.width;
+            }
+            index++;
+          }
+          style.right = right;
+        }
+        return [style, stickyClassName];
       }
     };
   })
   .actions(self => {
+    let tableRef: HTMLElement | null = null;
+
+    function setTable(ref: HTMLElement | null) {
+      tableRef = ref;
+    }
+
     function update(config: Partial<STableStore>) {
       config.primaryField !== void 0 &&
         (self.primaryField = config.primaryField);
@@ -820,12 +876,6 @@ export const TableStore = iRendererStore
         let columns: Array<SColumn> = config.columns
           .filter(column => column)
           .concat();
-        if (!columns.length) {
-          columns.push({
-            type: 'text',
-            label: '空'
-          });
-        }
 
         // 更新列顺序，afterCreate生命周期中更新columns不会触发组件的render
         const key = getPersistDataKey(columns);
@@ -846,42 +896,7 @@ export const TableStore = iRendererStore
           }
         }
 
-        columns.unshift({
-          type: '__expandme',
-          toggable: false,
-          className: 'Table-expandCell'
-        });
-
-        columns.unshift({
-          type: '__checkme',
-          fixed: 'left',
-          toggable: false,
-          className: 'Table-checkCell'
-        });
-
-        columns.unshift({
-          type: '__dragme',
-          toggable: false,
-          className: 'Table-dragCell'
-        });
-
-        columns = columns.map((item, index) => ({
-          ...item,
-          index,
-          rawIndex: index - PARTITION_INDEX,
-          type: item.type || 'plain',
-          pristine: item,
-          toggled: item.toggled !== false,
-          breakpoint: item.breakpoint,
-          isPrimary: index === PARTITION_INDEX,
-          className: item.className || '',
-          /** 提前映射变量，方便后续view中使用 */
-          label: isPureVariable(item.label)
-            ? resolveVariableAndFilter(item.label, self.data)
-            : item.label
-        }));
-
-        self.columns.replace(columns as any);
+        updateColumns(columns);
       }
     }
 
@@ -915,24 +930,103 @@ export const TableStore = iRendererStore
           className: 'Table-dragCell'
         });
 
-        columns = columns.map((item, index) => ({
-          ...item,
-          index,
-          rawIndex: index - PARTITION_INDEX,
-          type: item.type || 'plain',
-          pristine: item.pristine || item,
-          toggled: item.toggled !== false,
-          breakpoint: item.breakpoint,
-          isPrimary: index === PARTITION_INDEX,
-          /** 提前映射变量，方便后续view中使用 */
-          label: isPureVariable(item.label)
-            ? resolveVariableAndFilter(item.label, self.data)
-            : item.label
-        }));
+        const originColumns = self.columns.concat();
+        columns = columns.map((item, index) => {
+          const origin = item.id
+            ? originColumns.find(column => column.id === item.id)
+            : originColumns[index];
+
+          return {
+            ...item,
+            id: guid(),
+            index,
+            width: origin?.width || 0,
+            minWidth: origin?.minWidth || 0,
+            rawIndex: index - PARTITION_INDEX,
+            type: item.type || 'plain',
+            pristine: item.pristine || item,
+            toggled: item.toggled !== false,
+            breakpoint: item.breakpoint,
+            isPrimary: index === PARTITION_INDEX,
+            /** 提前映射变量，方便后续view中使用 */
+            label: isPureVariable(item.label)
+              ? resolveVariableAndFilter(item.label, self.data)
+              : item.label
+          };
+        });
 
         self.columns.replace(columns as any);
-        persistSaveToggledColumns();
       }
+    }
+
+    function syncTableWidth() {
+      const table = tableRef;
+      if (!table) {
+        return;
+      }
+      const tableWidth = table.parentElement!.offsetWidth;
+      const thead = table.querySelector(':scope>thead')!;
+      const tbody = table.querySelector(':scope>tbody');
+      const div = document.createElement('div');
+      div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
+      div.style.cssText += `visibility: hidden!important;`;
+      div.innerHTML =
+        `<table style="table-layout:auto!important;width:0!important;min-width:0!important;" class="${table.className}">${thead.outerHTML}</table>` +
+        `<table style="table-layout:auto!important;min-width:${tableWidth}px!important;width:${tableWidth}px!important;" class="${table.className.replace(
+          'is-layout-fixed',
+          ''
+        )}">${thead.outerHTML}${
+          tbody ? `<tbody>${tbody.innerHTML}</tbody>` : ''
+        }</table>`;
+      const ths1: Array<HTMLTableCellElement> = [].slice.call(
+        div.querySelectorAll(':scope>table:first-child>thead>tr>th[data-index]')
+      );
+      const ths2: Array<HTMLTableCellElement> = [].slice.call(
+        div.querySelectorAll(':scope>table:last-child>thead>tr>th[data-index]')
+      );
+
+      ths1.forEach(th => {
+        th.style.cssText += 'width: 0';
+      });
+      ths2.forEach(th => {
+        const index = parseInt(th.getAttribute('data-index')!, 10);
+        const column = self.columns[index];
+
+        th.style.cssText += `${
+          typeof column.pristine.width === 'number'
+            ? `width: ${column.pristine.width}px;`
+            : column.pristine.width
+            ? `width: ${column.pristine.width};`
+            : ''
+        }`;
+      });
+      document.body.appendChild(div);
+      const minWidths: {
+        [propName: string]: number;
+      } = {};
+      ths1.forEach((th: HTMLTableCellElement) => {
+        minWidths[th.getAttribute('data-index')!] = th.clientWidth;
+      });
+
+      ths2.forEach((col: HTMLElement) => {
+        const index = parseInt(col.getAttribute('data-index')!, 10);
+        const column = self.columns[index];
+        column.setWidth(
+          Math.max(
+            typeof column.pristine.width === 'number'
+              ? column.pristine.width
+              : col.clientWidth - 2,
+            minWidths[index]
+          ),
+          minWidths[index]
+        );
+      });
+
+      document.body.removeChild(div);
+    }
+
+    function invalidTableColumnWidth() {
+      self.columns.forEach(column => column.setWidth(0));
     }
 
     function combineCell(arr: Array<SRow>, keys: Array<string>): Array<SRow> {
@@ -1216,13 +1310,20 @@ export const TableStore = iRendererStore
 
         return [...self.selectedRows, ...checkableRows];
       } else {
-        return self.checkableRows;
+        return [
+          ...self.selectedRows.filter(item => !item.checkable),
+          ...self.checkableRows
+        ];
       }
     }
 
     function toggleAll() {
       if (self.allChecked) {
-        self.selectedRows.clear();
+        // 需要将不可选的row排除掉
+        // 不可选的 始终保持初始化的状态
+        self.selectedRows.replace(
+          self.selectedRows.filter(row => !row.checkable)
+        );
       } else {
         self.selectedRows.replace(getSelectedRows());
       }
@@ -1231,31 +1332,31 @@ export const TableStore = iRendererStore
     // 记录最近一次点击的多选框，主要用于 shift 多选时判断上一个选的是什么
     let lastCheckedRow: any = null;
 
-    function toggle(row: IRow) {
+    function toggle(row: IRow, checked: boolean) {
       if (!row.checkable) {
         return;
       }
 
       lastCheckedRow = row;
-
       const idx = self.selectedRows.indexOf(row);
-
       if (self.multiple) {
-        ~idx ? self.selectedRows.splice(idx, 1) : self.selectedRows.push(row);
+        ~idx
+          ? !checked && self.selectedRows.splice(idx, 1)
+          : checked && self.selectedRows.push(row);
       } else {
         ~idx
-          ? self.selectedRows.splice(idx, 1)
-          : self.selectedRows.replace([row]);
+          ? !checked && self.selectedRows.splice(idx, 1)
+          : checked && self.selectedRows.replace([row]);
       }
     }
 
-    // 按住 shift 的时候点击选项
-    function toggleShift(row: IRow) {
+    function getToggleShiftRows(row: IRow) {
       // 如果是同一个或非 multiple 模式下就和不用 shift 一样
       if (!lastCheckedRow || row === lastCheckedRow || !self.multiple) {
-        toggle(row);
-        return;
+        return [row];
       }
+
+      const toggleRows = [];
 
       const maxLength = self.maxKeepItemSelectionLength;
       const checkableRows = self.checkableRows;
@@ -1264,31 +1365,44 @@ export const TableStore = iRendererStore
       );
       const rowIndex = checkableRows.findIndex(rowItem => row === rowItem);
       const minIndex =
-        lastCheckedRowIndex > rowIndex ? rowIndex : lastCheckedRowIndex;
+        lastCheckedRowIndex > rowIndex ? rowIndex : lastCheckedRowIndex + 1;
       const maxIndex =
-        lastCheckedRowIndex > rowIndex ? lastCheckedRowIndex : rowIndex;
+        lastCheckedRowIndex > rowIndex ? lastCheckedRowIndex : rowIndex + 1;
 
       const rows = checkableRows.slice(minIndex, maxIndex);
-      rows.push(row); // 将当前行也加入进行判断
       for (const rowItem of rows) {
-        const idx = self.selectedRows.indexOf(rowItem);
-        if (idx === -1) {
-          // 如果上一个是选中状态，则将之间的所有 check 都变成可选
-          if (lastCheckedRow.checked) {
-            if (maxLength) {
-              if (self.selectedRows.length < maxLength) {
-                self.selectedRows.push(rowItem);
-              }
-            } else {
-              self.selectedRows.push(rowItem);
-            }
-          }
-        } else {
-          if (!lastCheckedRow.checked) {
-            self.selectedRows.splice(idx, 1);
-          }
+        // 如果上一个是选中状态，则将之间的所有 check 都变成可选
+        if (
+          !(
+            lastCheckedRow.checked &&
+            maxLength &&
+            self.selectedRows.length + toggleRows.length >= maxLength
+          )
+        ) {
+          toggleRows.push(rowItem);
         }
       }
+
+      return toggleRows;
+    }
+
+    // 按住 shift 的时候点击选项
+    function toggleShift(row: IRow, checked: boolean) {
+      const toggleRows = getToggleShiftRows(row);
+
+      if (toggleRows?.length === 1) {
+        toggle(row, checked);
+        return;
+      }
+
+      toggleRows.forEach(row => {
+        const idx = self.selectedRows.indexOf(row);
+        if (idx === -1 && checked) {
+          self.selectedRows.push(row);
+        } else if (~idx && !checked) {
+          self.selectedRows.splice(idx, 1);
+        }
+      });
 
       lastCheckedRow = row;
     }
@@ -1491,14 +1605,18 @@ export const TableStore = iRendererStore
     }
 
     return {
+      setTable,
       update,
       updateColumns,
+      syncTableWidth,
+      invalidTableColumnWidth,
       initRows,
       updateSelected,
       toggleAll,
       getSelectedRows,
       toggle,
       toggleShift,
+      getToggleShiftRows,
       toggleExpandAll,
       toggleExpanded,
       collapseAllAtDepth,

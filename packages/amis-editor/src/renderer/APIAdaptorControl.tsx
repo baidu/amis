@@ -264,7 +264,18 @@ export const adaptorApiStruct = `{
   ...
 }`;
 
+// 适配器 适配器 context 参数说明
+export const adaptorContextStruct = `{
+  // 上下文数据
+  [key: string]: any;
+}`;
+
 export const adaptorApiStructTooltip = genCodeSchema(adaptorApiStruct, [
+  '350px',
+  '128px'
+]);
+
+export const adaptorContextStructTooltip = genCodeSchema(adaptorContextStruct, [
   '350px',
   '128px'
 ]);
@@ -415,6 +426,10 @@ setSchemaTpl('apiRequestAdaptor', {
     {
       label: 'api',
       tip: adaptorApiStructTooltip
+    },
+    {
+      label: 'context',
+      tip: adaptorContextStructTooltip
     }
   ]
 });

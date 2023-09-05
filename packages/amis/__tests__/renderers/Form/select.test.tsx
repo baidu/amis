@@ -954,3 +954,59 @@ test('should call the string style user filterOption if it is provided', async (
     expect(screen.getByText('label3')).toBeInTheDocument();
   });
 });
+
+test('Choose default search results should be more relevant', async () => {
+  const options = [
+    {
+      label: 'Display in the top right corner of the list',
+      value: 'list'
+    },
+    {
+      label:
+        'Displayed in the top right corner of the record viewing page and in the drop-down menu for each item in the list view',
+      value: 'record'
+    },
+    {
+      label:
+        'Displayed in the "More" dropdown menu in the upper right corner of the record viewing page, as well as in the dropdown menu for each item in the list view',
+      value: 'record_more'
+    },
+    {
+      label: 'Display in the drop-down menu for each item in the list view',
+      value: 'list_item'
+    },
+    {
+      label: 'Displayed in the upper right corner of the record viewing page',
+      value: 'record_only'
+    },
+    {
+      label:
+        'Displayed in the "More" drop-down menu in the upper right corner of the record viewing page',
+      value: 'record_only_more'
+    }
+  ];
+
+  const {container} = render(
+    amisRender(
+      {
+        type: 'select',
+        name: 'select',
+        searchable: true,
+        options
+      },
+      {},
+      makeEnv()
+    )
+  );
+
+  const select = screen.getByText('请选择');
+  fireEvent.click(select);
+
+  expect(container.querySelectorAll('[role="option"]').length).toBe(6);
+
+  fireEvent.change(screen.getByPlaceholderText('搜索'), {
+    target: {value: 'more'}
+  });
+
+  expect(container.querySelectorAll('[role="option"]').length).toBe(2);
+});

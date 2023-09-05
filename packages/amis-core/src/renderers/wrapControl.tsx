@@ -18,8 +18,7 @@ import {
   isNeedFormula,
   isExpression,
   FormulaExec,
-  replaceExpression,
-  isNowFormula
+  replaceExpression
 } from '../utils/formula';
 import {IIRendererStore, IRendererStore} from '../store';
 import {ScopedContext, IScopedContext} from '../Scoped';
@@ -33,6 +32,7 @@ import {FormBaseControl, FormItemWrap} from './Item';
 import {Api} from '../types';
 import {TableStore} from '../store/table';
 import pick from 'lodash/pick';
+import {callStrFunction} from '../utils';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -130,6 +130,7 @@ export function wrapControl<
                 validationErrors,
                 unique,
                 value,
+                extraName,
                 multiple,
                 delimiter,
                 valueField,
@@ -209,7 +210,8 @@ export function wrapControl<
               maxLength,
               validateOnChange,
               label,
-              inputGroupControl
+              inputGroupControl,
+              extraName
             });
 
             // issue 这个逻辑应该在 combo 里面自己实现。
@@ -225,16 +227,41 @@ export function wrapControl<
               // 同步 value: 优先使用 props 中的 value
               model.changeTmpValue(propValue, 'controlled');
             } else {
-              // 备注: 此处的 value 是 schema 中的 value（和props.defaultValue相同）
               const isExp = isExpression(value);
-              const curTmpValue = isExp
-                ? FormulaExec['formula'](value, data) // 对组件默认值进行运算
-                : store?.getValueByName(model.name) ?? replaceExpression(value); // 优先使用公式表达式
-              // 同步 value
-              model.changeTmpValue(
-                curTmpValue,
-                isExp ? 'formulaChanged' : 'defaultValue'
-              );
+
+              if (isExp) {
+                model.changeTmpValue(
+                  FormulaExec['formula'](value, data), // 对组件默认值进行运算
+                  'formulaChanged'
+                );
+              } else {
+                let initialValue = model.extraName
+                  ? [
+                      store?.getValueByName(
+                        model.name,
+                        form?.canAccessSuperData
+                      ),
+                      store?.getValueByName(
+                        model.extraName,
+                        form?.canAccessSuperData
+                      )
+                    ]
+                  : store?.getValueByName(model.name, form?.canAccessSuperData);
+
+                if (
+                  model.extraName &&
+                  initialValue.every((item: any) => item === undefined)
+                ) {
+                  initialValue = undefined;
+                }
+
+                model.changeTmpValue(
+                  initialValue ?? replaceExpression(value),
+                  typeof initialValue !== 'undefined'
+                    ? 'initialValue'
+                    : 'defaultValue'
+                );
+              }
             }
 
             if (
@@ -243,7 +270,13 @@ export function wrapControl<
               model.tmpValue !== undefined
             ) {
               // 组件默认值支持表达式需要: 避免初始化时上下文中丢失组件默认值
-              onChange(model.tmpValue, model.name, false, true);
+              if (model.extraName) {
+                const values = model.splitExtraValue(model.tmpValue);
+                onChange(values[0], model.name, false, true);
+                onChange(values[1], model.extraName, false, true);
+              } else {
+                onChange(model.tmpValue, model.name, false, true);
+              }
             } else if (
               onChange &&
               typeof propValue === 'undefined' &&
@@ -254,7 +287,13 @@ export function wrapControl<
               store?.storeType !== TableStore.name
             ) {
               // 如果没有初始值，通过 onChange 设置过去
-              onChange(model.tmpValue, model.name, false, true);
+              if (model.extraName) {
+                const values = model.splitExtraValue(model.tmpValue);
+                onChange(values[0], model.name, false, true);
+                onChange(values[1], model.extraName, false, true);
+              } else {
+                onChange(model.tmpValue, model.name, false, true);
+              }
             }
           }
 
@@ -319,7 +358,8 @@ export function wrapControl<
                   'validateApi',
                   'minLength',
                   'maxLength',
-                  'label'
+                  'label',
+                  'extraName'
                 ],
                 prevProps.$schema,
                 props.$schema
@@ -346,7 +386,8 @@ export function wrapControl<
                 minLength: props.$schema.minLength,
                 maxLength: props.$schema.maxLength,
                 label: props.$schema.label,
-                inputGroupControl: props?.inputGroupControl
+                inputGroupControl: props?.inputGroupControl,
+                extraName: props.$schema.extraName
               });
             }
 
@@ -363,45 +404,39 @@ export function wrapControl<
             } else if (
               model &&
               typeof props.defaultValue !== 'undefined' &&
-              isExpression(props.defaultValue)
-            ) {
-              let nowFormulaChecked = false;
-              // 渲染器中的 defaultValue 优先（备注: SchemaRenderer中会将 value 改成 defaultValue）
-              if (
-                !isEqual(props.defaultValue, prevProps.defaultValue) ||
+              isExpression(props.defaultValue) &&
+              (!isEqual(props.defaultValue, prevProps.defaultValue) ||
                 (props.data !== prevProps.data &&
-                  (isNeedFormula(
+                  isNeedFormula(
                     props.defaultValue,
                     props.data,
                     prevProps.data
-                  ) ||
-                    (nowFormulaChecked = isNowFormula(props.defaultValue))))
+                  )))
+            ) {
+              const curResult = FormulaExec['formula'](
+                props.defaultValue,
+                props.data
+              );
+              const prevResult = FormulaExec['formula'](
+                prevProps.defaultValue,
+                prevProps.data
+              );
+              if (
+                !isEqual(curResult, prevResult) &&
+                !isEqual(curResult, model.tmpValue)
               ) {
-                const curResult = FormulaExec['formula'](
-                  props.defaultValue,
-                  props.data
-                );
-                const prevResult = FormulaExec['formula'](
-                  prevProps.defaultValue,
-                  prevProps.data
-                );
-                if (
-                  !isEqual(curResult, prevResult) &&
-                  !isEqual(curResult, model.tmpValue)
-                ) {
-                  // 识别上下文变动、自身数值变动、公式运算结果变动
-                  model.changeTmpValue(curResult, 'formulaChanged');
+                // 识别上下文变动、自身数值变动、公式运算结果变动
+                model.changeTmpValue(curResult, 'formulaChanged');
+
+                if (model.extraName) {
+                  const values = model.splitExtraValue(curResult);
+                  props.onChange?.(values[0], model.name, false);
+                  props.onChange?.(values[1], model.extraName, false);
+                } else {
                   props.onChange?.(curResult, model.name, false);
-                } else if (nowFormulaChecked) {
-                  const nowData = props.data[model.name];
-                  // now 表达式，计算后的值永远相同
-                  model.changeTmpValue(nowData, 'formulaChanged');
-                  props.onChange?.(nowData, model.name, false);
                 }
               }
             } else if (model) {
-              const valueByName = getVariable(props.data, model.name);
-
               // value 非公式表达式时，name 值优先，若 defaultValue 主动变动时，则使用 defaultValue
               if (
                 // 然后才是查看关联的 name 属性值是否变化
@@ -410,12 +445,30 @@ export function wrapControl<
                   isEqual(model.emitedValue, model.tmpValue))
               ) {
                 model.changeEmitedValue(undefined);
-                const prevValueByName = getVariable(props.data, model.name);
+                const valueByName = model.extraName
+                  ? [
+                      getVariable(props.data, model.name, false),
+                      getVariable(props.data, model.extraName, false)
+                    ]
+                  : getVariable(props.data, model.name, false);
+
                 if (
-                  (!isEqual(valueByName, prevValueByName) ||
-                    getVariable(props.data, model.name, false) !==
-                      getVariable(prevProps.data, model.name, false)) &&
-                  !isEqual(valueByName, model.tmpValue)
+                  !isEqual(
+                    valueByName,
+                    model.extraName
+                      ? model.splitExtraValue(model.tmpValue)
+                      : model.tmpValue
+                  ) &&
+                  (!isEqual(
+                    model.extraName ? valueByName[0] : valueByName,
+                    getVariable(prevProps.data, model.name, false)
+                  ) ||
+                    // extraName
+                    (model.extraName &&
+                      !isEqual(
+                        valueByName[1],
+                        getVariable(prevProps.data, model.extraName, false)
+                      )))
                 ) {
                   model.changeTmpValue(
                     valueByName,
@@ -596,7 +649,13 @@ export function wrapControl<
 
             if (pipeOut) {
               const oldValue = this.model.value;
-              value = pipeOut(value, oldValue, data);
+              value = callStrFunction(
+                pipeOut,
+                ['value', 'oldValue', 'data'],
+                value,
+                oldValue,
+                data
+              );
             }
 
             this.model.changeTmpValue(value, 'input');
@@ -633,10 +692,18 @@ export function wrapControl<
             if (!this.model) {
               return;
             }
+            const model = this.model;
             const value = this.model.tmpValue;
-            const oldValue = getVariable(data, this.model.name, false);
+            const oldValue = model.extraName
+              ? [
+                  getVariable(data, model.name, false),
+                  getVariable(data, model.extraName, false)
+                ]
+              : getVariable(data, model.name, false);
 
-            if (oldValue === value) {
+            if (
+              model.extraName ? isEqual(oldValue, value) : oldValue === value
+            ) {
               return;
             }
 
@@ -668,7 +735,13 @@ export function wrapControl<
               return;
             }
 
-            onChange?.(value, name!, submitOnChange === true);
+            if (model.extraName) {
+              const values = model.splitExtraValue(value);
+              onChange?.(values[0], name!);
+              onChange?.(values[1], model.extraName, submitOnChange === true);
+            } else {
+              onChange?.(value, name!, submitOnChange === true);
+            }
             this.checkValidate();
           }
 
@@ -690,6 +763,7 @@ export function wrapControl<
               return;
             }
 
+            const model = this.model;
             const {
               formStore: form,
               name,
@@ -700,10 +774,22 @@ export function wrapControl<
             } = this.props;
 
             if (pipeOut) {
-              value = pipeOut(value, oldValue, data);
+              value = callStrFunction(
+                pipeOut,
+                ['value', 'oldValue', 'data'],
+                value,
+                oldValue,
+                data
+              );
             }
 
-            onChange?.(value, name!, false, true);
+            if (model.extraName) {
+              const values = model.splitExtraValue(value);
+              onChange?.(values[0], name!, false, true);
+              onChange?.(values[1], model.extraName!, false, true);
+            } else {
+              onChange?.(value, name!, false, true);
+            }
           }
 
           getValue() {
@@ -711,7 +797,12 @@ export function wrapControl<
             let value: any = this.model ? this.model.tmpValue : control.value;
 
             if (control.pipeIn) {
-              value = control.pipeIn(value, data);
+              value = callStrFunction(
+                control.pipeIn,
+                ['value', 'data'],
+                value,
+                data
+              );
             }
 
             return value;
@@ -742,7 +833,8 @@ export function wrapControl<
               $schema: control,
               store,
               data,
-              invisible
+              invisible,
+              defaultStatic
             } = this.props;
 
             if (invisible) {
@@ -755,6 +847,7 @@ export function wrapControl<
             const injectedProps: any = {
               defaultSize: controlWidth,
               disabled: disabled ?? control.disabled,
+              static: control.static ?? defaultStatic,
               formItem: this.model,
               formMode: control.mode || formMode,
               ref: this.controlRef,

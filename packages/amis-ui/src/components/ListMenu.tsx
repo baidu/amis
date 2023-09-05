@@ -2,7 +2,6 @@ import {ThemeProps, themeable} from 'amis-core';
 import React from 'react';
 import {Options, Option} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
-import {isMobile} from 'amis-core';
 
 export interface ListMenuProps extends ThemeProps, LocaleProps {
   options: Options;
@@ -15,7 +14,6 @@ export interface ListMenuProps extends ThemeProps, LocaleProps {
   getItemProps: (props: {item: Option; index: number}) => any;
   prefix?: JSX.Element;
   children?: React.ReactNode | Array<React.ReactNode>;
-  useMobileUI?: boolean;
 }
 
 interface RenderResult {
@@ -38,7 +36,7 @@ export class ListMenu extends React.Component<ListMenuProps> {
       getItemProps,
       highlightIndex,
       selectedOptions,
-      useMobileUI,
+      mobileUI,
       onSelect
     } = this.props;
 
@@ -95,11 +93,10 @@ export class ListMenu extends React.Component<ListMenuProps> {
       placeholder,
       prefix,
       children,
-      useMobileUI,
+      mobileUI,
       selectedOptions
     } = this.props;
     const __ = this.props.translate;
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div className={cx('ListMenu', {'is-mobile': mobileUI})}>

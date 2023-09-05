@@ -118,7 +118,7 @@ test('Renderer:Carousel with name & option config', async () => {
               imageClassName: 'thisisimageClassName',
               title: '这是标题',
               titleClassName: 'thiisistitleClassName',
-              description: '描述', // description 属性没用
+              description: '这是描述',
               href: 'https://www.baidu.com'
             },
             {
@@ -146,6 +146,7 @@ test('Renderer:Carousel with name & option config', async () => {
     'https://www.baidu.com'
   );
   expect(item).toHaveTextContent('这是标题');
+  expect(item).toHaveTextContent('这是描述');
 
   fireEvent.click(container.querySelector('.cxd-Carousel-dot:nth-child(2)')!);
 

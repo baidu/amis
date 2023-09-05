@@ -79,9 +79,15 @@
       }
     }
 
-    &-tooltip span {
-      font-size: var(--fontSizeSm);
-      color: var(--FileControl-danger-color);
+    &-tooltip {
+      span {
+        font-size: var(--fontSizeSm);
+      }
+      &.is-invalid {
+        span {
+          color: var(--FileControl-danger-color);
+        }
+      }
     }
   }
 
@@ -98,6 +104,11 @@
 
     &.is-invalid {
       color: var(--FileControl-danger-color);
+
+      .#{$ns}FileControl-itemInfoIcon,
+      .#{$ns}FileControl-itemInfoText {
+        color: var(--FileControl-danger-color);
+      }
     }
 
     > svg:not(:first-child) {

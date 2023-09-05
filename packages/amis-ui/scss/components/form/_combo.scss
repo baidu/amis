@@ -20,6 +20,9 @@
     margin-top: var(--gap-xs);
     display: inline-block;
   }
+  &-itemInner {
+    margin-right: px2rem(12px);
+  }
 
   &-addBtn {
     > svg {
@@ -336,7 +339,11 @@
 
     .#{$ns}Combo-item {
       align-items: center;
-      border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+      position: relative;
+
+      &::before {
+        @include hairline-bottom(var(--borderColor));
+      }
     }
   }
 

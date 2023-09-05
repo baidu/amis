@@ -9,6 +9,7 @@
     div {
       @include flexBox(row, flex-end);
       background-color: #fff !important;
+      flex: 1;
       hr {
         display: inline-block;
         border: 0;

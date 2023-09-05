@@ -1,4 +1,5 @@
-:root {
+:root,
+.AMISCSSWrapper {
   --button-default-default-top-border-color: var(--colors-neutral-line-8);
   --button-default-default-top-border-style: var(--borders-style-2);
   --button-default-default-top-border-width: var(--borders-width-2);
@@ -1026,8 +1027,8 @@
   --inputNumber-base-default-bottom-left-border-radius: var(--borders-radius-3);
   --inputNumber-base-default-paddingTop: var(--sizes-size-3);
   --inputNumber-base-default-paddingBottom: var(--sizes-size-3);
-  --inputNumber-base-default-paddingLeft: var(--sizes-size-7);
-  --inputNumber-base-default-paddingRight: var(--sizes-size-7);
+  --inputNumber-base-default-paddingLeft: var(--sizes-size-6);
+  --inputNumber-base-default-paddingRight: var(--sizes-size-6);
   --inputNumber-base-default-bg-color: var(--colors-neutral-fill-11);
   --inputNumber-base-hover-top-border-color: var(--colors-brand-5);
   --inputNumber-base-hover-top-border-width: var(--borders-width-2);
@@ -1592,7 +1593,7 @@
   --ListControl-item-onActive-color: var(
     --listSelect-base-active-top-border-color
   );
-  --ListControl-item-onActive-before-bg: var(--colors-brand-4);
+  --ListControl-item-onActive-before-bg: var(--colors-brand-5);
   --ListControl-item-color: var(--listSelect-base-default-color);
   --ListControl-item-onDisabled-color: var(--listSelect-base-disabled-color);
   --ListControl-item-paddingX: var(--listSelect-base-default-paddingLeft);
@@ -2944,7 +2945,7 @@
   --inputDate-default-paddingTop: var(--sizes-size-3);
   --inputDate-default-paddingBottom: var(--sizes-size-3);
   --inputDate-default-paddingLeft: var(--sizes-size-6);
-  --inputDate-default-paddingRight: var(--sizes-base-6);
+  --inputDate-default-paddingRight: var(--sizes-size-6);
   --inputDate-default-fontSize: var(--fonts-size-7);
   --inputDate-default-fontWeight: var(--fonts-weight-6);
   --inputDate-default-height: var(--sizes-base-16);
@@ -3191,7 +3192,7 @@
   --steps-dot-process-bg-color: var(--colors-brand-5);
   --steps-dot-finish-bg-color: var(--colors-neutral-fill-11);
   --steps-dot-error-bg-color: var(--colors-error-5);
-  --steps-simple-icon: '';
+  --steps-simple-icon: '<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd"><polyline  stroke="currentColor" transform="translate(5.496854, 8.006854) scale(-1, 1) rotate(-135.000000) translate(-5.496854, -8.006854) " points="1.49685425 4.00685425 9.49685425 4.00685425 9.49685425 12.0068542" stroke-width="1" fill="none" stroke-linecap="butt" stroke-linejoin="round"/></g></svg>';
   --steps-simple-icon-size: var(--sizes-size-8);
 
   --Steps-bg: var(--steps-status-wait-color);
@@ -3304,6 +3305,7 @@
   --image-image-description-color: var(--colors-neutral-text-2);
   --image-image-description-fontSize: var(--fonts-size-8);
   --image-image-description-marginTop: var(--fonts-size-0);
+  --image-image-normal-icon: '<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g  stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd"><g><rect  opacity="0" x="0.5" y="0.5" width="15" height="15"></rect><path d="M7.9999,3.0001 C11.9889,3.0001 14.9999,6.8731 14.9999,8.0001 C14.9999,8.8831 11.9889,13.0001 7.9999,13.0001 C3.9609,13.0001 0.9999,8.8831 0.9999,8.0001 C0.9999,6.8731 3.9609,3.0001 7.9999,3.0001 Z M7.9999,4.0001 C4.7329,4.0001 2.2179,7.0861 2.0089,7.9731 C2.2749,8.7711 4.7189,12.0001 7.9999,12.0001 C11.2099,12.0001 13.7339,8.7311 13.9929,7.9631 C13.8069,7.1261 11.2709,4.0001 7.9999,4.0001 Z M7.975,5.879 C9.08,5.879 9.975,6.775 9.975,7.879 C9.975,8.983 9.08,9.879 7.975,9.879 C6.871,9.879 5.975,8.983 5.975,7.879 C5.975,6.775 6.871,5.879 7.975,5.879 Z M7.975,6.879 C7.424,6.879 6.975,7.327 6.975,7.879 C6.975,8.43 7.424,8.879 7.975,8.879 C8.527,8.879 8.975,8.43 8.975,7.879 C8.975,7.327 8.527,6.879 7.975,6.879 Z" ></path></g></g></svg>';
 
   --image-images-item-marginTop: var(--sizes-size-3);
   --image-images-item-marginBottom: var(--sizes-size-3);
@@ -3317,6 +3319,8 @@
   --image-images-preview-paddingBottom: var(--sizes-size-3);
   --image-images-preview-paddingLeft: var(--sizes-size-9);
   --image-images-preview-paddingRight: var(--sizes-size-9);
+  --image-images-prev-icon: '<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd"><polyline stroke="currentColor" transform="translate(10.496854, 8.006854) rotate(-135.000000) translate(-10.496854, -8.006854) " points="6.49685425 4.00685425 14.4968542 4.00685425 14.4968542 12.0068542" stroke-width="1" fill="none" stroke-linecap="butt" stroke-linejoin="round"/></g></svg>';
+  --image-images-next-icon: '<svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd"><polyline stroke="currentColor" transform="translate(5.496854, 8.006854) scale(-1, 1) rotate(-135.000000) translate(-5.496854, -8.006854) " points="1.49685425 4.00685425 9.49685425 4.00685425 9.49685425 12.0068542" stroke-width="1" fill="none" stroke-linecap="butt" stroke-linejoin="round"/></g></svg>';
 
   --Tag-base-fontSize: var(--fonts-size-8);
   --Tag-base-fontWeight: var(--fonts-weight-6);
@@ -3497,7 +3501,7 @@
   --Toast--danger-bottom-left-border-radius: var(--borders-radius-3);
   --Toast--danger-bgColor: var(--colors-neutral-fill-11);
   --Toast--info-color: var(--colors-neutral-text-2);
-  --Toast--info-fontSize: var(--fonts-size-6);
+  --Toast--info-fontSize: var(--fonts-size-7);
   --Toast--info-fontWeight: var(--fonts-weight-6);
   --Toast--info-top-border-color: var(--colors-neutral-line-11);
   --Toast--info-top-border-width: var(--borders-width-2);
@@ -3619,6 +3623,8 @@
   --Pick-base-value-icon-color: var(--colors-other-5);
   --Picker-iconColor: var(--Pick-base-icon-color);
   --Picker-onHover-iconColor: var(--icon-onHover-color);
+  --Picker-tag-height: #{px2rem(24px)};
+  --Picker-tag-marginBottom: var(--select-multiple-marginBottom);
   --Pick-status-hover-top-border-color: var(--colors-other-5);
   --Pick-status-hover-top-border-width: var(--borders-width-2);
   --Pick-status-hover-top-border-style: var(--borders-style-2);
@@ -3969,9 +3975,9 @@
   --Table-color: var(--table-body-color);
   --Table-expandBtn-color: var(--colors-neutral-text-5);
   --Table-fixed-zIndex: 5;
-  --Table-fixedLeft-boxShadow: 0.42rem 0 0.42rem -0.28rem rgba(0, 0, 0, 0.15);
-  --Table-fixedRight-boxShadow: -0.42rem 0 0.42rem -0.28rem rgba(0, 0, 0, 0.15);
-  --Table-fixedTop-boxShadow: var(--shadows-shadow-normal);
+  --Table-fixedLeft-boxShadow: inset 10px 0 8px -8px rgba(5, 5, 5, 0.06);
+  --Table-fixedRight-boxShadow: inset -10px 0 8px -8px rgba(5, 5, 5, 0.06);
+  --Table-fixedTop-boxShadow: inset 0 10px 8px -8px rgba(5, 5, 5, 0.06);
   --Table-fontSize: var(--table-body-fontSize);
   --Table-heading-bg: var(--table-title-bg-color);
   --Table-heading-height: #{px2rem(40px)};
@@ -3982,7 +3988,8 @@
   --Table-onChecked-onHover-bg: var(--colors-neutral-fill-10);
   --Table-onChecked-onHover-borderColor: var(--colors-neutral-line-8);
   --Table-onChecked-onHover-color: var(--colors-neutral-line-4);
-  --Table-onDragging-opacity: 0.1;
+  --Table-onDragging-opacity: 1;
+  --Table-onDragging-bg: var(--table-body-hover-bg-color);
   // 背景用到了 rgba，所以必须再提供这种写法，搜一下这个变量就知道为什么了
   --Table-onHover-bg-rgb: 245, 251, 255;
   --Table-onHover-bg: var(--table-body-hover-bg-color);

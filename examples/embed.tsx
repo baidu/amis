@@ -51,12 +51,12 @@ export function embed(
   container.classList.add('amis-scope');
   let scoped = {};
 
-  const requestAdaptor = (config: any) => {
+  const requestAdaptor = async (config: any) => {
     const fn =
       env && typeof env.requestAdaptor === 'function'
         ? env.requestAdaptor.bind()
-        : (config: any) => config;
-    const request = fn(config) || config;
+        : async (config: any) => config;
+    const request = (await fn(config)) || config;
 
     return request;
   };
@@ -189,7 +189,7 @@ export function embed(
       config.method = method;
       config.data = data;
 
-      config = requestAdaptor(config);
+      config = await requestAdaptor(config);
 
       if (method === 'get' && data) {
         config.params = data;
@@ -210,7 +210,9 @@ export function embed(
         return true;
       };
 
-      let response = await axios(config);
+      let response = config.mockResponse
+        ? config.mockResponse
+        : await axios(config);
       response = await attachmentAdpator(response, __);
       response = responseAdaptor(api)(response);
 

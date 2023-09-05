@@ -28,7 +28,36 @@ order: 67
                 },
                 {
                     "title": "Version",
-                    "name": "version"
+                    "name": "version",
+                    "type": "property",
+                    "items": [
+                        {
+                            "label": "cpu",
+                            "content": "1 core"
+                        },
+                        {
+                            "label": "memory",
+                            "content": "4G"
+                        },
+                        {
+                            "label": "disk",
+                            "content": "80G"
+                        },
+                        {
+                            "label": "network",
+                            "content": "4M",
+                            "span": 2
+                        },
+                        {
+                            "label": "IDC",
+                            "content": "beijing"
+                        },
+                        {
+                            "label": "Note",
+                            "content": "其它说明",
+                            "span": 3
+                        }
+                    ]
                 },
                 {
                     "title": "Browser",

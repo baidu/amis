@@ -1,8 +1,9 @@
 import React from 'react';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {tipedLabel} from 'amis-editor-core';
-import {registerEditorPlugin, getSchemaTpl} from 'amis-editor-core';
+import {registerEditorPlugin, getSchemaTpl, diff} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
+import {schemaArrayFormat, schemaToArray} from '../util';
 
 export class TimelinePlugin extends BasePlugin {
   static id = 'TimelinePlugin';
@@ -90,7 +91,42 @@ export class TimelinePlugin extends BasePlugin {
               getSchemaTpl('timelineItemControl', {
                 name: 'items',
                 mode: 'normal'
-              })
+              }),
+              {
+                type: 'ae-switch-more',
+                mode: 'normal',
+                label: '自定义标题显示模板',
+                bulk: false,
+                name: 'itemTitleSchema',
+                formType: 'extend',
+                form: {
+                  body: [
+                    {
+                      type: 'button',
+                      level: 'primary',
+                      size: 'sm',
+                      block: true,
+                      onClick: this.editDetail.bind(this, context),
+                      label: '配置标题显示模板'
+                    }
+                  ]
+                },
+                pipeIn: (value: any) => {
+                  if (typeof value === 'undefined') {
+                    return false;
+                  }
+                  return typeof value !== 'string';
+                },
+                pipeOut: (value: any) => {
+                  if (value === true) {
+                    return {
+                      type: 'tpl',
+                      tpl: '请编辑标题内容'
+                    };
+                  }
+                  return value ? value : undefined;
+                }
+              }
             ]
           },
           getSchemaTpl('status')
@@ -100,11 +136,54 @@ export class TimelinePlugin extends BasePlugin {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
           getSchemaTpl('style:classNames', {
-            isFormItem: false
+            isFormItem: false,
+            schema: [
+              getSchemaTpl('className', {
+                name: 'timeClassName',
+                label: '时间区'
+              }),
+
+              getSchemaTpl('className', {
+                name: 'titleClassName',
+                label: '标题区'
+              }),
+
+              getSchemaTpl('className', {
+                name: 'detailClassName',
+                label: '详情区'
+              })
+            ]
           })
         ])
       }
     ]);
+
+  editDetail(context: BaseEventContext) {
+    const {id, schema} = context;
+    const manager = this.manager;
+    const store = manager.store;
+    const node = store.getNodeById(id);
+    const value = store.getValueOf(id);
+    const defaultItemSchema = {
+      type: 'tpl',
+      tpl: '请编辑标题内容'
+    };
+    node &&
+      value &&
+      this.manager.openSubEditor({
+        title: '配置标题显示模板',
+        value: schemaToArray(value.itemTitleSchema ?? defaultItemSchema),
+        slot: {
+          type: 'container',
+          body: '$$'
+        },
+        onChange: (newValue: any) => {
+          newValue = {...value, itemTitleSchema: schemaArrayFormat(newValue)};
+          manager.panelChangeValue(newValue, diff(value, newValue));
+        },
+        data: schema
+      });
+  }
 }
 
 registerEditorPlugin(TimelinePlugin);

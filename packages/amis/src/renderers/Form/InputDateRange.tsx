@@ -36,9 +36,19 @@ export interface DateRangeControlSchema extends FormBaseControlSchema {
   format?: string;
 
   /**
+   * 用来提交的时间格式。更多格式类型请参考 moment.（新：同format）
+   */
+  valueFormat?: string;
+
+  /**
    * 默认 `YYYY-MM-DD` 用来配置显示的时间格式。
    */
   inputFormat?: string;
+
+  /**
+   * 用来配置显示的时间格式（新：同inputFormat）
+   */
+  displayFormat?: string;
 
   /**
    * 开启后将选中的选项 value 的值用连接符拼接起来，作为当前表单项的值。如： `value1,value2` 否则为 `[value1, value2]`
@@ -115,6 +125,7 @@ export interface DateRangeProps
     > {
   delimiter: string;
   format: string;
+  valueFormat: string;
   joinValues: boolean;
 }
 
@@ -136,6 +147,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       setPrinstineValue,
       delimiter,
       format,
+      valueFormat,
       data,
       value,
       joinValues,
@@ -150,10 +162,10 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       setPrinstineValue(
         DateRangePicker.formatValue(
           {
-            startDate: filterDate(arr[0], data, format),
-            endDate: filterDate(arr[1], data, format)
+            startDate: filterDate(arr[0], data, valueFormat || format),
+            endDate: filterDate(arr[1], data, valueFormat || format)
           },
-          format,
+          valueFormat || format,
           joinValues,
           delimiter,
           utc
@@ -170,9 +182,9 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       setPrinstineValue,
       data,
       utc,
-      format
+      format,
+      valueFormat
     } = this.props;
-
     if (prevProps.defaultValue !== defaultValue) {
       let arr =
         typeof defaultValue === 'string'
@@ -183,10 +195,10 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
         arr
           ? DateRangePicker.formatValue(
               {
-                startDate: filterDate(arr[0], data, format),
-                endDate: filterDate(arr[1], data, format)
+                startDate: filterDate(arr[0], data, valueFormat || format),
+                endDate: filterDate(arr[1], data, valueFormat || format)
               },
-              format,
+              valueFormat || format,
               joinValues,
               delimiter,
               utc
@@ -254,11 +266,14 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       maxDuration,
       data,
       format,
+      valueFormat,
+      inputFormat,
+      displayFormat,
       env,
-      useMobileUI,
+      mobileUI,
       ...rest
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
+
     const comptType = this.props?.type;
 
     return (
@@ -274,7 +289,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       >
         <DateRangePicker
           {...rest}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
           classPrefix={ns}
           popOverContainer={
             mobileUI
@@ -283,9 +298,18 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
           }
           onRef={this.getRef}
           data={data}
-          format={format}
-          minDate={minDate ? filterDate(minDate, data, format) : undefined}
-          maxDate={maxDate ? filterDate(maxDate, data, format) : undefined}
+          valueFormat={valueFormat || format}
+          displayFormat={displayFormat || inputFormat}
+          minDate={
+            minDate
+              ? filterDate(minDate, data, valueFormat || format)
+              : undefined
+          }
+          maxDate={
+            maxDate
+              ? filterDate(maxDate, data, valueFormat || format)
+              : undefined
+          }
           minDateRaw={minDate}
           maxDateRaw={maxDate}
           minDuration={minDuration ? parseDuration(minDuration) : undefined}
@@ -304,8 +328,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
 })
 export class DateRangeControlRenderer extends DateRangeControl {
   static defaultProps = {
-    ...DateRangeControl.defaultProps,
-    timeFormat: ''
+    ...DateRangeControl.defaultProps
   };
 }
 
@@ -316,7 +339,6 @@ export class DateRangeControlRenderer extends DateRangeControl {
 export class DateTimeRangeControlRenderer extends DateRangeControl {
   static defaultProps = {
     ...DateRangeControl.defaultProps,
-    timeFormat: 'HH:mm',
     inputFormat: 'YYYY-MM-DD HH:mm'
   };
 }
@@ -329,7 +351,6 @@ export class TimeRangeControlRenderer extends DateRangeControl {
   static defaultProps = {
     ...DateRangeControl.defaultProps,
     format: 'HH:mm',
-    timeFormat: 'HH:mm',
     inputFormat: 'HH:mm',
     viewMode: 'time',
     /** shortcuts的兼容配置 */

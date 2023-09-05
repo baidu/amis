@@ -43,7 +43,7 @@ test('table-list', async () => {
 
   const documentData = word.getXML('word/document.xml');
   mergeRun(word, documentData);
-  replaceVar(word, documentData);
+  await replaceVar(word, documentData);
 
   const xmlResult = xmlFormat(
     buildXML(documentData.getElementsByTagName('w:tbl').item(0)!),

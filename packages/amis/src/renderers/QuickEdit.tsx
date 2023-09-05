@@ -508,7 +508,7 @@ export const HocQuickEdit =
             container={popOverContainer}
             target={() => this.target}
             onHide={this.closeQuickEdit}
-            placement="left-top right-top left-bottom right-bottom left-top"
+            placement="left-top right-top left-bottom right-bottom left-top left-top-right-top left-bottom-right-bottom"
             show
           >
             <PopOver

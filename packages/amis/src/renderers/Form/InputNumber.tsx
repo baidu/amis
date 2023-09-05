@@ -13,6 +13,8 @@ import {
   filter,
   autobind,
   createObject,
+  numberFormatter,
+  safeSub,
   normalizeOptions,
   Option,
   PlainObject,
@@ -23,7 +25,7 @@ import {supportStatic} from './StaticHoc';
 
 /**
  * 数字输入框
- * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/number
+ * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-number
  */
 export interface NumberControlSchema extends FormBaseControlSchema {
   type: 'input-number';
@@ -49,17 +51,20 @@ export interface NumberControlSchema extends FormBaseControlSchema {
   precision?: number;
 
   /**
-   * 默认当然是
+   * 是否显示上下点击按钮
    */
   showSteps?: boolean;
+  
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
+  
   /**
    * 前缀
    */
   prefix?: string;
+  
   /**
    * 后缀
    */
@@ -96,45 +101,52 @@ export interface NumberControlSchema extends FormBaseControlSchema {
   displayMode?: 'base' | 'enhance';
 }
 
-const numberFormatter = new Intl.NumberFormat();
-
 export interface NumberProps extends FormControlProps {
   placeholder?: string;
   max?: number | string;
   min?: number | string;
   step?: number;
+  
   /**
    *  精度
    */
   precision?: number;
+  
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
+  
   /**
    * 前缀
    */
   prefix?: string;
+  
   /**
    * 后缀
    */
   suffix?: string;
+  
   /**
    * 是否千分分隔
    */
   kilobitSeparator?: boolean;
+  
   /**
    * 只读
    */
   readOnly?: boolean;
+  
   /**
    * 启用键盘行为，即通过上下方向键控制是否生效
    */
   keyboard?: boolean;
+  
   /**
    * 输入框为基础输入框还是加强输入框
    */
   displayMode?: 'base' | 'enhance';
+  
   /**
    * 是否是大数，如果是的话输入输出都将是字符串
    */
@@ -389,18 +401,17 @@ export default class NumberControl extends React.Component<
       id,
       env
     } = this.props;
+    const {unit} = this.state;
     const finalPrecision = this.filterNum(precision);
-    const unit = this.state?.unit;
     // 数据格式化
     const formatter =
       kilobitSeparator || prefix || suffix
         ? (value: string | number) => {
             // 增加千分分隔
             if (kilobitSeparator && value) {
-              value = numberFormatter.format(value as number);
+              value = numberFormatter(value, finalPrecision);
             }
-
-            return (prefix ? prefix : '') + value + (suffix ? suffix : '');
+            return `${prefix || ''}${value}${suffix || ''}`;
           }
         : undefined;
     // 将数字还原

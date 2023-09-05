@@ -6,10 +6,11 @@
  * 3. 可清除 clearable
  * 4. mini 模式
  * 5. 立即搜索 searchImediately、样式 className
+ * 6. Composition触发
  */
 
 import React from 'react';
-import {fireEvent, render} from '@testing-library/react';
+import {fireEvent, render, screen} from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
 import {makeEnv, wait} from '../helper';
@@ -36,7 +37,7 @@ test('Renderer:Searchbox', async () => {
     )
   );
 
-  await wait(200);
+  await wait(1000);
 
   expect(fetcher).toHaveBeenCalledTimes(1);
   expect(fetcher.mock.calls[0][0].query).toEqual({
@@ -210,5 +211,41 @@ test('Renderer:Searchbox with searchImediately & className', async () => {
   expect(onQuery).toBeCalledTimes(2);
   expect(onQuery.mock.calls[1][0]).toEqual({
     keywords: 'aabb'
+  });
+});
+
+test('6. Renderer: Searchbox is not supposed to be triggered with composition input', async () => {
+  const onQuery = jest.fn();
+  const {container} = render(
+    amisRender(
+      {
+        type: 'search-box',
+        name: 'keywords'
+      },
+      {
+        onQuery
+      }
+    )
+  );
+
+  const inputEl = container.querySelector('.cxd-SearchBox input')!;
+  expect(inputEl).toBeInTheDocument();
+
+  /** 第一次输入 Enter 后，文本填入 */
+
+  fireEvent.compositionStart(inputEl);
+  fireEvent.keyDown(inputEl, {key: 'Enter', keyCode: 13});
+  await wait(200);
+  expect(onQuery).not.toHaveBeenCalled();
+
+  /** 退出输入法，触发搜索 */
+  fireEvent.compositionEnd(inputEl);
+  fireEvent.change(inputEl, {target: {value: 'test'}});
+  fireEvent.keyDown(inputEl, {key: 'Enter', keyCode: 13});
+  await wait(200);
+
+  expect(onQuery).toHaveBeenCalledTimes(1);
+  expect(onQuery.mock.calls[0][0]).toEqual({
+    keywords: 'test'
   });
 });

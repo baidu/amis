@@ -45,7 +45,7 @@ order: 15
 
 ## 显示秒
 
-默认显示的是时和分，要显示秒请参考以下配置
+默认显示的是时和分，请参考以下配置，其中若`valueFormat`非时间戳格式时需与`displayFormat`精确度相同
 
 ```schema: scope="body"
 {
@@ -57,9 +57,28 @@ order: 15
             "type": "input-time-range",
             "name": "times",
             "label": "时间范围",
-            "timeFormat": "HH:mm:ss",
-            "format": "HH:mm:ss",
-            "inputFormat": "HH:mm:ss"
+            "valueFormat": "HH:mm:ss",
+            "displayFormat": "HH:mm:ss"
+        }
+    ]
+}
+```
+
+## 存成两个字段
+
+默认季度范围存储一个字段，用 `delemiter` 分割，如果配置 `extraName` 则会存两个字段。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-time-range",
+            "name": "begin",
+            "extraName": "end",
+            "label": "时间范围"
         }
     ]
 }
@@ -69,15 +88,15 @@ order: 15
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名      | 类型      | 默认值             | 说明                                                                  | 版本    |
-| ----------- | --------- | ------------------ | --------------------------------------------------------------------- | ------- |
-| timeFormat  | `string`  | `HH:mm`            | [时间范围选择器值格式](./date#%E5%80%BC%E6%A0%BC%E5%BC%8F)            |
-| format      | `string`  | `HH:mm`            | [时间范围选择器值格式](./date#%E5%80%BC%E6%A0%BC%E5%BC%8F)            |
-| inputFormat | `string`  | `HH:mm`            | [时间范围选择器显示格式](./date#%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F) |
-| placeholder | `string`  | `"请选择时间范围"` | 占位文本                                                              |
-| clearable   | `boolean` | `true`             | 是否可清除                                                            |
-| embed       | `boolean` | `false`            | 是否内联模式                                                          |
-| animation   | `boolean` | `true`             | 是否启用游标动画                                                      | `2.2.0` |
+| 属性名        | 类型      | 默认值             | 说明                                                                  | 版本    |
+| ------------- | --------- | ------------------ | --------------------------------------------------------------------- | ------- |
+| valueFormat   | `string`  | `HH:mm`            | [时间范围选择器值格式](./date#%E5%80%BC%E6%A0%BC%E5%BC%8F)            | `3.4.0` |
+| displayFormat | `string`  | `HH:mm`            | [时间范围选择器显示格式](./date#%E6%98%BE%E7%A4%BA%E6%A0%BC%E5%BC%8F) | `3.4.0` |
+| placeholder   | `string`  | `"请选择时间范围"` | 占位文本                                                              |
+| clearable     | `boolean` | `true`             | 是否可清除                                                            |
+| embed         | `boolean` | `false`            | 是否内联模式                                                          |
+| animation     | `boolean` | `true`             | 是否启用游标动画                                                      | `2.2.0` |
+| extraName     | `string`  |                    | 是否存成两个字段                                                      | `3.3.0` |
 
 ## 事件表
 

@@ -1,11 +1,12 @@
 import React from 'react';
 
-import {themeable, ThemeProps, generateIcon} from 'amis-core';
+import {themeable, ThemeProps} from 'amis-core';
 import Collapse from '../Collapse';
 import CollapseGroup from '../CollapseGroup';
 import SearchBox from '../SearchBox';
 import type {FuncGroup, FuncItem} from './Editor';
 import TooltipWrapper from '../TooltipWrapper';
+import {Icon} from '../icons';
 
 export interface FuncListProps extends ThemeProps {
   title?: string;
@@ -21,10 +22,15 @@ export function FuncList(props: FuncListProps) {
     className,
     classnames: cx,
     bodyClassName,
-    descClassName
+    descClassName,
+    mobileUI
   } = props;
   const [filteredFuncs, setFiteredFuncs] = React.useState(props.data);
   const [activeFunc, setActiveFunc] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    setFiteredFuncs(props.data);
+  }, [props.data]);
 
   function onSearch(term: string) {
     const filtered = props.data
@@ -51,18 +57,18 @@ export function FuncList(props: FuncListProps) {
         <div className={cx('FormulaEditor-panel-header')}>{title}</div>
         <div className={cx('FormulaEditor-panel-body')}>
           <div className={cx('FormulaEditor-FuncList-searchBox')}>
-            <SearchBox mini={false} onSearch={onSearch} useMobileUI />
+            <SearchBox mini={false} onSearch={onSearch} mobileUI={mobileUI} />
           </div>
           <div className={cx('FormulaEditor-FuncList-body', bodyClassName)}>
             <CollapseGroup
               className={cx('FormulaEditor-FuncList-collapseGroup')}
               defaultActiveKey={filteredFuncs[0]?.groupName}
               expandIcon={
-                generateIcon(
-                  cx,
-                  'fa fa-chevron-right FormulaEditor-FuncList-expandIcon',
-                  'Icon'
-                )!
+                <Icon
+                  cx={cx}
+                  icon="fa fa-chevron-right FormulaEditor-FuncList-expandIcon"
+                  className="Icon"
+                />
               }
               accordion
             >

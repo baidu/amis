@@ -517,3 +517,345 @@ test('Renderer:Nav with itemActions', async () => {
   expect(container).toMatchSnapshot();
   expect(getByText('编辑')).toBeInTheDocument();
 });
+
+// 8.各种图标展示
+test('Renderer:Nav with icons', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'nav',
+          stacked: true,
+          links: [
+            {
+              label: 'Nav 1',
+              to: '?cat=1',
+              value: '1',
+              icon: 'fa fa-user',
+              __id: 1
+            },
+            {
+              label: 'Nav 2',
+              __id: 2,
+              unfolded: true,
+              children: [
+                {
+                  __id: 2.1,
+                  label: 'Nav 2-1',
+                  icon: [
+                    {
+                      icon: 'star',
+                      position: 'before'
+                    },
+                    {
+                      icon: 'search',
+                      position: 'before'
+                    },
+                    {
+                      icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
+                      position: 'after'
+                    }
+                  ],
+                  children: [
+                    {
+                      label: 'Nav 2-1-1',
+                      to: '?cat=2-1',
+                      value: '2-1',
+                      __id: 2.11
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+  expect(container).toMatchSnapshot();
+  expect(container.querySelectorAll('.fa-user').length).toBe(1);
+  expect(container.querySelectorAll('[icon=search]').length).toBe(1);
+  expect(container.querySelectorAll('img').length).toBe(1);
+});
+
+// 9.Nav在Dialog里
+test('Renderer:Nav with Dialog', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'button',
+          label: '点击弹框',
+          actionType: 'dialog',
+          dialog: {
+            title: '弹框',
+            body: [
+              {
+                type: 'nav',
+                stacked: true,
+                className: 'w-md',
+                draggable: true,
+                saveOrderApi: '/api/options/nav',
+                source: '/api/options/nav?parentId=${value}',
+                itemActions: [
+                  {
+                    type: 'icon',
+                    icon: 'cloud',
+                    visibleOn: "this.to === '?cat=1'"
+                  },
+                  {
+                    type: 'dropdown-button',
+                    level: 'link',
+                    icon: 'fa fa-ellipsis-h',
+                    hideCaret: true,
+                    buttons: [
+                      {
+                        type: 'button',
+                        label: '编辑'
+                      },
+                      {
+                        type: 'button',
+                        label: '删除'
+                      }
+                    ]
+                  }
+                ],
+                links: [
+                  {
+                    label: 'Nav 1',
+                    to: '?cat=1',
+                    value: '1',
+                    icon: 'fa fa-user',
+                    __id: 1
+                  },
+                  {
+                    label: 'Nav 2',
+                    __id: 2,
+                    unfolded: true,
+                    children: [
+                      {
+                        __id: 2.1,
+                        label: 'Nav 2-1',
+                        children: [
+                          {
+                            label: 'Nav 2-1-1',
+                            to: '?cat=2-1',
+                            value: '2-1',
+                            __id: 2.11
+                          }
+                        ]
+                      },
+                      {
+                        label: 'Nav 2-2',
+                        to: '?cat=2-2',
+                        value: '2-2',
+                        __id: 2.2
+                      }
+                    ]
+                  },
+                  {
+                    label: 'Nav 3',
+                    to: '?cat=3',
+                    value: '3',
+                    defer: true,
+                    __id: 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {},
+      makeEnv({
+        getModalContainer: () => container
+      })
+    )
+  );
+  expect(container).toMatchSnapshot();
+
+  fireEvent.click(getByText('点击弹框'));
+  await waitFor(() => {
+    expect(container.querySelector('[role="dialog"]')).toBeInTheDocument();
+  });
+
+  fireEvent.click(
+    container.querySelector(
+      '[role="dialog"] .cxd-Nav-Menu-item-extra .cxd-Button'
+    )!
+  );
+
+  await waitFor(() => {
+    expect(
+      container.querySelector('[role="dialog"] .cxd-PopOver')
+    ).toBeInTheDocument();
+  });
+});
+
+// 10.Nav配置reload动作
+test('Renderer:Nav with reload1', async () => {
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: ''
+      }
+    })
+  );
+  const {container}: any = render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          nav: [
+            {
+              label: 'Nav 1',
+              to: '/docs/index',
+              icon: 'fa fa-user'
+            },
+            {
+              label: 'Nav 2',
+              to: '/docs/api'
+            },
+            {
+              label: 'Nav 3',
+              to: '/docs/renderers'
+            }
+          ]
+        },
+        body: [
+          {
+            type: 'nav',
+            stacked: true,
+            id: 'xxNav',
+            source: '${nav}'
+          },
+          {
+            type: 'button',
+            level: 'primary',
+            className: 'mr-4',
+            label: 'reload',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    componentId: 'xxNav',
+                    actionType: 'reload'
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        session: 'test-case-action-no',
+        fetcher
+      })
+    )
+  );
+  fireEvent.click(container.querySelector('.cxd-Button'));
+  await wait(500);
+  expect(fetcher).not.toBeCalled();
+});
+
+// 11.Nav配置reload动作
+test('Renderer:Nav with reload2', async () => {
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          links: [
+            {
+              label: 'Nav 1',
+              to: '?cat=1',
+              value: '1',
+              icon: 'fa fa-user'
+            },
+            {
+              label: 'Nav 2',
+              unfolded: true,
+              children: [
+                {
+                  label: 'Nav 2-1',
+                  children: [
+                    {
+                      label: 'Nav 2-1-1',
+                      to: '?cat=2-1',
+                      value: '2-1'
+                    }
+                  ]
+                },
+                {
+                  label: 'Nav 2-2',
+                  to: '?cat=2-2',
+                  value: '2-2'
+                }
+              ]
+            },
+            {
+              label: 'Nav 3',
+              to: '?cat=3',
+              value: '3',
+              defer: true
+            }
+          ],
+          value: '?cat=1'
+        }
+      }
+    })
+  );
+  const {container}: any = render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          url: '/api/options/nav'
+        },
+        body: [
+          {
+            type: 'nav',
+            stacked: true,
+            id: 'xxNav',
+            source: '${url}'
+          },
+          {
+            type: 'button',
+            level: 'primary',
+            className: 'mr-4',
+            label: 'reload',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    componentId: 'xxNav',
+                    actionType: 'reload'
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        session: 'test-case-action-no',
+        fetcher
+      })
+    )
+  );
+  await wait(500);
+  const navItem = container.querySelector('.cxd-Nav-Menu-item');
+  expect(navItem).toBeInTheDocument();
+  fireEvent.click(container.querySelector('.cxd-Button'));
+  await wait(500);
+  expect(fetcher).toBeCalled();
+});

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:Picker base 1`] = `
+exports[`1. Renderer:Picker base 1`] = `
 <body
   class="is-modalOpened"
   style="width: calc(100% - 0px);"
@@ -50,10 +50,6 @@ exports[`Renderer:Picker base 1`] = `
             <span
               class="cxd-Picker-btn"
             >
-              <div
-                class=" Picker-icon"
-                style="display: none;"
-              />
               <icon-mock
                 classname="icon icon-window-restore"
                 icon="window-restore"
@@ -82,10 +78,6 @@ exports[`Renderer:Picker base 1`] = `
           data-position="left"
           data-tooltip="关闭"
         >
-          <div
-            class=" Dialog-close"
-            style="display: none;"
-          />
           <icon-mock
             classname="icon icon-close"
             icon="close"
@@ -107,6 +99,10 @@ exports[`Renderer:Picker base 1`] = `
           <div
             class="cxd-List cxd-Crud-body"
           >
+            <div
+              class="cxd-List-fixedTop"
+              style="top: 0px;"
+            />
             <div
               class="cxd-List-items"
             >
@@ -226,7 +222,7 @@ exports[`Renderer:Picker base 1`] = `
 </body>
 `;
 
-exports[`Renderer:Picker base 2`] = `
+exports[`1. Renderer:Picker base 2`] = `
 <div>
   <div
     class="cxd-Form-item cxd-Form-item--normal"
@@ -265,8 +261,6 @@ exports[`Renderer:Picker base 2`] = `
               >
                 <span
                   class="cxd-Picker-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>
@@ -284,10 +278,6 @@ exports[`Renderer:Picker base 2`] = `
           <span
             class="cxd-Picker-btn"
           >
-            <div
-              class=" Picker-icon"
-              style="display: none;"
-            />
             <icon-mock
               classname="icon icon-window-restore"
               icon="window-restore"

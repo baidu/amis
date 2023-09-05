@@ -217,6 +217,7 @@ export default class BadgeControl extends React.Component<
             mode: 'row',
             tiled: true,
             className: 'ae-BadgeControl-buttonGroup',
+            inputClassName: 'flex-nowrap',
             options: [
               {label: '点', value: 'dot', icon: 'fa fa-circle'},
               {label: '文字', value: 'text', icon: 'fa fa-font'},
@@ -237,13 +238,14 @@ export default class BadgeControl extends React.Component<
             }
           },
           {
-            label: '角标主题',
+            label: '主题',
             name: 'level',
             type: 'button-group-select',
             size: 'sm',
             mode: 'row',
             tiled: true,
             className: 'ae-BadgeControl-buttonGroup',
+            inputClassName: 'flex-nowrap',
             options: [
               {label: '成功', value: 'success'},
               {label: '警告', value: 'warning'},
@@ -253,13 +255,14 @@ export default class BadgeControl extends React.Component<
             pipeIn: defaultValue('danger')
           },
           {
-            label: '角标位置',
+            label: '位置',
             name: 'position',
             type: 'button-group-select',
             size: 'sm',
             mode: 'row',
             tiled: true,
             className: 'ae-BadgeControl-buttonGroup',
+            inputClassName: 'flex-nowrap',
             options: [
               {
                 label: '',

@@ -21,10 +21,11 @@
     padding-right: var(--Form-select-icon-rigin);
 
     svg {
-      width: px2rem(12px);
-      height: px2rem(12px);
+      width: px2rem(10px);
+      height: px2rem(10px);
       fill: var(--Form-input-iconColor);
       color: var(--default-icon-color);
+      top: 0;
     }
   }
 

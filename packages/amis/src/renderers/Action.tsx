@@ -445,8 +445,7 @@ import {
 import {DialogSchema, DialogSchemaBase} from './Dialog';
 import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 import {ToastSchemaBase} from '../Schema';
-import {generateIcon} from 'amis-core';
-import {withBadge} from 'amis-ui';
+import {withBadge, Icon} from 'amis-ui';
 import {normalizeApi, str2AsyncFunction} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
 
@@ -793,6 +792,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       classPrefix: ns,
       loadingConfig,
       themeCss,
+      wrapperCustomStyle,
       css,
       id,
       env
@@ -839,12 +839,21 @@ export class Action extends React.Component<ActionProps, ActionState> {
       disabled = true;
     }
 
-    const iconElement = generateIcon(cx, icon, 'Button-icon', iconClassName);
-    const rightIconElement = generateIcon(
-      cx,
-      rightIcon,
-      'Button-icon',
-      rightIconClassName
+    const iconElement = (
+      <Icon
+        cx={cx}
+        icon={icon}
+        className="Button-icon"
+        classNameProp={iconClassName}
+      />
+    );
+    const rightIconElement = (
+      <Icon
+        cx={cx}
+        icon={rightIcon}
+        className="Button-icon"
+        classNameProp={rightIconClassName}
+      />
     );
 
     return (
@@ -852,7 +861,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
         <Button
           loadingConfig={loadingConfig}
           className={cx(className, {
-            [activeClassName || 'is-active']: isActive
+            [activeClassName || 'is-active']: isActive,
+            [`wrapperCustomStyle-${id?.replace('u:', '')}`]: wrapperCustomStyle
           })}
           style={style}
           size={size}
@@ -897,17 +907,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
                   },
                   active: {suf: ':not(:disabled):not(.is-disabled)'}
                 }
-              }
-            ],
-            id
-          }}
-          env={env}
-        />
-        {/* button图标自定义样式 */}
-        <CustomStyle
-          config={{
-            themeCss: themeCss || css,
-            classNames: [
+              },
               {
                 key: 'iconClassName',
                 value: iconClassName,
@@ -926,6 +926,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
                 }
               }
             ],
+            wrapperCustomStyle,
             id
           }}
           env={env}

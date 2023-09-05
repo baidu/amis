@@ -12,7 +12,7 @@ import {
   RendererInfoResolveEventContext
 } from '../plugin';
 import {autobind} from '../util';
-import {omit} from 'lodash';
+import omit from 'lodash/omit';
 
 export interface SubEditorProps {
   store: EditorStoreType;
@@ -107,23 +107,8 @@ export class SubEditor extends React.Component<SubEditorProps> {
         subEditorContext?.data
       );
     }
-    const variables: any = [
-      ...(manager.config?.variables || []).filter(
-        item => item.title !== '页面变量'
-      ),
-      // 解决打开子编辑器 公式输入框汇总没有页面变量的问题
-      {
-        name: 'pageParams',
-        title: '页面变量',
-        parentId: 'root',
-        order: 0,
-        schema: {
-          type: 'object',
-          $id: 'pageParams',
-          properties: {}
-        }
-      }
-    ];
+    const variables: any = manager.config?.variables || [];
+
     return {
       size: 'full',
       title: store.subEditorContext?.title,
@@ -168,7 +153,6 @@ export class SubEditor extends React.Component<SubEditorProps> {
                     onBuildPanels={this.handleBuildPanels}
                     isMobile={store.isMobile}
                     isSubEditor={true}
-                    iframeUrl={config.iframeUrl}
                     ctx={store.ctx}
                     schemas={manager.config?.schemas}
                     variables={variables}
@@ -197,6 +181,9 @@ export class SubEditor extends React.Component<SubEditorProps> {
                       }
                       return;
                     }}
+                    getHostNodeDataSchema={() =>
+                      manager.getContextSchemas(manager.store.activeId)
+                    }
                   />
                 )
               }

@@ -362,7 +362,9 @@ export default class SubFormControl extends React.PureComponent<
       type: 'dialog',
       body: {
         type: 'form',
-        ...omit(form, dialogProps)
+        canAccessSuperData: false,
+        ...omit(form, dialogProps),
+        inheritData: false
       }
     };
   }
@@ -385,7 +387,9 @@ export default class SubFormControl extends React.PureComponent<
 
     return {
       type: 'form',
-      ...omit(form, dialogProps)
+      canAccessSuperData: false,
+      ...omit(form, dialogProps),
+      inheritData: false
     };
   }
 
@@ -573,13 +577,12 @@ export default class SubFormControl extends React.PureComponent<
       className,
       style,
       render,
-      useMobileUI,
+      mobileUI,
       env,
       popOverContainer
     } = this.props;
     const dialogData = this.state.dialogData;
     const dialogCtx = this.state.dialogCtx;
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div className={cx(`${ns}SubFormControl`, className)}>

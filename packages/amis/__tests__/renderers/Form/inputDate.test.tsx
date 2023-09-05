@@ -3,7 +3,7 @@
  * 单测内容：
  * 1. 点击选择日期
  * 2. 内嵌模式 embed
- * 3. 值格式 format 与 显示格式 inputFormat
+ * 3. 值格式 valueFormat 与 显示格式 displayFormat
  * 4. 范围限制 最小值 minDate， 最大值 maxDate
  * 5. 默认值 value 支持 相对值 写法
  * 6. 日期快捷选项 shortcuts
@@ -18,7 +18,8 @@ import {
   fireEvent,
   cleanup,
   getByText,
-  waitFor
+  waitFor,
+  screen
 } from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
@@ -180,15 +181,15 @@ test('Renderer:inputDate embed', async () => {
   expect(tpl.innerHTML).toEqual(moment().format('YYYY-MM') + '-01');
 });
 
-test('Renderer:inputDate with format & inputFormat', async () => {
+test('Renderer:inputDate with valueFormat & displayFormat', async () => {
   const {container} = await setup([
     {
       type: 'input-date',
       name: 'date',
       label: '日期',
       value: '2022/08/19',
-      inputFormat: 'DD/MM-YYYY',
-      format: '今天是YYYY年, MM月, DD日'
+      displayFormat: 'DD/MM-YYYY',
+      valueFormat: '今天是YYYY年, MM月, DD日'
     },
     {
       type: 'static',
@@ -207,6 +208,47 @@ test('Renderer:inputDate with format & inputFormat', async () => {
   expect(container).toMatchSnapshot();
 });
 
+test('Renderer:inputDate compatible with format & inputFormat', async () => {
+  const {container} = await setup([
+    {
+      type: 'input-date',
+      name: 'date1',
+      label: '日期',
+      value: '2022/08/19',
+      inputFormat: 'DD/MM-YYYY',
+      format: '今天是YYYY年, MM月, DD日'
+    },
+    {
+      type: 'static',
+      name: 'date1'
+    },
+    {
+      type: 'input-date',
+      name: 'date2',
+      label: '日期',
+      value: '2022/08/19',
+      inputFormat: 'DD/MM-YYYY',
+      format: '今天是YYYY年, MM月, DD日'
+    },
+    {
+      type: 'static',
+      name: 'date2'
+    }
+  ]);
+
+  const tpl = container.querySelectorAll(
+    '.cxd-PlainField'
+  )! as NodeListOf<Element>;
+  const input = container.querySelectorAll(
+    '.cxd-DatePicker-input'
+  )! as NodeListOf<HTMLInputElement>;
+
+  expect(tpl[0].innerHTML).toEqual(tpl[1].innerHTML);
+  expect(input[0].value).toEqual(input[1].value);
+
+  expect(container).toMatchSnapshot();
+});
+
 test('Renderer:inputDate with minDate & maxDate', async () => {
   const {container} = await setup([
     {
@@ -214,7 +256,7 @@ test('Renderer:inputDate with minDate & maxDate', async () => {
       className: 'test-date-one',
       name: 'date',
       label: '日期',
-      format: 'YY-MM-DD',
+      valueFormat: 'YY-MM-DD',
       minDate: '-1days',
       value: '-2days',
       embed: true
@@ -224,7 +266,7 @@ test('Renderer:inputDate with minDate & maxDate', async () => {
       className: 'test-date-two',
       name: 'date-two',
       label: '日期',
-      format: 'YY-MM-DD',
+      valueFormat: 'YY-MM-DD',
       maxDate: '+1days',
       value: '+2days',
       embed: true
@@ -245,7 +287,7 @@ test('Renderer:inputDate with shortcuts', async () => {
       type: 'input-date',
       name: 'date',
       label: '日期',
-      format: 'YYYY-MM-DD',
+      valueFormat: 'YYYY-MM-DD',
       value: '-1days'
     },
     {
@@ -265,7 +307,7 @@ test('Renderer:inputDate with shortcuts', async () => {
       type: 'input-date',
       name: 'date',
       label: '日期',
-      format: 'YYYY-MM-DD',
+      valueFormat: 'YYYY-MM-DD',
       shortcuts: [
         'yesterday',
         'thisweek',
@@ -303,7 +345,7 @@ test('Renderer:inputDate with clearable', async () => {
       type: 'input-date',
       name: 'date',
       label: '日期',
-      format: 'YYYY-MM-DD',
+      valueFormat: 'YYYY-MM-DD',
       value: '2022-08-19'
     },
     {
@@ -338,7 +380,7 @@ test('Renderer:inputDate with clearable', async () => {
       type: 'input-date',
       name: 'date',
       label: '日期',
-      format: 'YYYY-MM-DD',
+      valueFormat: 'YYYY-MM-DD',
       value: '2022-08-19',
       clearable: false
     }
@@ -367,14 +409,14 @@ test('Renderer:inputDate with utc', async () => {
       type: 'input-date',
       name: 'date',
       label: '日期',
-      format: 'YYYY-MM-DD',
+      valueFormat: 'YYYY-MM-DD',
       value: midnight
     },
     {
       type: 'input-date',
       name: 'date-utc',
       label: '日期',
-      format: 'YYYY-MM-DD',
+      valueFormat: 'YYYY-MM-DD',
       utc: true,
       value: utcOneSecondBeforeTomorrow
     }
@@ -395,7 +437,7 @@ test('Renderer:inputDate with closeOnSelect', async () => {
       type: 'input-date',
       name: 'date',
       label: '日期',
-      format: 'YYYY-MM-DD',
+      valueFormat: 'YYYY-MM-DD',
       value: '2022-08-22'
     }
   ]);
@@ -409,16 +451,23 @@ test('Renderer:inputDate with closeOnSelect', async () => {
     ) as HTMLElement
   );
 
-  expect(
-    container.querySelector('.cxd-PopOver.cxd-DatePicker-popover')
-  ).not.toBeInTheDocument();
+  await wait(500);
+  // expect(
+  //   container.querySelector('.cxd-PopOver.cxd-DatePicker-popover')
+  // ).not.toBeInTheDocument();
+
+  await waitFor(() => {
+    expect(
+      container.querySelector('.cxd-PopOver.cxd-DatePicker-popover')
+    ).not.toBeInTheDocument();
+  });
 
   const {container: conDontClose} = await setup([
     {
       type: 'input-date',
       name: 'date',
       label: '日期',
-      format: 'YYYY-MM-DD',
+      valueFormat: 'YYYY-MM-DD',
       value: '2022-08-22',
       closeOnSelect: false
     }
@@ -432,8 +481,35 @@ test('Renderer:inputDate with closeOnSelect', async () => {
       '.cxd-DatePicker-popover tr td[data-value="1"]'
     ) as HTMLElement
   );
-
+  await wait(500);
   expect(
     conDontClose.querySelector('.cxd-PopOver.cxd-DatePicker-popover')
   ).toBeInTheDocument();
+});
+
+test('Renderer:inputDate disabledDate', async () => {
+  const {container} = await setup([
+    {
+      type: 'input-date',
+      name: 'date',
+      label: '日期',
+      format: 'YYYY-MM-DD',
+      disabledDate: 'return currentDate.day() == 1'
+    }
+  ]);
+
+  // 打开弹框
+  fireEvent.click(container.querySelector('.cxd-DatePicker') as HTMLElement);
+
+  const monday = moment().day(1);
+  const tuesday = moment().day(2);
+  const mondayCell = container.querySelector(
+    '.cxd-DatePicker-popover tr td[data-value="' + monday.date() + '"]'
+  ) as HTMLElement;
+  const tuesdayCell = container.querySelector(
+    '.cxd-DatePicker-popover tr td[data-value="' + tuesday.date() + '"]'
+  ) as HTMLElement;
+
+  expect(mondayCell).toHaveClass('rdtDisabled');
+  expect(tuesdayCell).not.toHaveClass('rdtDisabled');
 });

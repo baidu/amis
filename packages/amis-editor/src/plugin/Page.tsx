@@ -1,4 +1,4 @@
-import {ContainerWrapper} from 'amis-editor-core';
+import {ContainerWrapper, JSONPipeOut} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
   BaseEventContext,
@@ -228,12 +228,13 @@ export class PagePlugin extends BasePlugin {
               {
                 title: '数据',
                 body: [
-                  getSchemaTpl('combo-container', {
-                    type: 'input-kv',
-                    mode: 'normal',
-                    name: 'data',
-                    label: '组件静态数据'
-                  }),
+                  // page组件下掉组件静态数据配置项，可通过页面变量来定义页面中的变量
+                  // getSchemaTpl('combo-container', {
+                  //   type: 'input-kv',
+                  //   mode: 'normal',
+                  //   name: 'data',
+                  //   label: '组件静态数据'
+                  // }),
                   getSchemaTpl('apiControl', {
                     name: 'initApi',
                     mode: 'row',
@@ -292,7 +293,35 @@ export class PagePlugin extends BasePlugin {
           className: 'p-none',
           body: [
             getSchemaTpl('collapseGroup', [
-              ...getSchemaTpl('theme:common', {exclude: ['layout']})
+              ...getSchemaTpl('theme:common', {
+                exclude: ['layout'],
+                classname: 'bodyControlClassName',
+                baseTitle: '内容区样式',
+                extra: [
+                  getSchemaTpl('theme:base', {
+                    classname: 'headerControlClassName',
+                    title: '标题栏样式',
+                    extra: [
+                      getSchemaTpl('theme:font', {
+                        label: '文字',
+                        name: 'font'
+                      })
+                    ],
+                    hiddenOn: 'data.regions && !data.regions.includes("header")'
+                  }),
+                  getSchemaTpl('theme:base', {
+                    classname: 'toolbarControlClassName',
+                    title: '工具栏样式',
+                    hiddenOn:
+                      'data.regions && !data.regions.includes("toolbar")'
+                  }),
+                  getSchemaTpl('theme:base', {
+                    classname: 'asideControlClassName',
+                    title: '边栏样式',
+                    hiddenOn: 'data.regions && !data.regions.includes("aside")'
+                  })
+                ]
+              })
             ])
           ]
         },
@@ -369,14 +398,30 @@ export class PagePlugin extends BasePlugin {
     region?: EditorNodeType,
     trigger?: EditorNodeType
   ) {
-    const scope = this.manager.dataSchema.getScope(`${node.id}-${node.type}`);
     let jsonschema = {
-      $id: 'pageStaticData',
-      ...jsonToJsonSchema(omit(node.schema.data, '$$id'))
+      ...jsonToJsonSchema(JSONPipeOut(node.schema.data))
     };
 
-    scope?.removeSchema(jsonschema.$id);
-    scope?.addSchema(jsonschema);
+    const pool = node.children.concat();
+
+    while (pool.length) {
+      const current = pool.shift() as EditorNodeType;
+      const schema = current.schema;
+
+      if (current.rendererConfig?.isFormItem && schema?.name) {
+        jsonschema.properties[schema.name] =
+          await current.info.plugin.buildDataSchemas?.(
+            current,
+            undefined,
+            trigger,
+            node
+          );
+      } else if (!current.rendererConfig?.storeType) {
+        pool.push(...current.children);
+      }
+    }
+
+    return jsonschema;
   }
 
   rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {

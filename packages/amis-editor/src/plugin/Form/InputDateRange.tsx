@@ -21,7 +21,7 @@ const formatX = [
 ];
 const DateType: {
   [key: string]: {
-    format: string;
+    format: string; // 某种类型时间的默认格式
     placeholder: string;
     shortcuts: string[];
     /** shortcuts的兼容配置, 不需要配置了 */
@@ -325,6 +325,9 @@ export class DateRangeControlPlugin extends BasePlugin {
                 getSchemaTpl('formItemName', {
                   required: true
                 }),
+
+                getSchemaTpl('formItemExtraName'),
+
                 getSchemaTpl('label'),
                 getSchemaTpl('selectDateRangeType', {
                   value: this.scaffold.type,
@@ -336,10 +339,9 @@ export class DateRangeControlPlugin extends BasePlugin {
                   ) => {
                     const type: string = value.split('-')[1];
                     form.setValues({
-                      inputFormat: DateType[type]?.format,
-                      timeFormat: DateType[type]?.timeFormat,
+                      displayFormat: DateType[type]?.format,
                       placeholder: DateType[type]?.placeholder,
-                      format: type === 'time' ? 'HH:mm' : 'X',
+                      valueFormat: type === 'time' ? 'HH:mm' : 'X',
                       minDate: '',
                       maxDate: '',
                       value: '',
@@ -355,7 +357,7 @@ export class DateRangeControlPlugin extends BasePlugin {
                 }),
                 {
                   type: 'input-text',
-                  name: 'format',
+                  name: 'valueFormat',
                   label: tipedLabel(
                     '值格式',
                     '提交数据前将根据设定格式化数据，请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
@@ -377,7 +379,7 @@ export class DateRangeControlPlugin extends BasePlugin {
                 },
                 {
                   type: 'input-text',
-                  name: 'inputFormat',
+                  name: 'displayFormat',
                   label: tipedLabel(
                     '显示格式',
                     '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'

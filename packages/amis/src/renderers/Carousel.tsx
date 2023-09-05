@@ -12,7 +12,8 @@ import {
   createObject,
   isObject,
   isArrayChildrenModified,
-  getPropValue
+  getPropValue,
+  CustomStyle
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {Icon} from 'amis-ui';
@@ -146,7 +147,7 @@ const defaultSchema = {
             href={data.href}
             blank={data.blank}
             htmlTarget={data.htmlTarget}
-            imageCaption={data.description}
+            caption={data.description}
             thumbMode={data.thumbMode ?? thumbMode ?? 'contain'}
             imageMode="original"
             className={cx('Carousel-image')}
@@ -457,7 +458,13 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       duration,
       multiple,
       alwaysShowArrow,
-      icons
+      icons,
+      id,
+      wrapperCustomStyle,
+      env,
+      themeCss,
+      baseControlClassName,
+      galleryControlClassName
     } = this.props;
     const {options, current, nextAnimation} = this.state;
 
@@ -608,7 +615,11 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         className={cx(
           `Carousel Carousel--${controlsTheme}`,
           {['Carousel-arrow--always']: !!alwaysShowArrow},
-          className
+          className,
+          baseControlClassName,
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
         )}
         style={carouselStyles}
       >
@@ -616,7 +627,10 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
         {dots ? this.renderDots() : null}
         {arrows ? (
-          <div className={cx('Carousel-leftArrow')} onClick={this.prev}>
+          <div
+            className={cx('Carousel-leftArrow', galleryControlClassName)}
+            onClick={this.prev}
+          >
             {icons && icons.prev ? (
               React.isValidElement(icons.prev) ? (
                 icons.prev
@@ -624,12 +638,19 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                 render('arrow-prev', icons.prev)
               )
             ) : (
-              <Icon icon="left-arrow" className="icon" />
+              <Icon
+                icon="left-arrow"
+                className="icon"
+                iconContent="ImageGallery-prevBtn"
+              />
             )}
           </div>
         ) : null}
         {arrows ? (
-          <div className={cx('Carousel-rightArrow')} onClick={this.next}>
+          <div
+            className={cx('Carousel-rightArrow', galleryControlClassName)}
+            onClick={this.next}
+          >
             {icons && icons.next ? (
               React.isValidElement(icons.next) ? (
                 icons.next
@@ -637,10 +658,38 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                 render('arrow-next', icons.next)
               )
             ) : (
-              <Icon icon="right-arrow" className="icon" />
+              <Icon
+                icon="right-arrow"
+                className="icon"
+                iconContent="ImageGallery-nextBtn"
+              />
             )}
           </div>
         ) : null}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName
+              },
+              {
+                key: 'galleryControlClassName',
+                value: galleryControlClassName,
+                weights: {
+                  default: {
+                    suf: ' svg',
+                    important: true
+                  }
+                }
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

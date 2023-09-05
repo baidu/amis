@@ -93,13 +93,25 @@ export class StatusControl extends React.Component<
   @autobind
   handleSwitch(value: boolean) {
     const {trueValue, falseValue} = this.props;
+    const {expression, statusType = 1} = this.state.formData || {};
     this.setState({checked: value == trueValue ? true : false}, () => {
       const {onBulkChange, noBulkChange, onDataChange, expressionName, name} =
         this.props;
-      const newData = {
-        [name]: value == trueValue ? trueValue : falseValue,
+
+      const newData: Record<string, any> = {
+        [name]: value == falseValue ? falseValue : undefined,
         [expressionName]: undefined
       };
+      if (value == trueValue) {
+        switch (statusType) {
+          case 1:
+            newData[name] = trueValue;
+            break;
+          case 2:
+            newData[expressionName] = expression;
+            break;
+        }
+      }
       !noBulkChange && onBulkChange && onBulkChange(newData);
       onDataChange && onDataChange(newData);
     });

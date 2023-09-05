@@ -142,6 +142,36 @@ table tr {
 }
 ```
 
+## 扩充 tinymce 插件
+
+需要在调用 amis 的时候，通过 `env.loadTinymcePlugin` 来加载自定义插件，可以查考： [examples/components/SchemaRender.jsx](https://github.com/baidu/amis/blob/master/examples/components/SchemaRender.jsx) 文件中的示例。
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "input-rich-text",
+        "name": "rich",
+        "label": "Rich Text",
+        "options": {
+          "menubar": false,
+          "height": 200,
+          "plugins": [
+
+            "example"
+          ],
+          "toolbar": "undo redo | example"
+        }
+      }
+    ]
+  }
+}
+```
+
 ## 使用 froala 编辑器
 
 只需要加一行 `"vendor": "froala"` 配置就行，froala 是付费产品，需要设置 [richTextToken](../../start/getting-started#richtexttoken-string) 才能去掉水印。

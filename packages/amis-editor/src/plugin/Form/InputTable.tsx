@@ -18,7 +18,7 @@ import {
   EditorManager,
   DSBuilderManager
 } from 'amis-editor-core';
-import {setVariable, someTree} from 'amis-core';
+import {getTreeAncestors, setVariable, someTree} from 'amis-core';
 import {ValidatorTag} from '../../validator';
 import {
   getEventControlConfig,
@@ -679,7 +679,7 @@ export class TableControlPlugin extends BasePlugin {
             },
             label: '插入位置',
             size: 'lg',
-            placeholder: '请输入行号，为空则在头部插入'
+            placeholder: '请输入行号，为空则在尾部插入'
           },
           {
             type: 'combo',
@@ -1102,38 +1102,66 @@ export class TableControlPlugin extends BasePlugin {
     }
   }
 
-  async buildDataSchemas(node: EditorNodeType, region?: EditorNodeType) {
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
+  ) {
     const itemsSchema: any = {
-      $id: 'inputTableRow',
+      $id: `${node.id}-${node.type}-tableRows`,
       type: 'object',
       properties: {}
     };
-
     const columns: EditorNodeType = node.children.find(
       item => item.isRegion && item.region === 'columns'
     );
+    const parentScopeId = `${parent?.id}-${parent?.type}${
+      node.parent?.type === 'cell' ? '-currentRow' : ''
+    }`;
+    let isColumnChild = false;
 
-    // todo：以下的处理无效，需要cell实现才能深层细化
-    // for (let current of columns?.children) {
-    //   const schema = current.schema;
-    //   if (schema.name) {
-    //     itemsSchema.properties[schema.name] = current.info?.plugin
-    //       ?.buildDataSchemas
-    //       ? await current.info.plugin.buildDataSchemas(current, region)
-    //       : {
-    //           type: 'string',
-    //           title: schema.label || schema.name
-    //         };
-    //   }
-    // }
+    // 追加当前行scope
+    if (trigger) {
+      isColumnChild = someTree(
+        columns?.children,
+        item => item.id === trigger.id
+      );
 
-    // 一期先简单处理，上面todo实现之后，这里可以废弃
-    for (let current of node.schema?.columns) {
-      if (current.name) {
-        itemsSchema.properties[current.name] = {
-          type: 'string',
-          title: current.label || current.name
-        };
+      if (isColumnChild) {
+        const scopeId = `${node.id}-${node.type}-currentRow`;
+        if (this.manager.dataSchema.getScope(scopeId)) {
+          this.manager.dataSchema.removeScope(scopeId);
+        }
+
+        if (this.manager.dataSchema.getScope(parentScopeId)) {
+          this.manager.dataSchema.switchTo(parentScopeId);
+        }
+
+        this.manager.dataSchema.addScope([], scopeId);
+        this.manager.dataSchema.current.tag = '当前行记录';
+        this.manager.dataSchema.current.group = '组件上下文';
+      }
+    }
+
+    const cells: any = columns?.children.concat() || [];
+    while (cells.length > 0) {
+      const cell = cells.shift() as EditorNodeType;
+      // cell的孩子貌似只会有一个
+      const items = cell.children.concat();
+      while (items.length) {
+        const current = items.shift() as EditorNodeType;
+        const schema = current.schema;
+
+        if (schema.name) {
+          itemsSchema.properties[schema.name] =
+            await current.info.plugin.buildDataSchemas?.(
+              current,
+              region,
+              trigger,
+              node
+            );
+        }
       }
     }
 
@@ -1141,10 +1169,17 @@ export class TableControlPlugin extends BasePlugin {
       return itemsSchema;
     }
 
+    // 追加当前行数据
+    if (isColumnChild) {
+      const scopeId = `${node.id}-${node.type}-currentRow`;
+      const scope = this.manager.dataSchema.getScope(scopeId);
+      scope?.addSchema(itemsSchema);
+    }
+
     return {
-      $id: 'inputTable',
+      $id: `${node.id}-${node.type}-tableData`,
       type: 'array',
-      title: '表格表单数据',
+      title: node.schema?.label || node.schema?.name,
       items: itemsSchema
     };
   }

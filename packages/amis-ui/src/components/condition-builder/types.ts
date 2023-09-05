@@ -24,7 +24,7 @@ interface customOperator {
 interface BaseField {
   type: FieldTypes;
   label: string;
-  valueTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
+  valueTypes?: Array<'value' | 'field' | 'func'>;
   operators?: Array<string | customOperator>;
 
   // valueTypes 里面配置 func 才有效。
@@ -88,7 +88,8 @@ interface SelectField extends BaseField {
   options?: Array<any>;
   source?: string | BaseApiObject;
   searchable?: boolean;
-
+  maxTagCount?: number;
+  overflowTagPopover?: any;
   /**
    * 自动完成 API，当输入部分文字的时候，会将这些文字通过 ${term} 可以取到，发送给接口。
    * 接口可以返回匹配到的选项，帮助用户输入。
@@ -147,5 +148,5 @@ export type ConditionBuilderType = {
   defaultOp?: OperatorType;
   operators: Array<OperatorType>;
   placeholder?: string;
-  valueTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
+  valueTypes?: Array<'value' | 'field' | 'func'>;
 };

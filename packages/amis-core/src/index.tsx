@@ -98,7 +98,13 @@ import Overlay from './components/Overlay';
 import PopOver from './components/PopOver';
 import {FormRenderer} from './renderers/Form';
 import type {FormHorizontal, FormSchemaBase} from './renderers/Form';
-import {enableDebug, promisify, replaceText, wrapFetcher} from './utils/index';
+import {
+  enableDebug,
+  disableDebug,
+  promisify,
+  replaceText,
+  wrapFetcher
+} from './utils/index';
 import type {OnEventProps} from './utils/index';
 import {valueMap as styleMap} from './utils/style-helper';
 import {RENDERER_TRANSMISSION_OMIT_PROPS} from './SchemaRenderer';
@@ -195,7 +201,9 @@ export {
   OnEventProps,
   FormSchemaBase,
   filterTarget,
-  CustomStyle
+  CustomStyle,
+  enableDebug,
+  disableDebug
 };
 
 export function render(
@@ -257,13 +265,6 @@ function AMISRenderer({
         translate
       } as any;
 
-      if (options.enableAMISDebug) {
-        // 因为里面还有 render
-        setTimeout(() => {
-          enableDebug();
-        }, 10);
-      }
-
       store = RendererStore.create({}, options);
       stores[options.session || 'global'] = store;
     } else {
@@ -291,6 +292,11 @@ function AMISRenderer({
   }
   env.theme = getTheme(theme);
 
+  React.useEffect(() => {
+    env.enableAMISDebug ? enableDebug() : disableDebug();
+    return () => env.enableAMISDebug || disableDebug();
+  }, [env.enableAMISDebug]);
+
   if (props.locale !== undefined) {
     env.translate = translate;
     env.locale = locale;
@@ -298,7 +304,7 @@ function AMISRenderer({
 
   // 默认将开启移动端原生 UI
   if (options.useMobileUI !== false) {
-    props.useMobileUI = true;
+    props.mobileUI = env.isMobile();
   }
 
   // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations

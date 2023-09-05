@@ -63,7 +63,7 @@
     flex-wrap: wrap;
     gap: var(--gap-sm);
 
-    align-items: flex-start;
+    align-items: stretch;
     position: relative;
   }
 
@@ -96,7 +96,7 @@
     transition: transform var(--animation-duration);
     color: var(--icon-color);
     margin-top: calc((var(--Form-input-height) - var(--Switch-height)) / 2);
-
+    transform: rotate(90deg);
     > svg {
       width: 10px;
       height: 10px;
@@ -105,7 +105,7 @@
   }
 
   &-caret.is-collapsed {
-    transform: rotate(-90deg);
+    transform: rotate(0deg);
   }
 
   &-required {

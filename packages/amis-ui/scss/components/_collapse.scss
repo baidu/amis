@@ -184,3 +184,15 @@
     }
   }
 }
+
+/* 移动端样式调整 */
+@include media-breakpoint-down(sm) {
+  .#{$ns}Collapse {
+    border: none;
+    position: relative;
+
+    &::before {
+      @include hairline-bottom(var(--collapse-default-bottom-border-color));
+    }
+  }
+}

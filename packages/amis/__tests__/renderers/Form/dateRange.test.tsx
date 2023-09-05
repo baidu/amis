@@ -106,11 +106,7 @@ test('Renderer:dateRange with relative default', async () => {
   ]);
 
   expect(start.value).toEqual(moment().add(-1, 'day').format('YYYY-MM-DD'));
-  expect(end.value).toEqual(
-    moment()
-      .add(+1, 'week')
-      .format('YYYY-MM-DD')
-  );
+  expect(end.value).toEqual(moment().add(+1, 'week').format('YYYY-MM-DD'));
 
   // expect(container).toMatchSnapshot();
 });
@@ -155,11 +151,7 @@ test('Renderer:dateRange with shortcuts', async () => {
   await wait(200);
 
   expect(start.value).toEqual(moment().format('YYYY-MM-DD'));
-  expect(end.value).toEqual(
-    moment()
-      .add(+15, 'day')
-      .format('YYYY-MM-DD')
-  );
+  expect(end.value).toEqual(moment().add(+15, 'day').format('YYYY-MM-DD'));
 
   // expect(container).toMatchSnapshot();
 });
@@ -171,7 +163,7 @@ test('Renderer:dateRange with minDate and maxDate', async () => {
       type: 'input-date-range',
       name: 'date',
       label: '日期',
-      format: 'YY-MM-DD',
+      valueFormat: 'YY-MM-DD',
       minDate: '-1days',
       maxDate: '+1days',
       value: '-2days,+2days'
@@ -201,7 +193,7 @@ test('Renderer:dateRange with embed', async () => {
       type: 'input-date-range',
       name: 'date',
       label: '日期',
-      format: 'YY-MM-DD',
+      valueFormat: 'YY-MM-DD',
       value: '1656604800,1664553599',
       embed: true
     }
@@ -284,4 +276,54 @@ test('Renderer:dateRange with clearable', async () => {
   expect(
     container.querySelector('.cxd-DateRangePicker-clear')!
   ).not.toBeInTheDocument();
+});
+
+// 7. valueFormat/displayFormat
+test('Renderer:inputDateRange compatible with format & inputFormat', async () => {
+  const {container, start, end}: any = await setup([
+    {
+      type: 'input-date-range',
+      name: 'a',
+      label: 'date-range',
+      value: '1559750400,1561564799',
+      displayFormat: 'DD/MM-YYYY',
+      valueFormat: 'X'
+    }
+  ]);
+
+  expect(start.value).toEqual(
+    `${moment(1559750400, 'X').format('DD/MM-YYYY')}`
+  );
+  expect(end.value).toEqual(`${moment(1561564799, 'X').format('DD/MM-YYYY')}`);
+});
+
+// 8. 兼容format & inputFormat
+test('Renderer:inputDateRange compatible with format & inputFormat', async () => {
+  const {container} = await setup([
+    {
+      type: 'input-date-range',
+      name: 'date1',
+      label: '日期',
+      value: '1559750400,1561564799',
+      inputFormat: 'DD/MM-YYYY',
+      format: 'X'
+    },
+    {
+      type: 'input-date-range',
+      name: 'date2',
+      label: '日期',
+      value: '1559750400,1561564799',
+      displayFormat: 'DD/MM-YYYY',
+      valueFormat: 'X'
+    }
+  ]);
+
+  const inputs = container.querySelectorAll(
+    '.cxd-DateRangePicker-input'
+  )! as NodeListOf<HTMLInputElement>;
+  const first = {start: inputs[0].value, end: inputs[1].value};
+  const second = {start: inputs[2].value, end: inputs[3].value};
+
+  expect(first['start']).toEqual(second['start']);
+  expect(first['end']).toEqual(second['end']);
 });

@@ -1,7 +1,10 @@
 /**
  * @file 定义插件的 interface，以及提供一个 BasePlugin 基类，把一些通用的方法放在这。
  */
+
+import omit from 'lodash/omit';
 import {RegionWrapperProps} from './component/RegionWrapper';
+import {makeAsyncLayer} from './component/AsyncLayer';
 import {EditorManager} from './manager';
 import {EditorStoreType} from './store/editor';
 import {EditorNodeType} from './store/node';
@@ -10,9 +13,10 @@ import {EditorDNDManager} from './dnd';
 import React from 'react';
 import {DiffChange} from './util';
 import find from 'lodash/find';
-import type {RendererConfig} from 'amis-core';
+import type {RendererConfig, Schema} from 'amis-core';
 import type {MenuDivider, MenuItem} from 'amis-ui/lib/components/ContextMenu';
 import type {BaseSchema, SchemaCollection} from 'amis';
+import type {AsyncLayerOptions} from './component/AsyncLayer';
 
 /**
  * 区域的定义，容器渲染器都需要定义区域信息。
@@ -800,6 +804,11 @@ export interface PluginInterface
   panelJustify?: boolean;
 
   /**
+   * panelBodyAsyncCreator设置后异步加载层的配置项
+   */
+  async?: AsyncLayerOptions;
+
+  /**
    * 有数据域的容器，可以为子组件提供读取的字段绑定页面
    */
   getAvailableContextFields?: (
@@ -816,6 +825,12 @@ export interface PluginInterface
    */
   panelControlsCreator?: (context: BaseEventContext) => Array<any>;
   panelBodyCreator?: (context: BaseEventContext) => SchemaCollection;
+  /**
+   * 配置面板内容区的异步加载方法，设置后优先级大于panelBodyCreator
+   */
+  panelBodyAsyncCreator?: (
+    context: BaseEventContext
+  ) => Promise<SchemaCollection>;
 
   // 好像没用，先注释了
   // /**
@@ -901,7 +916,8 @@ export interface PluginInterface
   buildDataSchemas?: (
     node: EditorNodeType,
     region?: EditorNodeType,
-    trigger?: EditorNodeType
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
   ) => any | Promise<any>;
 
   rendererBeforeDispatchEvent?: (
@@ -910,7 +926,27 @@ export interface PluginInterface
     data: any
   ) => void;
 
+  /**
+   * 给 schema 打补丁，纠正一下 schema 配置。
+   * @param schema
+   * @param renderer
+   * @param props
+   * @returns
+   */
+  patchSchema?: (
+    schema: Schema,
+    renderer: RendererConfig,
+    props?: any
+  ) => Schema | void;
+
   dispose?: () => void;
+
+  /**
+   * 组件 ref 回调，mount 和 unmount 的时候都会调用
+   * @param ref
+   * @returns
+   */
+  componentRef?: (node: EditorNodeType, ref: any) => void;
 }
 
 export interface RendererPluginEvent {
@@ -1026,10 +1062,17 @@ export abstract class BasePlugin implements PluginInterface {
       (plugin.panelControls ||
         plugin.panelControlsCreator ||
         plugin.panelBody ||
-        plugin.panelBodyCreator) &&
+        plugin.panelBodyCreator ||
+        plugin.panelBodyAsyncCreator) &&
       context.info.plugin === this
     ) {
-      const body = plugin.panelBodyCreator
+      const enableAsync = !!(
+        plugin.panelBodyAsyncCreator &&
+        typeof plugin.panelBodyAsyncCreator === 'function'
+      );
+      const body = plugin.panelBodyAsyncCreator
+        ? plugin.panelBodyAsyncCreator(context)
+        : plugin.panelBodyCreator
         ? plugin.panelBodyCreator(context)
         : plugin.panelBody!;
 
@@ -1044,17 +1087,33 @@ export abstract class BasePlugin implements PluginInterface {
         icon: plugin.panelIcon || plugin.icon || 'fa fa-cog',
         pluginIcon: plugin.pluginIcon,
         title: plugin.panelTitle || '设置',
-        render: this.manager.makeSchemaFormRender({
-          definitions: plugin.panelDefinitions,
-          submitOnChange: plugin.panelSubmitOnChange,
-          api: plugin.panelApi,
-          body: body,
-          controls: plugin.panelControlsCreator
-            ? plugin.panelControlsCreator(context)
-            : plugin.panelControls!,
-          justify: plugin.panelJustify,
-          panelById: store.activeId
-        })
+        render: enableAsync
+          ? makeAsyncLayer(async () => {
+              const panelBody = await (body as Promise<SchemaCollection>);
+
+              return this.manager.makeSchemaFormRender({
+                definitions: plugin.panelDefinitions,
+                submitOnChange: plugin.panelSubmitOnChange,
+                api: plugin.panelApi,
+                body: panelBody,
+                controls: plugin.panelControlsCreator
+                  ? plugin.panelControlsCreator(context)
+                  : plugin.panelControls!,
+                justify: plugin.panelJustify,
+                panelById: store.activeId
+              });
+            }, omit(plugin.async, 'enable'))
+          : this.manager.makeSchemaFormRender({
+              definitions: plugin.panelDefinitions,
+              submitOnChange: plugin.panelSubmitOnChange,
+              api: plugin.panelApi,
+              body: body as SchemaCollection,
+              controls: plugin.panelControlsCreator
+                ? plugin.panelControlsCreator(context)
+                : plugin.panelControls!,
+              justify: plugin.panelJustify,
+              panelById: store.activeId
+            })
       });
     } else if (
       context.info.plugin === this &&
@@ -1169,6 +1228,22 @@ export abstract class BasePlugin implements PluginInterface {
         ? plugin.rendererName === rendererNameOrKlass
         : plugin instanceof rendererNameOrKlass
     );
+  }
+
+  buildDataSchemas(
+    node: EditorNodeType,
+    region?: EditorNodeType,
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
+  ) {
+    return {
+      type: 'string',
+      title:
+        typeof node.schema.label === 'string'
+          ? node.schema.label
+          : node.schema.name,
+      originalValue: node.schema.value // 记录原始值，循环引用检测需要
+    } as any;
   }
 }
 
