@@ -11,9 +11,9 @@ import {
   isEmpty
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
-import {InlineModal} from './Dialog';
 import {tipedLabel} from 'amis-editor-core';
 import omit from 'lodash/omit';
+import {Drawer as DrawerContainer} from 'amis-ui';
 
 export class DrawerPlugin extends BasePlugin {
   static id = 'DrawerPlugin';
@@ -25,7 +25,7 @@ export class DrawerPlugin extends BasePlugin {
   name = '抽屉式弹框';
   isBaseComponent = true;
   wrapperProps = {
-    wrapperComponent: InlineModal,
+    wrapperComponent: DrawerContainer,
     onClose: noop,
     resizable: false,
     show: true,

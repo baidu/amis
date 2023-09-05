@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from 'amis-ui';
+import {Button, Modal} from 'amis-ui';
 import {
   registerEditorPlugin,
   BaseEventContext,
@@ -27,7 +27,7 @@ export class DialogPlugin extends BasePlugin {
   isBaseComponent = true;
 
   wrapperProps = {
-    wrapperComponent: InlineModal,
+    wrapperComponent: Modal,
     onClose: noop,
     show: true,
     inDesign: true

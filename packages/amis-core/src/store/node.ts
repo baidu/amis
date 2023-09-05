@@ -63,6 +63,7 @@ export const StoreNode = types
         parent && isAlive(parent) && parent.onChildStoreDispose(self);
         destroy(self);
         callback?.();
+        // destroy(self);
       }
     }
 

@@ -760,7 +760,6 @@ export const uuidv4 = () => {
 
 export interface TreeItem {
   children?: TreeArray;
-  dialogChildren?: TreeArray;
   [propName: string]: any;
 }
 
@@ -863,7 +862,6 @@ export function eachTree<T extends TreeItem>(
  * 在树中查找节点。
  * @param tree
  * @param iterator
- * @param childrenName
  * @param withCache {Object} 启用缓存（new Map()），多次重复从一颗树中查找时可大幅度提升性能
  * @param withCache.value {string} 必须，需要从缓存Map中匹配的值，使用Map.get(value) 匹配
  * @param withCache.resolve {function} 构建Map 时，存入key 的处理函数
@@ -888,8 +886,7 @@ export function findTree<T extends TreeItem>(
       level: number,
       paths?: Array<T>
     ) => any;
-  },
-  childrenName?: string
+  }
 ): T | null {
   const isValidateKey = (value: any) =>
     value !== '' && (isString(value) || isNumber(value));
@@ -918,17 +915,13 @@ export function findTree<T extends TreeItem>(
   }
 
   let result: T | null = null;
-  everyTree(
-    tree,
-    (item, key, level, paths) => {
-      if (iterator(item, key, level, paths)) {
-        result = item;
-        return false;
-      }
-      return true;
-    },
-    childrenName
-  );
+  everyTree(tree, (item, key, level, paths) => {
+    if (iterator(item, key, level, paths)) {
+      result = item;
+      return false;
+    }
+    return true;
+  });
 
   return result;
 }
@@ -1099,7 +1092,6 @@ export function everyTree<T extends TreeItem>(
     paths: Array<T>,
     indexes: Array<number>
   ) => boolean,
-  childrenName: string = 'children',
   level: number = 1,
   paths: Array<T> = [],
   indexes: Array<number> = []
@@ -1118,8 +1110,8 @@ export function everyTree<T extends TreeItem>(
     if (index >= 0) {
       const value: any = iterator(item, index, level, paths, indexes);
 
-      if (value && item[childrenName]?.splice) {
-        const children = item[childrenName];
+      if (value && item.children?.splice) {
+        const children = item.children;
         for (let i = children.length - 1; i >= 0; i--) {
           stack.push({
             item: children[i] as T,

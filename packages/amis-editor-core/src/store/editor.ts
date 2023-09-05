@@ -43,7 +43,7 @@ import {
   JSONPipeOut,
   JSONUpdate
 } from '../util';
-import type {Schema} from 'amis';
+import type {Schema, SchemaNode} from 'amis';
 import {toast, resolveVariable} from 'amis';
 import find from 'lodash/find';
 import {InsertSubRendererPanel} from '../component/Panel/InsertSubRendererPanel';
@@ -379,10 +379,6 @@ export const MainStore = types
       ): EditorNodeType | undefined {
         let pool = self.root.children.concat();
 
-        if (self.root.dialogChildren?.length) {
-          pool = pool.concat(self.root.dialogChildren.concat());
-        }
-
         while (pool.length) {
           const item = pool.shift();
           if (
@@ -397,9 +393,6 @@ export const MainStore = types
           // 将当前节点的子节点全部放置到 pool中
           if (item.children.length) {
             pool.push.apply(pool, item.children);
-          }
-          if (item.dialogChildren.length) {
-            pool.push.apply(pool, item.dialogChildren);
           }
         }
 
@@ -580,28 +573,16 @@ export const MainStore = types
       get bcn() {
         let bcn: Array<EditorNodeType> = [];
 
-        let children;
-        let childrenName = '';
-        if (self.previewDialogId) {
-          children = self.root.dialogChildren;
-          childrenName = 'dialogChildren';
-        } else {
-          children = self.root.children;
-          childrenName = 'children';
-        }
-
         if (self.activeId) {
           findTree(
-            children,
+            self.root.children,
             (item: EditorNodeType, index: number, leve, paths: any[]) => {
               if (item.id === self.activeId) {
                 bcn = paths.concat(item);
                 return true;
               }
               return false;
-            },
-            undefined,
-            childrenName
+            }
           );
         }
 
@@ -628,19 +609,13 @@ export const MainStore = types
               return false;
             } else if (node.children && node.children.length) {
               return iterator(node.children, parents.concat(node));
-            } else if (node.dialogChildren && node.dialogChildren.length) {
-              return iterator(node.dialogChildren, parents.concat(node));
             }
 
             return true;
           });
         };
 
-        if (self.root.children?.length) {
-          iterator(self.root.children);
-        } else if (self.root.dialogChildren?.length) {
-          iterator(self.root.dialogChildren);
-        }
+        iterator(self.root.children);
 
         return paths;
       },
@@ -1045,6 +1020,72 @@ export const MainStore = types
           ...(self.scaffoldForm?.value || {}),
           __step: self.scaffoldFormStep
         });
+      },
+
+      // 获取弹窗事件
+      getDialogActions(schema: Schema, dialogActions: SchemaNode[]) {
+        let event = schema.onEvent;
+        // definitions中的弹窗
+        if (schema.type === 'page') {
+          const definitions = schema.definitions;
+          if (definitions) {
+            for (let k in definitions) {
+              if (k.includes('dialog-')) {
+                dialogActions.push(definitions[k]);
+              }
+            }
+          }
+        }
+
+        if (event) {
+          for (let key in event) {
+            let actions = event[key]?.actions;
+            if (Array.isArray(actions)) {
+              actions.forEach(item => {
+                if (
+                  item.actionType === 'dialog' ||
+                  item.actionType === 'drawer' ||
+                  item.actionType === 'confirmDialog'
+                ) {
+                  if (item.actionType === 'drawer') {
+                    !item.drawer.$ref && dialogActions.push(item.drawer);
+                    if (item.drawer.body?.length) {
+                      item.drawer.body.forEach((item: Schema) => {
+                        this.getDialogActions(item, dialogActions);
+                      });
+                    }
+                  } else if (item.actionType === 'dialog') {
+                    !item.dialog.$ref && dialogActions.push(item.dialog);
+                    if (item.dialog.body?.length) {
+                      item.dialog.body.forEach((item: Schema) => {
+                        this.getDialogActions(item, dialogActions);
+                      });
+                    }
+                  } else {
+                    !item.args.$ref && dialogActions.push(item.args);
+                    if (item.args.body?.length) {
+                      item.args.body.forEach((item: Schema) => {
+                        this.getDialogActions(item, dialogActions);
+                      });
+                    }
+                  }
+                }
+              });
+            }
+          }
+        } else if (schema.body?.length) {
+          schema.body.forEach((item: Schema) => {
+            this.getDialogActions(item, dialogActions);
+          });
+        }
+      },
+
+      // 获取弹窗大纲列表
+      get dialogOutlineList() {
+        const schema = self.schema;
+        let actions: Schema[] = [];
+        this.getDialogActions(schema, actions);
+        return actions;
       }
     };
   })

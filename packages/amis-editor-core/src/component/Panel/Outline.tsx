@@ -133,27 +133,15 @@ export class OutlinePanel extends React.Component<PanelProps> {
     }
   }
 
-  renderItem(
-    option: EditorNodeType,
-    index: number,
-    type?: 'dialog' | 'dialogView'
-  ) {
+  renderItem(option: EditorNodeType, index: number) {
     const store = this.props.store;
     const {curSearchElemKey} = this.state;
-    let children = [];
-    if (type === 'dialog') {
-      children = (
-        !store.dragging && option.dialogSingleRegion
-          ? option.uniqueDialogChildren[0]!.uniqueDialogChildren
-          : option.uniqueDialogChildren
-      ) as Array<EditorNodeType>;
-    } else {
-      children = (
-        !store.dragging && option.singleRegion
-          ? option.uniqueChildren[0]!.uniqueChildren
-          : option.uniqueChildren
-      ) as Array<EditorNodeType>;
-    }
+
+    const children = (
+      !store.dragging && option.singleRegion
+        ? option.uniqueChildren[0]!.uniqueChildren
+        : option.uniqueChildren
+    ) as Array<EditorNodeType>;
 
     const hasChildren = children.length;
 
@@ -208,16 +196,14 @@ export class OutlinePanel extends React.Component<PanelProps> {
             {option.isCommonConfig
               ? `${option.label}-[公共配置]`
               : this.renderTitleByKeyword(
-                  this.getDialogNodeLabel(option, type),
+                  this.getDialogNodeLabel(option),
                   curSearchElemKey
                 )}
           </span>
         </a>
         {hasChildren ? (
           <ul className="ae-Outline-sublist">
-            {children.map((option, index) =>
-              this.renderItem(option, index, type)
-            )}
+            {children.map((option, index) => this.renderItem(option, index))}
           </ul>
         ) : null}
       </li>
@@ -267,13 +253,13 @@ export class OutlinePanel extends React.Component<PanelProps> {
 
   renderDialogItem(option: any, index: number) {
     const store = this.props.store;
-    const dialogChildren = store.root.dialogChildren;
+    const children = store.root.children;
     const isSelectedDialog = option.$$id === store.previewDialogId;
 
     const dialogLabel = this.getDialogSchemaLabel(option);
 
-    return dialogChildren?.length && isSelectedDialog ? (
-      this.renderItem(dialogChildren[0], index, 'dialog')
+    return children?.length && isSelectedDialog ? (
+      this.renderItem(children[0], index)
     ) : (
       <li className={cx('ae-Outline-node')} key={index}>
         <a onClick={e => this.handleDialogNodeClick(e, option)}>
@@ -288,81 +274,12 @@ export class OutlinePanel extends React.Component<PanelProps> {
     );
   }
 
-  getDialogActions(schema: Schema, dialogActions: SchemaNode[]) {
-    let event = schema.onEvent;
-    // definitions中的弹窗
-    if (schema.type === 'page') {
-      const definitions = schema.definitions;
-      if (definitions) {
-        for (let k in definitions) {
-          if (k.includes('dialog-')) {
-            dialogActions.push(definitions[k]);
-          }
-        }
-      }
-    }
-
-    if (event) {
-      for (let key in event) {
-        let actions = event[key]?.actions;
-        if (Array.isArray(actions)) {
-          actions.forEach(item => {
-            if (
-              item.actionType === 'dialog' ||
-              item.actionType === 'drawer' ||
-              item.actionType === 'confirmDialog'
-            ) {
-              if (item.actionType === 'drawer') {
-                !item.drawer.$ref && dialogActions.push(item.drawer);
-                if (item.drawer.body?.length) {
-                  item.drawer.body.forEach((item: Schema) => {
-                    this.getDialogActions(item, dialogActions);
-                  });
-                }
-              } else {
-                if (item.actionType === 'dialog') {
-                  !item.dialog.$ref && dialogActions.push(item.dialog);
-                  if (item.dialog.body?.length) {
-                    item.dialog.body.forEach((item: Schema) => {
-                      this.getDialogActions(item, dialogActions);
-                    });
-                  }
-                } else {
-                  !item.args.$ref && dialogActions.push(item.args);
-                  if (item.args.body?.length) {
-                    item.args.body.forEach((item: Schema) => {
-                      this.getDialogActions(item, dialogActions);
-                    });
-                  }
-                }
-              }
-            }
-          });
-        }
-      }
-    } else if (schema.body?.length) {
-      schema.body.forEach((item: Schema) => {
-        this.getDialogActions(item, dialogActions);
-      });
-    }
-  }
-
-  getDialogOutline() {
-    // 提取事件中的弹窗
-    const store = this.props.store;
-    const schema = store.schema;
-
-    let actions: Schema[] = [];
-    this.getDialogActions(schema, actions);
-    return actions;
-  }
-
   render() {
     const {curSearchElemKey} = this.state;
     const {store} = this.props;
     const outlineTabsKey = store.outlineTabsKey || 'component-outline';
     const options = store.outline;
-    const dialogOptions = this.getDialogOutline();
+    const dialogOptions = store.dialogOutlineList;
 
     return (
       <div className="ae-Outline-panel">

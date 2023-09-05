@@ -589,8 +589,7 @@ export default class Dialog extends React.Component<DialogProps> {
       ...store.schema
     } as DialogProps;
 
-    // 设计态下挂在在画布下
-    const Wrapper = inDesign ? Modal : wrapperComponent || Modal;
+    const Wrapper = wrapperComponent || Modal;
     let previewContainer = document.getElementsByClassName(
       'dialog-preview-mount-node'
     )[0];
@@ -605,8 +604,8 @@ export default class Dialog extends React.Component<DialogProps> {
         size={size}
         height={height}
         width={width}
-        dialogClassName={dialogClassName}
-        dialogMaskClassName={dialogMaskClassName}
+        modalClassName={dialogClassName}
+        modalMaskClassName={dialogMaskClassName}
         backdrop="static"
         onHide={this.handleSelfClose}
         keyboard={closeOnEsc && !store.loading}

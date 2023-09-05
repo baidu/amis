@@ -619,9 +619,9 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
     }
 
     this.dialogReaction = reaction(
-      () => store.root.dialogChildren?.length,
-      length => {
-        if (length) {
+      () => store.root.children[0].type,
+      type => {
+        if (type === 'dialog' || type === 'drawer') {
           store.changeOutlineTabsKey('dialog-outline');
           store.setActiveId(store.previewDialogId);
         } else {

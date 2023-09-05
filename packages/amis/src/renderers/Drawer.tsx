@@ -596,10 +596,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       ...store.schema
     } as DrawerProps;
 
-    // 设计态下挂在在画布下
-    const Container = inDesign
-      ? DrawerContainer
-      : wrapperComponent || DrawerContainer;
+    const Container = wrapperComponent || DrawerContainer;
     let previewContainer = document.getElementsByClassName(
       'dialog-preview-mount-node'
     )[0];

@@ -66,31 +66,16 @@ export function makeWrapper(
         return;
       }
 
-      // 如果是弹窗预览，则添加到dialogStore
-      if (store.previewDialogId) {
-        this.editorNode = parent.addDialogChild({
-          id: info.id,
-          type: info.type,
-          label: info.name,
-          isCommonConfig: !!this.props.$$commonSchema,
-          path: this.props.$path,
-          schemaPath: info.schemaPath,
-          dialogTitle: info.dialogTitle,
-          info,
-          getData: () => this.props.data
-        });
-      } else {
-        this.editorNode = parent.addChild({
-          id: info.id, // 页面schema中的 $$id
-          type: info.type,
-          label: info.name,
-          isCommonConfig: !!this.props.$$commonSchema,
-          path: this.props.$path,
-          schemaPath: info.schemaPath,
-          info,
-          getData: () => this.props.data
-        });
-      }
+      this.editorNode = parent.addChild({
+        id: info.id, // 页面schema中的 $$id
+        type: info.type,
+        label: info.name,
+        isCommonConfig: !!this.props.$$commonSchema,
+        path: this.props.$path,
+        schemaPath: info.schemaPath,
+        info,
+        getData: () => this.props.data
+      });
 
       this.editorNode!.setRendererConfig(rendererConfig);
 
@@ -157,22 +142,7 @@ export function makeWrapper(
     componentWillUnmount() {
       if (this.editorNode && isAlive(this.editorNode)) {
         const parent: EditorNodeType = (this.context as any) || store.root;
-        // 查找最顶层容器，如果是在弹窗或页面弹窗模式下是dialog,其他情况为page
-        let topHost = this.editorNode;
-        while (topHost.host) {
-          topHost = topHost.host;
-        }
-
-        if (
-          topHost?.type === 'dialog' ||
-          topHost?.type === 'drawer' ||
-          this.editorNode?.host?.type === 'dialog' ||
-          this.editorNode?.host?.type === 'drawer'
-        ) {
-          parent.removeDialogChild(this.editorNode);
-        } else {
-          parent.removeChild(this.editorNode);
-        }
+        parent.removeChild(this.editorNode);
       }
 
       if (this.scopeId) {
