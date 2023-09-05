@@ -508,7 +508,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
 
     const defaultValue = defaultImage
       ? filter(defaultImage, data, '| raw')
-      : '';
+      : imagePlaceholder;
     let defaultImageValue = defaultValue || getPropValue(this.props);
 
     return (
