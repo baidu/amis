@@ -509,7 +509,6 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
     const defaultValue = defaultImage
       ? filter(defaultImage, data, '| raw')
       : imagePlaceholder;
-    let defaultImageValue = defaultValue || getPropValue(this.props);
 
     return (
       <div
@@ -533,14 +532,14 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             thumbClassName={thumbClassName}
             height={height}
             width={width}
-            src={value ? value : defaultImageValue}
+            src={value ? value : defaultValue}
             href={finnalHref}
             title={filter(title, data)}
             caption={filter(imageCaption, data)}
             thumbMode={thumbMode}
             thumbRatio={thumbRatio}
             originalSrc={filter(originalSrc, data, '| raw') ?? value}
-            enlargeAble={enlargeAble && value !== defaultImageValue}
+            enlargeAble={enlargeAble && value !== defaultValue}
             onEnlarge={this.handleEnlarge}
             imageMode={imageMode}
             imageControlClassName={imageControlClassName}
