@@ -618,9 +618,11 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
       this.props.manager.buildRenderersAndPanels();
     }
 
+    // 添加弹窗事件或弹窗列表进行弹窗切换后自动选中对应的弹窗
     this.dialogReaction = reaction(
-      () => store.root.children[0].type,
-      type => {
+      () => `${store.root.children[0].type}:${store.root.children[0].id}`,
+      info => {
+        const type = info.split(':')[0];
         if (type === 'dialog' || type === 'drawer') {
           store.changeOutlineTabsKey('dialog-outline');
           store.setActiveId(store.previewDialogId);
