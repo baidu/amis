@@ -4,6 +4,7 @@ import omit from 'lodash/omit';
 import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
 import findIndex from 'lodash/findIndex';
+import merge from 'lodash/merge';
 import {
   OptionsControl,
   OptionsControlProps,
@@ -20,13 +21,14 @@ import {
   resolveVariableAndFilter,
   isApiOutdated,
   isEffectiveApi,
-  resolveEventData
+  resolveEventData,
+  isIntegerInRange
 } from 'amis-core';
-import {Html, Icon} from 'amis-ui';
-import {isMobile} from 'amis-core';
+import {Html, Icon, TooltipWrapper} from 'amis-ui';
 import {FormOptionsSchema, SchemaTpl} from '../../Schema';
 import intersectionWith from 'lodash/intersectionWith';
-import {PopUp} from 'amis-ui';
+import type {TooltipWrapperSchema} from '../TooltipWrapper';
+import type {Option} from 'amis-core';
 
 /**
  * Picker
@@ -70,6 +72,31 @@ export interface PickerControlSchema extends FormOptionsSchema {
    * 内嵌模式，也就是说不弹框了。
    */
   embed?: boolean;
+
+  /**
+   * 开启最大标签展示数量的相关配置
+   */
+  overflowConfig: {
+    /**
+     * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
+     */
+    maxTagCount?: number;
+
+    /**
+     * 开启最大标签展示数量后，收纳标签生效的位置，未开启内嵌模式默认为选择器, 开启后默认为选择器 + 模态框，可选值为'select'(选择器)、'crud'(增删改查)
+     */
+    displayPosition?: ('select' | 'crud')[];
+
+    /**
+     * 开启最大标签展示数量后，选择器内收纳标签的Popover配置
+     */
+    overflowTagPopover?: TooltipWrapperSchema;
+
+    /**
+     * 开启最大标签展示数量后，CRUD顶部内收纳标签的Popover配置
+     */
+    overflowTagPopoverInCRUD?: TooltipWrapperSchema;
+  };
 }
 
 export interface PickerProps extends OptionsControlProps {
@@ -115,7 +142,24 @@ export default class PickerControl extends React.PureComponent<
         title: '${label|raw}'
       }
     },
-    embed: false
+    embed: false,
+    overflowConfig: {
+      /** 默认值为-1，不开启 */
+      maxTagCount: -1,
+      displayPosition: ['select', 'crud'],
+      overflowTagPopover: {
+        placement: 'top',
+        trigger: 'hover',
+        showArrow: false,
+        offset: [0, -10]
+      },
+      overflowTagPopoverInCRUD: {
+        placement: 'bottom',
+        trigger: 'hover',
+        showArrow: false,
+        offset: [0, 10]
+      }
+    }
   };
 
   state: PickerState = {
@@ -398,10 +442,15 @@ export default class PickerControl extends React.PureComponent<
     onChange(resetValue !== void 0 ? resetValue : '');
   }
 
-  renderValues() {
+  getOverflowConfig() {
+    const {overflowConfig} = this.props;
+
+    return merge(PickerControl.defaultProps.overflowConfig, overflowConfig);
+  }
+
+  renderTag(item: Option, index: number) {
     const {
       classPrefix: ns,
-      selectedOptions,
       labelField,
       labelTpl,
       translate: __,
@@ -410,46 +459,118 @@ export default class PickerControl extends React.PureComponent<
     } = this.props;
 
     return (
+      <div
+        key={index}
+        className={cx(`${ns}Picker-value`, {
+          'is-disabled': disabled
+        })}
+      >
+        <span
+          className={`${ns}Picker-valueIcon`}
+          onClick={e => {
+            e.stopPropagation();
+            this.removeItem(index);
+          }}
+        >
+          ×
+        </span>
+        <span
+          className={`${ns}Picker-valueLabel`}
+          onClick={e => {
+            e.stopPropagation();
+            this.handleItemClick(item);
+          }}
+        >
+          {labelTpl ? (
+            <Html html={filter(labelTpl, item)} filterHtml={env.filterHtml} />
+          ) : (
+            `${
+              getVariable(item, labelField || 'label') ||
+              getVariable(item, 'id')
+            }`
+          )}
+        </span>
+      </div>
+    );
+  }
+
+  renderValues() {
+    const {
+      classPrefix: ns,
+      selectedOptions,
+      translate: __,
+      disabled,
+      multiple,
+      popOverContainer
+    } = this.props;
+    const {maxTagCount, overflowTagPopover} = this.getOverflowConfig();
+    const totalCount = selectedOptions.length;
+    let tags = selectedOptions;
+    const enableOverflow =
+      multiple !== false &&
+      isIntegerInRange(maxTagCount, {
+        start: 0,
+        end: totalCount,
+        left: 'inclusive',
+        right: 'exclusive'
+      });
+
+    /** 多选且开启限制标签数量 */
+    if (enableOverflow) {
+      tags = [
+        ...selectedOptions.slice(0, maxTagCount),
+        {label: `+ ${totalCount - maxTagCount} ...`, value: '__overflow_tag__'}
+      ];
+    }
+
+    return (
       <div className={`${ns}Picker-values`}>
-        {selectedOptions.map((item, index) => (
-          <div
-            key={index}
-            className={cx(`${ns}Picker-value`, {
-              'is-disabled': disabled
-            })}
-          >
-            <span
-              data-tooltip={__('delete')}
-              data-position="bottom"
-              className={`${ns}Picker-valueIcon`}
-              onClick={e => {
-                e.stopPropagation();
-                this.removeItem(index);
-              }}
-            >
-              ×
-            </span>
-            <span
-              className={`${ns}Picker-valueLabel`}
-              onClick={e => {
-                e.stopPropagation();
-                this.handleItemClick(item);
-              }}
-            >
-              {labelTpl ? (
-                <Html
-                  html={filter(labelTpl, item)}
-                  filterHtml={env.filterHtml}
-                />
-              ) : (
-                `${
-                  getVariable(item, labelField || 'label') ||
-                  getVariable(item, 'id')
-                }`
-              )}
-            </span>
-          </div>
-        ))}
+        {tags.map((item, index) => {
+          if (enableOverflow && index === maxTagCount) {
+            return (
+              <TooltipWrapper
+                key={index}
+                container={popOverContainer}
+                tooltip={{
+                  tooltipClassName: cx(
+                    'Picker-overflow',
+                    overflowTagPopover?.tooltipClassName
+                  ),
+                  title: __('已选项'),
+                  ...omit(overflowTagPopover, [
+                    'children',
+                    'content',
+                    'tooltipClassName'
+                  ]),
+                  children: () => {
+                    return (
+                      <div className={cx(`${ns}Picker-overflow-wrapper`)}>
+                        {selectedOptions
+                          .slice(maxTagCount, totalCount)
+                          .map((overflowItem, rawIndex) => {
+                            const key = rawIndex + maxTagCount;
+
+                            return this.renderTag(overflowItem, key);
+                          })}
+                      </div>
+                    );
+                  }
+                }}
+              >
+                <div
+                  key={index}
+                  className={cx(`${ns}Picker-value`, {
+                    'is-disabled': disabled
+                  })}
+                >
+                  <span className={`${ns}Picker-valueLabel`}>{item.label}</span>
+                </div>
+              </TooltipWrapper>
+            );
+          }
+
+          return this.renderTag(item, index);
+        })}
       </div>
     );
   }
@@ -466,6 +587,8 @@ export default class PickerControl extends React.PureComponent<
       source,
       strictMode
     } = this.props;
+    const {maxTagCount, overflowTagPopoverInCRUD, displayPosition} =
+      this.getOverflowConfig();
 
     return render('modal-body', this.state.schema, {
       value: selectedOptions,
@@ -512,7 +635,11 @@ export default class PickerControl extends React.PureComponent<
           }
         : undefined,
       ref: this.crudRef,
-      popOverContainer
+      popOverContainer,
+      ...(embed ||
+      (Array.isArray(displayPosition) && displayPosition.includes('crud'))
+        ? {maxTagCount, overflowTagPopover: overflowTagPopoverInCRUD}
+        : {})
     }) as JSX.Element;
   }
   render() {

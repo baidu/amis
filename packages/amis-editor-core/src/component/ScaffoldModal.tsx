@@ -206,6 +206,7 @@ export class ScaffoldModal extends React.Component<SubEditorProps> {
 
     return (
       <Modal
+        theme={theme}
         size={scaffoldFormContext?.size || 'md'}
         contentClassName={scaffoldFormContext?.className}
         show={!!scaffoldFormContext}

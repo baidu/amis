@@ -265,19 +265,20 @@ export class TooltipWrapperPlugin extends BasePlugin {
           title: '外观',
           className: 'p-none',
           body: getSchemaTpl('collapseGroup', [
-            ...getSchemaTpl('style:common'),
-            {
-              title: 'CSS 类名',
-              body: [
-                getSchemaTpl('className', {
-                  label: '内容区CSS类名'
-                }),
-                getSchemaTpl('className', {
-                  label: '浮层CSS类名',
-                  name: 'tooltipClassName'
+            ...getSchemaTpl('theme:common', {
+              layoutExtra: [
+                getSchemaTpl('theme:size', {
+                  label: '尺寸',
+                  name: 'themeCss.baseControlClassName.size:default'
+                })
+              ],
+              extra: [
+                getSchemaTpl('theme:base', {
+                  classname: 'tooltipControlClassName',
+                  title: '浮层样式'
                 })
               ]
-            }
+            })
           ])
         }
       ])

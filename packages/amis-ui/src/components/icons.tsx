@@ -290,8 +290,8 @@ export function Icon({
   // 从css变量中获取icon
   function refFn(dom: any) {
     if (dom) {
-      const style = getComputedStyle(dom);
-      const svgStr = style.getPropertyValue('content');
+      const domStyle = getComputedStyle(dom);
+      const svgStr = domStyle.getPropertyValue('content');
       const svg = /(<svg.*<\/svg>)/.exec(svgStr);
 
       if (svg) {
@@ -356,6 +356,11 @@ export function Icon({
         ></use>
       </svg>
     );
+  }
+
+  // 直接传入svg字符串
+  if (typeof icon === 'string' && icon.startsWith('<svg')) {
+    return <i dangerouslySetInnerHTML={{__html: icon}} />;
   }
 
   // icon是链接

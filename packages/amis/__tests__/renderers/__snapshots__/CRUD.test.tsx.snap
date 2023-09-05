@@ -2721,8 +2721,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
               >
                 <span
                   class="cxd-Crud-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>
@@ -2741,8 +2739,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
               >
                 <span
                   class="cxd-Crud-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>
@@ -2761,8 +2757,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
               >
                 <span
                   class="cxd-Crud-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>
@@ -2781,8 +2775,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
               >
                 <span
                   class="cxd-Crud-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>

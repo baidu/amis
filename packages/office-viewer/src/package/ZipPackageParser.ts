@@ -54,6 +54,16 @@ export default class ZipPackageParser implements PackageParser {
   }
 
   /**
+   * xml 下没这功能
+   */
+  saveFile(filePath: string, content: Uint8Array | string): void {
+    if (typeof content === 'string') {
+      content = strToU8(content);
+    }
+    this.zip[filePath] = content;
+  }
+
+  /**
    * 判断文件是否存在
    */
   fileExists(filePath: string) {

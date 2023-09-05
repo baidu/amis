@@ -13,6 +13,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isPlainObject from 'lodash/isPlainObject';
 import isEqual from 'lodash/isEqual';
 import isNumber from 'lodash/isNumber';
+import debounce from 'lodash/debounce';
 
 const {
   guid,
@@ -210,9 +211,9 @@ export function JSONPipeOut(
  * 如果存在themeCss属性，则给对应的className加上name
  */
 export function addStyleClassName(obj: Schema) {
-  const themeCss = obj.themeCss || obj.css;
+  const themeCss = obj.type === 'page' ? obj.themeCss : obj.themeCss || obj.css;
   // page暂时不做处理
-  if (!themeCss || obj.type === 'page') {
+  if (!themeCss) {
     return obj;
   }
   let toUpdate: any = {};
@@ -1105,27 +1106,9 @@ export function setThemeConfig(config: any) {
   themeOptionsData = getGlobalData(themeConfig);
 }
 
-// 将主题数据传入组件的schema
-export function setThemeDefaultData(data: any) {
-  const schemaData = cloneDeep(data);
-  schemaData.themeConfig = themeConfig;
-  assign(schemaData, themeOptionsData);
-  return schemaData;
-}
-
-// 删除主题的配置数据
-export function deleteThemeConfigData(data: any) {
-  if (!data) {
-    return data;
-  }
-  const schemaData = cloneDeep(data);
-
-  delete schemaData.themeConfig;
-  Object.keys(themeOptionsData).forEach(key => {
-    delete schemaData[key];
-  });
-
-  return schemaData;
+// 获取主题数据和样式选择器数据
+export function getThemeConfig() {
+  return {themeConfig, ...themeOptionsData};
 }
 
 /**
@@ -1214,3 +1197,16 @@ export const updateComponentContext = (variables: any[]) => {
   }
   return items;
 };
+
+/**
+ * dom 滚动到可见区域
+ * @param selector dom 选择器
+ */
+export const scrollToActive = debounce((selector: string) => {
+  const dom = document.querySelector(selector);
+  if (dom) {
+    (dom as any).scrollIntoViewIfNeeded
+      ? (dom as any).scrollIntoViewIfNeeded()
+      : dom.scrollIntoView();
+  }
+}, 200);

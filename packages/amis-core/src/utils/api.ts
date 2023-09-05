@@ -343,6 +343,20 @@ export function str2AsyncFunction(
   }
 }
 
+export function callStrFunction(
+  this: any,
+  fn: string | Function,
+  argNames: Array<string>,
+  ...args: Array<any>
+) {
+  if (typeof fn === 'function') {
+    return fn.apply(this, args);
+  } else if (typeof fn === 'string' && fn) {
+    const func = str2function(fn, ...argNames)!;
+    return func?.apply(this, args);
+  }
+}
+
 export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   let data = ret.data;
   let hasStatusField = true;

@@ -109,7 +109,9 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
       labelField = 'label',
       valueField = 'value',
       mobileUI,
-      env
+      env,
+      maxTagCount,
+      overflowTagPopover
     } = this.props;
 
     return (
@@ -144,6 +146,8 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
           valueField={valueField}
           mobileUI={mobileUI}
           popOverContainer={env?.getModalContainer}
+          maxTagCount={maxTagCount}
+          overflowTagPopover={overflowTagPopover}
         />
 
         <Spinner

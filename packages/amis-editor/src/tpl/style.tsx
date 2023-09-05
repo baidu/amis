@@ -426,39 +426,17 @@ export const styleTpl = {
  */
 
 // css类名
-setSchemaTpl(
-  'theme:cssCode',
-  ({
-    themeClass = [],
-    isFormItem
-  }: {
-    themeClass?: any[];
-    isFormItem?: boolean;
-  } = {}) => {
-    if (isFormItem) {
-      themeClass.push(
-        ...[
-          {
-            name: 'description',
-            value: 'description',
-            className: 'descriptionClassName'
-          },
-          {name: 'label', value: 'label', className: 'labelClassName'}
-        ]
-      );
-    }
-    return {
-      title: '样式源码',
-      body: [
-        {
-          type: 'theme-cssCode',
-          label: false,
-          themeClass
-        }
-      ]
-    };
-  }
-);
+setSchemaTpl('theme:cssCode', () => {
+  return {
+    title: '自定义样式',
+    body: [
+      {
+        type: 'theme-cssCode',
+        label: false
+      }
+    ]
+  };
+});
 
 // form label
 setSchemaTpl('theme:form-label', () => {
@@ -499,13 +477,13 @@ setSchemaTpl('theme:form-description', () => {
   };
 });
 
-// 尺寸选择器
+// 带提示的值输入框
 setSchemaTpl('theme:select', (option: any = {}) => {
   return {
-    mode: 'default',
+    mode: 'horizontal',
     type: 'amis-theme-select',
-    label: '尺寸',
-    name: `themeCss.className.size:default`,
+    label: '大小',
+    name: `themeCss.className.select:default`,
     options: '${sizesOptions}',
     ...option
   };
@@ -583,56 +561,134 @@ setSchemaTpl('theme:shadow', (option: any = {}) => {
 // 尺寸选择器
 setSchemaTpl('theme:size', (option: any = {}) => {
   return {
-    type: 'amis-theme-select',
+    mode: 'default',
+    type: 'amis-theme-size-editor',
     label: false,
-    name: `css.className.size`,
+    name: `themeCss.className.size:default`,
     options: '${sizesOptions}',
+    hideMinWidth: true,
     ...option
   };
 });
 
 setSchemaTpl(
+  'theme:base',
+  (option: {
+    collapsed?: boolean;
+    extra?: any[];
+    classname?: string;
+    title?: string;
+    hiddenOn?: string;
+  }) => {
+    const {
+      collapsed = false,
+      extra = [],
+      classname = 'baseControlClassName',
+      title = '基本样式',
+      hiddenOn
+    } = option;
+    const styleStateFunc = (visibleOn: string, state: string) => {
+      return [
+        getSchemaTpl('theme:border', {
+          visibleOn: visibleOn,
+          name: `themeCss.${classname}.border:${state}`
+        }),
+        getSchemaTpl('theme:radius', {
+          visibleOn: visibleOn,
+          name: `themeCss.${classname}.radius:${state}`
+        }),
+        getSchemaTpl('theme:paddingAndMargin', {
+          visibleOn: visibleOn,
+          name: `themeCss.${classname}.padding-and-margin:${state}`
+        }),
+        getSchemaTpl('theme:colorPicker', {
+          visibleOn: visibleOn,
+          name: `themeCss.${classname}.background:${state}`,
+          label: '背景',
+          needCustom: true,
+          needGradient: true,
+          needImage: true,
+          labelMode: 'input'
+        }),
+        getSchemaTpl('theme:shadow', {
+          visibleOn: visibleOn,
+          name: `themeCss.${classname}.boxShadow:${state}`
+        })
+      ].concat(
+        extra.map(item => {
+          return {
+            ...item,
+            visibleOn: visibleOn,
+            name: `themeCss.${classname}.${item.name}:${state}`
+          };
+        })
+      );
+    };
+    const styles = [
+      {
+        type: 'select',
+        name: 'editorState',
+        label: '状态',
+        selectFirst: true,
+        options: [
+          {
+            label: '常规',
+            value: 'default'
+          },
+          {
+            label: '悬浮',
+            value: 'hover'
+          },
+          {
+            label: '点击',
+            value: 'active'
+          }
+        ]
+      },
+      ...styleStateFunc(
+        "${editorState == 'default' || !editorState}",
+        'default'
+      ),
+      ...styleStateFunc("${editorState == 'hover'}", 'hover'),
+      ...styleStateFunc("${editorState == 'active'}", 'active')
+    ];
+
+    return {
+      title,
+      collapsed,
+      body: styles,
+      hiddenOn
+    };
+  }
+);
+
+setSchemaTpl(
   'theme:common',
   (option: {
     exclude: string[] | string;
-    include: string[];
     collapsed?: boolean;
+    extra?: any[];
+    baseExtra?: any[];
+    layoutExtra?: any[];
+    classname?: string;
+    baseTitle?: string;
   }) => {
-    let {exclude, include, collapsed} = option || {};
+    let {
+      exclude,
+      collapsed,
+      extra = [],
+      baseExtra,
+      layoutExtra,
+      classname,
+      baseTitle
+    } = option || {};
+
     const curCollapsed = collapsed ?? false; // 默认都展开
     // key统一转换成Kebab case，eg: boxShadow => bos-shadow
     exclude = (
       exclude ? (Array.isArray(exclude) ? exclude : [exclude]) : []
     ).map((key: string) => kebabCase(key));
 
-    const moreStyle =
-      include?.map(key =>
-        getSchemaTpl(`theme:${key}`, {
-          name: 'style'
-        })
-      ) || [];
-    const styles = moreStyle.concat([
-      getSchemaTpl('theme:border', {
-        name: 'style'
-      }),
-      getSchemaTpl('theme:radius', {
-        name: 'style.radius'
-      }),
-      getSchemaTpl('theme:paddingAndMargin', {
-        name: 'style'
-      }),
-      getSchemaTpl('theme:colorPicker', {
-        name: 'style.background',
-        label: '背景',
-        needCustom: true,
-        needGradient: true,
-        needImage: true,
-        labelMode: 'input'
-      }),
-      getSchemaTpl('theme:shadow', {
-        name: 'style.boxShadow'
-      })
-    ]);
     return [
       {
         header: '布局',
@@ -644,21 +700,24 @@ setSchemaTpl(
             label: false,
             name: 'style'
           }
-        ].filter(comp => !~exclude.indexOf(comp.type.replace(/^style-/i, '')))
+        ]
+          .filter(comp => !~exclude.indexOf(comp.type.replace(/^style-/i, '')))
+          .concat(layoutExtra || [])
       },
+      getSchemaTpl('theme:base', {
+        collapsed: curCollapsed,
+        extra: baseExtra,
+        classname,
+        title: baseTitle
+      }),
+      ...extra,
       {
         title: '自定义样式',
-        collapsed: curCollapsed,
-        body: styles
-      },
-      {
-        title: '样式源码',
         collapsed: curCollapsed,
         body: [
           {
             type: 'theme-cssCode',
-            label: false,
-            isLayout: true
+            label: false
           }
         ]
       }

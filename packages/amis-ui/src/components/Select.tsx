@@ -1193,7 +1193,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         ) : null}
         {multiple && valuesNoWrap ? (
           <div className={cx('Select-option')}>
-            已选择({selectionValues.length})
+            {__('Select.selected')}({selectionValues.length})
           </div>
         ) : null}
         {multiple && checkAll && filtedOptions.length ? (

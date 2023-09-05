@@ -53,7 +53,8 @@ import {
   isString,
   isObject,
   isLayoutPlugin,
-  JSONPipeOut
+  JSONPipeOut,
+  scrollToActive
 } from './util';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
@@ -297,6 +298,7 @@ export class EditorManager {
           this.buildToolbars();
           await this.buildRenderers();
           this.buildPanels();
+          scrollToActive(`[data-node-id="${id}"]`);
 
           this.trigger(
             'active',

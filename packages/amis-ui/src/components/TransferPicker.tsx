@@ -54,6 +54,8 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
       labelField = 'label',
       mobileUI,
       popOverContainer,
+      maxTagCount,
+      overflowTagPopover,
       ...rest
     } = this.props;
 
@@ -110,6 +112,8 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
               <span>{(option && option[labelField]) || 'undefined'}</span>
             )}
             mobileUI={mobileUI}
+            maxTagCount={maxTagCount}
+            overflowTagPopover={overflowTagPopover}
           >
             {!mobileUI ? (
               <span className={cx('TransferPicker-icon')}>

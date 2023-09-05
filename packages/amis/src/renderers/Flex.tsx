@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import {buildStyle, Renderer, RendererProps} from 'amis-core';
+import {buildStyle, Renderer, RendererProps, CustomStyle} from 'amis-core';
 import {Schema} from 'amis-core';
 import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
 
@@ -100,7 +100,13 @@ export default class Flex extends React.Component<FlexProps, object> {
       className,
       render,
       disabled,
-      data
+      data,
+      id,
+      wrapperCustomStyle,
+      env,
+      themeCss,
+      baseControlClassName,
+      classnames: cx
     } = this.props;
     const styleVar = buildStyle(style, data);
     const flexStyle = {
@@ -121,7 +127,17 @@ export default class Flex extends React.Component<FlexProps, object> {
     }
 
     return (
-      <div style={flexStyle} className={className}>
+      <div
+        style={flexStyle}
+        className={cx(
+          'Flex',
+          className,
+          baseControlClassName,
+          wrapperCustomStyle
+            ? ` wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
+        )}
+      >
         {(Array.isArray(items) ? items : items ? [items] : []).map(
           (item, key) =>
             render(`flexItem/${key}`, item, {
@@ -129,6 +145,20 @@ export default class Flex extends React.Component<FlexProps, object> {
               disabled: (item as SchemaObject)?.disabled ?? disabled
             })
         )}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

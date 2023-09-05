@@ -29,7 +29,7 @@ import {
   isArrayChildrenModified,
   filterTarget
 } from 'amis-core';
-import {Icon, Table, Spinner, BadgeObject, SpinnerExtraProps} from 'amis-ui';
+import {Icon, Table, BadgeObject, SpinnerExtraProps} from 'amis-ui';
 import type {
   SortProps,
   ColumnProps,
@@ -435,6 +435,37 @@ export interface Table2Props extends RendererProps, SpinnerExtraProps {
 export default class Table2 extends React.Component<Table2Props, object> {
   static contextType = ScopedContext;
 
+  static propsList: Array<string> = [
+    'source',
+    'columnsTogglable',
+    'columns',
+    'items',
+    'rowSelection',
+    'expandable',
+    'sticky',
+    'itemBadge',
+    'popOverContainer',
+    'keyField',
+    'childrenColumnName',
+    'rowClassNameExpr',
+    'lineHeight',
+    'bordered',
+    'footer',
+    'maxKeepItemSelectionLength',
+    'keepItemSelectionOnPageChange',
+    'itemActions',
+    'headingClassName',
+    'footSummary',
+    'headSummary',
+    'saveImmediately',
+    'selectable',
+    'multiple',
+    'primaryField',
+    'hideQuickSaveBtn',
+    'selected',
+    'placeholder'
+  ];
+
   renderedToolbars: Array<string> = [];
   tableRef?: any;
   subForms: any = {};
@@ -672,6 +703,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       // title 不应该传递到 cell-field 的 column 中，否则部分组件会将其渲染出来
       // 但是 cell-field 需要这个字段，展示列的名称
       const {width, children, title, ...rest} = schema;
+
       return render(
         'cell-field',
         {
@@ -1770,13 +1802,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   render() {
-    const {
-      classnames: cx,
-      style,
-      loading = false,
-      loadingConfig,
-      store
-    } = this.props;
+    const {classnames: cx, style, store} = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了
 
@@ -1792,8 +1818,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
         {this.renderActions('header')}
         {heading}
         {this.renderTable()}
-
-        <Spinner overlay show={loading} loadingConfig={loadingConfig} />
       </div>
     );
   }

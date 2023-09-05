@@ -113,6 +113,26 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
     });
   }
 
+  /** 变更组件的折叠状态 */
+  @autobind
+  changeCollapsedState(targetState: boolean) {
+    const {disabled, collapsable} = this.props;
+    const {collapsed: currentState} = this.state;
+
+    if (disabled || collapsable === false || currentState === targetState) {
+      return;
+    }
+
+    this.setState(
+      {
+        collapsed: targetState
+      },
+      () => {
+        this.props.onCollapse?.(this.props, targetState);
+      }
+    );
+  }
+
   contentDom: any;
   contentRef = (ref: any) => (this.contentDom = ref);
 

@@ -145,8 +145,11 @@
   &.is-mobile {
     .#{$ns}Number {
       border-radius: 0;
-      border-bottom: var(--Number-borderWidth) solid
-        var(--Form-input-borderColor);
+      position: relative;
+
+      &::before {
+        @include hairline-bottom(var(--Form-input-borderColor));
+      }
     }
   }
 }

@@ -51,6 +51,7 @@ interface BaseDatePickerProps {
   viewMode?: 'years' | 'months' | 'days' | 'time' | 'quarters';
   dateFormat?: boolean | string;
   inputFormat?: boolean | string;
+  displayForamt?: boolean | string;
   timeFormat?: any;
   input?: boolean;
   locale: string;
@@ -109,7 +110,7 @@ interface BaseDatePickerProps {
 }
 
 interface BaseDatePickerState {
-  inputFormat?: boolean | string;
+  displayForamt?: boolean | string;
   currentView: string;
   viewDate: moment.Moment;
   selectedDate: moment.Moment;
@@ -316,7 +317,7 @@ class BaseDatePicker extends React.Component<
 
     return {
       updateOn: updateOn,
-      inputFormat: formats.datetime,
+      displayForamt: formats.datetime,
       viewDate: viewDate,
       selectedDate: selectedDate,
       inputValue: inputValue,
@@ -403,6 +404,7 @@ class BaseDatePicker extends React.Component<
 
     [
       'inputFormat',
+      'displayForamt',
       'onChange',
       'onClose',
       'requiredConfirm',
@@ -475,7 +477,7 @@ class BaseDatePicker extends React.Component<
     if (!this.props.value) {
       this.setState({
         selectedDate: date,
-        inputValue: date.format(state.inputFormat as string)
+        inputValue: date.format(state.displayForamt as string)
       });
     }
     this.props.onChange && this.props.onChange(date);
@@ -485,7 +487,9 @@ class BaseDatePicker extends React.Component<
     // todo 没看懂这个是啥意思，好像没啥用
     const currentShould =
       this.props.viewMode === 'months' &&
-      !/^mm$/i.test((this.props.inputFormat as string) || '');
+      !/^mm$/i.test(
+        ((this.props.inputFormat || this.props.displayForamt) as string) || ''
+      );
     const nextViews = {
       month: currentShould ? 'months' : 'days',
       year: currentShould ? 'months' : 'days',
@@ -560,14 +564,14 @@ class BaseDatePicker extends React.Component<
       this.setState({
         selectedDate: date,
         viewDate: date?.clone().startOf('month'),
-        inputValue: date?.format(this.state.inputFormat),
+        inputValue: date?.format(this.state.displayForamt),
         open: open
       });
     } else {
       this.setState({
         selectedDate: date,
         viewDate: date?.clone().startOf('month'),
-        inputValue: date?.format(this.state.inputFormat)
+        inputValue: date?.format(this.state.displayForamt)
       });
       if (this.props.closeOnSelect && close) {
         that.closeCalendar();
@@ -650,7 +654,7 @@ class BaseDatePicker extends React.Component<
     if (!this.props.value) {
       this.setState({
         selectedDate: date,
-        inputValue: date!.format(this.state.inputFormat as string)
+        inputValue: date!.format(this.state.displayForamt as string)
       });
     }
     this.props.onChange && this.props.onChange(date);

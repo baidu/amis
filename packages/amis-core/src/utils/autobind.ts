@@ -1,17 +1,23 @@
 const {defineProperty, getPrototypeOf} = Object;
 
-export function bind(fn: Function, context: any) {
+// 简写
+type Fn = Function;
+// FIXME 正确写法，但过不了检查，暂时使用 any 兼容
+// type SuperStore = WeakMap<Fn, Fn>
+type SuperStore = WeakMap<Fn, any>;
+
+export function bind(fn: Fn, thisArg: any): Fn {
   if (fn.bind) {
-    return fn.bind(context);
-  } else {
-    return function __autobind__() {
-      return fn.apply(context, arguments);
-    };
+    return fn.bind(thisArg);
   }
+
+  return function __autobind__() {
+    return fn.apply(thisArg, arguments);
+  };
 }
 
-let mapStore: WeakMap<Object, any>;
-function getBoundSuper(obj: Object, fn: Function) {
+let mapStore: WeakMap<Object, SuperStore>;
+function getBoundSuper(obj: Object, fn: Fn) {
   if (typeof WeakMap === 'undefined') {
     throw new Error(
       `Using @autobind on ${fn.name}() requires WeakMap support due to its use of super.${fn.name}()
@@ -23,13 +29,13 @@ function getBoundSuper(obj: Object, fn: Function) {
     mapStore = new WeakMap();
   }
 
-  if (mapStore.has(obj) === false) {
+  if (!mapStore.has(obj)) {
     mapStore.set(obj, new WeakMap());
   }
 
-  const superStore = mapStore.get(obj);
+  const superStore = mapStore.get(obj) as SuperStore;
 
-  if (superStore.has(fn) === false) {
+  if (!superStore.has(fn)) {
     superStore.set(fn, bind(fn, obj));
   }
 
@@ -38,7 +44,7 @@ function getBoundSuper(obj: Object, fn: Function) {
 
 function createDefaultSetter(key: string) {
   return function set(this: any, newValue: any) {
-    Object.defineProperty(this, key, {
+    defineProperty(this, key, {
       configurable: true,
       writable: true,
       // IS enumerable when reassigned by the outside word
@@ -53,7 +59,7 @@ function createDefaultSetter(key: string) {
 export function autobindMethod(
   target: Object,
   key: string,
-  {value: fn, configurable, enumerable}: TypedPropertyDescriptor<Function>
+  {value: fn, configurable, enumerable}: TypedPropertyDescriptor<Fn>
 ) {
   if (typeof fn !== 'function') {
     throw new SyntaxError(

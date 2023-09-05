@@ -1,8 +1,8 @@
 /**
  * 组件名称：InputQuarterRange 季度范围
- * 
+ *
  * 备注：InputQuarterRange 与 dateRange 等日期范围使用的是同一个组件，所以只测试不同的地方即可
- * 
+ *
  * 单测内容：
  1. 点击选择
  2. 内嵌模式
@@ -81,7 +81,8 @@ test('Renderer:InputQuarterRange with embed', async () => {
             name: 'a',
             label: '季度范围',
             embed: true,
-            format: 'YYYY-MM',
+            valueFormat: 'YYYY-MM',
+            displayFormat: 'YYYY/MM',
             value: '2021-10,2021-12'
           }
         ]

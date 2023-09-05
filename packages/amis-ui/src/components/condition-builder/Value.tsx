@@ -149,6 +149,8 @@ export class Value extends React.Component<ValueProps> {
           disabled={disabled}
           popOverContainer={popOverContainer}
           mobileUI={mobileUI}
+          maxTagCount={field.maxTagCount}
+          overflowTagPopover={field.overflowTagPopover}
         />
       );
     } else if (field.type === 'boolean') {
