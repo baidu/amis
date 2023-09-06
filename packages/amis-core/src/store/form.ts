@@ -49,7 +49,7 @@ export const FormStore = ServiceStore.named('FormStore')
       while (pool.length) {
         const current = pool.shift()!;
 
-        if (current.storeType === 'FormItemStore') {
+        if (current.storeType === 'FormItemStore' && !current.isControlled) {
           formItems.push(current);
         } else if (
           !['ComboStore', 'TableStore', 'FormStore'].includes(current.storeType)
