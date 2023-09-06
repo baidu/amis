@@ -295,9 +295,14 @@ export class PagePlugin extends BasePlugin {
             getSchemaTpl('collapseGroup', [
               ...getSchemaTpl('theme:common', {
                 exclude: ['layout'],
-                classname: 'bodyControlClassName',
-                baseTitle: '内容区样式',
+                classname: 'baseControlClassName',
+                baseTitle: '基本样式',
                 extra: [
+                  getSchemaTpl('theme:base', {
+                    classname: 'bodyControlClassName',
+                    title: '内容区样式',
+                    hiddenOn: 'data.regions && !data.regions.includes("body")'
+                  }),
                   getSchemaTpl('theme:base', {
                     classname: 'headerControlClassName',
                     title: '标题栏样式',
