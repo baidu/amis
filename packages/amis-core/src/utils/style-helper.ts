@@ -43,7 +43,7 @@ interface extra {
   suf?: string;
 }
 
-export function findOrCreactStyle(id: string) {
+export function findOrCreateStyle(id: string) {
   let varStyleTag = document.getElementById(id);
   if (!varStyleTag) {
     varStyleTag = document.createElement('style');
@@ -54,7 +54,7 @@ export function findOrCreactStyle(id: string) {
 }
 
 export function insertStyle(style: string, id: string) {
-  const varStyleTag = findOrCreactStyle(id);
+  const varStyleTag = findOrCreateStyle(id);
 
   // bca-disable-line
   varStyleTag.innerHTML = style;
@@ -65,7 +65,7 @@ export function insertStyle(style: string, id: string) {
 }
 
 export function addStyle(style: string, id: string) {
-  const varStyleTag = findOrCreactStyle(id);
+  const varStyleTag = findOrCreateStyle(id);
   // bca-disable-line
   varStyleTag.innerHTML += style;
 }
