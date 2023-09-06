@@ -73,7 +73,7 @@ export function makeWrapper(
 
       // 查找父数据域，将当前组件数据域追加上去，使其形成父子关系
       if (
-        rendererConfig.storeType &&
+        (rendererConfig.storeType || info.isListComponent) &&
         !manager.dataSchema.hasScope(`${info.id}-${info.type}`)
       ) {
         let from = parent;

@@ -1,7 +1,8 @@
-import {Button, Icon} from 'amis';
 import React from 'react';
-import {getVariable} from 'amis-core';
-
+import get from 'lodash/get';
+import flattenDeep from 'lodash/flattenDeep';
+import {Button, Icon} from 'amis';
+import {getVariable, isObject} from 'amis-core';
 import {
   BasePlugin,
   BasicRendererInfo,
@@ -12,18 +13,83 @@ import {
   AfterBuildPanelBody,
   defaultValue,
   getSchemaTpl,
-  tipedLabel
+  tipedLabel,
+  BaseEventContext
 } from 'amis-editor-core';
-import type {DSField} from 'amis-editor-core';
-import fromPairs from 'lodash/fromPairs';
-import type {TabsSchema} from 'amis';
-import type {SchemaObject} from 'amis';
 import {remarkTpl} from '../component/BaseControl';
+
+import type {DSField} from '../builder';
+
+export type TableCell2DynamicControls = Partial<
+  Record<
+    | 'name'
+    | 'key'
+    | 'sorter'
+    | 'relationBuildSetting'
+    | 'searchable'
+    | 'quickEdit'
+    | 'popover',
+    (context: BaseEventContext) => any
+  >
+>;
 
 export class TableCell2Plugin extends BasePlugin {
   static id = 'TableCell2Plugin';
+
+  rendererName = 'cell-field';
+
   panelTitle = '列配置';
+
   panelIcon = 'fa fa-columns';
+
+  panelJustify = true;
+
+  /** 是否为操作列 */
+  _isOpColumn?: boolean;
+
+  /** NodeStore在构建时需要将一些信息添加进去 */
+  getRendererInfo(
+    context: RendererInfoResolveEventContext
+  ): BasicRendererInfo | void {
+    const {renderer, schema} = context;
+
+    if (this.rendererName === renderer?.name) {
+      return {
+        name: schema.title ? `<${schema.title}>列` : '匿名列',
+        $schema: '/schemas/TableSchema.json',
+        multifactor: true,
+        wrapperResolve: (dom: HTMLDivElement) => {
+          // 固定这种结构 amis里改了 这里也得改
+          const parent = dom.parentElement?.parentElement;
+          const groupId = parent?.getAttribute('data-group-id');
+          const wrapper = dom.closest('table')!.parentElement?.parentElement;
+          return [].slice.call(
+            wrapper?.querySelectorAll(
+              `th[data-group-id="${groupId}"],
+              td[data-group-id="${groupId}"]`
+            )
+          );
+        }
+        // filterProps: (props: any) => {
+        //   props = JSONPipeOut(props, true);
+        //   return props;
+        // }
+      };
+    }
+
+    return super.getRendererInfo(context);
+  }
+
+  /** 更新渲染器前的事件，或者右键粘贴配置 */
+  beforeReplace(event: PluginEvent<ReplaceEventContext>) {
+    const context = event.context;
+
+    // 替换字段的时候保留 label 和 name 值。
+    if (context.info.plugin === this && context.data) {
+      context.data.title = context.data.title || context.schema.title;
+      context.data.key = context.data.key || context.schema.key;
+    }
+  }
 
   afterBuildPanelBody(event: PluginEvent<AfterBuildPanelBody>) {
     const {context, data} = event.context;
@@ -39,24 +105,35 @@ export class TableCell2Plugin extends BasePlugin {
       sameName?: string;
       [propName: string]: any;
     }> = [
-      context.node.info.plugin.withDataSource === false
-        ? false
-        : {
-            sameName: context.info.renderer.isFormItem ? 'name' : undefined,
-            name: 'name',
-            type: 'ae-DataBindingControl',
-            label: '列字段',
-            onBindingChange(
-              field: DSField,
-              onBulkChange: (value: any) => void
-            ) {
-              const schema = field?.resolveColumnSchema?.('List') || {
-                title: field.label
-              };
-              onBulkChange(schema);
-            }
-          },
-
+      // context.node.info.plugin.withDataSource === false
+      //   ? false
+      //   : {
+      //       sameName: context.info.renderer.isFormItem ? 'name' : undefined,
+      //       name: 'name',
+      //       type: 'ae-DataBindingControl',
+      //       label: '列字段',
+      //       onBindingChange(
+      //         field: DSField,
+      //         onBulkChange: (value: any) => void
+      //       ) {
+      //         const schema = field?.resolveColumnSchema?.('List') || {
+      //           title: field.label
+      //         };
+      //         onBulkChange(schema);
+      //       }
+      //     },
+      {
+        sameName: context.info.renderer.isFormItem ? 'name' : undefined,
+        name: 'name',
+        type: 'ae-DataBindingControl',
+        label: '列字段',
+        onBindingChange(field: DSField, onBulkChange: (value: any) => void) {
+          const schema = field?.resolveColumnSchema?.('List') || {
+            title: field.label
+          };
+          onBulkChange(schema);
+        }
+      },
       {
         sameName: context.info.renderer.isFormItem ? 'label' : undefined,
         name: 'title',
@@ -103,60 +180,268 @@ export class TableCell2Plugin extends BasePlugin {
           } else if (typeof value === 'undefined') {
             value = getVariable(data, 'searchable');
           }
-
-          const originMode = value.mode;
-
-          value = {
-            ...value,
-            type: 'form',
-            mode: 'normal',
-            wrapWithPanel: false,
-            body: [
-              {
-                type: 'input-text',
-                name: data.key
-              }
-            ]
-          };
-
-          delete value.mode;
-          // todo 多个快速编辑表单模式看来只能代码模式编辑了。
-          return (
-            <Button
-              className="w-full flex flex-col items-center"
-              onClick={() => {
-                this.manager.openSubEditor({
-                  title: '配置列搜索类型',
-                  value: value,
-                  onChange: value =>
-                    onChange(
-                      {
-                        ...value,
-                        mode: originMode
-                      },
-                      'searchable'
-                    )
-                });
-              }}
-            >
-              <span className="inline-flex items-center">
-                <Icon icon="edit" className="mr-1 w-3" />
-                配置列搜索类型
-              </span>
-            </Button>
-          );
         }
-      },
+      }
+    ];
+  }
 
-      {
-        name: 'quickEdit',
-        label: tipedLabel('快速编辑', '输入框左侧或右侧的附加挂件'),
+  protected _dynamicControls: TableCell2DynamicControls = {
+    /** 字段配置 */
+    name: () =>
+      getSchemaTpl('formItemName', {
+        name: 'name',
+        label: '列字段',
+        visibleOn: 'data.name !== undefined || data.key === undefined'
+      }),
+    /** 字段配置，兼容key */
+    key: () =>
+      getSchemaTpl('formItemName', {
+        name: 'key',
+        label: '列字段',
+        visibleOn: 'data.name === undefined && data.key'
+      }),
+    /** 排序配置 */
+    sorter: () =>
+      getSchemaTpl('switch', {
+        name: 'sorter',
+        hidden: this._isOpColumn,
+        label: tipedLabel(
+          '可排序',
+          '开启后可以根据当前列排序，接口类型将增加排序参数。'
+        )
+      }),
+    /** 可搜索 */
+    searchable: () => {
+      return [
+        getSchemaTpl('switch', {
+          name: 'searchable',
+          label: '可搜索',
+          hidden: this._isOpColumn,
+          pipeIn: (value: any) => !!value
+        }),
+        {
+          name: 'searchable',
+          visibleOn: 'data.searchable',
+          asFormItem: true,
+          label: false,
+          children: ({value, onChange, data}: any) => {
+            if (value === true) {
+              value = {};
+            } else if (typeof value === 'undefined') {
+              value = getVariable(data, 'searchable');
+            }
+            const originMode = value.mode;
+            value = {
+              ...value,
+              type: 'form',
+              mode: 'normal',
+              wrapWithPanel: false,
+              body: value?.body?.length
+                ? value.body
+                : [
+                    {
+                      type: 'input-text',
+                      name: data.key
+                    }
+                  ]
+            };
+
+            delete value.mode;
+            // todo 多个快速编辑表单模式看来只能代码模式编辑了。
+            return (
+              <Button
+                className="w-full flex flex-col items-center"
+                onClick={() => {
+                  this.manager.openSubEditor({
+                    title: '配置列搜索类型',
+                    value: value,
+                    onChange: value =>
+                      onChange(
+                        {
+                          ...value,
+                          mode: originMode
+                        },
+                        'searchable'
+                      )
+                  });
+                }}
+              >
+                <span className="inline-flex items-center">
+                  <Icon icon="edit" className="mr-1 w-3" />
+                  配置列搜索类型
+                </span>
+              </Button>
+            );
+          }
+        }
+      ];
+    },
+    /** 快速查看 */
+    popover: () => {
+      return {
+        name: 'popOver',
+        label: '弹出框',
         type: 'ae-switch-more',
+        hidden: this._isOpColumn,
         mode: 'normal',
         formType: 'extend',
         bulk: true,
         defaultData: {
+          popOver: {
+            mode: 'popOver'
+          }
+        },
+        trueValue: {
+          mode: 'popOver',
+          body: [
+            {
+              type: 'tpl',
+              tpl: '弹出框内容'
+            }
+          ]
+        },
+        isChecked: (e: any) => {
+          const {data, name} = e;
+          return get(data, name);
+        },
+        form: {
+          body: [
+            {
+              name: 'popOver.mode',
+              type: 'button-group-select',
+              label: '模式',
+              value: 'popOver',
+              options: [
+                {
+                  label: '提示',
+                  value: 'popOver'
+                },
+                {
+                  label: '弹窗',
+                  value: 'dialog'
+                },
+                {
+                  label: '抽屉',
+                  value: 'drawer'
+                }
+              ]
+            },
+            getSchemaTpl('formItemSize', {
+              name: 'popOver.size',
+              clearValueOnHidden: true,
+              visibleOn: 'popOver.mode !== "popOver"'
+            }),
+            {
+              type: 'select',
+              name: 'popOver.position',
+              label: '弹出位置',
+              visibleOn: 'popOver.mode === "popOver"',
+              options: [
+                'center',
+                'left-top',
+                'right-top',
+                'left-bottom',
+                'right-bottom'
+              ],
+              clearValueOnHidden: true
+            },
+            {
+              name: 'popOver.trigger',
+              type: 'button-group-select',
+              label: '触发方式',
+              options: [
+                {
+                  label: '点击',
+                  value: 'click'
+                },
+                {
+                  label: '鼠标移入',
+                  value: 'hover'
+                }
+              ],
+              pipeIn: defaultValue('click')
+            },
+            getSchemaTpl('switch', {
+              name: 'popOver.showIcon',
+              label: '显示图标',
+              value: true
+            }),
+            {
+              type: 'input-text',
+              name: 'popOver.title',
+              label: '标题'
+            },
+            {
+              name: 'popOver.body',
+              asFormItem: true,
+              label: false,
+              children: ({value, onBulkChange, onChange, name, data}: any) => {
+                value = {
+                  body:
+                    value && value.body
+                      ? value.body
+                      : [
+                          {
+                            type: 'tpl',
+                            tpl: '弹出框内容'
+                          }
+                        ]
+                };
+
+                return (
+                  <Button
+                    className="w-full flex flex-col items-center"
+                    onClick={() => {
+                      this.manager.openSubEditor({
+                        title: '配置弹出框',
+                        value: value,
+                        onChange: value => {
+                          onChange(
+                            value
+                              ? Array.isArray(value)
+                                ? value
+                                : value?.body
+                                ? value.body
+                                : []
+                              : []
+                          );
+                        }
+                      });
+                    }}
+                  >
+                    <span className="inline-flex items-center">
+                      <Icon icon="edit" className="mr-1 w-3" />
+                      配置弹出框
+                    </span>
+                  </Button>
+                );
+              }
+            }
+          ]
+        }
+      };
+    },
+    /** 快速编辑 */
+    quickEdit: () => {
+      return {
+        name: 'quickEdit',
+        label: tipedLabel('快速编辑', '输入框左侧或右侧的附加挂件'),
+        type: 'ae-switch-more',
+        hidden: this._isOpColumn,
+        mode: 'normal',
+        formType: 'extend',
+        bulk: true,
+        defaultData: {
+          quickEdit: {
+            mode: 'popOver'
+          }
+        },
+        trueValue: {
           mode: 'popOver'
+        },
+        isChecked: (e: any) => {
+          const {data, name} = e;
+          return get(data, name);
         },
         form: {
           body: [
@@ -186,6 +471,14 @@ export class TableCell2Plugin extends BasePlugin {
               pipeIn: (value: any) => !!value
             }),
 
+            getSchemaTpl('api', {
+              label: '立即保存接口',
+              description:
+                '是否单独给立即保存配置接口，如果不配置，则默认使用quickSaveItemApi。',
+              name: 'quickEdit.saveImmediately.api',
+              visibleOn: 'this.quickEdit && this.quickEdit.saveImmediately'
+            }),
+
             {
               name: 'quickEdit',
               asFormItem: true,
@@ -204,12 +497,14 @@ export class TableCell2Plugin extends BasePlugin {
                   type: 'form',
                   mode: 'normal',
                   wrapWithPanel: false,
-                  body: [
-                    {
-                      type: 'input-text',
-                      name: data.key
-                    }
-                  ]
+                  body: value?.body?.length
+                    ? value.body
+                    : [
+                        {
+                          type: 'input-text',
+                          name: data.key
+                        }
+                      ]
                 };
 
                 if (value.mode) {
@@ -243,344 +538,194 @@ export class TableCell2Plugin extends BasePlugin {
             }
           ]
         }
-      },
-
-      {
-        name: 'popOver',
-        label: '查看更多',
-        type: 'ae-switch-more',
-        mode: 'normal',
-        formType: 'extend',
-        bulk: true,
-        form: {
-          body: [
-            {
-              name: 'popOver.mode',
-              label: '模式',
-              type: 'button-group-select',
-              pipeIn: defaultValue('popOver'),
-              options: [
-                {
-                  label: '浮窗',
-                  value: 'popOver'
-                },
-
-                {
-                  label: '弹框',
-                  value: 'dialog'
-                },
-
-                {
-                  label: '抽屉',
-                  value: 'drawer'
-                }
-              ]
-            },
-
-            {
-              name: 'popOver.position',
-              label: '浮窗位置',
-              type: 'select',
-              visibleOn: 'data.popOver.mode === "popOver"',
-              pipeIn: defaultValue('center'),
-              options: [
-                {
-                  label: '目标中部',
-                  value: 'center'
-                },
-
-                {
-                  label: '目标左上角',
-                  value: 'left-top'
-                },
-
-                {
-                  label: '目标右上角',
-                  value: 'right-top'
-                },
-
-                {
-                  label: '目标左下角',
-                  value: 'left-bottom'
-                },
-
-                {
-                  label: '目标右下角',
-                  value: 'right-bottom'
-                },
-
-                {
-                  label: '页面左上角',
-                  value: 'fixed-left-top'
-                },
-
-                {
-                  label: '页面右上角',
-                  value: 'fixed-right-top'
-                },
-
-                {
-                  label: '页面左下角',
-                  value: 'fixed-left-bottom'
-                },
-
-                {
-                  label: '页面右下角',
-                  value: 'fixed-right-bottom'
-                }
-              ]
-            },
-
-            {
-              name: 'popOver',
-              asFormItem: true,
-              label: false,
-              children: ({value, onBulkChange, name}: any) => {
-                value = {
-                  type: 'panel',
-                  title: '查看详情',
-                  body: '内容详情',
-                  ...value
-                };
-
-                return (
-                  <Button
-                    className="w-full flex flex-col items-center"
-                    onClick={() => {
-                      this.manager.openSubEditor({
-                        title: '配置查看更多展示内容',
-                        value: value,
-                        onChange: value =>
-                          onBulkChange({
-                            [name]: value
-                          })
-                      });
-                    }}
-                  >
-                    <span className="inline-flex items-center">
-                      <Icon icon="edit" className="mr-1 w-3" />
-                      配置内容
-                    </span>
-                  </Button>
-                );
-              }
-            }
-          ]
-        }
-      },
-
-      {
-        name: 'copyable',
-        label: tipedLabel('复制内容', '默认为当前字段值，可定制。'),
-        type: 'ae-switch-more',
-        mode: 'normal',
-        formType: 'extend',
-        bulk: true,
-        defaultData: {},
-        form: {
-          body: [
-            {
-              name: 'copyable.content',
-              type: 'textarea',
-              placehoder: '默认为当前字段的值',
-              label: '内容模板'
-            }
-          ]
-        }
-      },
-
-      getSchemaTpl('formulaControl', {
-        name: 'rowSpanExpr',
-        label: '合并行'
-      }),
-      getSchemaTpl('formulaControl', {
-        name: 'colSpanExpr',
-        label: '合并列'
-      })
-    ];
-
-    const baseStyle = [
-      getSchemaTpl('withUnit', {
-        name: 'width',
-        label: tipedLabel('列宽', '固定列的宽度，不推荐设置。'),
-        control: {
-          name: 'width',
-          type: 'input-number'
-        },
-        unit: 'px'
-      }),
-
-      {
-        name: 'fixed',
-        type: 'button-group-select',
-        label: '固定位置',
-        pipeIn: defaultValue(''),
-        pipeOut(value: any) {
-          if (!value) {
-            return undefined;
-          }
-          return value;
-        },
-        options: [
-          {
-            value: '',
-            label: '不固定'
-          },
-
-          {
-            value: 'left',
-            label: '左侧'
-          },
-
-          {
-            value: 'right',
-            label: '右侧'
-          }
-        ]
-      },
-
-      getSchemaTpl('switch', {
-        name: 'toggled',
-        label: '自定义列时默认展示',
-        pipeIn: defaultValue(true)
-      }),
-
-      getSchemaTpl('switch', {
-        name: 'className',
-        label: '内容超出换行',
-        pipeIn: (value: any) =>
-          typeof value === 'string' && /\word\-break\b/.test(value),
-        pipeOut: (value: any, originValue: any) =>
-          (value ? 'word-break ' : '') +
-          (originValue || '').replace(/\bword\-break\b/g, '').trim()
-      })
-    ];
-
-    // 之前的面板，不是新的组件面板，需要添加新的tab，不能合并
-    if (Array.isArray(data)) {
-      if ((data[0] as SchemaObject).type === 'tabs') {
-        const body = data[0] as TabsSchema;
-        body.tabs.forEach((tab: any) => {
-          if (tab.title === '常规') {
-            tab.body.unshift(...base.concat(advanced));
-          }
-
-          if (tab.title === '外观') {
-            tab.body.unshift(...baseStyle);
-          }
-        });
-      } else {
-        console.error('错误的组件合并对象，面板过老无法处理，除非增加新面板');
-      }
-      return;
-    }
-
-    (data as TabsSchema).tabs?.forEach((tab: any) => {
-      if (tab.title === '属性') {
-        tab.body[0].body.forEach((collapse: any) => {
-          if (collapse.title === '基本') {
-            const appendItems = fromPairs(
-              base.map(item => [item.sameName ?? item.name, item])
-            );
-
-            const removeIndex: number[] = [];
-            collapse.body.forEach((item: any, index: number) => {
-              const key = item.name;
-
-              // 重复意义的配置用现在的表达文案替换一下
-              if (appendItems.hasOwnProperty(key)) {
-                removeIndex.push(index);
-                appendItems[key] = {
-                  ...item,
-                  ...appendItems[key]
-                };
-                return;
-              }
-
-              if (item.name === 'labelRemark') {
-                removeIndex.push(index);
-              }
-            });
-
-            removeIndex.reverse();
-            removeIndex.forEach(index => {
-              collapse.body.splice(index, 1);
-            });
-
-            collapse.body.unshift(...Object.values(appendItems));
-          }
-        });
-
-        const moreCollapse = getSchemaTpl('collapseGroup', [
-          {
-            title: '列',
-            body: advanced
-          }
-        ]);
-        tab.body[0].body.splice(1, 0, ...moreCollapse.body);
-        // 让折叠器默认都展开
-        tab.body[0].activeKey.push(...moreCollapse.activeKey);
-      }
-
-      if (tab.title === '外观') {
-        const moreCollapse = getSchemaTpl('collapseGroup', [
-          {
-            title: '列',
-            body: baseStyle
-          }
-        ]);
-        tab.body[0].body.splice(1, 0, ...moreCollapse.body);
-        // 让折叠器默认都展开
-        tab.body[0].activeKey.push(...moreCollapse.activeKey);
-      }
-    });
-  }
-
-  // filterProps(props: any) {
-  //   props = JSONPipeOut(props, true);
-  //   return props;
-  // }
-
-  getRendererInfo(
-    context: RendererInfoResolveEventContext
-  ): BasicRendererInfo | void {
-    const {renderer, schema} = context;
-
-    if (renderer.name === 'cell-field') {
-      return {
-        name: schema.title ? `<${schema.title}>列` : '匿名列',
-        $schema: '/schemas/TableColumn.json',
-        multifactor: true,
-        wrapperResolve: (dom: HTMLDivElement) => {
-          // 固定这种结构 amis里改了 这里也得改
-          const parent = dom.parentElement?.parentElement;
-          const groupId = parent?.getAttribute('data-group-id');
-          const wrapper = dom.closest('table')!.parentElement?.parentElement;
-          return [].slice.call(
-            wrapper?.querySelectorAll(
-              `th[data-group-id="${groupId}"],
-              td[data-group-id="${groupId}"]`
-            )
-          );
-        }
-        // filterProps: this.filterProps
       };
     }
+  };
+
+  /** 需要动态控制的控件 */
+  get dynamicControls() {
+    return this._dynamicControls;
   }
 
-  /*exchangeRenderer(id: string) {
-    this.manager.showReplacePanel(id, '展示');
-  }*/
-
-  beforeReplace(event: PluginEvent<ReplaceEventContext>) {
-    const context = event.context;
-
-    // 替换字段的时候保留 label 和 name 值。
-    if (context.info.plugin === this && context.data) {
-      context.data.title = context.data.title || context.schema.title;
-      context.data.key = context.data.key || context.schema.key;
+  set dynamicControls(controls: TableCell2DynamicControls) {
+    if (!controls || !isObject(controls)) {
+      throw new Error(
+        '[amis-editor][TableCell2Plugin] dynamicControls的值必须是一个对象'
+      );
     }
+
+    this._dynamicControls = {...this._dynamicControls, ...controls};
   }
+
+  panelBodyCreator = (context: BaseEventContext) => {
+    const manager = this.manager;
+    const dc = this.dynamicControls;
+    this._isOpColumn = context?.schema?.type === 'operation';
+
+    return getSchemaTpl('tabs', [
+      {
+        title: '属性',
+        body: getSchemaTpl(
+          'collapseGroup',
+          [
+            {
+              title: '数据源',
+              hidden: this._isOpColumn,
+              body: flattenDeep([
+                /** 字段配置 */
+                dc?.name?.(context),
+                /** 字段配置，兼容key */
+                dc?.key?.(context),
+                {
+                  name: 'title',
+                  label: '列标题',
+                  type: 'input-text'
+                },
+                remarkTpl({
+                  name: 'remark',
+                  label: '标题提示',
+                  labelRemark: '在标题旁展示提示'
+                }),
+                {
+                  name: 'placeholder',
+                  type: 'input-text',
+                  label: tipedLabel('占位提示', '当没有值时用这个来替代展示。'),
+                  value: '-'
+                }
+              ]).filter(Boolean)
+            },
+            dc?.relationBuildSetting?.(context),
+            /** 操作列按钮配置 */
+            {
+              title: '操作按钮',
+              hidden: !this._isOpColumn,
+              body: [
+                {
+                  type: 'ae-feature-control',
+                  label: false,
+                  manager,
+                  addable: true,
+                  sortable: true,
+                  removeable: true,
+                  features: () => {
+                    const node = manager.store.getNodeById(context.id);
+
+                    return (node?.schema?.buttons ?? []).map(
+                      (item: any, index: number) => ({
+                        label: item.label,
+                        value: item.$$id || '',
+                        remove: (schema: any) => {
+                          if (schema?.buttons?.length) {
+                            schema.buttons.splice(index, 1);
+                          }
+                        }
+                      })
+                    );
+                  },
+                  goFeatureComp: (feat: any) => feat.value,
+                  onSort: (schema: any, e: any) => {
+                    if (schema?.buttons?.length > 1) {
+                      schema.buttons[e.oldIndex] = schema.buttons.splice(
+                        e.newIndex,
+                        1,
+                        schema.buttons[e.oldIndex]
+                      )[0];
+                    }
+                  },
+                  customAction: (props: any) => {
+                    const {onBulkChange, schema} = props;
+
+                    return {
+                      type: 'button',
+                      label: '新增按钮',
+                      level: 'enhance',
+                      className: 'ae-FeatureControl-action',
+                      onClick: () => {
+                        schema.buttons.push({
+                          label: '新增按钮',
+                          level: 'link'
+                        }),
+                          onBulkChange(schema);
+                      }
+                    };
+                  }
+                }
+              ]
+            },
+            {
+              title: '列设置',
+              body: flattenDeep([
+                {
+                  type: 'ae-columnWidthControl',
+                  name: 'width',
+                  label: false,
+                  formLabel: '列宽'
+                },
+                {
+                  type: 'select',
+                  name: 'align',
+                  label: '对齐方式',
+                  hidden: this._isOpColumn,
+                  options: [
+                    {label: '左对齐', value: 'left'},
+                    {label: '居中对齐', value: 'center'},
+                    {label: '右对齐', value: 'right'}
+                  ]
+                },
+                {
+                  type: 'select',
+                  name: 'fixed',
+                  label: '固定当前列',
+                  hidden: this._isOpColumn,
+                  options: [
+                    {label: '不固定', value: false},
+                    {label: '左侧固定', value: 'left'},
+                    {label: '右侧固定', value: 'right'}
+                  ]
+                },
+                {
+                  type: 'ae-Switch-More',
+                  mode: 'normal',
+                  name: 'copyable',
+                  label: '可复制',
+                  hiddenOnDefault: true,
+                  formType: 'extend',
+                  form: {
+                    body: [
+                      {
+                        name: 'copyable.content',
+                        visibleOn: 'data.copyable',
+                        type: 'ae-formulaControl',
+                        label: '复制内容'
+                      }
+                    ]
+                  }
+                },
+                /** 排序设置 */
+                dc?.sorter?.(context),
+                /** 可搜索 */
+                dc?.searchable?.(context),
+                /** 快速查看 */
+                dc?.popover?.(context),
+                /** 快速编辑 */
+                dc?.quickEdit?.(context)
+              ]).filter(Boolean)
+            }
+          ].filter(Boolean)
+        )
+      },
+      {
+        title: '外观',
+        body: [
+          getSchemaTpl('className'),
+          getSchemaTpl('className', {
+            name: 'innerClassName',
+            label: '内部 CSS 类名'
+          })
+        ]
+      }
+    ]);
+  };
 }
 
 registerEditorPlugin(TableCell2Plugin);

@@ -1,6 +1,6 @@
 import omit from 'lodash/omit';
 import {Api, ApiObject, EventTrack, fetcherResult, Payload} from '../types';
-import {fetcherConfig} from '../factory';
+import {FetcherConfig} from '../factory';
 import {tokenize, dataMapping, escapeHtml} from './tpl-builtin';
 import {evalExpression} from './tpl';
 import {
@@ -94,7 +94,7 @@ export function buildApi(
     ) as any;
   }
 
-  if (!data) {
+  if (!data || api.data instanceof FormData) {
     return api;
   } else if (
     data instanceof FormData ||
@@ -463,7 +463,7 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
 }
 
 export function wrapFetcher(
-  fn: (config: fetcherConfig) => Promise<fetcherResult>,
+  fn: (config: FetcherConfig) => Promise<fetcherResult>,
   tracker?: (eventTrack: EventTrack, data: any) => void
 ) {
   // 避免重复处理
@@ -597,7 +597,7 @@ export function wrapAdaptor(
  * @returns
  */
 export function jsFetcher(
-  fetcher: (config: fetcherConfig) => Promise<fetcherResult>,
+  fetcher: (config: FetcherConfig) => Promise<fetcherResult>,
   api: ApiObject
 ): Promise<fetcherResult> {
   return new Promise((resolve, reject) => {

@@ -1665,7 +1665,9 @@ export default class Table extends React.Component<TableProps, object> {
               label: false,
               className: cx('Table-searchableForm-checkbox'),
               inputClassName: cx('Table-searchableForm-checkbox-inner'),
-              name: `__search_${column.searchable?.name ?? column.name}`,
+              name: `${
+                column.searchable.strategy === 'jsonql' ? '' : '__search_'
+              }${column.searchable?.name ?? column.name}`,
               option: column.searchable?.label ?? column.label,
               value: column.enableSearch,
               badge: {
@@ -2229,7 +2231,9 @@ export default class Table extends React.Component<TableProps, object> {
         store.firstToggledColumnIndex === props.colIndex,
       onQuery: undefined,
       style,
-      className: cx(column.pristine.className, stickyClassName)
+      className: cx(column.pristine.className, stickyClassName),
+      /** 给子节点的设置默认值，避免取到env.affixHeader的默认值，导致表头覆盖首行 */
+      affixOffsetTop: 0
     };
     delete subProps.label;
 

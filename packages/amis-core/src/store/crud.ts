@@ -662,6 +662,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       return createObject(superData, {
         total: self.total,
         page: self.page,
+        perPage: self.perPage,
         items: self.items.concat(),
         selectedItems: self.selectedItems.concat(),
         unSelectedItems: self.unSelectedItems.concat()

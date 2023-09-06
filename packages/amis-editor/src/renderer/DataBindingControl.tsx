@@ -15,10 +15,11 @@ import debounce from 'lodash/debounce';
 import remove from 'lodash/remove';
 import React from 'react';
 import {EditorManager, EditorNodeType, autobind} from 'amis-editor-core';
-import type {DSField, DSFieldGroup} from 'amis-editor-core';
 import {matchSorter} from 'match-sorter';
-import type {SchemaCollection} from 'amis';
 import {default as cx} from 'classnames';
+
+import type {SchemaCollection} from 'amis';
+import type {DSField, DSFieldGroup} from '../builder';
 
 export interface DataBindingProps extends FormControlProps {
   node: EditorNodeType;

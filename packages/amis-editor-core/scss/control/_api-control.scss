@@ -17,6 +17,7 @@
 
   &-content {
     @include flexBox();
+    align-items: stretch;
 
     .ae-ApiControl-input {
       background: var(--Form-input-bg);
@@ -43,6 +44,10 @@
         color: var(--Form-input-color);
         width: 100%;
         height: calc(var(--Form-input-lineHeight) * var(--Form-input-fontSize));
+      }
+
+      .ae-ApiControl-setting-button {
+        height: unset;
       }
     }
   }

@@ -90,6 +90,14 @@ export class ImagePlugin extends BasePlugin {
                     label: '缩略图地址',
                     description: '如果已绑定字段名，可以不用设置，支持用变量。'
                   }),
+
+              getSchemaTpl('backgroundImageUrl', {
+                name: 'editorSetting.mock.src',
+                label: tipedLabel(
+                  '假数据图片',
+                  '只在编辑区显示的模拟图片，运行时将显示图片实际内容'
+                )
+              }),
               {
                 type: 'ae-switch-more',
                 mode: 'normal',
@@ -139,11 +147,17 @@ export class ImagePlugin extends BasePlugin {
               //   name: 'showDimensions',
               //   label: '显示图片尺寸'
               // }),
+              getSchemaTpl('layout:display', {
+                flexHide: true,
+                value: 'inline-block',
+                label: '显示类型'
+              }),
 
               {
                 name: 'thumbMode',
+                visibleOn: 'imageMode ===  "thumb"',
                 type: 'select',
-                label: '缩略图展示模式',
+                label: '展示模式',
                 mode: 'horizontal',
                 labelAlign: 'left',
                 horizontal: {
@@ -173,49 +187,63 @@ export class ImagePlugin extends BasePlugin {
                   }
                 ]
               },
-              {
-                name: 'thumbRatio',
-                type: 'button-group-select',
-                label: '缩略图比率',
-                size: 'sm',
-                pipeIn: defaultValue('1:1'),
-                options: [
-                  {
-                    label: '1:1',
-                    value: '1:1'
-                  },
 
-                  {
-                    label: '4:3',
-                    value: '4:3'
-                  },
-
-                  {
-                    label: '16:9',
-                    value: '16:9'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            title: 'CSS类名',
-            body: [
-              getSchemaTpl('className', {
-                label: '外层'
-              }),
-
-              getSchemaTpl('className', {
-                name: 'imageClassName',
-                label: '图片'
-              }),
-
-              getSchemaTpl('className', {
-                name: 'thumbClassName',
-                label: '缩略图'
+              getSchemaTpl('theme:size', {
+                label: '尺寸',
+                name: 'themeCss.imageControlClassName.size:default'
               })
             ]
-          }
+          },
+          getSchemaTpl('theme:base', {
+            classname: 'imageControlClassName',
+            title: '图片'
+          }),
+          {
+            title: '其他',
+            body: [
+              getSchemaTpl('theme:font', {
+                label: '标题文字',
+                name: 'themeCss.titleControlClassName.font',
+                editorThemePath: 'image.image.default.normal.body.font'
+              }),
+              getSchemaTpl('theme:paddingAndMargin', {
+                label: '标题边距',
+                name: 'themeCss.titleControlClassName.padding-and-margin'
+              }),
+              getSchemaTpl('theme:font', {
+                label: '描述文字',
+                name: 'themeCss.desControlClassName.font',
+                editorThemePath: 'image.image.default.description.body.font'
+              }),
+              getSchemaTpl('theme:paddingAndMargin', {
+                label: '描述边距',
+                name: 'themeCss.desControlClassName.padding-and-margin'
+              }),
+              {
+                name: 'themeCss.iconControlClassName.--image-image-normal-icon',
+                label: '放大图标',
+                type: 'icon-select',
+                returnSvg: true
+              },
+              {
+                name: 'themeCss.galleryControlClassName.--image-images-prev-icon',
+                label: '左切换图标',
+                type: 'icon-select',
+                returnSvg: true
+              },
+              {
+                name: 'themeCss.galleryControlClassName.--image-images-next-icon',
+                label: '右切换图标',
+                type: 'icon-select',
+                returnSvg: true
+              },
+              getSchemaTpl('theme:select', {
+                label: '切换图标大小',
+                name: 'themeCss.galleryControlClassName.--image-images-item-size'
+              })
+            ]
+          },
+          getSchemaTpl('theme:cssCode')
         ])
       }
     ]);

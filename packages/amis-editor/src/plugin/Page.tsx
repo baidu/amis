@@ -293,7 +293,40 @@ export class PagePlugin extends BasePlugin {
           className: 'p-none',
           body: [
             getSchemaTpl('collapseGroup', [
-              ...getSchemaTpl('theme:common', {exclude: ['layout']})
+              ...getSchemaTpl('theme:common', {
+                exclude: ['layout'],
+                classname: 'baseControlClassName',
+                baseTitle: '基本样式',
+                extra: [
+                  getSchemaTpl('theme:base', {
+                    classname: 'bodyControlClassName',
+                    title: '内容区样式',
+                    hiddenOn: 'data.regions && !data.regions.includes("body")'
+                  }),
+                  getSchemaTpl('theme:base', {
+                    classname: 'headerControlClassName',
+                    title: '标题栏样式',
+                    extra: [
+                      getSchemaTpl('theme:font', {
+                        label: '文字',
+                        name: 'font'
+                      })
+                    ],
+                    hiddenOn: 'data.regions && !data.regions.includes("header")'
+                  }),
+                  getSchemaTpl('theme:base', {
+                    classname: 'toolbarControlClassName',
+                    title: '工具栏样式',
+                    hiddenOn:
+                      'data.regions && !data.regions.includes("toolbar")'
+                  }),
+                  getSchemaTpl('theme:base', {
+                    classname: 'asideControlClassName',
+                    title: '边栏样式',
+                    hiddenOn: 'data.regions && !data.regions.includes("aside")'
+                  })
+                ]
+              })
             ])
           ]
         },

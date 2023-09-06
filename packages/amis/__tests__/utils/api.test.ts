@@ -641,6 +641,7 @@ test('api:responseData2', async () => {
   expect(fetcher).toHaveBeenCalledTimes(1);
   expect(container.querySelector('input[name="id"]')).toBeInTheDocument();
   expect((container.querySelector('input[name="id"]') as any).value).toBe('1');
+  await wait(500);
 
   expect(container.querySelector('input[name="id2"]')).toBeInTheDocument();
   expect((container.querySelector('input[name="id2"]') as any).value).toBe('2');

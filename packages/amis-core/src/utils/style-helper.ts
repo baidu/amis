@@ -1,6 +1,9 @@
 import {PlainObject} from '../types';
 import {uuid} from './helper';
 import cloneDeep from 'lodash/cloneDeep';
+import isObject from 'lodash/isObject';
+import map from 'lodash/map';
+import isEmpty from 'lodash/isEmpty';
 
 export const valueMap: PlainObject = {
   'marginTop': 'margin-top',
@@ -40,7 +43,7 @@ interface extra {
   suf?: string;
 }
 
-export function findOrCreactStyle(id: string) {
+export function findOrCreateStyle(id: string) {
   let varStyleTag = document.getElementById(id);
   if (!varStyleTag) {
     varStyleTag = document.createElement('style');
@@ -51,14 +54,18 @@ export function findOrCreactStyle(id: string) {
 }
 
 export function insertStyle(style: string, id: string) {
-  const varStyleTag = findOrCreactStyle(id);
+  const varStyleTag = findOrCreateStyle(id);
 
   // bca-disable-line
   varStyleTag.innerHTML = style;
+
+  if (!style) {
+    varStyleTag.remove();
+  }
 }
 
 export function addStyle(style: string, id: string) {
-  const varStyleTag = findOrCreactStyle(id);
+  const varStyleTag = findOrCreateStyle(id);
   // bca-disable-line
   varStyleTag.innerHTML += style;
 }
@@ -100,7 +107,7 @@ function handleInheritData(statusMap: any, data: any) {
 
 export function formatStyle(
   themeCss: any,
-  classNames: {
+  classNames?: {
     key: string;
     value?: string;
     weights?: {
@@ -113,7 +120,7 @@ export function formatStyle(
   id?: string,
   defaultData?: any
 ) {
-  if (!themeCss) {
+  if (!themeCss || !classNames) {
     return {value: '', origin: []};
   }
   const res = [];
@@ -135,12 +142,11 @@ export function formatStyle(
 
     list?.forEach(n => {
       if (
-        /(\S*[C|c]lassName-\S*)/.test(n) &&
+        n.includes('lassName-') &&
         !!~n.indexOf(
           id
             ?.replace('u:', '')
-            .replace('-label', '')
-            .replace('-description', '')
+            .replace('-item', '')
             .replace('-addOn', '')
             .replace('-icon', '')
             .replace('-inner', '') || ''
@@ -160,7 +166,7 @@ export function formatStyle(
         disabled: {}
       };
       for (let key in body) {
-        if (key === '$$id') {
+        if (key === '$$id' || body[key] === '') {
           continue;
         }
         if (!!~key.indexOf(':default')) {
@@ -263,8 +269,8 @@ export interface CustomStyleClassName {
 }
 
 export function insertCustomStyle(
-  themeCss: any,
-  classNames: CustomStyleClassName[],
+  themeCss?: any,
+  classNames?: CustomStyleClassName[],
   id?: string,
   defaultData?: any,
   customStyleClassPrefix?: string
@@ -298,5 +304,118 @@ export function getValueByPath(path: string, data: any) {
     return value;
   } catch (e) {
     return null;
+  }
+}
+
+// 递归处理嵌套的样式，转化成一维对象
+function traverseStyle(style: any, path: string, result: any) {
+  for (let key in style) {
+    if (style.hasOwnProperty(key)) {
+      if (key === '$$id') {
+        continue;
+      }
+      if (isObject(style[key])) {
+        const nowPath = path ? `${path} ${key}` : key;
+        traverseStyle(style[key], nowPath, result);
+      } else if (path === '') {
+        !result[key] && (result[key] = {});
+        result[key] = style[key];
+      } else {
+        !result[path] && (result[path] = {});
+        result[path][key] = style[key];
+      }
+    }
+  }
+}
+
+/**
+ * 设置源码编辑自定义样式
+ */
+export function insertEditCustomStyle(customStyle: any, id?: string) {
+  let styles: any = {};
+  traverseStyle(customStyle, '', styles);
+
+  let content = '';
+  if (!isEmpty(styles)) {
+    const className = `wrapperCustomStyle-${id?.replace('u:', '')}`;
+    for (let key in styles) {
+      if (styles.hasOwnProperty(key)) {
+        if (!isObject(styles[key])) {
+          content += `\n.${className} {\n  ${key}: ${styles[key]}\n}`;
+        } else if (key === 'root') {
+          const res = map(styles[key], (value, key) => `${key}: ${value};`);
+          content += `\n.${className} {\n  ${res.join('\n  ')}\n}`;
+        } else if (/^root:/.test(key)) {
+          const res = map(styles[key], (value, key) => `${key}: ${value};`);
+          const nowKey = key.replace('root', '');
+          content += `\n.${className} ${nowKey} {\n  ${res.join('\n  ')}\n}`;
+        } else {
+          const res = map(styles[key], (value, key) => `${key}: ${value};`);
+          content += `\n.${className} ${key} {\n  ${res.join('\n  ')}\n}`;
+        }
+      }
+    }
+  }
+  insertStyle(
+    content,
+    'wrapperCustomStyle-' + (id?.replace('u:', '') || uuid())
+  );
+}
+
+export interface InsertCustomStyle {
+  themeCss?: any;
+  classNames?: CustomStyleClassName[];
+  id?: string;
+  defaultData?: any;
+  customStyleClassPrefix?: string;
+}
+
+export class StyleDom {
+  id: string;
+  constructor(id: string) {
+    this.id = id;
+  }
+  /**
+   * 插入自定义样式
+   *
+   * @param {InsertCustomStyle} params - 插入自定义样式的参数
+   * @param {string} params.themeCss - 主题样式
+   * @param {string} params.classNames - 自定义样式类名
+   * @param {string} params.defaultData - 默认数据
+   * @param {string} params.customStyleClassPrefix - 自定义样式类名前缀
+   */
+  insertCustomStyle({
+    themeCss,
+    classNames,
+    defaultData,
+    customStyleClassPrefix
+  }: InsertCustomStyle) {
+    insertCustomStyle(
+      themeCss,
+      classNames,
+      this.id,
+      defaultData,
+      customStyleClassPrefix
+    );
+  }
+
+  /**
+   * 插入外层自定义样式
+   *
+   * @param wrapperCustomStyle 自定义样式
+   */
+  insertEditCustomStyle(wrapperCustomStyle: any) {
+    insertEditCustomStyle(wrapperCustomStyle, this.id);
+  }
+  /**
+   * 移除自定义样式
+   */
+  removeCustomStyle(type?: string) {
+    const style = document.getElementById(
+      (type ? type + '-' : '') + this.id.replace('u:', '')
+    );
+    if (style) {
+      style.remove();
+    }
   }
 }

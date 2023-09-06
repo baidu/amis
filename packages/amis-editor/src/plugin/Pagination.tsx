@@ -1,15 +1,14 @@
-import {registerEditorPlugin} from 'amis-editor-core';
 import {
   BasePlugin,
   RegionConfig,
   BaseEventContext,
-  tipedLabel
+  tipedLabel,
+  defaultValue,
+  getSchemaTpl,
+  registerEditorPlugin
 } from 'amis-editor-core';
-import {ValidatorTag} from '../validator';
+import sortBy from 'lodash/sortBy';
 import {getEventControlConfig} from '../renderer/event-control/helper';
-import {RendererPluginEvent} from 'amis-editor-core';
-
-import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 
 export class PaginationPlugin extends BasePlugin {
   static id = 'PaginationPlugin';
@@ -20,7 +19,6 @@ export class PaginationPlugin extends BasePlugin {
   // 组件名称
   name = '分页组件';
   isBaseComponent = true;
-  disabledRendererPlugin = true;
   description = '分页组件，可以对列表进行分页展示，提高页面性能';
   tags = ['容器'];
   icon = 'fa fa-window-minimize';
@@ -109,7 +107,7 @@ export class PaginationPlugin extends BasePlugin {
                   '启用功能',
                   '选中表示启用该项，可以拖拽排序调整功能的顺序'
                 ),
-                visibleOn: 'data.mode === "normal"',
+                visibleOn: '!data.mode || data.mode === "normal"',
                 mode: 'normal',
                 multiple: true,
                 multiLine: false,
@@ -124,7 +122,8 @@ export class PaginationPlugin extends BasePlugin {
                   {
                     type: 'checkbox',
                     name: 'checked',
-                    className: 'm-t-n-xxs'
+                    className: 'm-t-n-xxs',
+                    inputClassName: 'p-t-none'
                   },
                   {
                     type: 'tpl',
@@ -133,15 +132,31 @@ export class PaginationPlugin extends BasePlugin {
                   }
                 ],
                 pipeIn: (value: any) => {
-                  if (!value) {
-                    value = this.lastLayoutSetting;
-                  } else if (typeof value === 'string') {
+                  if (typeof value === 'string') {
                     value = (value as string).split(',');
+                  } else if (!value || !Array.isArray(value)) {
+                    value = this.lastLayoutSetting;
                   }
-                  return this.layoutOptions.map(v => ({
-                    ...v,
-                    checked: value.includes(v.value)
-                  }));
+
+                  return sortBy(
+                    this.layoutOptions.map(op => ({
+                      ...op,
+                      checked: value.includes(op.value)
+                    })),
+                    [
+                      item => {
+                        const idx = value.findIndex(
+                          (v: string) => v === item.value
+                        );
+                        return ~idx ? idx : Infinity;
+                      }
+                    ]
+                  );
+
+                  // return this.layoutOptions.map(v => ({
+                  //   ...v,
+                  //   checked: value.includes(v.value)
+                  // }));
                 },
                 pipeOut: (value: any[]) => {
                   this.lastLayoutSetting = value
@@ -163,7 +178,7 @@ export class PaginationPlugin extends BasePlugin {
                 type: 'combo',
                 label: '每页条数选项',
                 visibleOn:
-                  'data.mode === "normal" && data.layout && data.layout.includes("perPage")',
+                  '(!data.mode || data.mode === "normal") && data.layout && data.layout.includes("perPage")',
                 mode: 'normal',
                 multiple: true,
                 multiLine: false,
@@ -185,15 +200,18 @@ export class PaginationPlugin extends BasePlugin {
                   return value?.map(v => ({value: v})) || [10];
                 },
                 pipeOut: (value: any[]) => {
-                  return value.map(v => v.value);
+                  const pages = value.map(v => v.value);
+                  return pages.map(
+                    page => page || Math.max(...pages.filter(Boolean)) + 5
+                  );
                 }
               }),
               {
                 name: 'perPage',
-                type: 'input-text',
+                type: 'input-number',
                 label: '默认每页条数',
                 visibleOn:
-                  'data.mode === "normal" && data.layout?.includes("perPage")'
+                  '(!data.mode || data.mode === "normal") && data.layout?.includes("perPage")'
               },
               {
                 name: 'maxButtons',
@@ -205,13 +223,17 @@ export class PaginationPlugin extends BasePlugin {
                 min: 5,
                 max: 20,
                 pipeOut: (value: any) => value || 5,
-                visibleOn: 'data.mode === "normal"'
+                visibleOn: '!data.mode || data.mode === "normal"'
               }
             ]
           },
           {
             title: '状态',
-            body: [getSchemaTpl('disabled')]
+            body: [
+              getSchemaTpl('disabled'),
+              getSchemaTpl('hidden'),
+              getSchemaTpl('visible')
+            ]
           }
         ])
       },

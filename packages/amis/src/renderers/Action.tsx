@@ -483,93 +483,29 @@ export const createSyntheticEvent = <T extends Element, E extends Event>(
   };
 };
 
+type CommonKeys =
+  | 'type'
+  | 'className'
+  | 'iconClassName'
+  | 'rightIconClassName'
+  | 'loadingClassName';
+
 export interface ActionProps
   extends Omit<
       ButtonSchema,
       'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     >,
     ThemeProps,
-    Omit<
-      AjaxActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      UrlActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      LinkActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      DialogActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      DrawerActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      ToastSchemaBase,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      CopyActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      ReloadActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
-    Omit<
-      EmailActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-      | 'body'
-    >,
-    Omit<
-      OtherActionSchema,
-      | 'type'
-      | 'className'
-      | 'iconClassName'
-      | 'rightIconClassName'
-      | 'loadingClassName'
-    >,
+    Omit<AjaxActionSchema, CommonKeys>,
+    Omit<UrlActionSchema, CommonKeys>,
+    Omit<LinkActionSchema, CommonKeys>,
+    Omit<DialogActionSchema, CommonKeys>,
+    Omit<DrawerActionSchema, CommonKeys>,
+    Omit<ToastSchemaBase, CommonKeys>,
+    Omit<CopyActionSchema, CommonKeys>,
+    Omit<ReloadActionSchema, CommonKeys>,
+    Omit<EmailActionSchema, CommonKeys | 'body'>,
+    Omit<OtherActionSchema, CommonKeys>,
     SpinnerExtraProps {
   actionType: any;
   onAction?: (
@@ -792,6 +728,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       classPrefix: ns,
       loadingConfig,
       themeCss,
+      wrapperCustomStyle,
       css,
       id,
       env
@@ -860,7 +797,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
         <Button
           loadingConfig={loadingConfig}
           className={cx(className, {
-            [activeClassName || 'is-active']: isActive
+            [activeClassName || 'is-active']: isActive,
+            [`wrapperCustomStyle-${id?.replace('u:', '')}`]: wrapperCustomStyle
           })}
           style={style}
           size={size}
@@ -905,17 +843,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
                   },
                   active: {suf: ':not(:disabled):not(.is-disabled)'}
                 }
-              }
-            ],
-            id
-          }}
-          env={env}
-        />
-        {/* button图标自定义样式 */}
-        <CustomStyle
-          config={{
-            themeCss: themeCss || css,
-            classNames: [
+              },
               {
                 key: 'iconClassName',
                 value: iconClassName,
@@ -934,6 +862,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
                 }
               }
             ],
+            wrapperCustomStyle,
             id
           }}
           env={env}

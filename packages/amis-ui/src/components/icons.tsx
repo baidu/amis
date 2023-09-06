@@ -290,8 +290,8 @@ export function Icon({
   // 从css变量中获取icon
   function refFn(dom: any) {
     if (dom) {
-      const style = getComputedStyle(dom);
-      const svgStr = style.getPropertyValue('content');
+      const domStyle = getComputedStyle(dom);
+      const svgStr = domStyle.getPropertyValue('content');
       const svg = /(<svg.*<\/svg>)/.exec(svgStr);
 
       if (svg) {

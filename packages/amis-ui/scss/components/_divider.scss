@@ -1,16 +1,37 @@
 .#{$ns}Divider {
   margin: var(--Divider-marginTop) var(--Divider-marginRight)
     var(--Divider-marginBottom) var(--Divider-marginLeft);
-  border-bottom: var(--Divider-width) var(--Divider-style) var(--Divider-color);
-  height: px2rem(2px);
   font-size: 0;
-
-  &--solid {
-    border-bottom-style: solid;
-  }
 
   &--dashed {
     border-bottom-style: dashed;
+  }
+
+  &--horizontal.#{$ns}Divider--solid {
+    border-bottom-style: solid;
+  }
+
+  &--horizontal.#{$ns}Divider--dashed {
+    border-bottom-style: dashed;
+  }
+
+  &--vertical.#{$ns}Divider--solid {
+    border-left-style: solid;
+  }
+  &--vertical.#{$ns}Divider--dashed {
+    border-left-style: dashed;
+  }
+
+  &--horizontal {
+    border-bottom: var(--Divider-width) var(--Divider-style)
+      var(--Divider-color);
+    height: px2rem(2px);
+  }
+
+  &--vertical {
+    border-left: var(--Divider-width) var(--Divider-style) var(--Divider-color);
+    height: var(--sizes-base-15);
+    display: inline-block;
   }
 }
 

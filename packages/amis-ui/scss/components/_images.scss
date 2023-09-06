@@ -176,6 +176,11 @@
       padding: 0 5px;
       line-height: 1;
       font-size: px2rem(16px);
+
+      svg {
+        width: px2rem(16px);
+        height: px2rem(16px);
+      }
     }
   }
 
@@ -195,4 +200,8 @@
 .#{$ns}ImagesField {
   position: relative;
   @include clearfix();
+}
+
+.Image-view-icon {
+  content: var(--image-image-normal-icon);
 }
