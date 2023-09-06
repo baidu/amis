@@ -453,6 +453,7 @@ order: 56
 | focus    | `[name]: string` 组件的值 | 输入框获取焦点时触发                           |
 | blur     | `[name]: string` 组件的值 | 输入框失去焦点时触发                           |
 | change   | `[name]: string` 组件的值 | 值变化时触发                                   |
+| clear    | `[name]: string` 组件的值 | 点击清除按钮时触发                             |
 
 ## 动作表
 
