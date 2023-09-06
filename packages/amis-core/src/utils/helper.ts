@@ -1,14 +1,14 @@
 import React from 'react';
 import moment from 'moment';
 import {isObservable, isObservableArray} from 'mobx';
-import uniq from 'lodash/uniq'
-import last from 'lodash/last'
-import merge from 'lodash/merge'
-import isPlainObject from 'lodash/isPlainObject'
-import isEqual from 'lodash/isEqual'
-import isNaN from 'lodash/isNaN'
-import isNumber from 'lodash/isNumber'
-import isString from 'lodash/isString'
+import uniq from 'lodash/uniq';
+import last from 'lodash/last';
+import merge from 'lodash/merge';
+import isPlainObject from 'lodash/isPlainObject';
+import isEqual from 'lodash/isEqual';
+import isNaN from 'lodash/isNaN';
+import isNumber from 'lodash/isNumber';
+import isString from 'lodash/isString';
 import qs from 'qs';
 
 import type {Schema, PlainObject, FunctionPropertyNames} from '../types';
@@ -196,9 +196,37 @@ export function anyChanged(
   to: {[propName: string]: any},
   strictMode: boolean = true
 ): boolean {
-  return (typeof attrs === 'string' ? attrs.split(/\s*,\s*/) : attrs).some(
-    key => (strictMode ? from[key] !== to[key] : from[key] != to[key])
-  );
+  return (
+    typeof attrs === 'string'
+      ? attrs.split(',').map(item => item.trim())
+      : attrs
+  ).some(key => (strictMode ? from[key] !== to[key] : from[key] != to[key]));
+}
+
+type Mutable<T> = {
+  -readonly [k in keyof T]: T[k];
+};
+
+export function changedEffect<T extends Record<string, any>>(
+  attrs: string | Array<string>,
+  origin: T,
+  data: T,
+  effect: (changes: Partial<Mutable<T>>) => void,
+  strictMode: boolean = true
+) {
+  const changes: Partial<T> = {};
+  const keys =
+    typeof attrs === 'string'
+      ? attrs.split(',').map(item => item.trim())
+      : attrs;
+
+  keys.forEach(key => {
+    if (strictMode ? origin[key] !== data[key] : origin[key] != data[key]) {
+      (changes as any)[key] = data[key];
+    }
+  });
+
+  Object.keys(changes).length && effect(changes);
 }
 
 export function rmUndefined(obj: PlainObject) {

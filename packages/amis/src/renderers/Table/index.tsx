@@ -17,6 +17,7 @@ import {Button} from 'amis-ui';
 import {TableStore, ITableStore, padArr} from 'amis-core';
 import {
   anyChanged,
+  changedEffect,
   getScrollParent,
   difference,
   autobind,
@@ -38,7 +39,7 @@ import {TableCell} from './TableCell';
 import type {AutoGenerateFilterObject} from '../CRUD';
 import {HeadCellFilterDropDown} from './HeadCellFilterDropdown';
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
-import {TableContent} from './TableContent';
+import TableContent, {renderItemActions} from './TableContent';
 import {
   BaseSchema,
   SchemaApi,
@@ -182,6 +183,12 @@ export type TableColumnObject = {
    * 表格列单元格是否可以获取父级数据域值，默认为true，该配置对当前列内单元格生效
    */
   canAccessSuperData?: boolean;
+
+  /**
+   * 当一次性渲染太多列上有用，默认为 100，可以用来提升表格渲染性能
+   * @default 100
+   */
+  lazyRenderAfter?: number;
 
   /**
    * 单元格内部组件自定义样式 style作为单元格自定义样式的配置
@@ -569,7 +576,10 @@ export default class Table extends React.Component<TableProps, object> {
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength,
       onQuery,
-      autoGenerateFilter
+      autoGenerateFilter,
+      loading,
+      canAccessSuperData,
+      lazyRenderAfter
     } = props;
 
     let combineNum = props.combineNum;
@@ -597,7 +607,10 @@ export default class Table extends React.Component<TableProps, object> {
       combineNum,
       combineFromIndex,
       keepItemSelectionOnPageChange,
-      maxKeepItemSelectionLength
+      maxKeepItemSelectionLength,
+      loading,
+      canAccessSuperData,
+      lazyRenderAfter
     });
 
     if (
@@ -770,58 +783,49 @@ export default class Table extends React.Component<TableProps, object> {
     const props = this.props;
     const store = props.store;
 
-    if (
-      anyChanged(
-        [
-          'selectable',
-          'columnsTogglable',
-          'draggable',
-          'orderBy',
-          'orderDir',
-          'multiple',
-          'footable',
-          'primaryField',
-          'itemCheckableOn',
-          'itemDraggableOn',
-          'hideCheckToggler',
-          'combineNum',
-          'combineFromIndex',
-          'expandConfig'
-        ],
-        prevProps,
-        props
-      )
-    ) {
-      let combineNum = props.combineNum;
-      if (typeof combineNum === 'string') {
-        combineNum = parseInt(
-          resolveVariableAndFilter(combineNum, props.data, '| raw'),
-          10
-        );
+    changedEffect(
+      [
+        'selectable',
+        'columnsTogglable',
+        'draggable',
+        'orderBy',
+        'orderDir',
+        'multiple',
+        'footable',
+        'primaryField',
+        'itemCheckableOn',
+        'itemDraggableOn',
+        'hideCheckToggler',
+        'combineNum',
+        'combineFromIndex',
+        'expandConfig',
+        'columns',
+        'loading',
+        'canAccessSuperData',
+        'lazyRenderAfter'
+      ],
+      prevProps,
+      props,
+      changes => {
+        if (
+          changes.hasOwnProperty('combineNum') &&
+          typeof changes.combineNum === 'string'
+        ) {
+          changes.combineNum = parseInt(
+            resolveVariableAndFilter(
+              changes.combineNum as string,
+              props.data,
+              '| raw'
+            ),
+            10
+          );
+        }
+        if (changes.orderBy && !props.onQuery) {
+          delete changes.orderBy;
+        }
+        store.update(changes as any);
       }
-      store.update({
-        selectable: props.selectable,
-        columnsTogglable: props.columnsTogglable,
-        draggable: props.draggable,
-        orderBy: props.onQuery ? props.orderBy : undefined,
-        orderDir: props.orderDir,
-        multiple: props.multiple,
-        primaryField: props.primaryField,
-        footable: props.footable,
-        itemCheckableOn: props.itemCheckableOn,
-        itemDraggableOn: props.itemDraggableOn,
-        hideCheckToggler: props.hideCheckToggler,
-        combineNum: combineNum,
-        combineFromIndex: props.combineFromIndex,
-        expandConfig: props.expandConfig
-      });
-    }
-
-    if (prevProps.columns !== props.columns) {
-      store.update({
-        columns: props.columns
-      });
-    }
+    );
 
     if (
       anyChanged(['source', 'value', 'items'], prevProps, props) ||
@@ -1091,6 +1095,27 @@ export default class Table extends React.Component<TableProps, object> {
       }
     }
 
+    // 校验直接放在单元格里面的表单项
+    const subFormItems = store.children.filter(
+      item => item?.storeType === 'FormItemStore'
+    );
+    if (subFormItems.length) {
+      const result = await Promise.all(
+        subFormItems.map(item => {
+          let ctx = {};
+
+          if (item.rowIndex && store.rows[item.rowIndex]) {
+            ctx = store.rows[item.rowIndex].data;
+          }
+
+          return item.validate(ctx);
+        })
+      );
+      if (~result.indexOf(false)) {
+        return;
+      }
+    }
+
     const rows = store.modifiedRows.map(item => item.data);
     const rowIndexes = store.modifiedRows.map(item => item.path);
     const diff = store.modifiedRows.map(item =>
@@ -1149,6 +1174,14 @@ export default class Table extends React.Component<TableProps, object> {
       key => this.subForms[key] && subForms.push(this.subForms[key])
     );
     subForms.forEach(item => item.clearErrors());
+
+    // 去掉错误提示
+    const subFormItems = store.children.filter(
+      item => item?.storeType === 'FormItemStore'
+    );
+    if (subFormItems.length) {
+      subFormItems.map(item => item.reset());
+    }
   }
 
   bulkUpdate(value: any, items: Array<object>) {
@@ -1823,6 +1856,9 @@ export default class Table extends React.Component<TableProps, object> {
       dispatchEvent,
       data
     } = this.props;
+
+    // 注意，这里用关了哪些 store 里面的东西，TableContent 里面得也用一下
+    // 因为 renderHeadCell 是 TableContent 回调的，tableContent 不重新渲染，这里面也不会重新渲染
 
     const style = {...props.style};
     const [stickyStyle, stickyClassName] = store.getStickyStyles(
@@ -2715,7 +2751,6 @@ export default class Table extends React.Component<TableProps, object> {
       itemActions,
       dispatchEvent,
       onEvent,
-      loading = false,
       loadingConfig
     } = this.props;
 
@@ -2725,7 +2760,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     return (
       <>
-        {TableContent.renderItemActions({
+        {renderItemActions({
           store,
           classnames: cx,
           render,
@@ -2748,7 +2783,7 @@ export default class Table extends React.Component<TableProps, object> {
           classnames={cx}
           columns={store.filteredColumns}
           columnsGroup={store.columnGroup}
-          rows={store.rows}
+          rows={store.items} // store.rows 是没有变更的，所以不会触发更新
           placeholder={placeholder}
           render={render}
           onMouseMove={
@@ -2783,10 +2818,10 @@ export default class Table extends React.Component<TableProps, object> {
           translate={translate}
           dispatchEvent={dispatchEvent}
           onEvent={onEvent}
-          loading={loading}
+          loading={store.loading} // store 的同步较慢，所以统一用 store 来下发，否则会出现 props 和 store 变化触发子节点两次 re-rerender
         />
 
-        <Spinner loadingConfig={loadingConfig} overlay show={loading} />
+        <Spinner loadingConfig={loadingConfig} overlay show={store.loading} />
       </>
     );
   }
