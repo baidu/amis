@@ -126,6 +126,16 @@ export interface InputFormulaControlSchema extends FormBaseControlSchema {
    * 输入框的类型
    */
   inputSettings?: FormulaPickerInputSettings;
+
+  /**
+   * 是否源码模式
+   */
+  isCodeMode?: boolean;
+
+  /**
+   * variableMode为tree时，是否展开变量
+   */
+  isExpandVariable?: boolean;
 }
 
 export interface InputFormulaProps
@@ -206,7 +216,9 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       popOverContainer,
       env,
       inputSettings,
-      mobileUI
+      mobileUI,
+      isCodeMode,
+      isExpandVariable
     } = this.props;
     let {variables, functions} = this.props;
 
@@ -251,6 +263,8 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         selfVariableName={selfVariableName}
         mixedMode={mixedMode}
         mobileUI={mobileUI}
+        isCodeMode={isCodeMode}
+        isExpandVariable={isExpandVariable}
       />
     );
   }

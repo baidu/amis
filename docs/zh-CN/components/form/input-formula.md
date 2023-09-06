@@ -232,7 +232,7 @@ order: 21
 
 ## 变量展示模式
 
-设置不同`variableMode`字段切换变量展示模式，树形结构：
+设置不同`variableMode`字段切换变量展示模式，配置`isExpandVariable: true`可以默认展开变量树，树形结构：
 
 ```schema: scope="body"
 {
@@ -245,6 +245,7 @@ order: 21
       "label": "公式",
       "variableMode": "tree",
       "evalMode": true,
+      "isExpandVariable": true,
       "variables": [
         {
           "label": "表单字段",
@@ -384,6 +385,78 @@ Tab 结构：
       "label": "公式",
       "evalMode": true,
       "value": "SUM(1, 2)",
+      "variables": [
+        {
+          "label": "表单字段",
+          "children": [
+            {
+              "label": "文章名",
+              "value": "name",
+              "tag": "文本"
+            },
+            {
+              "label": "作者",
+              "value": "author",
+              "tag": "文本"
+            },
+            {
+              "label": "售价",
+              "value": "price",
+              "tag": "数字"
+            },
+            {
+              "label": "出版时间",
+              "value": "time",
+              "tag": "时间"
+            },
+            {
+              "label": "版本号",
+              "value": "version",
+              "tag": "数字"
+            },
+            {
+              "label": "出版社",
+              "value": "publisher",
+              "tag": "文本"
+            }
+          ]
+        },
+        {
+          "label": "流程字段",
+          "children": [
+            {
+              "label": "联系电话",
+              "value": "telphone"
+            },
+            {
+              "label": "地址",
+              "value": "addr"
+            }
+          ]
+        }
+      ],
+    }
+  ]
+}
+```
+
+## 源码模式
+
+当配置`isCodeMode`为 true 时，默认开启源码模式，关闭源码模式时为高亮模式。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "body": [
+    {
+      "type": "input-formula",
+      "name": "formula",
+      "allowInput": false,
+      "label": "公式",
+      "evalMode": true,
+      "value": "SUM(1, 2)",
+      "isCodeMode": true,
       "variables": [
         {
           "label": "表单字段",
@@ -590,6 +663,8 @@ Tab 结构：
 | variableMode      | `string`                                                                                   | `list`         | 可配置成 `tabs` 或者 `tree` 默认为列表，支持分组。                             |
 | functions         | `Object[]`                                                                                 | -              | 可以不设置，默认就是 amis-formula 里面定义的函数，如果扩充了新的函数则需要指定 |
 | inputMode         | `'button' \| 'input-button' \| 'input-group'`                                              | -              | 控件的展示模式                                                                 |
+| isCodeMode        | `boolean`                                                                                  | `false`        | 使用源码模式                                                                   |
+| isExpandVariable  | `boolean`                                                                                  | `false`        | variableMode 为 tree 时，展开变量树                                            |
 | icon              | `string`                                                                                   | -              | 按钮图标，例如`fa fa-list`                                                     |
 | btnLabel          | `string`                                                                                   | `'公示编辑'`   | 按钮文本，`inputMode`为`button`时生效                                          |
 | level             | `'info' \| 'success' \| 'warning' \| 'danger' \| 'link' \| 'primary' \| 'dark' \| 'light'` | `default`      | 按钮样式                                                                       |
