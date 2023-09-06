@@ -199,7 +199,14 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
       value !== prevProps.value &&
       !this.state.focused
     ) {
-      this.modifiedEditor.getModel().setValue(normalizeValue(value, language));
+      this.modifiedEditor.getModel().setValue(
+        isPureVariable(value as string)
+          ? normalizeValue(
+              resolveVariableAndFilter(value || '', data, '| raw', () => ''),
+              language
+            )
+          : normalizeValue(value, language)
+      );
     }
   }
 
