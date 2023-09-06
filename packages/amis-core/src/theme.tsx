@@ -4,19 +4,13 @@ import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 
 export type ClassValue =
+  | ClassValue[]
+  | Record<string, any>
   | string
   | number
-  | ClassDictionary
-  | ClassArray
-  | undefined
+  | boolean
   | null
-  | boolean;
-
-interface ClassDictionary {
-  [id: string]: any;
-}
-
-interface ClassArray extends Array<ClassValue> {}
+  | undefined;
 
 export type ClassNamesFn = (...classes: ClassValue[]) => string;
 
@@ -29,12 +23,10 @@ interface ThemeConfig {
     [propName: string]: any;
   };
 
-  [propsName: string]: any;
+  [propName: string]: any;
 }
 
-const themes: {
-  [propName: string]: ThemeConfig;
-} = {
+const themes: Record<string, ThemeConfig> = {
   default: {},
   cxd: {
     classPrefix: 'cxd-'
@@ -48,16 +40,15 @@ export function theme(name: string, config: Partial<ThemeConfig>) {
   };
 }
 
-const fns: {
-  [propName: string]: (...classes: ClassValue[]) => string;
-} = {};
+const fns: Record<string, (...classes: ClassValue[]) => string> = {};
+
 export function makeClassnames(ns?: string) {
   if (ns && fns[ns]) {
     return fns[ns];
   }
 
   const fn = (...classes: ClassValue[]) => {
-    const str = cx(...(classes as any));
+    const str = cx(...classes);
     return str && ns
       ? str
           .replace(/(^|\s)([A-Z])/g, '$1' + ns + '$2')
@@ -69,11 +60,11 @@ export function makeClassnames(ns?: string) {
   return fn;
 }
 
-export type ThemeInstance = ThemeConfig & {
+export interface ThemeInstance extends ThemeConfig {
   getRendererConfig: (name?: string) => any;
   getComponentConfig: (name?: string) => any;
   classnames: ClassNamesFn;
-};
+}
 
 export function hasTheme(theme: string): boolean {
   return !!themes[theme];
@@ -121,26 +112,17 @@ export function getTheme(theme: string): ThemeInstance {
 }
 
 export interface ThemeProps {
+  classnames: ClassNamesFn;
+  classPrefix: string;
   className?: string;
+  theme?: string;
+  mobileUI?: boolean;
   style?: {
     [propName: string]: any;
   };
-  classPrefix: string;
-  classnames: ClassNamesFn;
-  theme?: string;
-  mobileUI?: boolean;
 }
 
-export interface ThemeOutterProps {
-  theme?: string;
-  className?: string;
-  mobileUI?: boolean;
-  style?: {
-    [propName: string]: any;
-  };
-  classPrefix?: string;
-  classnames?: ClassNamesFn;
-}
+export interface ThemeOutterProps extends Partial<ThemeProps> {}
 
 export let defaultTheme: string = 'cxd';
 export const ThemeContext = React.createContext('');
