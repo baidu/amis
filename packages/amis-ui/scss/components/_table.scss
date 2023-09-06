@@ -1027,6 +1027,13 @@
       }
     }
   }
+
+  // table 骨架样式
+  &-emptyBlock {
+    background-color: #eaebed;
+    border-radius: 5px;
+    line-height: 15px;
+  }
 }
 
 .#{$ns}InputTable {
@@ -1074,6 +1081,7 @@
   > .#{$ns}Button,
   > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
     margin: px2rem(3px);
+    height: auto;
   }
 
   > .#{$ns}Button--disabled-wrap > .#{$ns}Button--link {

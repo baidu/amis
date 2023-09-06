@@ -1,7 +1,11 @@
 import {Instance, types} from 'mobx-state-tree';
 import {parseQuery} from '../utils/helper';
 import {ServiceStore} from './service';
-import {createObjectFromChain, extractObjectChain} from '../utils';
+import {
+  createObjectFromChain,
+  extractObjectChain,
+  isObjectShallowModified
+} from '../utils';
 
 export const RootStore = ServiceStore.named('RootStore')
   .props({
@@ -42,7 +46,10 @@ export const RootStore = ServiceStore.named('RootStore')
       self.runtimeErrorStack = errorStack;
     },
     updateLocation(location?: any, parseFn?: Function) {
-      self.query = parseFn ? parseFn(location) : parseQuery(location);
+      const query = parseFn ? parseFn(location) : parseQuery(location);
+      if (isObjectShallowModified(query, self.query, false)) {
+        self.query = query;
+      }
     }
   }));
 

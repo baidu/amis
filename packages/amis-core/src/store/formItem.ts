@@ -67,6 +67,7 @@ const getSelectedOptionsCache: any = {
 export const FormItemStore = StoreNode.named('FormItemStore')
   .props({
     isFocused: false,
+    isControlled: false, // 是否是受控表单项，通常是用在别的组件里面
     type: '',
     label: '',
     unique: false,
@@ -107,7 +108,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     resetValue: types.optional(types.frozen(), ''),
     validateOnChange: false,
     /** 当前表单项所属的InputGroup父元素, 用于收集InputGroup的子元素 */
-    inputGroupControl: types.optional(types.frozen(), {})
+    inputGroupControl: types.optional(types.frozen(), {}),
+    colIndex: types.frozen(),
+    rowIndex: types.frozen()
   })
   .views(self => {
     function getForm(): any {
@@ -358,27 +361,29 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         inputGroupControl?.name != null &&
         (self.inputGroupControl = inputGroupControl);
 
-      rules = {
-        ...rules,
-        isRequired: self.required || rules?.isRequired
-      };
+      if (typeof rules !== 'undefined' || self.required) {
+        rules = {
+          ...rules,
+          isRequired: self.required || rules?.isRequired
+        };
 
-      // todo 这个弄个配置由渲染器自己来决定
-      // 暂时先这样
-      if (~['input-text', 'textarea'].indexOf(self.type)) {
-        if (typeof minLength === 'number') {
-          rules.minLength = minLength;
+        // todo 这个弄个配置由渲染器自己来决定
+        // 暂时先这样
+        if (~['input-text', 'textarea'].indexOf(self.type)) {
+          if (typeof minLength === 'number') {
+            rules.minLength = minLength;
+          }
+
+          if (typeof maxLength === 'number') {
+            rules.maxLength = maxLength;
+          }
         }
 
-        if (typeof maxLength === 'number') {
-          rules.maxLength = maxLength;
+        if (isObjectShallowModified(rules, self.rules)) {
+          self.rules = rules;
+          clearError('builtin');
+          self.validated = false;
         }
-      }
-
-      if (isObjectShallowModified(rules, self.rules)) {
-        self.rules = rules;
-        clearError('builtin');
-        self.validated = false;
       }
     }
 
@@ -1334,6 +1339,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
     }
 
+    function setIsControlled(value: any) {
+      self.isControlled = !!value;
+    }
+
     return {
       focus,
       blur,
@@ -1359,7 +1368,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       changeEmitedValue,
       addSubFormItem,
       removeSubFormItem,
-      loadAutoUpdateData
+      loadAutoUpdateData,
+      setIsControlled
     };
   });
 
