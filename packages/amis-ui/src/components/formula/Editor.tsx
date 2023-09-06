@@ -91,6 +91,16 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
    * 编辑器配置
    */
   editorOptions?: any;
+
+  /**
+   * 是否源码模式
+   */
+  isCodeMode?: boolean;
+
+  /**
+   * variableMode为tree时，是否展开变量
+   */
+  isExpandVariable?: boolean;
 }
 
 export interface FunctionsProps {
@@ -119,8 +129,8 @@ export class FormulaEditor extends React.Component<
 > {
   state: FormulaState = {
     focused: false,
-    isCodeMode: false,
-    expandTree: false,
+    isCodeMode: this.props.isCodeMode ?? false,
+    expandTree: this.props.isExpandVariable ?? false,
     normalizeVariables: [],
     functions: []
   };

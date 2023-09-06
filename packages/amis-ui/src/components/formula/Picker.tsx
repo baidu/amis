@@ -629,6 +629,8 @@ export class FormulaPicker extends React.Component<
                 value={editorValue}
                 onChange={this.handleEditorChange}
                 selfVariableName={this.props.selfVariableName}
+                isCodeMode={this.props.isCodeMode}
+                isExpandVariable={this.props.isExpandVariable}
               />
             </Modal.Body>
             <Modal.Footer>
