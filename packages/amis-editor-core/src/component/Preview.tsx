@@ -516,7 +516,7 @@ export default class Preview extends Component<PreviewProps> {
                 appLocale={appLocale}
               ></IFramePreview>
             ) : (
-              // 弹框挂载节点
+              // 弹窗挂载节点
               <div className="dialog-preview-mount-node">
                 <SmartPreview
                   {...rest}

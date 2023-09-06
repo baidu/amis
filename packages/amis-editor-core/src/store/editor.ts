@@ -135,7 +135,7 @@ export const MainStore = types
     hoverRegion: '',
     activeId: '',
     previewDialogId: '', // 选择要进行编辑的弹窗id
-    activeDialogPath: '', // 记录选中设计的弹框path
+    activeDialogPath: '', // 记录选中设计的弹窗path
     activeRegion: '', // 记录当前激活的子区域
     mouseMoveRegion: '', // 记录当前鼠标hover到的区域，后续需要优化（合并MouseMoveRegion和hoverRegion）
 

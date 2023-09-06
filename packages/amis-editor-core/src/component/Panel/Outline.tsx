@@ -227,7 +227,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
               option.dialogTitle || '确认对话框'
             }（确认对话框）`;
           } else {
-            rendererTitle = `${option.dialogTitle || '弹框'}（弹框）`;
+            rendererTitle = `${option.dialogTitle || '弹窗'}（弹窗）`;
           }
         }
       }
@@ -244,7 +244,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
         if (option.dialogType === 'confirm') {
           rendererTitle = `${option.title || '确认对话框'}（确认对话框）`;
         } else {
-          rendererTitle = `${option.title || '弹框'}（弹框）`;
+          rendererTitle = `${option.title || '弹窗'}（弹窗）`;
         }
       }
     }

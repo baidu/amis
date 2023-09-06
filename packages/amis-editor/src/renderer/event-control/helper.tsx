@@ -201,7 +201,7 @@ const getDialogActions = (schema: Schema, dialogActions: any[]) => {
               ? '抽屉'
               : dialog.dialogType
               ? '确认对话框'
-              : '弹框';
+              : '弹窗';
 
           dialogActions.push({
             label: `${dialog.title || '-'}（${dialogType}）`,
@@ -237,7 +237,7 @@ const getDialogActions = (schema: Schema, dialogActions: any[]) => {
               if (item.actionType === 'dialog') {
                 !item.dialog.$ref &&
                   dialogActions.push({
-                    label: `${item.dialog?.title || '-'}（弹框）`,
+                    label: `${item.dialog?.title || '-'}（弹窗）`,
                     value: item.dialog
                   });
                 if (item.dialog.body?.length) {
@@ -468,13 +468,13 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
       ]
     },
     {
-      actionLabel: '弹框消息',
+      actionLabel: '弹窗消息',
       actionType: 'dialogs',
       children: [
         {
           actionLabel: '打开弹窗',
           actionType: 'openDialog',
-          description: '打开弹框，弹窗内支持复杂的交互设计',
+          description: '打开弹窗，弹窗内支持复杂的交互设计',
           actions: [
             {
               actionType: 'dialog'
