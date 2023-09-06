@@ -330,13 +330,13 @@ export class Input extends React.Component<RangeItemProps, any> {
    */
   @autobind
   handleInputNumberChange(value: number) {
-    const {multiple, value: originValue, type, min, onChange} = this.props;
+    const {multiple, value: originValue, type, min, max, onChange} = this.props;
     const _value = this.getValue(value, type);
 
     onChange?.(
       multiple
         ? {...(originValue as MultipleValue), [type]: _value}
-        : value ?? min
+        : Math.max(Math.min(value, max), min)
     );
   }
 

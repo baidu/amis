@@ -45,6 +45,7 @@ order: 38
             "name": "range",
             "label": "range",
             "multiple": true,
+            "joinValues": false,
             "value": {
                 "min": 10,
                 "max": 50
