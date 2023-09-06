@@ -43,7 +43,7 @@ interface extra {
   suf?: string;
 }
 
-export function findOrCreactStyle(id: string) {
+export function findOrCreateStyle(id: string) {
   let varStyleTag = document.getElementById(id);
   if (!varStyleTag) {
     varStyleTag = document.createElement('style');
@@ -54,7 +54,7 @@ export function findOrCreactStyle(id: string) {
 }
 
 export function insertStyle(style: string, id: string) {
-  const varStyleTag = findOrCreactStyle(id);
+  const varStyleTag = findOrCreateStyle(id);
 
   // bca-disable-line
   varStyleTag.innerHTML = style;
@@ -65,7 +65,7 @@ export function insertStyle(style: string, id: string) {
 }
 
 export function addStyle(style: string, id: string) {
-  const varStyleTag = findOrCreactStyle(id);
+  const varStyleTag = findOrCreateStyle(id);
   // bca-disable-line
   varStyleTag.innerHTML += style;
 }
@@ -360,4 +360,62 @@ export function insertEditCustomStyle(customStyle: any, id?: string) {
     content,
     'wrapperCustomStyle-' + (id?.replace('u:', '') || uuid())
   );
+}
+
+export interface InsertCustomStyle {
+  themeCss?: any;
+  classNames?: CustomStyleClassName[];
+  id?: string;
+  defaultData?: any;
+  customStyleClassPrefix?: string;
+}
+
+export class StyleDom {
+  id: string;
+  constructor(id: string) {
+    this.id = id;
+  }
+  /**
+   * 插入自定义样式
+   *
+   * @param {InsertCustomStyle} params - 插入自定义样式的参数
+   * @param {string} params.themeCss - 主题样式
+   * @param {string} params.classNames - 自定义样式类名
+   * @param {string} params.defaultData - 默认数据
+   * @param {string} params.customStyleClassPrefix - 自定义样式类名前缀
+   */
+  insertCustomStyle({
+    themeCss,
+    classNames,
+    defaultData,
+    customStyleClassPrefix
+  }: InsertCustomStyle) {
+    insertCustomStyle(
+      themeCss,
+      classNames,
+      this.id,
+      defaultData,
+      customStyleClassPrefix
+    );
+  }
+
+  /**
+   * 插入外层自定义样式
+   *
+   * @param wrapperCustomStyle 自定义样式
+   */
+  insertEditCustomStyle(wrapperCustomStyle: any) {
+    insertEditCustomStyle(wrapperCustomStyle, this.id);
+  }
+  /**
+   * 移除自定义样式
+   */
+  removeCustomStyle(type?: string) {
+    const style = document.getElementById(
+      (type ? type + '-' : '') + this.id.replace('u:', '')
+    );
+    if (style) {
+      style.remove();
+    }
+  }
 }

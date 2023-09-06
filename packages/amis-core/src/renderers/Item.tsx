@@ -1545,7 +1545,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               }
             ],
             wrapperCustomStyle,
-            id: id + '-item'
+            id: id && id + '-item'
           }}
           env={env}
         />
