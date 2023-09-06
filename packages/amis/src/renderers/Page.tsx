@@ -881,6 +881,7 @@ export default class Page extends React.Component<PageProps> {
       wrapperCustomStyle,
       env,
       themeCss,
+      baseControlClassName,
       bodyControlClassName,
       headerControlClassName,
       toolbarControlClassName,
@@ -942,6 +943,7 @@ export default class Page extends React.Component<PageProps> {
           `Page`,
           hasAside ? `Page--withSidebar` : '',
           className,
+          baseControlClassName,
           wrapperCustomStyle
             ? `wrapperCustomStyle-${id?.replace('u:', '')}`
             : ''
@@ -1031,6 +1033,21 @@ export default class Page extends React.Component<PageProps> {
             id,
             themeCss,
             classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName,
+                weights: {
+                  default: {
+                    important: true
+                  },
+                  hover: {
+                    important: true
+                  },
+                  active: {
+                    important: true
+                  }
+                }
+              },
               {
                 key: 'bodyControlClassName',
                 value: bodyControlClassName
