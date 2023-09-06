@@ -100,24 +100,24 @@ export interface RenderSchemaFilter {
   (schema: Schema, renderer: RendererConfig, props?: any): Schema;
 }
 
-export interface wsObject {
+export interface WsObject {
   url: string;
   responseKey?: string;
   body?: any;
+}
+
+export interface FetcherConfig {
+  url: string;
+  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'jsonp' | 'js';
+  data?: any;
+  config?: any;
 }
 
 export interface RenderOptions
   extends Partial<Omit<RendererEnv, 'fetcher' | 'theme'>> {
   session?: string;
   theme?: string;
-  fetcher?: (config: fetcherConfig) => Promise<fetcherResult>;
-}
-
-export interface fetcherConfig {
-  url: string;
-  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'jsonp' | 'js';
-  data?: any;
-  config?: any;
+  fetcher?: (config: FetcherConfig) => Promise<fetcherResult>;
 }
 
 const renderers: Array<RendererConfig> = [];
@@ -238,7 +238,7 @@ export const defaultOptions: RenderOptions = {
   },
   // 使用 WebSocket 来实时获取数据
   wsFetcher(
-    ws: wsObject,
+    ws: WsObject,
     onMessage: (data: any) => void,
     onError: (error: any) => void
   ) {
