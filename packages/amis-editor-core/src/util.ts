@@ -2,7 +2,7 @@
  * @file 功能类函数集合。
  */
 import {hasIcon, mapObject, utils} from 'amis';
-import type {Schema} from 'amis';
+import type {Schema, SchemaNode} from 'amis';
 import {getGlobalData} from 'amis-theme-editor-helper';
 import {isExpression, resolveVariableAndFilter} from 'amis-core';
 import type {VariableItem} from 'amis-ui';
@@ -1210,3 +1210,81 @@ export const scrollToActive = debounce((selector: string) => {
       : dom.scrollIntoView();
   }
 }, 200);
+
+/**
+ * 获取弹窗事件
+ * @param schema 遍历的schema
+ * @param dialogActions 添加的弹窗事件
+ * @param listType 列表形式，弹窗list或label value形式的数据源
+ */
+export const getDialogActions = (
+  schema: Schema,
+  dialogActions: any[],
+  listType: 'list' | 'source'
+) => {
+  JSONTraverse(schema, (value: any, key: string, object: any) => {
+    // definitions中的弹窗
+    if (key === 'type' && value === 'page') {
+      const definitions = object.definitions;
+      if (definitions) {
+        Object.keys(definitions).forEach(key => {
+          if (key.includes('dialog-')) {
+            if (listType === 'list') {
+              dialogActions.push(definitions[key]);
+            } else {
+              const dialog = definitions[key];
+              const dialogType =
+                dialog.type === 'drawer'
+                  ? '抽屉'
+                  : dialog.dialogType
+                  ? '确认对话框'
+                  : '弹窗';
+              dialogActions.push({
+                label: `${dialog.title || '-'}（${dialogType}）`,
+                value: dialog
+              });
+            }
+          }
+        });
+      }
+    }
+    if (
+      (key === 'actionType' && value === 'dialog') ||
+      (key === 'actionType' && value === 'drawer') ||
+      (key === 'actionType' && value === 'confirmDialog')
+    ) {
+      if (value === 'drawer' && !object.drawer.$ref) {
+        if (listType == 'list') {
+          dialogActions.push(object.drawer);
+        } else {
+          dialogActions.push({
+            label: `${object.drawer?.title || '-'}（抽屉）`,
+            value: object.drawer
+          });
+        }
+      } else if (value === 'dialog' && !object.dialog.$ref) {
+        if (listType == 'list') {
+          dialogActions.push(object.dialog);
+        } else {
+          dialogActions.push({
+            label: `${object.dialog?.title || '-'}（弹窗）`,
+            value: object.dialog
+          });
+        }
+      } else if (
+        value === 'confirmDialog' &&
+        object.dialog &&
+        !object.dialog.$ref
+      ) {
+        if (listType == 'list') {
+          dialogActions.push(object.dialog);
+        } else {
+          dialogActions.push({
+            label: `${object.dialog?.title || '-'}（确认对话框）`,
+            value: object.dialog
+          });
+        }
+      }
+    }
+  });
+};

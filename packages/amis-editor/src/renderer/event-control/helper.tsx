@@ -6,6 +6,7 @@ import {
   BaseEventContext,
   defaultValue,
   EditorManager,
+  getDialogActions,
   getSchemaTpl,
   JsonGenerateID,
   PluginActions,
@@ -18,6 +19,7 @@ import {
   DataSchema,
   filterTree,
   findTree,
+  JSONTraverse,
   mapTree,
   normalizeApi,
   PlainObject,
@@ -185,92 +187,6 @@ export const SUPPORT_DISABLED_CMPTS = [
   // 'card2'
 ];
 
-// 获取弹窗事件
-const getDialogActions = (schema: Schema, dialogActions: any[]) => {
-  let event = schema.onEvent;
-
-  // definitions中的弹窗
-  if (schema.type === 'page') {
-    const definitions = schema.definitions as Schema;
-    if (definitions) {
-      for (let k in definitions) {
-        const dialog = definitions[k];
-        if (k.includes('dialog-')) {
-          const dialogType =
-            dialog.type === 'drawer'
-              ? '抽屉'
-              : dialog.dialogType
-              ? '确认对话框'
-              : '弹窗';
-
-          dialogActions.push({
-            label: `${dialog.title || '-'}（${dialogType}）`,
-            value: dialog
-          });
-        }
-      }
-    }
-  }
-
-  if (event) {
-    for (let key in event) {
-      let actions = event[key]?.actions;
-      if (Array.isArray(actions)) {
-        actions.forEach(item => {
-          if (
-            item.actionType === 'dialog' ||
-            item.actionType === 'drawer' ||
-            item.actionType === 'confirmDialog'
-          ) {
-            if (item.actionType === 'drawer') {
-              !item.drawer.$ref &&
-                dialogActions.push({
-                  label: `${item.drawer?.title || '-'}（抽屉）`,
-                  value: item.drawer
-                });
-              if (item.drawer.body?.length) {
-                item.drawer.body.forEach((item: Schema) => {
-                  getDialogActions(item, dialogActions);
-                });
-              }
-            } else {
-              if (item.actionType === 'dialog') {
-                !item.dialog.$ref &&
-                  dialogActions.push({
-                    label: `${item.dialog?.title || '-'}（弹窗）`,
-                    value: item.dialog
-                  });
-                if (item.dialog.body?.length) {
-                  item.dialog.body.forEach((item: Schema) => {
-                    getDialogActions(item, dialogActions);
-                  });
-                }
-              } else {
-                !item.args.$ref &&
-                  dialogActions.push({
-                    label: `${item.args?.title || '-'}（确认对话框）`,
-                    value: item.args
-                  });
-                if (item.args.body?.length) {
-                  item.args.body.forEach((item: Schema) => {
-                    getDialogActions(item, dialogActions);
-                  });
-                }
-              }
-            }
-          }
-        });
-      }
-    }
-  } else {
-    if (schema.body?.length) {
-      schema.body.forEach((item: Schema) => {
-        getDialogActions(item, dialogActions);
-      });
-    }
-  }
-};
-
 // 用于变量赋值 页面变量和内存变量的树选择器中，支持展示变量类型
 const getCustomNodeTreeSelectSchema = (opts: Object) => ({
   type: 'tree-select',
@@ -362,7 +278,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
   const pageVariableOptions = variableManager?.getPageVariablesOptions() || [];
 
   let dialogActions: any[] = [];
-  getDialogActions(manager.store.schema, dialogActions);
+  getDialogActions(manager.store.schema, dialogActions, 'source');
 
   return [
     {
@@ -3147,7 +3063,7 @@ export const getEventControlConfig = (
                 action.drawer = drawerInitSchema;
               } else if (config.groupType === 'confirmDialog') {
                 JsonGenerateID(confirmDialogInitSchema);
-                action.args = confirmDialogInitSchema;
+                action.dialog = confirmDialogInitSchema;
               }
             } else {
               action[config.groupType] = {

@@ -56,8 +56,6 @@ export const EditorNode = types
     w: 0,
     h: 0,
 
-    dialogSchema: types.frozen(),
-
     dialogTitle: '',
 
     dialogType: '',

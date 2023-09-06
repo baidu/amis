@@ -21,7 +21,6 @@ import type {DataScope} from 'amis-core';
 import type {RendererConfig} from 'amis-core';
 import type {SchemaCollection} from 'amis';
 import omit from 'lodash/omit';
-import cloneDeep from 'lodash/cloneDeep';
 
 // 创建 Node Store 并构建成树
 export function makeWrapper(
@@ -260,9 +259,9 @@ function replaceDialogtoRef(
                   });
                 }
               } else {
-                const dialogContent = item.args;
+                const dialogContent = item.dialog || item.args;
                 if (dialogContent.$$id === dilaogId) {
-                  item.args = {
+                  item.dialog = {
                     $ref: dialogRefsName
                   };
                 }
@@ -331,7 +330,7 @@ function currentDialogOnchagne(
   newValue?: any
 ) {
   const {store} = manager;
-  let schema = cloneDeep(store.schema);
+  let schema = store.schema;
   let definitions = schema.definitions || {};
   let dialogIndexList = [];
   for (let k in definitions) {
@@ -508,7 +507,7 @@ function SchemaFrom({
         let newSchema = currentDialogOnchagne(manager, diffValue, newValue);
         if (newSchema) {
           const schemaDiff = diff(schema, newSchema);
-          onChange(newSchema, schemaDiff, true);
+          manager.store.definitionOnchangeValue(newSchema, schemaDiff);
         }
       },
       data: createObjectFromChain([ctx, themeConfig, finalValue]),

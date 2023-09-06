@@ -771,7 +771,7 @@ export class EventControl extends React.Component<
         const dialogObjMap = new Map([
           ['dialog', 'dialog'],
           ['drawer', 'drawer'],
-          ['confirmDialog', 'args']
+          ['confirmDialog', 'dialog']
         ]);
         const dialogObj = dialogObjMap.get(dialogActionType!);
 
@@ -872,7 +872,7 @@ export class EventControl extends React.Component<
             ? 'dialog'
             : action.actionType === 'drawer'
             ? 'drawer'
-            : 'args';
+            : 'dialog';
 
         if (!config?.__dialogSource || config?.__dialogSource === 'new') {
           let actionLength = this.state.onEvent[config.eventKey].actions.length;
@@ -921,7 +921,7 @@ export class EventControl extends React.Component<
             ? 'dialog'
             : action.actionType === 'drawer'
             ? 'drawer'
-            : 'args';
+            : 'dialog';
 
         this.removeDataSchema();
         this.setState({showAcionDialog: false});

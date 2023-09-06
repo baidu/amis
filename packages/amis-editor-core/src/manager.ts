@@ -1235,18 +1235,12 @@ export class EditorManager {
    * 这里面还有事件逻辑，插件里面可以写些逻辑。
    * @param value
    * @param diff
-   * @param definitionChange
    */
   @autobind
-  panelChangeValue(value: any, diff?: any, definitionChange?: boolean) {
+  panelChangeValue(value: any, diff?: any) {
     const store = this.store;
-
-    const eventContext = definitionChange
-      ? this.buildEventContext(store.getRootId())
-      : this.buildEventContext(store.activeId);
-
     const context: ChangeEventContext = {
-      ...eventContext,
+      ...this.buildEventContext(store.activeId),
       value,
       diff
     };
@@ -1256,11 +1250,8 @@ export class EditorManager {
       return;
     }
 
-    if (definitionChange) {
-      store.definitionOnchangeValue(value, diff);
-    } else {
-      store.changeValue(value, diff);
-    }
+    store.changeValue(value, diff);
+
     this.trigger('after-update', context);
   }
 
