@@ -230,7 +230,23 @@ export class TplPlugin extends BasePlugin {
                 pipeIn: defaultValue(true),
                 hiddenOn: 'data.wrapperComponent !== ""'
               }),
+              {
+                type: 'input-number',
+                label: '最大显示行数',
+                name: 'maxLine',
+                min: 0
+              },
               getSchemaTpl('tpl:content'),
+              {
+                type: 'textarea',
+                name: 'editorSetting.mock.tpl',
+                mode: 'vertical',
+                label: tipedLabel(
+                  '填充假数据',
+                  '只在编辑区显示的假数据文本，运行时将显示文本实际内容'
+                ),
+                pipeOut: (value: any) => (value === '' ? undefined : value)
+              },
               getSchemaTpl('tpl:rich-text')
             ]
           },

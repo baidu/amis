@@ -8,7 +8,8 @@ import TooltipWrapper, {TooltipObject, Trigger} from './TooltipWrapper';
 import {pickEventsProps} from 'amis-core';
 import {ClassNamesFn, themeable} from 'amis-core';
 import Spinner, {SpinnerExtraProps} from './Spinner';
-interface ButtonProps
+
+export interface ButtonProps
   extends React.DOMAttributes<HTMLButtonElement>,
     SpinnerExtraProps {
   id?: string;

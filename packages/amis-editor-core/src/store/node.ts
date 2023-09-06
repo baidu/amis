@@ -544,6 +544,7 @@ export const EditorNode = types
         if (node.id === 'root') {
           return;
         }
+        node = node.parent;
       }
     }
 
@@ -562,6 +563,10 @@ export const EditorNode = types
 
         if (res) {
           break;
+        }
+
+        if (cursor.id === 'root') {
+          return cursor;
         }
 
         cursor = cursor.parent;

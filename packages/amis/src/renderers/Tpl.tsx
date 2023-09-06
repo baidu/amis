@@ -7,7 +7,7 @@ import {
   CustomStyle
 } from 'amis-core';
 import {filter, asyncFilter} from 'amis-core';
-import cx from 'classnames';
+import isEmpty from 'lodash/isEmpty';
 import {anyChanged, getPropValue} from 'amis-core';
 import {escapeHtml} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
@@ -193,6 +193,7 @@ export class Tpl extends React.Component<TplProps, TplState> {
       inline,
       classnames: cx,
       style,
+      maxLine,
       showNativeTitle,
       data,
       id,
@@ -203,6 +204,14 @@ export class Tpl extends React.Component<TplProps, TplState> {
     } = this.props;
     const Component = wrapperComponent || (inline ? 'span' : 'div');
     const {content} = this.state;
+
+    // 显示行数处理
+    let styles: React.CSSProperties = {};
+    let cln = '';
+    if (maxLine > 0) {
+      cln = 'max-line';
+      styles.WebkitLineClamp = +maxLine;
+    }
 
     return (
       <Component
@@ -221,6 +230,8 @@ export class Tpl extends React.Component<TplProps, TplState> {
         onMouseLeave={this.handleMouseLeave}
       >
         <span
+          className={cln ? cx(cln) : undefined}
+          style={!isEmpty(styles) ? styles : undefined}
           dangerouslySetInnerHTML={{__html: env.filterHtml(content)}}
         ></span>
         <CustomStyle

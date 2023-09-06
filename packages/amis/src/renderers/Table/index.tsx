@@ -1632,7 +1632,9 @@ export default class Table extends React.Component<TableProps, object> {
               label: false,
               className: cx('Table-searchableForm-checkbox'),
               inputClassName: cx('Table-searchableForm-checkbox-inner'),
-              name: `__search_${column.searchable?.name ?? column.name}`,
+              name: `${
+                column.searchable.strategy === 'jsonql' ? '' : '__search_'
+              }${column.searchable?.name ?? column.name}`,
               option: column.searchable?.label ?? column.label,
               value: column.enableSearch,
               badge: {

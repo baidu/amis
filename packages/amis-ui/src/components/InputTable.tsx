@@ -20,11 +20,26 @@ import Button from './Button';
 import FormField, {FormFieldProps} from './FormField';
 import {Icon} from './icons';
 
+import type {ButtonProps} from './Button';
+
+export interface tdRenderFunc {
+  (
+    methods: UseFormReturn,
+    colIndex: number,
+    rowIndex: number
+  ): JSX.Element | null;
+}
+
 export interface InputTableColumnProps {
   title?: string;
   className?: string;
   thRender?: () => JSX.Element;
-  tdRender: (methods: UseFormReturn, index: number) => JSX.Element | null;
+  tdRender: tdRenderFunc;
+}
+
+interface InputTableScrollProps {
+  /** 垂直滚动区域的最大高度 */
+  y: number | string;
 }
 
 export interface InputTabbleProps<T = any>
@@ -45,10 +60,24 @@ export interface InputTabbleProps<T = any>
   addable?: boolean;
   addButtonClassName?: string;
   addButtonText?: string;
+  addButtonProps?: Partial<Omit<ButtonProps, 'onClick'>>;
 
   maxLength?: number;
   minLength?: number;
   removable?: boolean;
+  /** 表格CSS类名 */
+  tableClassName?: string;
+  /** 表格头CSS类名 */
+  tableHeadClassName?: string;
+  /** 表格内容区CSS类名 */
+  tableBodyClassName?: string;
+  /** 空状态文字 */
+  placeholder?: React.ReactNode;
+  /** 滚动设置 */
+  scroll?: InputTableScrollProps;
+  /** 底部工具栏 */
+  footer?: () => React.ReactNode;
+  onItemAdd?: (values: Record<string, any>) => void;
 }
 
 export function InputTable({
@@ -69,12 +98,23 @@ export function InputTable({
   addable,
   addButtonText,
   addButtonClassName,
+  addButtonProps,
   scaffold,
   minLength,
   maxLength,
   isRequired,
-  rules
+  rules,
+  tableClassName,
+  tableHeadClassName,
+  tableBodyClassName,
+  placeholder,
+  scroll,
+  footer,
+  onItemAdd
 }: InputTabbleProps) {
+  const enableScroll = scroll?.y != null;
+  const tBodyRef = React.useRef<HTMLTableElement>(null);
+  const tableRef = React.useRef<HTMLTableElement>(null);
   const subForms = React.useRef<Record<any, UseFormReturn>>({});
   const subFormRef = React.useCallback(
     (subform: UseFormReturn | null, id: string) => {
@@ -160,11 +200,32 @@ export function InputTable({
   );
 
   function renderBody() {
+    const handleItemAdd = () => {
+      const values = {...scaffold};
+      append(values);
+
+      /** 开启滚动后新增元素定位到底部 */
+      if (enableScroll && tableRef) {
+        requestAnimationFrame(() => {
+          tableRef?.current?.scrollIntoView?.({
+            behavior: 'smooth',
+            block: 'end',
+            inline: 'nearest'
+          });
+        });
+      }
+
+      onItemAdd?.(values);
+    };
+
     return (
-      <div className={cx(`Table`)}>
-        <div className={cx(`Table-contentWrap`)}>
-          <table className={cx(`Table-table`)}>
-            <thead>
+      <div className={cx(`Table`, `InputTable-UI`, className)}>
+        <div
+          className={cx(`Table-contentWrap`, {'is-fixed': enableScroll})}
+          style={{maxHeight: enableScroll ? scroll.y : 'unset'}}
+        >
+          <table className={cx(`Table-table`, tableClassName)} ref={tableRef}>
+            <thead className={cx(tableHeadClassName)}>
               <tr>
                 {columns.map((item, index) => (
                   <th key={index} className={item.className}>
@@ -174,7 +235,7 @@ export function InputTable({
                 <th key="operation">{__('Table.operation')}</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className={cx(tableBodyClassName)}>
               {fields.length ? (
                 fields.map((field, index) => (
                   <tr key={field.id}>
@@ -212,7 +273,7 @@ export function InputTable({
                       icon="desk-empty"
                       className={cx('Table-placeholder-empty-icon', 'icon')}
                     />
-                    {__('placeholder.noData')}
+                    {placeholder ?? __('placeholder.noData')}
                   </td>
                 </tr>
               )}
@@ -223,12 +284,14 @@ export function InputTable({
           <div className={cx(`InputTable-toolbar`)}>
             <Button
               className={cx(addButtonClassName)}
-              onClick={() => append({...scaffold})}
               size="sm"
+              {...addButtonProps}
+              onClick={() => handleItemAdd()}
             >
               <Icon icon="plus" className="icon" />
               <span>{__(addButtonText || 'add')}</span>
             </Button>
+            {footer?.()}
           </div>
         ) : null}
       </div>
@@ -257,7 +320,7 @@ export interface InputTableRowProps {
   value: any;
   control: Control<any>;
   columns: Array<{
-    tdRender: (methods: UseFormReturn, index: number) => JSX.Element | null;
+    tdRender: tdRenderFunc;
     className?: string;
   }>;
   update: (index: number, data: Record<string, any>) => void;
@@ -293,9 +356,9 @@ export function InputTableRow({
 
   return (
     <>
-      {columns.map((item, index) => (
-        <td key={index} className={item.className}>
-          {item.tdRender(methods, index)}
+      {columns.map((item, colIndex) => (
+        <td key={colIndex} className={item.className}>
+          {item.tdRender(methods, colIndex, index)}
         </td>
       ))}
     </>
