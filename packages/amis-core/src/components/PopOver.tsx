@@ -14,7 +14,7 @@ export interface Offset {
   y: number;
 }
 
-export interface PopOverPorps {
+export interface PopOverProps {
   className?: string;
   placement?: string;
   positionTop?: number;
@@ -36,7 +36,7 @@ interface PopOverState {
   yOffset: number;
 }
 
-export class PopOver extends React.PureComponent<PopOverPorps, PopOverState> {
+export class PopOver extends React.PureComponent<PopOverProps, PopOverState> {
   static defaultProps = {
     className: '',
     offset: {
