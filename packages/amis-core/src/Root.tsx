@@ -184,16 +184,18 @@ export function renderChild(
     return renderChildren(prefix, node, props);
   }
 
-  const typeofnode = typeof node;
+  const typeofNode = typeof node;
 
-  if (typeofnode === 'undefined' || node === null) {
+  if (typeofNode === 'undefined' || node === null) {
     return null;
-  } else if (React.isValidElement(node)) {
+  }
+
+  if (React.isValidElement(node)) {
     return node;
   }
 
   let schema: Schema =
-    typeofnode === 'string' || typeofnode === 'number'
+    typeofNode === 'string' || typeofNode === 'number'
       ? {type: 'tpl', tpl: String(node)}
       : (node as Schema);
 

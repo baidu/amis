@@ -1,9 +1,9 @@
-import {register as registerBulitin, getFilters} from './tpl-builtin';
+import {register as registerBuiltin, getFilters} from './tpl-builtin';
 import {register as registerLodash} from './tpl-lodash';
 import {parse, evaluate} from 'amis-formula';
 import {resolveCondition} from './resolveCondition';
 
-export interface Enginer {
+export interface Engineer {
   test: (tpl: string) => boolean;
   removeEscapeToken?: (tpl: string) => string;
   compile: (tpl: string, data: object, ...rest: Array<any>) => string;
@@ -14,12 +14,12 @@ export interface Enginer {
   ) => Promise<string>;
 }
 
-const enginers: {
-  [propName: string]: Enginer;
+const engineers: {
+  [propName: string]: Engineer;
 } = {};
 
-export function registerTplEnginer(name: string, enginer: Enginer) {
-  enginers[name] = enginer;
+export function registerTplEngineer(name: string, engineer: Engineer) {
+  engineers[name] = engineer;
 }
 
 export function filter(
@@ -31,13 +31,13 @@ export function filter(
     return '';
   }
 
-  let keys = Object.keys(enginers);
+  let keys = Object.keys(engineers);
   for (let i = 0, len = keys.length; i < len; i++) {
-    let enginer = enginers[keys[i]];
-    if (enginer.test(tpl)) {
-      return enginer.compile(tpl, data, ...rest);
-    } else if (enginer.removeEscapeToken) {
-      tpl = enginer.removeEscapeToken(tpl);
+    let engineer = engineers[keys[i]];
+    if (engineer.test(tpl)) {
+      return engineer.compile(tpl, data, ...rest);
+    } else if (engineer.removeEscapeToken) {
+      tpl = engineer.removeEscapeToken(tpl);
     }
   }
 
@@ -53,13 +53,13 @@ export function asyncFilter(
     return Promise.resolve('');
   }
 
-  let keys = Object.keys(enginers);
+  let keys = Object.keys(engineers);
   for (let i = 0, len = keys.length; i < len; i++) {
-    let enginer = enginers[keys[i]];
-    if (enginer.test(tpl)) {
-      return enginer.asyncCompile(tpl, data, ...rest);
-    } else if (enginer.removeEscapeToken) {
-      tpl = enginer.removeEscapeToken(tpl);
+    let engineer = engineers[keys[i]];
+    if (engineer.test(tpl)) {
+      return engineer.asyncCompile(tpl, data, ...rest);
+    } else if (engineer.removeEscapeToken) {
+      tpl = engineer.removeEscapeToken(tpl);
     }
   }
 
@@ -195,11 +195,11 @@ export function evalJS(js: string, data: object): any {
   }
 }
 
-[registerBulitin, registerLodash].forEach(fn => {
+[registerBuiltin, registerLodash].forEach(fn => {
   if (!fn) return;
   const info = fn();
 
-  registerTplEnginer(info.name, {
+  registerTplEngineer(info.name, {
     test: info.test,
     compile: info.compile,
     asyncCompile: info.asyncCompile,

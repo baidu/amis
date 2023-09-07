@@ -19,7 +19,7 @@ import {
 
 import 'amis-ui/lib/locale/en-US';
 import 'history';
-import {attachmentAdpator} from 'amis-core';
+import {attachmentAdaptor} from 'amis-core';
 
 import type {ToastLevel, ToastConf} from 'amis-ui/lib/components/Toast';
 
@@ -213,7 +213,7 @@ export function embed(
       let response = config.mockResponse
         ? config.mockResponse
         : await axios(config);
-      response = await attachmentAdpator(response, __);
+      response = await attachmentAdaptor(response, __);
       response = responseAdaptor(api)(response);
 
       if (response.status >= 400) {

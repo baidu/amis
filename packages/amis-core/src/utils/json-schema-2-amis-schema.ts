@@ -47,9 +47,9 @@ function makeControls(properties: any, schema: any) {
   return keys.map(key => property2control(properties[key], key, schema));
 }
 
-export function JSONSchme2AMisSchema(schema: any) {
+export function JSONSchema2AMisSchema(schema: any) {
   if (schema.type !== 'object') {
-    throw new Error('JSONSchme2AMisSchema 只支持 object 转换');
+    throw new Error('JSONSchema2AMisSchema 只支持 object 转换');
   }
 
   return {

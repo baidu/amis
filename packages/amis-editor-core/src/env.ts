@@ -1,7 +1,7 @@
 /**
  * 传给 amis 渲染器的默认 env
  */
-import {attachmentAdpator, RenderOptions} from 'amis-core';
+import {attachmentAdaptor, RenderOptions} from 'amis-core';
 import axios from 'axios';
 import {alert, confirm, toast} from 'amis';
 
@@ -40,7 +40,7 @@ export const env: RenderOptions = {
     }
 
     let response = await axios(config);
-    response = await attachmentAdpator(response, (msg: string) => '');
+    response = await attachmentAdaptor(response, (msg: string) => '');
     return response;
   },
   isCancel: (value: any) => (axios as any).isCancel(value),

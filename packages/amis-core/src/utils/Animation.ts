@@ -34,7 +34,7 @@ const IE11OrLess = userAgent(
 // const IOS = userAgent(/iP(ad|od|hone)/i);
 // const ChromeForAndroid = userAgent(/chrome/i) && userAgent(/android/i);
 
-const AnimationDurtation = 150;
+const AnimationDuration = 150;
 const AnimationEasing = 'cubic-bezier(1, 0, 0, 1)';
 
 export class AnimationManager {
@@ -127,7 +127,7 @@ export class AnimationManager {
         (target as any).prevToRect = toRect;
 
         if (!time) {
-          time = AnimationDurtation;
+          time = AnimationDuration;
         }
         this.animate(target, animatingRect, toRect, time);
       }
@@ -275,7 +275,7 @@ function calculateRealTime(animatingRect: Rect, fromRect: Rect, toRect: Rect) {
         Math.pow(fromRect.top - toRect.top, 2) +
           Math.pow(fromRect.left - toRect.left, 2)
       )) *
-    AnimationDurtation
+    AnimationDuration
   );
 }
 

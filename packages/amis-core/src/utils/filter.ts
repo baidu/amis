@@ -334,12 +334,12 @@ extendsFilters({
     if (!Array.isArray(input)) {
       return input;
     }
-    const restult = input.reduce(
+    const result = input.reduce(
       (sum, item) =>
         sum + (parseFloat(field ? pickValues(field, item) : item) || 0),
       0
     );
-    return stripNumber(restult);
+    return stripNumber(result);
   },
   abs: (input: any) => (typeof input === 'number' ? Math.abs(input) : input),
   pick: (input, path = '&') =>

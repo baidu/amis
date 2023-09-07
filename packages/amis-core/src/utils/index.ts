@@ -1,5 +1,5 @@
 export * from './api';
-export * from './attachmentAdpator';
+export * from './attachmentAdaptor';
 export * from './autobind';
 export * from './ColorScale';
 export * from './columnsSplit';

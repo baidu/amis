@@ -154,14 +154,14 @@ export const runActions = async (
   }
 
   for (const actionConfig of actions) {
-    let actionInstrance = getActionByType(actionConfig.actionType);
+    let actionInstance = getActionByType(actionConfig.actionType);
 
     // 如果存在指定组件ID，说明是组件专有动作
     if (
-      !actionInstrance &&
+      !actionInstance &&
       (actionConfig.componentId || actionConfig.componentName)
     ) {
-      actionInstrance = [
+      actionInstance = [
         'static',
         'nonstatic',
         'show',
@@ -175,17 +175,17 @@ export const runActions = async (
         : getActionByType('component');
     } else if (['url', 'link', 'jump'].includes(actionConfig.actionType)) {
       // 打开页面动作
-      actionInstrance = getActionByType('openlink');
+      actionInstance = getActionByType('openlink');
     }
 
     // 找不到就通过组件专有动作完成
-    if (!actionInstrance) {
-      actionInstrance = getActionByType('component');
+    if (!actionInstance) {
+      actionInstance = getActionByType('component');
     }
 
     try {
       // 这些节点的子节点运行逻辑由节点内部实现
-      await runAction(actionInstrance, actionConfig, renderer, event);
+      await runAction(actionInstance, actionConfig, renderer, event);
     } catch (e) {
       const ignore = actionConfig.ignoreError ?? false;
       if (!ignore) {
@@ -205,7 +205,7 @@ export const runActions = async (
 
 // 执行动作，与原有动作处理打通
 export const runAction = async (
-  actionInstrance: RendererAction,
+  actionInstance: RendererAction,
   actionConfig: ListenerAction,
   renderer: ListenerContext,
   event: any
@@ -321,7 +321,7 @@ export const runAction = async (
   console.debug(`[${action.actionType}] action args, data`, args, data);
 
   let stopped = false;
-  const actionResult = await actionInstrance.run(
+  const actionResult = await actionInstance.run(
     {
       ...action,
       args,

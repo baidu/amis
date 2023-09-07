@@ -1,4 +1,4 @@
-import {Enginer} from './tpl';
+import {Engineer} from './tpl';
 import {
   parse,
   getFilters,
@@ -71,7 +71,7 @@ function matchSynatax(str: string) {
   return false;
 }
 
-export function register(): Enginer & {name: string} {
+export function register(): Engineer & {name: string} {
   return {
     name: 'builtin',
     test: (str: string) => typeof str === 'string' && matchSynatax(str),

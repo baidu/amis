@@ -2,7 +2,7 @@ import React from 'react';
 import {toast, render, makeTranslator} from 'amis';
 import {normalizeLink} from 'amis-core';
 import {isMobile} from 'amis-core';
-import {attachmentAdpator} from 'amis-core';
+import {attachmentAdaptor} from 'amis-core';
 import {alert, confirm} from 'amis-ui';
 import axios from 'axios';
 import JSON5 from 'json5';
@@ -199,7 +199,7 @@ export default class PlayGround extends React.Component {
         };
 
         let response = await axios(config);
-        response = await attachmentAdpator(response, __);
+        response = await attachmentAdaptor(response, __);
 
         if (response.status >= 400) {
           if (response.data) {

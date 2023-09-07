@@ -32,7 +32,7 @@ import {
   createObject
 } from '../utils/helper';
 
-import debouce from 'lodash/debounce';
+import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import find from 'lodash/find';
 import {
@@ -465,7 +465,7 @@ export default class Form extends React.Component<FormProps, object> {
   shouldLoadInitApi: boolean = false;
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
-  lazyEmitChange = debouce(this.emitChange.bind(this), 250, {
+  lazyEmitChange = debounce(this.emitChange.bind(this), 250, {
     trailing: true,
     leading: false
   });
