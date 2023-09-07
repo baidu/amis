@@ -245,7 +245,13 @@ export function HocStoreFactory(renderer: {
                       ...store.data,
                       ...props.data
                     }
-                  : undefined
+                  : syncDataFromSuper(
+                      store.data,
+                      (props.data as any).__super,
+                      (prevProps.data as any).__super,
+                      store,
+                      false
+                    )
               )
             );
           } else {
