@@ -20,13 +20,15 @@ import {
   resolveVariableAndFilter,
   isApiOutdated,
   isEffectiveApi,
-  resolveEventData
+  resolveEventData,
+  CustomStyle
 } from 'amis-core';
 import {Html, Icon} from 'amis-ui';
 import {isMobile} from 'amis-core';
 import {FormOptionsSchema, SchemaTpl} from '../../Schema';
 import intersectionWith from 'lodash/intersectionWith';
 import {PopUp} from 'amis-ui';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Picker
@@ -406,7 +408,10 @@ export default class PickerControl extends React.PureComponent<
       labelTpl,
       translate: __,
       disabled,
-      env
+      env,
+      pickFontClassName,
+      pickValueWrapClassName,
+      pickValueIconClassName
     } = this.props;
 
     return (
@@ -414,14 +419,18 @@ export default class PickerControl extends React.PureComponent<
         {selectedOptions.map((item, index) => (
           <div
             key={index}
-            className={cx(`${ns}Picker-value`, {
-              'is-disabled': disabled
-            })}
+            className={cx(
+              `${ns}Picker-value`,
+              {
+                'is-disabled': disabled
+              },
+              pickValueWrapClassName
+            )}
           >
             <span
               data-tooltip={__('delete')}
               data-position="bottom"
-              className={`${ns}Picker-valueIcon`}
+              className={`${ns}Picker-valueIcon ${pickValueIconClassName}`}
               onClick={e => {
                 e.stopPropagation();
                 this.removeItem(index);
@@ -430,7 +439,7 @@ export default class PickerControl extends React.PureComponent<
               ×
             </span>
             <span
-              className={`${ns}Picker-valueLabel`}
+              className={`${ns}Picker-valueLabel ${pickFontClassName}`}
               onClick={e => {
                 e.stopPropagation();
                 this.handleItemClick(item);
@@ -515,6 +524,7 @@ export default class PickerControl extends React.PureComponent<
       popOverContainer
     }) as JSX.Element;
   }
+  @supportStatic()
   render() {
     const {
       className,
@@ -535,11 +545,21 @@ export default class PickerControl extends React.PureComponent<
       popOverContainer,
       modalTitle,
       data,
-      useMobileUI
+      useMobileUI,
+      env,
+      pickControlClassName,
+      pickFontClassName,
+      pickValueWrapClassName,
+      pickValueIconClassName,
+      pickIconClassName,
+      pickControlDisabledClassName,
+      themeCss,
+      css,
+      id,
+      classPrefix: ns
     } = this.props;
 
     const mobileUI = useMobileUI && isMobile();
-
     return (
       <div className={cx(`PickerControl`, {'is-mobile': mobileUI}, className)}>
         {embed ? (
@@ -555,7 +575,14 @@ export default class PickerControl extends React.PureComponent<
               'is-disabled': disabled
             })}
           >
-            <div onClick={this.handleClick} className={cx('Picker-input')}>
+            <div
+              onClick={this.handleClick}
+              className={cx(
+                'Picker-input',
+                pickControlClassName,
+                pickControlDisabledClassName
+              )}
+            >
               {!selectedOptions.length && placeholder ? (
                 <div className={cx('Picker-placeholder')}>
                   {__(placeholder)}
@@ -585,7 +612,7 @@ export default class PickerControl extends React.PureComponent<
               <span onClick={this.open} className={cx('Picker-btn')}>
                 <Icon
                   icon="window-restore"
-                  className="icon"
+                  className={`icon ${pickIconClassName}`}
                   iconContent="Picker-icon"
                 />
               </span>
@@ -615,6 +642,76 @@ export default class PickerControl extends React.PureComponent<
             )}
           </div>
         )}
+        <CustomStyle
+          config={{
+            themeCss: themeCss || css,
+            classNames: [
+              {
+                key: 'pickControlClassName',
+                value: pickControlClassName,
+                weights: {
+                  default: {
+                    important: true
+                  },
+                  hover: {
+                    important: true
+                  },
+                  active: {
+                    important: true
+                  },
+                  disabled: {
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'pickControlDisabledClassName',
+                value: pickControlDisabledClassName,
+                weights: {
+                  default: {
+                    pre: `${ns}Picker.is-disabled> .${pickControlDisabledClassName}, `
+                  }
+                }
+              },
+              {
+                key: 'pickFontClassName',
+                value: pickFontClassName
+              },
+              {
+                key: 'pickValueWrapClassName',
+                value: pickValueWrapClassName,
+                weights: {
+                  default: {
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'pickValueIconClassName',
+                value: pickValueIconClassName,
+                weights: {
+                  default: {
+                    important: true
+                  },
+                  hover: {
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'pickIconClassName',
+                value: pickIconClassName,
+                weights: {
+                  default: {
+                    suf: ' svg'
+                  }
+                }
+              }
+            ],
+            id: id
+          }}
+          env={env}
+        />
       </div>
     );
   }

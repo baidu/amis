@@ -13,11 +13,14 @@ import {
   BasePlugin,
   BasicToolbarItem,
   ContextMenuEventContext,
-  ContextMenuItem
+  ContextMenuItem,
+  defaultValue,
+  tipedLabel
 } from 'amis-editor-core';
 import {diff} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {resolveOptionType} from '../../util';
+import {ValidatorTag} from '../../validator';
 
 export class PickerControlPlugin extends BasePlugin {
   static id = 'PickerControlPlugin';
@@ -62,7 +65,7 @@ export class PickerControlPlugin extends BasePlugin {
       }
     ]
   };
-
+  notRenderFormZone = true;
   // 事件定义
   events: RendererPluginEvent[] = [
     {
@@ -114,91 +117,246 @@ export class PickerControlPlugin extends BasePlugin {
       ]
     }
   ];
-
+  panelJustify = true;
   panelTitle = '列表选取';
   panelBodyCreator = (context: BaseEventContext) => {
+    const pickStyleStateFunc = (visibleOn: string, state: string) => {
+      return [
+        getSchemaTpl('theme:border', {
+          name: `themeCss.pickControlClassName.border:${state}`,
+          editorThemePath: `pick.status.body.${state}-border`,
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:colorPicker', {
+          label: '背景',
+          labelMode: 'input',
+          needGradient: true,
+          needImage: true,
+          name: `themeCss.pickControlClassName.background:${state}`,
+          editorThemePath: `pick.status.body.${state}-bgColor`,
+          visibleOn: visibleOn
+        })
+      ];
+    };
+    const pickDisabledSateFunc = (visibleOn: string, state: string) => {
+      return [
+        getSchemaTpl('theme:border', {
+          name: `themeCss.pickControlDisabledClassName.border`,
+          editorThemePath: `pick.status.body.${state}-border`,
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:colorPicker', {
+          label: '背景',
+          labelMode: 'input',
+          needGradient: true,
+          needImage: true,
+          name: `themeCss.pickControlDisabledClassName.background`,
+          editorThemePath: `pick.status.body.${state}-bgColor`,
+          visibleOn: visibleOn
+        })
+      ];
+    };
+    const pickStyleFunc = (visibleOn: string, state: string) => {
+      return [
+        getSchemaTpl('theme:border', {
+          name: `themeCss.pickControlClassName.border:${state}`,
+          editorThemePath: `pick.base.body.border`,
+          visibleOn: visibleOn
+        }),
+        getSchemaTpl('theme:colorPicker', {
+          label: '背景',
+          labelMode: 'input',
+          needGradient: true,
+          needImage: true,
+          name: `themeCss.pickControlClassName.background:${state}`,
+          editorThemePath: `pick.base.body.bgColor`,
+          visibleOn: visibleOn
+        })
+      ];
+    };
     return getSchemaTpl('tabs', [
       {
         title: '属性',
-        body: [
-          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-          getSchemaTpl('switch', {
-            name: 'embed',
-            label: '开启内嵌模式'
-          }),
-
-          getSchemaTpl('switchDefaultValue'),
-
+        body: getSchemaTpl('collapseGroup', [
           {
-            type: 'input-text',
-            name: 'value',
-            label: '默认值',
-            visibleOn: 'typeof this.value !== "undefined"'
-          },
-
-          getSchemaTpl('fieldSet', {
-            title: '选项',
+            title: '基本',
             body: [
-              getSchemaTpl('options'),
-              getSchemaTpl('api', {
-                name: 'source',
-                label: '获取选项接口'
+              getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+              getSchemaTpl('formItemName', {
+                required: true
               }),
-
-              {
-                children: (
-                  <Button
-                    size="sm"
-                    level="danger"
-                    className="m-b"
-                    onClick={this.editDetail.bind(this, context.id)}
-                    block
-                  >
-                    配置选框详情
-                  </Button>
-                )
-              },
-
-              {
-                label: 'labelTpl',
-                type: 'textarea',
-                name: 'labelTpl',
-                labelRemark: '已选定数据的展示样式',
-                description:
-                  '支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/amis/zh-CN/docs/concepts/template">详情</a>'
-              },
-
+              getSchemaTpl('label'),
+              getSchemaTpl('valueFormula', {
+                mode: 'vertical',
+                rendererSchema: context?.schema
+              }),
+              getSchemaTpl('switch', {
+                name: 'embed',
+                label: tipedLabel('开启内嵌', '是否不以弹框形式展示选择内容')
+              }),
               {
                 type: 'button-group-select',
+                label: tipedLabel('弹框类型', '设置弹框形式，弹框或抽屉'),
                 name: 'modalMode',
-                label: '选框类型',
-                value: 'dialog',
-                size: 'xs',
                 options: [
                   {
                     label: '弹框',
                     value: 'dialog'
                   },
-
                   {
-                    label: '抽出式弹框',
+                    label: '抽屉',
                     value: 'drawer'
                   }
-                ]
+                ],
+                pipeIn: defaultValue('dialog'),
+                visibleOn: '!this.embed'
               },
-
-              getSchemaTpl('strictMode'),
               getSchemaTpl('multiple'),
-              getSchemaTpl('autoFillApi', {
-                visibleOn:
-                  '!this.autoFill || this.autoFill.scene && this.autoFill.action'
+              getSchemaTpl('textareaFormulaControl', {
+                label: tipedLabel('标签模板', '已选定数据的label展示内容'),
+                name: 'labelTpl',
+                visibleOn: '!this.embed'
               }),
-              getSchemaTpl('autoFill', {
-                visibleOn:
-                  '!this.autoFill || !this.autoFill.scene && !this.autoFill.action'
-              })
+              getSchemaTpl('labelRemark'),
+              getSchemaTpl('remark'),
+              getSchemaTpl('description')
             ]
-          })
+          },
+          {
+            title: '选项',
+            body: [
+              getSchemaTpl('optionControlV2'),
+              {
+                type: 'button',
+                label: '配置选框详情',
+                block: true,
+                level: 'primary',
+                onClick: this.editDetail.bind(this, context.id)
+              }
+            ]
+          },
+          getSchemaTpl('status', {isFormItem: true}),
+          getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})
+        ])
+      },
+      {
+        title: '外观',
+        body: [
+          getSchemaTpl('collapseGroup', [
+            getSchemaTpl('style:formItem', {
+              renderer: context.info.renderer,
+              hiddenList: ['labelHide']
+            }),
+            {
+              title: '基本',
+              body: [
+                {
+                  type: 'select',
+                  name: 'editorState',
+                  label: '状态',
+                  selectFirst: true,
+                  options: [
+                    {
+                      label: '常规',
+                      value: 'default'
+                    },
+                    {
+                      label: '悬浮',
+                      value: 'hover'
+                    },
+                    {
+                      label: '聚焦',
+                      value: 'focus'
+                    },
+                    {
+                      label: '禁用',
+                      value: 'disabled'
+                    }
+                  ]
+                },
+                ...pickStyleFunc(
+                  "${editorState == 'default' || !editorState}",
+                  'default'
+                ),
+                ...pickStyleStateFunc("${editorState == 'hover'}", 'hover'),
+                ...pickStyleStateFunc("${editorState == 'focus'}", 'active'),
+                ...pickDisabledSateFunc(
+                  "${editorState == 'disabled'}",
+                  'disabled'
+                )
+              ]
+            },
+            {
+              title: '选中值',
+              body: [
+                getSchemaTpl('theme:font', {
+                  name: 'themeCss.pickFontClassName.font:default',
+                  editorThemePath: 'pick.base.body.value-font'
+                }),
+                getSchemaTpl('theme:colorPicker', {
+                  label: '背景',
+                  labelMode: 'input',
+                  needGradient: true,
+                  needImage: true,
+                  name: 'themeCss.pickValueWrapClassName.background',
+                  editorThemePath: 'pick.base.body.value-bgColor'
+                }),
+                getSchemaTpl('theme:border', {
+                  name: 'themeCss.pickValueWrapClassName.border:default',
+                  editorThemePath: 'pick.base.body.value-border'
+                }),
+                getSchemaTpl('theme:radius', {
+                  name: 'themeCss.pickValueWrapClassName.radius',
+                  editorThemePath: 'pick.base.body.value-radius'
+                }),
+                getSchemaTpl('theme:colorPicker', {
+                  label: '图标颜色',
+                  labelMode: 'input',
+                  needGradient: true,
+                  needImage: true,
+                  name: 'themeCss.pickValueIconClassName.color',
+                  editorThemePath: 'pick.base.body.value-icon-color'
+                }),
+                getSchemaTpl('theme:colorPicker', {
+                  label: '图标hover颜色',
+                  labelMode: 'input',
+                  needGradient: true,
+                  needImage: true,
+                  name: 'themeCss.pickValueIconClassName.color:hover',
+                  editorThemePath: 'pick.base.body.value-hover-icon-color'
+                })
+              ]
+            },
+            {
+              title: '图标',
+              body: [
+                {
+                  name: 'themeCss.pickControlClassName.--Pick-base-icon',
+                  label: '选择图标',
+                  type: 'icon-select',
+                  returnSvg: true
+                },
+                getSchemaTpl('theme:size', {
+                  name: 'themeCss.pickControlClassName.--Pick-base-icon-size',
+                  label: '图标大小',
+                  editorThemePath: `default.body.icon-size`
+                }),
+                getSchemaTpl('theme:colorPicker', {
+                  label: '颜色',
+                  labelMode: 'input',
+                  needGradient: true,
+                  needImage: true,
+                  name: 'themeCss.pickIconClassName.color',
+                  editorThemePath: 'pick.base.body.icon-color'
+                })
+              ]
+            },
+            getSchemaTpl('theme:cssCode', {
+              themeClass: [],
+              isFormItem: true
+            }),
+            {...context?.schema, configTitle: 'style'}
+          ])
         ]
       },
       {

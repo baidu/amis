@@ -198,7 +198,8 @@ export function formatStyle(
                   style['top-left-border-radius'],
                   style['top-right-border-radius'],
                   style['bottom-right-border-radius'],
-                  style['bottom-left-border-radius']
+                  style['bottom-left-border-radius'],
+                  weights?.important ? ' !important' : ''
                 ].join(' ')
               );
             } else {
@@ -207,7 +208,8 @@ export function formatStyle(
                   continue;
                 }
                 const value = style[k];
-                value && fn(k, value);
+                value &&
+                  fn(k, value + (weights?.important ? ' !important' : ''));
               }
             }
           } else {
