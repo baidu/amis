@@ -1737,7 +1737,8 @@ export default class Table extends React.Component<TableProps, object> {
         onSubmit: onSearchableFromSubmit,
         onInit: onSearchableFromInit,
         formStore: undefined,
-        data: query ? createObject(data, query) : data
+        data: query ? createObject(data, query) : data,
+        popOverContainer: this.getPopOverContainer
       }
     );
   }
