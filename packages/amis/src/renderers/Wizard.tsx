@@ -616,7 +616,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         this.gotoStep(this.state.currentStep + 1);
       })
       .catch(e => {
-        env.notify('error', e.message);
+        !finnalAsyncApi.silent && env.notify('error', e.message);
         store.markSaving(false);
       });
   }

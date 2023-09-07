@@ -264,16 +264,17 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               self.__('CRUD.fetchFailed'),
             true
           );
-          getEnv(self).notify(
-            'error',
-            json.msg,
-            json.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: json.msgTimeout
-                }
-              : undefined
-          );
+          !(api as ApiObject)?.silent &&
+            getEnv(self).notify(
+              'error',
+              json.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
         } else {
           if (!json.data) {
             throw new Error(self.__('CRUD.invalidData'));
@@ -447,7 +448,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         }
 
         console.error(e);
-        env.notify('error', e.message);
+        !(api as ApiObject)?.silent && env.notify('error', e.message);
         return;
       }
     });
@@ -503,16 +504,17 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               self.__('saveFailed'),
             true
           );
-          getEnv(self).notify(
-            'error',
-            self.msg,
-            json.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: json.msgTimeout
-                }
-              : undefined
-          );
+          !(api as ApiObject)?.silent &&
+            getEnv(self).notify(
+              'error',
+              self.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
           throw new ServerError(self.msg);
         } else {
           self.updateMessage(
@@ -541,7 +543,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           return;
         }
 
-        e.type !== 'ServerError' && getEnv(self).notify('error', e.message);
+        !(api as ApiObject)?.silent &&
+          e.type !== 'ServerError' &&
+          getEnv(self).notify('error', e.message);
         throw e;
       }
     });
