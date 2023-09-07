@@ -3,7 +3,7 @@
  *
  * @param string 要转换的字符串
  */
-export const keyToPath = (string: string) => {
+export const keyToPath = (string: string = '') => {
   const result = [];
 
   if (string.charCodeAt(0) === '.'.charCodeAt(0)) {

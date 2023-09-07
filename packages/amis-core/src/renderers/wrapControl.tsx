@@ -32,6 +32,7 @@ import {FormBaseControl, FormItemWrap} from './Item';
 import {Api} from '../types';
 import {TableStore} from '../store/table';
 import pick from 'lodash/pick';
+import {callStrFunction} from '../utils';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -648,7 +649,14 @@ export function wrapControl<
 
             if (pipeOut) {
               const oldValue = this.model.value;
-              value = pipeOut.call(this, value, oldValue, data);
+              value = callStrFunction.call(
+                this,
+                pipeOut,
+                ['value', 'oldValue', 'data'],
+                value,
+                oldValue,
+                data
+              );
             }
 
             this.model.changeTmpValue(value, 'input');
@@ -767,7 +775,14 @@ export function wrapControl<
             } = this.props;
 
             if (pipeOut) {
-              value = pipeOut.call(this, value, oldValue, data);
+              value = callStrFunction.call(
+                this,
+                pipeOut,
+                ['value', 'oldValue', 'data'],
+                value,
+                oldValue,
+                data
+              );
             }
 
             if (model.extraName) {
@@ -784,7 +799,13 @@ export function wrapControl<
             let value: any = this.model ? this.model.tmpValue : control.value;
 
             if (control.pipeIn) {
-              value = control.pipeIn.call(this, value, data);
+              value = callStrFunction.call(
+                this,
+                control.pipeIn,
+                ['value', 'data'],
+                value,
+                data
+              );
             }
 
             return value;

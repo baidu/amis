@@ -1,11 +1,12 @@
-import {RendererProps} from 'amis-core';
+import {RendererProps, isObject} from 'amis-core';
 import {observer} from 'mobx-react';
 import {isAlive} from 'mobx-state-tree';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import merge from 'lodash/merge';
 import {RendererInfo} from '../plugin';
 import {EditorNodeType} from '../store/node';
-import {autobind} from '../util';
+import {autobind, isEmpty} from '../util';
 
 export interface NodeWrapperProps extends RendererProps {
   $$editor: RendererInfo; // 当前节点信息（info）
@@ -69,6 +70,14 @@ export class NodeWrapper extends React.Component<NodeWrapperProps> {
 
     if ($$editor.filterProps) {
       rest = $$editor.filterProps.call($$editor.plugin, rest, $$node);
+    }
+
+    // 自动合并假数据
+    if (
+      isObject(rest.editorSetting?.mock) &&
+      !isEmpty(rest.editorSetting.mock)
+    ) {
+      rest = merge({}, rest, rest.editorSetting.mock);
     }
 
     if ($$editor.renderRenderer) {

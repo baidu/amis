@@ -13,7 +13,7 @@ function base64ToUint8Array(base64: string): Uint8Array {
 
 export default class XMLPackageParser implements PackageParser {
   private xml: Document;
-  private files: Record<string, Element | Uint8Array> = {};
+  private files: Record<string, string | Element | Uint8Array | Blob> = {};
   private contentTypesDoc: Document;
 
   /**
@@ -99,6 +99,10 @@ export default class XMLPackageParser implements PackageParser {
     }
     console.warn('getFileByType', filePath, 'not found');
     return null;
+  }
+
+  saveFile(filePath: string, content: Uint8Array | string): void {
+    this.files[filePath] = content;
   }
 
   /**

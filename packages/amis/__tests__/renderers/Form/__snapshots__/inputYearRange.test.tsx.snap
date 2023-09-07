@@ -80,10 +80,10 @@ exports[`Renderer:inputYearRange with embed 1`] = `
                   class="cxd-DateRangePicker-picker-wrap is-vertical"
                 >
                   <div
-                    class="rdt rdtStatic rdtOpen cxd-DateRangePicker-start rdtTimeWithoutD"
+                    class="rdt rdtStatic rdtOpen cxd-DateRangePicker-start"
                   >
                     <div
-                      class="rdtPicker"
+                      class="rdtPicker rdtPickerDate"
                     >
                       <div
                         class="rdtYears"
@@ -223,10 +223,10 @@ exports[`Renderer:inputYearRange with embed 1`] = `
                     </div>
                   </div>
                   <div
-                    class="rdt rdtStatic rdtOpen cxd-DateRangePicker-end rdtTimeWithoutD"
+                    class="rdt rdtStatic rdtOpen cxd-DateRangePicker-end"
                   >
                     <div
-                      class="rdtPicker"
+                      class="rdtPicker rdtPickerDate"
                     >
                       <div
                         class="rdtYears"

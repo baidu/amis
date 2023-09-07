@@ -90,7 +90,9 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       menuTpl,
       valueTpl,
       mobileUI,
-      env
+      env,
+      maxTagCount,
+      overflowTagPopover
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -142,6 +144,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           virtualThreshold={virtualThreshold}
           mobileUI={mobileUI}
           popOverContainer={env?.getModalContainer}
+          maxTagCount={maxTagCount}
+          overflowTagPopover={overflowTagPopover}
         />
 
         <Spinner

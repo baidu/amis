@@ -152,7 +152,7 @@ function markdown2js(content: string, file: string) {
       return _;
     })
     .replace(
-      /```(schema|html)(?::(.*?))?\n([\s\S]*?)```/g,
+      /```(schema|html)(?::(.*?))?[\n|\r\n]([\s\S]*?)```/g,
       function (_, lang, attr, code) {
         const setting: any = {};
         attr &&

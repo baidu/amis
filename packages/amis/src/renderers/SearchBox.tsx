@@ -178,9 +178,10 @@ export class SearchBoxRenderer extends React.Component<
       this.setState({value: ''});
     }
   }
-
   setData(value: any) {
-    this.setState({value});
+    if (typeof value === 'string') {
+      this.setState({value});
+    }
   }
 
   render() {

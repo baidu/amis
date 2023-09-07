@@ -383,6 +383,7 @@
 
       &.is-dragging {
         opacity: var(--Table-onDragging-opacity);
+        background-color: var(--Table-onDragging-bg);
       }
     }
 
@@ -621,7 +622,7 @@
         }
       }
 
-      > thead > tr > th:not(:last-child):not(:first-child) {
+      > thead > tr > th:not(:last-child) {
         &.#{$ns}Table-cell-fix-left-last {
           border-right: none;
         }
@@ -678,7 +679,13 @@
           bottom: 0;
           user-select: none;
           cursor: col-resize;
-          z-index: 3000;
+          z-index: 15;
+          opacity: 0.5;
+
+          &:hover,
+          &.is-resizing {
+            background: var(--primary);
+          }
         }
       }
     }
@@ -686,7 +693,6 @@
 
   .#{$ns}Table-loading {
     padding: var(--Table-loading-padding);
-    text-align: center;
   }
 
   .#{$ns}TableCell-sortBtn {

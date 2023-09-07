@@ -233,7 +233,7 @@ export const MainStore = types
       // 给预览状态时的
       get filteredSchemaForPreview() {
         const schema = JSONPipeOut(self.schema);
-        return getEnv(self).schemaFilter?.(schema) ?? schema;
+        return getEnv(self).schemaFilter?.(schema, true) ?? schema;
       },
 
       // 判断当前元素是否是根节点
@@ -782,7 +782,7 @@ export const MainStore = types
         const grouped: {
           [propName: string]: Array<SubRendererInfo>;
         } = {
-          全部: []
+          ['全部']: []
         };
         const keywords = self.insertRenderersKeywords;
         const r = new RegExp(stringRegExp(keywords), 'i');

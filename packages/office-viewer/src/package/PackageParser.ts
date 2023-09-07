@@ -21,6 +21,11 @@ export interface PackageParser {
   ): string | Blob | Uint8Array | null;
 
   /**
+   * 写入文件，主要用于图片
+   */
+  saveFile(filePath: string, content: Uint8Array | string): void;
+
+  /**
    * 文件是否存在
    */
   fileExists(filePath: string): boolean;

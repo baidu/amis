@@ -68,11 +68,7 @@ export class SparklinePlugin extends BasePlugin {
         {
           title: '外观',
           body: getSchemaTpl('collapseGroup', [
-            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
-            {
-              title: '自定义 CSS 类名',
-              body: [getSchemaTpl('className')]
-            }
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
           ])
         }
       ])

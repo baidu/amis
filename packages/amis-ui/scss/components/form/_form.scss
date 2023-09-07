@@ -456,36 +456,72 @@
   width: 50%;
 }
 
+.#{$ns}Form--column-2 > .#{$ns}Form-item:nth-last-child(2) {
+  margin-bottom: 0;
+}
+
 .#{$ns}Form--column-3 > .#{$ns}Form-item {
   width: 33%;
+}
+
+.#{$ns}Form--column-3 > .#{$ns}Form-item:nth-last-child(-n + 3) {
+  margin-bottom: 0;
 }
 
 .#{$ns}Form--column-4 > .#{$ns}Form-item {
   width: 25%;
 }
 
+.#{$ns}Form--column-4 > .#{$ns}Form-item:nth-last-child(-n + 4) {
+  margin-bottom: 0;
+}
+
 .#{$ns}Form--column-5 > .#{$ns}Form-item {
   width: 20%;
+}
+
+.#{$ns}Form--column-5 > .#{$ns}Form-item:nth-last-child(-n + 5) {
+  margin-bottom: 0;
 }
 
 .#{$ns}Form--column-6 > .#{$ns}Form-item {
   width: 16.6%;
 }
 
+.#{$ns}Form--column-6 > .#{$ns}Form-item:nth-last-child(-n + 6) {
+  margin-bottom: 0;
+}
+
 .#{$ns}Form--column-7 > .#{$ns}Form-item {
   width: 14.2%;
+}
+
+.#{$ns}Form--column-7 > .#{$ns}Form-item:nth-last-child(-n + 7) {
+  margin-bottom: 0;
 }
 
 .#{$ns}Form--column-8 > .#{$ns}Form-item {
   width: 12.5%;
 }
 
+.#{$ns}Form--column-8 > .#{$ns}Form-item:nth-last-child(-n + 8) {
+  margin-bottom: 0;
+}
+
 .#{$ns}Form-column-9 > .#{$ns}Form-item {
   width: 11.1%;
 }
 
+.#{$ns}Form--column-9 > .#{$ns}Form-item:nth-last-child(-n + 9) {
+  margin-bottom: 0;
+}
+
 .#{$ns}Form-column-10 > .#{$ns}Form-item {
   width: 10%;
+}
+
+.#{$ns}Form--column-10 > .#{$ns}Form-item:nth-last-child(-n + 10) {
+  margin-bottom: 0;
 }
 
 /* 移动端样式调整 */
@@ -524,7 +560,8 @@
       right: 0;
       bottom: 0;
       left: 0;
-      border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+      border-bottom: 1px solid var(--borderColor);
+      transform: scaleY(0.5);
     }
 
     .#{$ns}InputGroup-addOn,

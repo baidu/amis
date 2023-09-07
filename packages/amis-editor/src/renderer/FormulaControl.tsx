@@ -464,7 +464,8 @@ export default class FormulaControl extends React.Component<
         'inputControlClassName',
         'css',
         'validateApi',
-        'themeCss'
+        'themeCss',
+        'onEvent'
       ];
 
       // 当前组件要剔除的字段
@@ -661,7 +662,6 @@ export default class FormulaControl extends React.Component<
                 <Icon
                   icon="input-clear"
                   className="input-clear-icon"
-                  iconContent="InputText-clear"
                   onClick={() => this.handleInputChange('')}
                 />
               )}

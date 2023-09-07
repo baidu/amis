@@ -108,7 +108,7 @@ exports[`Renderer:gridnav 1`] = `
             </div>
           </div>
           <div
-            class="cxd-Divider cxd-Divider--dashed"
+            class="cxd-Divider cxd-Divider--dashed cxd-Divider--horizontal"
           />
           <div
             class="cxd-GridNav  cxd-GridNav-top u-hairline"

@@ -183,6 +183,12 @@ import jSpaceAround from './display/jSpaceAround.svg';
 // 主题
 import themeCss from './theme/css.svg';
 
+// CRUD相关
+import ColumnSetting from './crud/column-setting.svg';
+import ColumnDelete from './crud/column-delete.svg';
+import ColumnAdd from './crud/column-add.svg';
+import ShareLink from './crud/share-link.svg';
+
 // 功能类组件 icon x 11
 registerIcon('audio-plugin', audio);
 registerIcon('custom-plugin', custom);
@@ -350,5 +356,11 @@ registerIcon('jSpaceAround', jSpaceAround);
 
 // 主题
 registerIcon('theme-css', themeCss);
+
+// CRUD相关
+registerIcon('column-setting', ColumnSetting);
+registerIcon('column-delete', ColumnDelete);
+registerIcon('column-add', ColumnAdd);
+registerIcon('share-link', ShareLink);
 
 export {Icon};

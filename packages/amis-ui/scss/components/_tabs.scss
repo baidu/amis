@@ -1389,3 +1389,15 @@
     justify-content: flex-end; // 默认居右展示
   }
 }
+
+/* 移动端样式调整 */
+@include media-breakpoint-down(sm) {
+  .#{$ns}Tabs--line {
+    .#{$ns}Tabs-linksContainer-wrapper {
+      &::before {
+        border-bottom-width: 1px;
+        transform: scaleY(0.5);
+      }
+    }
+  }
+}

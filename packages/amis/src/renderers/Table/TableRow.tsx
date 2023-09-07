@@ -68,6 +68,8 @@ export class TableRow extends React.Component<TableRowProps> {
       return;
     }
 
+    const shiftKey = (e.nativeEvent as MouseEvent)?.shiftKey;
+
     e.preventDefault();
     e.stopPropagation();
 
@@ -85,7 +87,7 @@ export class TableRow extends React.Component<TableRowProps> {
       // item.toggle();
     } else {
       if (item.checkable && item.isCheckAvaiableOnClick) {
-        onCheck?.(item, !item.checked, (e.nativeEvent as MouseEvent).shiftKey);
+        onCheck?.(item, !item.checked, shiftKey);
       }
     }
   }

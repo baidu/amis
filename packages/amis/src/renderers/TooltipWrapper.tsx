@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, CustomStyle} from 'amis-core';
 import {BaseSchema, SchemaCollection} from '../Schema';
 import {filter} from 'amis-core';
 import {escapeHtml} from 'amis-core';
@@ -191,7 +191,10 @@ export default class TooltipWrapper extends React.Component<
       inline,
       style,
       data,
-      wrap
+      wrap,
+      baseControlClassName,
+      wrapperCustomStyle,
+      id
     } = this.props;
     const Comp =
       (wrapperComponent as keyof JSX.IntrinsicElements) ||
@@ -199,9 +202,17 @@ export default class TooltipWrapper extends React.Component<
 
     return (
       <Comp
-        className={cx('TooltipWrapper', className, {
-          'TooltipWrapper--inline': inline
-        })}
+        className={cx(
+          'TooltipWrapper',
+          className,
+          {
+            'TooltipWrapper--inline': inline
+          },
+          baseControlClassName,
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
+        )}
         style={buildStyle(style, data)}
       >
         {render('body', body)}
@@ -231,7 +242,12 @@ export default class TooltipWrapper extends React.Component<
       enterable,
       data,
       env,
-      popOverContainer
+      popOverContainer,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      baseControlClassName,
+      tooltipControlClassName
     } = this.props;
 
     const tooltipObj: TooltipObject = {
@@ -246,7 +262,9 @@ export default class TooltipWrapper extends React.Component<
           ? container
           : popOverContainer || env?.getModalContainer,
       tooltipTheme,
-      tooltipClassName,
+      tooltipClassName: tooltipControlClassName
+        ? tooltipClassName + ' ' + tooltipControlClassName
+        : tooltipClassName,
       mouseEnterDelay,
       mouseLeaveDelay,
       offset,
@@ -257,9 +275,33 @@ export default class TooltipWrapper extends React.Component<
     };
 
     return (
-      <TooltipWrapperComp classPrefix={ns} classnames={cx} tooltip={tooltipObj}>
-        {this.renderBody()}
-      </TooltipWrapperComp>
+      <>
+        <TooltipWrapperComp
+          classPrefix={ns}
+          classnames={cx}
+          tooltip={tooltipObj}
+        >
+          {this.renderBody()}
+        </TooltipWrapperComp>
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName
+              },
+              {
+                key: 'tooltipControlClassName',
+                value: tooltipControlClassName
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

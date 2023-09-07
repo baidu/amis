@@ -5,7 +5,8 @@ import {
   ScopedContext,
   IScopedContext,
   SchemaExpression,
-  position
+  position,
+  animation
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
@@ -1177,6 +1178,7 @@ export default class Table extends React.Component<TableProps, object> {
       return;
     }
     this.props.store.syncTableWidth();
+    this.handleOutterScroll();
     callback && setTimeout(callback, 20);
   }
 
@@ -1319,9 +1321,10 @@ export default class Table extends React.Component<TableProps, object> {
     const target = e.currentTarget;
     const tr = (this.draggingTr = target.closest('tr')!);
     const id = tr.getAttribute('data-id')!;
-    const tbody = tr.parentNode!;
+    const tbody = tr.parentNode as HTMLTableElement;
     this.originIndex = Array.prototype.indexOf.call(tbody.childNodes, tr);
 
+    tbody.classList.add('is-dragging');
     tr.classList.add('is-dragging');
 
     e.dataTransfer.effectAllowed = 'move';
@@ -1365,18 +1368,22 @@ export default class Table extends React.Component<TableProps, object> {
     if (
       !overTr ||
       !~overTr.className.indexOf('is-drop-allowed') ||
-      overTr === this.draggingTr
+      overTr === this.draggingTr ||
+      animation.animating
     ) {
       return;
     }
 
     const tbody = overTr.parentElement!;
-    const dRect = this.draggingTr.getBoundingClientRect();
     const tRect = overTr.getBoundingClientRect();
-    let ratio = dRect.top < tRect.top ? 0.1 : 0.9;
 
-    const next = (e.clientY - tRect.top) / (tRect.bottom - tRect.top) > ratio;
-    tbody.insertBefore(this.draggingTr, (next && overTr.nextSibling) || overTr);
+    const next = (e.clientY - tRect.top) / (tRect.bottom - tRect.top) > 0.5;
+    animation.capture(tbody);
+    const before = next ? overTr.nextSibling : overTr;
+    before
+      ? tbody.insertBefore(this.draggingTr, before)
+      : tbody.appendChild(this.draggingTr);
+    animation.animateAll();
   }
 
   @autobind
@@ -1406,6 +1413,7 @@ export default class Table extends React.Component<TableProps, object> {
     );
 
     tr.classList.remove('is-dragging');
+    tbody.classList.remove('is-dragging');
     tr.removeEventListener('dragend', this.handleDragEnd);
     tbody.removeEventListener('dragover', this.handleDragOver);
     tbody.removeEventListener('drop', this.handleDrop);
@@ -1624,7 +1632,9 @@ export default class Table extends React.Component<TableProps, object> {
               label: false,
               className: cx('Table-searchableForm-checkbox'),
               inputClassName: cx('Table-searchableForm-checkbox-inner'),
-              name: `__search_${column.searchable?.name ?? column.name}`,
+              name: `${
+                column.searchable.strategy === 'jsonql' ? '' : '__search_'
+              }${column.searchable?.name ?? column.name}`,
               option: column.searchable?.label ?? column.label,
               value: column.enableSearch,
               badge: {
@@ -2185,7 +2195,9 @@ export default class Table extends React.Component<TableProps, object> {
         store.firstToggledColumnIndex === props.colIndex,
       onQuery: undefined,
       style,
-      className: cx(column.pristine.className, stickyClassName)
+      className: cx(column.pristine.className, stickyClassName),
+      /** 给子节点的设置默认值，避免取到env.affixHeader的默认值，导致表头覆盖首行 */
+      affixOffsetTop: 0
     };
     delete subProps.label;
 

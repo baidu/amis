@@ -1279,6 +1279,7 @@ exports[`5. Renderer:crud cards 1`] = `
               >
                 <div
                   class="cxd-Grid-col--sm6"
+                  style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1347,6 +1348,7 @@ exports[`5. Renderer:crud cards 1`] = `
                 </div>
                 <div
                   class="cxd-Grid-col--sm6"
+                  style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1415,6 +1417,7 @@ exports[`5. Renderer:crud cards 1`] = `
                 </div>
                 <div
                   class="cxd-Grid-col--sm6"
+                  style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1483,6 +1486,7 @@ exports[`5. Renderer:crud cards 1`] = `
                 </div>
                 <div
                   class="cxd-Grid-col--sm6"
+                  style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1551,6 +1555,7 @@ exports[`5. Renderer:crud cards 1`] = `
                 </div>
                 <div
                   class="cxd-Grid-col--sm6"
+                  style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1619,6 +1624,7 @@ exports[`5. Renderer:crud cards 1`] = `
                 </div>
                 <div
                   class="cxd-Grid-col--sm6"
+                  style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1687,6 +1693,7 @@ exports[`5. Renderer:crud cards 1`] = `
                 </div>
                 <div
                   class="cxd-Grid-col--sm6"
+                  style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1755,6 +1762,7 @@ exports[`5. Renderer:crud cards 1`] = `
                 </div>
                 <div
                   class="cxd-Grid-col--sm6"
+                  style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1823,6 +1831,7 @@ exports[`5. Renderer:crud cards 1`] = `
                 </div>
                 <div
                   class="cxd-Grid-col--sm6"
+                  style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -1891,6 +1900,7 @@ exports[`5. Renderer:crud cards 1`] = `
                 </div>
                 <div
                   class="cxd-Grid-col--sm6"
+                  style="flex: 0 0 50%; max-width: 50%;"
                 >
                   <div
                     class="cxd-Card cxd-Card--link"
@@ -2721,8 +2731,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
               >
                 <span
                   class="cxd-Crud-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>
@@ -2741,8 +2749,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
               >
                 <span
                   class="cxd-Crud-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>
@@ -2761,8 +2767,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
               >
                 <span
                   class="cxd-Crud-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>
@@ -2781,8 +2785,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
               >
                 <span
                   class="cxd-Crud-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>

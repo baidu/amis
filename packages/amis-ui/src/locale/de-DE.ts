@@ -219,6 +219,7 @@ register('de-DE', {
   'Select.createLabel': 'Neue Option',
   'Select.placeholder': 'Auswählen',
   'Select.searchPromptText': 'Eingeben zum Suchen',
+  'Select.selected': 'Ausgewählt',
   'sort': 'Sortieren',
   'SubForm.button': 'Configurieren',
   'SubForm.editDetail': 'Details bearbeiten',

@@ -12,7 +12,8 @@ import {
   PopOver,
   isExpression,
   FormulaExec,
-  filterDate
+  filterDate,
+  string2regExp
 } from 'amis-core';
 import PopUp from './PopUp';
 import {Overlay} from 'amis-core';
@@ -223,6 +224,21 @@ const advancedShortcuts = [
   }
 ];
 
+const dateFormats = {
+  Y: {format: 'YYYY'},
+  Q: {format: 'YYYY [Q]Q'},
+  M: {format: 'YYYY-MM'},
+  D: {format: 'YYYY-MM-DD'}
+} as Record<string, {format: string}>;
+
+const timeFormats = {
+  h: {format: 'HH'},
+  H: {format: 'HH'},
+  m: {format: 'mm'},
+  s: {format: 'ss'},
+  S: {format: 'ss'}
+} as Record<string, {format: string}>;
+
 export type ShortCutDate = {
   label: string;
   /** 支持表达式 */
@@ -249,8 +265,10 @@ export interface DateProps extends LocaleProps, ThemeProps {
   popoverClassName?: string;
   placeholder?: string;
   inputFormat?: string;
+  displayFormat?: string;
   timeFormat?: string;
   format?: string;
+  valueFormat?: string;
   closeOnSelect: boolean;
   disabled?: boolean;
   minDate?: moment.Moment;
@@ -321,6 +339,8 @@ export interface DatePickerState {
   isFocused: boolean;
   value: moment.Moment | undefined;
   inputValue: string | undefined; // 手动输入的值
+  curTimeFormat: string; // 根据displayFormat / inputFormat 计算展示的时间粒度
+  curDateFormat: string; // 根据displayFormat / inputFormat 计算展示的日期粒度
 }
 
 export class DatePicker extends React.Component<DateProps, DatePickerState> {
@@ -337,15 +357,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       'bg-secondary'
     ]
   };
-  state: DatePickerState = {
-    isOpened: false,
-    isFocused: false,
-    value: normalizeDate(this.props.value, this.props.format),
-    inputValue:
-      normalizeDate(this.props.value, this.props.format)?.format(
-        this.props.inputFormat
-      ) || ''
-  };
+
   constructor(props: DateProps) {
     super(props);
     this.inputRef = React.createRef();
@@ -365,6 +377,48 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     this.renderShortCuts = this.renderShortCuts.bind(this);
     this.inputChange = this.inputChange.bind(this);
     this.onInputBlur = this.onInputBlur.bind(this);
+
+    const {
+      value,
+      format,
+      valueFormat,
+      displayFormat,
+      inputFormat,
+      dateFormat,
+      timeFormat
+    } = this.props;
+
+    let curDateFormat = dateFormat ?? '';
+    let curTimeFormat = timeFormat ?? '';
+    let curTimeFormatArr = [] as string[];
+
+    !dateFormat &&
+      Object.keys(dateFormats).forEach((item: string) => {
+        if ((displayFormat || inputFormat)?.includes(item)) {
+          curDateFormat = dateFormats[item].format;
+        }
+      });
+    !timeFormat &&
+      Object.keys(timeFormats).forEach((item: string) => {
+        if ((displayFormat || inputFormat)?.includes(item)) {
+          curTimeFormatArr.push(timeFormats[item].format);
+        }
+      });
+    curTimeFormat = curTimeFormatArr.length
+      ? curTimeFormatArr.join(':')
+      : curTimeFormat;
+
+    this.state = {
+      isOpened: false,
+      isFocused: false,
+      value: normalizeDate(value, valueFormat || format),
+      inputValue:
+        normalizeDate(value, valueFormat || format)?.format(
+          displayFormat || inputFormat
+        ) || '',
+      curTimeFormat,
+      curDateFormat
+    } as DatePickerState;
   }
 
   dom: HTMLDivElement;
@@ -375,11 +429,42 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
   componentDidMount() {
     this.props?.onRef?.(this);
-    const {value, format, inputFormat} = this.props;
+    const {
+      value,
+      format,
+      valueFormat,
+      inputFormat,
+      displayFormat,
+      dateFormat,
+      timeFormat
+    } = this.props;
     if (value) {
-      let valueCache = normalizeDate(value, format);
-      this.inputValueCache = valueCache?.format(inputFormat) || '';
+      let valueCache = normalizeDate(value, valueFormat || format);
+      this.inputValueCache =
+        valueCache?.format(displayFormat || inputFormat) || '';
     }
+
+    let curDateFormat = dateFormat ?? '';
+    let curTimeFormat = timeFormat ?? '';
+    let curTimeFormatArr = [] as string[];
+
+    !dateFormat &&
+      Object.keys(dateFormats).forEach((item: string) => {
+        if ((displayFormat || inputFormat)?.includes(item)) {
+          curDateFormat = dateFormats[item].format;
+        }
+      });
+    !timeFormat &&
+      Object.keys(timeFormats).forEach((item: string) => {
+        if ((displayFormat || inputFormat)?.includes(item)) {
+          curTimeFormatArr.push(timeFormats[item].format);
+        }
+      });
+    curTimeFormat = curTimeFormatArr.length
+      ? curTimeFormatArr.join(':')
+      : curTimeFormat;
+
+    this.setState({curDateFormat, curTimeFormat});
   }
 
   componentDidUpdate(prevProps: DateProps) {
@@ -389,12 +474,15 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
     if (prevValue !== props.value) {
       const newState: any = {
-        value: normalizeDate(props.value, props.format)
+        value: normalizeDate(props.value, props.valueFormat || props.format)
       };
 
       newState.inputValue =
-        newState.value?.format(this.props.inputFormat) || '';
+        newState.value?.format(
+          this.props.displayFormat || this.props.inputFormat
+        ) || '';
       this.inputValueCache = newState.inputValue;
+
       this.setState(newState);
     }
   }
@@ -479,10 +567,13 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     if (!resetValue) {
       return;
     }
-    const {format, inputFormat, onChange} = this.props;
+    const {format, valueFormat, inputFormat, displayFormat, onChange} =
+      this.props;
     onChange(resetValue);
     this.setState({
-      inputValue: normalizeDate(resetValue, format)?.format(inputFormat || '')
+      inputValue: normalizeDate(resetValue, valueFormat || format)?.format(
+        displayFormat || inputFormat || ''
+      )
     });
   }
 
@@ -490,15 +581,17 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     const {
       onChange,
       format,
+      valueFormat,
       minDate,
       maxDate,
-      dateFormat,
       inputFormat,
-      timeFormat,
+      displayFormat,
       closeOnSelect,
       utc,
       viewMode
     } = this.props;
+
+    const {curDateFormat, curTimeFormat} = this.state;
 
     if (!moment.isMoment(value)) {
       return;
@@ -510,22 +603,34 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       value = maxDate;
     }
 
-    onChange(utc ? moment.utc(value).format(format) : value.format(format));
-
-    if (closeOnSelect && dateFormat && !timeFormat) {
+    onChange(
+      utc
+        ? moment.utc(value).format(valueFormat || format)
+        : value.format(valueFormat || format)
+    );
+    if (closeOnSelect && curDateFormat && !curTimeFormat) {
       this.close();
     }
 
     this.setState({
       inputValue: utc
-        ? moment.utc(value).format(inputFormat)
-        : value.format(inputFormat)
+        ? moment.utc(value).format(displayFormat || inputFormat)
+        : value.format(displayFormat || inputFormat)
     });
   }
 
   // 手动输入日期
   inputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange, inputFormat, format, utc, minDate, maxDate} = this.props;
+    const {
+      onChange,
+      inputFormat,
+      format,
+      displayFormat,
+      valueFormat,
+      utc,
+      minDate,
+      maxDate
+    } = this.props;
     const value = e.currentTarget.value;
     this.setState({inputValue: value});
     if (value === '') {
@@ -533,14 +638,17 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     } else {
       // 将输入的格式转成正则匹配，比如 YYYY-MM-DD HH:mm:ss 改成 \d\d\d\d\-
       // 只有匹配成功才更新
-      const inputCheckRegex = new RegExp(
-        inputFormat!.replace(/[ymdhs]/gi, '\\d').replace(/-/gi, '\\-')
+      const inputCheckRegex = string2regExp(
+        (displayFormat || inputFormat)!
+          .replace(/[ymdhs]/gi, `${string2regExp('\\d')}`)
+          .replace(/-/gi, `${string2regExp('\\-')}`)
       );
+
       if (inputCheckRegex.test(value)) {
-        const newDate = moment(value, inputFormat);
+        const newDate = moment(value, displayFormat || inputFormat);
         const dateValue = utc
-          ? moment.utc(newDate).format(format)
-          : newDate.format(format);
+          ? moment.utc(newDate).format(valueFormat || format)
+          : newDate.format(valueFormat || format);
 
         // 判断大小值是否是合法的日期，并且当前日期在范围内
         const isMinDateValid = minDate?.isValid()
@@ -564,14 +672,15 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   }
 
   selectShortcut(shortcut: any) {
-    const {closeOnSelect, minDateRaw, maxDateRaw, data, format} = this.props;
+    const {closeOnSelect, minDateRaw, maxDateRaw, data, format, valueFormat} =
+      this.props;
     const now = moment();
     /** minDate和maxDate要实时计算，因为用户可能设置为${NOW()}，暂时不考虑毫秒级的时间差 */
     const minDate = minDateRaw
-      ? filterDate(minDateRaw, data, format)
+      ? filterDate(minDateRaw, data, valueFormat || format)
       : undefined;
     const maxDate = maxDateRaw
-      ? filterDate(maxDateRaw, data, format)
+      ? filterDate(maxDateRaw, data, valueFormat || format)
       : undefined;
     let date = shortcut.date(now.clone());
 
@@ -643,6 +752,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       classnames: cx,
       translate: __,
       format,
+      valueFormat,
       data
     } = this.props;
     let shortcutArr: Array<string | ShortCuts>;
@@ -674,7 +784,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 const date = isExpression(shortcutRaw.date)
                   ? moment(
                       FormulaExec['formula'](shortcutRaw.date, data),
-                      format
+                      valueFormat || format
                     )
                   : shortcutRaw.date;
 
@@ -708,6 +818,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       placeholder,
       disabled,
       inputFormat,
+      displayFormat,
       dateFormat,
       timeFormat,
       viewMode,
@@ -720,6 +831,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       overlayPlacement,
       locale,
       format,
+      valueFormat,
       borderMode,
       embed,
       minDate,
@@ -736,19 +848,20 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     } = this.props;
 
     const __ = this.props.translate;
+    const {curTimeFormat, curDateFormat} = this.state;
     const isOpened = this.state.isOpened;
     let date: moment.Moment | undefined = this.state.value;
 
     const calendarMobile = (
       <CalendarMobile
         isDatePicker={true}
-        timeFormat={timeFormat}
-        inputFormat={inputFormat}
+        timeFormat={curTimeFormat}
+        displayForamt={displayFormat || inputFormat}
         startDate={date}
         defaultDate={date}
         minDate={minDate}
         maxDate={maxDate}
-        dateFormat={dateFormat}
+        dateFormat={curDateFormat}
         embed={embed}
         viewMode={viewMode}
         close={this.close}
@@ -805,8 +918,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             value={date}
             onChange={this.handleChange}
             requiredConfirm={false}
-            dateFormat={dateFormat}
-            timeFormat={timeFormat}
+            dateFormat={curDateFormat}
+            timeFormat={curTimeFormat}
             isValidDate={this.checkIsValidDate}
             viewMode={viewMode}
             timeConstraints={timeConstraints}
@@ -860,7 +973,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           readOnly={mobileUI}
         />
 
-        {clearable && !disabled && normalizeDate(value, format) ? (
+        {clearable &&
+        !disabled &&
+        normalizeDate(value, valueFormat || format) ? (
           <a className={cx(`DatePicker-clear`)} onClick={this.clearValue}>
             <Icon icon="input-clear" className="icon" />
           </a>
@@ -899,9 +1014,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 value={date}
                 onChange={this.handleChange}
                 requiredConfirm={viewMode === 'time'}
-                dateFormat={dateFormat}
-                inputFormat={inputFormat}
-                timeFormat={timeFormat}
+                dateFormat={curDateFormat}
+                displayForamt={displayFormat || inputFormat}
+                timeFormat={curTimeFormat}
                 isValidDate={this.checkIsValidDate}
                 viewMode={viewMode}
                 timeConstraints={timeConstraints}
@@ -939,9 +1054,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 value={date}
                 onChange={this.handleChange}
                 requiredConfirm={false}
-                dateFormat={dateFormat}
-                inputFormat={inputFormat}
-                timeFormat={timeFormat}
+                dateFormat={curDateFormat}
+                displayForamt={displayFormat || inputFormat}
+                timeFormat={curTimeFormat}
                 isValidDate={this.checkIsValidDate}
                 viewMode={viewMode}
                 timeConstraints={timeConstraints}
