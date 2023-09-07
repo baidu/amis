@@ -247,6 +247,11 @@ export class TreeControlPlugin extends BasePlugin {
       description: '重置数据'
     },
     {
+      actionType: 'reload',
+      actionLabel: '重新加载',
+      description: '触发组件数据刷新并重新渲染'
+    },
+    {
       actionType: 'setValue',
       actionLabel: '赋值',
       description: '触发组件数据更新'
