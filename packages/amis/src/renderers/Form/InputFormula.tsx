@@ -218,7 +218,6 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
     } = this.props;
     let {variables, functions} = this.props;
 
-    console.log('clearDefaultFormula=======ccc', clearDefaultFormula);
     if (isPureVariable(variables)) {
       // 如果 variables 是 ${xxx} 这种形式，将其处理成实际的值
       variables = resolveVariableAndFilter(variables, this.props.data, '| raw');
