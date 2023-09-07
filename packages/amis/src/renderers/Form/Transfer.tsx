@@ -378,7 +378,7 @@ export class BaseTransferRenderer<
           return resolved || item;
         });
       } catch (e) {
-        if (!env.isCancel(e)) {
+        if (!env.isCancel(e) && !searchApi.silent) {
           env.notify('error', e.message);
         }
 

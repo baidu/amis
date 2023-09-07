@@ -77,9 +77,9 @@ export class BaseTabsTransferRenderer<
       valueField,
       env,
       data,
+      searchApi,
       translate: __
     } = this.props;
-    const {searchApi} = option;
 
     if (searchApi) {
       try {
@@ -114,7 +114,7 @@ export class BaseTabsTransferRenderer<
         });
       } catch (e) {
         if (!env.isCancel(e)) {
-          env.notify('error', e.message);
+          !searchApi.silent && env.notify('error', e.message);
         }
 
         return [];

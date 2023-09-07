@@ -610,6 +610,20 @@ export default class APIControl extends React.Component<
                   disabled: false
                 },
                 {
+                  type: 'group',
+                  body: [
+                    {
+                      type: 'switch',
+                      label: tipedLabel(
+                        '静默请求',
+                        '是否静默发送请求，屏蔽报错提示'
+                      ),
+                      name: 'silent',
+                      mode: 'horizontal'
+                    }
+                  ]
+                },
+                {
                   type: 'switch',
                   label: '是否设置缓存',
                   name: 'cache',
