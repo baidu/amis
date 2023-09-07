@@ -111,6 +111,7 @@ export const Row = types
     rowSpans: types.frozen({} as any),
     index: types.number,
     newIndex: types.number,
+    nth: 0,
     path: '', // 行数据的位置
     expandable: false,
     checkdisable: false,
@@ -119,7 +120,9 @@ export const Row = types
       types.array(types.late((): IAnyModelType => Row)),
       []
     ),
-    depth: types.number // 当前children位于第几层，便于使用getParent获取最顶层TableStore
+    depth: types.number, // 当前children位于第几层，便于使用getParent获取最顶层TableStore
+    appeared: true,
+    lazyRender: false
   })
   .views(self => ({
     get checked(): boolean {
@@ -321,6 +324,10 @@ export const Row = types
           index++;
         }
       }
+    },
+
+    markAppeared(value: any) {
+      value && (self.appeared = !!value);
     }
   }));
 
@@ -344,6 +351,8 @@ export const TableStore = iRendererStore
       ),
       'asc'
     ),
+    loading: false,
+    canAccessSuperData: false,
     draggable: false,
     dragging: false,
     selectable: false,
@@ -365,7 +374,8 @@ export const TableStore = iRendererStore
     keepItemSelectionOnPageChange: false,
     // 导出 Excel 按钮的 loading 状态
     exportExcelLoading: false,
-    searchFormExpanded: false // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
+    searchFormExpanded: false, // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
+    lazyRenderAfter: 100
   })
   .views(self => {
     function getColumnsExceptBuiltinTypes() {
@@ -688,10 +698,12 @@ export const TableStore = iRendererStore
         return getUnSelectedRows();
       },
 
+      get falttenedRows() {
+        return flattenTree<IRow>(self.rows);
+      },
+
       get checkableRows() {
-        return flattenTree<IRow>(self.rows).filter(
-          (item: IRow) => item.checkable
-        );
+        return this.falttenedRows.filter((item: IRow) => item.checkable);
       },
 
       get expandableRows() {
@@ -821,6 +833,10 @@ export const TableStore = iRendererStore
           style.right = right;
         }
         return [style, stickyClassName];
+      },
+
+      get items() {
+        return self.rows.concat();
       }
     };
   })
@@ -832,45 +848,59 @@ export const TableStore = iRendererStore
     }
 
     function update(config: Partial<STableStore>) {
-      config.primaryField !== void 0 &&
+      config.primaryField !== undefined &&
         (self.primaryField = config.primaryField);
-      config.selectable !== void 0 && (self.selectable = config.selectable);
-      config.columnsTogglable !== void 0 &&
+      config.selectable !== undefined && (self.selectable = config.selectable);
+      config.columnsTogglable !== undefined &&
         (self.columnsTogglable = config.columnsTogglable);
-      config.draggable !== void 0 && (self.draggable = config.draggable);
+      config.draggable !== undefined && (self.draggable = config.draggable);
 
-      if (typeof config.orderBy === 'string') {
+      if (
+        typeof config.orderBy === 'string' ||
+        typeof config.orderDir === 'string'
+      ) {
         setOrderByInfo(
-          config.orderBy,
-          config.orderDir === 'desc' ? 'desc' : 'asc'
+          config.orderBy ?? self.orderBy,
+          config.orderDir !== undefined
+            ? config.orderDir === 'desc'
+              ? 'desc'
+              : 'asc'
+            : self.orderDir
         );
       }
 
-      config.multiple !== void 0 && (self.multiple = config.multiple);
-      config.footable !== void 0 && (self.footable = config.footable);
-      config.expandConfig !== void 0 &&
+      config.multiple !== undefined && (self.multiple = config.multiple);
+      config.footable !== undefined && (self.footable = config.footable);
+      config.expandConfig !== undefined &&
         (self.expandConfig = config.expandConfig);
-      config.itemCheckableOn !== void 0 &&
+      config.itemCheckableOn !== undefined &&
         (self.itemCheckableOn = config.itemCheckableOn);
-      config.itemDraggableOn !== void 0 &&
+      config.itemDraggableOn !== undefined &&
         (self.itemDraggableOn = config.itemDraggableOn);
-      config.hideCheckToggler !== void 0 &&
+      config.hideCheckToggler !== undefined &&
         (self.hideCheckToggler = !!config.hideCheckToggler);
 
-      config.combineNum !== void 0 &&
+      config.combineNum !== undefined &&
         (self.combineNum = parseInt(config.combineNum as any, 10) || 0);
-      config.combineFromIndex !== void 0 &&
+      config.combineFromIndex !== undefined &&
         (self.combineFromIndex =
           parseInt(config.combineFromIndex as any, 10) || 0);
 
-      config.maxKeepItemSelectionLength !== void 0 &&
+      config.maxKeepItemSelectionLength !== undefined &&
         (self.maxKeepItemSelectionLength = config.maxKeepItemSelectionLength);
-      config.keepItemSelectionOnPageChange !== void 0 &&
+      config.keepItemSelectionOnPageChange !== undefined &&
         (self.keepItemSelectionOnPageChange =
           config.keepItemSelectionOnPageChange);
 
       config.exportExcelLoading !== undefined &&
         (self.exportExcelLoading = config.exportExcelLoading);
+
+      config.loading !== undefined && (self.loading = config.loading);
+      config.canAccessSuperData !== undefined &&
+        (self.canAccessSuperData = !!config.canAccessSuperData);
+
+      typeof config.lazyRenderAfter === 'number' &&
+        self.lazyRenderAfter === config.lazyRenderAfter;
 
       if (config.columns && Array.isArray(config.columns)) {
         let columns: Array<SColumn> = config.columns
@@ -1112,7 +1142,8 @@ export const TableStore = iRendererStore
       depth: number,
       pindex: number,
       parentId: string,
-      path: string = ''
+      path: string = '',
+      nThRef: {index: number}
     ): any {
       depth += 1;
       return children.map((item, index) => {
@@ -1131,6 +1162,7 @@ export const TableStore = iRendererStore
           path: `${path}${index}`,
           depth: depth,
           index: index,
+          nth: nThRef.index++,
           newIndex: index,
           pristine: item,
           data: item,
@@ -1142,7 +1174,8 @@ export const TableStore = iRendererStore
                   depth,
                   index,
                   id,
-                  `${path}${index}.`
+                  `${path}${index}.`,
+                  nThRef
                 )
               : [],
           expandable: !!(
@@ -1164,6 +1197,7 @@ export const TableStore = iRendererStore
       /* 避免输入内容为非数组挂掉 */
       rows = !Array.isArray(rows) ? [] : rows;
 
+      const nThRef = {index: 0};
       let arr: Array<SRow> = rows.map((item, index) => {
         if (!isObject(item)) {
           item = {
@@ -1180,6 +1214,7 @@ export const TableStore = iRendererStore
           key: String(`${index}-1-${index}`),
           depth: 1, // 最大父节点默认为第一层，逐层叠加
           index: index,
+          nth: nThRef.index++,
           newIndex: index,
           pristine: item,
           path: `${index}`,
@@ -1187,7 +1222,7 @@ export const TableStore = iRendererStore
           rowSpans: {},
           children:
             item && Array.isArray(item.children)
-              ? initChildren(item.children, 1, index, id, `${index}.`)
+              ? initChildren(item.children, 1, index, id, `${index}.`, nThRef)
               : [],
           expandable: !!(
             (item && Array.isArray(item.children) && item.children.length) ||
@@ -1207,6 +1242,21 @@ export const TableStore = iRendererStore
 
       replaceRow(arr, reUseRow);
       self.isNested = self.rows.some(item => item.children.length);
+
+      // 前 20 个直接渲染，后面的按需渲染
+      if (
+        self.lazyRenderAfter &&
+        self.falttenedRows.length > self.lazyRenderAfter
+      ) {
+        for (
+          let i = self.lazyRenderAfter, len = self.falttenedRows.length;
+          i < len;
+          i++
+        ) {
+          self.falttenedRows[i].appeared = false;
+          self.falttenedRows[i].lazyRender = true;
+        }
+      }
 
       const expand = self.footable && self.footable.expand;
       if (
