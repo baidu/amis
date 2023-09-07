@@ -192,7 +192,7 @@ setSchemaTpl('checkAll', () => {
   ];
 });
 
-setSchemaTpl('joinValues', () =>
+setSchemaTpl('joinValues', (schemaPatches: Record<string, any> = {}) =>
   getSchemaTpl('switch', {
     label: tipedLabel(
       '拼接值',
@@ -200,7 +200,8 @@ setSchemaTpl('joinValues', () =>
     ),
     name: 'joinValues',
     visibleOn: 'data.multiple',
-    value: true
+    value: true,
+    ...schemaPatches
   })
 );
 
