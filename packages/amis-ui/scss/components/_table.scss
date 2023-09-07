@@ -550,6 +550,9 @@
     @for $i from 2 through 10 {
       tr.#{$ns}Table-tr--#{$i}th.is-expanded {
         .#{$ns}Table-expandCell:before {
+          left: px2rem(18px) + px2rem(18px) * ($i - 1);
+        }
+        .#{$ns}Table-expandCell:first-child:before {
           left: px2rem(23px) + px2rem(18px) * ($i - 1);
         }
       }
@@ -561,11 +564,26 @@
         }
 
         .#{$ns}Table-divider2 {
-          left: px2rem(5px) + (px2rem(18px)) * ($i - 1);
+          left: px2rem(0) + (px2rem(18px)) * ($i - 1);
         }
 
         .#{$ns}Table-divider3 {
-          left: px2rem(5px) + (px2rem(18px)) * ($i - 1);
+          left: px2rem(0) + (px2rem(18px)) * ($i - 1);
+        }
+
+        td:first-child {
+          .#{$ns}Table-expandBtn {
+            position: relative;
+            left: px2rem(1px) + (px2rem(18px)) * ($i - 1);
+          }
+
+          .#{$ns}Table-divider2 {
+            left: px2rem(5px) + (px2rem(18px)) * ($i - 1);
+          }
+
+          .#{$ns}Table-divider3 {
+            left: px2rem(5px) + (px2rem(18px)) * ($i - 1);
+          }
         }
       }
 
@@ -601,14 +619,12 @@
     > thead > tr > th.#{$ns}Table-expandCell,
     > tbody > tr > td.#{$ns}Table-expandCell {
       border-right: 0;
-      width: px2rem(1px);
       padding-right: 0;
     }
 
     > thead > tr > th.#{$ns}Table-dragCell,
     > tbody > tr > td.#{$ns}Table-dragCell {
       border-right: 0;
-      width: px2rem(1px);
       padding-right: 0;
       cursor: move;
 
@@ -629,7 +645,21 @@
           bottom: 0;
           height: 100%;
           background: var(--Table-tree-borderColor);
-          left: px2rem(23px) + px2rem(18px) * ($i - 1);
+          left: px2rem(18px) + px2rem(18px) * ($i - 1);
+        }
+      }
+
+      &:first-child {
+        @for $i from 1 through 7 {
+          .#{$ns}Table-divider-#{$i} {
+            position: absolute;
+            width: px2rem(1px);
+            top: 0;
+            bottom: 0;
+            height: 100%;
+            background: var(--Table-tree-borderColor);
+            left: px2rem(23px) + px2rem(18px) * ($i - 1);
+          }
         }
       }
     }
@@ -638,6 +668,17 @@
       // position: relative;
 
       &::before {
+        content: '';
+        position: absolute;
+        width: px2rem(1px);
+        top: 50%;
+        bottom: 0;
+        left: px2rem(18px);
+        height: auto;
+        background: var(--Table-tree-borderColor);
+      }
+
+      &:first-child:before {
         content: '';
         position: absolute;
         width: px2rem(1px);
