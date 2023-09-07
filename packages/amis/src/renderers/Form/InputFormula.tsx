@@ -50,6 +50,12 @@ export interface InputFormulaControlSchema extends FormBaseControlSchema {
   functions: Array<FuncGroup>;
 
   /**
+   * 是否清除默认公式
+   * 默认为 false
+   */
+  clearDefaultFormula: boolean;
+
+  /**
    * 编辑器标题
    */
   title?: string;
@@ -141,11 +147,12 @@ export interface InputFormulaProps
 export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
   static defaultProps: Pick<
     InputFormulaControlSchema,
-    'inputMode' | 'borderMode' | 'evalMode'
+    'inputMode' | 'borderMode' | 'evalMode' | 'clearDefaultFormula'
   > = {
     inputMode: 'input-button',
     borderMode: 'full',
-    evalMode: true
+    evalMode: true,
+    clearDefaultFormula: false
   };
 
   ref: any;
@@ -180,6 +187,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       onChange,
       evalMode,
       mixedMode,
+      clearDefaultFormula,
       variableMode,
       header,
       label,
@@ -210,6 +218,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
     } = this.props;
     let {variables, functions} = this.props;
 
+    console.log('clearDefaultFormula=======ccc', clearDefaultFormula);
     if (isPureVariable(variables)) {
       // 如果 variables 是 ${xxx} 这种形式，将其处理成实际的值
       variables = resolveVariableAndFilter(variables, this.props.data, '| raw');
@@ -233,6 +242,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         variables={variables}
         variableMode={variableMode}
         functions={functions}
+        clearDefaultFormula={clearDefaultFormula}
         header={header || label || ''}
         borderMode={borderMode}
         placeholder={placeholder}

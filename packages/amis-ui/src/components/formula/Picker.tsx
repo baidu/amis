@@ -122,6 +122,12 @@ export interface FormulaPickerProps
   clearable?: boolean;
 
   /**
+   * 是否清除默认公式
+   * 默认为 false
+   */
+  clearDefaultFormula: boolean;
+
+  /**
    * 支持通过上下文变量配置value
    */
   source?: string;
@@ -445,6 +451,7 @@ export class FormulaPicker extends React.Component<
       title,
       clearable,
       functions,
+      clearDefaultFormula,
       children,
       variableMode,
       mixedMode,
@@ -594,6 +601,7 @@ export class FormulaPicker extends React.Component<
                 evalMode={mixedMode ? true : evalMode}
                 variables={this.state.variables}
                 functions={this.state.functions ?? functions}
+                clearDefaultFormula={clearDefaultFormula}
                 variableMode={this.state.variableMode ?? variableMode}
                 value={editorValue}
                 onChange={this.handleEditorChange}
@@ -625,6 +633,7 @@ export class FormulaPicker extends React.Component<
                 evalMode={mixedMode ? true : evalMode}
                 variables={this.state.variables}
                 functions={this.state.functions ?? functions}
+                clearDefaultFormula={clearDefaultFormula}
                 variableMode={this.state.variableMode ?? variableMode}
                 value={editorValue}
                 onChange={this.handleEditorChange}

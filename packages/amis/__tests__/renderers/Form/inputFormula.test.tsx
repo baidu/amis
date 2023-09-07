@@ -18,7 +18,6 @@ test('Renderer:input-formula', async () => {
               name: 'formula',
               label: '公式',
               evalMode: false,
-              value: 'SUM(1 + 2)',
               variables: [
                 {
                   label: '表单字段',
