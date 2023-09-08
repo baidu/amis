@@ -506,9 +506,10 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
     let value = finnalSrc || getPropValue(this.props);
     const finnalHref = href ? filter(href, data, '| raw') : '';
 
-    const defaultValue = defaultImage
-      ? filter(defaultImage, data, '| raw')
-      : imagePlaceholder;
+    const defaultValue =
+      defaultImage && !value
+        ? filter(defaultImage, data, '| raw')
+        : imagePlaceholder;
 
     return (
       <div
