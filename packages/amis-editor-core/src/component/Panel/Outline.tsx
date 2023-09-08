@@ -1,5 +1,5 @@
 import {observer} from 'mobx-react';
-import React, {useCallback, useRef} from 'react';
+import React from 'react';
 import {PanelProps} from '../../plugin';
 import cx from 'classnames';
 import {autobind} from '../../util';
