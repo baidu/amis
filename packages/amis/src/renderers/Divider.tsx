@@ -19,7 +19,7 @@ export interface DividerProps
 export default class Divider extends React.Component<DividerProps, object> {
   static defaultProps: Pick<DividerProps, 'className' | 'lineStyle'> = {
     className: '',
-    lineStyle: 'dashed'
+    lineStyle: 'solid'
   };
 
   render() {
