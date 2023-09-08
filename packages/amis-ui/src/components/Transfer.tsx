@@ -379,8 +379,13 @@ export class Transfer<
 
   // 树搜索处理
   @autobind
-  handleSearchTreeChange(values: Array<Option>, searchOptions: Array<Option>) {
-    const {onChange, value, valueField = 'value', multiple} = this.props;
+  handleSearchTreeChange(
+    values: Array<Option>,
+    searchOptions: Array<Option>,
+    props: TransferProps
+  ) {
+    /** TransferDropDown的renderSearchResult&renderOptions中对一些属性覆写了  */
+    const {value, valueField = 'value', multiple, onChange} = props;
     const searchAvailableOptions = this.getFlattenArr(searchOptions);
     values = Array.isArray(values) ? values : values ? [values] : [];
 
@@ -605,7 +610,7 @@ export class Transfer<
         value={value}
         disabled={disabled}
         onChange={(value: Array<any>) =>
-          this.handleSearchTreeChange(value, options)
+          this.handleSearchTreeChange(value, options, props)
         }
         joinValues={false}
         showIcon={false}
