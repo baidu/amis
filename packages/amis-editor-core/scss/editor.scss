@@ -214,7 +214,7 @@
         box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
         margin-bottom: 0;
       }
-      .dialog-preview-mount-node {
+      .ae-Dialog-preview-mount-node {
         display: flex;
         flex-direction: column;
         > *:first-child {
@@ -1626,7 +1626,6 @@ div.ae-DragImage {
   flex-direction: column;
   height: auto;
   width: 100%;
-  border: 1px solid $borderColor;
   > div:nth-child(2),
   div[data-renderer='drawer'] {
     flex-basis: auto;

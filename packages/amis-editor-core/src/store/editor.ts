@@ -1026,8 +1026,7 @@ export const MainStore = types
       // 获取弹窗大纲列表
       get dialogOutlineList() {
         const schema = self.schema;
-        let actions: Schema[] = [];
-        getDialogActions(schema, actions, 'list');
+        let actions = getDialogActions(schema, 'list');
         return actions;
       }
     };

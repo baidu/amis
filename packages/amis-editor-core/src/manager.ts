@@ -1214,6 +1214,10 @@ export class EditorManager {
           type: schema.type,
           plugin: editor,
           renderer: renderer,
+          dialogTitle:
+            schema.type === 'dialog' || schema.type === 'drawer'
+              ? schema.title
+              : '',
           schemaPath
         };
         return true;

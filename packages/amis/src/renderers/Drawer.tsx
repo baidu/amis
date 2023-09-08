@@ -490,11 +490,8 @@ export default class Drawer extends React.Component<DrawerProps> {
   renderFooter() {
     const actions = this.buildActions();
 
-    let {hideActions, hideActionsOn, data} = this.props;
+    let {hideActions, hideActionsOn} = this.props;
 
-    if (isPureVariable(hideActionsOn)) {
-      hideActionsOn = resolveVariableAndFilter(hideActionsOn, data);
-    }
     let isHidden = hideActions || hideActionsOn;
 
     if (!actions || !actions.length || isHidden) {
@@ -581,7 +578,6 @@ export default class Drawer extends React.Component<DrawerProps> {
       drawerContainer,
       loadingConfig,
       popOverContainer,
-      inDesign,
       themeCss,
       css,
       id,
@@ -590,27 +586,18 @@ export default class Drawer extends React.Component<DrawerProps> {
       drawerHeaderClassName,
       drawerTitleClassName,
       drawerBodyClassName,
-      drawerFooterClassName
+      drawerFooterClassName,
+      ...rest
     } = {
       ...this.props,
       ...store.schema
     } as DrawerProps;
 
     const Container = wrapperComponent || DrawerContainer;
-    let previewContainer = document.getElementsByClassName(
-      'dialog-preview-mount-node'
-    )[0];
-
-    let container = inDesign
-      ? previewContainer
-      : drawerContainer
-      ? drawerContainer
-      : env?.getModalContainer
-      ? env.getModalContainer
-      : undefined;
 
     return (
       <Container
+        {...rest}
         resizable={resizable}
         classPrefix={ns}
         className={className}
@@ -632,7 +619,7 @@ export default class Drawer extends React.Component<DrawerProps> {
         closeOnOutside={
           !store.drawerOpen && !store.dialogOpen && closeOnOutside
         }
-        container={container}
+        container={drawerContainer ? drawerContainer : env?.getModalContainer}
       >
         <div
           className={cx(

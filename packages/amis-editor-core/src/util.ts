@@ -1214,14 +1214,14 @@ export const scrollToActive = debounce((selector: string) => {
 /**
  * 获取弹窗事件
  * @param schema 遍历的schema
- * @param dialogActions 添加的弹窗事件
  * @param listType 列表形式，弹窗list或label value形式的数据源
+ * @param dialogActions 添加的弹窗事件
  */
 export const getDialogActions = (
   schema: Schema,
-  dialogActions: any[],
   listType: 'list' | 'source'
 ) => {
+  let dialogActions: any[] = [];
   JSONTraverse(schema, (value: any, key: string, object: any) => {
     // definitions中的弹窗
     if (key === 'type' && value === 'page') {
@@ -1253,38 +1253,47 @@ export const getDialogActions = (
       (key === 'actionType' && value === 'drawer') ||
       (key === 'actionType' && value === 'confirmDialog')
     ) {
-      if (value === 'drawer' && !object.drawer.$ref) {
-        if (listType == 'list') {
-          dialogActions.push(object.drawer);
-        } else {
-          dialogActions.push({
-            label: `${object.drawer?.title || '-'}（抽屉）`,
-            value: object.drawer
-          });
-        }
-      } else if (value === 'dialog' && !object.dialog.$ref) {
-        if (listType == 'list') {
-          dialogActions.push(object.dialog);
-        } else {
-          dialogActions.push({
-            label: `${object.dialog?.title || '-'}（弹窗）`,
-            value: object.dialog
-          });
-        }
-      } else if (
-        value === 'confirmDialog' &&
-        object.dialog &&
-        !object.dialog.$ref
+      const dialogBodyMap = new Map([
+        [
+          'dialog',
+          {
+            title: '弹窗',
+            body: 'dialog'
+          }
+        ],
+        [
+          'drawer',
+          {
+            title: '弹窗',
+            body: 'drawer'
+          }
+        ],
+        [
+          'confirmDialog',
+          {
+            title: '确认对话框',
+            body: 'dialog'
+          }
+        ]
+      ]);
+      let dialogBody = dialogBodyMap.get(value)?.body!;
+      if (
+        dialogBodyMap.has(value) &&
+        object[dialogBody] &&
+        !object[dialogBody].$ref
       ) {
         if (listType == 'list') {
-          dialogActions.push(object.dialog);
+          dialogActions.push(object[dialogBody]);
         } else {
           dialogActions.push({
-            label: `${object.dialog?.title || '-'}（确认对话框）`,
-            value: object.dialog
+            label: `${object[dialogBody]?.title || '-'}（${
+              dialogBodyMap.get(value)?.title
+            }）`,
+            value: object[dialogBody]
           });
         }
       }
     }
   });
+  return dialogActions;
 };

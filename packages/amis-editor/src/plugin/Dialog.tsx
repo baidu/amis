@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Modal} from 'amis-ui';
+import {Button, Drawer, Modal} from 'amis-ui';
 import {
   registerEditorPlugin,
   BaseEventContext,
@@ -15,6 +15,18 @@ import {
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import omit from 'lodash/omit';
 import type {RendererConfig, Schema} from 'amis-core';
+import {ModalProps} from 'amis-ui/src/components/Modal';
+
+interface InlineModalProps extends ModalProps {
+  type: string;
+  children: any;
+  dialogType?: string;
+  cancelText?: string;
+  confirmText?: string;
+  cancelBtnLevel?: string;
+  confirmBtnLevel?: string;
+  editorDialogMountNode?: HTMLDivElement;
+}
 
 export class DialogPlugin extends BasePlugin {
   static id = 'DialogPlugin';
@@ -27,10 +39,9 @@ export class DialogPlugin extends BasePlugin {
   isBaseComponent = true;
 
   wrapperProps = {
-    wrapperComponent: Modal,
+    wrapperComponent: InlineModal,
     onClose: noop,
-    show: true,
-    inDesign: true
+    show: true
   };
 
   regions: Array<RegionConfig> = [
@@ -532,40 +543,50 @@ export class DialogPlugin extends BasePlugin {
 
 registerEditorPlugin(DialogPlugin);
 
-export class InlineModal extends React.Component<any, any> {
+export class InlineModal extends React.Component<InlineModalProps, any> {
   componentDidMount() {}
 
   render() {
     let {
+      type,
       children,
       dialogType,
       cancelText,
       confirmText,
       cancelBtnLevel,
-      confirmBtnLevel
+      confirmBtnLevel,
+      editorDialogMountNode
     } = this.props;
+    const Container = type === 'drawer' ? Drawer : Modal;
+
     if (dialogType === 'confirm') {
       children = children.filter((item: any) => item?.key !== 'actions');
       return (
-        <div className="ae-InlineModal">
-          {children}
-          <div className="ae-InlineModal-footer">
-            <Button
-              className="ae-InlineModal-footer-btn"
-              level={cancelBtnLevel}
-            >
-              {cancelText || '取消'}
-            </Button>
-            <Button
-              className="ae-InlineModal-footer-btn"
-              level={confirmBtnLevel}
-            >
-              {confirmText || '确认'}
-            </Button>
+        <Modal {...this.props} container={editorDialogMountNode}>
+          <div className="ae-InlineModal">
+            {children}
+            <div className="ae-InlineModal-footer">
+              <Button
+                className="ae-InlineModal-footer-btn"
+                level={cancelBtnLevel}
+              >
+                {cancelText || '取消'}
+              </Button>
+              <Button
+                className="ae-InlineModal-footer-btn"
+                level={confirmBtnLevel}
+              >
+                {confirmText || '确认'}
+              </Button>
+            </div>
           </div>
-        </div>
+        </Modal>
       );
     }
-    return <div className="ae-InlineModal">{children}</div>;
+    return (
+      <Container {...this.props} container={editorDialogMountNode}>
+        {children}
+      </Container>
+    );
   }
 }

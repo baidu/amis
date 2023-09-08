@@ -13,7 +13,13 @@ import {EditorNodeContext, EditorNodeType} from '../store/node';
 import {EditorManager} from '../manager';
 import flatten from 'lodash/flatten';
 import {render as reactRender, unmountComponentAtNode} from 'react-dom';
-import {autobind, diff, JSONGetByPath, getThemeConfig} from '../util';
+import {
+  autobind,
+  diff,
+  JSONGetByPath,
+  getThemeConfig,
+  JSONGetById
+} from '../util';
 import {createObject, createObjectFromChain} from 'amis-core';
 import {CommonConfigWrapper} from './CommonConfigWrapper';
 import type {Schema} from 'amis';
@@ -66,6 +72,7 @@ export function makeWrapper(
         isCommonConfig: !!this.props.$$commonSchema,
         path: this.props.$path,
         schemaPath: info.schemaPath,
+        dialogTitle: info.dialogTitle,
         info,
         getData: () => this.props.data
       });
@@ -219,12 +226,13 @@ export function makeWrapper(
 // dfs将之前选择的弹窗和本次现有弹窗schema替换为$ref引用
 function replaceDialogtoRef(
   schema: Schema,
-  dilaogId: string,
+  dialogId: string,
   dialogRefsName: string
 ) {
   let event = schema.onEvent;
+
   if (event) {
-    for (let key in event) {
+    Object.keys(event).forEach(key => {
       let actions = event[key]?.actions;
       if (Array.isArray(actions)) {
         actions.forEach(item => {
@@ -233,53 +241,30 @@ function replaceDialogtoRef(
             item.actionType === 'drawer' ||
             item.actionType === 'confirmDialog'
           ) {
-            if (item.actionType === 'drawer') {
-              const drawerContent = item.drawer;
-              if (drawerContent.$$id === dilaogId) {
-                item.drawer = {
-                  $ref: dialogRefsName
-                };
-              }
-              if (drawerContent?.body?.length) {
-                drawerContent.body.forEach((item: Schema) => {
-                  replaceDialogtoRef(item, dilaogId, dialogRefsName);
+            let dialog = JSONGetById(item, dialogId);
+            if (dialog) {
+              const dialogContentMap = new Map([
+                ['dialog', 'dialog'],
+                ['drawer', 'drawer'],
+                ['confirmDialog', 'dialog']
+              ]);
+              const content = dialogContentMap.get(item.actionType)!;
+              const body = item[content];
+              item[content] = {$ref: dialogRefsName};
+              if (body?.length) {
+                body.forEach((ele: Schema) => {
+                  replaceDialogtoRef(ele, dialogId, dialogRefsName);
                 });
-              }
-            } else {
-              if (item.actionType === 'dialog') {
-                const dialogContent = item.dialog;
-                if (dialogContent.$$id === dilaogId) {
-                  item.dialog = {
-                    $ref: dialogRefsName
-                  };
-                }
-                if (dialogContent?.body?.length) {
-                  dialogContent.body.forEach((item: Schema) => {
-                    replaceDialogtoRef(item, dilaogId, dialogRefsName);
-                  });
-                }
-              } else {
-                const dialogContent = item.dialog || item.args;
-                if (dialogContent.$$id === dilaogId) {
-                  item.dialog = {
-                    $ref: dialogRefsName
-                  };
-                }
-                if (dialogContent?.body?.length) {
-                  dialogContent.body.forEach((item: Schema) => {
-                    replaceDialogtoRef(item, dilaogId, dialogRefsName);
-                  });
-                }
               }
             }
           }
         });
       }
-    }
+    });
   } else {
     if (schema.body?.length) {
       schema.body.forEach((item: Schema) => {
-        replaceDialogtoRef(item, dilaogId, dialogRefsName);
+        replaceDialogtoRef(item, dialogId, dialogRefsName);
       });
     }
   }
@@ -289,33 +274,31 @@ function replaceDialogtoRef(
 function addDefinitions(
   schema: Schema,
   definitions: Schema,
-  dialogIndexList: number[],
+  dialogMaxIndex: number,
   selectDialog: Schema
 ) {
   let newSchema;
   let dialogRefsName = '';
-  if (dialogIndexList.length) {
-    for (const ref in definitions) {
+  if (dialogMaxIndex) {
+    Object.keys(definitions).forEach(ref => {
       const dialog = definitions[ref];
       if (dialog.$$id === selectDialog.$$id) {
         dialogRefsName = ref;
       }
-    }
+    });
   }
-  // 添加definitions
   if (!dialogRefsName) {
-    dialogRefsName = dialogIndexList[0]
-      ? `dialog-${dialogIndexList[0] + 1}`
+    dialogRefsName = dialogMaxIndex
+      ? `dialog-${dialogMaxIndex + 1}`
       : 'dialog-1';
-    definitions[dialogRefsName] = selectDialog;
+    let newDefinitions = {...definitions};
+    newDefinitions[dialogRefsName] = selectDialog;
     newSchema = {
       ...schema,
-      definitions
+      definitions: newDefinitions
     };
   } else {
-    newSchema = {
-      ...schema
-    };
+    newSchema = schema;
   }
   return {
     dialogRefsName,
@@ -332,14 +315,13 @@ function currentDialogOnchagne(
   const {store} = manager;
   let schema = store.schema;
   let definitions = schema.definitions || {};
-  let dialogIndexList = [];
-  for (let k in definitions) {
+  let dialogMaxIndex: number = 0;
+  Object.keys(definitions).forEach(k => {
     if (k.includes('dialog-')) {
       let index = Number(k.split('-')[1]);
-      dialogIndexList.push(index);
+      dialogMaxIndex = Math.max(dialogMaxIndex, index);
     }
-  }
-  dialogIndexList.sort((a: number, b: number) => b - a);
+  });
   if (diffs?.length) {
     for (const diff of diffs) {
       const {path, kind, item, rhs} = diff;
@@ -354,7 +336,7 @@ function currentDialogOnchagne(
         const {newSchema, dialogRefsName} = addDefinitions(
           schema,
           definitions,
-          dialogIndexList,
+          dialogMaxIndex,
           item.rhs?.__selectDialog
         );
         replaceDialogtoRef(
@@ -373,10 +355,10 @@ function currentDialogOnchagne(
         const {newSchema, dialogRefsName} = addDefinitions(
           schema,
           definitions,
-          dialogIndexList,
+          dialogMaxIndex,
           rhs
         );
-        replaceDialogtoRef(newSchema, rhs?.$$id, dialogRefsName);
+        replaceDialogtoRef(newSchema, rhs?.$$id, dialogRefsName, store);
         return newSchema;
       }
       // 编辑弹窗,选择了其他现有弹窗
@@ -391,7 +373,7 @@ function currentDialogOnchagne(
         const {newSchema, dialogRefsName} = addDefinitions(
           schema,
           definitions,
-          dialogIndexList,
+          dialogMaxIndex,
           selectDialog
         );
         replaceDialogtoRef(newSchema, selectDialog?.$$id, dialogRefsName);

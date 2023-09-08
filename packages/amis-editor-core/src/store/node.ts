@@ -596,6 +596,7 @@ export const EditorNode = types
         getData?: () => any;
         preferTag?: string;
         schemaPath?: string;
+        dialogTitle?: string;
         regionInfo?: RegionConfig;
         widthMutable?: boolean;
         memberIndex?: number;

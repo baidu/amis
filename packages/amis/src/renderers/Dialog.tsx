@@ -495,11 +495,8 @@ export default class Dialog extends React.Component<DialogProps> {
   renderFooter() {
     const actions = this.buildActions();
 
-    let {hideActions, hideActionsOn, data} = this.props;
+    let {hideActions, hideActionsOn} = this.props;
 
-    if (isPureVariable(hideActionsOn)) {
-      hideActionsOn = resolveVariableAndFilter(hideActionsOn, data);
-    }
     let isHidden = hideActions || hideActionsOn;
 
     if (!actions || !actions.length || isHidden) {
@@ -583,21 +580,18 @@ export default class Dialog extends React.Component<DialogProps> {
       dialogHeaderClassName,
       dialogTitleClassName,
       dialogBodyClassName,
-      dialogFooterClassName
+      dialogFooterClassName,
+      ...rest
     } = {
       ...this.props,
       ...store.schema
     } as DialogProps;
 
     const Wrapper = wrapperComponent || Modal;
-    let previewContainer = document.getElementsByClassName(
-      'dialog-preview-mount-node'
-    )[0];
-
-    let container = inDesign ? previewContainer : env?.getModalContainer;
 
     return (
       <Wrapper
+        {...rest}
         classPrefix={classPrefix}
         className={cx(className)}
         style={style}
@@ -614,7 +608,7 @@ export default class Dialog extends React.Component<DialogProps> {
         show={show}
         onEntered={this.handleEntered}
         onExited={this.handleExited}
-        container={container}
+        container={env?.getModalContainer}
         enforceFocus={false}
         disabled={store.loading}
         overlay={overlay}

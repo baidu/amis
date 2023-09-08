@@ -13,7 +13,7 @@ import {
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import {tipedLabel} from 'amis-editor-core';
 import omit from 'lodash/omit';
-import {Drawer as DrawerContainer} from 'amis-ui';
+import {InlineModal} from './Dialog';
 
 export class DrawerPlugin extends BasePlugin {
   static id = 'DrawerPlugin';
@@ -25,11 +25,10 @@ export class DrawerPlugin extends BasePlugin {
   name = '抽屉式弹框';
   isBaseComponent = true;
   wrapperProps = {
-    wrapperComponent: DrawerContainer,
+    wrapperComponent: InlineModal,
     onClose: noop,
     resizable: false,
-    show: true,
-    inDesign: true
+    show: true
   };
 
   regions: Array<RegionConfig> = [

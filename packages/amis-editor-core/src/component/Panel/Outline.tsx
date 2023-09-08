@@ -3,7 +3,7 @@ import React from 'react';
 import {PanelProps} from '../../plugin';
 import cx from 'classnames';
 import {autobind} from '../../util';
-import {Icon, InputBox, Schema, SchemaNode, Tab, Tabs} from 'amis';
+import {Icon, InputBox, Schema, Tab, Tabs} from 'amis';
 import {EditorNodeType} from '../../store/node';
 import {isAlive} from 'mobx-state-tree';
 
@@ -57,10 +57,10 @@ export class OutlinePanel extends React.Component<PanelProps> {
 
   @autobind
   handleTabChange(key: string) {
-    if (key) {
-      this.props.store.changeOutlineTabsKey(key);
+    const store = this.props.store;
+    if (key && isAlive(store)) {
+      store.changeOutlineTabsKey(key);
       if (key === 'component-outline') {
-        const store = this.props.store;
         if (isAlive(store.root)) {
           store.setPreviewDialogId();
         }
@@ -133,7 +133,11 @@ export class OutlinePanel extends React.Component<PanelProps> {
     }
   }
 
-  renderItem(option: EditorNodeType, index: number) {
+  renderItem(
+    option: EditorNodeType,
+    index: number,
+    type?: 'dialog' | 'dialogView'
+  ) {
     const store = this.props.store;
     const {curSearchElemKey} = this.state;
 
@@ -196,14 +200,16 @@ export class OutlinePanel extends React.Component<PanelProps> {
             {option.isCommonConfig
               ? `${option.label}-[公共配置]`
               : this.renderTitleByKeyword(
-                  this.getDialogNodeLabel(option),
+                  this.getDialogNodeLabel(option, type),
                   curSearchElemKey
                 )}
           </span>
         </a>
         {hasChildren ? (
           <ul className="ae-Outline-sublist">
-            {children.map((option, index) => this.renderItem(option, index))}
+            {children.map((option, index) =>
+              this.renderItem(option, index, type)
+            )}
           </ul>
         ) : null}
       </li>
@@ -214,37 +220,29 @@ export class OutlinePanel extends React.Component<PanelProps> {
     if (!type) {
       return option.label;
     } else {
-      let rendererTitle = option.label;
-      if (
-        !option.region &&
-        (option.type === 'dialog' || option.type === 'drawer')
-      ) {
-        if (option.type === 'drawer') {
-          rendererTitle = `${option.dialogTitle || '抽屉'}（抽屉）`;
-        } else {
-          if (option.dialogType === 'confirm') {
-            rendererTitle = `${
-              option.dialogTitle || '确认对话框'
-            }（确认对话框）`;
-          } else {
-            rendererTitle = `${option.dialogTitle || '弹窗'}（弹窗）`;
-          }
-        }
-      }
-      return rendererTitle;
+      return this.getDialogLabel(option, true, 'dialogTitle');
     }
   }
 
-  getDialogSchemaLabel(option: Schema) {
+  getDialogLabel(
+    option: any,
+    isNode: boolean,
+    title: 'title' | 'dialogTitle' = 'title'
+  ) {
     let rendererTitle = '';
+    if (isNode) {
+      rendererTitle = option.label;
+    }
     if (option.type === 'dialog' || option.type === 'drawer') {
-      if (option.type === 'drawer') {
-        rendererTitle = `${option.title || '抽屉'}（抽屉）`;
-      } else {
-        if (option.dialogType === 'confirm') {
-          rendererTitle = `${option.title || '确认对话框'}（确认对话框）`;
+      if (!isNode || (isNode && !option.region)) {
+        if (option.type === 'drawer') {
+          rendererTitle = `${option[title] || '抽屉'}（抽屉）`;
         } else {
-          rendererTitle = `${option.title || '弹窗'}（弹窗）`;
+          if (option.dialogType === 'confirm') {
+            rendererTitle = `${option[title] || '确认对话框'}（确认对话框）`;
+          } else {
+            rendererTitle = `${option[title] || '弹窗'}（弹窗）`;
+          }
         }
       }
     }
@@ -256,10 +254,10 @@ export class OutlinePanel extends React.Component<PanelProps> {
     const children = store.root.children;
     const isSelectedDialog = option.$$id === store.previewDialogId;
 
-    const dialogLabel = this.getDialogSchemaLabel(option);
+    const dialogLabel = this.getDialogLabel(option, false);
 
     return children?.length && isSelectedDialog ? (
-      this.renderItem(children[0], index)
+      this.renderItem(children[0], index, 'dialog')
     ) : (
       <li className={cx('ae-Outline-node')} key={index}>
         <a onClick={e => this.handleDialogNodeClick(e, option)}>

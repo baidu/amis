@@ -277,8 +277,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
   const variableOptions = variableManager?.getVariableOptions() || [];
   const pageVariableOptions = variableManager?.getPageVariablesOptions() || [];
 
-  let dialogActions: any[] = [];
-  getDialogActions(manager.store.schema, dialogActions, 'source');
+  // let dialogActions: any[] = [];
+  let dialogActions = getDialogActions(manager.store.schema, 'source');
 
   return [
     {
@@ -3017,33 +3017,38 @@ export const getEventControlConfig = (
           confirmBtnLevel: 'primary'
         };
 
+        const setInitSchema = (groupType: string, action: ActionConfig) => {
+          if (groupType === 'dialog') {
+            JsonGenerateID(dialogInitSchema);
+            action.dialog = dialogInitSchema;
+          } else if (groupType === 'drawer') {
+            JsonGenerateID(drawerInitSchema);
+            action.drawer = drawerInitSchema;
+          } else if (groupType === 'confirmDialog') {
+            JsonGenerateID(confirmDialogInitSchema);
+            action.dialog = confirmDialogInitSchema;
+          }
+        };
+
+        const chooseCurrentDialog = (
+          config: ActionConfig,
+          action: ActionConfig
+        ) => {
+          const selectDialog = config.__selectDialog;
+          if (selectDialog?.dialogType) {
+            action.actionType = 'dialog';
+            action.dialog = selectDialog;
+          } else {
+            action.actionType = selectDialog.type;
+            action[selectDialog.type] = selectDialog;
+          }
+        };
+
         if (type === 'add') {
           if (config.__dialogSource === 'new') {
-            if (config.groupType === 'dialog') {
-              JsonGenerateID(dialogInitSchema);
-              action.dialog = dialogInitSchema;
-            } else if (config.groupType === 'drawer') {
-              JsonGenerateID(drawerInitSchema);
-              action.drawer = drawerInitSchema;
-            } else if (config.groupType === 'confirmDialog') {
-              JsonGenerateID(confirmDialogInitSchema);
-              action.args = confirmDialogInitSchema;
-            }
+            setInitSchema(config.groupType, action);
           } else if (config.__dialogSource === 'current') {
-            const selectDialog = config.__selectDialog;
-            if (selectDialog?.dialogType) {
-              action.actionType = 'dialog';
-              action.dialog = selectDialog;
-            } else {
-              action.actionType = selectDialog.type;
-              if (selectDialog?.dialogType) {
-                action.actionType = 'dialog';
-                action.dialog = selectDialog;
-              } else {
-                action.actionType = selectDialog.type;
-                action[selectDialog.type] = selectDialog;
-              }
-            }
+            chooseCurrentDialog(config, action);
           }
         }
         // 编辑
@@ -3055,16 +3060,7 @@ export const getEventControlConfig = (
               (config.__dialogSource === 'new' &&
                 actionData?.__dialogSource === 'current')
             ) {
-              if (config.groupType === 'dialog') {
-                JsonGenerateID(dialogInitSchema);
-                action.dialog = dialogInitSchema;
-              } else if (config.groupType === 'drawer') {
-                JsonGenerateID(drawerInitSchema);
-                action.drawer = drawerInitSchema;
-              } else if (config.groupType === 'confirmDialog') {
-                JsonGenerateID(confirmDialogInitSchema);
-                action.dialog = confirmDialogInitSchema;
-              }
+              setInitSchema(config.groupType, action);
             } else {
               action[config.groupType] = {
                 ...actionData![config.groupType],
@@ -3072,14 +3068,7 @@ export const getEventControlConfig = (
               };
             }
           } else if (config.__dialogSource === 'current') {
-            const selectDialog = config.__selectDialog;
-            if (selectDialog?.dialogType) {
-              action.actionType = 'dialog';
-              action.dialog = selectDialog;
-            } else {
-              action.actionType = selectDialog.type;
-              action[selectDialog.type] = selectDialog;
-            }
+            chooseCurrentDialog(config, action);
           }
         }
       }
