@@ -1,5 +1,5 @@
 import {observer} from 'mobx-react';
-import React from 'react';
+import React, {useCallback, useRef} from 'react';
 import {PanelProps} from '../../plugin';
 import cx from 'classnames';
 import {autobind} from '../../util';
@@ -33,6 +33,13 @@ export class OutlinePanel extends React.Component<PanelProps> {
     } else {
       store.setActiveId(id);
     }
+
+    setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 1000);
   }
 
   @autobind
@@ -154,6 +161,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
           data-node-common-config={option.schema?.$$commonSchema}
           draggable={option.draggable}
           onDragStart={this.handleDragStart}
+          id={option.id}
         >
           {hasChildren ? (
             <span
