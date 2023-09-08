@@ -675,7 +675,12 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     this.toDispose.push(
-      resizeSensor(currentNode.parentElement!, this.updateTableInfoLazy)
+      resizeSensor(
+        currentNode.parentElement!,
+        this.updateTableInfoLazy,
+        false,
+        'width'
+      )
     );
     const {store, autoGenerateFilter, onSearchableFromInit} = this.props;
 
@@ -2890,7 +2895,7 @@ export default class Table extends React.Component<TableProps, object> {
           'Table--unsaved': !!store.modified || !!store.moved,
           'Table--autoFillHeight': autoFillHeight
         })}
-        style={style}
+        style={store.buildStyles(style)}
       >
         {autoGenerateFilter ? this.renderAutoFilterForm() : null}
         {this.renderAffixHeader(tableClassName)}
