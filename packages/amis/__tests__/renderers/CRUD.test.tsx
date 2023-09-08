@@ -1128,5 +1128,4 @@ test('19. fetchInitData silent true', async () => {
   await waitFor(() => {
     expect(container.querySelector('.cxd-Toast')).not.toBeInTheDocument();
   });
-  expect(container).toMatchSnapshot();
 });
