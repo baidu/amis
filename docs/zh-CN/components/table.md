@@ -1846,6 +1846,7 @@ popOver 的其它配置请参考 [popover](./popover)
 | selectable       | `boolean`                                                | `false`                   | 支持勾选                                                                  |                                   |
 | multiple         | `boolean`                                                | `false`                   | 勾选 icon 是否为多选样式`checkbox`， 默认为`radio`                        |                                   |
 | lazyRenderAfter  | `number`                                                 | `100`                     | 用来控制从第几行开始懒渲染行，用来渲染大表格时有用                        |                                   |
+| tableLayout      | `auto` \| `fixed`                                        | `auto`                    | 当配置为 fixed 时，内容将不会撑开表格，自动换行                           |                                   |
 
 ### 列配置属性表
 

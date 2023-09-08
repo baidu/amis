@@ -42,6 +42,7 @@ interface TableRowProps extends Pick<RendererProps, 'render'> {
 export class TableRow extends React.PureComponent<
   TableRowProps & {
     expanded: boolean;
+    parentExpanded?: boolean;
     id: string;
     newIndex: number;
     isHover: boolean;
@@ -301,13 +302,13 @@ export class TableRow extends React.PureComponent<
               ...rest,
               rowIndex: itemIndex,
               colIndex: column.index,
-              key: column.index,
+              key: column.id,
               onAction: this.handleAction,
               onQuickChange: this.handleQuickChange,
               onChange: this.handleChange
             })
           ) : (
-            <td key={column.index}>
+            <td key={column.id}>
               <div className={cx('Table-emptyBlock')}>&nbsp;</div>
             </td>
           )
@@ -320,6 +321,7 @@ export class TableRow extends React.PureComponent<
 // 换成 mobx-react-lite 模式
 export default observer((props: TableRowProps) => {
   const item = props.item;
+  const parent = props.parent;
   const store = props.store;
   const columns = props.columns;
   const canAccessSuperData =
@@ -337,6 +339,7 @@ export default observer((props: TableRowProps) => {
       {...props}
       trRef={ref}
       expanded={item.expanded}
+      parentExpanded={parent?.expanded}
       id={item.id}
       newIndex={item.newIndex}
       isHover={item.isHover}
