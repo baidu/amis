@@ -335,6 +335,10 @@ export default class RichTextControl extends React.Component<
       </div>
     );
   }
+
+  componentWillUnmount() {
+    this.dispatchEvent.cancel();
+  }
 }
 
 @FormItem({

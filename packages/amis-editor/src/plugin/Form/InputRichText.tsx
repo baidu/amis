@@ -2,10 +2,12 @@ import {
   BaseEventContext,
   getSchemaTpl,
   defaultValue,
-  tipedLabel
+  tipedLabel,
+  RendererPluginEvent
 } from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin} from 'amis-editor-core';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 import {ValidatorTag} from '../../validator';
 
@@ -186,6 +188,32 @@ export class RichTextControlPlugin extends BasePlugin {
   notRenderFormZone = true;
 
   panelJustify = true;
+
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'change',
+      eventLabel: '值变化',
+      description: '输入内容变化',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '富文本的值'
+                }
+              },
+              description: '当前数据域，可以通过.字段名读取对应的值'
+            }
+          }
+        }
+      ]
+    }
+  ];
 
   panelBodyCreator = (context: BaseEventContext) => {
     // 有设置这个就默认使用 froala
@@ -431,6 +459,16 @@ export class RichTextControlPlugin extends BasePlugin {
             }),
             getSchemaTpl('style:classNames')
           ])
+        ]
+      },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
         ]
       }
     ]);
