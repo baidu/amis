@@ -21,6 +21,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
           >
             <div
               class="cxd-Table cxd-Crud-body"
+              style="--Table-column--2-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -2152,6 +2153,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
           >
             <div
               class="cxd-Table cxd-Crud-body"
+              style="--Table-column--2-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -2796,6 +2798,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
             </div>
             <div
               class="cxd-Table cxd-Crud-body"
+              style="--Table-column--2-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"

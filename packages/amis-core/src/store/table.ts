@@ -801,21 +801,21 @@ export const TableStore = iRendererStore
             stickyClassName += ' is-sticky-last-left';
           }
 
-          let left = 0;
+          let left = [];
           while (index >= 0) {
             const col = columns[index];
             if (
               (col && col.fixed === 'left') ||
               autoFixLeftColumns.includes(col.type)
             ) {
-              left += col.width;
+              left.push(`var(--Table-column-${col.rawIndex}-width)`);
             }
             index--;
           }
-          style.left = left;
+          style.left = left.length ? left.join(' + ') : 0;
         } else if (column.fixed === 'right') {
           stickyClassName = 'is-sticky is-sticky-right';
-          let right = 0;
+          let right = [];
           let index = columns.indexOf(column) + 1;
 
           if (columns.slice(0, index - 1).every(col => col.fixed !== 'right')) {
@@ -826,17 +826,30 @@ export const TableStore = iRendererStore
           while (index < len) {
             const col = columns[index];
             if (col && col.fixed === 'right') {
-              right += col.width;
+              right.push(`var(--Table-column-${col.rawIndex}-width)`);
             }
             index++;
           }
-          style.right = right;
+          style.right = right.length ? right.join(' + ') : 0;
         }
         return [style, stickyClassName];
       },
 
       get items() {
         return self.rows.concat();
+      },
+
+      buildStyles(style: any) {
+        style = {...style};
+
+        self.columns.forEach(column => {
+          if (column.fixed) {
+            style[`--Table-column-${column.rawIndex}-width`] =
+              column.width + 'px';
+          }
+        });
+
+        return style;
       }
     };
   })
