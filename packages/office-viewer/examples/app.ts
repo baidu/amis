@@ -183,8 +183,8 @@ document.addEventListener(
   false
 );
 
-function renderWord(data, fileName: string) {
-  let word;
+function renderWord(data: ArrayBuffer, fileName: string) {
+  let word: Word;
   if (fileName.endsWith('.xml')) {
     word = new Word(data, renderOptions, new XMLPackageParser());
   } else {
