@@ -1983,7 +1983,7 @@ export default class Table extends React.Component<TableProps, object> {
               orderBy = column.name as string;
             }
 
-            const order = orderDir ? 'desc' : 'asc';
+            const order = orderBy ? (orderDir ? 'desc' : 'asc') : '';
             const rendererEvent = await dispatchEvent(
               'columnSort',
               createObject(data, {
@@ -1999,7 +1999,7 @@ export default class Table extends React.Component<TableProps, object> {
             if (
               !onQuery ||
               onQuery({
-                orderBy: orderBy,
+                orderBy,
                 orderDir: order
               }) === false
             ) {
