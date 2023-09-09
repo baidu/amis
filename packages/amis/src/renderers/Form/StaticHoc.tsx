@@ -93,7 +93,8 @@ export function supportStatic<T extends FormControlProps>() {
     const original = descriptor.value;
     descriptor.value = function (...args: any[]) {
       const props = (this as TypedPropertyDescriptor<any> & {props: T}).props;
-      if (props.static) {
+      const isStatic = !!props.static;
+      if (isStatic) {
         const {
           render,
           staticSchema,
