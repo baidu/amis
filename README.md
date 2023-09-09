@@ -64,6 +64,7 @@ npm test --workspaces
 # 测试某个用例
 # <spec-name>为用例名称，比如inputImage
 npm test --workspace amis <spec-name>
+npm test --workspace amis inputDate
 
 # 查看测试用例覆盖率
 npm run coverage
