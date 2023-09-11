@@ -72,7 +72,7 @@ export default class Preview extends Component<PreviewProps> {
 
     this.currentDom.addEventListener('mouseleave', this.handleMouseLeave);
     this.currentDom.addEventListener('mousemove', this.handleMouseMove);
-    this.currentDom.addEventListener('click', this.handleClick, true);
+    this.currentDom.addEventListener('click', this.handleClick);
     this.currentDom.addEventListener('mouseover', this.handeMouseOver);
 
     this.currentDom.addEventListener('mousedown', this.handeMouseDown);
