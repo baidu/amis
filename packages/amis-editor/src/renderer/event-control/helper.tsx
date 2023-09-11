@@ -9,6 +9,8 @@ import {
   getDialogActions,
   getSchemaTpl,
   JsonGenerateID,
+  JSONPipeIn,
+  JSONPipeOut,
   PluginActions,
   RendererPluginAction,
   RendererPluginEvent,
@@ -3030,17 +3032,18 @@ export const getEventControlConfig = (
           }
         };
 
-        const chooseCurrentDialog = (
-          config: ActionConfig,
-          action: ActionConfig
-        ) => {
-          const selectDialog = config.__selectDialog;
+        const chooseCurrentDialog = (action: ActionConfig) => {
+          const selectDialog = action.__selectDialog;
+          // 选择现有弹窗后为了使之前的弹窗和现有弹窗$$id唯一，这里重新生成一下
+          let dialogCopy = JSONPipeIn(JSONPipeOut({...selectDialog}));
+          // 在这里记录一下新dialogId
+          action.__relatedDialogId = dialogCopy.$$id;
           if (selectDialog?.dialogType) {
             action.actionType = 'dialog';
-            action.dialog = selectDialog;
+            action.dialog = dialogCopy;
           } else {
             action.actionType = selectDialog.type;
-            action[selectDialog.type] = selectDialog;
+            action[selectDialog.type] = dialogCopy;
           }
         };
 
@@ -3048,7 +3051,7 @@ export const getEventControlConfig = (
           if (config.__dialogSource === 'new') {
             setInitSchema(config.groupType, action);
           } else if (config.__dialogSource === 'current') {
-            chooseCurrentDialog(config, action);
+            chooseCurrentDialog(action);
           }
         }
         // 编辑
@@ -3068,7 +3071,7 @@ export const getEventControlConfig = (
               };
             }
           } else if (config.__dialogSource === 'current') {
-            chooseCurrentDialog(config, action);
+            chooseCurrentDialog(action);
           }
         }
       }

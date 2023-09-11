@@ -622,8 +622,10 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
       info => {
         const type = info.split(':')[0];
         if (type === 'dialog' || type === 'drawer') {
+          const dialogId = info.split(':')[1];
           store.changeOutlineTabsKey('dialog-outline');
-          store.setActiveId(store.previewDialogId);
+          store.setPreviewDialogId(dialogId);
+          store.setActiveId(dialogId);
         } else {
           store.setActiveId(store.getRootId());
         }

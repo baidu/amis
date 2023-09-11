@@ -18,7 +18,10 @@ import {
   diff,
   JSONGetByPath,
   getThemeConfig,
-  JSONGetById
+  JSONGetById,
+  JSONPipeIn,
+  JSONPipeOut,
+  JSONUpdate
 } from '../util';
 import {createObject, createObjectFromChain} from 'amis-core';
 import {CommonConfigWrapper} from './CommonConfigWrapper';
@@ -223,51 +226,25 @@ export function makeWrapper(
   return Wrapper as any;
 }
 
-// dfs将之前选择的弹窗和本次现有弹窗schema替换为$ref引用
+// 将之前选择的弹窗和本次现有弹窗schema替换为$ref引用
+
+/**
+ * 将之前选择的弹窗和本次现有弹窗schema替换为$ref引用
+ * @param schema
+ * @param dialogId 选择弹窗的id
+ * @param dialogRefsName
+ */
 function replaceDialogtoRef(
   schema: Schema,
   dialogId: string,
   dialogRefsName: string
 ) {
-  let event = schema.onEvent;
-
-  if (event) {
-    Object.keys(event).forEach(key => {
-      let actions = event[key]?.actions;
-      if (Array.isArray(actions)) {
-        actions.forEach(item => {
-          if (
-            item.actionType === 'dialog' ||
-            item.actionType === 'drawer' ||
-            item.actionType === 'confirmDialog'
-          ) {
-            let dialog = JSONGetById(item, dialogId);
-            if (dialog) {
-              const dialogContentMap = new Map([
-                ['dialog', 'dialog'],
-                ['drawer', 'drawer'],
-                ['confirmDialog', 'dialog']
-              ]);
-              const content = dialogContentMap.get(item.actionType)!;
-              const body = item[content];
-              item[content] = {$ref: dialogRefsName};
-              if (body?.length) {
-                body.forEach((ele: Schema) => {
-                  replaceDialogtoRef(ele, dialogId, dialogRefsName);
-                });
-              }
-            }
-          }
-        });
-      }
-    });
-  } else {
-    if (schema.body?.length) {
-      schema.body.forEach((item: Schema) => {
-        replaceDialogtoRef(item, dialogId, dialogRefsName);
-      });
-    }
+  let replacedSchema;
+  const dialog = JSONGetById(schema, dialogId);
+  if (dialog) {
+    replacedSchema = JSONUpdate(schema, dialogId, {$ref: dialogRefsName}, true);
   }
+  return replacedSchema;
 }
 
 // 添加definitions
@@ -287,19 +264,18 @@ function addDefinitions(
       }
     });
   }
+  let newDefinitions = {...definitions};
   if (!dialogRefsName) {
     dialogRefsName = dialogMaxIndex
       ? `dialog-${dialogMaxIndex + 1}`
       : 'dialog-1';
-    let newDefinitions = {...definitions};
-    newDefinitions[dialogRefsName] = selectDialog;
-    newSchema = {
-      ...schema,
-      definitions: newDefinitions
-    };
-  } else {
-    newSchema = schema;
   }
+  // 防止definition被查找到替换为$ref重新生成一下
+  newDefinitions[dialogRefsName] = JSONPipeIn(JSONPipeOut({...selectDialog}));
+  newSchema = {
+    ...schema,
+    definitions: newDefinitions
+  };
   return {
     dialogRefsName,
     newSchema
@@ -323,6 +299,8 @@ function currentDialogOnchagne(
     }
   });
   if (diffs?.length) {
+    let replacedSchema;
+    let editRefsName;
     for (const diff of diffs) {
       const {path, kind, item, rhs} = diff;
       // 添加选择现有弹窗事件
@@ -339,14 +317,21 @@ function currentDialogOnchagne(
           dialogMaxIndex,
           item.rhs?.__selectDialog
         );
-        replaceDialogtoRef(
+        let replacedSchema = replaceDialogtoRef(
           newSchema,
           item.rhs?.__selectDialog.$$id,
           dialogRefsName
         );
-        return newSchema;
+        if (item.rhs?.__relatedDialogId) {
+          replacedSchema = replaceDialogtoRef(
+            replacedSchema,
+            item.rhs?.__relatedDialogId,
+            dialogRefsName
+          );
+        }
+        return replacedSchema;
       }
-      // 编辑弹窗,从新建弹窗切换到现有弹窗
+      // 编辑弹窗,从新建弹窗切换到现有弹窗,原始弹窗id
       else if (
         kind === 'N' &&
         path?.length > 1 &&
@@ -358,15 +343,32 @@ function currentDialogOnchagne(
           dialogMaxIndex,
           rhs
         );
-        replaceDialogtoRef(newSchema, rhs?.$$id, dialogRefsName, store);
-        return newSchema;
+        editRefsName = dialogRefsName;
+        replacedSchema = replaceDialogtoRef(
+          newSchema,
+          rhs?.$$id,
+          dialogRefsName
+        );
       }
-      // 编辑弹窗,选择了其他现有弹窗
+      // 编辑弹窗,从新建弹窗切换到现有弹窗,新生成弹窗id
       else if (
-        kind === 'E' &&
+        kind === 'N' &&
+        path?.length > 1 &&
+        path?.[path.length - 1] === '__relatedDialogId'
+      ) {
+        replacedSchema = replaceDialogtoRef(
+          replacedSchema!,
+          rhs,
+          editRefsName!
+        );
+        return replacedSchema;
+      }
+      // 编辑弹窗,选择了其他现有弹窗，原始弹窗id
+      else if (
+        kind === 'N' &&
         path?.length > 1 &&
         path?.[path.length - 2] === '__selectDialog' &&
-        path?.[path.length - 1] === 'id'
+        path?.[path.length - 1] === '$$id'
       ) {
         let newPath = path.slice(0, -1);
         let selectDialog = JSONGetByPath(newValue, newPath);
@@ -376,10 +378,28 @@ function currentDialogOnchagne(
           dialogMaxIndex,
           selectDialog
         );
-        replaceDialogtoRef(newSchema, selectDialog?.$$id, dialogRefsName);
-        return newSchema;
+        editRefsName = dialogRefsName;
+        replacedSchema = replaceDialogtoRef(
+          newSchema,
+          selectDialog?.$$id,
+          dialogRefsName
+        );
+      }
+      // 编辑弹窗,选择了其他现有弹窗，新生成弹窗id
+      else if (
+        kind === 'E' &&
+        path?.length > 1 &&
+        path?.[path.length - 1] === '__relatedDialogId'
+      ) {
+        replacedSchema = replaceDialogtoRef(
+          replacedSchema!,
+          rhs,
+          editRefsName!
+        );
+        return replacedSchema;
       }
     }
+    return replacedSchema;
   }
   return null;
 }

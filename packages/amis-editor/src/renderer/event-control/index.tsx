@@ -853,6 +853,29 @@ export class EventControl extends React.Component<
     ) : null;
   }
 
+  getRefsFromCurrentDialog(definitions: any, action: any) {
+    let dialogMaxIndex: number = 0;
+    let dialogRefsName = '';
+    if (definitions) {
+      Object.keys(definitions).forEach(k => {
+        const dialog = definitions[k];
+        if (dialog.$$id === action.__selectDialog.$$id) {
+          dialogRefsName = k;
+        }
+        if (k.includes('dialog-')) {
+          let index = Number(k.split('-')[1]);
+          dialogMaxIndex = Math.max(dialogMaxIndex, index);
+        }
+      });
+    }
+    if (!dialogRefsName) {
+      dialogRefsName = dialogMaxIndex
+        ? `dialog-${dialogMaxIndex + 1}`
+        : 'dialog-1';
+    }
+    return dialogRefsName;
+  }
+
   @autobind
   onSubmit(type: string, config: any) {
     const {actionConfigSubmitFormatter, manager} = this.props;
@@ -881,27 +904,10 @@ export class EventControl extends React.Component<
           }/actions/${actionLength}/${args}`;
           store.setActiveDialogPath(path);
         } else if (config?.__dialogSource === 'current') {
-          let definitions = store.schema.definitions;
-          let dialogIndexList = [];
-          let dialogRefsName = '';
-          if (definitions) {
-            for (let k in definitions) {
-              if (k.includes('dialog-')) {
-                const dialog = definitions[k];
-                if (dialog.$$id === action[action.actionType].$$id) {
-                  dialogRefsName = k;
-                }
-                let index = Number(k.split('-')[1]);
-                dialogIndexList.push(index);
-              }
-            }
-            dialogIndexList.sort((a: number, b: number) => b - a);
-          }
-          if (!dialogRefsName) {
-            dialogRefsName = dialogIndexList[0]
-              ? `dialog-${dialogIndexList[0] + 1}`
-              : 'dialog-1';
-          }
+          let dialogRefsName = this.getRefsFromCurrentDialog(
+            store.schema.definitions,
+            action
+          );
           let path = `definitions/${dialogRefsName}`;
           store.setActiveDialogPath(path);
         }
@@ -923,36 +929,16 @@ export class EventControl extends React.Component<
             ? 'drawer'
             : 'dialog';
 
-        this.removeDataSchema();
-        this.setState({showAcionDialog: false});
-        this.setState({actionData: undefined});
         if (config.__dialogSource === 'new') {
           let path = `${store.getSchemaPath(store.activeId)}/onEvent/${
             config.eventKey
           }/actions/${config.actionIndex}/${args}`;
           store.setActiveDialogPath(path);
         } else if (config.__dialogSource === 'current') {
-          let definitions = store.schema.definitions;
-          let dialogIndexList = [];
-          let dialogRefsName = '';
-          if (definitions) {
-            for (let k in definitions) {
-              if (k.includes('dialog-')) {
-                const dialog = definitions[k];
-                if (dialog.$$id === action[action.actionType].$$id) {
-                  dialogRefsName = k;
-                }
-                let index = Number(k.split('-')[1]);
-                dialogIndexList.push(index);
-              }
-            }
-            dialogIndexList.sort((a: number, b: number) => b - a);
-          }
-          if (!dialogRefsName) {
-            dialogRefsName = dialogIndexList[0]
-              ? `dialog-${dialogIndexList[0] + 1}`
-              : 'dialog-1';
-          }
+          let dialogRefsName = this.getRefsFromCurrentDialog(
+            store.schema.definitions,
+            action
+          );
           let path = `definitions/${dialogRefsName}`;
           store.setActiveDialogPath(path);
         }
@@ -961,6 +947,10 @@ export class EventControl extends React.Component<
         this.updateAction?.(config.eventKey, config.actionIndex, action);
       }
     }
+
+    this.removeDataSchema();
+    this.setState({showAcionDialog: false});
+    this.setState({actionData: undefined});
   }
 
   @autobind
