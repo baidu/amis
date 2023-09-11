@@ -3,6 +3,8 @@ import {
   ScopedContext,
   IScopedContext,
   filterTarget,
+  isPureVariable,
+  resolveVariableAndFilter,
   setVariable
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
@@ -21,7 +23,7 @@ import {Icon} from 'amis-ui';
 import {ModalStore, IModalStore} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import {Spinner} from 'amis-ui';
-import {IServiceStore} from 'amis-core';
+import {IServiceStore, CustomStyle} from 'amis-core';
 import {
   BaseSchema,
   SchemaClassName,
@@ -492,8 +494,8 @@ export default class Dialog extends React.Component<DialogProps> {
 
   renderFooter() {
     const actions = this.buildActions();
-
-    if (!actions || !actions.length) {
+    let {hideActions} = this.props;
+    if (!actions || !actions.length || hideActions) {
       return null;
     }
 
@@ -503,11 +505,12 @@ export default class Dialog extends React.Component<DialogProps> {
       classnames: cx,
       showErrorMsg,
       showLoading,
-      show
+      show,
+      dialogFooterClassName
     } = this.props;
 
     return (
-      <div className={cx('Modal-footer')}>
+      <div className={cx('Modal-footer', dialogFooterClassName)}>
         {(showLoading !== false && store.loading) ||
         (showErrorMsg !== false && store.error) ? (
           <div className={cx('Dialog-info')} key="info">
@@ -563,21 +566,36 @@ export default class Dialog extends React.Component<DialogProps> {
       confirmText,
       confirmBtnLevel,
       cancelBtnLevel,
-      popOverContainer
+      popOverContainer,
+      inDesign,
+      themeCss,
+      css,
+      id,
+      dialogClassName,
+      dialogMaskClassName,
+      dialogHeaderClassName,
+      dialogTitleClassName,
+      dialogBodyClassName,
+      dialogFooterClassName,
+      ...rest
     } = {
       ...this.props,
       ...store.schema
     } as DialogProps;
 
     const Wrapper = wrapperComponent || Modal;
+
     return (
       <Wrapper
+        {...rest}
         classPrefix={classPrefix}
         className={cx(className)}
         style={style}
         size={size}
         height={height}
         width={width}
+        modalClassName={dialogClassName}
+        modalMaskClassName={dialogMaskClassName}
         backdrop="static"
         onHide={this.handleSelfClose}
         keyboard={closeOnEsc && !store.loading}
@@ -597,7 +615,13 @@ export default class Dialog extends React.Component<DialogProps> {
         cancelBtnLevel={cancelBtnLevel}
       >
         {title && typeof title === 'string' ? (
-          <div className={cx('Modal-header', headerClassName)}>
+          <div
+            className={cx(
+              'Modal-header',
+              headerClassName,
+              dialogHeaderClassName
+            )}
+          >
             {showCloseButton !== false && !store.loading ? (
               <a
                 data-tooltip={__('Dialog.close')}
@@ -612,12 +636,18 @@ export default class Dialog extends React.Component<DialogProps> {
                 />
               </a>
             ) : null}
-            <div className={cx('Modal-title')}>
+            <div className={cx('Modal-title', dialogTitleClassName)}>
               {filter(__(title), store.formData)}
             </div>
           </div>
         ) : title ? (
-          <div className={cx('Modal-header', headerClassName)}>
+          <div
+            className={cx(
+              'Modal-header',
+              headerClassName,
+              dialogHeaderClassName
+            )}
+          >
             {showCloseButton !== false && !store.loading ? (
               <a
                 data-tooltip={__('Dialog.close')}
@@ -654,13 +684,52 @@ export default class Dialog extends React.Component<DialogProps> {
           : null}
 
         {(!store.entered && lazyRender) || (lazySchema && !body) ? (
-          <div className={cx('Modal-body', bodyClassName)} role="dialog-body">
+          <div
+            className={cx('Modal-body', bodyClassName, dialogBodyClassName)}
+            role="dialog-body"
+          >
             <Spinner overlay show size="lg" loadingConfig={loadingConfig} />
           </div>
         ) : body ? (
           // dialog-body 用于在 editor 中定位元素
-          <div className={cx('Modal-body', bodyClassName)} role="dialog-body">
+          <div
+            className={cx('Modal-body', bodyClassName, dialogBodyClassName)}
+            role="dialog-body"
+          >
             {this.renderBody(body, 'body')}
+            <CustomStyle
+              config={{
+                themeCss: themeCss || css,
+                classNames: [
+                  {
+                    key: 'dialogClassName',
+                    value: dialogClassName
+                  },
+                  {
+                    key: 'dialogMaskClassName',
+                    value: dialogMaskClassName
+                  },
+                  {
+                    key: 'dialogHeaderClassName',
+                    value: dialogHeaderClassName
+                  },
+                  {
+                    key: 'dialogTitleClassName',
+                    value: dialogTitleClassName
+                  },
+                  {
+                    key: 'dialogBodyClassName',
+                    value: dialogBodyClassName
+                  },
+                  {
+                    key: 'dialogFooterClassName',
+                    value: dialogFooterClassName
+                  }
+                ],
+                id: id
+              }}
+              env={env}
+            />
           </div>
         ) : null}
 

@@ -32,6 +32,11 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  .ae-outline-tabs {
+    .ae-outline-tabs-header {
+      padding: 0 12px;
+    }
+  }
 }
 
 .ae-Outline {

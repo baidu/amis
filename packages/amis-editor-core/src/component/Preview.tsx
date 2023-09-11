@@ -14,6 +14,7 @@ import {ErrorRenderer} from './base/ErrorRenderer';
 import {isAlive} from 'mobx-state-tree';
 import {findTree} from 'amis-core';
 import BackTop from './base/BackTop';
+import {reaction} from 'mobx';
 import type {RendererConfig} from 'amis-core';
 import IFramePreview from './IFramePreview';
 
@@ -592,6 +593,9 @@ export interface SmartPreviewProps {
 }
 @observer
 class SmartPreview extends React.Component<SmartPreviewProps> {
+  dialogReaction: any;
+  dialogMountRef: React.RefObject<HTMLDivElement> = React.createRef();
+
   componentDidMount() {
     const store = this.props.store;
 
@@ -611,10 +615,31 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
     } else {
       this.props.manager.buildRenderersAndPanels();
     }
+
+    // 添加弹窗事件或弹窗列表进行弹窗切换后自动选中对应的弹窗
+    this.dialogReaction = reaction(
+      () => `${store.root.children[0].type}:${store.root.children[0].id}`,
+      info => {
+        const type = info.split(':')[0];
+        if (type === 'dialog' || type === 'drawer') {
+          const dialogId = info.split(':')[1];
+          store.changeOutlineTabsKey('dialog-outline');
+          store.setPreviewDialogId(dialogId);
+          store.setActiveId(dialogId);
+        } else {
+          store.setActiveId(store.getRootId());
+        }
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.dialogReaction?.();
   }
 
   componentDidUpdate(prevProps: SmartPreviewProps) {
     const props = this.props;
+    const store = props.store;
 
     if (props.editable !== prevProps.editable) {
       if (props.editable) {
@@ -624,22 +649,40 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
         });
       }
     }
+    if (store.activeDialogPath) {
+      let activeId = store.getSchemaByPath(
+        store.activeDialogPath.split('/')
+      )?.$$id;
+      activeId && store.setPreviewDialogId(activeId);
+      store.setActiveDialogPath('');
+    }
+  }
+
+  @autobind
+  getDialogMountRef() {
+    return this.dialogMountRef.current;
   }
 
   render() {
     const {editable, store, appLocale, autoFocus, env, data, manager, ...rest} =
       this.props;
 
-    return render(
-      editable ? store.filteredSchema : store.filteredSchemaForPreview,
-      {
-        ...rest,
-        key: editable ? 'edit-mode' : 'preview-mode',
-        theme: env.theme,
-        data: data ?? store.ctx,
-        locale: appLocale
-      },
-      env
+    return (
+      // 弹窗挂载节点
+      <div ref={this.dialogMountRef} className="ae-Dialog-preview-mount-node">
+        {render(
+          editable ? store.filteredSchema : store.filteredSchemaForPreview,
+          {
+            ...rest,
+            key: editable ? 'edit-mode' : 'preview-mode',
+            theme: env.theme,
+            data: data ?? store.ctx,
+            locale: appLocale,
+            editorDialogMountNode: this.getDialogMountRef
+          },
+          env
+        )}
+      </div>
     );
   }
 }

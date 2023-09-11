@@ -6,7 +6,11 @@ import {
   BaseEventContext,
   defaultValue,
   EditorManager,
+  getDialogActions,
   getSchemaTpl,
+  JsonGenerateID,
+  JSONPipeIn,
+  JSONPipeOut,
   PluginActions,
   RendererPluginAction,
   RendererPluginEvent,
@@ -17,15 +21,18 @@ import {
   DataSchema,
   filterTree,
   findTree,
+  JSONTraverse,
   mapTree,
   normalizeApi,
-  PlainObject
+  PlainObject,
+  Schema
 } from 'amis-core';
 import {Button} from 'amis';
 import {i18n as _i18n} from 'i18n-runtime';
 import without from 'lodash/without';
 import {ActionConfig, ComponentInfo, ContextVariables} from './types';
 import CmptActionSelect from './comp-action-select';
+import {ActionData} from '.';
 
 export const getArgsWrapper = (
   items: any,
@@ -272,6 +279,9 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
   const variableOptions = variableManager?.getVariableOptions() || [];
   const pageVariableOptions = variableManager?.getPageVariablesOptions() || [];
 
+  // let dialogActions: any[] = [];
+  let dialogActions = getDialogActions(manager.store.schema, 'source');
+
   return [
     {
       actionLabel: '页面',
@@ -376,13 +386,13 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
       ]
     },
     {
-      actionLabel: '弹框消息',
+      actionLabel: '弹窗消息',
       actionType: 'dialogs',
       children: [
         {
           actionLabel: '打开弹窗',
           actionType: 'openDialog',
-          description: '打开弹框，弹窗内支持复杂的交互设计',
+          description: '打开弹窗，弹窗内支持复杂的交互设计',
           actions: [
             {
               actionType: 'dialog'
@@ -397,7 +407,49 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           schema: [
             {
               type: 'radios',
-              label: '类型',
+              label: '弹窗来源',
+              name: '__dialogSource',
+              required: true,
+              mode: 'horizontal',
+              inputClassName: 'event-action-radio',
+              value: 'new',
+              options: [
+                {
+                  label: '选择页面内已有弹窗',
+                  value: 'current'
+                },
+                {
+                  label: '新建弹窗',
+                  value: 'new'
+                }
+              ]
+            },
+            {
+              name: '__dialogTitle',
+              type: 'input-text',
+              label: '弹窗标题',
+              placeholder: '请输入弹窗标题',
+              mode: 'horizontal',
+              size: 'lg',
+              visibleOn: '__dialogSource === "new"'
+            },
+            {
+              name: '__selectDialog',
+              type: 'select',
+              label: '选择弹窗',
+              options: dialogActions,
+              mode: 'horizontal',
+              size: 'lg',
+              visibleOn: '__dialogSource === "current"',
+              onChange: (value: any, oldValue: any, model: any, form: any) => {
+                form.setValueByName('args', {
+                  formCurrentDialog: true
+                });
+              }
+            },
+            {
+              type: 'radios',
+              label: '弹窗类型',
               name: 'groupType',
               mode: 'horizontal',
               value: 'dialog',
@@ -418,104 +470,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   value: 'confirmDialog'
                 }
               ],
-              visibleOn: 'data.actionType === "openDialog"'
-            },
-            {
-              name: 'dialog',
-              label: '弹框内容',
-              mode: 'horizontal',
-              required: true,
-              pipeIn: defaultValue({
-                title: '弹框标题',
-                body: '对，你刚刚点击了',
-                showCloseButton: true,
-                showErrorMsg: true,
-                showLoading: true,
-                className: 'app-popover'
-              }),
-              asFormItem: true,
-              visibleOn: 'data.groupType === "dialog"',
-              children: ({value, onChange, data}: any) => (
-                <Button
-                  size="sm"
-                  className="action-btn-width"
-                  onClick={() =>
-                    manager.openSubEditor({
-                      title: '配置弹框内容',
-                      value: {type: 'dialog', ...value},
-                      data,
-                      onChange: (value: any) => onChange(value)
-                    })
-                  }
-                  block
-                >
-                  {/* 翻译未生效，临时方案 */}
-                  {_i18n('a532be3ad5f3fda70d228b8542e81835')}
-                </Button>
-              )
-            },
-            {
-              name: 'drawer',
-              label: '抽屉内容',
-              mode: 'horizontal',
-              required: true,
-              pipeIn: defaultValue({
-                title: '抽屉标题',
-                body: '对，你刚刚点击了',
-                className: 'app-popover'
-              }),
-              asFormItem: true,
-              visibleOn: 'data.groupType === "drawer"',
-              children: ({value, onChange, data}: any) => (
-                <Button
-                  size="sm"
-                  className="action-btn-width"
-                  onClick={() =>
-                    manager.openSubEditor({
-                      title: '配置抽出式弹框内容',
-                      value: {type: 'drawer', ...value},
-                      onChange: (value: any) => onChange(value)
-                    })
-                  }
-                  block
-                >
-                  {/* 翻译未生效，临时方案 */}
-                  {_i18n('a532be3ad5f3fda70d228b8542e81835')}
-                </Button>
-              )
-            },
-            {
-              name: 'dialog',
-              label: '弹框内容',
-              mode: 'horizontal',
-              required: true,
-              pipeIn: defaultValue({
-                title: '弹框标题',
-                confirmText: '确认',
-                cancelText: '取消',
-                confirmBtnLevel: 'primary',
-                body: '对，你刚刚点击了',
-                dialogType: 'confirm'
-              }),
-              asFormItem: true,
-              visibleOn: 'data.groupType === "confirmDialog"',
-              children: ({value, onChange, data}: any) => (
-                <Button
-                  size="sm"
-                  className="action-btn-width"
-                  onClick={() =>
-                    manager.openSubEditor({
-                      title: '配置弹框内容',
-                      value: {type: 'dialog', ...value},
-                      onChange: (value: any) => onChange(value)
-                    })
-                  }
-                  block
-                >
-                  {/* 翻译未生效，临时方案 */}
-                  {_i18n('a532be3ad5f3fda70d228b8542e81835')}
-                </Button>
-              )
+              visibleOn:
+                'data.actionType === "openDialog" && __dialogSource === "new"'
             }
           ]
         },
@@ -2956,7 +2912,11 @@ export const getEventControlConfig = (
         args: config.args
       };
     },
-    actionConfigSubmitFormatter: (config: ActionConfig) => {
+    actionConfigSubmitFormatter: (
+      config: ActionConfig,
+      type?: string,
+      actionData?: ActionData
+    ) => {
       let action: ActionConfig = {...config, groupType: undefined};
       action.__title = findActionNode(
         actionTree,
@@ -2985,6 +2945,139 @@ export const getEventControlConfig = (
           };
         });
         delete action.addOnArgs;
+      }
+
+      if (config.actionType === 'openDialog') {
+        // 初始化弹窗schema
+        const dialogInitSchema = {
+          type: 'dialog',
+          title: action.__dialogTitle,
+          body: [
+            {
+              type: 'tpl',
+              tpl: '对，你刚刚点击了',
+              wrapperComponent: '',
+              inline: false
+            }
+          ],
+          showCloseButton: true,
+          showErrorMsg: true,
+          showLoading: true,
+          className: 'app-popover',
+          actions: [
+            {
+              type: 'button',
+              actionType: 'cancel',
+              label: '取消'
+            },
+            {
+              type: 'button',
+              actionType: 'confirm',
+              label: '确认',
+              primary: true
+            }
+          ]
+        };
+
+        const drawerInitSchema = {
+          type: 'drawer',
+          title: action.__dialogTitle,
+          body: [
+            {
+              type: 'tpl',
+              tpl: '对，你刚刚点击了',
+              wrapperComponent: '',
+              inline: false
+            }
+          ],
+          className: 'app-popover',
+          actions: [
+            {
+              type: 'button',
+              actionType: 'cancel',
+              label: '取消'
+            },
+            {
+              type: 'button',
+              actionType: 'confirm',
+              label: '确认',
+              primary: true
+            }
+          ]
+        };
+
+        const confirmDialogInitSchema = {
+          type: 'dialog',
+          title: action.__dialogTitle,
+          body: [
+            {
+              type: 'tpl',
+              tpl: '对，你刚刚点击了',
+              wrapperComponent: '',
+              inline: false
+            }
+          ],
+          dialogType: 'confirm',
+          confirmText: '确认',
+          cancelText: '取消',
+          confirmBtnLevel: 'primary'
+        };
+
+        const setInitSchema = (groupType: string, action: ActionConfig) => {
+          if (groupType === 'dialog') {
+            JsonGenerateID(dialogInitSchema);
+            action.dialog = dialogInitSchema;
+          } else if (groupType === 'drawer') {
+            JsonGenerateID(drawerInitSchema);
+            action.drawer = drawerInitSchema;
+          } else if (groupType === 'confirmDialog') {
+            JsonGenerateID(confirmDialogInitSchema);
+            action.dialog = confirmDialogInitSchema;
+          }
+        };
+
+        const chooseCurrentDialog = (action: ActionConfig) => {
+          const selectDialog = action.__selectDialog;
+          // 选择现有弹窗后为了使之前的弹窗和现有弹窗$$id唯一，这里重新生成一下
+          let dialogCopy = JSONPipeIn(JSONPipeOut({...selectDialog}));
+          // 在这里记录一下新dialogId
+          action.__relatedDialogId = dialogCopy.$$id;
+          if (selectDialog?.dialogType) {
+            action.actionType = 'dialog';
+            action.dialog = dialogCopy;
+          } else {
+            action.actionType = selectDialog.type;
+            action[selectDialog.type] = dialogCopy;
+          }
+        };
+
+        if (type === 'add') {
+          if (config.__dialogSource === 'new') {
+            setInitSchema(config.groupType, action);
+          } else if (config.__dialogSource === 'current') {
+            chooseCurrentDialog(action);
+          }
+        }
+        // 编辑
+        else if (type === 'update') {
+          if (config.__dialogSource === 'new') {
+            // 如果切换了弹窗类型或切换了弹窗来源，则初始化schema
+            if (
+              config.groupType !== actionData?.groupType ||
+              (config.__dialogSource === 'new' &&
+                actionData?.__dialogSource === 'current')
+            ) {
+              setInitSchema(config.groupType, action);
+            } else {
+              action[config.groupType] = {
+                ...actionData![config.groupType],
+                title: config.__dialogTitle
+              };
+            }
+          } else if (config.__dialogSource === 'current') {
+            chooseCurrentDialog(action);
+          }
+        }
       }
 
       // 刷新组件时，处理是否追加事件变量

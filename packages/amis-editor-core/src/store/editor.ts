@@ -19,7 +19,9 @@ import {
   needDefaultWidth,
   guid,
   addStyleClassName,
-  appTranslate
+  appTranslate,
+  JSONGetByPath,
+  getDialogActions
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -42,7 +44,7 @@ import {
   JSONPipeOut,
   JSONUpdate
 } from '../util';
-import type {Schema} from 'amis';
+import type {Schema, SchemaNode} from 'amis';
 import {toast, resolveVariable} from 'amis';
 import find from 'lodash/find';
 import {InsertSubRendererPanel} from '../component/Panel/InsertSubRendererPanel';
@@ -133,6 +135,8 @@ export const MainStore = types
     hoverId: '',
     hoverRegion: '',
     activeId: '',
+    previewDialogId: '', // 选择要进行编辑的弹窗id
+    activeDialogPath: '', // 记录选中设计的弹窗path
     activeRegion: '', // 记录当前激活的子区域
     mouseMoveRegion: '', // 记录当前鼠标hover到的区域，后续需要优化（合并MouseMoveRegion和hoverRegion）
 
@@ -179,6 +183,7 @@ export const MainStore = types
 
     showCustomRenderersPanel: false, // 是否显示自定义组件面板，默认不显示
     renderersTabsKey: 'base-renderers', // 组件面板tabs，默认显示「基础组件」，custom 则显示「自定义组件」
+    outlineTabsKey: 'component-outline', // 视图结构tabs，默认显示「组件大纲」，dialog 则显示「弹窗大纲」
     // 存放预置组件和自定义组件
     subRenderers: types.optional(types.frozen<Array<SubRendererInfo>>(), []),
     subRenderersKeywords: '', // 基础组件的查询关键字
@@ -225,8 +230,12 @@ export const MainStore = types
     return {
       // 给编辑状态时的
       get filteredSchema() {
+        let schema = self.schema;
+        if (self.previewDialogId) {
+          schema = this.getSchema(self.previewDialogId);
+        }
         return filterSchemaForEditor(
-          getEnv(self).schemaFilter?.(self.schema) ?? self.schema
+          getEnv(self).schemaFilter?.(schema) ?? schema
         );
       },
 
@@ -397,6 +406,10 @@ export const MainStore = types
 
       getSchema(id?: string, idKey?: string) {
         return id ? JSONGetById(self.schema, id, idKey) : self.schema;
+      },
+
+      getSchemaByPath(path: Array<string>) {
+        return JSONGetByPath(self.schema, path);
       },
 
       getSchemaParentById(id: string, skipArray: boolean = false) {
@@ -1008,6 +1021,13 @@ export const MainStore = types
           ...(self.scaffoldForm?.value || {}),
           __step: self.scaffoldFormStep
         });
+      },
+
+      // 获取弹窗大纲列表
+      get dialogOutlineList() {
+        const schema = self.schema;
+        let actions = getDialogActions(schema, 'list');
+        return actions;
       }
     };
   })
@@ -1214,6 +1234,14 @@ export const MainStore = types
         // }
       },
 
+      setActiveDialogPath(path: string) {
+        self.activeDialogPath = path;
+      },
+
+      setPreviewDialogId(id?: string) {
+        self.previewDialogId = id ? id : '';
+      },
+
       setSelections(ids: Array<string>) {
         self.activeId = '';
         self.activeRegion = '';
@@ -1343,6 +1371,12 @@ export const MainStore = types
         }
       },
 
+      changeOutlineTabsKey(key: string) {
+        if (key !== self.outlineTabsKey) {
+          self.outlineTabsKey = key;
+        }
+      },
+
       changeLeftPanelOpenStatus(isOpenStatus: boolean) {
         if (isOpenStatus !== self.leftPanelOpenStatus) {
           self.leftPanelOpenStatus = isOpenStatus;
@@ -1370,6 +1404,10 @@ export const MainStore = types
           return;
         }
         this.changeValueById(self.activeId, value, diff);
+      },
+
+      definitionOnchangeValue(value: Schema, diff?: any) {
+        this.changeValueById(self.getRootId(), value, diff);
       },
 
       changeValueById(
