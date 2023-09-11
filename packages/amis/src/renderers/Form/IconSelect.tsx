@@ -46,7 +46,19 @@ export interface IconSelectState {
   searchValue: string;
   activeTypeIndex: number;
   isRefreshLoading?: boolean;
+  iconBgColor: string;
 }
+
+const colors = [
+  '#2468F2',
+  '#00CF00',
+  '#29CCC9',
+  '#0BC286',
+  '#FF8641',
+  '#6F74FF',
+  '#9858FF',
+  '#00B7F8'
+];
 
 /**
  * 新图标选择器
@@ -67,7 +79,8 @@ export default class IconSelectControl extends React.PureComponent<
     showModal: false,
     tmpCheckIconId: null,
     searchValue: '',
-    isRefreshLoading: false
+    isRefreshLoading: false,
+    iconBgColor: '#2468F2'
   };
 
   constructor(props: IconSelectProps) {
@@ -121,7 +134,8 @@ export default class IconSelectControl extends React.PureComponent<
       disabled,
       value: valueTemp,
       placeholder,
-      clearable
+      clearable,
+      env
     } = this.props;
     const value =
       typeof valueTemp === 'string' ? this.getValueBySvg(valueTemp) : valueTemp;
@@ -144,7 +158,9 @@ export default class IconSelectControl extends React.PureComponent<
           SvgStr ? (
             <div
               className={cx(`${ns}IconSelectControl-input-area-str-svg`)}
-              dangerouslySetInnerHTML={{__html: SvgStr[0].replace(/\\"/g, '"')}}
+              dangerouslySetInnerHTML={{
+                __html: env.filterHtml(SvgStr[0].replace(/\\"/g, '"'))
+              }}
             ></div>
           ) : (
             <Icon
@@ -222,7 +238,11 @@ export default class IconSelectControl extends React.PureComponent<
       this.props.onChange &&
         this.props.onChange(
           checkedIcon && checkedIcon.id
-            ? {...checkedIcon, id: 'svg-' + checkedIcon.id}
+            ? {
+                ...checkedIcon,
+                id: 'svg-' + checkedIcon.id,
+                bgColor: this.props.colorPick ? this.state.iconBgColor : ''
+              }
             : ''
         );
     }
@@ -245,7 +265,7 @@ export default class IconSelectControl extends React.PureComponent<
 
   @autobind
   renderIconList(icons: IconSelectStore.SvgIcon[]) {
-    const {classPrefix: ns, noDataTip, translate: __} = this.props;
+    const {classPrefix: ns, noDataTip, translate: __, colorPick} = this.props;
 
     if (!icons || !icons.length) {
       return (
@@ -265,7 +285,13 @@ export default class IconSelectControl extends React.PureComponent<
               })}
               onClick={() => this.handleClickIconInModal(item)}
             >
-              <svg>
+              <svg
+                style={
+                  colorPick
+                    ? {color: 'white', background: this.state.iconBgColor}
+                    : {}
+                }
+              >
                 <use xlinkHref={`#${item.id}`}></use>
               </svg>
 
@@ -411,13 +437,21 @@ export default class IconSelectControl extends React.PureComponent<
     });
   }
 
+  @autobind
+  toggleIconBg(color: string) {
+    this.setState({
+      iconBgColor: color
+    });
+  }
+
   render() {
     const {
       className,
       style,
       classPrefix: ns,
       disabled,
-      translate: __
+      translate: __,
+      colorPick
     } = this.props;
 
     return (
@@ -440,6 +474,7 @@ export default class IconSelectControl extends React.PureComponent<
           closeOnEsc
           size="lg"
           overlay
+          className={`${ns}IconSelectControl-wrap`}
           onHide={() => this.toggleModel(false)}
         >
           <Modal.Header onClose={() => this.toggleModel(false)}>
@@ -449,6 +484,24 @@ export default class IconSelectControl extends React.PureComponent<
           <Modal.Body>{this.renderModalContent()}</Modal.Body>
 
           <Modal.Footer>
+            <div
+              className={cx('icon-colors-list', {
+                'is-visible': colorPick
+              })}
+            >
+              {colors.map(color => (
+                <div
+                  style={{color: color}}
+                  key={color}
+                  className={cx(className, {
+                    'is-active': this.state.iconBgColor === color
+                  })}
+                  onClick={() => this.toggleIconBg(color)}
+                >
+                  <Icon icon="alert-success" />
+                </div>
+              ))}
+            </div>
             <Button
               type="button"
               className="m-l"

@@ -73,6 +73,11 @@
     margin-right: var(--gap-base);
     font-size: var(--fontSizeXl);
     text-transform: uppercase();
+
+    &.svg-icon svg {
+      color: white;
+      vertical-align: top;
+    }
   }
 
   &-meta {

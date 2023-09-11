@@ -234,4 +234,37 @@
       }
     }
   }
+
+  &-wrap {
+    .icon-colors-list {
+      display: none;
+
+      &.is-visible {
+        display: flex;
+      }
+
+      div {
+        border-radius: 50%;
+        margin-right: 5px;
+        cursor: pointer;
+
+        &.is-active {
+          svg {
+            background: white;
+          }
+        }
+
+        svg {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: currentColor;
+
+          path {
+            fill: currentColor !important;
+          }
+        }
+      }
+    }
+  }
 }

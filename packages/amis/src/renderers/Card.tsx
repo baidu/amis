@@ -6,7 +6,11 @@ import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
 import {Checkbox} from 'amis-ui';
 import {padArr, isVisible, isDisabled, noop, hashCode} from 'amis-core';
-import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
+import {
+  resolveVariable,
+  resolveVariableAndFilter,
+  isObjectPath
+} from 'amis-core';
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
 import {TableCell} from './Table';
@@ -638,6 +642,9 @@ export class CardRenderer extends React.Component<CardProps> {
     const {render, data, header} = this.props;
     if (header) {
       const {avatarText: avatarTextTpl} = header || {};
+      if (isObjectPath(data.logo)) {
+        return data.logo;
+      }
 
       const avatarText = filter(avatarTextTpl, data);
 

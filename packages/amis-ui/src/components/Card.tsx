@@ -1,5 +1,5 @@
 import React from 'react';
-import {isClickOnInput} from 'amis-core';
+import {isClickOnInput, isObjectPath} from 'amis-core';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
 import {buildStyle} from 'amis-core';
 export interface CardProps extends ThemeProps {
@@ -112,6 +112,18 @@ export class Card extends React.Component<CardProps> {
             <span className={cx('Card-avtar', avatarClassName)}>
               <img className={cx('Card-img', imageClassName)} src={avatar} />
             </span>
+          ) : isObjectPath(avatarText) ? (
+            <div
+              className={cx('Card-avtarText', 'svg-icon', avatarTextClassName)}
+              style={{
+                background: JSON.parse(avatarText as string).bgColor
+              }}
+              dangerouslySetInnerHTML={{
+                __html: JSON.parse(avatarText as string)
+                  .svg.replace(/\\"/g, '"')
+                  .replace(/'</g, '<')
+              }}
+            ></div>
           ) : avatarText ? (
             <span
               className={cx('Card-avtarText', avatarTextClassName)}

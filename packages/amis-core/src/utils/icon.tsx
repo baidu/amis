@@ -73,3 +73,12 @@ export const generateIcon = (
     )
   ) : null;
 };
+
+/** 检查icon参数值是否为对象路径 */
+export const isObjectPath = (raw?: any) => {
+  let res: boolean = false;
+  try {
+    res = raw && isObject(JSON.parse(raw));
+  } catch (error) {}
+  return res;
+};
