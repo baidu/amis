@@ -117,26 +117,27 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       replace: boolean = false
     ) {
       const originQuery = self.query;
-      self.query = replace
+      const query: any = replace
         ? {
             ...values
           }
         : {
-            ...self.query,
+            ...originQuery,
             ...values
           };
 
-      if (self.query[pageField || 'page']) {
-        self.page = parseInt(self.query[pageField || 'page'], 10);
-      }
+      if (isObjectShallowModified(originQuery, query, false)) {
+        if (query[pageField || 'page']) {
+          self.page = parseInt(query[pageField || 'page'], 10);
+        }
 
-      if (self.query[perPageField || 'perPage']) {
-        self.perPage = parseInt(self.query[perPageField || 'perPage'], 10);
-      }
+        if (query[perPageField || 'perPage']) {
+          self.perPage = parseInt(query[perPageField || 'perPage'], 10);
+        }
 
-      updater &&
-        isObjectShallowModified(originQuery, self.query, false) &&
-        setTimeout(updater.bind(null, `?${qsstringify(self.query)}`), 4);
+        self.query = query;
+        updater && setTimeout(updater.bind(null, `?${qsstringify(query)}`), 4);
+      }
     }
 
     const fetchInitData: (

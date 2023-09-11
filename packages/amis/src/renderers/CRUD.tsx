@@ -58,6 +58,7 @@ import {
 import type {PaginationProps} from './Pagination';
 import {isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
+import memoize from 'lodash/memoize';
 
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
@@ -473,6 +474,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   /** 父容器, 主要用于定位CRUD内部popover的挂载点 */
   parentContainer: Element | null;
 
+  filterOnEvent = memoize(onEvent =>
+    omitBy(onEvent, (event, key: any) => !INNER_EVENTS.includes(key))
+  );
+
   constructor(props: CRUDProps) {
     super(props);
 
@@ -548,8 +553,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   componentDidMount() {
-    const {store, autoGenerateFilter, columns} = this.props;
-    if (this.props.perPage) {
+    const {store, autoGenerateFilter, perPageField, columns} = this.props;
+    if (this.props.perPage && !store.query[perPageField || 'perPage']) {
       store.changePage(store.page, this.props.perPage);
     }
 
@@ -662,6 +667,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   componentWillUnmount() {
     this.mounted = false;
     clearTimeout(this.timer);
+    this.filterOnEvent.cache.clear?.();
   }
 
   /** 查找CRUD最近层级的父窗口 */
@@ -2451,10 +2457,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             ...rest,
             // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
             // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
-            onEvent: omitBy(
-              onEvent,
-              (event, key: any) => !INNER_EVENTS.includes(key)
-            ),
+            onEvent: this.filterOnEvent(onEvent),
             columns: store.columns ?? rest.columns,
             type: mode || 'table'
           },
