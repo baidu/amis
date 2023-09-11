@@ -74,6 +74,12 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
   functions?: Array<FuncGroup>;
 
   /**
+   * 是否清除默认公式
+   * 默认为 false
+   */
+  clearDefaultFormula: boolean;
+
+  /**
    * 顶部标题，默认为表达式
    */
   header: string;
@@ -273,14 +279,22 @@ export class FormulaEditor extends React.Component<
     if (this.unmounted) {
       return;
     }
+
     const customFunctions = Array.isArray(this.props.functions)
       ? this.props.functions
       : [];
-    const functionList = [
-      ...FormulaEditor.buildDefaultFunctions(doc),
-      ...FormulaEditor.buildCustomFunctions(functionDocs),
-      ...customFunctions
-    ];
+
+    const functionList = this.props.clearDefaultFormula
+      ? [
+          ...FormulaEditor.buildCustomFunctions(functionDocs),
+          ...customFunctions
+        ]
+      : [
+          ...FormulaEditor.buildDefaultFunctions(doc),
+          ...FormulaEditor.buildCustomFunctions(functionDocs),
+          ...customFunctions
+        ];
+
     this.setState({
       functions: functionList
     });

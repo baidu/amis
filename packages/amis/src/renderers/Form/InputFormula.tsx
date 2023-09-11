@@ -50,6 +50,12 @@ export interface InputFormulaControlSchema extends FormBaseControlSchema {
   functions: Array<FuncGroup>;
 
   /**
+   * 是否清除默认公式
+   * 默认为 false
+   */
+  clearDefaultFormula: boolean;
+
+  /**
    * 编辑器标题
    */
   title?: string;
@@ -141,11 +147,12 @@ export interface InputFormulaProps
 export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
   static defaultProps: Pick<
     InputFormulaControlSchema,
-    'inputMode' | 'borderMode' | 'evalMode'
+    'inputMode' | 'borderMode' | 'evalMode' | 'clearDefaultFormula'
   > = {
     inputMode: 'input-button',
     borderMode: 'full',
-    evalMode: true
+    evalMode: true,
+    clearDefaultFormula: false
   };
 
   ref: any;
@@ -180,6 +187,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       onChange,
       evalMode,
       mixedMode,
+      clearDefaultFormula,
       variableMode,
       header,
       label,
@@ -233,6 +241,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         variables={variables}
         variableMode={variableMode}
         functions={functions}
+        clearDefaultFormula={clearDefaultFormula}
         header={header || label || ''}
         borderMode={borderMode}
         placeholder={placeholder}
