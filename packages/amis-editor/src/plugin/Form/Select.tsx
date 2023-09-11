@@ -1,44 +1,68 @@
-import {EditorNodeType, getSchemaTpl} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, BaseEventContext} from 'amis-editor-core';
+import React from 'react';
+import omit from 'lodash/omit';
+import {findObjectsWithKey} from 'amis-core';
+import {Button, Icon} from 'amis-ui';
+import {
+  registerEditorPlugin,
+  getSchemaTpl,
+  BasePlugin,
+  tipedLabel,
+  JSONPipeOut
+} from 'amis-editor-core';
 
-import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {resolveOptionType} from '../../util';
+
+import type {RendererProps} from 'amis';
+import type {
+  EditorNodeType,
+  RendererPluginAction,
+  RendererPluginEvent,
+  BaseEventContext
+} from 'amis-editor-core';
 
 export class SelectControlPlugin extends BasePlugin {
   static id = 'SelectControlPlugin';
+
   static scene = ['layout'];
-  // 关联渲染器名字
+
+  name = '下拉框';
+
+  panelTitle = '下拉框';
+
   rendererName = 'select';
+
+  icon = 'fa fa-th-list';
+
+  panelIcon = 'fa fa-th-list';
+
+  pluginIcon = 'select-plugin';
+
+  isBaseComponent = true;
+
+  panelJustify = true;
+
+  notRenderFormZone = true;
+
   $schema = '/schemas/SelectControlSchema.json';
 
-  // 组件名称
-  name = '下拉框';
-  isBaseComponent = true;
-  icon = 'fa fa-th-list';
-  pluginIcon = 'select-plugin';
   description = '支持多选，输入提示，可使用 source 获取选项';
+
   docLink = '/amis/zh-CN/components/form/select';
+
   tags = ['表单项'];
+
   scaffold = {
     type: 'select',
     label: '选项',
     name: 'select',
     options: [
-      {
-        label: '选项A',
-        value: 'A'
-      },
-
-      {
-        label: '选项B',
-        value: 'B'
-      }
+      {label: '选项A', value: 'A'},
+      {label: '选项B', value: 'B'}
     ]
   };
+
   previewSchema: any = {
     type: 'form',
     className: 'text-left',
@@ -50,10 +74,6 @@ export class SelectControlPlugin extends BasePlugin {
       }
     ]
   };
-
-  notRenderFormZone = true;
-
-  panelTitle = '下拉框';
 
   // 事件定义
   events: RendererPluginEvent[] = [
@@ -243,7 +263,6 @@ export class SelectControlPlugin extends BasePlugin {
     }
   ];
 
-  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     return getSchemaTpl('tabs', [
       {
@@ -302,51 +321,16 @@ export class SelectControlPlugin extends BasePlugin {
                 manager: this.manager,
                 onChange: (value: any) => {}
               }),
-              getSchemaTpl('creatable', {
-                formType: 'extend',
-                hiddenOnDefault: true,
-                form: {
-                  body: [
-                    getSchemaTpl('createBtnLabel'),
-                    getSchemaTpl('addApi')
-                    // {
-                    //   label: '按钮位置',
-                    //   name: 'valueType',
-                    //   type: 'button-group-select',
-                    //   size: 'sm',
-                    //   tiled: true,
-                    //   value: 'asUpload',
-                    //   mode: 'row',
-                    //   options: [
-                    //     {
-                    //       label: '顶部',
-                    //       value: ''
-                    //     },
-                    //     {
-                    //       label: '底部',
-                    //       value: ''
-                    //     },
-                    //   ],
-                    // },
-                  ]
-                }
+              /** 新增选项 */
+              getSchemaTpl('optionAddControl', {
+                manager: this.manager
               }),
-              getSchemaTpl('editable', {
-                type: 'ae-Switch-More',
-                formType: 'extend',
-                hiddenOnDefault: true,
-                form: {
-                  body: [getSchemaTpl('editApi')]
-                }
+              /** 编辑选项 */
+              getSchemaTpl('optionEditControl', {
+                manager: this.manager
               }),
-              getSchemaTpl('removable', {
-                type: 'ae-Switch-More',
-                formType: 'extend',
-                hiddenOnDefault: true,
-                form: {
-                  body: [getSchemaTpl('deleteApi')]
-                }
-              })
+              /** 删除选项 */
+              getSchemaTpl('optionDeleteControl')
             ]
           },
           {
