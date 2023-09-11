@@ -239,7 +239,7 @@ function replaceDialogtoRef(
   dialogId: string,
   dialogRefsName: string
 ) {
-  let replacedSchema;
+  let replacedSchema = null;
   const dialog = JSONGetById(schema, dialogId);
   if (dialog) {
     replacedSchema = JSONUpdate(schema, dialogId, {$ref: dialogRefsName}, true);
