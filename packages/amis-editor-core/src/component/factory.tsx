@@ -299,8 +299,8 @@ function currentDialogOnchagne(
     }
   });
   if (diffs?.length) {
-    let replacedSchema;
-    let editRefsName;
+    let replacedSchema = null;
+    let editRefsName = '';
     for (const diff of diffs) {
       const {path, kind, item, rhs} = diff;
       // 添加选择现有弹窗事件
