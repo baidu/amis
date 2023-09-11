@@ -494,12 +494,8 @@ export default class Dialog extends React.Component<DialogProps> {
 
   renderFooter() {
     const actions = this.buildActions();
-
-    let {hideActions, hideActionsOn} = this.props;
-
-    let isHidden = hideActions || hideActionsOn;
-
-    if (!actions || !actions.length || isHidden) {
+    let {hideActions} = this.props;
+    if (!actions || !actions.length || hideActions) {
       return null;
     }
 
