@@ -317,7 +317,7 @@ function currentDialogOnchagne(
           dialogMaxIndex,
           item.rhs?.__selectDialog
         );
-        let replacedSchema = replaceDialogtoRef(
+        replacedSchema = replaceDialogtoRef(
           newSchema,
           item.rhs?.__selectDialog.$$id,
           dialogRefsName
