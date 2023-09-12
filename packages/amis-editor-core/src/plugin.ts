@@ -1047,7 +1047,8 @@ export abstract class BasePlugin implements PluginInterface {
         disabledRendererPlugin: plugin.disabledRendererPlugin,
         isBaseComponent: plugin.isBaseComponent,
         isListComponent: plugin.isListComponent,
-        rendererName: plugin.rendererName
+        rendererName: plugin.rendererName,
+        memberImmutable: plugin.memberImmutable
       };
     }
   }

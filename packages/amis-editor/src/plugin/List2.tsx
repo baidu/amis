@@ -24,6 +24,7 @@ export class List2Plugin extends BasePlugin {
   name = '列表';
   isBaseComponent = true;
   isListComponent = true;
+  memberImmutable = true;
   description =
     '功能类似于表格，但是用一个个小卡片来展示数据。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。';
   docLink = '/amis/zh-CN/components/cards';
@@ -448,7 +449,8 @@ export class List2Plugin extends BasePlugin {
         wrapperResolve: plugin.wrapperResolve,
         filterProps: plugin.filterProps,
         $schema: plugin.$schema,
-        renderRenderer: plugin.renderRenderer
+        renderRenderer: plugin.renderRenderer,
+        memberImmutable: plugin.memberImmutable
       };
     }
 
