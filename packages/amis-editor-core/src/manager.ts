@@ -1029,12 +1029,7 @@ export class EditorManager {
       return false;
     }
     const regionNode = node.parent as EditorNodeType; // 父级节点
-    if (
-      regionNode &&
-      !regionNode.region &&
-      !regionNode.schema.body &&
-      regionNode.schema?.type !== 'flex'
-    ) {
+    if (regionNode && !regionNode.region && !regionNode.schema.body) {
       return false;
     }
 

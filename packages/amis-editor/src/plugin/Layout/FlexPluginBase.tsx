@@ -232,7 +232,6 @@ export class FlexPluginBase extends LayoutBasePlugin {
     const isFlexItem = this.manager?.isFlexItem(id);
     const isFlexColumnItem = this.manager?.isFlexColumnItem(id);
     const newColumnSchema = defaultFlexColumnSchema('新的一列');
-    const canAppendSiblings = this.manager?.canAppendSiblings();
 
     const toolbarsTooltips: any = {};
     toolbars.forEach(toolbar => {
@@ -243,11 +242,11 @@ export class FlexPluginBase extends LayoutBasePlugin {
 
     if (
       parent &&
+      (parent.type === 'flex' || parent.type === 'container') &&
       (info.renderer?.name === 'flex' || info.renderer?.name === 'container') &&
       !isFlexItem && // 备注：如果是列级元素就不需要显示了
       !draggableContainer &&
-      !schema?.isFreeContainer &&
-      canAppendSiblings
+      !schema?.isFreeContainer
     ) {
       // 非特殊布局元素（fixed、absolute）支持前后插入追加布局元素功能icon
       if (!toolbarsTooltips['上方插入布局容器']) {
@@ -296,7 +295,12 @@ export class FlexPluginBase extends LayoutBasePlugin {
       }
     }
 
-    if (isFlexItem && !draggableContainer && canAppendSiblings) {
+    if (
+      parent &&
+      (parent.type === 'flex' || parent.type === 'container') &&
+      isFlexItem &&
+      !draggableContainer
+    ) {
       if (
         !toolbarsTooltips[`${isFlexColumnItem ? '上方' : '左侧'}插入列级容器`]
       ) {
