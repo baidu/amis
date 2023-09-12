@@ -913,3 +913,60 @@ test('Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmText'
   await wait(300);
   expect(fetcher).toHaveBeenCalled();
 });
+
+// 9. 自定义删除按钮
+test('Renderer:select autofill in combo', async () => {
+  const {container, submitBtn, findByText, onSubmit, baseElement} = await setup(
+    [
+      {
+        type: 'combo',
+        name: 'combo',
+        label: 'combo',
+        className: 'removableFalse',
+        removable: false,
+        multiple: true,
+        items: [
+          {
+            name: 'a',
+            type: 'select',
+            autoFill: {
+              type: '${type}'
+            },
+            options: [
+              {
+                label: 'A',
+                value: 'a',
+                type: '1'
+              },
+              {
+                label: 'B',
+                value: 'b',
+                type: '2'
+              }
+            ]
+          }
+        ],
+        value: [{}]
+      }
+    ],
+    {
+      // 不加这个，就会报错 fetcher is required
+      session: 'test-case-2'
+    }
+  );
+
+  fireEvent.click(await findByText('请选择'));
+
+  await waitFor(() => {
+    expect(container.querySelector('.cxd-Select-popover')).toBeInTheDocument();
+  });
+
+  fireEvent.click(await findByText('A'));
+  await wait(500);
+  fireEvent.click(submitBtn);
+  await wait(1000);
+  expect(onSubmit).toHaveBeenCalled();
+  expect(onSubmit.mock.calls[0][0]).toMatchObject({
+    combo: [{type: '1', a: 'a'}]
+  });
+});
