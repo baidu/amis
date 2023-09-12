@@ -102,7 +102,12 @@
 
 .cxd-ThemeCssCode-custom-editor {
   .suggest-widget {
-    width: 230px !important;
+    width: auto !important;
     left: 16px !important;
+    right: 0 !important;
+
+    .monaco-sash:first-child {
+      display: none;
+    }
   }
 }
