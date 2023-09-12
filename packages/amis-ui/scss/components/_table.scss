@@ -360,6 +360,7 @@
 
         .#{$ns}TableCell--title {
           min-width: fit-content;
+          display: inline-block;
         }
       }
     }
@@ -547,42 +548,6 @@
       background: var(--Table-tree-borderColor);
     }
 
-    @for $i from 2 through 10 {
-      tr.#{$ns}Table-tr--#{$i}th.is-expanded {
-        .#{$ns}Table-expandCell:before {
-          left: px2rem(23px) + px2rem(18px) * ($i - 1);
-        }
-      }
-
-      tr.#{$ns}Table-tr--#{$i}th {
-        .#{$ns}Table-expandBtn {
-          position: relative;
-          left: px2rem(1px) + (px2rem(18px)) * ($i - 1);
-        }
-
-        .#{$ns}Table-divider2 {
-          left: px2rem(5px) + (px2rem(18px)) * ($i - 1);
-        }
-
-        .#{$ns}Table-divider3 {
-          left: px2rem(5px) + (px2rem(18px)) * ($i - 1);
-        }
-      }
-
-      tr.#{$ns}Table-tr--#{$i}th.is-last .#{$ns}Table-divider3 {
-        height: 50%;
-      }
-
-      tr.#{$ns}Table-tr--#{$i}th.is-last:not(.is-expanded) {
-        .#{$ns}Table-expandCell + td {
-          &::before {
-            height: 50%;
-            bottom: auto;
-          }
-        }
-      }
-    }
-
     > thead > tr > th.#{$ns}Table-checkCell,
     > tbody > tr > td.#{$ns}Table-checkCell {
       width: px2rem(1px);
@@ -620,18 +585,6 @@
 
     > tbody > tr > td.#{$ns}Table-expandCell {
       position: relative;
-
-      @for $i from 1 through 7 {
-        .#{$ns}Table-divider-#{$i} {
-          position: absolute;
-          width: px2rem(1px);
-          top: 0;
-          bottom: 0;
-          height: 100%;
-          background: var(--Table-tree-borderColor);
-          left: px2rem(23px) + px2rem(18px) * ($i - 1);
-        }
-      }
     }
 
     > tbody > tr.is-expanded > td.#{$ns}Table-expandCell {
@@ -655,6 +608,11 @@
       > .#{$ns}TableCell--title {
         display: inline-block;
       }
+    }
+
+    > thead > tr > th.#{$ns}Table-primayCell,
+    > tbody > tr > td.#{$ns}Table-primayCell {
+      white-space: nowrap; // 树形表格展示标题栏，不要换行
     }
   }
 
@@ -899,7 +857,8 @@
     }
   }
 
-  &-expandBtn {
+  &-expandBtn,
+  &-expandBtn2 {
     position: relative;
     z-index: 1;
     color: var(--Table-expandBtn-color);
@@ -931,6 +890,23 @@
     &:hover {
       text-decoration: none;
     }
+  }
+
+  &-expandBtn2 {
+    margin-right: var(--gap-sm);
+  }
+
+  &-expandBtn2 + * {
+    display: inline-block;
+  }
+
+  &-indent {
+    display: inline-block;
+  }
+
+  &-expandSpace {
+    display: inline-block;
+    width: px2rem(22px);
   }
 
   &-dragBtn {

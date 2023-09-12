@@ -65,7 +65,7 @@ export interface TableBodyProps extends LocaleProps {
 @observer
 export class TableBody extends React.Component<TableBodyProps> {
   componentDidMount(): void {
-    this.props.store.syncTableWidth();
+    this.props.store.initTableWidth();
   }
 
   renderRows(

@@ -334,10 +334,13 @@ order: 67
 
 可以配置数字，用于设置列宽像素，例如下面例子我们给`Rendering engine`列宽设置为`100px`。
 
+> 如果希望精准的控制列宽，请设置表格的 `tableLayout` 为 `fixed` 模式，同时为了让表格标题不换行，标题文字的长短会影响列的最小宽度
+
 ```schema: scope="body"
 {
     "type": "crud",
     "api": "/api/mock2/sample?waitSeconds=1",
+    "tableLayout": "fixed",
     "columns": [
         {
             "name": "id",
@@ -346,7 +349,7 @@ order: 67
         {
             "name": "engine",
             "label": "Rendering engine",
-            "width": 100
+            "width": 150
         }
     ]
 }
@@ -1846,6 +1849,7 @@ popOver 的其它配置请参考 [popover](./popover)
 | selectable       | `boolean`                                                | `false`                   | 支持勾选                                                                  |                                   |
 | multiple         | `boolean`                                                | `false`                   | 勾选 icon 是否为多选样式`checkbox`， 默认为`radio`                        |                                   |
 | lazyRenderAfter  | `number`                                                 | `100`                     | 用来控制从第几行开始懒渲染行，用来渲染大表格时有用                        |                                   |
+| tableLayout      | `auto` \| `fixed`                                        | `auto`                    | 当配置为 fixed 时，内容将不会撑开表格，自动换行                           |                                   |
 
 ### 列配置属性表
 

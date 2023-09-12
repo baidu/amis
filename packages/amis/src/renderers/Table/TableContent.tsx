@@ -173,8 +173,7 @@ export class TableContent extends React.PureComponent<TableContentProps> {
       store,
       dispatchEvent,
       onEvent,
-      loading,
-      columnWidthReady
+      loading
     } = this.props;
 
     const tableClassName = cx('Table-table', this.props.tableClassName);
@@ -190,7 +189,7 @@ export class TableContent extends React.PureComponent<TableContentProps> {
           ref={tableRef}
           className={cx(
             tableClassName,
-            columnWidthReady ? 'is-layout-fixed' : undefined
+            store.tableLayout === 'fixed' ? 'is-layout-fixed' : undefined
           )}
         >
           <ColGroup columns={columns} store={store} />
