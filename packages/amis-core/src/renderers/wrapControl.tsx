@@ -833,7 +833,7 @@ export function wrapControl<
             const injectedProps: any = {
               defaultSize: controlWidth,
               disabled: disabled ?? control.disabled,
-              static: control.static ?? defaultStatic,
+              static: this.props.static ?? control.static ?? defaultStatic,
               formItem: this.model,
               formMode: control.mode || formMode,
               ref: this.controlRef,
