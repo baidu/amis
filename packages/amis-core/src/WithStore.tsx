@@ -246,7 +246,7 @@ export function HocStoreFactory(renderer: {
                       ...props.data
                     }
                   : syncDataFromSuper(
-                      store.data,
+                      props.data,
                       (props.data as any).__super,
                       (prevProps.data as any).__super,
                       store,
