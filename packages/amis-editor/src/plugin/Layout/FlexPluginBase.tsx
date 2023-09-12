@@ -240,16 +240,17 @@ export class FlexPluginBase extends LayoutBasePlugin {
       }
     });
 
+    // 列表组件中的直接容器元素不支持上下插入布局元素
     if (
       parent &&
-      (parent.type === 'flex' || parent.type === 'container') &&
+      parent.type !== 'cards' &&
       (info.renderer?.name === 'flex' || info.renderer?.name === 'container') &&
-      !isFlexItem && // 备注：如果是列级元素就不需要显示了
       !draggableContainer &&
       !schema?.isFreeContainer
     ) {
       // 非特殊布局元素（fixed、absolute）支持前后插入追加布局元素功能icon
-      if (!toolbarsTooltips['上方插入布局容器']) {
+      // 备注：如果是列级元素不需要显示
+      if (!toolbarsTooltips['上方插入布局容器'] && !isFlexItem) {
         toolbars.push(
           {
             iconSvg: 'add-btn',
