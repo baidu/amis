@@ -305,8 +305,6 @@ export class CardsPlugin extends BasePlugin {
           style: {
             'position': 'static',
             'display': 'block',
-            'overflowY': 'auto',
-            'overflowX': 'auto',
             'paddingTop': '10px',
             'paddingRight': '10px',
             'paddingBottom': '10px',
@@ -348,7 +346,6 @@ export class CardsPlugin extends BasePlugin {
         position: 'static',
         display: 'flex',
         width: '1000%',
-        overflowX: 'auto',
         margin: '0',
         flexWrap: 'nowrap',
         justifyContent: 'space-between'
