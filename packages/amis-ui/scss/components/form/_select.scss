@@ -664,3 +664,27 @@
     }
   }
 }
+
+// 下拉框在弹框中的的时候没有select层，所以把这部分单独提出来
+.#{$ns}PopOver.#{$ns}Select-popover {
+  &.#{$ns}PopOver--v-top {
+    margin-top: px2rem(4px);
+  }
+  &.#{$ns}PopOver--v-bottom {
+    margin-bottom: px2rem(4px);
+  }
+  .#{$ns}Select-menu {
+    .#{$ns}Checkbox span {
+      line-height: var(--select-base-default-option-line-height);
+      height: var(--select-base-default-option-line-height);
+    }
+    .#{$ns}Select-option {
+      line-height: var(--select-base-default-option-line-height);
+      height: var(--select-base-default-option-line-height);
+    }
+    .#{$ns}Select-addBtn {
+      line-height: var(--select-base-default-option-line-height);
+      height: var(--select-base-default-option-line-height);
+    }
+  }
+}
