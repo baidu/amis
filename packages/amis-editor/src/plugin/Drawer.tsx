@@ -11,9 +11,9 @@ import {
   isEmpty
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
-import {InlineModal} from './Dialog';
 import {tipedLabel} from 'amis-editor-core';
 import omit from 'lodash/omit';
+import {InlineModal} from './Dialog';
 
 export class DrawerPlugin extends BasePlugin {
   static id = 'DrawerPlugin';
@@ -128,6 +128,47 @@ export class DrawerPlugin extends BasePlugin {
                 type: 'input-text',
                 name: 'title'
               },
+              getSchemaTpl('switch', {
+                name: 'overlay',
+                label: '显示蒙层',
+                pipeIn: defaultValue(true)
+              }),
+              getSchemaTpl('switch', {
+                name: 'showCloseButton',
+                label: '展示关闭按钮',
+                pipeIn: defaultValue(true)
+              }),
+              getSchemaTpl('switch', {
+                name: 'closeOnOutside',
+                label: '点击遮罩关闭'
+              }),
+              getSchemaTpl('switch', {
+                label: '可按 Esc 关闭',
+                name: 'closeOnEsc'
+              }),
+              {
+                type: 'ae-StatusControl',
+                label: '隐藏按钮区',
+                mode: 'normal',
+                name: 'hideActions',
+                expressionName: 'hideActionsOn'
+              },
+              getSchemaTpl('switch', {
+                name: 'resizable',
+                label: '可拖拽抽屉大小',
+                value: false
+              }),
+              getSchemaTpl('dataMap')
+            ]
+          }
+        ])
+      },
+      {
+        title: '外观',
+        body: getSchemaTpl('collapseGroup', [
+          {
+            title: '样式',
+            body: [
               {
                 type: 'button-group-select',
                 name: 'position',
@@ -166,40 +207,6 @@ export class DrawerPlugin extends BasePlugin {
                   }
                 }
               },
-              getSchemaTpl('switch', {
-                name: 'overlay',
-                label: '显示蒙层',
-                pipeIn: defaultValue(true)
-              }),
-              getSchemaTpl('switch', {
-                name: 'showCloseButton',
-                label: '展示关闭按钮',
-                pipeIn: defaultValue(true)
-              }),
-              getSchemaTpl('switch', {
-                name: 'closeOnOutside',
-                label: '点击外部关闭'
-              }),
-              getSchemaTpl('switch', {
-                label: '可按 Esc 关闭',
-                name: 'closeOnEsc'
-              }),
-              getSchemaTpl('switch', {
-                name: 'resizable',
-                label: '可拖拽抽屉大小',
-                value: false
-              }),
-              getSchemaTpl('dataMap')
-            ]
-          }
-        ])
-      },
-      {
-        title: '外观',
-        body: getSchemaTpl('collapseGroup', [
-          {
-            title: '基本',
-            body: [
               {
                 type: 'button-group-select',
                 name: 'size',
@@ -237,7 +244,7 @@ export class DrawerPlugin extends BasePlugin {
                     '宽度',
                     '位置为 "左" 或 "右" 时生效。 默认宽度为"尺寸"字段配置的宽度，值单位默认为 px，也支持百分比等单位 ，如：100%'
                   ),
-                  disabledOn:
+                  visibleOn:
                     'this.position === "top" || this.position === "bottom"'
                 },
                 heightSchema: {
@@ -245,29 +252,80 @@ export class DrawerPlugin extends BasePlugin {
                     '高度',
                     '位置为 "上" 或 "下" 时生效。 默认宽度为"尺寸"字段配置的高度，值单位默认为 px，也支持百分比等单位 ，如：100%'
                   ),
-                  disabledOn:
+                  visibleOn:
                     'this.position === "left" || this.position === "right" || !this.position'
                 }
+              }),
+              getSchemaTpl('theme:border', {
+                name: 'themeCss.drawerClassName.border'
+              }),
+              getSchemaTpl('theme:radius', {
+                name: 'themeCss.drawerClassName.radius'
+              }),
+              getSchemaTpl('theme:shadow', {
+                name: 'themeCss.drawerClassName.box-shadow'
+              }),
+              getSchemaTpl('theme:colorPicker', {
+                label: '背景',
+                name: 'themeCss.drawerClassName.background',
+                labelMode: 'input'
+              }),
+              getSchemaTpl('theme:colorPicker', {
+                label: '遮罩颜色',
+                name: 'themeCss.drawerMaskClassName.background',
+                labelMode: 'input'
               })
             ]
           },
           {
-            title: 'CSS类名',
+            title: '标题区',
             body: [
-              getSchemaTpl('className', {
-                label: '外层'
+              getSchemaTpl('theme:font', {
+                label: '文字',
+                name: 'themeCss.drawerTitleClassName.font'
               }),
-              getSchemaTpl('className', {
-                label: '标题区域',
-                name: 'headClassName'
+              getSchemaTpl('theme:paddingAndMargin', {
+                name: 'themeCss.drawerHeaderClassName.padding-and-margin',
+                label: '间距'
               }),
-              getSchemaTpl('className', {
-                label: '内容区域',
-                name: 'bodyClassName'
+              getSchemaTpl('theme:colorPicker', {
+                label: '背景',
+                name: 'themeCss.drawerHeaderClassName.background',
+                labelMode: 'input'
+              })
+            ]
+          },
+          {
+            title: '内容区',
+            body: [
+              getSchemaTpl('theme:border', {
+                name: 'themeCss.drawerBodyClassName.border'
               }),
-              getSchemaTpl('className', {
-                label: '页脚区域',
-                name: 'footClassName'
+              getSchemaTpl('theme:radius', {
+                name: 'themeCss.drawerBodyClassName.radius'
+              }),
+              getSchemaTpl('theme:paddingAndMargin', {
+                name: 'themeCss.drawerBodyClassName.padding-and-margin',
+                label: '间距'
+              }),
+              getSchemaTpl('theme:colorPicker', {
+                label: '背景',
+                name: 'themeCss.drawerBodyClassName.background',
+                labelMode: 'input'
+              })
+            ]
+          },
+          {
+            title: '底部区',
+            body: [
+              getSchemaTpl('theme:paddingAndMargin', {
+                name: 'themeCss.drawerFooterClassName.padding-and-margin',
+                label: '间距'
+              }),
+              getSchemaTpl('theme:colorPicker', {
+                label: '背景',
+                name: 'themeCss.drawerFooterClassName.background',
+                labelMode: 'input'
               })
             ]
           }

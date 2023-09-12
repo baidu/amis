@@ -896,6 +896,10 @@
     margin-right: var(--gap-sm);
   }
 
+  &-expandBtn2 + * {
+    display: inline-block;
+  }
+
   &-indent {
     display: inline-block;
   }

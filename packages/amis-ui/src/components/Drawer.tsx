@@ -41,6 +41,8 @@ export interface DrawerProps {
   children?: React.ReactNode | Array<React.ReactNode>;
   onExited?: () => void;
   onEntered?: () => void;
+  drawerClassName?: string;
+  drawerMaskClassName?: string;
 }
 export interface DrawerState {}
 const fadeStyles: {
@@ -308,7 +310,9 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
       disabled,
       overlay,
       bodyClassName,
-      resizable
+      resizable,
+      drawerClassName,
+      drawerMaskClassName
     } = this.props;
 
     const bodyStyle = this.getDrawerStyle();
@@ -350,7 +354,11 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
               >
                 {overlay ? (
                   <div
-                    className={cx(`${ns}Drawer-overlay`, fadeStyles[status])}
+                    className={cx(
+                      `${ns}Drawer-overlay`,
+                      fadeStyles[status],
+                      drawerMaskClassName
+                    )}
                   />
                 ) : null}
                 <div
@@ -359,7 +367,8 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                   className={cx(
                     `${ns}Drawer-content`,
                     bodyClassName,
-                    fadeStyles[status]
+                    fadeStyles[status],
+                    drawerClassName
                   )}
                 >
                   {show && showCloseButton ? (

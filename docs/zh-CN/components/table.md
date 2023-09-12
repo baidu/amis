@@ -334,10 +334,13 @@ order: 67
 
 可以配置数字，用于设置列宽像素，例如下面例子我们给`Rendering engine`列宽设置为`100px`。
 
+> 如果希望精准的控制列宽，请设置表格的 `tableLayout` 为 `fixed` 模式，同时为了让表格标题不换行，标题文字的长短会影响列的最小宽度
+
 ```schema: scope="body"
 {
     "type": "crud",
     "api": "/api/mock2/sample?waitSeconds=1",
+    "tableLayout": "fixed",
     "columns": [
         {
             "name": "id",
@@ -346,7 +349,7 @@ order: 67
         {
             "name": "engine",
             "label": "Rendering engine",
-            "width": 100
+            "width": 150
         }
     ]
 }

@@ -1110,7 +1110,7 @@ export const TableStore = iRendererStore
           Math.max(
             typeof column.pristine.width === 'number'
               ? column.pristine.width
-              : col.clientWidth - 2,
+              : col.clientWidth,
             minWidths[index] || 0
           )
         );
