@@ -1631,7 +1631,7 @@ exports[`Renderer:combo with items & multiLine 1`] = `
           />
         </div>
         <div
-          class="cxd-Divider cxd-Divider--dashed cxd-Divider--horizontal"
+          class="cxd-Divider cxd-Divider--solid cxd-Divider--horizontal"
         />
         <div
           class="cxd-Form-item cxd-Form-item--horizontal"
