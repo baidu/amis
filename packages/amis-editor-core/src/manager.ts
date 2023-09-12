@@ -1025,20 +1025,19 @@ export class EditorManager {
     const store = this.store;
     const id = store.activeId;
     const node = store.getNodeById(id)!; // 当前选中节点
-    if (!node) {
-      return false;
-    }
     const regionNode = node.parent as EditorNodeType; // 父级节点
-    if (
-      regionNode &&
-      !regionNode.region &&
-      !regionNode.schema.body &&
-      regionNode.schema?.type !== 'flex'
-    ) {
+    if (!node || !regionNode || !regionNode.schema) {
       return false;
+    } else if (regionNode.memberImmutable('')) {
+      return false;
+    } else if (
+      regionNode.schema.body ||
+      (regionNode.schema.type === 'flex' && regionNode.schema.items) ||
+      node.schema.columns
+    ) {
+      return true;
     }
-
-    return true;
+    return false;
   }
 
   /**

@@ -30,6 +30,7 @@ export class CardsPlugin extends BasePlugin {
   name = '卡片列表';
   isBaseComponent = true;
   isListComponent = true;
+  memberImmutable = true;
   description =
     '功能类似于表格，但是用一个个小卡片来展示数据。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。';
   docLink = '/amis/zh-CN/components/cards';
@@ -305,8 +306,6 @@ export class CardsPlugin extends BasePlugin {
           style: {
             'position': 'static',
             'display': 'block',
-            'overflowY': 'auto',
-            'overflowX': 'auto',
             'paddingTop': '10px',
             'paddingRight': '10px',
             'paddingBottom': '10px',
@@ -348,7 +347,6 @@ export class CardsPlugin extends BasePlugin {
         position: 'static',
         display: 'flex',
         width: '1000%',
-        overflowX: 'auto',
         margin: '0',
         flexWrap: 'nowrap',
         justifyContent: 'space-between'
@@ -514,7 +512,8 @@ export class CardsPlugin extends BasePlugin {
         wrapperResolve: plugin.wrapperResolve,
         filterProps: plugin.filterProps,
         $schema: plugin.$schema,
-        renderRenderer: plugin.renderRenderer
+        renderRenderer: plugin.renderRenderer,
+        memberImmutable: plugin.memberImmutable
       };
     }
 

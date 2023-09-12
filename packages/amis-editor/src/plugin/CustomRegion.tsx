@@ -150,7 +150,8 @@ export class CustomPlugin extends BasePlugin {
         scaffoldForm: plugin.scaffoldForm,
         disabledRendererPlugin: plugin.disabledRendererPlugin,
         isBaseComponent: plugin.isBaseComponent,
-        rendererName: plugin.rendererName
+        rendererName: plugin.rendererName,
+        memberImmutable: plugin.memberImmutable
       };
     }
   }
