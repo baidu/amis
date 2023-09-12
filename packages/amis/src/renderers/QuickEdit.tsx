@@ -575,7 +575,7 @@ export const HocQuickEdit =
         ) {
           return render('inline-form-item', schema.body[0], {
             mode: 'normal',
-            value: value || '',
+            value: value ?? '',
             onChange: this.handleFormItemChange,
             ref: this.formItemRef
           });
