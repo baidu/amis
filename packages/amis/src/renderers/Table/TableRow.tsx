@@ -1,12 +1,19 @@
 import {observer} from 'mobx-react';
 import React from 'react';
 import type {IColumn, IRow} from 'amis-core/lib/store/table';
-import {RendererEvent, RendererProps, autobind, traceProps} from 'amis-core';
+import {
+  ITableStore,
+  RendererEvent,
+  RendererProps,
+  autobind,
+  traceProps
+} from 'amis-core';
 import {Action} from '../Action';
 import {isClickOnInput} from 'amis-core';
 import {useInView} from 'react-intersection-observer';
 
 interface TableRowProps extends Pick<RendererProps, 'render'> {
+  store: ITableStore;
   onCheck: (item: IRow, value: boolean, shift?: boolean) => Promise<void>;
   onRowClick: (item: IRow, index: number) => Promise<RendererEvent<any> | void>;
   onRowDbClick: (
@@ -41,7 +48,9 @@ interface TableRowProps extends Pick<RendererProps, 'render'> {
 
 export class TableRow extends React.PureComponent<
   TableRowProps & {
+    // 这些属性纯粹是为了监控变化，不要在 render 里面使用
     expanded: boolean;
+    parentExpanded?: boolean;
     id: string;
     newIndex: number;
     isHover: boolean;
@@ -53,6 +62,7 @@ export class TableRow extends React.PureComponent<
     appeard?: boolean;
     checkdisable: boolean;
     trRef?: React.Ref<any>;
+    isNested?: boolean;
   }
 > {
   @autobind
@@ -301,13 +311,13 @@ export class TableRow extends React.PureComponent<
               ...rest,
               rowIndex: itemIndex,
               colIndex: column.index,
-              key: column.index,
+              key: column.id,
               onAction: this.handleAction,
               onQuickChange: this.handleQuickChange,
               onChange: this.handleChange
             })
           ) : (
-            <td key={column.index}>
+            <td key={column.id}>
               <div className={cx('Table-emptyBlock')}>&nbsp;</div>
             </td>
           )
@@ -320,6 +330,7 @@ export class TableRow extends React.PureComponent<
 // 换成 mobx-react-lite 模式
 export default observer((props: TableRowProps) => {
   const item = props.item;
+  const parent = props.parent;
   const store = props.store;
   const columns = props.columns;
   const canAccessSuperData =
@@ -337,6 +348,7 @@ export default observer((props: TableRowProps) => {
       {...props}
       trRef={ref}
       expanded={item.expanded}
+      parentExpanded={parent?.expanded}
       id={item.id}
       newIndex={item.newIndex}
       isHover={item.isHover}
@@ -350,6 +362,7 @@ export default observer((props: TableRowProps) => {
       // 不是 item.locals 的原因是 item.locals 会变化多次，比如父级上下文变化也会进来，但是 item.data 只会变化一次。
       data={canAccessSuperData ? item.locals : item.data}
       appeard={item.lazyRender ? item.appeared || inView : true}
+      isNested={store.isNested}
     />
   );
 });
