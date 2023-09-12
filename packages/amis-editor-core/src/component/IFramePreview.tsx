@@ -1,6 +1,6 @@
 import {observer} from 'mobx-react';
 import {EditorStoreType} from '../store/editor';
-import React from 'react';
+import React, {memo} from 'react';
 import {EditorManager} from '../manager';
 import Frame, {useFrame} from 'react-frame-component';
 import {
@@ -79,6 +79,12 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
   }
 
   @autobind
+  getModalDocument() {
+    const store = this.props.store;
+    return store.getDoc();
+  }
+
+  @autobind
   isMobile() {
     return true;
   }
@@ -108,9 +114,11 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
             session: `${env.session}-iframe-preview`,
             useMobileUI: true,
             isMobile: this.isMobile,
-            getModalContainer: this.getModalContainer
+            getModalContainer: this.getModalContainer,
+            getModalDocument: this.getModalDocument
           }
         )}
+        <InnerSvgSpirit />
       </Frame>
     );
   }
@@ -219,3 +227,19 @@ function InnerComponent({
 
   return null;
 }
+
+const InnerSvgSpirit = memo(() => {
+  // @ts-ignore 这里取的是平台的变量
+  let spiriteIcons = window.spiriteIcons;
+  if (spiriteIcons) {
+    return (
+      <div
+        id="amis-icon-manage-mount-node"
+        style={{display: 'none'}}
+        dangerouslySetInnerHTML={{__html: spiriteIcons}}
+      ></div>
+    );
+  } else {
+    return null;
+  }
+});

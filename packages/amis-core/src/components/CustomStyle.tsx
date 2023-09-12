@@ -12,8 +12,8 @@ interface CustomStyleProps {
 }
 
 export default function (props: CustomStyleProps) {
-  const {themeCss, classNames, id, defaultData, wrapperCustomStyle} =
-    props.config;
+  const {config, env} = props;
+  const {themeCss, classNames, id, defaultData, wrapperCustomStyle} = config;
   if (!themeCss && !wrapperCustomStyle) {
     return null;
   }
@@ -24,19 +24,26 @@ export default function (props: CustomStyleProps) {
       themeCss,
       classNames,
       defaultData,
-      customStyleClassPrefix: props.env?.customStyleClassPrefix
+      customStyleClassPrefix: env?.customStyleClassPrefix,
+      doc: env.getModalDocument?.()
     });
     return () => {
-      styleDom.removeCustomStyle();
+      styleDom.removeCustomStyle('', env.getModalDocument?.());
     };
-  }, [props.config.themeCss]);
+  }, [config.themeCss]);
 
   useEffect(() => {
-    styleDom.insertEditCustomStyle(wrapperCustomStyle);
+    styleDom.insertEditCustomStyle(
+      wrapperCustomStyle,
+      env.getModalDocument?.()
+    );
     return () => {
-      styleDom.removeCustomStyle('wrapperCustomStyle');
+      styleDom.removeCustomStyle(
+        'wrapperCustomStyle',
+        env.getModalDocument?.()
+      );
     };
-  }, [props.config.wrapperCustomStyle]);
+  }, [config.wrapperCustomStyle]);
 
   return null;
 }
