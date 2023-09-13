@@ -2,11 +2,13 @@
 import * as React from 'react';
 import {Editor, ShortcutKey, BasePlugin, setThemeConfig} from '../src/index';
 import {Select, Renderer, uuid, Button} from 'amis';
+import axios from 'axios';
 import {currentLocale} from 'i18n-runtime';
 import {Portal} from 'react-overlays';
 import {Icon} from './icons/index';
 import LayoutList from './layout/index';
 import themeConfig from 'amis-theme-editor-helper/lib/systemTheme/cxd';
+import cloneDeep from 'lodash/cloneDeep';
 
 // 测试组织属性配置面板的国际化，可以放开如下注释
 // import './renderer/InputTextI18n';
@@ -535,6 +537,59 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
 
+    // todo 后面要修改的 临时固定
+    // Mount a method to window
+    (window as any).getApis = function () {
+      axios
+        .get('http://127.0.0.1:5000/swagger/Default/swagger.json')
+        .then(response => {
+          const swaggerJson = response.data;
+          const apis: any = {};
+
+          for (const path in swaggerJson.paths) {
+            for (const method in swaggerJson.paths[path]) {
+              const api: any = swaggerJson.paths[path][method];
+              const tag = api.tags[0];
+
+              if (!apis[tag]) {
+                apis[tag] = [];
+              }
+              let _path = path;
+              // 判断接口请求类型，加前缀到_path中间加:
+              const requestType = method.toUpperCase();
+              _path = `${requestType.toLowerCase()}:${_path}`;
+
+              const regex = /{(\w+)}/g;
+              let match;
+              while ((match = regex.exec(_path)) !== null) {
+                _path = _path.replace(match[0], `$${match[1]}`);
+              }
+              _path = _path.replace(/\$id/g, '$Id');
+              _path = _path.replace(/\$Ids/g, '$ids');
+
+              apis[tag].push({
+                label: _path,
+                value: _path
+              });
+            }
+          }
+
+          let result: any = [];
+          Object.keys(apis).forEach(tag => {
+            result.push({label: `【${tag}】`, isDivider: true});
+
+            result.push(...apis[tag]);
+          });
+          // 存到全局变量中
+          (window as any).__apis = cloneDeep(result);
+
+          console.log('获取到所有的api', result);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    };
+    (window as any).getApis();
     if (i18nEnabled) {
       this.state = {
         ...this.state,
@@ -628,6 +683,48 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
     const isMobile = type === EditorType.MOBILE;
     const {replaceText} = this.state;
 
+    const fetcher = ({url, method, data, config, headers}: any) => {
+      if (!/^http/.test(url)) {
+        url = 'http://127.0.0.1:5000' + url;
+      }
+
+      //增加前缀
+      if (localStorage.getItem('BU')) {
+        url = localStorage.getItem('BU') + url;
+      }
+
+      config = config || {};
+      config.headers = config.headers || headers || {};
+      config.withCredentials = false;
+
+      // 增加headers
+      if (
+        localStorage.getItem('tokenName') &&
+        localStorage.getItem(localStorage.getItem('tokenName')!)
+      ) {
+        config.headers[localStorage.getItem('tokenName')!] =
+          localStorage.getItem(localStorage.getItem('tokenName')!);
+      }
+      if (method !== 'post' && method !== 'put' && method !== 'patch') {
+        if (data) {
+          config.params = data;
+        }
+        return (axios as any)[method](url, config);
+      } else if (data && data instanceof FormData) {
+        // config.headers = config.headers || {};
+        // config.headers['Content-Type'] = 'multipart/form-data';
+      } else if (
+        data &&
+        typeof data !== 'string' &&
+        !(data instanceof Blob) &&
+        !(data instanceof ArrayBuffer)
+      ) {
+        data = JSON.stringify(data);
+        config.headers['Content-Type'] = 'application/json';
+      }
+
+      return (axios as any)[method](url, data, config);
+    };
     return (
       <Editor
         preview={preview}
@@ -649,6 +746,7 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
         }}
         amisEnv={
           {
+            fetcher,
             variable: {
               id: 'appVariables',
               namespace: 'appVariables',

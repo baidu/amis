@@ -295,7 +295,8 @@ export class TextControlPlugin extends BasePlugin {
                 getSchemaTpl('remark'),
                 getSchemaTpl('placeholder'),
                 getSchemaTpl('description'),
-                getSchemaTpl('autoFillApi')
+                getSchemaTpl('autoFillApi'),
+                getSchemaTpl('options'),
               ]
             },
             {

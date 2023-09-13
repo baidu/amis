@@ -17,6 +17,7 @@ setSchemaTpl('options', () => {
     name: 'options',
     type: 'combo',
     multiple: true,
+    visibleOn: 'typeof data.options === "undefined"',
     draggable: true,
     addButtonText: '新增选项',
     scaffold: {

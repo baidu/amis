@@ -3,7 +3,7 @@ import mergeWith from 'lodash/mergeWith';
 import cloneDeep from 'lodash/cloneDeep';
 import cx from 'classnames';
 import {FormItem, Icon} from 'amis';
-import {Input, PickerContainer, Spinner} from 'amis-ui';
+import {Button, Select, PickerContainer, Spinner} from 'amis-ui';
 
 import {getEnv} from 'mobx-state-tree';
 import {normalizeApi, isEffectiveApi, isApiOutdated} from 'amis-core';
@@ -157,6 +157,7 @@ export interface APIControlState {
   selectedItem?: any[];
   schema?: SchemaCollection;
   loading: boolean;
+  apis: any;
 }
 
 export default class APIControl extends React.Component<
@@ -185,7 +186,8 @@ export default class APIControl extends React.Component<
       apiStr: this.transformApi2Str(props.value),
       selectedItem: [],
       schema: props.pickerSchema,
-      loading: false
+      loading: false,
+      apis: (window as any).__apis
     };
   }
 
@@ -307,9 +309,9 @@ export default class APIControl extends React.Component<
   }
 
   @autobind
-  handleSimpleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = e.currentTarget.value;
-
+  handleSimpleSelectChange(e: any) {
+    debugger;
+    let value = e.value;
     this.handleSubmit(value, 'input');
   }
 
@@ -968,7 +970,7 @@ export default class APIControl extends React.Component<
       env,
       renderLabel
     } = this.props;
-    let {apiStr, selectedItem, loading} = this.state;
+    let {apiStr, selectedItem, loading, apis} = this.state;
     selectedItem =
       Array.isArray(selectedItem) && selectedItem.length !== 0
         ? selectedItem
@@ -987,7 +989,8 @@ export default class APIControl extends React.Component<
               {!renderLabel && this.renderHeader()}
 
               <div className="ae-ApiControl-content" key="content">
-                <div className={cx('ae-ApiControl-input')}>
+                {/* <div className={cx('ae-ApiControl-input')}> */}
+                <div className="api-Select">
                   {enableHighlight && highlightLabel ? (
                     <div className={cx('ae-ApiControl-highlight')}>
                       {loading ? (
@@ -1016,15 +1019,35 @@ export default class APIControl extends React.Component<
                       )}
                     </div>
                   ) : (
-                    <Input
+                    // todo: 修改为Select
+                    // <Input
+                    //   ref={this.inputRef}
+                    //   value={apiStr}
+                    //   type="text"
+                    //   disabled={disabled}
+                    //   placeholder="http://"
+                    //   onChange={this.handleSimpleInputChange}
+                    // />
+                    <Select
                       ref={this.inputRef}
                       value={apiStr}
-                      type="text"
                       disabled={disabled}
-                      placeholder="http://"
-                      onChange={this.handleSimpleInputChange}
+                      className="w-full"
+                      options={(window as any).__apis}
+                      onChange={this.handleSimpleSelectChange}
                     />
                   )}
+                  <Button
+                    onClick={() => {
+                      (window as any).getApis();
+                      this.state = {
+                        ...this.state,
+                        apis: (window as any).__apis
+                      };
+                    }}
+                  >
+                    刷新Api
+                  </Button>
                   {enablePickerMode ? this.renderPickerSchema() : null}
                 </div>
 

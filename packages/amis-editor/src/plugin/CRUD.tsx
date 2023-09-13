@@ -55,6 +55,64 @@ const viewTypeToEditType = (type: string) => {
     : `input-${type}`;
 };
 
+// todo 临时处理，后续需要优化 优化为自定义配置
+const igColumns = ['Id', 'id', 'CreateTime', 'UpdateTime', 'IsDeleted', 'Sort'];
+// 自动替换为中文名字
+const replaceLabel = (label: string) => {
+  if (label === 'Id') {
+    return 'ID';
+  } else if (label === 'CreateTime') {
+    return '创建时间';
+  } else if (label === 'UpdateTime') {
+    return '更新时间';
+  } else if (label === 'Remark') {
+    return '备注';
+  }
+
+  return label;
+};
+
+// 日期时间自动替换为date
+const replaceType = (key: string) => {
+  let type = 'text';
+  if (key === 'CreateTime') {
+    return 'date';
+  }
+  if (key === 'UpdateTime') {
+    return 'date';
+  }
+
+  return type;
+};
+
+// url自动替换为自用格式
+const replaceUrl = (data: any, api: string, typeName: string): any => {
+  // var api = data?.dialog?.body?.api ?? data.api;
+  const regex = /api\/(.+?)(\/|\?|#|$)/gim;
+  let match = regex.exec(api);
+  let apiModelName = '';
+  if (match) {
+    apiModelName = match[1];
+    if (typeName === 'create') {
+      return `post:/api/${apiModelName}/add`;
+    }
+    if (typeName === 'update') {
+      data.dialog.body.api = `post:/api/${apiModelName}/update`;
+    } else if (typeName === 'view') {
+      data.dialog.body.api = `post:/api/${apiModelName}/update`;
+    } else if (typeName === 'delete') {
+      data.api = `delete:/api/${apiModelName}/$Id`;
+    } else if (typeName === 'bulkDelete') {
+      data.api = `delete:/api/${apiModelName}/batch/$ids`;
+    } else if (typeName === 'bulkUpdate') {
+      data.dialog.body.api = `post:/api/${apiModelName}/bulk-Update`;
+    }
+    return data;
+  } else {
+    return data;
+  }
+};
+
 export class CRUDPlugin extends BasePlugin {
   static id = 'CRUDPlugin';
   // 关联渲染器名字
@@ -422,7 +480,7 @@ export class CRUDPlugin extends BasePlugin {
       level: 'danger',
       label: '批量删除',
       actionType: 'ajax',
-      confirmText: '确定要删除？',
+      confirmText: '确定要批量删除吗？',
       api: '/xxx/batch-delete'
     },
     bulkUpdate: {
@@ -467,6 +525,7 @@ export class CRUDPlugin extends BasePlugin {
 
   get scaffoldForm(): ScaffoldForm {
     const i18nEnabled = getI18nEnabled();
+    var pid = getSchemaTpl('primaryField');
     return {
       title: '增删改查快速开始-CRUD',
       body: [
@@ -486,6 +545,7 @@ export class CRUDPlugin extends BasePlugin {
               2
             )
         }),
+        {...pid, value: 'Id'},
         {
           type: 'button',
           label: '格式校验并自动生成列配置',
@@ -518,14 +578,27 @@ export class CRUDPlugin extends BasePlugin {
             }
 
             if (Array.isArray(items)) {
-              Object.keys(items[0]).forEach((key: any) => {
-                const value = items[0][key];
-                autoFillKeyValues.push({
-                  label: key,
-                  type: 'text',
-                  name: key
+              // todo 临时处理，后续需要优化 优化为自定义配置
+              Object.keys(items[0])
+                .filter(key => key !== 'IsDeleted' && key !== 'Sort')
+                .forEach((key: any) => {
+                  const label = replaceLabel(key);
+                  let type = replaceType(key);
+                  if (key === 'Id') {
+                    autoFillKeyValues.unshift({
+                      label: label,
+                      type: type,
+                      name: key
+                    });
+                  } else {
+                    autoFillKeyValues.push({
+                      label: label,
+                      type: type,
+                      name: key
+                    });
+                  }
                 });
-              });
+
               props.formStore.setValues({
                 columns: autoFillKeyValues
               });
@@ -667,10 +740,16 @@ export class CRUDPlugin extends BasePlugin {
           features.forEach((item: string) => {
             if (itemBtns.includes(item)) {
               let schema;
-
               if (item === 'update') {
-                schema = cloneDeep(this.btnSchemas.update);
-                schema.dialog.body.body = value.columns
+                schema = replaceUrl(
+                  cloneDeep(this.btnSchemas.update),
+                  value.api,
+                  item
+                );
+                const updateColumns = value.columns.filter(
+                  (item: any) => !igColumns.includes(item.name)
+                );
+                schema.dialog.body.body = updateColumns
                   .filter(
                     ({type}: any) => type !== 'progress' && type !== 'operation'
                   )
@@ -679,7 +758,11 @@ export class CRUDPlugin extends BasePlugin {
                     type: viewTypeToEditType(type)
                   }));
               } else if (item === 'view') {
-                schema = cloneDeep(this.btnSchemas.view);
+                schema = replaceUrl(
+                  cloneDeep(this.btnSchemas.view),
+                  value.api,
+                  item
+                );
                 schema.dialog.body.body = value.columns.map(
                   ({type, ...rest}: any) => ({
                     ...rest,
@@ -687,10 +770,11 @@ export class CRUDPlugin extends BasePlugin {
                   })
                 );
               } else if (item === 'delete') {
-                schema = cloneDeep(this.btnSchemas.delete);
-                schema.api = valueSchema.api?.method?.match(/^(post|delete)$/i)
-                  ? valueSchema.api
-                  : {...valueSchema.api, method: 'post'};
+                schema = replaceUrl(
+                  cloneDeep(this.btnSchemas.delete),
+                  value.api,
+                  item
+                );
               }
 
               // 添加操作按钮
@@ -700,26 +784,35 @@ export class CRUDPlugin extends BasePlugin {
               if (item === 'bulkUpdate') {
                 this.addItem(
                   valueSchema.bulkActions,
-                  cloneDeep(this.btnSchemas.bulkUpdate)
+                  replaceUrl(
+                    cloneDeep(this.btnSchemas.bulkUpdate),
+                    value.api,
+                    item
+                  )
                 );
               }
 
               if (item === 'bulkDelete') {
                 this.addItem(
                   valueSchema.bulkActions,
-                  cloneDeep(this.btnSchemas.bulkDelete)
+                  replaceUrl(
+                    cloneDeep(this.btnSchemas.bulkDelete),
+                    value.api,
+                    item
+                  )
                 );
               }
 
               // 创建
               if (item === 'create') {
                 const createSchemaBase = this.btnSchemas.create;
+                const createColumns = valueSchema.columns.filter(
+                  (item: any) => !igColumns.includes(item.name)
+                );
                 createSchemaBase.dialog.body = {
                   type: 'form',
-                  api: valueSchema.api?.method?.match(/^(post|put)$/i)
-                    ? valueSchema.api
-                    : {...valueSchema.api, method: 'post'},
-                  body: valueSchema.columns.map((column: ColumnItem) => {
+                  api: replaceUrl(null, value.api, item),
+                  body: createColumns.map((column: ColumnItem) => {
                     const type = column.type;
                     return {
                       type: viewTypeToEditType(type),
@@ -755,6 +848,16 @@ export class CRUDPlugin extends BasePlugin {
           (item: any) => item.type === 'operation'
         );
         hasFeatures && !hasOperate && valueSchema.columns.push(oper);
+
+        // todo  针对特定属性进行修改
+        valueSchema.columns.forEach((column: any) => {
+          if (column.name === 'UpdateTime') {
+            column.type = 'tpl';
+            column.tpl =
+              "<div><%=data.UpdateTime == '0001-01-01 00:00:00' ? '-' : data.UpdateTime%></div>";
+          }
+        });
+
         return valueSchema;
       },
       canRebuild: true

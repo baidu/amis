@@ -409,7 +409,7 @@ export class ButtonPlugin extends BasePlugin {
         className: 'p-none',
         body:
           !!context.schema.actionType ||
-          ['submit', 'reset'].includes(context.schema.type)
+          ['submit', 'reset', 'button'].includes(context.schema.type)
             ? [
                 getSchemaTpl('eventControl', {
                   name: 'onEvent',

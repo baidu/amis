@@ -1,5 +1,6 @@
 {
   "name": "aisuda",
+  "proxy": "http://api.fanyi.baidu.com",
   "workspaces": [
     "packages/amis-formula",
     "packages/amis-core",
