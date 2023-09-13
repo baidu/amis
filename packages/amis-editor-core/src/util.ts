@@ -591,8 +591,10 @@ export function reGenerateID(
     }
     // 处理className
     else if (typeof value === 'string' && /[C|c]lassName/.test(key)) {
-      const oldId = /-(.*)/.exec(value)?.[1] || '';
-      host[key] = value.replace(oldId, reIds['u:' + oldId].replace('u:', ''));
+      const oldId = /-(.*)/.exec(value)?.[1];
+      if (oldId) {
+        host[key] = value.replace(oldId, reIds['u:' + oldId].replace('u:', ''));
+      }
     }
 
     return value;
