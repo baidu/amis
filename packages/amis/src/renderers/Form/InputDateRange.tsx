@@ -115,6 +115,13 @@ export interface DateRangeControlSchema extends FormBaseControlSchema {
    * 是否启用游标动画，默认开启
    */
   animation?: boolean;
+
+  /**
+   * 日期数据处理函数，用来处理选择日期之后的的值
+   *
+   * (value: moment.Moment, config: {type: 'start' | 'end'; originValue: moment.Moment, timeFormat: string}, props: any, data: any, moment: moment) => moment.Moment;
+   */
+  transform?: string;
 }
 
 export interface DateRangeProps

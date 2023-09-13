@@ -19,7 +19,8 @@ import {
   getComputedStyle,
   noop,
   ucFirst,
-  localeable
+  localeable,
+  str2function
 } from 'amis-core';
 import {Icon} from './icons';
 import {ShortCuts, ShortCutDateRange} from './DatePicker';
@@ -29,6 +30,7 @@ import CalendarMobile from './CalendarMobile';
 import Input from './Input';
 import Button from './Button';
 
+import type {Moment} from 'moment';
 import type {PlainObject, ThemeProps, LocaleProps} from 'amis-core';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
@@ -76,6 +78,8 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   label?: string | false;
   /** 是否开启游标动画 */
   animation?: boolean;
+  /** 日期处理函数，通常用于自定义处理绑定日期的值 */
+  transform?: string;
 }
 
 export interface DateRangePickerState {
@@ -887,6 +891,11 @@ export class DateRangePicker extends React.Component<
     type: 'start' | 'end' = 'start'
   ): moment.Moment {
     let value = date.clone();
+    const {transform, data} = this.props;
+    const transformFn =
+      transform && typeof transform === 'string'
+        ? str2function(transform, 'value', 'config', 'props', 'data', 'moment')
+        : transform;
 
     // 没有初始值
     if (!originValue) {
@@ -901,6 +910,16 @@ export class DateRangePicker extends React.Component<
       value = value[type === 'start' ? 'startOf' : 'endOf']('quarter');
     } else {
       value = value[type === 'start' ? 'startOf' : 'endOf']('day');
+    }
+
+    if (typeof transformFn === 'function') {
+      value = transformFn(
+        value,
+        {type, originValue, timeFormat},
+        this.props,
+        data,
+        moment
+      );
     }
 
     return value;
