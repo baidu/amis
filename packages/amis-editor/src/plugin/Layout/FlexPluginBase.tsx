@@ -240,7 +240,6 @@ export class FlexPluginBase extends LayoutBasePlugin {
       }
     });
 
-    // 列表组件中的直接容器元素不支持上下插入布局元素
     if (
       parent &&
       (info.renderer?.name === 'flex' || info.renderer?.name === 'container') &&
