@@ -248,12 +248,15 @@ export class FlexPluginBase extends LayoutBasePlugin {
       parent &&
       (info.renderer?.name === 'flex' || info.renderer?.name === 'container') &&
       !draggableContainer &&
-      !schema?.isFreeContainer &&
-      canAppendSiblings
+      !schema?.isFreeContainer
     ) {
       // 非特殊布局元素（fixed、absolute）支持前后插入追加布局元素功能icon
       // 备注：如果是列级元素不需要显示
-      if (!toolbarsTooltips['上方插入布局容器'] && !isFlexItem) {
+      if (
+        !toolbarsTooltips['上方插入布局容器'] &&
+        !isFlexItem &&
+        canAppendSiblings
+      ) {
         toolbars.push(
           {
             iconSvg: 'add-btn',
