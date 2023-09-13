@@ -25,22 +25,22 @@ export default function (props: CustomStyleProps) {
       classNames,
       defaultData,
       customStyleClassPrefix: env?.customStyleClassPrefix,
-      doc: env.getModalDocument?.()
+      doc: env.getModalContainer?.().ownerDocument
     });
     return () => {
-      styleDom.removeCustomStyle('', env.getModalDocument?.());
+      styleDom.removeCustomStyle('', env.getModalContainer?.().ownerDocument);
     };
   }, [config.themeCss]);
 
   useEffect(() => {
     styleDom.insertEditCustomStyle(
       wrapperCustomStyle,
-      env.getModalDocument?.()
+      env.getModalContainer?.().ownerDocument
     );
     return () => {
       styleDom.removeCustomStyle(
         'wrapperCustomStyle',
-        env.getModalDocument?.()
+        env.getModalContainer?.().ownerDocument
       );
     };
   }, [config.wrapperCustomStyle]);

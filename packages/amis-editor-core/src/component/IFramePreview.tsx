@@ -79,12 +79,6 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
   }
 
   @autobind
-  getModalDocument() {
-    const store = this.props.store;
-    return store.getDoc();
-  }
-
-  @autobind
   isMobile() {
     return true;
   }
@@ -114,8 +108,7 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
             session: `${env.session}-iframe-preview`,
             useMobileUI: true,
             isMobile: this.isMobile,
-            getModalContainer: this.getModalContainer,
-            getModalDocument: this.getModalDocument
+            getModalContainer: this.getModalContainer
           }
         )}
         <InnerSvgSpirit />

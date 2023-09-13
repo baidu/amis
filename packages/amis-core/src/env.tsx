@@ -72,7 +72,6 @@ export interface RendererEnv {
   ) => null | RendererConfig;
   copy?: (contents: string, format?: any) => void;
   getModalContainer?: () => HTMLElement;
-  getModalDocument?: () => Document;
   theme: ThemeInstance;
   affixOffsetTop: number;
   affixOffsetBottom: number;
