@@ -155,7 +155,7 @@ export class ImagePlugin extends BasePlugin {
 
               {
                 name: 'thumbMode',
-                visibleOn: 'imageMode ===  "thumb"',
+                visibleOn: '${!imageMode || imageMode ===  "thumb"}',
                 type: 'select',
                 label: '展示模式',
                 mode: 'horizontal',
