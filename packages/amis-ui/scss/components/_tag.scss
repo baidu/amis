@@ -1,0 +1,192 @@
+.#{$ns}Tag {
+  display: inline-flex;
+  height: var(--Tag-height);
+  padding: var(--Tag-base-padding);
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--Tag-content-fontSize);
+  font-weight: var(--Tag-base-fontWeight);
+  max-width: 160px;
+  transition: all 0.3;
+  border-radius: var(--Tag-borderRadius);
+  background-color: var(--Tag-default-color);
+  color: var(--Tag-fontColor);
+
+  &-text {
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: var(--Tag-height);
+  }
+
+  &:not(:last-child) {
+    margin-right: var(--gap-sm);
+  }
+
+  &--normal {
+    &--hasColor {
+      color: var(--white);
+    }
+
+    border-width: var(--Tag-normal-borderWidth);
+    border-radius: var(--Tag-normal-borderRadius);
+    border-color: var(--Tag-normal-borderColor);
+
+    &--inactive {
+      color: var(--Tag-inactive-color);
+      background: var(--Tag-inactive-bg-color);
+    }
+    &--active {
+      color: var(--Tag-active-color);
+      background: var(--Tag-active-bg-color);
+    }
+    &--processing {
+      color: var(--Tag-processing-color);
+      background: var(--Tag-processing-bg-color);
+    }
+    &--success {
+      color: var(--Tag-success-color);
+      background: var(--Tag-success-bg-color);
+    }
+    &--error {
+      color: var(--Tag-error-color);
+      background: var(--Tag-error-bg-color);
+    }
+    &--warning {
+      color: var(--Tag-warning-color);
+      background: var(--Tag-warning-bg-color);
+    }
+  }
+
+  &--rounded {
+    background-color: var(--white);
+    border-style: var(--Tag-rounded-borderStyle);
+    border-width: var(--Tag-rounded-borderWidth);
+    border-radius: var(--Tag-rounded-borderRadius);
+    border-color: var(--Tag-rounded-borderColor);
+    color: var(--Tag-default-color);
+    line-height: 22px;
+
+    &--inactive {
+      color: var(--Tag-inactive-bg-color);
+    }
+    &--active {
+      color: var(--Tag-active-bg-color);
+    }
+    &--processing {
+      color: var(--Tag-processing-bg-color);
+    }
+    &--success {
+      color: var(--Tag-success-bg-color);
+    }
+    &--error {
+      color: var(--Tag-error-bg-color);
+    }
+    &--warning {
+      color: var(--Tag-warning-bg-color);
+    }
+  }
+
+  &--status {
+    background-color: var(--white);
+    &--inactive .#{$ns}Tag--prev {
+      color: var(--Tag-inactive-bg-color);
+    }
+    &--active .#{$ns}Tag--prev {
+      color: var(--Tag-active-bg-color);
+    }
+    &--processing .#{$ns}Tag--prev {
+      color: var(--Tag-processing-bg-color);
+    }
+    &--success .#{$ns}Tag--prev {
+      color: var(--Tag-success-bg-color);
+    }
+    &--error .#{$ns}Tag--prev {
+      color: var(--Tag-error-bg-color);
+    }
+    &--warning .#{$ns}Tag--prev {
+      color: var(--Tag-warning-bg-color);
+    }
+
+    &:not(&--processing):not(&--active) {
+      .icon-dot {
+        #dotWave {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &--prev {
+    color: var(--Tag-default-color);
+    margin-right: var(--Tag-status-margin);
+    i {
+      font-size: #{px2rem(8px)};
+    }
+    .#{$ns}Tag-default-icon {
+      width: var(--Tag-status-size);
+      height: var(--Tag-status-size);
+      top: 0;
+    }
+  }
+
+  &--close {
+    margin-left: var(--Tag-close-margin);
+    i {
+      font-size: #{px2rem(8px)};
+    }
+    .icon {
+      width: var(--Tag-close-size);
+      height: var(--Tag-close-size);
+      position: inherit;
+    }
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
+    &:active {
+      opacity: 0.3;
+    }
+  }
+
+  &--disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+
+    .#{$ns}Tag--close {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+  }
+
+  &--checkable {
+    background-color: var(--Tag-checkable-bgColor);
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--Tag-checkable-bgColor-onHover);
+    }
+    &:active {
+      background-color: var(--Tag-checkable-bgColor-onActive);
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+      background-color: var(--Tag-checkable-bgColor-onDisable);
+      color: var(--Tag-checkable-fontColor-onDisable);
+    }
+
+    &--checked:not(&--disabled) {
+      color: var(--white);
+      background-color: var(--Tag-checkable-bgColor-onChecked);
+      &:hover {
+        background-color: var(--Tag-checkable-bgColor-onHover-onChecked);
+      }
+      &:active {
+        background-color: var(--Tag-checkable-bgColor-onActive-onChecked);
+      }
+    }
+  }
+}

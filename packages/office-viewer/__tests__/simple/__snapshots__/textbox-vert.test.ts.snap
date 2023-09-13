@@ -1,0 +1,317 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`text 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="7"
+          data-name="文本框 2"
+          style="z-index: 251671552; position: absolute; left: 10.05px; top: 439.47px; width: 233.3px; height: 158.46px; color: rgb(0, 0, 0); display: table;"
+        >
+          <svg
+            height="158.46px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="233.3px"
+          >
+            <path
+              d="M 0 0 L 233.3 0 L 233.3 158.46 L 0 158.46 Z"
+              fill="#172948"
+              stroke="none"
+              stroke-width="0.67px"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: "思源宋体 CN"; color: rgb(47, 84, 150); font-size: 18.67px;"
+              >
+                合格证
+              </span>
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: "思源宋体 CN"; color: rgb(47, 84, 150); font-size: 18.67px;"
+              >
+                a
+              </span>
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: "思源宋体 CN"; color: rgb(47, 84, 150); font-size: 18.67px;"
+              >
+                270
+              </span>
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="6"
+          data-name="文本框 2"
+          style="z-index: 251669504; position: absolute; left: 279.06px; top: 249.71px; width: 195.33px; height: 189.76px; writing-mode: vertical-rl; text-orientation: mixed; color: rgb(0, 0, 0); display: table;"
+        >
+          <svg
+            height="189.76px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="195.33px"
+          >
+            <path
+              d="M 0 0 L 195.33 0 L 195.33 189.76 L 0 189.76 Z"
+              fill="#172948"
+              stroke="none"
+              stroke-width="0.67px"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: "思源宋体 CN"; color: rgb(47, 84, 150); font-size: 18.67px;"
+              >
+                合格证
+              </span>
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: "思源宋体 CN"; color: rgb(47, 84, 150); font-size: 18.67px;"
+              >
+                2
+              </span>
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: "思源宋体 CN"; color: rgb(47, 84, 150); font-size: 18.67px;"
+              >
+                70
+              </span>
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="5"
+          data-name="文本框 2"
+          style="z-index: 251667456; position: absolute; left: 16.00px; top: 174.55px; width: 195.33px; height: 158.51px; writing-mode: vertical-rl; text-orientation: sideways; color: rgb(0, 0, 0); display: table;"
+        >
+          <svg
+            height="158.51px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="195.33px"
+          >
+            <path
+              d="M 0 0 L 195.33 0 L 195.33 158.51 L 0 158.51 Z"
+              fill="#172948"
+              stroke="none"
+              stroke-width="0.67px"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: "思源宋体 CN"; color: rgb(47, 84, 150); font-size: 18.67px;"
+              >
+                合格证
+              </span>
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: "思源宋体 CN"; color: rgb(47, 84, 150); font-size: 18.67px;"
+              >
+                9
+              </span>
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: "思源宋体 CN"; color: rgb(47, 84, 150); font-size: 18.67px;"
+              >
+                0
+              </span>
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="2"
+          data-name="文本框 2"
+          style="z-index: 251659264; position: absolute; left: 279.06px; top: 28.68px; width: 195.33px; height: 158.51px; writing-mode: vertical-rl; text-orientation: mixed; color: rgb(0, 0, 0); display: table;"
+        >
+          <svg
+            height="158.51px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="195.33px"
+          >
+            <path
+              d="M 0 0 L 195.33 0 L 195.33 158.51 L 0 158.51 Z"
+              fill="#172948"
+              stroke="none"
+              stroke-width="0.67px"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: "思源宋体 CN"; color: rgb(47, 84, 150); font-size: 18.67px;"
+              >
+                合格证
+              </span>
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="4"
+          data-name="文本框 2"
+          style="z-index: 251665408; position: absolute; left: 16.00px; top: 20.46px; width: 195.34px; height: 70.32px; color: rgb(0, 0, 0); display: table;"
+        >
+          <svg
+            height="70.32px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="195.34px"
+          >
+            <path
+              d="M 0 0 L 195.34 0 L 195.34 70.32 L 0 70.32 Z"
+              fill="#172948"
+              stroke="none"
+              stroke-width="0.67px"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: "思源宋体 CN"; color: rgb(47, 84, 150); font-size: 18.67px;"
+              >
+                合格证
+              </span>
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="3"
+          data-name="文本框 2"
+          style="z-index: 251663360; position: absolute; left: 16.00px; top: -75.53px; width: 195.34px; height: 70.32px; color: rgb(0, 0, 0); display: table;"
+        >
+          <svg
+            height="70.32px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="195.34px"
+          >
+            <path
+              d="M 0 0 L 195.34 0 L 195.34 70.32 L 0 70.32 Z"
+              fill="#172948"
+              stroke="none"
+              stroke-width="0.67px"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: "思源宋体 CN"; color: rgb(47, 84, 150); font-size: 18.67px;"
+              >
+                合格证
+              </span>
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1"
+          data-name="文本框 2"
+          style="z-index: 251661312; position: absolute; left: 16.00px; top: -75.53px; width: 195.34px; height: 70.32px; color: rgb(0, 0, 0); display: table;"
+        >
+          <svg
+            height="70.32px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="195.34px"
+          >
+            <path
+              d="M 0 0 L 195.34 0 L 195.34 70.32 L 0 70.32 Z"
+              fill="#172948"
+              stroke="none"
+              stroke-width="0.67px"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: top;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+              <span
+                class="docx-viewer-0-r"
+                style="font-family: "思源宋体 CN"; color: rgb(47, 84, 150); font-size: 18.67px;"
+              >
+                合格证
+              </span>
+            </p>
+          </div>
+        </div>
+      </span>
+    </p>
+  </section>
+</article>
+`;

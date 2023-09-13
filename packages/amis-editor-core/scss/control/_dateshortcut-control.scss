@@ -1,0 +1,117 @@
+.ae-DateShortCutControl {
+  &-header {
+    @include flexBox();
+    width: 100%;
+    height: #{px2rem(24px)};
+    margin-bottom: #{px2rem(5px)};
+
+    label {
+      margin-right: #{px2rem(16px)};
+      font-size: #{px2rem(12px)};
+      color: #5e626a;
+    }
+
+    &-icon {
+      flex: 1;
+      text-align: right;
+    }
+  }
+
+  &-footer {
+    margin-top: #{px2rem(10px)};
+
+    &-btn {
+      display: inline-block;
+      width: 50%;
+      padding-right: #{px2rem(5px)};
+
+      &:last-child {
+        padding-left: #{px2rem(5px)};
+        padding-right: 0;
+      }
+
+      > div {
+        width: 100%;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      ul {
+        width: 100%;
+        min-width: unset;
+      }
+    }
+  }
+
+  &-content {
+    @include flexBox(column, flex-start);
+    @include minScrollBar();
+    margin: 0;
+    padding: #{px2rem(3px)} 0;
+    border-radius: $Editor-borderRadius;
+    position: relative;
+    background: #f7f7f9;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 10px;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-bottom: 9px solid #f7f7f9;
+    }
+
+    .ae-DateShortCutControlItem {
+      @include flexBox();
+      width: 100%;
+      padding: #{px2rem(5px)} #{px2rem(10px)};
+      min-height: #{px2rem(38px)};
+      align-items: baseline;
+
+      &:hover {
+        background: #e9effd;
+      }
+
+      &-dragging {
+        height: 0 !important;
+        padding: 0;
+        border-top: 2px solid var(--primary);
+        overflow: hidden;
+        background: #e9effd;
+      }
+
+      &-dragBar {
+        display: inline-flex;
+        margin-left: 0;
+        margin-right: var(--gap-sm);
+        margin-top: -4px;
+        cursor: move;
+        color: #8c8c8c;
+      }
+
+      &-content {
+        display: inline-block;
+        flex-grow: 1;
+        max-width: calc(100% - 32px);
+        text-align: left;
+        padding: 0 #{px2rem(5px)};
+
+        &-label {
+          line-height: var(--input-size-default-height);
+        }
+      }
+
+      &-close {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &-empty {
+    @include flexBox(column, center);
+    height: #{px2rem(38px)};
+  }
+}

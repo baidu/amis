@@ -19,6 +19,8 @@ labels:
     - '\bfeat'
   'fix':
     - '\bfix'
+  'style':
+    - '\bstyle'
   'chore':
     - '\bchore'
   'doc':

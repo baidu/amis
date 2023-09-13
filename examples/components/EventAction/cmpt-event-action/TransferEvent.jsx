@@ -56,6 +56,29 @@ export default {
           name: 'transferEvent2',
           id: 'transferEvent2',
           type: 'action',
+          label: '清空搜索',
+          level: 'primary',
+          className: 'mr-3 mb-3',
+          debugger: true,
+          onEvent: {
+            click: {
+              actions: [
+                {
+                  actionType: 'clearSearch',
+                  componentId: 'transfer-receiver',
+                  args: {
+                    left: true,
+                    right: true
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          name: 'transferEvent2',
+          id: 'transferEvent2',
+          type: 'action',
           label: '重置功能',
           level: 'primary',
           className: 'mr-3 mb-3',
@@ -72,38 +95,36 @@ export default {
           }
         },
         {
+          type: 'action',
+          actionType: 'reload',
+          label: '刷新 reload',
+          level: 'primary',
+          className: 'mr-3 mb-3',
+          target: 'transfer'
+        },
+        {
           label: '穿梭器',
           id: 'transfer-receiver',
           type: 'transfer',
           name: 'transfer',
+          searchable: true,
+          resultSearchable: true,
           debugger: true,
-          resetValue: 'zhugeliang',
-          options: [
-            {
-              label: '诸葛亮',
-              value: 'zhugeliang'
-            },
-            {
-              label: '曹操',
-              value: 'caocao'
-            },
-            {
-              label: '钟无艳',
-              value: 'zhongwuyan'
-            },
-            {
-              label: '李白',
-              value: 'libai'
-            },
-            {
-              label: '韩信',
-              value: 'hanxin'
-            },
-            {
-              label: '云中君',
-              value: 'yunzhongjun'
+          resetValue: 'c',
+          source: '/api/mock2/form/getTreeOptions',
+          onEvent: {
+            change: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '${transfer|json}'
+                  }
+                }
+              ]
             }
-          ]
+          }
         }
       ]
     },
@@ -279,7 +300,20 @@ export default {
                 }
               ]
             }
-          ]
+          ],
+          onEvent: {
+            change: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '${transferEvent7|json}'
+                  }
+                }
+              ]
+            }
+          }
         }
       ]
     },
@@ -382,7 +416,20 @@ export default {
                 }
               ]
             }
-          ]
+          ],
+          onEvent: {
+            change: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '${transferEvent10|json}'
+                  }
+                }
+              ]
+            }
+          }
         }
       ]
     },
@@ -563,7 +610,20 @@ export default {
                 }
               ]
             }
-          ]
+          ],
+          onEvent: {
+            change: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '${transferEvent13|json}'
+                  }
+                }
+              ]
+            }
+          }
         }
       ]
     }

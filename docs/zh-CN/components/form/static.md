@@ -8,6 +8,10 @@ icon:
 order: 52
 ---
 
+> 推荐在`2.4.0`版本后使用[新版静态展示](./formitem#配置静态展示)来实现该功能
+> 常用表单项已支持静态展示：[支持静态展示的表单项](./formitem#支持静态展示的表单项)，展示效果请查看[示例页](../../../examples/form/switchDisplay)
+> 新版静态展示还可以实现整个表单的静态展示及切换，具体用法请参考[表单静态展示](./index#表单静态展示)
+
 用来在表单中，展示静态数据
 
 ## 基本用法
@@ -90,7 +94,7 @@ order: 52
     "type": "form",
     "data": {
         "id": 1,
-        "image": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg",
+        "image": "https://suda.cdn.bcebos.com/amis/images/alice-macaw.jpg",
         "images": [
             {
                 "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",

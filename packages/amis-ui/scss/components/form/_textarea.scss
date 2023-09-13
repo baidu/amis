@@ -1,0 +1,74 @@
+.#{$ns}TextareaControl {
+  @include input-text();
+  --Form-input-clearBtn-padding: #{px2rem(2px)};
+
+  position: relative;
+
+  > textarea.#{$ns}TextareaControl-input--counter {
+    // 23 px 是计数器 counter 的高度
+    padding-bottom: 23px;
+  }
+
+  > textarea {
+    @include input-border();
+
+    border: 1px solid var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    background: var(--Form-input-bg);
+    padding: var(--input-textarea-paddingTop)
+      var(--input-textarea-paddingRight)
+      var(--input-textarea-paddingBottom)
+      var(--input-textarea-paddingLeft);
+    font-size: var(--Form-input-fontSize);
+    display: block;
+    width: 100%;
+    line-height: var(--Form-input-lineHeight);
+    outline: none;
+    resize: vertical;
+
+    &::placeholder {
+      color: var(--Form-input-placeholderColor);
+    }
+
+    // yunshe4.0
+    &:hover {
+      border-color: var(--Form-input-onHover-borderColor);
+    }
+  }
+
+  &-counter {
+    position: absolute;
+    left: 1px;
+    bottom: 1px;
+    right: var(--scrollbar-width);
+    padding-bottom: var(--Form-input-paddingY);
+    background-color: #fff;
+    text-align: right;
+    border-radius: 3px;
+    color: var(--input-count-multi-color);
+    font-size: var(--input-count-multi-fontSize);
+
+    &.is-empty {
+      color: var(--input-count-multi-color);
+    }
+  }
+
+  .has-error--maxLength &-counter {
+    color: var(--danger);
+  }
+
+  &-clear {
+    @include input-clear();
+    position: absolute;
+    right: var(--Form-input-paddingY);
+    top: var(--Form-input-paddingY);
+  }
+}
+
+.#{$ns}Form-static {
+  .#{$ns}TextareaControl > textarea {
+    border: 0;
+    padding: 0;
+    resize: none;
+  }
+}

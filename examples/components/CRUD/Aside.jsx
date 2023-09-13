@@ -9,9 +9,11 @@ export default {
       {
         type: 'input-tree',
         name: 'cat',
-        inputClassName: 'no-border',
+        inputClassName: 'no-border no-padder mt-1',
+        heightAuto: true,
         submitOnChange: true,
         selectFirst: true,
+        inputOnly: true,
         options: [
           {
             label: '分类1',
@@ -167,7 +169,7 @@ export default {
       {
         name: 'id',
         label: 'ID',
-        width: 20,
+        width: 30,
         sortable: true,
         type: 'text',
         toggled: true
@@ -269,8 +271,7 @@ export default {
                   },
                   {
                     type: 'html',
-                    html:
-                      '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                    html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                   }
                 ]
               }

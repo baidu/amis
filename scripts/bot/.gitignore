@@ -1,0 +1,7 @@
+db
+__pycache__
+text.pickle
+embedding.pickle
+.env
+m3e-base
+flagged

@@ -1,0 +1,291 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`1. Renderer:Picker base 1`] = `
+<body
+  class="is-modalOpened"
+  style="width: calc(100% - 0px);"
+>
+  <div>
+    <div
+      class="cxd-Form-item cxd-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="cxd-Form-label"
+      >
+        <span>
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              picker
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="cxd-PickerControl cxd-Form-control"
+      >
+        <div
+          class="cxd-Picker cxd-Picker--single is-focused"
+        >
+          <div
+            class="cxd-Picker-input"
+          >
+            <div
+              class="cxd-Picker-placeholder"
+            >
+              picker-placeholder
+            </div>
+            <div
+              class="cxd-Picker-valueWrap"
+            >
+              <div
+                class="cxd-Picker-values"
+              />
+              <input
+                value=""
+              />
+            </div>
+            <span
+              class="cxd-Picker-btn"
+            >
+              <icon-mock
+                classname="icon icon-window-restore"
+                icon="window-restore"
+              />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="cxd-Modal-overlay in"
+    />
+    <div
+      class="cxd-Modal-content in"
+    >
+      <div
+        class="cxd-Modal-header"
+      >
+        <a
+          class="cxd-Modal-close"
+          data-position="left"
+          data-tooltip="关闭"
+        >
+          <icon-mock
+            classname="icon icon-close"
+            icon="close"
+          />
+        </a>
+        <div
+          class="cxd-Modal-title"
+        >
+          请选择
+        </div>
+      </div>
+      <div
+        class="cxd-Modal-body"
+        role="dialog-body"
+      >
+        <div
+          class="cxd-Crud"
+        >
+          <div
+            class="cxd-List cxd-Crud-body"
+          >
+            <div
+              class="cxd-List-fixedTop"
+              style="top: 0px;"
+            />
+            <div
+              class="cxd-List-items"
+            >
+              <div
+                class="cxd-ListItem cxd-ListItem--actions-at-right"
+              >
+                <div
+                  class="cxd-ListItem-checkBtn"
+                >
+                  <label
+                    class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                    data-role="checkbox"
+                  >
+                    <input
+                      type="radio"
+                    />
+                    <i />
+                    <span
+                      class=""
+                    />
+                  </label>
+                </div>
+                <div
+                  class="cxd-ListItem-content"
+                >
+                  <p
+                    class="cxd-ListItem-title h5"
+                  >
+                    A
+                  </p>
+                </div>
+              </div>
+              <div
+                class="cxd-ListItem cxd-ListItem--actions-at-right is-checked"
+              >
+                <div
+                  class="cxd-ListItem-checkBtn"
+                >
+                  <label
+                    class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                    data-role="checkbox"
+                  >
+                    <input
+                      type="radio"
+                    />
+                    <i />
+                    <span
+                      class=""
+                    />
+                  </label>
+                </div>
+                <div
+                  class="cxd-ListItem-content"
+                >
+                  <p
+                    class="cxd-ListItem-title h5"
+                  >
+                    B
+                  </p>
+                </div>
+              </div>
+              <div
+                class="cxd-ListItem cxd-ListItem--actions-at-right"
+              >
+                <div
+                  class="cxd-ListItem-checkBtn"
+                >
+                  <label
+                    class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
+                    data-role="checkbox"
+                  >
+                    <input
+                      type="radio"
+                    />
+                    <i />
+                    <span
+                      class=""
+                    />
+                  </label>
+                </div>
+                <div
+                  class="cxd-ListItem-content"
+                >
+                  <p
+                    class="cxd-ListItem-title h5"
+                  >
+                    C
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="cxd-Modal-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default cxd-Button--size-default"
+          type="button"
+        >
+          <span>
+            取消
+          </span>
+        </button>
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="button"
+        >
+          <span>
+            确认
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`1. Renderer:Picker base 2`] = `
+<div>
+  <div
+    class="cxd-Form-item cxd-Form-item--normal"
+    data-role="form-item"
+  >
+    <label
+      class="cxd-Form-label"
+    >
+      <span>
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            picker
+          </span>
+        </span>
+      </span>
+    </label>
+    <div
+      class="cxd-PickerControl cxd-Form-control"
+    >
+      <div
+        class="cxd-Picker cxd-Picker--single is-focused"
+      >
+        <div
+          class="cxd-Picker-input"
+        >
+          <div
+            class="cxd-Picker-valueWrap"
+          >
+            <div
+              class="cxd-Picker-values"
+            >
+              <div
+                class="cxd-Picker-value"
+              >
+                <span
+                  class="cxd-Picker-valueIcon"
+                >
+                  ×
+                </span>
+                <span
+                  class="cxd-Picker-valueLabel"
+                >
+                  B
+                </span>
+              </div>
+            </div>
+            <input
+              value=""
+            />
+          </div>
+          <span
+            class="cxd-Picker-btn"
+          >
+            <icon-mock
+              classname="icon icon-window-restore"
+              icon="window-restore"
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

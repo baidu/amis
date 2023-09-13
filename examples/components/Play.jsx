@@ -1,16 +1,15 @@
 import React from 'react';
-import {toast} from '../../src/components/Toast';
-import {render, makeTranslator} from '../../src/index';
-import {normalizeLink} from '../../src/utils/normalizeLink';
-import {isMobile} from '../../src/utils/helper';
-import attachmentAdpator from '../../src/utils/attachmentAdpator';
-import {alert, confirm} from '../../src/components/Alert';
+import {toast, render, makeTranslator} from 'amis';
+import {normalizeLink} from 'amis-core';
+import {isMobile} from 'amis-core';
+import {attachmentAdpator} from 'amis-core';
+import {alert, confirm} from 'amis-ui';
 import axios from 'axios';
 import JSON5 from 'json5';
-import CodeEditor from '../../src/components/Editor';
+import {Editor as CodeEditor} from 'amis-ui';
 import copy from 'copy-to-clipboard';
 import {matchPath} from 'react-router-dom';
-import Drawer from '../../src/components/Drawer';
+import {Drawer} from 'amis-ui';
 
 const DEFAULT_CONTENT = `{
     "$schema": "/schemas/page.json#",
@@ -160,8 +159,16 @@ export default class PlayGround extends React.Component {
       fetcher: async api => {
         let {url, method, data, responseType, config, headers} = api;
         config = config || {};
+        // 如果在 gh-pages 里面
+        if (
+          /^\/amis/.test(window.location.pathname) &&
+          typeof url === 'string' &&
+          url.startsWith('/examples/static/')
+        ) {
+          url = url.replace('/examples/static/', '/amis/static/');
+        }
+
         config.url = url;
-        config.withCredentials = true;
         responseType && (config.responseType = responseType);
 
         if (config.cancelExecutor) {
@@ -240,6 +247,73 @@ export default class PlayGround extends React.Component {
       },
       replaceText: {
         AMIS_HOST: 'https://baidu.gitee.io/amis'
+      },
+      loadTinymcePlugin: async tinymce => {
+        // 参考：https://www.tiny.cloud/docs/advanced/creating-a-plugin/
+        /*
+          Note: We have included the plugin in the same JavaScript file as the TinyMCE
+          instance for display purposes only. Tiny recommends not maintaining the plugin
+          with the TinyMCE instance and using the `external_plugins` option.
+        */
+        tinymce.PluginManager.add('example', function (editor, url) {
+          var openDialog = function () {
+            return editor.windowManager.open({
+              title: 'Example plugin',
+              body: {
+                type: 'panel',
+                items: [
+                  {
+                    type: 'input',
+                    name: 'title',
+                    label: 'Title'
+                  }
+                ]
+              },
+              buttons: [
+                {
+                  type: 'cancel',
+                  text: 'Close'
+                },
+                {
+                  type: 'submit',
+                  text: 'Save',
+                  primary: true
+                }
+              ],
+              onSubmit: function (api) {
+                var data = api.getData();
+                /* Insert content when the window form is submitted */
+                editor.insertContent('Title: ' + data.title);
+                api.close();
+              }
+            });
+          };
+          /* Add a button that opens a window */
+          editor.ui.registry.addButton('example', {
+            text: 'My button',
+            onAction: function () {
+              /* Open window */
+              openDialog();
+            }
+          });
+          /* Adds a menu item, which can then be included in any menu via the menu/menubar configuration */
+          editor.ui.registry.addMenuItem('example', {
+            text: 'Example plugin',
+            onAction: function () {
+              /* Open window */
+              openDialog();
+            }
+          });
+          /* Return the metadata for the help plugin */
+          return {
+            getMetadata: function () {
+              return {
+                name: 'Example plugin',
+                url: 'http://exampleplugindocsurl.com'
+              };
+            }
+          };
+        });
       }
     };
 
@@ -483,11 +557,12 @@ export default class PlayGround extends React.Component {
     if (mini) {
       return (
         <div className="Playgroud Playgroud--mini">
-          <a onClick={this.toggleDrawer}>
+          <a onClick={this.toggleDrawer} className="Playgroud-edit-btn">
             编辑代码 <i className="fa fa-code p-l-xs"></i>
           </a>
           <Drawer
             showCloseButton
+            closeOnOutside
             resizable
             theme={theme}
             overlay={false}

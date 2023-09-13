@@ -1,0 +1,2163 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`all-shape-2 1`] = `
+<article>
+  <section
+    style="position: relative; width: 815.98px; padding: 96.00px 96.00px 96.00px 96.00px;"
+  >
+    <p
+      class="docx-viewer-0-p"
+      style="position: relative;"
+    >
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862420"
+          data-name="Line Callout 3 (Border and Accent Bar) 396862420"
+          style="z-index: 251743232; position: absolute; left: 310.32px; top: 772.45px; width: 30.23px; height: 40.19px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="40.19px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="30.23px"
+          >
+            <path
+              d="M 0 0 L 30.23 0 L 30.23 40.19 L 0 40.19 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+            <path
+              d="M -2.5190658999999997 0 Z L -2.5190658999999997 40.19"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M -2.5190658999999997 7.535625 L -5.0384341 7.535625 L -5.0384341 40.19 L -2.5190658999999997 45.3998297"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862419"
+          data-name="Line Callout 2 (Border and Accent Bar) 396862419"
+          style="z-index: 251742208; position: absolute; left: 247.81px; top: 766.86px; width: 29.24px; height: 35.71px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="35.71px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="29.24px"
+          >
+            <path
+              d="M 0 0 L 29.24 0 L 29.24 35.71 L 0 35.71 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+            <path
+              d="M -2.4365691999999997 0 Z L -2.4365691999999997 35.71"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M -2.4365691999999997 6.695625 L -4.8734307999999995 6.695625 L -13.645430799999998 40.17375"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862418"
+          data-name="Line Callout 1 (Border and Accent Bar) 396862418"
+          style="z-index: 251741184; position: absolute; left: 174.45px; top: 772.45px; width: 35.14px; height: 30.13px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="30.13px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="35.14px"
+          >
+            <path
+              d="M 0 0 L 35.14 0 L 35.14 30.13 L 0 30.13 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+            <path
+              d="M -2.9282162 0 Z L -2.9282162 30.13"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M -2.9282162 5.649375 L -13.470216200000001 33.89625"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862417"
+          data-name="Line Callout 3 (No Border) 396862417"
+          style="z-index: 251740160; position: absolute; left: 105.35px; top: 772.45px; width: 31.86px; height: 30.08px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="30.08px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="31.86px"
+          >
+            <path
+              d="M 0 0 L 31.86 0 L 31.86 30.08 L 0 30.08 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M -2.6548938 5.64 L -5.3101062 5.64 L -5.3101062 30.08 L -2.6548938 33.9792704"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862416"
+          data-name="Line Callout 2 (No Border) 396862416"
+          style="z-index: 251739136; position: absolute; left: 31.47px; top: 766.86px; width: 37.74px; height: 35.71px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="35.71px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="37.74px"
+          >
+            <path
+              d="M 0 0 L 37.74 0 L 37.74 35.71 L 0 35.71 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M -3.1448742000000003 6.695625 L -6.290125800000001 6.695625 L -17.6121258 40.17375"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862415"
+          data-name="Line Callout 1 (No Border) 396862415"
+          style="z-index: 251738112; position: absolute; left: -54.26px; top: 772.45px; width: 50.91px; height: 30.14px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="30.14px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="50.91px"
+          >
+            <path
+              d="M 0 0 L 50.91 0 L 50.91 30.14 L 0 30.14 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M -4.2423303 5.65125 L -19.5153303 33.9075"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862414"
+          data-name="Line Callout 3 (Accent Bar) 396862414"
+          style="z-index: 251737088; position: absolute; left: 629.57px; top: 705.69px; width: 47.79px; height: 30.13px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="30.13px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="47.79px"
+          >
+            <path
+              d="M 0 0 L 47.79 0 L 47.79 30.13 L 0 30.13 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M -3.9823407 0 Z L -3.9823407 30.13"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M -3.9823407 5.649375 L -7.965159299999999 5.649375 L -7.965159299999999 30.13 L -3.9823407 34.0357519"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862413"
+          data-name="Line Callout 2 (Accent Bar) 396862413"
+          style="z-index: 251736064; position: absolute; left: 541.38px; top: 705.47px; width: 51.35px; height: 39.03px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="39.03px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="51.35px"
+          >
+            <path
+              d="M 0 0 L 51.35 0 L 51.35 39.03 L 0 39.03 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M -4.2789955 0 Z L -4.2789955 39.03"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M -4.2789955 7.318125 L -8.558504500000002 7.318125 L -23.963504500000003 43.90875"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862412"
+          data-name="Line Callout 1 (Accent Bar) 396862412"
+          style="z-index: 251735040; position: absolute; left: 465.41px; top: 707.70px; width: 46.91px; height: 36.8px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="36.8px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="46.91px"
+          >
+            <path
+              d="M 0 0 L 46.91 0 L 46.91 36.8 L 0 36.8 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M -3.9090103 0 Z L -3.9090103 36.8"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M -3.9090103 6.9 L -17.9820103 41.4"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862411"
+          data-name="Line Callout 3 396862411"
+          style="z-index: 251734016; position: absolute; left: 387.33px; top: 719.98px; width: 48.22px; height: 24.52px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="24.52px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="48.22px"
+          >
+            <path
+              d="M 0 0 L 48.22 0 L 48.22 24.52 L 0 24.52 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+            <path
+              d="M -4.0181726 4.5975 L -8.0368274 4.5975 L -8.0368274 24.52 L -4.0181726 27.6985276"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862410"
+          data-name="Line Callout 2 396862410"
+          style="z-index: 251732992; position: absolute; left: 294.69px; top: 714.40px; width: 45.77px; height: 30.1px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="30.1px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="45.77px"
+          >
+            <path
+              d="M 0 0 L 45.77 0 L 45.77 30.1 L 0 30.1 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+            <path
+              d="M -3.8140141000000005 5.64375 L -7.628485900000001 5.64375 L -21.359485900000003 33.8625"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862408"
+          data-name="Line Callout 1 396862408"
+          style="z-index: 251731968; position: absolute; left: 212.01px; top: 707.86px; width: 49.12px; height: 36.84px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="36.84px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="49.12px"
+          >
+            <path
+              d="M 0 0 L 49.12 0 L 49.12 36.84 L 0 36.84 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+            <path
+              d="M -4.0931695999999995 6.9075000000000015 L -18.8291696 41.44500000000001"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862406"
+          data-name="Cloud Callout 396862406"
+          style="z-index: 251729920; position: absolute; left: 137.22px; top: 705.47px; width: 36.93px; height: 30.35px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="30.35px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="36.93px"
+          >
+            <path
+              d="M 3.3339583333333334 10.095590277777779 A 5.772877083333333 6.456400462962963 0 0 1 11.293190149000491,2.990224227777171 A 4.558974305555556 5.105403935185186 0 0 1 17.65583198622846,1.8451461626982972 A 3.7314687500000003 4.176637731481482 0 0 1 23.330462834570014,1.1835698740106362 A 4.152060416666667 4.633292824074075 0 0 1 30.086865986938335,3.5802762339005794 A 4.558974305555556 5.109619212962963 0 0 1 33.12971968839368,11.170331335610271 A 5.791684027777778 6.477476851851852 0 0 1 29.73117423748864,22.29278876713507 A 4.945371527777778 5.526931712962964 0 0 1 22.7228555965848,27.255439074279952 A 5.772022222222223 6.473964120370371 0 0 1 13.124317637306092,29.146407681710684 A 6.599527777777778 7.406945601851853 0 0 1 5.268392742815371,26.932020215398886 A 3.7271944444444447 4.157668981481482 0 0 1 2.642038293552667,19.52276787092978 A 3.714371527777778 4.176637731481482 0 0 1 3.8244638587035347,11.518226326906028 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+            <path
+              d="M 11.614428655555557 34.14375 A 0.8430555555555556 0.8430555555555556 0 1 1 11.61442865134028,34.14366569444458 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+            <path
+              d="M 12.86442772507794 33.14042479578997 A 1.6861111111111111 1.6861111111111111 0 1 1 12.864427716647384,33.14025618467914 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+            <path
+              d="M 14.748161537098797 30.574617286028058 A 2.529166666666667 2.529166666666667 0 1 1 14.748161524452964,30.574364369361813 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+            <path
+              d="M 4.0118631944444445 18.39055439814815 A 3.714371527777778 4.176637731481482 0 0 1 2.3392190918781086,18.060380470920165 M 5.922477777777778 24.518163194444448 A 3.7271944444444447 4.157668981481482 0 0 1 5.191881366686232,24.67165093866802 M 14.08640138888889 27.462534722222227 A 5.772022222222223 6.473964120370371 0 0 1 13.268036580653138,26.167848447506287 M 24.64308125 24.414186342592597 A 5.772022222222223 6.473964120370371 0 0 1 24.24214792888321,26.158986734056384 M 29.175554861111113 16.126247685185188 A 4.945371527777778 5.526931712962964 0 0 1 32.45294922213526,21.389732177043555 M 35.73148472222223 10.786895833333334 A 4.558974305555556 5.109619212962963 0 0 1 34.20720526257169,12.544049064487865 M 32.761697222222224 3.812016203703704 A 4.152060416666667 4.633292824074075 0 0 1 32.8798035210185,5.002964531335833 M 24.85765138888889 2.776462962962963 A 4.152060416666667 4.633292824074075 0 0 1 25.70018074845545,1.6526671683138447 M 18.927479861111113 3.316018518518519 A 3.7314687500000003 4.176637731481482 0 0 1 19.41866458339932,2.1555071257790344 M 11.968055555555557 3.6476203703703707 A 5.772877083333333 6.456400462962963 0 0 1 13.046803289062847,4.328897138421713 M 3.528011805555556 11.092503472222223 A 5.772877083333333 6.456400462962963 0 0 1 3.1909473736636027,9.813022638629995"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862405"
+          data-name="Oval Callout 396862405"
+          style="z-index: 251728896; position: absolute; left: 78.14px; top: 705.47px; width: 27.01px; height: 30.13px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="30.13px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="27.01px"
+          >
+            <path
+              d="M 7.8780067 33.89625 L 6.868225723671216 28.18535813288681 A 13.505 15.065 0 1 1 11.394945499386276,29.705319023130578 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862404"
+          data-name="Rounded Rectangular Callout 396862404"
+          style="z-index: 251727872; position: absolute; left: 5.58px; top: 705.47px; width: 42.34px; height: 30.14px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="30.14px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="42.34px"
+          >
+            <path
+              d="M 0 5.0234338 A 5.0234338 5.0234338 0 0 1 5.023433799999999,-8.881784197001252e-16 L 7.0566666666666675 0 L 7.0566666666666675 0 L 17.64166666666667 0 L 37.316566200000004 0 A 5.0234338 5.0234338 0 0 1 42.34,5.023433799999999 L 42.34 17.581666666666667 L 42.34 17.581666666666667 L 42.34 25.116666666666664 L 42.34 25.1165662 A 5.0234338 5.0234338 0 0 1 37.316566200000004,30.14 L 17.64166666666667 30.14 L 12.3493078 33.9075 L 7.0566666666666675 30.14 L 5.0234338 30.14 A 5.0234338 5.0234338 0 0 1 0,25.1165662 L 0 25.116666666666664 L 0 17.581666666666667 L 0 17.581666666666667 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862403"
+          data-name="Rectangular Callout 396862403"
+          style="z-index: 251726848; position: absolute; left: -54.26px; top: 705.47px; width: 34.17px; height: 23.44px; color: rgb(255, 255, 255); display: table;"
+        >
+          <svg
+            height="23.44px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="34.17px"
+          >
+            <path
+              d="M 0 0 L 5.695 0 L 5.695 0 L 14.237500000000002 0 L 34.17 0 L 34.17 13.673333333333334 L 34.17 13.673333333333334 L 34.17 19.533333333333335 L 34.17 23.44 L 14.237500000000002 23.44 L 9.966363900000001 26.37 L 5.695 23.44 L 0 23.44 L 0 19.533333333333335 L 0 13.673333333333334 L 0 13.673333333333334 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+          <div
+            data-name="textContainer"
+            style="display: table-cell; vertical-align: middle;"
+          >
+            <p
+              class="docx-viewer-0-p"
+              style="text-align: center; position: relative;"
+            >
+               
+            </p>
+          </div>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862402"
+          data-name="Double Wave 396862402"
+          style="z-index: 251725824; position: absolute; left: 352.95px; top: 651.89px; width: 41.31px; height: 30.14px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="30.14px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="41.31px"
+          >
+            <path
+              d="M 0 1.88375 C 6.885000000000001,-4.395416666666666 13.770000000000001,8.162916666666666 20.655,1.88375 C 27.540000000000003,-4.395416666666666 34.425000000000004,8.162916666666666 41.31,1.88375 L 41.31 28.25625 C 34.425000000000004,34.53541666666667 27.540000000000003,21.977083333333336 20.655,28.25625 C 13.770000000000001,34.53541666666667 6.885000000000001,21.977083333333336 0,28.25625 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862401"
+          data-name="Wave 396862401"
+          style="z-index: 251724800; position: absolute; left: 294.82px; top: 651.89px; width: 40.06px; height: 35.8px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="35.8px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="40.06px"
+          >
+            <path
+              d="M 0 4.475 C 13.353333333333333,-10.441666666666666 26.706666666666667,19.391666666666666 40.06,4.475 L 40.06 31.324999999999996 C 26.706666666666667,46.24166666666666 13.353333333333333,16.40833333333333 0,31.324999999999996 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="396862400"
+          data-name="Horizontal Scroll 396862400"
+          style="z-index: 251723776; position: absolute; left: 240.08px; top: 651.89px; width: 36.75px; height: 35.84px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="35.84px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="36.75px"
+          >
+            <path
+              d="M 36.75 2.24 A 2.24 2.24 0 0 1 34.51,4.48 L 34.51 2.24 A 1.12 1.12 0 0 1 32.27,2.24 L 32.269999999999996 4.48 L 2.24 4.48 A 2.24 2.24 0 0 0 4.440892098500626e-16,6.720000000000001 L 0 33.6 A 2.24 2.24 0 0 0 4.48,33.6 L 4.48 31.360000000000003 L 34.51 31.360000000000003 A 2.24 2.24 0 0 0 36.75,29.120000000000005 Z M 2.24 8.96 A 2.24 2.24 0 0 0 4.48,6.720000000000001 A 1.12 1.12 0 0 0 2.24,6.720000000000001 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 2.24 8.96 A 2.24 2.24 0 0 0 4.48,6.720000000000001 A 1.12 1.12 0 0 0 2.24,6.720000000000001 Z M 34.51 4.48 A 2.24 2.24 0 1 0 32.269999999999996,2.2399999999999998 A 1.12 1.12 0 0 0 34.50999999999999,2.2399999999999998 Z"
+              fill="#335AA1"
+              stroke="none"
+            />
+            <path
+              d="M 0 6.720000000000001 A 2.24 2.24 0 0 1 2.2399999999999998,4.48 L 32.269999999999996 4.48 L 32.269999999999996 2.24 A 2.24 2.24 0 0 1 36.75,2.2399999999999993 L 36.75 29.120000000000005 A 2.24 2.24 0 0 1 34.51,31.360000000000007 L 4.48 31.360000000000003 L 4.48 33.6 A 2.24 2.24 0 0 1 0,33.6 Z M 32.269999999999996 4.48 L 34.51 4.48 A 2.24 2.24 0 0 0 36.75,2.24 M 34.51 4.48 L 34.51 2.24 A 1.12 1.12 0 0 1 32.27,2.24 M 2.24 8.96 L 2.24 6.720000000000001 A 1.12 1.12 0 0 1 4.48,6.720000000000001 A 2.24 2.24 0 0 1 0,6.720000000000001 M 4.48 6.720000000000001 L 4.48 31.360000000000003"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="63"
+          data-name="Vertical Scroll 63"
+          style="z-index: 251722752; position: absolute; left: 166.53px; top: 640.73px; width: 43.29px; height: 47.06px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="47.06px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="43.29px"
+          >
+            <path
+              d="M 2.705625 47.06 A 2.705625 2.705625 0 0 0 5.41125,44.354375000000005 L 2.705625 44.354375000000005 A 1.3528125 1.3528125 0 0 0 2.705625,41.64875000000001 L 5.41125 41.64875 L 5.41125 2.705625 A 2.705625 2.705625 0 0 1 8.116875,-4.440892098500626e-16 L 40.584375 0 A 2.705625 2.705625 0 0 1 40.584375,5.41125 L 37.87875 5.41125 L 37.87875 44.354375000000005 A 2.705625 2.705625 0 0 1 35.173125,47.06 Z M 10.8225 2.705625 A 2.705625 2.705625 0 0 1 8.116875,5.41125 A 1.3528125 1.3528125 0 0 1 8.116875,2.7056250000000004 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 10.8225 2.705625 A 2.705625 2.705625 0 0 1 8.116875,5.41125 A 1.3528125 1.3528125 0 0 1 8.116875,2.7056250000000004 Z M 5.41125 44.354375000000005 A 2.705625 2.705625 0 1 1 2.7056249999999995,41.64875000000001 A 1.3528125 1.3528125 0 0 1 2.7056250000000004,44.354375000000005 Z"
+              fill="#335AA1"
+              stroke="none"
+            />
+            <path
+              d="M 5.41125 41.64875 L 5.41125 2.705625 A 2.705625 2.705625 0 0 1 8.116875,-4.440892098500626e-16 L 40.584375 0 A 2.705625 2.705625 0 0 1 40.584375,5.41125 L 37.87875 5.41125 L 37.87875 44.354375000000005 A 2.705625 2.705625 0 0 1 35.173125,47.06 L 2.705625 47.06 A 2.705625 2.705625 0 0 1 2.7056249999999995,41.64875000000001 Z M 8.116875 0 A 2.705625 2.705625 0 0 1 8.116875,5.41125 A 1.3528125 1.3528125 0 0 1 8.116875,2.7056250000000004 L 10.8225 2.705625 M 37.87875 5.41125 L 8.116875 5.41125 M 2.705625 41.64875 A 1.3528125 1.3528125 0 0 1 2.705625000000001,44.354375 L 5.41125 44.354375000000005 M 2.705625 47.06 A 2.705625 2.705625 0 0 0 5.41125,44.354375000000005 L 5.41125 41.64875"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="62"
+          data-name="Curved Down Ribbon 62"
+          style="z-index: 251721728; position: absolute; left: 85.95px; top: 646.31px; width: 51.32px; height: 41.3px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="41.3px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="51.32px"
+          >
+            <path
+              d="M 0 0 Q 9.6225,3.871875 19.245,4.839843749999999 L 12.83 9.034375 Q 25.66,11.615624999999998 38.49,9.034375 L 32.075 4.839843749999999 Q 41.6975,3.871875 51.32,0 L 44.905 17.74609375 L 51.32 30.974999999999998 Q 44.905,33.55625 38.49,34.846875 L 38.49 40.009375 Q 25.66,42.590624999999996 12.83,40.009375 L 12.83 34.846875 Q 6.415,33.55625 0,30.974999999999998 L 6.415 17.74609375 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 19.245 10.002343749999998 L 19.245 4.839843749999999 L 12.83 9.034375 Q 25.66,11.615624999999998 38.49,9.034375 L 32.075 4.839843749999999 L 32.075 10.002343749999998 Q 25.66,10.64765625 19.245,10.002343749999998 Z"
+              fill="#335AA1"
+              stroke="none"
+            />
+            <path
+              d="M 0 0 Q 9.6225,3.871875 19.245,4.839843749999999 L 12.83 9.034375 Q 25.66,11.615624999999998 38.49,9.034375 L 32.075 4.839843749999999 Q 41.6975,3.871875 51.32,0 L 44.905 17.74609375 L 51.32 30.974999999999998 Q 44.905,33.55625 38.49,34.846875 L 38.49 40.009375 Q 25.66,42.590624999999996 12.83,40.009375 L 12.83 34.846875 Q 6.415,33.55625 0,30.974999999999998 L 6.415 17.74609375 Z M 12.83 34.846875 L 12.83 9.034375 M 38.49 9.034375 L 38.49 34.846875 M 19.245 4.839843749999999 L 19.245 10.002343749999998 M 32.075 10.002343749999998 L 32.075 4.839843749999999"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="61"
+          data-name="Curved Up Ribbon 61"
+          style="z-index: 251720704; position: absolute; left: 31.47px; top: 651.89px; width: 31.26px; height: 24.55px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="24.55px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="31.26px"
+          >
+            <path
+              d="M 0 24.55 Q 5.86125,22.2484375 11.7225,21.673046875 L 7.815 19.1796875 Q 15.63,17.645312500000003 23.445,19.1796875 L 19.5375 21.673046875 Q 25.39875,22.2484375 31.26,24.55 L 27.352500000000003 14.001171875 L 31.26 6.1375 Q 27.352500000000003,4.603124999999999 23.445,3.8359375 L 23.445 0.7671874999999986 Q 15.63,-0.7671875000000021 7.815,0.7671874999999986 L 7.815 3.8359375 Q 3.9075,4.603124999999999 0,6.1375 L 3.9075 14.001171875 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 11.7225 18.604296875000003 L 11.7225 21.673046875 L 7.815 19.1796875 Q 15.63,17.645312500000003 23.445,19.1796875 L 19.5375 21.673046875 L 19.5375 18.604296875000003 Q 15.63,18.220703125 11.7225,18.604296875000003 Z"
+              fill="#335AA1"
+              stroke="none"
+            />
+            <path
+              d="M 0 24.55 L 3.9075 14.001171875 L 0 6.1375 Q 3.9075,4.603124999999999 7.815,3.8359375 L 7.815 0.7671874999999986 Q 15.63,-0.7671875000000021 23.445,0.7671874999999986 L 23.445 3.8359375 Q 27.352500000000003,4.603124999999999 31.26,6.1375 L 27.352500000000003 14.001171875 L 31.26 24.55 Q 25.39875,22.2484375 19.5375,21.673046875 L 23.445 19.1796875 Q 15.63,17.645312500000003 7.815,19.1796875 L 11.7225 21.673046875 Q 5.86125,22.2484375 0,24.55 Z M 7.815 19.1796875 L 7.815 3.8359375 M 23.445 3.8359375 L 23.445 19.1796875 M 11.7225 18.604296875000003 L 11.7225 21.673046875 M 19.5375 21.673046875 L 19.5375 18.604296875000003"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="60"
+          data-name="Down Ribbon 60"
+          style="z-index: 251719680; position: absolute; left: -63.63px; top: 646.31px; width: 60.28px; height: 30.14px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="30.14px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="60.28px"
+          >
+            <path
+              d="M 0 0 L 20.72125 0 A 1.88375 1.25585845 0 0 1 20.72125,2.5117169 L 16.95375 2.5117169 A 1.88375 1.25585845 0 0 0 16.95375,5.0234338 L 43.32625 5.0234338 A 1.88375 1.25585845 0 0 0 43.32625,2.5117169000000006 L 39.558749999999996 2.5117169 A 1.88375 1.25585845 0 0 1 39.558749999999996,0 L 60.28 0 L 52.745000000000005 12.5582831 L 60.28 25.1165662 L 45.21 25.1165662 L 45.21 28.88414155 A 1.88375 1.25585845 0 0 1 43.32625,30.14 L 16.95375 30.14 A 1.88375 1.25585845 0 0 1 15.07,28.88414155 L 15.07 25.1165662 L 0 25.1165662 L 7.535 12.5582831 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 22.605 1.25585845 A 1.88375 1.25585845 0 0 1 20.72125,2.5117169 L 16.95375 2.5117169 A 1.88375 1.25585845 0 0 0 16.95375,5.0234338 L 22.605 5.0234338 Z M 37.675 1.25585845 A 1.88375 1.25585845 0 0 0 39.558749999999996,2.5117168999999997 L 43.32625 2.5117169 A 1.88375 1.25585845 0 0 1 43.32625,5.0234338 L 37.675 5.0234338 Z"
+              fill="#335AA1"
+              stroke="none"
+            />
+            <path
+              d="M 0 0 L 20.72125 0 A 1.88375 1.25585845 0 0 1 20.72125,2.5117169 L 16.95375 2.5117169 A 1.88375 1.25585845 0 0 0 16.95375,5.0234338 L 43.32625 5.0234338 A 1.88375 1.25585845 0 0 0 43.32625,2.5117169000000006 L 39.558749999999996 2.5117169 A 1.88375 1.25585845 0 0 1 39.558749999999996,0 L 60.28 0 L 52.745000000000005 12.5582831 L 60.28 25.1165662 L 45.21 25.1165662 L 45.21 28.88414155 A 1.88375 1.25585845 0 0 1 43.32625,30.14 L 16.95375 30.14 A 1.88375 1.25585845 0 0 1 15.07,28.88414155 L 15.07 25.1165662 L 0 25.1165662 L 7.535 12.5582831 Z M 22.605 1.25585845 L 22.605 5.0234338 M 37.675 5.0234338 L 37.675 1.25585845 M 15.07 25.1165662 L 15.07 3.7675753500000004 M 45.21 3.7675753500000004 L 45.21 25.1165662"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="59"
+          data-name="Up Ribbon 59"
+          style="z-index: 251718656; position: absolute; left: 586.03px; top: 602.99px; width: 43.53px; height: 29.02px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="29.02px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="43.53px"
+          >
+            <path
+              d="M 0 29.02 L 14.963437500000001 29.02 A 1.3603125 1.20919085 0 0 0 14.963437500000001,26.601618300000002 L 12.2428125 26.6016183 A 1.3603125 1.20919085 0 0 1 12.2428125,24.1832366 L 31.2871875 24.1832366 A 1.3603125 1.20919085 0 0 1 31.2871875,26.6016183 L 28.5665625 26.6016183 A 1.3603125 1.20919085 0 0 0 28.5665625,29.019999999999996 L 43.53 29.02 L 38.088750000000005 16.9283817 L 43.53 4.8367634 L 32.6475 4.8367634 L 32.6475 1.20919085 A 1.3603125 1.20919085 0 0 0 31.2871875,0 L 12.2428125 0 A 1.3603125 1.20919085 0 0 0 10.8825,1.2091908500000002 L 10.8825 4.8367634 L 0 4.8367634 L 5.44125 16.9283817 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 16.32375 27.81080915 A 1.3603125 1.20919085 0 0 0 14.963437500000001,26.601618300000002 L 12.2428125 26.6016183 A 1.3603125 1.20919085 0 0 1 12.2428125,24.1832366 L 16.32375 24.1832366 Z M 27.20625 27.81080915 A 1.3603125 1.20919085 0 0 1 28.5665625,26.601618300000002 L 31.2871875 26.6016183 A 1.3603125 1.20919085 0 0 0 31.2871875,24.1832366 L 27.20625 24.1832366 Z"
+              fill="#335AA1"
+              stroke="none"
+            />
+            <path
+              d="M 0 29.02 L 5.44125 16.9283817 L 0 4.8367634 L 10.8825 4.8367634 L 10.8825 1.20919085 A 1.3603125 1.20919085 0 0 1 12.2428125,-2.220446049250313e-16 L 31.2871875 0 A 1.3603125 1.20919085 0 0 1 32.6475,1.2091908499999997 L 32.6475 4.8367634 L 32.6475 4.8367634 L 43.53 4.8367634 L 38.088750000000005 16.9283817 L 43.53 29.02 L 28.5665625 29.02 A 1.3603125 1.20919085 0 0 1 28.5665625,26.601618300000002 L 31.2871875 26.6016183 A 1.3603125 1.20919085 0 0 0 31.2871875,24.1832366 L 12.2428125 24.1832366 A 1.3603125 1.20919085 0 0 0 12.2428125,26.6016183 L 14.963437500000001 26.6016183 A 1.3603125 1.20919085 0 0 1 14.963437500000001,29.019999999999996 Z M 16.32375 24.1832366 L 16.32375 27.81080915 M 27.20625 27.81080915 L 27.20625 24.1832366 M 10.8825 25.39242745 L 10.8825 4.8367634 M 32.6475 4.8367634 L 32.6475 25.39242745"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="58"
+          data-name="32-Point Star 58"
+          style="z-index: 251717632; position: absolute; left: 532.45px; top: 602.78px; width: 30.14px; height: 19.35px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="19.35px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="30.14px"
+          >
+            <path
+              d="M 0 9.675 L 3.8219780500000002 8.963742375 L 0.28949470000000055 7.7875042500000005 L 4.25418565 7.568655750000001 L 1.1471284000000015 5.972571 L 5.1020992 6.254403750000001 L 2.5397470999999996 4.29986025 L 6.333054475000001 5.071707562500001 L 4.413900807518727 2.8337418920201536 L 7.899807025 4.065846187500001 L 6.6975601000000005 1.6305277500000006 L 9.7420015 3.2755680000000016 L 9.3030124 0.7364610000000003 L 11.7891103 2.7312041250000005 L 12.1299937 0.18585674999999924 L 13.96212895 2.453725125000002 L 15.07 0 L 16.17787105 2.453725125000002 L 18.0100063 0.18585674999999924 L 18.3508897 2.7312041250000005 L 20.8369876 0.7364610000000003 L 20.3979985 3.2755680000000016 L 23.4424399 1.6305277500000006 L 22.240192975 4.065846187500001 L 25.72609919248127 2.8337418920201536 L 23.806945525 5.071707562500001 L 27.6002529 4.29986025 L 25.037900800000003 6.254403750000001 L 28.9928716 5.972571 L 25.88581435 7.568655750000001 L 29.850505300000002 7.7875042500000005 L 26.318021950000002 8.963742375 L 30.14 9.675 L 26.318021950000002 10.386257625 L 29.850505300000002 11.56249575 L 25.88581435 11.78134425 L 28.9928716 13.377429000000001 L 25.037900800000003 13.09559625 L 27.6002529 15.050139750000001 L 23.806945525 14.2782924375 L 25.72609919248127 16.516258107979848 L 22.240192975 15.284153812500001 L 23.4424399 17.719472250000003 L 20.3979985 16.074432 L 20.8369876 18.613539000000003 L 18.3508897 16.618795875 L 18.0100063 19.164143250000002 L 16.17787105 16.896274875 L 15.07 19.35 L 13.96212895 16.896274875 L 12.1299937 19.164143250000002 L 11.7891103 16.618795875 L 9.3030124 18.613539000000003 L 9.7420015 16.074432 L 6.6975601000000005 17.719472250000003 L 7.899807025 15.284153812500001 L 4.413900807518727 16.516258107979848 L 6.333054475000001 14.2782924375 L 2.5397470999999996 15.050139750000001 L 5.1020992 13.09559625 L 1.1471284000000015 13.377429000000001 L 4.25418565 11.78134425 L 0.28949470000000055 11.56249575 L 3.8219780500000002 10.386257625 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="57"
+          data-name="24-Point Star 57"
+          style="z-index: 251716608; position: absolute; left: 492.27px; top: 594.28px; width: 20.06px; height: 27.85px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="27.85px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="20.06px"
+          >
+            <path
+              d="M 0 13.925 L 2.571892599999999 12.5617773125 L 0.34176396232064477 10.3209447969474 L 3.0801127 9.92838575 L 1.34376520004208 7.925000000000001 L 4.062024624999999 7.567262750000001 L 2.937718984698928 4.078538071977327 L 5.450602899999999 5.639450937500001 L 5.029999999999999 1.8655962523016925 L 7.1512896999999995 4.276228250000001 L 7.434044977621714 0.474482868924726 L 9.048088074999999 3.570648500000001 L 10.03 0 L 11.011911925 3.570648500000001 L 12.625955022378285 0.474482868924726 L 12.9087103 4.276228250000001 L 15.03 1.8655962523016925 L 14.609397099999999 5.639450937500001 L 17.12228101530107 4.078538071977327 L 15.997975375 7.567262750000001 L 18.716234799957917 7.925000000000001 L 16.979887299999998 9.92838575 L 19.718236037679354 10.3209447969474 L 17.4881074 12.5617773125 L 20.06 13.925 L 17.4881074 15.288222687500001 L 19.718236037679354 17.529055203052604 L 16.979887299999998 17.92161425 L 18.716234799957917 19.925 L 15.997975375 20.28273725 L 17.12228101530107 23.771461928022674 L 14.609397099999999 22.2105490625 L 15.03 25.98440374769831 L 12.9087103 23.57377175 L 12.625955022378285 27.375517131075277 L 11.011911925 24.2793515 L 10.03 27.85 L 9.048088074999999 24.2793515 L 7.434044977621714 27.375517131075277 L 7.1512896999999995 23.57377175 L 5.029999999999999 25.98440374769831 L 5.450602899999999 22.2105490625 L 2.937718984698928 23.771461928022674 L 4.062024624999999 20.28273725 L 1.34376520004208 19.925 L 3.0801127 17.92161425 L 0.34176396232064477 17.529055203052604 L 2.571892599999999 15.288222687500001 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="56"
+          data-name="16-Point Star 56"
+          style="z-index: 251715584; position: absolute; left: 435.34px; top: 594.28px; width: 30.27px; height: 37.52px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="37.52px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="30.27px"
+          >
+            <path
+              d="M 0 18.76 L 4.001807512499999 16.0150837 L 1.1520762000000015 11.5809232 L 5.696776162499999 10.943130100000001 L 4.43289015 5.4946164 L 8.8285860375 7.061217099999999 L 9.3431382 1.4280112000000003 L 12.9204846375 4.960284699999999 L 15.135 0 L 17.3495153625 4.960284699999999 L 20.926861799999998 1.4280112000000003 L 21.4414139625 7.061217099999999 L 25.837109849999997 5.4946164 L 24.573223837500002 10.943130100000001 L 29.1179238 11.5809232 L 26.268192487500002 16.0150837 L 30.27 18.76 L 26.268192487500002 21.5049163 L 29.1179238 25.939076800000002 L 24.573223837500002 26.576869900000002 L 25.837109849999997 32.025383600000005 L 21.4414139625 30.458782900000003 L 20.926861799999998 36.0919888 L 17.3495153625 32.55971530000001 L 15.135 37.52 L 12.9204846375 32.55971530000001 L 9.3431382 36.0919888 L 8.8285860375 30.458782900000003 L 4.43289015 32.025383600000005 L 5.696776162499999 26.576869900000002 L 1.1520762000000015 25.939076800000002 L 4.001807512499999 21.5049163 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="55"
+          data-name="12-Point Star 55"
+          style="z-index: 251714560; position: absolute; left: 404.28px; top: 594.06px; width: 18.78px; height: 37.73px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="37.73px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="18.78px"
+          >
+            <path
+              d="M 0 18.865 L 2.5874673683592366 15.20303403560571 L 1.2580214584641212 9.4325 L 4.410200493493739 8.860322929686836 L 4.695 2.5274307576065667 L 7.5672668748654965 5.198356965292547 L 9.39 0 L 11.212733125134505 5.198356965292547 L 14.085 2.5274307576065667 L 14.369799506506261 8.860322929686836 L 17.52197854153588 9.4325 L 16.192532631640766 15.20303403560571 L 18.78 18.865 L 16.192532631640766 22.52696596439429 L 17.52197854153588 28.2975 L 14.369799506506261 28.86967707031316 L 14.085 35.20256924239343 L 11.212733125134505 32.53164303470745 L 9.39 37.73 L 7.5672668748654965 32.53164303470745 L 4.695 35.20256924239343 L 4.410200493493739 28.86967707031316 L 1.2580214584641212 28.2975 L 2.5874673683592366 22.52696596439429 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="54"
+          data-name="10-Point Star 54"
+          style="z-index: 251713536; position: absolute; left: 352.51px; top: 594.06px; width: 27.23px; height: 37.74px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="37.74px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="27.23px"
+          >
+            <path
+              d="M -0.000021070574000248143 13.0387926 L 3.7629712335634853 9.434821840782 L 5.200417076659001 3.6037926000000002 L 9.851837248270485 3.603628438548 L 13.615 0 L 17.378162751729516 3.603628438548 L 22.029582923341 3.6037926000000002 L 23.467028766436513 9.434821840782 L 27.230021070574 13.0387926 L 25.792732029414 18.87 L 27.230021070574 24.7012074 L 23.467028766436513 28.305178159218002 L 22.029582923341 34.1362074 L 17.378162751729516 34.136371561452 L 13.615 37.74 L 9.851837248270485 34.136371561452 L 5.200417076659001 34.1362074 L 3.7629712335634853 28.305178159218002 L -0.000021070574000248143 24.7012074 L 1.4372679705859994 18.87 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="53"
+          data-name="8-Point Star 53"
+          style="z-index: 251712512; position: absolute; left: 302.50px; top: 594.06px; width: 25.89px; height: 28.07px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="28.07px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="25.89px"
+          >
+            <path
+              d="M 0 14.035 L 3.9752800500000003 10.00681465 L 3.7915027175401423 4.110756326046806 L 9.22965555 4.310008150000002 L 12.945 0 L 16.66034445 4.310008150000002 L 22.09849728245986 4.110756326046806 L 21.91471995 10.00681465 L 25.89 14.035 L 21.91471995 18.063185349999998 L 22.09849728245986 23.959243673953196 L 16.66034445 23.75999185 L 12.945 28.07 L 9.22965555 23.75999185 L 3.7915027175401423 23.959243673953196 L 3.9752800500000003 18.063185349999998 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="52"
+          data-name="8-Point Star 52"
+          style="z-index: 251711488; position: absolute; left: 253.39px; top: 593.85px; width: 31.25px; height: 28.12px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="28.12px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="31.25px"
+          >
+            <path
+              d="M 0 14.06 L 4.7982812500000005 10.024639400000002 L 4.5764565439601945 4.118078656517143 L 11.14046875 4.3176854 L 15.625 0 L 20.10953125 4.3176854 L 26.673543456039805 4.118078656517143 L 26.451718749999998 10.024639400000002 L 31.25 14.06 L 26.451718749999998 18.0953606 L 26.673543456039805 24.001921343482856 L 20.10953125 23.802314600000003 L 15.625 28.12 L 11.14046875 23.802314600000003 L 4.5764565439601945 24.001921343482856 L 4.7982812500000005 18.0953606 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="51"
+          data-name="7-Point Star 51"
+          style="z-index: 251710464; position: absolute; left: 196.68px; top: 585.57px; width: 33.27px; height: 36.4px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="36.4px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="33.27px"
+          >
+            <path
+              d="M -0.00008649534600024822 23.409081914399998 L 5.123187443490661 16.19961833799691 L 3.2947502644739988 7.209496312199999 L 11.511816559118838 7.209510493371729 L 16.635 0 L 21.758183440881165 7.209510493371729 L 29.975249735526006 7.209496312199999 L 28.146812556509342 16.19961833799691 L 33.27008649534601 23.409081914399998 L 25.866719621978703 27.410055566431353 L 24.038230312536 36.400191773399996 L 16.635 32.3991712044 L 9.231769687464002 36.400191773399996 L 7.403280378021298 27.410055566431353 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="50"
+          data-name="6-Point Star 50"
+          style="z-index: 251709440; position: absolute; left: 159.62px; top: 578.22px; width: 23.44px; height: 43.53px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="43.53px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="23.44px"
+          >
+            <path
+              d="M 0.0000054644512736956585 10.8825 L 7.813269310880001 10.882316583537676 L 11.72 0 L 15.62673068912 10.882316583537676 L 23.439994535548728 10.8825 L 19.53346137824 21.765 L 23.439994535548728 32.6475 L 15.62673068912 32.64768341646233 L 11.72 43.53 L 7.813269310880001 32.64768341646233 L 0.0000054644512736956585 32.6475 L 3.906538621760001 21.765 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="49"
+          data-name="5-Point Star 49"
+          style="z-index: 251708416; position: absolute; left: 104.93px; top: 585.13px; width: 24.73px; height: 26.1px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="26.1px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="24.73px"
+          >
+            <path
+              d="M 0.000026156627923157316 9.969287563952008 L 9.446071570774995 9.969357728737108 L 12.365 0 L 15.283928429225005 9.969357728737108 L 24.72997384337208 9.969287563952008 L 17.0879254092144 16.130619321532894 L 20.006974105207362 26.099933686047997 L 12.365 19.93848839946 L 4.72302589479264 26.099933686047997 L 7.642074590785602 16.130619321532894 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="48"
+          data-name="4-Point Star 48"
+          style="z-index: 251707392; position: absolute; left: 54.70px; top: 585.13px; width: 23.44px; height: 25.67px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="25.67px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="23.44px"
+          >
+            <path
+              d="M 0 12.835 L 9.648177131123417 10.566071115867667 L 11.72 0 L 13.791822868876585 10.566071115867667 L 23.44 12.835 L 13.791822868876585 15.103928884132335 L 11.72 25.67 L 9.648177131123417 15.103928884132335 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="47"
+          data-name="Explosion 2 47"
+          style="z-index: 251706368; position: absolute; left: -3.35px; top: 585.13px; width: 34.6px; height: 25.67px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="25.67px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="34.6px"
+          >
+            <path
+              d="M 18.360425925925927 5.160145370370371 L 23.69138888888889 0 L 23.266898148148147 6.865536574074075 L 28.844546296296297 3.7696870370370377 L 26.238333333333333 7.762798148148149 L 34.6 7.897090277777779 L 27.207453703703706 11.173580555555557 L 29.265833333333333 13.417328703703706 L 26.238333333333333 14.62952314814815 L 30.23815740740741 18.577474074074075 L 23.45111111111111 17.05391203703704 L 23.934870370370373 20.642958333333336 L 19.510555555555555 18.93756712962963 L 18.600703703703704 22.3923212962963 L 15.813481481481482 20.642958333333336 L 13.936111111111112 23.426251851851855 L 12.05713888888889 21.540219907407412 L 7.876305555555556 25.670000000000005 L 7.696898148148149 21.676888888888893 L 2.0583796296296297 21.183692129629634 L 5.3341666666666665 18.266106481481483 L 0 15.30336064814815 L 6.3032870370370375 13.776233333333336 L 1.8773703703703704 9.828282407407409 L 8.605148148148148 9.289925462962964 L 7.211537037037037 4.308043981481482 L 13.695833333333335 7.584534259259261 L 15.573203703703705 2.2425597222222224 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="46"
+          data-name="Explosion 1 46"
+          style="z-index: 251705344; position: absolute; left: -54.70px; top: 584.92px; width: 34.6px; height: 25.67px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="25.67px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="34.6px"
+          >
+            <path
+              d="M 17.3 6.892870370370371 L 23.262092592592595 0 L 22.674212962962965 6.328368055555557 L 29.44203703703704 5.296814351851853 L 26.75412962962963 8.69333564814815 L 33.79426851851852 9.670221759259261 L 28.203805555555558 12.448761574074076 L 34.6 15.794180555555558 L 26.97037962962963 15.380608333333337 L 29.065601851851852 21.50456712962963 L 22.457962962962963 17.181073611111113 L 21.21973148148148 23.455962500000002 L 16.870703703703704 17.749141203703708 L 13.591712962962964 25.670000000000005 L 12.358287037037037 18.571531944444448 L 7.628018518518519 20.93649953703704 L 9.077694444444445 16.56309212962963 L 0.21625 17.335568981481483 L 5.962092592592593 13.99371527777778 L 0 10.238289351851854 L 7.411768518518519 9.052240277777779 L 0.5926851851851852 2.7274375000000006 L 11.712740740740742 7.510851851851853 L 13.378666666666668 2.7274375000000006 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="45"
+          data-name="Display 45"
+          style="z-index: 251704320; position: absolute; left: 689.84px; top: 503.43px; width: 25.67px; height: 39.89px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="39.89px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="25.67px"
+          >
+            <path
+              d="M 0 19.945 L 4.278333333333333 0 L 21.391666666666666 0 A 4.278333333333333 19.945 0 0 1 21.391666666666666,39.89 L 4.278333333333333 39.89 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="44"
+          data-name="Direct Access Storage 44"
+          style="z-index: 251703296; position: absolute; left: 647.43px; top: 503.43px; width: 29.94px; height: 32.29px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="32.29px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="29.94px"
+          >
+            <path
+              d="M 4.99 0 L 24.950000000000003 0 A 4.99 16.145 0 0 1 24.950000000000003,32.29 L 4.99 32.29 A 4.99 16.145 0 0 1 4.989999999999999,0 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 24.950000000000003 32.29 A 4.99 16.145 0 0 1 24.950000000000003,0"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M 4.99 0 L 24.950000000000003 0 A 4.99 16.145 0 0 1 24.950000000000003,32.29 L 4.99 32.29 A 4.99 16.145 0 0 1 4.989999999999999,0 Z"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="43"
+          data-name="Magnetic Disk 43"
+          style="z-index: 251702272; position: absolute; left: 600.52px; top: 503.43px; width: 29.21px; height: 40.15px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="40.15px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="29.21px"
+          >
+            <path
+              d="M 0 6.691666666666666 A 14.605 6.691666666666666 0 0 1 29.21,6.691666666666664 L 29.21 33.45833333333333 A 14.605 6.691666666666666 0 0 1 0,33.45833333333333 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 29.21 6.691666666666666 A 14.605 6.691666666666666 0 0 1 0,6.691666666666667"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M 0 6.691666666666666 A 14.605 6.691666666666666 0 0 1 29.21,6.691666666666664 L 29.21 33.45833333333333 A 14.605 6.691666666666666 0 0 1 0,33.45833333333333 Z"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="42"
+          data-name="Sequential Access Storage 42"
+          style="z-index: 251701248; position: absolute; left: 532.45px; top: 503.43px; width: 43.75px; height: 32.5px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="32.5px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="43.75px"
+          >
+            <path
+              d="M 21.875 32.5 A 21.875 16.25 0 0 1 0,16.250000000000004 A 21.875 16.25 0 0 1 21.874999999999996,0 A 21.875 16.25 0 0 1 43.75,16.249999999999996 A 21.875 16.25 0 0 1 39.43502167400365,25.940265021735893 L 43.75 27.740485194281398 L 43.75 32.5 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="41"
+          data-name="Delay 41"
+          style="z-index: 251700224; position: absolute; left: 474.41px; top: 493.60px; width: 37.92px; height: 49.96px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="49.96px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="37.92px"
+          >
+            <path
+              d="M 0 0 L 18.96 0 A 18.96 24.98 0 0 1 18.96000000000001,49.96 L 0 49.96 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="40"
+          data-name="Stored Data 40"
+          style="z-index: 251699200; position: absolute; left: 423.06px; top: 493.60px; width: 30.14px; height: 42.33px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="42.33px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="30.14px"
+          >
+            <path
+              d="M 5.023333333333333 0 L 30.14 0 A 5.023333333333333 21.165 0 0 0 30.14,42.33 L 5.023333333333333 42.33 A 5.023333333333333 21.165 0 0 1 5.0233333333333325,0 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="39"
+          data-name="Merge 39"
+          style="z-index: 251698176; position: absolute; left: 379.53px; top: 503.43px; width: 24.56px; height: 40.15px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="40.15px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="24.56px"
+          >
+            <path
+              d="M 0 0 L 24.56 0 L 12.28 40.15 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="38"
+          data-name="Extract 38"
+          style="z-index: 251697152; position: absolute; left: 320.78px; top: 493.38px; width: 31.96px; height: 42.38px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="42.38px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="31.96px"
+          >
+            <path
+              d="M 0 42.38 L 15.98 0 L 31.96 42.38 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="37"
+          data-name="Sort 37"
+          style="z-index: 251696128; position: absolute; left: 261.20px; top: 493.38px; width: 33.41px; height: 50.2px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="50.2px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="33.41px"
+          >
+            <path
+              d="M 0 25.1 L 16.705 0 L 33.41 25.1 L 16.705 50.2 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 0 25.1 L 33.41 25.1"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M 0 25.1 L 16.705 0 L 33.41 25.1 L 16.705 50.2 Z"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="36"
+          data-name="Collate 36"
+          style="z-index: 251695104; position: absolute; left: 196.68px; top: 493.38px; width: 43.45px; height: 50.23px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="50.23px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="43.45px"
+          >
+            <path
+              d="M 0 0 L 43.45 0 L 21.725 25.115 L 43.45 50.23 L 0 50.23 L 21.725 25.115 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="35"
+          data-name="Or 35"
+          style="z-index: 251694080; position: absolute; left: 129.66px; top: 493.38px; width: 44.68px; height: 42.38px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="42.38px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="44.68px"
+          >
+            <path
+              d="M 0 21.19 A 22.34 21.19 0 0 1 22.339999999999996,-3.552713678800501e-15 A 22.34 21.19 0 0 1 44.68,21.189999999999994 A 22.34 21.19 0 0 1 22.34,42.379999999999995 A 22.34 21.19 0 0 1 0,21.189999999999998 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 22.34 0 L 22.34 42.38 M 0 21.19 L 44.68 21.19"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M 0 21.19 A 22.34 21.19 0 0 1 22.339999999999996,-3.552713678800501e-15 A 22.34 21.19 0 0 1 44.68,21.189999999999994 A 22.34 21.19 0 0 1 22.34,42.379999999999995 A 22.34 21.19 0 0 1 0,21.189999999999998 Z"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="34"
+          data-name="Summing Junction 34"
+          style="z-index: 251693056; position: absolute; left: 78.14px; top: 503.43px; width: 34.6px; height: 32.33px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="32.33px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="34.6px"
+          >
+            <path
+              d="M 0 16.165 A 17.3 16.165 0 0 1 17.299999999999997,-3.552713678800501e-15 A 17.3 16.165 0 0 1 34.6,16.164999999999992 A 17.3 16.165 0 0 1 17.3,32.32999999999999 A 17.3 16.165 0 0 1 0,16.164999999999996 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 5.067052685472728 4.7346188821194595 L 29.532947314527274 27.59538111788054 M 29.532947314527274 4.7346188821194595 L 5.067052685472728 27.59538111788054"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M 0 16.165 A 17.3 16.165 0 0 1 17.299999999999997,-3.552713678800501e-15 A 17.3 16.165 0 0 1 34.6,16.164999999999992 A 17.3 16.165 0 0 1 17.3,32.32999999999999 A 17.3 16.165 0 0 1 0,16.164999999999996 Z"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="33"
+          data-name="Punched Tape 33"
+          style="z-index: 251692032; position: absolute; left: -3.35px; top: 503.43px; width: 51.32px; height: 32.37px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="32.37px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="51.32px"
+          >
+            <path
+              d="M 0 3.2369999999999997 A 12.829999999999998 3.2369999999999997 0 0 0 25.659999999999997,3.236999999999999 A 12.829999999999998 3.2369999999999997 0 0 1 51.31999999999999,3.236999999999998 L 51.31999999999999 29.132999999999996 A 12.829999999999998 3.2369999999999997 0 0 0 25.659999999999997,29.132999999999996 A 12.829999999999998 3.2369999999999997 0 0 1 0,29.132999999999996 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="32"
+          data-name="Card 32"
+          style="z-index: 251691008; position: absolute; left: 629.71px; top: 427.74px; width: 47.85px; height: 36.57px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="36.57px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="47.85px"
+          >
+            <path
+              d="M 0 7.314 L 9.57 0 L 47.85 0 L 47.85 36.57 L 0 36.57 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="31"
+          data-name="Off-page Connector 31"
+          style="z-index: 251689984; position: absolute; left: 562.59px; top: 437.57px; width: 37.95px; height: 33.22px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="33.22px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="37.95px"
+          >
+            <path
+              d="M 0 0 L 37.95 0 L 37.95 26.576 L 18.975 33.22 L 0 26.576 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="30"
+          data-name="Connector 30"
+          style="z-index: 251688960; position: absolute; left: 492.27px; top: 427.74px; width: 49.12px; height: 43.28px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="43.28px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="49.12px"
+          >
+            <path
+              d="M 0 21.64 A 24.56 21.64 0 0 1 24.559999999999995,-3.552713678800501e-15 A 24.56 21.64 0 0 1 49.12,21.639999999999993 A 24.56 21.64 0 0 1 24.56,43.279999999999994 A 24.56 21.64 0 0 1 0,21.639999999999997 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="29"
+          data-name="Manual Operation 29"
+          style="z-index: 251687936; position: absolute; left: 414.13px; top: 420.83px; width: 51.29px; height: 50.23px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="50.23px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="51.29px"
+          >
+            <path
+              d="M 0 0 L 51.28999999999999 0 L 41.032 50.23 L 10.258 50.23 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="28"
+          data-name="Manual Input 28"
+          style="z-index: 251686912; position: absolute; left: 352.74px; top: 427.52px; width: 34.6px; height: 36.79px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="36.79px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="34.6px"
+          >
+            <path
+              d="M 0 7.358 L 34.6 0 L 34.6 36.79 L 0 36.79 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="27"
+          data-name="Preparation 27"
+          style="z-index: 251685888; position: absolute; left: 276.83px; top: 420.83px; width: 43.75px; height: 43.47px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="43.47px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="43.75px"
+          >
+            <path
+              d="M 0 21.735 L 8.75 0 L 35 0 L 43.75 21.735 L 35 43.47 L 8.75 43.47 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="26"
+          data-name="Terminator 26"
+          style="z-index: 251684864; position: absolute; left: 183.07px; top: 420.83px; width: 57.09px; height: 36.84px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="36.84px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="57.09px"
+          >
+            <path
+              d="M 9.184618055555555 0 L 47.90538194444444 0 A 9.184618055555555 18.42 0 0 1 47.90538194444444,36.84 L 9.184618055555555 36.84 A 9.184618055555555 18.42 0 0 1 9.184618055555553,0 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="25"
+          data-name="Multidocument 25"
+          style="z-index: 251683840; position: absolute; left: 85.95px; top: 420.83px; width: 51.32px; height: 43.49px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="43.49px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="51.32px"
+          >
+            <path
+              d="M 0 41.843017592592595 C 22.09135925925926,47.400073148148145 22.09135925925926,36.28596203703704 44.18034259259259,36.28596203703704 L 44.18034259259259 7.399340277777777 L 0 7.399340277777777 Z M 3.6399185185185186 7.399340277777777 L 3.6399185185185186 3.6543680555555556 L 47.51851851851852 3.6543680555555556 L 47.51851851851852 32.722198148148145 C 45.850618518518516,32.722198148148145 44.18034259259259,32.92354074074074 44.18034259259259,32.92354074074074 L 44.18034259259259 7.399340277777777 Z M 7.061251851851852 3.6543680555555556 L 7.061251851851852 0 L 51.32 0 L 51.32 28.977225925925925 C 49.419259259259256,28.977225925925925 47.51851851851852,29.12823287037037 47.51851851851852,29.12823287037037 L 47.51851851851852 3.6543680555555556 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 0 7.399340277777777 L 44.18034259259259 7.399340277777777 L 44.18034259259259 36.28596203703704 C 22.09135925925926,36.28596203703704 22.09135925925926,47.400073148148145 0,41.843017592592595 Z M 3.6399185185185186 7.399340277777777 L 3.6399185185185186 3.6543680555555556 L 47.51851851851852 3.6543680555555556 L 47.51851851851852 32.722198148148145 C 45.850618518518516,32.722198148148145 44.18034259259259,32.92354074074074 44.18034259259259,32.92354074074074 M 7.061251851851852 3.6543680555555556 L 7.061251851851852 0 L 51.32 0 L 51.32 28.977225925925925 C 49.419259259259256,28.977225925925925 47.51851851851852,29.12823287037037 47.51851851851852,29.12823287037037"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M 0 41.843017592592595 C 22.09135925925926,47.400073148148145 22.09135925925926,36.28596203703704 44.18034259259259,36.28596203703704 L 44.18034259259259 32.92354074074074 C 44.18034259259259,32.92354074074074 45.850618518518516,32.722198148148145 47.51851851851852,32.722198148148145 L 47.51851851851852 29.12823287037037 C 47.51851851851852,29.12823287037037 49.419259259259256,28.977225925925925 51.32,28.977225925925925 L 51.32 0 L 7.061251851851852 0 L 7.061251851851852 3.6543680555555556 L 3.6399185185185186 3.6543680555555556 L 3.6399185185185186 7.399340277777777 L 0 7.399340277777777 Z"
+              fill="none"
+              stroke="none"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="24"
+          data-name="Document 24"
+          style="z-index: 251682816; position: absolute; left: -3.35px; top: 410.78px; width: 51.27px; height: 53.58px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="53.58px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="51.27px"
+          >
+            <path
+              d="M 0 0 L 51.269999999999996 0 L 51.269999999999996 42.96818333333333 C 25.634999999999998,42.96818333333333 25.634999999999998,59.33984999999999 0,50.03776666666666 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="23"
+          data-name="Internal Storage 23"
+          style="z-index: 251681792; position: absolute; left: 541.36px; top: 321.48px; width: 88.37px; height: 71.6px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="71.6px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="88.37px"
+          >
+            <path
+              d="M 0 0 L 88.37 0 L 88.37 71.6 L 0 71.6 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 11.04625 0 L 11.04625 71.6 M 0 8.95 L 88.37 8.95"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M 0 0 L 88.37 0 L 88.37 71.6 L 0 71.6 Z"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="22"
+          data-name="Predefined Process 22"
+          style="z-index: 251680768; position: absolute; left: 423.06px; top: 327.28px; width: 89.3px; height: 65.58px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="65.58px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="89.3px"
+          >
+            <path
+              d="M 0 0 L 89.3 0 L 89.3 65.58 L 0 65.58 Z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M 11.1625 0 L 11.1625 65.58 M 78.1375 0 L 78.1375 65.58"
+              fill="none"
+              stroke="#000044"
+            />
+            <path
+              d="M 0 0 L 89.3 0 L 89.3 65.58 L 0 65.58 Z"
+              fill="none"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="21"
+          data-name="Data 21"
+          style="z-index: 251679744; position: absolute; left: 328.18px; top: 327.28px; width: 65.9px; height: 65.8px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="65.8px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="65.9px"
+          >
+            <path
+              d="M 0 65.8 L 13.180000000000001 0 L 65.9 0 L 52.720000000000006 65.8 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="20"
+          data-name="Decision 20"
+          style="z-index: 251678720; position: absolute; left: 196.46px; top: 327.06px; width: 98.15px; height: 65.86px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="65.86px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="98.15px"
+          >
+            <path
+              d="M 0 32.93 L 49.075 0 L 98.15 32.93 L 49.075 65.86 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="19"
+          data-name="Alternate Process 19"
+          style="z-index: 251677696; position: absolute; left: 78.14px; top: 327.06px; width: 96.21px; height: 56.87px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="56.87px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="96.21px"
+          >
+            <path
+              d="M 0 9.478333333333333 A 9.478333333333333 9.478333333333333 0 0 1 9.478333333333332,-1.7763568394002505e-15 L 86.73166666666665 0 A 9.478333333333333 9.478333333333333 0 0 1 96.21,9.478333333333332 L 96.21 47.391666666666666 A 9.478333333333333 9.478333333333333 0 0 1 86.73166666666665,56.87 L 9.478333333333333 56.87 A 9.478333333333333 9.478333333333333 0 0 1 0,47.391666666666666 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="18"
+          data-name="Process 18"
+          style="z-index: 251676672; position: absolute; left: -3.35px; top: 327.06px; width: 51.32px; height: 56.93px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="56.93px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="51.32px"
+          >
+            <path
+              d="M 0 0 L 51.32 0 L 51.32 56.93 L 0 56.93 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="17"
+          data-name="Not Equal 17"
+          style="z-index: 251675648; position: absolute; left: 414.13px; top: 227.72px; width: 84.84px; height: 61.33px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="61.33px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="84.84px"
+          >
+            <path
+              d="M 11.245542 12.633980000000003 L 41.30747029383113 12.633980000000003 L 45.90586295414565 0 L 59.46075610554015 4.933577635766398 L 56.658038853086026 12.633980000000003 L 73.594458 12.633980000000003 L 73.594458 27.058796 L 51.40783519431916 27.058796 L 48.78273336493574 34.271204 L 73.594458 34.271204 L 73.594458 48.69602 L 43.532529706168866 48.69602 L 38.93413704585436 61.33 L 25.379243894459854 56.3964223642336 L 28.18196114691397 48.69602 L 11.245542 48.69602 L 11.245542 34.271204 L 33.43216480568084 34.271204 L 36.057266635064266 27.058796 L 11.245542 27.058796 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="16"
+          data-name="Equal 16"
+          style="z-index: 251674624; position: absolute; left: 334.83px; top: 244.46px; width: 59.21px; height: 37.9px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="37.9px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="59.21px"
+          >
+            <path
+              d="M 7.848285499999999 7.8073999999999995 L 51.361714500000005 7.8073999999999995 L 51.361714500000005 16.72148 L 7.848285499999999 16.72148 Z M 7.848285499999999 21.17852 L 51.361714500000005 21.17852 L 51.361714500000005 30.092599999999997 L 7.848285499999999 30.092599999999997 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="15"
+          data-name="Division 15"
+          style="z-index: 251673600; position: absolute; left: 229.95px; top: 237.76px; width: 64.71px; height: 56.93px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="56.93px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="64.71px"
+          >
+            <path
+              d="M 32.355 6.712047000000001 A 6.694968 6.694968 0 1 1 32.35433050320111,6.712047033474841 Z M 32.355 50.217953 A 6.694968 6.694968 0 1 1 32.35566949679888,50.21795296652516 Z M 8.5773105 21.770032 L 56.1326895 21.770032 L 56.1326895 35.159968 L 8.5773105 35.159968 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="14"
+          data-name="Multiply 14"
+          style="z-index: 251672576; position: absolute; left: 159.62px; top: 237.76px; width: 50.23px; height: 44.65px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="44.65px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="50.23px"
+          >
+            <path
+              d="M 8.575473536132085 14.648297390259472 L 15.552506963867915 6.799330109740534 L 25.115 15.29953544645759 L 34.677493036132084 6.799330109740534 L 41.65452646386791 14.648297390259472 L 33.01845094119677 22.325 L 41.65452646386791 30.001702609740526 L 34.677493036132084 37.85066989025947 L 25.115 29.35046455354241 L 15.552506963867915 37.85066989025947 L 8.575473536132085 30.001702609740526 L 17.21154905880323 22.325 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="13"
+          data-name="Minus 13"
+          style="z-index: 251671552; position: absolute; left: 78.14px; top: 250.04px; width: 59.16px; height: 25.67px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="25.67px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="59.16px"
+          >
+            <path
+              d="M 7.8416580000000025 9.816208000000001 L 51.318341999999994 9.816208000000001 L 51.318341999999994 15.853792 L 7.8416580000000025 15.853792 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="12"
+          data-name="Plus 12"
+          style="z-index: 251670528; position: absolute; left: -20.09px; top: 227.72px; width: 58.05px; height: 61.39px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="61.39px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="58.05px"
+          >
+            <path
+              d="M 7.6945274999999995 23.86832 L 22.19832 23.86832 L 22.19832 8.137244500000001 L 35.85168 8.137244500000001 L 35.85168 23.86832 L 50.3554725 23.86832 L 50.3554725 37.52168 L 35.85168 37.52168 L 35.85168 53.2527555 L 22.19832 53.2527555 L 22.19832 37.52168 L 7.6945274999999995 37.52168 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="11"
+          data-name="Circular Arrow 11"
+          style="z-index: 251669504; position: absolute; left: 276.83px; top: 116.31px; width: 58.05px; height: 75.69px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="75.69px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="58.05px"
+          >
+            <path
+              d="M 3.6281250000000043 37.845000000000006 A 25.396874999999994 34.216874999999995 0 0 1 53.390597286264956,28.193410273426778 L 57.42183850763973 30.54975632348521 L 50.79374999999999 37.84499999999999 L 42.909338507639724 30.549756323485216 L 46.4888892485814 30.549756323485212 A 18.140624999999993 26.960624999999993 0 0 0 11.609416121429064,40.941827516803535 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="10"
+          data-name="Quad Arrow Callout 10"
+          style="z-index: 251668480; position: absolute; left: 174.14px; top: 116.09px; width: 65.86px; height: 53.58px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="53.58px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="65.86px"
+          >
+            <path
+              d="M 0 26.79 L 9.920337 16.869663 L 9.920337 21.829831499999997 L 17.0830961 21.829831499999997 L 17.0830961 13.8978483 L 27.969831499999998 13.8978483 L 27.969831499999998 9.920337 L 23.009663 9.920337 L 32.93 0 L 42.850336999999996 9.920337 L 37.8901685 9.920337 L 37.8901685 13.8978483 L 48.7769039 13.8978483 L 48.7769039 21.829831499999997 L 55.939662999999996 21.829831499999997 L 55.939662999999996 16.869663 L 65.86 26.79 L 55.939662999999996 36.710336999999996 L 55.939662999999996 31.7501685 L 48.7769039 31.7501685 L 48.7769039 39.6821517 L 37.8901685 39.6821517 L 37.8901685 43.659662999999995 L 42.850336999999996 43.659662999999995 L 32.93 53.58 L 23.009663 43.659662999999995 L 27.969831499999998 43.659662999999995 L 27.969831499999998 39.6821517 L 17.0830961 39.6821517 L 17.0830961 31.7501685 L 9.920337 31.7501685 L 9.920337 36.710336999999996 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="9"
+          data-name="Left-Right Arrow Callout 9"
+          style="z-index: 251667456; position: absolute; left: 62.51px; top: 116.09px; width: 66.98px; height: 43.53px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="43.53px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="66.98px"
+          >
+            <path
+              d="M 0 21.765 L 10.8825 10.8825 L 10.8825 16.32375 L 17.373607300000003 16.32375 L 17.373607300000003 0 L 49.6063927 0 L 49.6063927 16.32375 L 56.097500000000004 16.32375 L 56.097500000000004 10.8825 L 66.98 21.765 L 56.097500000000004 32.6475 L 56.097500000000004 27.20625 L 49.6063927 27.20625 L 49.6063927 43.53 L 17.373607300000003 43.53 L 17.373607300000003 27.20625 L 10.8825 27.20625 L 10.8825 32.6475 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="8"
+          data-name="Up Arrow Callout 8"
+          style="z-index: 251666432; position: absolute; left: -20.09px; top: 106.04px; width: 43.53px; height: 46.88px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="46.88px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="43.53px"
+          >
+            <path
+              d="M 0 16.4187824 L 16.32375 16.4187824 L 16.32375 10.8825 L 10.8825 10.8825 L 21.765 0 L 32.6475 10.8825 L 27.20625 10.8825 L 27.20625 16.4187824 L 43.53 16.4187824 L 43.53 46.88 L 0 46.88 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="7"
+          data-name="Left Arrow Callout 7"
+          style="z-index: 251665408; position: absolute; left: 575.99px; top: 26.79px; width: 53.58px; height: 44.58px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="44.58px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="53.58px"
+          >
+            <path
+              d="M 0 22.29 L 11.145 11.145 L 11.145 16.7175 L 18.7653234 16.7175 L 18.7653234 0 L 53.58 0 L 53.58 44.58 L 18.7653234 44.58 L 18.7653234 27.862499999999997 L 11.145 27.862499999999997 L 11.145 33.435 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="6"
+          data-name="Down Arrow Callout 6"
+          style="z-index: 251664384; position: absolute; left: 498.96px; top: 26.79px; width: 42.42px; height: 44.58px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="44.58px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="42.42px"
+          >
+            <path
+              d="M 0 0 L 42.42 0 L 42.42 28.966746599999997 L 26.512500000000003 28.966746599999997 L 26.512500000000003 33.974999999999994 L 31.815 33.974999999999994 L 21.21 44.58 L 10.605 33.974999999999994 L 15.9075 33.974999999999994 L 15.9075 28.966746599999997 L 0 28.966746599999997 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="5"
+          data-name="Right Arrow Callout 5"
+          style="z-index: 251663360; position: absolute; left: 404.08px; top: 26.79px; width: 61.39px; height: 44.58px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="44.58px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="61.39px"
+          >
+            <path
+              d="M 0 0 L 39.8893803 0 L 39.8893803 16.7175 L 50.245000000000005 16.7175 L 50.245000000000005 11.145 L 61.39 22.29 L 50.245000000000005 33.435 L 50.245000000000005 27.862499999999997 L 39.8893803 27.862499999999997 L 39.8893803 44.58 L 0 44.58 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="4"
+          data-name="Chevron 4"
+          style="z-index: 251662336; position: absolute; left: 320.36px; top: 26.79px; width: 44.65px; height: 44.53px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="44.53px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="44.65px"
+          >
+            <path
+              d="M 0 0 L 22.384999999999998 0 L 44.65 22.265 L 22.384999999999998 44.53 L 0 44.53 L 22.265 22.265 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="3"
+          data-name="Pentagon 3"
+          style="z-index: 251661312; position: absolute; left: 209.86px; top: 26.79px; width: 84.84px; height: 44.58px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="44.58px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="84.84px"
+          >
+            <path
+              d="M 0 0 L 62.550000000000004 0 L 84.84 22.29 L 62.550000000000004 44.58 L 0 44.58 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="2"
+          data-name="Notched Right Arrow 2"
+          style="z-index: 251660288; position: absolute; left: 92.65px; top: 20.31px; width: 73.67px; height: 51.13px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="51.13px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="73.67px"
+          >
+            <path
+              d="M 0 12.7825 L 48.105000000000004 12.7825 L 48.105000000000004 0 L 73.67 25.565 L 48.105000000000004 51.13 L 48.105000000000004 38.347500000000004 L 0 38.347500000000004 L 12.7825 25.565 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+      <span
+        class="docx-viewer-0-r"
+      >
+        <div
+          data-id="1"
+          data-name="Striped Right Arrow 1"
+          style="z-index: 251659264; position: absolute; left: -20.09px; top: 20.09px; width: 68.09px; height: 36.84px; vertical-align: middle; color: rgb(255, 255, 255);"
+        >
+          <svg
+            height="36.84px"
+            style="display: block; overflow: visible; position: absolute; z-index: -1"
+            width="68.09px"
+          >
+            <path
+              d="M 0 9.21 L 1.15125 9.21 L 1.15125 27.630000000000003 L 0 27.630000000000003 Z M 2.3025 9.21 L 4.605 9.21 L 4.605 27.630000000000003 L 2.3025 27.630000000000003 Z M 5.7562500000000005 9.21 L 49.67 9.21 L 49.67 0 L 68.09 18.42 L 49.67 36.84 L 49.67 27.630000000000003 L 5.7562500000000005 27.630000000000003 Z"
+              fill="#4472C4"
+              stroke="#000044"
+            />
+          </svg>
+        </div>
+      </span>
+    </p>
+  </section>
+</article>
+`;

@@ -3,9 +3,7 @@
  */
 import React from 'react';
 import axios from 'axios';
-import SearchBox from '../../src/components/SearchBox';
-import Drawer from '../../src/components/Drawer';
-import {Icon} from '../../src';
+import {Icon, Drawer, SearchBox} from 'amis';
 
 let ContextPath = '';
 
@@ -166,7 +164,7 @@ export default class DocSearch extends React.Component {
           show={this.state.show}
           position={'right'}
         >
-          <div className={`${this.props.theme.ns}TextControl-input search-bar`}>
+          <div className={`search-bar`}>
             <Icon icon="search" className="icon" />
             <input
               ref={this.ref}

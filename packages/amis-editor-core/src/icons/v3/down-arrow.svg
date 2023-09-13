@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 16 16" version="1.1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="页面编辑器">
+        <g id="页面编辑器-大纲" transform="translate(-153.000000, -16.000000)">
+            <g id="4.图标元件/1.箭头/4.向下" transform="translate(153.000000, 16.000000)">
+                <rect id="矩形" opacity="0" x="0" y="0" width="16" height="16"></rect>
+                <polygon id="图标-填色" points="12.233 5 7.993 9.24 3.753 5 3.04 5.713 7.99 10.663 7.993 10.66 7.996 10.663 12.946 5.713"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

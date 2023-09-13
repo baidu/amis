@@ -44,6 +44,42 @@ order: 30
 }
 ```
 
+## 全选
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "matrix-checkboxes",
+      "name": "matrix",
+      "label": "Matrix",
+      "rowLabel": "行标题说明",
+      "xCheckAll": true,
+      "yCheckAll": true,
+      "columns": [
+        {
+          "label": "列1"
+        },
+        {
+          "label": "列2"
+        }
+      ],
+      "rows": [
+        {
+          "label": "行1"
+        },
+        {
+          "label": "行2"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 单选模式
 
 配置`"multiple": false`可以设置单选，配置`singleSelectMode`可以设置单选模式
@@ -281,18 +317,27 @@ row 模式，每行只能单选某个单元格
 | source           | [API](../../../docs/types/api) |            | Api 地址，如果选项组不固定，可以通过配置 `source` 动态拉取。                                                                                                |
 | multiple         | `boolean`                      | `true`     | 是否多选                                                                                                                                                    |
 | singleSelectMode | `string`                       | `"column"` | 设置单选模式，`multiple`为`false`时有效，可设置为`cell`, `row`, `column` 分别为全部选项中只能单选某个单元格、每行只能单选某个单元格，每列只能单选某个单元格 |
+| textAlign        | `string`                       | `"center"` | 当开启多选+全选时，默认为'left'                                                                                                                             |
+| yCheckAll        | `boolean`                      | `false`    | 列上的全选                                                                                                                                                  |
+| xCheckAll        | `boolean`                      | `false`    | 行上的全选                                                                                                                                                  |
 
 ## 事件表
 
-| 事件名称 | 事件参数              | 说明                 |
-| -------- | --------------------- | -------------------- |
-| change   | `value: Array` 选中值 | 选中值发生变化时触发 |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称 | 事件参数                 | 说明             |
+| -------- | ------------------------ | ---------------- |
+| change   | `[name]: Array` 组件的值 | 选中值变化时触发 |
 
 ## 动作表
 
-| 动作名称 | 动作配置                | 说明                                                   |
-| -------- | ----------------------- | ------------------------------------------------------ |
-| clear    | -                       | 清空                                                   |
-| reset    | -                       | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
-| reload   | -                       | 刷新（重新加载），只针对配置了`source`的点选按钮有效   |
-| setValue | `value: Array` 更新的值 | 更新数据                                               |
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置                | 说明                                                    |
+| -------- | ----------------------- | ------------------------------------------------------- |
+| clear    | -                       | 清空                                                    |
+| reset    | -                       | 将值重置为`resetValue`，若没有配置`resetValue`，则清空  |
+| reload   | -                       | 重新加载，调用 `source`，刷新数据域数据刷新（重新加载） |
+| setValue | `value: Array` 更新的值 | 更新数据                                                |

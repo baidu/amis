@@ -4,7 +4,7 @@ import {createRoot} from 'react-dom/client';
 import axios from 'axios';
 import {match} from 'path-to-regexp';
 import copy from 'copy-to-clipboard';
-import {normalizeLink} from '../src/utils/normalizeLink';
+import {normalizeLink} from 'amis-core';
 
 import qs from 'qs';
 import {
@@ -15,19 +15,20 @@ import {
   AlertComponent,
   render as renderAmis,
   makeTranslator
-} from '../src/index';
+} from 'amis';
 
-import '../src/locale/en-US';
+import 'amis-ui/lib/locale/en-US';
 import 'history';
-import attachmentAdpator from '../src/utils/attachmentAdpator';
+import {attachmentAdpator} from 'amis-core';
 
-import type {ToastLevel, ToastConf} from '../src/components/Toast';
+import type {ToastLevel, ToastConf} from 'amis-ui/lib/components/Toast';
 
 export function embed(
   container: string | HTMLElement,
   schema: any,
   props: any = {},
-  env?: any
+  env?: any,
+  callback?: () => void
 ) {
   const __ = makeTranslator(env?.locale || props?.locale);
 
@@ -50,12 +51,12 @@ export function embed(
   container.classList.add('amis-scope');
   let scoped = {};
 
-  const requestAdaptor = (config: any) => {
+  const requestAdaptor = async (config: any) => {
     const fn =
       env && typeof env.requestAdaptor === 'function'
         ? env.requestAdaptor.bind()
-        : (config: any) => config;
-    const request = fn(config) || config;
+        : async (config: any) => config;
+    const request = (await fn(config)) || config;
 
     return request;
   };
@@ -188,7 +189,7 @@ export function embed(
       config.method = method;
       config.data = data;
 
-      config = requestAdaptor(config);
+      config = await requestAdaptor(config);
 
       if (method === 'get' && data) {
         config.params = data;
@@ -209,7 +210,9 @@ export function embed(
         return true;
       };
 
-      let response = await axios(config);
+      let response = config.mockResponse
+        ? config.mockResponse
+        : await axios(config);
       response = await attachmentAdpator(response, __);
       response = responseAdaptor(api)(response);
 
@@ -250,6 +253,7 @@ export function embed(
     },
     richTextToken: '',
     affixOffsetBottom: 0,
+    customStyleClassPrefix: '.amis-scope',
     ...env
   };
 
@@ -259,14 +263,17 @@ export function embed(
       ...amisProps,
       ...props,
       scopeRef: (ref: any) => {
-        if (ref) Object.assign(scoped, ref);
+        if (ref) {
+          Object.assign(scoped, ref);
+          callback?.();
+        }
       }
     };
 
     return (
       <div className="amis-routes-wrapper">
         <ToastComponent
-          position={(env && env.toastPosition) || 'top-right'}
+          position={(env && env.toastPosition) || 'top-center'}
           closeButton={false}
           timeout={5000}
           locale={props?.locale}
@@ -288,6 +295,10 @@ export function embed(
 
   return Object.assign(scoped, {
     updateProps: (props: any, callback?: () => void) => {
+      root.render(createElements(props));
+    },
+    updateSchema: (newSchema: any, props = {}) => {
+      schema = newSchema;
       root.render(createElements(props));
     },
     unmount: () => {

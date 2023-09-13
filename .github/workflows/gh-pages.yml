@@ -2,7 +2,7 @@ name: gh-pages
 
 on:
   push:
-    branches: [master]
+    branches: ['**']
 
 jobs:
   build:
@@ -10,14 +10,14 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - uses: n1hility/cancel-previous-runs@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
         with:
           persist-credentials: false
       - name: Use Node.js ${{ matrix.node-version }}
@@ -28,6 +28,10 @@ jobs:
       - name: build gh-pages
         run: |
           npm i --legacy-peer-deps
+          cd packages/office-viewer
+          npm i --legacy-peer-deps
+          cd ../../
+          npm run build --workspaces
           sh deploy-gh-pages.sh
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
@@ -38,11 +42,12 @@ jobs:
           CLEAN: true # Automatically remove deleted files from the deploy branch
           SINGLE_COMMIT: true
       - name: Generate coverage report
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192'
         run: |
           npm run coverage
-      - uses: codecov/codecov-action@v2
+      - uses: codecov/codecov-action@v3
         with:
-          files: ./coverage/clover.xml
           name: codecov-umbrella # optional
-          fail_ci_if_error: false
+          fail_ci_if_error: false # optional (default = false)
           verbose: true # optional (default = false)

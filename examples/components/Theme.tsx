@@ -61,7 +61,7 @@ export default {
         {
           actionType: 'custom',
           script: (context: any, doAction: any, event: any) => {
-            const theme = event.data.formData.config?.theme;
+            const theme = event.data.config?.theme;
             theme && updateTheme(theme);
           }
         }
@@ -135,7 +135,7 @@ export default {
                               type: 'combo',
                               multiple: true,
                               name: 'config.theme._otherVars',
-                              body: [
+                              items: [
                                 {
                                   type: 'input-text',
                                   placeholder: '变量名',

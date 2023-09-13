@@ -13,6 +13,7 @@
     'classnames': __moduleId('classnames'),
     'axios': __moduleId('axios'),
     'exceljs': __moduleId('exceljs'),
+    'fflate': __moduleId('fflate'),
     'moment': __moduleId('moment'),
     'mobx': __moduleId('mobx'),
     'mobx-state-tree': __moduleId('mobx-state-tree'),
@@ -21,8 +22,8 @@
     'echarts': __moduleId('echarts'),
     'zrender': __moduleId('zrender'),
     'sortablejs': __moduleId('sortablejs'),
-    'amis': __moduleId('../src'),
-    'amis@@version': __moduleId('../src'),
+    'amis': __moduleId('amis'),
+    'amis@@version': __moduleId('amis'),
     'amis/embed': __moduleId('./embed.tsx'),
     'amis@@version/embed': __moduleId('./embed.tsx'),
     'prop-types': __moduleId('prop-types'),
@@ -32,8 +33,8 @@
   };
 
   Object.keys(mapping).forEach(key => {
-    amis.require.aliasMapping[key] = mapping[key];
+    (window as any).amis.require.aliasMapping[key] = mapping[key];
   });
 
-  (window as any).amisRequire = amis.require;
+  (window as any).amisRequire = (window as any).amis.require;
 })();

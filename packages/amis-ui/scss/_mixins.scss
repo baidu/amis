@@ -1,0 +1,703 @@
+// 媒体查询最小阈值
+@mixin media-breakpoint-up($name, $breakpoints: $breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+//媒体查询最大阈值
+@mixin media-breakpoint-down($name, $breakpoints: $breakpoints) {
+  $max: breakpoint-max($name, $breakpoints);
+
+  @if $max {
+    @media (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+//媒体查询中间阈值
+@mixin media-breakpoint-between($min, $max, $breakpoints: $breakpoints) {
+  $min: breakpoint-min($min, $breakpoints);
+  $max: breakpoint-max($max, $breakpoints);
+
+  @media (min-width: $min) and (max-width: $max) {
+    @content;
+  }
+}
+
+@mixin media-device($name, $devices: $devices) {
+  $n: map-get($devices, $name);
+
+  @media #{$n} {
+    @content;
+  }
+}
+
+@mixin clearfix() {
+  &::before,
+  &::after {
+    display: table;
+    content: '';
+  }
+  &::after {
+    clear: both;
+  }
+}
+
+// @deprecated 不建议用了
+@mixin color-schema($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
+  background: saturate(darken($bg-color, $percent), $sat-percent);
+}
+
+// @deprecated 不建议用了
+@mixin color-schema-lt($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
+  background: desaturate(lighten($bg-color, $percent), $sat-percent);
+}
+
+// @deprecated 不建议用了
+@mixin color-variant(
+  $bg-color: #555,
+  $lt-percent: 10%,
+  $lter-percent: 15%,
+  $dk-percent: 10%,
+  $dker-percent: 15%
+) {
+  background-color: $bg-color;
+
+  &.lt,
+  & .lt {
+    @include color-schema-lt($bg-color, $lt-percent, 2.5%);
+  }
+
+  &.lter,
+  & .lter {
+    @include color-schema-lt($bg-color, $lter-percent, 5%);
+  }
+
+  &.dk,
+  & .dk {
+    @include color-schema($bg-color, $dk-percent, 2.5%);
+  }
+
+  &.dker,
+  & .dker {
+    @include color-schema($bg-color, $dker-percent, 5%);
+  }
+
+  &.bg,
+  & .bg {
+    background-color: $bg-color;
+  }
+}
+
+// @deprecated 不建议用了
+@mixin font-variant($bg-color) {
+  $font-color: desaturate(lighten($bg-color, 40%), 10%);
+  $link-color: desaturate(lighten($bg-color, 50%), 10%);
+  $hover-color: #fff;
+  color: $font-color;
+
+  & a,
+  & .#{$ns}Button--link {
+    color: $link-color;
+
+    &:hover {
+      color: $hover-color;
+    }
+  }
+
+  & .open > a {
+    &,
+    &:hover,
+    &:focus {
+      color: $hover-color;
+    }
+  }
+
+  & .text-muted {
+    color: darken($text-color, 10%) !important;
+  }
+
+  & .text-lt {
+    color: lighten($text-color, 25%) !important;
+  }
+
+  // &.auto,
+  // & .auto {
+  //   & .list-group-item {
+  //     border-color: darken($bg-color, 5%) !important;
+  //     background: transparent;
+
+  //     &:hover,
+  //     &:focus,
+  //     &:active,
+  //     &.active {
+  //       @include color-schema($bg-color, 5%, 2.5% !important);
+  //     }
+  //   }
+  // }
+}
+
+// @deprecated 不建议用了
+@mixin text-wariant($bg-color, $name) {
+  a.bg-#{'' + $name}:hover {
+    background: darken($bg-color, 5%);
+  }
+
+  a.text-#{'' + $name}:hover {
+    color: darken($bg-color, 5%);
+  }
+
+  .text-#{'' + $name} {
+    color: $bg-color;
+  }
+
+  .text-#{'' + $name}-lt {
+    color: darken($bg-color, 5%);
+  }
+
+  .text-#{'' + $name}-lter {
+    color: darken($bg-color, 10%);
+  }
+
+  .text-#{'' + $name}-dk {
+    color: darken($bg-color, 5%);
+  }
+
+  .text-#{'' + $name}-dker {
+    color: darken($bg-color, 10%);
+  }
+}
+
+@mixin hover {
+  &:hover {
+    @content;
+  }
+  &.hover {
+    @content;
+  }
+}
+
+@mixin focus {
+  &:focus {
+    @content;
+  }
+}
+
+@mixin hover-focus {
+  &:hover:focus {
+    @content;
+  }
+}
+
+@mixin hover-active {
+  &:hover:active {
+    @content;
+  }
+  &.active,
+  &.is-active {
+    @content;
+  }
+}
+
+@mixin button-size(
+  $font-size: var(--button-size-default-fontSize),
+  $font-weight: var(--button-size-default-fontWeight),
+  $line-height: var(--button-size-default-lineHeight),
+  $border-radius-top-right: var(--button-size-default-top-right-border-radius),
+  $border-radius-top-left: var(--button-size-default-top-left-border-radius),
+  $border-radius-bottom-right:
+    var(--button-size-default-bottom-right-border-radius),
+  $border-radius-bottom-left:
+    var(--button-size-default-bottom-left-border-radius),
+  $height: var(--button-size-default-height),
+  $paddingTop: var(--button-size-default-paddingTop),
+  $paddingBottom: var(--button-size-default-paddingBottom),
+  $paddingLeft: var(--button-size-default-paddingLeft),
+  $paddingRight: var(--button-size-default-paddingRight),
+  $marginTop: var(--button-size-default-marginTop),
+  $marginBottom: var(--button-size-default-marginBottom),
+  $marginLeft: var(--button-size-default-marginLeft),
+  $marginRight: var(--button-size-default-marginRight),
+  $minWidth: var(--button-size-default-minWidth),
+  $iconSize: var(--button-size-default-icon-size),
+  $iconMargin: var(--button-size-default-icon-margin)
+) {
+  font-size: $font-size;
+  font-weight: $font-weight;
+  line-height: $line-height;
+  border-radius: $border-radius-top-left $border-radius-top-right
+    $border-radius-bottom-right $border-radius-bottom-left;
+  height: $height;
+  padding: $paddingTop $paddingRight $paddingBottom $paddingLeft;
+  margin: $marginTop $marginRight $marginBottom $marginLeft;
+
+  .#{$ns}Button-icon:first-child:not(:last-child):not(.pull-right),
+  > svg.icon:not(:last-child):not(.pull-right),
+  > .pull-left {
+    margin-right: $iconMargin;
+    font-size: $iconSize;
+    width: $iconSize;
+    height: $iconSize;
+    line-height: $iconSize;
+  }
+
+  .#{$ns}Button-icon:last-child:not(:first-child):not(.pull-left),
+  > .pull-right {
+    font-size: $iconSize;
+    margin-left: $iconMargin;
+    width: $iconSize;
+    height: $iconSize;
+    line-height: $iconSize;
+  }
+
+  .#{$ns}Button--loading:first-child:not(:last-child):not(.pull-right),
+  > svg.icon:not(:last-child):not(.pull-right),
+  > .pull-left {
+    font-size: $iconSize;
+    margin-right: $iconMargin;
+    width: $iconSize;
+    height: $iconSize;
+    line-height: $iconSize;
+  }
+
+  .#{$ns}Button--loading:last-child:not(:first-child):not(.pull-left),
+  > .pull-right {
+    font-size: $iconSize;
+    margin-left: $iconMargin;
+    width: $iconSize;
+    height: $iconSize;
+    line-height: $iconSize;
+  }
+
+  &.#{$ns}Button--iconOnly {
+    min-width: $height;
+    padding: 0;
+    &:not(.#{$ns}Button--link) {
+      > svg.icon {
+        width: $iconSize;
+        height: $iconSize;
+      }
+
+      > .fa,
+      > .iconfont {
+        font-size: $iconSize;
+      }
+
+      > .iconfont {
+        line-height: 1;
+      }
+    }
+  }
+
+  // img 需要加一下高度限制
+  img.#{$ns}Button-icon {
+    height: $iconSize;
+    vertical-align: middle;
+  }
+}
+
+@mixin button-loading-icon() {
+  transition: --Button-transition;
+  svg {
+    @include animation-svg(var(--Button-animation-spin));
+  }
+}
+
+@mixin animation-svg($animation) {
+  animation: $animation;
+}
+
+@mixin button-variant(
+  // 常规
+  $bg-color: var(--button-default-default-bg-color),
+  $font-color: var(--button-default-default-font-color),
+  $border-color-top: var(--button-default-default-top-border-color),
+  $border-color-right: var(--button-default-default-right-border-color),
+  $border-color-bottom: var(--button-default-default-bottom-border-color),
+  $border-color-left: var(--button-default-default-left-border-color),
+  $border-width-top: var(--button-default-default-top-border-width),
+  $border-width-right: var(--button-default-default-right-border-width),
+  $border-width-bottom: var(--button-default-default-bottom-border-width),
+  $border-width-left: var(--button-default-default-left-border-width),
+  $border-style-top: var(--button-default-default-top-border-style),
+  $border-style-right: var(--button-default-default-right-border-style),
+  $border-style-bottom: var(--button-default-default-bottom-border-style),
+  $border-style-left: var(--button-default-default-left-border-style),
+  $shadow: var(--button-default-default-shadow),
+  // 悬浮
+  $hover-bg-color: var(--button-default-hover-bg-color),
+  $hover-font-color: var(--button-default-hover-font-color),
+  $hover-border-color-top: var(--button-default-hover-top-border-color),
+  $hover-border-color-right: var(--button-default-hover-right-border-color),
+  $hover-border-color-bottom: var(--button-default-hover-bottom-border-color),
+  $hover-border-color-left: var(--button-default-hover-left-border-color),
+  $hover-border-width-top: var(--button-default-hover-top-border-width),
+  $hover-border-width-right: var(--button-default-hover-right-border-width),
+  $hover-border-width-bottom: var(--button-default-hover-bottom-border-width),
+  $hover-border-width-left: var(--button-default-hover-left-border-width),
+  $hover-border-style-top: var(--button-default-hover-top-border-style),
+  $hover-border-style-right: var(--button-default-hover-right-border-style),
+  $hover-border-style-bottom: var(--button-default-hover-bottom-border-style),
+  $hover-border-style-left: var(--button-default-hover-left-border-style),
+  $hover-shadow: var(--button-default-hover-shadow),
+  // 点击
+  $active-bg-color: var(--button-default-active-bg-color),
+  $active-font-color: var(--button-default-active-font-color),
+  $active-border-color-top: var(--button-default-active-top-border-color),
+  $active-border-color-right: var(--button-default-active-right-border-color),
+  $active-border-color-bottom: var(--button-default-active-bottom-border-color),
+  $active-border-color-left: var(--button-default-active-left-border-color),
+  $active-border-width-top: var(--button-default-active-top-border-width),
+  $active-border-width-right: var(--button-default-active-right-border-width),
+  $active-border-width-bottom: var(--button-default-active-bottom-border-width),
+  $active-border-width-left: var(--button-default-active-left-border-width),
+  $active-border-style-top: var(--button-default-active-top-border-style),
+  $active-border-style-right: var(--button-default-active-right-border-style),
+  $active-border-style-bottom: var(--button-default-active-bottom-border-style),
+  $active-border-style-left: var(--button-default-active-left-border-style),
+  $active-shadow: var(--button-default-active-shadow),
+  // 禁用
+  $disabled-bg-color: var(--button-default-disabled-bg-color),
+  $disabled-font-color: var(--button-default-disabled-font-color),
+  $disabled-border-color-top: var(--button-default-disabled-top-border-color),
+  $disabled-border-color-right:
+    var(--button-default-disabled-right-border-color),
+  $disabled-border-color-bottom:
+    var(--button-default-disabled-bottom-border-color),
+  $disabled-border-color-left: var(--button-default-disabled-left-border-color),
+  $disabled-border-width-top: var(--button-default-disabled-top-border-width),
+  $disabled-border-width-right:
+    var(--button-default-disabled-right-border-width),
+  $disabled-border-width-bottom:
+    var(--button-default-disabled-bottom-border-width),
+  $disabled-border-width-left: var(--button-default-disabled-left-border-width),
+  $disabled-border-style-top: var(--button-default-disabled-top-border-style),
+  $disabled-border-style-right:
+    var(--button-default-disabled-right-border-style),
+  $disabled-border-style-bottom:
+    var(--button-default-disabled-bottom-border-style),
+  $disabled-border-style-left: var(--button-default-disabled-left-border-style),
+  $disabled-shadow: var(--button-default-disabled-shadow)
+) {
+  color: $font-color;
+  background: $bg-color;
+  border-color: $border-color-top $border-color-right $border-color-bottom
+    $border-color-left;
+  border-width: $border-width-top $border-width-right $border-width-bottom
+    $border-width-left;
+  border-style: $border-style-top $border-style-right $border-style-bottom
+    $border-style-left;
+  box-shadow: $shadow;
+
+  // text-shadow: var(--Button-textShadow);
+
+  &:not(:disabled):not(.is-disabled) {
+    @include hover {
+      color: $hover-font-color;
+      background: $hover-bg-color;
+      border-color: $hover-border-color-top $hover-border-color-right
+        $hover-border-color-bottom $hover-border-color-left;
+      border-width: $hover-border-width-top $hover-border-width-right
+        $hover-border-width-bottom $hover-border-width-left;
+      border-style: $hover-border-style-top $hover-border-style-right
+        $hover-border-style-bottom $hover-border-style-left;
+      box-shadow: $hover-shadow;
+    }
+    @include hover-active {
+      color: $active-font-color;
+      background: $active-bg-color;
+      border-color: $active-border-color-top $active-border-color-right
+        $active-border-color-bottom $active-border-color-left;
+      border-width: $active-border-width-top $active-border-width-right
+        $active-border-width-bottom $active-border-width-left;
+      border-style: $active-border-style-top $active-border-style-right
+        $active-border-style-bottom $active-border-style-left;
+      box-shadow: $active-shadow;
+    }
+  }
+  &:disabled,
+  &.is-disabled {
+    color: $disabled-font-color;
+    background: $disabled-bg-color;
+    border-color: $disabled-border-color-top $disabled-border-color-right
+      $disabled-border-color-bottom $disabled-border-color-left;
+    border-width: $disabled-border-width-top $disabled-border-width-right
+      $disabled-border-width-bottom $disabled-border-width-left;
+    border-style: $disabled-border-style-top $disabled-border-style-right
+      $disabled-border-style-bottom $disabled-border-style-left;
+    box-shadow: $disabled-shadow;
+  }
+}
+
+@mixin input-clear {
+  padding: var(--Form-input-clearBtn-padding);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  text-decoration: none;
+
+  svg {
+    fill: var(--Form-input-clearBtn-color);
+    width: var(--Form-input-clearBtn-size);
+    height: var(--Form-input-clearBtn-size);
+  }
+
+  &:hover svg {
+    fill: var(--Form-input-clearBtn-color-onHover);
+  }
+
+  &:active svg {
+    fill: var(--Form-input-clearBtn-color-onActive);
+  }
+}
+
+@mixin input-input {
+  display: flex;
+  background: var(--Form-input-bg);
+  border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+  border-radius: var(--Form-input-borderRadius);
+  // height: var(--Form-input-height);
+  line-height: var(--Form-input-lineHeight);
+  padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  font-size: var(--Form-input-fontSize);
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  input {
+    flex-basis: px2rem(30px);
+    flex-grow: 1;
+    outline: none;
+    background: transparent;
+    border: none;
+    color: var(--Form-input-color);
+    width: 100%;
+
+    &::placeholder {
+      color: var(--Form-input-placeholderColor);
+      user-select: none;
+    }
+  }
+
+  &:hover {
+    border-color: var(--Form-input-onFocused-borderColor);
+  }
+}
+
+@mixin input-border {
+  &--borderHalf {
+    border-left-color: transparent !important;
+    border-right-color: transparent !important;
+    border-top-color: transparent !important;
+  }
+
+  &--borderNone {
+    border-color: transparent !important;
+  }
+}
+
+@mixin input-text {
+  position: relative;
+  max-width: 100%;
+
+  &.is-inline {
+    display: inline-block;
+    width: var(--Form-control-widthBase);
+  }
+
+  &-input {
+    @include input-input();
+    @include input-border();
+  }
+
+  &.is-error > &-input {
+    border-color: var(--Form-item-onError-borderColor);
+    background: var(--Form-item-onError-bg);
+    transition: all var(--animation-duration);
+  }
+
+  &.is-focused > &-input {
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
+    background: var(--Form-input-onFocused-bg);
+    transition: all var(--animation-duration);
+  }
+
+  &.is-error.is-focused > &-input {
+    border-color: var(--Form-item-onError-borderColor);
+    background: var(--Form-item-onError-bg);
+  }
+
+  &.is-disabled > &-input {
+    color: var(--text--muted-color);
+    background: var(--Form-input-onDisabled-bg);
+    border-color: var(--Form-input-onDisabled-borderColor);
+    transition: all var(--animation-duration);
+
+    & > input {
+      color: var(--text--muted-color);
+    }
+  }
+
+  &-spinner {
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize)
+    );
+  }
+
+  &-clear {
+    @include input-clear();
+  }
+
+  &-revealPassword {
+    cursor: pointer;
+    color: var(--text--muted-color);
+  }
+
+  // 需要能撑开
+  @include media-breakpoint-up(sm) {
+    &.#{$ns}Form-control--sizeXs > &-input,
+    &.#{$ns}Form-control--sizeSm > &-input,
+    &.#{$ns}Form-control--sizeMd > &-input,
+    &.#{$ns}Form-control--sizeLg > &-input {
+      min-width: 100%;
+      display: inline-flex;
+    }
+  }
+}
+
+@mixin checkboxes-placeholder {
+  height: var(--Form-input-height);
+  line-height: var(--Form-input-lineHeight);
+  font-size: var(--Form-input-fontSize);
+  padding: calc(
+      (
+          var(--Form-input-height) - var(--Form-input-lineHeight) *
+            var(--Form-input-fontSize)
+        ) / 2
+    )
+    var(--gap-sm);
+  color: var(--text--muted-color);
+}
+
+@mixin label-variant($color) {
+  background: $color;
+
+  // todo：不支持了
+  // &[href] {
+  //   &:hover,
+  //   &:focus {
+  //     background: darken($color, 10%);
+  //   }
+  // }
+}
+
+@mixin icon-color {
+  color: var(--icon-color);
+
+  &:hover {
+    color: var(--icon-onHover-color);
+  }
+}
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin hairline-common() {
+  position: absolute;
+  box-sizing: border-box;
+  content: ' ';
+  pointer-events: none;
+}
+
+@mixin hairline-top($color: var(--van-border-color), $left: 0, $right: 0) {
+  @include hairline-common();
+  top: 0;
+  right: $right;
+  left: $left;
+  border-top: 1px solid $color;
+  transform: scaleY(0.5);
+}
+
+@mixin hairline-bottom($color: var(--van-border-color), $left: 0, $right: 0) {
+  @include hairline-common();
+  right: $right;
+  bottom: 0;
+  left: $left;
+  border-bottom: 1px solid $color;
+  transform: scaleY(0.5);
+}
+
+@mixin tag-item($component-prefix) {
+  .#{$ns}#{$component-prefix}-value {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(2px)}
+    );
+    display: inline-block;
+    font-size: var(--Pick-base-value-fontSize);
+    color: var(--Pick-base-value-color);
+    font-weight: var(--Pick-base-value-fontWeight);
+    background: var(--Pick-base-value-bgColor);
+    border-width: var(--Pick-base-value-top-border-width)
+      var(--Pick-base-value-right-border-width)
+      var(--Pick-base-value-bottom-border-width)
+      var(--Pick-base-value-left-border-width);
+    border-style: var(--Pick-base-value-top-border-style)
+      var(--Pick-base-value-right-border-style)
+      var(--Pick-base-value-bottom-border-style)
+      var(--Pick-base-value-left-border-style);
+    border-color: var(--Pick-base-value-top-border-color)
+      var(--Pick-base-value-right-border-color)
+      var(--Pick-base-value-bottom-border-color)
+      var(--Pick-base-value-left-border-color);
+    border-radius: var(--Pick-base-top-left-border-radius)
+      var(--Pick-base-top-right-border-radius)
+      var(--Pick-base-bottom-right-border-radius)
+      var(--Pick-base-bottom-left-border-radius);
+    margin-right: var(--gap-xs);
+    margin-bottom: var(--gap-xs);
+    margin-top: var(--gap-xs);
+
+    &:hover {
+      background: var(--Form-selectValue-onHover-bg);
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+      opacity: var(--Button-onDisabled-opacity);
+    }
+  }
+
+  .#{$ns}#{$component-prefix}-valueIcon {
+    color: var(--Pick-base-value-icon-color);
+    cursor: pointer;
+    border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
+    padding: 1px 5px;
+
+    &:hover {
+      background: var(--Pick-base-value-hover-icon-color);
+    }
+  }
+
+  .#{$ns}#{$component-prefix}-valueLabel {
+    padding: 0 var(--gap-xs);
+  }
+}

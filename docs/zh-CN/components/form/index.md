@@ -277,6 +277,63 @@ order: 24
   }
 ```
 
+### 自定义 label 宽度
+
+水平模式下 `labelWidth` 可以设置标签文本的自定义宽度，默认单位为`px`。该属性的优先级：表单项 > 表单。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "label对齐模式",
+  "mode": "horizontal",
+  "labelWidth": 120,
+  "body": [
+    {
+      "type": "input-email",
+      "name": "email",
+      "label": "邮箱",
+      "labelWidth": 200,
+      "required": true
+    },
+    {
+      "type": "input-password",
+      "name": "password",
+      "label": "密码",
+      "required": true
+    },
+    {
+      "type": "input-text",
+      "name": "address",
+      "label": "地址",
+      "mode": "inline"
+    },
+    {
+      "type": "input-text",
+      "name": "mailCode",
+      "label": "邮编",
+      "mode": "inline",
+      "labelWidth": 80
+    },
+    {
+      "type": "radios",
+      "name": "mailCode",
+      "label": "性别",
+      "mode": "row",
+      "options": [
+        {
+          "label": "Male",
+          "value": "male"
+        },
+        {
+          "label": "Female",
+          "value": "female"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ### 实现一行展示多个表单项
 
 有两种方法，一个是通过 `columnCount` 来控制表单显示几列
@@ -510,6 +567,124 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 ### 固定底部栏
 
 如果表单项较多导致表单过长，而不方便操作底部的按钮栏，可以配置`"affixFooter": true`属性，将底部按钮栏固定在浏览器底部
+
+## 表单静态展示
+
+> 2.4.0 及以上版本
+
+在一些场景，表单提交后需要将填写的内容静态展示
+
+### 设置初始状态
+
+通过配置`static: true`将整个表单设置为静态展示，单个表单项也支持此配置
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "表单状态切换",
+  "mode": "horizontal",
+  "labelWidth": 150,
+  "id": "allFormStatic",
+  "static": true,
+  "body": [
+    {
+      "type": "input-text",
+      "name": "var1",
+      "label": "输入框",
+      "value": "text"
+    },
+    {
+      "type": "input-color",
+      "name": "var2",
+      "label": "颜色选择",
+      "value": "#F0F"
+    },
+    {
+      "type": "switch",
+      "name": "switch",
+      "label": "开关",
+      "option": "开关说明",
+      "value": true
+    }
+  ],
+  "actions": []
+}
+```
+
+### 切换输入态和展示态
+
+也支持使用[动作](#动作表)切换表单的 输入态和展示态（静态），也可以使用动作对单个表单项进行状态切换  
+可以在[示例页](../../../examples/form/switchDisplay)查看表单项的静态展示方式
+
+```schema: scope="body"
+{
+  "type": "form",
+  "title": "表单状态切换",
+  "mode": "horizontal",
+  "labelWidth": 150,
+  "id": "allFormSwitch",
+  "data": {
+    "isStatic": false
+  },
+  "body": [
+    {
+      "type": "input-text",
+      "name": "var1",
+      "label": "输入框",
+      "value": "text"
+    },
+    {
+      "type": "input-color",
+      "name": "var2",
+      "label": "颜色选择",
+      "value": "#F0F"
+    },
+    {
+      "type": "switch",
+      "name": "switch",
+      "label": "开关",
+      "option": "开关说明",
+      "value": true
+    },
+    {
+      "type": "button-toolbar",
+      "buttons": [
+        {
+          "type": "button",
+          "label": "${isStatic ? '编辑' : '提交'}",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "setValue",
+                  "componentId": "allFormSwitch",
+                  "args": {
+                    "value": {
+                      "isStatic": "${!isStatic}"
+                    }
+                  }
+                },
+                {
+                  "actionType": "static",
+                  "componentId": "allFormSwitch",
+                  "expression": "${!isStatic}"
+                },
+                {
+                  "actionType": "nonstatic",
+                  "componentId": "allFormSwitch",
+                  "expression": "${isStatic}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "actions": []
+}
+```
 
 ## 表单项数据初始化
 
@@ -793,7 +968,7 @@ Form 支持轮询初始化接口，步骤如下：
 ```schema: scope="body"
 {
     "type": "form",
-    "initApi": "/api/mock2/page/initData",
+    "api": "/api/mock2/form/saveForm",
     "asyncApi": "/api/mock2/page/initData",
     "title": "用户信息",
     "body": [
@@ -914,13 +1089,19 @@ Form 支持轮询初始化接口，步骤如下：
 
 ## 表单数据域调试
 
-配置`debug:true`可以查看当前表单的数据域数据详情，方便数据映射、表达式等功能调试，如下，你可以修改表单项查看数据域变化
+配置`debug:true`可以查看当前表单的数据域数据详情，方便数据映射、表达式等功能调试，如下，你可以修改表单项查看数据域变化。`debugConfig`可以额外配置 debug 区域的相关配置，具体配置请参考[Json 组件属性](../json.md#属性表)。
+
+> 2.2.0 及以上版本支持`debugConfig`
 
 ```schema: scope="body"
 {
     "type": "form",
     "title": "用户信息",
     "debug": true,
+    "debugConfig": {
+      "enableClipboard": true,
+      "displayDataTypes": true
+    },
     "body": [
       {
         "type": "input-text",
@@ -1158,6 +1339,12 @@ Form 支持轮询初始化接口，步骤如下：
 
 如果想提交成功后，清空该缓存，则配置`"clearPersistDataAfterSubmit": true`
 
+### 限制只存储某些 key
+
+> 2.3.0 及以上版本
+
+如果只想存储部分 key，可以配置 `"persistDataKeys": ["key1", "key2"]`，这样就只有 name 为 key1 和 key2 的表单项数据会持久化
+
 ## 禁用回车提交
 
 表单默认情况下回车就会提交，如果想阻止这个行为，可以加上 `preventEnterSubmit` 配置项。
@@ -1184,76 +1371,589 @@ Form 支持轮询初始化接口，步骤如下：
 
 ## 属性表
 
-| 属性名                      | 类型                                                                      | 默认值                                                                 | 说明                                                                                                                                                                                                                                                                                                                                                         |
-| --------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| type                        | `string`                                                                  |                                                                        | `"form"` 指定为 Form 渲染器                                                                                                                                                                                                                                                                                                                                  |
-| name                        | `string`                                                                  |                                                                        | 设置一个名字后，方便其他组件与其通信                                                                                                                                                                                                                                                                                                                         |
-| mode                        | `string`                                                                  | `normal`                                                               | 表单展示方式，可以是：`normal`、`horizontal` 或者 `inline`                                                                                                                                                                                                                                                                                                   |
-| horizontal                  | `Object`                                                                  | `{"left":"col-sm-2", "right":"col-sm-10", "offset":"col-sm-offset-2"}` | 当 mode 为 `horizontal` 时有用，用来控制 label                                                                                                                                                                                                                                                                                                               |
-| labelAlign                  | `"right" \| "left"`                                                       | `"right"`                                                              | 表单项标签对齐方式，默认右对齐，仅在 `mode`为`horizontal` 时生效                                                                                                                                                                                                                                                                                             |
-| title                       | `string`                                                                  | `"表单"`                                                               | Form 的标题                                                                                                                                                                                                                                                                                                                                                  |
-| submitText                  | `String`                                                                  | `"提交"`                                                               | 默认的提交按钮名称，如果设置成空，则可以把默认按钮去掉。                                                                                                                                                                                                                                                                                                     |
-| className                   | `string`                                                                  |                                                                        | 外层 Dom 的类名                                                                                                                                                                                                                                                                                                                                              |
-| body                        | Array<[表单项](./formitem) or [SchemaNode](../../docs/types/schemanode) > |                                                                        | Form 表单项集合                                                                                                                                                                                                                                                                                                                                              |
-| actions                     | Array<[行为按钮](../action)>                                              |                                                                        | Form 提交按钮，成员为 Action                                                                                                                                                                                                                                                                                                                                 |
-| messages                    | `Object`                                                                  |                                                                        | 消息提示覆写，默认消息读取的是 API 返回的消息，但是在此可以覆写它。                                                                                                                                                                                                                                                                                          |
-| messages.fetchSuccess       | `string`                                                                  |                                                                        | 获取成功时提示                                                                                                                                                                                                                                                                                                                                               |
-| messages.fetchFailed        | `string`                                                                  |                                                                        | 获取失败时提示                                                                                                                                                                                                                                                                                                                                               |
-| messages.saveSuccess        | `string`                                                                  |                                                                        | 保存成功时提示                                                                                                                                                                                                                                                                                                                                               |
-| messages.saveFailed         | `string`                                                                  |                                                                        | 保存失败时提示                                                                                                                                                                                                                                                                                                                                               |
-| wrapWithPanel               | `boolean`                                                                 | `true`                                                                 | 是否让 Form 用 panel 包起来，设置为 false 后，actions 将无效。                                                                                                                                                                                                                                                                                               |
-| panelClassName              | `string`                                                                  |                                                                        | 外层 panel 的类名                                                                                                                                                                                                                                                                                                                                            |
-| api                         | [API](../../../docs/types/api)                                            |                                                                        | Form 用来保存数据的 api。                                                                                                                                                                                                                                                                                                                                    |
-| initApi                     | [API](../../../docs/types/api)                                            |                                                                        | Form 用来获取初始数据的 api。                                                                                                                                                                                                                                                                                                                                |
-| rules                       | Array<{rule:string;message:string;name?: string[]}>                       |                                                                        | 表单组合校验规则                                                                                                                                                                                                                                                                                                                                             |
-| interval                    | `number`                                                                  | `3000`                                                                 | 刷新时间(最低 3000)                                                                                                                                                                                                                                                                                                                                          |
-| silentPolling               | `boolean`                                                                 | `false`                                                                | 配置刷新时是否显示加载动画                                                                                                                                                                                                                                                                                                                                   |
-| stopAutoRefreshWhen         | `string`                                                                  | `""`                                                                   | 通过[表达式](./Types.md#表达式) 来配置停止刷新的条件                                                                                                                                                                                                                                                                                                         |
-| initAsyncApi                | [API](../../../docs/types/api)                                            |                                                                        | Form 用来获取初始数据的 api,与 initApi 不同的是，会一直轮询请求该接口，直到返回 finished 属性为 true 才 结束。                                                                                                                                                                                                                                               |
-| initFetch                   | `boolean`                                                                 | `true`                                                                 | 设置了 initApi 或者 initAsyncApi 后，默认会开始就发请求，设置为 false 后就不会起始就请求接口                                                                                                                                                                                                                                                                 |
-| initFetchOn                 | `string`                                                                  |                                                                        | 用表达式来配置                                                                                                                                                                                                                                                                                                                                               |
-| initFinishedField           | `string`                                                                  | `finished`                                                             | 设置了 initAsyncApi 后，默认会从返回数据的 data.finished 来判断是否完成，也可以设置成其他的 xxx，就会从 data.xxx 中获取                                                                                                                                                                                                                                      |
-| initCheckInterval           | `number`                                                                  | `3000`                                                                 | 设置了 initAsyncApi 以后，默认拉取的时间间隔                                                                                                                                                                                                                                                                                                                 |
-| asyncApi                    | [API](../../../docs/types/api)                                            |                                                                        | 设置此属性后，表单提交发送保存接口后，还会继续轮询请求该接口，直到返回 `finished` 属性为 `true` 才 结束。                                                                                                                                                                                                                                                    |
-| checkInterval               | `number`                                                                  | 3000                                                                   | 轮询请求的时间间隔，默认为 3 秒。设置 `asyncApi` 才有效                                                                                                                                                                                                                                                                                                      |
-| finishedField               | `string`                                                                  | `"finished"`                                                           | 如果决定结束的字段名不是 `finished` 请设置此属性，比如 `is_success`                                                                                                                                                                                                                                                                                          |
-| submitOnChange              | `boolean`                                                                 | `false`                                                                | 表单修改即提交                                                                                                                                                                                                                                                                                                                                               |
-| submitOnInit                | `boolean`                                                                 | `false`                                                                | 初始就提交一次                                                                                                                                                                                                                                                                                                                                               |
-| resetAfterSubmit            | `boolean`                                                                 | `false`                                                                | 提交后是否重置表单                                                                                                                                                                                                                                                                                                                                           |
-| primaryField                | `string`                                                                  | `"id"`                                                                 | 设置主键 id, 当设置后，检测表单是否完成时（asyncApi），只会携带此数据。                                                                                                                                                                                                                                                                                      |
-| target                      | `string`                                                                  |                                                                        | 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据。当目标是 `window` 时，会把当前表单的数据附带到页面地址上。 |
-| redirect                    | `string`                                                                  |                                                                        | 设置此属性后，Form 保存成功后，自动跳转到指定页面。支持相对地址，和绝对地址（相对于组内的）。                                                                                                                                                                                                                                                                |
-| reload                      | `string`                                                                  |                                                                        | 操作完后刷新目标对象。请填写目标组件设置的 name 值，如果填写为 `window` 则让当前页面整体刷新。                                                                                                                                                                                                                                                               |
-| autoFocus                   | `boolean`                                                                 | `false`                                                                | 是否自动聚焦。                                                                                                                                                                                                                                                                                                                                               |
-| canAccessSuperData          | `boolean`                                                                 | `true`                                                                 | 指定是否可以自动获取上层的数据并映射到表单项上                                                                                                                                                                                                                                                                                                               |
-| persistData                 | `string`                                                                  | `""`                                                                   | 指定一个唯一的 key，来配置当前表单是否开启本地缓存                                                                                                                                                                                                                                                                                                           |
-| clearPersistDataAfterSubmit | `boolean`                                                                 | `true`                                                                 | 指定表单提交成功后是否清除本地缓存                                                                                                                                                                                                                                                                                                                           |
-| preventEnterSubmit          | `boolean`                                                                 | `false`                                                                | 禁用回车提交表单                                                                                                                                                                                                                                                                                                                                             |
-| trimValues                  | `boolean`                                                                 | `false`                                                                | trim 当前表单项的每一个值                                                                                                                                                                                                                                                                                                                                    |
-| promptPageLeave             | `boolean`                                                                 | `false`                                                                | form 还没保存，即将离开页面前是否弹框确认。                                                                                                                                                                                                                                                                                                                  |
-| columnCount                 | `number`                                                                  | 0                                                                      | 表单项显示为几列                                                                                                                                                                                                                                                                                                                                             |
-| inheritData                 | `booelan`                                                                 | `true`                                                                 | 默认表单是采用数据链的形式创建个自己的数据域，表单提交的时候只会发送自己这个数据域的数据，如果希望共用上层数据域可以设置这个属性为 false，这样上层数据域的数据不需要在表单中用隐藏域或者显式映射才能发送了。                                                                                                                                                 |
+| 属性名                      | 类型                                                                      | 默认值                                     | 说明                                                                                                                                                                                                                                                                                                                                                         |
+| --------------------------- | ------------------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| type                        | `string`                                                                  |                                            | `"form"` 指定为 Form 渲染器                                                                                                                                                                                                                                                                                                                                  |
+| name                        | `string`                                                                  |                                            | 设置一个名字后，方便其他组件与其通信                                                                                                                                                                                                                                                                                                                         |
+| mode                        | `string`                                                                  | `normal`                                   | 表单展示方式，可以是：`normal`、`horizontal` 或者 `inline`                                                                                                                                                                                                                                                                                                   |
+| horizontal                  | `Object`                                                                  | `{"left":2, "right":10, "justify": false}` | 当 mode 为 `horizontal` 时有用，用来控制 label 的展示占比                                                                                                                                                                                                                                                                                                    |
+| labelAlign                  | `"right" \| "left"`                                                       | `"right"`                                  | 表单项标签对齐方式，默认右对齐，仅在 `mode`为`horizontal` 时生效                                                                                                                                                                                                                                                                                             |
+| labelWidth                  | `number \| string`                                                        |                                            | 表单项标签自定义宽度                                                                                                                                                                                                                                                                                                                                         |
+| title                       | `string`                                                                  | `"表单"`                                   | Form 的标题                                                                                                                                                                                                                                                                                                                                                  |
+| submitText                  | `String`                                                                  | `"提交"`                                   | 默认的提交按钮名称，如果设置成空，则可以把默认按钮去掉。                                                                                                                                                                                                                                                                                                     |
+| className                   | `string`                                                                  |                                            | 外层 Dom 的类名                                                                                                                                                                                                                                                                                                                                              |
+| body                        | Array<[表单项](./formitem) or [SchemaNode](../../docs/types/schemanode) > |                                            | Form 表单项集合                                                                                                                                                                                                                                                                                                                                              |
+| actions                     | Array<[行为按钮](../action)>                                              |                                            | Form 提交按钮，成员为 Action                                                                                                                                                                                                                                                                                                                                 |
+| messages                    | `Object`                                                                  |                                            | 消息提示覆写，默认消息读取的是 API 返回的消息，但是在此可以覆写它。                                                                                                                                                                                                                                                                                          |
+| messages.fetchSuccess       | `string`                                                                  |                                            | 获取成功时提示                                                                                                                                                                                                                                                                                                                                               |
+| messages.fetchFailed        | `string`                                                                  |                                            | 获取失败时提示                                                                                                                                                                                                                                                                                                                                               |
+| messages.saveSuccess        | `string`                                                                  |                                            | 保存成功时提示                                                                                                                                                                                                                                                                                                                                               |
+| messages.saveFailed         | `string`                                                                  |                                            | 保存失败时提示                                                                                                                                                                                                                                                                                                                                               |
+| wrapWithPanel               | `boolean`                                                                 | `true`                                     | 是否让 Form 用 panel 包起来，设置为 false 后，actions 将无效。                                                                                                                                                                                                                                                                                               |
+| panelClassName              | `string`                                                                  |                                            | 外层 panel 的类名                                                                                                                                                                                                                                                                                                                                            |
+| api                         | [API](../../../docs/types/api)                                            |                                            | Form 用来保存数据的 api。                                                                                                                                                                                                                                                                                                                                    |
+| initApi                     | [API](../../../docs/types/api)                                            |                                            | Form 用来获取初始数据的 api。                                                                                                                                                                                                                                                                                                                                |
+| rules                       | Array<{rule:string;message:string;name?: string[]}>                       |                                            | 表单组合校验规则                                                                                                                                                                                                                                                                                                                                             |
+| interval                    | `number`                                                                  | `3000`                                     | 刷新时间(最低 3000)                                                                                                                                                                                                                                                                                                                                          |
+| silentPolling               | `boolean`                                                                 | `false`                                    | 配置刷新时是否显示加载动画                                                                                                                                                                                                                                                                                                                                   |
+| stopAutoRefreshWhen         | `string`                                                                  | `""`                                       | 通过[表达式](./Types.md#表达式) 来配置停止刷新的条件                                                                                                                                                                                                                                                                                                         |
+| initAsyncApi                | [API](../../../docs/types/api)                                            |                                            | Form 用来获取初始数据的 api,与 initApi 不同的是，会一直轮询请求该接口，直到返回 finished 属性为 true 才 结束。                                                                                                                                                                                                                                               |
+| initFetch                   | `boolean`                                                                 | `true`                                     | 设置了 initApi 或者 initAsyncApi 后，默认会开始就发请求，设置为 false 后就不会起始就请求接口                                                                                                                                                                                                                                                                 |
+| initFetchOn                 | `string`                                                                  |                                            | 用表达式来配置                                                                                                                                                                                                                                                                                                                                               |
+| initFinishedField           | `string`                                                                  | `finished`                                 | 设置了 initAsyncApi 后，默认会从返回数据的 data.finished 来判断是否完成，也可以设置成其他的 xxx，就会从 data.xxx 中获取                                                                                                                                                                                                                                      |
+| initCheckInterval           | `number`                                                                  | `3000`                                     | 设置了 initAsyncApi 以后，默认拉取的时间间隔                                                                                                                                                                                                                                                                                                                 |
+| asyncApi                    | [API](../../../docs/types/api)                                            |                                            | 设置此属性后，表单提交发送保存接口后，还会继续轮询请求该接口，直到返回 `finished` 属性为 `true` 才 结束。                                                                                                                                                                                                                                                    |
+| checkInterval               | `number`                                                                  | 3000                                       | 轮询请求的时间间隔，默认为 3 秒。设置 `asyncApi` 才有效                                                                                                                                                                                                                                                                                                      |
+| finishedField               | `string`                                                                  | `"finished"`                               | 如果决定结束的字段名不是 `finished` 请设置此属性，比如 `is_success`                                                                                                                                                                                                                                                                                          |
+| submitOnChange              | `boolean`                                                                 | `false`                                    | 表单修改即提交                                                                                                                                                                                                                                                                                                                                               |
+| submitOnInit                | `boolean`                                                                 | `false`                                    | 初始就提交一次                                                                                                                                                                                                                                                                                                                                               |
+| resetAfterSubmit            | `boolean`                                                                 | `false`                                    | 提交后是否重置表单                                                                                                                                                                                                                                                                                                                                           |
+| primaryField                | `string`                                                                  | `"id"`                                     | 设置主键 id, 当设置后，检测表单是否完成时（asyncApi），只会携带此数据。                                                                                                                                                                                                                                                                                      |
+| target                      | `string`                                                                  |                                            | 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据。当目标是 `window` 时，会把当前表单的数据附带到页面地址上。 |
+| redirect                    | `string`                                                                  |                                            | 设置此属性后，Form 保存成功后，自动跳转到指定页面。支持相对地址，和绝对地址（相对于组内的）。                                                                                                                                                                                                                                                                |
+| reload                      | `string`                                                                  |                                            | 操作完后刷新目标对象。请填写目标组件设置的 name 值，如果填写为 `window` 则让当前页面整体刷新。                                                                                                                                                                                                                                                               |
+| autoFocus                   | `boolean`                                                                 | `false`                                    | 是否自动聚焦。                                                                                                                                                                                                                                                                                                                                               |
+| canAccessSuperData          | `boolean`                                                                 | `true`                                     | 指定是否可以自动获取上层的数据并映射到表单项上                                                                                                                                                                                                                                                                                                               |
+| persistData                 | `string`                                                                  | `""`                                       | 指定一个唯一的 key，来配置当前表单是否开启本地缓存                                                                                                                                                                                                                                                                                                           |
+| persistDataKeys             | `string[]`                                                                | `""`                                       | 指指定只有哪些 key 缓存                                                                                                                                                                                                                                                                                                                                      |
+| clearPersistDataAfterSubmit | `boolean`                                                                 | `true`                                     | 指定表单提交成功后是否清除本地缓存                                                                                                                                                                                                                                                                                                                           |
+| preventEnterSubmit          | `boolean`                                                                 | `false`                                    | 禁用回车提交表单                                                                                                                                                                                                                                                                                                                                             |
+| trimValues                  | `boolean`                                                                 | `false`                                    | trim 当前表单项的每一个值                                                                                                                                                                                                                                                                                                                                    |
+| promptPageLeave             | `boolean`                                                                 | `false`                                    | form 还没保存，即将离开页面前是否弹框确认。                                                                                                                                                                                                                                                                                                                  |
+| columnCount                 | `number`                                                                  | 0                                          | 表单项显示为几列                                                                                                                                                                                                                                                                                                                                             |
+| inheritData                 | `boolean`                                                                 | `true`                                     | 默认表单是采用数据链的形式创建个自己的数据域，表单提交的时候只会发送自己这个数据域的数据，如果希望共用上层数据域可以设置这个属性为 false，这样上层数据域的数据不需要在表单中用隐藏域或者显式映射才能发送了。                                                                                                                                                 |
+| static                      | `boolean`                                                                 |                                            | `2.4.0` 整个表单静态方式展示，详情请查看[示例页](../../../examples/form/switchDisplay)                                                                                                                                                                                                                                                                       |
+| staticClassName             | `string`                                                                  |                                            | `2.4.0` 表单静态展示时使用的类名                                                                                                                                                                                                                                                                                                                             |
+| closeDialogOnSubmit         | `boolean`                                                                 |                                            | 提交的时候是否关闭弹窗。当 form 里面有且只有一个弹窗的时候，本身提交会触发弹窗关闭，此属性可以关闭此行为                                                                                                                                                                                                                                                     |
 
 ## 事件表
 
-| 事件名称              | 事件参数                                                    | 说明           |
-| --------------------- | ----------------------------------------------------------- | -------------- |
-| inited                | 表单数据                                                    | 初始化完成     |
-| change                | 表单数据                                                    | 值变化         |
-| formItemValidateSucc  | 表单数据                                                    | 表单项校验成功 |
-| formItemValidateError | 表单数据                                                    | 表单项校验失败 |
-| validateSucc          | 表单数据                                                    | 表单校验成功   |
-| validateError         | 表单数据                                                    | 表单校验成功   |
-| submitSucc            | 配置 api 时： `result: object` 接口返回内容; 否则为表单数据 | 提交成功       |
-| submitFail            | `error: object` 接口返回内容                                | 提交失败       |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称              | 事件参数                                                                                                                                                                                   | 说明                                                                                                                                      |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| 事件名称              | 事件参数                                                                                                                                                                                   | 说明                                                                                                                                      |
+| inited                | `responseData: any` 请求的响应数据</br>`responseStatus: number` 响应状态，0 表示成功</br>`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | initApi 接口请求完成时触发                                                                                                                |
+| change                | `event.data: object` 当前表单数据                                                                                                                                                          | 表单值变化时触发                                                                                                                          |
+| formItemValidateSucc  | `event.data: object` 当前表单数据                                                                                                                                                          | 表单项校验成功时触发                                                                                                                      |
+| formItemValidateError | `event.data: object` 当前表单数据                                                                                                                                                          | 表单项校验失败时触发                                                                                                                      |
+| validateSucc          | `event.data: object` 当前表单数据                                                                                                                                                          | 表单校验成功时触发                                                                                                                        |
+| validateError         | `event.data: object` 当前表单数据                                                                                                                                                          | 表单校验失败时触发                                                                                                                        |
+| submit                | `event.data: object` 当前表单数据                                                                                                                                                          | 点击提交按钮或者触发表单提交动作的时候触发，配置了该事件后将不会触发表单提交时的校验、提交到 api 或者 target 等行为，所有行为需要自己配置 |
+| submitSucc            | `event.data.result: object` api 远程请求成功后返回的结果数据                                                                                                                               | 提交成功时触发                                                                                                                            |
+| submitFail            | `event.data.error: object` api 远程请求失败后返回的错误信息                                                                                                                                | 提交失败时触发                                                                                                                            |
+| asyncApiFinished      | `[name]: any` 当前数据域中指定字段的值                                                                                                                                                     | asyncApi 远程请求轮训结束                                                                                                                 |
 
 ## 动作表
 
-| 动作名称 | 动作配置                       | 说明                       |
-| -------- | ------------------------------ | -------------------------- |
-| submit   | -                              | 提交表单                   |
-| reset    | -                              | 重置表单                   |
-| clear    | -                              | 清空表单                   |
-| validate | -                              | 校验表单                   |
-| reload   | -                              | 刷新（重新加载）           |
-| setValue | `value: object` 更新的表单数据 | 更新数据，对数据进行 merge |
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称  | 动作配置                                            | 说明                       |
+| --------- | --------------------------------------------------- | -------------------------- |
+| validate  | `outputVar: string` 校验结果，默认为 validateResult | 校验表单                   |
+| submit    | `outputVar: string` 提交结果，默认为 submitResult   | 提交表单                   |
+| setValue  | `value: object` 更新的表单数据                      | 更新数据，对数据进行 merge |
+| reload    | -                                                   | 刷新（重新加载）           |
+| reset     | -                                                   | 重置表单                   |
+| clear     | -                                                   | 清空表单                   |
+| static    | -                                                   | 表单切换为静态展示         |
+| nonstatic | -                                                   | 表单切换为普通输入态       |
+
+### validate
+
+校验结果默认缓存在`${event.data.validateResult}`，`true`表示校验成功，`false`表示检验失败。可以通过添加`outputVar`配置来修改缓存的变量。
+
+校验结果的结构如下：
+
+```json
+{
+  // 是否成功。非空表示失败
+  "error": "依赖的部分字段没有通过验证",
+  // 表单项报错信息。key值为该表单项的name值
+  "errors": {
+    "email": ["Email 格式不正确"],
+    ...
+  },
+  // 提交验证的表单数据
+  "payload": {
+    "name": "amis",
+    "email": "amis@baidu"
+  }
+}
+```
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "校验表单",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "validate",
+                "componentId": "form_validate",
+                "outputVar": "form_validate_result"
+              },
+              {
+                "actionType": "setValue",
+                "componentId": "validate_info",
+                "args": {
+                  "value": "${event.data.form_validate_result|json}"
+                }
+              }
+            ]
+        }
+    }
+  },
+  {
+    type: 'input-text',
+    name: 'validate_info',
+    id: 'validate_info',
+    label: '校验结果：',
+    static: true
+  },
+  {
+    "type": "form",
+    "id": "form_validate",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名：",
+        "required": true
+      },
+      {
+        "name": "email",
+        "type": "input-text",
+        "label": "邮箱：",
+        "required": true,
+        "validations": {
+          "isEmail": true
+        }
+      }
+    ]
+  }
+]
+```
+
+### submit
+
+提交结果默认缓存在`${event.data.submitResult}`，可以通过添加`outputVar`配置来修改缓存的变量。
+
+提交结果的结构如下：
+
+```json
+{
+  // 是否成功。是否成功。非空表示失败
+  "error": "依赖的部分字段没有通过验证",
+  // 错误信息。如果是校验失败，则errors为表单项报错信息，key值为该表单项的name值
+  "errors": {
+    ...
+  },
+  // 提交的表单数据
+  "payload": {
+    "name": "amis",
+    "email": "amis@baidu.com"
+  },
+  // 提交请求返回的响应结果数据
+  "responseData": {
+    "id": "1"
+  }
+}
+```
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "提交表单",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "submit",
+                "componentId": "form_submit",
+                "outputVar": "form_submit_result"
+              },
+              {
+                "actionType": "setValue",
+                "componentId": "submit_info",
+                "args": {
+                  "value": "${event.data.form_submit_result|json}"
+                }
+              }
+            ]
+        }
+    }
+  },
+  {
+    type: 'input-text',
+    name: 'submit_info',
+    id: 'submit_info',
+    label: '提交结果：',
+    static: true
+  },
+  {
+    "type": "form",
+    "id": "form_submit",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名：",
+        "required": true
+      },
+      {
+        "name": "email",
+        "type": "input-text",
+        "label": "邮箱：",
+        "required": true,
+        "validations": {
+          "isEmail": true
+        }
+      }
+    ]
+  }
+]
+```
+
+### setValue
+
+通过`setValue`更新指定表单的数据。
+
+#### 合并数据
+
+默认`setValue`会将新数据与目标组件数据进行合并。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "修改表单数据",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "form_setvalue",
+                "args": {
+                  "value": {
+                    "name": "aisuda",
+                    "email": "aisuda@baidu.com"
+                  }
+                }
+              }
+            ]
+        }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_setvalue",
+    "data": {
+      "name": "amis",
+      "email": "amis@baidu.com"
+    },
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "email",
+        "type": "input-text",
+        "label": "邮箱："
+      }
+    ]
+  }
+]
+```
+
+#### 覆盖数据
+
+可以通过`"dateMergeMode": "override"`来覆盖目标组件数据。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "修改表单数据",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "form_setvalue",
+                "args": {
+                  "value": {
+                    "name": "aisuda"
+                  }
+                },
+                "dataMergeMode": "override"
+              }
+            ]
+        }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_setvalue",
+    "data": {
+      "name": "amis",
+      "email": "amis@baidu.com"
+    },
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "email",
+        "type": "input-text",
+        "label": "邮箱："
+      }
+    ]
+  }
+]
+```
+
+### reload
+
+#### 只做刷新
+
+重新发送`initApi`请求，刷新 Form 时，只配置`componentId`目标组件 ID 即可。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "刷新表单",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "reload",
+                "componentId": "form_reload"
+              }
+            ]
+        }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_reload",
+    "debug": true,
+    "initApi": "/api/mock2/form/initData",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "author",
+        "type": "input-text",
+        "label": "作者："
+      }
+    ]
+  }
+]
+```
+
+#### 发送数据并刷新
+
+刷新 Form 组件时，如果配置了`data`，将发送`data`给目标组件，并将该数据合并到目标组件的数据域中（如果配置`"dataMergeMode": "override"`将覆盖目标组件的数据），然后重新请求数据。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "刷新Form数据加载请求，并将我的年龄设置为18",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "reload",
+                "componentId": "form_reload2",
+                "data": {
+                  age: 18
+                }
+              }
+            ]
+        }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_reload2",
+    "debug": true,
+    "initApi": "/api/mock2/form/initData",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "author",
+        "type": "input-text",
+        "label": "作者："
+      },
+      {
+        "name": "age",
+        "type": "input-text",
+        "label": "年龄："
+      }
+    ]
+  }
+]
+```
+
+### reset
+
+通过`reset`将表单数据重置为初始数据，初始数据可以是静态数据或初始化接口返回的数据。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "重置表单",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "reset",
+                "componentId": "form_reset"
+              }
+            ]
+        }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_reset",
+    "initApi": "/api/mock2/form/initData",
+    "body": [
+      {
+        "type": "alert",
+        "body": "修改表单项的值，然后点击【重置表单】，表单数据将被重置为初始化数据"
+      },
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "author",
+        "type": "input-text",
+        "label": "作者："
+      }
+    ]
+  }
+]
+```
+
+### clear
+
+通过`clear`来清空表单中的表单项数据，不包含`hidden`类型、未绑定表单项的初始化数据字段。
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "清空表单",
+    className: "mb-2",
+    "onEvent": {
+        "click": {
+            "actions": [
+              {
+                "actionType": "clear",
+                "componentId": "form_clear"
+              }
+            ]
+        }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_clear",
+    "debug": true,
+    "initApi": "/api/mock2/form/initData",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "author",
+        "type": "hidden",
+        "label": "作者："
+      }
+    ]
+  }
+]
+```
+
+### static 和 nonstatic
+
+```schema: scope="body"
+[
+  {
+    "type": "button",
+    "label": "静态模式",
+    "className": "mr-2 mb-2",
+    "onEvent": {
+      "click": {
+        "actions": [
+          {
+            "actionType": "static",
+            "componentId": "form_static"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "button",
+    "label": "非静态模式",
+    "className": "mr-2 mb-2",
+    "onEvent": {
+      "click": {
+        "actions": [
+          {
+            "actionType": "nonstatic",
+            "componentId": "form_static"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "form",
+    "id": "form_static",
+    "title": "表单",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "text",
+        "label": "输入框",
+        "mode": "horizontal",
+        "value": "text"
+      }
+    ]
+  }
+]
+```

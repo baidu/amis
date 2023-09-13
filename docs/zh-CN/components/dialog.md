@@ -327,7 +327,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 }
 ```
 
-## 行为后关闭弹框
+## 动作后关闭弹框
 
 在弹框中配置行为按钮，可以在按钮上配置`"close": true`，在行为完成后，关闭当前弹框。
 
@@ -357,9 +357,49 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 }
 ```
 
+以上例子是关闭当前弹窗，如果希望关闭上层弹窗，则需要给目标弹窗设置 `name` 属性，然后配置按钮 `close` 属性为目标 `name` 属性如：
+
+```schema: scope="body"
+{
+    "type": "button",
+    "label": "多级弹框",
+    "actionType": "dialog",
+    "dialog": {
+        "title": "提示",
+        "body": "这是个简单的弹框",
+        "name": "dialog_1",
+        "actions": [
+            {
+                "type": "button",
+                "actionType": "confirm",
+                "label": "确认",
+                "primary": true
+            },
+            {
+                "type": "button",
+                "actionType": "dialog",
+                "label": "再弹一个",
+                "dialog": {
+                    "title": "弹框中的弹框",
+                    "body": "关闭当前弹窗的时候把外层的弹窗一起关了",
+                    "actions": [
+                        {
+                            "type": "button",
+                            "label": "关闭所有",
+                            "level": "info",
+                            "close": "dialog_1"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
+```
+
 ## 配置弹窗的按钮
 
-可以通过设置 `actions` 来控制弹窗中的按钮。
+默认弹窗会自动生成两个按钮，一个取消，一个确认。如果通过 `actions` 来自定义配置，则以配置的为准。
 
 ```schema: scope="body"
 {
@@ -489,9 +529,9 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 }
 ```
 
-### 提交表单 或 ajax 请求 后不关闭弹框
+### 提交表单 或 ajax 请求后不关闭弹框
 
-默认情况下，当弹框中配置了 form 并进行了**提交表单操作（confirm）**或进行了**`ajax`请求**，请求成功后，会自动关闭当前弹框，你可以通过手动设置`"close": true` 来禁止该默认特性。
+默认情况下，当弹框中配置了 form 并进行了**提交表单操作（confirm）**或进行了**`ajax`请求**，请求成功后，会自动关闭当前弹框，你可以通过手动设置`"close": false` 来禁止该默认特性。
 
 ```schema: scope="body"
 {
@@ -853,7 +893,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 | type            | `string`                                  |                    | `"dialog"` 指定为 Dialog 渲染器                                                                  |
 | title           | [SchemaNode](../../docs/types/schemanode) |                    | 弹出层标题                                                                                       |
 | body            | [SchemaNode](../../docs/types/schemanode) |                    | 往 Dialog 内容区加内容                                                                           |
-| size            | `string`                                  |                    | 指定 dialog 大小，支持: `xs`、`sm`、`md`、`lg`、`xl`、`full`                                      |
+| size            | `string`                                  |                    | 指定 dialog 大小，支持: `xs`、`sm`、`md`、`lg`、`xl`、`full`                                     |
 | bodyClassName   | `string`                                  | `modal-body`       | Dialog body 区域的样式类名                                                                       |
 | closeOnEsc      | `boolean`                                 | `false`            | 是否支持按 `Esc` 关闭 Dialog                                                                     |
 | showCloseButton | `boolean`                                 | `true`             | 是否显示右上角的关闭按钮                                                                         |
@@ -865,15 +905,380 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 
 ## 事件表
 
-| 事件名称 | 事件参数 | 说明 |
-| -------- | -------- | ---- |
-| confirm  | 弹窗数据 | 确认 |
-| cancel   | 弹窗数据 | 取消 |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+> `[name]`为当前数据域中的字段名，例如：当前数据域为 {username: 'amis'}，则可以通过${username}获取对应的值。
+
+| 事件名称 | 事件参数                                                                 | 说明               |
+| -------- | ------------------------------------------------------------------------ | ------------------ |
+| confirm  | `event.data: object` 弹窗数据<br/>`[name]: any` 当前数据域中指定字段的值 | 点击确认提交时触发 |
+| cancel   | `event.data: object` 弹窗数据<br/>`[name]: any` 当前数据域中指定字段的值 | 点击取消时触发     |
+
+### confirm
+
+```schema: scope="body"
+[
+  {
+    "label": "弹个框",
+    "type": "button",
+    "onEvent": {
+      "click": {
+        "actions": [
+          {
+            "actionType": "dialog",
+            "dialog": {
+              "title": "一个弹框",
+              "body": [
+                {
+                  "type": "alert",
+                  "body": "试试点击确认按钮",
+                  "level": "info",
+                  "className": "mb-1"
+                },
+                {
+                  "type": "form",
+                  "title": "表单",
+                  "debug": true,
+                  "body": [
+                    {
+                      "label": "你的名字",
+                      "type": "input-text",
+                      "name": "name",
+                      "id": "u:00ef9e3fe9db",
+                      "editorState": "default",
+                      "mode": "horizontal",
+                      "size": "md",
+                      "value": "Amis"
+                    }
+                  ],
+                  "id": "u:f4b2a90b685b"
+                }
+              ],
+              "onEvent": {
+                "confirm": {
+                    "actions": [
+                      {
+                          "actionType": "toast",
+                          "args": {
+                              "msg": "你的名字是${name}"
+                          }
+                      }
+                    ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+]
+```
+
+### cancel
+
+```schema: scope="body"
+[
+  {
+    "label": "弹个框",
+    "type": "button",
+    "onEvent": {
+      "click": {
+        "actions": [
+          {
+            "actionType": "dialog",
+            "dialog": {
+              "title": "一个弹窗",
+              "body": "试试点击取消按钮或者右上角的关闭",
+              "onEvent": {
+                "cancel": {
+                    "actions": [
+                    {
+                        "actionType": "toast",
+                        "args": {
+                            "msg": "cancel"
+                        }
+                    }
+                    ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+]
+```
 
 ## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
 | 动作名称 | 动作配置                   | 说明         |
 | -------- | -------------------------- | ------------ |
 | confirm  | -                          | 确认（提交） |
 | cancel   | -                          | 取消（关闭） |
 | setValue | `value: object` 更新的数据 | 更新数据     |
+
+### confirm 动作
+
+```schema: scope="body"
+{
+    "type": "button",
+    "label": "弹个表单",
+    "actionType": "dialog",
+    "dialog": {
+        "title": "在弹框中的表单",
+        "id": "dialog_confirm",
+        "body": {
+          "type": "form",
+          "api": "/api/mock2/form/saveForm?waitSeconds=2",
+          "body": [
+              {
+                  "type": "input-text",
+                  "name": "username",
+                  "required": true,
+                  "placeholder": "请输入用户名",
+                  "label": "用户名"
+              },
+              {
+                  "type": "input-password",
+                  "name": "password",
+                  "label": "密码",
+                  "required": true,
+                  "placeholder": "请输入密码"
+              },
+              {
+                  "type": "checkbox",
+                  "name": "rememberMe",
+                  "label": "记住登录"
+              }
+          ]
+        },
+        "actions": [
+          {
+            "type": "button",
+            "label": "触发确认",
+            "onEvent": {
+              "click": {
+                "actions": [
+                  {
+                    "actionType": "confirm",
+                    "componentId": "dialog_confirm"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+    }
+}
+```
+
+### cancel 动作
+
+```schema: scope="body"
+{
+    "type": "button",
+    "label": "弹个表单",
+    "actionType": "dialog",
+    "dialog": {
+        "title": "在弹框中的表单",
+        "id": "dialog_cancel",
+        "body": {
+          "type": "form",
+          "api": "/api/mock2/form/saveForm?waitSeconds=2",
+          "body": [
+              {
+                  "type": "input-text",
+                  "name": "username",
+                  "required": true,
+                  "placeholder": "请输入用户名",
+                  "label": "用户名"
+              },
+              {
+                  "type": "input-password",
+                  "name": "password",
+                  "label": "密码",
+                  "required": true,
+                  "placeholder": "请输入密码"
+              },
+              {
+                  "type": "checkbox",
+                  "name": "rememberMe",
+                  "label": "记住登录"
+              }
+          ]
+        },
+        "actions": [
+          {
+            "type": "button",
+            "label": "触发取消",
+            "onEvent": {
+              "click": {
+                "actions": [
+                  {
+                    "actionType": "cancel",
+                    "componentId": "dialog_cancel"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+    }
+}
+```
+
+### setValue 动作
+
+通过`setValue`更新指定弹窗的数据。
+
+#### 合并数据
+
+默认`setValue`会将新数据与目标组件数据进行合并。
+
+```schema: scope="body"
+{
+    "type": "button",
+    "label": "弹个表单",
+    "actionType": "dialog",
+    "dialog": {
+        "title": "在弹框中的表单",
+        "id": "dialog_setvalue",
+        "data": {
+          "username": "amis",
+          "password": "amis@baidu.com"
+        },
+        "body": [
+          {
+            "type": "alert",
+            "body": "初始化时，弹窗的数据data为{username: 'amis', password: 'fex'}，表单内或者表单外都可以读取这些数据，当点击【更新弹窗数据】按钮后，弹窗的数据被更新为{username: 'aisuda', password: 'aisuda@baidu.com'}"
+          },
+          {
+            "type": "input-text",
+            "label": "表单外的密码",
+            "name": "password"
+          },
+          {
+            "type": "form",
+            "debug": true,
+            "api": "/api/mock2/form/saveForm?waitSeconds=2",
+            "body": [
+                {
+                    "type": "input-text",
+                    "name": "username",
+                    "required": true,
+                    "placeholder": "请输入用户名",
+                    "label": "用户名"
+                },
+                {
+                    "type": "input-password",
+                    "name": "password",
+                    "label": "密码",
+                    "required": true,
+                    "placeholder": "请输入密码"
+                }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "type": "button",
+            "label": "更新弹窗数据",
+            "onEvent": {
+              "click": {
+                "actions": [
+                  {
+                    "actionType": "setValue",
+                    "componentId": "dialog_setvalue",
+                    "args": {
+                      "value": {
+                        "username": "aisuda",
+                        "password": "aisuda@baidu.com"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+    }
+}
+```
+
+#### 覆盖数据
+
+可以通过`"dataMergeMode": "override"`来覆盖目标组件数据。
+
+```schema: scope="body"
+{
+    "type": "button",
+    "label": "弹个表单",
+    "actionType": "dialog",
+    "dialog": {
+        "title": "在弹框中的表单",
+        "id": "dialog_setvalue2",
+        "data": {
+          "username": "amis",
+          "password": "amis@baidu.com"
+        },
+        "body": [
+          {
+            "type": "alert",
+            "body": "初始化时，弹窗的数据data为{username: 'amis', password: 'fex'}，表单内或者表单外都可以读取这些数据，当点击【更新弹窗数据】按钮后，弹窗的数据被更新为{username: 'aisuda'}，即password将被删除"
+          },
+          {
+            "type": "input-text",
+            "label": "表单外的密码",
+            "name": "password"
+          },
+          {
+            "type": "form",
+            "debug": true,
+            "api": "/api/mock2/form/saveForm?waitSeconds=2",
+            "body": [
+                {
+                    "type": "input-text",
+                    "name": "username",
+                    "required": true,
+                    "placeholder": "请输入用户名",
+                    "label": "用户名"
+                },
+                {
+                    "type": "input-password",
+                    "name": "password",
+                    "label": "密码",
+                    "required": true,
+                    "placeholder": "请输入密码"
+                }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "type": "button",
+            "label": "更新弹窗数据",
+            "onEvent": {
+              "click": {
+                "actions": [
+                  {
+                    "actionType": "setValue",
+                    "componentId": "dialog_setvalue2",
+                    "args": {
+                      "value": {
+                        "username": "aisuda"
+                      }
+                    },
+                    "dataMergeMode": "override"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+    }
+}
+```

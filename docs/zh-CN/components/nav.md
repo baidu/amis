@@ -157,9 +157,31 @@ order: 58
             "label": "Nav 7",
             "to": "?to=nav7"
         },
-         {
+        {
             "label": "Nav 8",
             "to": "?to=nav8"
+        },
+        {
+            "label": "Nav 9",
+            "to": "?to=nav9"
+        },
+        {
+            "label": "Nav 10",
+            "to": "?to=nav10"
+        },
+        {
+            "label": "Nav 11",
+            "to": "?to=nav11",
+            "children": [
+                {
+                    "label": "Nav 13",
+                    "to": "?to=nav13"
+                }
+            ]
+        },
+        {
+            "label": "Nav 12",
+            "to": "?to=nav12"
         }
     ]
 }
@@ -212,6 +234,61 @@ order: 58
          {
             "label": "Nav 8 Nav 8 Nav 8 Nav 8 Nav 8",
             "to": "?to=nav8"
+        }
+    ]
+}
+```
+
+### 导航项收纳
+
+垂直（`"stack": true`）模式下，如果子导航项比较多，也可以给导航项设置收纳模式，配置同`overflow`，仅支持一次性展开
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "expandPosition": "after",
+    "style": {
+        "width": 200
+    },
+    "links": [
+        {
+            "label": [
+                {
+                    "type": "tpl",
+                    "tpl": "Nav1"
+                }
+            ],
+            "to": "#/"
+        },
+        {
+            "label": "Nav2",
+            "unfolded": true,
+            "overflow": {
+                "enable": true
+            },
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "to": "#/test2"
+                },
+                {
+                    "label": "Nav 2-2",
+                    "to": "#/test3"
+                },
+                {
+                    "label": "Nav 2-3",
+                    "to": "#/test1"
+                },
+                {
+                    "label": "Nav 2-4",
+                    "to": "#/test4"
+                },
+                {
+                    "label": "Nav 2-5",
+                    "to": "#/test5"
+                }
+            ]
         }
     ]
 }
@@ -271,6 +348,9 @@ order: 58
     "draggable": true,
     "saveOrderApi": "/api/options/nav",
     "source": "/api/options/nav?parentId=${value}",
+    "style": {
+        "width": 160
+    },
     "itemActions": [
         {
             "type": "icon",
@@ -298,13 +378,359 @@ order: 58
 }
 ```
 
+## 悬浮导航
+
+可以通过设置`mode`属性来控制导航模式，不设置默认为内联导航模式
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "mode": "float",
+    "style": {
+        "width": "200px"
+    },
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "/docs/index",
+            "icon": "fa fa-user",
+            "active": true
+        },
+        {
+            "label": "Nav 2",
+            "unfolded": true,
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "to": "/docs/api-2-1-1"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "to": "/docs/api-2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "/docs/renderers"
+        }
+    ]
+}
+```
+
+## 导航缩起
+
+`collapsed`属性控制导航的展开和缩起，缩起状态下，导航内容仅展示图标或第一个文字，悬浮展开全部内容或子导航项
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "collapsed": true,
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "/docs/index",
+            "icon": "fa fa-user"
+        },
+        {
+            "label": "Nav 2",
+            "unfolded": true,
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "to": "/docs/api-2-1-1"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "to": "/docs/api-2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "/docs/renderers"
+        }
+    ]
+}
+```
+
+## 导航分割线
+
+导航项`mode`属性控制导航项的展示模式，支持`divider`（分割线）和`group`（分组）两种模式，不设置默认为普通导航项
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "style": {
+        "width": "160px"
+    },
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "/docs/index",
+            "icon": "fa fa-user"
+        },
+        {
+            mode: 'divider'
+        },
+        {
+            "label": "Nav 2",
+            "unfolded": true,
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "to": "/docs/api-2-1-1"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "to": "/docs/api-2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "/docs/renderers",
+            "disabled": true,
+            "disabledTip": "导航项禁用"
+        }
+    ]
+}
+```
+
+## 导航分组
+
+分组模式（`"mode": "group"`）的导航项展示为分组标题形式
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "/docs/index",
+            "icon": "fa fa-user"
+        },
+        {
+            "label": "Nav 2",
+            "unfolded": true,
+            "mode": "group",
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "to": "/docs/api-2-1-1"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "to": "/docs/api-2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "/docs/renderers",
+            "mode": "group",
+            "children": [
+                {
+                    "label": "Nav 3-1",
+                    "to": "/docs/api-2-1"
+                }
+            ]
+        }
+    ]
+}
+```
+
+## 默认展开层级
+
+当前导航最大层级为 4，可通过`defaultOpenLevel`来控制默认 2 层级全部展开
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "defaultOpenLevel": "2",
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "/docs/index",
+            "icon": "fa fa-user"
+        },
+        {
+            "label": "Nav 2",
+            "unfolded": true,
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "to": "/docs/api-2-1-1",
+                            "children": [
+                                {
+                                    "label": "Nav 2-1-1-1",
+                                    "to": "/docs/api-2-1-1-1"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "to": "/docs/api-2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "/docs/renderers",
+            "children": [
+                {
+                    "label": "Nav 3-1",
+                    "to": "/docs/api-2-1"
+                }
+            ]
+        }
+    ]
+}
+```
+
+## 自定义展开按钮
+
+可以设置`expandIcon`为 icon 的名称字符串
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "expandIcon": "close",
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "/docs/index",
+            "icon": "fa fa-user"
+        },
+        {
+            "label": "Nav 2",
+            "unfolded": true,
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "to": "/docs/api-2-1-1"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "to": "/docs/api-2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "/docs/renderers",
+            "children": [
+                {
+                    "label": "Nav 3-1",
+                    "to": "/docs/api-2-1"
+                }
+            ]
+        }
+    ]
+}
+```
+
+也可以将`expandIcon`设置为`SchemaObject`
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "expandIcon": {
+        "type": "icon",
+        "icon": "far fa-address-book"
+    },
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "/docs/index",
+            "icon": "fa fa-user"
+        },
+        {
+            "label": "Nav 2",
+            "unfolded": true,
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "to": "/docs/api-2-1-1"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "to": "/docs/api-2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "/docs/renderers",
+            "children": [
+                {
+                    "label": "Nav 3-1",
+                    "to": "/docs/api-2-1"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名                            | 类型                                      | 默认值             | 说明                                                                                     |
 | --------------------------------- | ----------------------------------------- | ------------------ | ---------------------------------------------------------------------------------------- |
 | type                              | `string`                                  | `"nav"`            | 指定为 Nav 渲染器                                                                        |
+| mode                              | `string`                                  | `"inline"`         | 导航模式，悬浮或者内联，默认内联模式                                                     |
+| collapsed                         | `boolean`                                 |                    | 控制导航是否缩起                                                                         |
+| indentSize                        | `number`                                  | `16`               | 层级缩进值，仅内联模式下生效                                                             |
+| level                             | `number`                                  |                    | 控制导航最大展示层级数                                                                   |
+| defaultOpenLevel                  | `number`                                  |                    | 控制导航最大默认展开层级                                                                 |
 | className                         | `string`                                  |                    | 外层 Dom 的类名                                                                          |
+| popupClassName                    | `string`                                  |                    | 当为悬浮模式时，可自定义悬浮层样式                                                       |
+| expandIcon                        | `string \| SchemaObject`                  |                    | 自定义展开按钮                                                                           |
+| expandPosition                    | `string`                                  |                    | 展开按钮位置，`"before"`或者`"after"`，不设置默认在前面                                  |
 | stacked                           | `boolean`                                 | `true`             | 设置成 false 可以以 tabs 的形式展示                                                      |
+| accordion                         | `boolean`                                 |                    | 是否开启手风琴模式                                                                       |
 | source                            | `string` 或 [API](../../docs/types/api)   |                    | 可以通过变量或 API 接口动态创建导航                                                      |
 | deferApi                          | [API](../../docs/types/api)               |                    | 用来延时加载选项详情的接口，可以不配置，不配置公用 source 接口。                         |
 | itemActions                       | [SchemaNode](../../docs/types/schemanode) |                    | 更多操作相关配置                                                                         |
@@ -323,6 +749,11 @@ order: 58
 | links[x].activeOn                 | [表达式](../../docs/concepts/expression)  |                    | 是否高亮的条件，留空将自动分析链接地址                                                   |
 | links[x].defer                    | `boolean`                                 |                    | 标记是否为懒加载项                                                                       |
 | links[x].deferApi                 | [API](../../docs/types/api)               |                    | 可以不配置，如果配置优先级更高                                                           |
+| links[x].disabled                 | `boolean`                                 |                    | 是否禁用                                                                                 |
+| links[x].disabledTip              | `string`                                  |                    | 禁用提示信息                                                                             |
+| links[x].className                | `string`                                  |                    | 菜单项自定义样式                                                                         |
+| links[x].mode                     | `string`                                  |                    | 菜菜单项模式，分组模式：`"group"`、分割线：`"divider"`                                   |
+| links[x].overflow                 | `NavOverflow`                             |                    | 导航项响应式收纳配置                                                                     |
 | overflow                          | `NavOverflow`                             |                    | 响应式收纳配置                                                                           |
 | overflow.enable                   | `boolean`                                 | `false`            | 是否开启响应式收纳                                                                       |
 | overflow.overflowLabel            | `string \| SchemaObject`                  |                    | 菜单触发按钮的文字                                                                       |
@@ -332,4 +763,348 @@ order: 58
 | overflow.style                    | `React.CSSProperties`                     |                    | 自定义样式                                                                               |
 | overflow.overflowClassName        | `string`                                  | `""`               | 菜单按钮 CSS 类名                                                                        |
 | overflow.overflowPopoverClassName | `string`                                  | `""`               | Popover 浮层 CSS 类名                                                                    |
-| overflow.overflowListClassName    | `string`                                  | `""`               | 菜单外层 CSS 类名                                                                        |
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称  | 事件参数                                                        | 说明                     |
+| --------- | --------------------------------------------------------------- | ------------------------ |
+| loaded    | `items: item[]` 数据源<br/>`item?: object` 懒加载时所点击导航项 | 异步加载数据源完成时触发 |
+| collapsed | `collapsed: boolean` 缩起展开状态                               | 导航缩起展开时触发       |
+| toggled   | `item: object` 导航项数据<br/>`open: boolean` 展开状态          | 点击导航展开按钮时触发   |
+| change    | `value: item[]` 选中导航项数据                                  | 导航项选中有变化时触发   |
+| click     | `item: object` 点击导航项数据                                   | 手动点击导航项时触发     |
+
+### loaded
+
+数据源加载完成，可以尝试将`source`配置为 api 地址或者开启懒加载。
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "nav",
+        "stacked": true,
+        "source": "/api/options/nav?parentId=${value}",
+        "onEvent": {
+            "loaded": {
+                "actions": [
+                    {
+                        "actionType": "toast",
+                        "args": {
+                        "msg": "已加载${event.data.items.length}条记录"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
+```
+
+### collapsed
+
+导航缩起，可以尝试修改导航的`collapsed`属性。
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "collapsed": true,
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "/docs/index",
+            "icon": "fa fa-user"
+        },
+        {
+            "label": "Nav 2",
+            "unfolded": true,
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "to": "/docs/api-2-1-1"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "to": "/docs/api-2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "/docs/renderers"
+        }
+    ],
+    "onEvent": {
+        "collapsed": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                    "msg": "${event.data.collapsed ? '导航缩起' : '导航展开'}"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+### toggled
+
+导航项收起展开，可以尝试点击导航项展开按钮。
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "/docs/index",
+            "icon": "fa fa-user"
+        },
+        {
+            "label": "Nav 2",
+            "unfolded": true,
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "to": "/docs/api-2-1-1"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "to": "/docs/api-2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "/docs/renderers"
+        }
+    ],
+    "onEvent": {
+        "toggled": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                    "msg": "${event.data.item.label}${event.data.open ? '展开' : '收起'}"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+### change
+
+导航项选中，可以尝试手动修改任意导航项的`active`属性。
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "/docs/index",
+            "icon": "fa fa-user"
+        },
+        {
+            "label": "Nav 2",
+            "unfolded": true,
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "to": "/docs/api-2-1-1"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "to": "/docs/api-2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "/docs/renderers"
+        }
+    ],
+    "onEvent": {
+        "change": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                    "msg": "${event.data.value.length}项选中"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+### click
+
+导航项点击，可以尝试手动点击任意导航项。
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "links": [
+        {
+            "label": "Nav 1",
+            "icon": "fa fa-user"
+        },
+        {
+            "label": "Nav 2",
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3"
+        }
+    ],
+    "onEvent": {
+        "click": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                    "msg": "${event.data.item.label}被点击了，但不一定选中"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称    | 动作配置                         | 说明                                                                                    |
+| ----------- | -------------------------------- | --------------------------------------------------------------------------------------- |
+| updateItems | `value: string`或`value: item[]` | 更新导航数据源为指定导航项的子导航数据                                                  |
+| reset       |                                  | 重置导航数据源，和 updateItems 搭配使用，没有经过 updateItems 操作的，执行 reset 无效果 |
+
+### updateItems / reset
+
+```schema: scope="body"
+{
+    "type": "page",
+    "data": {
+        "items": [
+            {
+                "label": "Nav 1",
+                "to": "/docs/index",
+                "icon": "fa fa-user"
+            },
+            {
+                "label": "Nav 2",
+                "unfolded": true,
+                "active": true,
+                "children": [
+                    {
+                        "label": "Nav 2-1",
+                        "children": [
+                            {
+                                "label": "Nav 2-1-1",
+                                "to": "/docs/api-2-1-1"
+                            }
+                        ]
+                    },
+                    {
+                        "label": "Nav 2-2",
+                        "to": "/docs/api-2-2"
+                    }
+                ]
+            },
+            {
+                "label": "Nav 3",
+                "to": "/docs/renderers"
+            }
+        ]
+    },
+    "body": {
+        "type": "container",
+        "body": [
+            {
+                "type": "action",
+                "label": "设置数据源",
+                "onEvent": {
+                    "click": {
+                        "actions": [
+                            {
+                                "actionType": "updateItems",
+                                "args": {
+                                    "value": "Nav 2"
+                                },
+                                "componentId": "asideNav"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "action",
+                "label": "重置数据源",
+                "className": "mx-1",
+                "onEvent": {
+                    "click": {
+                        "actions": [
+                            {
+                                "actionType": "reset",
+                                "componentId": "asideNav"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "container",
+                "body": [
+                    {
+                        "type": "nav",
+                        "stacked": true,
+                        "source": "${items}",
+                        "id": "asideNav"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```

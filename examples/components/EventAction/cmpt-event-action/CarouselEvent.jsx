@@ -74,8 +74,7 @@ export default {
         },
         {
           thumbMode: 'contain',
-          image:
-            'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'
+          image: 'https://suda.cdn.bcebos.com/amis/images/alice-macaw.jpg'
         }
       ],
       onEvent: {
@@ -84,7 +83,7 @@ export default {
             {
               actionType: 'toast',
               args: {
-                msg: '滚动至${event.data.activeIndex}'
+                msg: '滚动至${activeIndex}'
               }
             }
           ]

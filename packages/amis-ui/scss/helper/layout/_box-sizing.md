@@ -1,0 +1,35 @@
+---
+title: Box Sizing
+---
+
+Box Sizing 相关样式，主要区别在于设置宽高的时候，是否包含了 padding 和 border 的大小。
+
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+## 用法
+
+比如这个例子：左侧是 box-border 类型，整体高宽 128px。而右侧只是内容区域是 128px + 边框(2 * 4px) + padding （2 * 16px） 一共160px。
+
+```html
+<div class="flex space-x-6">
+  <div class="box-border h-32 w-32 p-4 border-4 border-blue-400 bg-blue-200 rounded-md">
+    <div class="h-full w-full bg-red-400"></div>
+  </div>
+
+  <div class="box-content h-32 w-32 p-4 border-4 border-blue-400 bg-blue-200 rounded-md">
+    <div class="h-full w-full bg-red-400"></div>
+  </div>
+</div>
+```
+
+## 响应式设计
+
+不支持 [「响应式设计前缀」](../../../docs/style/responsive-design.md)，有需求请提 [issue](https://github.com/baidu/amis/issues)。
+
+## 状态前缀
+
+不支持[「状态前缀」](../../../docs/style/state.md)，有需求请提 [issue](https://github.com/baidu/amis/issues)。

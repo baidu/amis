@@ -174,7 +174,7 @@ icon 也可以是 url 地址，比如
 
 ## 操作前确认
 
-可以通过配置`confirmText`，实现在任意操作前，弹出提示框确认是否进行该操作。
+可以通过配置`confirmText`，实现在任意操作前，弹出提示框确认是否进行该操作。同时可以通过配置 `confirmTitle` 来设置弹窗标题
 
 ```schema: scope="body"
 {
@@ -182,6 +182,7 @@ icon 也可以是 url 地址，比如
     "type": "button",
     "actionType": "ajax",
     "confirmText": "确认要发出这个请求？",
+    "confirmTitle": "炸弹",
     "api": "/api/mock2/form/saveForm"
 }
 ```
@@ -354,9 +355,40 @@ Content-Disposition: attachment; filename="download.pdf"
 Access-Control-Expose-Headers:  Content-Disposition
 ```
 
+## 保存到本地
+
+> 1.10.0 及以上版本
+
+和前面的下载接口功能类似，但不需要返回 `Content-Disposition` header，只需要解决跨域问题，主要用于一些简单的场景，比如下载文本
+
+```schema: scope="body"
+{
+    "label": "保存",
+    "type": "action",
+    "actionType": "saveAs",
+    "api": "/api/download"
+}
+```
+
+> 这个功能目前还没用到 env 里的 fetcher 方法，不支持 POST
+
+默认会自动取 url 中的文件名，如果没有的话就需要指定，比如
+
+```schema: scope="body"
+{
+    "label": "保存",
+    "type": "action",
+    "actionType": "saveAs",
+    "fileName": "下载的文件名",
+    "api": "/api/download"
+}
+```
+
 ## 倒计时
 
 主要用于发验证码的场景，通过设置倒计时 `countDown`（单位是秒），让点击按钮后禁用一段时间：
+
+> 如果同时使用多个倒计时组件时, 需要额外配置全局唯一的`name`或`id`属性, 避免多个组件之间的计时器冲突
 
 ```schema: scope="body"
 {
@@ -368,6 +400,7 @@ Access-Control-Expose-Headers:  Content-Disposition
       "required": true,
       "label": "手机号",
       "addOn": {
+        "name": "countdown1",
         "label": "发送验证码",
         "type": "button",
         "countDown": 60,
@@ -392,7 +425,7 @@ Access-Control-Expose-Headers:  Content-Disposition
     "type": "button",
     "level": "info",
     "actionType": "link",
-    "link": "../index"
+    "link": "../docs/index"
 }
 
 ```
@@ -617,7 +650,78 @@ Access-Control-Expose-Headers:  Content-Disposition
 
 ### 表单中表格添加一行
 
-该 actionType 为[FormItem-Table](./form/input-table)专用行为
+该 actionType 为[FormItem-Table](./form/input-table#按钮触发新增行)专用行为
+
+### 校验表单
+
+下面的表单中会优先校验按钮`required`属性包含的表单项，当所有的字段校验完毕后，才会校验表单中固有的项目。需要额外注意的是，当按钮中的 `required` 和对应表单项本身的 `required` 属性冲突时，最终校验方式是`"required": true`。
+
+```schema: scope="body"
+{
+    "type":"button",
+    "label":"打开弹窗表单",
+    "level": "primary",
+    "actionType":"dialog",
+    "dialog":{
+        "type":"dialog",
+        "title":"系统提示",
+        "closeOnEsc": true,
+        "body": [
+            {
+                "type":"form",
+                "title":"表单",
+                "api":"/api/mock2/form/saveForm",
+                "body":[
+                    {
+                        "label":"字段a",
+                        "type":"input-text",
+                        "name":"a",
+                        "required":true
+                    },
+                    {
+                        "name":"b",
+                        "label":"字段b",
+                        "type":"input-text",
+                        "validations": {
+                          "minimum": 1,
+                          "isNumeric": true,
+                          "isInt": true
+                        },
+                        "required": false
+                    },
+                    {
+                        "name":"c",
+                        "label":"字段c",
+                        "type":"input-text"
+                    },
+                    {
+                        "name":"d",
+                        "label":"字段d",
+                        "type":"input-text",
+                        "required":true
+                    }
+                ]
+            }
+        ],
+        "actions":[
+            {
+                "type":"submit",
+                "label":"提交-校验字段b",
+                "actionType":"submit",
+                "required":["b"],
+                "level": "info"
+            },
+            {
+                "type":"submit",
+                "label":"提交-校验字段b, c",
+                "actionType":"submit",
+                "required":["b", "c"],
+                "level": "info"
+            }
+        ]
+    }
+}
+```
 
 ### 重置表单
 
@@ -926,20 +1030,99 @@ action 还可以使用 `body` 来渲染其他组件，让那些不支持行为�
 | activeClassName    | `string`                             | `is-active` | 给按钮高亮添加类名。                                                                                                                                                        |
 | block              | `boolean`                            | -           | 用`display:"block"`来显示按钮。                                                                                                                                             |
 | confirmText        | [模板](../../docs/concepts/template) | -           | 当设置后，操作在开始前会询问用户。可用 `${xxx}` 取值。                                                                                                                      |
+| confirmTitle       | [模板](../../docs/concepts/template) | -           | 确认框标题，前提是 confirmText 有内容，支持模版语法                                                                                                                         |
 | reload             | `string`                             | -           | 指定此次操作完后，需要刷新的目标组件名字（组件的`name`值，自己配置的），多个请用 `,` 号隔开。                                                                               |
 | tooltip            | `string`                             | -           | 鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                                  |
-| disabledTip        | `string`                             | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                          |
+| disabledTip        | `'string' \| 'TooltipObject'`        | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                          |
 | tooltipPlacement   | `string`                             | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                            |
 | close              | `boolean` or `string`                | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。当值为字符串，并且是祖先层弹框的名字的时候，会把祖先弹框关闭掉。 |
 | required           | `Array<string>`                      | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                                |
 
+### TooltipObject
+
+`TooltipObject` 为 [tooltip-wrapper](./tooltip) 属性配置，但是不需要配置如下属性 `type`、`body`、`wrapperComponent`、`className`、`inline`。
+
 ## 事件表
 
-| 事件名称   | 事件参数 | 说明     |
-| ---------- | -------- | -------- |
-| click      | -        | 点击     |
-| mouseenter | -        | 鼠标移入 |
-| mouseleave | -        | 鼠标移出 |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称   | 事件参数 | 说明           |
+| ---------- | -------- | -------------- |
+| click      | -        | 点击时触发     |
+| mouseenter | -        | 鼠标移入时触发 |
+| mouseleave | -        | 鼠标移出时触发 |
+
+### click
+
+鼠标点击。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+  "type": "button",
+  "label": "Button",
+  "onEvent": {
+    "click": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.context.nativeEvent.type}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### mouseenter
+
+鼠标移入。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+  "type": "button",
+  "label": "Button",
+  "onEvent": {
+    "mouseenter": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.context.nativeEvent.type}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### mouseleave
+
+鼠标移出。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+  "type": "button",
+  "label": "Button",
+  "onEvent": {
+    "mouseleave": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.context.nativeEvent.type}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
 
 ## 动作表
 

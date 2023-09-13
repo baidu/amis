@@ -1,0 +1,31 @@
+.ae-Editor-selectionCursor {
+  position: absolute;
+  background: rgba(#23b7e5, 0.2);
+  border: 1px solid rgba(#23b7e5, 1);
+  z-index: 999999;
+}
+
+.ae-Editor-list {
+  .ae-Editor-listItem, 
+  .ae-Editor-eachItem {
+    position: relative !important;
+  
+    &::after {
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 100%;
+      pointer-events: all;
+      background: rgba(22, 40, 60, 0.2) url(../static/indication.png) repeat;
+      z-index: 100;
+      top: 0;
+      left: 0;
+      cursor: not-allowed;
+    }
+  }
+
+  .ae-Editor-eachItem:first-child::after,
+  .cards-items > div:first-child > div::after {
+    display: none;
+  }
+} 

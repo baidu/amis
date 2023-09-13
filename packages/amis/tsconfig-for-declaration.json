@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "outDir": "output/",
+    "module": "commonjs",
+    "target": "es5",
+    "lib": ["ES6", "DOM", "ES2015", "ES2021"],
+    "sourceMap": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "rootDir": "./src",
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceRoot": "src",
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "acceptance-tests", "webpack", "jest"],
+  "types": ["node", "typePatches"]
+}

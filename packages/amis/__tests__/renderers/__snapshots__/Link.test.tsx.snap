@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:link 1`] = `
+<div>
+  <a
+    class="cxd-Link show"
+    href="https://www.baidu.com"
+    target="_blank"
+  >
+    https://www.baidu.com
+  </a>
+</div>
+`;
+
+exports[`Renderer:link with disabled 1`] = `
+<div>
+  <a
+    class="cxd-Link is-disabled"
+    href="https://www.baidu.com"
+    target="_blank"
+  >
+    <span
+      class="cxd-TplField"
+    >
+      <span>
+        百度一下
+      </span>
+    </span>
+  </a>
+</div>
+`;
+
+exports[`Renderer:link with href & blank & htmlTarget 1`] = `
+<div>
+  <a
+    class="cxd-Link"
+    href="https://www.baidu.com"
+    target="_self"
+  >
+    <span
+      class="cxd-TplField"
+    >
+      <span>
+        百度一下
+      </span>
+    </span>
+  </a>
+</div>
+`;
+
+exports[`Renderer:link with title & icon & rightIcon 1`] = `
+<div>
+  <a
+    class="cxd-Link"
+    href="https://www.baidu.com"
+    target="_blank"
+    title="linkTitleForTest"
+  >
+    <i
+      class="fa fa-search cxd-Link-icon fa fa-search"
+    />
+    <span
+      class="cxd-TplField"
+    >
+      <span>
+        百度一下
+      </span>
+    </span>
+    <i
+      class="fa fa-cloud cxd-Link-icon fa fa-cloud"
+    />
+  </a>
+</div>
+`;

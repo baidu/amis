@@ -2,7 +2,7 @@ name: PR test
 
 on:
   pull_request:
-    branches: [master]
+    branches: ['**']
 
 jobs:
   build:
@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -22,8 +22,29 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: test
+      - name: npm install
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192'
         run: |
           npm i --legacy-peer-deps
+          cd packages/office-viewer
+          npm i --legacy-peer-deps
+          cd ../../
+          npm run build --workspace amis-formula
+          npm run build --workspace amis-core
+          npm run build --workspace amis-ui
+          npm run build --workspace amis
+          npm run build --workspace amis-editor-core
+          npm run build --workspace amis-editor
+      - name: typescript check
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192'
+        run: |
+          npm run typecheck
+      - name: test
+        run: |
+          npm test --workspaces
+          cd packages/office-viewer
           npm test
+          cd ../../
           sh deploy-gh-pages.sh

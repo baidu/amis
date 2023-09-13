@@ -2,6 +2,7 @@
  * @file 用于模拟 cfc 接口
  */
 
+// @ts-ignore
 const cfcHandler = require('./cfc/index').handler;
 
 module.exports = function (req, res) {

@@ -1,0 +1,27 @@
+// Ang 主题
+@import '../properties';
+@import '../components';
+@import './ang-variables';
+@import './common';
+
+:root {
+  --Layout-header-boxShadow: 0 0.125rem 0.125rem rgba(0, 0, 0, 0.05),
+    0 1px 0 rgba(0, 0, 0, 0.05);
+  --Layout-aside-bg: var(--colors-brand-1);
+  --Layout-brand-bg: var(--colors-brand-1);
+  --Layout-asideLink-color: #b4b6bd;
+  --Layout-asideLink-onHover-color: #fff;
+  --Layout-asideLink-onHover-iconColor: #fff;
+  --Layout-asideLink-onActive-color: #fff;
+  --Layout-aside-color: #a6a8b1;
+  --Layout-aside-onAcitve-bg: #2e3344;
+  --Layout-aside-onHover-bg: #32374a;
+  --Layout-aside-subList-bg: #242734;
+  --light: #edf1f2;
+  --button-default-default-bg-color: #fff;
+  --button-default-hover-bg-color: #fff;
+  --button-default-active-bg-color: #fff;
+  --Page-main-bg: var(--light);
+  --Panel--default-bg: #f6f8f8;
+  --Table-onHover-bg: #f3f6f6;
+}

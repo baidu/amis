@@ -1,0 +1,156 @@
+.#{$ns}Crud {
+  position: relative;
+
+  &.is-loading > &-body {
+    // 弹框中，blur 效果变成白班，先去掉。
+    // -webkit-filter: blur(5px);
+    // filter: blur(5px);
+  }
+
+  &-selection {
+    margin-bottom: var(--gap-base);
+
+    &-overflow {
+      &-wrapper {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: calc(
+          (var(--Picker-tag-height) + var(--Picker-tag-marginBottom) * 4) * 3
+        );
+        max-height: calc(
+          (var(--Picker-tag-height) + var(--Picker-tag-marginBottom)) * 5
+        );
+
+        @include tag-item(Crud);
+      }
+    }
+  }
+
+  &-selectionLabel {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: var(--gap-xs);
+  }
+
+  /* tag 样式 */
+  @include tag-item(Crud);
+
+  &-selectionClear {
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    margin-left: var(--gap-xs);
+    margin-top: var(--gap-xs);
+    vertical-align: middle;
+  }
+
+  &-toolbar-item {
+    margin-top: var(--Crud-toolbar-gap);
+    line-height: var(--Crud-toolbar-lineHeight);
+    height: var(--Crud-toolbar-height);
+    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
+
+    &.is-mobile {
+      margin-top: 0;
+    }
+
+    &--left:not(:first-child) {
+      margin-left: var(--Crud-toolbar-gap);
+    }
+
+    &--right:not(:last-child) {
+      margin-left: var(--Crud-toolbar-gap);
+    }
+
+    &--left {
+      float: left;
+    }
+
+    &--right {
+      float: right;
+    }
+  }
+
+  &-actions {
+    > * + .#{$ns}Button,
+    > * + .#{$ns}ButtonGroup,
+    > * + .#{$ns}ButtonToolbar {
+      margin-left: var(--Crud-toolbar-gap);
+    }
+  }
+
+  &-statistics {
+    line-height: var(--Crud-toolbar-height);
+    vertical-align: middle;
+  }
+
+  &-pageSwitch {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+
+    .#{$ns}Select {
+      margin-left: var(--Crud-toolbar-gap);
+    }
+  }
+
+  &-pager {
+    align-self: flex-start;
+  }
+
+  &-filter {
+    margin-bottom: var(--gap-base);
+  }
+
+  &.is-mobile {
+    .#{$ns}Crud-toolbar {
+      flex: 1;
+    }
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .#{$ns}Crud {
+    &-toolbar {
+      margin-top: calc(var(--Crud-toolbar-gap) * -1);
+      flex-basis: 0;
+      flex-grow: 1;
+      @include clearfix();
+    }
+
+    &-toolbar-item {
+      line-height: var(--Crud-toolbar-lineHeight);
+      height: var(--Crud-toolbar-height);
+      vertical-align: middle;
+
+      &--left:not(:first-child) {
+        margin-left: var(--Crud-toolbar-gap);
+      }
+
+      &--right:not(:last-child) {
+        margin-left: var(--Crud-toolbar-gap);
+      }
+
+      &--left {
+        float: left;
+      }
+
+      &--right {
+        float: right;
+      }
+    }
+
+    &-actions {
+      > * + .#{$ns}Button,
+      > * + .#{$ns}Button--disabled-wrap {
+        margin-left: var(--Crud-toolbar-gap);
+      }
+    }
+  }
+}

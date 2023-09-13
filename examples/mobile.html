@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <title>MobileView</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link type="image/x-icon" rel="shortcut icon" href="./static/favicon.png" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1"
@@ -16,26 +15,26 @@
       href="@fortawesome/fontawesome-free/css/v4-shims.css"
     />
     <!--DEPENDENCIES_INJECT_PLACEHOLDER-->
-    <link rel="stylesheet" title="ang" href="../scss/themes/ang.scss" />
+    <link rel="stylesheet" title="ang" href="amis/lib/themes/ang.css" />
     <link
       rel="stylesheet"
       title="cxd"
       disabled
-      href="../scss/themes/cxd.scss"
+      href="amis/lib/themes/cxd.css"
     />
     <link
       rel="stylesheet"
       title="dark"
       disabled
-      href="../scss/themes/dark.scss"
+      href="amis/lib/themes/dark.css"
     />
     <link
       rel="stylesheet"
       title="antd"
       disabled
-      href="../scss/themes/antd.scss"
+      href="amis/lib/themes/antd.css"
     />
-    <link rel="stylesheet" href="../scss/helper.scss" />
+    <link rel="stylesheet" href="amis/lib/helper.css" />
     <style>
       .app-wrapper {
         position: relative;
@@ -75,7 +74,13 @@
       if (theme == 'default') {
         theme = 'cxd';
       }
-      document.querySelector(`link[title=${theme}]`).disabled = false;
+
+      const linkDom = document.querySelector(`link[title=${theme}]`);
+
+      if (linkDom) {
+        linkDom.disabled = false;
+      }
+
       if (theme === 'dark') {
         document.querySelector('body').classList.add('dark');
       }

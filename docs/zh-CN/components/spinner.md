@@ -180,19 +180,65 @@ order: 64
 }
 ```
 
+## Spinner 在组件树中的默认表现
+
+当在一棵树中，父组件和子组件同时在 `loading` 状态时，只有父组件的 `loading` 会生效；父组件的 `loading` 结束后才会根据子组件中的`loading`状态，来决定子组件中的`Spinner`是否需要进入`loading`。
+
+```schema
+{
+type: 'service',
+api: '/api/mock2/sample?orderBy=id&orderDir=desc&perPage=10&waitSeconds=5',
+body: {
+ type: 'page',
+ initApi:
+   '/api/mock2/sample?orderBy=id&orderDir=desc&perPage=10&waitSeconds=10',
+ }
+}
+```
+
+在这个例子中，`service` 会先进入 `loading` ，5 秒后 `page` 组件开始 `loading`
+
+## 动态控制组件渲染
+
+使用 `showOn` 表达式控制 `spinner` 是否渲染。
+
+```schema
+{
+  type: 'page',
+  body: {
+    type: 'form',
+    body: [
+      {
+        type: 'switch',
+        name: 'show',
+        label: 'show',
+        value: true
+      },
+      {
+        type: 'spinner',
+        overlay: false,
+        showOn: 'this.show'
+      }
+    ]
+  }
+}
+```
+
 ## 属性表
 
-| 属性名               | 类型                                      | 默认值    | 说明                                                                                                 |
-| -------------------- | ----------------------------------------- | --------- | ---------------------------------------------------------------------------------------------------- |
-| type                 | `string`                                  | `spinner` | 指定为 Spinner 渲染器                                                                                |
-| show                 | `boolean`                                 | `true`    | 是否显示 spinner 组件                                                                                |
-| className            | `string`                                  |           | spinner 图标父级标签的自定义 class                                                                   |
-| spinnerClassName     | `string`                                  |           | 组件中 icon 所在标签的自定义 class                                                                   |
-| spinnerWrapClassName | `string`                                  |           | 作为容器使用时组件最外层标签的自定义 class                                                           |
-| size                 | `string`                                  |           | 组件大小 `sm` `lg`                                                                                   |
-| icon                 | `string`                                  |           | 组件图标，可以是`amis`内置图标，也可以是字体图标或者网络图片链接，作为 ui 库使用时也可以是自定义组件 |
-| tip                  | `string`                                  |           | 配置组件文案，例如`加载中...`                                                                        |
-| tipPlacement         | `top`, `right`, `bottom`, `left`          | `bottom`  | 配置组件 `tip` 相对于 `icon` 的位置                                                                  |
-| delay                | `number`                                  | `0`       | 配置组件显示延迟的时间（毫秒）                                                                       |
-| overlay              | `boolean`                                 | `true`    | 配置组件显示 spinner 时是否显示遮罩层                                                                |
-| body                 | [SchemaNode](../../docs/types/schemanode) |           | 作为容器使用时，被包裹的内容                                                                         |
+| 属性名               | 类型                                        | 默认值    | 说明                                                                                                                                                                                     |
+| -------------------- | ------------------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type                 | `string`                                    | `spinner` | 指定为 Spinner 渲染器                                                                                                                                                                    |
+| show                 | `boolean`                                   | `true`    | 是否显示 spinner 组件                                                                                                                                                                    |
+| showOn               | [表达式](../../../docs/concepts/expression) | `true`    | 是否显示 spinner 组件的条件                                                                                                                                                              |
+| className            | `string`                                    |           | spinner 图标父级标签的自定义 class                                                                                                                                                       |
+| spinnerClassName     | `string`                                    |           | 组件中 icon 所在标签的自定义 class                                                                                                                                                       |
+| spinnerWrapClassName | `string`                                    |           | 作为容器使用时组件最外层标签的自定义 class                                                                                                                                               |
+| size                 | `string`                                    |           | 组件大小 `sm` `lg`                                                                                                                                                                       |
+| icon                 | `string`                                    |           | 组件图标，可以是`amis`内置图标，也可以是字体图标或者网络图片链接，作为 ui 库使用时也可以是自定义组件                                                                                     |
+| tip                  | `string`                                    |           | 配置组件文案，例如`加载中...`                                                                                                                                                            |
+| tipPlacement         | `top`, `right`, `bottom`, `left`            | `bottom`  | 配置组件 `tip` 相对于 `icon` 的位置                                                                                                                                                      |
+| delay                | `number`                                    | `0`       | 配置组件显示延迟的时间（毫秒）                                                                                                                                                           |
+| overlay              | `boolean`                                   | `true`    | 配置组件显示 spinner 时是否显示遮罩层                                                                                                                                                    |
+| body                 | [SchemaNode](../../docs/types/schemanode)   |           | 作为容器使用时，被包裹的内容                                                                                                                                                             |
+| loadingConfig        | `{root?: string}`                           |           | 为 `Spinner` 指定挂载的容器, `root` 是一个 selector，在拥有`Spinner`的组件上都可以通过传递`loadingConfig`改变 Spinner 的挂载位置，开启后，会强制开启属性`overlay=true`，并且`icon`会失效 |

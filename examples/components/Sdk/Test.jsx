@@ -1,6 +1,6 @@
 import React from 'react';
-import TitleBar from '../../../src/components/TitleBar';
-import {render} from '../../../src/index';
+import {TitleBar} from 'amis';
+import {render} from 'amis';
 
 export default class SdkTest extends React.Component {
   state = {

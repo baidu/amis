@@ -1,0 +1,256 @@
+.#{$ns}Panel {
+  margin: var(--Panel-marginTop) var(--Panel-marginRight)
+    var(--Panel-marginBottom) var(--Panel-marginLeft);
+  background: var(--Panel-bg);
+  border-color: var(--Panel-top-border-color) var(--Panel-right-border-color)
+    var(--Panel-bottom-border-color) var(--Panel-left-border-color);
+  border-style: var(--Panel-top-border-style) var(--Panel-right-border-style)
+    var(--Panel-bottom-border-style) var(--Panel-left-border-style);
+  border-width: var(--Panel-borderWidth);
+  border-radius: var(--Panel-borderRadius);
+  -webkit-box-shadow: var(--Panel-boxShadow);
+  box-shadow: var(--Panel-boxShadow);
+
+  &-fixedBottom {
+    position: absolute;
+    background: var(--white);
+    z-index: -1;
+    opacity: 0;
+    bottom: 999999px;
+    box-shadow: var(--Panel-fixedBottom-boxShadow);
+    border-top: var(--Panel-fixedBottom-borderTop);
+
+    &.in {
+      position: fixed;
+      bottom: 0;
+      z-index: $zindex-affix;
+      opacity: 1;
+    }
+  }
+
+  /* 主题 */
+  &--default {
+    border-color: var(--Panel-top-border-color) var(--Panel-right-border-color)
+      var(--Panel-bottom-border-color) var(--Panel-left-border-color);
+
+    > .#{$ns}Panel-heading {
+      background: var(--Panel-heading-bg);
+      color: var(--Panel-heading-color);
+
+      .badge {
+        color: var(--Panel--default-badgeColor);
+        background: var(--Panel--default-badgeBg);
+      }
+    }
+
+    > .#{$ns}Panel-heading {
+      border-color: var(--Panel-heading-top-border-color)
+        var(--Panel-heading-right-border-color)
+        var(--Panel-heading-bottom-border-color)
+        var(--Panel-heading-left-border-color);
+    }
+  }
+
+  &--primary {
+    border-color: var(--primary);
+
+    > .#{$ns}Panel-heading {
+      background: var(--primary);
+      color: var(--white);
+
+      .badge {
+        color: var(--primary);
+        background: var(--white);
+      }
+    }
+
+    > .#{$ns}Panel-heading,
+    > .#{$ns}Panel-footer {
+      border-color: var(--primary);
+    }
+  }
+
+  &--success {
+    border-color: var(--success);
+
+    > .#{$ns}Panel-heading {
+      background: var(--success);
+      color: var(--white);
+
+      .badge {
+        color: var(--success);
+        background: var(--white);
+      }
+    }
+
+    > .#{$ns}Panel-heading,
+    > .#{$ns}Panel-footer {
+      border-color: var(--success);
+    }
+  }
+
+  &--info {
+    border-color: var(--info);
+
+    > .#{$ns}Panel-heading {
+      background: var(--info);
+      color: var(--white);
+
+      .badge {
+        color: var(--info);
+        background: var(--white);
+      }
+    }
+
+    > .#{$ns}Panel-heading,
+    > .#{$ns}Panel-footer {
+      border-color: var(--info);
+    }
+  }
+
+  &--warning {
+    border-color: var(--warning);
+
+    > .#{$ns}Panel-heading {
+      background: var(--warning);
+      color: var(--white);
+
+      .badge {
+        color: var(--warning);
+        background: var(--white);
+      }
+    }
+
+    > .#{$ns}Panel-heading,
+    > .#{$ns}Panel-footer {
+      border-color: var(--warning);
+    }
+  }
+
+  &--danger {
+    border-color: var(--danger);
+
+    > .#{$ns}Panel-heading {
+      background: var(--danger);
+      color: var(--white);
+
+      .badge {
+        color: var(--danger);
+        background: var(--white);
+      }
+    }
+
+    > .#{$ns}Panel-heading,
+    > .#{$ns}Panel-footer {
+      border-color: var(--danger);
+    }
+  }
+
+  /* 子组件 */
+  &-heading {
+    padding: var(--Panel-headingPadding);
+    border-color: var(--Panel-heading-top-border-color)
+      var(--Panel-heading-right-border-color)
+      var(--Panel-heading-bottom-border-color)
+      var(--Panel-heading-left-border-color);
+    border-style: var(--Panel-heading-top-border-style)
+      var(--Panel-heading-right-border-style)
+      var(--Panel-heading-bottom-border-style)
+      var(--Panel-heading-left-border-style);
+    border-width: var(--Panel-heading-top-border-width)
+      var(--Panel-heading-right-border-width)
+      var(--Panel-heading-bottom-border-width)
+      var(--Panel-heading-left-border-width);
+    border-radius: var(--Panel-headingBorderRadius);
+  }
+
+  &-title {
+    margin: 0;
+    font-size: var(--Panel-heading-fontSize);
+    color: var(--Panel-heading-color);
+    font-weight: var(--Panel-heading-fontWeight);
+    line-height: var(--Panel-heading-lineHeight);
+  }
+
+  &-body {
+    padding: var(--Panel-bodyPadding);
+  }
+
+  &-footer {
+    border-color: var(--Panel-footerBorderColor);
+    border-radius: var(--Panel-footerBorderRadius);
+    background: var(--Panel-footerBg);
+    padding: var(--Panel-footerPadding);
+    border-style: var(--Panel-footer-top-border-style)
+      var(--Panel-footer-right-border-style)
+      var(--Panel-footer-bottom-border-style)
+      var(--Panel-footer-left-border-style);
+    border-width: var(--Panel-footer-top-border-width)
+      var(--Panel-footer-right-border-width)
+      var(--Panel-footer-bottom-border-width)
+      var(--Panel-footer-left-border-width);
+    clear: both;
+
+    .#{$ns}Button + .#{$ns}Button {
+      margin-left: var(--Panel-footerButtonMarginLeft);
+    }
+  }
+
+  &-btnToolbar {
+    @include clearfix();
+    text-align: var(--Panel-btnToolbarTextAlign);
+
+    .#{$ns}Button {
+      margin-left: var(--Panel-footerButtonMarginLeft);
+    }
+
+    &:empty {
+      display: none;
+    }
+  }
+}
+
+/* 移动端样式调整 */
+@include media-breakpoint-down(sm) {
+  .#{$ns}Panel--form {
+    border: none;
+    box-shadow: none;
+
+    margin: 0 calc(var(--Panel-body-paddingTop) * -1)
+      calc(var(--Panel-marginBottom) / 2);
+
+    .#{$ns}Panel-body {
+      // padding: 0 var(--gap-md) var(--gap-md);
+    }
+
+    > .#{$ns}Panel-heading {
+      background: none;
+      border: none;
+      border-radius: 0;
+
+      .#{$ns}Panel-title {
+        padding-left: var(--Panel-body-paddingLeft);
+        border-left: px2rem(3px) solid var(--primary);
+        font-size: var(--fontSizeLg);
+      }
+    }
+
+    .#{$ns}Panel-footerWrap {
+      padding-bottom: var(--Panel-body-paddingBottom);
+    }
+
+    .#{$ns}Panel-footer {
+      border-top: none;
+      display: flex;
+      padding: 0 var(--Panel-body-paddingLeft);
+
+      > .#{$ns}Button {
+        flex: 1;
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}

@@ -117,8 +117,7 @@ export default {
           imageCaption: 'jfe fjkda fejfkda fejk fdajf dajfe jfkda',
           popOver: {
             title: '查看大图',
-            body:
-              '<div class="w-xxl"><img class="w-full" src="${image}"/></div>'
+            body: '<div class="w-xxl"><img class="w-full" src="${image}"/></div>'
           }
         },
 
@@ -135,6 +134,7 @@ export default {
           title: '233',
           imageCaption: 'jfe fjkda fejfkda fejk fdajf dajfe jfkda',
           enlargeAble: true,
+          showToolbar: true,
           originalSrc: '${image}'
         },
 
@@ -145,6 +145,7 @@ export default {
           thumbMode: 'cover',
           thumbRatio: '4:3',
           enlargeAble: true,
+          showToolbar: true,
           originalSrc: '${src}' // 注意这个取变量是想对数组成员取的。
         },
 

@@ -1,0 +1,358 @@
+.#{$ns}ImageControl {
+  position: relative;
+
+  &-dropzone {
+    outline: none;
+  }
+
+  .ImageControl-addBtn-icon {
+    z-index: 1;
+    content: var(--inputImage-base-default-icon);
+  }
+
+  &-addBtn {
+    position: relative;
+    margin: 0;
+    width: px2rem(120px);
+    height: px2rem(120px);
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--inputImage-base-default-top-left-border-radius)
+      var(--inputImage-base-default-top-right-border-radius)
+      var(--inputImage-base-default-bottom-right-border-radius)
+      var(--inputImage-base-default-bottom-left-border-radius);
+    cursor: pointer;
+    margin-right: var(--gap-base);
+
+    &-bg {
+      position: absolute;
+      z-index: 0;
+      overflow: hidden;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+
+      .#{$ns}Image {
+        border: 0;
+      }
+    }
+
+    @include button-variant(
+      var(--ImageControl-addBtn-bg),
+      var(--ImageControl-addBtn-color),
+      var(--inputImage-base-default-top-border-color),
+      var(--inputImage-base-default-right-border-color),
+      var(--inputImage-base-default-bottom-border-color),
+      var(--inputImage-base-default-left-border-color),
+      var(--inputImage-base-default-top-border-width),
+      var(--inputImage-base-default-right-border-width),
+      var(--inputImage-base-default-bottom-border-width),
+      var(--inputImage-base-default-left-border-width),
+      var(--inputImage-base-default-top-border-style),
+      var(--inputImage-base-default-right-border-style),
+      var(--inputImage-base-default-bottom-border-style),
+      var(--inputImage-base-default-left-border-style),
+      var(--shadows-shadow-none),
+      var(--ImageControl-addBtn-onHover-bg),
+      var(--ImageControl-addBtn-onHover-color),
+      var(--inputImage-base-hover-top-border-color),
+      var(--inputImage-base-hover-right-border-color),
+      var(--inputImage-base-hover-bottom-border-color),
+      var(--inputImage-base-hover-left-border-color),
+      var(--inputImage-base-hover-top-border-width),
+      var(--inputImage-base-hover-right-border-width),
+      var(--inputImage-base-hover-bottom-border-width),
+      var(--inputImage-base-hover-left-border-width),
+      var(--inputImage-base-hover-top-border-style),
+      var(--inputImage-base-hover-right-border-style),
+      var(--inputImage-base-hover-bottom-border-style),
+      var(--inputImage-base-hover-left-border-style),
+      var(--shadows-shadow-none),
+      var(--ImageControl-addBtn-onActive-bg),
+      var(--ImageControl-addBtn-onActive-color),
+      var(--inputImage-base-active-top-border-color),
+      var(--inputImage-base-active-right-border-color),
+      var(--inputImage-base-active-bottom-border-color),
+      var(--inputImage-base-active-left-border-color),
+      var(--inputImage-base-active-top-border-width),
+      var(--inputImage-base-active-right-border-width),
+      var(--inputImage-base-active-bottom-border-width),
+      var(--inputImage-base-active-left-border-width),
+      var(--inputImage-base-active-top-border-style),
+      var(--inputImage-base-active-right-border-style),
+      var(--inputImage-base-active-bottom-border-style),
+      var(--inputImage-base-active-left-border-style),
+      var(--shadows-shadow-none),
+      var(--ImageControl-addBtn-onDisabled-bg),
+      var(--ImageControl-addBtn-onDisabled-color),
+      var(--inputImage-base-disabled-top-border-color),
+      var(--inputImage-base-disabled-right-border-color),
+      var(--inputImage-base-disabled-bottom-border-color),
+      var(--inputImage-base-disabled-left-border-color),
+      var(--inputImage-base-disabled-top-border-width),
+      var(--inputImage-base-disabled-right-border-width),
+      var(--inputImage-base-disabled-bottom-border-width),
+      var(--inputImage-base-disabled-left-border-width),
+      var(--inputImage-base-disabled-top-border-style),
+      var(--inputImage-base-disabled-right-border-style),
+      var(--inputImage-base-disabled-bottom-border-style),
+      var(--inputImage-base-disabled-left-border-style),
+      var(--shadows-shadow-none)
+    );
+
+    svg {
+      top: 0;
+      margin-bottom: var(--inputImage-base-default-icon-margin);
+      font-size: var(--inputImage-base-default-icon-size);
+      color: var(--inputImage-base-default-icon-color);
+      width: var(--inputImage-base-default-icon-size);
+      height: var(--inputImage-base-default-icon-size);
+    }
+
+    &-text {
+      z-index: 1;
+      font-size: var(--inputImage-base-default-fontSize);
+      font-weight: var(--inputImage-base-default-fontWeight);
+    }
+
+    &:not(:disabled):not(.is-disabled) {
+      &.is-invalid:hover {
+        border-color: var(--FileControl-danger-color);
+      }
+
+      &:hover {
+        svg {
+          color: var(--inputImage-base-hover-icon-color);
+        }
+      }
+
+      &:hover:active {
+        svg {
+          color: var(--inputImage-base-active-icon-color);
+        }
+      }
+    }
+
+    &.is-invalid {
+      border-color: var(--FileControl-danger-color);
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+
+      svg {
+        color: var(--inputImage-base-disabled-icon-color);
+      }
+    }
+  }
+
+  &-pasteTip {
+    pointer-events: none;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    font-size: var(--Tooltip--attr-fontSize);
+    line-height: var(--Tooltip--attr-lineHeigt);
+    text-align: left;
+    white-space: nowrap;
+    background: var(--Tooltip--attr-bg);
+    border: var(--Tooltip--attr-borderWidth) solid
+      var(--Tooltip--attr-borderColor);
+    border-radius: var(--Tooltip--attr-borderRadius);
+    box-shadow: var(--Tooltip--attr-boxShadow);
+    left: 100%;
+    color: var(--Tooltip--attr-color);
+    padding: var(--Tooltip--attr-paddingY) var(--Tooltip--attr-paddingX);
+    margin: 30px 0 0 var(--Tooltip--attr-gap);
+  }
+
+  &-itemList {
+    display: inline;
+  }
+
+  &-item {
+    border: var(--borderWidth) solid var(--borderColor);
+    border-radius: var(--ImageControl-addBtn-borderRadius);
+    vertical-align: top;
+    padding: var(--gap-xs);
+    display: inline-block;
+    margin-right: var(--gap-base);
+    margin-bottom: var(--gap-base);
+    position: relative;
+    width: px2rem(120px);
+
+    &.is-invalid {
+      padding: 0;
+      border-color: var(--FileControl-danger-color);
+    }
+
+    &-errorTip {
+      color: var(--FileControl-danger-color);
+    }
+
+    svg.icon-refresh {
+      transform: rotate(180deg);
+    }
+
+    &--dragging {
+      border: var(--borderWidth) solid var(--colors-brand-5);
+    }
+  }
+
+  &-filename {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--FileControl-danger-color);
+
+    > svg.icon-image {
+      margin-bottom: 8px;
+      width: 24px;
+      height: 24px;
+    }
+
+    > span {
+      max-width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &-image {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    display: block;
+  }
+
+  &-itemClear {
+    position: absolute;
+    cursor: pointer;
+
+    color: #999;
+    top: 5px;
+    right: 5px;
+    line-height: 1;
+
+    > svg {
+      top: 0;
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  &-itemInfo {
+    display: inline-flex;
+    width: 110px;
+    height: 110px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+
+    > p {
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+  }
+
+  &-progress {
+    width: 70px;
+    height: 5px;
+    background: #ebebeb;
+  }
+
+  &-progressValue {
+    height: 5px;
+    border-radius: var(--ImageControl-progress-borderRadius);
+    display: block;
+    background: var(--info);
+    min-width: 10%;
+    transition: ease-out width var(--animation-duration);
+  }
+
+  &-item.is-invalid &-itemClear {
+    display: none;
+  }
+
+  &-item.is-invalid:hover &-itemClear {
+    display: block;
+  }
+
+  &-errorMsg {
+    color: var(--danger);
+    margin: 5px 0 0;
+  }
+
+  &-uploadBtn {
+    margin-top: 5px;
+  }
+
+  &-cropperWrapper {
+    position: relative;
+
+    img {
+      max-width: 100%;
+      max-height: 400px;
+    }
+  }
+
+  &-croperToolbar {
+    display: inline-flex;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    flex-direction: column;
+    align-items: flex-end;
+    background: #fff;
+    border-radius: 4px;
+    margin: px2rem(8px);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+
+    > a {
+      color: var(--Form-item-fontColor);
+      padding: 2px 5px;
+      cursor: pointer;
+      font-size: 18px;
+      &:hover {
+        color: var(--link-color);
+      }
+    }
+  }
+
+  &-acceptTip {
+    height: 120px;
+    color: #999;
+    border: 2px dashed var(--borderColor);
+
+    // &.is-accept {
+    border-color: var(--info);
+    background: #f3f9fe;
+    // }
+
+    border-radius: var(--borderRadius);
+
+    line-height: 120px;
+    text-align: center;
+  }
+
+  &-fixed-size {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+
+  &-fixed-size &-itemOverlay {
+    width: 100%;
+    height: 100%;
+  }
+}

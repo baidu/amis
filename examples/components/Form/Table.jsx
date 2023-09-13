@@ -13,6 +13,36 @@ export default {
     ],
     body: [
       {
+        type: 'input-table',
+        name: 'tableAffixHeader',
+        label: '头部固定',
+        affixHeader: true,
+        affixOffsetTop: 50,
+        columns: [
+          {
+            name: 'aa',
+            label: 'AA',
+            type: 'input-text'
+          },
+          {
+            name: 'cc',
+            label: 'CC',
+            type: 'select',
+            options: [
+              {
+                label: 'AA',
+                value: 'aa'
+              },
+              {
+                label: 'CC',
+                value: 'cc'
+              }
+            ]
+          }
+        ]
+      },
+
+      {
         type: 'combo',
         name: 'colors',
         label: 'Combo',
@@ -139,7 +169,47 @@ export default {
             }
           }
         ]
+      },
+
+      {
+        type: 'input-table',
+        name: 'table5',
+        label: '内容自适应',
+        autoFillHeight: true,
+        tableContentClassName: 'max-h-60',
+        columns: [
+          {
+            name: 'aa',
+            label: 'AA',
+            type: 'input-text'
+          },
+          {
+            name: 'cc',
+            label: 'CC',
+            type: 'select',
+            options: [
+              {
+                label: 'AA',
+                value: 'aa'
+              },
+              {
+                label: 'CC',
+                value: 'cc'
+              }
+            ]
+          }
+        ]
       }
-    ]
+    ],
+    data: {
+      table5: Array.from({length: 20}, (_, index) => ({
+        aa: index % 2 == 0 ? 'hello' : 'hi',
+        cc: index % 2 == 0 ? 'aa' : 'cc'
+      })),
+      tableAffixHeader: Array.from({length: 5}, (_, index) => ({
+        aa: index % 2 == 0 ? 'hello' : 'hi',
+        cc: index % 2 == 0 ? 'aa' : 'cc'
+      }))
+    }
   }
 };

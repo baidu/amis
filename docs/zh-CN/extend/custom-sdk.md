@@ -19,7 +19,8 @@ title: 自定义组件 - SDK
     const button = document.createElement('button');
     button.innerText = '点击修改姓名';
     button.onclick = event => {
-      onChange('new name');
+      // 第二个参数是要修改的表单项名称
+      onChange('new name', 'username');
       event.preventDefault();
     };
     dom.appendChild(button);
@@ -52,7 +53,7 @@ title: 自定义组件 - SDK
       "name": "username",
       "type": "custom",
       "label": "自定义组件",
-      "onMount": "const button = document.createElement('button'); button.innerText = '点击修改姓名'; button.onclick = event => { onChange('new name'); event.preventDefault(); }; dom.appendChild(button);"
+      "onMount": "const button = document.createElement('button'); button.innerText = '点击修改姓名'; button.onclick = event => { onChange('new name', 'username'); event.preventDefault(); }; dom.appendChild(button);"
     }
   ]
 }

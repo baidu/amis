@@ -1,0 +1,46 @@
+.#{$ns}TreeSelectControl {
+  position: relative;
+
+  > .#{$ns}TreeSelect-popover {
+    width: 100%;
+  }
+  .#{$ns}PopOver {
+    box-shadow: var(--boxShadow);
+    .#{$ns}Tree {
+      border-radius: var(--borders-radius-3);
+      border: none;
+    }
+  }
+}
+
+.#{$ns}TreeSelect {
+  @include input-text();
+  outline: none;
+
+  &.is-opened {
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
+    background: var(--Form-input-onFocused-bg);
+  }
+
+  &-popup {
+    height: px2rem(400px);
+  }
+}
+
+.#{$ns}TreeSelect-popover {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  > .#{$ns}Tree {
+    background: var(--TreeSelect-popover-bg);
+    border: var(--Form-input-borderWidth) solid
+      var(--Form-input-onFocused-borderColor);
+    padding: var(--gap-xs) var(--Form-input-paddingX);
+    border-radius: 0;
+    margin-top: -1px;
+    max-height: 400px;
+    overflow: auto;
+  }
+}

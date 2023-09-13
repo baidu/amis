@@ -1,0 +1,193 @@
+div.ae-editor-FormulaControl {
+  position: relative;
+  @include flexBox();
+  align-items: stretch;
+  max-width: 100%;
+}
+.ae-editor-FormulaControl {
+  & > &-button {
+    height: auto;
+    background-color: #f7f7f9;
+    padding: 4px 8px;
+    border-radius: 0 var(--button-size-sm-top-left-border-radius)
+      var(--button-size-sm-bottom-right-border-radius) 0;
+    border-left: 0;
+    &:not(:disabled):not(.is-disabled):hover {
+      border-color: #e6f0ff;
+      background-color: #e6f0ff;
+      border-left-width: 0;
+    }
+    &:not(:disabled):not(.is-disabled):active {
+      border-left-width: 1;
+      transition: var(--Button-transition);
+    }
+  }
+
+  & &-input {
+    flex: 1;
+    height: 32px;
+    border-radius: var(--input-default-default-top-left-border-radius) 0 0
+      var(--input-default-default-bottom-left-border-radius);
+    max-width: calc(100% - 29px); // 避免表达式内容太长撑开面板
+
+    &.is-clearable {
+      padding-right: 30px; // 避免间隙过大
+    }
+
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  &-select-style {
+    > div {
+      border-radius: var(--Form-select-borderRadius) 0 0
+        var(--Form-select-borderRadius);
+    }
+  }
+
+  // 当有提示时底部增加点外边距
+  &.is-has-tooltip {
+    margin-bottom: 5px;
+  }
+
+  // 底部提示
+  .desc-msg {
+    visibility: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform-origin: left top;
+    transform: translateY(90%) scale(0.8);
+    font-size: 10px;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+    &.info-msg {
+      color: $editor-active-color; // $default-icon-color;
+    }
+
+    &.error-msg {
+      visibility: visible; // 错误类提示 固定展示
+      color: #f33e3e;
+      transform: translateY(90%) scale(0.9);
+    }
+  }
+
+  &:hover .desc-msg {
+    visibility: visible; // 普通提示类信息，hover时展示
+  }
+
+  &-custom-renderer {
+    width: calc(100% - 35px);
+    flex: 1 1 auto;
+    border: none;
+    padding: 0;
+    > div {
+      min-height: 32px;
+    }
+    > div,
+    &:not(.border-wrapper) > div > div {
+      border-radius: var(--input-default-default-top-left-border-radius) 0 0
+        var(--input-default-default-bottom-left-border-radius);
+    }
+
+    &.border-wrapper {
+      padding: 2px 4px;
+      border: 1px dashed #e8e9eb;
+    }
+  }
+
+  &-tooltipBox {
+    flex: 1;
+    max-width: calc(100% - 29px); // 避免表达式内容太长撑开面板
+    position: relative;
+  }
+
+  &-ResultBox-wrapper {
+    cursor: pointer;
+  }
+
+  & &-ResultBox {
+    flex-wrap: nowrap !important; // 不换行，避免被其他样式覆盖
+    white-space: nowrap;
+    padding: 0 0 0 0.25rem;
+    font-size: 12px;
+    border-radius: var(--input-default-default-top-left-border-radius) 0 0
+      var(--input-default-default-bottom-left-border-radius);
+
+    & {
+      > div:first-child {
+        max-width: calc(100% - 30px); // 避免表达式内容太长撑开面板
+        // background: var(--button-primary-default-bg-color);
+        background: #007bff;
+        color: #fff;
+        padding: 1px 5px;
+        border-radius: 4px 0 0 4px;
+        height: 26px;
+        flex: none;
+        > div,
+        span {
+          padding-right: 0; // 覆盖 amis 默认样式
+        }
+      }
+      > div:last-child {
+        // background: var(--button-primary-default-bg-color);
+        background: #007bff;
+        margin-right: 0.75rem;
+        border-radius: 0 4px 4px 0;
+        color: #fff;
+        height: 26px;
+        svg {
+          fill: var(--Form-input-clearBtn-color);
+          &:hover {
+            fill: var(--Form-input-clearBtn-color-onHover);
+          }
+        }
+      }
+    }
+
+    span.c-field {
+      font-size: 12px;
+    }
+
+    span.c-func {
+      color: #ae4597;
+      font-weight: bold;
+      line-height: 14px;
+      padding: 0 2px;
+    }
+  }
+
+  .input-clear-icon {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 8px;
+    margin: auto;
+    height: 14px;
+    fill: var(--Form-input-clearBtn-color);
+    cursor: pointer;
+
+    &:hover {
+      fill: var(--Form-input-clearBtn-color-onHover);
+    }
+  }
+
+  &-icon {
+    top: 0 !important;
+    font-size: #{px2rem(14px)};
+
+    &:not(:last-child) {
+      margin-right: var(--fontSizeSm);
+    }
+
+    &.is-filled {
+      fill: var(--primary);
+      color: var(--primary);
+    }
+  }
+}

@@ -41,7 +41,8 @@ order: 26
           const button = document.createElement('button');
           button.innerText = '点击修改';
           button.onclick = event => {
-            onChange('new'); // 这个 onChange 方法只有放在表单项中才能调用
+            // 这个 onChange 方法只有放在表单项中才能调用，第二个参数是表单项名称
+            onChange('new', 'myName');
             event.preventDefault();
           };
           dom.appendChild(button);
@@ -148,7 +149,7 @@ onMount: (dom, data, onChange, props) => {
   const button = document.createElement('button');
   button.innerText = '点击修改姓名';
   button.onclick = event => {
-    onChange('new name');
+    onChange('new name', 'name');
     props.onAction(
       event,
       {

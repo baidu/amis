@@ -29,6 +29,74 @@ icon:
 }
 ```
 
+## 加强样式
+
+```schema
+{
+    "type": "page",
+    "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+    "body": [
+      {
+        "type": "search-box",
+        "name": "keywords",
+        "enhance": true
+      },
+
+      {
+        "type": "tpl",
+        "tpl": "<p>关键字：${keywords}</p><p>返回结果：${&|json}</p>"
+      }
+    ]
+}
+```
+
+## 可清除
+
+```schema
+{
+    "type": "page",
+    "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+    "body": [
+      {
+        "type": "search-box",
+        "name": "keywords",
+        "clearable": true
+      },
+
+      {
+        "type": "tpl",
+        "tpl": "<p>关键字：${keywords}</p><p>返回结果：${&|json}</p>"
+      }
+    ]
+}
+```
+
+### 清除后立即搜索
+
+> `2.8.0` 及以上版本
+
+设置`"clearAndSubmit": true`后，清空搜索框内容后立即执行搜索，与`searchImediately`不同的是，`clearAndSubmit`仅作用于清空输入框的动作，而`searchImediately`会影响所有搜索动作。
+
+```schema
+{
+    "type": "page",
+    "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+    "body": [
+      {
+        "type": "search-box",
+        "name": "keywords",
+        "clearable": true,
+        "clearAndSubmit": true
+      },
+
+      {
+        "type": "tpl",
+        "tpl": "<p>关键字：${keywords}</p><p>返回结果：${&|json}</p>"
+      }
+    ]
+}
+```
+
 ## mini 版本
 
 ```schema
@@ -122,9 +190,207 @@ icon:
 
 ## 属性表
 
-| 属性名           | 类型      | 默认值 | 说明             |
-| ---------------- | --------- | ------ | ---------------- |
-| type             | `string`  |        | `search-box`     |
-| className        | `string`  |        | 外层 CSS 类名    |
-| mini             | `boolean` |        | 是否为 mini 模式 |
-| searchImediately | `boolean` |        | 是否立即搜索     |
+| 属性名           | 类型      | 默认值 | 说明                         | 版本    |
+| ---------------- | --------- | ------ | ---------------------------- | ------- |
+| type             | `string`  |        | `search-box`                 |
+| className        | `string`  |        | 外层 CSS 类名                |
+| mini             | `boolean` |        | 是否为 mini 模式             |
+| searchImediately | `boolean` |        | 是否立即搜索                 |
+| clearAndSubmit   | `boolean` |        | 清空搜索框内容后立即执行搜索 | `2.8.0` |
+
+## 事件表
+
+> 2.4.1 及以上版本
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称 | 事件参数                  | 说明                 |
+| -------- | ------------------------- | -------------------- |
+| search   | `[name]: string` 组件的值 | 点击搜索图标时触发   |
+| change   | `[name]: string` 组件的值 | 输入框值变化时触发   |
+| focus    | `[name]: string` 组件的值 | 输入框获取焦点时触发 |
+| blur     | `[name]: string` 组件的值 | 输入框失去焦点时触发 |
+
+### search
+
+```schema
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+  "body": [
+    {
+      "type": "search-box",
+      "name": "keywords",
+      "onEvent": {
+        "search": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${keywords}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### change
+
+```schema: scope="body"
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+  "body": [
+    {
+      "type": "search-box",
+      "name": "keywords",
+      "onEvent": {
+        "change": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${keywords}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### focus
+
+```schema: scope="body"
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+  "body": [
+    {
+      "type": "search-box",
+      "name": "keywords",
+      "onEvent": {
+        "focus": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${keywords}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### blur
+
+```schema: scope="body"
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+  "body": [
+    {
+      "type": "search-box",
+      "name": "keywords",
+      "onEvent": {
+        "blur": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${keywords}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+## 动作表
+
+> 2.4.1 及以上版本
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置                 | 说明     |
+| -------- | ------------------------ | -------- |
+| clear    | -                        | 清空     |
+| setValue | `value: string` 更新的值 | 更新数据 |
+
+### clear
+
+```schema: scope="body"
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+  "body": [
+    {
+      "type": "search-box",
+      "name": "keywords",
+      "id": "s01"
+    },
+    {
+      "type": "button",
+      "label": "清除",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "clear",
+              "componentId": "s01"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### setValue
+
+```schema: scope="body"
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+  "body": [
+    {
+      "type": "search-box",
+      "name": "keywords",
+      "id": "s02"
+    },
+    {
+      "type": "button",
+      "label": "设置关键字",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "s02",
+              "args": {
+                "value": "amis"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```

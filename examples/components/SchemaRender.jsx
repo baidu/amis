@@ -1,28 +1,30 @@
 import React from 'react';
-import {render} from '../../src/index';
+import {render, toast, Button, LazyComponent, Drawer} from 'amis';
 import axios from 'axios';
 import Portal from 'react-overlays/Portal';
-import {toast} from '../../src/components/Toast';
-import {normalizeLink} from '../../src/utils/normalizeLink';
-import Button from '../../src/components/Button';
-import LazyComponent from '../../src/components/LazyComponent';
-import {default as DrawerContainer} from '../../src/components/Drawer';
-
+import {normalizeLink} from 'amis-core';
 import {withRouter} from 'react-router';
-import {matchPath} from 'react-router-dom';
 import copy from 'copy-to-clipboard';
-import {qsparse} from '../../src/utils/helper';
+import {qsparse, parseQuery} from 'amis-core';
+import isPlainObject from 'lodash/isPlainObject';
 
 function loadEditor() {
   return new Promise(resolve =>
-    require(['../../src/components/Editor'], component =>
-      resolve(component.default))
+    import('amis-ui').then(component => resolve(component.Editor))
   );
 }
 
 const viewMode = localStorage.getItem('amis-viewMode') || 'pc';
 
-export default function (schema, showCode, envOverrides) {
+/**
+ *
+ * @param {*} schema schema配置
+ * @param {*} schemaProps props配置
+ * @param {*} showCode 是否展示代码
+ * @param {Object} envOverrides 覆写环境变量
+ * @returns
+ */
+export default function (schema, schemaProps, showCode, envOverrides) {
   if (!schema['$schema']) {
     schema = {
       ...schema
@@ -92,7 +94,7 @@ export default function (schema, showCode, envOverrides) {
               if (pathname !== location.pathname || !location.search) {
                 return false;
               }
-              const currentQuery = qsparse(location.search.substring(1));
+              const currentQuery = parseQuery(location);
               const query = qsparse(search.substring(1));
 
               return Object.keys(query).every(
@@ -149,6 +151,74 @@ export default function (schema, showCode, envOverrides) {
           },
           tracker(eventTrack) {
             console.debug('eventTrack', eventTrack);
+          },
+          affixOffsetTop: 50,
+          loadTinymcePlugin: async tinymce => {
+            // 参考：https://www.tiny.cloud/docs/advanced/creating-a-plugin/
+            /*
+              Note: We have included the plugin in the same JavaScript file as the TinyMCE
+              instance for display purposes only. Tiny recommends not maintaining the plugin
+              with the TinyMCE instance and using the `external_plugins` option.
+            */
+            tinymce.PluginManager.add('example', function (editor, url) {
+              var openDialog = function () {
+                return editor.windowManager.open({
+                  title: 'Example plugin',
+                  body: {
+                    type: 'panel',
+                    items: [
+                      {
+                        type: 'input',
+                        name: 'title',
+                        label: 'Title'
+                      }
+                    ]
+                  },
+                  buttons: [
+                    {
+                      type: 'cancel',
+                      text: 'Close'
+                    },
+                    {
+                      type: 'submit',
+                      text: 'Save',
+                      primary: true
+                    }
+                  ],
+                  onSubmit: function (api) {
+                    var data = api.getData();
+                    /* Insert content when the window form is submitted */
+                    editor.insertContent('Title: ' + data.title);
+                    api.close();
+                  }
+                });
+              };
+              /* Add a button that opens a window */
+              editor.ui.registry.addButton('example', {
+                text: 'My button',
+                onAction: function () {
+                  /* Open window */
+                  openDialog();
+                }
+              });
+              /* Adds a menu item, which can then be included in any menu via the menu/menubar configuration */
+              editor.ui.registry.addMenuItem('example', {
+                text: 'Example plugin',
+                onAction: function () {
+                  /* Open window */
+                  openDialog();
+                }
+              });
+              /* Return the metadata for the help plugin */
+              return {
+                getMetadata: function () {
+                  return {
+                    name: 'Example plugin',
+                    url: 'http://exampleplugindocsurl.com'
+                  };
+                }
+              };
+            });
           },
           ...envOverrides
         };
@@ -209,6 +279,7 @@ export default function (schema, showCode, envOverrides) {
             {
               schema: schema,
               props: {
+                ...(isPlainObject(schemaProps) ? schemaProps : {}),
                 location: this.props.location,
                 theme: this.props.theme,
                 locale: this.props.locale
@@ -251,6 +322,14 @@ export default function (schema, showCode, envOverrides) {
         return render(
           schema,
           {
+            ...(isPlainObject(schemaProps) ? schemaProps : {}),
+            context: {
+              // 上下文信息，无论那层可以获取到这个
+              amisUser: {
+                id: 1,
+                name: 'AMIS User'
+              }
+            },
             location,
             theme,
             locale
@@ -266,7 +345,7 @@ export default function (schema, showCode, envOverrides) {
           <>
             <div className="schema-wrapper">
               {finalShowCode !== false ? (
-                <DrawerContainer
+                <Drawer
                   classPrefix={ns}
                   size="lg"
                   onHide={this.close}
@@ -276,7 +355,7 @@ export default function (schema, showCode, envOverrides) {
                   position="right"
                 >
                   {this.state.open ? this.renderCode() : null}
-                </DrawerContainer>
+                </Drawer>
               ) : null}
               {this.renderSchema()}
             </div>

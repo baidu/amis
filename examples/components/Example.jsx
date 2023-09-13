@@ -13,6 +13,7 @@ import ReactionFormSchema from './Form/Reaction';
 import ValidationFormSchema from './Form/Validation';
 import FullFormSchema from './Form/Full';
 import StaticFormSchema from './Form/Static';
+import SwitchFormDisplay from './Form/SwitchDisplay';
 import HintFormSchema from './Form/Hint';
 import FieldSetInTabsFormSchema from './Form/FieldSetInTabs';
 import ComboFormSchema from './Form/Combo';
@@ -30,6 +31,8 @@ import CustomFormSchema from './Form/Custom';
 import FormLayoutTestSchema from './Form/layoutTest';
 import Definitions from './Form/Definitions';
 import AnchorNav from './Form/AnchorNav';
+import InputKVSSchema from './Form/InputKVS';
+import Tree from './Form/Tree';
 
 import TableCrudSchema from './CRUD/Table';
 import TableAutoFillSchema from './CRUD/TableAutoFill';
@@ -68,6 +71,7 @@ import OptionsLocalPageSchema from './Linkage/OptionsLocal';
 import FormSubmitSchema from './Linkage/FormSubmit';
 import InputEventSchema from './EventAction/cmpt-event-action/InputEvent';
 import DateEventSchema from './EventAction/cmpt-event-action/DateEvent';
+import TagEvent from './EventAction/cmpt-event-action/TagEvent';
 import SwitchEventSchema from './EventAction/cmpt-event-action/SwitchEvent';
 import TabsEventSchema from './EventAction/cmpt-event-action/TabsEvent';
 import UploadEventSchema from './EventAction/cmpt-event-action/UploadEvent';
@@ -82,6 +86,10 @@ import FormEventActionSchema from './EventAction/cmpt-event-action/FormEvent';
 import TransferEventSchema from './EventAction/cmpt-event-action/TransferEvent';
 import ServiceEventSchema from './EventAction/cmpt-event-action/ServiceEvent';
 import CarouselEventSchema from './EventAction/cmpt-event-action/CarouselEvent';
+import TableEventSchema from './EventAction/cmpt-event-action/TableEvent';
+import ListEventSchema from './EventAction/cmpt-event-action/ListEvent';
+import ChartEventSchema from './EventAction/cmpt-event-action/ChartEvent';
+import SearchBoxEventSchema from './EventAction/cmpt-event-action/SearchBoxEvent';
 import ReloadFormActionSchema from './EventAction/reload-action/ReloadForm';
 import ReloadSelectActionSchema from './EventAction/reload-action/ReloadSelect';
 import ReloadChartActionSchema from './EventAction/reload-action/ReloadChart';
@@ -95,6 +103,7 @@ import UpdateButtonGroupSelectActionSchema from './EventAction/update-data/Updat
 import UpdateComboActionSchema from './EventAction/update-data/UpdateCombo';
 import SyncUpdateActionSchema from './EventAction/update-data/SyncUpdate';
 import DataAutoFillActionSchema from './EventAction/update-data/DataAutoFill';
+import SetVariable from './EventAction/update-data/SetVariable';
 import PreventFormActionSchema from './EventAction/prevent-defalut/PreventForm';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
@@ -115,10 +124,12 @@ import DynamicTabSchema from './Tabs/Dynamic';
 import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
+import Loading from './Loading';
+import CodeSchema from './Code';
+import OfficeViewer from './OfficeViewer';
+import InputTableEvent from './EventAction/cmpt-event-action/InputTableEvent';
+import WizardPage from './WizardPage';
 
-import TestComponent from './Test';
-
-import {normalizeLink} from '../../src/utils/normalizeLink';
 import {Switch} from 'react-router-dom';
 import {navigations2route} from './App';
 
@@ -171,6 +182,12 @@ export const examples = [
             label: '静态展示',
             path: '/examples/form/static',
             component: makeSchemaRenderer(StaticFormSchema)
+          },
+
+          {
+            label: '输入态、展示态切换',
+            path: '/examples/form/switchDisplay',
+            component: makeSchemaRenderer(SwitchFormDisplay)
           },
 
           {
@@ -296,6 +313,18 @@ export const examples = [
             label: '锚点导航',
             path: '/examples/form/anchor-nav',
             component: makeSchemaRenderer(AnchorNav)
+          },
+
+          {
+            label: '复杂嵌套数据',
+            path: '/examples/form/input-kvs',
+            component: makeSchemaRenderer(InputKVSSchema)
+          },
+
+          {
+            label: '树形结构',
+            path: '/examples/form/tree',
+            component: makeSchemaRenderer(Tree)
           }
 
           // {
@@ -610,6 +639,16 @@ export const examples = [
                 label: '数据回填',
                 path: '/examples/action/setdata/autofill',
                 component: makeSchemaRenderer(DataAutoFillActionSchema)
+              },
+              {
+                label: '更新全局变量数据',
+                path: '/examples/action/setdata/variable',
+                component: makeSchemaRenderer(
+                  SetVariable.schema,
+                  SetVariable.props ?? {},
+                  true,
+                  SetVariable.env
+                )
               }
             ]
           },
@@ -640,6 +679,11 @@ export const examples = [
                 label: '时间类组件',
                 path: 'examples/event/date',
                 component: makeSchemaRenderer(DateEventSchema)
+              },
+              {
+                label: '可关闭的tag group',
+                path: 'examples/event/each-tag',
+                component: makeSchemaRenderer(TagEvent)
               },
               {
                 label: '开关组件',
@@ -695,6 +739,31 @@ export const examples = [
                 label: 'Service组件',
                 path: 'examples/event/service',
                 component: makeSchemaRenderer(ServiceEventSchema)
+              },
+              {
+                label: '表格组件',
+                path: 'examples/event/table',
+                component: makeSchemaRenderer(TableEventSchema)
+              },
+              {
+                label: '列表展示类组件',
+                path: 'examples/event/list',
+                component: makeSchemaRenderer(ListEventSchema)
+              },
+              {
+                label: 'chart组件',
+                path: 'examples/event/chart',
+                component: makeSchemaRenderer(ChartEventSchema)
+              },
+              {
+                label: 'SearchBox组件',
+                path: 'examples/event/searchbox',
+                component: makeSchemaRenderer(SearchBoxEventSchema)
+              },
+              {
+                label: 'input-table组件',
+                path: 'examples/event/input-table',
+                component: makeSchemaRenderer(InputTableEvent)
               }
             ]
           },
@@ -738,6 +807,13 @@ export const examples = [
         icon: 'fa fa-glasses',
         path: '/examples/theme',
         component: makeSchemaRenderer(ThemeSchema)
+      },
+
+      {
+        label: '代码高亮',
+        icon: 'fa fa-code',
+        path: '/examples/code',
+        component: makeSchemaRenderer(CodeSchema)
       },
 
       {
@@ -806,6 +882,20 @@ export const examples = [
       },
 
       {
+        label: 'Office 文档预览',
+        icon: 'fa fa-file-word',
+        path: '/examples/office-viwewer',
+        component: makeSchemaRenderer(OfficeViewer)
+      },
+
+      {
+        label: '多 loading',
+        icon: 'fa fa-spinner',
+        path: '/examples/loading',
+        component: makeSchemaRenderer(Loading)
+      },
+
+      {
         label: 'APP 多页应用',
         icon: 'fa fa-cubes',
         path: '/examples/app/',
@@ -819,6 +909,13 @@ export const examples = [
 
           return null;
         }
+      },
+
+      {
+        label: 'wizard页面',
+        icon: 'fa fa-desktop',
+        path: '/examples/wizard-page',
+        component: makeSchemaRenderer(WizardPage)
       }
 
       // {

@@ -1,0 +1,94 @@
+.ae-FeatureControl {
+  &-features {
+    margin: 0;
+    padding: 0;
+  }
+
+  &Item {
+    display: flex;
+    height: 30px;
+    margin-bottom: 12px;
+    position: relative;
+    align-items: center;
+
+    :not(:last-child) {
+      margin-right: px2rem(8px);
+    }
+
+    &-content {
+      flex-grow: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      & > .ae-FeatureControlItem-go {
+        width: 100%;
+      }
+    }
+
+    &-label {
+      flex-grow: 1;
+      height: px2rem(32px);
+      display: block;
+      line-height: px2rem(32px);
+      padding: 0 px2rem(8px);
+      border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+      border-radius: var(--Form-input-borderRadius);
+      text-align: center;
+    }
+
+    &-action {
+      padding: 0 6px;
+      svg {
+        width: px2rem(16px);
+        height: px2rem(16px);
+        fill: #000;
+      }
+
+      &:hover {
+        svg {
+          fill: $Editor-theme;
+        }
+      }
+    }
+
+    &-dragBar {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 3px;
+      cursor: move;
+
+      & > svg {
+        fill: #e7e7e7;
+        color: #e7e7e7;
+      }
+    }
+
+    &:hover &-dragBar {
+      & > svg {
+        color: transparent;
+        fill: transparent;
+      }
+    }
+  }
+
+  &-action {
+    display: block;
+    width: 100%;
+
+    &--btn {
+      width: 100%;
+      border-color: $Editor-theme;
+      color: $Editor-theme;
+    }
+
+    &--menus {
+      /* width: calc(100% - 12px);
+      margin-left: 6px; */
+      text-align: center;
+    }
+  }
+}

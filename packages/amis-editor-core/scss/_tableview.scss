@@ -1,0 +1,53 @@
+/**
+ * table view 相关节点的编辑器扩展
+ */
+
+.ae-TableViewEditor {
+  position: relative;
+
+  &-rowLine {
+    position: absolute;
+    height: 7px;
+    left: 0;
+    right: 0;
+    cursor: row-resize;
+    user-select: none;
+    opacity: 0.5;
+    // &:hover {
+    //   background: #4285f4;
+    // }
+  }
+
+  &-colLine {
+    position: absolute;
+    width: 7px;
+    top: 0;
+    bottom: 0;
+    cursor: col-resize;
+    user-select: none;
+    opacity: 0.5;
+    // &:hover {
+    //   background: #4285f4;
+    // }
+  }
+
+  &-mergeIcon {
+    position: absolute;
+    bottom: -22px;
+    left: calc(50% - 3.5em);
+    color: #4285f4;
+    cursor: pointer;
+  }
+
+  td[data-selected] {
+    background: #cfe1fe;
+  }
+
+  // 这个按钮会导致单元格高宽发生变化
+  .ae-AddBtn {
+    position: absolute;
+    left: calc(50% - 10px);
+    top: calc(50% - 10px);
+    margin: 0;
+  }
+}

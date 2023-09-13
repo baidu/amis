@@ -4,6 +4,9 @@ export default {
     type: 'crud',
     headerToolbar: ['export-excel', 'export-csv'],
     data: {
+      mapping_type: {
+        '*': '其他'
+      },
       items: [
         {
           link: 'https://www.microsoft.com/',
@@ -14,23 +17,25 @@ export default {
           grade: 'A',
           engine: {
             name: 'Trident',
-            version: '4'
+            version: '4/2'
           },
-          date: '1591326307'
+          date: '1591326307',
+          city: '310100',
+          num: '12312334234234523'
         },
         {
           link: 'https://www.microsoft.com/',
           icon: __uri('../../static/ie.png'),
           browser: 'Internet Explorer 4.2',
           platform: 'Win 95+',
-
           engine: {
             name: 'Trident',
             version: '4'
           },
           notExport: '1',
           grade: 'B',
-          date: '1591322307'
+          date: '1591322307',
+          num: 1231233423232
         },
         {
           link: 'https://www.microsoft.com/',
@@ -141,7 +146,7 @@ export default {
     columns: [
       {
         name: 'icon',
-        label: '图标',
+        label: '<%= "图标" %>',
         type: 'image'
       },
       {
@@ -150,8 +155,16 @@ export default {
         type: 'link'
       },
       {
+        name: 'link',
+        label: '浏览器地址',
+        type: 'link',
+        href: 'http://www.browser.com/?q=${browser}',
+        body: '${browser}'
+      },
+      {
         name: 'engine.name',
-        label: '引擎'
+        label: '引擎',
+        className: 'text-primary'
       },
       {
         name: 'browser',
@@ -163,9 +176,11 @@ export default {
       },
       {
         name: 'engine.version',
-        label: 'CSS版本',
+        label: '引擎版本',
         type: 'tpl',
-        tpl: '<b>${engine.version}</b>'
+        tpl: '<b>${engine.version}</b>',
+        classNameExpr:
+          "<%= data.engine.version > 4 ? 'bg-green-100' : 'bg-red-50' %>"
       },
       {
         name: 'grade',
@@ -179,9 +194,24 @@ export default {
         }
       },
       {
+        name: 'grade',
+        label: 'CSS grade',
+        type: 'mapping',
+        source: '${mapping_type}'
+      },
+      {
         name: 'date',
         label: 'Date',
         type: 'date'
+      },
+      {
+        name: 'city',
+        label: 'city',
+        type: 'input-city'
+      },
+      {
+        name: 'num',
+        label: 'num'
       }
     ]
   }

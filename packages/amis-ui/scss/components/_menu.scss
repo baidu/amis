@@ -1,0 +1,716 @@
+@mixin popup-dark {
+  & > .#{$ns}Nav-Menu {
+    background-color: var(--Menu-dark-backgroundColor);
+
+    .#{$ns}Nav-Menu-item {
+      @include item-dark();
+
+      &-active,
+      &-selected {
+        @include item-active-dark();
+      }
+    }
+
+    .#{$ns}Nav-Menu-submenu-title {
+      @include item-dark();
+    }
+
+    .#{$ns}Nav-Menu-submenu-active,
+    .#{$ns}Nav-Menu-submenu-selected {
+      > .#{$ns}Nav-Menu-submenu-title {
+        @include item-active-dark();
+      }
+    }
+  }
+}
+
+@mixin item-dark {
+  color: var(--Menu-dark-fontColor);
+
+  .#{$ns}Nav-Menu-item-icon,
+  .#{$ns}Nav-Menu-item-icon-after,
+  .#{$ns}Nav-Menu-item-label,
+  .#{$ns}Nav-Menu-submenu-arrow {
+    color: var(--Menu-dark-fontColor);
+
+    svg {
+      fill: var(--Menu-dark-fontColor);
+    }
+  }
+}
+
+@mixin item-selected-dark {
+  color: var(--Menu-dark-fontColor-onActive);
+
+  .#{$ns}Nav-Menu-item-icon,
+  .#{$ns}Nav-Menu-item-icon-after,
+  .#{$ns}Nav-Menu-item-label,
+  .#{$ns}Nav-Menu-submenu-arrow {
+    color: var(--Menu-dark-fontColor-onActive);
+
+    svg {
+      fill: var(--Menu-dark-fontColor-onActive);
+    }
+  }
+}
+
+@mixin item-active-dark {
+  background-color: var(--Menu-dark-backgroundColor);
+  color: var(--Menu-dark-fontColor-onHover);
+
+  .#{$ns}Nav-Menu-item-icon,
+  .#{$ns}Nav-Menu-item-icon-after,
+  .#{$ns}Nav-Menu-item-label,
+  .#{$ns}Nav-Menu-submenu-arrow {
+    color: var(--Menu-dark-fontColor-onHover);
+
+    svg {
+      fill: currentColor;
+    }
+  }
+}
+
+@mixin item-selected {
+  color: var(--Menu-light-fontColor-onHover);
+
+  .#{$ns}Nav-Menu-item-label,
+  .#{$ns}Nav-Menu-item-icon,
+  .#{$ns}Nav-Menu-item-icon-after,
+  .#{$ns}Nav-Menu-submenu-arrow {
+    color: var(--Menu-light-fontColor-onHover);
+
+    svg {
+      fill: currentColor;
+    }
+  }
+}
+
+@mixin item-active {
+  color: var(--Menu-light-fontColor-onActive);
+
+  .#{$ns}Nav-Menu-item-label,
+  .#{$ns}Nav-Menu-item-icon,
+  .#{$ns}Nav-Menu-item-icon-after,
+  .#{$ns}Nav-Menu-submenu-arrow {
+    color: var(--Menu-light-fontColor-onActive);
+
+    svg {
+      fill: currentColor;
+    }
+  }
+}
+
+@mixin selected-indicator($themeColor) {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    border-right: 3px solid $themeColor;
+    transform: scaleY(1);
+    opacity: 1;
+    transition: transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1),
+      opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1),
+      -webkit-transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
+}
+
+.#{$ns}Nav-Menu {
+  --Menu-width: var(--Layout-aside-width);
+  --Menu-width--collapsed: var(--Layout-aside-width-collapsed);
+  --Menu-fontSize--collapsed: var(--Nav-item-collapsed-fontSize);
+  --Menu-fontColor-onDisabled: var(--Nav-item-fontColor-onDisabled);
+  --Menu-Submenu-item-paddingX: var(--Nav-Item-Badge-paddingRight);
+
+  --Menu-light-backgroundColor: var(--Layout-light-backgroundColor);
+  --Menu-light-active-backgroundColor: var(--colors-neutral-fill-12);
+  --Menu-light-backgroundColor-onHover: var(--Layout-light-bgColor-onHover);
+  --Menu-light-fontColor: var(--Layout-light-fontColor);
+  --Menu-light-fontColor-onHover: var(--Layout-fontColor--onHover);
+  --Menu-light-ancestor-fontColor-onActive: var(--Layout-light-fontColor);
+  --Menu-light-fontColor-onActive: var(--Layout-fontColor--onActive);
+  --Menu-light-groupTitle-fontColor: #84868c;
+  --Menu-light-selectedIndicator-color: var(--Layout-fontColor--info);
+
+  --Menu-dark-backgroundColor: var(--Layout-dark-backgroundColor);
+  --Menu-dark-backgroundColor-onHover: var(--Layout-fontColor--info);
+  --Menu-dark-fontColor: var(--Layout-dark-fontColor);
+  --Menu-dark-fontColor-onHover: var(--Layout-fontColor--onHover);
+  --Menu-dark-fontColor-onActive: var(--Layout-dark-fontColor);
+  --Menu-dark-groupTitle-fontColor: #84868c;
+  --Menu-dark-selectedIndicator-color: var(--Layout-dark-selected-color);
+
+  outline: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition: all 0.3s;
+  width: 100%;
+
+  &-dark {
+    background-color: var(--Menu-dark-backgroundColor);
+  }
+
+  &-horizontal {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  &-submenu {
+    &-hidden {
+      display: none;
+    }
+  }
+
+  &-overflow-item {
+    flex: none;
+  }
+
+  &-hidden {
+    display: none;
+  }
+
+  &-collapse {
+    overflow: hidden;
+    transition: height 0.3s ease-out;
+  }
+
+  &-collapsed {
+    width: var(--Menu-width--collapsed);
+  }
+
+  &-root.#{$ns}Nav-Menu-collapsed {
+    .#{$ns}Nav-Menu-item,
+    .#{$ns}Nav-Menu-submenu-title {
+      padding: 0;
+      text-align: center;
+    }
+  }
+
+  &-item-link {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: inherit;
+    font-size: inherit;
+    flex: 1;
+    cursor: inherit;
+    font-weight: inherit;
+
+    &:hover,
+    &:active {
+      font-size: inherit;
+    }
+  }
+
+  &-item-divider {
+    border-bottom: 1px solid #e6e6e8;
+
+    &-dark {
+      border-bottom: 1px solid #3a3e47;
+    }
+  }
+
+  &-item-icon,
+  &-item-icon-after {
+    display: inline-block;
+    zoom: 1;
+    vertical-align: middle;
+
+    img,
+    svg {
+      width: var(--Tabs-linkFontSize);
+      height: var(--Tabs-linkFontSize);
+      fill: currentColor;
+    }
+
+    i,
+    img,
+    svg {
+      float: left;
+    }
+  }
+
+  &-item-icon {
+    &-collapsed {
+      font-size: var(--Menu-fontSize--collapsed);
+      margin: 0 auto;
+    }
+
+    &-svg {
+      &-collapsed {
+        font-size: var(--Menu-fontSize--collapsed);
+        margin: 0 auto;
+      }
+    }
+  }
+
+  &-item-label {
+    user-select: none;
+
+    &-collapsed {
+      font-size: var(--Menu-fontSize--collapsed);
+      margin: 0 auto;
+      font-weight: 600;
+    }
+  }
+
+  &-item-dragBar {
+    color: var(--Nav-Item-Drag-color);
+    position: absolute;
+    left: 0;
+    visibility: hidden;
+  }
+
+  &-item-group-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &-item-group-title {
+    color: var(--Menu-light-groupTitle-fontColor);
+    line-height: px2rem(20px);
+    padding: 0 var(--Menu-Submenu-item-paddingX) 0 px2rem(16px);
+    font-size: px2rem(12px);
+    margin: px2rem(12px) 0 px2rem(4px) 0;
+
+    &.#{$ns}Nav-Menu-dark {
+      color: var(--Menu-dark-groupTitle-fontColor);
+    }
+  }
+
+  &-item,
+  &-submenu {
+    .#{$ns}Badge {
+      position: static;
+      overflow: hidden;
+      display: flex;
+      flex: 1;
+    }
+    .#{$ns}Nav-Menu-item-wrap {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  &-item-extra {
+    position: relative;
+
+    .#{$ns}DropDown {
+      > .#{$ns}Button {
+        padding: 0;
+        color: inherit;
+
+        > i {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  &-inline {
+    .#{$ns}Nav-Menu-item-selected {
+      background-color: var(--Menu-light-active-backgroundColor);
+      @include item-selected();
+      @include selected-indicator(var(--Menu-light-selectedIndicator-color));
+    }
+
+    &.#{$ns}Nav-Menu-dark {
+      .#{$ns}Nav-Menu-item-selected {
+        background-color: var(--Menu-dark-backgroundColor-onHover);
+        @include item-selected-dark();
+        @include selected-indicator(var(--Menu-dark-selectedIndicator-color));
+      }
+    }
+  }
+
+  &-vertical.#{$ns}Nav-Menu-sub {
+    min-width: 160px;
+    border-radius: 2px;
+    box-shadow: 0 4px 5px 0 rgba(21, 26, 38, 0.06),
+      0 1px 10px 0 rgba(21, 26, 38, 0.05), 0 2px 4px -1px rgba(21, 26, 38, 0.04);
+  }
+
+  &-item,
+  &-submenu-title {
+    margin: 0;
+    position: relative;
+    padding: 0 px2rem(16px);
+    display: block;
+
+    &:active {
+      @include item-active();
+    }
+  }
+
+  &-submenu-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .#{$ns}Nav-Menu-item-wrap {
+      flex: 1;
+      overflow: hidden;
+    }
+  }
+
+  &-item-active {
+    @include item-selected();
+
+    .#{$ns}Nav-Menu-item-dragBar {
+      visibility: visible;
+    }
+  }
+
+  &-item-selected {
+    @include item-selected();
+  }
+
+  .#{$ns}Nav-Menu-submenu-active {
+    > .#{$ns}Nav-Menu-submenu-title {
+      @include item-selected();
+
+      .#{$ns}Nav-Menu-item-dragBar {
+        visibility: visible;
+      }
+    }
+  }
+
+  .#{$ns}Nav-Menu-submenu-selected {
+    > .#{$ns}Nav-Menu-submenu-title {
+      @include item-selected();
+    }
+  }
+
+  &-dark {
+    .#{$ns}Nav-Menu-item,
+    .#{$ns}Nav-Menu-submenu-title {
+      @include item-dark();
+    }
+
+    .#{$ns}Nav-Menu-item-active {
+      @include item-active-dark();
+    }
+
+    .#{$ns}Nav-Menu-item-selected {
+      @include item-active-dark();
+    }
+
+    .#{$ns}Nav-Menu-submenu-active {
+      > .#{$ns}Nav-Menu-submenu-title {
+        @include item-active-dark();
+      }
+    }
+
+    .#{$ns}Nav-Menu-submenu-selected {
+      > .#{$ns}Nav-Menu-submenu-title {
+        @include item-active-dark();
+      }
+    }
+  }
+
+  &-item-tooltip-wrap {
+    padding: 0;
+  }
+
+  &-collapsed > &-item,
+  &-collapsed > &-submenu-title,
+  &-collapsed > .#{$ns}Nav-Menu-submenu > &-submenu-title {
+    text-overflow: initial;
+  }
+
+  & > &-item-divider {
+    height: 1px;
+    margin: 0 16px 4px 16px;
+    overflow: hidden;
+    padding: 0;
+    background-color: #ebebeb;
+  }
+
+  &-submenu {
+    &-popup {
+      position: absolute !important;
+      z-index: 1500;
+      background-color: var(--Layout-light-backgroundColor);
+      line-height: var(--Nav-Item-height);
+      cursor: pointer;
+
+      // 横向收纳模式且有子菜单项的情况下 会显示2个展开箭头
+      // 用css隐藏1个 自适应收纳的情况下 判断不出是子菜单项还是收纳项
+      .#{$ns}Nav-Menu-submenu-title {
+        .#{$ns}Nav-Menu-item-link {
+          .#{$ns}Nav-Menu-submenu-arrow {
+            display: none;
+          }
+        }
+      }
+
+      .#{$ns}Nav-Menu-item-link {
+        max-width: var(--Menu-width);
+      }
+    }
+  }
+
+  &-submenu-popup-dark {
+    @include popup-dark();
+  }
+
+  &-overflow {
+    &-item-rest {
+      .#{$ns}Nav-Menu-submenu-title {
+        margin: 0;
+      }
+    }
+  }
+
+  &-horizontal {
+    border: none;
+    white-space: nowrap;
+    overflow: hidden;
+    width: auto;
+
+    .#{$ns}Nav-Menu-item-tooltip-wrap {
+      display: inline-block;
+      zoom: 1;
+      vertical-align: middle;
+    }
+
+    .#{$ns}Nav-Menu-overflow-item.#{$ns}Nav-Menu-overflow-item-rest
+      > .#{$ns}Nav-Menu-submenu-title {
+      .#{$ns}Nav-Menu-overflowedIcon {
+        margin-right: 0;
+        line-height: inherit; // 到了saas中 会被fortawesome的样式影响 因此需要覆盖一下
+      }
+    }
+
+    .#{$ns}Nav-Menu-item.#{$ns}Nav-Menu-item-selected {
+      background: none;
+      &:after {
+        content: ' ';
+        width: 100%;
+        height: 2px;
+        background: var(--Menu-light-fontColor-onHover);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      }
+      &:before {
+        display: none;
+      }
+      &:active {
+        &:after {
+          background: var(--Menu-light-fontColor-onActive);
+        }
+      }
+    }
+
+    & > .#{$ns}Nav-Menu-submenu,
+    & > .#{$ns}Nav-Menu-item {
+      margin: 0;
+      display: inline-block;
+      vertical-align: bottom;
+    }
+
+    .#{$ns}Nav-Menu-submenu-arrow {
+      display: inline-block;
+      font-size: px2rem(9px);
+      vertical-align: middle;
+      text-transform: none;
+      text-rendering: auto;
+      line-height: px2rem(20px);
+      margin-left: px2rem(5px);
+
+      & > svg {
+        top: auto;
+      }
+    }
+
+    &.#{$ns}Nav-Menu-rtl {
+      .#{$ns}Nav-Menu-submenu-arrow {
+        margin-left: 0;
+        margin-right: px2rem(5px);
+      }
+    }
+
+    .#{$ns}Nav-Menu-item-label {
+      vertical-align: middle;
+    }
+  }
+
+  &-vertical,
+  &-vertical-left,
+  &-vertical-right,
+  &-inline {
+    .#{$ns}Nav-Menu-submenu-arrow {
+      font-size: px2rem(10px);
+      margin: 0 0 0 px2rem(10px);
+    }
+
+    &.#{$ns}Nav-Menu-expand-before {
+      .#{$ns}Nav-Menu-submenu-title {
+        flex-direction: row-reverse;
+
+        > .#{$ns}Nav-Menu-submenu-arrow {
+          margin: 0 px2rem(10px) 0 0;
+        }
+      }
+    }
+
+    &.#{$ns}Nav-Menu-rtl {
+      &.#{$ns}Nav-Menu-expand-before {
+        .#{$ns}Nav-Menu-submenu-title {
+          .#{$ns}Nav-Menu-item-wrap {
+            padding-right: px2rem(16px);
+            padding-left: 0;
+          }
+        }
+      }
+    }
+  }
+
+  &-inline {
+    &.#{$ns}Nav-Menu-rtl {
+      .#{$ns}Nav-Menu-submenu-arrow {
+        margin: 0 px2rem(10px) 0 0;
+      }
+
+      &.#{$ns}Nav-Menu-expand-before {
+        .#{$ns}Nav-Menu-submenu-arrow {
+          margin: 0 0 0 px2rem(10px);
+        }
+      }
+    }
+  }
+
+  &-vertical {
+    &.#{$ns}Nav-Menu-rtl {
+      .#{$ns}Nav-Menu-submenu-arrow {
+        margin: 0 0 0 px2rem(10px);
+      }
+    }
+  }
+
+  &-vertical-right {
+    &.#{$ns}Nav-Menu-rtl {
+      .#{$ns}Nav-Menu-submenu-arrow {
+        margin: 0 px2rem(10px) 0 0;
+      }
+    }
+  }
+
+  &-inline,
+  &-horizontal {
+    .#{$ns}Nav-Menu-submenu-arrow {
+      svg {
+        transition: transform 0.3s;
+        transform: rotate(90deg);
+      }
+    }
+
+    & .#{$ns}Nav-Menu-submenu-open > .#{$ns}Nav-Menu-submenu-title {
+      .#{$ns}Nav-Menu-submenu-arrow {
+        svg {
+          transform: rotate(270deg);
+        }
+      }
+    }
+  }
+
+  &-collapsed {
+    .#{$ns}Nav-Menu-item {
+      &-wrap {
+        justify-content: center;
+      }
+    }
+
+    .#{$ns}Nav-Menu-submenu-arrow {
+      display: none !important;
+    }
+
+    .#{$ns}Nav-Menu-item-group-title {
+      display: none;
+    }
+
+    .#{$ns}Nav-Menu-item-group-list {
+      .#{$ns}Nav-Menu-item-divider {
+        height: 1px;
+        width: 60%;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  @mixin item-disabled {
+    cursor: not-allowed;
+    color: var(--Menu-fontColor-onDisabled) !important;
+
+    svg {
+      fill: currentColor !important;
+    }
+  }
+
+  .#{$ns}Nav-Menu-item-disabled,
+  .#{$ns}Nav-Menu-submenu-disabled {
+    @include item-disabled();
+
+    &.#{$ns}Nav-Menu-item {
+      @include item-disabled();
+
+      .#{$ns}Nav-Menu-item-link {
+        @include item-disabled();
+      }
+    }
+
+    .#{$ns}Nav-Menu-submenu-title {
+      @include item-disabled();
+      & > .#{$ns}Nav-Menu-item-icon,
+      & > .#{$ns}Nav-Menu-item-icon-after,
+      & > .#{$ns}Nav-Menu-item-label,
+      & > .#{$ns}Nav-Menu-submenu-arrow {
+        @include item-disabled();
+      }
+    }
+
+    .#{$ns}Nav-Menu-item-icon,
+    .#{$ns}Nav-Menu-item-icon-after,
+    .#{$ns}Nav-Menu-item-label,
+    .#{$ns}Nav-Menu-submenu-arrow {
+      @include item-disabled();
+    }
+  }
+}
+
+.#{$ns}Nav-Menu-item-tooltip {
+  font-size: var(--Layout-tooltip-fontSize);
+  color: var(--Layout-light-fontColor);
+  background: var(--Layout-light-backgroundColor);
+  border: none;
+  border-radius: var(--Tooltip--attr-borderRadius);
+  box-shadow: 0px 4px 6px 0px rgb(8 14 26 / 6%),
+    0px 1px 10px 0px rgb(8 14 26 / 5%), 0px 2px 4px -1px rgb(8 14 26 / 4%);
+
+  .#{$ns}Tooltip-arrow {
+    &:before {
+      display: none;
+    }
+  }
+
+  &.#{$ns}Nav-Menu-item-tooltip-dark {
+    background: var(--Layout-dark-tooltip-backgroundColor);
+
+    .#{$ns}Tooltip-arrow {
+      &:after {
+        border-right-color: var(--Layout-dark-tooltip-backgroundColor);
+      }
+    }
+
+    .#{$ns}Tooltip-body {
+      &,
+      span {
+        color: var(--Layout-dark-fontColor);
+      }
+    }
+  }
+}

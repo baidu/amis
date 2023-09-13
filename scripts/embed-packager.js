@@ -15,7 +15,9 @@ var createResource = fis.require('postpackager-loader/lib/resource.js');
 function prefixCss(code, prefix) {
   var cssAst = css.parse(code);
   prefixNode(cssAst);
-  return css.stringify(cssAst);
+  return css.stringify(cssAst, {
+    compress: true
+  });
 
   function prefixSelector(sel) {
     if (sel.match(/^@/)) return sel;

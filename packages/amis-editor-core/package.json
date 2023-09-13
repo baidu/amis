@@ -1,0 +1,123 @@
+{
+  "name": "amis-editor-core",
+  "version": "5.5.2-alpha.0",
+  "description": "amis 可视化编辑器",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./esm/index.js"
+    },
+    "./lib/*": {
+      "require": "./lib/*",
+      "import": "./esm/*"
+    },
+    "./scss/*": {
+      "style": "./scss/*",
+      "require": "./scss/*",
+      "import": "./scss/*"
+    },
+    "./lib/style.css": "./lib/style.css",
+    "./*": {
+      "require": "./lib/*.js",
+      "import": "./esm/*.js"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Warnings: no test specified\"",
+    "build": "npm run clean-dist && NODE_ENV=production rollup -c",
+    "build-esm": "npm run clean-dist && NODE_ENV=production rollup -c rollup.esm.config.js",
+    "clean-dist": "rimraf lib/* esm/*",
+    "i18n:update": "npx i18n update --config=./i18nConfig.js",
+    "i18n:translate": "npx i18n translate --config=./i18nConfig.js --l=en-US",
+    "i18n:merge": "npx i18n merge --config=./i18nConfig.js --l=en-US",
+    "format": "prettier --write \"{src,scss}/**/**/*.{js,jsx,ts,tsx,vue,scss,json}\""
+  },
+  "keywords": [
+    "amis",
+    "editor"
+  ],
+  "author": "@fex",
+  "license": "ISC",
+  "files": [
+    "lib",
+    "esm",
+    "static"
+  ],
+  "dependencies": {
+    "axios": "0.21.1",
+    "deep-diff": "1.0.2",
+    "json-ast-comments": "^1.1.0",
+    "lodash": "^4.17.15",
+    "mobx": "^4.5.0",
+    "mobx-react": "^6.3.1",
+    "mobx-state-tree": "^3.17.3",
+    "react-frame-component": "^5.2.6",
+    "react-json-view": "^1.21.3",
+    "sortablejs": "^1.14.0"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-typescript": "^8.3.2",
+    "@svgr/rollup": "^6.2.1",
+    "@types/async": "^2.0.45",
+    "@types/classnames": "^2.2.3",
+    "@types/codemirror": "^5.60.5",
+    "@types/deep-diff": "^1.0.0",
+    "@types/history": "^4.6.0",
+    "@types/hoist-non-react-statics": "^3.0.1",
+    "@types/lodash": "^4.14.76",
+    "@types/node": "^14.0.24",
+    "@types/qs": "^6.5.1",
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8",
+    "@types/react-router": "^4.0.16",
+    "@types/react-router-dom": "^5.1.7",
+    "@types/sortablejs": "^1.10.7",
+    "@types/tinycolor2": "^1.4.3",
+    "ajv": "^8.8.2",
+    "autoprefixer": "^10.4.12",
+    "concurrently": "^6.2.0",
+    "css-loader": "^6.2.0",
+    "faker": "^5.5.3",
+    "i18n-command": "^0.0.23-beta.15",
+    "mini-css-extract-plugin": "^2.3.0",
+    "postcss-import": "^14.1.0",
+    "postcss-minify": "^1.1.0",
+    "postcss-url": "^10.1.3",
+    "prettier": "^2.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-overlays": "5.1.1",
+    "react-router": "5.2.0",
+    "react-router-dom": "5.2.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.73.0",
+    "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-license": "^2.7.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "sass": "^1.49.7",
+    "sass-loader": "^12.5.0",
+    "style-loader": "^3.2.1",
+    "stylelint": "^14.11.0",
+    "ts-loader": "^9.2.5",
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.2"
+  },
+  "peerDependencies": {
+    "amis": "*",
+    "amis-core": "*",
+    "amis-formula": "*",
+    "amis-theme-editor-helper": "*",
+    "amis-ui": "*",
+    "i18n-runtime": "*",
+    "react": ">=16.8.6",
+    "react-dom": ">=16.8.6"
+  }
+}

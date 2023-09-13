@@ -18,55 +18,122 @@ order: 56
   "api": "/api/mock2/sample?perPage=5",
   "body": [
     {
-      "type": "panel",
-      "title": "简单 List 示例",
-      "body": {
-        "type": "list",
-        "source": "$rows",
-        "listItem": {
-          "body": [
-            {
-              "type": "hbox",
-              "columns": [
-                {
-                  "label": "Engine",
-                  "name": "engine"
-                },
+      "type": "list",
+      "source": "$rows",
+      "listItem": {
+        "body": [
+          {
+            "type": "hbox",
+            "columns": [
+              {
+                "label": "Engine",
+                "name": "engine"
+              },
 
-                {
-                  "name": "version",
-                  "label": "Version"
-                }
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "type": "button",
-              "level": "link",
-              "label": "查看详情",
-              "actionType": "dialog",
-              "dialog": {
-                "title": "查看详情",
-                "body": {
-                  "type": "form",
-                  "body": [
-                    {
-                      "label": "Engine",
-                      "name": "engine",
-                      "type": "static"
-                    },
-                    {
-                      "name": "version",
-                      "label": "Version",
-                      "type": "static"
-                    }
-                  ]
-                }
+              {
+                "name": "version",
+                "label": "Version"
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "type": "button",
+            "level": "link",
+            "label": "查看详情",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "查看详情",
+              "body": {
+                "type": "form",
+                "body": [
+                  {
+                    "label": "Engine",
+                    "name": "engine",
+                    "type": "static"
+                  },
+                  {
+                    "name": "version",
+                    "label": "Version",
+                    "type": "static"
+                  }
+                ]
               }
             }
-          ]
-        }
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+## 选择模式
+
+设置`"selectable": true`, 列表开启多选模式
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/sample?perPage=5",
+  "body": [
+    {
+      "type": "list",
+      "selectable": true,
+      "source": "$rows",
+      "listItem": {
+        "body": [
+          {
+            "type": "hbox",
+            "columns": [
+              {
+                "label": "Engine",
+                "name": "engine"
+              },
+
+              {
+                "name": "version",
+                "label": "Version"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+列表默认支持多选，设置`"multiple": false`开启单选模式
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/sample?perPage=5",
+  "body": [
+    {
+      "type": "list",
+      "selectable": true,
+      "multiple": false,
+      "source": "$rows",
+      "listItem": {
+        "body": [
+          {
+            "type": "hbox",
+            "columns": [
+              {
+                "label": "Engine",
+                "name": "engine"
+              },
+
+              {
+                "name": "version",
+                "label": "Version"
+              }
+            ]
+          }
+        ]
       }
     }
   ]
@@ -87,60 +154,86 @@ order: 56
   "api": "/api/mock2/sample?perPage=5",
   "body": [
     {
-      "type": "panel",
-      "title": "简单 List 示例",
-      "body": {
-        "type": "list",
-        "source": "$rows",
-        "itemAction": {
-          "type": "button",
-          "actionType": "dialog",
-          "dialog": {
-            "title": "详情",
-            "body": "当前行的数据 browser: ${browser}, version: ${version}"
+      "type": "list",
+      "source": "$rows",
+      "itemAction": {
+        "type": "button",
+        "actionType": "dialog",
+        "dialog": {
+          "title": "详情",
+          "body": "当前行的数据 browser: ${browser}, version: ${version}"
+        }
+      },
+      "listItem": {
+        "body": [
+          {
+            "type": "hbox",
+            "columns": [
+              {
+                "label": "Engine",
+                "name": "engine"
+              },
+
+              {
+                "name": "version",
+                "label": "Version"
+              }
+            ]
           }
-        },
-        "listItem": {
+        ],
+        "actions": [
+          {
+            "type": "button",
+            "level": "link",
+            "label": "查看详情",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "查看详情",
+              "body": {
+                "type": "form",
+                "body": [
+                  {
+                    "label": "Engine",
+                    "name": "engine",
+                    "type": "static"
+                  },
+                  {
+                    "name": "version",
+                    "label": "Version",
+                    "type": "static"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+## 设置组件的 CSS 类
+
+`className`属性会添加到组件外层 DOM 节点上，如果要在组件当前层级添加 CSS 类，请设置`innerClassName`属性
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/sample?perPage=5",
+  "body": [
+    {
+      "type": "list",
+      "source": "$rows",
+      "listItem": {
+        "body": {
+          "type": "wrapper",
+          "className": "border-4 border-solid border-primary",
+          "innerClassName": "border-4 border-solid border-success",
           "body": [
             {
-              "type": "hbox",
-              "columns": [
-                {
-                  "label": "Engine",
-                  "name": "engine"
-                },
-
-                {
-                  "name": "version",
-                  "label": "Version"
-                }
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "type": "button",
-              "level": "link",
-              "label": "查看详情",
-              "actionType": "dialog",
-              "dialog": {
-                "title": "查看详情",
-                "body": {
-                  "type": "form",
-                  "body": [
-                    {
-                      "label": "Engine",
-                      "name": "engine",
-                      "type": "static"
-                    },
-                    {
-                      "name": "version",
-                      "label": "Version",
-                      "type": "static"
-                    }
-                  ]
-                }
-              }
+              "type": "tpl",
+              "tpl": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
             }
           ]
         }
@@ -158,6 +251,8 @@ order: 56
 | title                    | `string`                             |                       | 标题                                                                         |
 | source                   | `string`                             | `${items}`            | 数据源, 获取当前数据域变量，支持[数据映射](../../docs/concepts/data-mapping) |
 | placeholder              | `string`                             | ‘暂无数据’            | 当没数据的时候的文字提示                                                     |
+| selectable               | `boolean`                            | `false`               | 列表是否可选                                                                 |
+| multiple                 | `boolean`                            | `true`                | 列表是否为多选                                                               |
 | className                | `string`                             |                       | 外层 CSS 类名                                                                |
 | headerClassName          | `string`                             | `amis-list-header`    | 顶部外层 CSS 类名                                                            |
 | footerClassName          | `string`                             | `amis-list-footer`    | 底部外层 CSS 类名                                                            |
@@ -168,6 +263,91 @@ order: 56
 | listItem.avatar          | [模板](../../docs/concepts/template) |                       | 图片地址                                                                     |
 | listItem.avatarClassName | `string`                             | `thumb-sm avatar m-r` | 图片 CSS 类名                                                                |
 | listItem.desc            | [模板](../../docs/concepts/template) |                       | 描述                                                                         |
-| listItem.body            | `Array`                              |                       | 内容容器，主要用来放置非表单项组件                                           |
+| listItem.body            | `ListBodyField[]`                    |                       | 内容容器，主要用来放置非表单项组件                                           |
 | listItem.actions         | Array<[Action](./action)>            |                       | 按钮区域                                                                     |
 | listItem.actionsPosition | 'left' or 'right'                    | 默认在右侧            | 按钮位置                                                                     |
+
+### ListBodyField
+
+```typescript
+interface ListBodyField {
+  /* 列标题 */
+  label?: string;
+  /* 外层DOM的CSS类名 */
+  className?: string;
+  /* label的CSS类名 */
+  labelClassName?: string;
+  /* 内层组件的CSS类名，className属性会添加到外层DOM，如果要在组件层级添加CSS类，请设置当前属性 */
+  innerClassName?: string;
+  /* 绑定字段名 */
+  name?: string;
+  /* 配置查看详情功能 */
+  popOver?: SchemaPopOver;
+  /* 配置快速编辑功能 */
+  quickEdit?: SchemaQuickEdit;
+  /* 配置点击复制功能 */
+  copyable?: SchemaCopyable;
+}
+```
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称  | 事件参数      | 说明                                                                                                                         | 版本    |
+| --------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------- |
+| itemClick | `item: IItem` | 单行被点击时触发，`IItem`为点击行的信息。注意`itemAction`和`onEvent`是互斥的，List 组件中的`onEvent`会覆盖`itemAction`的行为 | `2.4.0` |
+
+**IItem**
+
+| 属性名 | 类型                  | 默认值 | 说明                |
+| ------ | --------------------- | ------ | ------------------- |
+| data   | `Record<string, any>` |        | 当前行所在数据域    |
+| index  | `number`              |        | 行索引值，从 0 开始 |
+
+### itemClick
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/mock2/sample?perPage=5",
+  "body": [
+    {
+      "type": "list",
+      "source": "$rows",
+      "listItem": {
+        "body": [
+          {
+            "type": "hbox",
+            "columns": [
+              {
+                "label": "Engine",
+                "name": "engine"
+              },
+              {
+                "name": "version",
+                "label": "Version"
+              }
+            ]
+          }
+        ]
+      },
+      "onEvent": {
+        "itemClick": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "${event.data.item.index} ${event.data.item.data.engine}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```

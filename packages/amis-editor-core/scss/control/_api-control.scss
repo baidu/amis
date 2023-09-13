@@ -1,0 +1,168 @@
+.ae-ApiControl {
+  position: relative;
+
+  &.border {
+    padding: #{px2rem(10px)};
+    border-radius: $Editor-borderRadius;
+    border: 1px solid #e6e6e8;
+  }
+
+  &-header {
+    @include flexBox();
+    height: #{px2rem(24px)};
+    position: absolute;
+    right: 0;
+    top: px2rem(-26px);
+  }
+
+  &-content {
+    @include flexBox();
+    align-items: stretch;
+
+    .ae-ApiControl-input {
+      background: var(--Form-input-bg);
+      border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+      border-radius: var(--Form-input-borderRadius);
+      line-height: var(--Form-input-lineHeight);
+      padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+      font-size: var(--Form-input-fontSize);
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      flex: 1;
+      margin-right: #{px2rem(10px)};
+      // max-width: calc(100% - 52px);
+      height: var(--Button--sm-height);
+
+      & > input {
+        flex-basis: 5rem;
+        flex-grow: 1;
+        outline: 0;
+        background: transparent;
+        border: 0;
+        color: var(--Form-input-color);
+        width: 100%;
+        height: calc(var(--Form-input-lineHeight) * var(--Form-input-fontSize));
+      }
+
+      .ae-ApiControl-setting-button {
+        height: unset;
+      }
+    }
+  }
+
+  &-highlight {
+    width: 100%;
+    max-width: calc(100% - var(--fontSizeLg));
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    &-tag {
+      display: inline-block;
+      background: #007bff;
+      padding: 3px 5px;
+      margin: 0 1px;
+      color: #fff;
+      font-size: 12px;
+      line-height: 14px;
+      height: 20px;
+      border-radius: #{px2rem(4px)};
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 90%;
+    }
+  }
+
+  &-icon {
+    width: var(--fontSizeLg) !important;
+    height: var(--fontSizeLg) !important;
+  }
+
+  &-dialog {
+    &-body {
+      margin: #{px2rem(16px)} 0 #{px2rem(24px)};
+
+      .ae-ApiControl-form {
+        @include panel-sm-content();
+        --Tabs--line-fontSize: #{$Editor-right-panel-font-size};
+        --Tabs--line-active-fontSize: #{$Editor-right-panel-font-size};
+        --Tabs--line-hover-fontSize: #{$Editor-right-panel-font-size};
+        .ae-ApiControl-tabContent {
+          max-height: 560px;
+          overflow-x: hidden;
+          overflow-y: auto;
+          border-bottom: 1px solid var(--borderColor);
+        }
+
+        .ae-ApiControl-title {
+          border-left: none;
+          font-weight: bold;
+          color: #333;
+          line-height: #{px2rem(20px)};
+          padding-left: 0;
+        }
+      }
+    }
+  }
+
+  &-picker {
+    &-dialog {
+      &-content {
+        height: 500px;
+        max-height: 500px;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+    }
+  }
+}
+
+.ae-ApiControl-PickerBtn {
+  padding: 0;
+
+  &:hover > svg path {
+    stroke: var(--primary);
+    color: var(--primary);
+  }
+}
+
+.ae-AdaptorControl {
+  &-func {
+    &-header,
+    &-footer {
+      padding-left: 8px;
+      font-size: 12px;
+    }
+    &-header {
+      margin-bottom: -20px;
+    }
+    &-footer {
+      margin-top: -20px;
+    }
+    &-arg {
+      padding: 0;
+      height: auto;
+      font-size: 12px;
+      vertical-align: baseline;
+      color: var(--primary);
+    }
+    &-editor {
+      margin-bottom: 0;
+      .cxd-EditorControl {
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+      .cxd-MonacoEditor-placeholder {
+        line-height: 18px;
+        font-size: 12px;
+      }
+    }
+  }
+  &-desc-tooltip {
+    max-width: 500px;
+  }
+}

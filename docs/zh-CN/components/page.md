@@ -212,6 +212,16 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 }
 ```
 
+上面的配置会自动创建一个 `<style>` 标签，其中内容就是：
+
+```css
+.myClass {
+  color: blue;
+}
+```
+
+配置写法和编写普通 css 的体验是一致的，可以使用任意 css 选择符及属性。
+
 ## aside 可调整宽度
 
 通过配置 `asideResizor`，可以让侧边栏支持动态调整宽度，同时可以通过 `asideMinWidth`、`asideMaxWidth` 设置 aside 最大最小宽度。
@@ -236,16 +246,6 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
   ]
 }
 ```
-
-上面的配置会自动创建一个 `<style>` 标签，其中内容就是：
-
-```css
-.myClass {
-  color: blue;
-}
-```
-
-配置写法和编写普通 css 的体验是一致的，可以使用任意 css 选择符及属性。
 
 ## aside 位置固定
 
@@ -282,14 +282,208 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 
 ## 事件表
 
-| 事件名称    | 事件参数       | 说明                                         |
-| ----------- | -------------- | -------------------------------------------- |
-| inited      | api 初始化数据 | 初始化完成                                   |
-| pullRefresh |                | 配置下拉刷新后下拉释放后触发（仅用于移动端） |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+> `[name]`为当前数据域中的字段名，例如：当前数据域为 {username: 'amis'}，则可以通过${username}获取对应的值。
+
+| 事件名称    | 事件参数                                                                                                                                                                                   | 说明                                                |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- |
+| init        | -                                                                                                                                                                                          | 组件实例被创建并插入 DOM 中时触发。2.4.1 及以上版本 |
+| inited      | `responseData: any` 请求的响应数据</br>`responseStatus: number` 响应状态，0 表示成功</br>`responseMsg: string`响应消息, `error`表示接口是否成功<br/>`[name]: any` 当前数据域中指定字段的值 | initApi 接口请求完成时触发                          |
+| pullRefresh | -                                                                                                                                                                                          | 开启下拉刷新后，下拉释放后触发（仅用于移动端）      |
+
+### init 和 inited
+
+```schema
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData",
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "当前时间是：${date}"
+    }
+  ],
+  "onEvent": {
+    "init": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "init"
+          }
+        }
+      ]
+    },
+    "inited": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.data.responseData|json}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
 
 ## 动作表
 
-| 动作名称 | 动作配置                   | 说明             |
-| -------- | -------------------------- | ---------------- |
-| reload   | -                          | 刷新（重新加载） |
-| setValue | `value: object` 更新的数据 | 更新数据         |
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置                   | 说明                                     |
+| -------- | -------------------------- | ---------------------------------------- |
+| reload   | -                          | 重新加载，调用 `intiApi`，刷新数据域数据 |
+| setValue | `value: object` 更新的数据 | 更新数据                                 |
+
+### reload
+
+#### 只做刷新
+
+重新发送`initApi`请求，刷新 Page 时，只配置`componentId`目标组件 ID 即可。
+
+```schema
+{
+  "type": "page",
+  "id": "page_reload_1",
+  "initApi": "/api/mock2/page/initData",
+  "body": [
+    {
+      "type": "button",
+      "label": "刷新Page数据加载请求",
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "page_reload_1",
+              "actionType": "reload"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "tpl",
+      "tpl": "当前时间是：${date}"
+    }
+  ]
+}
+```
+
+#### 发送数据并刷新
+
+刷新 Page 组件时，如果配置了`data`，将先发送`data`给目标组件，并将该数据合并到目标组件的数据域中（如果配置`"dataMergeMode": "override"`将覆盖目标组件的数据），然后重新请求数据。
+
+```schema
+{
+  "type": "page",
+  "id": "page_reload_2",
+  "initApi": "/api/mock2/page/initData",
+  "body": [
+    {
+      "type": "button",
+      "label": "刷新Page数据加载请求，并将我的年龄设置为18",
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "page_reload_2",
+              "actionType": "reload",
+              "data": {
+                "age": 18
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "tpl",
+      "tpl": "当前时间是：${date}， 我的年龄：${age|default:'-'}"
+    }
+  ]
+}
+```
+
+### setValue
+
+通过`setValue`更新指定页面组件的数据。
+
+#### 合并数据
+
+默认`setValue`会将新数据与目标组件数据进行合并。
+
+```schema
+{
+  "type": "page",
+  "id": "page02",
+  "initApi": "/api/mock2/page/initData",
+  "body": [
+    {
+      "type": "button",
+      "label": "更新数据",
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "page02",
+              "actionType": "setValue",
+              "args": {
+                "value": {"date": "2023-05-01"}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "tpl",
+      "tpl": "标题：${title} 当前时间是：${date}"
+    }
+  ]
+}
+```
+
+#### 覆盖数据
+
+可以通过`"dataMergeMode": "override"`来覆盖目标组件数据。
+
+```schema
+{
+  "type": "page",
+  "id": "page02",
+  "initApi": "/api/mock2/page/initData",
+  "body": [
+    {
+      "type": "button",
+      "label": "更新数据",
+      "className": "mb-2",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "page02",
+              "actionType": "setValue",
+              "args": {
+                "value": {"date": "2023-05-01"}
+              },
+              "dataMergeMode": "override"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "tpl",
+      "tpl": "标题：${title|default:'-'} 当前时间是：${date}"
+    }
+  ]
+}
+```

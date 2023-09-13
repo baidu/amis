@@ -1,0 +1,10 @@
+.#{$ns}ChainedSelectControl {
+  .#{$ns}Select {
+    margin-right: var(--gap-xs);
+  }
+
+  &-spinner {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

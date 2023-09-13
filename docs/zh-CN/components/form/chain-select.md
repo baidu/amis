@@ -21,7 +21,7 @@ order: 7
         {
             "name": "select3",
             "type": "chained-select",
-            "label": "级联下拉",
+            "label": "链式下拉",
             "source": "/api/mock2/options/chainedOptions?waitSeconds=1&parentId=$parentId&level=$level&maxLevel=4",
             "value": "a,b"
         }
@@ -57,15 +57,21 @@ order: 7
 
 ## 事件表
 
-| 事件名称 | 事件参数               | 说明                 |
-| -------- | ---------------------- | -------------------- |
-| change   | `value: string` 选中值 | 选中值发生变化时触发 |
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+
+| 事件名称 | 事件参数                  | 说明             |
+| -------- | ------------------------- | ---------------- |
+| change   | `[name]: string` 组件的值 | 选中值变化时触发 |
 
 ## 动作表
 
-| 动作名称 | 动作配置                 | 说明                                                   |
-| -------- | ------------------------ | ------------------------------------------------------ |
-| clear    | -                        | 清空                                                   |
-| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空 |
-| reload   | -                        | 刷新（重新加载），只针对配置了`source`的点选按钮有效   |
-| setValue | `value: string` 更新的值 | 更新数据，多个值用`,`分隔                              |
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置                 | 说明                                                    |
+| -------- | ------------------------ | ------------------------------------------------------- |
+| clear    | -                        | 清空                                                    |
+| reset    | -                        | 将值重置为`resetValue`，若没有配置`resetValue`，则清空  |
+| reload   | -                        | 重新加载，调用 `source`，刷新数据域数据刷新（重新加载） |
+| setValue | `value: string` 更新的值 | 更新数据，多个值用`,`分隔                               |

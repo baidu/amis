@@ -296,7 +296,7 @@ import {Renderer, ScopedContext} from 'amis';
 export class CustomRenderer extends React.Component {
   static contextType = ScopedContext;
 
-  componentWillMount() {
+  constructor() {
     const scoped = this.context;
     scoped.registerComponent(this);
   }

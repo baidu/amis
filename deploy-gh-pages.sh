@@ -5,20 +5,16 @@ set -e
 echo "building"
 node ./scripts/generate-search-data.js
 
-npm run build-schemas
-
 ./node_modules/.bin/fis3 release gh-pages -c
 
 # 拷贝一份兼容之前的访问路径
 cp -r gh-pages/zh-CN/docs/* gh-pages/docs/
 
-cp ./schema.json ./gh-pages
+cp ./packages/amis/schema.json ./gh-pages
 
 cp -r mock gh-pages/
 
-sh build.sh
-
-tar -zcvf sdk.tar.gz sdk
+tar -zcvf sdk.tar.gz packages/amis/sdk
 
 mv sdk.tar.gz gh-pages/
 

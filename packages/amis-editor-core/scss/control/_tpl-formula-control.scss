@@ -1,0 +1,141 @@
+.ae-TplFormulaControl {
+  position: relative;
+  width: 100%;
+  display: flex;
+  height: var(--input-size-default-height);
+
+  .ae-TplResultBox {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    border: 1px solid var(--Form-input-borderColor);
+    border-radius: var(--input-default-default-top-left-border-radius) 0 0
+      var(--input-default-default-bottom-left-border-radius);
+    background: var(--Form-input-bg);
+    font-size: var(--Form-input-fontSize);
+    padding: 0 8px;
+
+    .input-clear-icon {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 8px;
+      margin: auto;
+      height: 14px;
+      fill: var(--Form-input-clearBtn-color);
+      cursor: pointer;
+
+      &:hover {
+        fill: var(--Form-input-clearBtn-color-onHover);
+      }
+    }
+
+    &::placeholder {
+      color: var(--Form-input-placeholderColor);
+    }
+
+    &:hover {
+      border-color: var(--Form-input-onHover-borderColor);
+    }
+
+    &-editor {
+      border-radius: var(--Form-input-borderRadius);
+      & > .CodeMirror {
+        height: 100%;
+        color: var(--Form-input-color);
+        font-family: inherit;
+
+        span[class^='cm-'] {
+          color: var(--input-default-default-color);
+        }
+
+        // 解决上下 pre标签中表达式浮层遮挡问题
+        .CodeMirror-measure + div {
+          z-index: inherit !important;
+        }
+        pre.CodeMirror-line,
+        .CodeMirror pre.CodeMirror-line-like {
+          z-index: initial;
+        }
+
+        .CodeMirror-sizer {
+          min-height: 30px !important;
+        }
+
+        .CodeMirror-hscrollbar {
+          display: none !important;
+        }
+
+        .CodeMirror-lines {
+          line-height: 20px;
+        }
+      }
+    }
+
+    .cm-expression {
+      background: #007bff;
+      padding: 0px 5px;
+      margin: 0 1px;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 4px;
+    }
+  }
+
+  &-button {
+    height: auto;
+    background-color: #f7f7f9;
+    padding: 4px 8px;
+    border-radius: 0 var(--input-default-default-top-left-border-radius)
+      var(--input-default-default-bottom-left-border-radius) 0;
+    border-left: 0;
+    &:not(:disabled):not(.is-disabled) {
+      &:hover,
+      &:hover:active {
+        border-color: #e6f0ff;
+        background-color: #e6f0ff;
+        border-left-width: 0;
+      }
+    }
+  }
+
+  &-icon {
+    font-size: #{px2rem(14px)};
+    &:not(:last-child) {
+      margin-right: var(--fontSizeSm);
+    }
+
+    &.is-filled {
+      fill: var(--primary);
+      color: var(--primary);
+    }
+  }
+
+  &-placeholder {
+    position: absolute;
+    line-height: 30px;
+    top: 0;
+    left: 14px;
+    font-size: 12px;
+    color: var(--text--muted-color);
+    pointer-events: none;
+  }
+
+  &-tooltip {
+    position: absolute;
+    top: 6px;
+    height: 18px;
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  &.clearable {
+    .ae-TplResultBox {
+      padding-right: 28px;
+    }
+  }
+
+  .cm-expression-text {
+    max-width: 48px;
+  }
+}

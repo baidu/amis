@@ -18,10 +18,12 @@ order: 12
   "data": {
     "name": "rick"
   },
-  "body": {
-    "type": "tpl",
-    "tpl": "my name is ${name}" // 输出: my name is rick
-  }
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "my name is ${name}" // 输出: my name is rick
+    }
+  ]
 }
 ```
 
@@ -366,6 +368,7 @@ order: 12
 - `window` 即全局变量
 - `ls` 即 localStorage， 如果值是 json 对象，可以直接当对象用比如：`${ls:xxxxxlocalStrorageKey.xxxx}`
 - `ss` 即 sessionStorage，同上。
+- `cookie` 即 cookies，同上。
 
 ```schema
 {
@@ -812,7 +815,7 @@ ${xxx | url_encode}
 
 ### url_decode
 
-效果同 [decodeURIComponent() - JavaScript | MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent)
+效果同 [decodeURIComponent() - JavaScript | MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent)，注意从`2.3.0`版本开始，不合法的输入会被转化为`undefined`。
 
 ##### 基本用法
 
@@ -1299,6 +1302,43 @@ ${xxx | bytes}
     {
         "type": "tpl",
         "tpl": "bytes3 is ${bytes3|bytes}"
+    }
+  ]
+}
+```
+
+##### 指定换算间隔参数
+
+```
+${xxx | bytes[:step]}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "bytes1": 2333,
+    "bytes2": 2333333,
+    "bytes3": 2333333333
+  },
+  "body": [
+    {
+        "type": "tpl",
+        "tpl": "bytes1 is ${bytes1|bytes:1024}"
+    },
+    {
+        "type": "divider"
+    },
+    {
+        "type": "tpl",
+        "tpl": "bytes2 is ${bytes2|bytes:1024}"
+    },
+    {
+        "type": "divider"
+    },
+    {
+        "type": "tpl",
+        "tpl": "bytes3 is ${bytes3|bytes:1024}"
     }
   ]
 }
@@ -1793,6 +1833,8 @@ ${xxx|filter1|filter2|...}
 
 amis npm 包里面暴露了 `registerFilter` 方法，通过它可以添加自己的过滤器逻辑。
 
+> 注意方法名不要出现 - 号，比如 a-b，要改成 a_b
+
 如：
 
 ```ts
@@ -1810,12 +1852,12 @@ registerFilter('count', (input: string) =>
 ```ts
 import {registerFilter} from 'amis';
 
-registerFilter('my-replace', (input: string, search: string, repalceWith) =>
+registerFilter('my_replace', (input: string, search: string, repalceWith) =>
   typeof input === 'string' ? input.replace(search, repalceWith) : input
 );
 ```
 
-用法为 `${xxxx|my-replace:aaaa:bbbb}`
+用法为 `${xxxx|my_replace:aaaa:bbbb}`
 
 ### 在 JS SDK 中自定义过滤器
 
