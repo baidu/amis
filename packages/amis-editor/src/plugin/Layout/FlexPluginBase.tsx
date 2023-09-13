@@ -178,10 +178,14 @@ export class FlexPluginBase extends LayoutBasePlugin {
                     visibleOn: `${!isFlexItem || isFlexColumnItem}`
                   }),
                   getSchemaTpl('layout:max-width', {
-                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                    visibleOn: `${
+                      !isFlexItem || isFlexColumnItem
+                    } || ${isFlexItem} && data.style.flex !== '0 0 150px'`
                   }),
                   getSchemaTpl('layout:min-width', {
-                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                    visibleOn: `${
+                      !isFlexItem || isFlexColumnItem
+                    } || ${isFlexItem} && data.style.flex !== '0 0 150px'`
                   }),
 
                   getSchemaTpl('layout:overflow-x', {
