@@ -35,8 +35,8 @@ export class List2Plugin extends BasePlugin {
     type: 'cards',
     columnsCount: 1,
     card: {
-      type: 'flex',
-      items: [
+      type: 'container',
+      body: [
         {
           type: 'container',
           body: [
@@ -228,6 +228,7 @@ export class List2Plugin extends BasePlugin {
           id: 'u:77cb3edb2288'
         }
       ],
+      wrapperBody: false,
       style: {
         'position': 'relative',
         'display': 'flex',
@@ -258,7 +259,7 @@ export class List2Plugin extends BasePlugin {
       }
     },
     placeholder: '',
-    name: 'items',
+    // name: 'items',
     style: {
       gutterY: 10
     }
