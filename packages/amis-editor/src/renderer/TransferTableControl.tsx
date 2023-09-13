@@ -482,10 +482,11 @@ export default class TransferTableOption extends React.Component<
   }
 
   render() {
+    const {theme} = this.props;
     return (
       <div className="ae-OptionControl-footer">
-        {amisRender(this.addColumns())}
-        {amisRender(this.addRows())}
+        {amisRender(this.addColumns(), {theme})}
+        {amisRender(this.addRows(), {theme})}
       </div>
     );
   }
