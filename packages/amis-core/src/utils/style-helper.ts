@@ -43,18 +43,19 @@ interface extra {
   suf?: string;
 }
 
-export function findOrCreateStyle(id: string) {
-  let varStyleTag = document.getElementById(id);
+export function findOrCreateStyle(id: string, doc?: Document) {
+  doc = doc || document;
+  let varStyleTag = doc.getElementById(id);
   if (!varStyleTag) {
-    varStyleTag = document.createElement('style');
+    varStyleTag = doc.createElement('style');
     varStyleTag.id = id;
-    document.body.appendChild(varStyleTag);
+    doc.body.appendChild(varStyleTag);
   }
   return varStyleTag;
 }
 
-export function insertStyle(style: string, id: string) {
-  const varStyleTag = findOrCreateStyle(id);
+export function insertStyle(style: string, id: string, doc?: Document) {
+  const varStyleTag = findOrCreateStyle(id, doc);
 
   // bca-disable-line
   varStyleTag.innerHTML = style;
@@ -273,7 +274,8 @@ export function insertCustomStyle(
   classNames?: CustomStyleClassName[],
   id?: string,
   defaultData?: any,
-  customStyleClassPrefix?: string
+  customStyleClassPrefix?: string,
+  doc?: Document
 ) {
   if (!themeCss) {
     return;
@@ -284,7 +286,7 @@ export function insertCustomStyle(
     value = customStyleClassPrefix
       ? `${customStyleClassPrefix} ${value}`
       : value;
-    insertStyle(value, id?.replace('u:', '') || uuid());
+    insertStyle(value, id?.replace('u:', '') || uuid(), doc);
   }
 }
 
@@ -331,7 +333,11 @@ function traverseStyle(style: any, path: string, result: any) {
 /**
  * 设置源码编辑自定义样式
  */
-export function insertEditCustomStyle(customStyle: any, id?: string) {
+export function insertEditCustomStyle(
+  customStyle: any,
+  id?: string,
+  doc?: Document
+) {
   let styles: any = {};
   traverseStyle(customStyle, '', styles);
 
@@ -358,7 +364,8 @@ export function insertEditCustomStyle(customStyle: any, id?: string) {
   }
   insertStyle(
     content,
-    'wrapperCustomStyle-' + (id?.replace('u:', '') || uuid())
+    'wrapperCustomStyle-' + (id?.replace('u:', '') || uuid()),
+    doc
   );
 }
 
@@ -368,6 +375,7 @@ export interface InsertCustomStyle {
   id?: string;
   defaultData?: any;
   customStyleClassPrefix?: string;
+  doc?: Document;
 }
 
 export class StyleDom {
@@ -388,14 +396,16 @@ export class StyleDom {
     themeCss,
     classNames,
     defaultData,
-    customStyleClassPrefix
+    customStyleClassPrefix,
+    doc
   }: InsertCustomStyle) {
     insertCustomStyle(
       themeCss,
       classNames,
       this.id,
       defaultData,
-      customStyleClassPrefix
+      customStyleClassPrefix,
+      doc
     );
   }
 
@@ -404,14 +414,14 @@ export class StyleDom {
    *
    * @param wrapperCustomStyle 自定义样式
    */
-  insertEditCustomStyle(wrapperCustomStyle: any) {
-    insertEditCustomStyle(wrapperCustomStyle, this.id);
+  insertEditCustomStyle(wrapperCustomStyle: any, doc?: Document) {
+    insertEditCustomStyle(wrapperCustomStyle, this.id, doc);
   }
   /**
    * 移除自定义样式
    */
-  removeCustomStyle(type?: string) {
-    const style = document.getElementById(
+  removeCustomStyle(type?: string, doc?: Document) {
+    const style = (doc || document).getElementById(
       (type ? type + '-' : '') + this.id.replace('u:', '')
     );
     if (style) {
