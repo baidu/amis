@@ -607,7 +607,8 @@ export function JsonGenerateID(json: any) {
     return;
   }
 
-  if (json.type && !json.id) {
+  if (json.type) {
+    //  && !json.id
     json.id = generateNodeId();
   }
 
