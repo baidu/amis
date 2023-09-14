@@ -548,7 +548,6 @@ export default class Table extends React.Component<TableProps, object> {
     this.tableRef = this.tableRef.bind(this);
     this.affixedTableRef = this.affixedTableRef.bind(this);
     this.updateTableInfo = this.updateTableInfo.bind(this);
-    this.updateTableInfoRef = this.updateTableInfoRef.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
@@ -1237,13 +1236,6 @@ export default class Table extends React.Component<TableProps, object> {
     this.props.store.initTableWidth();
     this.handleOutterScroll();
     callback && setTimeout(callback, 20);
-  }
-
-  updateTableInfoRef(ref: any) {
-    if (!ref) {
-      return;
-    }
-    this.updateTableInfo();
   }
 
   // 当表格滚动是，需要让 affixHeader 部分的表格也滚动
@@ -2721,13 +2713,6 @@ export default class Table extends React.Component<TableProps, object> {
           onMouseLeave={this.handleMouseLeave}
         >
           {this.renderTableContent()}
-
-          {
-            // 利用这个将 table-layout: auto 转成 table-layout: fixed
-            store.columnWidthReady ? null : (
-              <span ref={this.updateTableInfoRef} />
-            )
-          }
         </div>
 
         {footer}

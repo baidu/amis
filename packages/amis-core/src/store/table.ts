@@ -785,7 +785,7 @@ export const TableStore = iRendererStore
       },
 
       get columnWidthReady() {
-        return getFilteredColumns().every(column => column.width);
+        return getFilteredColumns().every(column => column.realWidth);
       },
 
       getStickyStyles(column: IColumn, columns: Array<IColumn>) {
@@ -1036,11 +1036,11 @@ export const TableStore = iRendererStore
       const tableWidth = table.parentElement!.offsetWidth;
       const thead = table.querySelector(':scope>thead')!;
       let tbody: HTMLElement | null = null;
-      const div = document.createElement('div');
-      div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
-      div.style.cssText += `visibility: hidden!important;`;
       const htmls: Array<string> = [];
       const isFixed = self.tableLayout === 'fixed';
+      const someSettedWidth = self.columns.some(
+        column => column.pristine.width
+      );
 
       const minWidths: {
         [propName: string]: number;
@@ -1054,17 +1054,27 @@ export const TableStore = iRendererStore
         );
       }
 
-      htmls.push(
-        `<table style="table-layout:auto!important;min-width:${tableWidth}px!important;width:${tableWidth}px!important;" class="${table.className.replace(
-          'is-layout-fixed',
-          ''
-        )}">${thead.outerHTML}${
-          tbody ? `<tbody>${tbody.innerHTML}</tbody>` : ''
-        }</table>`
-      );
+      if (someSettedWidth || isFixed) {
+        htmls.push(
+          `<table style="table-layout:auto!important;min-width:${tableWidth}px!important;width:${tableWidth}px!important;" class="${table.className.replace(
+            'is-layout-fixed',
+            ''
+          )}">${thead.outerHTML}${
+            tbody ? `<tbody>${tbody.innerHTML}</tbody>` : ''
+          }</table>`
+        );
+      }
 
+      if (!htmls.length) {
+        return;
+      }
+
+      const div = document.createElement('div');
+      div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
+      div.style.cssText += `visibility: hidden!important;`;
       div.innerHTML = htmls.join('');
       let ths1: Array<HTMLTableCellElement> = [];
+      let ths2: Array<HTMLTableCellElement> = [];
 
       if (isFixed) {
         ths1 = [].slice.call(
@@ -1074,9 +1084,13 @@ export const TableStore = iRendererStore
         );
       }
 
-      const ths2: Array<HTMLTableCellElement> = [].slice.call(
-        div.querySelectorAll(':scope>table:last-child>thead>tr>th[data-index]')
-      );
+      if (someSettedWidth || isFixed) {
+        ths2 = [].slice.call(
+          div.querySelectorAll(
+            ':scope>table:last-child>thead>tr>th[data-index]'
+          )
+        );
+      }
 
       ths1.forEach(th => {
         th.style.cssText += 'width: 0';
@@ -1106,14 +1120,16 @@ export const TableStore = iRendererStore
       ths2.forEach((col: HTMLElement) => {
         const index = parseInt(col.getAttribute('data-index')!, 10);
         const column = self.columns[index];
-        column.setWidth(
-          Math.max(
-            typeof column.pristine.width === 'number'
-              ? column.pristine.width
-              : col.clientWidth,
-            minWidths[index] || 0
-          )
-        );
+        if (column.pristine.width || isFixed) {
+          column.setWidth(
+            Math.max(
+              typeof column.pristine.width === 'number'
+                ? column.pristine.width
+                : col.clientWidth,
+              minWidths[index] || 0
+            )
+          );
+        }
       });
 
       document.body.removeChild(div);
@@ -1132,10 +1148,6 @@ export const TableStore = iRendererStore
         const column = self.columns[index];
         column.setRealWidth(col.clientWidth);
       });
-    }
-
-    function invalidTableColumnWidth() {
-      self.columns.forEach(column => column.setWidth(0));
     }
 
     function combineCell(arr: Array<SRow>, keys: Array<string>): Array<SRow> {
@@ -1740,7 +1752,6 @@ export const TableStore = iRendererStore
       updateColumns,
       initTableWidth,
       syncTableWidth,
-      invalidTableColumnWidth,
       initRows,
       updateSelected,
       toggleAll,
