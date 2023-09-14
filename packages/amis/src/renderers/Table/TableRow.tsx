@@ -179,6 +179,7 @@ export class TableRow extends React.PureComponent<
       onEvent,
 
       expanded,
+      parentExpanded,
       id,
       newIndex,
       isHover,
@@ -188,7 +189,9 @@ export class TableRow extends React.PureComponent<
       depth,
       expandable,
       appeard,
+      checkdisable,
       trRef,
+      isNested,
 
       ...rest
     } = this.props;
