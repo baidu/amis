@@ -17,7 +17,7 @@ import {FormBaseControlSchema} from '../../Schema';
 export interface IconPickerControlSchema extends FormBaseControlSchema {
   type: 'icon-picker';
   // 这就不应该成为一个 amis 控件。。。
-  // 我感觉你说得对,一个select解决的事儿,非要搞个icon-picker,还要自己写个组件,感觉有点多余
+  // 你说得对,不过多的话确实方便一些,不然滚动条太长~~我加上了976个图标,你看看
 }
 
 export interface IconPickerProps extends FormControlProps {
