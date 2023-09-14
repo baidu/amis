@@ -38,8 +38,10 @@ export const RootStore = ServiceStore.named('RootStore')
     }
   }))
   .actions(self => ({
-    setContext(context: any) {
-      self.context = context;
+    updateContext(context: any) {
+      // 因为 context 不是受控属性，直接共用引用好了
+      // 否则还会触发孩子节点的重新渲染
+      Object.assign(self.context, context);
     },
     setRuntimeError(error: any, errorStack: any) {
       self.runtimeError = error;
