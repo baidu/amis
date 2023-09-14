@@ -134,7 +134,6 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       themeCss, // 外观样式的配置
       radioClassName
     } = this.props;
-    console.log('labelClassName', labelClassName);
     return (
       <>
         <Radios
