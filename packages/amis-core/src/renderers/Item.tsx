@@ -34,7 +34,7 @@ import {wrapControl} from './wrapControl';
 import debounce from 'lodash/debounce';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {findDOMNode} from 'react-dom';
-import {dataMapping} from '../utils';
+import {dataMapping, setThemeClassName} from '../utils';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 import CustomStyle from '../components/CustomStyle';
@@ -501,10 +501,15 @@ export interface FormItemConfig extends FormItemBasicConfig {
 }
 
 const getItemLabelClassName = (props: FormItemProps) => {
-  const {staticLabelClassName, labelClassName} = props;
+  const {staticLabelClassName, labelClassName, id, themeCss} = props;
   return props.static && staticLabelClassName
     ? staticLabelClassName
-    : labelClassName;
+    : `${labelClassName || ''} ${setThemeClassName(
+        'labelClassName',
+        id,
+        themeCss,
+        'item'
+      )}`;
 };
 
 const getItemInputClassName = (props: FormItemProps) => {
@@ -912,6 +917,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               controlSize !== 'full'
           },
           model?.errClassNames,
+          setThemeClassName(
+            'wrapperCustomStyle',
+            rest.id,
+            rest.wrapperCustomStyle,
+            'item'
+          ),
           getItemInputClassName(this.props)
         )
       });
@@ -956,7 +967,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         static: isStatic,
         staticClassName,
         id,
-        wrapperCustomStyle
+        wrapperCustomStyle,
+        themeCss
       } = props;
 
       // 强制不渲染 label 的话
@@ -983,9 +995,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               [`is-required`]: required
             },
             model?.errClassNames,
-            wrapperCustomStyle
-              ? `wrapperCustomStyle-${id?.replace('u:', '')}-item`
-              : ''
+            setThemeClassName(
+              'wrapperCustomStyle',
+              id,
+              wrapperCustomStyle,
+              'item'
+            )
           )}
           style={style}
         >
@@ -1076,7 +1091,16 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
             {renderDescription !== false && description
               ? render('description', description, {
-                  className: cx(`Form-description`, descriptionClassName)
+                  className: cx(
+                    `Form-description`,
+                    descriptionClassName,
+                    setThemeClassName(
+                      'descriptionClassName',
+                      id,
+                      themeCss,
+                      'item'
+                    )
+                  )
                 })
               : null}
           </div>
@@ -1109,7 +1133,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         mobileUI,
         translate: __,
         static: isStatic,
-        staticClassName
+        staticClassName,
+        themeCss,
+        wrapperCustomStyle,
+        id
       } = props;
 
       description = description || desc;
@@ -1124,7 +1151,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               'is-error': model && !model.valid,
               [`is-required`]: required
             },
-            model?.errClassNames
+            model?.errClassNames,
+            setThemeClassName(
+              'wrapperCustomStyle',
+              id,
+              wrapperCustomStyle,
+              'item'
+            )
           )}
           style={style}
         >
@@ -1194,7 +1227,16 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
               {renderDescription !== false && description
                 ? render('description', description, {
-                    className: cx(`Form-description`, descriptionClassName)
+                    className: cx(
+                      `Form-description`,
+                      descriptionClassName,
+                      setThemeClassName(
+                        'descriptionClassName',
+                        id,
+                        themeCss,
+                        'item'
+                      )
+                    )
                   })
                 : null}
             </div>
@@ -1235,10 +1277,18 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                   ))}
                 </ul>
               ) : null}
-
               {renderDescription !== false && description
                 ? render('description', description, {
-                    className: cx(`Form-description`, descriptionClassName)
+                    className: cx(
+                      `Form-description`,
+                      descriptionClassName,
+                      setThemeClassName(
+                        'descriptionClassName',
+                        id,
+                        themeCss,
+                        'item'
+                      )
+                    )
                   })
                 : null}
             </>
@@ -1272,7 +1322,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         mobileUI,
         translate: __,
         static: isStatic,
-        staticClassName
+        staticClassName,
+        themeCss,
+        wrapperCustomStyle,
+        id
       } = props;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
@@ -1287,7 +1340,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               'is-error': model && !model.valid,
               [`is-required`]: required
             },
-            model?.errClassNames
+            model?.errClassNames,
+            setThemeClassName(
+              'wrapperCustomStyle',
+              id,
+              wrapperCustomStyle,
+              'item'
+            )
           )}
           style={style}
         >
@@ -1359,7 +1418,16 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
             {renderDescription !== false && description
               ? render('description', description, {
-                  className: cx(`Form-description`, descriptionClassName)
+                  className: cx(
+                    `Form-description`,
+                    descriptionClassName,
+                    setThemeClassName(
+                      'descriptionClassName',
+                      id,
+                      themeCss,
+                      'item'
+                    )
+                  )
                 })
               : null}
           </div>
@@ -1392,7 +1460,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         mobileUI,
         translate: __,
         static: isStatic,
-        staticClassName
+        staticClassName,
+        wrapperCustomStyle,
+        themeCss,
+        id
       } = props;
       const labelWidth = props.labelWidth || props.formLabelWidth;
       description = description || desc;
@@ -1407,7 +1478,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               'is-error': model && !model.valid,
               [`is-required`]: required
             },
-            model?.errClassNames
+            model?.errClassNames,
+            setThemeClassName(
+              'wrapperCustomStyle',
+              id,
+              wrapperCustomStyle,
+              'item'
+            )
           )}
           style={style}
         >
@@ -1478,7 +1555,16 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
           {description && renderDescription !== false
             ? render('description', description, {
-                className: cx(`Form-description`, descriptionClassName)
+                className: cx(
+                  `Form-description`,
+                  descriptionClassName,
+                  setThemeClassName(
+                    'descriptionClassName',
+                    id,
+                    themeCss,
+                    'item'
+                  )
+                )
               })
             : null}
         </div>
@@ -1496,8 +1582,6 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       css,
       themeCss,
       id,
-      labelClassName,
-      descriptionClassName,
       wrapperCustomStyle,
       env
     } = this.props;
@@ -1536,12 +1620,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             themeCss: themeCss || css,
             classNames: [
               {
-                key: 'labelClassName',
-                value: labelClassName
+                key: 'labelClassName'
               },
               {
-                key: 'descriptionClassName',
-                value: descriptionClassName
+                key: 'descriptionClassName'
               }
             ],
             wrapperCustomStyle,

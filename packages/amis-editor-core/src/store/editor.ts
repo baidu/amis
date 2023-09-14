@@ -18,7 +18,6 @@ import {
   stringRegExp,
   needDefaultWidth,
   guid,
-  addStyleClassName,
   appTranslate,
   JSONGetByPath,
   getDialogActions
@@ -1427,22 +1426,12 @@ export const MainStore = types
         if (diff) {
           const result = patchDiff(origin, diff);
           this.traceableSetSchema(
-            JSONUpdate(
-              self.schema,
-              id,
-              addStyleClassName(JSONPipeIn(result)),
-              true
-            ),
+            JSONUpdate(self.schema, id, JSONPipeIn(result), true),
             noTrace
           );
         } else {
           this.traceableSetSchema(
-            JSONUpdate(
-              self.schema,
-              id,
-              addStyleClassName(JSONPipeIn(value)),
-              replace
-            ),
+            JSONUpdate(self.schema, id, JSONPipeIn(value), replace),
             noTrace
           );
         }

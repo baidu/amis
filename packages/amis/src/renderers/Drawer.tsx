@@ -4,7 +4,8 @@ import {
   IScopedContext,
   filterTarget,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  setThemeClassName
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
@@ -500,12 +501,17 @@ export default class Drawer extends React.Component<DrawerProps> {
       classnames: cx,
       showErrorMsg,
       footerClassName,
-      drawerFooterClassName
+      id,
+      themeCss
     } = this.props;
 
     return (
       <div
-        className={cx('Drawer-footer', footerClassName, drawerFooterClassName)}
+        className={cx(
+          'Drawer-footer',
+          footerClassName,
+          setThemeClassName('drawerFooterClassName', id, themeCss)
+        )}
       >
         {store.loading || store.error ? (
           <div className={cx('Drawer-info')}>
@@ -575,14 +581,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       loadingConfig,
       popOverContainer,
       themeCss,
-      css,
       id,
-      drawerClassName,
-      drawerMaskClassName,
-      drawerHeaderClassName,
-      drawerTitleClassName,
-      drawerBodyClassName,
-      drawerFooterClassName,
       ...rest
     } = {
       ...this.props,
@@ -598,8 +597,12 @@ export default class Drawer extends React.Component<DrawerProps> {
         classPrefix={ns}
         className={className}
         style={style}
-        drawerClassName={drawerClassName}
-        drawerMaskClassName={drawerMaskClassName}
+        drawerClassName={setThemeClassName('drawerClassName', id, themeCss)}
+        drawerMaskClassName={setThemeClassName(
+          'drawerMaskClassName',
+          id,
+          themeCss
+        )}
         size={size}
         onHide={this.handleSelfClose}
         disabled={store.loading}
@@ -621,11 +624,16 @@ export default class Drawer extends React.Component<DrawerProps> {
           className={cx(
             'Drawer-header',
             headerClassName,
-            drawerHeaderClassName
+            setThemeClassName('drawerHeaderClassName', id, themeCss)
           )}
         >
           {title ? (
-            <div className={cx('Drawer-title', drawerTitleClassName)}>
+            <div
+              className={cx(
+                'Drawer-title',
+                setThemeClassName('drawerTitleClassName', id, themeCss)
+              )}
+            >
               {render('title', title, {
                 data: store.formData,
                 onConfirm: this.handleDrawerConfirm,
@@ -646,44 +654,46 @@ export default class Drawer extends React.Component<DrawerProps> {
 
         {!store.entered ? (
           <div
-            className={cx('Drawer-body', bodyClassName, drawerBodyClassName)}
+            className={cx(
+              'Drawer-body',
+              bodyClassName,
+              setThemeClassName('drawerBodyClassName', id, themeCss)
+            )}
           >
             <Spinner overlay show size="lg" loadingConfig={loadingConfig} />
           </div>
         ) : body ? (
           // dialog-body 用于在 editor 中定位元素
           <div
-            className={cx('Drawer-body', bodyClassName, drawerBodyClassName)}
+            className={cx(
+              'Drawer-body',
+              bodyClassName,
+              setThemeClassName('drawerBodyClassName', id, themeCss)
+            )}
             role="dialog-body"
           >
             {this.renderBody(body, 'body')}
             <CustomStyle
               config={{
-                themeCss: themeCss || css,
+                themeCss: themeCss,
                 classNames: [
                   {
-                    key: 'drawerClassName',
-                    value: drawerClassName
+                    key: 'drawerClassName'
                   },
                   {
-                    key: 'drawerMaskClassName',
-                    value: drawerMaskClassName
+                    key: 'drawerMaskClassName'
                   },
                   {
-                    key: 'drawerHeaderClassName',
-                    value: drawerHeaderClassName
+                    key: 'drawerHeaderClassName'
                   },
                   {
-                    key: 'drawerTitleClassName',
-                    value: drawerTitleClassName
+                    key: 'drawerTitleClassName'
                   },
                   {
-                    key: 'drawerBodyClassName',
-                    value: drawerBodyClassName
+                    key: 'drawerBodyClassName'
                   },
                   {
-                    key: 'drawerFooterClassName',
-                    value: drawerFooterClassName
+                    key: 'drawerFooterClassName'
                   }
                 ],
                 id: id

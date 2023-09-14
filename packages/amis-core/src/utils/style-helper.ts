@@ -108,19 +108,11 @@ function handleInheritData(statusMap: any, data: any) {
 
 export function formatStyle(
   themeCss: any,
-  classNames?: {
-    key: string;
-    value?: string;
-    weights?: {
-      default?: extra;
-      hover?: extra;
-      active?: extra;
-      disabled?: extra;
-    };
-  }[],
+  classNames?: CustomStyleClassName[],
   id?: string,
   defaultData?: any
 ) {
+  // 没有具体的样式，或者没有对应的classname
   if (!themeCss || !classNames) {
     return {value: '', origin: []};
   }
@@ -134,121 +126,98 @@ export function formatStyle(
 
   for (let item of classNames) {
     const body = themeCss[item.key];
-    const list = item.value?.split(' ');
-    const classNameList: string[] = [];
 
     if (!body) {
       continue;
     }
 
-    list?.forEach(n => {
-      if (
-        n.includes('lassName-') &&
-        !!~n.indexOf(
-          id
-            ?.replace('u:', '')
-            .replace('-item', '')
-            .replace('-addOn', '')
-            .replace('-icon', '')
-            .replace('-inner', '') || ''
-        )
-      ) {
-        classNameList.push(n);
-      }
-    });
+    const className = item.key + '-' + id?.replace('u:', '');
     const weightsList: PlainObject = item.weights || {};
 
-    for (let className of classNameList) {
-      // 没有具体的样式，或者没有对应的classname
-      const statusMap: PlainObject = {
-        default: {},
-        hover: {},
-        active: {},
-        disabled: {}
+    const statusMap: PlainObject = {
+      default: {},
+      hover: {},
+      active: {},
+      disabled: {}
+    };
+    for (let key in body) {
+      if (key === '$$id' || body[key] === '') {
+        continue;
+      }
+      if (!!~key.indexOf(':default')) {
+        statusMap.default[key.replace(':default', '')] = body[key];
+      } else if (!!~key.indexOf(':hover')) {
+        statusMap.hover[key.replace(':hover', '')] = body[key];
+      } else if (!!~key.indexOf(':active')) {
+        statusMap.active[key.replace(':active', '')] = body[key];
+      } else if (!!~key.indexOf(':disabled')) {
+        statusMap.disabled[key.replace(':disabled', '')] = body[key];
+      } else {
+        statusMap.default[key] = body[key];
+      }
+    }
+    handleInheritData(statusMap, defaultData);
+
+    for (let status in statusMap) {
+      const weights = weightsList[status];
+      const styles: string[] = [];
+      const fn = (key: string, value: string) => {
+        key = valueMap[key] || key;
+        styles.push(`${key}: ${value};`);
       };
-      for (let key in body) {
-        if (key === '$$id' || body[key] === '') {
+      for (let key in statusMap[status]) {
+        if (key === '$$id') {
           continue;
         }
-        if (!!~key.indexOf(':default')) {
-          statusMap.default[key.replace(':default', '')] = body[key];
-        } else if (!!~key.indexOf(':hover')) {
-          statusMap.hover[key.replace(':hover', '')] = body[key];
-        } else if (!!~key.indexOf(':active')) {
-          statusMap.active[key.replace(':active', '')] = body[key];
-        } else if (!!~key.indexOf(':disabled')) {
-          statusMap.disabled[key.replace(':disabled', '')] = body[key];
+        const style = statusMap[status][key];
+        if (typeof style === 'object') {
+          // 圆角特殊处理
+          if (key === 'radius') {
+            fn(
+              'border-radius',
+              [
+                style['top-left-border-radius'],
+                style['top-right-border-radius'],
+                style['bottom-right-border-radius'],
+                style['bottom-left-border-radius']
+              ].join(' ')
+            );
+          } else {
+            for (let k in style) {
+              if (k === '$$id') {
+                continue;
+              }
+              const value = style[k];
+              value && fn(k, value);
+            }
+          }
         } else {
-          statusMap.default[key] = body[key];
+          const value = style;
+          if (key === 'iconSize') {
+            fn('width', value + (weights?.important ? ' !important' : ''));
+            fn('height', value + (weights?.important ? ' !important' : ''));
+            fn('font-size', value + (weights?.important ? ' !important' : ''));
+          } else {
+            value && fn(key, value + (weights?.important ? ' !important' : ''));
+          }
         }
       }
-      handleInheritData(statusMap, defaultData);
-
-      for (let status in statusMap) {
-        const weights = weightsList[status];
-        const styles: string[] = [];
-        const fn = (key: string, value: string) => {
-          key = valueMap[key] || key;
-          styles.push(`${key}: ${value};`);
-        };
-        for (let key in statusMap[status]) {
-          if (key === '$$id') {
-            continue;
-          }
-          const style = statusMap[status][key];
-          if (typeof style === 'object') {
-            // 圆角特殊处理
-            if (key === 'radius') {
-              fn(
-                'border-radius',
-                [
-                  style['top-left-border-radius'],
-                  style['top-right-border-radius'],
-                  style['bottom-right-border-radius'],
-                  style['bottom-left-border-radius']
-                ].join(' ')
-              );
-            } else {
-              for (let k in style) {
-                if (k === '$$id') {
-                  continue;
-                }
-                const value = style[k];
-                value && fn(k, value);
-              }
-            }
-          } else {
-            const value = style;
-            if (key === 'iconSize') {
-              fn('width', value + (weights?.important ? ' !important' : ''));
-              fn('height', value + (weights?.important ? ' !important' : ''));
-              fn(
-                'font-size',
-                value + (weights?.important ? ' !important' : '')
-              );
-            } else {
-              value &&
-                fn(key, value + (weights?.important ? ' !important' : ''));
-            }
-          }
-        }
-        if (styles.length > 0) {
-          const cx = (weights?.pre || '') + className + (weights?.suf || '');
-          const inner = weights?.inner || '';
-          res.push({
-            className: cx + status2string[status] + inner,
-            content: `.${cx + status2string[status]} ${inner}{\n  ${styles.join(
-              '\n  '
-            )}\n}`
-          });
-          // TODO:切换状态暂时先不改变组件的样式
-          // if (['hover', 'active', 'disabled'].includes(status)) {
-          //   res.push({
-          //     className: cx + '.' + status,
-          //     content: `.${cx}.${status} {\n  ${styles.join('\n  ')}\n}`
-          //   });
-          // }
-        }
+      if (styles.length > 0) {
+        const cx = (weights?.pre || '') + className + (weights?.suf || '');
+        const inner = weights?.inner || '';
+        res.push({
+          className: cx + status2string[status] + inner,
+          content: `.${cx + status2string[status]} ${inner}{\n  ${styles.join(
+            '\n  '
+          )}\n}`
+        });
+        // TODO:切换状态暂时先不改变组件的样式
+        // if (['hover', 'active', 'disabled'].includes(status)) {
+        //   res.push({
+        //     className: cx + '.' + status,
+        //     content: `.${cx}.${status} {\n  ${styles.join('\n  ')}\n}`
+        //   });
+        // }
       }
     }
   }
@@ -260,7 +229,6 @@ export function formatStyle(
 
 export interface CustomStyleClassName {
   key: string;
-  value?: string;
   weights?: {
     default?: extra;
     hover?: extra;
@@ -270,9 +238,9 @@ export interface CustomStyleClassName {
 }
 
 export function insertCustomStyle(
-  themeCss?: any,
-  classNames?: CustomStyleClassName[],
-  id?: string,
+  themeCss: any,
+  classNames: CustomStyleClassName[],
+  id: string,
   defaultData?: any,
   customStyleClassPrefix?: string,
   doc?: Document
@@ -286,7 +254,7 @@ export function insertCustomStyle(
     value = customStyleClassPrefix
       ? `${customStyleClassPrefix} ${value}`
       : value;
-    insertStyle(value, id?.replace('u:', '') || uuid(), doc);
+    insertStyle(value, id.replace('u:', ''), doc);
   }
 }
 
@@ -370,8 +338,8 @@ export function insertEditCustomStyle(
 }
 
 export interface InsertCustomStyle {
-  themeCss?: any;
-  classNames?: CustomStyleClassName[];
+  themeCss: any;
+  classNames: CustomStyleClassName[];
   id?: string;
   defaultData?: any;
   customStyleClassPrefix?: string;
@@ -398,7 +366,7 @@ export class StyleDom {
     defaultData,
     customStyleClassPrefix,
     doc
-  }: InsertCustomStyle) {
+  }: Omit<InsertCustomStyle, 'id'>) {
     insertCustomStyle(
       themeCss,
       classNames,
@@ -428,4 +396,36 @@ export class StyleDom {
       style.remove();
     }
   }
+}
+
+export function formatInputThemeCss(themeCss: any) {
+  if (!themeCss) {
+    return;
+  }
+  const inputFontThemeCss: any = {inputControlClassName: {}};
+  const inputControlClassNameObject = themeCss?.inputControlClassName || {};
+  for (let key in inputControlClassNameObject) {
+    if (~key.indexOf('font')) {
+      inputFontThemeCss.inputControlClassName[key] =
+        inputControlClassNameObject[key];
+    }
+  }
+  return inputFontThemeCss;
+}
+
+export function setThemeClassName(
+  name: string,
+  id?: string,
+  themeCss?: any,
+  extra?: string
+) {
+  if (!id || !themeCss) {
+    return '';
+  }
+
+  if (name !== 'wrapperCustomStyle' && !themeCss[name]) {
+    return '';
+  }
+
+  return `${name}-${id.replace('u:', '')}` + (extra ? `-${extra}` : '');
 }

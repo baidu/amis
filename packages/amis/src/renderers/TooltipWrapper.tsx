@@ -1,5 +1,10 @@
 import React from 'react';
-import {Renderer, RendererProps, CustomStyle} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
 import {BaseSchema, SchemaCollection} from '../Schema';
 import {filter} from 'amis-core';
 import {escapeHtml} from 'amis-core';
@@ -191,8 +196,7 @@ export default class TooltipWrapper extends React.Component<
       inline,
       style,
       data,
-      wrap,
-      baseControlClassName,
+      themeCss,
       wrapperCustomStyle,
       id
     } = this.props;
@@ -208,10 +212,8 @@ export default class TooltipWrapper extends React.Component<
           {
             'TooltipWrapper--inline': inline
           },
-          baseControlClassName,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={buildStyle(style, data)}
       >
@@ -262,9 +264,11 @@ export default class TooltipWrapper extends React.Component<
           ? container
           : popOverContainer || env?.getModalContainer,
       tooltipTheme,
-      tooltipClassName: tooltipControlClassName
-        ? tooltipClassName + ' ' + tooltipControlClassName
-        : tooltipClassName,
+      tooltipClassName: `${tooltipClassName} ${setThemeClassName(
+        'tooltipControlClassName',
+        id,
+        themeCss
+      )}`,
       mouseEnterDelay,
       mouseLeaveDelay,
       offset,
@@ -290,12 +294,10 @@ export default class TooltipWrapper extends React.Component<
             themeCss,
             classNames: [
               {
-                key: 'baseControlClassName',
-                value: baseControlClassName
+                key: 'baseControlClassName'
               },
               {
-                key: 'tooltipControlClassName',
-                value: tooltipControlClassName
+                key: 'tooltipControlClassName'
               }
             ]
           }}

@@ -5,7 +5,8 @@ import {
   filter,
   autobind,
   createObject,
-  CustomStyle
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {
@@ -70,8 +71,8 @@ export class Icon extends React.Component<IconProps, object> {
       data,
       id,
       themeCss,
-      css,
-      env
+      env,
+      wrapperCustomStyle
     } = this.props;
     let icon = this.props.icon;
 
@@ -87,14 +88,18 @@ export class Icon extends React.Component<IconProps, object> {
           onClick={this.handleClick}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
         />
         <CustomStyle
           config={{
-            themeCss: themeCss || css,
+            themeCss: themeCss,
             classNames: [
               {
-                key: 'className',
-                value: className
+                key: 'className'
               }
             ],
             id

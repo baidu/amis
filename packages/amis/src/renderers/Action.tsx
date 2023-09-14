@@ -9,7 +9,8 @@ import {
   Renderer,
   RendererProps,
   ScopedContext,
-  uuid
+  uuid,
+  setThemeClassName
 } from 'amis-core';
 import {filter} from 'amis-core';
 import {BadgeObject, Button, SpinnerExtraProps} from 'amis-ui';
@@ -780,7 +781,10 @@ export class Action extends React.Component<ActionProps, ActionState> {
         cx={cx}
         icon={icon}
         className="Button-icon"
-        classNameProp={iconClassName}
+        classNameProp={cx(
+          iconClassName,
+          setThemeClassName('iconClassName', id, themeCss || css)
+        )}
       />
     );
     const rightIconElement = (
@@ -788,7 +792,10 @@ export class Action extends React.Component<ActionProps, ActionState> {
         cx={cx}
         icon={rightIcon}
         className="Button-icon"
-        classNameProp={rightIconClassName}
+        classNameProp={cx(
+          rightIconClassName,
+          setThemeClassName('iconClassName', id, themeCss || css)
+        )}
       />
     );
 
@@ -796,10 +803,14 @@ export class Action extends React.Component<ActionProps, ActionState> {
       <>
         <Button
           loadingConfig={loadingConfig}
-          className={cx(className, {
-            [activeClassName || 'is-active']: isActive,
-            [`wrapperCustomStyle-${id?.replace('u:', '')}`]: wrapperCustomStyle
-          })}
+          className={cx(
+            className,
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle),
+            setThemeClassName('className', id, themeCss || css),
+            {
+              [activeClassName || 'is-active']: isActive
+            }
+          )}
           style={style}
           size={size}
           level={
@@ -836,7 +847,6 @@ export class Action extends React.Component<ActionProps, ActionState> {
             classNames: [
               {
                 key: 'className',
-                value: className,
                 weights: {
                   hover: {
                     suf: ':not(:disabled):not(.is-disabled)'
@@ -846,7 +856,6 @@ export class Action extends React.Component<ActionProps, ActionState> {
               },
               {
                 key: 'iconClassName',
-                value: iconClassName,
                 weights: {
                   default: {
                     important: true

@@ -7,7 +7,8 @@ import {
   RendererProps,
   loadScript,
   buildStyle,
-  CustomStyle
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 
@@ -611,10 +612,8 @@ export class Chart extends React.Component<ChartProps> {
         className={cx(
           `${ns}Chart`,
           className,
-          baseControlClassName,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={styleVar}
       >
@@ -632,8 +631,7 @@ export class Chart extends React.Component<ChartProps> {
             themeCss,
             classNames: [
               {
-                key: 'baseControlClassName',
-                value: baseControlClassName
+                key: 'baseControlClassName'
               }
             ]
           }}

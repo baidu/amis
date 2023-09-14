@@ -5,7 +5,8 @@ import {
   FormBaseControl,
   prettyBytes,
   resolveEventData,
-  CustomStyle
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
@@ -1561,9 +1562,6 @@ export default class ImageControl extends React.Component<
       maxSize,
       render,
       themeCss,
-      inputImageControlClassName,
-      addBtnControlClassName,
-      iconControlClassName,
       id,
       translate: __,
       draggable,
@@ -1592,7 +1590,11 @@ export default class ImageControl extends React.Component<
 
     return (
       <div
-        className={cx(`ImageControl`, className, inputImageControlClassName)}
+        className={cx(
+          `ImageControl`,
+          className,
+          setThemeClassName('inputImageControlClassName', id, themeCss)
+        )}
       >
         {cropFile ? (
           <div className={cx('ImageControl-cropperWrapper')}>
@@ -1938,7 +1940,11 @@ export default class ImageControl extends React.Component<
                             },
                             fixedSize ? 'ImageControl-fixed-size' : '',
                             fixedSize ? fixedSizeClassName : '',
-                            addBtnControlClassName,
+                            setThemeClassName(
+                              'addBtnControlClassName',
+                              id,
+                              themeCss
+                            ),
                             error ? 'is-invalid' : ''
                           )}
                           style={frameImageStyle}
@@ -1950,7 +1956,11 @@ export default class ImageControl extends React.Component<
                             className="icon"
                             iconContent={cx(
                               ':ImageControl-addBtn-icon',
-                              iconControlClassName
+                              setThemeClassName(
+                                'iconControlClassName',
+                                id,
+                                themeCss
+                              )
                             )}
                           />
                           <span className={cx('ImageControl-addBtn-text')}>
@@ -2001,12 +2011,10 @@ export default class ImageControl extends React.Component<
             themeCss,
             classNames: [
               {
-                key: 'inputImageControlClassName',
-                value: inputImageControlClassName
+                key: 'inputImageControlClassName'
               },
               {
                 key: 'addBtnControlClassName',
-                value: addBtnControlClassName,
                 weights: {
                   hover: {
                     suf: ':not(:disabled):not(.is-disabled)'
@@ -2018,7 +2026,6 @@ export default class ImageControl extends React.Component<
               },
               {
                 key: 'iconControlClassName',
-                value: iconControlClassName,
                 weights: {
                   default: {
                     suf: ' svg'
