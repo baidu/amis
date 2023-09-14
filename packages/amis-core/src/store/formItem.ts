@@ -1113,8 +1113,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     // @issue 强依赖form，需要改造暂且放过。
     function syncOptions(originOptions?: Array<any>, data?: Object) {
       if (!self.options.length && typeof self.value === 'undefined') {
-        self.selectedOptions = [];
-        self.filteredOptions = [];
+        isArrayChildrenModified(self.filteredOptions, []) &&
+          (self.filteredOptions = []);
+        isArrayChildrenModified(self.selectedOptions, []) &&
+          (self.selectedOptions = []);
         return;
       }
 

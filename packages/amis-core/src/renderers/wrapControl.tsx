@@ -22,7 +22,6 @@ import {
 } from '../utils/formula';
 import {IIRendererStore, IRendererStore} from '../store';
 import {ScopedContext, IScopedContext} from '../Scoped';
-import {reaction} from 'mobx';
 import {FormItemStore} from '../store/formItem';
 import {isAlive} from 'mobx-state-tree';
 import {observer} from 'mobx-react';
@@ -101,6 +100,12 @@ export function wrapControl<
           hook2?: () => any;
           hook3?: () => any;
           reaction?: () => void;
+
+          static displayName = `WrapControl${
+            ComposedComponent.displayName || ComposedComponent.name
+              ? `(${ComposedComponent.displayName || ComposedComponent.name})`
+              : ''
+          }`;
 
           static contextType = ScopedContext;
           static defaultProps = {};
@@ -857,9 +862,10 @@ export function wrapControl<
               prinstine: model ? model.prinstine : undefined,
               setPrinstineValue: this.setPrinstineValue,
               onValidate: this.validate,
-              onFlushChange: this.flushChange,
+              onFlushChange: this.flushChange
               // !没了这个， tree 里的 options 渲染会出问题
-              _filteredOptions: this.model?.filteredOptions
+              // todo 理论上不应该影响，待确认
+              // _filteredOptions: this.model?.filteredOptions
             };
 
             return (
