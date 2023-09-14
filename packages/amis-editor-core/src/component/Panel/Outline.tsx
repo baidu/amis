@@ -3,9 +3,10 @@ import React from 'react';
 import {PanelProps} from '../../plugin';
 import cx from 'classnames';
 import {autobind} from '../../util';
-import {Icon, InputBox, Schema, Tab, Tabs} from 'amis';
+import {Icon, InputBox, Tab, Tabs} from 'amis';
 import {EditorNodeType} from '../../store/node';
 import {isAlive} from 'mobx-state-tree';
+import type {Schema} from 'amis';
 
 @observer
 export class OutlinePanel extends React.Component<PanelProps> {
