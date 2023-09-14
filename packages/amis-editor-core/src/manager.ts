@@ -1620,9 +1620,12 @@ export class EditorManager {
     subRenderer?: SubRendererInfo,
     region?: string
   ): boolean {
+    let curJson = {...json};
+    JsonGenerateID(curJson);
+
     const context: ReplaceEventContext = {
       ...this.buildEventContext(id),
-      data: {...json},
+      data: {...curJson},
       subRenderer,
       region
     };

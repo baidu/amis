@@ -178,10 +178,14 @@ export class FlexPluginBase extends LayoutBasePlugin {
                     visibleOn: `${!isFlexItem || isFlexColumnItem}`
                   }),
                   getSchemaTpl('layout:max-width', {
-                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                    visibleOn: `${
+                      !isFlexItem || isFlexColumnItem
+                    } || ${isFlexItem} && data.style.flex !== '0 0 150px'`
                   }),
                   getSchemaTpl('layout:min-width', {
-                    visibleOn: `${!isFlexItem || isFlexColumnItem}`
+                    visibleOn: `${
+                      !isFlexItem || isFlexColumnItem
+                    } || ${isFlexItem} && data.style.flex !== '0 0 150px'`
                   }),
 
                   getSchemaTpl('layout:overflow-x', {
@@ -240,17 +244,19 @@ export class FlexPluginBase extends LayoutBasePlugin {
       }
     });
 
-    // 列表组件中的直接容器元素不支持上下插入布局元素
     if (
       parent &&
       (info.renderer?.name === 'flex' || info.renderer?.name === 'container') &&
       !draggableContainer &&
-      !schema?.isFreeContainer &&
-      canAppendSiblings
+      !schema?.isFreeContainer
     ) {
       // 非特殊布局元素（fixed、absolute）支持前后插入追加布局元素功能icon
       // 备注：如果是列级元素不需要显示
-      if (!toolbarsTooltips['上方插入布局容器'] && !isFlexItem) {
+      if (
+        !toolbarsTooltips['上方插入布局容器'] &&
+        !isFlexItem &&
+        canAppendSiblings
+      ) {
         toolbars.push(
           {
             iconSvg: 'add-btn',
