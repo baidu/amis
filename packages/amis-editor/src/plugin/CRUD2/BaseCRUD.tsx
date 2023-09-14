@@ -16,15 +16,10 @@ import sortBy from 'lodash/sortBy';
 import {toast, autobind, isObject, Icon} from 'amis';
 import {
   BasePlugin,
-  ScaffoldForm,
   EditorManager,
   defaultValue,
   getSchemaTpl,
-  tipedLabel,
-  EditorNodeType,
-  BuildPanelEventContext,
-  RendererPluginEvent,
-  RendererPluginAction
+  tipedLabel
 } from 'amis-editor-core';
 import {
   DSBuilderManager,
@@ -43,6 +38,13 @@ import {FieldSetting} from '../../renderer/FieldSetting';
 
 import type {IFormItemStore, IFormStore} from 'amis-core';
 import type {CRUDScaffoldConfig} from '../../builder/type';
+import type {
+  ScaffoldForm,
+  BuildPanelEventContext,
+  EditorNodeType,
+  RendererPluginEvent,
+  RendererPluginAction
+} from 'amis-editor-core';
 
 /** 需要动态控制的属性 */
 export type CRUD2DynamicControls = Partial<
