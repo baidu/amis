@@ -6,7 +6,8 @@ import {
   prettyBytes,
   resolveEventData,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  PlainObject
 } from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
@@ -358,6 +359,23 @@ export interface FileX extends File {
 
 export type InputImageRendererEvent = 'change' | 'success' | 'fail' | 'remove';
 export type InputImageRendererAction = 'clear';
+
+function formatIconThemeCss(themeCss: any) {
+  let addBtnControlClassName: PlainObject = {};
+  ['default', 'hover', 'active'].forEach(key => {
+    addBtnControlClassName[`color:${key}`] =
+      themeCss?.addBtnControlClassName?.[`icon-color:${key}`];
+  });
+  for (let key in addBtnControlClassName) {
+    if (!addBtnControlClassName[key]) {
+      delete addBtnControlClassName[key];
+    }
+  }
+  if (!isEmpty(addBtnControlClassName)) {
+    return {addBtnControlClassName};
+  }
+  return;
+}
 
 export default class ImageControl extends React.Component<
   ImageProps,
@@ -1945,6 +1963,12 @@ export default class ImageControl extends React.Component<
                               id,
                               themeCss
                             ),
+                            setThemeClassName(
+                              'addBtnControlClassName',
+                              id,
+                              formatIconThemeCss(themeCss),
+                              'icon'
+                            ),
                             error ? 'is-invalid' : ''
                           )}
                           style={frameImageStyle}
@@ -2034,6 +2058,31 @@ export default class ImageControl extends React.Component<
               }
             ],
             id
+          }}
+          env={env}
+        />
+        <CustomStyle
+          config={{
+            themeCss: formatIconThemeCss(themeCss),
+            classNames: [
+              {
+                key: 'addBtnControlClassName',
+                weights: {
+                  default: {
+                    inner: 'svg'
+                  },
+                  hover: {
+                    suf: ':not(:disabled):not(.is-disabled)',
+                    inner: 'svg'
+                  },
+                  active: {
+                    suf: ':not(:disabled):not(.is-disabled)',
+                    inner: 'svg'
+                  }
+                }
+              }
+            ],
+            id: id && id + '-icon'
           }}
           env={env}
         />
