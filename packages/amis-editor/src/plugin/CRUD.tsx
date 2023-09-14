@@ -1220,526 +1220,539 @@ export class CRUDPlugin extends BasePlugin {
 
       {
         title: '外观',
-        body: [
+        body: getSchemaTpl('collapseGroup', [
           {
-            label: '内容展示模式',
-            name: 'mode',
-            type: 'button-group-select',
-            size: 'xs',
-            pipeIn: (value: any, values: any) =>
-              (value === 'grid' ? 'cards' : value) ?? 'table',
-            onChange: (value: any, oldValue: any, model: any, form: any) => {
-              let headerHasColumnsToggle = form?.data?.headerToolbar?.some(
-                (item: any) => item.type === 'columns-toggler'
-              );
-              let headerToolbar = cloneDeep(form?.data?.headerToolbar);
-              let columnsToggler;
-              if (value !== 'table' && oldValue === 'table') {
-                // 存储table模式是否有 columns-toggler
-                columnsToggler = headerToolbar?.find(
-                  (item: any) => item.type === 'columns-toggler'
-                ) || {
-                  type: 'columns-toggler',
-                  align: 'right'
-                };
-                form.setValues({
-                  __headerHasColumnsToggler: headerHasColumnsToggle
-                });
-              }
-              headerToolbar =
-                value === 'table'
-                  ? headerToolbar
-                  : headerToolbar?.filter(
-                      (item: any) => item.type !== 'columns-toggler'
-                    );
-              if (value === 'table') {
-                if (
-                  form?.data?.__headerHasColumnsToggler &&
-                  !headerHasColumnsToggle
-                ) {
-                  headerToolbar?.push(
-                    form?.data?.__cacheColumnsToggler || {
+            title: '配置',
+            body: [
+              {
+                label: '内容展示模式',
+                name: 'mode',
+                type: 'button-group-select',
+                size: 'xs',
+                pipeIn: (value: any, values: any) =>
+                  (value === 'grid' ? 'cards' : value) ?? 'table',
+                onChange: (
+                  value: any,
+                  oldValue: any,
+                  model: any,
+                  form: any
+                ) => {
+                  let headerHasColumnsToggle = form?.data?.headerToolbar?.some(
+                    (item: any) => item.type === 'columns-toggler'
+                  );
+                  let headerToolbar = cloneDeep(form?.data?.headerToolbar);
+                  let columnsToggler;
+                  if (value !== 'table' && oldValue === 'table') {
+                    // 存储table模式是否有 columns-toggler
+                    columnsToggler = headerToolbar?.find(
+                      (item: any) => item.type === 'columns-toggler'
+                    ) || {
                       type: 'columns-toggler',
                       align: 'right'
+                    };
+                    form.setValues({
+                      __headerHasColumnsToggler: headerHasColumnsToggle
+                    });
+                  }
+                  headerToolbar =
+                    value === 'table'
+                      ? headerToolbar
+                      : headerToolbar?.filter(
+                          (item: any) => item.type !== 'columns-toggler'
+                        );
+                  if (value === 'table') {
+                    if (
+                      form?.data?.__headerHasColumnsToggler &&
+                      !headerHasColumnsToggle
+                    ) {
+                      headerToolbar?.push(
+                        form?.data?.__cacheColumnsToggler || {
+                          type: 'columns-toggler',
+                          align: 'right'
+                        }
+                      );
                     }
-                  );
-                }
-                form.setValues({
-                  headerToolbar,
-                  columns:
-                    form.data.__columns ||
-                    this.transformByMode({
-                      from: oldValue,
-                      to: value,
-                      schema: form.data
-                    }),
-                  __headerHasColumnsToggler: headerHasColumnsToggle,
-                  __card: form.data.card || form.data.__card,
-                  __listItem: form.data.listItem || form.data.__listItem
-                });
-                form.deleteValueByName('card');
-                form.deleteValueByName('listItem');
-              } else if (value === 'cards') {
-                oldValue === 'table' &&
-                  form.setValues({
-                    __cacheColumnsToggler: columnsToggler
-                  });
-                form.setValues({
-                  headerToolbar,
-                  card:
-                    form.data.__card ||
-                    this.transformByMode({
-                      from: oldValue,
-                      to: value,
-                      schema: form.data
-                    }),
-                  __columns: form.data.columns || form.data.__columns,
-                  __listItem: form.data.listItem || form.data.__listItem
-                });
-                form.deleteValueByName('columns');
-                form.deleteValueByName('listItem');
-              } else {
-                oldValue === 'table' &&
-                  form.setValues({
-                    __cacheColumnsToggler: columnsToggler
-                  });
-                form.setValues({
-                  headerToolbar,
-                  listItem:
-                    form.data.__listItem ||
-                    this.transformByMode({
-                      from: oldValue,
-                      to: value,
-                      schema: form.data
-                    }),
-                  __columns: form.data.columns || form.data.__columns,
-                  __card: form.data.card || form.data.__card
-                });
-                form.deleteValueByName('columns');
-                form.deleteValueByName('card');
-              }
-            },
-            options: [
-              {
-                value: 'table',
-                label: '表格'
+                    form.setValues({
+                      headerToolbar,
+                      columns:
+                        form.data.__columns ||
+                        this.transformByMode({
+                          from: oldValue,
+                          to: value,
+                          schema: form.data
+                        }),
+                      __headerHasColumnsToggler: headerHasColumnsToggle,
+                      __card: form.data.card || form.data.__card,
+                      __listItem: form.data.listItem || form.data.__listItem
+                    });
+                    form.deleteValueByName('card');
+                    form.deleteValueByName('listItem');
+                  } else if (value === 'cards') {
+                    oldValue === 'table' &&
+                      form.setValues({
+                        __cacheColumnsToggler: columnsToggler
+                      });
+                    form.setValues({
+                      headerToolbar,
+                      card:
+                        form.data.__card ||
+                        this.transformByMode({
+                          from: oldValue,
+                          to: value,
+                          schema: form.data
+                        }),
+                      __columns: form.data.columns || form.data.__columns,
+                      __listItem: form.data.listItem || form.data.__listItem
+                    });
+                    form.deleteValueByName('columns');
+                    form.deleteValueByName('listItem');
+                  } else {
+                    oldValue === 'table' &&
+                      form.setValues({
+                        __cacheColumnsToggler: columnsToggler
+                      });
+                    form.setValues({
+                      headerToolbar,
+                      listItem:
+                        form.data.__listItem ||
+                        this.transformByMode({
+                          from: oldValue,
+                          to: value,
+                          schema: form.data
+                        }),
+                      __columns: form.data.columns || form.data.__columns,
+                      __card: form.data.card || form.data.__card
+                    });
+                    form.deleteValueByName('columns');
+                    form.deleteValueByName('card');
+                  }
+                },
+                options: [
+                  {
+                    value: 'table',
+                    label: '表格'
+                  },
+
+                  {
+                    value: 'cards',
+                    label: '卡片'
+                  },
+
+                  {
+                    value: 'list',
+                    label: '列表'
+                  }
+                ]
               },
 
-              {
-                value: 'cards',
-                label: '卡片'
-              },
+              getSchemaTpl('combo-container', {
+                name: 'headerToolbar',
+                type: 'combo',
+                draggable: true,
+                draggableTip: '',
+                descrition: '非内建内容请在预览区选中后编辑',
+                label: '顶部工具栏配置',
+                pipeIn: (value: any) => {
+                  if (!Array.isArray(value)) {
+                    value = value ? [value] : ['bulkActions'];
+                  }
+                  return value.map((item: any) => {
+                    let type = item.type;
 
-              {
-                value: 'list',
-                label: '列表'
-              }
+                    if (
+                      typeof item === 'string' &&
+                      ~[
+                        'bulkActions',
+                        'bulk-actions',
+                        'pagination',
+                        'statistics',
+                        'switch-per-page',
+                        'filter-toggler',
+                        'load-more',
+                        'export-csv',
+                        'export-excel'
+                      ].indexOf(item)
+                    ) {
+                      type = item === 'bulkActions' ? 'bulk-actions' : item;
+                      item = {type};
+                    } else if (typeof item === 'string') {
+                      type = 'tpl';
+                      item =
+                        typeof item === 'string'
+                          ? {type: 'tpl', tpl: item, wrapperComponent: ''}
+                          : item;
+                    }
+                    return {
+                      type,
+                      ...item
+                    };
+                  });
+                },
+                pipeOut: (value: any) => {
+                  if (Array.isArray(value)) {
+                    return value.map((item: any) => {
+                      if (item.type === 'button') {
+                        return JSONPipeIn({
+                          label: '按钮',
+                          type: 'button',
+                          ...item
+                        });
+                      } else if (item.type === 'tpl') {
+                        return JSONPipeIn({
+                          type: 'tpl',
+                          tpl: '内容',
+                          wrapperComponent: '',
+                          ...item
+                        });
+                      }
+
+                      return item;
+                    });
+                  }
+
+                  return [];
+                },
+                scaffold: {
+                  type: 'tpl',
+                  wrapperComponent: '',
+                  tpl: '内容'
+                },
+                multiple: true,
+                items: [
+                  {
+                    type: 'select',
+                    name: 'type',
+                    columnClassName: 'w-ssm',
+                    options: [
+                      {
+                        value: 'bulk-actions',
+                        label: '操作栏'
+                      },
+
+                      {
+                        value: 'pagination',
+                        label: '分页'
+                      },
+
+                      {
+                        value: 'statistics',
+                        label: '统计数据'
+                      },
+
+                      {
+                        value: 'switch-per-page',
+                        label: '切换页码'
+                      },
+
+                      {
+                        value: 'load-more',
+                        label: '加载更多'
+                      },
+
+                      {
+                        value: 'export-csv',
+                        label: '导出 CSV'
+                      },
+
+                      {
+                        value: 'export-excel',
+                        label: '导出 Excel'
+                      },
+
+                      {
+                        value: 'columns-toggler',
+                        label: '列选择器',
+                        visibleOn: '!this.mode || this.mode === "table"'
+                      },
+
+                      {
+                        value: 'filter-toggler',
+                        label: '查询条件切换'
+                      },
+
+                      {
+                        value: 'drag-toggler',
+                        label: '拖拽切换'
+                      },
+
+                      {
+                        value: 'check-all',
+                        label: '全选',
+                        hiddenOn: '!this.mode || this.mode === "table"'
+                      },
+
+                      {
+                        value: 'tpl',
+                        label: '文本'
+                      },
+
+                      {
+                        value: 'button',
+                        label: '按钮'
+                      }
+                    ]
+                  },
+
+                  {
+                    name: 'align',
+                    placeholder: '对齐方式',
+                    type: 'select',
+                    size: 'xs',
+                    options: [
+                      {
+                        label: '左对齐',
+                        value: 'left'
+                      },
+
+                      {
+                        label: '右对齐',
+                        value: 'right'
+                      }
+                    ]
+                  }
+
+                  // {
+                  //   type: 'remark',
+                  //   content: '详情请在预览区域选中后进行编辑。',
+                  //   trigger: ['click'],
+                  //   rootClose: true,
+                  //   placement: 'left',
+                  //   visibleOn:
+                  //     '!~["bulkActions", "drag-toggler", "check-all", "bulk-actions", "pagination", "statistics", "switch-per-page", "filter-toggler", "load-more"].indexOf(this.type)',
+                  //   columnClassName: 'no-grow w-3x p-t-xs',
+                  //   className: 'm-l-none'
+                  // }
+                ]
+              }),
+
+              getSchemaTpl('combo-container', {
+                name: 'footerToolbar',
+                type: 'combo',
+                draggable: true,
+                draggableTip: '',
+                descrition: '非内建内容请在预览区选中后编辑',
+                label: '底部工具栏配置',
+                pipeIn: (value: any) => {
+                  if (!Array.isArray(value)) {
+                    value = value ? [value] : ['statistics', 'pagination'];
+                  }
+
+                  return value.map((item: any) => {
+                    let type = item.type;
+
+                    if (
+                      typeof item === 'string' &&
+                      ~[
+                        'bulkActions',
+                        'bulk-actions',
+                        'pagination',
+                        'statistics',
+                        'switch-per-page',
+                        'filter-toggler',
+                        'load-more',
+                        'export-csv',
+                        'export-excel'
+                      ].indexOf(item)
+                    ) {
+                      type = item === 'bulkActions' ? 'bulk-actions' : item;
+                      item = {type};
+                    } else if (typeof item === 'string') {
+                      type = 'tpl';
+                      item =
+                        typeof item === 'string'
+                          ? {type: 'tpl', tpl: item, wrapperComponent: ''}
+                          : item;
+                    }
+
+                    return {
+                      type,
+                      ...item
+                    };
+                  });
+                },
+                pipeOut: (value: any) => {
+                  if (Array.isArray(value)) {
+                    return value.map((item: any) => {
+                      if (item.type === 'button') {
+                        return JSONPipeIn({
+                          label: '按钮',
+                          type: 'button',
+                          ...item
+                        });
+                      } else if (item.type === 'tpl') {
+                        return JSONPipeIn({
+                          type: 'tpl',
+                          tpl: '内容',
+                          wrapperComponent: '',
+                          ...item
+                        });
+                      }
+
+                      return item;
+                    });
+                  }
+
+                  return [];
+                },
+                scaffold: {
+                  type: 'tpl',
+                  tpl: '内容',
+                  wrapperComponent: ''
+                },
+                multiple: true,
+                items: [
+                  {
+                    type: 'select',
+                    name: 'type',
+                    columnClassName: 'w-ssm',
+                    options: [
+                      {
+                        value: 'bulk-actions',
+                        label: '操作栏'
+                      },
+
+                      {
+                        value: 'pagination',
+                        label: '分页'
+                      },
+
+                      {
+                        value: 'statistics',
+                        label: '统计数据'
+                      },
+
+                      {
+                        value: 'switch-per-page',
+                        label: '切换页码'
+                      },
+
+                      {
+                        value: 'load-more',
+                        label: '加载更多'
+                      },
+
+                      {
+                        value: 'export-csv',
+                        label: '导出 CSV'
+                      },
+
+                      {
+                        value: 'export-excel',
+                        label: '导出 Excel'
+                      },
+
+                      {
+                        value: 'columns-toggler',
+                        label: '列选择器',
+                        hiddenOn: '["grid", "cards", "list"].indexOf(this.mode)'
+                      },
+
+                      {
+                        value: 'filter-toggler',
+                        label: '查询条件切换'
+                      },
+
+                      {
+                        value: 'drag-toggler',
+                        label: '拖拽切换'
+                      },
+
+                      {
+                        value: 'check-all',
+                        label: '全选',
+                        hiddenOn: '!this.mode || this.mode === "table"'
+                      },
+
+                      {
+                        value: 'tpl',
+                        label: '文本'
+                      },
+
+                      {
+                        value: 'button',
+                        label: '按钮'
+                      }
+                    ]
+                  },
+
+                  {
+                    name: 'align',
+                    placeholder: '对齐方式',
+                    size: 'xs',
+                    type: 'select',
+                    options: [
+                      {
+                        label: '左对齐',
+                        value: 'left'
+                      },
+
+                      {
+                        label: '右对齐',
+                        value: 'right'
+                      }
+                    ]
+                  },
+
+                  {
+                    type: 'remark',
+                    content: '详情请在预览区域选中后进行编辑。',
+                    trigger: ['click'],
+                    rootClose: true,
+                    placement: 'left',
+                    visibleOn:
+                      '!~["bulkActions", "drag-toggler", "check-all", "bulk-actions", "pagination", "statistics", "switch-per-page", "filter-toggler", "load-more", "export-csv", "export-excel"].indexOf(this.type)',
+                    columnClassName: 'no-grow w-3x p-t-xs',
+                    className: 'm-l-none'
+                  }
+                ]
+              }),
+
+              getSchemaTpl('switch', {
+                name: 'filterTogglable',
+                label: '是否可显隐查询条件',
+                visibleOn: 'data.filter'
+              }),
+
+              getSchemaTpl('switch', {
+                name: 'filterDefaultVisible',
+                label: '查询条件默认是否可见',
+                visibleOn: 'data.filter && data.filterTogglable',
+                pipeIn: defaultValue(true)
+              }),
+
+              getSchemaTpl('switch', {
+                name: 'hideQuickSaveBtn',
+                label: '隐藏顶部快速保存提示'
+              }),
+
+              getSchemaTpl('switch', {
+                name: 'alwaysShowPagination',
+                label: '是否总是显示分页'
+              }),
+
+              getSchemaTpl('switch', {
+                name: 'autoFillHeight',
+                label: '内容区域自适应高度'
+              }),
+
+              getSchemaTpl('switch', {
+                name: 'hideCheckToggler',
+                label: '隐藏选择按钮',
+                visibleOn: 'data.checkOnItemClick'
+              })
             ]
           },
 
-          getSchemaTpl('combo-container', {
-            name: 'headerToolbar',
-            type: 'combo',
-            draggable: true,
-            draggableTip: '',
-            descrition: '非内建内容请在预览区选中后编辑',
-            label: '顶部工具栏配置',
-            pipeIn: (value: any) => {
-              if (!Array.isArray(value)) {
-                value = value ? [value] : ['bulkActions'];
-              }
-              return value.map((item: any) => {
-                let type = item.type;
-
-                if (
-                  typeof item === 'string' &&
-                  ~[
-                    'bulkActions',
-                    'bulk-actions',
-                    'pagination',
-                    'statistics',
-                    'switch-per-page',
-                    'filter-toggler',
-                    'load-more',
-                    'export-csv',
-                    'export-excel'
-                  ].indexOf(item)
-                ) {
-                  type = item === 'bulkActions' ? 'bulk-actions' : item;
-                  item = {type};
-                } else if (typeof item === 'string') {
-                  type = 'tpl';
-                  item =
-                    typeof item === 'string'
-                      ? {type: 'tpl', tpl: item, wrapperComponent: ''}
-                      : item;
-                }
-                return {
-                  type,
-                  ...item
-                };
-              });
-            },
-            pipeOut: (value: any) => {
-              if (Array.isArray(value)) {
-                return value.map((item: any) => {
-                  if (item.type === 'button') {
-                    return JSONPipeIn({
-                      label: '按钮',
-                      type: 'button',
-                      ...item
-                    });
-                  } else if (item.type === 'tpl') {
-                    return JSONPipeIn({
-                      type: 'tpl',
-                      tpl: '内容',
-                      wrapperComponent: '',
-                      ...item
-                    });
-                  }
-
-                  return item;
-                });
-              }
-
-              return [];
-            },
-            scaffold: {
-              type: 'tpl',
-              wrapperComponent: '',
-              tpl: '内容'
-            },
-            multiple: true,
-            items: [
-              {
-                type: 'select',
-                name: 'type',
-                columnClassName: 'w-ssm',
-                options: [
-                  {
-                    value: 'bulk-actions',
-                    label: '操作栏'
-                  },
-
-                  {
-                    value: 'pagination',
-                    label: '分页'
-                  },
-
-                  {
-                    value: 'statistics',
-                    label: '统计数据'
-                  },
-
-                  {
-                    value: 'switch-per-page',
-                    label: '切换页码'
-                  },
-
-                  {
-                    value: 'load-more',
-                    label: '加载更多'
-                  },
-
-                  {
-                    value: 'export-csv',
-                    label: '导出 CSV'
-                  },
-
-                  {
-                    value: 'export-excel',
-                    label: '导出 Excel'
-                  },
-
-                  {
-                    value: 'columns-toggler',
-                    label: '列选择器',
-                    visibleOn: '!this.mode || this.mode === "table"'
-                  },
-
-                  {
-                    value: 'filter-toggler',
-                    label: '查询条件切换'
-                  },
-
-                  {
-                    value: 'drag-toggler',
-                    label: '拖拽切换'
-                  },
-
-                  {
-                    value: 'check-all',
-                    label: '全选',
-                    hiddenOn: '!this.mode || this.mode === "table"'
-                  },
-
-                  {
-                    value: 'tpl',
-                    label: '文本'
-                  },
-
-                  {
-                    value: 'button',
-                    label: '按钮'
-                  }
-                ]
-              },
-
-              {
-                name: 'align',
-                placeholder: '对齐方式',
-                type: 'select',
-                size: 'xs',
-                options: [
-                  {
-                    label: '左对齐',
-                    value: 'left'
-                  },
-
-                  {
-                    label: '右对齐',
-                    value: 'right'
-                  }
-                ]
-              }
-
-              // {
-              //   type: 'remark',
-              //   content: '详情请在预览区域选中后进行编辑。',
-              //   trigger: ['click'],
-              //   rootClose: true,
-              //   placement: 'left',
-              //   visibleOn:
-              //     '!~["bulkActions", "drag-toggler", "check-all", "bulk-actions", "pagination", "statistics", "switch-per-page", "filter-toggler", "load-more"].indexOf(this.type)',
-              //   columnClassName: 'no-grow w-3x p-t-xs',
-              //   className: 'm-l-none'
-              // }
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            extra: [
+              getSchemaTpl('theme:base', {
+                classname: 'bodyControlClassName',
+                title: '内容区样式'
+              })
             ]
-          }),
-
-          getSchemaTpl('combo-container', {
-            name: 'footerToolbar',
-            type: 'combo',
-            draggable: true,
-            draggableTip: '',
-            descrition: '非内建内容请在预览区选中后编辑',
-            label: '底部工具栏配置',
-            pipeIn: (value: any) => {
-              if (!Array.isArray(value)) {
-                value = value ? [value] : ['statistics', 'pagination'];
-              }
-
-              return value.map((item: any) => {
-                let type = item.type;
-
-                if (
-                  typeof item === 'string' &&
-                  ~[
-                    'bulkActions',
-                    'bulk-actions',
-                    'pagination',
-                    'statistics',
-                    'switch-per-page',
-                    'filter-toggler',
-                    'load-more',
-                    'export-csv',
-                    'export-excel'
-                  ].indexOf(item)
-                ) {
-                  type = item === 'bulkActions' ? 'bulk-actions' : item;
-                  item = {type};
-                } else if (typeof item === 'string') {
-                  type = 'tpl';
-                  item =
-                    typeof item === 'string'
-                      ? {type: 'tpl', tpl: item, wrapperComponent: ''}
-                      : item;
-                }
-
-                return {
-                  type,
-                  ...item
-                };
-              });
-            },
-            pipeOut: (value: any) => {
-              if (Array.isArray(value)) {
-                return value.map((item: any) => {
-                  if (item.type === 'button') {
-                    return JSONPipeIn({
-                      label: '按钮',
-                      type: 'button',
-                      ...item
-                    });
-                  } else if (item.type === 'tpl') {
-                    return JSONPipeIn({
-                      type: 'tpl',
-                      tpl: '内容',
-                      wrapperComponent: '',
-                      ...item
-                    });
-                  }
-
-                  return item;
-                });
-              }
-
-              return [];
-            },
-            scaffold: {
-              type: 'tpl',
-              tpl: '内容',
-              wrapperComponent: ''
-            },
-            multiple: true,
-            items: [
-              {
-                type: 'select',
-                name: 'type',
-                columnClassName: 'w-ssm',
-                options: [
-                  {
-                    value: 'bulk-actions',
-                    label: '操作栏'
-                  },
-
-                  {
-                    value: 'pagination',
-                    label: '分页'
-                  },
-
-                  {
-                    value: 'statistics',
-                    label: '统计数据'
-                  },
-
-                  {
-                    value: 'switch-per-page',
-                    label: '切换页码'
-                  },
-
-                  {
-                    value: 'load-more',
-                    label: '加载更多'
-                  },
-
-                  {
-                    value: 'export-csv',
-                    label: '导出 CSV'
-                  },
-
-                  {
-                    value: 'export-excel',
-                    label: '导出 Excel'
-                  },
-
-                  {
-                    value: 'columns-toggler',
-                    label: '列选择器',
-                    hiddenOn: '["grid", "cards", "list"].indexOf(this.mode)'
-                  },
-
-                  {
-                    value: 'filter-toggler',
-                    label: '查询条件切换'
-                  },
-
-                  {
-                    value: 'drag-toggler',
-                    label: '拖拽切换'
-                  },
-
-                  {
-                    value: 'check-all',
-                    label: '全选',
-                    hiddenOn: '!this.mode || this.mode === "table"'
-                  },
-
-                  {
-                    value: 'tpl',
-                    label: '文本'
-                  },
-
-                  {
-                    value: 'button',
-                    label: '按钮'
-                  }
-                ]
-              },
-
-              {
-                name: 'align',
-                placeholder: '对齐方式',
-                size: 'xs',
-                type: 'select',
-                options: [
-                  {
-                    label: '左对齐',
-                    value: 'left'
-                  },
-
-                  {
-                    label: '右对齐',
-                    value: 'right'
-                  }
-                ]
-              },
-
-              {
-                type: 'remark',
-                content: '详情请在预览区域选中后进行编辑。',
-                trigger: ['click'],
-                rootClose: true,
-                placement: 'left',
-                visibleOn:
-                  '!~["bulkActions", "drag-toggler", "check-all", "bulk-actions", "pagination", "statistics", "switch-per-page", "filter-toggler", "load-more", "export-csv", "export-excel"].indexOf(this.type)',
-                columnClassName: 'no-grow w-3x p-t-xs',
-                className: 'm-l-none'
-              }
-            ]
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'filterTogglable',
-            label: '是否可显隐查询条件',
-            visibleOn: 'data.filter'
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'filterDefaultVisible',
-            label: '查询条件默认是否可见',
-            visibleOn: 'data.filter && data.filterTogglable',
-            pipeIn: defaultValue(true)
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'hideQuickSaveBtn',
-            label: '隐藏顶部快速保存提示'
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'alwaysShowPagination',
-            label: '是否总是显示分页'
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'autoFillHeight',
-            label: '内容区域自适应高度'
-          }),
-
-          getSchemaTpl('switch', {
-            name: 'hideCheckToggler',
-            label: '隐藏选择按钮',
-            visibleOn: 'data.checkOnItemClick'
-          }),
-
-          getSchemaTpl('className'),
-
-          getSchemaTpl('className', {
-            name: 'bodyClassName',
-            label: '内容 CSS 类名'
           })
-        ]
+        ])
       },
 
       {

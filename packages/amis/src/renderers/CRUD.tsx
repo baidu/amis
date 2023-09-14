@@ -16,7 +16,8 @@ import {
   qsstringify,
   qsparse,
   isArrayChildrenModified,
-  isIntegerInRange
+  isIntegerInRange,
+  CustomStyle
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Button, SpinnerExtraProps, TooltipWrapper} from 'amis-ui';
@@ -2409,15 +2410,29 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onSearchableFromInit,
       headerToolbarRender,
       footerToolbarRender,
+      themeCss,
+      id,
+      wrapperCustomStyle,
+      baseControlClassName,
+      bodyControlClassName,
+      env,
       ...rest
     } = this.props;
 
     return (
       <div
-        className={cx('Crud', className, {
-          'is-loading': store.loading,
-          'is-mobile': isMobile()
-        })}
+        className={cx(
+          'Crud',
+          className,
+          {
+            'is-loading': store.loading,
+            'is-mobile': isMobile()
+          },
+          baseControlClassName,
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
+        )}
         style={style}
       >
         {filter && (!store.filterTogggable || store.filterVisible)
@@ -2463,7 +2478,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           },
           {
             key: 'body',
-            className: cx('Crud-body', bodyClassName),
+            className: cx('Crud-body', bodyClassName, bodyControlClassName),
             ref: this.controlRef,
             autoGenerateFilter: !filter && autoGenerateFilter,
             autoFillHeight: autoFillHeight,
@@ -2524,6 +2539,24 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             show: store.dialogOpen
           }
         )}
+        <CustomStyle
+          config={{
+            id,
+            themeCss,
+            wrapperCustomStyle,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName
+              },
+              {
+                key: 'bodyControlClassName',
+                value: bodyControlClassName
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, CustomStyle} from 'amis-core';
 
 import type {InteractionProps} from 'react-json-view';
 import {autobind, getPropValue, noop} from 'amis-core';
@@ -124,7 +124,12 @@ export class JSONField extends React.Component<JSONProps, object> {
       quotesOnKeys,
       sortKeys,
       name,
-      ellipsisThreshold
+      ellipsisThreshold,
+      themeCss,
+      id,
+      wrapperCustomStyle,
+      baseControlClassName,
+      env
     } = this.props;
 
     const value = getPropValue(this.props);
@@ -156,7 +161,17 @@ export class JSONField extends React.Component<JSONProps, object> {
     }
 
     return (
-      <div className={cx('JsonField', className)} style={style}>
+      <div
+        className={cx(
+          'JsonField',
+          className,
+          baseControlClassName,
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
+        )}
+        style={style}
+      >
         {typeof data === 'undefined' || data === null ? (
           placeholder
         ) : (
@@ -178,6 +193,20 @@ export class JSONField extends React.Component<JSONProps, object> {
             />
           </React.Suspense>
         )}
+        <CustomStyle
+          config={{
+            id,
+            themeCss,
+            wrapperCustomStyle,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

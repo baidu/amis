@@ -47,6 +47,7 @@ import {dataMapping} from '../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import LazyComponent from '../components/LazyComponent';
 import {isAlive} from 'mobx-state-tree';
+import CustomStyle from '../components/CustomStyle';
 
 import type {LabelAlign} from './Item';
 import {injectObjectChain} from '../utils';
@@ -1725,7 +1726,18 @@ export default class Form extends React.Component<FormProps, object> {
       render,
       staticClassName,
       static: isStatic = false,
-      loadingConfig
+      loadingConfig,
+      wrapWithPanel,
+      css,
+      themeCss,
+      id,
+      wrapperCustomStyle,
+      formControlClassName,
+      panelControlClassName,
+      headerControlClassName,
+      bodyControlClassName,
+      actionsControlClassName,
+      env
     } = this.props;
 
     const {restError} = store;
@@ -1753,7 +1765,11 @@ export default class Form extends React.Component<FormProps, object> {
           `Form--${mode || 'normal'}`,
           columnCount ? `Form--column Form--column-${columnCount}` : null,
           staticClassName && isStatic ? staticClassName : className,
-          isStatic ? 'Form--isStatic' : null
+          isStatic ? 'Form--isStatic' : null,
+          formControlClassName,
+          !wrapWithPanel && wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
         )}
         onSubmit={this.handleFormSubmit}
         noValidate
@@ -1827,6 +1843,48 @@ export default class Form extends React.Component<FormProps, object> {
             show: store.drawerOpen
           }
         )}
+
+        <CustomStyle
+          config={{
+            themeCss: themeCss || css,
+            classNames: [
+              {
+                key: 'formControlClassName',
+                value: formControlClassName
+              },
+              {
+                key: 'panelControlClassName',
+                value: panelControlClassName
+              },
+              {
+                key: 'headerControlClassName',
+                value: headerControlClassName,
+                weights: {
+                  default: {
+                    important: true
+                  },
+                  hover: {
+                    important: true
+                  },
+                  active: {
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'bodyControlClassName',
+                value: bodyControlClassName
+              },
+              {
+                key: 'actionsControlClassName',
+                value: actionsControlClassName
+              }
+            ],
+            wrapperCustomStyle,
+            id: id && id + '-item'
+          }}
+          env={env}
+        />
       </WrapperComponent>
     );
   }
@@ -1845,12 +1903,18 @@ export default class Form extends React.Component<FormProps, object> {
       footerWrapClassName,
       actionsClassName,
       bodyClassName,
+      headerControlClassName,
+      bodyControlClassName,
+      actionsControlClassName,
       classnames: cx,
       style,
       affixFooter,
       lazyLoad,
       translate: __,
-      footer
+      footer,
+      id,
+      wrapperCustomStyle,
+      panelControlClassName
     } = this.props;
 
     let body: JSX.Element = this.renderBody();
@@ -1863,7 +1927,14 @@ export default class Form extends React.Component<FormProps, object> {
           title: __(title)
         },
         {
-          className: cx(panelClassName, 'Panel--form'),
+          className: cx(
+            panelClassName,
+            'Panel--form',
+            panelControlClassName,
+            wrapperCustomStyle
+              ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+              : ''
+          ),
           style: style,
           formStore: this.props.store,
           children: body,
@@ -1878,7 +1949,10 @@ export default class Form extends React.Component<FormProps, object> {
           footerWrapClassName,
           actionsClassName,
           bodyClassName,
-          affixFooter
+          affixFooter,
+          headerControlClassName,
+          bodyControlClassName,
+          actionsControlClassName
         }
       ) as JSX.Element;
     }
