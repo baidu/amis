@@ -514,7 +514,7 @@ export function traceProps(props: any, prevProps: any, componentName: string) {
             return `data[${Object.keys(props[key])
               .map(item => {
                 if (props[key][item] !== prevProps[key][item]) {
-                  return `data.${item}`;
+                  return `${item}`;
                 }
                 return '';
               })
