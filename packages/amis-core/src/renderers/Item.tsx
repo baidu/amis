@@ -38,6 +38,7 @@ import {dataMapping, setThemeClassName} from '../utils';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 import CustomStyle from '../components/CustomStyle';
+import classNames from 'classnames';
 
 export type LabelAlign = 'right' | 'left';
 
@@ -504,12 +505,10 @@ const getItemLabelClassName = (props: FormItemProps) => {
   const {staticLabelClassName, labelClassName, id, themeCss} = props;
   return props.static && staticLabelClassName
     ? staticLabelClassName
-    : `${labelClassName || ''} ${setThemeClassName(
-        'labelClassName',
-        id,
-        themeCss,
-        'item'
-      )}`;
+    : classNames(
+        labelClassName,
+        setThemeClassName('labelClassName', id, themeCss, 'item')
+      );
 };
 
 const getItemInputClassName = (props: FormItemProps) => {
