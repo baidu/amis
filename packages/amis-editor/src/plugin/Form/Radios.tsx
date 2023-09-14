@@ -172,14 +172,20 @@ export class RadiosControlPlugin extends BasePlugin {
                 }
               ]
             }),
-            getSchemaTpl('style:classNames', {
-              schema: [
-                getSchemaTpl('className', {
-                  label: '单个选项',
-                  name: 'itemClassName'
+            {
+              title: '单选样式', // 单独配置其他的一些配置项，如果标题文字，描述文字，图标等
+              body: [
+                getSchemaTpl('theme:font', {
+                  label: '标题文字',
+                  name: 'themeCss.radioClassName.font',
+                  hasSenior: false
                 })
               ]
-            })
+            },
+            getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            getSchemaTpl('theme:cssCode') // 设置自定义样式编辑
           ])
         ]
       },
