@@ -3115,7 +3115,8 @@ export const getEventControlConfig = (
       }
 
       delete action.config;
-
+      delete action.__keywords;
+      delete action.__resultActionTree;
       return action;
     }
   };
