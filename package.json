@@ -40,7 +40,8 @@
   },
   "dependencies": {
     "postcss": "^8.4.14",
-    "qs": "6.9.7"
+    "qs": "6.9.7",
+    "react-error-boundary": "^4.0.11"
   },
   "devDependencies": {
     "@babel/generator": "^7.22.9",
