@@ -138,6 +138,7 @@ function ThemeCssCode(props: FormControlProps) {
         </a>
         <div className="ThemeCssCode-editor-wrap" style={{height: '180px'}}>
           <Editor
+            className="ThemeCssCode-custom-editor"
             value={value}
             placeholder={editorPlaceholder}
             language="scss"
