@@ -487,7 +487,6 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                     class="cxd-Spinner-icon cxd-Spinner-icon--default"
                   />
                 </div>
-                <span />
               </div>
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
@@ -2587,7 +2586,6 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                     </tbody>
                   </table>
                 </div>
-                <span />
               </div>
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
@@ -3464,7 +3462,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                     </tbody>
                   </table>
                 </div>
-                <span />
               </div>
               <div
                 class="resize-sensor"

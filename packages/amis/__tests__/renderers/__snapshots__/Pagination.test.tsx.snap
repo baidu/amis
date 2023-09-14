@@ -210,7 +210,6 @@ exports[`Renderer:Pagination 1`] = `
               </tbody>
             </table>
           </div>
-          <span />
         </div>
         <div
           class="resize-sensor"
