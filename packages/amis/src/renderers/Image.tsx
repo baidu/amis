@@ -245,8 +245,10 @@ export class ImageThumb extends React.Component<
       translate: __,
       overlays,
       imageMode,
-      id,
-      themeCss
+      titleControlClassName,
+      iconControlClassName,
+      imageControlClassName,
+      desControlClassName
     } = this.props;
 
     const {imageLoading} = this.state;
@@ -281,11 +283,7 @@ export class ImageThumb extends React.Component<
               data-position="bottom"
               target="_blank"
               onClick={this.handleEnlarge}
-              className={setThemeClassName(
-                'iconControlClassName',
-                id,
-                themeCss
-              )}
+              className={iconControlClassName}
             >
               <Icon
                 icon="view"
@@ -304,7 +302,7 @@ export class ImageThumb extends React.Component<
           'Image',
           imageMode === 'original' ? 'Image--original' : 'Image--thumb',
           className,
-          setThemeClassName('imageControlClassName', id, themeCss)
+          imageControlClassName
         )}
         style={href ? undefined : style} // 避免重复设置style
       >
@@ -342,10 +340,7 @@ export class ImageThumb extends React.Component<
           <div key="caption" className={cx('Image-info')}>
             {title ? (
               <div
-                className={cx(
-                  'Image-title',
-                  setThemeClassName('titleControlClassName', id, themeCss)
-                )}
+                className={cx('Image-title', titleControlClassName)}
                 title={title}
               >
                 {title}
@@ -353,10 +348,7 @@ export class ImageThumb extends React.Component<
             ) : null}
             {caption ? (
               <div
-                className={cx(
-                  'Image-caption',
-                  setThemeClassName('titleControlClassName', id, themeCss)
-                )}
+                className={cx('Image-caption', desControlClassName)}
                 title={caption}
               >
                 {caption}
@@ -508,11 +500,6 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       wrapperCustomStyle,
       id,
       themeCss,
-      imageControlClassName,
-      titleControlClassName,
-      desControlClassName,
-      iconControlClassName,
-      galleryControlClassName,
       env
     } = this.props;
 
