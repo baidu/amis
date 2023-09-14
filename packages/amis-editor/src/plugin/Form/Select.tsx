@@ -277,7 +277,15 @@ export class SelectControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('checkAll'),
               getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema
+                rendererSchema: () => {
+                  const schema = this.manager.store.getSchema(
+                    context.schema?.id,
+                    'id'
+                  );
+                  return {
+                    ...schema
+                  };
+                }
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
