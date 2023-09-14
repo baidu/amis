@@ -102,6 +102,9 @@ function ThemeCssCode(props: FormControlProps) {
       const {prop, value, selector} = node;
       if (value) {
         newStyle[prop] = value;
+        if (node.important) {
+          newStyle[prop] += ' !important';
+        }
       }
       if (node.nodes) {
         !newStyle[selector] && (newStyle[selector] = {});
