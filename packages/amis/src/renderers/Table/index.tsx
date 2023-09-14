@@ -69,6 +69,7 @@ import omit from 'lodash/omit';
 import ColGroup from './ColGroup';
 import debounce from 'lodash/debounce';
 import AutoFilterForm from './AutoFilterForm';
+import Cell from './Cell';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -547,7 +548,6 @@ export default class Table extends React.Component<TableProps, object> {
     this.tableRef = this.tableRef.bind(this);
     this.affixedTableRef = this.affixedTableRef.bind(this);
     this.updateTableInfo = this.updateTableInfo.bind(this);
-    this.updateTableInfoRef = this.updateTableInfoRef.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
@@ -1236,13 +1236,6 @@ export default class Table extends React.Component<TableProps, object> {
     this.props.store.initTableWidth();
     this.handleOutterScroll();
     callback && setTimeout(callback, 20);
-  }
-
-  updateTableInfoRef(ref: any) {
-    if (!ref) {
-      return;
-    }
-    this.updateTableInfo();
   }
 
   // 当表格滚动是，需要让 affixHeader 部分的表格也滚动
@@ -2018,168 +2011,31 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       checkOnItemClick,
       popOverContainer,
+      canAccessSuperData,
       itemBadge
     } = this.props;
 
-    if (column.name && item.rowSpans[column.name] === 0) {
-      return null;
-    }
-
-    const style: any = {...column.pristine.style};
-    const [stickyStyle, stickyClassName] = store.getStickyStyles(
-      column,
-      store.filteredColumns
-    );
-    Object.assign(style, stickyStyle);
-
-    if (column.type === '__checkme') {
-      return (
-        <td
-          style={style}
-          key={props.key}
-          className={cx(column.pristine.className, stickyClassName)}
-        >
-          <Checkbox
-            classPrefix={ns}
-            type={multiple ? 'checkbox' : 'radio'}
-            checked={item.checked}
-            disabled={item.checkdisable || !item.checkable}
-            onChange={this.handleCheck.bind(this, item)}
-          />
-        </td>
-      );
-    } else if (column.type === '__dragme') {
-      return (
-        <td
-          style={style}
-          key={props.key}
-          className={cx(column.pristine.className, stickyClassName, {
-            'is-dragDisabled': !item.draggable
-          })}
-        >
-          {item.draggable ? <Icon icon="drag" className="icon" /> : null}
-        </td>
-      );
-    } else if (column.type === '__expandme') {
-      return (
-        <td
-          style={style}
-          key={props.key}
-          className={cx(column.pristine.className, stickyClassName)}
-        >
-          {item.expandable ? (
-            <a
-              className={cx(
-                'Table-expandBtn',
-                item.expanded ? 'is-active' : ''
-              )}
-              // data-tooltip="展开/收起"
-              // data-position="top"
-              onClick={item.toggleExpanded}
-            >
-              <Icon icon="right-arrow-bold" className="icon" />
-            </a>
-          ) : null}
-        </td>
-      );
-    }
-
-    let prefix: React.ReactNode[] = [];
-    let affix: React.ReactNode[] = [];
-    let addtionalClassName = '';
-
-    if (column.isPrimary && store.isNested) {
-      addtionalClassName = 'Table-primayCell';
-      prefix.push(
-        <span
-          key="indent"
-          className={cx('Table-indent')}
-          style={item.indentStyle}
-        />
-      );
-      prefix.push(
-        item.expandable ? (
-          <a
-            key="expandBtn2"
-            className={cx('Table-expandBtn2', item.expanded ? 'is-active' : '')}
-            // data-tooltip="展开/收起"
-            // data-position="top"
-            onClick={item.toggleExpanded}
-          >
-            <Icon icon="right-arrow-bold" className="icon" />
-          </a>
-        ) : (
-          <span key="expandSpace" className={cx('Table-expandSpace')} />
-        )
-      );
-    }
-
-    if (
-      !ignoreDrag &&
-      column.isPrimary &&
-      store.isNested &&
-      store.draggable &&
-      item.draggable
-    ) {
-      affix.push(
-        <a
-          key="dragBtn"
-          draggable
-          onDragStart={this.handleDragStart}
-          className={cx('Table-dragBtn')}
-        >
-          <Icon icon="drag" className="icon" />
-        </a>
-      );
-    }
-
-    const canAccessSuperData =
-      column.pristine.canAccessSuperData ?? this.props.canAccessSuperData;
-    const subProps: any = {
-      ...props,
-      // 操作列不下发loading，否则会导致操作栏里面的所有按钮都出现loading
-      loading: column.type === 'operation' ? false : props.loading,
-      btnDisabled: store.dragging,
-      data: item.locals,
-      value: column.name
-        ? resolveVariable(
-            column.name,
-            canAccessSuperData ? item.locals : item.data
-          )
-        : column.value,
-      popOverContainer: this.getPopOverContainer,
-      rowSpan: item.rowSpans[column.name as string],
-      quickEditFormRef: this.subFormRef,
-      cellPrefix: prefix,
-      cellAffix: affix,
-      onImageEnlarge: this.handleImageEnlarge,
-      canAccessSuperData,
-      row: item,
-      itemBadge,
-      showBadge:
-        !props.isHead &&
-        itemBadge &&
-        store.firstToggledColumnIndex === props.colIndex,
-      onQuery: undefined,
-      style,
-      className: cx(
-        column.pristine.className,
-        stickyClassName,
-        addtionalClassName
-      ),
-      /** 给子节点的设置默认值，避免取到env.affixHeader的默认值，导致表头覆盖首行 */
-      affixOffsetTop: 0
-    };
-    delete subProps.label;
-
-    return render(
-      region,
-      {
-        ...column.pristine,
-        column: column.pristine,
-        type: 'cell'
-      },
-      subProps
+    return (
+      <Cell
+        key={props.key}
+        region={region}
+        column={column}
+        item={item}
+        props={props}
+        ignoreDrag={ignoreDrag}
+        render={render}
+        store={store}
+        multiple={multiple}
+        canAccessSuperData={canAccessSuperData}
+        classnames={cx}
+        classPrefix={ns}
+        itemBadge={itemBadge}
+        onCheck={this.handleCheck}
+        onDragStart={this.handleDragStart}
+        popOverContainer={this.getPopOverContainer}
+        quickEditFormRef={this.subFormRef}
+        onImageEnlarge={this.handleImageEnlarge}
+      />
     );
   }
 
@@ -2857,13 +2713,6 @@ export default class Table extends React.Component<TableProps, object> {
           onMouseLeave={this.handleMouseLeave}
         >
           {this.renderTableContent()}
-
-          {
-            // 利用这个将 table-layout: auto 转成 table-layout: fixed
-            store.columnWidthReady ? null : (
-              <span ref={this.updateTableInfoRef} />
-            )
-          }
         </div>
 
         {footer}

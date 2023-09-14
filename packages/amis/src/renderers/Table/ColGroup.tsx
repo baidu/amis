@@ -13,9 +13,10 @@ export function ColGroup({
 
   React.useEffect(() => {
     if (domRef.current) {
+      store.initTableWidth();
       store.syncTableWidth();
     }
-  });
+  }, []);
 
   React.useEffect(() => {
     const table = domRef.current!.parentElement!;
@@ -37,7 +38,7 @@ export function ColGroup({
       {columns.map(column => {
         const style: any = {};
 
-        if (store.columnWidthReady) {
+        if (store.columnWidthReady && column.width) {
           style.width = column.width;
         } else if (column.pristine.width) {
           style.width = column.pristine.width;

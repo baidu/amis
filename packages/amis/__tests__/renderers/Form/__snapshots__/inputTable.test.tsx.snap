@@ -195,7 +195,6 @@ exports[`Renderer:input table 1`] = `
                             </tbody>
                           </table>
                         </div>
-                        <span />
                       </div>
                       <div
                         class="resize-sensor"
@@ -599,7 +598,6 @@ exports[`Renderer:input table add 1`] = `
                     </tbody>
                   </table>
                 </div>
-                <span />
               </div>
               <div
                 class="resize-sensor"
@@ -928,7 +926,6 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                     </tbody>
                   </table>
                 </div>
-                <span />
               </div>
               <div
                 class="resize-sensor"
@@ -1664,7 +1661,6 @@ exports[`Renderer:input-table init display 1`] = `
                     </tbody>
                   </table>
                 </div>
-                <span />
               </div>
               <div
                 class="resize-sensor"
@@ -2103,7 +2099,6 @@ exports[`Renderer:input-table with combo column 1`] = `
                     </tbody>
                   </table>
                 </div>
-                <span />
               </div>
               <div
                 class="resize-sensor"

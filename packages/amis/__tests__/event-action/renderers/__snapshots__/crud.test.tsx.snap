@@ -259,7 +259,6 @@ exports[`doAction:crud reload 1`] = `
                     class="cxd-Spinner-icon cxd-Spinner-icon--default"
                   />
                 </div>
-                <span />
               </div>
               <div
                 class="resize-sensor"
@@ -568,7 +567,6 @@ exports[`doAction:crud reload with data1 1`] = `
                     class="cxd-Spinner-icon cxd-Spinner-icon--default"
                   />
                 </div>
-                <span />
               </div>
               <div
                 class="resize-sensor"
@@ -877,7 +875,6 @@ exports[`doAction:crud reload with data2 1`] = `
                     class="cxd-Spinner-icon cxd-Spinner-icon--default"
                   />
                 </div>
-                <span />
               </div>
               <div
                 class="resize-sensor"
