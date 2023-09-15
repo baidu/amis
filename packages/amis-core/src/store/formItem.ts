@@ -361,7 +361,12 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         inputGroupControl?.name != null &&
         (self.inputGroupControl = inputGroupControl);
 
-      if (typeof rules !== 'undefined' || self.required) {
+      if (
+        typeof rules !== 'undefined' ||
+        typeof required !== 'undefined' ||
+        typeof minLength === 'number' ||
+        typeof maxLength === 'number'
+      ) {
         rules = {
           ...(rules ?? self.rules),
           isRequired: self.required || rules?.isRequired

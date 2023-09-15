@@ -828,7 +828,7 @@ test('doAction:form valdiate requiredOn', async () => {
         submitText: '提交表单',
         body: [
           {
-            type: 'radio',
+            type: 'switch',
             name: 'a',
             label: 'a'
           },
@@ -851,11 +851,11 @@ test('doAction:form valdiate requiredOn', async () => {
   await wait(200);
   expect(onSubmit).toBeCalled();
 
-  expect(container.querySelector('.cxd-Checkbox')!).toBeInTheDocument();
-  fireEvent.click(container.querySelector('.cxd-Checkbox')!);
-  await wait(200);
+  expect(container.querySelector('.cxd-Switch')!).toBeInTheDocument();
+  fireEvent.click(container.querySelector('.cxd-Switch')!);
+  await wait(300);
   fireEvent.click(getByText('提交表单'));
-  await wait(200);
+  await wait(300);
 
   const ul = container.querySelector('.cxd-Form-feedback');
   expect(ul).toBeInTheDocument();
@@ -872,4 +872,17 @@ test('doAction:form valdiate requiredOn', async () => {
     a: true,
     b: '123'
   });
+
+  expect(container.querySelector('.cxd-Form-feedback')).toBeNull();
+
+  fireEvent.change(container.querySelector('input[name="b"]')!, {
+    target: {value: ''}
+  });
+  await wait(300);
+
+  expect(container.querySelector('.cxd-Form-feedback')).toBeInTheDocument();
+  fireEvent.click(container.querySelector('.cxd-Switch')!);
+  await wait(300);
+
+  expect(container.querySelector('.cxd-Form-feedback')).toBeNull();
 });
