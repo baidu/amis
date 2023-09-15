@@ -273,7 +273,7 @@ export class ImageThumb extends React.Component<
         />
       </>
     );
-    debugger;
+
     const enlarge =
       enlargeAble || overlays ? (
         <div key="overlay" className={cx('Image-overlay')}>
@@ -283,7 +283,7 @@ export class ImageThumb extends React.Component<
               data-position="bottom"
               target="_blank"
               onClick={this.handleEnlarge}
-              className={iconControlClassName}
+              className={cx(iconControlClassName)}
             >
               <Icon
                 icon="view"
