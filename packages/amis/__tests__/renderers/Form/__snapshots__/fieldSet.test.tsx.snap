@@ -33,7 +33,7 @@ exports[`Renderer:fieldSet 1`] = `
           type="submit"
         />
         <fieldset
-          class="cxd-Collapse is-active no-border"
+          class="cxd-Collapse is-active cxd-Collapse--fieldset no-border"
         >
           <div
             class="cxd-Collapse-contentWrapper"
@@ -161,7 +161,7 @@ exports[`Renderer:fieldSet with mode 1`] = `
           type="submit"
         />
         <fieldset
-          class="cxd-Collapse is-active"
+          class="cxd-Collapse is-active cxd-Collapse--fieldset"
         >
           <div
             class="cxd-Collapse-contentWrapper"
@@ -336,7 +336,7 @@ exports[`Renderer:fieldSet with mode 2`] = `
           type="submit"
         />
         <fieldset
-          class="cxd-Collapse is-active"
+          class="cxd-Collapse is-active cxd-Collapse--fieldset"
         >
           <div
             class="cxd-Collapse-contentWrapper"
@@ -511,7 +511,7 @@ exports[`Renderer:fieldSet with mode 3`] = `
           type="submit"
         />
         <fieldset
-          class="cxd-Collapse is-active"
+          class="cxd-Collapse is-active cxd-Collapse--fieldset"
         >
           <div
             class="cxd-Collapse-contentWrapper"
@@ -678,7 +678,7 @@ exports[`Renderer:fieldSet with titlePosition & collapseTitle & title 1`] = `
           type="submit"
         />
         <fieldset
-          class="cxd-Collapse is-active cxd-Collapse--title-bottom"
+          class="cxd-Collapse is-active cxd-Collapse--title-bottom cxd-Collapse--fieldset"
         >
           <div
             class="cxd-Collapse-contentWrapper"

@@ -53,6 +53,8 @@ export interface CollapseProps extends ThemeProps {
   partial?: boolean;
   children?: React.ReactNode | Array<React.ReactNode>;
   divideLine?: boolean;
+  /** 当Collapse作为Form组件的子元素时，开启该属性后组件样式设置为FieldSet组件的样式，默认开启 */
+  enableFieldSetStyle?: boolean;
 }
 
 export interface CollapseState {
@@ -72,7 +74,8 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
     collapsable: true,
     disabled: false,
     showArrow: true,
-    propsUpdate: false
+    propsUpdate: false,
+    enableFieldSetStyle: true
   };
 
   state: CollapseState = {
@@ -191,7 +194,8 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       expandIcon,
       disabled,
       children,
-      mobileUI
+      mobileUI,
+      enableFieldSetStyle
     } = this.props;
 
     const finalHeader = this.state.collapsed
@@ -278,7 +282,8 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
             'is-active': !this.state.collapsed,
             [`Collapse--${size}`]: size,
             'Collapse--disabled': disabled,
-            'Collapse--title-bottom': headerPosition === 'bottom'
+            'Collapse--title-bottom': headerPosition === 'bottom',
+            'Collapse--fieldset': enableFieldSetStyle !== false
           },
           className
         )}

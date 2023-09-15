@@ -6,6 +6,7 @@
  * 2. accordion 手风琴模式
  * 3. 自定义图标
  * 4. disabled 禁用 和 面板嵌套
+ * 5. enableFieldSetStyle属性控制CollapseGroup组件在Form中的样式
  */
 import {render, fireEvent, waitFor} from '@testing-library/react';
 import '../../src';
@@ -13,7 +14,7 @@ import {render as amisRender} from '../../src';
 import {makeEnv, wait} from '../helper';
 
 // 1. 基本用法
-test('Renderer:Collapse', async () => {
+test('1. Renderer:Collapse', async () => {
   const {container} = render(
     amisRender(
       {
@@ -61,7 +62,7 @@ test('Renderer:Collapse', async () => {
 });
 
 // 2. accordion 手风琴模式
-test('Renderer:Collapse with accordion', async () => {
+test('2. Renderer:Collapse with accordion', async () => {
   const {container} = render(
     amisRender(
       {
@@ -110,7 +111,7 @@ test('Renderer:Collapse with accordion', async () => {
 });
 
 // 3. 自定义图标
-test('Renderer:Collapse with expandIcon & expandIconPosition & showArrow', async () => {
+test('3. Renderer:Collapse with expandIcon & expandIconPosition & showArrow', async () => {
   const schema = {
     type: 'collapse-group',
     activeKey: ['1'],
@@ -163,7 +164,7 @@ test('Renderer:Collapse with expandIcon & expandIconPosition & showArrow', async
 });
 
 // 4. disabled 禁用 和 面板嵌套
-test('Renderer:Collapse with disabled & panel nesting', async () => {
+test('4. Renderer:Collapse with disabled & panel nesting', async () => {
   const schema = {
     type: 'collapse-group',
     activeKey: ['1'],
@@ -205,3 +206,62 @@ test('Renderer:Collapse with disabled & panel nesting', async () => {
     'cxd-Collapse--disabled'
   );
 });
+
+test('5. enableFieldSetStyle属性控制CollapseGroup组件在Form中的样式', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        "type": "form",
+        "body": [
+          {
+            "type": "collapse-group",
+            "body": [
+              {
+                "type": "collapse",
+                "key": "1",
+                "header": "标题1",
+                "body": "这里是内容1"
+              },
+              {
+                "type": "collapse",
+                "key": "2",
+                "header": "标题2",
+                "body": "这里是内容2"
+              }
+            ]
+          },
+          {
+            "type": "collapse-group",
+            "enableFieldSetStyle": false,
+            "body": [
+              {
+                "type": "collapse",
+                "key": "1",
+                "header": "标题1",
+                "body": "这里是内容1"
+              },
+              {
+                "type": "collapse",
+                "key": "2",
+                "header": "标题2",
+                "body": "这里是内容2"
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const totalCollections = container.querySelectorAll(
+    '.cxd-CollapseGroup > .cxd-Collapse'
+  );
+  const fieldsetStyledCollections = container.querySelectorAll(
+    '.cxd-CollapseGroup > .cxd-Collapse.cxd-Collapse--fieldset'
+  );
+
+  expect(totalCollections.length).toBe(4);
+  expect(fieldsetStyledCollections.length).toBe(2);
+})
