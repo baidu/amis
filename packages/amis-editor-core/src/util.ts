@@ -97,7 +97,7 @@ export function JSONPipeIn(obj: any): any {
   // });
 
   if (obj.type) {
-    // 处理下历史style数据，整理到themCss
+    // 处理下历史style数据，整理到themeCss
     obj = style2ThemeCss(obj);
   }
 
@@ -1127,30 +1127,30 @@ export function style2ThemeCss(data: any) {
   if (!data?.style && isEmpty(data.style)) {
     return data;
   }
-  const schemaData = cloneDeep(data);
+  const style = {...data.style};
   let baseControlClassName: PlainObject = {};
   const border: PlainObject = {};
   const paddingAndMargin: PlainObject = {};
   const font: PlainObject = {};
-  for (let key in schemaData.style) {
+  Object.keys(style).forEach(key => {
     if (['background', 'radius', 'boxShadow'].includes(key)) {
-      baseControlClassName[key + ':default'] = schemaData.style[key];
-      delete schemaData.style[key];
+      baseControlClassName[key + ':default'] = style[key];
+      delete style[key];
     } else if (
       ['color', 'fontSize', 'fontWeight', 'font-family', 'lineHeight'].includes(
         key
       )
     ) {
-      font[key] = schemaData.style[key];
-      delete schemaData.style[key];
+      font[key] = style[key];
+      delete style[key];
     } else if (key.includes('border')) {
-      border[key] = schemaData.style[key];
-      delete schemaData.style[key];
+      border[key] = style[key];
+      delete style[key];
     } else if (key.includes('padding') || key.includes('margin')) {
-      paddingAndMargin[key] = schemaData.style[key];
-      delete schemaData.style[key];
+      paddingAndMargin[key] = style[key];
+      delete style[key];
     }
-  }
+  });
   baseControlClassName = Object.assign(
     isEmpty(baseControlClassName) ? {} : baseControlClassName,
     isEmpty(border) ? {} : {'border:default': border},
@@ -1160,19 +1160,24 @@ export function style2ThemeCss(data: any) {
     isEmpty(font) ? {} : {'font:default': font}
   );
   if (isEmpty(baseControlClassName)) {
-    return schemaData;
+    return data;
   }
-  if (!schemaData.themeCss) {
-    schemaData.themeCss = {
+  let themeCss = {baseControlClassName};
+  if (!data.themeCss) {
+    themeCss = {
       baseControlClassName
     };
   } else {
-    schemaData.themeCss.baseControlClassName = Object.assign(
-      schemaData.themeCss.baseControlClassName,
+    themeCss.baseControlClassName = Object.assign(
+      data.themeCss.baseControlClassName,
       baseControlClassName
     );
   }
-  return schemaData;
+  return {
+    ...data,
+    style,
+    themeCss
+  };
 }
 
 /**
