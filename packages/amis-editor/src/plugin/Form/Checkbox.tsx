@@ -212,7 +212,19 @@ export class CheckboxControlPlugin extends BasePlugin {
         body: [
           getSchemaTpl('collapseGroup', [
             getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
-            getSchemaTpl('style:classNames')
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            {
+              title: '文字',
+              body: [
+                getSchemaTpl('theme:font', {
+                  label: '文字',
+                  name: 'themeCss.checkboxClassName.font',
+                  hasSenior: false
+                })
+              ]
+            },
+            getSchemaTpl('theme:cssCode') // 设置自定义样式编辑
           ])
         ]
       },

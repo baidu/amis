@@ -1,12 +1,14 @@
 import React from 'react';
 import inRange from 'lodash/inRange';
+import cx from 'classnames';
 import {
   OptionsControl,
   createObject,
   autobind,
   hasAbility,
   columnsSplit,
-  flattenTreeWithLeafNodes
+  flattenTreeWithLeafNodes,
+  CustomStyle
 } from 'amis-core';
 import type {ActionObject, Api, OptionsControlProps, Option} from 'amis-core';
 import {Checkbox, Icon} from 'amis-ui';
@@ -258,11 +260,15 @@ export default class CheckboxesControl extends React.Component<
       translate: __,
       optionType,
       menuTpl,
-      data
+      data,
+      id,
+      env,
+      themeCss,
+      checkboxesClassName
     } = this.props;
     const labelText = String(option[labelField || 'label']);
     const optionLabelClassName = option['labelClassName'];
-
+    // labelClassName={optionLabelClassName || labelClassName}
     return (
       <Checkbox
         className={itemClassName}
@@ -271,7 +277,10 @@ export default class CheckboxesControl extends React.Component<
         checked={!!~selectedOptions.indexOf(option)}
         disabled={disabled || option.disabled}
         inline={inline}
-        labelClassName={optionLabelClassName || labelClassName}
+        labelClassName={cx(
+          optionLabelClassName ?? labelClassName,
+          checkboxesClassName
+        )}
         description={option.description}
         optionType={optionType}
       >
@@ -298,6 +307,24 @@ export default class CheckboxesControl extends React.Component<
             />
           </a>
         ) : null}
+        <CustomStyle
+          config={{
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'checkboxesClassName',
+                value: checkboxesClassName,
+                weights: {
+                  default: {
+                    important: true
+                  }
+                }
+              }
+            ]
+          }}
+          env={env}
+        />
       </Checkbox>
     );
   }
