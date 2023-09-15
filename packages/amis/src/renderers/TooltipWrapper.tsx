@@ -247,9 +247,7 @@ export default class TooltipWrapper extends React.Component<
       popOverContainer,
       wrapperCustomStyle,
       id,
-      themeCss,
-      baseControlClassName,
-      tooltipControlClassName
+      themeCss
     } = this.props;
 
     const tooltipObj: TooltipObject = {
@@ -264,11 +262,10 @@ export default class TooltipWrapper extends React.Component<
           ? container
           : popOverContainer || env?.getModalContainer,
       tooltipTheme,
-      tooltipClassName: `${tooltipClassName} ${setThemeClassName(
-        'tooltipControlClassName',
-        id,
-        themeCss
-      )}`,
+      tooltipClassName: cx(
+        tooltipClassName,
+        setThemeClassName('tooltipControlClassName', id, themeCss)
+      ),
       mouseEnterDelay,
       mouseLeaveDelay,
       offset,
