@@ -495,11 +495,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         if (isEffectiveApi(addApi, ctx)) {
           const payload = await env.fetcher(addApi, ctx);
           if (payload && !payload.ok) {
-            env.notify(
-              'error',
-              (addApi as ApiObject)?.messages?.failed ??
-                (payload.msg || __('fetchFailed'))
-            );
+            !(addApi as ApiObject)?.silent &&
+              env.notify(
+                'error',
+                (addApi as ApiObject)?.messages?.failed ??
+                  (payload.msg || __('fetchFailed'))
+              );
             return;
           } else if (payload && payload.ok) {
             toAdd = payload.data;
@@ -783,7 +784,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     if (remote && !remote.ok) {
-      env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
+      !((isNew ? addApi : updateApi) as ApiObject)?.silent &&
+        env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
       const failEventName = isNew ? 'addFail' : 'editFail';
       this.dispatchEvent(failEventName, {
         index: this.state.editIndex,
@@ -876,10 +878,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       const result = await env.fetcher(deleteApi, ctx);
 
       if (!result.ok) {
-        env.notify(
-          'error',
-          (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
-        );
+        !(deleteApi as ApiObject)?.silent &&
+          env.notify(
+            'error',
+            (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
+          );
         this.dispatchEvent('deleteFail', {index, item, error: result});
         return;
       }
@@ -1680,11 +1683,12 @@ export class TableControlRenderer extends FormTable {
         if (isEffectiveApi(addApi, ctx)) {
           const payload = await env.fetcher(addApi, ctx);
           if (payload && !payload.ok) {
-            env.notify(
-              'error',
-              (addApi as ApiObject)?.messages?.failed ??
-                (payload.msg || __('fetchFailed'))
-            );
+            !(addApi as ApiObject)?.silent &&
+              env.notify(
+                'error',
+                (addApi as ApiObject)?.messages?.failed ??
+                  (payload.msg || __('fetchFailed'))
+              );
             return;
           } else if (payload && payload.ok) {
             toAdd = payload.data;
@@ -1775,11 +1779,12 @@ export class TableControlRenderer extends FormTable {
           createObject(ctx, {deletedItems})
         );
         if (payload && !payload.ok) {
-          env.notify(
-            'error',
-            (deleteApi as ApiObject)?.messages?.failed ??
-              (payload.msg || __('fetchFailed'))
-          );
+          !(deleteApi as ApiObject)?.silent &&
+            env.notify(
+              'error',
+              (deleteApi as ApiObject)?.messages?.failed ??
+                (payload.msg || __('fetchFailed'))
+            );
           return;
         }
       }

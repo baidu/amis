@@ -8,7 +8,7 @@ import {
   resolveEventData
 } from 'amis-core';
 import {Select, Spinner} from 'amis-ui';
-import {Api} from 'amis-core';
+import {Api, ApiObject} from 'amis-core';
 import {isEffectiveApi} from 'amis-core';
 import {isMobile, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
@@ -215,7 +215,7 @@ export default class ChainedSelectControl extends React.Component<
             );
           })
           .catch(e => {
-            env.notify('error', e.message);
+            !(source as ApiObject)?.silent && env.notify('error', e.message);
           });
       }
     );
