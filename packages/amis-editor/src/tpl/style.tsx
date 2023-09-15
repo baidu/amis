@@ -619,7 +619,7 @@ setSchemaTpl(
           return {
             ...item,
             visibleOn: visibleOn,
-            name: `themeCss.${classname}.${item.name}:${state}`
+            name: `${item.name}:${state}`
           };
         })
       );
