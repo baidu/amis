@@ -214,7 +214,8 @@ export function formatStyle(
                   continue;
                 }
                 const value = style[k];
-                value && fn(k, value);
+                value &&
+                  fn(k, value + (weights?.important ? ' !important' : ''));
               }
             }
           } else {
