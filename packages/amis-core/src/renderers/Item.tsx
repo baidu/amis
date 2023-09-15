@@ -1109,7 +1109,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         mobileUI,
         translate: __,
         static: isStatic,
-        staticClassName
+        staticClassName,
+        id,
+        wrapperCustomStyle
       } = props;
 
       description = description || desc;
@@ -1124,7 +1126,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               'is-error': model && !model.valid,
               [`is-required`]: required
             },
-            model?.errClassNames
+            model?.errClassNames,
+            wrapperCustomStyle
+              ? `wrapperCustomStyle-${id?.replace('u:', '')}-item`
+              : ''
           )}
           style={style}
         >

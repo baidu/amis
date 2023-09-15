@@ -783,6 +783,7 @@ export default class Page extends React.Component<PageProps> {
       remarkPlacement,
       headerClassName,
       headerControlClassName,
+      titleControlClassName,
       toolbarControlClassName,
       toolbarClassName,
       toolbar,
@@ -810,7 +811,7 @@ export default class Page extends React.Component<PageProps> {
           className={cx(`Page-header`, headerClassName, headerControlClassName)}
         >
           {title ? (
-            <h2 className={cx('Page-title')}>
+            <h2 className={cx('Page-title', titleControlClassName)}>
               {render('title', title, subProps)}
               {remark
                 ? render('remark', {
@@ -884,6 +885,7 @@ export default class Page extends React.Component<PageProps> {
       baseControlClassName,
       bodyControlClassName,
       headerControlClassName,
+      titleControlClassName,
       toolbarControlClassName,
       asideControlClassName
     } = this.props;
@@ -1055,6 +1057,10 @@ export default class Page extends React.Component<PageProps> {
               {
                 key: 'headerControlClassName',
                 value: headerControlClassName
+              },
+              {
+                key: 'titleControlClassName',
+                value: titleControlClassName
               },
               {
                 key: 'toolbarControlClassName',
