@@ -1124,7 +1124,11 @@ export function getThemeConfig() {
  * @returns 处理后的数据
  */
 export function style2ThemeCss(data: any) {
-  if (!data?.style && isEmpty(data.style)) {
+  if (
+    !data?.style ||
+    isEmpty(data.style) ||
+    !['tpl', 'page', 'container', 'chart', 'flex', 'grid'].includes(data.type)
+  ) {
     return data;
   }
   const style = {...data.style};
