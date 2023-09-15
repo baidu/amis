@@ -20,30 +20,36 @@ export default function (props: CustomStyleProps) {
   const styleDom = useRef(new StyleDom(id || '')).current;
 
   useEffect(() => {
-    styleDom.insertCustomStyle({
-      themeCss,
-      classNames,
-      defaultData,
-      customStyleClassPrefix: env?.customStyleClassPrefix,
-      doc: env.getModalContainer?.().ownerDocument
-    });
+    if (themeCss && styleDom.id) {
+      styleDom.insertCustomStyle({
+        themeCss,
+        classNames,
+        defaultData,
+        customStyleClassPrefix: env?.customStyleClassPrefix,
+        doc: env.getModalContainer?.().ownerDocument
+      });
+    }
+
     return () => {
       styleDom.removeCustomStyle('', env.getModalContainer?.().ownerDocument);
     };
-  }, [config.themeCss]);
+  }, [themeCss]);
 
   useEffect(() => {
-    styleDom.insertEditCustomStyle(
-      wrapperCustomStyle,
-      env.getModalContainer?.().ownerDocument
-    );
+    if (wrapperCustomStyle && styleDom.id) {
+      styleDom.insertEditCustomStyle(
+        wrapperCustomStyle,
+        env.getModalContainer?.().ownerDocument
+      );
+    }
+
     return () => {
       styleDom.removeCustomStyle(
         'wrapperCustomStyle',
         env.getModalContainer?.().ownerDocument
       );
     };
-  }, [config.wrapperCustomStyle]);
+  }, [wrapperCustomStyle]);
 
   return null;
 }

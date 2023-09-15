@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Renderer, RendererProps, filterTarget} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  filterTarget,
+  setThemeClassName
+} from 'amis-core';
 import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from 'amis-core';
 import {
@@ -782,9 +787,6 @@ export default class Page extends React.Component<PageProps> {
       remark,
       remarkPlacement,
       headerClassName,
-      headerControlClassName,
-      titleControlClassName,
-      toolbarControlClassName,
       toolbarClassName,
       toolbar,
       render,
@@ -794,7 +796,9 @@ export default class Page extends React.Component<PageProps> {
       env,
       classnames: cx,
       regions,
-      translate: __
+      translate: __,
+      id,
+      themeCss
     } = this.props;
 
     const subProps = {
@@ -808,10 +812,19 @@ export default class Page extends React.Component<PageProps> {
     ) {
       header = (
         <div
-          className={cx(`Page-header`, headerClassName, headerControlClassName)}
+          className={cx(
+            `Page-header`,
+            headerClassName,
+            setThemeClassName('headerControlClassName', id, themeCss)
+          )}
         >
           {title ? (
-            <h2 className={cx('Page-title', titleControlClassName)}>
+            <h2
+              className={cx(
+                'Page-title',
+                setThemeClassName('titleControlClassName', id, themeCss)
+              )}
+            >
               {render('title', title, subProps)}
               {remark
                 ? render('remark', {
@@ -838,7 +851,7 @@ export default class Page extends React.Component<PageProps> {
           className={cx(
             `Page-toolbar`,
             toolbarClassName,
-            toolbarControlClassName
+            setThemeClassName('toolbarControlClassName', id, themeCss)
           )}
         >
           {render('toolbar', toolbar || '', subProps)}
@@ -881,13 +894,7 @@ export default class Page extends React.Component<PageProps> {
       id,
       wrapperCustomStyle,
       env,
-      themeCss,
-      baseControlClassName,
-      bodyControlClassName,
-      headerControlClassName,
-      titleControlClassName,
-      toolbarControlClassName,
-      asideControlClassName
+      themeCss
     } = this.props;
 
     const subProps = {
@@ -910,7 +917,11 @@ export default class Page extends React.Component<PageProps> {
           {this.renderHeader()}
           {/* role 用于 editor 定位 Spinner */}
           <div
-            className={cx(`Page-body`, bodyClassName, bodyControlClassName)}
+            className={cx(
+              `Page-body`,
+              bodyClassName,
+              setThemeClassName('bodyControlClassName', id, themeCss)
+            )}
             role="page-body"
           >
             <Spinner
@@ -945,10 +956,8 @@ export default class Page extends React.Component<PageProps> {
           `Page`,
           hasAside ? `Page--withSidebar` : '',
           className,
-          baseControlClassName,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         onClick={this.handleClick}
         style={styleVar}
@@ -959,7 +968,7 @@ export default class Page extends React.Component<PageProps> {
               `Page-aside`,
               asideResizor ? 'relative' : 'Page-aside--withWidth',
               asideClassName,
-              asideControlClassName
+              setThemeClassName('asideControlClassName', id, themeCss)
             )}
           >
             <div className={cx(`Page-asideInner`)} ref={this.asideInner}>
@@ -1037,7 +1046,6 @@ export default class Page extends React.Component<PageProps> {
             classNames: [
               {
                 key: 'baseControlClassName',
-                value: baseControlClassName,
                 weights: {
                   default: {
                     important: true
@@ -1051,24 +1059,19 @@ export default class Page extends React.Component<PageProps> {
                 }
               },
               {
-                key: 'bodyControlClassName',
-                value: bodyControlClassName
+                key: 'bodyControlClassName'
               },
               {
-                key: 'headerControlClassName',
-                value: headerControlClassName
+                key: 'headerControlClassName'
               },
               {
-                key: 'titleControlClassName',
-                value: titleControlClassName
+                key: 'titleControlClassName'
               },
               {
-                key: 'toolbarControlClassName',
-                value: toolbarControlClassName
+                key: 'toolbarControlClassName'
               },
               {
-                key: 'asideControlClassName',
-                value: asideControlClassName
+                key: 'asideControlClassName'
               }
             ]
           }}
