@@ -224,7 +224,7 @@ export class CheckboxControlPlugin extends BasePlugin {
                 })
               ]
             },
-            getSchemaTpl('theme:cssCode') // 设置自定义样式编辑
+            getSchemaTpl('theme:cssCode')
           ])
         ]
       },

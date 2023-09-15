@@ -268,7 +268,6 @@ export default class CheckboxesControl extends React.Component<
     } = this.props;
     const labelText = String(option[labelField || 'label']);
     const optionLabelClassName = option['labelClassName'];
-    // labelClassName={optionLabelClassName || labelClassName}
     return (
       <Checkbox
         className={itemClassName}
