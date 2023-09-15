@@ -363,7 +363,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       if (
         typeof rules !== 'undefined' ||
-        self.required ||
+        typeof required !== 'undefined' ||
         typeof minLength === 'number' ||
         typeof maxLength === 'number'
       ) {
