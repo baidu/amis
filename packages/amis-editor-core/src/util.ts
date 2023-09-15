@@ -2,7 +2,7 @@
  * @file 功能类函数集合。
  */
 import {hasIcon, mapObject, utils} from 'amis';
-import type {Schema, SchemaNode} from 'amis';
+import type {PlainObject, Schema, SchemaNode} from 'amis';
 import {getGlobalData} from 'amis-theme-editor-helper';
 import {isExpression, resolveVariableAndFilter} from 'amis-core';
 import type {VariableItem} from 'amis-ui';
@@ -95,6 +95,11 @@ export function JSONPipeIn(obj: any): any {
   //     toUpdate[`$$${key}`] = obj[key];
   //   }
   // });
+
+  if (obj.type) {
+    // 处理下历史style数据，整理到themeCss
+    obj = style2ThemeCss(obj);
+  }
 
   Object.keys(obj).forEach(key => {
     let prop = obj[key];
@@ -1110,6 +1115,69 @@ export function setThemeConfig(config: any) {
 // 获取主题数据和样式选择器数据
 export function getThemeConfig() {
   return {themeConfig, ...themeOptionsData};
+}
+
+/**
+ * 将style转换为组件ThemeCSS格式
+ *
+ * @param data - 组件schema
+ * @returns 处理后的数据
+ */
+export function style2ThemeCss(data: any) {
+  if (!data?.style && isEmpty(data.style)) {
+    return data;
+  }
+  const style = {...data.style};
+  let baseControlClassName: PlainObject = {};
+  const border: PlainObject = {};
+  const paddingAndMargin: PlainObject = {};
+  const font: PlainObject = {};
+  Object.keys(style).forEach(key => {
+    if (['background', 'radius', 'boxShadow'].includes(key)) {
+      baseControlClassName[key + ':default'] = style[key];
+      delete style[key];
+    } else if (
+      ['color', 'fontSize', 'fontWeight', 'font-family', 'lineHeight'].includes(
+        key
+      )
+    ) {
+      font[key] = style[key];
+      delete style[key];
+    } else if (key.includes('border')) {
+      border[key] = style[key];
+      delete style[key];
+    } else if (key.includes('padding') || key.includes('margin')) {
+      paddingAndMargin[key] = style[key];
+      delete style[key];
+    }
+  });
+  baseControlClassName = Object.assign(
+    isEmpty(baseControlClassName) ? {} : baseControlClassName,
+    isEmpty(border) ? {} : {'border:default': border},
+    isEmpty(paddingAndMargin)
+      ? {}
+      : {'padding-and-margin:default': paddingAndMargin},
+    isEmpty(font) ? {} : {'font:default': font}
+  );
+  if (isEmpty(baseControlClassName)) {
+    return data;
+  }
+  let themeCss = {baseControlClassName};
+  if (!data.themeCss) {
+    themeCss = {
+      baseControlClassName
+    };
+  } else {
+    themeCss.baseControlClassName = Object.assign(
+      data.themeCss.baseControlClassName,
+      baseControlClassName
+    );
+  }
+  return {
+    ...data,
+    style,
+    themeCss
+  };
 }
 
 /**
