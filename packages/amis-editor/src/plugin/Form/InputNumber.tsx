@@ -206,6 +206,8 @@ export class NumberControlPlugin extends BasePlugin {
                   type: 'input-number',
                   name: 'step',
                   label: '步长',
+                  precision: 6,
+                  step: 0.000001,
                   min: 0,
                   value: 1
                 },
