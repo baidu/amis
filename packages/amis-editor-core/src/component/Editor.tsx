@@ -255,8 +255,10 @@ export default class Editor extends Component<EditorProps> {
   // 快捷功能键
   @autobind
   handleKeyDown(e: KeyboardEvent) {
+    // 预览模式不处理
+    const preview = localStorage.getItem('editting_preview') ? true : false;
     // 弹窗模式不处理
-    if (this.props.isSubEditor) {
+    if (this.props.isSubEditor || preview) {
       // e.defaultPrevented // 或者已经阻止不处理
       return;
     }
