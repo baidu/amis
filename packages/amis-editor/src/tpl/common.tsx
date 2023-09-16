@@ -498,6 +498,10 @@ setSchemaTpl('inputType', {
       value: 'input-text'
     },
     {
+      label: '数字',
+      value: 'input-number'
+    },
+    {
       label: '密码',
       value: 'input-password'
     },

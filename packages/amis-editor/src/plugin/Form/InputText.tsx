@@ -189,6 +189,7 @@ export class TextControlPlugin extends BasePlugin {
                   required: true
                 }),
                 getSchemaTpl('label'),
+                
                 getSchemaTpl('inputType', {
                   value: this.scaffold.type,
                   onChange: (
@@ -203,9 +204,10 @@ export class TextControlPlugin extends BasePlugin {
                       validationErrors = {},
                       autoComplete
                     } = form.data;
-
+                    
                     const is_old_email = oldValue === 'input-email';
                     const is_old_url = oldValue === 'input-url';
+                    const is_old_number = oldValue === 'input-number';
 
                     if (is_old_email) {
                       validations && delete validations.isEmail;
@@ -216,18 +218,29 @@ export class TextControlPlugin extends BasePlugin {
                       validations && delete validations.isUrl;
                       validationErrors && delete validationErrors.isUrl;
                     }
+                    if (is_old_number) {
+                      form.deleteValueByName('precision');
+                      form.deleteValueByName('step');
+                    }
 
-                    form.setValues({
-                      type: value,
-                      showCounter: ['input-url', 'input-email'].includes(value)
-                        ? undefined
-                        : !!showCounter,
-                      autoComplete: ['input-text'].includes(value)
-                        ? autoComplete
-                        : undefined
-                    });
-                    form.changeValue('validations', {...validations});
-                    form.changeValue('validationErrors', {...validationErrors});
+                    var newSchema: any = {
+                      type: value
+                    };
+                    if (['input-url', 'input-email'].includes(value)) {
+                      newSchema.showCounter = !!showCounter;
+                      form.changeValue('validations', {...validations});
+                      form.changeValue('validationErrors', {
+                        ...validationErrors
+                      });
+                    }
+                    if (['input-text'].includes(value)) {
+                      newSchema.autoComplete = autoComplete;
+                    }
+                    if (['input-number'].includes(value)) {
+                      newSchema.precision = 2;
+                      newSchema.step = 0.01;
+                    }
+                    form.setValues(newSchema);
                   }
                 }),
                 getSchemaTpl('tplFormulaControl', {
