@@ -7,7 +7,8 @@ import {
   Option,
   FormOptionsControl,
   resolveEventData,
-  CustomStyle
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {autobind, isEmpty, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
@@ -131,8 +132,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       id, // 组件在编辑器中生成的id
       wrapperCustomStyle, // 自定义样式源码
       env, // 环境信息，需要传
-      themeCss, // 外观样式的配置
-      radioClassName
+      themeCss // 外观样式的配置
     } = this.props;
     return (
       <>
@@ -146,7 +146,10 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
           extractValue={extractValue!}
           delimiter={delimiter!}
           /** 兼容一下错误的用法 */
-          labelClassName={cx(optionClassName ?? labelClassName, radioClassName)}
+          labelClassName={cx(
+            optionClassName ?? labelClassName,
+            setThemeClassName('radioClassName', id, themeCss)
+          )}
           labelField={labelField}
           valueField={valueField}
           placeholder={__(placeholder)}
@@ -167,7 +170,6 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
               // 外观配置的类名，是个数组，解析各个类的外观样式，具体配置可以看后面讲解
               {
                 key: 'radioClassName',
-                value: radioClassName,
                 weights: {
                   default: {
                     important: true
