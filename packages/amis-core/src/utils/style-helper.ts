@@ -78,9 +78,9 @@ function handleInheritData(statusMap: any, data: any) {
   }
   // 检查是否存在inherit
   ['hover', 'active'].forEach(status => {
-    for (let key in statusMap[status]) {
+    Object.keys(statusMap[status]).forEach(key => {
       if (typeof statusMap[status][key] === 'object') {
-        for (let style in statusMap[status][key]) {
+        Object.keys(statusMap[status][key]).forEach(style => {
           if (statusMap[status][key][style] === 'inherit') {
             // 值为inherit时设置为default的值或者主题中的default值
             if (statusMap['default'][key] && statusMap['default'][key][style]) {
@@ -91,7 +91,7 @@ function handleInheritData(statusMap: any, data: any) {
                 data['default'].body[value][style];
             }
           }
-        }
+        });
       } else {
         if (statusMap[status][key] === 'inherit') {
           if (statusMap['default'][key] && statusMap['default'][key]) {
@@ -102,7 +102,7 @@ function handleInheritData(statusMap: any, data: any) {
           }
         }
       }
-    }
+    });
   });
 }
 
@@ -140,22 +140,21 @@ export function formatStyle(
       active: {},
       disabled: {}
     };
-    for (let key in body) {
-      if (key === '$$id' || body[key] === '') {
-        continue;
+    Object.keys(body).forEach(key => {
+      if (key !== '$$id' && body[key]) {
+        if (!!~key.indexOf(':default')) {
+          statusMap.default[key.replace(':default', '')] = body[key];
+        } else if (!!~key.indexOf(':hover')) {
+          statusMap.hover[key.replace(':hover', '')] = body[key];
+        } else if (!!~key.indexOf(':active')) {
+          statusMap.active[key.replace(':active', '')] = body[key];
+        } else if (!!~key.indexOf(':disabled')) {
+          statusMap.disabled[key.replace(':disabled', '')] = body[key];
+        } else {
+          statusMap.default[key] = body[key];
+        }
       }
-      if (!!~key.indexOf(':default')) {
-        statusMap.default[key.replace(':default', '')] = body[key];
-      } else if (!!~key.indexOf(':hover')) {
-        statusMap.hover[key.replace(':hover', '')] = body[key];
-      } else if (!!~key.indexOf(':active')) {
-        statusMap.active[key.replace(':active', '')] = body[key];
-      } else if (!!~key.indexOf(':disabled')) {
-        statusMap.disabled[key.replace(':disabled', '')] = body[key];
-      } else {
-        statusMap.default[key] = body[key];
-      }
-    }
+    });
     handleInheritData(statusMap, defaultData);
 
     for (let status in statusMap) {
@@ -165,43 +164,45 @@ export function formatStyle(
         key = valueMap[key] || key;
         styles.push(`${key}: ${value};`);
       };
-      for (let key in statusMap[status]) {
-        if (key === '$$id') {
-          continue;
-        }
-        const style = statusMap[status][key];
-        if (typeof style === 'object') {
-          // 圆角特殊处理
-          if (key === 'radius') {
-            fn(
-              'border-radius',
-              [
-                style['top-left-border-radius'],
-                style['top-right-border-radius'],
-                style['bottom-right-border-radius'],
-                style['bottom-left-border-radius']
-              ].join(' ')
-            );
+      Object.keys(statusMap[status]).forEach(key => {
+        if (key !== '$$id') {
+          const style = statusMap[status][key];
+          if (typeof style === 'object') {
+            // 圆角特殊处理
+            if (key === 'radius') {
+              fn(
+                'border-radius',
+                [
+                  style['top-left-border-radius'],
+                  style['top-right-border-radius'],
+                  style['bottom-right-border-radius'],
+                  style['bottom-left-border-radius']
+                ].join(' ')
+              );
+            } else {
+              Object.keys(style).forEach(k => {
+                if (k !== '$$id') {
+                  const value = style[k];
+                  value && fn(k, value);
+                }
+              });
+            }
           } else {
-            for (let k in style) {
-              if (k === '$$id') {
-                continue;
-              }
-              const value = style[k];
-              value && fn(k, value);
+            const value = style;
+            if (key === 'iconSize') {
+              fn('width', value + (weights?.important ? ' !important' : ''));
+              fn('height', value + (weights?.important ? ' !important' : ''));
+              fn(
+                'font-size',
+                value + (weights?.important ? ' !important' : '')
+              );
+            } else {
+              value &&
+                fn(key, value + (weights?.important ? ' !important' : ''));
             }
           }
-        } else {
-          const value = style;
-          if (key === 'iconSize') {
-            fn('width', value + (weights?.important ? ' !important' : ''));
-            fn('height', value + (weights?.important ? ' !important' : ''));
-            fn('font-size', value + (weights?.important ? ' !important' : ''));
-          } else {
-            value && fn(key, value + (weights?.important ? ' !important' : ''));
-          }
         }
-      }
+      });
       if (styles.length > 0) {
         const cx = (weights?.pre || '') + className + (weights?.suf || '');
         const inner = weights?.inner || '';
@@ -279,11 +280,8 @@ export function getValueByPath(path: string, data: any) {
 
 // 递归处理嵌套的样式，转化成一维对象
 function traverseStyle(style: any, path: string, result: any) {
-  for (let key in style) {
-    if (style.hasOwnProperty(key)) {
-      if (key === '$$id') {
-        continue;
-      }
+  Object.keys(style).forEach(key => {
+    if (key !== '$$id') {
       if (isObject(style[key])) {
         const nowPath = path ? `${path} ${key}` : key;
         traverseStyle(style[key], nowPath, result);
@@ -295,7 +293,7 @@ function traverseStyle(style: any, path: string, result: any) {
         result[path][key] = style[key];
       }
     }
-  }
+  });
 }
 
 /**
@@ -312,23 +310,21 @@ export function insertEditCustomStyle(
   let content = '';
   if (!isEmpty(styles)) {
     const className = `wrapperCustomStyle-${id?.replace('u:', '')}`;
-    for (let key in styles) {
-      if (styles.hasOwnProperty(key)) {
-        if (!isObject(styles[key])) {
-          content += `\n.${className} {\n  ${key}: ${styles[key]}\n}`;
-        } else if (key === 'root') {
-          const res = map(styles[key], (value, key) => `${key}: ${value};`);
-          content += `\n.${className} {\n  ${res.join('\n  ')}\n}`;
-        } else if (/^root:/.test(key)) {
-          const res = map(styles[key], (value, key) => `${key}: ${value};`);
-          const nowKey = key.replace('root', '');
-          content += `\n.${className} ${nowKey} {\n  ${res.join('\n  ')}\n}`;
-        } else {
-          const res = map(styles[key], (value, key) => `${key}: ${value};`);
-          content += `\n.${className} ${key} {\n  ${res.join('\n  ')}\n}`;
-        }
+    Object.keys(styles).forEach((key: string) => {
+      if (!isObject(styles[key])) {
+        content += `\n.${className} {\n  ${key}: ${styles[key]}\n}`;
+      } else if (key === 'root') {
+        const res = map(styles[key], (value, key) => `${key}: ${value};`);
+        content += `\n.${className} {\n  ${res.join('\n  ')}\n}`;
+      } else if (/^root:/.test(key)) {
+        const res = map(styles[key], (value, key) => `${key}: ${value};`);
+        const nowKey = key.replace('root', '');
+        content += `\n.${className} ${nowKey} {\n  ${res.join('\n  ')}\n}`;
+      } else {
+        const res = map(styles[key], (value, key) => `${key}: ${value};`);
+        content += `\n.${className} ${key} {\n  ${res.join('\n  ')}\n}`;
       }
-    }
+    });
   }
   insertStyle(
     content,
@@ -404,12 +400,12 @@ export function formatInputThemeCss(themeCss: any) {
   }
   const inputFontThemeCss: any = {inputControlClassName: {}};
   const inputControlClassNameObject = themeCss?.inputControlClassName || {};
-  for (let key in inputControlClassNameObject) {
+  Object.keys(inputControlClassNameObject).forEach((key: string) => {
     if (~key.indexOf('font')) {
       inputFontThemeCss.inputControlClassName[key] =
         inputControlClassNameObject[key];
     }
-  }
+  });
   return inputFontThemeCss;
 }
 
