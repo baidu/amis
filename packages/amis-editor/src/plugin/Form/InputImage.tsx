@@ -499,7 +499,7 @@ export class ImageControlPlugin extends BasePlugin {
                   returnSvg: true
                 },
                 getSchemaTpl('theme:select', {
-                  name: `${IconCssClassName}.font-size`,
+                  name: `${IconCssClassName}.iconSize`,
                   label: '图标大小',
                   editorThemePath: `${editorPath}.default.body.icon-size`
                 }),

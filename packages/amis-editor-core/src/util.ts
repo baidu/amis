@@ -212,33 +212,6 @@ export function JSONPipeOut(
   return obj;
 }
 
-/**
- * 如果存在themeCss属性，则给对应的className加上name
- */
-export function addStyleClassName(obj: Schema) {
-  const themeCss = obj.type === 'page' ? obj.themeCss : obj.themeCss || obj.css;
-  // page暂时不做处理
-  if (!themeCss) {
-    return obj;
-  }
-  let toUpdate: any = {};
-  Object.keys(themeCss).forEach(key => {
-    if (key !== '$$id') {
-      let classname = `${key}-${obj.id.replace('u:', '')}`;
-      if (!obj[key]) {
-        toUpdate[key] = classname;
-      } else if (!~obj[key].indexOf(classname)) {
-        toUpdate[key] = obj[key] + ' ' + classname;
-      }
-    }
-  });
-  obj = cleanUndefined({
-    ...obj,
-    ...toUpdate
-  });
-  return obj;
-}
-
 export function JSONGetByPath(
   json: any,
   paths: Array<string>,

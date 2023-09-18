@@ -8,7 +8,9 @@ import {
   CustomStyle,
   getValueByPath,
   PopOver,
-  Overlay
+  Overlay,
+  formatInputThemeCss,
+  setThemeClassName
 } from 'amis-core';
 import {ActionObject} from 'amis-core';
 import Downshift, {StateChangeOptions} from 'downshift';
@@ -694,7 +696,10 @@ export default class TextControl extends React.PureComponent<
       minLength,
       translate: __,
       loadingConfig,
-      popOverContainer
+      popOverContainer,
+      themeCss,
+      css,
+      id
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
 
@@ -750,6 +755,13 @@ export default class TextControl extends React.PureComponent<
               className={cx(
                 `TextControl-input TextControl-input--withAC`,
                 inputControlClassName,
+                setThemeClassName('inputControlClassName', id, themeCss || css),
+                setThemeClassName(
+                  'inputControlClassName',
+                  id,
+                  themeCss || css,
+                  'inner'
+                ),
                 inputOnly ? className : '',
                 {
                   'is-opened': isOpen,
@@ -927,7 +939,10 @@ export default class TextControl extends React.PureComponent<
       data,
       showCounter,
       maxLength,
-      minLength
+      minLength,
+      themeCss,
+      css,
+      id
     } = this.props;
 
     const type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -939,6 +954,13 @@ export default class TextControl extends React.PureComponent<
           {
             [`TextControl-input--border${ucFirst(borderMode)}`]: borderMode
           },
+          setThemeClassName('inputControlClassName', id, themeCss || css),
+          setThemeClassName(
+            'inputControlClassName',
+            id,
+            themeCss || css,
+            'inner'
+          ),
           inputControlClassName,
           inputOnly ? className : ''
         )}
@@ -1030,7 +1052,10 @@ export default class TextControl extends React.PureComponent<
       readOnly,
       inputOnly,
       static: isStatic,
-      addOnClassName
+      addOnClassName,
+      themeCss,
+      css,
+      id
     } = this.props;
 
     const addOn: any =
@@ -1047,13 +1072,25 @@ export default class TextControl extends React.PureComponent<
       addOn && !isStatic ? (
         addOn.actionType ||
         ~['button', 'submit', 'reset', 'action'].indexOf(addOn.type) ? (
-          <div className={cx(`${ns}TextControl-button`, addOnClassName)}>
+          <div
+            className={cx(
+              `${ns}TextControl-button`,
+              addOnClassName,
+              setThemeClassName('addOnClassName', id, themeCss || css, 'addOn')
+            )}
+          >
             {render('addOn', addOn, {
               disabled
             })}
           </div>
         ) : (
-          <div className={cx(`${ns}TextControl-addOn`, addOnClassName)}>
+          <div
+            className={cx(
+              `${ns}TextControl-addOn`,
+              addOnClassName,
+              setThemeClassName('addOnClassName', id, themeCss || css, 'addOn')
+            )}
+          >
             {iconElement}
             {addOn.label ? filter(addOn.label, data) : null}
           </div>
@@ -1087,23 +1124,6 @@ export default class TextControl extends React.PureComponent<
    * 处理input的自定义样式
    */
   @autobind
-  formatInputThemeCss() {
-    const {themeCss, css} = this.props;
-    if (!themeCss && !css) {
-      return;
-    }
-    const inputFontThemeCss: any = {inputControlClassName: {}};
-    const inputControlClassNameObject =
-      (themeCss || css)?.inputControlClassName || {};
-    for (let key in inputControlClassNameObject) {
-      if (~key.indexOf('font')) {
-        inputFontThemeCss.inputControlClassName[key] =
-          inputControlClassNameObject[key];
-      }
-    }
-    return inputFontThemeCss;
-  }
-
   @supportStatic()
   render(): JSX.Element {
     const {
@@ -1112,9 +1132,7 @@ export default class TextControl extends React.PureComponent<
       autoComplete,
       themeCss,
       css,
-      inputControlClassName,
       id,
-      addOnClassName,
       env,
       classPrefix: ns
     } = this.props;
@@ -1132,10 +1150,12 @@ export default class TextControl extends React.PureComponent<
             classNames: [
               {
                 key: 'inputControlClassName',
-                value: inputControlClassName,
                 weights: {
                   active: {
-                    pre: `${ns}TextControl.is-focused > .${inputControlClassName}, `
+                    pre: `${ns}TextControl.is-focused > .inputControlClassName-${id?.replace(
+                      'u:',
+                      ''
+                    )}, `
                   }
                 }
               }
@@ -1146,11 +1166,10 @@ export default class TextControl extends React.PureComponent<
         />
         <CustomStyle
           config={{
-            themeCss: this.formatInputThemeCss(),
+            themeCss: formatInputThemeCss(themeCss || css),
             classNames: [
               {
                 key: 'inputControlClassName',
-                value: inputControlClassName,
                 weights: {
                   default: {
                     inner: 'input'
@@ -1159,7 +1178,10 @@ export default class TextControl extends React.PureComponent<
                     inner: 'input'
                   },
                   active: {
-                    pre: `${ns}TextControl.is-focused > .${inputControlClassName}, `,
+                    pre: `${ns}TextControl.is-focused > .inputControlClassName-${id?.replace(
+                      'u:',
+                      ''
+                    )}, `,
                     inner: 'input'
                   }
                 }
@@ -1175,8 +1197,7 @@ export default class TextControl extends React.PureComponent<
             themeCss: themeCss || css,
             classNames: [
               {
-                key: 'addOnClassName',
-                value: addOnClassName
+                key: 'addOnClassName'
               }
             ],
             id: id && id + '-addOn'
