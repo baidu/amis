@@ -1,5 +1,10 @@
 import React from 'react';
-import {Renderer, RendererProps, CustomStyle} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
 import {filter} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import {autobind, getPropValue} from 'amis-core';
@@ -240,10 +245,10 @@ export class ImageThumb extends React.Component<
       translate: __,
       overlays,
       imageMode,
-      imageControlClassName,
       titleControlClassName,
-      desControlClassName,
-      iconControlClassName
+      iconControlClassName,
+      imageControlClassName,
+      desControlClassName
     } = this.props;
 
     const {imageLoading} = this.state;
@@ -278,7 +283,7 @@ export class ImageThumb extends React.Component<
               data-position="bottom"
               target="_blank"
               onClick={this.handleEnlarge}
-              className={iconControlClassName}
+              className={cx('Image-overlay-view-icon', iconControlClassName)}
             >
               <Icon
                 icon="view"
@@ -437,8 +442,8 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       showToolbar,
       toolbarActions,
       imageGallaryClassName,
-      galleryControlClassName,
-      enlargeWithGallary
+      id,
+      themeCss
     } = this.props;
 
     onImageEnlarge &&
@@ -452,10 +457,11 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
           thumbRatio,
           showToolbar,
           toolbarActions,
-          imageGallaryClassName: galleryControlClassName
-            ? imageGallaryClassName + ' ' + galleryControlClassName
-            : imageGallaryClassName,
-          enlargeWithGallary
+          imageGallaryClassName: `${imageGallaryClassName} ${setThemeClassName(
+            'imageGallaryClassName',
+            id,
+            themeCss
+          )} ${setThemeClassName('galleryControlClassName', id, themeCss)}`
         },
         this.props
       );
@@ -494,11 +500,6 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       wrapperCustomStyle,
       id,
       themeCss,
-      imageControlClassName,
-      titleControlClassName,
-      desControlClassName,
-      iconControlClassName,
-      galleryControlClassName,
       env
     } = this.props;
 
@@ -514,9 +515,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             ? 'ImageField--original'
             : 'ImageField--thumb',
           className,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={style}
         onClick={this.handleClick}
@@ -538,10 +537,26 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             enlargeAble={enlargeAble && value !== defaultImage}
             onEnlarge={this.handleEnlarge}
             imageMode={imageMode}
-            imageControlClassName={imageControlClassName}
-            titleControlClassName={titleControlClassName}
-            desControlClassName={desControlClassName}
-            iconControlClassName={iconControlClassName}
+            imageControlClassName={setThemeClassName(
+              'imageControlClassName',
+              id,
+              themeCss
+            )}
+            titleControlClassName={setThemeClassName(
+              'titleControlClassName',
+              id,
+              themeCss
+            )}
+            desControlClassName={setThemeClassName(
+              'desControlClassName',
+              id,
+              themeCss
+            )}
+            iconControlClassName={setThemeClassName(
+              'iconControlClassName',
+              id,
+              themeCss
+            )}
           />
         ) : (
           <span className="text-muted">{placeholder}</span>
@@ -553,24 +568,19 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             themeCss,
             classNames: [
               {
-                key: 'imageControlClassName',
-                value: imageControlClassName
+                key: 'imageControlClassName'
               },
               {
-                key: 'titleControlClassName',
-                value: titleControlClassName
+                key: 'titleControlClassName'
               },
               {
-                key: 'desControlClassName',
-                value: desControlClassName
+                key: 'desControlClassName'
               },
               {
-                key: 'iconControlClassName',
-                value: iconControlClassName
+                key: 'iconControlClassName'
               },
               {
-                key: 'galleryControlClassName',
-                value: galleryControlClassName
+                key: 'galleryControlClassName'
               }
             ]
           }}
