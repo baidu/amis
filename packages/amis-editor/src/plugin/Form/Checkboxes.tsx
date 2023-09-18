@@ -191,27 +191,16 @@ export class CheckboxesControlPlugin extends BasePlugin {
               getSchemaTpl('optionControlV2', {
                 multiple: true
               }),
-              getSchemaTpl('creatable', {
-                formType: 'extend',
-                hiddenOnDefault: true,
-                form: {
-                  body: [getSchemaTpl('createBtnLabel'), getSchemaTpl('addApi')]
-                }
+              /** 新增选项 */
+              getSchemaTpl('optionAddControl', {
+                manager: this.manager
               }),
-              getSchemaTpl('editable', {
-                formType: 'extend',
-                hiddenOnDefault: true,
-                form: {
-                  body: [getSchemaTpl('editApi')]
-                }
+              /** 编辑选项 */
+              getSchemaTpl('optionEditControl', {
+                manager: this.manager
               }),
-              getSchemaTpl('removable', {
-                formType: 'extend',
-                hiddenOnDefault: true,
-                form: {
-                  body: [getSchemaTpl('deleteApi')]
-                }
-              })
+              /** 删除选项 */
+              getSchemaTpl('optionDeleteControl')
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),

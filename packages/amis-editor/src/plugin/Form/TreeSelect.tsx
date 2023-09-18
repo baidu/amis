@@ -447,41 +447,53 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 label: '只可选择叶子节点',
                 name: 'onlyLeaf'
               }),
-              getSchemaTpl('creatable', {
-                formType: 'extend',
-                hiddenOnDefault: true,
-                label: '可新增',
-                form: {
-                  body: [
-                    getSchemaTpl('switch', {
-                      label: '顶层可新增',
-                      value: true,
-                      name: 'rootCreatable'
-                    }),
-                    {
-                      type: 'input-text',
-                      label: '顶层文案',
-                      value: '添加一级节点',
-                      name: 'rootCreateTip',
-                      hiddenOn: '!data.rootCreatable'
-                    },
-                    getSchemaTpl('addApi')
-                  ]
-                }
+              /** 新增选项 */
+              getSchemaTpl('optionAddControl', {
+                manager: this.manager,
+                collections: [
+                  getSchemaTpl('switch', {
+                    label: '顶层可新增',
+                    value: true,
+                    name: 'rootCreatable'
+                  }),
+                  {
+                    type: 'input-text',
+                    label: '根节点文案',
+                    value: '添加一级节点',
+                    name: 'rootCreateTip',
+                    hiddenOn: '!data.rootCreatable'
+                  },
+                  {
+                    type: 'input-text',
+                    label: '新增文案提示',
+                    value: '添加子节点',
+                    name: 'createTip'
+                  }
+                ]
               }),
-              getSchemaTpl('editable', {
-                formType: 'extend',
-                hiddenOnDefault: true,
-                form: {
-                  body: [getSchemaTpl('editApi')]
-                }
+              /** 编辑选项 */
+              getSchemaTpl('optionEditControl', {
+                manager: this.manager,
+                collections: [
+                  {
+                    type: 'input-text',
+                    label: '编辑文案提示',
+                    value: '编辑该节点',
+                    name: 'editTip'
+                  }
+                ]
               }),
-              getSchemaTpl('removable', {
-                formType: 'extend',
-                hiddenOnDefault: true,
-                form: {
-                  body: [getSchemaTpl('deleteApi')]
-                }
+              /** 删除选项 */
+              getSchemaTpl('optionDeleteControl', {
+                manager: this.manager,
+                collections: [
+                  {
+                    type: 'input-text',
+                    label: '删除文案提示',
+                    value: '移除该节点',
+                    name: 'removeTip'
+                  }
+                ]
               })
             ]
           },
