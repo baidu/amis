@@ -170,6 +170,13 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   }
 
   handleEnter = () => {
+    const mobileUI = this.props.mobileUI;
+    if (mobileUI) {
+      const iframe = document.querySelector(
+        '.ae-PreviewIFrame'
+      ) as HTMLIFrameElement;
+      iframe.contentWindow?.document.body.classList.add(`is-modalOpened`);
+    }
     document.body.classList.add(`is-modalOpened`);
     if (
       window.innerWidth - document.documentElement.clientWidth > 0 ||

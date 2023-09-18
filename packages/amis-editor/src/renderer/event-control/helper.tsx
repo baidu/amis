@@ -6,7 +6,6 @@ import {
   BaseEventContext,
   defaultValue,
   EditorManager,
-  getDialogActions,
   getSchemaTpl,
   JsonGenerateID,
   JSONPipeIn,
@@ -279,9 +278,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
   const variableOptions = variableManager?.getVariableOptions() || [];
   const pageVariableOptions = variableManager?.getPageVariablesOptions() || [];
 
-  // let dialogActions: any[] = [];
-  let dialogActions = getDialogActions(manager.store.schema, 'source');
-
   return [
     {
       actionLabel: '页面',
@@ -437,7 +433,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               name: '__selectDialog',
               type: 'select',
               label: '选择弹窗',
-              options: dialogActions,
+              source: '${__dialogActions}',
               mode: 'horizontal',
               size: 'lg',
               visibleOn: '__dialogSource === "current"',

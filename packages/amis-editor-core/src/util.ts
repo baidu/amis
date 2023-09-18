@@ -1261,11 +1261,13 @@ export const scrollToActive = debounce((selector: string) => {
  * 获取弹窗事件
  * @param schema 遍历的schema
  * @param listType 列表形式，弹窗list或label value形式的数据源
- * @param dialogActions 添加的弹窗事件
+ * @param filterId 要过滤弹窗的id
  */
 export const getDialogActions = (
   schema: Schema,
-  listType: 'list' | 'source'
+  listType: 'list' | 'source',
+  manager?: any,
+  filterId?: string
 ) => {
   let dialogActions: any[] = [];
   JSONTraverse(schema, (value: any, key: string, object: any) => {
@@ -1330,6 +1332,21 @@ export const getDialogActions = (
       ) {
         if (listType == 'list') {
           dialogActions.push(object[dialogBody]);
+
+          const store = (window as any)?.editorStore;
+
+          const eventPaths = store
+            .getSchemaPath(object[dialogBody].$$id)
+            ?.split('/onEvent')[0]
+            ?.split('/');
+          if (eventPaths?.length) {
+            const triggerNodeId = store.getSchemaByPath(eventPaths)?.$$id;
+            if (triggerNodeId && !store.previewDialogId) {
+              manager.getContextSchemas(triggerNodeId).then((data: any) => {
+                store.collectHostNodeDataSchema(triggerNodeId, data);
+              });
+            }
+          }
         } else {
           dialogActions.push({
             label: `${object[dialogBody]?.title || '-'}（${

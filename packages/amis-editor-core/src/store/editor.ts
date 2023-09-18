@@ -43,7 +43,7 @@ import {
   JSONPipeOut,
   JSONUpdate
 } from '../util';
-import type {Schema, SchemaNode} from 'amis';
+import type {JSONSchema} from 'amis';
 import {toast, resolveVariable} from 'amis';
 import find from 'lodash/find';
 import {InsertSubRendererPanel} from '../component/Panel/InsertSubRendererPanel';
@@ -223,7 +223,11 @@ export const MainStore = types
     /** 应用语料 */
     appCorpusData: types.optional(types.frozen(), {}),
     /** 应用多语言状态，用于其它组件进行订阅 */
-    appLocaleState: types.optional(types.number, 0)
+    appLocaleState: types.optional(types.number, 0),
+    /** 当前触发弹窗的节点id */
+    triggerNodeId: '',
+    /** 所有触发弹窗节点的上下文 */
+    allHostDataSchema: types.optional(types.frozen(), {})
   })
   .views(self => {
     return {
@@ -1023,9 +1027,9 @@ export const MainStore = types
       },
 
       // 获取弹窗大纲列表
-      get dialogOutlineList() {
+      dialogOutlineList(manager: any) {
         const schema = self.schema;
-        let actions = getDialogActions(schema, 'list');
+        let actions = getDialogActions(schema, 'list', manager);
         return actions;
       }
     };
@@ -1920,6 +1924,18 @@ export const MainStore = types
       setAppCorpusData(data: any = {}) {
         self.appCorpusData = data;
         this.updateAppLocaleState();
+      },
+
+      setTriggerNodeId(id: string) {
+        self.triggerNodeId = id;
+      },
+
+      /** 收集所有触发弹窗节点的上下文 */
+      collectHostNodeDataSchema(id: string, data: JSONSchema[]) {
+        self.allHostDataSchema = {
+          ...self.allHostDataSchema,
+          [id]: data
+        };
       }
     };
   });
