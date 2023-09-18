@@ -183,6 +183,7 @@ export function formatStyle(
               Object.keys(style).forEach(k => {
                 if (k !== '$$id') {
                   const value = style[k];
+
                   value &&
                     fn(k, value + (weights?.important ? ' !important' : ''));
                 }
