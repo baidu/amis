@@ -1507,7 +1507,8 @@ export class Evaluator {
    *
    * 示例
    *
-   * WEEKDAY('2023-02-27') 得到 1。
+   * WEEKDAY('2023-02-27') 得到 0。
+   * WEEKDAY('2023-02-27', 2) 得到 1。
    *
    * @example WEEKDAY(date)
    * @namespace 日期函数
@@ -1526,7 +1527,7 @@ export class Evaluator {
    *
    * 示例
    *
-   * WEEK('2023-03-05') 得到 10。
+   * WEEK('2023-03-05') 得到 9。
    *
    * @example WEEK(date)
    * @namespace 日期函数
