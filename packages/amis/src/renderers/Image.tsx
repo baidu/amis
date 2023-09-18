@@ -283,7 +283,7 @@ export class ImageThumb extends React.Component<
               data-position="bottom"
               target="_blank"
               onClick={this.handleEnlarge}
-              className={cx(iconControlClassName)}
+              className={cx('Image-overlay-view-icon', iconControlClassName)}
             >
               <Icon
                 icon="view"
