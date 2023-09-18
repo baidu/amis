@@ -5,7 +5,8 @@ import {
   filterTarget,
   isPureVariable,
   resolveVariableAndFilter,
-  setVariable
+  setVariable,
+  setThemeClassName
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
@@ -569,14 +570,7 @@ export default class Dialog extends React.Component<DialogProps> {
       popOverContainer,
       inDesign,
       themeCss,
-      css,
       id,
-      dialogClassName,
-      dialogMaskClassName,
-      dialogHeaderClassName,
-      dialogTitleClassName,
-      dialogBodyClassName,
-      dialogFooterClassName,
       ...rest
     } = {
       ...this.props,
@@ -594,8 +588,12 @@ export default class Dialog extends React.Component<DialogProps> {
         size={size}
         height={height}
         width={width}
-        modalClassName={dialogClassName}
-        modalMaskClassName={dialogMaskClassName}
+        modalClassName={setThemeClassName('dialogClassName', id, themeCss)}
+        modalMaskClassName={setThemeClassName(
+          'dialogMaskClassName',
+          id,
+          themeCss
+        )}
         backdrop="static"
         onHide={this.handleSelfClose}
         keyboard={closeOnEsc && !store.loading}
@@ -619,7 +617,7 @@ export default class Dialog extends React.Component<DialogProps> {
             className={cx(
               'Modal-header',
               headerClassName,
-              dialogHeaderClassName
+              setThemeClassName('dialogHeaderClassName', id, themeCss)
             )}
           >
             {showCloseButton !== false && !store.loading ? (
@@ -636,7 +634,12 @@ export default class Dialog extends React.Component<DialogProps> {
                 />
               </a>
             ) : null}
-            <div className={cx('Modal-title', dialogTitleClassName)}>
+            <div
+              className={cx(
+                'Modal-title',
+                setThemeClassName('dialogTitleClassName', id, themeCss)
+              )}
+            >
               {filter(__(title), store.formData)}
             </div>
           </div>
@@ -645,7 +648,7 @@ export default class Dialog extends React.Component<DialogProps> {
             className={cx(
               'Modal-header',
               headerClassName,
-              dialogHeaderClassName
+              setThemeClassName('dialogHeaderClassName', id, themeCss)
             )}
           >
             {showCloseButton !== false && !store.loading ? (
@@ -685,7 +688,11 @@ export default class Dialog extends React.Component<DialogProps> {
 
         {(!store.entered && lazyRender) || (lazySchema && !body) ? (
           <div
-            className={cx('Modal-body', bodyClassName, dialogBodyClassName)}
+            className={cx(
+              'Modal-body',
+              bodyClassName,
+              setThemeClassName('dialogBodyClassName', id, themeCss)
+            )}
             role="dialog-body"
           >
             <Spinner overlay show size="lg" loadingConfig={loadingConfig} />
@@ -693,37 +700,35 @@ export default class Dialog extends React.Component<DialogProps> {
         ) : body ? (
           // dialog-body 用于在 editor 中定位元素
           <div
-            className={cx('Modal-body', bodyClassName, dialogBodyClassName)}
+            className={cx(
+              'Modal-body',
+              bodyClassName,
+              setThemeClassName('dialogBodyClassName', id, themeCss)
+            )}
             role="dialog-body"
           >
             {this.renderBody(body, 'body')}
             <CustomStyle
               config={{
-                themeCss: themeCss || css,
+                themeCss: themeCss,
                 classNames: [
                   {
-                    key: 'dialogClassName',
-                    value: dialogClassName
+                    key: 'dialogClassName'
                   },
                   {
-                    key: 'dialogMaskClassName',
-                    value: dialogMaskClassName
+                    key: 'dialogMaskClassName'
                   },
                   {
-                    key: 'dialogHeaderClassName',
-                    value: dialogHeaderClassName
+                    key: 'dialogHeaderClassName'
                   },
                   {
-                    key: 'dialogTitleClassName',
-                    value: dialogTitleClassName
+                    key: 'dialogTitleClassName'
                   },
                   {
-                    key: 'dialogBodyClassName',
-                    value: dialogBodyClassName
+                    key: 'dialogBodyClassName'
                   },
                   {
-                    key: 'dialogFooterClassName',
-                    value: dialogFooterClassName
+                    key: 'dialogFooterClassName'
                   }
                 ],
                 id: id

@@ -815,9 +815,38 @@ export default class OptionControl extends React.Component<
     this.setState({valueField}, this.onChange);
   }
 
+  /** 获取功能性字段控件 schema */
+  getFuncFieldSchema(): Record<string, any>[] {
+    const {labelField, valueField} = this.state;
+
+    return [
+      {
+        label: tipedLabel(
+          '显示字段',
+          '选项文本对应的数据字段，多字段合并请通过模板配置'
+        ),
+        type: 'input-text',
+        name: 'labelField',
+        clearable: true,
+        value: labelField,
+        placeholder: '选项文本对应的字段',
+        onChange: this.handleLableFieldChange
+      },
+      {
+        label: '值字段',
+        type: 'input-text',
+        name: 'valueField',
+        clearable: true,
+        value: valueField,
+        placeholder: '值对应的字段',
+        onChange: this.handleValueFieldChange
+      }
+    ];
+  }
+
   renderApiPanel() {
     const {render} = this.props;
-    const {source, api, labelField, valueField} = this.state;
+    const {source, api} = this.state;
 
     return render(
       'api',
@@ -830,27 +859,7 @@ export default class OptionControl extends React.Component<
         value: api,
         onChange: this.handleAPIChange,
         sourceType: source,
-        footer: [
-          {
-            label: tipedLabel(
-              '显示字段',
-              '选项文本对应的数据字段，多字段合并请通过模板配置'
-            ),
-            type: 'input-text',
-            name: 'labelField',
-            value: labelField,
-            placeholder: '选项文本对应的字段',
-            onChange: this.handleLableFieldChange
-          },
-          {
-            label: '值字段',
-            type: 'input-text',
-            name: 'valueField',
-            value: valueField,
-            placeholder: '值对应的字段',
-            onChange: this.handleValueFieldChange
-          }
-        ]
+        footer: this.getFuncFieldSchema()
       })
     );
   }
@@ -863,6 +872,7 @@ export default class OptionControl extends React.Component<
       <div className={cx('ae-OptionControl', className)}>
         {this.renderHeader()}
 
+        {/* 自定义选项 */}
         {source === 'custom' ? (
           <div className="ae-OptionControl-wrapper">
             {Array.isArray(options) && options.length ? (
@@ -890,21 +900,24 @@ export default class OptionControl extends React.Component<
           </div>
         ) : null}
 
+        {/* API 接口 */}
         {source === 'api' || source === 'apicenter'
           ? this.renderApiPanel()
           : null}
 
+        {/* 上下文变量 */}
         {source === 'variable'
-          ? render(
-              'variable',
-              getSchemaTpl('sourceBindControl', {
-                label: false,
-                className: 'ae-ExtendMore'
-              }),
-              {
-                onChange: this.handleAPIChange
-              }
-            )
+          ? render('variable', {
+              type: 'control',
+              label: false,
+              className: 'ae-ExtendMore',
+              body: [
+                getSchemaTpl('sourceBindControl', {
+                  label: false,
+                  onChange: this.handleAPIChange
+                })
+              ].concat(this.getFuncFieldSchema())
+            })
           : null}
       </div>
     );
