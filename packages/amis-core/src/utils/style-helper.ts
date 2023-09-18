@@ -116,7 +116,7 @@ export function formatStyle(
   if (!themeCss || !classNames) {
     return {value: '', origin: []};
   }
-  const res = [];
+  const res: {className: string; content: string}[] = [];
   const status2string: PlainObject = {
     default: '',
     hover: ':hover',
@@ -157,7 +157,7 @@ export function formatStyle(
     });
     handleInheritData(statusMap, defaultData);
 
-    for (let status in statusMap) {
+    Object.keys(statusMap).forEach(status => {
       const weights = weightsList[status];
       const styles: string[] = [];
       const fn = (key: string, value: string) => {
@@ -220,7 +220,7 @@ export function formatStyle(
         //   });
         // }
       }
-    }
+    });
   }
   return {
     value: res.map(n => n.content).join('\n'),
