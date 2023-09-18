@@ -366,11 +366,11 @@ function formatIconThemeCss(themeCss: any) {
     addBtnControlClassName[`color:${key}`] =
       themeCss?.addBtnControlClassName?.[`icon-color:${key}`];
   });
-  for (let key in addBtnControlClassName) {
+  Object.keys(addBtnControlClassName).forEach((key: any) => {
     if (!addBtnControlClassName[key]) {
       delete addBtnControlClassName[key];
     }
-  }
+  });
   if (!isEmpty(addBtnControlClassName)) {
     return {addBtnControlClassName};
   }
