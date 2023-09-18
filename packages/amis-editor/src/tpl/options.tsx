@@ -413,9 +413,16 @@ setSchemaTpl('dataMap', {
           className: 'mb-0',
           pipeIn: defaultValue(false),
           onChange: (value: boolean, origin: boolean, item: any, form: any) => {
+            const data = form.data?.data || {};
             form.setValues({
-              data: value ? {'&': '$$'} : {},
-              dataMap: {}
+              data: value
+                ? {
+                    ...data,
+                    '&': '$$'
+                  }
+                : data && data['&'] === '$$'
+                ? omit(data, '&')
+                : data
             });
           }
         }),

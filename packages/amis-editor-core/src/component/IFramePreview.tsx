@@ -28,6 +28,7 @@ export interface IFramePreviewProps {
 @observer
 export default class IFramePreview extends React.Component<IFramePreviewProps> {
   initialContent: string = '';
+  dialogMountRef: React.RefObject<HTMLDivElement> = React.createRef();
   constructor(props: IFramePreviewProps) {
     super(props);
 
@@ -83,6 +84,11 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
     return true;
   }
 
+  @autobind
+  getDialogMountRef() {
+    return this.dialogMountRef.current;
+  }
+
   render() {
     const {editable, store, appLocale, autoFocus, env, data, manager, ...rest} =
       this.props;
@@ -94,23 +100,26 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
         ref={this.iframeRef}
       >
         <InnerComponent store={store} editable={editable} manager={manager} />
-        {render(
-          editable ? store.filteredSchema : store.filteredSchemaForPreview,
-          {
-            ...rest,
-            key: editable ? 'edit-mode' : 'preview-mode',
-            theme: env.theme,
-            data: data ?? store.ctx,
-            locale: appLocale
-          },
-          {
-            ...env,
-            session: `${env.session}-iframe-preview`,
-            useMobileUI: true,
-            isMobile: this.isMobile,
-            getModalContainer: this.getModalContainer
-          }
-        )}
+        <div ref={this.dialogMountRef} className="ae-Dialog-preview-mount-node">
+          {render(
+            editable ? store.filteredSchema : store.filteredSchemaForPreview,
+            {
+              ...rest,
+              key: editable ? 'edit-mode' : 'preview-mode',
+              theme: env.theme,
+              data: data ?? store.ctx,
+              locale: appLocale,
+              editorDialogMountNode: this.getDialogMountRef
+            },
+            {
+              ...env,
+              session: `${env.session}-iframe-preview`,
+              useMobileUI: true,
+              isMobile: this.isMobile,
+              getModalContainer: this.getModalContainer
+            }
+          )}
+        </div>
       </Frame>
     );
   }

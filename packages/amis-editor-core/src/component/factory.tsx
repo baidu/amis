@@ -76,6 +76,7 @@ export function makeWrapper(
         path: this.props.$path,
         schemaPath: info.schemaPath,
         dialogTitle: info.dialogTitle,
+        dialogType: info.dialogType,
         info,
         getData: () => this.props.data
       });

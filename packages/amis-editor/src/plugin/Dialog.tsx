@@ -10,7 +10,8 @@ import {
   noop,
   defaultValue,
   EditorNodeType,
-  isEmpty
+  isEmpty,
+  getI18nEnabled
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import omit from 'lodash/omit';
@@ -35,7 +36,7 @@ export class DialogPlugin extends BasePlugin {
   $schema = '/schemas/DialogSchema.json';
 
   // 组件名称
-  name = '弹框';
+  name = '弹窗';
   isBaseComponent = true;
 
   wrapperProps = {
@@ -128,6 +129,7 @@ export class DialogPlugin extends BasePlugin {
   panelTitle = '弹框';
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
+    const i18nEnabled = getI18nEnabled();
     // 确认对话框的配置面板
     if (context.schema?.dialogType === 'confirm') {
       return getSchemaTpl('tabs', [
@@ -224,7 +226,7 @@ export class DialogPlugin extends BasePlugin {
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 label: '标题',
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 name: 'title'
               },
               getSchemaTpl('switch', {
@@ -490,9 +492,9 @@ export class DialogPlugin extends BasePlugin {
 
       // 数据链
       const hostNodeDataSchema =
-        await this.manager.config.getHostNodeDataSchema?.();
+        this.manager.store.allHostDataSchema[this.manager.store.triggerNodeId];
       hostNodeDataSchema
-        .filter(
+        ?.filter(
           (item: any) => !['system-variable', 'page-global'].includes(item.$id)
         )
         ?.forEach((item: any) => {

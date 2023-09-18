@@ -1218,6 +1218,7 @@ export class EditorManager {
             schema.type === 'dialog' || schema.type === 'drawer'
               ? schema.title
               : '',
+          dialogType: schema.dialogType,
           schemaPath
         };
         return true;

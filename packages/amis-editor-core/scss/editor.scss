@@ -221,6 +221,8 @@
           flex: 1;
         }
         .amis-dialog-widget {
+          // 编辑态防止内容超出底部空白
+          position: static;
           z-index: 0;
         }
       }
@@ -267,6 +269,7 @@
         transform-origin: center top;
         height: 100%;
         display: block;
+        // flex-direction: column;
         position: relative;
 
         &::-webkit-scrollbar {
@@ -371,7 +374,8 @@
 
 .ae-IFramePreview {
   &,
-  & > .frame-content {
+  & > .frame-content,
+  .ae-Dialog-preview-mount-node {
     width: 100%;
     height: 100%;
     display: flex;
@@ -379,7 +383,7 @@
     flex: 1;
   }
 
-  > .frame-content > *:first-child {
+  > .frame-content .ae-Dialog-preview-mount-node > *:first-child {
     flex: 1;
     min-width: 100%;
     position: relative;

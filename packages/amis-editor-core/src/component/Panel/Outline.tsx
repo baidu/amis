@@ -234,7 +234,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
     if (option.type === 'dialog' || option.type === 'drawer') {
       if (!isNode || (isNode && !option.region)) {
         if (option.type === 'drawer') {
-          rendererTitle = `${option[title] || '抽屉'}（抽屉）`;
+          rendererTitle = `${option[title] || '抽屉式弹窗'}（抽屉式弹窗）`;
         } else {
           if (option.dialogType === 'confirm') {
             rendererTitle = `${option[title] || '确认对话框'}（确认对话框）`;
@@ -275,7 +275,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
     const {store} = this.props;
     const outlineTabsKey = store.outlineTabsKey || 'component-outline';
     const options = store.outline;
-    const dialogOptions = store.dialogOutlineList;
+    const dialogOptions = store.dialogOutlineList(this.props.manager);
 
     return (
       <div className="ae-Outline-panel">
@@ -283,11 +283,13 @@ export class OutlinePanel extends React.Component<PanelProps> {
         <Tabs
           className="ae-outline-tabs"
           linksClassName="ae-outline-tabs-header"
+          contentClassName="ae-outline-tabs-content"
           tabsMode="line"
           onSelect={this.handleTabChange}
           activeKey={outlineTabsKey}
         >
           <Tab
+            className={'ae-outline-tabs-panel'}
             key={'component-outline'}
             eventKey={'component-outline'}
             title={'组件大纲'}
@@ -333,6 +335,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
             </div>
           </Tab>
           <Tab
+            className={'ae-outline-tabs-panel'}
             key={'dialog-outline'}
             eventKey={'dialog-outline'}
             title={'弹窗大纲'}

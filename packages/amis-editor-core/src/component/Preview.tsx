@@ -72,7 +72,7 @@ export default class Preview extends Component<PreviewProps> {
 
     this.currentDom.addEventListener('mouseleave', this.handleMouseLeave);
     this.currentDom.addEventListener('mousemove', this.handleMouseMove);
-    this.currentDom.addEventListener('click', this.handleClick);
+    this.currentDom.addEventListener('click', this.handleClick, true);
     this.currentDom.addEventListener('mouseover', this.handeMouseOver);
 
     this.currentDom.addEventListener('mousedown', this.handeMouseDown);
@@ -618,7 +618,7 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
 
     // 添加弹窗事件或弹窗列表进行弹窗切换后自动选中对应的弹窗
     this.dialogReaction = reaction(
-      () => `${store.root.children[0].type}:${store.root.children[0].id}`,
+      () => `${store.root.children[0]?.type}:${store.root.children[0]?.id}`,
       info => {
         const type = info.split(':')[0];
         if (type === 'dialog' || type === 'drawer') {
@@ -626,6 +626,15 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
           store.changeOutlineTabsKey('dialog-outline');
           store.setPreviewDialogId(dialogId);
           store.setActiveId(dialogId);
+          // 添加触发弹窗事件的上下文
+          const eventPaths = store
+            .getSchemaPath(dialogId)
+            ?.split('/onEvent')[0]
+            ?.split('/');
+          if (eventPaths.length) {
+            const triggerNode = store.getSchemaByPath(eventPaths);
+            store.setTriggerNodeId(triggerNode.$$id);
+          }
         } else {
           store.setActiveId(store.getRootId());
         }
