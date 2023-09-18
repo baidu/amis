@@ -16,6 +16,9 @@ import 'moment/locale/zh-cn';
 import 'moment/locale/de';
 import type {RendererEnv} from 'amis-core';
 
+/** 视图模式 */
+export type ViewMode = 'days' | 'months' | 'years' | 'time' | 'quarters';
+
 export type DateType =
   | 'year'
   | 'month'
@@ -48,7 +51,7 @@ interface BaseDatePickerProps {
   className?: string;
   value?: any;
   defaultValue?: any;
-  viewMode?: 'years' | 'months' | 'days' | 'time' | 'quarters';
+  viewMode?: ViewMode;
   dateFormat?: boolean | string;
   inputFormat?: boolean | string;
   displayForamt?: boolean | string;
@@ -63,7 +66,7 @@ interface BaseDatePickerProps {
   onViewModeChange?: (type: string) => void;
   requiredConfirm?: boolean;
   onClose?: () => void;
-  onChange?: (value: any) => void;
+  onChange?: (value: any, viewMode?: Extract<ViewMode, 'time'>) => void;
   isEndDate?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
@@ -480,7 +483,7 @@ class BaseDatePicker extends React.Component<
         inputValue: date.format(state.displayForamt as string)
       });
     }
-    this.props.onChange && this.props.onChange(date);
+    this.props.onChange && this.props.onChange(date, 'time');
   };
 
   setDate = (type: 'month' | 'year' | 'quarters') => {
