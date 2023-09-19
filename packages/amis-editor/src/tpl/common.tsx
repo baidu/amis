@@ -364,7 +364,7 @@ setSchemaTpl(
       )
       .map(item => ({
         type: 'collapse',
-        headingClassName: 'ae-formItemControl-header',
+        headingClassName: 'ae-formItemControl-header ae-Collapse-header--right',
         bodyClassName: 'ae-formItemControl-body',
         ...item,
         collapsed: item.collapsed ?? false,
