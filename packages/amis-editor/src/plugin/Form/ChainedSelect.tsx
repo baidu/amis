@@ -13,6 +13,7 @@ import {
 } from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
+import type {Schema} from 'amis';
 
 export class ChainedSelectControlPlugin extends BasePlugin {
   static id = 'ChainedSelectControlPlugin';
@@ -114,7 +115,7 @@ export class ChainedSelectControlPlugin extends BasePlugin {
               getSchemaTpl('label'),
 
               getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema,
+                rendererSchema: (schema: Schema) => schema,
                 mode: 'vertical', // 改成上下展示模式
                 rendererWrapper: true,
                 label: tipedLabel('默认值', '请填入选项 Options 中 value 值')

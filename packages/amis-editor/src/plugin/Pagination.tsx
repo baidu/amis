@@ -22,7 +22,7 @@ export class PaginationPlugin extends BasePlugin {
   isBaseComponent = true;
   disabledRendererPlugin = true;
   description = '分页组件，可以对列表进行分页展示，提高页面性能';
-  tags = ['容器'];
+  tags = ['展示'];
   icon = 'fa fa-window-minimize';
   lastLayoutSetting = ['pager'];
   layoutOptions = [

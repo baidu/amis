@@ -8,6 +8,7 @@ import {FormulaDateType} from '../../renderer/FormulaControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getRendererByName} from 'amis-core';
 import omit from 'lodash/omit';
+import type {Schema} from 'amis';
 
 const formatX = [
   {
@@ -405,11 +406,11 @@ export class DateRangeControlPlugin extends BasePlugin {
                 }),
 
                 getSchemaTpl('valueFormula', {
-                  rendererSchema: {
-                    ...context?.schema,
+                  rendererSchema: (schema: Schema) => ({
+                    ...schema,
                     size: 'full',
                     mode: 'inline'
-                  },
+                  }),
                   mode: 'vertical',
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsRange,
@@ -419,11 +420,11 @@ export class DateRangeControlPlugin extends BasePlugin {
                   name: 'minDate',
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
-                  rendererSchema: {
-                    ...omit(context?.schema, ['shortcuts']),
-                    value: context?.schema.minDate,
+                  rendererSchema: (schema: Schema) => ({
+                    ...omit(schema, ['shortcuts']),
+                    value: schema?.minDate,
                     type: 'input-date'
-                  },
+                  }),
                   placeholder: '请选择静态值',
                   needDeleteProps: ['minDate', 'ranges', 'shortcuts'], // 避免自我限制
                   label: tipedLabel('最小值', dateTooltip)
@@ -432,11 +433,11 @@ export class DateRangeControlPlugin extends BasePlugin {
                   name: 'maxDate',
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
-                  rendererSchema: {
-                    ...omit(context?.schema, ['shortcuts']),
-                    value: context?.schema.maxDate,
+                  rendererSchema: (schema: Schema) => ({
+                    ...omit(schema, ['shortcuts']),
+                    value: schema?.maxDate,
                     type: 'input-date'
-                  },
+                  }),
                   placeholder: '请选择静态值',
                   needDeleteProps: ['maxDate', 'ranges', 'shortcuts'], // 避免自我限制
                   label: tipedLabel('最大值', dateTooltip)
@@ -446,11 +447,11 @@ export class DateRangeControlPlugin extends BasePlugin {
                   name: 'minDuration',
                   header: '表达式',
                   DateTimeType: FormulaDateType.NotDate,
-                  rendererSchema: {
-                    ...context?.schema,
-                    value: context?.schema.minDuration,
+                  rendererSchema: (schema: Schema) => ({
+                    ...schema,
+                    value: schema?.minDuration,
                     type: 'input-text'
-                  },
+                  }),
                   placeholder: '请输入相对值',
                   needDeleteProps: ['minDuration'], // 避免自我限制
                   label: tipedLabel('最小跨度', rangTooltip)
@@ -460,11 +461,11 @@ export class DateRangeControlPlugin extends BasePlugin {
                   name: 'maxDuration',
                   header: '表达式',
                   DateTimeType: FormulaDateType.NotDate,
-                  rendererSchema: {
-                    ...context?.schema,
-                    value: context?.schema.maxDuration,
+                  rendererSchema: (schema: Schema) => ({
+                    ...schema,
+                    value: schema?.maxDuration,
                     type: 'input-text'
-                  },
+                  }),
                   placeholder: '请输入相对值',
                   needDeleteProps: ['maxDuration'], // 避免自我限制
                   label: tipedLabel('最大跨度', rangTooltip)

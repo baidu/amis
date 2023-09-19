@@ -15,6 +15,7 @@ import {
 } from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 
+import type {Schema} from 'amis';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {resolveOptionType} from '../../util';
@@ -166,7 +167,7 @@ export class CheckboxesControlPlugin extends BasePlugin {
                 }
               ],
               getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema,
+                rendererSchema: (schema: Schema) => schema,
                 useSelectMode: true, // 改用 Select 设置模式
                 visibleOn: 'this.options && this.options.length > 0'
               }),

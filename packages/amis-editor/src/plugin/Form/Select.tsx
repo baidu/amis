@@ -7,6 +7,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {resolveOptionType} from '../../util';
+import type {Schema} from 'amis';
 
 export class SelectControlPlugin extends BasePlugin {
   static id = 'SelectControlPlugin';
@@ -277,15 +278,7 @@ export class SelectControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('checkAll'),
               getSchemaTpl('valueFormula', {
-                rendererSchema: () => {
-                  const schema = this.manager.store.getSchema(
-                    context.schema?.id,
-                    'id'
-                  );
-                  return {
-                    ...schema
-                  };
-                }
+                rendererSchema: (schema: Schema) => schema
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
