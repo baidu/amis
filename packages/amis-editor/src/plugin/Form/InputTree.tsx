@@ -16,6 +16,7 @@ import {
 import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {resolveOptionType} from '../../util';
+import type {Schema} from 'amis';
 
 export class TreeControlPlugin extends BasePlugin {
   static id = 'TreeControlPlugin';
@@ -418,10 +419,10 @@ export class TreeControlPlugin extends BasePlugin {
                 hiddenOn: '!data.multiple || !data.autoCheckChildren'
               }),
               getSchemaTpl('valueFormula', {
-                rendererSchema: {
-                  ...context?.schema,
+                rendererSchema: (schema: Schema) => ({
+                  ...schema,
                   type: 'tree-select'
-                },
+                }),
                 visibleOn: 'this.options && this.options.length > 0'
               }),
 

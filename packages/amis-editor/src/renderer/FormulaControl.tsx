@@ -98,7 +98,7 @@ export interface FormulaControlProps extends FormControlProps {
    * 自定义渲染器:
    * 备注: 可用于设置指定组件类型编辑默认值，支持回调函数，但不支持异步获取
    */
-  rendererSchema?: any; // SchemaObject | Function | undefined;
+  rendererSchema?: any; // SchemaObject | (schema: Schema) => Schema | undefined;
 
   /**
    * 自定义渲染器 是否需要浅色边框包裹，默认不包裹
@@ -240,7 +240,8 @@ export default class FormulaControl extends React.Component<
     }
 
     if (typeof rendererSchema === 'function') {
-      return rendererSchema();
+      const schema = this.props.data ? {...this.props.data} : undefined;
+      return rendererSchema(schema);
     } else {
       return rendererSchema;
     }

@@ -11,6 +11,7 @@ import {
 import {formItemControl} from '../../component/BaseControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {resolveOptionType} from '../../util';
+import type {Schema} from 'amis';
 
 export class TagControlPlugin extends BasePlugin {
   static id = 'TagControlPlugin';
@@ -31,7 +32,11 @@ export class TagControlPlugin extends BasePlugin {
     type: 'input-tag',
     label: '标签',
     name: 'tag',
-    options: ['红色', '绿色', '蓝色']
+    options: [
+      {label: '红色', value: 'red'},
+      {label: '绿色', value: 'green'},
+      {label: '蓝色', value: 'blue'}
+    ]
   };
   previewSchema: any = {
     type: 'form',
@@ -40,7 +45,7 @@ export class TagControlPlugin extends BasePlugin {
     wrapWithPanel: false,
     body: {
       ...this.scaffold,
-      value: '红色'
+      value: 'red'
     }
   };
 
@@ -168,7 +173,7 @@ export class TagControlPlugin extends BasePlugin {
             getSchemaTpl('clearable'),
             getSchemaTpl('optionsTip'),
             getSchemaTpl('valueFormula', {
-              rendererSchema: context?.schema,
+              rendererSchema: (schema: Schema) => schema,
               mode: 'vertical' // 改成上下展示模式
             }),
             getSchemaTpl('joinValues'),
