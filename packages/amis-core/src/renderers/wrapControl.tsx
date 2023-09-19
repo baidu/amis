@@ -192,7 +192,7 @@ export function wrapControl<
               ),
               id,
               type,
-              required,
+              required: props.required || required,
               unique,
               value,
               isValueSchemaExp: isExpression(value),
