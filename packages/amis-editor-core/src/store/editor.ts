@@ -223,9 +223,7 @@ export const MainStore = types
     /** 应用语料 */
     appCorpusData: types.optional(types.frozen(), {}),
     /** 应用多语言状态，用于其它组件进行订阅 */
-    appLocaleState: types.optional(types.number, 0),
-    /** 当前触发弹窗的节点id */
-    triggerNodeId: ''
+    appLocaleState: types.optional(types.number, 0)
   })
   .views(self => {
     return {
@@ -1922,10 +1920,6 @@ export const MainStore = types
       setAppCorpusData(data: any = {}) {
         self.appCorpusData = data;
         this.updateAppLocaleState();
-      },
-
-      setTriggerNodeId(id: string) {
-        self.triggerNodeId = id;
       }
     };
   });
