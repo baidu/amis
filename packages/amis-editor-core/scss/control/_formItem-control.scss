@@ -1,17 +1,5 @@
 /* 表单项配置面板 */
 .ae-formItemControl {
-  & > div:last-child {
-    .ae-formItemControl-header {
-      border-bottom: 1px solid #e5e5e5;
-    }
-
-    &.is-active {
-      .ae-formItemControl-header {
-        border-bottom: none;
-      }
-    }
-  }
-
   &-label-tip {
     display: inline-block;
   }
@@ -30,40 +18,6 @@
     }
   }
 
-  div.ae-formItemControl-header {
-    width: 100%;
-    padding: #{px2rem(6px)} #{px2rem(12px)};
-    justify-content: space-between;
-    border-top: 1px solid #e5e5e5;
-    background: #f2f2f4;
-    @include collapse-header-text();
-
-    i {
-      transform-origin: px2rem(7px) px2rem(5px);
-      margin-top: px2rem(5px);
-      transition: transform 0.1s linear;
-    }
-  }
-
-  &-body {
-    padding: var(--gap-base);
-    --Form-item-gap: 12px;
-    > div:first-child {
-      padding-top: 0;
-    }
-
-    .fix-icon-picker-overflow {
-      input {
-        width: 0;
-      }
-      a {
-        display: inline-block;
-        position: relative;
-        left: -10px;
-      }
-    }
-  }
-
   .ae-InputRangeValue-input-group {
     &-delimiter {
       border: none;
@@ -79,6 +33,60 @@
 
     &.is-bottom {
       margin-bottom: 0;
+    }
+  }
+}
+
+/* 右侧面板 Collapse 样式覆写，为了提高优先级，用顶层类包裹 */
+.ae-Settings-content {
+  .ae-formItemControl {
+    & > div:last-child {
+      .ae-formItemControl-header {
+        border-bottom: 1px solid #e5e5e5;
+      }
+
+      &.is-active {
+        .ae-formItemControl-header {
+          border-bottom: none;
+        }
+      }
+    }
+
+    div.ae-formItemControl-header.ae-Collapse-header--right {
+      width: 100%;
+      padding: #{px2rem(6px)} #{px2rem(12px)};
+      justify-content: space-between;
+      align-items: unset;
+      border-top: 1px solid #e5e5e5;
+      background: #f2f2f4;
+      @include collapse-header-text();
+
+      i {
+        transform-origin: px2rem(7px) px2rem(5px);
+        margin-top: px2rem(5px);
+        transition: transform 0.1s linear;
+      }
+    }
+
+    &-body {
+      --Form-item-gap: 12px;
+
+      padding: var(--gap-base);
+
+      > div:first-child {
+        padding-top: 0;
+      }
+
+      .fix-icon-picker-overflow {
+        input {
+          width: 0;
+        }
+        a {
+          display: inline-block;
+          position: relative;
+          left: -10px;
+        }
+      }
     }
   }
 }
