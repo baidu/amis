@@ -1266,7 +1266,6 @@ export const scrollToActive = debounce((selector: string) => {
 export const getDialogActions = (
   schema: Schema,
   listType: 'list' | 'source',
-  manager?: any,
   filterId?: string
 ) => {
   let dialogActions: any[] = [];
@@ -1332,21 +1331,6 @@ export const getDialogActions = (
       ) {
         if (listType == 'list') {
           dialogActions.push(object[dialogBody]);
-
-          const store = (window as any)?.editorStore;
-
-          const eventPaths = store
-            .getSchemaPath(object[dialogBody].$$id)
-            ?.split('/onEvent')[0]
-            ?.split('/');
-          if (eventPaths?.length) {
-            const triggerNodeId = store.getSchemaByPath(eventPaths)?.$$id;
-            if (triggerNodeId && !store.previewDialogId) {
-              manager.getContextSchemas(triggerNodeId).then((data: any) => {
-                store.collectHostNodeDataSchema(triggerNodeId, data);
-              });
-            }
-          }
         } else {
           dialogActions.push({
             label: `${object[dialogBody]?.title || '-'}（${

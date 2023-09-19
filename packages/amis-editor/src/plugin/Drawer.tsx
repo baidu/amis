@@ -369,18 +369,18 @@ export class DrawerPlugin extends BasePlugin {
       }
 
       // 数据链
-      const hostNodeDataSchema =
-        this.manager.store.allHostDataSchema[this.manager.store.triggerNodeId];
-      hostNodeDataSchema
-        ?.filter(
-          (item: any) => !['system-variable', 'page-global'].includes(item.$id)
-        )
-        ?.forEach((item: any) => {
-          dataSchema = {
-            ...dataSchema,
-            ...item.properties
-          };
-        });
+      // const hostNodeDataSchema =
+      //   await this.manager.config.getHostNodeDataSchema?.();
+      // hostNodeDataSchema
+      //   ?.filter(
+      //     (item: any) => !['system-variable', 'page-global'].includes(item.$id)
+      //   )
+      //   ?.forEach((item: any) => {
+      //     dataSchema = {
+      //       ...dataSchema,
+      //       ...item.properties
+      //     };
+      //   });
     }
 
     return {

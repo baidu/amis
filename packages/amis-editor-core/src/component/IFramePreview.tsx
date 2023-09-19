@@ -29,6 +29,7 @@ export interface IFramePreviewProps {
 export default class IFramePreview extends React.Component<IFramePreviewProps> {
   initialContent: string = '';
   dialogMountRef: React.RefObject<HTMLDivElement> = React.createRef();
+  iframeRef: HTMLIFrameElement;
   constructor(props: IFramePreviewProps) {
     super(props);
 
@@ -67,9 +68,9 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
   }
 
   @autobind
-  iframeRef(iframe: any) {
+  iframeRefFunc(iframe: any) {
     const store = this.props.store;
-
+    this.iframeRef = iframe;
     isAlive(store) && store.setIframe(iframe);
   }
 
@@ -89,6 +90,11 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
     return this.dialogMountRef.current;
   }
 
+  @autobind
+  iframeContentDidMount() {
+    this.iframeRef.contentWindow?.document.body.classList.add(`is-modalOpened`);
+  }
+
   render() {
     const {editable, store, appLocale, autoFocus, env, data, manager, ...rest} =
       this.props;
@@ -97,7 +103,8 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
       <Frame
         className={`ae-PreviewIFrame`}
         initialContent={this.initialContent}
-        ref={this.iframeRef}
+        ref={this.iframeRefFunc}
+        contentDidMount={this.iframeContentDidMount}
       >
         <InnerComponent store={store} editable={editable} manager={manager} />
         <div ref={this.dialogMountRef} className="ae-Dialog-preview-mount-node">
@@ -200,7 +207,7 @@ function InnerComponent({
     doc!.addEventListener('click', handleBodyClick);
     layer!.addEventListener('mouseleave', handleMouseLeave);
     layer!.addEventListener('mousemove', handleMouseMove);
-    layer!.addEventListener('click', handleClick);
+    layer!.addEventListener('click', handleClick, true);
     layer!.addEventListener('mouseover', handeMouseOver);
 
     const unSensor = resizeSensor(doc!.body, () => {

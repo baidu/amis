@@ -92,7 +92,7 @@ export class ContextMenu extends React.Component<
   }
 
   componentDidMount() {
-    document.body.addEventListener('click', this.handleOutClick, true);
+    document.body.addEventListener('click', this.handleOutClick);
     document.addEventListener('keydown', this.handleKeyDown);
   }
 

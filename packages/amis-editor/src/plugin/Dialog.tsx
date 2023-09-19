@@ -490,19 +490,20 @@ export class DialogPlugin extends BasePlugin {
         }
       }
 
-      // 数据链
-      const hostNodeDataSchema =
-        this.manager.store.allHostDataSchema[this.manager.store.triggerNodeId];
-      hostNodeDataSchema
-        ?.filter(
-          (item: any) => !['system-variable', 'page-global'].includes(item.$id)
-        )
-        ?.forEach((item: any) => {
-          dataSchema = {
-            ...dataSchema,
-            ...item.properties
-          };
-        });
+      // 弹窗改版无法可能会有多个按钮触发一个弹窗，无法确定按钮的上下文
+      // TODO 数据链
+      // const hostNodeDataSchema =
+      //   await this.manager.config.getHostNodeDataSchema?.();
+      // hostNodeDataSchema
+      //   ?.filter(
+      //     (item: any) => !['system-variable', 'page-global'].includes(item.$id)
+      //   )
+      //   ?.forEach((item: any) => {
+      //     dataSchema = {
+      //       ...dataSchema,
+      //       ...item.properties
+      //     };
+      //   });
     }
 
     return {

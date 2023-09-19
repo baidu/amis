@@ -276,7 +276,7 @@ export class OutlinePanel extends React.Component<PanelProps> {
     const {store} = this.props;
     const outlineTabsKey = store.outlineTabsKey || 'component-outline';
     const options = store.outline;
-    const dialogOptions = store.dialogOutlineList(this.props.manager);
+    const dialogOptions = store.dialogOutlineList;
 
     return (
       <div className="ae-Outline-panel">
