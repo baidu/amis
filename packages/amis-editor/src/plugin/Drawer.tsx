@@ -368,6 +368,7 @@ export class DrawerPlugin extends BasePlugin {
         }
       }
 
+      // 弹窗改版可能会有多个按钮触发一个弹窗，无法确定按钮的上下文
       // 数据链
       // const hostNodeDataSchema =
       //   await this.manager.config.getHostNodeDataSchema?.();
