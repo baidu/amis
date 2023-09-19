@@ -94,15 +94,6 @@ export default class Preview extends Component<PreviewProps> {
           store.changeOutlineTabsKey('dialog-outline');
           store.setPreviewDialogId(dialogId);
           store.setActiveId(dialogId);
-          // 添加触发弹窗事件的上下文
-          const eventPaths = store
-            .getSchemaPath(dialogId)
-            ?.split('/onEvent')[0]
-            ?.split('/');
-          if (eventPaths.length) {
-            const triggerNode = store.getSchemaByPath(eventPaths);
-            store.setTriggerNodeId(triggerNode.$$id);
-          }
         } else {
           store.setActiveId(store.getRootId());
         }
