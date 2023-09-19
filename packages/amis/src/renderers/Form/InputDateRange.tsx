@@ -4,7 +4,8 @@ import {
   FormControlProps,
   FormBaseControl,
   resolveEventData,
-  CustomStyle
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import cx from 'classnames';
 import {filterDate, parseDuration} from 'amis-core';
@@ -274,7 +275,6 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       mobileUI,
       id,
       themeCss,
-      baseControlClassName,
       ...rest
     } = this.props;
 
@@ -321,7 +321,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
           onChange={this.handleChange}
           onFocus={() => this.dispatchEvent('focus')}
           onBlur={() => this.dispatchEvent('blur')}
-          className={baseControlClassName}
+          className={setThemeClassName('baseControlClassName', id, themeCss)}
         />
         <CustomStyle
           config={{
@@ -329,8 +329,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
             themeCss,
             classNames: [
               {
-                key: 'baseControlClassName',
-                value: baseControlClassName
+                key: 'baseControlClassName'
               }
             ]
           }}

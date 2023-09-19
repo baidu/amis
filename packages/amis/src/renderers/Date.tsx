@@ -1,5 +1,11 @@
 import React from 'react';
-import {Renderer, RendererProps, normalizeDate, CustomStyle} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  normalizeDate,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
 import moment, {Moment} from 'moment';
 import {BaseSchema} from '../Schema';
 import {getPropValue} from 'amis-core';
@@ -114,7 +120,6 @@ export class DateField extends React.Component<DateProps, DateState> {
       themeCss,
       id,
       wrapperCustomStyle,
-      baseControlClassName,
       env
     } = this.props;
     let viewValue: React.ReactNode = (
@@ -149,10 +154,8 @@ export class DateField extends React.Component<DateProps, DateState> {
         className={cx(
           'DateField',
           className,
-          baseControlClassName,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={style}
         title={fromNow && date ? date : undefined}
@@ -165,8 +168,7 @@ export class DateField extends React.Component<DateProps, DateState> {
             wrapperCustomStyle,
             classNames: [
               {
-                key: 'baseControlClassName',
-                value: baseControlClassName
+                key: 'baseControlClassName'
               }
             ]
           }}

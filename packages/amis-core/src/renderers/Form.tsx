@@ -51,6 +51,7 @@ import CustomStyle from '../components/CustomStyle';
 
 import type {LabelAlign} from './Item';
 import {injectObjectChain} from '../utils';
+import {setThemeClassName} from '../utils/style-helper';
 
 export interface FormHorizontal {
   left?: number;
@@ -1732,11 +1733,6 @@ export default class Form extends React.Component<FormProps, object> {
       themeCss,
       id,
       wrapperCustomStyle,
-      formControlClassName,
-      panelControlClassName,
-      headerControlClassName,
-      bodyControlClassName,
-      actionsControlClassName,
       env
     } = this.props;
 
@@ -1766,10 +1762,9 @@ export default class Form extends React.Component<FormProps, object> {
           columnCount ? `Form--column Form--column-${columnCount}` : null,
           staticClassName && isStatic ? staticClassName : className,
           isStatic ? 'Form--isStatic' : null,
-          formControlClassName,
-          !wrapWithPanel && wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('formControlClassName', id, themeCss),
+          !wrapWithPanel &&
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         onSubmit={this.handleFormSubmit}
         noValidate
@@ -1849,16 +1844,13 @@ export default class Form extends React.Component<FormProps, object> {
             themeCss: themeCss || css,
             classNames: [
               {
-                key: 'formControlClassName',
-                value: formControlClassName
+                key: 'formControlClassName'
               },
               {
-                key: 'panelControlClassName',
-                value: panelControlClassName
+                key: 'panelControlClassName'
               },
               {
                 key: 'headerControlClassName',
-                value: headerControlClassName,
                 weights: {
                   default: {
                     important: true
@@ -1872,12 +1864,10 @@ export default class Form extends React.Component<FormProps, object> {
                 }
               },
               {
-                key: 'bodyControlClassName',
-                value: bodyControlClassName
+                key: 'bodyControlClassName'
               },
               {
-                key: 'actionsControlClassName',
-                value: actionsControlClassName
+                key: 'actionsControlClassName'
               }
             ],
             wrapperCustomStyle,
@@ -1914,7 +1904,7 @@ export default class Form extends React.Component<FormProps, object> {
       footer,
       id,
       wrapperCustomStyle,
-      panelControlClassName
+      themeCss
     } = this.props;
 
     let body: JSX.Element = this.renderBody();
@@ -1930,10 +1920,8 @@ export default class Form extends React.Component<FormProps, object> {
           className: cx(
             panelClassName,
             'Panel--form',
-            panelControlClassName,
-            wrapperCustomStyle
-              ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-              : ''
+            setThemeClassName('panelControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
           ),
           style: style,
           formStore: this.props.store,
@@ -1950,9 +1938,21 @@ export default class Form extends React.Component<FormProps, object> {
           actionsClassName,
           bodyClassName,
           affixFooter,
-          headerControlClassName,
-          bodyControlClassName,
-          actionsControlClassName
+          headerControlClassName: setThemeClassName(
+            'headerControlClassName',
+            id,
+            themeCss
+          ),
+          bodyControlClassName: setThemeClassName(
+            'bodyControlClassName',
+            id,
+            themeCss
+          ),
+          actionsControlClassName: setThemeClassName(
+            'actionsControlClassName',
+            id,
+            themeCss
+          )
         }
       ) as JSX.Element;
     }

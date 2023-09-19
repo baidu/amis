@@ -5,7 +5,8 @@ import {
   FormBaseControl,
   resolveEventData,
   str2function,
-  CustomStyle
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import cx from 'classnames';
 import {filterDate, isPureVariable, resolveVariableAndFilter} from 'amis-core';
@@ -609,7 +610,6 @@ export default class DateControl extends React.PureComponent<
       placeholder,
       id,
       themeCss,
-      baseControlClassName,
       ...rest
     } = this.props;
 
@@ -651,7 +651,7 @@ export default class DateControl extends React.PureComponent<
           onFocus={this.dispatchEvent}
           onBlur={this.dispatchEvent}
           disabledDate={this.isDisabledDate}
-          className={baseControlClassName}
+          className={setThemeClassName('baseControlClassName', id, themeCss)}
         />
         <CustomStyle
           config={{
@@ -659,8 +659,7 @@ export default class DateControl extends React.PureComponent<
             themeCss,
             classNames: [
               {
-                key: 'baseControlClassName',
-                value: baseControlClassName
+                key: 'baseControlClassName'
               }
             ]
           }}

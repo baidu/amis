@@ -17,7 +17,8 @@ import {
   qsparse,
   isArrayChildrenModified,
   isIntegerInRange,
-  CustomStyle
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Button, SpinnerExtraProps, TooltipWrapper} from 'amis-ui';
@@ -2413,8 +2414,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       themeCss,
       id,
       wrapperCustomStyle,
-      baseControlClassName,
-      bodyControlClassName,
       env,
       ...rest
     } = this.props;
@@ -2428,10 +2427,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             'is-loading': store.loading,
             'is-mobile': isMobile()
           },
-          baseControlClassName,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={style}
       >
@@ -2478,7 +2475,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           },
           {
             key: 'body',
-            className: cx('Crud-body', bodyClassName, bodyControlClassName),
+            className: cx(
+              'Crud-body',
+              bodyClassName,
+              setThemeClassName('bodyControlClassName', id, themeCss)
+            ),
             ref: this.controlRef,
             autoGenerateFilter: !filter && autoGenerateFilter,
             autoFillHeight: autoFillHeight,
@@ -2546,12 +2547,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             wrapperCustomStyle,
             classNames: [
               {
-                key: 'baseControlClassName',
-                value: baseControlClassName
+                key: 'baseControlClassName'
               },
               {
-                key: 'bodyControlClassName',
-                value: bodyControlClassName
+                key: 'bodyControlClassName'
               }
             ]
           }}

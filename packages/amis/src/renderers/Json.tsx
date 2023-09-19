@@ -1,5 +1,10 @@
 import React from 'react';
-import {Renderer, RendererProps, CustomStyle} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
 
 import type {InteractionProps} from 'react-json-view';
 import {autobind, getPropValue, noop} from 'amis-core';
@@ -128,7 +133,6 @@ export class JSONField extends React.Component<JSONProps, object> {
       themeCss,
       id,
       wrapperCustomStyle,
-      baseControlClassName,
       env
     } = this.props;
 
@@ -165,10 +169,8 @@ export class JSONField extends React.Component<JSONProps, object> {
         className={cx(
           'JsonField',
           className,
-          baseControlClassName,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={style}
       >
@@ -200,8 +202,7 @@ export class JSONField extends React.Component<JSONProps, object> {
             wrapperCustomStyle,
             classNames: [
               {
-                key: 'baseControlClassName',
-                value: baseControlClassName
+                key: 'baseControlClassName'
               }
             ]
           }}
