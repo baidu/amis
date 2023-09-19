@@ -34,7 +34,8 @@ const useSubForm = (
   // 监控数值变化，自动同步到上层
   React.useEffect(() => {
     const subscriber = methods.watch((data: any) => {
-      lazyUpdate.current(data);
+      // 因为 watch 只会触发有表单项的数值，而原始数据中可能包含其他属性，所以要合并一下
+      lazyUpdate.current({...defaultValue, ...data});
     });
     return () => subscriber.unsubscribe();
   }, [methods.watch]);
