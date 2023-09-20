@@ -502,11 +502,20 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 }
 
 class PlaceholderComponent extends React.Component {
+  childRef = React.createRef<any>();
+
+  getWrappedInstance() {
+    return this.childRef.current;
+  }
+
   render() {
     const {renderChildren, ...rest} = this.props as any;
 
     if (typeof renderChildren === 'function') {
-      return renderChildren(rest);
+      return renderChildren({
+        ...rest,
+        ref: this.childRef
+      });
     }
 
     return null;
