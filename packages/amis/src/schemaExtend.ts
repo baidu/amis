@@ -18,7 +18,7 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
         if (!isObject(value)) {
           return [];
         }
-        if (isEqual(value, this?.cachedValue)) {
+        if (isEqual(value, this.cachedValue)) {
           return this.cachedValueArray;
         }
         const arr: Array<any> = [];
@@ -56,8 +56,8 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
 
           obj[key] = value;
         });
-        this && (this.cachedValue = obj);
-        this && (this.cachedValueArray = value);
+        this.cachedValue = obj;
+        this.cachedValueArray = value;
         return obj;
       },
       items: [
