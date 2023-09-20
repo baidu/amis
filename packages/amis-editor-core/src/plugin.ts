@@ -303,6 +303,7 @@ export interface RendererInfo extends RendererScaffoldInfo {
   /** 共享上下文 */
   sharedContext?: Record<string, any>;
   dialogTitle?: string; //弹窗标题用于弹窗大纲的展示
+  dialogType?: string; //区分确认对话框类型
 }
 
 export type BasicRendererInfo = Omit<
