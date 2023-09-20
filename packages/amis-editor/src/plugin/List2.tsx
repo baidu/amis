@@ -267,7 +267,15 @@ export class List2Plugin extends BasePlugin {
 
   previewSchema = {
     ...this.scaffold,
-    className: 'text-left '
+    className: 'text-left ',
+    items: [{}, {}, {}],
+    style: {
+      gutterY: 10,
+      transform: 'scale(0.7)',
+      width: '1200px',
+      transformOrigin: 'left top'
+    },
+    name: 'items'
   };
 
   panelTitle = '列表';
