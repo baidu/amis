@@ -673,7 +673,7 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     updateRows && store.initRows(rows, props.getEntryId, props.reUseRow);
-    typeof props.selected !== 'undefined' &&
+    Array.isArray(props.selected) &&
       store.updateSelected(props.selected, props.valueField);
     return updateRows;
   }
