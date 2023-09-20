@@ -173,10 +173,10 @@ export function formatStyle(
               fn(
                 'border-radius',
                 [
-                  style['top-left-border-radius'],
-                  style['top-right-border-radius'],
-                  style['bottom-right-border-radius'],
-                  style['bottom-left-border-radius']
+                  style['top-left-border-radius'] || 0,
+                  style['top-right-border-radius'] || 0,
+                  style['bottom-right-border-radius'] || 0,
+                  style['bottom-left-border-radius'] || 0
                 ].join(' ')
               );
             } else {
