@@ -67,7 +67,7 @@ export interface DSBuilderInterface<
   filterByFeat(feat: any): boolean;
 
   /** 根据schema，判断是否匹配当前数据源  */
-  match(schema?: any): boolean;
+  match(schema?: any, key?: string): boolean;
 
   /** 当前上下文中使用的字段 */
   getContextFields(options: T): Promise<any>;
@@ -209,7 +209,7 @@ export abstract class DSBuilder<T extends DSBuilderBaseOptions>
     return feat && this.features.includes(feat);
   }
 
-  abstract match(schema?: any): boolean;
+  abstract match(schema?: any, key?: string): boolean;
 
   abstract getContextFields(options: T): Promise<any>;
 

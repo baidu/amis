@@ -25,7 +25,8 @@ import {
   DSBuilderManager,
   DSFeatureEnum,
   DSFeatureType,
-  ModelDSBuilderKey
+  ModelDSBuilderKey,
+  ApiDSBuilderKey
 } from '../../builder';
 import {
   getEventControlConfig,
@@ -58,11 +59,11 @@ export class BaseCRUDPlugin extends BasePlugin {
 
   rendererName = 'crud2';
 
-  name = '增删改查';
+  name = '表格2.0';
 
-  panelTitle = '增删改查';
+  panelTitle = '表格2.0';
 
-  subPanelTitle = '增删改查';
+  subPanelTitle = '表格2.0';
 
   icon = 'fa fa-table';
 
@@ -320,6 +321,9 @@ export class BaseCRUDPlugin extends BasePlugin {
           scaffoldConfig: config
         });
 
+        /** 脚手架构建的 Schema 加个标识符，避免addChild替换 Schema ID */
+        schema.__origin = 'scaffold';
+
         return schema;
       },
       validate: (data: CRUDScaffoldConfig, form: IFormStore) => {
@@ -515,13 +519,11 @@ export class BaseCRUDPlugin extends BasePlugin {
   renderBasicPropsCollapse(context: BuildPanelEventContext) {
     /** 动态加载的配置集合 */
     const dc = this.dynamicControls;
-
-    return {
-      title: '基本',
-      order: 1,
-      body: [
-        /** 数据源类型 */
-        this.dsManager.getDSSelectorSchema({
+    /** 数据源控件 */
+    const generateDSControls = () => {
+      /** 数据源类型 */
+      const dsTypeSelector = this.dsManager.getDSSelectorSchema(
+        {
           type: 'select',
           label: '数据源',
           onChange: (
@@ -546,12 +548,19 @@ export class BaseCRUDPlugin extends BasePlugin {
             }
             return value;
           }
-        }),
-        /** 数据源配置 */
-        ...this.dsManager.buildCollectionFromBuilders((builder, builderKey) => {
+        },
+        {schema: context?.schema, sourceKey: 'api'}
+      );
+      /** 默认数据源类型 */
+      const defaultDsType = dsTypeSelector.value;
+      /** 数据源配置 */
+      const dsSettings = this.dsManager.buildCollectionFromBuilders(
+        (builder, builderKey) => {
           return {
             type: 'container',
-            visibleOn: `data.dsType == null || data.dsType === '${builderKey}'`,
+            visibleOn: `data.dsType == null ? '${builderKey}' === '${
+              defaultDsType || ApiDSBuilderKey
+            }' : data.dsType === '${builderKey}'`,
             body: builder.makeSourceSettingForm({
               feat: 'List',
               renderer: 'crud',
@@ -563,9 +572,55 @@ export class BaseCRUDPlugin extends BasePlugin {
             /** 因为会使用 container 包裹，所以加一个 margin-bottom */
             className: 'mb-3'
           };
-        }),
+        }
+      );
+
+      return [dsTypeSelector, ...dsSettings];
+    };
+
+    return {
+      title: '基本',
+      order: 1,
+      body: [
+        ...generateDSControls(),
         /** 主键配置，TODO：支持联合主键 */
         dc?.primaryField?.(context),
+        /** 可选择配置，这里的配置会覆盖底层 Table 的 rowSelection 中的配置 */
+        getSchemaTpl('switch', {
+          name: 'selectable',
+          label: tipedLabel('可选择', '开启后支持选择表格行数据'),
+          pipeIn: (value: boolean | undefined, formStore: IFormStore) => {
+            if (typeof value === 'boolean') {
+              return value;
+            }
+
+            const rowSelection = formStore?.data?.rowSelection;
+            return rowSelection && isObject(rowSelection);
+          }
+        }),
+        {
+          type: 'container',
+          className: 'ae-ExtendMore mb-3',
+          visibleOn:
+            "data.selectable || (data.rowSelection && data.rowSelection?.type !== 'radio')",
+          body: [
+            getSchemaTpl('switch', {
+              name: 'multiple',
+              label: '可多选',
+              pipeIn: (value: boolean | undefined, formStore: IFormStore) => {
+                if (typeof value === 'boolean') {
+                  return value;
+                }
+
+                const rowSelection = formStore?.data?.rowSelection;
+
+                return rowSelection && isObject(rowSelection)
+                  ? rowSelection.type !== 'radio'
+                  : false;
+              }
+            })
+          ]
+        },
         {
           name: 'placeholder',
           pipeIn: defaultValue('暂无数据'),
