@@ -279,7 +279,7 @@ export default class Cards extends React.Component<GridProps, object> {
     }
 
     updateItems && store.initItems(items);
-    typeof props.selected !== 'undefined' &&
+    Array.isArray(props.selected) &&
       store.updateSelected(props.selected, props.valueField);
     return updateItems;
   }
