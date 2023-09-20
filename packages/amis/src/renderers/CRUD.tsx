@@ -15,7 +15,6 @@ import {
   getVariable,
   qsstringify,
   qsparse,
-  isArrayChildrenModified,
   isIntegerInRange
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
@@ -589,13 +588,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     let val: any;
-
     if (
       this.props.pickerMode &&
-      isArrayChildrenModified(
-        (val = getPropValue(this.props)),
-        getPropValue(prevProps)
-      ) &&
+      !isEqual((val = getPropValue(this.props)), getPropValue(prevProps)) &&
       !isEqual(val, store.selectedItems.concat())
     ) {
       /**
