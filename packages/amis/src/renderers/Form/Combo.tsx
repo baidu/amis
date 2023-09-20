@@ -1843,7 +1843,8 @@ export default class ComboControl extends React.Component<ComboProps> {
           onValidChange: this.handleSubFormValid,
           onInit: this.handleSingleFormInit,
           canAccessSuperData,
-          formStore: undefined
+          formStore: undefined,
+          updatePristineAfterStoreDataReInit: false
         }
       );
     } else if (multiple && index !== undefined && index >= 0) {
@@ -1875,7 +1876,8 @@ export default class ComboControl extends React.Component<ComboProps> {
           value: undefined,
           formItemValue: undefined,
           formStore: undefined,
-          ...(tabsMode ? {} : {lazyLoad})
+          ...(tabsMode ? {} : {lazyLoad}),
+          updatePristineAfterStoreDataReInit: false
         }
       );
     }

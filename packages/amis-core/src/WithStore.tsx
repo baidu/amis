@@ -207,7 +207,8 @@ export function HocStoreFactory(renderer: {
                 ...(store.hasRemoteData ? store.data : null), // todo 只保留 remote 数据
                 ...this.formatData(props.defaultData),
                 ...this.formatData(props.data)
-              })
+              }),
+              props.updatePristineAfterStoreDataReInit === false
             );
           }
         } else if (
@@ -234,7 +235,8 @@ export function HocStoreFactory(renderer: {
                       store,
                       props.syncSuperStore === true
                     )
-              )
+              ),
+              props.updatePristineAfterStoreDataReInit === false
             );
           } else if (props.data && (props.data as any).__super) {
             store.initData(
@@ -256,10 +258,14 @@ export function HocStoreFactory(renderer: {
                       store,
                       false
                     )
-              )
+              ),
+              props.updatePristineAfterStoreDataReInit === false
             );
           } else {
-            store.initData(createObject(props.scope, props.data));
+            store.initData(
+              createObject(props.scope, props.data),
+              props.updatePristineAfterStoreDataReInit === false
+            );
           }
         } else if (
           !props.trackExpression &&
@@ -282,8 +288,9 @@ export function HocStoreFactory(renderer: {
                 ...store.data
               }),
 
-              store.storeType === 'FormStore' &&
-                prevProps.store?.storeType === 'CRUDStore'
+              props.updatePristineAfterStoreDataReInit === false ||
+                (store.storeType === 'FormStore' &&
+                  prevProps.store?.storeType === 'CRUDStore')
             );
           }
           // nextProps.data.__super !== props.data.__super) &&
@@ -299,7 +306,8 @@ export function HocStoreFactory(renderer: {
             createObject(props.scope, {
               // ...nextProps.data,
               ...store.data
-            })
+            }),
+            props.updatePristineAfterStoreDataReInit === false
           );
         }
       }
