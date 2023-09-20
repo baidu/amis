@@ -6,6 +6,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {FormulaDateType} from '../../renderer/FormulaControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import type {Schema} from 'amis';
 
 const formatX = [
   {
@@ -347,15 +348,7 @@ export class DateControlPlugin extends BasePlugin {
                   pipeIn: defaultValue(true)
                 }),
                 getSchemaTpl('valueFormula', {
-                  rendererSchema: () => {
-                    const schema = this.manager.store.getSchema(
-                      context.schema?.id,
-                      'id'
-                    );
-                    return {
-                      ...schema
-                    };
-                  },
+                  rendererSchema: (schema: Schema) => schema,
                   placeholder: '请选择静态值',
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,

@@ -9,6 +9,7 @@ import {BasePlugin, BaseEventContext, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {resolveOptionType} from '../../util';
+import type {Schema} from 'amis';
 
 export class NestedSelectControlPlugin extends BasePlugin {
   static id = 'NestedSelectControlPlugin';
@@ -304,7 +305,7 @@ export class NestedSelectControlPlugin extends BasePlugin {
                 }
               ],
               getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema
+                rendererSchema: (schema: Schema) => schema
               }),
               getSchemaTpl('hideNodePathLabel'),
               getSchemaTpl('labelRemark'),

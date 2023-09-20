@@ -14,7 +14,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {resolveOptionType} from '../../util';
 
-import type {RendererProps} from 'amis';
+import type {Schema} from 'amis';
 import type {
   EditorNodeType,
   RendererPluginAction,
@@ -296,15 +296,7 @@ export class SelectControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('checkAll'),
               getSchemaTpl('valueFormula', {
-                rendererSchema: () => {
-                  const schema = this.manager.store.getSchema(
-                    context.schema?.id,
-                    'id'
-                  );
-                  return {
-                    ...schema
-                  };
-                }
+                rendererSchema: (schema: Schema) => schema
               }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
