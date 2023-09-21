@@ -342,55 +342,15 @@ export interface InsertCustomStyle {
   doc?: Document;
 }
 
-export class StyleDom {
-  id: string;
-  constructor(id: string) {
-    this.id = id;
-  }
-  /**
-   * 插入自定义样式
-   *
-   * @param {InsertCustomStyle} params - 插入自定义样式的参数
-   * @param {string} params.themeCss - 主题样式
-   * @param {string} params.classNames - 自定义样式类名
-   * @param {string} params.defaultData - 默认数据
-   * @param {string} params.customStyleClassPrefix - 自定义样式类名前缀
-   */
-  insertCustomStyle({
-    themeCss,
-    classNames,
-    defaultData,
-    customStyleClassPrefix,
-    doc
-  }: Omit<InsertCustomStyle, 'id'>) {
-    insertCustomStyle(
-      themeCss,
-      classNames,
-      this.id,
-      defaultData,
-      customStyleClassPrefix,
-      doc
-    );
-  }
-
-  /**
-   * 插入外层自定义样式
-   *
-   * @param wrapperCustomStyle 自定义样式
-   */
-  insertEditCustomStyle(wrapperCustomStyle: any, doc?: Document) {
-    insertEditCustomStyle(wrapperCustomStyle, this.id, doc);
-  }
-  /**
-   * 移除自定义样式
-   */
-  removeCustomStyle(type?: string, doc?: Document) {
-    const style = (doc || document).getElementById(
-      (type ? type + '-' : '') + this.id.replace('u:', '')
-    );
-    if (style) {
-      style.remove();
-    }
+/**
+ * 移除自定义样式
+ */
+export function removeCustomStyle(type: string, id: string, doc?: Document) {
+  const style = (doc || document).getElementById(
+    (type ? type + '-' : '') + id.replace('u:', '')
+  );
+  if (style) {
+    style.remove();
   }
 }
 
