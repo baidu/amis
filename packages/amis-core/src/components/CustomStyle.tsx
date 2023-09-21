@@ -1,7 +1,11 @@
 import {useEffect, useRef} from 'react';
 import type {RendererEnv} from '../env';
-import type {InsertCustomStyle} from '../utils/style-helper';
-import {StyleDom} from '../utils/style-helper';
+import {
+  removeCustomStyle,
+  type InsertCustomStyle,
+  insertCustomStyle,
+  insertEditCustomStyle
+} from '../utils/style-helper';
 
 interface CustomStyleProps {
   config: {
@@ -17,37 +21,43 @@ export default function (props: CustomStyleProps) {
   if (!themeCss && !wrapperCustomStyle) {
     return null;
   }
-  const styleDom = useRef(new StyleDom(id || '')).current;
 
   useEffect(() => {
-    if (themeCss && styleDom.id) {
-      styleDom.insertCustomStyle({
+    if (themeCss && id) {
+      insertCustomStyle(
         themeCss,
         classNames,
+        id,
         defaultData,
-        customStyleClassPrefix: env?.customStyleClassPrefix,
-        doc: env.getModalContainer?.().ownerDocument
-      });
+        env?.customStyleClassPrefix,
+        env.getModalContainer?.().ownerDocument
+      );
     }
 
     return () => {
-      styleDom.removeCustomStyle('', env.getModalContainer?.().ownerDocument);
+      if (id) {
+        removeCustomStyle('', id, env.getModalContainer?.().ownerDocument);
+      }
     };
   }, [themeCss]);
 
   useEffect(() => {
-    if (wrapperCustomStyle && styleDom.id) {
-      styleDom.insertEditCustomStyle(
+    if (wrapperCustomStyle && id) {
+      insertEditCustomStyle(
         wrapperCustomStyle,
+        id,
         env.getModalContainer?.().ownerDocument
       );
     }
 
     return () => {
-      styleDom.removeCustomStyle(
-        'wrapperCustomStyle',
-        env.getModalContainer?.().ownerDocument
-      );
+      if (id) {
+        removeCustomStyle(
+          'wrapperCustomStyle',
+          id,
+          env.getModalContainer?.().ownerDocument
+        );
+      }
     };
   }, [wrapperCustomStyle]);
 
