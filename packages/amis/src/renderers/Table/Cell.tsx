@@ -5,7 +5,9 @@ import {
   PlainObject,
   SchemaNode,
   ThemeProps,
-  resolveVariable
+  resolveVariable,
+  buildTrackExpression,
+  evalTrackExpression
 } from 'amis-core';
 import {BadgeObject, Checkbox, Icon} from 'amis-ui';
 import React from 'react';
@@ -168,7 +170,20 @@ export default function Cell({
     }
     return [prefix, affix, addtionalClassName];
   }, [item.expandable, item.expanded]);
-  const data = React.useMemo(() => item.locals, [JSON.stringify(item.locals)]);
+
+  // 根据条件缓存 data，避免孩子重复渲染
+  const hasCustomTrackExpression =
+    typeof column.pristine.trackExpression !== 'undefined';
+  const trackExpression = hasCustomTrackExpression
+    ? column.pristine.trackExpression
+    : React.useMemo(() => buildTrackExpression(column.pristine), []);
+  const data = React.useMemo(
+    () => item.locals,
+    [
+      hasCustomTrackExpression ? '' : JSON.stringify(item.locals),
+      evalTrackExpression(trackExpression, item.locals)
+    ]
+  );
 
   const finalCanAccessSuperData =
     column.pristine.canAccessSuperData ?? canAccessSuperData;
