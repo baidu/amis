@@ -110,6 +110,12 @@ interface EventControlState {
   appLocaleState?: number;
 }
 
+const dialogObjMap = new Map([
+  ['dialog', 'dialog'],
+  ['drawer', 'drawer'],
+  ['confirmDialog', 'dialog']
+]);
+
 export class EventControl extends React.Component<
   EventControlProps,
   EventControlState
@@ -697,8 +703,15 @@ export class EventControl extends React.Component<
   }
 
   // 获取现有弹窗列表
-  getDialogList(manager: EditorManager) {
-    return getDialogActions(manager.store.schema, 'source');
+  getDialogList(
+    manager: EditorManager,
+    action?: ActionConfig,
+    actionType?: string
+  ) {
+    if (action && actionType && dialogObjMap.has(actionType)) {
+      let filterId = action[dialogObjMap.get(actionType)!].id;
+      return getDialogActions(manager.store.schema, 'source', filterId);
+    } else return getDialogActions(manager.store.schema, 'source');
   }
 
   // 唤起动作配置弹窗
@@ -751,6 +764,8 @@ export class EventControl extends React.Component<
         );
       }
 
+      const actionGroupType = actionConfig?.__actionType || action.actionType;
+
       data.actionData = {
         eventKey: data.actionData!.eventKey,
         actionIndex: data.actionData!.actionIndex,
@@ -758,12 +773,12 @@ export class EventControl extends React.Component<
         pluginActions,
         getContextSchemas,
         ...actionConfig,
-        groupType: actionConfig?.__actionType || action.actionType,
+        groupType: actionGroupType,
         __actionDesc: actionNode?.description ?? '', // 树节点描述
         __actionSchema: actionNode!.schema, // 树节点schema
         __subActions: hasSubActionNode?.actions, // 树节点子动作
         __cmptTreeSource: supportComponents ?? [],
-        __dialogActions: this.getDialogList(manager),
+        __dialogActions: this.getDialogList(manager, action, actionGroupType),
         __superCmptTreeSource: allComponents,
         // __supersCmptTreeSource: '',
         __setValueDs: setValueDs
@@ -772,15 +787,8 @@ export class EventControl extends React.Component<
 
       // 编辑时准备已选的弹窗来源和标题
       if (actionConfig?.actionType == 'openDialog') {
-        const dialogActionType = data.actionData?.groupType;
         const definitions = manager.store.schema.definitions;
-
-        const dialogObjMap = new Map([
-          ['dialog', 'dialog'],
-          ['drawer', 'drawer'],
-          ['confirmDialog', 'dialog']
-        ]);
-        const dialogObj = dialogObjMap.get(dialogActionType!);
+        const dialogObj = dialogObjMap.get(actionGroupType!);
 
         const dialogRef = actionConfig?.[dialogObj!]?.$ref;
 

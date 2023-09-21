@@ -1317,7 +1317,7 @@ export const getDialogActions = (
         [
           'drawer',
           {
-            title: '弹窗',
+            title: '抽屉式弹窗',
             body: 'drawer'
           }
         ],
@@ -1330,20 +1330,25 @@ export const getDialogActions = (
         ]
       ]);
       let dialogBody = dialogBodyMap.get(value)?.body!;
+      let dialogBodyContent = object[dialogBody];
+
       if (
         dialogBodyMap.has(value) &&
-        object[dialogBody] &&
-        !object[dialogBody].$ref
+        dialogBodyContent &&
+        !dialogBodyContent.$ref
       ) {
         if (listType == 'list') {
-          dialogActions.push(object[dialogBody]);
+          dialogActions.push(dialogBodyContent);
         } else {
-          dialogActions.push({
-            label: `${object[dialogBody]?.title || '-'}（${
-              dialogBodyMap.get(value)?.title
-            }）`,
-            value: object[dialogBody]
-          });
+          // 新建弹窗切换到现有弹窗把自身过滤掉
+          if (!filterId || (filterId && filterId !== dialogBodyContent.id)) {
+            dialogActions.push({
+              label: `${dialogBodyContent?.title || '-'}（${
+                dialogBodyMap.get(value)?.title
+              }）`,
+              value: dialogBodyContent
+            });
+          }
         }
       }
     }
