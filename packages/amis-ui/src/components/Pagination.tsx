@@ -93,7 +93,7 @@ export interface BasicPaginationProps {
    */
   popOverContainerSelector?: string;
 
-  onPageChange?: (page: number, perPage?: number) => void;
+  onPageChange?: (page: number, perPage?: number, dir?: string) => void;
 }
 export interface PaginationProps
   extends BasicPaginationProps,
@@ -139,13 +139,17 @@ export class Pagination extends React.Component<
     }
   }
 
-  handlePageNumChange(page: number, perPage?: number) {
+  handlePageNumChange(page: number, perPage?: number, dir?: string) {
     const {disabled, onPageChange} = this.props;
 
     if (disabled) {
       return;
     }
-    onPageChange?.(isNaN(Number(page)) || Number(page) < 1 ? 1 : page, perPage);
+    onPageChange?.(
+      isNaN(Number(page)) || Number(page) < 1 ? 1 : page,
+      perPage,
+      dir
+    );
   }
 
   /**
@@ -306,7 +310,11 @@ export class Pagination extends React.Component<
                 if (activePage < 2) {
                   return e.preventDefault();
                 }
-                return this.handlePageNumChange(activePage - 1);
+                return this.handlePageNumChange(
+                  activePage - 1,
+                  undefined,
+                  'backward'
+                );
               }}
               key="prev"
             >
@@ -322,7 +330,11 @@ export class Pagination extends React.Component<
                 if (!hasNext) {
                   return e.preventDefault();
                 }
-                return this.handlePageNumChange(activePage + 1, perPage);
+                return this.handlePageNumChange(
+                  activePage + 1,
+                  perPage,
+                  'forward'
+                );
               }}
               key="next"
             >
