@@ -515,6 +515,7 @@ export default class Preview extends Component<PreviewProps> {
         onDrop={this.handleDrop}
         className={cx(
           'ae-Preview',
+          'AMISCSSWrapper',
           className,
           isMobile ? 'is-mobile-body hoverShowScrollBar' : 'is-pc-body'
         )}
