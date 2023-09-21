@@ -348,7 +348,16 @@ export class CardsPlugin extends BasePlugin {
   };
   previewSchema = {
     ...this.scaffold,
-    className: 'text-left'
+    className: 'text-left',
+    name: 'items',
+    columnsCount: 2,
+    style: {
+      ...this.scaffold.style,
+      transform: 'scale(0.5)',
+      width: '600px',
+      transformOrigin: 'left top'
+    },
+    items: [{}, {}, {}, {}]
   };
 
   panelTitle = '卡片集';
