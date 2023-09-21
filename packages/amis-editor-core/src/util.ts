@@ -71,13 +71,13 @@ export function cleanUndefined(obj: any) {
  * 给每个节点加个 $$id 这样方便编辑
  * @param obj
  */
-export function JSONPipeIn(obj: any): any {
+export function JSONPipeIn(obj: any, generateId = false): any {
   if (!isObject(obj) || obj.$$typeof) {
     return obj;
   }
 
   if (Array.isArray(obj)) {
-    return obj.map(JSONPipeIn);
+    return obj.map((item, index) => JSONPipeIn(item, generateId));
   }
 
   let toUpdate: any = {};
@@ -99,6 +99,12 @@ export function JSONPipeIn(obj: any): any {
   if (obj.type) {
     // 处理下历史style数据，整理到themeCss
     obj = style2ThemeCss(obj);
+
+    // 重新生成组件ID
+    if (generateId) {
+      flag = true;
+      toUpdate.id = generateNodeId();
+    }
   }
 
   Object.keys(obj).forEach(key => {
@@ -110,7 +116,7 @@ export function JSONPipeIn(obj: any): any {
       let flag2 = false;
 
       let patched = prop.map((item: any) => {
-        let patched = JSONPipeIn(item);
+        let patched = JSONPipeIn(item, generateId);
 
         if (patched !== item) {
           flag2 = true;
@@ -124,7 +130,7 @@ export function JSONPipeIn(obj: any): any {
         toUpdate[key] = patched;
       }
     } else {
-      let patched = JSONPipeIn(prop);
+      let patched = JSONPipeIn(prop, generateId);
 
       if (patched !== prop) {
         flag = true;

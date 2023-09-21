@@ -39,7 +39,7 @@ export default function (props: CustomStyleProps) {
         removeCustomStyle('', id, env.getModalContainer?.().ownerDocument);
       }
     };
-  }, [themeCss]);
+  }, [themeCss, id]);
 
   useEffect(() => {
     if (wrapperCustomStyle && id) {
@@ -59,7 +59,7 @@ export default function (props: CustomStyleProps) {
         );
       }
     };
-  }, [wrapperCustomStyle]);
+  }, [wrapperCustomStyle, id]);
 
   return null;
 }
