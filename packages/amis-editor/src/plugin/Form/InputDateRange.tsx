@@ -527,25 +527,12 @@ export class DateRangeControlPlugin extends BasePlugin {
                 })
               ]
             }),
-            getSchemaTpl('style:classNames', [
-              getSchemaTpl('className', {
-                label: '描述',
-                name: 'descriptionClassName',
-                visibleOn: 'this.description'
-              }),
-              getSchemaTpl('className', {
-                name: 'addOn.className',
-                label: 'AddOn',
-                visibleOn: 'this.addOn && this.addOn.type === "text"'
-              })
-            ]),
             getSchemaTpl('style:others', [
               {
                 name: 'embed',
                 type: 'button-group-select',
                 size: 'md',
                 label: '模式',
-                mode: 'row',
                 pipeIn: defaultValue(false),
                 options: [
                   {
@@ -558,7 +545,12 @@ export class DateRangeControlPlugin extends BasePlugin {
                   }
                 ]
               }
-            ])
+            ]),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            ...getSchemaTpl('theme:common', {
+              exclude: ['layout']
+            })
           ],
           {...context?.schema, configTitle: 'style'}
         )

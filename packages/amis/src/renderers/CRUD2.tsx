@@ -13,7 +13,9 @@ import {
   isArrayChildrenModified,
   autobind,
   parseQuery,
-  isObject
+  isObject,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import pick from 'lodash/pick';
@@ -1230,19 +1232,35 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       columnsTogglable,
       headerToolbarClassName,
       footerToolbarClassName,
+      themeCss,
+      id,
+      wrapperCustomStyle,
+      env,
       ...rest
     } = this.props;
 
     return (
       <div
-        className={cx('Crud2', className, {
-          'is-loading': store.loading
-        })}
+        className={cx(
+          'Crud2',
+          className,
+          {
+            'is-loading': store.loading
+          },
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
         style={style}
       >
         <div className={cx('Crud2-filter')}>{this.renderFilter(filter)}</div>
 
-        <div className={cx('Crud2-toolbar', headerToolbarClassName)}>
+        <div
+          className={cx(
+            'Crud2-toolbar',
+            headerToolbarClassName,
+            setThemeClassName('headerToolbarControlClassName', id, themeCss)
+          )}
+        >
           {this.renderToolbar('headerToolbar', headerToolbar)}
         </div>
 
@@ -1267,7 +1285,11 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           },
           {
             key: 'body',
-            className: cx('Crud2-body', bodyClassName),
+            className: cx(
+              'Crud2-body',
+              bodyClassName,
+              setThemeClassName('bodyControlClassName', id, themeCss)
+            ),
             ref: this.controlRef,
             autoGenerateFilter: !filter && autoGenerateFilter,
             autoFillHeight: autoFillHeight,
@@ -1300,9 +1322,37 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         {/* spinner可以交给孩子处理 */}
         {/* <Spinner overlay size="lg" key="info" show={store.loading} /> */}
 
-        <div className={cx('Crud2-toolbar', footerToolbarClassName)}>
+        <div
+          className={cx(
+            'Crud2-toolbar',
+            footerToolbarClassName,
+            setThemeClassName('footerToolbarControlClassName', id, themeCss)
+          )}
+        >
           {this.renderToolbar('footerToolbar', footerToolbar)}
         </div>
+        <CustomStyle
+          config={{
+            id,
+            themeCss,
+            wrapperCustomStyle,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              },
+              {
+                key: 'bodyControlClassName'
+              },
+              {
+                key: 'headerToolbarControlClassName'
+              },
+              {
+                key: 'footerToolbarControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }
