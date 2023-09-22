@@ -37,7 +37,8 @@
   }
 }
 
-/* 右侧面板 Collapse 样式覆写，为了提高优先级，用顶层类包裹 */
+/* 面板 Collapse 样式覆写，为了提高优先级，用顶层类包裹 */
+.ae-Outline-panel,
 .ae-Settings-content {
   .ae-formItemControl {
     & > div:last-child {
@@ -52,7 +53,7 @@
       }
     }
 
-    div.ae-formItemControl-header.ae-Collapse-header--right {
+    div.ae-formItemControl-header.ae-Collapse-header {
       width: 100%;
       padding: #{px2rem(6px)} #{px2rem(12px)};
       justify-content: space-between;

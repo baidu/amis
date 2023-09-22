@@ -202,7 +202,7 @@ export const formItemControl: (
   const supportStatic = SUPPORT_STATIC_FORMITEM_CMPTS.includes(type);
   const collapseProps = {
     type: 'collapse',
-    headingClassName: 'ae-formItemControl-header ae-Collapse-header--right',
+    headingClassName: 'ae-formItemControl-header ae-Collapse-header',
     bodyClassName: 'ae-formItemControl-body'
   };
   // 已经配置了的属性
