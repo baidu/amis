@@ -1092,6 +1092,7 @@ describe('18. inner events', () => {
 });
 
 test('19. fetchInitData silent true', async () => {
+  const notify = jest.fn();
   const fetcher = jest.fn().mockImplementationOnce(() => {
     return new Promise(resolve =>
       resolve({
@@ -1105,27 +1106,47 @@ test('19. fetchInitData silent true', async () => {
   const {container} = render(
     amisRender(
       {
-        type: 'crud',
-        api: {
-          method: 'get',
-          url: '/api/mock/sample',
-          silent: true
-        },
-        columns: [
+        type: 'page',
+        body: [
           {
-            name: 'engine',
-            label: 'Rendering engine'
+            type: 'crud',
+            api: {
+              method: 'get',
+              url: '/api/mock/sample',
+              silent: true
+            },
+            columns: [
+              {
+                name: 'engine',
+                label: 'Rendering engine'
+              }
+            ]
+          },
+          {
+            type: 'crud',
+            api: {
+              method: 'get',
+              url: '/api/mock/sample',
+              silent: false
+            },
+            columns: [
+              {
+                name: 'engine',
+                label: 'Rendering engine'
+              }
+            ]
           }
         ]
       },
       {},
       {
-        fetcher
+        fetcher,
+        notify
       }
     )
   );
 
   await waitFor(() => {
-    expect(container.querySelector('.cxd-Toast')).not.toBeInTheDocument();
+    expect(notify).toBeCalledTimes(1);
   });
 });

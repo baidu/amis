@@ -633,3 +633,131 @@ test('EventAction:ajax data3', async () => {
     expect(fetcher.mock.calls[3][0].data).toMatchObject({});
   });
 });
+
+test('EventAction:ajax silent', async () => {
+  const notify = jest.fn();
+  const fetcher = jest.fn().mockImplementation(() => {
+    return Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok'
+      }
+    });
+  });
+  const {getByText, container}: any = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'button',
+            label: '发送请求1',
+            level: 'primary',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'ajax',
+                    api: {
+                      url: '/api/xxx1',
+                      method: 'post',
+                      silent: true
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            type: 'button',
+            label: '发送请求2',
+            level: 'primary',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'ajax',
+                    api: {
+                      url: '/api/xxx2',
+                      method: 'post',
+                      silent: false
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            type: 'button',
+            label: '发送请求3',
+            level: 'primary',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'ajax',
+                    api: {
+                      url: '/api/xxx3',
+                      method: 'post'
+                    },
+                    options: {
+                      silent: true
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            type: 'button',
+            label: '发送请求4',
+            level: 'primary',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'ajax',
+                    api: {
+                      url: '/api/xxx4',
+                      method: 'post'
+                    },
+                    options: {
+                      silent: false
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        fetcher,
+        notify
+      })
+    )
+  );
+
+  await waitFor(() => {
+    expect(getByText('发送请求1')).toBeInTheDocument();
+    expect(getByText('发送请求2')).toBeInTheDocument();
+    expect(getByText('发送请求3')).toBeInTheDocument();
+    expect(getByText('发送请求4')).toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText(/发送请求1/));
+  fireEvent.click(getByText(/发送请求2/));
+  fireEvent.click(getByText(/发送请求3/));
+  fireEvent.click(getByText(/发送请求4/));
+
+  await waitFor(() => {
+    expect(fetcher).toHaveBeenCalledTimes(4);
+    debugger;
+    expect(fetcher.mock.calls[0][0].url).toEqual('/api/xxx1');
+    expect(fetcher.mock.calls[1][0].url).toEqual('/api/xxx2');
+    expect(fetcher.mock.calls[2][0].url).toEqual('/api/xxx3');
+    expect(fetcher.mock.calls[3][0].url).toEqual('/api/xxx4');
+    expect(notify).toBeCalledTimes(2);
+  });
+});
