@@ -1227,7 +1227,7 @@ test('Renderer:transfer with searchApi', async () => {
 
   await wait(300);
 
-  const caocao = container.querySelector('span[title=曹操]');
+  const caocao = container.querySelector('span[title=李白]');
   expect(caocao).toBeNull();
 });
 
