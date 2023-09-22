@@ -1248,7 +1248,7 @@
 
 [data-region] {
   position: relative;
-  min-height: 10px;
+  min-height: 34px;
 
   &:empty {
     min-width: 20px;
@@ -1334,6 +1334,10 @@
       padding: 2px 5px;
     }
   }
+}
+
+[data-renderer='container'] {
+  min-height: 0;
 }
 
 // 移动端有问题，先注释了

@@ -34,6 +34,7 @@ export class ContainerPlugin extends LayoutBasePlugin {
       position: 'static',
       display: 'block'
     },
+    size: 'none',
     wrapperBody: false
   };
   previewSchema = {
