@@ -38,6 +38,12 @@
       margin-right: var(--Checkbox-gap);
     }
   }
+
+  &-ellipsis-line {
+    display: inline-block;
+    width: 100%;
+    @include truncate();
+  }
 }
 
 .#{$ns}GroupedSelection {
@@ -113,12 +119,6 @@
       &.is-invalid {
         color: var(--Form-selectValue-onInvalid-color);
       }
-    }
-
-    .ellipsis-line {
-      display: inline-block;
-      width: 100%;
-      @include truncate();
     }
   }
 
@@ -416,23 +416,11 @@
       color: var(--text--muted-color);
     }
   }
-
-  .ellipsis-line {
-    display: inline-block;
-    width: 100%;
-    @include truncate();
-  }
 }
 
 .#{$ns}ResultTreeList {
   height: 100%;
   width: 100%;
-
-  .ellipsis-line {
-    display: inline-block;
-    width: 100%;
-    @include truncate();
-  }
 }
 
 .#{$ns}ResultTableList {
@@ -442,12 +430,6 @@
   &-close-btn {
     float: right;
     cursor: pointer;
-  }
-
-  .ellipsis-line {
-    display: inline-block;
-    width: 100%;
-    @include truncate();
   }
 }
 

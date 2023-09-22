@@ -538,7 +538,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                       class="cxd-ChainedSelection-itemLabel"
                                     >
                                       <span
-                                        class="ellipsis-line"
+                                        class=" cxd-Selection-ellipsis-line"
                                         title="法师2 "
                                       >
                                         法师2
@@ -552,7 +552,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                       class="cxd-ChainedSelection-itemLabel"
                                     >
                                       <span
-                                        class="ellipsis-line"
+                                        class=" cxd-Selection-ellipsis-line"
                                         title="战士2 "
                                       >
                                         战士2
@@ -566,7 +566,7 @@ exports[`Renderer:tabsTransfer 1`] = `
                                       class="cxd-ChainedSelection-itemLabel"
                                     >
                                       <span
-                                        class="ellipsis-line"
+                                        class=" cxd-Selection-ellipsis-line"
                                         title="打野2 "
                                       >
                                         打野2
@@ -1137,7 +1137,7 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                                       class="cxd-ChainedSelection-itemLabel"
                                     >
                                       <span
-                                        class="ellipsis-line"
+                                        class=" cxd-Selection-ellipsis-line"
                                         title="法师2 "
                                       >
                                         法师2

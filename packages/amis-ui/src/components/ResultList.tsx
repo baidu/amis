@@ -11,8 +11,7 @@ import {Option, Options} from './Select';
 import {ThemeProps, themeable} from 'amis-core';
 import {Icon} from './icons';
 import {autobind, guid} from 'amis-core';
-import {LocaleProps, localeable} from 'amis-core';
-import {BaseSelection, BaseSelectionProps} from './Selection';
+import {LocaleProps, localeable, ClassNamesFn} from 'amis-core';
 import TransferSearch from './TransferSearch';
 import VirtualList, {AutoSizer} from './virtual-list';
 
@@ -40,6 +39,7 @@ export interface ItemRenderStates {
   index: number;
   disabled?: boolean;
   labelField?: string;
+  classnames: ClassNamesFn;
   onChange: (value: any, name: string) => void;
 }
 
@@ -60,8 +60,9 @@ export class ResultList extends React.Component<
       typeof label === 'string' || typeof label === 'number';
     const title =
       canScopeLabelTitle && canLabelTitle ? `${scopeLabel}${label}` : '';
+    const classnames = states.classnames;
     return (
-      <span title={title} className={cx('ellipsis-line')}>
+      <span title={title} className={classnames('Selection-ellipsis-line')}>
         {scopeLabel}
         {label}
       </span>
@@ -296,7 +297,8 @@ export class ResultList extends React.Component<
             index,
             disabled,
             onChange: this.handleValueChange.bind(this, index),
-            labelField
+            labelField,
+            classnames: cx
           })}
         </label>
 
