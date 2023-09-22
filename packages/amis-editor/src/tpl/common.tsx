@@ -1017,18 +1017,21 @@ setSchemaTpl('borderMode', {
   pipeIn: defaultValue('full')
 });
 
-setSchemaTpl('searchable', () =>
+setSchemaTpl('searchable', (schema: object = {}) =>
   getSchemaTpl('switch', {
     label: '可检索',
-    name: 'searchable'
+    name: 'searchable',
+    ...schema
   })
 );
 
-setSchemaTpl('sortable', {
-  type: 'switch',
-  label: '可排序',
-  name: 'sortable'
-});
+setSchemaTpl('sortable', (schema: object = {}) =>
+  getSchemaTpl('switch', {
+    label: '可排序',
+    name: 'sortable',
+    ...schema
+  })
+);
 
 setSchemaTpl('onlyLeaf', {
   type: 'switch',

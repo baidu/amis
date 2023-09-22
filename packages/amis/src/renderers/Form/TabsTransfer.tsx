@@ -289,6 +289,8 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       sortable,
       loading,
       searchResultMode,
+      selectMode,
+      searchable,
       showArrow,
       deferLoad,
       leftDeferLoad,
@@ -325,6 +327,8 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
           onLeftDeferLoad={leftDeferLoad}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
+          selectMode={selectMode}
+          searchable={searchable}
           optionItemRender={menuTpl ? this.optionItemRender : undefined}
           resultItemRender={valueTpl ? this.resultItemRender : undefined}
           onTabChange={this.onTabChange}
