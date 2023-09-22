@@ -71,13 +71,13 @@ export function cleanUndefined(obj: any) {
  * 给每个节点加个 $$id 这样方便编辑
  * @param obj
  */
-export function JSONPipeIn(obj: any): any {
+export function JSONPipeIn(obj: any, generateId = false): any {
   if (!isObject(obj) || obj.$$typeof) {
     return obj;
   }
 
   if (Array.isArray(obj)) {
-    return obj.map(JSONPipeIn);
+    return obj.map((item, index) => JSONPipeIn(item, generateId));
   }
 
   let toUpdate: any = {};
@@ -99,6 +99,12 @@ export function JSONPipeIn(obj: any): any {
   if (obj.type) {
     // 处理下历史style数据，整理到themeCss
     obj = style2ThemeCss(obj);
+
+    // 重新生成组件ID
+    if (generateId) {
+      flag = true;
+      toUpdate.id = generateNodeId();
+    }
   }
 
   Object.keys(obj).forEach(key => {
@@ -110,7 +116,7 @@ export function JSONPipeIn(obj: any): any {
       let flag2 = false;
 
       let patched = prop.map((item: any) => {
-        let patched = JSONPipeIn(item);
+        let patched = JSONPipeIn(item, generateId);
 
         if (patched !== item) {
           flag2 = true;
@@ -124,7 +130,7 @@ export function JSONPipeIn(obj: any): any {
         toUpdate[key] = patched;
       }
     } else {
-      let patched = JSONPipeIn(prop);
+      let patched = JSONPipeIn(prop, generateId);
 
       if (patched !== prop) {
         flag = true;
@@ -209,33 +215,6 @@ export function JSONPipeOut(
       ...toUpdate
     }));
 
-  return obj;
-}
-
-/**
- * 如果存在themeCss属性，则给对应的className加上name
- */
-export function addStyleClassName(obj: Schema) {
-  const themeCss = obj.type === 'page' ? obj.themeCss : obj.themeCss || obj.css;
-  // page暂时不做处理
-  if (!themeCss) {
-    return obj;
-  }
-  let toUpdate: any = {};
-  Object.keys(themeCss).forEach(key => {
-    if (key !== '$$id') {
-      let classname = `${key}-${obj.id.replace('u:', '')}`;
-      if (!obj[key]) {
-        toUpdate[key] = classname;
-      } else if (!~obj[key].indexOf(classname)) {
-        toUpdate[key] = obj[key] + ' ' + classname;
-      }
-    }
-  });
-  obj = cleanUndefined({
-    ...obj,
-    ...toUpdate
-  });
   return obj;
 }
 
@@ -1288,11 +1267,12 @@ export const scrollToActive = debounce((selector: string) => {
  * 获取弹窗事件
  * @param schema 遍历的schema
  * @param listType 列表形式，弹窗list或label value形式的数据源
- * @param dialogActions 添加的弹窗事件
+ * @param filterId 要过滤弹窗的id
  */
 export const getDialogActions = (
   schema: Schema,
-  listType: 'list' | 'source'
+  listType: 'list' | 'source',
+  filterId?: string
 ) => {
   let dialogActions: any[] = [];
   JSONTraverse(schema, (value: any, key: string, object: any) => {

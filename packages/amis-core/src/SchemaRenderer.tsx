@@ -64,7 +64,8 @@ export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'label',
   'renderLabel',
   'trackExpression',
-  'editorSetting'
+  'editorSetting',
+  'updatePristineAfterStoreDataReInit'
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
@@ -502,11 +503,20 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 }
 
 class PlaceholderComponent extends React.Component {
+  childRef = React.createRef<any>();
+
+  getWrappedInstance() {
+    return this.childRef.current;
+  }
+
   render() {
     const {renderChildren, ...rest} = this.props as any;
 
     if (typeof renderChildren === 'function') {
-      return renderChildren(rest);
+      return renderChildren({
+        ...rest,
+        ref: this.childRef
+      });
     }
 
     return null;

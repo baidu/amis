@@ -15,7 +15,6 @@ import {
   getVariable,
   qsstringify,
   qsparse,
-  isArrayChildrenModified,
   isIntegerInRange
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
@@ -215,6 +214,12 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   perPageField?: string;
 
   /**
+   * 设置分页方向的字段名。单位简单分页时清楚时向前还是向后翻页。
+   * @default pageDir
+   */
+  pageDirectionField?: string;
+
+  /**
    * 快速编辑后用来批量保存的 API
    */
   quickSaveApi?: SchemaApi;
@@ -408,6 +413,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'perPageAvailable',
     'pageField',
     'perPageField',
+    'pageDirectionField',
     'hideQuickSaveBtn',
     'autoJumpToTopOnPagerChange',
     'interval',
@@ -455,6 +461,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     syncLocation: true,
     pageField: 'page',
     perPageField: 'perPage',
+    pageDirectionField: 'pageDir',
     hideQuickSaveBtn: false,
     autoJumpToTopOnPagerChange: true,
     silentPolling: false,
@@ -589,13 +596,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     let val: any;
-
     if (
       this.props.pickerMode &&
-      isArrayChildrenModified(
-        (val = getPropValue(this.props)),
-        getPropValue(prevProps)
-      ) &&
+      !isEqual((val = getPropValue(this.props)), getPropValue(prevProps)) &&
       !isEqual(val, store.selectedItems.concat())
     ) {
       /**
@@ -1305,13 +1308,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     return this.search(values, true, clearSelection, forceReload);
   }
 
-  handleChangePage(page: number, perPage?: number) {
+  handleChangePage(
+    page: number,
+    perPage?: number,
+    dir?: 'forward' | 'backward'
+  ) {
     const {
       store,
       syncLocation,
       env,
       pageField,
       perPageField,
+      pageDirectionField,
       autoJumpToTopOnPagerChange,
       affixOffsetTop
     } = this.props;
@@ -1319,6 +1327,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     let query: any = {
       [pageField || 'page']: page
     };
+
+    if (dir) {
+      query[pageDirectionField || 'pageDir'] = dir;
+    }
 
     if (perPage) {
       query[perPageField || 'perPage'] = perPage;

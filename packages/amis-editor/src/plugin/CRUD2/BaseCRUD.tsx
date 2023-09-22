@@ -164,7 +164,7 @@ export class BaseCRUDPlugin extends BasePlugin {
           leftFixed: 'sm'
         }
       },
-      className: 'ae-Scaffold-Modal ae-Scaffold-Modal-content', //  ae-formItemControl
+      className: 'ae-Scaffold-Modal ae-Scaffold-Modal-content AMISCSSWrapper', //  ae-formItemControl
       stepsBody: true,
       canSkip: true,
       canRebuild: true,

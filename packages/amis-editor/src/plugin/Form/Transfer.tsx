@@ -7,6 +7,7 @@ import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {tipedLabel} from 'amis-editor-core';
 import {resolveOptionType} from '../../util';
+import type {Schema} from 'amis';
 
 export class TransferPlugin extends BasePlugin {
   static id = 'TransferPlugin';
@@ -184,11 +185,11 @@ export class TransferPlugin extends BasePlugin {
               }),
               getSchemaTpl('label'),
               getSchemaTpl('valueFormula', {
-                rendererSchema: {
-                  ...context?.schema,
+                rendererSchema: (schema: Schema) => ({
+                  ...schema,
                   type: 'select',
                   multiple: true
-                },
+                }),
                 visibleOn: 'data.options.length > 0'
               }),
               getSchemaTpl('labelRemark'),

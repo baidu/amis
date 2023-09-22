@@ -1,7 +1,11 @@
 import {useEffect, useRef} from 'react';
 import type {RendererEnv} from '../env';
-import type {InsertCustomStyle} from '../utils/style-helper';
-import {StyleDom} from '../utils/style-helper';
+import {
+  removeCustomStyle,
+  type InsertCustomStyle,
+  insertCustomStyle,
+  insertEditCustomStyle
+} from '../utils/style-helper';
 
 interface CustomStyleProps {
   config: {
@@ -17,33 +21,45 @@ export default function (props: CustomStyleProps) {
   if (!themeCss && !wrapperCustomStyle) {
     return null;
   }
-  const styleDom = useRef(new StyleDom(id || '')).current;
 
   useEffect(() => {
-    styleDom.insertCustomStyle({
-      themeCss,
-      classNames,
-      defaultData,
-      customStyleClassPrefix: env?.customStyleClassPrefix,
-      doc: env.getModalContainer?.().ownerDocument
-    });
-    return () => {
-      styleDom.removeCustomStyle('', env.getModalContainer?.().ownerDocument);
-    };
-  }, [config.themeCss]);
-
-  useEffect(() => {
-    styleDom.insertEditCustomStyle(
-      wrapperCustomStyle,
-      env.getModalContainer?.().ownerDocument
-    );
-    return () => {
-      styleDom.removeCustomStyle(
-        'wrapperCustomStyle',
+    if (themeCss && id) {
+      insertCustomStyle(
+        themeCss,
+        classNames,
+        id,
+        defaultData,
+        env?.customStyleClassPrefix,
         env.getModalContainer?.().ownerDocument
       );
+    }
+
+    return () => {
+      if (id) {
+        removeCustomStyle('', id, env.getModalContainer?.().ownerDocument);
+      }
     };
-  }, [config.wrapperCustomStyle]);
+  }, [themeCss, id]);
+
+  useEffect(() => {
+    if (wrapperCustomStyle && id) {
+      insertEditCustomStyle(
+        wrapperCustomStyle,
+        id,
+        env.getModalContainer?.().ownerDocument
+      );
+    }
+
+    return () => {
+      if (id) {
+        removeCustomStyle(
+          'wrapperCustomStyle',
+          id,
+          env.getModalContainer?.().ownerDocument
+        );
+      }
+    };
+  }, [wrapperCustomStyle, id]);
 
   return null;
 }

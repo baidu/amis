@@ -55,7 +55,8 @@ import {
   isObject,
   isLayoutPlugin,
   JSONPipeOut,
-  scrollToActive
+  scrollToActive,
+  JSONPipeIn
 } from './util';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
@@ -1272,6 +1273,7 @@ export class EditorManager {
             schema.type === 'dialog' || schema.type === 'drawer'
               ? schema.title
               : '',
+          dialogType: schema.dialogType,
           schemaPath
         };
         return true;
@@ -1546,8 +1548,7 @@ export class EditorManager {
     const commonContext = this.buildEventContext(id);
 
     // 填充id，有些脚手架生成了复杂的布局等，自动填充一下id
-    let curChildJson = {...json};
-    JsonGenerateID(curChildJson);
+    let curChildJson = JSONPipeIn(json, true);
 
     if (beforeId) {
       const arr = commonContext.schema[region];
@@ -1620,8 +1621,8 @@ export class EditorManager {
     subRenderer?: SubRendererInfo,
     region?: string
   ): boolean {
-    let curJson = {...json};
-    JsonGenerateID(curJson);
+    // 转成普通json并添加node id
+    let curJson = JSONPipeIn(json, true);
 
     const context: ReplaceEventContext = {
       ...this.buildEventContext(id),

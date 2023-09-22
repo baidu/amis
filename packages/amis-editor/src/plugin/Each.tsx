@@ -135,7 +135,13 @@ export class EachPlugin extends BasePlugin {
 
   previewSchema = {
     ...this.scaffold,
-    value: ['a', 'b', 'c']
+    style: {
+      ...this.scaffold.style,
+      transform: 'scale(0.6)',
+      width: '600px',
+      transformOrigin: 'left top'
+    },
+    value: ['a', 'b']
   };
 
   panelTitle = '循环';
@@ -207,10 +213,6 @@ export class EachPlugin extends BasePlugin {
           {
             title: '布局',
             body: [
-              getSchemaTpl('layout:padding'),
-              getSchemaTpl('layout:position', {
-                visibleOn: '!data.stickyStatus'
-              }),
               getSchemaTpl('layout:originPosition'),
               getSchemaTpl('layout:inset', {
                 mode: 'vertical'

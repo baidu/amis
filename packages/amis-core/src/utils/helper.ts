@@ -20,7 +20,8 @@ import {autobindMethod} from './autobind';
 import {
   isPureVariable,
   resolveVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  tokenize
 } from './tpl-builtin';
 import {
   cloneObject,
@@ -1896,13 +1897,17 @@ export function hashCode(s: string): number {
  */
 export function JSONTraverse(
   json: any,
-  mapper: (value: any, key: string | number, host: Object) => any
+  mapper: (value: any, key: string | number, host: Object) => any,
+  maxDeep: number = Number.MAX_VALUE
 ) {
+  if (maxDeep <= 0) {
+    return;
+  }
   Object.keys(json).forEach(key => {
     const value: any = json[key];
     if (!isObservable(value)) {
       if (isPlainObject(value) || Array.isArray(value)) {
-        JSONTraverse(value, mapper);
+        JSONTraverse(value, mapper, maxDeep - 1);
       } else {
         mapper(value, key, json);
       }
@@ -2072,4 +2077,100 @@ export function differenceFromAll<T>(
   differenceFromAllCache.options = options;
   differenceFromAllCache.res = res;
   return res;
+}
+
+/**
+ * 基于 schema 自动提取 trackExpression
+ * 可能会不准确，建议用户自己配置
+ * @param schema
+ * @returns
+ */
+export function buildTrackExpression(schema: any) {
+  if (!isPlainObject(schema) && !Array.isArray(schema)) {
+    return '';
+  }
+
+  const trackExpressions: Array<string> = [];
+  JSONTraverse(
+    schema,
+    (value, key: string) => {
+      if (typeof value !== 'string') {
+        return;
+      }
+
+      if (key === 'name') {
+        trackExpressions.push(isPureVariable(value) ? value : `\${${value}}`);
+      } else if (key === 'source') {
+        trackExpressions.push(value);
+      } else if (
+        key.endsWith('On') ||
+        key === 'condition' ||
+        key === 'trackExpression'
+      ) {
+        trackExpressions.push(
+          value.startsWith('${') ? value : `<script>${value}</script>`
+        );
+      } else if (value.includes('$')) {
+        trackExpressions.push(value);
+      }
+    },
+    10 // 最多遍历 10 层
+  );
+
+  return trackExpressions.join('|');
+}
+
+export function evalTrackExpression(
+  expression: string,
+  data: Record<string, any>
+) {
+  if (typeof expression !== 'string') {
+    return '';
+  }
+
+  const parts: Array<{
+    type: 'text' | 'script';
+    value: string;
+  }> = [];
+  while (true) {
+    // 这个是自动提取的时候才会用到，用户配置不要用到这个语法
+    const idx = expression.indexOf('<script>');
+    if (idx === -1) {
+      break;
+    }
+    const endIdx = expression.indexOf('</script>');
+    if (endIdx === -1) {
+      throw new Error(
+        'Invalid trackExpression miss end script token `</script>`'
+      );
+    }
+    if (idx) {
+      parts.push({
+        type: 'text',
+        value: expression.substring(0, idx)
+      });
+    }
+
+    parts.push({
+      type: 'script',
+      value: expression.substring(idx + 8, endIdx)
+    });
+    expression = expression.substring(endIdx + 9);
+  }
+
+  expression &&
+    parts.push({
+      type: 'text',
+      value: expression
+    });
+
+  return parts
+    .map(item => {
+      if (item.type === 'text') {
+        return tokenize(item.value, data);
+      }
+
+      return evalExpression(item.value, data);
+    })
+    .join('');
 }

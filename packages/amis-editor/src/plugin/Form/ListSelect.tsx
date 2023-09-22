@@ -5,6 +5,7 @@ import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {formItemControl} from '../../component/BaseControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {resolveOptionType} from '../../util';
+import type {Schema} from 'amis';
 
 export class ListControlPlugin extends BasePlugin {
   static id = 'ListControlPlugin';
@@ -118,7 +119,7 @@ export class ListControlPlugin extends BasePlugin {
             getSchemaTpl('multiple'),
             getSchemaTpl('extractValue'),
             getSchemaTpl('valueFormula', {
-              rendererSchema: context?.schema,
+              rendererSchema: (schema: Schema) => schema,
               mode: 'vertical',
               useSelectMode: true, // 改用 Select 设置模式
               visibleOn: 'this.options && this.options.length > 0'

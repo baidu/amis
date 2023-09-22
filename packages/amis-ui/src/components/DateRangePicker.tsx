@@ -30,6 +30,7 @@ import Input from './Input';
 import Button from './Button';
 
 import type {PlainObject, ThemeProps, LocaleProps} from 'amis-core';
+import type {ViewMode} from './calendar/Calendar';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -67,7 +68,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   popOverContainer?: any;
   dateFormat?: string;
   embed?: boolean;
-  viewMode?: 'days' | 'months' | 'years' | 'time' | 'quarters';
+  viewMode?: ViewMode;
   borderMode?: 'full' | 'half' | 'none';
   onFocus?: Function;
   onBlur?: Function;
@@ -881,11 +882,22 @@ export class DateRangePicker extends React.Component<
 
   filterDate(
     date: moment.Moment,
-    originValue?: moment.Moment,
-    timeFormat?: string,
-    type: 'start' | 'end' = 'start'
+    options: {
+      type: 'start' | 'end';
+      originValue?: moment.Moment;
+      timeFormat?: string;
+      subControlViewMode?: 'time';
+    } = {type: 'start'}
   ): moment.Moment {
+    const {type, originValue, timeFormat, subControlViewMode} = options || {
+      type: 'start'
+    };
     let value = date.clone();
+
+    /** 日期时间选择器组件支持用户选择时间，如果用户手动选择了时间，则不需要走默认处理 */
+    if (subControlViewMode && subControlViewMode === 'time') {
+      return value;
+    }
 
     // 没有初始值
     if (!originValue) {
@@ -914,19 +926,26 @@ export class DateRangePicker extends React.Component<
     }
   }
 
-  handleStartDateChange(newValue: moment.Moment) {
-    const {timeFormat, minDate, inputFormat, displayFormat, type} = this.props;
-    const {curTimeFormat} = this.state;
-    let {startDate, endDateOpenedFirst} = this.state;
+  /**
+   * @param {Moment} newValue 当前选择的日期时间值
+   * @param {ViewMode=} subControlViewMode 子选择控件的类型，可选参数（'time'），用于区分datetime选择器的触发控件
+   */
+  handleStartDateChange(
+    newValue: moment.Moment,
+    subControlViewMode?: Extract<ViewMode, 'time'>
+  ) {
+    const {minDate, inputFormat, displayFormat, type} = this.props;
+    let {startDate, endDateOpenedFirst, curTimeFormat: timeFormat} = this.state;
     if (minDate && newValue.isBefore(minDate)) {
       newValue = minDate;
     }
-    const date = this.filterDate(
-      newValue,
-      startDate || minDate,
-      curTimeFormat || timeFormat,
-      'start'
-    );
+
+    const date = this.filterDate(newValue, {
+      type: 'start',
+      originValue: startDate || minDate,
+      timeFormat,
+      subControlViewMode
+    });
     const newState = {
       startDate: date,
       startInputValue: date.format(displayFormat || inputFormat)
@@ -944,13 +963,29 @@ export class DateRangePicker extends React.Component<
     this.setState(newState);
   }
 
-  handelEndDateChange(newValue: moment.Moment) {
-    const {embed, timeFormat, inputFormat, displayFormat, type} = this.props;
-    let {startDate, endDate, endDateOpenedFirst} = this.state;
+  /**
+   * @param {Moment} newValue 当前选择的日期时间值
+   * @param {string=} subControlViewMode 子选择控件的类型的类型，可选参数（'time'），用于区分datetime选择器的触发控件
+   */
+  handelEndDateChange(
+    newValue: moment.Moment,
+    subControlViewMode?: Extract<ViewMode, 'time'>
+  ) {
+    const {embed, inputFormat, displayFormat, type} = this.props;
+    let {
+      startDate,
+      endDate,
+      endDateOpenedFirst,
+      curTimeFormat: timeFormat
+    } = this.state;
     newValue = this.getEndDateByDuration(newValue);
     const editState = endDateOpenedFirst ? 'start' : 'end';
-
-    const date = this.filterDate(newValue, endDate, timeFormat, 'end');
+    const date = this.filterDate(newValue, {
+      type: 'end',
+      originValue: endDate,
+      timeFormat,
+      subControlViewMode
+    });
     this.setState(
       {
         endDate: date,

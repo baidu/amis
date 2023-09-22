@@ -197,7 +197,7 @@ export function wrapControl<
               ),
               id,
               type,
-              required,
+              required: props.required || required,
               unique,
               value,
               isValueSchemaExp: isExpression(value),
@@ -320,7 +320,7 @@ export function wrapControl<
 
             const formItem = this.model as IFormItemStore;
             if (formItem && validate) {
-              let finalValidate = promisify(validate.bind(formItem));
+              let finalValidate = promisify(validate.bind(this.control));
               this.hook2 = () => {
                 formItem.clearError('control:valdiate');
                 return finalValidate(

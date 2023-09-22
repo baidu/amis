@@ -88,7 +88,7 @@
 }
 
 @mixin panel-sm-content {
-  @extend :root;
+  // @extend :root;
   --fonts-size-7: #{$Editor-right-panel-font-size};
   --Form-input-lineHeight: #{$Editor-right-panel-line-height};
   --InputGroup-select-borderColor: #{$Editor-right-panel-border-color};

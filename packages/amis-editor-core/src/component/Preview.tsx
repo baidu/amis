@@ -48,6 +48,7 @@ export interface PreviewState {
 @observer
 export default class Preview extends Component<PreviewProps> {
   currentDom: HTMLElement; // 用于记录当前dom元素
+  dialogReaction: any;
   env: RenderOptions = {
     ...this.props.manager.env,
     notify: (type, msg, conf) => {
@@ -72,27 +73,60 @@ export default class Preview extends Component<PreviewProps> {
 
     this.currentDom.addEventListener('mouseleave', this.handleMouseLeave);
     this.currentDom.addEventListener('mousemove', this.handleMouseMove);
-    this.currentDom.addEventListener('click', this.handleClick);
+    this.currentDom.addEventListener('click', this.handleClick, true);
     this.currentDom.addEventListener('mouseover', this.handeMouseOver);
 
     this.currentDom.addEventListener('mousedown', this.handeMouseDown);
 
     this.props.manager.on('after-update', this.handlePanelChange);
+
+    const store = this.props.store;
+    // 添加弹窗事件或弹窗列表进行弹窗切换后自动选中对应的弹窗
+    this.dialogReaction = reaction(
+      () =>
+        store.root.children?.length
+          ? `${store.root.children[0]?.type}:${store.root.children[0]?.id}`
+          : '',
+      info => {
+        const type = info.split(':')[0];
+        if (type === 'dialog' || type === 'drawer') {
+          const dialogId = info.split(':')[1];
+          store.changeOutlineTabsKey('dialog-outline');
+          store.setPreviewDialogId(dialogId);
+          store.setActiveId(dialogId);
+        } else {
+          store.setActiveId(store.getRootId());
+        }
+      }
+    );
   }
 
   componentWillUnmount() {
     if (this.currentDom) {
       this.currentDom.removeEventListener('mouseleave', this.handleMouseLeave);
       this.currentDom.removeEventListener('mousemove', this.handleMouseMove);
-      this.currentDom.removeEventListener('click', this.handleClick);
+      this.currentDom.removeEventListener('click', this.handleClick, true);
       this.currentDom.removeEventListener('mouseover', this.handeMouseOver);
       this.currentDom.removeEventListener('mousedown', this.handeMouseDown);
       this.props.manager.off('after-update', this.handlePanelChange);
+      this.dialogReaction?.();
     }
 
     this.scrollLayer?.removeEventListener('scroll', this.handlePanelChange);
 
     setTimeout(() => clearStoresCache([this.env.session!]), 500);
+  }
+
+  componentDidUpdate() {
+    const store = this.props.store;
+
+    if (store.activeDialogPath) {
+      let activeId = store.getSchemaByPath(
+        store.activeDialogPath.split('/')
+      )?.$$id;
+      activeId && store.setPreviewDialogId(activeId);
+      store.setActiveDialogPath('');
+    }
   }
 
   unSensor?: () => void;
@@ -481,6 +515,7 @@ export default class Preview extends Component<PreviewProps> {
         onDrop={this.handleDrop}
         className={cx(
           'ae-Preview',
+          'AMISCSSWrapper',
           className,
           isMobile ? 'is-mobile-body hoverShowScrollBar' : 'is-pc-body'
         )}
@@ -593,7 +628,6 @@ export interface SmartPreviewProps {
 }
 @observer
 class SmartPreview extends React.Component<SmartPreviewProps> {
-  dialogReaction: any;
   dialogMountRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   componentDidMount() {
@@ -615,34 +649,10 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
     } else {
       this.props.manager.buildRenderersAndPanels();
     }
-
-    // 添加弹窗事件或弹窗列表进行弹窗切换后自动选中对应的弹窗
-    this.dialogReaction = reaction(
-      () =>
-        store.root.children?.length
-          ? `${store.root.children[0]?.type}:${store.root.children[0]?.id}`
-          : '',
-      info => {
-        const type = info.split(':')[0];
-        if (type === 'dialog' || type === 'drawer') {
-          const dialogId = info.split(':')[1];
-          store.changeOutlineTabsKey('dialog-outline');
-          store.setPreviewDialogId(dialogId);
-          store.setActiveId(dialogId);
-        } else {
-          store.setActiveId(store.getRootId());
-        }
-      }
-    );
-  }
-
-  componentWillUnmount() {
-    this.dialogReaction?.();
   }
 
   componentDidUpdate(prevProps: SmartPreviewProps) {
     const props = this.props;
-    const store = props.store;
 
     if (props.editable !== prevProps.editable) {
       if (props.editable) {
@@ -651,13 +661,6 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
           data: this.props.manager
         });
       }
-    }
-    if (store.activeDialogPath) {
-      let activeId = store.getSchemaByPath(
-        store.activeDialogPath.split('/')
-      )?.$$id;
-      activeId && store.setPreviewDialogId(activeId);
-      store.setActiveDialogPath('');
     }
   }
 

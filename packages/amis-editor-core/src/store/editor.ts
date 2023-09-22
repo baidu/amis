@@ -18,7 +18,6 @@ import {
   stringRegExp,
   needDefaultWidth,
   guid,
-  addStyleClassName,
   appTranslate,
   JSONGetByPath,
   getDialogActions
@@ -44,7 +43,7 @@ import {
   JSONPipeOut,
   JSONUpdate
 } from '../util';
-import type {Schema, SchemaNode} from 'amis';
+import type {JSONSchema, Schema} from 'amis';
 import {toast, resolveVariable} from 'amis';
 import find from 'lodash/find';
 import {InsertSubRendererPanel} from '../component/Panel/InsertSubRendererPanel';
@@ -1427,22 +1426,12 @@ export const MainStore = types
         if (diff) {
           const result = patchDiff(origin, diff);
           this.traceableSetSchema(
-            JSONUpdate(
-              self.schema,
-              id,
-              addStyleClassName(JSONPipeIn(result)),
-              true
-            ),
+            JSONUpdate(self.schema, id, JSONPipeIn(result), true),
             noTrace
           );
         } else {
           this.traceableSetSchema(
-            JSONUpdate(
-              self.schema,
-              id,
-              addStyleClassName(JSONPipeIn(value)),
-              replace
-            ),
+            JSONUpdate(self.schema, id, JSONPipeIn(value), replace),
             noTrace
           );
         }

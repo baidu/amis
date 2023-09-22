@@ -1,5 +1,5 @@
 import React from 'react';
-import {EditorNodeType, getSchemaTpl} from 'amis-editor-core';
+import {EditorNodeType, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
@@ -24,16 +24,15 @@ export class TabsTransferPlugin extends BasePlugin {
   scaffold = {
     label: '组合穿梭器',
     type: 'tabs-transfer',
-    name: 'a',
-    sortable: true,
-    searchable: true,
+    name: 'tabsTransfer',
+    selectMode: 'tree',
     options: [
       {
         label: '成员',
-        selectMode: 'tree',
         children: [
           {
             label: '法师',
+            value: 'fashi',
             children: [
               {
                 label: '诸葛亮',
@@ -43,6 +42,7 @@ export class TabsTransferPlugin extends BasePlugin {
           },
           {
             label: '战士',
+            value: 'zhanshi',
             children: [
               {
                 label: '曹操',
@@ -56,6 +56,7 @@ export class TabsTransferPlugin extends BasePlugin {
           },
           {
             label: '打野',
+            value: 'daye',
             children: [
               {
                 label: '李白',
@@ -75,10 +76,10 @@ export class TabsTransferPlugin extends BasePlugin {
       },
       {
         label: '用户',
-        selectMode: 'chained',
         children: [
           {
             label: '法师',
+            value: 'fashi',
             children: [
               {
                 label: '诸葛亮',
@@ -88,6 +89,7 @@ export class TabsTransferPlugin extends BasePlugin {
           },
           {
             label: '战士',
+            value: 'zhanshi',
             children: [
               {
                 label: '曹操',
@@ -101,6 +103,7 @@ export class TabsTransferPlugin extends BasePlugin {
           },
           {
             label: '打野',
+            value: 'daye',
             children: [
               {
                 label: '李白',
@@ -280,19 +283,11 @@ export class TabsTransferPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
-
-              getSchemaTpl('searchable'),
-
-              getSchemaTpl('api', {
-                label: '检索接口',
-                name: 'searchApi'
-              }),
-
               {
-                label: '查询时勾选展示模式',
-                name: 'searchResultMode',
+                label: '左侧选项展示',
+                name: 'selectMode',
                 type: 'select',
-                mode: 'normal',
+                value: 'tree',
                 options: [
                   {
                     label: '列表形式',
@@ -312,22 +307,33 @@ export class TabsTransferPlugin extends BasePlugin {
                   }
                 ]
               },
-
-              getSchemaTpl('sortable'),
-
-              {
-                label: '左侧选项标题',
-                name: 'selectTitle',
-                type: 'input-text',
-                inputClassName: 'is-inline '
-              },
-
               {
                 label: '右侧结果标题',
                 name: 'resultTitle',
                 type: 'input-text',
-                inputClassName: 'is-inline '
-              }
+                inputClassName: 'is-inline ',
+                placeholder: '已选项'
+              },
+              getSchemaTpl('sortable'),
+              getSchemaTpl('searchable', {
+                onChange: (value: any, origin: any, item: any, form: any) => {
+                  if (!value) {
+                    form.setValues({
+                      searchApi: undefined
+                    });
+                  }
+                }
+              }),
+
+              getSchemaTpl('apiControl', {
+                label: tipedLabel(
+                  '检索接口',
+                  '可以通过接口获取检索结果，检索值可以通过变量\\${term}获取，如："https://xxx/search?name=\\${term}"'
+                ),
+                mode: 'normal',
+                name: 'searchApi',
+                visibleOn: '!!searchable'
+              })
             ]
           },
           {
@@ -337,7 +343,14 @@ export class TabsTransferPlugin extends BasePlugin {
                 $ref: 'options',
                 name: 'options'
               },
-              getSchemaTpl('source'),
+              getSchemaTpl('apiControl', {
+                label: tipedLabel(
+                  '获取选项接口',
+                  '可以通过接口获取动态选项，一次拉取全部'
+                ),
+                mode: 'normal',
+                name: 'source'
+              }),
               getSchemaTpl(
                 'loadingConfig',
                 {
@@ -347,15 +360,11 @@ export class TabsTransferPlugin extends BasePlugin {
               ),
               getSchemaTpl('joinValues'),
               getSchemaTpl('delimiter'),
-              getSchemaTpl('extractValue'),
-              getSchemaTpl('autoFillApi', {
-                visibleOn:
-                  '!this.autoFill || this.autoFill.scene && this.autoFill.action'
-              }),
-              getSchemaTpl('autoFill', {
-                visibleOn:
-                  '!this.autoFill || !this.autoFill.scene && !this.autoFill.action'
-              })
+              getSchemaTpl('extractValue')
+              // getSchemaTpl('autoFillApi', {
+              //   visibleOn:
+              //     '!this.autoFill || this.autoFill.scene && this.autoFill.action'
+              // })
             ]
           },
           {

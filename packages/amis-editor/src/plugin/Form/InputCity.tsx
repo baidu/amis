@@ -13,6 +13,7 @@ import {
   BaseEventContext
 } from 'amis-editor-core';
 import cloneDeep from 'lodash/cloneDeep';
+import type {Schema} from 'amis';
 
 import {formItemControl} from '../../component/BaseControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
@@ -118,7 +119,7 @@ export class CityControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('label'),
               getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema,
+                rendererSchema: (schema: Schema) => schema,
                 rendererWrapper: true,
                 mode: 'vertical' // 改成上下展示模式
               }),

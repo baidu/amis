@@ -10,7 +10,8 @@ import {
   noop,
   defaultValue,
   EditorNodeType,
-  isEmpty
+  isEmpty,
+  getI18nEnabled
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import omit from 'lodash/omit';
@@ -35,7 +36,7 @@ export class DialogPlugin extends BasePlugin {
   $schema = '/schemas/DialogSchema.json';
 
   // 组件名称
-  name = '弹框';
+  name = '弹窗';
   isBaseComponent = true;
 
   wrapperProps = {
@@ -128,6 +129,7 @@ export class DialogPlugin extends BasePlugin {
   panelTitle = '弹框';
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
+    const i18nEnabled = getI18nEnabled();
     // 确认对话框的配置面板
     if (context.schema?.dialogType === 'confirm') {
       return getSchemaTpl('tabs', [
@@ -224,7 +226,7 @@ export class DialogPlugin extends BasePlugin {
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 label: '标题',
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 name: 'title'
               },
               getSchemaTpl('switch', {
@@ -321,7 +323,7 @@ export class DialogPlugin extends BasePlugin {
                 disabled: true,
                 clearable: true,
                 unitOptions: ['px', '%', 'em', 'vh', 'vw'],
-                visibleOn: 'data.size !== "custom"',
+                visibleOn: 'this.size !== "custom"',
                 pipeIn: (value: any, form: any) => {
                   if (!form.data.size) {
                     return '500px';
@@ -343,7 +345,7 @@ export class DialogPlugin extends BasePlugin {
                 name: 'style.width',
                 clearable: true,
                 unitOptions: ['px', '%', 'em', 'vh', 'vw'],
-                visibleOn: 'data.size === "custom"',
+                visibleOn: 'this.size === "custom"',
                 pipeOut: (value: string) => {
                   const curValue = parseInt(value);
                   if (value === 'auto' || curValue || curValue === 0) {
@@ -358,7 +360,7 @@ export class DialogPlugin extends BasePlugin {
                 label: '高度',
                 name: 'style.height',
                 disabled: true,
-                visibleOn: 'data.size !== "custom"',
+                visibleOn: 'this.size !== "custom"',
                 clearable: true,
                 unitOptions: ['px', '%', 'em', 'vh', 'vw']
               },
@@ -366,7 +368,7 @@ export class DialogPlugin extends BasePlugin {
                 type: 'input-number',
                 label: '高度',
                 name: 'style.height',
-                visibleOn: 'data.size === "custom"',
+                visibleOn: 'this.size === "custom"',
                 clearable: true,
                 unitOptions: ['px', '%', 'em', 'vh', 'vw'],
                 pipeOut: (value: string) => {
@@ -488,19 +490,20 @@ export class DialogPlugin extends BasePlugin {
         }
       }
 
-      // 数据链
-      const hostNodeDataSchema =
-        await this.manager.config.getHostNodeDataSchema?.();
-      hostNodeDataSchema
-        .filter(
-          (item: any) => !['system-variable', 'page-global'].includes(item.$id)
-        )
-        ?.forEach((item: any) => {
-          dataSchema = {
-            ...dataSchema,
-            ...item.properties
-          };
-        });
+      // 弹窗改版可能会有多个按钮触发一个弹窗，无法确定按钮的上下文
+      // TODO 数据链
+      // const hostNodeDataSchema =
+      //   await this.manager.config.getHostNodeDataSchema?.();
+      // hostNodeDataSchema
+      //   ?.filter(
+      //     (item: any) => !['system-variable', 'page-global'].includes(item.$id)
+      //   )
+      //   ?.forEach((item: any) => {
+      //     dataSchema = {
+      //       ...dataSchema,
+      //       ...item.properties
+      //     };
+      //   });
     }
 
     return {

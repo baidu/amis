@@ -197,6 +197,7 @@ exports[`Renderer:image image:enlargeAble & originalSrc & enlargeTitle & showToo
           class="cxd-Image-overlay"
         >
           <a
+            class="cxd-Image-overlay-view-icon"
             data-position="bottom"
             data-tooltip="查看大图"
             target="_blank"
@@ -236,6 +237,7 @@ exports[`Renderer:image image:enlargeAble & originalSrc & enlargeTitle & showToo
           class="cxd-Image-overlay"
         >
           <a
+            class="cxd-Image-overlay-view-icon"
             data-position="bottom"
             data-tooltip="查看大图"
             target="_blank"
@@ -608,6 +610,7 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                     class="cxd-Image-overlay"
                   >
                     <a
+                      class="cxd-Image-overlay-view-icon"
                       data-position="bottom"
                       data-tooltip="查看大图"
                       target="_blank"
@@ -654,6 +657,7 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                     class="cxd-Image-overlay"
                   >
                     <a
+                      class="cxd-Image-overlay-view-icon"
                       data-position="bottom"
                       data-tooltip="查看大图"
                       target="_blank"
@@ -700,6 +704,7 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                     class="cxd-Image-overlay"
                   >
                     <a
+                      class="cxd-Image-overlay-view-icon"
                       data-position="bottom"
                       data-tooltip="查看大图"
                       target="_blank"

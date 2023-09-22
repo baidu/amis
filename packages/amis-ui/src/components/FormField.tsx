@@ -152,7 +152,7 @@ function FormField(props: FormFieldProps) {
   );
 }
 
-const ThemedFormField = themeable(localeable(FormField));
+const ThemedFormField = themeable(localeable(React.memo(FormField)));
 
 export default ThemedFormField;
 
@@ -176,11 +176,14 @@ export interface ControllerProps
 export function Controller(props: ControllerProps) {
   const {render, name, shouldUnregister, defaultValue, control, wrap, ...rest} =
     props;
-  let rules = {...props.rules};
+  const rules = React.useMemo(() => {
+    const rules = {...props.rules};
 
-  if (rest.isRequired) {
-    rules.required = true;
-  }
+    if (props.isRequired) {
+      rules.required = true;
+    }
+    return rules;
+  }, [props.rules, props.isRequired]);
 
   return (
     <ReactHookFormController

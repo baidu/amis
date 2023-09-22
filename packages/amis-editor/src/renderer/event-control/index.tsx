@@ -35,7 +35,8 @@ import {
   PluginEvents,
   RendererPluginAction,
   RendererPluginEvent,
-  SubRendererPluginAction
+  SubRendererPluginAction,
+  getDialogActions
 } from 'amis-editor-core';
 export * from './helper';
 import {i18n as _i18n} from 'i18n-runtime';
@@ -695,6 +696,11 @@ export class EventControl extends React.Component<
     return updateComponentContext(variables);
   }
 
+  // 获取现有弹窗列表
+  getDialogList(manager: EditorManager) {
+    return getDialogActions(manager.store.schema, 'source');
+  }
+
   // 唤起动作配置弹窗
   async activeActionDialog(
     data: Pick<EventControlState, 'showAcionDialog' | 'type' | 'actionData'>
@@ -757,6 +763,7 @@ export class EventControl extends React.Component<
         __actionSchema: actionNode!.schema, // 树节点schema
         __subActions: hasSubActionNode?.actions, // 树节点子动作
         __cmptTreeSource: supportComponents ?? [],
+        __dialogActions: this.getDialogList(manager),
         __superCmptTreeSource: allComponents,
         // __supersCmptTreeSource: '',
         __setValueDs: setValueDs
@@ -805,7 +812,8 @@ export class EventControl extends React.Component<
         variables,
         pluginActions,
         getContextSchemas,
-        __superCmptTreeSource: allComponents
+        __superCmptTreeSource: allComponents,
+        __dialogActions: this.getDialogList(manager)
       };
     }
     this.setState(data);
