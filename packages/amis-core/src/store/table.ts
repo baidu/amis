@@ -1002,12 +1002,12 @@ export const TableStore = iRendererStore
         const originColumns = self.columns.concat();
         columns = columns.map((item, index) => {
           const origin = item.id
-            ? originColumns.find(column => column.id === item.id)
+            ? originColumns.find(column => column.pristine.id === item.id)
             : originColumns[index];
 
           return {
             ...item,
-            id: guid(),
+            id: origin?.id || guid(),
             index,
             width: origin?.width || 0,
             minWidth: origin?.minWidth || 0,
