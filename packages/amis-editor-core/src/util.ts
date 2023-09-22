@@ -1281,19 +1281,19 @@ export const getDialogActions = (
       const definitions = object.definitions;
       if (definitions) {
         Object.keys(definitions).forEach(key => {
-          if (key.includes('dialog-')) {
+          if (key.includes('ref-')) {
             if (listType === 'list') {
               dialogActions.push(definitions[key]);
             } else {
               const dialog = definitions[key];
-              const dialogType =
+              const dialogTypeName =
                 dialog.type === 'drawer'
-                  ? '抽屉'
+                  ? '抽屉式弹窗'
                   : dialog.dialogType
                   ? '确认对话框'
                   : '弹窗';
               dialogActions.push({
-                label: `${dialog.title || '-'}（${dialogType}）`,
+                label: `${dialog.title || '-'}（${dialogTypeName}）`,
                 value: dialog
               });
             }
@@ -1317,7 +1317,7 @@ export const getDialogActions = (
         [
           'drawer',
           {
-            title: '弹窗',
+            title: '抽屉式弹窗',
             body: 'drawer'
           }
         ],
@@ -1325,28 +1325,63 @@ export const getDialogActions = (
           'confirmDialog',
           {
             title: '确认对话框',
-            body: 'dialog'
+            // 兼容历史args参数
+            body: ['dialog', 'args']
           }
         ]
       ]);
       let dialogBody = dialogBodyMap.get(value)?.body!;
+      let dialogBodyContent = Array.isArray(dialogBody)
+        ? object[dialogBody[0]] || object[dialogBody[1]]
+        : object[dialogBody];
+
       if (
         dialogBodyMap.has(value) &&
-        object[dialogBody] &&
-        !object[dialogBody].$ref
+        dialogBodyContent &&
+        !dialogBodyContent.$ref
       ) {
         if (listType == 'list') {
-          dialogActions.push(object[dialogBody]);
-        } else {
+          // 没有 type: dialog的历史数据兼容一下
           dialogActions.push({
-            label: `${object[dialogBody]?.title || '-'}（${
-              dialogBodyMap.get(value)?.title
-            }）`,
-            value: object[dialogBody]
+            ...dialogBodyContent,
+            type: dialogBody
           });
+        } else {
+          // 新建弹窗切换到现有弹窗把自身过滤掉
+          if (!filterId || (filterId && filterId !== dialogBodyContent.id)) {
+            dialogActions.push({
+              label: `${dialogBodyContent?.title || '-'}（${
+                dialogBodyMap.get(value)?.title
+              }）`,
+              value: dialogBodyContent
+            });
+          }
         }
       }
     }
   });
   return dialogActions;
+};
+
+/**
+ * 获取弹窗的类型，来源于事件或definitions,由于历史数据可能没有type: dialog,在这里兼容一下
+ * @param json
+ * @param previewDialogId
+ */
+export const getFixDialogType = (json: Schema, dialogId: string) => {
+  const dialogBodyMap = {
+    dialog: 'dialog',
+    drawer: 'drawer',
+    confirmDialog: 'dialog'
+  };
+  let parentSchema = JSONGetParentById(json, dialogId);
+  // 事件中的弹窗
+  if (parentSchema.actionType) {
+    return dialogBodyMap[parentSchema.actionType as keyof typeof dialogBodyMap];
+  }
+  // definitions中的弹窗
+  else {
+    let dialogRefSchema = JSONGetById(parentSchema, dialogId);
+    return dialogRefSchema.type;
+  }
 };

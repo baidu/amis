@@ -20,7 +20,8 @@ import {
   guid,
   appTranslate,
   JSONGetByPath,
-  getDialogActions
+  getDialogActions,
+  getFixDialogType
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -231,7 +232,13 @@ export const MainStore = types
       get filteredSchema() {
         let schema = self.schema;
         if (self.previewDialogId) {
-          schema = this.getSchema(self.previewDialogId);
+          let originDialogSchema = this.getSchema(self.previewDialogId);
+          schema = {
+            ...originDialogSchema,
+            type:
+              originDialogSchema.type ||
+              getFixDialogType(self.schema, self.previewDialogId)
+          };
         }
         return filterSchemaForEditor(
           getEnv(self).schemaFilter?.(schema) ?? schema
