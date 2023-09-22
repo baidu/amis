@@ -709,7 +709,6 @@ export class DateRangePicker extends React.Component<
           : curTimeFormat
       });
     }
-
     if (prevProps.value !== value) {
       const {startDate, endDate} = DateRangePicker.unFormatValue(
         value,
@@ -1135,7 +1134,6 @@ export class DateRangePicker extends React.Component<
     if (minDate && newValue && newValue.isBefore(minDate, 'second')) {
       newValue = minDate;
     }
-
     this.setState(
       {
         startDate: newValue,
