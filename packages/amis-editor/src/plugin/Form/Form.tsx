@@ -25,7 +25,8 @@ import {
   DSFeatureType,
   DSBuilderManager,
   DSFeatureEnum,
-  ModelDSBuilderKey
+  ModelDSBuilderKey,
+  ApiDSBuilderKey
 } from '../../builder';
 import {FormOperatorMap} from '../../builder/constants';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
@@ -538,6 +539,9 @@ export class FormPlugin extends BasePlugin {
           scaffoldConfig: config
         });
 
+        /** 脚手架构建的 Schema 加个标识符，避免addChild替换 Schema ID */
+        schema.__origin = 'scaffold';
+
         return schema;
       },
       validate: (data: FormScaffoldConfig, form: IFormStore) => {
@@ -625,6 +629,89 @@ export class FormPlugin extends BasePlugin {
         ).startsWith('model://')) &&
       !schema.api.strategy;
 
+    /** 数据源控件 */
+    const generateDSControls = () => {
+      const dsTypeSelector = this.dsManager.getDSSelectorSchema(
+        {
+          type: 'select',
+          label: '数据源',
+          onChange: (
+            value: string,
+            oldValue: string,
+            model: IFormItemStore,
+            form: IFormStore
+          ) => {
+            if (value !== oldValue) {
+              const data = form.data;
+
+              Object.keys(data).forEach(key => {
+                if (
+                  /^(insert|edit|bulkEdit)Fields$/i.test(key) ||
+                  /^(insert|edit|bulkEdit)Api$/i.test(key)
+                ) {
+                  form.deleteValueByName(key);
+                }
+              });
+              form.deleteValueByName('__fields');
+              form.deleteValueByName('__relations');
+              form.deleteValueByName('initApi');
+              form.deleteValueByName('api');
+            }
+            return value;
+          }
+        },
+        {
+          schema: context?.schema,
+          sourceKey: 'api',
+          getDefautlValue: (key, builder) => {
+            const schema = context?.schema;
+            let dsType = schema?.dsType;
+
+            // TODO: api和initApi可能是混合模式的场景
+            if (
+              builder.match(schema, 'api') ||
+              builder.match(schema, 'initApi')
+            ) {
+              dsType = key;
+            }
+
+            return dsType;
+          }
+        }
+      );
+      /** 默认数据源类型 */
+      const defaultDsType = dsTypeSelector.value;
+      /** 数据源配置 */
+      const dsSettings = flatten(
+        this.Features.map(feat =>
+          this.dsManager.buildCollectionFromBuilders(
+            (builder, builderKey, index) => ({
+              type: 'container',
+              className: 'form-item-gap',
+              visibleOn: `data.feat === '${
+                feat.value
+              }' && (data.dsType == null ? '${builderKey}' === '${
+                defaultDsType || ApiDSBuilderKey
+              }' : data.dsType === '${builderKey}')`,
+              body: flatten([
+                builder.makeSourceSettingForm({
+                  feat: feat.value,
+                  renderer: 'form',
+                  inScaffold: false,
+                  sourceSettings: {
+                    renderLabel: true,
+                    userOrders: false
+                  }
+                })
+              ])
+            })
+          )
+        )
+      );
+
+      return [dsTypeSelector, ...dsSettings];
+    };
+
     return [
       getSchemaTpl('tabs', [
         {
@@ -639,8 +726,25 @@ export class FormPlugin extends BasePlugin {
                       type: 'select',
                       name: 'feat',
                       label: '使用场景',
-                      value: DSFeatureEnum.Insert,
                       options: this.Features,
+                      pipeIn: (
+                        value: FormPluginFeat | undefined,
+                        formStore: IFormStore
+                      ) => {
+                        let feat = value;
+
+                        if (!value) {
+                          feat =
+                            formStore?.data?.initApi != null
+                              ? DSFeatureEnum.Edit
+                              : DSFeatureEnum.Insert;
+                        }
+
+                        /** 存量数据可能未设置过feat, 需要在数据域中 set 一下 */
+                        formStore.setValueByName('feat', feat);
+
+                        return feat;
+                      },
                       onChange: (
                         value: FormPluginFeat,
                         oldValue: FormPluginFeat,
@@ -660,83 +764,7 @@ export class FormPlugin extends BasePlugin {
                         }
                       }
                     },
-                    this.dsManager.getDSSelectorSchema({
-                      type: 'select',
-                      label: '数据源',
-                      pipeIn: (value: any, form: any) => {
-                        if (value !== undefined) {
-                          return value;
-                        }
-
-                        const api = form.data?.api || form.data?.initApi;
-                        let dsType = 'api';
-
-                        if (!api) {
-                        } else if (typeof api === 'string') {
-                          dsType = api.startsWith('api://')
-                            ? 'apicenter'
-                            : 'api';
-                        } else if (api?.url) {
-                          dsType = api.url.startsWith('api://')
-                            ? 'apicenter'
-                            : 'api';
-                        } else if (api?.entity) {
-                          dsType = ModelDSBuilderKey;
-                        }
-
-                        // 需要 set 一下，否则 buildCollectionFromBuilders 里的内容条件不满足
-                        form.setValueByName('dsType', dsType);
-
-                        return dsType;
-                      },
-                      onChange: (
-                        value: string,
-                        oldValue: string,
-                        model: IFormItemStore,
-                        form: IFormStore
-                      ) => {
-                        if (value !== oldValue) {
-                          const data = form.data;
-
-                          Object.keys(data).forEach(key => {
-                            if (
-                              /^(insert|edit|bulkEdit)Fields$/i.test(key) ||
-                              /^(insert|edit|bulkEdit)Api$/i.test(key)
-                            ) {
-                              form.deleteValueByName(key);
-                            }
-                          });
-                          form.deleteValueByName('__fields');
-                          form.deleteValueByName('__relations');
-                          form.deleteValueByName('initApi');
-                          form.deleteValueByName('api');
-                        }
-                        return value;
-                      }
-                    }),
-                    /** 数据源配置 */
-                    ...flatten(
-                      this.Features.map(feat =>
-                        this.dsManager.buildCollectionFromBuilders(
-                          (builder, builderKey, index) => ({
-                            type: 'container',
-                            className: 'form-item-gap',
-                            visibleOn: `data.feat === '${feat.value}' && (data.dsType === '${builderKey}' || (!data.dsType && ${index} === 0))`,
-                            body: flatten([
-                              builder.makeSourceSettingForm({
-                                feat: feat.value,
-                                renderer: 'form',
-                                inScaffold: false,
-                                sourceSettings: {
-                                  renderLabel: true,
-                                  userOrders: false
-                                }
-                              })
-                            ])
-                          })
-                        )
-                      )
-                    )
+                    ...generateDSControls()
                   ]
                 },
             {

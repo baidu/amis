@@ -1698,6 +1698,7 @@ setSchemaTpl('anchorNavTitle', {
   required: true
 });
 
+/** 给 CRUD2 使用 */
 setSchemaTpl('primaryField', {
   type: 'input-text',
   name: 'primaryField',
@@ -1705,5 +1706,17 @@ setSchemaTpl('primaryField', {
     '主键',
     '每行记录的唯一标识符，通常用于行选择、批量操作等场景。'
   ),
-  pipeIn: defaultValue('id')
+  pipeIn: (value: any, formStore: any) => {
+    const rowSelection = formStore?.data?.rowSelection;
+
+    if (value == null || typeof value !== 'string') {
+      return rowSelection &&
+        rowSelection?.keyField &&
+        typeof rowSelection.keyField === 'string'
+        ? rowSelection?.keyField
+        : 'id';
+    }
+
+    return value;
+  }
 });

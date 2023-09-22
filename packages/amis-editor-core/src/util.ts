@@ -591,8 +591,8 @@ export function JsonGenerateID(json: any) {
     return;
   }
 
-  if (json.type) {
-    //  && !json.id
+  /** 脚手架构建的Schema提前构建好了组件 ID，此时无需生成 ID，避免破坏事件动作 */
+  if (json.type && (!json.__origin || json.__origin !== 'scaffold')) {
     json.id = generateNodeId();
   }
 

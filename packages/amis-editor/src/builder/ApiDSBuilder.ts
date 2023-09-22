@@ -94,8 +94,9 @@ export class ApiDSBuilder extends DSBuilder<
     return (this.constructor as typeof ApiDSBuilder).key;
   }
 
-  match(schema: any) {
-    const apiSchema = schema?.api;
+  match(schema: any, key?: string) {
+    const sourceKey = key && typeof key === 'string' ? key : 'api';
+    const apiSchema = schema?.[sourceKey];
 
     if (schema?.dsType === this.key || apiSchema?.sourceType === this.key) {
       return true;
@@ -112,9 +113,17 @@ export class ApiDSBuilder extends DSBuilder<
       return false;
     }
 
+    const maybeApiUrl =
+      typeof apiSchema === 'string'
+        ? apiSchema
+        : isObject(apiSchema)
+        ? apiSchema?.url || ''
+        : '';
+
     if (
-      typeof apiSchema === 'string' &&
-      /^(get|post|put|delete|option):/.test(apiSchema)
+      typeof maybeApiUrl === 'string' &&
+      (/^(get|post|put|delete|patch|option|jsonp):/.test(apiSchema) ||
+        !~maybeApiUrl.indexOf('api://'))
     ) {
       return true;
     }
@@ -1359,13 +1368,12 @@ export class ApiDSBuilder extends DSBuilder<
       primaryField = 'id',
       listApi,
       editApi,
-      bulkEditApi,
-      simpleQueryFields
+      bulkEditApi
     } = scaffoldConfig || {};
     const enableBulkEdit = feats?.includes('BulkEdit');
     const enableBulkDelete = feats?.includes('BulkDelete');
     const enableEdit = feats?.includes('Edit');
-    const multiple = enableBulkEdit || enableBulkDelete;
+    const enableMultiple = enableBulkEdit || enableBulkDelete;
 
     const id = generateNodeId();
     /** 暂时不考虑 cards 和 list */
@@ -1375,18 +1383,10 @@ export class ApiDSBuilder extends DSBuilder<
       mode: 'table2',
       dsType: this.key,
       syncLocation: true,
-      multiple: multiple,
-      /** 通过脚手架创建的单条操作入口都在操作列中，所以rowSelection暂时不需要radio */
-      ...(multiple
-        ? {
-            rowSelection: {
-              type: 'checkbox',
-              keyField: primaryField
-            }
-          }
-        : {}),
-      loadType: 'pagination',
+      /** CRUD2使用 selectable + multiple 控制，Table2使用 rowSelection 控制 */
+      ...(enableMultiple ? {selectable: true, multiple: true} : {}),
       primaryField: primaryField,
+      loadType: 'pagination',
       api: listApi,
       ...(enableBulkEdit ? {quickSaveApi: bulkEditApi} : {}),
       ...(enableEdit ? {quickSaveItemApi: editApi} : {}),

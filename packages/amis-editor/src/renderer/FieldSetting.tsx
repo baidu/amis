@@ -439,6 +439,7 @@ export class FieldSetting extends React.Component<
                                   className={'w-full'}
                                   hasError={!!fieldState.error}
                                   searchable
+                                  simpleValue
                                   disabled={false}
                                   clearable={false}
                                   popOverContainer={popOverContainer}
@@ -522,6 +523,7 @@ export class FieldSetting extends React.Component<
                                   className={'w-full'}
                                   hasError={!!fieldState.error}
                                   searchable
+                                  simpleValue
                                   disabled={false}
                                   clearable={false}
                                   popOverContainer={popOverContainer}

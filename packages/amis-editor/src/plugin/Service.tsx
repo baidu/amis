@@ -13,7 +13,7 @@ import {
   tipedLabel
 } from 'amis-editor-core';
 import {DSBuilderManager} from '../builder/DSBuilderManager';
-import {DSFeatureEnum, ModelDSBuilderKey} from '../builder';
+import {DSFeatureEnum, ModelDSBuilderKey, ApiDSBuilderKey} from '../builder';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
 import type {
@@ -186,66 +186,75 @@ export class ServicePlugin extends BasePlugin {
 
   panelBodyCreator = (context: BaseEventContext) => {
     const dsManager = this.dsManager;
-    /** 数据来源选择器 */
-    const dsTypeSelect = () =>
-      dsManager.getDSSelectorSchema({
-        type: 'select',
-        mode: 'horizontal',
-        horizontal: {
-          justify: true,
-          left: 'col-sm-4'
-        },
-        onChange: (value: any, oldValue: any, model: any, form: any) => {
-          if (value !== oldValue) {
-            const data = form.data;
-            Object.keys(data).forEach(key => {
-              if (
-                key?.toLowerCase()?.endsWith('fields') ||
-                key?.toLowerCase().endsWith('api')
-              ) {
-                form.deleteValueByName(key);
-              }
-            });
-            form.deleteValueByName('__fields');
-            form.deleteValueByName('__relations');
-            form.setValueByName('api', undefined);
+    /** 数据源控件 */
+    const generateDSControls = () => {
+      const dsTypeSelector = dsManager.getDSSelectorSchema(
+        {
+          type: 'select',
+          mode: 'horizontal',
+          horizontal: {
+            justify: true,
+            left: 'col-sm-4'
+          },
+          onChange: (value: any, oldValue: any, model: any, form: any) => {
+            if (value !== oldValue) {
+              const data = form.data;
+              Object.keys(data).forEach(key => {
+                if (
+                  key?.toLowerCase()?.endsWith('fields') ||
+                  key?.toLowerCase().endsWith('api')
+                ) {
+                  form.deleteValueByName(key);
+                }
+              });
+              form.deleteValueByName('__fields');
+              form.deleteValueByName('__relations');
+              form.setValueByName('api', undefined);
+            }
+            return value;
           }
-          return value;
-        }
-      });
-    /** 数据源配置 */
-    const dsSetting = dsManager.buildCollectionFromBuilders(
-      (builder, builderKey) => {
-        return {
-          type: 'container',
-          visibleOn: `this.dsType == null || this.dsType === '${builderKey}'`,
-          body: flattenDeep([
-            builder.makeSourceSettingForm({
-              feat: 'View',
-              renderer: 'service',
-              inScaffold: false,
-              sourceSettings: {
-                name: 'api',
-                label: '接口配置',
-                mode: 'horizontal',
-                ...(builderKey === 'api' || builderKey === 'apicenter'
-                  ? {
-                      horizontalConfig: {
-                        labelAlign: 'left',
-                        horizontal: {
-                          justify: true,
-                          left: 4
+        },
+        {schema: context?.schema, sourceKey: 'api'}
+      );
+      /** 默认数据源类型 */
+      const defaultDsType = dsTypeSelector.value;
+      const dsSettings = dsManager.buildCollectionFromBuilders(
+        (builder, builderKey) => {
+          return {
+            type: 'container',
+            visibleOn: `data.dsType == null ? '${builderKey}' === '${
+              defaultDsType || ApiDSBuilderKey
+            }' : data.dsType === '${builderKey}'`,
+            body: flattenDeep([
+              builder.makeSourceSettingForm({
+                feat: 'View',
+                renderer: 'service',
+                inScaffold: false,
+                sourceSettings: {
+                  name: 'api',
+                  label: '接口配置',
+                  mode: 'horizontal',
+                  ...(builderKey === 'api' || builderKey === 'apicenter'
+                    ? {
+                        horizontalConfig: {
+                          labelAlign: 'left',
+                          horizontal: {
+                            justify: true,
+                            left: 4
+                          }
                         }
                       }
-                    }
-                  : {}),
-                useFieldManager: builderKey === ModelDSBuilderKey
-              }
-            })
-          ])
-        };
-      }
-    );
+                    : {}),
+                  useFieldManager: builderKey === ModelDSBuilderKey
+                }
+              })
+            ])
+          };
+        }
+      );
+
+      return [dsTypeSelector, ...dsSettings];
+    };
 
     return getSchemaTpl('tabs', [
       {
@@ -257,8 +266,7 @@ export class ServicePlugin extends BasePlugin {
               title: '基本',
               body: [
                 getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-                dsTypeSelect(),
-                ...dsSetting
+                ...generateDSControls()
               ]
             },
             {

@@ -30,6 +30,7 @@ import {
 import {resolveArrayDatasource} from '../util';
 
 import type {SchemaObject} from 'amis';
+import type {IFormItemStore, IFormStore} from 'amis-core';
 import type {EditorManager} from 'amis-editor-core';
 
 export const Table2RenderereEvent: RendererPluginEvent[] = [
@@ -741,7 +742,7 @@ export class Table2Plugin extends BasePlugin {
   }
 
   panelBodyCreator = (context: BaseEventContext) => {
-    const isCRUDBody = this.isCRUDContext(context);
+    const isCRUDContext = this.isCRUDContext(context);
     const dc = this.dynamicControls;
 
     return getSchemaTpl('tabs', [
@@ -755,13 +756,13 @@ export class Table2Plugin extends BasePlugin {
                 getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 getSchemaTpl('formulaControl', {
                   label: tipedLabel('数据源', '绑定当前上下文变量'),
-                  hidden: isCRUDBody,
+                  hidden: isCRUDContext,
                   name: 'source',
                   pipeIn: defaultValue('${items}')
                 }),
-                dc?.primaryField?.(context),
-                isCRUDBody ? null : dc?.quickSaveApi?.(context),
-                isCRUDBody ? null : dc?.quickSaveItemApi?.(context),
+                isCRUDContext ? null : dc?.primaryField?.(context),
+                isCRUDContext ? null : dc?.quickSaveApi?.(context),
+                isCRUDContext ? null : dc?.quickSaveItemApi?.(context),
                 getSchemaTpl('switch', {
                   name: 'title',
                   label: '显示标题',
@@ -824,7 +825,7 @@ export class Table2Plugin extends BasePlugin {
                   }
                 }),
                 getSchemaTpl('tablePlaceholder', {
-                  hidden: isCRUDBody
+                  hidden: isCRUDContext
                 })
                 // TODD: 组件功能没有支持，暂时隐藏
                 // {
@@ -844,7 +845,7 @@ export class Table2Plugin extends BasePlugin {
                   pipeIn: (value: any) => !!value,
                   pipeOut: (value: any) => value
                 }),
-                isCRUDBody
+                isCRUDContext
                   ? null
                   : {
                       type: 'ae-Switch-More',
@@ -894,28 +895,44 @@ export class Table2Plugin extends BasePlugin {
                   mode: 'normal',
                   name: 'rowSelection',
                   label: '可选择',
-                  visibleOn: 'data.selectable',
                   hiddenOnDefault: true,
                   formType: 'extend',
                   form: {
                     body: [
-                      dc?.rowSelectionKeyField?.(context),
-                      {
-                        name: 'rowSelection.type',
-                        label: '选择类型',
-                        type: 'button-group-select',
-                        options: [
-                          {
-                            label: '多选',
-                            value: 'checkbox'
+                      /** 如果为 CRUD 背景下，主键配置、选择类型在 CRUD 面板中，此处应该隐藏 */
+                      isCRUDContext
+                        ? null
+                        : dc?.rowSelectionKeyField?.(context),
+                      isCRUDContext
+                        ? null
+                        : {
+                            name: 'rowSelection.type',
+                            label: '选择类型',
+                            type: 'button-group-select',
+                            options: [
+                              {
+                                label: '多选',
+                                value: 'checkbox'
+                              },
+                              {
+                                label: '单选',
+                                value: 'radio'
+                              }
+                            ],
+                            pipeIn: (value: any, formStore: IFormStore) => {
+                              if (value != null && typeof value === 'string') {
+                                return value;
+                              }
+
+                              const schema = formStore?.data;
+
+                              return schema?.selectable === true
+                                ? schema.multiple
+                                  ? 'checkbox'
+                                  : 'radio'
+                                : 'checkbox';
+                            }
                           },
-                          {
-                            label: '单选',
-                            value: 'radio'
-                          }
-                        ],
-                        pipeIn: defaultValue('checkbox')
-                      },
                       getSchemaTpl('switch', {
                         name: 'rowSelection.fixed',
                         label: '固定选择列'
@@ -980,7 +997,7 @@ export class Table2Plugin extends BasePlugin {
                           }));
                         }
                       }
-                    ]
+                    ].filter(Boolean)
                   }
                 },
                 getSchemaTpl('formulaControl', {
