@@ -977,7 +977,7 @@ export class EditorManager {
       let beforeId = -1;
       parent.some((item: any, index: number) => {
         let result = false;
-        if (item.$$id === curActiveId) {
+        if (item?.$$id === curActiveId) {
           beforeId = index;
           result = true;
         }
