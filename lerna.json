@@ -5,6 +5,5 @@
     "packages/amis-ui",
     "packages/amis"
   ],
-  "useWorkspaces": true,
   "version": "3.4.1"
 }
