@@ -11,7 +11,7 @@ import {
   render as amisRender
 } from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
-import {FormControlProps, autobind, findTree} from 'amis-core';
+import {FormControlProps, Schema, autobind, findTree} from 'amis-core';
 import ActionDialog from './action-config-dialog';
 import {
   findActionNode,
@@ -36,7 +36,8 @@ import {
   RendererPluginAction,
   RendererPluginEvent,
   SubRendererPluginAction,
-  getDialogActions
+  getDialogActions,
+  getFixDialogType
 } from 'amis-editor-core';
 export * from './helper';
 import {i18n as _i18n} from 'i18n-runtime';
@@ -63,7 +64,8 @@ interface EventControlProps extends FormControlProps {
   actionConfigSubmitFormatter?: (
     actionConfig: ActionConfig,
     type?: string,
-    actionData?: ActionData
+    actionData?: ActionData,
+    schema?: Schema
   ) => ActionConfig; // 动作配置提交时格式化
   owner?: string; // 组件标识
 }
@@ -110,11 +112,11 @@ interface EventControlState {
   appLocaleState?: number;
 }
 
-const dialogObjMap = new Map([
-  ['dialog', 'dialog'],
-  ['drawer', 'drawer'],
-  ['confirmDialog', 'dialog']
-]);
+const dialogObjMap = {
+  dialog: 'dialog',
+  drawer: 'drawer',
+  confirmDialog: ['dialog', 'args']
+};
 
 export class EventControl extends React.Component<
   EventControlProps,
@@ -706,10 +708,13 @@ export class EventControl extends React.Component<
   getDialogList(
     manager: EditorManager,
     action?: ActionConfig,
-    actionType?: string
+    actionType?: keyof typeof dialogObjMap
   ) {
-    if (action && actionType && dialogObjMap.has(actionType)) {
-      let filterId = action[dialogObjMap.get(actionType)!].id;
+    if (action && actionType && dialogObjMap[actionType]) {
+      let dialogBodyContent = dialogObjMap[actionType];
+      let filterId = Array.isArray(dialogBodyContent)
+        ? action[dialogBodyContent[0]].id || action[dialogBodyContent[1]].id
+        : action[dialogBodyContent].id;
       return getDialogActions(manager.store.schema, 'source', filterId);
     } else return getDialogActions(manager.store.schema, 'source');
   }
@@ -788,7 +793,11 @@ export class EventControl extends React.Component<
       // 编辑时准备已选的弹窗来源和标题
       if (actionConfig?.actionType == 'openDialog') {
         const definitions = manager.store.schema.definitions;
-        const dialogObj = dialogObjMap.get(actionGroupType!);
+        let dialogBody =
+          dialogObjMap[actionGroupType as keyof typeof dialogObjMap];
+        const dialogObj = Array.isArray(dialogBody)
+          ? dialogBody[0] || dialogBody[1]
+          : dialogBody;
 
         const dialogRef = actionConfig?.[dialogObj!]?.$ref;
 
@@ -869,7 +878,8 @@ export class EventControl extends React.Component<
     ) : null;
   }
 
-  getRefsFromCurrentDialog(definitions: any, action: any) {
+  getRefsFromCurrentDialog(store: any, action: any) {
+    let definitions = store.schema.definitions;
     let dialogMaxIndex: number = 0;
     let dialogRefsName = '';
     if (definitions) {
@@ -878,16 +888,17 @@ export class EventControl extends React.Component<
         if (dialog.$$id === action.__selectDialog.$$id) {
           dialogRefsName = k;
         }
-        if (k.includes('dialog-')) {
-          let index = Number(k.split('-')[1]);
+        if (k.includes('ref-')) {
+          let index = Number(k.split('-')[2]);
           dialogMaxIndex = Math.max(dialogMaxIndex, index);
         }
       });
     }
+    let dialogType = getFixDialogType(store.schema, action.__selectDialog.$$id);
     if (!dialogRefsName) {
       dialogRefsName = dialogMaxIndex
-        ? `dialog-${dialogMaxIndex + 1}`
-        : 'dialog-1';
+        ? `${dialogType}-ref-${dialogMaxIndex + 1}`
+        : `${dialogType}-ref-1`;
     }
     return dialogRefsName;
   }
@@ -898,14 +909,12 @@ export class EventControl extends React.Component<
     const {actionData} = this.state;
     const store = manager.store;
     const action =
-      actionConfigSubmitFormatter?.(config, type, actionData) ?? config;
+      actionConfigSubmitFormatter?.(config, type, actionData, store.schema) ??
+      config;
     delete action.__actionSchema;
     if (type === 'add') {
-      if (
-        action.actionType === 'dialog' ||
-        action.actionType === 'drawer' ||
-        action.actionType === 'confirmDialog'
-      ) {
+      if (['dialog', 'drawer', 'confirmDialog'].includes(action.actionType)) {
+        this.addAction?.(config.eventKey, action);
         let args =
           action.actionType === 'dialog'
             ? 'dialog'
@@ -920,24 +929,18 @@ export class EventControl extends React.Component<
           }/actions/${actionLength}/${args}`;
           store.setActiveDialogPath(path);
         } else if (config?.__dialogSource === 'current') {
-          let dialogRefsName = this.getRefsFromCurrentDialog(
-            store.schema.definitions,
-            action
-          );
+          let dialogRefsName = this.getRefsFromCurrentDialog(store, action);
           let path = `definitions/${dialogRefsName}`;
           store.setActiveDialogPath(path);
+        } else {
+          this.addAction?.(config.eventKey, action);
         }
-
-        this.addAction?.(config.eventKey, action);
       } else {
         this.addAction?.(config.eventKey, action);
       }
     } else if (type === 'update') {
-      if (
-        action.actionType === 'dialog' ||
-        action.actionType === 'drawer' ||
-        action.actionType === 'confirmDialog'
-      ) {
+      if (['dialog', 'drawer', 'confirmDialog'].includes(action.actionType)) {
+        this.updateAction?.(config.eventKey, config.actionIndex, action);
         let args =
           action.actionType === 'dialog'
             ? 'dialog'
@@ -951,14 +954,10 @@ export class EventControl extends React.Component<
           }/actions/${config.actionIndex}/${args}`;
           store.setActiveDialogPath(path);
         } else if (config.__dialogSource === 'current') {
-          let dialogRefsName = this.getRefsFromCurrentDialog(
-            store.schema.definitions,
-            action
-          );
+          let dialogRefsName = this.getRefsFromCurrentDialog(store, action);
           let path = `definitions/${dialogRefsName}`;
           store.setActiveDialogPath(path);
         }
-        this.updateAction?.(config.eventKey, config.actionIndex, action);
       } else {
         this.updateAction?.(config.eventKey, config.actionIndex, action);
       }

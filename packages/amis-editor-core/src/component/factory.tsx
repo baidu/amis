@@ -21,7 +21,8 @@ import {
   JSONGetById,
   JSONPipeIn,
   JSONPipeOut,
-  JSONUpdate
+  JSONUpdate,
+  getFixDialogType
 } from '../util';
 import {createObject, createObjectFromChain} from 'amis-core';
 import {CommonConfigWrapper} from './CommonConfigWrapper';
@@ -253,7 +254,7 @@ function addDefinitions(
   schema: Schema,
   definitions: Schema,
   dialogMaxIndex: number,
-  selectDialog: Schema
+  selectDialog: any
 ) {
   let newSchema;
   let dialogRefsName = '';
@@ -265,14 +266,20 @@ function addDefinitions(
       }
     });
   }
+  let dialogType = getFixDialogType(schema, selectDialog.$$id);
   let newDefinitions = {...definitions};
   if (!dialogRefsName) {
     dialogRefsName = dialogMaxIndex
-      ? `dialog-${dialogMaxIndex + 1}`
-      : 'dialog-1';
+      ? `${dialogType}-ref-${dialogMaxIndex + 1}`
+      : `${dialogType}-ref-1`;
   }
   // 防止definition被查找到替换为$ref重新生成一下
-  newDefinitions[dialogRefsName] = JSONPipeIn(JSONPipeOut({...selectDialog}));
+  newDefinitions[dialogRefsName] = JSONPipeIn(
+    JSONPipeOut({
+      ...selectDialog,
+      type: dialogType
+    })
+  );
   newSchema = {
     ...schema,
     definitions: newDefinitions
@@ -294,8 +301,8 @@ function currentDialogOnchagne(
   let definitions = schema.definitions || {};
   let dialogMaxIndex: number = 0;
   Object.keys(definitions).forEach(k => {
-    if (k.includes('dialog-')) {
-      let index = Number(k.split('-')[1]);
+    if (k.includes('ref-')) {
+      let index = Number(k.split('-')[2]);
       dialogMaxIndex = Math.max(dialogMaxIndex, index);
     }
   });

@@ -6,6 +6,7 @@ import {
   BaseEventContext,
   defaultValue,
   EditorManager,
+  getFixDialogType,
   getSchemaTpl,
   JsonGenerateID,
   JSONPipeIn,
@@ -20,7 +21,6 @@ import {
   DataSchema,
   filterTree,
   findTree,
-  JSONTraverse,
   mapTree,
   normalizeApi,
   PlainObject,
@@ -2911,7 +2911,8 @@ export const getEventControlConfig = (
     actionConfigSubmitFormatter: (
       config: ActionConfig,
       type?: string,
-      actionData?: ActionData
+      actionData?: ActionData,
+      shcema?: Schema
     ) => {
       let action: ActionConfig = {...config, groupType: undefined};
       action.__title = findActionNode(
@@ -3032,18 +3033,24 @@ export const getEventControlConfig = (
           }
         };
 
-        const chooseCurrentDialog = (action: ActionConfig) => {
+        const chooseCurrentDialog = (action: ActionConfig, schema: Schema) => {
           const selectDialog = action.__selectDialog;
+          let dialogType = getFixDialogType(schema, selectDialog.$$id);
           // 选择现有弹窗后为了使之前的弹窗和现有弹窗$$id唯一，这里重新生成一下
-          let dialogCopy = JSONPipeIn(JSONPipeOut({...selectDialog}));
+          let dialogCopy = JSONPipeIn(
+            JSONPipeOut({
+              ...selectDialog,
+              type: dialogType
+            })
+          );
           // 在这里记录一下新dialogId
           action.__relatedDialogId = dialogCopy.$$id;
           if (selectDialog?.dialogType) {
             action.actionType = 'dialog';
             action.dialog = dialogCopy;
           } else {
-            action.actionType = selectDialog.type;
-            action[selectDialog.type] = dialogCopy;
+            action.actionType = selectDialog.type || dialogType;
+            action[selectDialog.type || dialogType] = dialogCopy;
           }
         };
 
@@ -3051,7 +3058,7 @@ export const getEventControlConfig = (
           if (config.__dialogSource === 'new') {
             setInitSchema(config.groupType, action);
           } else if (config.__dialogSource === 'current') {
-            chooseCurrentDialog(action);
+            chooseCurrentDialog(action, shcema!);
           }
         }
         // 编辑
@@ -3071,7 +3078,7 @@ export const getEventControlConfig = (
               };
             }
           } else if (config.__dialogSource === 'current') {
-            chooseCurrentDialog(action);
+            chooseCurrentDialog(action, shcema!);
           }
         }
       }
