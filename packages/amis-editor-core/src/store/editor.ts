@@ -1154,7 +1154,7 @@ export const MainStore = types
         if (event.context.beforeId) {
           const idx = findIndex(
             arr,
-            (item: any) => item.$$id === event.context.beforeId
+            (item: any) => item?.$$id === event.context.beforeId
           );
           ~idx ? arr.splice(idx, 0, child) : arr.push(child);
         } else {
