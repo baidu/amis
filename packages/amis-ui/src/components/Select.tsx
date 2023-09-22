@@ -675,7 +675,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
         simpleValue ? selection.map(item => item[valueField]) : selection
       );
     } else {
-      onChange(simpleValue ? selectItem[valueField] : selectItem);
+      // Downshift里面的判断修改后的值是否相等时，没有区分是否多选，且用的是！==，所以这里拦截一下
+      (!selection.length ||
+        selection[0][valueField] !== selectItem[valueField]) &&
+        onChange(simpleValue ? selectItem[valueField] : selectItem);
     }
   }
 
