@@ -391,9 +391,9 @@ export const HocQuickEdit =
       }
 
       buildSchema() {
-        const {quickEdit, name, label, translate: __} = this.props;
-
+        const {quickEdit, name, label, translate: __, id} = this.props;
         let schema;
+        const isline = (quickEdit as QuickEditConfig).mode === 'inline';
 
         if (quickEdit === true) {
           schema = {
@@ -430,7 +430,7 @@ export const HocQuickEdit =
           ) {
             schema = {
               title: '',
-              autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
+              autoFocus: !isline,
               ...quickEdit,
               mode: 'normal',
               type: 'form'
@@ -440,13 +440,14 @@ export const HocQuickEdit =
               title: '',
               className: quickEdit.formClassName,
               type: 'form',
-              autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
+              autoFocus: !isline,
               mode: 'normal',
               body: [
                 {
                   type: quickEdit.type || 'input-text',
                   name: quickEdit.name || name,
                   ...quickEdit,
+                  ...(isline ? {id: id} : {}),
                   mode: undefined
                 }
               ]
@@ -454,7 +455,6 @@ export const HocQuickEdit =
           }
         }
 
-        const isline = (quickEdit as QuickEditConfig).mode === 'inline';
         const isFormMode = (quickEdit as QuickEditConfig)?.isFormMode;
 
         if (schema) {
