@@ -371,7 +371,6 @@ setSchemaTpl(
         key: item.title,
         body: flatten(item.body)
       }));
-
     return {
       type: 'collapse-group',
       activeKey: collapseGroupBody

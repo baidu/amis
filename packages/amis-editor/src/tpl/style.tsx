@@ -619,15 +619,17 @@ setSchemaTpl(
           visibleOn: visibleOn,
           name: `themeCss.${classname}.boxShadow:${state}`
         })
-      ].concat(
-        extra.map(item => {
-          return {
-            ...item,
-            visibleOn: visibleOn,
-            name: `${item.name}:${state}`
-          };
-        })
-      );
+      ]
+        .filter(item => item)
+        .concat(
+          extra.map(item => {
+            return {
+              ...item,
+              visibleOn: visibleOn,
+              name: `${item.name}:${state}`
+            };
+          })
+        );
     };
     const styles = [
       {
