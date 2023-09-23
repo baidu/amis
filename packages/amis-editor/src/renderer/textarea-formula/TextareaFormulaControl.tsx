@@ -14,6 +14,7 @@ import FormulaPicker, {CustomFormulaPickerProps} from './FormulaPicker';
 import {reaction} from 'mobx';
 import {renderFormulaValue} from '../FormulaControl';
 import {getVariables} from 'amis-editor-core';
+import {findDOMNode} from 'react-dom';
 
 export interface AdditionalMenuClickOpts {
   /**
@@ -445,7 +446,7 @@ export class TextareaFormulaControl extends React.Component<
                   data-position="top"
                   onClick={this.handleFormulaClick}
                 >
-                  <Icon icon="function" className="icon" />
+                  <Icon icon="input-add-fx" className="icon" />
                 </a>
               )}
             </li>
@@ -487,6 +488,7 @@ export class TextareaFormulaControl extends React.Component<
         ) : null}
 
         <TooltipWrapper
+          container={() => findDOMNode(this) as HTMLElement}
           trigger="hover"
           placement="top"
           style={{fontSize: '12px'}}
