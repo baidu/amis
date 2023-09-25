@@ -128,6 +128,9 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   createTip?: string;
   // 是否开启虚拟滚动
   virtualThreshold?: number;
+  virtualContainerHeight?: number;
+  virtualContainerWidth?: number;
+  virtualOverscanCount?: number;
   itemHeight?: number;
   onAdd?: (
     idx?: number | Array<number>,
@@ -1417,11 +1420,23 @@ export class TreeSelector extends React.Component<
 
   @autobind
   renderList(list: Options, value: any[]) {
-    const {virtualThreshold, itemHeight = 32} = this.props;
+    const {
+      virtualThreshold,
+      itemHeight = 32,
+      virtualContainerHeight,
+      virtualContainerWidth,
+      virtualOverscanCount
+    } = this.props;
     if (virtualThreshold && list.length > virtualThreshold) {
       return (
         <VirtualList
-          height={list.length > 8 ? 266 : list.length * itemHeight}
+          height={
+            list.length > 8
+              ? virtualContainerHeight || 266
+              : list.length * itemHeight
+          }
+          width={virtualContainerWidth}
+          overscanCount={virtualOverscanCount}
           itemCount={list.length}
           prefix={this.renderCheckAll()}
           itemSize={itemHeight}

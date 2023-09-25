@@ -372,6 +372,9 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       translate: __,
       data,
       virtualThreshold,
+      virtualContainerWidth,
+      virtualContainerHeight,
+      virtualOverscanCount,
       itemHeight,
       loadingConfig,
       menuTpl,
@@ -438,6 +441,13 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         onDeferLoad={deferLoad}
         onExpandTree={expandTreeOptions}
         virtualThreshold={virtualThreshold}
+        virtualContainerWidth={virtualContainerWidth}
+        virtualContainerHeight={virtualContainerHeight}
+        virtualOverscanCount={
+          toNumber(virtualOverscanCount) > 0
+            ? toNumber(virtualOverscanCount)
+            : undefined
+        }
         itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
