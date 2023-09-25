@@ -21,6 +21,7 @@ import {
   DataSchema,
   filterTree,
   findTree,
+  guid,
   mapTree,
   normalizeApi,
   PlainObject,
@@ -439,7 +440,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               visibleOn: '__dialogSource === "current"',
               onChange: (value: any, oldValue: any, model: any, form: any) => {
                 form.setValueByName('args', {
-                  formCurrentDialog: true
+                  fromCurrentDialog: true
                 });
               }
             },
@@ -3035,23 +3036,16 @@ export const getEventControlConfig = (
 
         const chooseCurrentDialog = (action: ActionConfig, schema: Schema) => {
           const selectDialog = action.__selectDialog;
-          let dialogType = getFixDialogType(schema, selectDialog.$$id);
+          let dialogType = getFixDialogType(schema, selectDialog);
           // 选择现有弹窗后为了使之前的弹窗和现有弹窗$$id唯一，这里重新生成一下
-          let dialogCopy = JSONPipeIn(
-            JSONPipeOut({
-              ...selectDialog,
-              type: dialogType
-            })
-          );
-          // 在这里记录一下新dialogId
-          action.__relatedDialogId = dialogCopy.$$id;
-          if (selectDialog?.dialogType) {
-            action.actionType = 'dialog';
-            action.dialog = dialogCopy;
-          } else {
-            action.actionType = selectDialog.type || dialogType;
-            action[selectDialog.type || dialogType] = dialogCopy;
-          }
+          let newDialogId = guid();
+          action.actionType = dialogType;
+          action.dialog = {
+            $$id: newDialogId,
+            type: dialogType
+          };
+          // 在这里记录一下新生成的弹窗id
+          action.__relatedDialogId = newDialogId;
         };
 
         if (type === 'add') {

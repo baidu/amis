@@ -710,7 +710,12 @@ export class EventControl extends React.Component<
     action?: ActionConfig,
     actionType?: keyof typeof dialogObjMap
   ) {
-    if (action && actionType && dialogObjMap[actionType]) {
+    if (
+      action &&
+      actionType &&
+      dialogObjMap[actionType] &&
+      !action?.args?.fromCurrentDialog
+    ) {
       let dialogBodyContent = dialogObjMap[actionType];
       let filterId = Array.isArray(dialogBodyContent)
         ? action[dialogBodyContent[0]].id || action[dialogBodyContent[1]].id
@@ -807,9 +812,9 @@ export class EventControl extends React.Component<
           data.actionData!.__dialogTitle = actionConfig?.[dialogObj!]?.title;
         }
 
-        if (actionConfig.args?.formCurrentDialog) {
+        if (actionConfig.args?.fromCurrentDialog) {
           data.actionData!.__dialogSource = 'current';
-          data.actionData!.__selectDialog = definitions[dialogRef];
+          data.actionData!.__selectDialog = definitions[dialogRef].$$id;
         } else {
           data.actionData!.__dialogSource = 'new';
         }
@@ -885,7 +890,7 @@ export class EventControl extends React.Component<
     if (definitions) {
       Object.keys(definitions).forEach(k => {
         const dialog = definitions[k];
-        if (dialog.$$id === action.__selectDialog.$$id) {
+        if (dialog.$$id === action.__selectDialog) {
           dialogRefsName = k;
         }
         if (k.includes('ref-')) {
@@ -894,7 +899,7 @@ export class EventControl extends React.Component<
         }
       });
     }
-    let dialogType = getFixDialogType(store.schema, action.__selectDialog.$$id);
+    let dialogType = getFixDialogType(store.schema, action.__selectDialog);
     if (!dialogRefsName) {
       dialogRefsName = dialogMaxIndex
         ? `${dialogType}-ref-${dialogMaxIndex + 1}`
@@ -914,7 +919,6 @@ export class EventControl extends React.Component<
     delete action.__actionSchema;
     if (type === 'add') {
       if (['dialog', 'drawer', 'confirmDialog'].includes(action.actionType)) {
-        this.addAction?.(config.eventKey, action);
         let args =
           action.actionType === 'dialog'
             ? 'dialog'
@@ -932,15 +936,13 @@ export class EventControl extends React.Component<
           let dialogRefsName = this.getRefsFromCurrentDialog(store, action);
           let path = `definitions/${dialogRefsName}`;
           store.setActiveDialogPath(path);
-        } else {
-          this.addAction?.(config.eventKey, action);
         }
+        this.addAction?.(config.eventKey, action);
       } else {
         this.addAction?.(config.eventKey, action);
       }
     } else if (type === 'update') {
       if (['dialog', 'drawer', 'confirmDialog'].includes(action.actionType)) {
-        this.updateAction?.(config.eventKey, config.actionIndex, action);
         let args =
           action.actionType === 'dialog'
             ? 'dialog'
@@ -958,6 +960,7 @@ export class EventControl extends React.Component<
           let path = `definitions/${dialogRefsName}`;
           store.setActiveDialogPath(path);
         }
+        this.updateAction?.(config.eventKey, config.actionIndex, action);
       } else {
         this.updateAction?.(config.eventKey, config.actionIndex, action);
       }

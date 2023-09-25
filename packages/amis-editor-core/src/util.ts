@@ -1294,7 +1294,7 @@ export const getDialogActions = (
                   : '弹窗';
               dialogActions.push({
                 label: `${dialog.title || '-'}（${dialogTypeName}）`,
-                value: dialog
+                value: dialog.$$id
               });
             }
           }
@@ -1344,7 +1344,7 @@ export const getDialogActions = (
           // 没有 type: dialog的历史数据兼容一下
           dialogActions.push({
             ...dialogBodyContent,
-            type: dialogBody
+            type: Array.isArray(dialogBody) ? 'dialog' : dialogBody
           });
         } else {
           // 新建弹窗切换到现有弹窗把自身过滤掉
@@ -1353,7 +1353,7 @@ export const getDialogActions = (
               label: `${dialogBodyContent?.title || '-'}（${
                 dialogBodyMap.get(value)?.title
               }）`,
-              value: dialogBodyContent
+              value: dialogBodyContent.$$id
             });
           }
         }

@@ -117,18 +117,6 @@ export default class Preview extends Component<PreviewProps> {
     setTimeout(() => clearStoresCache([this.env.session!]), 500);
   }
 
-  componentDidUpdate() {
-    const store = this.props.store;
-
-    if (store.activeDialogPath) {
-      let activeId = store.getSchemaByPath(
-        store.activeDialogPath.split('/')
-      )?.$$id;
-      activeId && store.setPreviewDialogId(activeId);
-      store.setActiveDialogPath('');
-    }
-  }
-
   unSensor?: () => void;
   layer?: HTMLDivElement;
   scrollLayer?: HTMLDivElement;
