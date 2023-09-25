@@ -7,8 +7,7 @@ import {
   FormBaseControl,
   resolveEventData,
   ApiObject,
-  FormHorizontal,
-  SimpleMap
+  FormHorizontal
 } from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
@@ -374,7 +373,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     setted: boolean;
   }> = [];
 
-  keys: SimpleMap<any, Record<string, any> | string> = new SimpleMap();
+  keys: Array<string> = [];
   dragTip?: HTMLElement;
   sortable?: Sortable;
   defaultValue?: any;
@@ -463,7 +462,6 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.toDispose = [];
     this.memoizedFormatValue.cache.clear?.();
     this.makeFormRef.cache.clear?.();
-    this.keys.dispose();
   }
 
   /** 解析props中的变量，目前支持'minLength' | 'maxLength' */
@@ -517,12 +515,13 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
 
     let value = this.getValueAsArray();
-    this.keys.set(itemValue, guid());
 
     if (addattop === true) {
+      this.keys.unshift(guid());
       value.unshift(itemValue);
     } else {
       value.push(itemValue);
+      this.keys.push(guid());
     }
 
     if (flat && joinValues) {
@@ -570,13 +569,14 @@ export default class ComboControl extends React.Component<ComboProps> {
             ...(condition.scaffold || scaffold)
           }
     );
-    this.keys.set(value[value.length - 1], guid());
+    this.keys.push(guid());
 
     if (flat && joinValues) {
       value = value.join(delimiter || ',');
     }
 
     if (addattop === true) {
+      this.keys.unshift(this.keys.pop()!);
       value.unshift(value.pop());
     }
 
@@ -621,13 +621,14 @@ export default class ComboControl extends React.Component<ComboProps> {
             ...scaffold
           }
     );
-    this.keys.set(value[value.length - 1], guid());
+    this.keys.push(guid());
 
     if (flat && joinValues) {
       value = value.join(delimiter || ',');
     }
 
     if (addattop === true) {
+      this.keys.unshift(this.keys.pop()!);
       value.unshift(value.pop());
     }
 
@@ -691,7 +692,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       }
     }
 
-    this.keys.delete(value[key]);
+    this.keys.splice(key, 1);
     value.splice(key, 1);
 
     if (flat && joinValues) {
@@ -952,6 +953,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           }
           const newValue = value.concat();
           newValue.splice(e.newIndex, 0, newValue.splice(e.oldIndex, 1)[0]);
+          this.keys.splice(e.newIndex, 0, this.keys.splice(e.oldIndex, 1)[0]);
           this.props.onChange(newValue, submitOnChange, true);
         }
       }
@@ -1231,8 +1233,8 @@ export default class ComboControl extends React.Component<ComboProps> {
             Array.isArray(finnalControls) &&
             finnalControls.some((item: any) => item.unique);
 
-          if (!this.keys.has(value)) {
-            this.keys.set(value, guid());
+          if (!this.keys[index]) {
+            this.keys.splice(index, 0, guid());
           }
 
           return (
@@ -1242,7 +1244,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   __('{{index}}', {index: (data as any).index + 1}),
                 data
               )}
-              key={this.keys.get(value)!}
+              key={this.keys[index]}
               toolbar={toolbar}
               eventKey={index}
               // 不能按需渲染，因为 unique 会失效。
@@ -1532,14 +1534,14 @@ export default class ComboControl extends React.Component<ComboProps> {
                     ]
                   : items;
 
-              if (!this.keys.has(value)) {
-                this.keys.set(value, guid());
+              if (!this.keys[index]) {
+                this.keys.splice(index, 1, guid());
               }
 
               return (
                 <div
                   className={cx(`Combo-item`, itemClassName)}
-                  key={this.keys.get(value)}
+                  key={this.keys[index]}
                 >
                   {!isStatic && !disabled && draggable && thelist.length > 1 ? (
                     <div className={cx('Combo-itemDrager')}>
