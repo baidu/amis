@@ -19,6 +19,7 @@ export interface AutoFilterFormProps extends RendererProps {
   onToggleExpanded?: () => void;
   query?: any;
 
+  popOverContainer?: any;
   onSearchableFromReset?: any;
   onSearchableFromSubmit?: any;
   onSearchableFromInit?: any;
@@ -37,7 +38,8 @@ export function AutoFilterForm({
   data,
   onSearchableFromReset,
   onSearchableFromSubmit,
-  onSearchableFromInit
+  onSearchableFromInit,
+  popOverContainer
 }: AutoFilterFormProps) {
   const schema = React.useMemo(() => {
     const {columnsNum, showBtnToolbar} =
@@ -191,7 +193,8 @@ export function AutoFilterForm({
     onSubmit: onSearchableFromSubmit,
     onInit: onSearchableFromInit,
     formStore: undefined,
-    data
+    data,
+    popOverContainer
   });
 }
 

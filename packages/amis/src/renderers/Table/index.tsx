@@ -1616,6 +1616,7 @@ export default class Table extends React.Component<TableProps, object> {
         onSearchableFromReset={onSearchableFromReset}
         onSearchableFromSubmit={onSearchableFromSubmit}
         onSearchableFromInit={onSearchableFromInit}
+        popOverContainer={this.getPopOverContainer}
       />
     );
   }
