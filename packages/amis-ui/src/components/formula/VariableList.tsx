@@ -198,11 +198,10 @@ function VariableList(props: VariableListProps) {
 
   function handleMemberClick(item: any, option: any, onClose?: any) {
     // todo：暂时只提供一层的快捷操作
-    // const lastPointIdx = option.value.lastIndexOf('.');
-    const firstPointIdx = option.value.indexOf('.');
-    const arr = option.value.substring(0, firstPointIdx);
-    const member = option.value.substring(firstPointIdx + 1);
-
+    const lastPointIdx = option.value.lastIndexOf('.');
+    // const firstPointIdx = option.value.indexOf('.');
+    const arr = option.value.substring(0, lastPointIdx);
+    const member = option.value.substring(lastPointIdx + 1);
     const value = item.value
       .replace('${arr}', arr)
       .replace('${member}', member);
