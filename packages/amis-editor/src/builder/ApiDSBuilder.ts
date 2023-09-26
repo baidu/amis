@@ -324,6 +324,7 @@ export class ApiDSBuilder extends DSBuilder<
         label: renderLabel === false ? false : '字段',
         renderer,
         feat,
+        fieldKeys: this.features.map(f => this.getFieldsKey({feat: f})),
         config: {
           showInputType:
             renderer === 'form' ||

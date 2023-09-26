@@ -201,6 +201,8 @@ export const MainStore = types
 
     scaffoldForm: types.maybe(types.frozen<ScaffoldFormContext>()),
     scaffoldFormStep: 0,
+    /** 脚手架是否进行过下一步 */
+    scaffoldStepManipulated: false,
     scaffoldFormBuzy: false,
     scaffoldError: '',
 
@@ -1713,6 +1715,8 @@ export const MainStore = types
 
       openScaffoldForm(context: ScaffoldFormContext) {
         self.scaffoldForm = context;
+        /** 打开前重置状态 */
+        self.scaffoldStepManipulated = false;
       },
 
       closeScaffoldForm() {
@@ -1725,6 +1729,10 @@ export const MainStore = types
 
       setScaffoldStep(value: number) {
         self.scaffoldFormStep = value;
+      },
+
+      setScaffoldStepManipulated(value: boolean) {
+        self.scaffoldStepManipulated = value;
       },
 
       setScaffoldError(msg: string = '') {
