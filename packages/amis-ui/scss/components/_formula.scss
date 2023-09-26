@@ -149,6 +149,7 @@
       @include scrollbar();
       overflow-x: auto;
       overflow-y: auto;
+      max-height: 100% !important;
     }
 
     &-searchBox {
