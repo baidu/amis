@@ -160,7 +160,7 @@ exports[`Renderer:Pagination 1`] = `
               </thead>
               <tbody>
                 <tr
-                  class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                  class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                   data-id="1"
                   data-index="0"
                 >
@@ -184,7 +184,7 @@ exports[`Renderer:Pagination 1`] = `
                   </td>
                 </tr>
                 <tr
-                  class="cxd-Table-tr--even cxd-Table-tr--1th"
+                  class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                   data-id="2"
                   data-index="1"
                 >
