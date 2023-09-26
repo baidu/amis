@@ -101,7 +101,11 @@ export class FileControlPlugin extends BasePlugin {
               properties: {
                 item: {
                   type: 'object',
-                  title: '远程上传请求成功后返回的结果数据'
+                  title: '上传的文件'
+                },
+                result: {
+                  type: 'object',
+                  title: '远程上传请求成功后返回的响应数据'
                 }
               }
             }
