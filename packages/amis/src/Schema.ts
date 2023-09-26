@@ -1,4 +1,5 @@
 import {PageSchema} from './renderers/Page';
+import {FlexSchema} from './renderers/Flex';
 import {TplSchema} from './renderers/Tpl';
 import {RemarkSchema, SchemaRemark} from './renderers/Remark';
 import {ActionSchema} from './renderers/Action';
@@ -361,6 +362,7 @@ export type SchemaType =
 
 export type SchemaObject =
   | PageSchema
+  | FlexSchema
   | TplSchema
   | RemarkSchema
   | ActionSchema
