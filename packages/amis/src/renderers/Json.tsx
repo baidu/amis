@@ -18,6 +18,11 @@ export interface JsonSchema extends BaseSchema {
   type: 'json' | 'static-json';
 
   /**
+   * 要展示的 JSON 数据
+   */
+  value?: Record<string, any> | any[];
+
+  /**
    * 默认展开的级别
    */
   levelExpand?: number;
