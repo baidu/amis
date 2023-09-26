@@ -22,6 +22,7 @@ import minify from 'postcss-minify';
 import autoprefixer from 'autoprefixer';
 import {terser} from 'rollup-plugin-terser';
 import postcss from 'rollup-plugin-postcss';
+import replace from '@rollup/plugin-replace';
 const cssUrl = require('postcss-url');
 const i18nConfig = require('./i18nConfig');
 
@@ -148,6 +149,10 @@ function getPlugins(format = 'esm') {
     resolve({
       jsnext: true,
       main: true
+    }),
+    replace({
+      preventAssignment: true,
+      __buildVersion: version
     }),
     commonjs({
       sourceMap: false
