@@ -4503,6 +4503,165 @@ value 结构说明：
 ]
 ```
 
+#### 更新指定行记录
+
+可以通过指定`index`或者`condition`来分别更新指定索引的行记录和指定满足条件（条件表达式或者 ConditionBuilder）的行记录，另外`replace`同样生效，即可以完全替换指定行记录，也可以对指定行记录做合并。
+
+```schema
+{
+  type: 'page',
+  data: {
+    i: '3,5'
+  },
+  body: [
+    [
+      {
+        "type": "button",
+        "label": "更新index为3和5的行记录",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "crud_setvalue_item",
+                "args": {
+                  "value": {
+                    "engine": "amis",
+                    "browser": "Chrome",
+                    "platform": "Mac Pro",
+                    "version": "4",
+                    "grade": "Y",
+                    "badgeText": "你好！",
+                    "id": 1234
+                  },
+                  "index": "${i}"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "button",
+        "label": "更新index为3和5的行记录(替换)",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "crud_setvalue_item",
+                "args": {
+                  "value": {
+                    "engine": "amis",
+                    "id": 1234
+                  },
+                  "index": "${i}",
+                  "replace": true
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+          "type": "button",
+          "label": "更新version=7的行记录",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "setValue",
+                  "componentId": "crud_setvalue_item",
+                  "args": {
+                    "value": {
+                      "engine": "amis",
+                      "browser": "Chrome",
+                      "platform": "Mac Pro",
+                      "version": "4",
+                      "grade": "Y",
+                      "badgeText": "你好！",
+                      "id": 1234
+                    },
+                    "condition": "${version === '7'}"
+                  }
+                }
+              ]
+            }
+          }
+      },
+      {
+        "type": "button",
+        "label": "更新version=4的行记录",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "crud_setvalue_item",
+                "args": {
+                  "value": {
+                    "engine": "amis",
+                    "browser": "Chrome",
+                    "platform": "Mac Pro",
+                    "version": "4",
+                    "grade": "Y",
+                    "badgeText": "你好！",
+                    "id": 1234
+                  },
+                  "condition": {
+                      conjunction: 'and',
+                      children: [
+                        {
+                          left: {
+                            type: 'field',
+                            field: 'version'
+                          },
+                          op: 'equal',
+                          right: "4"
+                        }
+                      ]
+                    }
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "crud",
+        "id": "crud_setvalue_item",
+        "syncLocation": false,
+        "api": "/api/mock2/sample",
+        "quickSaveApi": "/api/mock2/sample/bulkUpdate",
+        "headerToolbar": [
+          {
+            "type": "tpl",
+            "tpl": "记录总数：${count}"
+          }
+        ],
+        "columns": [
+          {
+            "name": "id",
+            "label": "ID",
+            "id": "u:3db3f2b1b99e"
+          },
+          {
+            "name": "engine",
+            "label": "engine",
+            "id": "u:0b9be99f3403"
+          },
+          {
+            "name": "version",
+            "label": "version",
+            "id": "u:4868d7db0139"
+          }
+        ]
+      }
+  ]
+  ]
+}
+```
+
 #### 行记录中字段赋值
 
 需要通过表达式配置动态`name`或`id`和`componentName`或`componentId`。例如修改`engine`选中状态的同时选中`version`，勾选`id`的同时去掉对`engine`的选中。
