@@ -283,11 +283,19 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       classnames: cx
     } = this.props;
 
-    let _width = width;
-    let _height = height;
+    let _style = {};
     if (size === 'custom') {
-      style?.width && (_width = style.width);
-      style?.height && (_height = style.height);
+      // 忽略媒体查询限制的max-width
+      _style = {
+        width: style?.width ? style?.width : width,
+        height: style?.height ? style?.height : height,
+        maxWidth: 'none'
+      };
+    } else {
+      _style = {
+        width: width,
+        height: height
+      };
     }
 
     return (
@@ -330,10 +338,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                   modalClassName,
                   contentFadeStyles[status]
                 )}
-                style={{
-                  width: _width,
-                  height: _height
-                }}
+                style={_style}
               >
                 {status === EXITED ? null : children}
               </div>

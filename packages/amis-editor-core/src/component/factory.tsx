@@ -16,7 +16,6 @@ import {render as reactRender, unmountComponentAtNode} from 'react-dom';
 import {
   autobind,
   diff,
-  JSONGetByPath,
   getThemeConfig,
   JSONGetById,
   JSONPipeIn,
@@ -510,6 +509,7 @@ function SchemaFrom({
           const schemaDiff = diff(schema, newSchema);
           store.definitionOnchangeValue(newSchema, schemaDiff);
         }
+        // 添加弹窗事件后自动选中弹窗
         if (store.activeDialogPath) {
           let activeId = store.getSchemaByPath(
             store.activeDialogPath.split('/')
