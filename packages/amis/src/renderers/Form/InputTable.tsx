@@ -633,14 +633,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               column.type === 'input-quarter' ||
               column.type === 'input-year')
           ) {
-            const date = filterDate(column.value, data, column.format || 'X');
-            setVariable(
-              value,
-              column.name,
-              (column.utc ? moment.utc(date) : date).format(
-                column.format || 'X'
-              )
-            );
+            if (
+              !(typeof column.value === 'string' && column.value.trim() === '')
+            ) {
+              const date = filterDate(column.value, data, column.format || 'X');
+              setVariable(
+                value,
+                column.name,
+                (column.utc ? moment.utc(date) : date).format(
+                  column.format || 'X'
+                )
+              );
+            }
           } else {
             /** 如果value值设置为表达式，则忽略 */
             if (!isExpression(column.value)) {
