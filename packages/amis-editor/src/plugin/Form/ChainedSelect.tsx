@@ -251,11 +251,11 @@ export class ChainedSelectControlPlugin extends BasePlugin {
           type: 'object',
           title: '成员',
           properties: {
-            label: {
+            [node.schema?.labelField || 'label']: {
               type: 'string',
               title: '文本'
             },
-            value: {
+            [node.schema?.valueField || 'value']: {
               type,
               title: '值'
             }

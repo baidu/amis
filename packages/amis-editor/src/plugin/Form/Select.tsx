@@ -381,18 +381,18 @@ export class SelectControlPlugin extends BasePlugin {
       title: node.schema?.label || node.schema?.name,
       originalValue: node.schema?.value // 记录原始值，循环引用检测需要
     };
-
+    debugger;
     if (node.schema?.joinValues === false) {
       dataSchema = {
         ...dataSchema,
         type: 'object',
         title: node.schema?.label || node.schema?.name,
         properties: {
-          label: {
+          [node.schema?.labelField || 'label']: {
             type: 'string',
             title: '文本'
           },
-          value: {
+          [node.schema?.valueField || 'value']: {
             type,
             title: '值'
           }
