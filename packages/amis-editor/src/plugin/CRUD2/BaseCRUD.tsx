@@ -91,8 +91,6 @@ export class BaseCRUDPlugin extends BasePlugin {
 
   scaffold: CRUD2Schema;
 
-  scaffoldFormCache?: ScaffoldForm;
-
   dsManager: DSBuilderManager;
 
   constructor(
@@ -165,7 +163,8 @@ export class BaseCRUDPlugin extends BasePlugin {
           leftFixed: 'sm'
         }
       },
-      className: 'ae-Scaffold-Modal ae-Scaffold-Modal-content AMISCSSWrapper', //  ae-formItemControl
+      className:
+        'ae-Scaffold-Modal ae-Scaffold-Modal--CRUD ae-Scaffold-Modal-content AMISCSSWrapper', //  ae-formItemControl
       stepsBody: true,
       canSkip: true,
       canRebuild: true,
@@ -201,7 +200,7 @@ export class BaseCRUDPlugin extends BasePlugin {
                   visibleOn: `!data.dsType || data.dsType === '${builderKey}'`,
                   body: flattenDeep([
                     builder.makeSourceSettingForm({
-                      feat: 'List',
+                      feat: DSFeatureEnum.List,
                       renderer: 'crud',
                       inScaffold: true,
                       sourceSettings: {
@@ -209,7 +208,7 @@ export class BaseCRUDPlugin extends BasePlugin {
                       }
                     }),
                     builder.makeFieldsSettingForm({
-                      feat: 'List',
+                      feat: DSFeatureEnum.List,
                       renderer: 'crud',
                       inScaffold: true
                     })
@@ -327,7 +326,7 @@ export class BaseCRUDPlugin extends BasePlugin {
         return schema;
       },
       validate: (data: CRUDScaffoldConfig, form: IFormStore) => {
-        const feat = 'List';
+        const feat = DSFeatureEnum.List;
         const builder = this.dsManager.getBuilderByScaffoldSetting(data);
         const featValue = builder?.getFeatValueByKey(feat);
         const fieldsKey = `${featValue}Fields`;

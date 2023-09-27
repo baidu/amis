@@ -103,7 +103,11 @@ export function JSONPipeIn(obj: any, generateId = false): any {
     // 重新生成组件ID
     if (generateId) {
       flag = true;
-      toUpdate.id = generateNodeId();
+
+      /** 脚手架构建的Schema提前构建好了组件 ID，此时无需生成 ID，避免破坏事件动作 */
+      if (!obj.__origin || obj.__origin !== 'scaffold') {
+        toUpdate.id = generateNodeId();
+      }
     }
   }
 
