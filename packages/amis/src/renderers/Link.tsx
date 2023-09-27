@@ -2,7 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {autobind, createObject, getPropValue} from 'amis-core';
-import {filter} from 'amis-core';
+import {filter, CustomStyle, setThemeClassName} from 'amis-core';
 import {BadgeObject, withBadge} from 'amis-ui';
 import {Link} from 'amis-ui';
 
@@ -94,7 +94,11 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       translate: __,
       title,
       icon,
-      rightIcon
+      rightIcon,
+      id,
+      themeCss,
+      wrapperCustomStyle,
+      env
     } = this.props;
 
     let value =
@@ -104,7 +108,11 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
 
     return (
       <Link
-        className={className}
+        className={cx(
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
         style={style}
         href={value}
         disabled={disabled}
@@ -115,6 +123,19 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
         onClick={this.handleClick}
       >
         {body ? render('body', body) : value || __('link')}
+        <CustomStyle
+          config={{
+            id,
+            themeCss,
+            wrapperCustomStyle,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </Link>
     );
   }

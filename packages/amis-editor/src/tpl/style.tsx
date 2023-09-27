@@ -724,3 +724,35 @@ setSchemaTpl(
     ].filter(item => !~exclude.indexOf(item.key || ''));
   }
 );
+
+setSchemaTpl(
+  'theme:icon',
+  (option: {classname?: string; visibleOn?: string; title?: string}) => {
+    const {
+      classname = 'iconControlClassName',
+      visibleOn,
+      title = '图标样式'
+    } = option;
+    return {
+      title,
+      visibleOn,
+      body: [
+        getSchemaTpl('theme:select', {
+          label: '图标尺寸',
+          name: `themeCss.${classname}.iconSize`
+        }),
+        getSchemaTpl('theme:colorPicker', {
+          name: `themeCss.${classname}.color`,
+          label: '图标颜色',
+          needCustom: true,
+          needGradient: true,
+          labelMode: 'input'
+        }),
+        getSchemaTpl('theme:paddingAndMargin', {
+          label: '图标边距',
+          name: `themeCss.${classname}.padding-and-margin`
+        })
+      ]
+    };
+  }
+);

@@ -109,6 +109,15 @@ export class LinkPlugin extends BasePlugin {
                 visibleOn: 'this.rightIcon'
               })
             ]
+          }),
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            baseExtra: [
+              getSchemaTpl('theme:font', {
+                label: '文字',
+                name: 'themeCss.baseControlClassName.font'
+              })
+            ]
           })
         ])
       }

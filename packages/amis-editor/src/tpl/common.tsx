@@ -365,7 +365,7 @@ setSchemaTpl(
       .map(item => ({
         type: 'collapse',
         headingClassName: 'ae-formItemControl-header',
-        bodyClassName: 'ae-formItemControl-body',
+        // bodyClassName: 'ae-formItemControl-body',
         ...item,
         collapsed: item.collapsed ?? false,
         key: item.title,
@@ -374,6 +374,7 @@ setSchemaTpl(
 
     return {
       type: 'collapse-group',
+      enableFieldSetStyle: false,
       activeKey: collapseGroupBody
         .filter(item => item && !item.collapsed)
         .map(panel => panel.title),

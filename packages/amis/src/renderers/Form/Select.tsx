@@ -6,7 +6,9 @@ import {
   Option,
   FormOptionsControl,
   resolveEventData,
-  str2function
+  str2function,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {normalizeOptions} from 'amis-core';
 import find from 'lodash/find';
@@ -467,6 +469,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       mobileUI,
       overlay,
       filterOption,
+      themeCss,
       ...rest
     } = this.props;
 
@@ -483,6 +486,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         ) : (
           <Select
             {...rest}
+            className={cx(
+              setThemeClassName('baseControlClassName', id, themeCss)
+            )}
             mobileUI={mobileUI}
             popOverContainer={
               mobileUI
@@ -518,6 +524,18 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             overlay={overlay}
           />
         )}
+        <CustomStyle
+          config={{
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }
