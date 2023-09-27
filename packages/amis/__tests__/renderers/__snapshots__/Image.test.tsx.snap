@@ -56,6 +56,7 @@ exports[`Renderer:image image as form item 1`] = `
             >
               <div
                 class="cxd-ImageField cxd-ImageField--thumb"
+                style="transform: scale(1);"
               >
                 <div
                   class="cxd-Image cxd-Image--thumb no-border"
@@ -103,6 +104,7 @@ exports[`Renderer:image image:basic 1`] = `
 <div>
   <div
     class="cxd-ImageField cxd-ImageField--thumb show"
+    style="transform: scale(1);"
   >
     <div
       class="cxd-Image cxd-Image--thumb"
@@ -138,6 +140,7 @@ exports[`Renderer:image image:enlargeAble & originalSrc & enlargeTitle & showToo
 <div>
   <div
     class="cxd-ImageField cxd-ImageField--thumb"
+    style="transform: scale(1);"
   >
     <div
       class="cxd-Image cxd-Image--thumb"
@@ -178,6 +181,7 @@ exports[`Renderer:image image:enlargeAble & originalSrc & enlargeTitle & showToo
 <div>
   <div
     class="cxd-ImageField cxd-ImageField--thumb"
+    style="transform: scale(1);"
   >
     <div
       class="cxd-Image cxd-Image--thumb"
@@ -231,6 +235,7 @@ exports[`Renderer:image image:href 1`] = `
         >
           <div
             class="cxd-ImageField cxd-ImageField--thumb"
+            style="transform: scale(1);"
           >
             <a
               class="cxd-Link"
@@ -267,6 +272,7 @@ exports[`Renderer:image image:title & imageCaption 1`] = `
 <div>
   <div
     class="cxd-ImageField cxd-ImageField--thumb"
+    style="transform: scale(1);"
   >
     <div
       class="cxd-Image cxd-Image--thumb"
@@ -308,6 +314,7 @@ exports[`Renderer:image image:width & height 1`] = `
 <div>
   <div
     class="cxd-ImageField cxd-ImageField--thumb"
+    style="transform: scale(1);"
   >
     <div
       class="cxd-Image cxd-Image--thumb"

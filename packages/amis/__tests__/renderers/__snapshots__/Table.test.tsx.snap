@@ -7090,6 +7090,7 @@ exports[`Renderer:table list 1`] = `
               >
                 <div
                   class="cxd-ImageField cxd-ImageField--thumb"
+                  style="transform: scale(1);"
                 >
                   <div
                     class="cxd-Image cxd-Image--thumb"
@@ -7331,6 +7332,7 @@ exports[`Renderer:table list 1`] = `
               >
                 <div
                   class="cxd-ImageField cxd-ImageField--thumb"
+                  style="transform: scale(1);"
                 >
                   <div
                     class="cxd-Image cxd-Image--thumb"
@@ -7692,6 +7694,7 @@ exports[`Renderer:table list 1`] = `
               >
                 <div
                   class="cxd-ImageField cxd-ImageField--thumb"
+                  style="transform: scale(1);"
                 >
                   <div
                     class="cxd-Image cxd-Image--thumb"

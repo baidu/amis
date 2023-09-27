@@ -115,7 +115,9 @@ export interface Action extends Button {
     | 'selectAll'
     | 'changeTabKey'
     | 'click'
-    | 'stopAutoRefresh';
+    | 'stopAutoRefresh'
+    | 'preview'
+    | 'zoom';
   api?: SchemaApi;
   asyncApi?: SchemaApi;
   payload?: any;
