@@ -258,10 +258,10 @@ test('5. enableFieldSetStyle属性控制CollapseGroup组件在Form中的样式',
   const totalCollections = container.querySelectorAll(
     '.cxd-CollapseGroup > .cxd-Collapse'
   );
-  const fieldsetStyledCollections = container.querySelectorAll(
-    '.cxd-CollapseGroup > .cxd-Collapse.cxd-Collapse--fieldset'
+  const disabledStyleCollections = container.querySelectorAll(
+    '.cxd-CollapseGroup > .cxd-Collapse-fieldset--disabled'
   );
 
   expect(totalCollections.length).toBe(4);
-  expect(fieldsetStyledCollections.length).toBe(2);
+  expect(disabledStyleCollections.length).toBe(2);
 })
