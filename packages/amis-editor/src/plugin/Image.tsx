@@ -86,7 +86,6 @@ export class ImagePlugin extends BasePlugin {
                 ? null
                 : getSchemaTpl('imageUrl', {
                     name: 'src',
-                    type: 'input-text',
                     label: '缩略图地址',
                     description: '如果已绑定字段名，可以不用设置，支持用变量。'
                   }),
