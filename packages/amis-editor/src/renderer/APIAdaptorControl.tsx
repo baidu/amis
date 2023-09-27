@@ -115,6 +115,7 @@ export default class APIAdaptorControl extends React.Component<
           'api-adaptor-control-editor',
           {
             type: 'ae-functionEditorControl',
+            name: 'functionEditorControl',
             placeholder: editorPlaceholder,
             desc: editorDesc,
             allowFullscreen,
