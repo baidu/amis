@@ -1227,7 +1227,7 @@ export class ListItem extends React.Component<ListItemProps> {
     if (childNode.type === 'hbox' || childNode.type === 'grid') {
       return render(region, node, {
         key,
-        itemRender: this.itemRender
+        itemRender: this.itemRender.bind(this)
       }) as JSX.Element;
     }
 
