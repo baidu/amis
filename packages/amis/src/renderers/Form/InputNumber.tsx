@@ -482,6 +482,7 @@ export default class NumberControl extends React.Component<
               options={this.state.unitOptions || []}
               onChange={this.handleChangeUnit}
               className={`${ns}NumberControl-unit`}
+              disabled={disabled}
             />
           ) : (
             <div
