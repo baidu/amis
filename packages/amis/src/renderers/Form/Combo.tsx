@@ -274,6 +274,7 @@ export interface ComboControlSchema extends FormBaseControlSchema {
      */
     maxLengthValidateFailed?: string;
   };
+  updatePristineAfterStoreDataReInit?: boolean;
 }
 
 export type ComboRendererEvent = 'add' | 'delete' | 'tabsChange';
@@ -1695,7 +1696,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       changeImmediately,
       lazyLoad,
       translate: __,
-      static: isStatic
+      static: isStatic,
+      updatePristineAfterStoreDataReInit
     } = this.props;
 
     // 单个
@@ -1720,7 +1722,8 @@ export default class ComboControl extends React.Component<ComboProps> {
           onInit: this.handleSingleFormInit,
           canAccessSuperData,
           formStore: undefined,
-          updatePristineAfterStoreDataReInit: false
+          updatePristineAfterStoreDataReInit:
+            updatePristineAfterStoreDataReInit ?? false
         }
       );
     } else if (multiple && index !== undefined && index >= 0) {
@@ -1752,7 +1755,8 @@ export default class ComboControl extends React.Component<ComboProps> {
           formItemValue: undefined,
           formStore: undefined,
           ...(tabsMode ? {} : {lazyLoad}),
-          updatePristineAfterStoreDataReInit: false
+          updatePristineAfterStoreDataReInit:
+            updatePristineAfterStoreDataReInit ?? false
         }
       );
     }

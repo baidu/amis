@@ -283,12 +283,10 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       classnames: cx
     } = this.props;
 
-    let _width = width;
-    let _height = height;
-    if (size === 'custom') {
-      style?.width && (_width = style.width);
-      style?.height && (_height = style.height);
-    }
+    let _style = {
+      width: style?.width ? style?.width : width,
+      height: style?.height ? style?.height : height
+    };
 
     return (
       <Transition
@@ -326,14 +324,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
               <div
                 className={cx(
                   `Modal-content`,
+                  size === 'custom' ? 'Modal-content-custom' : '',
                   contentClassName,
                   modalClassName,
                   contentFadeStyles[status]
                 )}
-                style={{
-                  width: _width,
-                  height: _height
-                }}
+                style={_style}
               >
                 {status === EXITED ? null : children}
               </div>

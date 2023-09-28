@@ -451,6 +451,7 @@ setSchemaTpl('dataMap', {
           deleteBtn: {
             icon: 'fa fa-trash'
           },
+          updatePristineAfterStoreDataReInit: true,
           itemsWrapperClassName: 'ae-Combo-items',
           pipeIn: (e: any, form: any) => {
             const data = cloneDeep(form.data?.data);
