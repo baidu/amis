@@ -144,7 +144,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                     </thead>
                     <tbody>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
                       >
@@ -177,7 +177,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="2"
                         data-index="1"
                       >
@@ -210,7 +210,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="3"
                         data-index="2"
                       >
@@ -243,7 +243,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="4"
                         data-index="3"
                       >
@@ -276,7 +276,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="5"
                         data-index="4"
                       >
@@ -309,7 +309,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="6"
                         data-index="5"
                       >
@@ -342,7 +342,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="7"
                         data-index="6"
                       >
@@ -375,7 +375,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="8"
                         data-index="7"
                       >
@@ -408,7 +408,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="9"
                         data-index="8"
                       >
@@ -441,7 +441,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="10"
                         data-index="9"
                       >
@@ -2254,7 +2254,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                     </thead>
                     <tbody>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
                       >
@@ -2287,7 +2287,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="2"
                         data-index="1"
                       >
@@ -2320,7 +2320,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="3"
                         data-index="2"
                       >
@@ -2353,7 +2353,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="4"
                         data-index="3"
                       >
@@ -2386,7 +2386,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="5"
                         data-index="4"
                       >
@@ -2419,7 +2419,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="6"
                         data-index="5"
                       >
@@ -2452,7 +2452,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="7"
                         data-index="6"
                       >
@@ -2485,7 +2485,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="8"
                         data-index="7"
                       >
@@ -2518,7 +2518,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="9"
                         data-index="8"
                       >
@@ -2551,7 +2551,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="10"
                         data-index="9"
                       >
@@ -2954,7 +2954,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                     </thead>
                     <tbody>
                       <tr
-                        class="is-checked cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr is-checked cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
                       >
@@ -3004,7 +3004,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="is-checked cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr is-checked cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="2"
                         data-index="1"
                       >
@@ -3054,7 +3054,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="is-checked cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr is-checked cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="3"
                         data-index="2"
                       >
@@ -3104,7 +3104,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="is-checked cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr is-checked cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="4"
                         data-index="3"
                       >
@@ -3154,7 +3154,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="5"
                         data-index="4"
                       >
@@ -3205,7 +3205,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="6"
                         data-index="5"
                       >
@@ -3256,7 +3256,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="7"
                         data-index="6"
                       >
@@ -3307,7 +3307,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="8"
                         data-index="7"
                       >
@@ -3358,7 +3358,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="9"
                         data-index="8"
                       >
@@ -3409,7 +3409,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="10"
                         data-index="9"
                       >
