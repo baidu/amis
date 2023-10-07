@@ -247,6 +247,10 @@ export function HocStoreFactory(renderer: {
                       ...store.data,
                       ...props.data
                     }
+                  : // combo 不需要同步，如果要同步，在 Combo.tsx 里面已经实现了相关逻辑
+                  // 目前主要的问题是，如果 combo 中表单项名字和 combo 本身的名字一样，会导致里面的值会被覆盖成数组
+                  props.store?.storeType === 'ComboStore'
+                  ? undefined
                   : syncDataFromSuper(
                       props.data,
                       (props.data as any).__super,
