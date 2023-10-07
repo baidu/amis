@@ -1283,7 +1283,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       if (subStore && subStore.storeType === 'ComboStore') {
         const combo = subStore as IComboStore;
-        combo.forms.forEach(form => form.reset());
+        combo.forms.forEach(form => form.reset(undefined, false)); // 仅重置校验状态，不要重置数据
       }
 
       !keepErrors && clearError();
