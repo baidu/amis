@@ -381,7 +381,7 @@ export class SelectControlPlugin extends BasePlugin {
       title: node.schema?.label || node.schema?.name,
       originalValue: node.schema?.value // 记录原始值，循环引用检测需要
     };
-    debugger;
+
     if (node.schema?.joinValues === false) {
       dataSchema = {
         ...dataSchema,
