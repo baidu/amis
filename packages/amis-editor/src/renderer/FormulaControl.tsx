@@ -24,7 +24,7 @@ import {FormulaEditor} from 'amis-ui';
 import FormulaPicker, {
   CustomFormulaPickerProps
 } from './textarea-formula/FormulaPicker';
-import {autobind, translateSchema} from 'amis-editor-core';
+import {JSONPipeOut, autobind, translateSchema} from 'amis-editor-core';
 
 import type {
   VariableItem,
@@ -505,7 +505,7 @@ export default class FormulaControl extends React.Component<
       return translateSchema(curRendererSchema, this.appCorpusData);
     }
 
-    return curRendererSchema;
+    return JSONPipeOut(curRendererSchema);
   }
 
   @autobind
