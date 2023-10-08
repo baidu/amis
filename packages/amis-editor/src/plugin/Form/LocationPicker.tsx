@@ -1,6 +1,9 @@
-import {EditorNodeType, getSchemaTpl} from 'amis-editor-core';
+import {EditorNodeType, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
+import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {inputStateTpl} from '../../renderer/style-control/helper';
 import {ValidatorTag} from '../../validator';
 
 export class LocationControlPlugin extends BasePlugin {
@@ -12,6 +15,7 @@ export class LocationControlPlugin extends BasePlugin {
   // 组件名称
   name = '地理位置选择';
   isBaseComponent = true;
+  notRenderFormZone = true;
   icon = 'fa fa-location-arrow';
   pluginIcon = 'location-picker-plugin';
   description = '地理位置选择';
@@ -37,11 +41,73 @@ export class LocationControlPlugin extends BasePlugin {
 
   panelTitle = '地理位置选择';
 
+  // 事件定义
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'change',
+      eventLabel: '值变化',
+      description: '选中值变化时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '选中的值',
+                  properties: {
+                    address: {
+                      type: 'string',
+                      title: '地址'
+                    },
+                    lng: {
+                      type: 'string',
+                      title: '经度'
+                    },
+                    lat: {
+                      type: 'string',
+                      title: '纬度'
+                    },
+                    city: {
+                      type: 'string',
+                      title: '城市'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ];
+
+  // 动作定义
+  actions: RendererPluginAction[] = [
+    {
+      actionType: 'clear',
+      actionLabel: '清空',
+      description: '清除选中值'
+    },
+    {
+      actionType: 'reset',
+      actionLabel: '重置',
+      description: '将值重置为resetValue，若没有配置resetValue，则清空'
+    },
+    {
+      actionType: 'setValue',
+      actionLabel: '赋值',
+      description: '触发组件数据更新'
+    }
+  ];
+
   panelJustify = true;
 
   panelBodyCreator = (context: BaseEventContext) => {
     const renderer: any = context.info.renderer;
-
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -52,6 +118,10 @@ export class LocationControlPlugin extends BasePlugin {
               body: [
                 getSchemaTpl('layout:originPosition', {value: 'left-top'}),
                 getSchemaTpl('formItemName', {
+                  label: tipedLabel(
+                    '字段名',
+                    `格式详见<a href="https://aisuda.bce.baidu.com/amis/zh-CN/components/form/location-picker">文档</a>`
+                  ),
                   required: true
                 }),
                 getSchemaTpl('label'),
@@ -82,7 +152,13 @@ export class LocationControlPlugin extends BasePlugin {
                     {label: '国测局坐标', value: 'gcj02'}
                   ]
                 },
-
+                getSchemaTpl('tplFormulaControl', {
+                  name: 'value',
+                  label: tipedLabel(
+                    '默认值',
+                    `格式详见<a href="https://aisuda.bce.baidu.com/amis/zh-CN/components/form/location-picker">文档</a>`
+                  )
+                }),
                 getSchemaTpl('clearable'),
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
@@ -94,7 +170,7 @@ export class LocationControlPlugin extends BasePlugin {
               isFormItem: true,
               readonly: false
             }),
-            getSchemaTpl('validation', {tag: ValidatorTag.Text})
+            getSchemaTpl('validation', {tag: ValidatorTag.File})
           ])
         ]
       },
@@ -103,6 +179,16 @@ export class LocationControlPlugin extends BasePlugin {
         body: [
           getSchemaTpl('collapseGroup', [
             getSchemaTpl('style:formItem', {renderer}),
+            getSchemaTpl('theme:form-label'),
+            {
+              title: '输入框样式',
+              body: [
+                ...inputStateTpl(
+                  'themeCss.inputControlClassName',
+                  'input.base.default'
+                )
+              ]
+            },
             getSchemaTpl('theme:classNames', {
               schema: [
                 {
@@ -121,8 +207,43 @@ export class LocationControlPlugin extends BasePlugin {
                   name: 'staticClassName'
                 }
               ]
+            }),
+            getSchemaTpl('style:classNames', {
+              isFormItem: false,
+              schema: [
+                getSchemaTpl('className', {
+                  name: 'popoverClassName',
+                  label: '地图弹窗'
+                })
+              ]
+            }),
+            getSchemaTpl('theme:cssCode', {
+              themeClass: [
+                {
+                  name: '输入框',
+                  value: '',
+                  className: 'inputControlClassName',
+                  state: ['default', 'hover', 'active']
+                },
+                {
+                  name: 'addOn',
+                  value: 'addOn',
+                  className: 'addOnClassName'
+                }
+              ],
+              isFormItem: true
             })
           ])
+        ]
+      },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
         ]
       }
     ]);
