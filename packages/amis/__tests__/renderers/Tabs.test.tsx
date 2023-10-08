@@ -1,6 +1,6 @@
 /**
  * 组件名称：Tabs 选项卡
- * 
+ *
  * 单测内容：
  1. 点击切换
  2. 各种展示模式
@@ -14,6 +14,7 @@
  10. disabled 可禁用
  11. tabs 作为表单项
  12. collapseOnExceed 配置超出折叠
+ 13. 新增tab支持通过 addedTabSchema 统一配置
  */
 
 import {
@@ -544,4 +545,87 @@ test('Renderer:tabs with collapseOnExceed', async () => {
   expect(
     container.querySelector('.is-active.cxd-Tabs-pane')!
   ).toHaveTextContent('Content 5');
+});
+
+// 13. addedTabSchema
+test('Renderer:tabs addedTabSchema', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'tabs',
+        closable: true,
+        addable: true,
+        addBtnText: '新增Tab',
+        addedTabSchema: {
+          title: '我是新增的title',
+          tab: [
+            {
+              type: 'input-text',
+              value: '我是新增的body'
+            }
+          ]
+        },
+        tabs: [
+          {
+            title: 'Tab 1',
+            tab: 'Content 1',
+            closable: false
+          },
+          {
+            title: 'Tab 2',
+            tab: 'Content 2'
+          }
+        ]
+      },
+      {},
+      makeEnv()
+    )
+  );
+
+  fireEvent.click(getByText('新增Tab'));
+  await waitFor(() => {
+    getByText('我是新增的title');
+  });
+  expect(!getByText('我是新增的title')).toBeFalsy();
+  const inputElement = container.querySelector('input[type="text"]') as any;
+  expect(inputElement?.value).toBe('我是新增的body');
+});
+
+// 14. 通过 source 获取数据，配合titleSchema/tabSchema
+test('Renderer:tabs source', async () => {
+  const {getByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          arr: [
+            {
+              a: '收入',
+              b: 199
+            },
+
+            {
+              a: '支出',
+              b: 299
+            }
+          ]
+        },
+        body: [
+          {
+            type: 'tabs',
+            source: '${arr}',
+            titleSchema: '${a}',
+            tabSchema: {
+              type: 'tpl',
+              tpl: '金额：${b|number}元'
+            }
+          }
+        ]
+      },
+      {},
+      makeEnv()
+    )
+  );
+  expect(!getByText('收入')).toBeFalsy();
+  expect(!getByText('支出')).toBeFalsy();
 });

@@ -402,6 +402,10 @@
           }
         }
       }
+
+      .cxd-Tabs-addable {
+        height: max-content;
+      }
     }
 
     > .#{$ns}Tabs-content {

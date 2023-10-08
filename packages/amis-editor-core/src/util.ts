@@ -1192,6 +1192,7 @@ export async function getVariables(that: any) {
   let variablesArr: any[] = [];
 
   const {variables, requiredDataPropsVariables} = that.props;
+
   if (!variables || requiredDataPropsVariables) {
     // 从amis数据域中取变量数据
     const {node, manager} = that.props.formProps || that.props;

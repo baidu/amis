@@ -1,6 +1,11 @@
 import React from 'react';
-import {Renderer, RendererProps, resolveEventData} from 'amis-core';
-import {ActionObject, Schema, SchemaNode} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  extendObject,
+  resolveEventData
+} from 'amis-core';
+import {ActionObject} from 'amis-core';
 import find from 'lodash/find';
 import {
   isVisible,
@@ -17,10 +22,10 @@ import {ClassNamesFn} from 'amis-core';
 import {
   BaseSchema,
   SchemaClassName,
-  SchemaCollection,
   SchemaIcon,
   SchemaExpression,
-  SchemaObject
+  SchemaObject,
+  SchemaCollection
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {filter} from 'amis-core';
@@ -34,7 +39,7 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
    * Tab 标题
    */
-  title?: string | SchemaObject;
+  title?: SchemaCollection;
 
   /**
    * 内容
@@ -187,7 +192,7 @@ export interface TabsSchema extends BaseSchema {
   /**
    * 自定义增加按钮文案
    */
-  addBtnText?: string;
+  addBtnText?: SchemaExpression | SchemaObject;
 
   /**
    * 初始化激活的选项卡，hash值或索引值，支持使用表达式
@@ -202,16 +207,35 @@ export interface TabsSchema extends BaseSchema {
   /**
    * 超过多少个时折叠按钮
    */
-  collapseOnExceed?: number;
+  collapseOnExceed?: number | SchemaExpression;
 
   /**
    * 折叠按钮文字
    */
-  collapseBtnLabel?: string;
+  collapseBtnLabel?: SchemaExpression;
   /**
    * 是否滑动切换只在移动端生效
    */
   swipeable?: boolean;
+  /**
+   *  新增tab页统一配置
+   */
+  addedTabSchema?: {
+    body: SchemaCollection;
+    title: SchemaCollection;
+  };
+  /**
+   * tab 标题模板, 搭配source使用
+   */
+  titleSchema?: SchemaCollection;
+  /**
+   * tab 内容模板, 搭配source使用
+   */
+  tabSchema?: SchemaCollection;
+  /**
+   * 标题提示模板, 搭配showTip使用
+   */
+  tipSchema?: SchemaExpression;
 }
 
 export interface TabsProps
@@ -232,9 +256,11 @@ export interface TabsState {
   prevKey: any;
   localTabs: Array<TabSource>;
   isFromSource: boolean;
+  titleSchema?: SchemaCollection;
+  tabSchema?: SchemaCollection;
 }
 
-export type TabsRendererEvent = 'change';
+export type TabsRendererEvent = 'change' | 'add';
 export type TabsRendererAction = 'changeActiveKey';
 
 export default class Tabs extends React.Component<TabsProps, TabsState> {
@@ -253,9 +279,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     super(props);
 
     const location = props.location || window.location;
-    const {tabs, source, data} = props;
+    const {tabs, source, data, titleSchema, tabSchema} = props;
     let activeKey: any = 0;
-
     if (typeof props.activeKey !== 'undefined') {
       activeKey = props.activeKey;
     } else if (location && Array.isArray(tabs)) {
@@ -275,17 +300,23 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
           props.data
         );
       }
-
       activeKey = activeKey || (tabs[0] && tabs[0].hash) || 0;
     }
 
-    const [localTabs, isFromSource] = this.initTabArray(tabs, source, data);
-
+    const [localTabs, isFromSource] = this.initTabArray(
+      tabs,
+      source,
+      data,
+      titleSchema,
+      tabSchema
+    );
     this.state = {
       prevKey: undefined,
       activeKey: (this.activeKey = activeKey),
       localTabs,
-      isFromSource
+      isFromSource,
+      titleSchema,
+      tabSchema
     };
   }
 
@@ -294,22 +325,42 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   initTabArray(
     tabs: Array<TabSource>,
     source?: string,
-    data?: any
+    data?: any,
+    titleSchema?: SchemaCollection,
+    tabSchema?: SchemaCollection
   ): [Array<TabSource>, boolean] {
-    if (!tabs) {
-      return [[], false];
-    }
+    // 从上下文变量data中获取需要的数据
     const arr = resolveVariableAndFilter(source, data, '| raw');
-    if (!Array.isArray(arr)) {
-      return [tabs, false];
+    if (!Array.isArray(arr) || !arr.length) {
+      return tabs
+        ? Array.isArray(tabs)
+          ? [tabs, false]
+          : [[tabs], false]
+        : [[], false];
     }
-
-    tabs = Array.isArray(tabs) ? tabs : [tabs];
 
     const sourceTabs: Array<TabSource> = [];
-    arr.forEach(value => {
-      sourceTabs.push(...tabs.map((tab: TabSource) => ({...tab, data: value})));
-    });
+
+    // 兼容旧版本（若在tab中配置，优先使用tab）
+    if (tabs) {
+      tabs = Array.isArray(tabs) ? tabs : [tabs];
+      arr.forEach(value => {
+        sourceTabs.push(
+          ...tabs.map((tab: TabSource) => ({...tab, data: value}))
+        );
+      });
+    } else {
+      // 选中了可用变量 & 配置了titleschema，tabs根据source获取的数据渲染
+      // 否则使用tabs中的配置数据
+      // title: 优先使用配置的titleSchema，未配置使用tab的配置，最后使用默认title
+      arr.forEach((value, index) => {
+        sourceTabs.push({
+          title: titleSchema || `选项卡 ${index + 1}`,
+          body: tabSchema || `Content ${index + 1}`,
+          data: value
+        });
+      });
+    }
 
     return [sourceTabs, true];
   }
@@ -361,7 +412,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     const isTabsModified = isObjectShallowModified(
       {
         tabs: props.tabs,
-        source: resolveVariableAndFilter(props.source, props.data, '| raw')
+        source: resolveVariableAndFilter(props.source, props.data, '| raw'),
+        titleSchema: props.titleSchema,
+        tabSchema: props.tabSchema
       },
       {
         tabs: preProps.tabs,
@@ -369,16 +422,19 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
           preProps.source,
           preProps.data,
           '| raw'
-        )
+        ),
+        titleSchema: preProps.titleSchema,
+        tabSchema: preProps.tabSchema
       },
       false
     );
-
     if (isTabsModified) {
       const [newLocalTabs, isFromSource] = this.initTabArray(
         props.tabs,
         props.source,
-        props.data
+        props.data,
+        props.titleSchema,
+        props.tabSchema
       );
 
       this.setState({
@@ -556,12 +612,16 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 
   @autobind
-  handleAdd() {
+  async handleAdd() {
     const localTabs = this.state.localTabs.concat();
-
+    const {addedTabSchema} = this.props;
     localTabs.push({
-      title: `tab${this.newTabDefaultId++}`,
-      body: 'tab'
+      ...(addedTabSchema
+        ? addedTabSchema
+        : {
+            title: `tab${this.newTabDefaultId++}`,
+            body: 'tab'
+          })
     } as TabSource);
 
     this.setState(
@@ -690,7 +750,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   @autobind
   currentIndex(): number {
-    // const {tabs} = this.props;
     const localTabs = this.state.localTabs;
 
     return Array.isArray(localTabs)
@@ -704,14 +763,22 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   // 渲染tabs的title
   renderTabTitle(
-    title: string | SchemaObject | undefined,
+    title: SchemaCollection | undefined,
     index: number,
     data: any
   ) {
     const {render} = this.props;
-    return typeof title === 'string' || !title
-      ? filter(title, data)
-      : render(`tab-title/${index}`, title, {...data, index});
+    const res =
+      typeof title === 'string' || !title
+        ? filter(title, data)
+        : render(`tab-title/${index}`, title, {
+            data: createObject(
+              data,
+              isObject(data) ? {index, ...data} : {item: data, index}
+            ),
+            key: index
+          });
+    return res;
   }
 
   renderToolbar() {
@@ -722,6 +789,19 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         {render('toolbar', toolbar)}
       </div>
     ) : null;
+  }
+
+  // 渲染可新增按钮
+  renderAddBtn(
+    addBtnText: SchemaExpression | SchemaObject,
+    renderRegion: string
+  ) {
+    const {render, translate: __} = this.props;
+    const res =
+      typeof addBtnText === 'string'
+        ? __(addBtnText)
+        : render('tab-addBtnText', addBtnText);
+    return res;
   }
 
   renderTabs() {
@@ -757,9 +837,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       collapseBtnLabel,
       disabled,
       mobileUI,
-      swipeable
+      swipeable,
+      tipSchema
     } = this.props;
-
     const mode = tabsMode || dMode;
     let mountOnEnter = this.props.mountOnEnter;
 
@@ -769,20 +849,28 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       mountOnEnter = false;
     }
 
+    let resolvedtipSchema = resolveVariableAndFilter(tipSchema, data, '| raw');
+
+    const resolvedCollapseOnExceed =
+      typeof collapseOnExceed === 'number'
+        ? collapseOnExceed
+        : resolveVariableAndFilter(collapseOnExceed, data, '| raw');
+
     const {localTabs: tabs, isFromSource} = this.state;
     let children: Array<JSX.Element | null> = [];
-
     // 是否从 source 数据中生成
     if (isFromSource) {
-      children = tabs.map((tab: TabSource, index: number) => {
+      children = tabs?.map((tab: TabSource, index: number) => {
         const ctx = createObject(
           data,
           isObject(tab.data) ? {index, ...tab.data} : {item: tab.data, index}
         );
+        resolvedtipSchema = resolveVariableAndFilter(tipSchema, tab, '| raw');
+
         return isVisible(tab, ctx) ? (
           <Tab
             {...(tab as any)}
-            title={this.renderTabTitle(tab.title, index, ctx)}
+            title={this.renderTabTitle(tab?.title, index, ctx)}
             disabled={disabled || isDisabled(tab, ctx)}
             key={index}
             eventKey={filter(tab.hash, ctx) || index}
@@ -819,8 +907,15 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         ) : null;
       });
     } else {
-      children = tabs.map((tab, index) =>
-        isVisible(tab, data) ? (
+      children = tabs?.map((tab, index) => {
+        const ctx = createObject(
+          data,
+          isObject(tab.data) ? {index, ...tab.data} : {item: tab.data, index}
+        );
+
+        resolvedtipSchema = resolveVariableAndFilter(tipSchema, tab, '| raw');
+
+        return isVisible(tab, data) ? (
           <Tab
             {...(tab as any)}
             title={this.renderTabTitle(tab.title, index, data)}
@@ -844,6 +939,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 : unmountOnExit
             }
             onSelect={this.handleSelect}
+            tip={
+              typeof resolvedtipSchema === 'string' ? resolvedtipSchema : null
+            }
           >
             {this.renderTab
               ? this.renderTab(tab, this.props, index)
@@ -860,13 +958,13 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                   }
                 )}
           </Tab>
-        ) : null
-      );
+        ) : null;
+      });
     }
 
     return (
       <CTabs
-        addBtnText={__(addBtnText || 'add')}
+        addBtnText={this.renderAddBtn(addBtnText || 'add', 'tab-addBtnText')}
         classPrefix={ns}
         classnames={cx}
         mode={mode}
@@ -888,9 +986,12 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         editable={editable}
         onEdit={this.handleEdit}
         sidePosition={sidePosition}
-        collapseOnExceed={collapseOnExceed}
+        collapseOnExceed={resolvedCollapseOnExceed}
         collapseBtnLabel={collapseBtnLabel}
         mobileUI={mobileUI}
+        tipSchema={
+          typeof resolvedtipSchema === 'string' ? resolvedtipSchema : null
+        }
       >
         {children}
       </CTabs>

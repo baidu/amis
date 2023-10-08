@@ -5,7 +5,13 @@
  */
 
 import React from 'react';
-import {ClassName, localeable, LocaleProps, Schema} from 'amis-core';
+import {
+  ClassName,
+  evalExpression,
+  localeable,
+  LocaleProps,
+  Schema
+} from 'amis-core';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {themeable, ThemeProps, noop} from 'amis-core';
 import {uncontrollable} from 'amis-core';
@@ -40,7 +46,7 @@ export type TabsMode =
   | 'sidebar';
 
 export interface TabProps extends ThemeProps {
-  title?: string | React.ReactNode; // 标题
+  title?: React.ReactNode; // 标题
   icon?: string;
   iconPosition?: 'left' | 'right';
   disabled?: boolean | string;
@@ -175,10 +181,11 @@ export interface TabsProps extends ThemeProps, LocaleProps {
   editable?: boolean;
   onEdit?: (index: number, text: string) => void;
   sidePosition?: 'left' | 'right';
-  addBtnText?: string;
+  addBtnText?: React.ReactNode;
   collapseOnExceed?: number;
-  collapseBtnLabel?: string;
+  collapseBtnLabel?: React.ReactNode;
   popOverContainer?: any;
+  tipSchema?: string | null;
   children?: React.ReactNode | Array<React.ReactNode>;
 }
 
@@ -585,7 +592,8 @@ export class Tabs extends React.Component<TabsProps, any> {
       draggable,
       showTip,
       showTipClassName,
-      editable
+      editable,
+      tipSchema
     } = this.props;
 
     const {
@@ -607,7 +615,6 @@ export class Tabs extends React.Component<TabsProps, any> {
       activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
 
     const iconElement = <Icon cx={cx} icon={icon} className="Icon" />;
-
     const link = (
       <a title={typeof title === 'string' ? title : undefined}>
         {editable && editingIndex === index ? (
@@ -645,7 +652,6 @@ export class Tabs extends React.Component<TabsProps, any> {
         )}
       </a>
     );
-
     return (
       <li
         className={cx(
@@ -665,7 +671,9 @@ export class Tabs extends React.Component<TabsProps, any> {
         {showTip ? (
           <TooltipWrapper
             placement="top"
-            tooltip={tip ?? (typeof title === 'string' ? title : '')}
+            tooltip={
+              tip ?? tipSchema ?? (typeof title === 'string' ? title : '')
+            }
             trigger="hover"
             tooltipClassName={showTipClassName}
           >
@@ -836,7 +844,6 @@ export class Tabs extends React.Component<TabsProps, any> {
       addBtnText,
       mobileUI
     } = this.props;
-
     const {isOverflow} = this.state;
     if (!Array.isArray(children)) {
       return null;

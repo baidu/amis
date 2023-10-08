@@ -48,7 +48,7 @@ import './renderer/crud2-control/CRUDToolbarControl';
 import './renderer/crud2-control/CRUDFiltersControl';
 import './renderer/InputRangeValueControl';
 import './renderer/FunctionEditorControl';
-
+import './renderer/TabsControl';
 import 'amis-theme-editor/lib/locale/zh-CN';
 import 'amis-theme-editor/lib/locale/en-US';
 import 'amis-theme-editor/lib/renderers/Border';
