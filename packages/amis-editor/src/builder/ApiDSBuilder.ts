@@ -98,8 +98,8 @@ export class ApiDSBuilder extends DSBuilder<
     const sourceKey = key && typeof key === 'string' ? key : 'api';
     const apiSchema = schema?.[sourceKey];
 
-    if (schema?.dsType === this.key || apiSchema?.sourceType === this.key) {
-      return true;
+    if (schema?.dsType != null || apiSchema?.sourceType != null) {
+      return schema?.dsType === this.key || apiSchema?.sourceType === this.key;
     }
 
     /**

@@ -122,13 +122,12 @@ export class PaginationPlugin extends BasePlugin {
                   {
                     type: 'checkbox',
                     name: 'checked',
-                    className: 'm-t-n-xxs',
-                    inputClassName: 'p-t-none'
+                    inputClassName: 'p-t-none mt-1.5'
                   },
                   {
                     type: 'tpl',
                     name: 'text',
-                    className: 'p-t-xs'
+                    className: 'inline-block pt-1.5'
                   }
                 ],
                 pipeIn: (value: any) => {

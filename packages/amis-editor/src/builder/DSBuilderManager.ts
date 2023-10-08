@@ -32,11 +32,11 @@ export class DSBuilderManager {
     return this.builders.get(scaffoldConfig.dsType);
   }
 
-  getBuilderBySchema(schema: any) {
+  getBuilderBySchema(schema: any, sourceKey?: string) {
     let builder: DSBuilderInterface | undefined;
 
     for (let [key, value] of Array.from(this.builders.entries())) {
-      if (value.match(schema)) {
+      if (value.match(schema, sourceKey)) {
         builder = value;
         break;
       }

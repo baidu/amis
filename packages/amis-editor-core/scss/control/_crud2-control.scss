@@ -53,6 +53,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-right: var(--gap-xs);
 
         & > button {
           color: #151b26;
