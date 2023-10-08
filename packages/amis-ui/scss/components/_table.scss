@@ -383,7 +383,7 @@
 
     > tbody > tr {
       position: relative;
-      background: var(--Table-bg);
+      // background: var(--Table-bg);
 
       & + tr {
         border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
