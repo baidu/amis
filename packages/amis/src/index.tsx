@@ -121,6 +121,7 @@ import './renderers/Link';
 import './renderers/Wizard';
 import './renderers/Chart';
 import './renderers/Container';
+import './renderers/SwitchContainer';
 import './renderers/SearchBox';
 import './renderers/Service';
 import './renderers/SparkLine';
