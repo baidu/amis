@@ -6,7 +6,8 @@ import {
   IScopedContext,
   SchemaExpression,
   position,
-  animation
+  animation,
+  evalExpressionWithConditionBuilder
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
@@ -2764,12 +2765,47 @@ export class TableRenderer extends Table {
     }
   }
 
-  setData(values: any, replace?: boolean) {
-    const data = {
-      ...values,
-      rows: values.rows ?? values.items // 做个兼容
-    };
-    return this.props.store.updateData(data, undefined, replace);
+  async setData(
+    values: any,
+    replace?: boolean,
+    index?: number | string,
+    condition?: any
+  ) {
+    const {store} = this.props;
+    const len = store.data.rows.length;
+
+    if (index !== undefined) {
+      let items = [...store.data.rows];
+      const indexs = String(index).split(',');
+      indexs.forEach(i => {
+        const intIndex = Number(i);
+        items.splice(intIndex, 1, values);
+      });
+      // 更新指定行记录，只需要提供行记录即可
+      return store.updateData({rows: items}, undefined, replace);
+    } else if (condition !== undefined) {
+      let items = [...store.data.rows];
+      for (let i = 0; i < len; i++) {
+        const item = items[i];
+        const isUpdate = await evalExpressionWithConditionBuilder(
+          condition,
+          item
+        );
+
+        if (isUpdate) {
+          items.splice(i, 1, values);
+        }
+      }
+
+      // 更新指定行记录，只需要提供行记录即可
+      return store.updateData({rows: items}, undefined, replace);
+    } else {
+      const data = {
+        ...values,
+        rows: values.rows ?? values.items // 做个兼容
+      };
+      return store.updateData(data, undefined, replace);
+    }
   }
 
   getData() {

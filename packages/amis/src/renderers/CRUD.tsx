@@ -2,7 +2,13 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps, filterTarget, mapTree} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  evalExpressionWithConditionBuilder,
+  filterTarget,
+  mapTree
+} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
@@ -2605,26 +2611,57 @@ export class CRUDRenderer extends CRUD {
     scoped.close(target);
   }
 
-  setData(
+  async setData(
     values: {
       items?: any[];
       rows?: any[];
       total?: number;
       count?: number;
     },
-    replace?: boolean
+    replace?: boolean,
+    index?: number | string,
+    condition?: any
   ) {
     const {store} = this.props;
-    const total = values?.total || values?.count;
-    if (total !== undefined) {
-      store.updateTotal(parseInt(total as any, 10));
-    }
+    const len = store.data.items.length;
 
-    return store.updateData(
-      {...values, items: values.rows ?? values.items}, // 做个兼容
-      undefined,
-      replace
-    );
+    if (index !== undefined) {
+      let items = [...store.data.items];
+      const indexs = String(index).split(',');
+      indexs.forEach(i => {
+        const intIndex = Number(i);
+        items.splice(intIndex, 1, values);
+      });
+      // 更新指定行记录，只需要提供行记录即可
+      return store.updateData({...values, items}, undefined, replace);
+    } else if (condition !== undefined) {
+      let items = [...store.data.items];
+      for (let i = 0; i < len; i++) {
+        const item = items[i];
+        const isUpdate = await evalExpressionWithConditionBuilder(
+          condition,
+          item
+        );
+
+        if (isUpdate) {
+          items.splice(i, 1, values);
+        }
+      }
+
+      // 更新指定行记录，只需要提供行记录即可
+      return store.updateData({...values, items}, undefined, replace);
+    } else {
+      const total = values?.total || values?.count;
+      if (total !== undefined) {
+        store.updateTotal(parseInt(total as any, 10));
+      }
+
+      return store.updateData(
+        {...values, items: values.rows ?? values.items}, // 做个兼容
+        undefined,
+        replace
+      );
+    }
   }
 
   getData() {

@@ -2798,6 +2798,8 @@ value 结构说明：
 
 ### setValue
 
+#### 更新列表记录
+
 ```schema: scope="body"
 [
     {
@@ -2892,4 +2894,164 @@ value 结构说明：
       ]
     }
 ]
+```
+
+#### 更新指定行记录
+
+可以通过指定`index`或者`condition`来分别更新指定索引的行记录和指定满足条件（条件表达式或者 ConditionBuilder）的行记录，另外`replace`同样生效，即可以完全替换指定行记录，也可以对指定行记录做合并。
+
+```schema
+{
+    "type": "page",
+    "data": {
+        i: '1,3'
+    },
+    body: [
+    {
+        "type": "button",
+        "label": "更新index为1和3的行记录",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "table_setvalue_item",
+                "args": {
+                  "value": {
+                    "engine": "amis",
+                    "browser": "Chrome",
+                    "platform": "Mac Pro",
+                    "version": "8",
+                    "grade": "Y",
+                    "badgeText": "你好！",
+                    "id": 1234
+                  },
+                  "index": "${i}"
+                }
+              }
+            ]
+          }
+        }
+    },
+    {
+        "type": "button",
+        "label": "更新index为1和3的行记录(替换)",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "table_setvalue_item",
+                "args": {
+                  "value": {
+                    "engine": "amis",
+                    "id": 1234
+                  },
+                  "index": "${i}",
+                  "replace": true
+                }
+              }
+            ]
+          }
+        }
+    },
+    {
+        "type": "button",
+        "label": "更新version=7的行记录",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "table_setvalue_item",
+                "args": {
+                  "value": {
+                    "engine": "amis",
+                    "browser": "Chrome",
+                    "platform": "Mac Pro",
+                    "version": "4",
+                    "grade": "Y",
+                    "badgeText": "你好！",
+                    "id": 1234
+                  },
+                  "condition": "${version === '7'}"
+                }
+              }
+            ]
+          }
+        }
+    },
+    {
+        "type": "button",
+        "label": "更新version=4的行记录",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "table_setvalue_item",
+                "args": {
+                  "value": {
+                    "engine": "amis",
+                    "browser": "Chrome",
+                    "platform": "Mac Pro",
+                    "version": "4",
+                    "grade": "Y",
+                    "badgeText": "你好！",
+                    "id": 1234
+                  },
+                  "condition": {
+                      conjunction: 'and',
+                      children: [
+                        {
+                          left: {
+                            type: 'field',
+                            field: 'version'
+                          },
+                          op: 'equal',
+                          right: "4"
+                        }
+                      ]
+                    }
+                }
+              }
+            ]
+          }
+        }
+    },
+    {
+      "type": "service",
+      "id": "u:b25a8ef0050b",
+      "api": {
+        "method": "get",
+        "url": "/api/mock2/sample?perPage=5"
+      },
+      "body": [
+        {
+          "type": "table",
+          "id": "table_setvalue_item",
+          "title": "引擎列表",
+          "source": "$rows",
+          "columns": [
+            {
+              "name": "engine",
+              "label": "Engine",
+              "id": "u:4aa2e9034698",
+              "inline": true
+            },
+            {
+              "name": "version",
+              "label": "Version",
+              "id": "u:8b4cb96ca2bf",
+              "inline": true,
+              "tpl": "${version}"
+            }
+          ],
+          "selectable": true,
+          "multiple": true
+        }
+      ]
+    }
+    ]
+}
 ```
