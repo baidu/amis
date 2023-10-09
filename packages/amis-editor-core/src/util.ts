@@ -1155,10 +1155,10 @@ export function style2ThemeCss(data: any) {
       baseControlClassName
     };
   } else {
-    themeCss.baseControlClassName = Object.assign(
-      data.themeCss.baseControlClassName,
-      baseControlClassName
-    );
+    themeCss.baseControlClassName = {
+      ...data.themeCss.baseControlClassName,
+      ...baseControlClassName
+    };
   }
   return {
     ...data,
