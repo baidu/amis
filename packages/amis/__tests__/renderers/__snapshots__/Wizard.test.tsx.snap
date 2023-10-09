@@ -55,7 +55,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -99,7 +98,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -247,7 +245,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -291,7 +288,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -666,7 +662,6 @@ exports[`Renderer:Wizard dialog 1`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -710,7 +705,6 @@ exports[`Renderer:Wizard dialog 1`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -1055,7 +1049,6 @@ exports[`Renderer:Wizard dialog 2`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -1099,7 +1092,6 @@ exports[`Renderer:Wizard dialog 2`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -1327,7 +1319,6 @@ exports[`Renderer:Wizard initApi default 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -1371,7 +1362,6 @@ exports[`Renderer:Wizard initApi default 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -1415,7 +1405,6 @@ exports[`Renderer:Wizard initApi default 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -1660,7 +1649,6 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -1704,7 +1692,6 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -1935,7 +1922,6 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -1979,7 +1965,6 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -2147,7 +2132,6 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -2191,7 +2175,6 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -2417,7 +2400,6 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -2461,7 +2443,6 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -2505,7 +2486,6 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -2871,7 +2851,6 @@ exports[`Renderer:Wizard send data 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -2915,7 +2894,6 @@ exports[`Renderer:Wizard send data 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -3066,7 +3044,6 @@ exports[`Renderer:Wizard step initApi 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -3110,7 +3087,6 @@ exports[`Renderer:Wizard step initApi 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -3154,7 +3130,6 @@ exports[`Renderer:Wizard step initApi 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -3418,7 +3393,6 @@ exports[`Renderer:Wizard target 1`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -3462,7 +3436,6 @@ exports[`Renderer:Wizard target 1`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -3772,7 +3745,6 @@ exports[`Renderer:Wizard validate 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -3816,7 +3788,6 @@ exports[`Renderer:Wizard validate 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -3860,7 +3831,6 @@ exports[`Renderer:Wizard validate 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
