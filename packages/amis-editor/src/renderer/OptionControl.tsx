@@ -27,6 +27,7 @@ import type {Option} from 'amis';
 import {createObject, FormControlProps} from 'amis-core';
 import type {OptionValue} from 'amis-core';
 import type {SchemaApi} from 'amis';
+import debounce from 'lodash/debounce';
 
 export type valueType = 'text' | 'boolean' | 'number';
 
@@ -914,7 +915,7 @@ export default class OptionControl extends React.Component<
               body: [
                 getSchemaTpl('sourceBindControl', {
                   label: false,
-                  onChange: this.handleAPIChange
+                  onChange: debounce(this.handleAPIChange, 1000)
                 })
               ].concat(this.getFuncFieldSchema())
             })
