@@ -207,9 +207,7 @@ export function Steps(props: StepsProps) {
                     <span
                       className={cx('StepsItem-ellText')}
                       title={
-                        typeof step.title === 'string'
-                          ? String(step.title)
-                          : undefined
+                        typeof step.title === 'string' ? step.title : undefined
                       }
                     >
                       {step.title}
@@ -222,7 +220,7 @@ export function Steps(props: StepsProps) {
                         )}
                         title={
                           typeof step.subTitle === 'string'
-                            ? String(step.subTitle)
+                            ? step.subTitle
                             : undefined
                         }
                       >
@@ -234,7 +232,7 @@ export function Steps(props: StepsProps) {
                     className={cx('StepsItem-description', 'StepsItem-ellText')}
                     title={
                       typeof step.description === 'string'
-                        ? String(step.description)
+                        ? step.description
                         : undefined
                     }
                   >
