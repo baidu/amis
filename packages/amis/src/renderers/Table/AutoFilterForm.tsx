@@ -15,7 +15,7 @@ export interface AutoFilterFormProps extends RendererProps {
   activedSearchableColumns: Array<IColumn>;
   searchableColumns: Array<IColumn>;
   columnsNum: number;
-  onItemToggleExpanded?: (column: IColumn, value: any) => void;
+  onItemToggleExpanded?: (column: IColumn, value: boolean) => void;
   onToggleExpanded?: () => void;
   query?: any;
 
@@ -122,15 +122,24 @@ export function AutoFilterForm({
                 column.searchable.strategy === 'jsonql' ? '' : '__search_'
               }${column.searchable?.name ?? column.name}`,
               option: column.searchable?.label ?? column.label,
-              value: column.enableSearch,
+              /**
+               * syncLocation开启后，参数值会从地址栏Query中二次同步到数据域中，其中布尔(boolean)类型的值被转化为字符串
+               * eg:
+               *     true ==> "true"
+               *     false ==> "false"
+               * 所以这里将真值和假值转化成字符串格式规避
+               */
+              trueValue: '1',
+              falseValue: '0',
+              value: !!column.enableSearch ? '1' : '0',
               badge: {
                 offset: [-10, 5],
                 visibleOn: `${
                   column.toggable && !column.toggled && column.enableSearch
                 }`
               },
-              onChange: (value: boolean) =>
-                onItemToggleExpanded?.(column, value)
+              onChange: (value: '1' | '0') =>
+                onItemToggleExpanded?.(column, value === '1' ? true : false)
             };
           })
         },
@@ -216,7 +225,7 @@ export default observer(
     query: any;
   }) => {
     const onItemToggleExpanded = React.useCallback(
-      (column: IColumn, value: any) => {
+      (column: IColumn, value: boolean) => {
         column.setEnableSearch(value);
         store.setSearchFormExpanded(true);
       },
