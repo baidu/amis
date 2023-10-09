@@ -206,7 +206,11 @@ export function Steps(props: StepsProps) {
                   >
                     <span
                       className={cx('StepsItem-ellText')}
-                      title={String(step.title)}
+                      title={
+                        typeof step.title === 'string'
+                          ? String(step.title)
+                          : undefined
+                      }
                     >
                       {step.title}
                     </span>
@@ -216,7 +220,11 @@ export function Steps(props: StepsProps) {
                           'StepsItem-subTitle',
                           'StepsItem-ellText'
                         )}
-                        title={String(step.subTitle)}
+                        title={
+                          typeof step.subTitle === 'string'
+                            ? String(step.subTitle)
+                            : undefined
+                        }
                       >
                         {step.subTitle}
                       </span>
@@ -224,7 +232,11 @@ export function Steps(props: StepsProps) {
                   </div>
                   <div
                     className={cx('StepsItem-description', 'StepsItem-ellText')}
-                    title={String(step.description)}
+                    title={
+                      typeof step.description === 'string'
+                        ? String(step.description)
+                        : undefined
+                    }
                   >
                     <span>{step.description}</span>
                   </div>
