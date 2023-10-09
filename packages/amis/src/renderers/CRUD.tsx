@@ -15,7 +15,6 @@ import {
   getVariable,
   qsstringify,
   qsparse,
-  isArrayChildrenModified,
   isIntegerInRange
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
@@ -58,6 +57,7 @@ import {
 import type {PaginationProps} from './Pagination';
 import {isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
+import memoize from 'lodash/memoize';
 
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
@@ -212,6 +212,12 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
    * @default perPage
    */
   perPageField?: string;
+
+  /**
+   * 设置分页方向的字段名。单位简单分页时清楚时向前还是向后翻页。
+   * @default pageDir
+   */
+  pageDirectionField?: string;
 
   /**
    * 快速编辑后用来批量保存的 API
@@ -407,6 +413,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'perPageAvailable',
     'pageField',
     'perPageField',
+    'pageDirectionField',
     'hideQuickSaveBtn',
     'autoJumpToTopOnPagerChange',
     'interval',
@@ -454,6 +461,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     syncLocation: true,
     pageField: 'page',
     perPageField: 'perPage',
+    pageDirectionField: 'pageDir',
     hideQuickSaveBtn: false,
     autoJumpToTopOnPagerChange: true,
     silentPolling: false,
@@ -472,6 +480,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   mounted: boolean;
   /** 父容器, 主要用于定位CRUD内部popover的挂载点 */
   parentContainer: Element | null;
+
+  filterOnEvent = memoize(onEvent =>
+    omitBy(onEvent, (event, key: any) => !INNER_EVENTS.includes(key))
+  );
 
   constructor(props: CRUDProps) {
     super(props);
@@ -548,8 +560,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   componentDidMount() {
-    const {store, autoGenerateFilter, columns} = this.props;
-    if (this.props.perPage) {
+    const {store, autoGenerateFilter, perPageField, columns} = this.props;
+    if (this.props.perPage && !store.query[perPageField || 'perPage']) {
       store.changePage(store.page, this.props.perPage);
     }
 
@@ -584,13 +596,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     let val: any;
-
     if (
       this.props.pickerMode &&
-      isArrayChildrenModified(
-        (val = getPropValue(this.props)),
-        getPropValue(prevProps)
-      ) &&
+      !isEqual((val = getPropValue(this.props)), getPropValue(prevProps)) &&
       !isEqual(val, store.selectedItems.concat())
     ) {
       /**
@@ -662,6 +670,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   componentWillUnmount() {
     this.mounted = false;
     clearTimeout(this.timer);
+    this.filterOnEvent.cache.clear?.();
   }
 
   /** 查找CRUD最近层级的父窗口 */
@@ -1299,13 +1308,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     return this.search(values, true, clearSelection, forceReload);
   }
 
-  handleChangePage(page: number, perPage?: number) {
+  handleChangePage(
+    page: number,
+    perPage?: number,
+    dir?: 'forward' | 'backward'
+  ) {
     const {
       store,
       syncLocation,
       env,
       pageField,
       perPageField,
+      pageDirectionField,
       autoJumpToTopOnPagerChange,
       affixOffsetTop
     } = this.props;
@@ -1313,6 +1327,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     let query: any = {
       [pageField || 'page']: page
     };
+
+    if (dir) {
+      query[pageDirectionField || 'pageDir'] = dir;
+    }
 
     if (perPage) {
       query[perPageField || 'perPage'] = perPage;
@@ -2451,10 +2469,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             ...rest,
             // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
             // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
-            onEvent: omitBy(
-              onEvent,
-              (event, key: any) => !INNER_EVENTS.includes(key)
-            ),
+            onEvent: this.filterOnEvent(onEvent),
             columns: store.columns ?? rest.columns,
             type: mode || 'table'
           },

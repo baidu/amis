@@ -3066,6 +3066,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | defaultParams                         | `Object`                                                                                |                                 | 设置默认 filter 默认参数，会在查询的时候一起发给后端                                                                  |
 | pageField                             | `string`                                                                                | `"page"`                        | 设置分页页码字段名。                                                                                                  |
 | perPageField                          | `string`                                                                                | `"perPage"`                     | 设置分页一页显示的多少条数据的字段名。注意：最好与 defaultParams 一起使用，请看下面例子。                             |
+| pageDirectionField                    | `string`                                                                                | `"pageDir"`                     | 分页方向字段名可能是 forward 或者 backward                                                                            |
 | perPageAvailable                      | `Array<number>`                                                                         | `[5, 10, 20, 50, 100]`          | 设置一页显示多少条数据下拉框可选条数。                                                                                |
 | orderField                            | `string`                                                                                |                                 | 设置用来确定位置的字段名，设置后新的顺序将被赋值到该字段中。                                                          |
 | hideQuickSaveBtn                      | `boolean`                                                                               | `false`                         | 隐藏顶部快速保存提示                                                                                                  |
@@ -3145,17 +3146,17 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称       | 事件参数                                                                | 说明                 |
-| -------------- | ----------------------------------------------------------------------- | -------------------- |
-| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行 | 手动选择表格项时触发 |
-| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值            | 点击列排序时触发     |
-| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string \| undefined` 列筛选值      | 点击列筛选时触发，点击重置后事件参数`filterValue`为`undefined`     |
-| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: object` 列搜索数据    | 点击列搜索时触发     |
-| orderChange    | `movedItems: item[]` 已排序数据                                         | 手动拖拽行排序时触发 |
-| columnToggled  | `columns: item[]` 当前显示的列配置数据                                  | 点击自定义列时触发   |
-| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引                    | 点击整行时触发       |
-| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                    | 移入整行时触发       |
-| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                    | 移出整行时触发       |
+| 事件名称       | 事件参数                                                                        | 说明                                                           |
+| -------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行         | 手动选择表格项时触发                                           |
+| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值                    | 点击列排序时触发                                               |
+| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string \| undefined` 列筛选值 | 点击列筛选时触发，点击重置后事件参数`filterValue`为`undefined` |
+| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: object` 列搜索数据            | 点击列搜索时触发                                               |
+| orderChange    | `movedItems: item[]` 已排序数据                                                 | 手动拖拽行排序时触发                                           |
+| columnToggled  | `columns: item[]` 当前显示的列配置数据                                          | 点击自定义列时触发                                             |
+| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引                            | 点击整行时触发                                                 |
+| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                            | 移入整行时触发                                                 |
+| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                            | 移出整行时触发                                                 |
 
 ### selectedChange
 
@@ -4269,7 +4270,7 @@ value 结构说明：
 
 ### setValue
 
-通过`setValue`更新指定CRUD的数据。
+通过`setValue`更新指定 CRUD 的数据。
 
 #### 合并数据
 
@@ -4406,6 +4407,7 @@ value 结构说明：
     }
 ]
 ```
+
 #### 更新列表记录
 
 ```schema: scope="body"

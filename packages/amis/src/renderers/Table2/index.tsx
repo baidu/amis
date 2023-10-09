@@ -552,7 +552,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     let selectedRowKeys: Array<string | number> = [];
     const keyField = store.keyField;
     // selectedRowKeysExpr比selectedRowKeys优先级高
-    if (typeof props.selected !== 'undefined') {
+    if (Array.isArray(props.selected)) {
       selectedRowKeys = props.selected.map((item: any) => item[keyField]) || [];
     } else {
       if (props.rowSelection && props.rowSelection.selectedRowKeysExpr) {

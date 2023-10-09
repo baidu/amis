@@ -81,53 +81,60 @@ export interface TableContentProps extends LocaleProps {
   dispatchEvent?: Function;
   onEvent?: OnEventProps;
   loading?: boolean;
+  columnWidthReady?: boolean;
+
+  // 以下纯粹是为了监控
+  someChecked?: boolean;
+  allChecked?: boolean;
+  isSelectionThresholdReached?: boolean;
+  orderBy?: string;
+  orderDir?: string;
 }
 
-@observer
-export class TableContent extends React.Component<TableContentProps> {
-  static renderItemActions(
-    props: Pick<
-      TableContentProps,
-      'itemActions' | 'render' | 'store' | 'classnames'
-    >
-  ) {
-    const {itemActions, render, store, classnames: cx} = props;
+export function renderItemActions(
+  props: Pick<
+    TableContentProps,
+    'itemActions' | 'render' | 'store' | 'classnames'
+  >
+) {
+  const {itemActions, render, store, classnames: cx} = props;
 
-    if (!store.hoverRow) {
-      return null;
-    }
-
-    const finalActions = Array.isArray(itemActions)
-      ? itemActions.filter(action => !action.hiddenOnHover)
-      : [];
-
-    if (!finalActions.length) {
-      return null;
-    }
-
-    return (
-      <ItemActionsWrapper store={store} classnames={cx}>
-        <div className={cx('Table-itemActions')}>
-          {finalActions.map((action, index) =>
-            render(
-              `itemAction/${index}`,
-              {
-                ...(action as any),
-                isMenuItem: true
-              },
-              {
-                key: index,
-                item: store.hoverRow,
-                data: store.hoverRow!.locals,
-                rowIndex: store.hoverRow!.index
-              }
-            )
-          )}
-        </div>
-      </ItemActionsWrapper>
-    );
+  if (!store.hoverRow) {
+    return null;
   }
 
+  const finalActions = Array.isArray(itemActions)
+    ? itemActions.filter(action => !action.hiddenOnHover)
+    : [];
+
+  if (!finalActions.length) {
+    return null;
+  }
+
+  return (
+    <ItemActionsWrapper store={store} classnames={cx}>
+      <div className={cx('Table-itemActions')}>
+        {finalActions.map((action, index) =>
+          render(
+            `itemAction/${index}`,
+            {
+              ...(action as any),
+              isMenuItem: true
+            },
+            {
+              key: index,
+              item: store.hoverRow,
+              data: store.hoverRow!.locals,
+              rowIndex: store.hoverRow!.index
+            }
+          )
+        )}
+      </div>
+    </ItemActionsWrapper>
+  );
+}
+
+export class TableContent extends React.PureComponent<TableContentProps> {
   render() {
     const {
       placeholder,
@@ -182,7 +189,7 @@ export class TableContent extends React.Component<TableContentProps> {
           ref={tableRef}
           className={cx(
             tableClassName,
-            store.columnWidthReady ? 'is-layout-fixed' : undefined
+            store.tableLayout === 'fixed' ? 'is-layout-fixed' : undefined
           )}
         >
           <ColGroup columns={columns} store={store} />
@@ -293,7 +300,6 @@ export class TableContent extends React.Component<TableContentProps> {
               affixRow={affixRow}
               data={data}
               rowsProps={{
-                data,
                 dispatchEvent,
                 onEvent
               }}
@@ -304,3 +310,27 @@ export class TableContent extends React.Component<TableContentProps> {
     );
   }
 }
+
+export default observer((props: TableContentProps) => {
+  const store = props.store;
+
+  // 分析 table/index.tsx 中的 renderHeadCell 依赖了以下属性
+  // store.someChecked;
+  // store.allChecked;
+  // store.isSelectionThresholdReached;
+  // store.allExpanded;
+  // store.orderBy
+  // store.orderDir
+
+  return (
+    <TableContent
+      {...props}
+      columnWidthReady={store.columnWidthReady}
+      someChecked={store.someChecked}
+      allChecked={store.allChecked}
+      isSelectionThresholdReached={store.isSelectionThresholdReached}
+      orderBy={store.orderBy}
+      orderDir={store.orderDir}
+    />
+  );
+});

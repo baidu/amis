@@ -32,7 +32,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       storeType: RootStore.name,
       parentId: ''
     }) as IRootStore;
-    this.store.setContext(props.context);
+    this.store.updateContext(props.context);
     this.store.initData(props.data);
     this.store.updateLocation(props.location, this.props.env?.parseLocation);
 
@@ -66,7 +66,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     }
 
     if (props.context !== prevProps.context) {
-      this.store.setContext(props.context);
+      this.store.updateContext(props.context);
     }
   }
 
@@ -175,7 +175,8 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           item.body
             ? render('body', item.body, {
                 ...this.props,
-                data: ctx
+                data: ctx,
+                context: store.context
               })
             : '',
           {
@@ -184,7 +185,8 @@ export class RootRenderer extends React.Component<RootRendererProps> {
             title: item.title
               ? render('title', item.title, {
                   ...this.props,
-                  data: ctx
+                  data: ctx,
+                  context: store.context
                 })
               : null,
             mobileUI: mobileUI
@@ -417,6 +419,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         key: 'dialog',
         topStore: this.store,
         data: store.dialogData,
+        context: store.context,
         onConfirm: this.handleDialogConfirm,
         onClose: this.handleDialogClose,
         show: store.dialogOpen,
@@ -440,6 +443,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         key: 'drawer',
         topStore: this.store,
         data: store.drawerData,
+        context: store.context,
         onConfirm: this.handleDrawerConfirm,
         onClose: this.handleDrawerClose,
         show: store.drawerOpen,
@@ -463,6 +467,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
             ...rest,
             topStore: this.store,
             data: this.store.downStream,
+            context: store.context,
             onAction: this.handleAction
           }) as JSX.Element
         }

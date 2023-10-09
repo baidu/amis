@@ -73,7 +73,8 @@
     "tslib": "^2.3.1",
     "video-react": "0.15.0",
     "xlsx": "^0.18.5",
-    "react-error-boundary": "^4.0.11"
+    "react-error-boundary": "^4.0.11",
+    "react-intersection-observer": "9.5.2"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^6.1.1",
@@ -84,6 +85,8 @@
     "@svgr/rollup": "^6.2.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
+    "@testing-library/dom": "8.20.1",
+    "regexp.prototype.flags": "1.5.0",
     "@types/async": "^2.0.45",
     "@types/codemirror": "^5.60.3",
     "@types/echarts": "^4.9.2",
