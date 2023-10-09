@@ -13,6 +13,7 @@ export * from './Tabs'; // 选项卡
 // 数据容器
 export * from './CRUD'; // 增删改查
 export * from './CRUD2/CRUDTable'; // 增删改查v2.0
+export * from './CRUD2/utils';
 export * from './Form/Form'; // 表单
 export * from './Service'; // 服务service
 
