@@ -192,6 +192,10 @@ export class CheckboxesControlPlugin extends BasePlugin {
               getSchemaTpl('optionControlV2', {
                 multiple: true
               }),
+              // 自定义选项模板
+              getSchemaTpl('optionsMenuTpl', {
+                manager: this.manager
+              }),
               /** 新增选项 */
               getSchemaTpl('optionAddControl', {
                 manager: this.manager
