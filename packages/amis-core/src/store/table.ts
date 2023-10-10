@@ -1146,7 +1146,7 @@ export const TableStore = iRendererStore
         return;
       }
       const cols = [].slice.call(
-        table.querySelectorAll(':scope>colgroup>col[data-index]')!
+        table.querySelectorAll(':scope>thead>tr>th[data-index]')!
       );
       cols.forEach((col: HTMLElement) => {
         const index = parseInt(col.getAttribute('data-index')!, 10);

@@ -18,33 +18,14 @@ export function ColGroup({
     }
   }, []);
 
-  React.useEffect(() => {
-    const table = domRef.current!.parentElement!;
-    const observer = new MutationObserver(() => {
-      store.syncTableWidth();
-    });
-    observer.observe(table, {
-      attributes: true,
-      childList: true,
-      subtree: true
-    });
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
   return (
     <colgroup ref={domRef}>
       {columns.map(column => {
-        const style: any = {};
+        const style: any = {
+          width: `var(--Table-column-${column.index}-width)`
+        };
 
-        if (store.columnWidthReady && column.width) {
-          style.width = column.width;
-        } else if (column.pristine.width) {
-          style.width = column.pristine.width;
-        }
-
-        if (store.tableLayout === 'auto' && style.width) {
+        if (store.tableLayout === 'auto') {
           style.minWidth = style.width;
         }
 
