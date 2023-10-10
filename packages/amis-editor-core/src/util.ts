@@ -105,11 +105,6 @@ export function JSONPipeIn(obj: any, generateId = false): any {
     });
   }
 
-  if (obj.themeConfig) {
-    flag = true;
-    toUpdate['themeConfig'] = undefined;
-  }
-
   // ['visible', 'visibleOn', 'hidden', 'hiddenOn', 'toggled'].forEach(key => {
   //   if (obj.hasOwnProperty(key)) {
   //     flag = true;
@@ -1116,7 +1111,7 @@ export function needFillPlaceholder(curProps: any) {
 export function setThemeConfig(config: any) {
   themeConfig = config;
   themeOptionsData = getGlobalData(themeConfig);
-  themeUselessPropKeys = Object.keys(themeOptionsData);
+  themeUselessPropKeys = Object.keys(getThemeConfig());
 }
 
 // 获取主题数据和样式选择器数据
