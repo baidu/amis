@@ -702,7 +702,8 @@ export const MainStore = types
               key =>
                 resolveVariable(key, item) &&
                 regular &&
-                regular.test(resolveVariable(key, item))
+                (regular.test(resolveVariable(key, item)) ||
+                  regular.test(resolveVariable(key, item)?.replaceAll('-', '')))
             )
           ) {
             const tags = Array.isArray(item.tags)

@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Icon, InputBox} from 'amis';
+import {Icon, InputBox, resolveVariable} from 'amis';
 import cx from 'classnames';
 import {autobind, stringRegExp} from '../../util';
 import isString from 'lodash/isString';
@@ -190,9 +190,6 @@ export default class SearchPanel extends React.Component<
     } = {};
     const curKeyword = keywords ? keywords : this.state.curKeyword;
     const curTagKey = this.props.tagKey || 'tags';
-    const grouped: {
-      [propName: string]: any[];
-    } = {};
     const regular = curKeyword
       ? new RegExp(stringRegExp(curKeyword), 'i')
       : null;
@@ -203,9 +200,14 @@ export default class SearchPanel extends React.Component<
         curSearchResult.push(item);
       } else if (
         !keywords ||
-        ['name', 'description', 'scaffold.type'].some(
-          key => item[key] && regular && regular.test(item[key])
-        )
+        ['name', 'description', 'scaffold.type', 'searchKeywords'].some(key => {
+          return (
+            resolveVariable(key, item) &&
+            regular &&
+            (regular.test(resolveVariable(key, item)) ||
+              regular.test(resolveVariable(key, item)?.replaceAll('-', '')))
+          );
+        })
       ) {
         if (item[curTagKey]) {
           const tags = Array.isArray(item[curTagKey])
@@ -214,7 +216,7 @@ export default class SearchPanel extends React.Component<
             ? [item[curTagKey]]
             : ['其他'];
           tags.forEach((tag: string) => {
-            curSearchResultByTag[tag] = grouped[tag] || [];
+            curSearchResultByTag[tag] = curSearchResultByTag[tag] || [];
             curSearchResultByTag[tag].push(item);
           });
         } else {
