@@ -1321,12 +1321,12 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 form.setValueByName('__valueInput', undefined);
                 form.setValueByName('args.value', undefined);
                 form.deleteValueByName('args.path');
+                form.deleteValueByName('args.fromApp');
+                form.deleteValueByName('args.fromPage');
 
                 if (value === 'page') {
-                  form.deleteValueByName('args.fromApp');
                   form.setValueByName('args.fromPage', true);
                 } else if (value === 'app') {
-                  form.deleteValueByName('args.fromPage');
                   form.setValueByName('args.fromApp', true);
                 }
               }
