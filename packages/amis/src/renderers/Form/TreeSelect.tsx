@@ -377,7 +377,8 @@ export default class TreeSelectControl extends React.Component<
         ...option
       };
       option.visible = !!matchSorter([option], keywords, {
-        keys: [labelField || 'label', valueField || 'value']
+        keys: [labelField || 'label', valueField || 'value'],
+        threshold: matchSorter.rankings.CONTAINS
       }).length;
 
       if (!option.visible && option.children) {

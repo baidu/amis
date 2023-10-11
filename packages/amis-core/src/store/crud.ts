@@ -196,7 +196,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                         arrItems = [
                           ...arrItems,
                           ...matchSorter(arr, item, {
-                            keys: [key]
+                            keys: [key],
+                            threshold: matchSorter.rankings.CONTAINS
                           })
                         ];
                       });
@@ -206,7 +207,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                     }
                   } else {
                     items = matchSorter(items, value, {
-                      keys: [key]
+                      keys: [key],
+                      threshold: matchSorter.rankings.CONTAINS
                     });
                   }
                 }
@@ -366,7 +368,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                         arrItems = [
                           ...arrItems,
                           ...matchSorter(arr, item, {
-                            keys: [key]
+                            keys: [key],
+                            threshold: matchSorter.rankings.CONTAINS
                           })
                         ];
                       });
@@ -376,7 +379,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                     }
                   } else {
                     filteredItems = matchSorter(filteredItems, value, {
-                      keys: [key]
+                      keys: [key],
+                      threshold: matchSorter.rankings.CONTAINS
                     });
                   }
                 }
