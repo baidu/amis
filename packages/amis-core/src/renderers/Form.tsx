@@ -1154,6 +1154,8 @@ export default class Form extends React.Component<FormProps, object> {
 
         if (target) {
           this.submitToTarget(filterTarget(target, values), values);
+          /** 可能配置页面跳转事件，页面路由变化导致persistKey不一致，无法清除持久化数据，所以提交成功事件之前先清理一下 */
+          clearPersistDataAfterSubmit && store.clearLocalPersistData();
           dispatchEvent('submitSucc', createObject(this.props.data, values));
         } else if (action.actionType === 'reload') {
           action.target &&
@@ -1185,6 +1187,7 @@ export default class Form extends React.Component<FormProps, object> {
                   ? filter(saveFailed, store.data)
                   : undefined,
               onSuccess: async (result: Payload) => {
+                clearPersistDataAfterSubmit && store.clearLocalPersistData();
                 // result为提交接口返回的内容
                 const dispatcher = await dispatchEvent(
                   'submitSucc',
@@ -1245,6 +1248,7 @@ export default class Form extends React.Component<FormProps, object> {
               });
             });
         } else {
+          clearPersistDataAfterSubmit && store.clearLocalPersistData();
           // type为submit，但是没有配api以及target时，只派发事件
           dispatchEvent('submitSucc', createObject(this.props.data, values));
         }
