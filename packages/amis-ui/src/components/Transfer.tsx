@@ -420,18 +420,21 @@ export class Transfer<
 
   @autobind
   optionItemRender(option: Option, states: ItemRenderStates) {
-    const {optionItemRender, labelField = 'label'} = this.props;
+    const {optionItemRender, labelField = 'label', classnames} = this.props;
     return optionItemRender
       ? optionItemRender(option, states)
-      : BaseSelection.itemRender(option, {labelField, ...states});
+      : BaseSelection.itemRender(option, {labelField, ...states, classnames});
   }
 
   @autobind
   resultItemRender(option: Option, states: ItemRenderStates) {
-    const {resultItemRender} = this.props;
+    const {resultItemRender, classnames} = this.props;
     return resultItemRender
       ? resultItemRender(option, states)
-      : ResultList.itemRender(option, states);
+      : ResultList.itemRender(option, {
+          ...states,
+          classnames
+        });
   }
 
   renderSelect(

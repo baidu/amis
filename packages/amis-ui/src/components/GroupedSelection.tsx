@@ -48,7 +48,8 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
               checked: false,
               onChange: () => undefined,
               disabled: disabled || option.disabled,
-              labelField
+              labelField,
+              classnames: cx
             })}
           </div>
 
@@ -92,7 +93,8 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
               checked: false,
               onChange: () => undefined,
               disabled: disabled || option.disabled,
-              labelField
+              labelField,
+              classnames: cx
             })}
           </div>
         </div>
@@ -161,7 +163,8 @@ export class GroupedSelection extends BaseSelection<BaseSelectionProps> {
             checked: !!~valueArray.indexOf(option),
             onChange: () => this.toggleOption(option),
             disabled: disabled || option.disabled,
-            labelField
+            labelField,
+            classnames: cx
           })}
         </div>
       </div>

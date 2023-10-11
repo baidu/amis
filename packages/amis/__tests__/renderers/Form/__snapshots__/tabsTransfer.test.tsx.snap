@@ -538,7 +538,8 @@ exports[`Renderer:tabsTransfer 1`] = `
                                       class="cxd-ChainedSelection-itemLabel"
                                     >
                                       <span
-                                        class=""
+                                        class=" cxd-Selection-ellipsis-line"
+                                        title="法师2 "
                                       >
                                         法师2
                                       </span>
@@ -551,7 +552,8 @@ exports[`Renderer:tabsTransfer 1`] = `
                                       class="cxd-ChainedSelection-itemLabel"
                                     >
                                       <span
-                                        class=""
+                                        class=" cxd-Selection-ellipsis-line"
+                                        title="战士2 "
                                       >
                                         战士2
                                       </span>
@@ -564,7 +566,8 @@ exports[`Renderer:tabsTransfer 1`] = `
                                       class="cxd-ChainedSelection-itemLabel"
                                     >
                                       <span
-                                        class=""
+                                        class=" cxd-Selection-ellipsis-line"
+                                        title="打野2 "
                                       >
                                         打野2
                                       </span>
@@ -1134,7 +1137,8 @@ exports[`Renderer:tabsTransfer with deferApi 1`] = `
                                       class="cxd-ChainedSelection-itemLabel"
                                     >
                                       <span
-                                        class=""
+                                        class=" cxd-Selection-ellipsis-line"
+                                        title="法师2 "
                                       >
                                         法师2
                                       </span>

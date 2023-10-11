@@ -471,7 +471,8 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                                 class="cxd-GroupedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="group-1 "
                                 >
                                   group-1
                                 </span>
@@ -491,7 +492,8 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                                     class="cxd-GroupedSelection-itemLabel"
                                   >
                                     <span
-                                      class=""
+                                      class=" cxd-Selection-ellipsis-line"
+                                      title="group-1-option-1 "
                                     >
                                       group-1-option-1
                                     </span>
@@ -513,7 +515,8 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                                     class="cxd-GroupedSelection-itemLabel"
                                   >
                                     <span
-                                      class=""
+                                      class=" cxd-Selection-ellipsis-line"
+                                      title="group-1-option-2 "
                                     >
                                       group-1-option-2
                                     </span>
@@ -535,7 +538,8 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                                     class="cxd-GroupedSelection-itemLabel"
                                   >
                                     <span
-                                      class=""
+                                      class=" cxd-Selection-ellipsis-line"
+                                      title="group-1-option-3 "
                                     >
                                       group-1-option-3
                                     </span>
@@ -1157,7 +1161,8 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                               class="cxd-ChainedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="group-1 "
                               >
                                 group-1
                               </span>
@@ -1171,7 +1176,8 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                               class="cxd-ChainedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="group-2 "
                               >
                                 group-2
                               </span>
@@ -1185,7 +1191,8 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                               class="cxd-ChainedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="group-3 "
                               >
                                 group-3
                               </span>
@@ -1199,7 +1206,8 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                               class="cxd-ChainedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="group-4 "
                               >
                                 group-4
                               </span>
@@ -1268,7 +1276,8 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                               class="cxd-ChainedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="group-1-option-1 "
                               >
                                 group-1-option-1
                               </span>
@@ -1282,7 +1291,8 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                               class="cxd-ChainedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="group-1-option-2 "
                               >
                                 group-1-option-2
                               </span>
@@ -1296,7 +1306,8 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                               class="cxd-ChainedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="group-1-option-3 "
                               >
                                 group-1-option-3
                               </span>
@@ -1310,7 +1321,8 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                               class="cxd-ChainedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="group-1-option-4 "
                               >
                                 group-1-option-4
                               </span>
@@ -1771,7 +1783,8 @@ exports[`Renderer:select group mode with virtual 1`] = `
                             class="cxd-GroupedSelection-itemLabel"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="group-1 "
                             >
                               group-1
                             </span>
@@ -1791,7 +1804,8 @@ exports[`Renderer:select group mode with virtual 1`] = `
                                 class="cxd-GroupedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="option-1 "
                                 >
                                   option-1
                                 </span>
@@ -1813,7 +1827,8 @@ exports[`Renderer:select group mode with virtual 1`] = `
                                 class="cxd-GroupedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="option-2 "
                                 >
                                   option-2
                                 </span>
@@ -1835,7 +1850,8 @@ exports[`Renderer:select group mode with virtual 1`] = `
                                 class="cxd-GroupedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="option-3 "
                                 >
                                   option-3
                                 </span>
