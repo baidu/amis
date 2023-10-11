@@ -1741,7 +1741,7 @@ function resolveValueByName(
   canAccessSuper?: boolean
 ) {
   return isPureVariable(name)
-    ? resolveVariableAndFilter(name, data)
+    ? resolveVariableAndFilter(name, data, '|raw')
     : resolveVariable(name, data, canAccessSuper);
 }
 
