@@ -221,7 +221,8 @@ function VariableList(props: VariableListProps) {
         return !!(
           (Array.isArray(i.children) && i.children.length) ||
           !!matchSorter([i].concat(paths), term, {
-            keys: ['label', 'value']
+            keys: ['label', 'value'],
+            threshold: matchSorter.rankings.CONTAINS
           }).length
         );
       },

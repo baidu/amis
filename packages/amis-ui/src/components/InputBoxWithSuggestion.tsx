@@ -43,7 +43,8 @@ export class InputBoxWithSuggestion extends React.Component<InputBoxWithSuggesti
   filterOptions(options: any[]) {
     return this.props.value
       ? matchSorter(options, this.props.value, {
-          keys: ['label', 'value']
+          keys: ['label', 'value'],
+          threshold: matchSorter.rankings.CONTAINS
         })
       : options;
   }

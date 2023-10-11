@@ -722,7 +722,8 @@ export default class TextControl extends React.PureComponent<
           let filtedOptions =
             inputValue && isOpen && !autoComplete
               ? matchSorter(options, inputValue, {
-                  keys: [labelField || 'label', valueField || 'value']
+                  keys: [labelField || 'label', valueField || 'value'],
+                  threshold: matchSorter.rankings.CONTAINS
                 })
               : options;
           const indices = isOpen

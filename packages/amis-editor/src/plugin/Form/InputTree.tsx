@@ -439,6 +439,10 @@ export class TreeControlPlugin extends BasePlugin {
                 label: '数据',
                 showIconField: true
               }),
+              // 自定义选项模板
+              getSchemaTpl('optionsMenuTpl', {
+                manager: this.manager
+              }),
               getSchemaTpl(
                 'loadingConfig',
                 {

@@ -406,7 +406,8 @@ export class DialogPlugin extends BasePlugin {
             body: [
               getSchemaTpl('theme:font', {
                 label: '文字',
-                name: 'themeCss.dialogTitleClassName.font'
+                name: 'themeCss.dialogTitleClassName.font',
+                hasVertical: false
               }),
               getSchemaTpl('theme:paddingAndMargin', {
                 name: 'themeCss.dialogHeaderClassName.padding-and-margin',
