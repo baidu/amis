@@ -690,7 +690,7 @@ const schema = {
 
 #### 拦截请求
 
-如果 api 发送适配器中，修改 api 对象，在 api 对象里面放入 `mockReponse` 属性，则会拦截请求发送，amis 内部会直接使用 `mockReponse` 的结果返回。
+如果 api 发送适配器中，修改 api 对象，在 api 对象里面放入 `mockResponse` 属性，则会拦截请求发送，amis 内部会直接使用 `mockResponse` 的结果返回。
 
 ```js
 const schema = {
