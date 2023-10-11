@@ -1,6 +1,11 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
-import {BaseSchema} from '../Schema';
+import {
+  Renderer,
+  RendererProps,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
+import {BaseSchema, SchemaCollection} from '../Schema';
 
 /**
  * Divider 分割线渲染器。
@@ -12,6 +17,9 @@ export interface DividerSchema extends BaseSchema {
   direction?: 'horizontal' | 'vertical';
   color?: string;
   rotate?: number;
+  title?: SchemaCollection;
+  titleClassName?: string;
+  orientation?: 'left' | 'center' | 'right';
   [propName: string]: any;
 }
 
@@ -20,20 +28,32 @@ export interface DividerProps
     Omit<DividerSchema, 'type' | 'className'> {}
 
 export default class Divider extends React.Component<DividerProps, object> {
-  static defaultProps: Pick<DividerProps, 'className' | 'lineStyle'> = {
+  static defaultProps: Pick<
+    DividerProps,
+    'className' | 'lineStyle' | 'titleClassName' | 'orientation'
+  > = {
     className: '',
-    lineStyle: 'solid'
+    lineStyle: 'solid',
+    titleClassName: '',
+    orientation: 'center'
   };
 
   render() {
     const {
+      render,
       classnames: cx,
       className,
       style = {},
       lineStyle,
       direction,
       color,
-      rotate
+      rotate,
+      title,
+      titleClassName,
+      orientation,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     const borderColor: any = {};
@@ -46,22 +66,73 @@ export default class Divider extends React.Component<DividerProps, object> {
       }
     }
 
-    let transform;
+    let transform = style?.transform || '';
     if (rotate) {
-      transform = `${style?.transform || ''} rotate(${rotate}deg)`;
+      transform += ` rotate(${rotate}deg)`;
     }
+
+    const classNames = cx(
+      'Divider',
+      lineStyle ? `Divider--${lineStyle}` : '',
+      direction === 'vertical' ? 'Divider--vertical' : 'Divider--horizontal',
+      title && direction !== 'vertical' ? 'Divider--with-text' : '',
+      title && direction !== 'vertical' && orientation
+        ? `Divider--with-text-${orientation}`
+        : '',
+      title && direction !== 'vertical'
+        ? setThemeClassName('titleWrapperControlClassName', id, themeCss)
+        : '',
+      className
+    );
+
     return (
-      <div
-        className={cx(
-          'Divider',
-          lineStyle ? `Divider--${lineStyle}` : '',
-          direction === 'vertical'
-            ? 'Divider--vertical'
-            : 'Divider--horizontal',
-          className
-        )}
-        style={{...style, ...borderColor, transform}}
-      />
+      <div className={classNames} style={{...style, ...borderColor, transform}}>
+        {title && direction !== 'vertical' ? (
+          <span
+            className={cx(
+              `Divider-text Divider-text-${orientation} ${titleClassName}`,
+              setThemeClassName('titleControlClassName', id, themeCss)
+            )}
+          >
+            {render('title', title)}
+          </span>
+        ) : null}
+        <CustomStyle
+          config={{
+            themeCss: themeCss,
+            classNames: [
+              {
+                key: 'titleWrapperControlClassName',
+                weights: {
+                  default: {
+                    suf: '::before',
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'titleWrapperControlClassName',
+                weights: {
+                  default: {
+                    suf: '::after',
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'titleControlClassName',
+                weights: {
+                  default: {
+                    important: true
+                  }
+                }
+              }
+            ],
+            id
+          }}
+          env={env}
+        />
+      </div>
     );
   }
 }

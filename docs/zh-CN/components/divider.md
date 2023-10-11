@@ -21,11 +21,34 @@ order: 42
 ```schema: scope="body"
 [
     {
-        "type": "divider"
+        "type": "divider",
+        "lineStyle": "solid"
     },
     {
         "type": "divider",
-        "lineStyle": "solid"
+        "lineStyle": "dashed"
+    }
+]
+```
+
+## 带标题的分割线
+
+```schema: scope="body"
+[
+    {
+        "type": "divider",
+        "title": "Text",
+        "orientation": "left"
+    },
+    {
+        "type": "divider",
+        "title": "Text",
+        "orientation": "center"
+    },
+    {
+        "type": "divider",
+        "title": "Text",
+        "orientation": "right"
     }
 ]
 ```
@@ -40,3 +63,7 @@ order: 42
 | direction | `string` | `horizontal` | 分割线的方向，支持`horizontal`和`vertical` |
 | color     | `string` |              | 分割线的颜色                               |
 | rotate    | `number` |              | 分割线的旋转角度                           |
+| title     | [SchemaNode](../../docs/types/schemanode) |    | 分割线的标题    |   
+| titleClassName | `string` |         | 分割线的标题类名                           |                    
+| orientation    | `string` | `center`| 分割线的标题位置，支持`left`、`center`和`right` |
+   

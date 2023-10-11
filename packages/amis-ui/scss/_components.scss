@@ -2545,6 +2545,14 @@
   --Divider-marginLeft: var(--sizes-size-0);
   --Divider-marginRight: var(--sizes-size-0);
   --Divider-marginBottom: var(--sizes-size-7);
+  --Divider-text-width: 5%;
+  --Divider-text-fontSize: var(--fonts-size-7);
+  --Divider-text-fontWeight: var(--fonts-weight-6);
+  --Divider-text-color: var(--colors-neutral-text-2);
+  --Divider-text-marginTop: var(--sizes-size-0);
+  --Divider-text-marginLeft: var(--sizes-size-8);
+  --Divider-text-marginRight: var(--sizes-size-8);
+  --Divider-text-marginBottom: var(--sizes-size-0);
 
   --inputFile-base-des-color: var(--colors-neutral-text-2);
   --inputFile-base-des-fontSize: var(--fonts-size-7);
