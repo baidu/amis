@@ -96,9 +96,9 @@ export interface FormulaControlProps extends FormControlProps {
 
   /**
    * 自定义渲染器:
-   * 备注: 可用于设置指定组件类型编辑默认值
+   * 备注: 可用于设置指定组件类型编辑默认值，支持回调函数，但不支持异步获取
    */
-  rendererSchema?: any; // SchemaObject | undefined;
+  rendererSchema?: any; // SchemaObject | (schema: Schema) => Schema | undefined;
 
   /**
    * 自定义渲染器 是否需要浅色边框包裹，默认不包裹
@@ -229,13 +229,32 @@ export default class FormulaControl extends React.Component<
     return variables.some((variable: string) => variable === selfName);
   }
 
+  /**
+   * 获取rendererSchema的值
+   * @returns
+   */
+  @autobind
+  getRendererSchemaFromProps(rendererSchema?: any) {
+    if (!rendererSchema) {
+      rendererSchema = this.props.rendererSchema;
+    }
+
+    if (typeof rendererSchema === 'function') {
+      const schema = this.props.data ? {...this.props.data} : undefined;
+      return rendererSchema(schema);
+    } else {
+      return rendererSchema;
+    }
+  }
+
   // 判断是否是期望类型
   @autobind
   isExpectType(value: any): boolean {
     if (value === null || value === undefined) {
       return true; // 数值为空不进行类型识别
     }
-    const {rendererSchema} = this.props;
+
+    const rendererSchema = this.getRendererSchemaFromProps();
     const expectType = this.props.valueType;
 
     if (expectType === null || expectType === undefined) {
@@ -530,7 +549,6 @@ export default class FormulaControl extends React.Component<
       header,
       placeholder,
       simple,
-      rendererSchema,
       rendererWrapper,
       manager,
       useExternalFormData = false,
@@ -540,6 +558,7 @@ export default class FormulaControl extends React.Component<
       ...rest
     } = this.props;
     const {formulaPickerOpen, variables, variableMode, loading} = this.state;
+    const rendererSchema = this.getRendererSchemaFromProps();
 
     // 判断是否含有公式表达式
     const isExpr = isExpression(value);

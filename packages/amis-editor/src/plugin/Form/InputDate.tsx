@@ -6,6 +6,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {FormulaDateType} from '../../renderer/FormulaControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import type {Schema} from 'amis';
 
 const formatX = [
   {
@@ -347,9 +348,7 @@ export class DateControlPlugin extends BasePlugin {
                   pipeIn: defaultValue(true)
                 }),
                 getSchemaTpl('valueFormula', {
-                  rendererSchema: {
-                    ...context?.schema
-                  },
+                  rendererSchema: (schema: Schema) => schema,
                   placeholder: '请选择静态值',
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
@@ -359,9 +358,15 @@ export class DateControlPlugin extends BasePlugin {
                   name: 'minDate',
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
-                  rendererSchema: {
-                    ...context?.schema,
-                    value: context?.schema.minDate
+                  rendererSchema: () => {
+                    const schema = this.manager.store.getSchema(
+                      context.schema?.id,
+                      'id'
+                    );
+                    return {
+                      ...schema,
+                      value: context?.schema.minDate
+                    };
                   },
                   placeholder: '请选择静态值',
                   needDeleteProps: ['minDate'], // 避免自我限制
@@ -371,9 +376,15 @@ export class DateControlPlugin extends BasePlugin {
                   name: 'maxDate',
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
-                  rendererSchema: {
-                    ...context?.schema,
-                    value: context?.schema.maxDate
+                  rendererSchema: () => {
+                    const schema = this.manager.store.getSchema(
+                      context.schema?.id,
+                      'id'
+                    );
+                    return {
+                      ...schema,
+                      value: context?.schema.maxDate
+                    };
                   },
                   needDeleteProps: ['maxDate'], // 避免自我限制
                   label: tipedLabel('最大值', dateTooltip)

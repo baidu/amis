@@ -6,6 +6,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {resolveOptionType} from '../../util';
+import type {Schema} from 'amis';
 
 export class RadiosControlPlugin extends BasePlugin {
   static id = 'RadiosControlPlugin';
@@ -128,7 +129,7 @@ export class RadiosControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('label'),
               getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema,
+                rendererSchema: (schema: Schema) => schema,
                 useSelectMode: true, // 改用 Select 设置模式
                 visibleOn: 'this.options && this.options.length > 0'
               }),
