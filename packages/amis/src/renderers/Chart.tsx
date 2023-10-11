@@ -474,17 +474,19 @@ export class Chart extends React.Component<ChartProps> {
         isAlive(store) && store.markFetching(false);
 
         if (!result.ok) {
-          return env.notify(
-            'error',
-            (api as ApiObject)?.messages?.failed ??
-              (result.msg || __('fetchFailed')),
-            result.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: result.msgTimeout
-                }
-              : undefined
-          );
+          !(api as ApiObject)?.silent &&
+            env.notify(
+              'error',
+              (api as ApiObject)?.messages?.failed ??
+                (result.msg || __('fetchFailed')),
+              result.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: result.msgTimeout
+                  }
+                : undefined
+            );
+          return;
         }
         delete this.reloadCancel;
 
@@ -509,7 +511,7 @@ export class Chart extends React.Component<ChartProps> {
         }
 
         isAlive(store) && store.markFetching(false);
-        env.notify('error', reason);
+        !(api as ApiObject)?.silent && env.notify('error', reason);
         this.echarts?.hideLoading();
       });
   }

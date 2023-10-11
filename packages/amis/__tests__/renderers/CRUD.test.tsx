@@ -19,6 +19,7 @@
  * 16. searchable & sortable & filterable
  * 17. api 返回格式支持取对象中的第一个数组
  * 18. CRUD 事件
+ * 19. fetchInitData silent 静默请求
  */
 
 import {
@@ -1048,7 +1049,7 @@ test('17. should use the first array item in the response if provided', async ()
 
   waitFor(() => {
     expect(container.querySelectorAll('tbody>tr').length).toBe(2);
-  })
+  });
 });
 
 describe('18. inner events', () => {
@@ -1087,5 +1088,44 @@ describe('18. inner events', () => {
       fireEvent.dblClick(ele[0]);
       expect(mockFn).toBeCalledTimes(1);
     });
+  });
+});
+
+test('19. fetchInitData silent true', async () => {
+  const fetcher = jest.fn().mockImplementationOnce(() => {
+    return new Promise(resolve =>
+      resolve({
+        data: {
+          status: 500,
+          msg: 'Internal Error'
+        }
+      })
+    );
+  });
+  const {container} = render(
+    amisRender(
+      {
+        type: 'crud',
+        api: {
+          method: 'get',
+          url: '/api/mock/sample',
+          silent: true
+        },
+        columns: [
+          {
+            name: 'engine',
+            label: 'Rendering engine'
+          }
+        ]
+      },
+      {},
+      {
+        fetcher
+      }
+    )
+  );
+
+  await waitFor(() => {
+    expect(container.querySelector('.cxd-Toast')).not.toBeInTheDocument();
   });
 });

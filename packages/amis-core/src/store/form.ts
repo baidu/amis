@@ -439,20 +439,22 @@ export const FormStore = ServiceStore.named('FormStore')
         if (ret?.dispatcher?.prevented) {
           return;
         }
-        if (e.type === 'ServerError') {
-          const result = (e as ServerError).response;
-          getEnv(self).notify(
-            'error',
-            e.message,
-            result.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: result.msgTimeout
-                }
-              : undefined
-          );
-        } else {
-          getEnv(self).notify('error', e.message);
+        if (!(api as ApiObject)?.silent) {
+          if (e.type === 'ServerError') {
+            const result = (e as ServerError).response;
+            getEnv(self).notify(
+              'error',
+              e.message,
+              result.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: result.msgTimeout
+                  }
+                : undefined
+            );
+          } else {
+            getEnv(self).notify('error', e.message);
+          }
         }
         throw e;
       }

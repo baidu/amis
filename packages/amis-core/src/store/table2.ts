@@ -706,16 +706,17 @@ export const TableStore2 = ServiceStore.named('TableStore2')
               self.__('saveFailed'),
             true
           );
-          getEnv(self).notify(
-            'error',
-            self.msg,
-            json.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: json.msgTimeout
-                }
-              : undefined
-          );
+          !(api as ApiObject)?.silent &&
+            getEnv(self).notify(
+              'error',
+              self.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
           throw new ServerError(self.msg);
         } else {
           self.updateMessage(
@@ -744,7 +745,9 @@ export const TableStore2 = ServiceStore.named('TableStore2')
           return;
         }
 
-        e.type !== 'ServerError' && getEnv(self).notify('error', e.message);
+        !(api as ApiObject)?.silent &&
+          e.type !== 'ServerError' &&
+          getEnv(self).notify('error', e.message);
         throw e;
       }
     });
