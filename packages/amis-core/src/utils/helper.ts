@@ -1587,7 +1587,7 @@ export function mapObject(
   }
 
   if (Array.isArray(value)) {
-    return value.map(item => mapObject(item, fn));
+    return value.map(item => mapObject(item, fn, skipFn));
   }
 
   if (isObject(value)) {
@@ -1595,7 +1595,8 @@ export function mapObject(
     Object.keys(tmpValue).forEach(key => {
       (tmpValue as PlainObject)[key] = mapObject(
         (tmpValue as PlainObject)[key],
-        fn
+        fn,
+        skipFn
       );
     });
     return tmpValue;

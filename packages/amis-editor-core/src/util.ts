@@ -1063,14 +1063,12 @@ export function getI18nEnabled() {
 }
 
 /** schema 翻译方法 */
-export function translateSchema(schema: any, replaceData?: any) {
+export function translateSchema(schema: any, replaceData?: any, skipFn?: any) {
   replaceData = replaceData || (window as any)?.editorStore?.appCorpusData;
   if (!isPlainObject(replaceData)) {
     return schema;
   }
-  return mapObject(schema, (item: any) => {
-    return replaceData[item] || item;
-  });
+  return mapObject(schema, (item: any) => replaceData[item] || item, skipFn);
 }
 
 /** 应用级别的翻译方法 */
