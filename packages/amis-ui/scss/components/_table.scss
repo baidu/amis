@@ -46,6 +46,10 @@
         position: absolute;
       }
     }
+
+    .#{$ns}Table-table {
+      table-layout: fixed;
+    }
   }
 
   &-heading {
