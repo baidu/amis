@@ -1017,6 +1017,7 @@ export const TableStore = iRendererStore
             index,
             width: origin?.width || 0,
             minWidth: origin?.minWidth || 0,
+            realWidth: origin?.realWidth || 0,
             rawIndex: index - PARTITION_INDEX,
             type: item.type || 'plain',
             pristine: item.pristine || item,
