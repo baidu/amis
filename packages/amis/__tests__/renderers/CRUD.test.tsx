@@ -166,7 +166,6 @@ test('3. Renderer:crud loadDataOnce', async () => {
             columnsNum: 4,
             showBtnToolbar: false
           },
-          filterSettingSource: ['version'],
           columns: [
             {
               name: 'id',

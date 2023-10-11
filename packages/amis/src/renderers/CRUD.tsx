@@ -315,7 +315,11 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   loadDataOnce?: boolean;
 
   /**
-   * 在开启loadDataOnce时，filter时是否去重新请求api
+   * 在开启loadDataOnce时，当修改过滤条件时是否重新请求api
+   *
+   * 如果没有配置，当查询条件表单触发的会重新请求 api，当是列过滤或者是 search-box 触发的则不重新请求 api
+   * 如果配置为 true，则不管是什么触发都会重新请求 api
+   * 如果配置为 false 则不管是什么触发都不会重新请求 api
    */
   loadDataOnceFetchOnFilter?: boolean;
 
@@ -474,7 +478,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     filterTogglable: false,
     filterDefaultVisible: true,
     loadDataOnce: false,
-    loadDataOnceFetchOnFilter: true,
     autoFillHeight: false
   };
 
@@ -997,7 +1000,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         undefined,
         undefined,
         undefined,
-        loadDataOnceFetchOnFilter,
+        loadDataOnceFetchOnFilter !== false,
         isInit
       );
   }
@@ -1190,7 +1193,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       env,
       loadDataOnce,
-      loadDataOnceFetchOnFilter,
       source,
       columns,
       dispatchEvent
@@ -1228,7 +1230,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             autoAppend: true,
             forceReload,
             loadDataOnce,
-            loadDataOnceFetchOnFilter,
             source,
             silent,
             pageField,
@@ -1670,11 +1671,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   handleQuery(
     values: object,
-    forceReload: boolean = false,
+    forceReload?: boolean,
     replace?: boolean,
     resetPage?: boolean
   ) {
-    const {store, syncLocation, env, pageField, perPageField} = this.props;
+    const {
+      store,
+      syncLocation,
+      env,
+      pageField,
+      perPageField,
+      loadDataOnceFetchOnFilter
+    } = this.props;
     store.updateQuery(
       resetPage
         ? {
@@ -1690,7 +1698,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       replace
     );
-    this.search(undefined, undefined, replace, forceReload);
+    this.search(
+      undefined,
+      undefined,
+      replace,
+      forceReload ?? loadDataOnceFetchOnFilter === true
+    );
   }
 
   reload(

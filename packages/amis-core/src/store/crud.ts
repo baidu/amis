@@ -145,8 +145,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       data?: object,
       options?: fetchOptions & {
         forceReload?: boolean;
-        loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
-        loadDataOnceFetchOnFilter?: boolean; // 在开启loadDataOnce时，filter时是否去重新请求api
+        loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等
         source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
@@ -159,7 +158,6 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       options: fetchOptions & {
         forceReload?: boolean;
         loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
-        loadDataOnceFetchOnFilter?: boolean; // 在开启loadDataOnce时，filter时是否去重新请求api
         source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
@@ -181,36 +179,36 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
           if (Array.isArray(options.columns)) {
             options.columns.forEach((column: any) => {
-              let value: any;
+              let value: any =
+                typeof column.name === 'string'
+                  ? getVariable(self.query, column.name)
+                  : undefined;
               const key = column.name;
 
-              if ((column.searchable || column.filterable) && key) {
+              if (value != null && key) {
                 // value可能为null、undefined、''、0
-                value = getVariable(self.query, key);
-                if (value != null) {
-                  if (Array.isArray(value)) {
-                    if (value.length > 0) {
-                      const arr = [...items];
-                      let arrItems: Array<any> = [];
-                      value.forEach(item => {
-                        arrItems = [
-                          ...arrItems,
-                          ...matchSorter(arr, item, {
-                            keys: [key],
-                            threshold: matchSorter.rankings.CONTAINS
-                          })
-                        ];
-                      });
-                      items = items.filter((item: any) =>
-                        arrItems.find(a => a === item)
-                      );
-                    }
-                  } else {
-                    items = matchSorter(items, value, {
-                      keys: [key],
-                      threshold: matchSorter.rankings.CONTAINS
+                if (Array.isArray(value)) {
+                  if (value.length > 0) {
+                    const arr = [...items];
+                    let arrItems: Array<any> = [];
+                    value.forEach(item => {
+                      arrItems = [
+                        ...arrItems,
+                        ...matchSorter(arr, item, {
+                          keys: [key],
+                          threshold: matchSorter.rankings.CONTAINS
+                        })
+                      ];
                     });
+                    items = items.filter((item: any) =>
+                      arrItems.find(a => a === item)
+                    );
                   }
+                } else {
+                  items = matchSorter(items, value, {
+                    keys: [key],
+                    threshold: matchSorter.rankings.CONTAINS
+                  });
                 }
               }
             });
