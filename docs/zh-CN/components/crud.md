@@ -2795,7 +2795,6 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 > 本文中的例子为了不相互影响都关闭了这个功能。
 > 另外如果需要使用接口联动，需要设置`syncLocation: false`
 
-
 `syncLocation`开启后，数据域经过地址栏同步后，原始值被转化为字符串同步回数据域，但布尔值（boolean）同步后不符合预期数据结构，导致组件渲染出错。比如查询条件表单中包含[Checkbox](./form/checkbox)组件，此时可以设置`{"trueValue": "1", "falseValue": "0"}`，将真值和假值设置为字符串格式规避。
 
 ## 前端一次性加载
@@ -2846,8 +2845,6 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
     "syncLocation": false,
     "api": "/api/mock2/sample",
     "loadDataOnce": true,
-    "autoGenerateFilter": true,
-    "filterSettingSource": ["browser", "version"],
     "columns": [
         {
             "name": "id",
@@ -2894,6 +2891,131 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 ```
 
 > **注意：**如果你的数据量较大，请务必使用服务端分页的方案，过多的前端数据展示，会显著影响前端页面的性能
+
+另外前端一次性加载当有查寻条件的时候，默认还是会重新请求一次，如果配置 `loadDataOnceFetchOnFilter` 为 `false` 则为前端过滤。
+
+```schema: scope="body"
+{
+  "type": "crud",
+  "syncLocation": false,
+  "api": "/api/mock2/sample",
+  "loadDataOnce": true,
+  "loadDataOnceFetchOnFilter": false,
+  "autoGenerateFilter": true,
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "platform",
+      "label": "Platform(s)"
+    },
+    {
+      "name": "version",
+      "label": "Engine version",
+      "searchable": {
+        "type": "select",
+        "name": "version",
+        "label": "Engine version",
+        "clearable": true,
+        "multiple": true,
+        "searchable": true,
+        "checkAll": true,
+        "options": [
+          "1.7",
+          "3.3",
+          "5.6"
+        ],
+        "maxTagCount": 10,
+        "extractValue": true,
+        "joinValues": false,
+        "delimiter": ",",
+        "defaultCheckAll": false,
+        "checkAllLabel": "全选"
+      }
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    }
+  ]
+}
+```
+
+`loadDataOnceFetchOnFilter` 配置成 `true` 则会强制重新请求接口比如以下用法
+
+> 此时如果不配置或者配置为 `false` 是前端直接过滤，不过记得配置 name 为行数据中的属性，如果行数据中没有对应属性则不会起作用
+
+```schema: scope="body"
+{
+  "type": "crud",
+  "syncLocation": false,
+  "api": "/api/mock2/sample",
+  "loadDataOnce": true,
+  "loadDataOnceFetchOnFilter": true,
+  "headerToolbar": [
+    {
+      "type": "search-box",
+      "name": "keywords"
+    }
+  ],
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "platform",
+      "label": "Platform(s)"
+    },
+    {
+      "name": "version",
+      "label": "Engine version",
+      "searchable": {
+        "type": "select",
+        "name": "version",
+        "label": "Engine version",
+        "clearable": true,
+        "multiple": true,
+        "searchable": true,
+        "checkAll": true,
+        "options": [
+          "1.7",
+          "3.3",
+          "5.6"
+        ],
+        "maxTagCount": 10,
+        "extractValue": true,
+        "joinValues": false,
+        "delimiter": ",",
+        "defaultCheckAll": false,
+        "checkAllLabel": "全选"
+      }
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    }
+  ]
+}
+```
 
 ## 动态列
 
