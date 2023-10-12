@@ -13,6 +13,7 @@ import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import isPlainObject from 'lodash/isPlainObject';
 import get from 'lodash/get';
+import isNumber from 'lodash/isNumber';
 import {EvaluatorOptions, FilterContext, FilterMap, FunctionMap} from './types';
 import {FormulaEvalError} from './error';
 
@@ -978,6 +979,24 @@ export class Evaluator {
     return arr.length ? arr[arr.length - 1] : null;
   }
 
+  /**
+   * 返回基数的指数次幂，参数base为基数，exponent为指数，如果参数值不合法则返回基数本身，计算结果不合法，则返回NaN。
+   *
+   * @example POW(base, exponent)
+   * @param {number} base 基数
+   * @param {number} exponent 指数
+   * @namespace 数学函数
+   *
+   * @returns {number} 基数的指数次幂
+   */
+  fnPOW(base: number, exponent: number) {
+    if (!isNumber(base) || !isNumber(exponent)) {
+      return base;
+    }
+
+    return Math.pow(base, exponent);
+  }
+
   // 文本函数
 
   normalizeText(raw: any) {
@@ -1215,6 +1234,7 @@ export class Evaluator {
    */
   fnBEFORELAST(text: string, delimiter: string = '.') {
     text = this.normalizeText(text);
+    delimiter = this.normalizeText(delimiter);
     return text.split(delimiter).slice(0, -1).join(delimiter) || text + '';
   }
 
@@ -1298,6 +1318,7 @@ export class Evaluator {
    * @returns {string} 判断结果
    */
   fnSTARTSWITH(text: string, search: string) {
+    search = this.normalizeText(search);
     if (!search) {
       return false;
     }
@@ -1317,6 +1338,7 @@ export class Evaluator {
    * @returns {string} 判断结果
    */
   fnENDSWITH(text: string, search: string) {
+    search = this.normalizeText(search);
     if (!search) {
       return false;
     }
@@ -1336,6 +1358,7 @@ export class Evaluator {
    * @returns {string} 判断结果
    */
   fnCONTAINS(text: string, search: string) {
+    search = this.normalizeText(search);
     if (!search) {
       return false;
     }
@@ -1357,7 +1380,13 @@ export class Evaluator {
    */
   fnREPLACE(text: string, search: string, replace: string) {
     text = this.normalizeText(text);
+    search = this.normalizeText(search);
+    replace = this.normalizeText(replace);
     let result = text;
+
+    if (typeof replace === 'undefined' || !search) {
+      return result;
+    }
 
     while (true) {
       const idx = result.indexOf(search);
@@ -1387,11 +1416,12 @@ export class Evaluator {
    * @returns {number} 命中的位置
    */
   fnSEARCH(text: string, search: string, start: number = 0) {
+    search = this.normalizeText(search);
     text = this.normalizeText(text);
     start = this.formatNumber(start);
 
     const idx = text.indexOf(search, start);
-    if (~idx) {
+    if (~idx && search) {
       return idx;
     }
 
@@ -1411,6 +1441,8 @@ export class Evaluator {
    */
   fnMID(text: string, from: number, len: number) {
     text = this.normalizeText(text);
+    from = this.formatNumber(from);
+    len = this.formatNumber(len);
     return text.substring(from, from + len);
   }
 

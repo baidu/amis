@@ -9,6 +9,7 @@ import findLastIndex from 'lodash/findLastIndex';
 import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
+import debounce from 'lodash/debounce';
 import intersection from 'lodash/intersection';
 import Sortable from 'sortablejs';
 
@@ -23,6 +24,7 @@ import {
   guid,
   autobind
 } from 'amis-core';
+import {resizeSensor} from 'amis-core';
 import {Icon} from '../icons';
 import CheckBox from '../Checkbox';
 import Spinner, {SpinnerExtraProps} from '../Spinner';
@@ -32,6 +34,7 @@ import HeadCellFilter from './HeadCellFilter';
 import HeadCellSelect from './HeadCellSelect';
 import ItemActionsWrapper from './ItemActionsWrapper';
 import Cell from './Cell';
+import ColGroup from './ColGroup';
 
 export interface ColumnProps {
   title: string | React.ReactNode | Function;
@@ -153,6 +156,7 @@ export interface TableProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   rowClassName?: Function;
   lineHeight?: string; // 可设置large、middle固定高度，不设置则跟随内容
   showHeader?: boolean; // 是否展示表头
+  tableLayout?: string; // auto fixed
   onSelect?: Function;
   onSelectAll?: Function;
   itemActions?: Function;
@@ -168,7 +172,14 @@ export interface TableState {
   selectedRowKeys: Array<string | number>;
   dataSource: Array<any>;
   expandedRowKeys: Array<string | number>;
-  colWidths: Array<number>;
+  colWidths: {
+    [name: string]: {
+      width: number;
+      realWidth: number;
+      minWidth: number;
+      originWidth: number;
+    };
+  };
   hoverRow: {
     rowIndex?: number;
     record: any;
@@ -332,7 +343,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     columns: [],
     indentSize: 15,
     placeholder: '暂无数据',
-    showHeader: true
+    showHeader: true,
+    tableLayout: 'auto'
   };
 
   constructor(props: TableProps) {
@@ -359,7 +371,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           ? props.expandable.defaultExpandedRowKeys || []
           : [])
       ],
-      colWidths: [],
+      colWidths: {},
       hoverRow: null
     };
   }
@@ -392,6 +404,12 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   headerDom: React.RefObject<HTMLDivElement> = React.createRef();
   tfootDom: React.RefObject<HTMLTableSectionElement> = React.createRef();
   footDom: React.RefObject<HTMLDivElement> = React.createRef();
+
+  toDispose: Array<() => void> = [];
+  updateTableInfoLazy = debounce(this.updateTableInfo.bind(this), 250, {
+    trailing: true,
+    leading: false
+  });
 
   getSelectedRows(
     dataSource: Array<any>,
@@ -466,6 +484,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           ref.current.addEventListener('wheel', this.onWheel.bind(this))
       );
     }
+
     current && this.updateTableDom(current);
 
     if (this.props.draggable && this.tbodyDom?.current) {
@@ -473,6 +492,12 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     }
 
     this.updateStickyHeader();
+
+    const currentNode = findDOMNode(this) as HTMLElement;
+
+    this.toDispose.push(
+      resizeSensor(currentNode, this.updateTableInfoLazy, false, 'width')
+    );
   }
 
   componentDidUpdate(prevProps: TableProps, prevState: TableState) {
@@ -486,7 +511,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         },
         () => {
           this.updateTableFixedRows();
-          this.syncTableWidth();
         }
       );
     }
@@ -570,6 +594,10 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     if (prevProps.sticky !== this.props.sticky) {
       this.updateStickyHeader();
     }
+
+    if (prevProps.columns !== this.props.columns) {
+      this.updateTableFixedRows();
+    }
   }
 
   componentWillUnmount() {
@@ -582,6 +610,11 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     );
 
     this.destroyDragging();
+
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
+
+    this.updateTableInfoLazy.cancel();
   }
 
   initDragging() {
@@ -668,6 +701,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     const children = row.children;
     for (let i = 0; i < children.length; i++) {
       const dom = children[i] as HTMLElement;
+
+      dom.style.removeProperty('left');
+
       const fixed = columns[i] ? columns[i].fixed || '' : '';
       if (isFixedLeftColumn(fixed)) {
         dom.style.left =
@@ -678,11 +714,16 @@ export class Table extends React.PureComponent<TableProps, TableState> {
             ? getAfterRightWidth(children, i, columns) + 'px'
             : '0';
       }
+
+      dom.classList.remove(cx('Table-cell-fix-left-last'));
+      dom.classList.remove(cx('Table-cell-fix-right-first'));
+      dom.classList.remove(cx('Table-cell-fix-right-first-prev'));
     }
     // 最后一个左fixed的添加样式
     let leftIndex = findLastIndex(columns, column =>
       isFixedLeftColumn(column.fixed)
     );
+
     if (leftIndex > -1) {
       children[leftIndex]?.classList.add(cx('Table-cell-fix-left-last'));
     }
@@ -769,18 +810,19 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     }
   }
 
-  renderColGroup() {
+  renderColGroup(showReal?: boolean) {
+    const {scroll, tableLayout} = this.props;
+
+    const isFixed = !!((scroll && scroll.x) || tableLayout === 'fixed');
     return (
-      <colgroup>
-        {this.state.colWidths.map((width: number, index: number) => {
-          return (
-            <col
-              key={index}
-              style={{width: typeof width === 'number' ? width + 'px' : width}}
-            ></col>
-          );
-        })}
-      </colgroup>
+      <ColGroup
+        columns={this.tdColumns}
+        colWidths={this.state.colWidths}
+        isFixed={isFixed}
+        syncTableWidth={this.syncTableWidth}
+        initTableWidth={this.initTableWidth}
+        showReal={showReal}
+      ></ColGroup>
     );
   }
 
@@ -789,9 +831,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     this.resizeStart = event.clientX;
     this.resizeTarget = event.currentTarget;
 
-    const extraCount = this.getExtraColumnCount();
+    const column = this.tdColumns[index];
     this.resizeIndex = index;
-    this.resizeWidth = this.state.colWidths[extraCount + this.resizeIndex];
+    this.resizeWidth = this.state.colWidths[column.name].width;
     this.resizeTarget!.classList.add('is-resizing');
 
     document.addEventListener('mousemove', this.onResizeMouseMove);
@@ -806,6 +848,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     if (this.resizeTarget) {
       // 计算横向移动距离
       const distance = event.clientX - this.resizeStart;
+      const column = this.tdColumns[this.resizeIndex];
       let newWidth = 0;
       if (distance > 0) {
         newWidth = this.resizeWidth + distance;
@@ -814,13 +857,12 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         newWidth = Math.max(
           this.resizeWidth + distance,
           DefaultCellWidth,
-          this.tdColumns[this.resizeIndex].minWidth || 0
+          column.minWidth || 0
         );
       }
-      const extraCount = this.getExtraColumnCount();
       const colWidths = this.state.colWidths;
-      colWidths[extraCount + this.resizeIndex] = newWidth;
-      this.setState({colWidths: [...colWidths]});
+      colWidths[column.name].width = newWidth;
+      this.setState({colWidths: {...colWidths}});
     }
     event && event.stopPropagation();
   }
@@ -1070,7 +1112,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
                     groupId={item.groupId}
                     depth={item.depth}
                     col={cIndex > -1 ? cIndex.toString() : undefined}
-                    index={cIndex}
                   >
                     {typeof item.title === 'function'
                       ? item.title(children)
@@ -1117,7 +1158,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     record?: any,
     rowIndex?: number
   ) {
-    const {classnames: cx, onRow} = this.props;
+    const {onRow, itemActions} = this.props;
 
     if (onRow && onRow.onRowMouseEnter) {
       const prevented = await onRow.onRowMouseEnter(event, record, rowIndex);
@@ -1126,19 +1167,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       }
     }
 
-    let parent = event.target;
-    while (parent && parent.tagName !== 'TR') {
-      parent = parent.parentElement;
-    }
-
-    if (parent && !parent.classList.contains(cx('Table-row-disabled'))) {
-      for (let i = 0; i < parent.children.length; i++) {
-        const td = parent.children[i];
-        td.classList.add(cx('Table-cell-row-hover')); // 保证有列fixed的时候样式一致
-      }
-    }
-
-    if (record) {
+    if (record && itemActions) {
       let target = event.target;
       if (target?.tagName !== 'TR') {
         target = target?.closest('tr');
@@ -1153,30 +1182,16 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     record?: any,
     rowIndex?: number
   ) {
-    const {classnames: cx, onRow} = this.props;
+    const {onRow} = this.props;
 
-    if (onRow && onRow.onRowMouseLeave) {
-      const prevented = await onRow.onRowMouseLeave(event, record, rowIndex);
-      if (prevented) {
-        return;
-      }
-    }
-
-    let parent = event.target;
-    while (parent && parent.tagName !== 'TR') {
-      parent = parent.parentElement;
-    }
-
-    if (parent) {
-      for (let i = 0; i < parent.children.length; i++) {
-        const td = parent.children[i];
-        td.classList.remove(cx('Table-cell-row-hover'));
-      }
-    }
+    onRow &&
+      onRow.onRowMouseLeave &&
+      onRow.onRowMouseLeave(event, record, rowIndex);
   }
 
   onMouseLeave() {
-    this.setState({hoverRow: null});
+    const {itemActions} = this.props;
+    itemActions && this.setState({hoverRow: null});
   }
 
   onExpandRows(data: Array<any>) {
@@ -1384,7 +1399,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       // 但直接使用amis-ui的table，render方法一般直接返回ReactElement
       const render =
         item.render && typeof item.render === 'function'
-          ? item.render(data[item.name], data, rowIndex, i)
+          ? item.render(data[item.name], data, rowIndex, i, levels)
           : null;
       let props = {rowSpan: 1, colSpan: 1};
       let children = render;
@@ -1413,6 +1428,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           className={cx({
             [`${className}`]: !!className
           })}
+          col={i > -1 ? i.toString() : undefined}
         >
           <div
             className={cx('Table-cell-wrapper', {
@@ -1793,16 +1809,18 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     const {
       scroll,
       footSummary,
-      loading,
       showHeader,
       itemActions,
+      tableLayout,
       classnames: cx
     } = this.props;
 
     const hasScrollX = scroll && scroll.x;
     const hoverRow = this.state.hoverRow;
 
-    const tableStyle = hasScrollX ? {width: scroll.x + 'px'} : {};
+    const tableStyle = hasScrollX
+      ? {width: scroll.x + 'px', tableLayout: 'fixed'}
+      : {};
 
     return (
       <div
@@ -1820,13 +1838,16 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           </ItemActionsWrapper>
         ) : null}
         <table
-          style={{...tableStyle, tableLayout: 'fixed'}}
+          style={{
+            ...tableStyle,
+            tableLayout: tableLayout === 'fixed' ? 'fixed' : 'auto'
+          }}
           className={cx('Table-table')}
         >
           {this.renderColGroup()}
           {showHeader ? this.renderTHead() : null}
           {this.renderTBody()}
-          {!loading && footSummary ? this.renderTFoot() : null}
+          {footSummary ? this.renderTFoot() : null}
         </table>
       </div>
     );
@@ -1865,7 +1886,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           className={cx('Table-table')}
           style={{...tableStyle, tableLayout: 'fixed'}}
         >
-          {this.renderColGroup()}
+          {this.renderColGroup(true)}
           {showHeader ? this.renderTHead() : null}
           {headSummary ? (
             <tbody>{this.renderSummaryRow(headSummary)}</tbody>
@@ -1939,45 +1960,109 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   }
 
   renderScrollTable() {
-    const {footSummary, loading, classnames: cx} = this.props;
+    const {footSummary, classnames: cx} = this.props;
 
     return (
       <div className={cx('Table-container')}>
         {this.renderScrollTableHeader()}
         {this.renderScrollTableBody()}
-        {!loading && footSummary ? this.renderScrollTableFoot() : null}
+        {footSummary ? this.renderScrollTableFoot() : null}
       </div>
     );
   }
 
   @autobind
   syncTableWidth() {
+    const tbodyDom = this.tbodyDom.current;
+    if (!tbodyDom) {
+      return;
+    }
+    const cols = [].slice.call(
+      tbodyDom?.querySelectorAll(':scope>tr>td[data-col]')
+    );
+    const colWidths: any = {};
+    cols.forEach((col: HTMLElement) => {
+      const index = parseInt(col.getAttribute('data-col')!, 10);
+      const column = this.tdColumns[index];
+      const item = this.state.colWidths[column.name];
+      if (column) {
+        colWidths[column.name] = {
+          width:
+            item?.originWidth !== column?.width ? column?.width : item?.width,
+          minWidth: column?.minWidth,
+          realWidth: col.offsetWidth,
+          originWidth: column?.width
+        };
+      }
+    });
+
+    if (!isEqual(colWidths, this.state.colWidths)) {
+      this.setState({colWidths});
+    }
+  }
+
+  @autobind
+  initTableWidth() {
     const tableWrapperDom = this.contentDom.current;
     if (!tableWrapperDom) {
       return;
     }
+    const {scroll, tableLayout} = this.props;
 
     const table = tableWrapperDom.querySelector('table');
-    const tableWidth = tableWrapperDom!.offsetWidth;
+    const tableWidth =
+      scroll && scroll.x ? scroll.x : tableWrapperDom!.offsetWidth;
     const thead = this.theadDom?.current;
-    const tbodyTr = this.tbodyDom?.current?.querySelector('tr:first-child');
+    let tbody: HTMLElement | null = null;
+    const htmls: Array<string> = [];
+    const isFixed = tableLayout === 'fixed' || (scroll && scroll.x);
+    const someSettedWidth = this.tdColumns.some(column => column.width);
+
+    const minWidths: {
+      [propName: string]: number;
+    } = {};
+
+    // fixed 模式需要参考 auto 获得列最小宽度
+    if (isFixed) {
+      tbody = table?.querySelector(':scope>tbody') || null;
+      htmls.push(
+        `<table style="table-layout:auto!important;width:0!important;min-width:0!important;" class="${table?.className}">${thead?.outerHTML}</table>`
+      );
+    }
+
+    if (someSettedWidth || isFixed) {
+      htmls.push(
+        `<table style="table-layout:auto!important;min-width:${tableWidth}px!important;width:${tableWidth}px!important;" class="${
+          table?.className
+        }">${thead ? thead.outerHTML : ''}${
+          tbody ? `<tbody>${tbody.innerHTML}</tbody>` : ''
+        }</table>`
+      );
+    }
+
+    if (!htmls.length) {
+      return;
+    }
 
     const div = document.createElement('div');
     div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
     div.style.cssText += `visibility: hidden!important;`;
-    div.innerHTML =
-      `<table style="table-layout:auto!important;width:0!important;min-width:0!important;" class="${table?.className}">${thead?.outerHTML}</table>` +
-      `<table style="table-layout:auto!important;min-width:${tableWidth}px!important;width:${tableWidth}px!important;" class="${
-        table?.className
-      }">${thead?.outerHTML}${
-        tbodyTr ? `<tbody>${tbodyTr.outerHTML}</tbody>` : ''
-      }</table>`;
-    const ths1: Array<HTMLTableCellElement> = [].slice.call(
-      div.querySelectorAll(':scope>table:first-child>thead>tr>th[data-col]')
-    );
-    const ths2: Array<HTMLTableCellElement> = [].slice.call(
-      div.querySelectorAll(':scope>table:last-child>thead>tr>th[data-col]')
-    );
+    div.innerHTML = htmls.join('');
+    let ths1: Array<HTMLTableCellElement> = [];
+    let ths2: Array<HTMLTableCellElement> = [];
+
+    if (isFixed) {
+      ths1 = [].slice.call(
+        div.querySelectorAll(':scope>table:first-child>thead>tr>th[data-col]')
+      );
+    }
+
+    if (someSettedWidth || isFixed) {
+      ths2 = [].slice.call(
+        div.querySelectorAll(':scope>table:last-child>thead>tr>th[data-col]')
+      );
+    }
+
     ths1.forEach(th => {
       th.style.cssText += 'width: 0';
     });
@@ -1994,39 +2079,52 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     });
 
     document.body.appendChild(div);
-    const minWidths: {
-      [propName: string]: number;
-    } = {};
+
+    const colWidths: any = {};
     ths1.forEach((th: HTMLTableCellElement) => {
-      minWidths[th.getAttribute('data-index')!] = th.clientWidth;
-    });
-    const colWidths: Array<number> = [];
-    ths2.forEach((col: HTMLElement, index: number) => {
+      const index = parseInt(th.getAttribute('data-col')!, 10);
       const column = this.tdColumns[index];
-      colWidths.push(
-        Math.max(
-          typeof column?.width === 'number' ? column?.width : col.clientWidth,
-          minWidths[col.getAttribute('data-index')!]
-        )
-      );
+      minWidths[index] = th.clientWidth;
+      if (colWidths[index]) {
+        colWidths[column?.name].minWidth = th.clientWidth;
+      } else {
+        colWidths[column?.name] = {minWidth: th.clientWidth};
+      }
     });
 
-    this.setState({colWidths});
+    ths2.forEach((col: HTMLElement) => {
+      const index = parseInt(col.getAttribute('data-col')!, 10);
+      const column = this.tdColumns[index];
+      if (column && (column.width || isFixed)) {
+        const width = Math.max(
+          typeof column.width === 'number' ? column.width : col.clientWidth,
+          minWidths[index] || 0
+        );
+        if (colWidths[column?.name]) {
+          colWidths[column?.name].width = width;
+        } else {
+          colWidths[column?.name] = {width};
+        }
+        if (column.width) {
+          colWidths[column?.name].originWidth = column.width;
+        }
+      }
+    });
+
+    if (!isEqual(colWidths, this.state.colWidths)) {
+      this.setState({colWidths});
+    }
 
     document.body.removeChild(div);
   }
 
   @autobind
-  updateTableInfoRef(ref: any) {
-    if (!ref) {
-      return;
-    }
-
+  updateTableInfo() {
     if (this.resizeTarget) {
       return;
     }
 
-    this.syncTableWidth();
+    this.initTableWidth();
   }
 
   render() {
@@ -2062,8 +2160,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     // 是否设置了横向滚动
     const hasScrollX = scroll && scroll.x;
 
-    const columnWidthReady = this.state.colWidths.length > 0;
-
     return (
       <div
         ref={this.tableDom}
@@ -2091,7 +2187,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
             {typeof footer === 'function' ? footer() : footer}
           </div>
         ) : null}
-        {columnWidthReady ? null : <span ref={this.updateTableInfoRef} />}
       </div>
     );
   }

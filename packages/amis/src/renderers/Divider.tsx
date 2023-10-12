@@ -3,7 +3,9 @@ import {
   Renderer,
   RendererProps,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  isPureVariable,
+  resolveVariableAndFilter
 } from 'amis-core';
 import {BaseSchema, SchemaCollection} from '../Schema';
 
@@ -19,7 +21,7 @@ export interface DividerSchema extends BaseSchema {
   rotate?: number;
   title?: SchemaCollection;
   titleClassName?: string;
-  orientation?: 'left' | 'center' | 'right';
+  titlePosition?: 'left' | 'center' | 'right';
   [propName: string]: any;
 }
 
@@ -30,16 +32,16 @@ export interface DividerProps
 export default class Divider extends React.Component<DividerProps, object> {
   static defaultProps: Pick<
     DividerProps,
-    'className' | 'lineStyle' | 'titleClassName' | 'orientation'
+    'className' | 'lineStyle' | 'titleClassName' | 'titlePosition'
   > = {
     className: '',
     lineStyle: 'solid',
     titleClassName: '',
-    orientation: 'center'
+    titlePosition: 'center'
   };
 
   render() {
-    const {
+    let {
       render,
       classnames: cx,
       className,
@@ -50,10 +52,11 @@ export default class Divider extends React.Component<DividerProps, object> {
       rotate,
       title,
       titleClassName,
-      orientation,
+      titlePosition,
       id,
       themeCss,
-      env
+      env,
+      data
     } = this.props;
 
     const borderColor: any = {};
@@ -71,13 +74,17 @@ export default class Divider extends React.Component<DividerProps, object> {
       transform += ` rotate(${rotate}deg)`;
     }
 
+    if (isPureVariable(title)) {
+      title = resolveVariableAndFilter(title, data);
+    }
+
     const classNames = cx(
       'Divider',
       lineStyle ? `Divider--${lineStyle}` : '',
       direction === 'vertical' ? 'Divider--vertical' : 'Divider--horizontal',
       title && direction !== 'vertical' ? 'Divider--with-text' : '',
-      title && direction !== 'vertical' && orientation
-        ? `Divider--with-text-${orientation}`
+      title && direction !== 'vertical' && titlePosition
+        ? `Divider--with-text-${titlePosition}`
         : '',
       title && direction !== 'vertical'
         ? setThemeClassName('titleWrapperControlClassName', id, themeCss)
@@ -90,7 +97,7 @@ export default class Divider extends React.Component<DividerProps, object> {
         {title && direction !== 'vertical' ? (
           <span
             className={cx(
-              `Divider-text Divider-text-${orientation} ${titleClassName}`,
+              `Divider-text Divider-text-${titlePosition} ${titleClassName}`,
               setThemeClassName('titleControlClassName', id, themeCss)
             )}
           >

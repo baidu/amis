@@ -1860,11 +1860,8 @@ export default class Table extends React.Component<TableProps, object> {
           onQuery={onQuery}
           name={column.name}
           searchable={column.searchable}
-          sortable={false}
           type={column.type}
           data={query}
-          orderBy={store.orderBy}
-          orderDir={store.orderDir}
           popOverContainer={this.getPopOverContainer}
         />
       );

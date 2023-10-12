@@ -39,23 +39,14 @@ export class DividerPlugin extends BasePlugin {
         {
           title: '基本',
           body: [
-            {
-              type: 'ae-switch-more',
-              mode: 'normal',
-              label: '带标题',
-              formType: 'extend',
-              value: false,
-              form: {
-                body: [
-                  {
-                    type: 'input-text',
-                    name: 'title',
-                    label: '标题'
-                  }
-                ]
-              },
-              pipeIn: (value: any, {data}: any) => !!data.title
-            }
+            getSchemaTpl('valueFormula', {
+              name: 'title',
+              label: '标题',
+              placeholder: '请输入标题',
+              rendererSchema: {
+                type: 'input-text'
+              }
+            })
           ]
         },
         getSchemaTpl('status')
@@ -182,7 +173,7 @@ export class DividerPlugin extends BasePlugin {
           body: [
             {
               type: 'select',
-              name: 'orientation',
+              name: 'titlePosition',
               label: '位置',
               pipeIn: defaultValue('center'),
               options: [
@@ -209,7 +200,7 @@ export class DividerPlugin extends BasePlugin {
               name: 'themeCss.titleWrapperControlClassName.flex-basis',
               placeholder: '5%',
               visibleOn:
-                'data.orientation === "left" || data.orientation === "right"',
+                'data.titlePosition === "left" || data.titlePosition === "right"',
               clearValueOnHidden: true
             }),
             getSchemaTpl('theme:font', {
