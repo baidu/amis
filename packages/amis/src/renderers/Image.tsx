@@ -492,13 +492,21 @@ export class ImageField extends React.Component<
   }
 
   @autobind
-  handleClick(e: React.MouseEvent<HTMLElement>) {
+  async handleClick(e: React.MouseEvent<HTMLElement>) {
+    const {dispatchEvent, data} = this.props;
     const clickAction = this.props.clickAction;
+    const rendererEvent = await dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
     if (clickAction) {
       handleAction(e, clickAction, this.props);
-    } else {
-      const {dispatchEvent, data} = this.props;
-      dispatchEvent(e, data);
     }
   }
 
@@ -516,7 +524,7 @@ export class ImageField extends React.Component<
 
   handleSelfAction(actionType: string, action: ActionObject) {
     let {data, maxScale = 200, minScale = 50} = this.props;
-    let {scale} = action;
+    let {scale = 50} = action.args;
     if (actionType === 'zoom') {
       if (isPureVariable(maxScale)) {
         maxScale = isNaN(
@@ -531,13 +539,6 @@ export class ImageField extends React.Component<
         )
           ? 50
           : resolveVariableAndFilter(minScale, createObject(action.data, data));
-      }
-      if (isPureVariable(scale)) {
-        scale = isNaN(
-          resolveVariableAndFilter(scale, createObject(action.data, data))
-        )
-          ? 0.5
-          : resolveVariableAndFilter(scale, createObject(action.data, data));
       }
 
       if (scale >= 0) {
@@ -696,7 +697,7 @@ export class ImageFieldRenderer extends ImageField {
     scoped.unRegisterComponent(this);
   }
 
-  doAction(action: ActionObject, args: any) {
+  doAction(action: ActionObject) {
     const actionType = action?.actionType as string;
     if (actionType === 'preview') {
       this.handleEnlarge(this.props as ImageThumbProps);

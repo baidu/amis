@@ -13,7 +13,10 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {mockValue} from 'amis-editor-core';
-import {getEventControlConfig} from '../renderer/event-control/helper';
+import {
+  getArgsWrapper,
+  getEventControlConfig
+} from '../renderer/event-control/helper';
 
 export class ImagePlugin extends BasePlugin {
   static id = 'ImagePlugin';
@@ -124,20 +127,22 @@ export class ImagePlugin extends BasePlugin {
       schema: {
         type: 'container',
         body: [
-          getSchemaTpl('formulaControl', {
-            name: 'scale',
-            mode: 'horizontal',
-            variables: '${variables}',
-            horizontal: {
-              leftFixed: 4 // 需要设置下leftFixed，否则这个字段的控件没有与其他字段的控件左对齐
-            },
-            label: tipedLabel(
-              '调整比例',
-              '定义每次放大或缩小图片的百分比大小，正值为放大，负值为缩小，默认50'
-            ),
-            value: 50,
-            size: 'lg'
-          })
+          getArgsWrapper([
+            getSchemaTpl('formulaControl', {
+              name: 'scale',
+              mode: 'horizontal',
+              variables: '${variables}',
+              horizontal: {
+                leftFixed: 4 // 需要设置下leftFixed，否则这个字段的控件没有与其他字段的控件左对齐
+              },
+              label: tipedLabel(
+                '调整比例',
+                '定义每次放大或缩小图片的百分比大小，正值为放大，负值为缩小，默认50'
+              ),
+              value: 50,
+              size: 'lg'
+            })
+          ])
         ]
       }
     }
