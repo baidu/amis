@@ -527,12 +527,9 @@
       color: var(--TableRow-onDisabled-color);
     }
 
-    > tbody
-      > tr:not(.#{$ns}Table-row-disabled)
-      > td.#{$ns}Table-cell-row-hover {
-      background: var(--Table-onHover-bg);
-      border-color: var(--Table-onHover-borderColor);
-      color: var(--Table-onHover-color);
+    > tbody > tr > td.#{$ns}Table-cell-fix-left,
+    > tbody > tr > td.#{$ns}Table-cell-fix-right {
+      background: inherit;
     }
 
     > thead > tr > th.#{$ns}Table-cell-fix-left-last,
@@ -553,7 +550,7 @@
 
     > thead > tr > th.#{$ns}Table-cell-fix-right-first,
     > tbody > tr > td.#{$ns}Table-cell-fix-right-first,
-    > tfoot > tr > td.#{$ns}Table-cell-fix-right-last {
+    > tfoot > tr > td.#{$ns}Table-cell-fix-right-first {
       &:after {
         position: absolute;
         top: 0;
@@ -610,10 +607,6 @@
         > td.#{$ns}Table-cell-fix-left {
           border-right: none;
         }
-
-        > td.#{$ns}Table-cell-fix-left:not(.#{$ns}Table-cell-row-hover) {
-          background: #fff;
-        }
       }
 
       > tfoot > tr > td:not(:last-child) {
@@ -643,10 +636,6 @@
       > tbody > tr:not(.#{$ns}Table-row-disabled) {
         > td.#{$ns}Table-cell-fix-right {
           border-right: none;
-        }
-
-        > td.#{$ns}Table-cell-fix-right:not(.#{$ns}Table-cell-row-hover) {
-          background: #fff;
         }
       }
     }

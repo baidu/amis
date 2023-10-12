@@ -152,6 +152,8 @@ export interface ColumnSchema {
    * 配置快速编辑功能
    */
   quickEdit?: SchemaQuickEdit;
+
+  width?: string | number;
 }
 
 export interface RowSelectionOptionsSchema {
@@ -385,6 +387,8 @@ export interface TableSchema2 extends BaseSchema {
    * 设置ID字段名 作用同keyFiled 兼容原CURD属性
    */
   primaryField?: string;
+
+  tableLayout?: 'fixed' | 'auto';
 }
 
 // 事件调整 对应CRUD2里的事件配置也需要同步修改
@@ -492,7 +496,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     store.update({
       columnsTogglable,
       columns,
-      rowSelectionKeyField: rowSelection?.keyField || primaryField || keyField
+      rowSelectionKeyField: primaryField || rowSelection?.keyField || keyField
     });
     Table2.syncRows(store, props, undefined) && this.syncSelected();
   }
@@ -579,7 +583,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
     let expandedRowKeys: Array<string | number> = [];
     const expandableKeyField =
-      props.expandable?.keyField || props.primaryField || props.keyField;
+      props.primaryField || props.expandable?.keyField || props.keyField;
     if (props.expandable && props.expandable.expandedRowKeysExpr) {
       rows.forEach((row: any, index: number) => {
         const flag = evalExpression(
@@ -651,7 +655,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     ) {
       store.update({
         rowSelectionKeyField:
-          props.rowSelection?.keyField || props.primaryField || props.keyField
+          props.primaryField || props.rowSelection?.keyField || props.keyField
       });
     }
 
@@ -818,13 +822,16 @@ export default class Table2 extends React.Component<Table2Props, object> {
               text: string,
               record: any,
               rowIndex: number,
-              colIndex: number
+              colIndex: number,
+              levels?: Array<number>
             ) => {
               const props: RenderProps = {};
-              const item = store.getRowByIndex(rowIndex) || {};
+              const item =
+                store.getRowByIndex(rowIndex, [...(levels || [])]) || {};
+
               const obj = {
                 children: this.renderCellSchema(column, {
-                  data: item.locals,
+                  data: record,
                   value: column.name
                     ? resolveVariable(
                         column.name,
@@ -1380,7 +1387,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
   async handleOrderChange(
     oldIndex: number,
     newIndex: number,
-    levels: Array<string>
+    levels: Array<number>
   ) {
     const {store} = this.props;
     const rowItem = store.getRowByIndex(oldIndex, levels);
@@ -1441,7 +1448,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
         store.updateSelected(selected);
         break;
       case 'expand':
-        const expandableKey = expandable?.keyField || primaryField || key;
+        const expandableKey = primaryField || expandable?.keyField || key;
         const expanded: Array<any> = [];
         const collapse: Array<any> = [];
         // value值控制展开1个
@@ -1535,7 +1542,16 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
       if (expandable && expandable.type) {
         expandableConfig.expandedRowRender = (record: any, rowIndex: number) =>
-          this.renderSchema('expandableBody', {...expandable}, {data: record});
+          this.renderSchema(
+            'expandableBody',
+            {...expandable},
+            {
+              data: {
+                ...this.props.data,
+                record
+              }
+            }
+          );
       }
 
       if (expandable.expandedRowClassNameExpr) {
@@ -1548,7 +1564,13 @@ export default class Table2 extends React.Component<Table2Props, object> {
     }
 
     let rowSelectionConfig: any = null;
-    if (rowSelection) {
+    if (selectable) {
+      rowSelectionConfig = {
+        type: multiple === false ? 'radio' : '', // rowSelection.type不设置 默认为多选
+        selectedRowKeys: store.currentSelectedRowKeys,
+        maxSelectedLength: maxKeepItemSelectionLength
+      };
+    } else if (rowSelection) {
       const {selectedRowKeys, selections, ...rest} = rowSelection;
       rowSelectionConfig = {
         selectedRowKeys: store.currentSelectedRowKeys,
@@ -1612,12 +1634,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
           });
         });
       }
-    } else if (selectable) {
-      rowSelectionConfig = {
-        type: multiple === false ? 'radio' : '', // rowSelection.type不设置 默认为多选
-        selectedRowKeys: store.currentSelectedRowKeys,
-        maxSelectedLength: maxKeepItemSelectionLength
-      };
     }
 
     const rowClassName = (record: any, rowIndex: number) => {
