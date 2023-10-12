@@ -1215,6 +1215,7 @@ export class Evaluator {
    */
   fnBEFORELAST(text: string, delimiter: string = '.') {
     text = this.normalizeText(text);
+    delimiter = this.normalizeText(delimiter);
     return text.split(delimiter).slice(0, -1).join(delimiter) || text + '';
   }
 
@@ -1298,6 +1299,7 @@ export class Evaluator {
    * @returns {string} 判断结果
    */
   fnSTARTSWITH(text: string, search: string) {
+    search = this.normalizeText(search);
     if (!search) {
       return false;
     }
@@ -1317,6 +1319,7 @@ export class Evaluator {
    * @returns {string} 判断结果
    */
   fnENDSWITH(text: string, search: string) {
+    search = this.normalizeText(search);
     if (!search) {
       return false;
     }
@@ -1336,6 +1339,7 @@ export class Evaluator {
    * @returns {string} 判断结果
    */
   fnCONTAINS(text: string, search: string) {
+    search = this.normalizeText(search);
     if (!search) {
       return false;
     }
@@ -1357,7 +1361,13 @@ export class Evaluator {
    */
   fnREPLACE(text: string, search: string, replace: string) {
     text = this.normalizeText(text);
+    search = this.normalizeText(search);
+    replace = this.normalizeText(replace);
     let result = text;
+
+    if (typeof replace === 'undefined' || !search) {
+      return result;
+    }
 
     while (true) {
       const idx = result.indexOf(search);
@@ -1387,11 +1397,12 @@ export class Evaluator {
    * @returns {number} 命中的位置
    */
   fnSEARCH(text: string, search: string, start: number = 0) {
+    search = this.normalizeText(search);
     text = this.normalizeText(text);
     start = this.formatNumber(start);
 
     const idx = text.indexOf(search, start);
-    if (~idx) {
+    if (~idx && search) {
       return idx;
     }
 
@@ -1411,6 +1422,8 @@ export class Evaluator {
    */
   fnMID(text: string, from: number, len: number) {
     text = this.normalizeText(text);
+    from = this.formatNumber(from);
+    len = this.formatNumber(len);
     return text.substring(from, from + len);
   }
 
