@@ -78,7 +78,8 @@ export const generateIcon = (
 export const isObjectPath = (raw?: any) => {
   let res: boolean = false;
   try {
-    res = raw && isObject(JSON.parse(raw));
+    const iconJson = JSON.parse(raw);
+    res = /svg-/.test(iconJson.id) || /<svg/.test(iconJson.svg);
   } catch (error) {}
   return res;
 };
