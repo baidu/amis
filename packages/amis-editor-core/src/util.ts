@@ -239,6 +239,60 @@ export function JSONPipeOut(
   return obj;
 }
 
+// 仅去掉一些隐藏属性。
+export function JSONDelHidenProps(
+  obj: any,
+  filterHiddenProps?: boolean | ((key: string, prop: any) => boolean)
+) {
+  if (Array.isArray(obj)) {
+    let flag = false; // 有必要时才去改变对象的引用
+    const ret: any = obj.map((item: any) => {
+      const newItem = JSONDelHidenProps(item, filterHiddenProps);
+
+      if (newItem !== item) {
+        flag = true;
+      }
+
+      return newItem;
+    });
+    return flag ? ret : obj;
+  }
+  if (!isObject(obj) || isObservable(obj)) {
+    return obj;
+  }
+
+  let flag = false;
+  let toUpdate: any = {};
+
+  Object.keys(obj).forEach(key => {
+    let prop = obj[key];
+
+    if (
+      typeof filterHiddenProps === 'function'
+        ? filterHiddenProps(key, prop)
+        : filterHiddenProps !== false && key.substring(0, 2) === '__'
+    ) {
+      toUpdate[key] = undefined;
+      flag = true;
+      return;
+    }
+
+    let patched = JSONDelHidenProps(prop, filterHiddenProps);
+    if (patched !== prop) {
+      flag = true;
+      toUpdate[key] = patched;
+    }
+  });
+
+  flag &&
+    (obj = cleanUndefined({
+      ...obj,
+      ...toUpdate
+    }));
+
+  return obj;
+}
+
 export function JSONGetByPath(
   json: any,
   paths: Array<string>,
@@ -1296,7 +1350,8 @@ export const getDialogActions = (
   filterId?: string
 ) => {
   let dialogActions: any[] = [];
-  JSONTraverse(schema, (value: any, key: string, object: any) => {
+  let filterSchema = JSONDelHidenProps(schema);
+  JSONTraverse(filterSchema, (value: any, key: string, object: any) => {
     // definitions中的弹窗
     if (key === 'type' && value === 'page') {
       const definitions = object.definitions;
