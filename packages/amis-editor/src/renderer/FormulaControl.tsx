@@ -515,21 +515,13 @@ export default class FormulaControl extends React.Component<
       } else {
         curRendererSchema.placeholder = '请输入静态值';
       }
-      // 设置popOverContainer
-      if (!curRendererSchema.popOverContainer) {
-        curRendererSchema.popOverContainer = window.document.body;
-      }
     }
 
     JSONPipeOut(curRendererSchema);
 
     // 对 schema 进行国际化翻译
     if (this.appLocale && this.appCorpusData) {
-      return translateSchema(
-        curRendererSchema,
-        this.appCorpusData,
-        (item: any) => item.__reactFiber || item.__reactProp // 在nextjs 13中，window.document.body对象，有__reactFiber，__reactProp 两个子对象，递归遍历会导致死循环，因此过滤掉
-      );
+      return translateSchema(curRendererSchema, this.appCorpusData);
     }
 
     return curRendererSchema;
