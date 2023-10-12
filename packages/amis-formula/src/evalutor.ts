@@ -13,6 +13,7 @@ import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import isPlainObject from 'lodash/isPlainObject';
 import get from 'lodash/get';
+import isNumber from 'lodash/isNumber';
 import {EvaluatorOptions, FilterContext, FilterMap, FunctionMap} from './types';
 import {FormulaEvalError} from './error';
 
@@ -976,6 +977,24 @@ export class Evaluator {
    */
   fnLAST(arr: Array<any>) {
     return arr.length ? arr[arr.length - 1] : null;
+  }
+
+  /**
+   * 返回基数的指数次幂，参数base为基数，exponent为指数，如果参数值不合法则返回基数本身，计算结果不合法，则返回NaN。
+   *
+   * @example POW(base, exponent)
+   * @param {number} base 基数
+   * @param {number} exponent 指数
+   * @namespace 数学函数
+   *
+   * @returns {number} 基数的指数次幂
+   */
+  fnPOW(base: number, exponent: number) {
+    if (!isNumber(base) || !isNumber(exponent)) {
+      return base;
+    }
+
+    return Math.pow(base, exponent);
   }
 
   // 文本函数
