@@ -525,7 +525,7 @@ export default class FormulaControl extends React.Component<
 
     // 对 schema 进行国际化翻译
     if (this.appLocale && this.appCorpusData) {
-      translateSchema(
+      return translateSchema(
         curRendererSchema,
         this.appCorpusData,
         (item: any) => item.__reactFiber || item.__reactProp // 在nextjs 13中，window.document.body对象，有__reactFiber，__reactProp 两个子对象，递归遍历会导致死循环，因此过滤掉
