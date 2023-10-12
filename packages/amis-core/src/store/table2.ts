@@ -280,12 +280,17 @@ export const TableStore2 = ServiceStore.named('TableStore2')
       });
     }
 
-    function getRowByIndex(rowIndex: number, levels?: Array<string>): IRow2 {
+    function getRowByIndex(
+      rowIndex: number,
+      levels?: Array<number>,
+      rows?: Array<IRow2>
+    ): IRow2 {
+      rows = rows || self.rows;
       if (levels && levels.length > 0) {
         const index = +(levels.shift() || 0);
-        return getRowByIndex(index, levels);
+        return getRowByIndex(rowIndex, levels, rows[index].children);
       }
-      return self.rows[rowIndex];
+      return rows[rowIndex];
     }
 
     function isSelected(row: IRow2): boolean {
