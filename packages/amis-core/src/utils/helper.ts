@@ -2175,3 +2175,8 @@ export function evalTrackExpression(
     })
     .join('');
 }
+
+// 很奇怪的问题，react-json-view import 有些情况下 mod.default 才是 esModule
+export function importLazyComponent(mod: any) {
+  return mod.default.__esModule ? mod.default : mod;
+}
