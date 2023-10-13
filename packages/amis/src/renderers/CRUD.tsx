@@ -1927,20 +1927,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       | 'popOverContainerSelector'
       | 'total'
       | 'perPageAvailable'
+      | 'showPerPage'
     > = {};
 
     /** 优先级：showPageInput显性配置 > (lastPage > 9) */
     if (typeof toolbar !== 'string') {
+      Object.assign(extraProps, toolbar);
       const showPageInput = (toolbar as Schema).showPageInput;
 
       extraProps.showPageInput =
         showPageInput === true || (lastPage > 9 && showPageInput == null);
-      extraProps.maxButtons = (toolbar as Schema).maxButtons;
-      extraProps.layout = (toolbar as Schema).layout;
-      extraProps.popOverContainerSelector = (
-        toolbar as Schema
-      ).popOverContainerSelector;
-      extraProps.perPageAvailable = (toolbar as Schema).perPageAvailable;
       extraProps.total = resolveVariableAndFilter(
         (toolbar as Schema).total,
         store.data
