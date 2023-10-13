@@ -897,7 +897,7 @@ function applyChange(target: any, source: any, change: DiffChange) {
  * 遍历 schema
  * @param json
  * @param mapper
- * @param skipProps
+ * @param ignore
  */
 export function JSONTraverse(
   json: any,
