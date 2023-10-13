@@ -1122,6 +1122,10 @@ export function getThemeConfig() {
   return {themeConfig, ...themeOptionsData};
 }
 
+const backgroundMap: PlainObject = {
+  'background-color': 'background'
+};
+
 /**
  * 将style转换为组件ThemeCSS格式
  *
@@ -1142,8 +1146,11 @@ export function style2ThemeCss(data: any) {
   const paddingAndMargin: PlainObject = {};
   const font: PlainObject = {};
   Object.keys(style).forEach(key => {
-    if (['background', 'radius', 'boxShadow'].includes(key)) {
-      baseControlClassName[key + ':default'] = style[key];
+    if (
+      ['background', 'background-color', 'radius', 'boxShadow'].includes(key)
+    ) {
+      baseControlClassName[(backgroundMap[key] || key) + ':default'] =
+        style[key];
       delete style[key];
     } else if (
       ['color', 'fontSize', 'fontWeight', 'font-family', 'lineHeight'].includes(
