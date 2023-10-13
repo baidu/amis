@@ -7,7 +7,8 @@ import {
   FormBaseControl,
   resolveEventData,
   ApiObject,
-  FormHorizontal
+  FormHorizontal,
+  evalExpressionWithConditionBuilder
 } from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
@@ -274,6 +275,7 @@ export interface ComboControlSchema extends FormBaseControlSchema {
      */
     maxLengthValidateFailed?: string;
   };
+  updatePristineAfterStoreDataReInit?: boolean;
 }
 
 export type ComboRendererEvent = 'add' | 'delete' | 'tabsChange';
@@ -1180,7 +1182,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         activeKey={store.activeKey}
         onSelect={this.handleTabSelect}
         additionBtns={
-          !disabled ? (
+          !disabled && addable !== false && store.addable ? (
             <li className={cx(`Tabs-link ComboTabs-addLink`)}>
               {this.renderAddBtn()}
             </li>
@@ -1695,7 +1697,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       changeImmediately,
       lazyLoad,
       translate: __,
-      static: isStatic
+      static: isStatic,
+      updatePristineAfterStoreDataReInit
     } = this.props;
 
     // 单个
@@ -1720,7 +1723,8 @@ export default class ComboControl extends React.Component<ComboProps> {
           onInit: this.handleSingleFormInit,
           canAccessSuperData,
           formStore: undefined,
-          updatePristineAfterStoreDataReInit: false
+          updatePristineAfterStoreDataReInit:
+            updatePristineAfterStoreDataReInit ?? false
         }
       );
     } else if (multiple && index !== undefined && index >= 0) {
@@ -1752,7 +1756,8 @@ export default class ComboControl extends React.Component<ComboProps> {
           formItemValue: undefined,
           formStore: undefined,
           ...(tabsMode ? {} : {lazyLoad}),
-          updatePristineAfterStoreDataReInit: false
+          updatePristineAfterStoreDataReInit:
+            updatePristineAfterStoreDataReInit ?? false
         }
       );
     }
@@ -1815,13 +1820,37 @@ export default class ComboControl extends React.Component<ComboProps> {
 })
 export class ComboControlRenderer extends ComboControl {
   // 支持更新指定索引的值
-  setData(value: any, replace?: boolean, index?: number) {
+  async setData(
+    value: any,
+    replace?: boolean,
+    index?: number | string,
+    condition?: any
+  ) {
     const {multiple, onChange, submitOnChange} = this.props;
     if (multiple) {
-      if (index !== undefined && ~index) {
-        let newValue = [...this.getValueAsArray()];
-        newValue.splice(index, 1, {...newValue[index], ...value});
-        onChange?.(newValue, submitOnChange, true);
+      let items = [...this.getValueAsArray()];
+      const len = items.length;
+      if (index !== undefined) {
+        const indexs = String(index).split(',');
+        indexs.forEach(i => {
+          const intIndex = Number(i);
+          items.splice(intIndex, 1, {...items[intIndex], ...value}); // 默认merge
+        });
+        onChange?.(items, submitOnChange, true);
+      } else if (condition !== undefined) {
+        for (let i = 0; i < len; i++) {
+          const item = items[i];
+          const isUpdate = await evalExpressionWithConditionBuilder(
+            condition,
+            item
+          );
+
+          if (isUpdate) {
+            items.splice(i, 1, {...items[i], ...value}); // 默认merge
+          }
+        }
+
+        onChange?.(items, submitOnChange, true);
       } else {
         onChange?.(value, submitOnChange, true);
       }

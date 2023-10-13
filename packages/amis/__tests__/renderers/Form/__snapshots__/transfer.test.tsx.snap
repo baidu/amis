@@ -119,7 +119,8 @@ exports[`Renderer:transfer 1`] = `
                               class="cxd-GroupedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="诸葛亮 "
                               >
                                 诸葛亮
                               </span>
@@ -144,7 +145,8 @@ exports[`Renderer:transfer 1`] = `
                               class="cxd-GroupedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="曹操 "
                               >
                                 曹操
                               </span>
@@ -169,7 +171,8 @@ exports[`Renderer:transfer 1`] = `
                               class="cxd-GroupedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="钟无艳 "
                               >
                                 钟无艳
                               </span>
@@ -194,7 +197,8 @@ exports[`Renderer:transfer 1`] = `
                               class="cxd-GroupedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="李白 "
                               >
                                 李白
                               </span>
@@ -219,7 +223,8 @@ exports[`Renderer:transfer 1`] = `
                               class="cxd-GroupedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="韩信 "
                               >
                                 韩信
                               </span>
@@ -244,7 +249,8 @@ exports[`Renderer:transfer 1`] = `
                               class="cxd-GroupedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="云中君 "
                               >
                                 云中君
                               </span>
@@ -669,7 +675,8 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 class="cxd-GroupedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="label-1 "
                                 >
                                   label-1
                                 </span>
@@ -695,7 +702,8 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 class="cxd-GroupedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="label-2 "
                                 >
                                   label-2
                                 </span>
@@ -721,7 +729,8 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 class="cxd-GroupedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="label-3 "
                                 >
                                   label-3
                                 </span>
@@ -747,7 +756,8 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                                 class="cxd-GroupedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="label-4 "
                                 >
                                   label-4
                                 </span>
@@ -1018,7 +1028,8 @@ exports[`Renderer:transfer chained 1`] = `
                                 class="cxd-ChainedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="法师 "
                                 >
                                   法师
                                 </span>
@@ -1031,7 +1042,8 @@ exports[`Renderer:transfer chained 1`] = `
                                 class="cxd-ChainedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="战士 "
                                 >
                                   战士
                                 </span>
@@ -1044,7 +1056,8 @@ exports[`Renderer:transfer chained 1`] = `
                                 class="cxd-ChainedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="打野 "
                                 >
                                   打野
                                 </span>
@@ -1251,7 +1264,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                         class="cxd-ChainedSelection-itemLabel"
                       >
                         <span
-                          class=""
+                          class=" cxd-Selection-ellipsis-line"
+                          title="group-1 "
                         >
                           group-1
                         </span>
@@ -1264,7 +1278,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                         class="cxd-ChainedSelection-itemLabel"
                       >
                         <span
-                          class=""
+                          class=" cxd-Selection-ellipsis-line"
+                          title="group-2 "
                         >
                           group-2
                         </span>
@@ -1277,7 +1292,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                         class="cxd-ChainedSelection-itemLabel"
                       >
                         <span
-                          class=""
+                          class=" cxd-Selection-ellipsis-line"
+                          title="group-3 "
                         >
                           group-3
                         </span>
@@ -1290,7 +1306,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                         class="cxd-ChainedSelection-itemLabel"
                       >
                         <span
-                          class=""
+                          class=" cxd-Selection-ellipsis-line"
+                          title="group-4 "
                         >
                           group-4
                         </span>
@@ -1303,7 +1320,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                         class="cxd-ChainedSelection-itemLabel"
                       >
                         <span
-                          class=""
+                          class=" cxd-Selection-ellipsis-line"
+                          title="group-5 "
                         >
                           group-5
                         </span>
@@ -1316,7 +1334,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                         class="cxd-ChainedSelection-itemLabel"
                       >
                         <span
-                          class=""
+                          class=" cxd-Selection-ellipsis-line"
+                          title="group-6 "
                         >
                           group-6
                         </span>
@@ -1329,7 +1348,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                         class="cxd-ChainedSelection-itemLabel"
                       >
                         <span
-                          class=""
+                          class=" cxd-Selection-ellipsis-line"
+                          title="group-7 "
                         >
                           group-7
                         </span>
@@ -1342,7 +1362,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                         class="cxd-ChainedSelection-itemLabel"
                       >
                         <span
-                          class=""
+                          class=" cxd-Selection-ellipsis-line"
+                          title="group-8 "
                         >
                           group-8
                         </span>
@@ -1355,7 +1376,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                         class="cxd-ChainedSelection-itemLabel"
                       >
                         <span
-                          class=""
+                          class=" cxd-Selection-ellipsis-line"
+                          title="group-9 "
                         >
                           group-9
                         </span>
@@ -1368,7 +1390,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                         class="cxd-ChainedSelection-itemLabel"
                       >
                         <span
-                          class=""
+                          class=" cxd-Selection-ellipsis-line"
+                          title="group-10 "
                         >
                           group-10
                         </span>
@@ -1407,7 +1430,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                               class="cxd-ChainedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="group-2-option-1 "
                               >
                                 group-2-option-1
                               </span>
@@ -1433,7 +1457,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                               class="cxd-ChainedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="group-2-option-2 "
                               >
                                 group-2-option-2
                               </span>
@@ -1459,7 +1484,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                               class="cxd-ChainedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="group-2-option-3 "
                               >
                                 group-2-option-3
                               </span>
@@ -1485,7 +1511,8 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                               class="cxd-ChainedSelection-itemLabel"
                             >
                               <span
-                                class=""
+                                class=" cxd-Selection-ellipsis-line"
+                                title="group-2-option-4 "
                               >
                                 group-2-option-4
                               </span>
@@ -1776,7 +1803,8 @@ exports[`Renderer:transfer follow left mode 1`] = `
                             title="法师"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="法师 "
                             >
                               法师
                             </span>
@@ -1816,7 +1844,8 @@ exports[`Renderer:transfer follow left mode 1`] = `
                             title="诸葛亮"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="诸葛亮 "
                             >
                               诸葛亮
                             </span>
@@ -1861,7 +1890,8 @@ exports[`Renderer:transfer follow left mode 1`] = `
                             title="战士"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="战士 "
                             >
                               战士
                             </span>
@@ -1901,7 +1931,8 @@ exports[`Renderer:transfer follow left mode 1`] = `
                             title="曹操"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="曹操 "
                             >
                               曹操
                             </span>
@@ -1941,7 +1972,8 @@ exports[`Renderer:transfer follow left mode 1`] = `
                             title="钟无艳"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="钟无艳 "
                             >
                               钟无艳
                             </span>
@@ -1986,7 +2018,8 @@ exports[`Renderer:transfer follow left mode 1`] = `
                             title="打野"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="打野 "
                             >
                               打野
                             </span>
@@ -2026,7 +2059,8 @@ exports[`Renderer:transfer follow left mode 1`] = `
                             title="李白"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="李白 "
                             >
                               李白
                             </span>
@@ -2066,7 +2100,8 @@ exports[`Renderer:transfer follow left mode 1`] = `
                             title="韩信"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="韩信 "
                             >
                               韩信
                             </span>
@@ -2106,7 +2141,8 @@ exports[`Renderer:transfer follow left mode 1`] = `
                             title="云中君"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="云中君 "
                             >
                               云中君
                             </span>
@@ -2176,7 +2212,10 @@ exports[`Renderer:transfer follow left mode 1`] = `
                                 class="cxd-Tree-itemText"
                                 title="法师"
                               >
-                                <span>
+                                <span
+                                  class="cxd-Selection-ellipsis-line"
+                                  title="法师"
+                                >
                                   法师
                                 </span>
                               </span>
@@ -2212,7 +2251,10 @@ exports[`Renderer:transfer follow left mode 1`] = `
                                 class="cxd-Tree-itemText"
                                 title="诸葛亮"
                               >
-                                <span>
+                                <span
+                                  class="cxd-Selection-ellipsis-line"
+                                  title="诸葛亮"
+                                >
                                   诸葛亮
                                 </span>
                               </span>
@@ -2444,7 +2486,8 @@ exports[`Renderer:transfer follow left mode 2`] = `
                             title="法师"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="法师 "
                             >
                               法师
                             </span>
@@ -2484,7 +2527,8 @@ exports[`Renderer:transfer follow left mode 2`] = `
                             title="诸葛亮"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="诸葛亮 "
                             >
                               诸葛亮
                             </span>
@@ -2529,7 +2573,8 @@ exports[`Renderer:transfer follow left mode 2`] = `
                             title="战士"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="战士 "
                             >
                               战士
                             </span>
@@ -2569,7 +2614,8 @@ exports[`Renderer:transfer follow left mode 2`] = `
                             title="曹操"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="曹操 "
                             >
                               曹操
                             </span>
@@ -2609,7 +2655,8 @@ exports[`Renderer:transfer follow left mode 2`] = `
                             title="钟无艳"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="钟无艳 "
                             >
                               钟无艳
                             </span>
@@ -2654,7 +2701,8 @@ exports[`Renderer:transfer follow left mode 2`] = `
                             title="打野"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="打野 "
                             >
                               打野
                             </span>
@@ -2694,7 +2742,8 @@ exports[`Renderer:transfer follow left mode 2`] = `
                             title="李白"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="李白 "
                             >
                               李白
                             </span>
@@ -2734,7 +2783,8 @@ exports[`Renderer:transfer follow left mode 2`] = `
                             title="韩信"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="韩信 "
                             >
                               韩信
                             </span>
@@ -2774,7 +2824,8 @@ exports[`Renderer:transfer follow left mode 2`] = `
                             title="云中君"
                           >
                             <span
-                              class=""
+                              class=" cxd-Selection-ellipsis-line"
+                              title="云中君 "
                             >
                               云中君
                             </span>
@@ -2865,7 +2916,10 @@ exports[`Renderer:transfer follow left mode 2`] = `
                                 class="cxd-Tree-itemText"
                                 title="战士"
                               >
-                                <span>
+                                <span
+                                  class="cxd-Selection-ellipsis-line"
+                                  title="战士"
+                                >
                                   战士
                                 </span>
                               </span>
@@ -2901,7 +2955,10 @@ exports[`Renderer:transfer follow left mode 2`] = `
                                 class="cxd-Tree-itemText"
                                 title="曹操"
                               >
-                                <span>
+                                <span
+                                  class="cxd-Selection-ellipsis-line"
+                                  title="曹操"
+                                >
                                   曹操
                                 </span>
                               </span>
@@ -3112,7 +3169,8 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                                 class="cxd-GroupedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="option-197 "
                                 >
                                   option-197
                                 </span>
@@ -3146,7 +3204,8 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                                 class="cxd-GroupedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="option-198 "
                                 >
                                   option-198
                                 </span>
@@ -3180,7 +3239,8 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                                 class="cxd-GroupedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="option-199 "
                                 >
                                   option-199
                                 </span>
@@ -3214,7 +3274,8 @@ exports[`Renderer:transfer group mode with virtual 1`] = `
                                 class="cxd-GroupedSelection-itemLabel"
                               >
                                 <span
-                                  class=""
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="option-200 "
                                 >
                                   option-200
                                 </span>
@@ -4943,7 +5004,10 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                       <label
                         class="cxd-Selections-label"
                       >
-                        <span>
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-1"
+                        >
                           label-1
                         </span>
                       </label>
@@ -4963,7 +5027,10 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                       <label
                         class="cxd-Selections-label"
                       >
-                        <span>
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-3"
+                        >
                           label-3
                         </span>
                       </label>
@@ -4983,7 +5050,10 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                       <label
                         class="cxd-Selections-label"
                       >
-                        <span>
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-5"
+                        >
                           label-5
                         </span>
                       </label>
@@ -5003,7 +5073,10 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                       <label
                         class="cxd-Selections-label"
                       >
-                        <span>
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-7"
+                        >
                           label-7
                         </span>
                       </label>
@@ -5023,7 +5096,10 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                       <label
                         class="cxd-Selections-label"
                       >
-                        <span>
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-9"
+                        >
                           label-9
                         </span>
                       </label>
@@ -5043,7 +5119,10 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                       <label
                         class="cxd-Selections-label"
                       >
-                        <span>
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-11"
+                        >
                           label-11
                         </span>
                       </label>
@@ -5063,7 +5142,10 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                       <label
                         class="cxd-Selections-label"
                       >
-                        <span>
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-13"
+                        >
                           label-13
                         </span>
                       </label>
@@ -5083,7 +5165,10 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                       <label
                         class="cxd-Selections-label"
                       >
-                        <span>
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-15"
+                        >
                           label-15
                         </span>
                       </label>
@@ -5103,7 +5188,10 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                       <label
                         class="cxd-Selections-label"
                       >
-                        <span>
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-17"
+                        >
                           label-17
                         </span>
                       </label>
@@ -5123,7 +5211,10 @@ exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
                       <label
                         class="cxd-Selections-label"
                       >
-                        <span>
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-19"
+                        >
                           label-19
                         </span>
                       </label>
@@ -5575,7 +5666,10 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                             <label
                               class="cxd-Selections-label"
                             >
-                              <span>
+                              <span
+                                class="cxd-Selection-ellipsis-line"
+                                title="label-1"
+                              >
                                 label-1
                               </span>
                             </label>
@@ -5596,7 +5690,10 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                             <label
                               class="cxd-Selections-label"
                             >
-                              <span>
+                              <span
+                                class="cxd-Selection-ellipsis-line"
+                                title="label-3"
+                              >
                                 label-3
                               </span>
                             </label>
@@ -5617,7 +5714,10 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                             <label
                               class="cxd-Selections-label"
                             >
-                              <span>
+                              <span
+                                class="cxd-Selection-ellipsis-line"
+                                title="label-5"
+                              >
                                 label-5
                               </span>
                             </label>
@@ -5638,7 +5738,10 @@ exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
                             <label
                               class="cxd-Selections-label"
                             >
-                              <span>
+                              <span
+                                class="cxd-Selection-ellipsis-line"
+                                title="label-7"
+                              >
                                 label-7
                               </span>
                             </label>
@@ -5898,7 +6001,8 @@ exports[`Renderer:transfer tree 1`] = `
                                     title="法师"
                                   >
                                     <span
-                                      class=""
+                                      class=" cxd-Selection-ellipsis-line"
+                                      title="法师 "
                                     >
                                       法师
                                     </span>
@@ -5938,7 +6042,8 @@ exports[`Renderer:transfer tree 1`] = `
                                     title="诸葛亮"
                                   >
                                     <span
-                                      class=""
+                                      class=" cxd-Selection-ellipsis-line"
+                                      title="诸葛亮 "
                                     >
                                       诸葛亮
                                     </span>
@@ -5983,7 +6088,8 @@ exports[`Renderer:transfer tree 1`] = `
                                     title="战士"
                                   >
                                     <span
-                                      class=""
+                                      class=" cxd-Selection-ellipsis-line"
+                                      title="战士 "
                                     >
                                       战士
                                     </span>
@@ -6023,7 +6129,8 @@ exports[`Renderer:transfer tree 1`] = `
                                     title="曹操"
                                   >
                                     <span
-                                      class=""
+                                      class=" cxd-Selection-ellipsis-line"
+                                      title="曹操 "
                                     >
                                       曹操
                                     </span>
@@ -6063,7 +6170,8 @@ exports[`Renderer:transfer tree 1`] = `
                                     title="钟无艳"
                                   >
                                     <span
-                                      class=""
+                                      class=" cxd-Selection-ellipsis-line"
+                                      title="钟无艳 "
                                     >
                                       钟无艳
                                     </span>
@@ -6108,7 +6216,8 @@ exports[`Renderer:transfer tree 1`] = `
                                     title="打野"
                                   >
                                     <span
-                                      class=""
+                                      class=" cxd-Selection-ellipsis-line"
+                                      title="打野 "
                                     >
                                       打野
                                     </span>
@@ -6148,7 +6257,8 @@ exports[`Renderer:transfer tree 1`] = `
                                     title="李白"
                                   >
                                     <span
-                                      class=""
+                                      class=" cxd-Selection-ellipsis-line"
+                                      title="李白 "
                                     >
                                       李白
                                     </span>
@@ -6188,7 +6298,8 @@ exports[`Renderer:transfer tree 1`] = `
                                     title="韩信"
                                   >
                                     <span
-                                      class=""
+                                      class=" cxd-Selection-ellipsis-line"
+                                      title="韩信 "
                                     >
                                       韩信
                                     </span>
@@ -6228,7 +6339,8 @@ exports[`Renderer:transfer tree 1`] = `
                                     title="云中君"
                                   >
                                     <span
-                                      class=""
+                                      class=" cxd-Selection-ellipsis-line"
+                                      title="云中君 "
                                     >
                                       云中君
                                     </span>
@@ -6432,7 +6544,8 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                       title="诸葛亮"
                     >
                       <span
-                        class=""
+                        class=" cxd-Selection-ellipsis-line"
+                        title="诸葛亮 "
                       >
                         诸葛亮
                       </span>
@@ -6472,7 +6585,8 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                       title="曹操"
                     >
                       <span
-                        class=""
+                        class=" cxd-Selection-ellipsis-line"
+                        title="曹操 "
                       >
                         曹操
                       </span>
@@ -6512,7 +6626,8 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                       title="钟无艳"
                     >
                       <span
-                        class=""
+                        class=" cxd-Selection-ellipsis-line"
+                        title="钟无艳 "
                       >
                         钟无艳
                       </span>
@@ -6561,7 +6676,10 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                 <label
                   class="cxd-Selections-label is-invalid"
                 >
-                  <span>
+                  <span
+                    class="cxd-Selection-ellipsis-line"
+                    title="w"
+                  >
                     w
                   </span>
                 </label>
@@ -6581,7 +6699,10 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                 <label
                   class="cxd-Selections-label is-invalid"
                 >
-                  <span>
+                  <span
+                    class="cxd-Selection-ellipsis-line"
+                    title="x"
+                  >
                     x
                   </span>
                 </label>
@@ -6601,7 +6722,10 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                 <label
                   class="cxd-Selections-label is-invalid"
                 >
-                  <span>
+                  <span
+                    class="cxd-Selection-ellipsis-line"
+                    title="y"
+                  >
                     y
                   </span>
                 </label>
@@ -6621,7 +6745,10 @@ exports[`Renderer:transfer with showInvalidMatch & unmatched do not add 1`] = `
                 <label
                   class="cxd-Selections-label is-invalid"
                 >
-                  <span>
+                  <span
+                    class="cxd-Selection-ellipsis-line"
+                    title="z"
+                  >
                     z
                   </span>
                 </label>

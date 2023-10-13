@@ -169,7 +169,7 @@ export default function Cell({
       );
     }
     return [prefix, affix, addtionalClassName];
-  }, [item.expandable, item.expanded]);
+  }, [item.expandable, item.expanded, column.isPrimary]);
 
   // 根据条件缓存 data，避免孩子重复渲染
   const hasCustomTrackExpression =

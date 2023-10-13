@@ -1,9 +1,10 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Icon, InputBox} from 'amis';
+import {Icon, InputBox, resolveVariable} from 'amis';
 import cx from 'classnames';
 import {autobind, stringRegExp} from '../../util';
 import isString from 'lodash/isString';
+import {matchSorter} from 'match-sorter';
 
 /**
  * 通用搜索功能组件，附带以下功能：
@@ -182,7 +183,7 @@ export default class SearchPanel extends React.Component<
   /**
    * 根据关键字过滤数据，按分组存放
    */
-  groupedResultByKeyword(keywords?: string) {
+  groupedResultByKeyword(keywords: string = '') {
     const {allResult} = this.props;
     let curSearchResult: any[] = [];
     let curSearchResultByTag: {
@@ -190,23 +191,19 @@ export default class SearchPanel extends React.Component<
     } = {};
     const curKeyword = keywords ? keywords : this.state.curKeyword;
     const curTagKey = this.props.tagKey || 'tags';
-    const grouped: {
-      [propName: string]: any[];
-    } = {};
     const regular = curKeyword
       ? new RegExp(stringRegExp(curKeyword), 'i')
       : null;
 
-    allResult.forEach(item => {
-      if (isString(item) && regular && regular.test(item)) {
+    if (allResult.length && isString(allResult[0])) {
+      matchSorter(allResult, keywords).forEach(item => {
         // 兼容字符串类型
         curSearchResult.push(item);
-      } else if (
-        !keywords ||
-        ['name', 'description', 'scaffold.type'].some(
-          key => item[key] && regular && regular.test(item[key])
-        )
-      ) {
+      });
+    } else {
+      matchSorter(allResult, keywords, {
+        keys: ['name', 'description', 'scaffold.type', 'searchKeywords']
+      }).forEach(item => {
         if (item[curTagKey]) {
           const tags = Array.isArray(item[curTagKey])
             ? item[curTagKey].concat()
@@ -214,14 +211,14 @@ export default class SearchPanel extends React.Component<
             ? [item[curTagKey]]
             : ['其他'];
           tags.forEach((tag: string) => {
-            curSearchResultByTag[tag] = grouped[tag] || [];
+            curSearchResultByTag[tag] = curSearchResultByTag[tag] || [];
             curSearchResultByTag[tag].push(item);
           });
         } else {
           curSearchResult.push(item);
         }
-      }
-    });
+      });
+    }
 
     // 更新当前搜索结果数据（备注: 附带重置功能）
     this.setState({

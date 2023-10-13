@@ -149,6 +149,7 @@
       @include scrollbar();
       overflow-x: auto;
       overflow-y: auto;
+      max-height: 100% !important;
     }
 
     &-searchBox {
@@ -278,7 +279,7 @@
         min-width: 100px;
         padding: 0 5px;
         margin: 5px;
-        text-align: center;
+        text-align: left;
         li {
           line-height: 24px;
           &:hover {

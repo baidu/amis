@@ -6,7 +6,7 @@ exports[`1. Renderer:Collapse 1`] = `
     class="cxd-CollapseGroup"
   >
     <div
-      class="cxd-Collapse is-active cxd-Collapse--fieldset"
+      class="cxd-Collapse is-active"
     >
       <div
         class="cxd-Collapse-header"
@@ -48,7 +48,7 @@ exports[`1. Renderer:Collapse 1`] = `
       </div>
     </div>
     <div
-      class="cxd-Collapse is-active cxd-Collapse--fieldset"
+      class="cxd-Collapse is-active"
     >
       <div
         class="cxd-Collapse-header"
@@ -90,7 +90,7 @@ exports[`1. Renderer:Collapse 1`] = `
       </div>
     </div>
     <div
-      class="cxd-Collapse is-active cxd-Collapse--fieldset"
+      class="cxd-Collapse is-active"
     >
       <div
         class="cxd-Collapse-header"
@@ -142,7 +142,7 @@ exports[`3. Renderer:Collapse with expandIcon & expandIconPosition & showArrow 1
     class="cxd-CollapseGroup icon-position-right"
   >
     <div
-      class="cxd-Collapse is-active cxd-Collapse--fieldset"
+      class="cxd-Collapse is-active"
     >
       <div
         class="cxd-Collapse-header"
@@ -179,7 +179,7 @@ exports[`3. Renderer:Collapse with expandIcon & expandIconPosition & showArrow 1
       </div>
     </div>
     <div
-      class="cxd-Collapse cxd-Collapse--fieldset"
+      class="cxd-Collapse"
     >
       <div
         class="cxd-Collapse-header"
@@ -216,7 +216,7 @@ exports[`3. Renderer:Collapse with expandIcon & expandIconPosition & showArrow 1
       </div>
     </div>
     <div
-      class="cxd-Collapse cxd-Collapse--fieldset"
+      class="cxd-Collapse"
     >
       <div
         class="cxd-Collapse-header"
@@ -259,7 +259,7 @@ exports[`4. Renderer:Collapse with disabled & panel nesting 1`] = `
     class="cxd-CollapseGroup"
   >
     <div
-      class="cxd-Collapse is-active cxd-Collapse--fieldset"
+      class="cxd-Collapse is-active"
     >
       <div
         class="cxd-Collapse-header"
@@ -293,7 +293,7 @@ exports[`4. Renderer:Collapse with disabled & panel nesting 1`] = `
               class="cxd-CollapseGroup"
             >
               <div
-                class="cxd-Collapse is-active cxd-Collapse--fieldset"
+                class="cxd-Collapse is-active"
               >
                 <div
                   class="cxd-Collapse-header"
@@ -340,7 +340,7 @@ exports[`4. Renderer:Collapse with disabled & panel nesting 1`] = `
       </div>
     </div>
     <div
-      class="cxd-Collapse cxd-Collapse--disabled cxd-Collapse--fieldset lastOne"
+      class="cxd-Collapse cxd-Collapse--disabled lastOne"
     >
       <div
         class="cxd-Collapse-header"

@@ -81,7 +81,7 @@ exports[`Renderer:table 1`] = `
           </thead>
           <tbody>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="1"
               data-index="0"
             >
@@ -105,7 +105,7 @@ exports[`Renderer:table 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="2"
               data-index="1"
             >
@@ -129,7 +129,7 @@ exports[`Renderer:table 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="3"
               data-index="2"
             >
@@ -153,7 +153,7 @@ exports[`Renderer:table 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="4"
               data-index="3"
             >
@@ -177,7 +177,7 @@ exports[`Renderer:table 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="5"
               data-index="4"
             >
@@ -201,7 +201,7 @@ exports[`Renderer:table 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="6"
               data-index="5"
             >
@@ -225,7 +225,7 @@ exports[`Renderer:table 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="7"
               data-index="6"
             >
@@ -249,7 +249,7 @@ exports[`Renderer:table 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="8"
               data-index="7"
             >
@@ -273,7 +273,7 @@ exports[`Renderer:table 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="9"
               data-index="8"
             >
@@ -297,7 +297,7 @@ exports[`Renderer:table 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="10"
               data-index="9"
             >
@@ -441,7 +441,7 @@ exports[`Renderer:table align 1`] = `
           </thead>
           <tbody>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="1"
               data-index="0"
             >
@@ -468,7 +468,7 @@ exports[`Renderer:table align 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="2"
               data-index="1"
             >
@@ -495,7 +495,7 @@ exports[`Renderer:table align 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="3"
               data-index="2"
             >
@@ -522,7 +522,7 @@ exports[`Renderer:table align 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="4"
               data-index="3"
             >
@@ -549,7 +549,7 @@ exports[`Renderer:table align 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="5"
               data-index="4"
             >
@@ -576,7 +576,7 @@ exports[`Renderer:table align 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="6"
               data-index="5"
             >
@@ -603,7 +603,7 @@ exports[`Renderer:table align 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="7"
               data-index="6"
             >
@@ -630,7 +630,7 @@ exports[`Renderer:table align 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="8"
               data-index="7"
             >
@@ -657,7 +657,7 @@ exports[`Renderer:table align 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="9"
               data-index="8"
             >
@@ -684,7 +684,7 @@ exports[`Renderer:table align 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="10"
               data-index="9"
             >
@@ -948,7 +948,7 @@ exports[`Renderer:table children 1`] = `
                     </thead>
                     <tbody>
                       <tr
-                        class="is-expandable cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr is-expandable cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
                       >
@@ -1019,7 +1019,7 @@ exports[`Renderer:table children 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="is-expandable cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr is-expandable cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="2"
                         data-index="1"
                       >
@@ -1090,7 +1090,7 @@ exports[`Renderer:table children 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="is-expandable cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr is-expandable cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="3"
                         data-index="2"
                       >
@@ -1161,7 +1161,7 @@ exports[`Renderer:table children 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="is-expandable cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr is-expandable cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="4"
                         data-index="3"
                       >
@@ -1232,7 +1232,7 @@ exports[`Renderer:table children 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="is-expandable cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr is-expandable cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="5"
                         data-index="4"
                       >
@@ -1435,7 +1435,7 @@ exports[`Renderer:table classNameExpr 1`] = `
           </thead>
           <tbody>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="1"
               data-index="0"
             >
@@ -1459,7 +1459,7 @@ exports[`Renderer:table classNameExpr 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="2"
               data-index="1"
             >
@@ -1483,7 +1483,7 @@ exports[`Renderer:table classNameExpr 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="3"
               data-index="2"
             >
@@ -1507,7 +1507,7 @@ exports[`Renderer:table classNameExpr 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="4"
               data-index="3"
             >
@@ -1531,7 +1531,7 @@ exports[`Renderer:table classNameExpr 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="5"
               data-index="4"
             >
@@ -1555,7 +1555,7 @@ exports[`Renderer:table classNameExpr 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="6"
               data-index="5"
             >
@@ -1579,7 +1579,7 @@ exports[`Renderer:table classNameExpr 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="7"
               data-index="6"
             >
@@ -1603,7 +1603,7 @@ exports[`Renderer:table classNameExpr 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="8"
               data-index="7"
             >
@@ -1627,7 +1627,7 @@ exports[`Renderer:table classNameExpr 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="9"
               data-index="8"
             >
@@ -1651,7 +1651,7 @@ exports[`Renderer:table classNameExpr 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="10"
               data-index="9"
             >
@@ -1803,7 +1803,7 @@ exports[`Renderer:table column head style className 1`] = `
           </thead>
           <tbody>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="1"
               data-index="0"
             >
@@ -1828,7 +1828,7 @@ exports[`Renderer:table column head style className 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="2"
               data-index="1"
             >
@@ -1853,7 +1853,7 @@ exports[`Renderer:table column head style className 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="3"
               data-index="2"
             >
@@ -1878,7 +1878,7 @@ exports[`Renderer:table column head style className 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="4"
               data-index="3"
             >
@@ -1903,7 +1903,7 @@ exports[`Renderer:table column head style className 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="5"
               data-index="4"
             >
@@ -1928,7 +1928,7 @@ exports[`Renderer:table column head style className 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="6"
               data-index="5"
             >
@@ -1953,7 +1953,7 @@ exports[`Renderer:table column head style className 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="7"
               data-index="6"
             >
@@ -1978,7 +1978,7 @@ exports[`Renderer:table column head style className 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="8"
               data-index="7"
             >
@@ -2003,7 +2003,7 @@ exports[`Renderer:table column head style className 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="9"
               data-index="8"
             >
@@ -2028,7 +2028,7 @@ exports[`Renderer:table column head style className 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="10"
               data-index="9"
             >
@@ -2259,7 +2259,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                     </thead>
                     <tbody>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
                       >
@@ -2311,7 +2311,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="2"
                         data-index="1"
                       >
@@ -2353,7 +2353,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="3"
                         data-index="2"
                       >
@@ -2396,7 +2396,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="4"
                         data-index="3"
                       >
@@ -2430,7 +2430,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="5"
                         data-index="4"
                       >
@@ -2454,7 +2454,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="6"
                         data-index="5"
                       >
@@ -2508,7 +2508,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="7"
                         data-index="6"
                       >
@@ -2532,7 +2532,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="8"
                         data-index="7"
                       >
@@ -2576,7 +2576,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="9"
                         data-index="8"
                       >
@@ -2600,7 +2600,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="10"
                         data-index="9"
                       >
@@ -2835,7 +2835,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                     </thead>
                     <tbody>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
                       >
@@ -2886,7 +2886,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="2"
                         data-index="1"
                       >
@@ -2937,7 +2937,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="3"
                         data-index="2"
                       >
@@ -2989,7 +2989,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="4"
                         data-index="3"
                       >
@@ -3032,7 +3032,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="5"
                         data-index="4"
                       >
@@ -3065,7 +3065,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="6"
                         data-index="5"
                       >
@@ -3118,7 +3118,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="7"
                         data-index="6"
                       >
@@ -3151,7 +3151,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="8"
                         data-index="7"
                       >
@@ -3204,7 +3204,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="9"
                         data-index="8"
                       >
@@ -3237,7 +3237,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="10"
                         data-index="9"
                       >
@@ -3540,7 +3540,7 @@ exports[`Renderer:table groupName-default 1`] = `
                     </thead>
                     <tbody>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
                       >
@@ -3591,7 +3591,7 @@ exports[`Renderer:table groupName-default 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="2"
                         data-index="1"
                       >
@@ -3642,7 +3642,7 @@ exports[`Renderer:table groupName-default 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="3"
                         data-index="2"
                       >
@@ -3693,7 +3693,7 @@ exports[`Renderer:table groupName-default 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="4"
                         data-index="3"
                       >
@@ -3744,7 +3744,7 @@ exports[`Renderer:table groupName-default 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="5"
                         data-index="4"
                       >
@@ -3795,7 +3795,7 @@ exports[`Renderer:table groupName-default 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="6"
                         data-index="5"
                       >
@@ -3846,7 +3846,7 @@ exports[`Renderer:table groupName-default 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="7"
                         data-index="6"
                       >
@@ -3897,7 +3897,7 @@ exports[`Renderer:table groupName-default 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="8"
                         data-index="7"
                       >
@@ -3948,7 +3948,7 @@ exports[`Renderer:table groupName-default 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="9"
                         data-index="8"
                       >
@@ -3999,7 +3999,7 @@ exports[`Renderer:table groupName-default 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="10"
                         data-index="9"
                       >
@@ -4324,7 +4324,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                     </thead>
                     <tbody>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
                       >
@@ -4375,7 +4375,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="2"
                         data-index="1"
                       >
@@ -4426,7 +4426,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="3"
                         data-index="2"
                       >
@@ -4477,7 +4477,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="4"
                         data-index="3"
                       >
@@ -4528,7 +4528,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="5"
                         data-index="4"
                       >
@@ -4579,7 +4579,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="6"
                         data-index="5"
                       >
@@ -4630,7 +4630,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="7"
                         data-index="6"
                       >
@@ -4681,7 +4681,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="8"
                         data-index="7"
                       >
@@ -4732,7 +4732,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="9"
                         data-index="8"
                       >
@@ -4783,7 +4783,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="10"
                         data-index="9"
                       >
@@ -5096,7 +5096,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                     </thead>
                     <tbody>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
                       >
@@ -5147,7 +5147,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="2"
                         data-index="1"
                       >
@@ -5198,7 +5198,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="3"
                         data-index="2"
                       >
@@ -5249,7 +5249,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="4"
                         data-index="3"
                       >
@@ -5300,7 +5300,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="5"
                         data-index="4"
                       >
@@ -5351,7 +5351,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="6"
                         data-index="5"
                       >
@@ -5402,7 +5402,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="7"
                         data-index="6"
                       >
@@ -5453,7 +5453,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="8"
                         data-index="7"
                       >
@@ -5504,7 +5504,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="9"
                         data-index="8"
                       >
@@ -5555,7 +5555,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="10"
                         data-index="9"
                       >
@@ -5876,7 +5876,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                     </thead>
                     <tbody>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
                       >
@@ -5927,7 +5927,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="2"
                         data-index="1"
                       >
@@ -5978,7 +5978,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="3"
                         data-index="2"
                       >
@@ -6029,7 +6029,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="4"
                         data-index="3"
                       >
@@ -6080,7 +6080,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="5"
                         data-index="4"
                       >
@@ -6131,7 +6131,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="6"
                         data-index="5"
                       >
@@ -6182,7 +6182,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="7"
                         data-index="6"
                       >
@@ -6233,7 +6233,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="8"
                         data-index="7"
                       >
@@ -6284,7 +6284,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="9"
                         data-index="8"
                       >
@@ -6335,7 +6335,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="10"
                         data-index="9"
                       >
@@ -6519,7 +6519,7 @@ exports[`Renderer:table isHead fixed 1`] = `
           </thead>
           <tbody>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="1"
               data-index="0"
             >
@@ -6544,7 +6544,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="2"
               data-index="1"
             >
@@ -6569,7 +6569,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="3"
               data-index="2"
             >
@@ -6594,7 +6594,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="4"
               data-index="3"
             >
@@ -6619,7 +6619,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="5"
               data-index="4"
             >
@@ -6644,7 +6644,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="6"
               data-index="5"
             >
@@ -6669,7 +6669,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="7"
               data-index="6"
             >
@@ -6694,7 +6694,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="8"
               data-index="7"
             >
@@ -6719,7 +6719,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="9"
               data-index="8"
             >
@@ -6744,7 +6744,7 @@ exports[`Renderer:table isHead fixed 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="10"
               data-index="9"
             >
@@ -7075,7 +7075,7 @@ exports[`Renderer:table list 1`] = `
           </thead>
           <tbody>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="91264"
               data-index="0"
             >
@@ -7317,7 +7317,7 @@ exports[`Renderer:table list 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--even cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
               data-id="34202"
               data-index="1"
             >
@@ -7679,7 +7679,7 @@ exports[`Renderer:table list 1`] = `
               </td>
             </tr>
             <tr
-              class="cxd-Table-tr--odd cxd-Table-tr--1th"
+              class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
               data-id="37701"
               data-index="2"
             >

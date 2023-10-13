@@ -38,6 +38,12 @@
       margin-right: var(--Checkbox-gap);
     }
   }
+
+  &-ellipsis-line {
+    display: inline-block;
+    width: 100%;
+    @include truncate();
+  }
 }
 
 .#{$ns}GroupedSelection {
@@ -104,6 +110,7 @@
 
   &-itemLabel {
     flex-grow: 1;
+    overflow: hidden;
 
     span {
       vertical-align: middle;

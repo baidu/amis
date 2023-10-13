@@ -37,6 +37,8 @@ import {AvailableRenderersPlugin} from './plugin/AvailableRenderers';
 import ShortcutKey from './component/base/ShortcutKey';
 import WidthDraggableContainer from './component/base/WidthDraggableContainer';
 
+export const version = '__buildVersion';
+
 export default Editor;
 
 export {

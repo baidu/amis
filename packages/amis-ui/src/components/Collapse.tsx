@@ -283,7 +283,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
             [`Collapse--${size}`]: size,
             'Collapse--disabled': disabled,
             'Collapse--title-bottom': headerPosition === 'bottom',
-            'Collapse--fieldset': enableFieldSetStyle !== false
+            'Collapse-fieldset--disabled': enableFieldSetStyle === false
           },
           className
         )}

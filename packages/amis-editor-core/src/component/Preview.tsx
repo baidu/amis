@@ -117,18 +117,6 @@ export default class Preview extends Component<PreviewProps> {
     setTimeout(() => clearStoresCache([this.env.session!]), 500);
   }
 
-  componentDidUpdate() {
-    const store = this.props.store;
-
-    if (store.activeDialogPath) {
-      let activeId = store.getSchemaByPath(
-        store.activeDialogPath.split('/')
-      )?.$$id;
-      activeId && store.setPreviewDialogId(activeId);
-      store.setActiveDialogPath('');
-    }
-  }
-
   unSensor?: () => void;
   layer?: HTMLDivElement;
   scrollLayer?: HTMLDivElement;
@@ -425,24 +413,37 @@ export default class Preview extends Component<PreviewProps> {
 
   @autobind
   handleDragEnter(e: React.DragEvent) {
+    if (!this.props.editable) {
+      // 非编辑态下不监听拖拽事件
+      return;
+    }
     const manager = this.props.manager;
     manager.dnd.dragEnter(e.nativeEvent);
   }
 
   @autobind
   handleDragLeave(e: React.DragEvent) {
+    if (!this.props.editable) {
+      return;
+    }
     const manager = this.props.manager;
     manager.dnd.dragLeave(e.nativeEvent);
   }
 
   @autobind
   handleDragOver(e: React.DragEvent) {
+    if (!this.props.editable) {
+      return;
+    }
     const manager = this.props.manager;
     manager.dnd.dragOver(e.nativeEvent);
   }
 
   @autobind
   handleDrop(e: React.DragEvent) {
+    if (!this.props.editable) {
+      return;
+    }
     const manager = this.props.manager;
     manager.dnd.drop(e.nativeEvent);
   }

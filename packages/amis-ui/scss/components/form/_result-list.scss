@@ -53,6 +53,7 @@
     > label {
       flex-basis: px2rem(50px);
       flex-grow: 1;
+      width: px2rem(50px);
 
       &.is-invalid {
         color: var(--Form-selectValue-onInvalid-color);

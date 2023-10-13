@@ -15,6 +15,7 @@ import reduce from 'lodash/reduce';
 import map from 'lodash/map';
 import omit from 'lodash/omit';
 import keys from 'lodash/keys';
+import type {Schema} from 'amis';
 
 import type {DSField} from '../builder';
 
@@ -451,11 +452,18 @@ setSchemaTpl(
     } = config || {};
     let curRendererSchema = rendererSchema;
 
-    if (useSelectMode && curRendererSchema && curRendererSchema.options) {
-      curRendererSchema = {
-        ...curRendererSchema,
-        type: 'select'
-      };
+    if (useSelectMode && curRendererSchema) {
+      if (typeof curRendererSchema === 'function') {
+        curRendererSchema = (schema: Schema) => ({
+          ...rendererSchema(schema),
+          type: 'select'
+        });
+      } else if (curRendererSchema.options) {
+        curRendererSchema = {
+          ...curRendererSchema,
+          type: 'select'
+        };
+      }
     }
 
     return {
@@ -855,6 +863,7 @@ setSchemaTpl('readonly', {
 
 setSchemaTpl('visible', {
   type: 'ae-StatusControl',
+  defaultTrue: true,
   label: '可见',
   mode: 'normal',
   name: 'visible',

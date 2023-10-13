@@ -43,6 +43,8 @@ export default class SearchCustomRendererPanel extends React.Component<
       <SearchPanel
         allResult={customRenderersByOrder}
         externalKeyword={defaultKeyword}
+        immediateChange
+        closeAutoComplete
         searchPanelUUID={this.localStorageKey}
         onChange={changeCustomRenderersKeywords}
         onTagChange={changeCustomRenderersTag}

@@ -25,14 +25,12 @@ import {
   resolveEventData,
   ListenerAction,
   evalExpressionWithConditionBuilder,
-  mapTree
+  mapTree,
+  isObject
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
-import cloneDeep from 'lodash/cloneDeep';
-import isEqual from 'lodash/isEqual';
-import inRange from 'lodash/inRange';
 import {TableSchema} from '../Table';
 import {SchemaApi, SchemaCollection} from '../../Schema';
 import find from 'lodash/find';
@@ -211,6 +209,11 @@ export interface TableControlSchema
    * 底部新增按钮配置
    */
   footerAddBtn?: SchemaCollection;
+
+  /**
+   * 是否开启 static 状态切换
+   */
+  enableStaticTransform?: boolean;
 }
 
 export interface TableProps
@@ -226,6 +229,10 @@ export interface TableState {
   editIndex: number;
   isCreateMode?: boolean;
   page?: number;
+  lastModifiedRow?: {
+    index: number;
+    data: Record<string, any>;
+  };
 }
 
 export type FormTableRendererEvent =
@@ -309,7 +316,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.emitValue = this.emitValue.bind(this);
   }
 
-  componentDidUpdate(prevProps: TableProps) {
+  componentDidUpdate(prevProps: TableProps, prevState: TableState) {
     const props = this.props;
     let toUpdate: any = null;
 
@@ -633,14 +640,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               column.type === 'input-quarter' ||
               column.type === 'input-year')
           ) {
-            const date = filterDate(column.value, data, column.format || 'X');
-            setVariable(
-              value,
-              column.name,
-              (column.utc ? moment.utc(date) : date).format(
-                column.format || 'X'
-              )
-            );
+            if (
+              !(typeof column.value === 'string' && column.value.trim() === '')
+            ) {
+              const date = filterDate(column.value, data, column.format || 'X');
+              setVariable(
+                value,
+                column.name,
+                (column.utc ? moment.utc(date) : date).format(
+                  column.format || 'X'
+                )
+              );
+            }
           } else {
             /** 如果value值设置为表达式，则忽略 */
             if (!isExpression(column.value)) {
@@ -723,7 +734,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.setState({
       editIndex: index,
       isCreateMode: isCreate,
-      columns: this.buildColumns(this.props, isCreate)
+      columns: this.buildColumns(this.props, isCreate, index)
     });
   }
 
@@ -828,17 +839,35 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   cancelEdit() {
     const items = this.state.items.concat();
+    const lastModifiedRow = this.state.lastModifiedRow;
+
     let item = {
       ...items[this.state.editIndex]
     };
     const isNew = !!item.__isPlaceholder;
-    isNew && items.splice(this.state.editIndex, 1);
+
+    if (isNew) {
+      items.splice(this.state.editIndex, 1);
+    } else {
+      /** 恢复编辑前的值 */
+      if (
+        lastModifiedRow &&
+        ~lastModifiedRow?.index &&
+        isObject(lastModifiedRow?.data)
+      ) {
+        items.splice(this.state.editIndex, 1, {
+          ...item,
+          ...lastModifiedRow.data
+        });
+      }
+    }
 
     this.setState(
       {
         editIndex: -1,
         items: items,
-        columns: this.buildColumns(this.props)
+        columns: this.buildColumns(this.props),
+        lastModifiedRow: undefined
       },
       this.emitValue
     );
@@ -921,8 +950,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     };
   }
 
-  buildColumns(props: TableProps, isCreateMode = false): Array<any> {
-    const env = this.props.env;
+  buildColumns(
+    props: TableProps,
+    isCreateMode = false,
+    editRowIndex?: number
+  ): Array<any> {
+    const {env, enableStaticTransform} = this.props;
     let columns: Array<any> = Array.isArray(props.columns)
       ? props.columns.concat()
       : [];
@@ -1033,7 +1066,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       isStatic !== true &&
       (props.addable || props.editable || isCreateMode)
     ) {
-      columns = columns.map(column => {
+      columns = columns.map((column, index) => {
         const quickEdit =
           !isCreateMode && column.hasOwnProperty('quickEditOnUpdate')
             ? column.quickEditOnUpdate
@@ -1041,19 +1074,28 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
         const render = getRendererByName(column?.type);
 
-        return quickEdit === false
-          ? omit(column, ['quickEdit'])
-          : {
-              ...column,
-              quickEdit: {
-                ...this.columnToQuickEdit(column),
-                ...quickEdit,
-                isQuickEditFormMode: !!render?.isFormItem,
-                saveImmediately: true,
-                mode: 'inline',
-                disabled
-              }
-            };
+        return {
+          ...(quickEdit === false
+            ? omit(column, ['quickEdit'])
+            : {
+                ...column,
+                quickEdit: {
+                  ...this.columnToQuickEdit(column),
+                  ...quickEdit,
+                  isQuickEditFormMode: !!render?.isFormItem,
+                  saveImmediately: true,
+                  mode: 'inline',
+                  disabled
+                }
+              }),
+          /**
+           * 非编辑态使用静态展示
+           * 编辑态仅当前编辑行使用静态展示
+           */
+          ...(enableStaticTransform && props.needConfirm !== false
+            ? {staticOn: `${!isCreateMode} || data.index !== ${editRowIndex}`}
+            : {})
+        };
       });
 
       !isStatic &&
@@ -1299,10 +1341,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     rowIndexes: Array<string> | string
   ) {
     const {perPage} = this.props;
+    const editIndex = this.state.editIndex;
+    const lastModifiedRow = this.state.lastModifiedRow;
 
-    if (~this.state.editIndex) {
+    if (~editIndex) {
       const items = this.state.items.concat();
-      const origin = items[this.state.editIndex];
+      const origin = items[editIndex];
 
       if (!origin) {
         return;
@@ -1313,10 +1357,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       };
       this.entries.set(value, this.entries.get(origin) || this.entityId++);
       this.entries.delete(origin);
-      items.splice(this.state.editIndex, 1, value);
+      items.splice(editIndex, 1, value);
 
       this.setState({
-        items
+        items,
+        /** 记录最近一次编辑记录，用于取消编辑数据回溯， */
+        ...(lastModifiedRow?.index === editIndex
+          ? {}
+          : {
+              lastModifiedRow: origin.__isPlaceholder
+                ? undefined
+                : {index: editIndex, data: {...origin}}
+            })
       });
       return;
     }
@@ -1530,11 +1582,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     let items = this.state.items;
     let showPager = false;
-    const page = this.state.page || 1;
+    let page = this.state.page || 1;
     let offset = 0;
     let lastPage = 1;
     if (typeof perPage === 'number' && perPage && items.length > perPage) {
       lastPage = Math.ceil(items.length / perPage);
+      if (page > lastPage) {
+        page = lastPage;
+      }
       items = items.slice((page - 1) * perPage, page * perPage);
       showPager = true;
       offset = (page - 1) * perPage;
@@ -1614,7 +1669,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   },
                   {
                     activePage: page,
-                    lastPage: lastPage,
+                    perPage,
+                    total: this.state.items.length,
                     onPageChange: this.handlePageChange,
                     className: 'InputTable-pager'
                   }
@@ -1631,11 +1687,37 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   type: 'input-table'
 })
 export class TableControlRenderer extends FormTable {
-  setData(value: any, replace?: boolean, index?: number) {
-    if (index !== undefined && ~index) {
-      // 如果setValue动作传入了index，更新指定索引的值
-      const items = [...this.state.items];
-      items.splice(index, 1, value);
+  async setData(
+    value: any,
+    replace?: boolean,
+    index?: number | string,
+    condition?: any
+  ) {
+    const len = this.state.items.length;
+    if (index !== undefined) {
+      let items = [...this.state.items];
+      const indexs = String(index).split(',');
+      indexs.forEach(i => {
+        const intIndex = Number(i);
+        items.splice(intIndex, 1, value);
+      });
+      this.setState({items}, () => {
+        this.emitValue();
+      });
+    } else if (condition !== undefined) {
+      let items = [...this.state.items];
+      for (let i = 0; i < len; i++) {
+        const item = items[i];
+        const isUpdate = await evalExpressionWithConditionBuilder(
+          condition,
+          item
+        );
+
+        if (isUpdate) {
+          items.splice(i, 1, value);
+        }
+      }
+
       this.setState({items}, () => {
         this.emitValue();
       });

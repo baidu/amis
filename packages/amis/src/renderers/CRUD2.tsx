@@ -537,7 +537,6 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       env,
       loadType,
       loadDataOnce,
-      loadDataOnceFetchOnFilter,
       source,
       columns,
       perPage
@@ -574,7 +573,6 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             autoAppend: true,
             forceReload,
             loadDataOnce,
-            loadDataOnceFetchOnFilter,
             source,
             silent,
             pageField,

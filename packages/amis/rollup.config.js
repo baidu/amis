@@ -15,9 +15,13 @@ import {
 } from './package.json';
 import path from 'path';
 import svgr from '@svgr/rollup';
+import moment from 'moment';
 
 const settings = {
-  globals: {}
+  globals: {},
+  commonConfig: {
+    footer: `window.amisVersionInfo={version:'${version}',buildTime:'${moment().format("YYYY-MM-DD")}'};`,
+  }
 };
 
 const external = id => {
@@ -61,6 +65,7 @@ export default [
     output: [
       {
         ...settings,
+        ...settings.commonConfig,
         dir: path.dirname(main),
         format: 'cjs',
         exports: 'named',
@@ -78,6 +83,7 @@ export default [
     output: [
       {
         ...settings,
+        ...settings.commonConfig,
         dir: path.dirname(module),
         format: 'esm',
         exports: 'named',
@@ -204,6 +210,7 @@ function getPlugins(format = 'esm') {
     license({
       banner: `
         ${name} v${version}
+        build time: <%=moment().format('YYYY-MM-DD')%>
         Copyright 2018<%= moment().format('YYYY') > 2018 ? '-' + moment().format('YYYY') : null %> ${author}
       `
     })

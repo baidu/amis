@@ -126,7 +126,8 @@ export class BaseTabsTransferRenderer<
           return !!(
             (Array.isArray(option.children) && option.children.length) ||
             !!matchSorter([option].concat(paths), term, {
-              keys: [labelField || 'label', valueField || 'value']
+              keys: [labelField || 'label', valueField || 'value'],
+              threshold: matchSorter.rankings.CONTAINS
             }).length
           );
         },
@@ -241,7 +242,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
 
   @autobind
   optionItemRender(option: any, states: ItemRenderStates) {
-    const {menuTpl, render, data} = this.props;
+    const {menuTpl, render, data, classnames} = this.props;
     const ctx = arguments[2] || {};
 
     if (menuTpl) {
@@ -256,7 +257,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       });
     }
 
-    return BaseSelection.itemRender(option, states);
+    return BaseSelection.itemRender(option, {...states, classnames});
   }
 
   // 动作

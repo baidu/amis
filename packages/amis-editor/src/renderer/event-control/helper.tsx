@@ -9,8 +9,7 @@ import {
   getFixDialogType,
   getSchemaTpl,
   JsonGenerateID,
-  JSONPipeIn,
-  JSONPipeOut,
+  JSONGetById,
   PluginActions,
   RendererPluginAction,
   RendererPluginEvent,
@@ -21,6 +20,7 @@ import {
   DataSchema,
   filterTree,
   findTree,
+  guid,
   mapTree,
   normalizeApi,
   PlainObject,
@@ -439,7 +439,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               visibleOn: '__dialogSource === "current"',
               onChange: (value: any, oldValue: any, model: any, form: any) => {
                 form.setValueByName('args', {
-                  formCurrentDialog: true
+                  fromCurrentDialog: true
                 });
               }
             },
@@ -818,7 +818,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     显示
                     <span className="variable-left variable-right">
-                      {info?.rendererLabel || '-'}
+                      {info?.rendererLabel || info.componentId || '-'}
                     </span>
                     组件
                   </div>
@@ -832,7 +832,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     隐藏
                     <span className="variable-left variable-right">
-                      {info?.rendererLabel || '-'}
+                      {info?.rendererLabel || info.componentId || '-'}
                     </span>
                     组件
                   </div>
@@ -846,7 +846,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     组件
                     <span className="variable-left variable-right">
-                      {info?.rendererLabel || '-'}
+                      {info?.rendererLabel || info.componentId || '-'}
                     </span>
                     表达式已配置
                   </div>
@@ -857,6 +857,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           supportComponents: '*',
           schema: [
             ...renderCmptSelect('目标组件', true),
+            renderCmptIdInput(),
             {
               type: 'radios',
               label: '条件',
@@ -921,7 +922,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     启用
                     <span className="variable-left variable-right">
-                      {info?.rendererLabel || '-'}
+                      {info?.rendererLabel || info.componentId || '-'}
                     </span>
                     组件
                   </div>
@@ -935,7 +936,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     禁用
                     <span className="variable-left variable-right">
-                      {info?.rendererLabel || '-'}
+                      {info?.rendererLabel || info.componentId || '-'}
                     </span>
                     组件
                   </div>
@@ -949,7 +950,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <div>
                     组件
                     <span className="variable-left variable-right">
-                      {info?.rendererLabel || '-'}
+                      {info?.rendererLabel || info.componentId || '-'}
                     </span>
                     表达式已配置
                   </div>
@@ -964,6 +965,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           ],
           schema: [
             ...renderCmptSelect('目标组件', true),
+            renderCmptIdInput(),
             {
               type: 'radios',
               label: '条件',
@@ -1026,7 +1028,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 return (
                   <div>
                     <span className="variable-right">
-                      {info?.rendererLabel}
+                      {info?.rendererLabel || info.componentId}
                     </span>
                     组件切换为静态
                   </div>
@@ -1039,7 +1041,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 return (
                   <div>
                     <span className="variable-right">
-                      {info?.rendererLabel}
+                      {info?.rendererLabel || info.componentId}
                     </span>
                     组件切换为输入态
                   </div>
@@ -1050,6 +1052,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           supportComponents: ['form', ...SUPPORT_STATIC_FORMITEM_CMPTS],
           schema: [
             ...renderCmptSelect('选择组件', true),
+            renderCmptIdInput(),
             {
               type: 'radios',
               label: '组件状态',
@@ -1082,7 +1085,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 刷新
                 <span className="variable-left variable-right">
-                  {info?.rendererLabel || '-'}
+                  {info?.rendererLabel || info.componentId || '-'}
                 </span>
                 组件
               </div>
@@ -1090,14 +1093,60 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           },
           supportComponents: 'byComponent',
           schema: [
-            ...renderCmptSelect(
-              '目标组件',
-              true,
+            {
+              type: 'wrapper',
+              size: 'sm',
+              visibleOn: 'data.componentId === "customCmptId"',
+              body: [
+                ...renderCmptSelect(
+                  '目标组件',
+                  true,
+                  (value: string, oldVal: any, data: any, form: any) => {
+                    form.setValueByName('args.resetPage', true);
+                    form.setValueByName('__addParam', false);
+                    form.setValueByName('__containerType', 'all');
+                    form.setValueByName('__reloadParam', []);
+                  },
+                  true
+                )
+              ]
+            },
+            {
+              type: 'wrapper',
+              size: 'sm',
+              visibleOn: 'data.componentId !== "customCmptId"',
+              body: [
+                ...renderCmptSelect(
+                  '目标组件',
+                  true,
+                  (value: string, oldVal: any, data: any, form: any) => {
+                    form.setValueByName('args.resetPage', true);
+                    form.setValueByName('__addParam', false);
+                    form.setValueByName('__containerType', 'all');
+                    form.setValueByName('__reloadParam', []);
+                  }
+                )
+              ]
+            },
+            renderCmptIdInput(
               (value: string, oldVal: any, data: any, form: any) => {
-                form.setValueByName('args.resetPage', true);
-                form.setValueByName('__addParam', false);
-                form.setValueByName('__containerType', 'all');
-                form.setValueByName('__reloadParam', []);
+                // 找到组件并设置相关的属性
+                let schema = JSONGetById(manager.store.schema, value, 'id');
+                if (schema) {
+                  let __isScopeContainer = !!manager.dataSchema.getScope(
+                    `${schema.$$id}-${schema.type}`
+                  );
+                  let __rendererName = schema.type;
+                  form.setValues({
+                    __isScopeContainer,
+                    __rendererName
+                  });
+                } else {
+                  form.setValues({
+                    __isScopeContainer: false,
+                    __rendererName: ''
+                  });
+                }
               }
             ),
             {
@@ -1241,7 +1290,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   <>
                     设置组件「
                     <span className="variable-left variable-right">
-                      {info?.rendererLabel || '-'}
+                      {info?.rendererLabel || info.componentId || '-'}
                     </span>
                     」的数据
                   </>
@@ -1273,12 +1322,12 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 form.setValueByName('__valueInput', undefined);
                 form.setValueByName('args.value', undefined);
                 form.deleteValueByName('args.path');
+                form.deleteValueByName('args.fromApp');
+                form.deleteValueByName('args.fromPage');
 
                 if (value === 'page') {
-                  form.deleteValueByName('args.fromApp');
                   form.setValueByName('args.fromPage', true);
                 } else if (value === 'app') {
-                  form.deleteValueByName('args.fromPage');
                   form.setValueByName('args.fromApp', true);
                 }
               }
@@ -1288,12 +1337,56 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               type: 'container',
               visibleOn: '__actionSubType === "cmpt"',
               body: [
-                ...renderCmptActionSelect(
-                  '目标组件',
-                  true,
+                {
+                  type: 'wrapper',
+                  size: 'sm',
+                  visibleOn: 'data.componentId === "customCmptId"',
+                  body: [
+                    ...renderCmptActionSelect(
+                      '目标组件',
+                      true,
+                      (value: string, oldVal: any, data: any, form: any) => {
+                        form.setValueByName('args.__containerType', 'all');
+                        form.setValueByName('args.__comboType', 'all');
+                      },
+                      true
+                    )
+                  ]
+                },
+                {
+                  type: 'wrapper',
+                  visibleOn: 'data.componentId !== "customCmptId"',
+                  size: 'sm',
+                  body: [
+                    ...renderCmptActionSelect(
+                      '目标组件',
+                      true,
+                      (value: string, oldVal: any, data: any, form: any) => {
+                        form.setValueByName('args.__containerType', 'all');
+                        form.setValueByName('args.__comboType', 'all');
+                      }
+                    )
+                  ]
+                },
+                renderCmptIdInput(
                   (value: string, oldVal: any, data: any, form: any) => {
-                    form.setValueByName('args.__containerType', 'all');
-                    form.setValueByName('args.__comboType', 'all');
+                    // 找到组件并设置相关的属性
+                    let schema = JSONGetById(manager.store.schema, value, 'id');
+                    if (schema) {
+                      let __isScopeContainer = !!manager.dataSchema.getScope(
+                        `${schema.$$id}-${schema.type}`
+                      );
+                      let __rendererName = schema.type;
+                      form.setValues({
+                        __isScopeContainer,
+                        __rendererName
+                      });
+                    } else {
+                      form.setValues({
+                        __isScopeContainer: false,
+                        __rendererName: ''
+                      });
+                    }
                   }
                 ),
                 getArgsWrapper({
@@ -1533,7 +1626,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 提交
                 <span className="variable-left variable-right">
-                  {info?.rendererLabel || '-'}
+                  {info?.rendererLabel || info.componentId || '-'}
                 </span>
                 的数据
               </div>
@@ -1542,6 +1635,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           supportComponents: 'form',
           schema: [
             ...renderCmptSelect('目标组件', true),
+            renderCmptIdInput(),
             {
               name: 'outputVar',
               type: 'input-text',
@@ -1589,14 +1683,14 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 清空
                 <span className="variable-left variable-right">
-                  {info?.rendererLabel || '-'}
+                  {info?.rendererLabel || info.componentId || '-'}
                 </span>
                 的数据
               </div>
             );
           },
           supportComponents: 'form',
-          schema: renderCmptSelect('目标组件', true)
+          schema: [...renderCmptSelect('目标组件', true), renderCmptIdInput()]
         },
         {
           actionLabel: '重置表单',
@@ -1607,14 +1701,14 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 重置
                 <span className="variable-left variable-right">
-                  {info?.rendererLabel || '-'}
+                  {info?.rendererLabel || info.componentId || '-'}
                 </span>
                 的数据
               </div>
             );
           },
           supportComponents: 'form',
-          schema: renderCmptSelect('目标组件', true)
+          schema: [...renderCmptSelect('目标组件', true), renderCmptIdInput()]
         },
         {
           actionLabel: '校验表单',
@@ -1625,7 +1719,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               <div>
                 校验
                 <span className="variable-left variable-right">
-                  {info?.rendererLabel || '-'}
+                  {info?.rendererLabel || info.componentId || '-'}
                 </span>
                 的数据
               </div>
@@ -1634,6 +1728,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           supportComponents: 'form',
           schema: [
             ...renderCmptSelect('目标组件', true),
+            renderCmptIdInput(),
             {
               name: 'outputVar',
               type: 'input-text',
@@ -1812,39 +1907,62 @@ doAction({
 export const renderCmptSelect = (
   componentLabel: string,
   required: boolean,
-  onChange?: (value: string, oldVal: any, data: any, form: any) => void
+  onChange?: (value: string, oldVal: any, data: any, form: any) => void,
+  hideAutoFill?: boolean
 ) => {
-  return [
-    {
-      type: 'tree-select',
-      name: 'componentId',
-      label: componentLabel || '选择组件',
-      showIcon: false,
-      searchable: true,
-      required,
-      selfDisabledAffectChildren: false,
-      size: 'lg',
-      source: '${__cmptTreeSource}',
-      mode: 'horizontal',
-      autoFill: {
-        __rendererLabel: '${label}',
-        __rendererName: '${type}',
-        __nodeId: '${id}',
-        __nodeSchema: '${schema}',
-        __isScopeContainer: '${isScopeContainer}'
-      },
-      onChange: async (value: string, oldVal: any, data: any, form: any) => {
-        onChange?.(value, oldVal, data, form);
+  if (hideAutoFill) {
+    return [
+      {
+        type: 'tree-select',
+        name: 'componentId',
+        label: componentLabel || '选择组件',
+        showIcon: false,
+        searchable: true,
+        required,
+        selfDisabledAffectChildren: false,
+        size: 'lg',
+        source: '${__cmptTreeSource}',
+        mode: 'horizontal',
+        onChange: async (value: string, oldVal: any, data: any, form: any) => {
+          onChange?.(value, oldVal, data, form);
+        }
       }
-    }
-  ];
+    ];
+  } else {
+    return [
+      {
+        type: 'tree-select',
+        name: 'componentId',
+        label: componentLabel || '选择组件',
+        showIcon: false,
+        searchable: true,
+        required,
+        selfDisabledAffectChildren: false,
+        size: 'lg',
+        source: '${__cmptTreeSource}',
+        mode: 'horizontal',
+        autoFill: {
+          __rendererLabel: '${label}',
+          __rendererName: '${type}',
+          __nodeId: '${id}',
+          __nodeSchema: '${schema}',
+          __isScopeContainer: '${isScopeContainer}'
+        },
+        onChange: async (value: string, oldVal: any, data: any, form: any) => {
+          onChange?.(value, oldVal, data, form);
+        }
+      }
+    ];
+  }
 };
 
 // 渲染组件特性动作配置项
 export const renderCmptActionSelect = (
   componentLabel: string,
   required: boolean,
-  onChange?: (value: string, oldVal: any, data: any, form: any) => void
+  onChange?: (value: string, oldVal: any, data: any, form: any) => void,
+  hideAutoFill?: boolean,
+  manager?: EditorManager
 ) => {
   return [
     ...renderCmptSelect(
@@ -1879,8 +1997,31 @@ export const renderCmptActionSelect = (
         }
         form.setValueByName('groupType', '');
         onChange?.(value, oldVal, data, form);
-      }
+      },
+      hideAutoFill
     ),
+    {
+      type: 'input-text',
+      name: '__cmptId',
+      mode: 'horizontal',
+      size: 'lg',
+      required: true,
+      label: '组件id',
+      visibleOn:
+        'data.componentId === "customCmptId" && data.actionType === "component"',
+      onChange: async (value: string, oldVal: any, data: any, form: any) => {
+        let schema = JSONGetById(manager!.store.schema, value, 'id');
+        if (schema) {
+          form.setValues({
+            __rendererName: schema.type
+          });
+        } else {
+          form.setValues({
+            __rendererName: ''
+          });
+        }
+      }
+    },
     {
       asFormItem: true,
       label: '组件动作',
@@ -1892,6 +2033,23 @@ export const renderCmptActionSelect = (
       description: '${__cmptActionDesc}'
     }
   ];
+};
+
+export const renderCmptIdInput = (
+  onChange?: (value: string, oldVal: any, data: any, form: any) => void
+) => {
+  return {
+    type: 'input-text',
+    name: '__cmptId',
+    mode: 'horizontal',
+    size: 'lg',
+    required: true,
+    label: '组件id',
+    visibleOn: 'data.componentId === "customCmptId"',
+    onChange: async (value: string, oldVal: any, data: any, form: any) => {
+      onChange?.(value, oldVal, data, form);
+    }
+  };
 };
 
 // 动作配置项schema map
@@ -2738,6 +2896,10 @@ export const getEventControlConfig = (
         1,
         true
       );
+      result.unshift({
+        label: '输入组件id',
+        value: 'customCmptId'
+      });
       return result;
     },
     actionConfigInitFormatter: async (action: ActionConfig) => {
@@ -2850,6 +3012,46 @@ export const getEventControlConfig = (
           config.data === undefined
         ) {
           config.__reloadParams = objectToComboArray(config.args);
+        }
+      }
+
+      // 如果不在可以选择的组件范围，设置一下自定义输入组件数据
+      if (
+        [
+          'setValue',
+          'static',
+          'nonstatic',
+          'show',
+          'visibility',
+          'hidden',
+          'enabled',
+          'disabled',
+          'usability',
+          'reload',
+          'submit',
+          'clear',
+          'reset',
+          'validate'
+        ].includes(action.actionType)
+      ) {
+        const node = findTree(
+          allComponents ?? [],
+          item => item.value === config.componentId
+        );
+        if (!node) {
+          config.__cmptId = config.componentId;
+          config.componentId = 'customCmptId';
+        }
+
+        if (['setValue'].includes(action.actionType)) {
+          let schema = JSONGetById(manager.store.schema, config.__cmptId, 'id');
+          if (schema) {
+            let __isScopeContainer = !!manager.dataSchema.getScope(
+              `${schema.$$id}-${schema.type}`
+            );
+            config.__isScopeContainer = __isScopeContainer;
+            config.__rendererName = schema.type;
+          }
         }
       }
 
@@ -3035,23 +3237,16 @@ export const getEventControlConfig = (
 
         const chooseCurrentDialog = (action: ActionConfig, schema: Schema) => {
           const selectDialog = action.__selectDialog;
-          let dialogType = getFixDialogType(schema, selectDialog.$$id);
+          let dialogType = getFixDialogType(schema, selectDialog);
           // 选择现有弹窗后为了使之前的弹窗和现有弹窗$$id唯一，这里重新生成一下
-          let dialogCopy = JSONPipeIn(
-            JSONPipeOut({
-              ...selectDialog,
-              type: dialogType
-            })
-          );
-          // 在这里记录一下新dialogId
-          action.__relatedDialogId = dialogCopy.$$id;
-          if (selectDialog?.dialogType) {
-            action.actionType = 'dialog';
-            action.dialog = dialogCopy;
-          } else {
-            action.actionType = selectDialog.type || dialogType;
-            action[selectDialog.type || dialogType] = dialogCopy;
-          }
+          let newDialogId = guid();
+          action.actionType = dialogType;
+          action.dialog = {
+            $$id: newDialogId,
+            type: dialogType
+          };
+          // 在这里记录一下新生成的弹窗id
+          action.__relatedDialogId = newDialogId;
         };
 
         if (type === 'add') {
@@ -3173,6 +3368,30 @@ export const getEventControlConfig = (
               };
             }
           }
+        }
+      }
+
+      if (
+        [
+          'setValue',
+          'static',
+          'nonstatic',
+          'show',
+          'visibility',
+          'hidden',
+          'enabled',
+          'disabled',
+          'usability',
+          'reload',
+          'submit',
+          'clear',
+          'reset',
+          'validate'
+        ].includes(action.actionType)
+      ) {
+        // 处理一下自行输入组件id的转换
+        if (action.componentId === 'customCmptId') {
+          action.componentId = action.__cmptId;
         }
       }
 

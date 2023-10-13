@@ -6,6 +6,9 @@
 import React from 'react';
 import {reaction} from 'mobx';
 import pick from 'lodash/pick';
+import isEqual from 'lodash/isEqual';
+import debounce from 'lodash/debounce';
+import {isObject} from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import {
   FormItem,
@@ -14,15 +17,7 @@ import {
   isValidApi,
   normalizeApi
 } from 'amis-core';
-import {
-  Form,
-  InputTable,
-  Controller,
-  InputBox,
-  Select,
-  Button,
-  toast
-} from 'amis-ui';
+import {Button, toast} from 'amis-ui';
 
 import type {IReactionDisposer} from 'mobx';
 import type {InputTableColumnProps} from 'amis-ui';
@@ -32,6 +27,8 @@ interface FieldSettingProps extends FormControlProps {
   /** 脚手架渲染类型 */
   renderer?: string;
   feat: DSFeatureType;
+  /** 支持的功能场景对应的字段集合，eg: listFields, bulkEditFields等 */
+  fieldKeys: string[];
   config: {
     showInputType?: boolean;
     showDisplayType?: boolean;
@@ -45,9 +42,14 @@ interface FieldSettingProps extends FormControlProps {
 
 interface RowData extends ScaffoldField {}
 
+interface FieldSettingState {
+  loading: boolean;
+  fields: RowData[];
+}
+
 export class FieldSetting extends React.Component<
   FieldSettingProps,
-  {loading: boolean}
+  FieldSettingState
 > {
   static defaultProps = {
     config: {
@@ -95,15 +97,32 @@ export class FieldSetting extends React.Component<
     inputType: 'input-text'
   };
 
+  columns: InputTableColumnProps[];
+
   constructor(props: FieldSettingProps) {
     super(props);
-    this.state = {loading: false};
+
+    const {render, classnames: cx, env, config, data, renderer, feat} = props;
+    const popOverContainer = env?.getModalContainer?.() ?? this.dom;
+    const {showDisplayType, showInputType} = config || {};
+    const isFirstStep = data?.__step === 0;
+
+    this.state = {
+      loading: false,
+      fields: Array.isArray(props.value) ? props.value : []
+    };
     this.reaction = reaction(
       () => {
         const ctx = props?.store?.data;
         const initApi = ctx?.initApi;
         const listApi = ctx?.listApi;
-        return `${initApi}${listApi}`;
+        let result = '';
+
+        try {
+          result = `${JSON.stringify(initApi)}${JSON.stringify(listApi)}`;
+        } catch (error) {}
+
+        return result;
       },
       () => this.forceUpdate()
     );
@@ -113,33 +132,64 @@ export class FieldSetting extends React.Component<
     this.dom = findDOMNode(this) as HTMLElement;
   }
 
+  componentDidUpdate(
+    prevProps: Readonly<FieldSettingProps>,
+    prevState: Readonly<FieldSettingState>,
+    snapshot?: any
+  ): void {
+    const prevValue = prevProps.value;
+    const value = this.props.value;
+
+    if (
+      (prevValue?.length !== value?.length || !isEqual(prevValue, value)) &&
+      !isEqual(value, prevState?.fields)
+    ) {
+      this.setState({
+        loading: true,
+        fields: Array.isArray(value) ? value : []
+      });
+    }
+  }
+
   componentWillUnmount() {
     this.reaction?.();
   }
 
+  isFirstStep() {
+    return this.props?.manager?.store?.scaffoldFormStep === 0;
+  }
+
   @autobind
-  handleColumnBlur() {
-    this?.formRef?.current?.submit();
+  handleTableChange(items?: RowData[]) {
+    if (!items || !Array.isArray(items)) {
+      return;
+    }
+
+    const fields = this.state.fields.concat();
+
+    this.handleFieldsChange(
+      items.map((row: RowData) => {
+        const item = fields.find((r: RowData) => r?.name === row.name);
+
+        return {
+          ...pick(
+            {
+              ...item,
+              ...row
+            },
+            ['label', 'name', 'displayType', 'inputType']
+          ),
+          checked: true
+        };
+      })
+    );
   }
 
   @autobind
   handleSubmit(data: {items: RowData[]}) {
-    const {value} = this.props;
-    const items = (data?.items ?? []).map((field: RowData) => {
-      const item = value?.find((f: RowData) => f.name === field.name);
-      return {
-        ...pick(
-          {
-            ...item,
-            ...field
-          },
-          ['label', 'name', 'displayType', 'inputType']
-        ),
-        checked: true
-      };
-    });
+    const {onSubmit} = this.props;
 
-    this.handleFieldsChange(items);
+    onSubmit?.(data?.items);
   }
 
   @autobind
@@ -212,12 +262,21 @@ export class FieldSetting extends React.Component<
 
         if (sampleRow) {
           Object.entries(sampleRow).forEach(([key, value]) => {
+            let inputType = 'input-text';
+
+            if (Array.isArray(value)) {
+              inputType = 'select';
+            } else if (isObject(value)) {
+              inputType = 'combo';
+            } else if (typeof value === 'number') {
+              inputType = 'input-number';
+            }
+
             fields.push({
               label: key,
               name: key,
               displayType: 'tpl',
-              inputType:
-                typeof value === 'number' ? 'input-number' : 'input-text',
+              inputType,
               checked: true
             });
           });
@@ -229,48 +288,61 @@ export class FieldSetting extends React.Component<
       }
     }
 
-    if (fields && fields.length > 0) {
-      this.handleFieldsChange(fields);
-    }
+    fields = Array.isArray(fields) && fields.length > 0 ? fields : [];
 
+    this.handleFieldsChange(fields);
     this.setState({loading: false});
   }
 
   @autobind
   handleFieldsChange(fields: RowData[]) {
     const {
+      manager,
+      fieldKeys,
       onChange,
       onBulkChange,
       submitOnChange,
       renderer,
       data: ctx
     } = this.props;
-    const isFirstStep = ctx?.__step === 0;
+    const isFirstStep = this.isFirstStep();
+    const scaffoldStepManipulated = manager?.store?.scaffoldStepManipulated;
+
+    this.setState({fields});
 
     if (renderer === 'form') {
       onChange?.(fields, submitOnChange, true);
     } else {
       if (isFirstStep) {
-        onBulkChange?.(
-          {
-            listFields: fields,
-            editFields: fields,
-            bulkEditFields: fields,
-            insertFields: fields,
-            viewFields: fields,
-            simpleQueryFields: fields
-          },
-          submitOnChange
-        );
+        /** 若未进行过下一步，则为所有 feat 字段进行初始化，否则仅修改List场景字段 */
+        if (scaffoldStepManipulated) {
+          onChange?.(fields, submitOnChange, true);
+        } else {
+          const updatedData: Record<string, RowData[]> = {};
+
+          fieldKeys.forEach(fieldKey => {
+            if (!updatedData.hasOwnProperty(fieldKey)) {
+              updatedData[fieldKey] = fields;
+            }
+          });
+
+          onBulkChange?.({...updatedData, listFields: fields}, submitOnChange);
+        }
       } else {
         onChange?.(fields, submitOnChange, true);
       }
     }
   }
 
+  debounceGenerateFields = debounce(
+    async (e: React.MouseEvent<any>) => this.handleGenerateFields(e),
+    200,
+    {trailing: true, leading: false}
+  );
+
   @autobind
   renderFooter() {
-    const {renderer, store, data: ctx, feat} = this.props;
+    const {classnames: cx, renderer, store, data: ctx, feat} = this.props;
     const scaffoldData = store?.data;
     const {initApi, listApi} = scaffoldData || {};
     const {loading} = this.state;
@@ -282,303 +354,176 @@ export class FieldSetting extends React.Component<
       (renderer === 'crud' && feat === 'List' && ctx?.__step === 0);
 
     return showAutoGenBtn ? (
-      <>
+      <div className={cx('ae-FieldSetting-footer', 'flex flex-row-reverse')}>
         <Button
           size="sm"
           level="link"
           loading={loading}
-          disabled={!isApiValid}
+          disabled={!isApiValid || loading}
           disabledTip={{
-            content:
-              renderer === 'form' ? '请先填写初始化接口' : '请先填写接口',
+            content: loading
+              ? '数据处理中...'
+              : renderer === 'form'
+              ? '请先填写初始化接口'
+              : '请先填写接口',
             tooltipTheme: 'dark'
           }}
-          onClick={e => this.handleGenerateFields(e)}
+          onClick={this.debounceGenerateFields}
         >
           <span>基于接口自动生成字段</span>
         </Button>
-      </>
+      </div>
     ) : null;
   }
 
   render() {
     const {
+      render,
       classnames: cx,
-      value: formValue,
-      defaultValue: formDefaultValue,
-      env,
+      name = 'items',
       renderer,
       config,
-      data: ctx,
       feat
     } = this.props;
     const {showDisplayType, showInputType} = config || {};
-    const isForm = renderer === 'form';
-    const defaultValue = Array.isArray(formDefaultValue)
-      ? {items: formDefaultValue}
-      : {items: []};
-    const value = Array.isArray(formValue) ? {items: formValue} : undefined;
-    const popOverContainer = env?.getModalContainer?.() ?? this.dom;
-    const isFirstStep = ctx?.__step === 0;
+    const isFirstStep = this.isFirstStep();
+    const fields = this.state.fields.concat();
 
     return (
-      <Form
-        className={cx('ae-FieldSetting')}
-        defaultValue={defaultValue}
-        value={value}
-        autoSubmit={false}
-        // onChange={this.handleTableChange}
-        onSubmit={this.handleSubmit}
-        ref={this.formRef}
-      >
-        {({control}: any) => (
-          <>
-            <InputTable
-              ref={this.tableRef}
-              name="items"
-              label={false}
-              labelAlign="left"
-              mode="horizontal"
-              horizontal={{left: 4}}
-              control={control}
-              scaffold={this.scaffold}
-              addable={true}
-              removable={true}
-              isRequired={false}
-              rules={{
-                validate: (values: any[]) =>
-                  FieldSetting.validator(values, true)
-              }}
-              addButtonText="添加字段"
-              addButtonProps={{level: 'link'}}
-              scroll={{y: '315.5px'}}
-              footer={this.renderFooter}
-              columns={
-                [
-                  {
-                    title: '序号',
-                    tdRender: (
-                      {control}: any,
-                      index: number,
-                      rowIndex: number
-                    ) => {
-                      return (
-                        <Controller
-                          name="index"
-                          control={control}
-                          render={({field, fieldState}) => (
-                            <span>{rowIndex + 1}</span>
-                          )}
-                        />
-                      );
-                    }
-                  },
-                  {
-                    title: '字段名称',
-                    tdRender: ({control}: any) => {
-                      return (
-                        <Controller
-                          name="name"
-                          control={control}
-                          render={renderProps => {
-                            const {field, fieldState} = renderProps;
-                            return (
-                              <InputBox
-                                {...field}
-                                onBlur={() => {
-                                  field.onBlur();
-                                  this.handleColumnBlur();
-                                }}
-                                hasError={!!fieldState.error}
-                                className={cx('ae-FieldSetting-input')}
-                              />
-                            );
-                          }}
-                        />
-                      );
-                    }
-                  },
-                  {
-                    title: '标题',
-                    tdRender: ({control}: any) => {
-                      return (
-                        <Controller
-                          name="label"
-                          control={control}
-                          render={renderProps => {
-                            const {field, fieldState} = renderProps;
-                            return (
-                              <InputBox
-                                {...field}
-                                onBlur={() => {
-                                  field.onBlur();
-                                  this.handleColumnBlur();
-                                }}
-                                hasError={!!fieldState.error}
-                                className={cx('ae-FieldSetting-input')}
-                              />
-                            );
-                          }}
-                        />
-                      );
-                    }
-                  },
-                  showInputType &&
-                  !(renderer === 'crud' && feat === 'List' && !isFirstStep)
-                    ? {
-                        title: '输入类型',
-                        tdRender: ({control}: any, index: number) => {
-                          return (
-                            <Controller
-                              name="inputType"
-                              control={control}
-                              isRequired
-                              render={({field, fieldState}) => (
-                                <Select
-                                  {...field}
-                                  className={'w-full'}
-                                  hasError={!!fieldState.error}
-                                  searchable
-                                  simpleValue
-                                  disabled={false}
-                                  clearable={false}
-                                  popOverContainer={popOverContainer}
-                                  options={[
-                                    {
-                                      label: '单行文本框',
-                                      value: 'input-text'
-                                    },
-                                    {
-                                      label: '多行文本',
-                                      value: 'textarea'
-                                    },
-                                    {
-                                      label: '数字输入',
-                                      value: 'input-number'
-                                    },
-                                    {
-                                      label: '单选框',
-                                      value: 'radios'
-                                    },
-                                    {
-                                      label: '勾选框',
-                                      value: 'checkbox'
-                                    },
-                                    {
-                                      label: '复选框',
-                                      value: 'checkboxes'
-                                    },
-                                    {
-                                      label: '下拉框',
-                                      value: 'select'
-                                    },
-                                    {
-                                      label: '开关',
-                                      value: 'switch'
-                                    },
-                                    {
-                                      label: '日期',
-                                      value: 'input-date'
-                                    },
-                                    {
-                                      label: '表格编辑',
-                                      value: 'input-table'
-                                    },
-                                    {
-                                      label: '组合输入',
-                                      value: 'combo'
-                                    },
-                                    {
-                                      label: '文件上传',
-                                      value: 'input-file'
-                                    },
-                                    {
-                                      label: '图片上传',
-                                      value: 'input-image'
-                                    },
-                                    {
-                                      label: '富文本编辑器',
-                                      value: 'input-rich-text'
-                                    }
-                                  ]}
-                                />
-                              )}
-                            />
-                          );
-                        }
+      <>
+        {render(
+          'field-setting',
+          {
+            type: 'input-table',
+            name: name,
+            label: false,
+            className: cx(
+              'ae-FieldSetting-Table',
+              'mb-0'
+            ) /** 底部有操作区，干掉默认的 margin-bottom */,
+            showIndex: true,
+            showFooterAddBtn: false,
+            addable: true,
+            addBtnLabel: '新增',
+            addBtnIcon: false,
+            editable: true,
+            editBtnLabel: '编辑',
+            editBtnIcon: false,
+            removable: true,
+            deleteBtnLabel: '删除',
+            deleteBtnIcon: false,
+            confirmBtnLabel: '确认',
+            cancelBtnLabel: '取消',
+            needConfirm: true,
+            enableStaticTransform: true,
+            autoFocus: false,
+            affixHeader: true,
+            columnsTogglable: false,
+            autoFillHeight: {
+              maxHeight: 325 // 至少展示5个元素
+            },
+            footerAddBtn: {
+              level: 'link',
+              label: '添加字段'
+            },
+            scaffold: this.scaffold,
+            columns: [
+              {
+                type: 'input-text',
+                name: 'name',
+                label: '字段名称',
+                placeholder: '字段名称'
+              },
+              {
+                type: 'input-text',
+                name: 'label',
+                label: '标题',
+                placeholder: '字段标题'
+              },
+              showInputType &&
+              !(renderer === 'crud' && feat === 'List' && !isFirstStep)
+                ? {
+                    type: 'select',
+                    name: 'inputType',
+                    label: '输入类型',
+                    options: [
+                      {
+                        label: '单行文本框',
+                        value: 'input-text',
+                        icon: 'input-text-plugin'
+                      },
+                      {label: '多行文本', value: 'textarea'},
+                      {label: '数字输入', value: 'input-number'},
+                      {label: '单选框', value: 'radios'},
+                      {label: '勾选框', value: 'checkbox'},
+                      {label: '复选框', value: 'checkboxes'},
+                      {label: '下拉框', value: 'select'},
+                      {label: '开关', value: 'switch'},
+                      {label: '日期', value: 'input-date'},
+                      {label: '表格编辑', value: 'input-table'},
+                      {label: '组合输入', value: 'combo'},
+                      {label: '文件上传', value: 'input-file'},
+                      {label: '图片上传', value: 'input-image'},
+                      {label: '富文本编辑器', value: 'input-rich-text'}
+                    ]
+                  }
+                : undefined,
+              showDisplayType
+                ? {
+                    type: 'select',
+                    name: 'displayType',
+                    label: '展示类型',
+                    options: [
+                      {
+                        value: 'tpl',
+                        label: '文本',
+                        typeKey: 'tpl'
+                      },
+                      {
+                        value: 'image',
+                        label: '图片',
+                        typeKey: 'src'
+                      },
+                      {
+                        value: 'date',
+                        label: '日期',
+                        typeKey: 'value'
+                      },
+                      {
+                        value: 'progress',
+                        label: '进度',
+                        typeKey: 'value'
+                      },
+                      {
+                        value: 'status',
+                        label: '状态',
+                        typeKey: 'value'
+                      },
+                      {
+                        value: 'mapping',
+                        label: '映射',
+                        typeKey: 'value'
+                      },
+                      {
+                        value: 'list',
+                        label: '列表',
+                        typeKey: 'value'
                       }
-                    : undefined,
-                  showDisplayType
-                    ? {
-                        title: '展示类型',
-                        tdRender: ({control}: any) => {
-                          return (
-                            <Controller
-                              name="displayType"
-                              control={control}
-                              isRequired
-                              render={({field, fieldState}) => (
-                                <Select
-                                  {...field}
-                                  className={'w-full'}
-                                  hasError={!!fieldState.error}
-                                  searchable
-                                  simpleValue
-                                  disabled={false}
-                                  clearable={false}
-                                  popOverContainer={popOverContainer}
-                                  options={[
-                                    {
-                                      value: 'tpl',
-                                      label: '文本',
-                                      typeKey: 'tpl'
-                                    },
-                                    {
-                                      value: 'image',
-                                      label: '图片',
-                                      typeKey: 'src'
-                                    },
-                                    {
-                                      value: 'date',
-                                      label: '日期',
-                                      typeKey: 'value'
-                                    },
-                                    {
-                                      value: 'progress',
-                                      label: '进度',
-                                      typeKey: 'value'
-                                    },
-                                    {
-                                      value: 'status',
-                                      label: '状态',
-                                      typeKey: 'value'
-                                    },
-                                    {
-                                      value: 'mapping',
-                                      label: '映射',
-                                      typeKey: 'value'
-                                    },
-                                    {
-                                      value: 'list',
-                                      label: '列表',
-                                      typeKey: 'value'
-                                    }
-                                  ]}
-                                />
-                              )}
-                            />
-                          );
-                        }
-                      }
-                    : undefined
-                ].filter(
-                  (f): f is Exclude<typeof f, null | undefined> => f != null
-                ) as InputTableColumnProps[]
-              }
-            />
-          </>
+                    ]
+                  }
+                : undefined
+            ].filter(Boolean)
+          },
+          {
+            data: {
+              [name]: fields
+            },
+            loading: this.state.loading,
+            onChange: this.handleTableChange
+          }
         )}
-      </Form>
+        {this.renderFooter()}
+      </>
     );
   }
 }

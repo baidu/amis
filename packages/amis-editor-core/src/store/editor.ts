@@ -53,6 +53,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import {EditorManagerConfig} from '../manager';
 import {EditorNode, EditorNodeType} from './node';
 import findIndex from 'lodash/findIndex';
+import {matchSorter} from 'match-sorter';
 
 export interface SchemaHistory {
   versionId: number;
@@ -201,6 +202,8 @@ export const MainStore = types
 
     scaffoldForm: types.maybe(types.frozen<ScaffoldFormContext>()),
     scaffoldFormStep: 0,
+    /** 脚手架是否进行过下一步 */
+    scaffoldStepManipulated: false,
     scaffoldFormBuzy: false,
     scaffoldError: '',
 
@@ -682,38 +685,26 @@ export const MainStore = types
       /** 根据关键字过滤组件 */
       groupedRenderersByKeyword(
         _subRenderers: Array<SubRendererInfo>,
-        keywords?: string
+        keywords: string = ''
       ) {
         const subRenderers = _subRenderers;
         const grouped: {
           [propName: string]: Array<SubRendererInfo>;
         } = {};
 
-        const regular = keywords
-          ? new RegExp(stringRegExp(keywords), 'i')
-          : null;
+        matchSorter(subRenderers, keywords, {
+          keys: ['name', 'description', 'scaffold.type', 'searchKeywords']
+        }).forEach(item => {
+          const tags = Array.isArray(item.tags)
+            ? item.tags.concat()
+            : item.tags
+            ? [item.tags]
+            : ['其他'];
 
-        subRenderers.forEach(item => {
-          if (
-            !keywords ||
-            ['name', 'description', 'scaffold.type', 'searchKeywords'].some(
-              key =>
-                resolveVariable(key, item) &&
-                regular &&
-                regular.test(resolveVariable(key, item))
-            )
-          ) {
-            const tags = Array.isArray(item.tags)
-              ? item.tags.concat()
-              : item.tags
-              ? [item.tags]
-              : ['其他'];
-
-            tags.forEach(tag => {
-              grouped[tag] = grouped[tag] || [];
-              grouped[tag].push(item);
-            });
-          }
+          tags.forEach(tag => {
+            grouped[tag] = grouped[tag] || [];
+            grouped[tag].push(item);
+          });
         });
 
         return grouped;
@@ -1713,6 +1704,8 @@ export const MainStore = types
 
       openScaffoldForm(context: ScaffoldFormContext) {
         self.scaffoldForm = context;
+        /** 打开前重置状态 */
+        self.scaffoldStepManipulated = false;
       },
 
       closeScaffoldForm() {
@@ -1725,6 +1718,10 @@ export const MainStore = types
 
       setScaffoldStep(value: number) {
         self.scaffoldFormStep = value;
+      },
+
+      setScaffoldStepManipulated(value: boolean) {
+        self.scaffoldStepManipulated = value;
       },
 
       setScaffoldError(msg: string = '') {

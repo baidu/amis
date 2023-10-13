@@ -213,6 +213,39 @@ export default {
         name: 'num',
         label: 'num'
       }
+    ],
+    prefixRow: [
+      {
+        type: 'text',
+        text: '前置总计',
+        colSpan: 2
+      },
+      {
+        type: 'tpl',
+        tpl: '${items|pick:engine.version|sum}'
+      }
+    ],
+    affixRow: [
+      [
+        {
+          type: 'text',
+          text: '总计1'
+        },
+        {
+          type: 'tpl',
+          tpl: '${items|pick:engine.version|sum}'
+        }
+      ],
+      [
+        {
+          type: 'text',
+          text: '总计2'
+        },
+        {
+          type: 'tpl',
+          tpl: '${items|pick:engine.version|sum}'
+        }
+      ]
     ]
   }
 };

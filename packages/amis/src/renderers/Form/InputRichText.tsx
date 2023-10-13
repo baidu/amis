@@ -280,6 +280,7 @@ export default class RichTextControl extends React.Component<
       value,
       onChange,
       disabled,
+      static: isStatic,
       size,
       vendor,
       env,
@@ -289,6 +290,19 @@ export default class RichTextControl extends React.Component<
     } = this.props;
 
     const finnalVendor = vendor || (env.richTextToken ? 'froala' : 'tinymce');
+
+    if (isStatic) {
+      return (
+        <div
+          className={cx(`${ns}RichTextControl`, className, {
+            'is-focused': this.state.focused,
+            'is-disabled': disabled,
+            [`${ns}RichTextControl--border${ucFirst(borderMode)}`]: borderMode
+          })}
+          dangerouslySetInnerHTML={{__html: env.filterHtml(value)}}
+        ></div>
+      );
+    }
 
     return (
       <div

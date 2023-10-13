@@ -466,6 +466,29 @@ export const doc: {
     namespace: '数学函数'
   },
   {
+    name: 'POW',
+    description:
+      '返回基数的指数次幂，参数base为基数，exponent为指数，如果参数值不合法则返回基数本身，计算结果不合法，则返回NaN。',
+    example: 'POW(base, exponent)',
+    params: [
+      {
+        type: 'number',
+        name: 'base',
+        description: '基数'
+      },
+      {
+        type: 'number',
+        name: 'exponent',
+        description: '指数'
+      }
+    ],
+    returns: {
+      type: 'number',
+      description: '基数的指数次幂'
+    },
+    namespace: '数学函数'
+  },
+  {
     name: 'LEFT',
     description: '返回传入文本左侧的指定长度字符串。',
     example: 'LEFT(text, len)',

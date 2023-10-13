@@ -16,7 +16,6 @@ import {render as reactRender, unmountComponentAtNode} from 'react-dom';
 import {
   autobind,
   diff,
-  JSONGetByPath,
   getThemeConfig,
   JSONGetById,
   JSONPipeIn,
@@ -261,22 +260,23 @@ function addDefinitions(
   if (dialogMaxIndex) {
     Object.keys(definitions).forEach(ref => {
       const dialog = definitions[ref];
-      if (dialog.$$id === selectDialog.$$id) {
+      if (dialog.$$id === selectDialog) {
         dialogRefsName = ref;
       }
     });
   }
-  let dialogType = getFixDialogType(schema, selectDialog.$$id);
+  let dialogType = getFixDialogType(schema, selectDialog);
   let newDefinitions = {...definitions};
   if (!dialogRefsName) {
     dialogRefsName = dialogMaxIndex
       ? `${dialogType}-ref-${dialogMaxIndex + 1}`
       : `${dialogType}-ref-1`;
   }
+  let dialogBody = JSONGetById(schema, selectDialog);
   // 防止definition被查找到替换为$ref重新生成一下
   newDefinitions[dialogRefsName] = JSONPipeIn(
     JSONPipeOut({
-      ...selectDialog,
+      ...dialogBody,
       type: dialogType
     })
   );
@@ -327,7 +327,7 @@ function currentDialogOnchagne(
         );
         replacedSchema = replaceDialogtoRef(
           newSchema,
-          item.rhs?.__selectDialog.$$id,
+          item.rhs?.__selectDialog,
           dialogRefsName
         );
         if (item.rhs?.__relatedDialogId) {
@@ -352,11 +352,7 @@ function currentDialogOnchagne(
           rhs
         );
         editRefsName = dialogRefsName;
-        replacedSchema = replaceDialogtoRef(
-          newSchema,
-          rhs?.$$id,
-          dialogRefsName
-        );
+        replacedSchema = replaceDialogtoRef(newSchema, rhs, dialogRefsName);
       }
       // 编辑弹窗,从新建弹窗切换到现有弹窗,新生成弹窗id
       else if (
@@ -373,25 +369,18 @@ function currentDialogOnchagne(
       }
       // 编辑弹窗,选择了其他现有弹窗，原始弹窗id
       else if (
-        kind === 'N' &&
+        kind === 'E' &&
         path?.length > 1 &&
-        path?.[path.length - 2] === '__selectDialog' &&
-        path?.[path.length - 1] === '$$id'
+        path?.[path.length - 1] === '__selectDialog'
       ) {
-        let newPath = path.slice(0, -1);
-        let selectDialog = JSONGetByPath(newValue, newPath);
         const {newSchema, dialogRefsName} = addDefinitions(
           schema,
           definitions,
           dialogMaxIndex,
-          selectDialog
+          rhs
         );
         editRefsName = dialogRefsName;
-        replacedSchema = replaceDialogtoRef(
-          newSchema,
-          selectDialog?.$$id,
-          dialogRefsName
-        );
+        replacedSchema = replaceDialogtoRef(newSchema, rhs, dialogRefsName);
       }
       // 编辑弹窗,选择了其他现有弹窗，新生成弹窗id
       else if (
@@ -440,7 +429,7 @@ function SchemaFrom({
   definitions?: any;
   value: any;
   api?: any;
-  onChange: (value: any, diff: any, definitionChagne?: boolean) => void;
+  onChange: (value: any, diff: any) => void;
   popOverContainer?: () => HTMLElement | void;
   submitOnChange?: boolean;
   node?: EditorNodeType;
@@ -513,11 +502,20 @@ function SchemaFrom({
         onChange(newValue, diffValue);
 
         // 如果是选择现有弹窗，需要提取Definitions，在这里一起做变更
-        const schema = manager.store.schema;
+        const store = manager.store;
+        const schema = store.schema;
         let newSchema = currentDialogOnchagne(manager, diffValue, newValue);
         if (newSchema) {
           const schemaDiff = diff(schema, newSchema);
-          manager.store.definitionOnchangeValue(newSchema, schemaDiff);
+          store.definitionOnchangeValue(newSchema, schemaDiff);
+        }
+        // 添加弹窗事件后自动选中弹窗
+        if (store.activeDialogPath) {
+          let activeId = store.getSchemaByPath(
+            store.activeDialogPath.split('/')
+          )?.$$id;
+          activeId && store.setPreviewDialogId(activeId);
+          store.setActiveDialogPath('');
         }
       },
       data: createObjectFromChain([ctx, themeConfig, finalValue]),

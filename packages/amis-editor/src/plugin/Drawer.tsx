@@ -247,7 +247,7 @@ export class DrawerPlugin extends BasePlugin {
                     '位置为 "左" 或 "右" 时生效。 默认宽度为"尺寸"字段配置的宽度，值单位默认为 px，也支持百分比等单位 ，如：100%'
                   ),
                   visibleOn:
-                    'this.position === "top" || this.position === "bottom"'
+                    'this.position === "left" || this.position === "right" || !this.position'
                 },
                 heightSchema: {
                   label: tipedLabel(
@@ -255,7 +255,7 @@ export class DrawerPlugin extends BasePlugin {
                     '位置为 "上" 或 "下" 时生效。 默认宽度为"尺寸"字段配置的高度，值单位默认为 px，也支持百分比等单位 ，如：100%'
                   ),
                   visibleOn:
-                    'this.position === "left" || this.position === "right" || !this.position'
+                    'this.position === "top" || this.position === "bottom"'
                 }
               }),
               getSchemaTpl('theme:border', {

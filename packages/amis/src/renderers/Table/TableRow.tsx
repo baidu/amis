@@ -214,7 +214,7 @@ export class TableRow extends React.PureComponent<
           onDoubleClick={this.handleDbClick}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
-          className={cx(itemClassName, {
+          className={cx('Table-table-tr', itemClassName, {
             'is-hovered': isHover,
             'is-checked': checked,
             'is-modified': modified,
@@ -293,6 +293,7 @@ export class TableRow extends React.PureComponent<
         data-index={depth === 1 ? newIndex : undefined}
         data-id={id}
         className={cx(
+          'Table-table-tr',
           itemClassName,
           {
             'is-hovered': isHover,

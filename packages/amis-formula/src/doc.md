@@ -268,6 +268,17 @@
 
 取数据最后一个。
 
+### POW
+
+用法：`POW(base, exponent)`
+
+ * `base:number` 基数
+ * `exponent:number` 指数
+
+返回：`number` 基数的指数次幂
+
+返回基数的指数次幂，参数base为基数，exponent为指数，如果参数值不合法则返回基数本身，计算结果不合法，则返回NaN。
+
 ## 文本函数
 
 ### LEFT

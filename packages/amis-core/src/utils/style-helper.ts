@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isObject from 'lodash/isObject';
 import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
+import kebabCase from 'lodash/kebabCase';
 
 export const valueMap: PlainObject = {
   'marginTop': 'margin-top',
@@ -162,7 +163,7 @@ export function formatStyle(
       const styles: string[] = [];
       const fn = (key: string, value: string) => {
         key = valueMap[key] || key;
-        styles.push(`${key}: ${value};`);
+        styles.push(`${kebabCase(key)}: ${value};`);
       };
       Object.keys(statusMap[status]).forEach(key => {
         if (key !== '$$id') {

@@ -4,9 +4,15 @@ import {Renderer, RendererProps} from 'amis-core';
 import type {InteractionProps} from 'react-json-view';
 import {autobind, getPropValue, noop} from 'amis-core';
 import {BaseSchema} from '../Schema';
-import {resolveVariableAndFilter, isPureVariable} from 'amis-core';
+import {
+  resolveVariableAndFilter,
+  isPureVariable,
+  importLazyComponent
+} from 'amis-core';
 
-export const JsonView = React.lazy(() => import('react-json-view'));
+export const JsonView = React.lazy(() =>
+  import('react-json-view').then(importLazyComponent)
+);
 /**
  * JSON 数据展示控件。
  * 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/json
@@ -16,6 +22,11 @@ export interface JsonSchema extends BaseSchema {
    * 指定为Json展示类型
    */
   type: 'json' | 'static-json';
+
+  /**
+   * 要展示的 JSON 数据
+   */
+  value?: Record<string, any> | any[];
 
   /**
    * 默认展开的级别

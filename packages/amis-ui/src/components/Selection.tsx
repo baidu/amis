@@ -17,7 +17,8 @@ import {
   findTree,
   flattenTree,
   getOptionValue,
-  getOptionValueBindField
+  getOptionValueBindField,
+  ClassNamesFn
 } from 'amis-core';
 import Checkbox from './Checkbox';
 import {Option, Options} from './Select';
@@ -56,6 +57,7 @@ export interface ItemRenderStates {
   checked: boolean;
   onChange: () => void;
   disabled?: boolean;
+  classnames: ClassNamesFn;
 }
 
 export class BaseSelection<
@@ -63,10 +65,24 @@ export class BaseSelection<
   S = any
 > extends React.Component<T, S> {
   static itemRender(option: Option, states: ItemRenderStates) {
+    const label = option[states?.labelField || 'label'];
+    const tip = option.tip || '';
+    const classnames = states.classnames;
+
+    const canlabelTitle =
+      typeof label === 'string' || typeof label === 'number';
+    const canTipTitle = typeof tip === 'string' || typeof label === 'number';
+    const title = canlabelTitle && canTipTitle ? `${label} ${tip}` : '';
+
     return (
-      <span className={cx({'is-invalid': option?.__unmatched})}>
-        {option[states?.labelField || 'label']}
-        {option.tip || ''}
+      <span
+        title={title}
+        className={`${cx({'is-invalid': option?.__unmatched})} ${classnames(
+          'Selection-ellipsis-line'
+        )}`}
+      >
+        {label}
+        {tip}
       </span>
     );
   }
@@ -255,6 +271,7 @@ export class BaseSelection<
             checked: !!~valueArray.indexOf(option),
             onChange: () => this.toggleOption(option),
             labelField,
+            classnames: cx,
             disabled: disabled || option.disabled
           })}
         </Checkbox>

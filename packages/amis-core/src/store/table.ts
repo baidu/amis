@@ -51,7 +51,6 @@ export const Column = types
     toggable: true,
     expandable: false,
     checkdisable: false,
-    isPrimary: false,
     searchable: types.maybe(types.frozen()),
     enableSearch: true,
     sortable: false,
@@ -67,6 +66,13 @@ export const Column = types
     remark: types.optional(types.frozen(), undefined),
     className: types.union(types.string, types.frozen())
   })
+  .views(self => ({
+    get isPrimary() {
+      const table = getParent(self, 2) as any;
+
+      return table.filteredColumns[0]?.id === self.id;
+    }
+  }))
   .actions(self => ({
     toggleToggle(min = 1) {
       self.toggled = !self.toggled;
@@ -1011,12 +1017,12 @@ export const TableStore = iRendererStore
             index,
             width: origin?.width || 0,
             minWidth: origin?.minWidth || 0,
+            realWidth: origin?.realWidth || 0,
             rawIndex: index - PARTITION_INDEX,
             type: item.type || 'plain',
             pristine: item.pristine || item,
             toggled: item.toggled !== false,
             breakpoint: item.breakpoint,
-            isPrimary: index === PARTITION_INDEX,
             /** 提前映射变量，方便后续view中使用 */
             label: isPureVariable(item.label)
               ? resolveVariableAndFilter(item.label, self.data)
@@ -1141,12 +1147,12 @@ export const TableStore = iRendererStore
         return;
       }
       const cols = [].slice.call(
-        table.querySelectorAll(':scope>colgroup>col[data-index]')!
+        table.querySelectorAll(':scope>thead>tr>th[data-index]')
       );
       cols.forEach((col: HTMLElement) => {
         const index = parseInt(col.getAttribute('data-index')!, 10);
         const column = self.columns[index];
-        column.setRealWidth(col.clientWidth);
+        column.setRealWidth(col.offsetWidth);
       });
     }
 

@@ -79,7 +79,7 @@ export class TabsTransferPlugin extends BasePlugin {
         children: [
           {
             label: '法师',
-            value: 'fashi',
+            value: 'fashi2',
             children: [
               {
                 label: '诸葛亮',
@@ -89,7 +89,7 @@ export class TabsTransferPlugin extends BasePlugin {
           },
           {
             label: '战士',
-            value: 'zhanshi',
+            value: 'zhanshi2',
             children: [
               {
                 label: '曹操',
@@ -103,7 +103,7 @@ export class TabsTransferPlugin extends BasePlugin {
           },
           {
             label: '打野',
-            value: 'daye',
+            value: 'daye2',
             children: [
               {
                 label: '李白',
@@ -412,11 +412,11 @@ export class TabsTransferPlugin extends BasePlugin {
           type: 'object',
           title: '成员',
           properties: {
-            label: {
+            [node.schema?.labelField || 'label']: {
               type: 'string',
               title: '文本'
             },
-            value: {
+            [node.schema?.valueField || 'value']: {
               type,
               title: '值'
             }

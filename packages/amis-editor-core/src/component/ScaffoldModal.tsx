@@ -142,6 +142,8 @@ export class ScaffoldModal extends React.Component<SubEditorProps> {
 
     // 控制按钮
     store.setScaffoldStep(step);
+    // 标记是否手动操作过
+    store.setScaffoldStepManipulated(true);
   }
 
   @autobind

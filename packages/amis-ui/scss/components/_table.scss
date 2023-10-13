@@ -46,6 +46,10 @@
         position: absolute;
       }
     }
+
+    .#{$ns}Table-table {
+      table-layout: fixed;
+    }
   }
 
   &-heading {
@@ -380,10 +384,12 @@
     > thead > tr {
       border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
     }
+    @at-root .#{$ns}Table-table-tr {
+      background: var(--Table-bg);
+    }
 
     > tbody > tr {
       position: relative;
-      background: var(--Table-bg);
 
       & + tr {
         border-top: var(--Table-borderWidth) solid var(--Table-borderColor);

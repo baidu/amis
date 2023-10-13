@@ -24,7 +24,7 @@ import {FormulaEditor} from 'amis-ui';
 import FormulaPicker, {
   CustomFormulaPickerProps
 } from './textarea-formula/FormulaPicker';
-import {autobind, translateSchema} from 'amis-editor-core';
+import {JSONPipeOut, autobind, translateSchema} from 'amis-editor-core';
 
 import type {
   VariableItem,
@@ -515,9 +515,9 @@ export default class FormulaControl extends React.Component<
       } else {
         curRendererSchema.placeholder = '请输入静态值';
       }
-      // 设置popOverContainer
-      curRendererSchema.popOverContainer = window.document.body;
     }
+
+    JSONPipeOut(curRendererSchema);
 
     // 对 schema 进行国际化翻译
     if (this.appLocale && this.appCorpusData) {
