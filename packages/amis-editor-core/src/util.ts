@@ -906,7 +906,7 @@ export function JSONTraverse(
 ) {
   Object.keys(json).forEach(key => {
     const value: any = json[key];
-    if (ignore && ignore(value, key)) {
+    if (ignore?.(value, key)) {
       return;
     }
     if (isPlainObject(value) || Array.isArray(value)) {
@@ -1388,8 +1388,7 @@ export const getDialogActions = (
         }
       }
     },
-    (value, key) =>
-      key === '__cmptTreeSource' || key === '__superCmptTreeSource'
+    (value, key) => key.toString().startsWith('__')
   );
   return dialogActions;
 };
