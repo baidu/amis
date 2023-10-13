@@ -902,16 +902,16 @@ function applyChange(target: any, source: any, change: DiffChange) {
 export function JSONTraverse(
   json: any,
   mapper: (value: any, key: string | number, host: Object) => any,
-  skipProps?: string[]
+  ignore?: (value: any, key: string | number) => boolean | void
 ) {
   Object.keys(json).forEach(key => {
     const value: any = json[key];
-    if (isPlainObject(value) || Array.isArray(value)) {
-      if (!skipProps || (skipProps.length && !skipProps.includes(key))) {
-        JSONTraverse(value, mapper, skipProps);
+    if (!ignore || (ignore && !ignore(value, key))) {
+      if (isPlainObject(value) || Array.isArray(value)) {
+        JSONTraverse(value, mapper, ignore);
+      } else {
+        mapper(value, key, json);
       }
-    } else {
-      mapper(value, key, json);
     }
   });
 }
@@ -1387,7 +1387,8 @@ export const getDialogActions = (
         }
       }
     },
-    ['__cmptTreeSource', '__superCmptTreeSource']
+    (value, key) =>
+      key === '__cmptTreeSource' || key === '__superCmptTreeSource'
   );
   return dialogActions;
 };
