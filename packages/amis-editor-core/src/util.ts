@@ -906,12 +906,13 @@ export function JSONTraverse(
 ) {
   Object.keys(json).forEach(key => {
     const value: any = json[key];
-    if (!ignore || (ignore && !ignore(value, key))) {
-      if (isPlainObject(value) || Array.isArray(value)) {
-        JSONTraverse(value, mapper, ignore);
-      } else {
-        mapper(value, key, json);
-      }
+    if (ignore && ignore(value, key)) {
+      return;
+    }
+    if (isPlainObject(value) || Array.isArray(value)) {
+      JSONTraverse(value, mapper, ignore);
+    } else {
+      mapper(value, key, json);
     }
   });
 }
