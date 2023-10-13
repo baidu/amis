@@ -239,60 +239,6 @@ export function JSONPipeOut(
   return obj;
 }
 
-// 仅去掉一些隐藏属性。
-export function JSONDelHidenProps(
-  obj: any,
-  filterHiddenProps?: boolean | ((key: string, prop: any) => boolean)
-) {
-  if (Array.isArray(obj)) {
-    let flag = false; // 有必要时才去改变对象的引用
-    const ret: any = obj.map((item: any) => {
-      const newItem = JSONDelHidenProps(item, filterHiddenProps);
-
-      if (newItem !== item) {
-        flag = true;
-      }
-
-      return newItem;
-    });
-    return flag ? ret : obj;
-  }
-  if (!isObject(obj) || isObservable(obj)) {
-    return obj;
-  }
-
-  let flag = false;
-  let toUpdate: any = {};
-
-  Object.keys(obj).forEach(key => {
-    let prop = obj[key];
-
-    if (
-      typeof filterHiddenProps === 'function'
-        ? filterHiddenProps(key, prop)
-        : filterHiddenProps !== false && key.substring(0, 2) === '__'
-    ) {
-      toUpdate[key] = undefined;
-      flag = true;
-      return;
-    }
-
-    let patched = JSONDelHidenProps(prop, filterHiddenProps);
-    if (patched !== prop) {
-      flag = true;
-      toUpdate[key] = patched;
-    }
-  });
-
-  flag &&
-    (obj = cleanUndefined({
-      ...obj,
-      ...toUpdate
-    }));
-
-  return obj;
-}
-
 export function JSONGetByPath(
   json: any,
   paths: Array<string>,
@@ -951,15 +897,19 @@ function applyChange(target: any, source: any, change: DiffChange) {
  * 遍历 schema
  * @param json
  * @param mapper
+ * @param skipProps
  */
 export function JSONTraverse(
   json: any,
-  mapper: (value: any, key: string | number, host: Object) => any
+  mapper: (value: any, key: string | number, host: Object) => any,
+  skipProps?: string[]
 ) {
   Object.keys(json).forEach(key => {
     const value: any = json[key];
     if (isPlainObject(value) || Array.isArray(value)) {
-      JSONTraverse(value, mapper);
+      if (!skipProps || (skipProps.length && !skipProps.includes(key))) {
+        JSONTraverse(value, mapper, skipProps);
+      }
     } else {
       mapper(value, key, json);
     }
@@ -1350,92 +1300,95 @@ export const getDialogActions = (
   filterId?: string
 ) => {
   let dialogActions: any[] = [];
-  let filterSchema = JSONDelHidenProps(schema);
-  JSONTraverse(filterSchema, (value: any, key: string, object: any) => {
-    // definitions中的弹窗
-    if (key === 'type' && value === 'page') {
-      const definitions = object.definitions;
-      if (definitions) {
-        Object.keys(definitions).forEach(key => {
-          if (key.includes('ref-')) {
-            if (listType === 'list') {
-              dialogActions.push(definitions[key]);
-            } else {
-              const dialog = definitions[key];
-              const dialogTypeName =
-                dialog.type === 'drawer'
-                  ? '抽屉式弹窗'
-                  : dialog.dialogType
-                  ? '确认对话框'
-                  : '弹窗';
+  JSONTraverse(
+    schema,
+    (value: any, key: string, object: any) => {
+      // definitions中的弹窗
+      if (key === 'type' && value === 'page') {
+        const definitions = object.definitions;
+        if (definitions) {
+          Object.keys(definitions).forEach(key => {
+            if (key.includes('ref-')) {
+              if (listType === 'list') {
+                dialogActions.push(definitions[key]);
+              } else {
+                const dialog = definitions[key];
+                const dialogTypeName =
+                  dialog.type === 'drawer'
+                    ? '抽屉式弹窗'
+                    : dialog.dialogType
+                    ? '确认对话框'
+                    : '弹窗';
+                dialogActions.push({
+                  label: `${dialog.title || '-'}（${dialogTypeName}）`,
+                  value: dialog.$$id
+                });
+              }
+            }
+          });
+        }
+      }
+      if (
+        (key === 'actionType' && value === 'dialog') ||
+        (key === 'actionType' && value === 'drawer') ||
+        (key === 'actionType' && value === 'confirmDialog')
+      ) {
+        const dialogBodyMap = new Map([
+          [
+            'dialog',
+            {
+              title: '弹窗',
+              body: 'dialog'
+            }
+          ],
+          [
+            'drawer',
+            {
+              title: '抽屉式弹窗',
+              body: 'drawer'
+            }
+          ],
+          [
+            'confirmDialog',
+            {
+              title: '确认对话框',
+              // 兼容历史args参数
+              body: ['dialog', 'args']
+            }
+          ]
+        ]);
+        let dialogBody = dialogBodyMap.get(value)?.body!;
+        let dialogBodyContent = Array.isArray(dialogBody)
+          ? object[dialogBody[0]] || object[dialogBody[1]]
+          : object[dialogBody];
+
+        if (
+          dialogBodyMap.has(value) &&
+          dialogBodyContent &&
+          !dialogBodyContent.$ref
+        ) {
+          if (listType == 'list') {
+            // 没有 type: dialog的历史数据兼容一下
+            dialogActions.push({
+              ...dialogBodyContent,
+              type: Array.isArray(dialogBody) ? 'dialog' : dialogBody
+            });
+          } else {
+            // 新建弹窗切换到现有弹窗把自身过滤掉
+            if (!filterId || (filterId && filterId !== dialogBodyContent.id)) {
               dialogActions.push({
-                label: `${dialog.title || '-'}（${dialogTypeName}）`,
-                value: dialog.$$id
+                label: `${dialogBodyContent?.title || '-'}（${
+                  dialogBodyMap.get(value)?.title
+                }）`,
+                value: dialogBodyContent.$$id
               });
             }
           }
-        });
-      }
-    }
-    if (
-      (key === 'actionType' && value === 'dialog') ||
-      (key === 'actionType' && value === 'drawer') ||
-      (key === 'actionType' && value === 'confirmDialog')
-    ) {
-      const dialogBodyMap = new Map([
-        [
-          'dialog',
-          {
-            title: '弹窗',
-            body: 'dialog'
-          }
-        ],
-        [
-          'drawer',
-          {
-            title: '抽屉式弹窗',
-            body: 'drawer'
-          }
-        ],
-        [
-          'confirmDialog',
-          {
-            title: '确认对话框',
-            // 兼容历史args参数
-            body: ['dialog', 'args']
-          }
-        ]
-      ]);
-      let dialogBody = dialogBodyMap.get(value)?.body!;
-      let dialogBodyContent = Array.isArray(dialogBody)
-        ? object[dialogBody[0]] || object[dialogBody[1]]
-        : object[dialogBody];
-
-      if (
-        dialogBodyMap.has(value) &&
-        dialogBodyContent &&
-        !dialogBodyContent.$ref
-      ) {
-        if (listType == 'list') {
-          // 没有 type: dialog的历史数据兼容一下
-          dialogActions.push({
-            ...dialogBodyContent,
-            type: Array.isArray(dialogBody) ? 'dialog' : dialogBody
-          });
-        } else {
-          // 新建弹窗切换到现有弹窗把自身过滤掉
-          if (!filterId || (filterId && filterId !== dialogBodyContent.id)) {
-            dialogActions.push({
-              label: `${dialogBodyContent?.title || '-'}（${
-                dialogBodyMap.get(value)?.title
-              }）`,
-              value: dialogBodyContent.$$id
-            });
-          }
         }
       }
-    }
-  });
+    },
+    ['__cmptTreeSource', '__superCmptTreeSource']
+  );
   return dialogActions;
 };
 

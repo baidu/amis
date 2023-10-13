@@ -2897,7 +2897,7 @@ export const getEventControlConfig = (
         true
       );
       result.unshift({
-        label: '自行输入组件id',
+        label: '输入组件id',
         value: 'customCmptId'
       });
       return result;
