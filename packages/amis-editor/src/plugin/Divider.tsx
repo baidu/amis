@@ -108,7 +108,7 @@ export class DividerPlugin extends BasePlugin {
             },
             getSchemaTpl('theme:select', {
               mode: 'horizontal',
-              label: '长度',
+              label: '线长',
               name: 'style.width',
               placeholder: '100%',
               visibleOn: 'data.direction !== "vertical"',
@@ -116,7 +116,7 @@ export class DividerPlugin extends BasePlugin {
             }),
             getSchemaTpl('theme:select', {
               mode: 'horizontal',
-              label: '长度',
+              label: '线长',
               name: 'style.height',
               placeholder: 'var(--sizes-base-15)',
               visibleOn: 'data.direction === "vertical"',
@@ -124,14 +124,14 @@ export class DividerPlugin extends BasePlugin {
             }),
             getSchemaTpl('theme:select', {
               mode: 'horizontal',
-              label: '宽度',
+              label: '线宽',
               name: 'style.borderWidth',
               placeholder: '1px',
               visibleOn: '!data.title || data.direction === "vertical"'
             }),
             getSchemaTpl('theme:select', {
               mode: 'horizontal',
-              label: '宽度',
+              label: '线宽',
               name: 'themeCss.titleWrapperControlClassName.border-bottom-width',
               placeholder: '1px',
               visibleOn: '!!data.title && data.direction !== "vertical"',
