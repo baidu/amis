@@ -1009,7 +1009,7 @@ export class TableControlPlugin extends BasePlugin {
                 name: 'columnsTogglable',
                 label: tipedLabel(
                   '列显示开关',
-                  '是否展示表格列的显隐开关控件，自动即列数量大于5时自动开启'
+                  '是否展示表格列的显隐控件，“自动”即列数量大于5时自动开启'
                 ),
                 type: 'button-group-select',
                 pipeIn: defaultValue('auto'),
