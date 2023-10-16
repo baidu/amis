@@ -12,7 +12,9 @@ amis 中大部分的组件都支持配置 className 和 xxxClassName，他可以
 配置方式有两种：
 
 1. 直接配置字符串如：`className: "text-danger"` 文字标红。
-2. 采用对象配置，这个用法主要是方便写表达式如：`className: {"text-danger": "this.status == 1"}` 表示当数据 status 状态是 1 时，文字飘红。
+2. 采用对象配置，这个用法主要是方便写表达式如：`className: {"text-danger": "${status == 1}"}` 表示当数据 status 状态是 1 时，文字飘红。
+
+> 注意 3.5 版本开始类名中支持表达式如: `text-${status == 1 ? 'danger' : 'success'}`
 
 ```schema
 {
@@ -46,8 +48,9 @@ amis 中大部分的组件都支持配置 className 和 xxxClassName，他可以
                         "2": "在线"
                     },
                     "className": {
-                        "text-muted": "this.status == '1'",
-                        "text-success": "this.status == '2'"
+                        "text-muted": "${status == 1}",
+                        "text-success": "${status ==  2}",
+                        "text-${status}": true
                     }
                 }
             ]
