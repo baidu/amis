@@ -366,17 +366,65 @@ export class Evaluator {
     return ast.value;
   }
 
+  /**
+   * 名字空间下获取变量，可能存在变量名中带-的特殊情况，目前无法直接获取 ${ns:xxx-xxx}
+   * 想借助 ${ns:&['xxx-xxx']} 用法来支持特殊字符。
+   *
+   * 而 cookie, localstorage, sessionstorage 都不支持获取全量数据，如 ${ns: &}
+   * 所以当存在上述用法时，将 & 作为一个占位
+   *
+   * 比如 cookie 中有一个 key 为 xxx-xxx 的值，那么可以通过 &['xxx-xxx'] 来获取。
+   * 而无法通过 ${cookie:xxx-xxx} 来获取。 因为这样会被认为是减操作
+   * @param ast
+   * @returns
+   */
+  convertHostGetterToVariable(ast: any) {
+    if (ast.type !== 'getter') {
+      return ast;
+    }
+
+    let gettter = ast;
+    const keys: Array<string> = [];
+    while (gettter.host?.type === 'getter') {
+      keys.push('host');
+      gettter = gettter.host;
+    }
+    if (gettter.host?.type === 'variable' && gettter.host.name === '&') {
+      const ret: any = {
+        host: ast
+      };
+      const host = keys.reduce((host, key) => {
+        host[key] = {...host[key]};
+        return host[key];
+      }, ret);
+
+      host.host = {
+        start: host.host.start,
+        end: host.host.end,
+        type: 'variable',
+        name: this.evalute(host.host.key)
+      };
+      return ret.host;
+    }
+    return ast;
+  }
+
   nsVariable(ast: {namespace: string; body: any}) {
+    let body = ast.body;
     if (ast.namespace === 'window') {
       this.contextStack.push((name: string) =>
         name === '&' ? window : (window as any)[name]
       );
     } else if (ast.namespace === 'cookie') {
+      // 可能会利用 &['xxx-xxx'] 来取需要特殊变量
+      body = this.convertHostGetterToVariable(body);
       this.contextStack.push((name: string) => {
         return getCookie(name);
       });
     } else if (ast.namespace === 'ls' || ast.namespace === 'ss') {
       const ns = ast.namespace;
+      // 可能会利用 &['xxx-xxx'] 来取需要特殊变量
+      body = this.convertHostGetterToVariable(body);
       this.contextStack.push((name: string) => {
         const raw =
           ns === 'ss'
@@ -400,8 +448,10 @@ export class Evaluator {
       throw new Error('Unsupported namespace: ' + ast.namespace);
     }
 
-    const result = this.evalute(ast.body);
-    this.contextStack.pop();
+    const result = this.evalute(body);
+    result?.then
+      ? result.then(() => this.contextStack.pop())
+      : this.contextStack.pop();
     return result;
   }
 
