@@ -51,10 +51,10 @@ exports[`Renderer:input table 1`] = `
                 >
                   <div
                     class="cxd-InputTable cxd-Form-control"
+                    style="position: relative;"
                   >
                     <div
                       class="cxd-Table"
-                      style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
                     >
                       <div
                         class="cxd-Table-contentWrap"
@@ -195,46 +195,47 @@ exports[`Renderer:input table 1`] = `
                             </tbody>
                           </table>
                         </div>
+                        <span />
                       </div>
+                    </div>
+                    <div
+                      class="resize-sensor"
+                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+  
                       <div
-                        class="resize-sensor"
-                        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                        class="resize-sensor-expand"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
                       >
                         
-  
-                        <div
-                          class="resize-sensor-expand"
-                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                        >
-                          
     
-                          <div
-                            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                          />
-                          
-  
-                        </div>
-                        
-  
                         <div
-                          class="resize-sensor-shrink"
-                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                        >
-                          
-    
-                          <div
-                            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                          />
-                          
-  
-                        </div>
-                        
-  
-                        <div
-                          class="resize-sensor-appear"
-                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
                         />
+                        
+  
                       </div>
+                      
+  
+                      <div
+                        class="resize-sensor-shrink"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+    
+                        <div
+                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                        />
+                        
+  
+                      </div>
+                      
+  
+                      <div
+                        class="resize-sensor-appear"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                      />
                     </div>
                   </div>
                 </div>
@@ -416,10 +417,10 @@ exports[`Renderer:input table add 1`] = `
         >
           <div
             class="cxd-InputTable cxd-Form-control"
+            style="position: relative;"
           >
             <div
               class="cxd-Table"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-contentWrap"
@@ -439,7 +440,7 @@ exports[`Renderer:input table add 1`] = `
                       />
                       <col
                         data-index="5"
-                        style="width: 150px; min-width: 150px;"
+                        style="width: 100px;"
                       />
                     </colgroup>
                     <thead>
@@ -519,24 +520,34 @@ exports[`Renderer:input table add 1`] = `
                           class=""
                         >
                           <div
-                            class="cxd-Form-item cxd-Form-item--normal"
-                            data-role="form-item"
+                            class="cxd-Form cxd-Form--normal cxd-Form--quickEdit"
+                            novalidate=""
                           >
+                            <input
+                              style="display: none;"
+                              type="submit"
+                              value="aa"
+                            />
                             <div
-                              class="cxd-Form-control cxd-TextControl"
+                              class="cxd-Form-item cxd-Form-item--normal"
+                              data-role="form-item"
                             >
                               <div
-                                class="cxd-TextControl-input"
+                                class="cxd-Form-control cxd-TextControl"
                               >
-                                <input
-                                  autocomplete="off"
-                                  class=""
-                                  name="a"
-                                  placeholder=""
-                                  size="10"
-                                  type="text"
-                                  value="aa"
-                                />
+                                <div
+                                  class="cxd-TextControl-input"
+                                >
+                                  <input
+                                    autocomplete="off"
+                                    class=""
+                                    name="a"
+                                    placeholder=""
+                                    size="10"
+                                    type="text"
+                                    value="bb"
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -545,24 +556,33 @@ exports[`Renderer:input table add 1`] = `
                           class=""
                         >
                           <div
-                            class="cxd-Form-item cxd-Form-item--normal"
-                            data-role="form-item"
+                            class="cxd-Form cxd-Form--normal cxd-Form--quickEdit"
+                            novalidate=""
                           >
+                            <input
+                              style="display: none;"
+                              type="submit"
+                            />
                             <div
-                              class="cxd-Form-control cxd-TextControl"
+                              class="cxd-Form-item cxd-Form-item--normal"
+                              data-role="form-item"
                             >
                               <div
-                                class="cxd-TextControl-input"
+                                class="cxd-Form-control cxd-TextControl"
                               >
-                                <input
-                                  autocomplete="off"
-                                  class=""
-                                  name="b"
-                                  placeholder=""
-                                  size="10"
-                                  type="text"
-                                  value="bb"
-                                />
+                                <div
+                                  class="cxd-TextControl-input"
+                                >
+                                  <input
+                                    autocomplete="off"
+                                    class=""
+                                    name="b"
+                                    placeholder=""
+                                    size="10"
+                                    type="text"
+                                    value=""
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -598,45 +618,7 @@ exports[`Renderer:input table add 1`] = `
                     </tbody>
                   </table>
                 </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
+                <span />
               </div>
             </div>
             <div
@@ -653,6 +635,45 @@ exports[`Renderer:input table add 1`] = `
                   新增
                 </span>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -768,10 +789,10 @@ exports[`Renderer:input-table cell selects delete 1`] = `
           </label>
           <div
             class="cxd-InputTable cxd-Form-control"
+            style="position: relative;"
           >
             <div
               class="cxd-Table"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-contentWrap"
@@ -846,65 +867,74 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                           class=""
                         >
                           <div
-                            class="cxd-Form-item cxd-Form-item--normal"
-                            data-role="form-item"
+                            class="cxd-Form cxd-Form--normal cxd-Form--quickEdit"
+                            novalidate=""
                           >
+                            <input
+                              style="display: none;"
+                              type="submit"
+                            />
                             <div
-                              class="cxd-SelectControl cxd-Form-control"
+                              class="cxd-Form-item cxd-Form-item--normal"
+                              data-role="form-item"
                             >
                               <div
-                                aria-expanded="false"
-                                aria-haspopup="listbox"
-                                class="cxd-Select cxd-Select--multi"
-                                role="combobox"
-                                tabindex="0"
+                                class="cxd-SelectControl cxd-Form-control"
                               >
                                 <div
-                                  class="cxd-Select-valueWrap"
+                                  aria-expanded="false"
+                                  aria-haspopup="listbox"
+                                  class="cxd-Select cxd-Select--multi"
+                                  role="combobox"
+                                  tabindex="0"
                                 >
                                   <div
-                                    class="cxd-Select-value"
+                                    class="cxd-Select-valueWrap"
                                   >
-                                    <span
-                                      class="cxd-Select-valueLabel"
+                                    <div
+                                      class="cxd-Select-value"
                                     >
-                                      s2
-                                    </span>
-                                    <span
-                                      class="cxd-Select-valueIcon"
+                                      <span
+                                        class="cxd-Select-valueLabel"
+                                      >
+                                        s2
+                                      </span>
+                                      <span
+                                        class="cxd-Select-valueIcon"
+                                      >
+                                        <icon-mock
+                                          classname="icon icon-close"
+                                          icon="close"
+                                        />
+                                      </span>
+                                    </div>
+                                    <div
+                                      class="cxd-Select-value"
                                     >
-                                      <icon-mock
-                                        classname="icon icon-close"
-                                        icon="close"
-                                      />
-                                    </span>
+                                      <span
+                                        class="cxd-Select-valueLabel"
+                                      >
+                                        s3
+                                      </span>
+                                      <span
+                                        class="cxd-Select-valueIcon"
+                                      >
+                                        <icon-mock
+                                          classname="icon icon-close"
+                                          icon="close"
+                                        />
+                                      </span>
+                                    </div>
                                   </div>
-                                  <div
-                                    class="cxd-Select-value"
+                                  <span
+                                    class="cxd-Select-arrow"
                                   >
-                                    <span
-                                      class="cxd-Select-valueLabel"
-                                    >
-                                      s3
-                                    </span>
-                                    <span
-                                      class="cxd-Select-valueIcon"
-                                    >
-                                      <icon-mock
-                                        classname="icon icon-close"
-                                        icon="close"
-                                      />
-                                    </span>
-                                  </div>
+                                    <icon-mock
+                                      classname="icon icon-right-arrow-bold"
+                                      icon="right-arrow-bold"
+                                    />
+                                  </span>
                                 </div>
-                                <span
-                                  class="cxd-Select-arrow"
-                                >
-                                  <icon-mock
-                                    classname="icon icon-right-arrow-bold"
-                                    icon="right-arrow-bold"
-                                  />
-                                </span>
                               </div>
                             </div>
                           </div>
@@ -926,46 +956,47 @@ exports[`Renderer:input-table cell selects delete 1`] = `
                     </tbody>
                   </table>
                 </div>
+                <span />
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
               <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
                 
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
     
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
                 <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
                 />
+                
+  
               </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -983,741 +1014,6 @@ exports[`Renderer:input-table cell selects delete 1`] = `
         >
           <span>
             submitBtn
-          </span>
-        </button>
-      </div>
-    </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Renderer:input-table init display 1`] = `
-<div>
-  <div
-    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
-  >
-    <div
-      class="cxd-Panel-heading"
-    >
-      <h3
-        class="cxd-Panel-title"
-      >
-        <span
-          class="cxd-TplField"
-        >
-          <span>
-            表单
-          </span>
-        </span>
-      </h3>
-    </div>
-    <div
-      class="cxd-Panel-body"
-    >
-      <form
-        class="cxd-Form cxd-Form--normal"
-        novalidate=""
-      >
-        <input
-          style="display: none;"
-          type="submit"
-        />
-        <div
-          class="cxd-Form-item cxd-Form-item--normal"
-          data-role="form-item"
-        >
-          <label
-            class="cxd-Form-label"
-          >
-            <span>
-              <span
-                class="cxd-TplField"
-              >
-                <span>
-                  数字
-                </span>
-              </span>
-            </span>
-          </label>
-          <div
-            class="cxd-NumberControl cxd-Form-control"
-          >
-            <div
-              class="cxd-Number cxd-Number--borderFull"
-            >
-              <div
-                class="cxd-Number-handler-wrap"
-              >
-                <span
-                  aria-disabled="false"
-                  aria-label="Increase Value"
-                  class="cxd-Number-handler cxd-Number-handler-up"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-up-inner"
-                    unselectable="on"
-                  />
-                </span>
-                <span
-                  aria-disabled="false"
-                  aria-label="Decrease Value"
-                  class="cxd-Number-handler cxd-Number-handler-down"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-down-inner"
-                    unselectable="on"
-                  />
-                </span>
-              </div>
-              <div
-                class="cxd-Number-input-wrap"
-              >
-                <input
-                  aria-valuenow="0"
-                  autocomplete="off"
-                  class="cxd-Number-input"
-                  role="spinbutton"
-                  step="1"
-                  value="0"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="cxd-Form-item cxd-Form-item--normal"
-          data-role="form-item"
-        >
-          <label
-            class="cxd-Form-label"
-          >
-            <span>
-              <span
-                class="cxd-TplField"
-              >
-                <span>
-                  表格表单
-                </span>
-              </span>
-            </span>
-          </label>
-          <div
-            class="cxd-InputTable cxd-Form-control"
-          >
-            <div
-              class="cxd-Table"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; position: relative;"
-            >
-              <div
-                class="cxd-Table-contentWrap"
-              >
-                <div
-                  class="cxd-Table-content"
-                >
-                  <table
-                    class="cxd-Table-table"
-                  >
-                    <colgroup>
-                      <col
-                        data-index="3"
-                      />
-                      <col
-                        data-index="4"
-                      />
-                      <col
-                        data-index="5"
-                      />
-                      <col
-                        data-index="6"
-                      />
-                    </colgroup>
-                    <thead>
-                      <tr
-                        class=""
-                      >
-                        <th
-                          class=""
-                          data-index="3"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                名称
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                            data-index="3"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="4"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                分数
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                            data-index="4"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="5"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                分数(不在quickEdit里面)
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                            data-index="5"
-                          />
-                        </th>
-                        <th
-                          class=""
-                          data-index="6"
-                        >
-                          <div
-                            class="cxd-TableCell--title"
-                          >
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                等级
-                              </span>
-                            </span>
-                          </div>
-                          <div
-                            class="cxd-Table-content-colDragLine"
-                            data-index="6"
-                          />
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
-                        data-id="1"
-                        data-index="0"
-                      >
-                        <td
-                          class=""
-                        >
-                          <div
-                            class="cxd-Form-item cxd-Form-item--normal"
-                            data-role="form-item"
-                          >
-                            <div
-                              class="cxd-Form-control cxd-TextControl"
-                            >
-                              <div
-                                class="cxd-TextControl-input"
-                              >
-                                <input
-                                  autocomplete="off"
-                                  class=""
-                                  name="name"
-                                  placeholder=""
-                                  size="10"
-                                  type="text"
-                                  value="AAA"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td
-                          class=""
-                        >
-                          <div
-                            class="cxd-Form-item cxd-Form-item--normal"
-                            data-role="form-item"
-                          >
-                            <div
-                              class="cxd-NumberControl cxd-Form-control"
-                            >
-                              <div
-                                class="cxd-Number no-steps cxd-Number--borderFull"
-                              >
-                                <div
-                                  class="cxd-Number-handler-wrap"
-                                >
-                                  <span
-                                    aria-disabled="false"
-                                    aria-label="Increase Value"
-                                    class="cxd-Number-handler cxd-Number-handler-up"
-                                    role="button"
-                                    unselectable="on"
-                                  >
-                                    <span
-                                      class="cxd-Number-handler-up-inner"
-                                      unselectable="on"
-                                    />
-                                  </span>
-                                  <span
-                                    aria-disabled="false"
-                                    aria-label="Decrease Value"
-                                    class="cxd-Number-handler cxd-Number-handler-down"
-                                    role="button"
-                                    unselectable="on"
-                                  >
-                                    <span
-                                      class="cxd-Number-handler-down-inner"
-                                      unselectable="on"
-                                    />
-                                  </span>
-                                </div>
-                                <div
-                                  class="cxd-Number-input-wrap"
-                                >
-                                  <input
-                                    aria-valuenow="234"
-                                    autocomplete="off"
-                                    class="cxd-Number-input"
-                                    role="spinbutton"
-                                    step="1"
-                                    value="234"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td
-                          class=""
-                        >
-                          <div
-                            class="cxd-NumberControl cxd-Form-control"
-                          >
-                            <div
-                              class="cxd-Number no-steps cxd-Number--borderFull"
-                            >
-                              <div
-                                class="cxd-Number-handler-wrap"
-                              >
-                                <span
-                                  aria-disabled="false"
-                                  aria-label="Increase Value"
-                                  class="cxd-Number-handler cxd-Number-handler-up"
-                                  role="button"
-                                  unselectable="on"
-                                >
-                                  <span
-                                    class="cxd-Number-handler-up-inner"
-                                    unselectable="on"
-                                  />
-                                </span>
-                                <span
-                                  aria-disabled="false"
-                                  aria-label="Decrease Value"
-                                  class="cxd-Number-handler cxd-Number-handler-down"
-                                  role="button"
-                                  unselectable="on"
-                                >
-                                  <span
-                                    class="cxd-Number-handler-down-inner"
-                                    unselectable="on"
-                                  />
-                                </span>
-                              </div>
-                              <div
-                                class="cxd-Number-input-wrap"
-                              >
-                                <input
-                                  aria-valuenow="234"
-                                  autocomplete="off"
-                                  class="cxd-Number-input"
-                                  role="spinbutton"
-                                  step="1"
-                                  value="234"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td
-                          class=""
-                        >
-                          <div
-                            class="cxd-Form-item cxd-Form-item--normal"
-                            data-role="form-item"
-                          >
-                            <div
-                              class="cxd-NumberControl cxd-Form-control"
-                            >
-                              <div
-                                class="cxd-Number no-steps cxd-Number--borderFull"
-                              >
-                                <div
-                                  class="cxd-Number-handler-wrap"
-                                >
-                                  <span
-                                    aria-disabled="false"
-                                    aria-label="Increase Value"
-                                    class="cxd-Number-handler cxd-Number-handler-up"
-                                    role="button"
-                                    unselectable="on"
-                                  >
-                                    <span
-                                      class="cxd-Number-handler-up-inner"
-                                      unselectable="on"
-                                    />
-                                  </span>
-                                  <span
-                                    aria-disabled="false"
-                                    aria-label="Decrease Value"
-                                    class="cxd-Number-handler cxd-Number-handler-down"
-                                    role="button"
-                                    unselectable="on"
-                                  >
-                                    <span
-                                      class="cxd-Number-handler-down-inner"
-                                      unselectable="on"
-                                    />
-                                  </span>
-                                </div>
-                                <div
-                                  class="cxd-Number-input-wrap"
-                                >
-                                  <input
-                                    aria-valuenow="1"
-                                    autocomplete="off"
-                                    class="cxd-Number-input"
-                                    role="spinbutton"
-                                    step="1"
-                                    value="1"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
-                        data-id="2"
-                        data-index="1"
-                      >
-                        <td
-                          class=""
-                        >
-                          <div
-                            class="cxd-Form-item cxd-Form-item--normal"
-                            data-role="form-item"
-                          >
-                            <div
-                              class="cxd-Form-control cxd-TextControl"
-                            >
-                              <div
-                                class="cxd-TextControl-input"
-                              >
-                                <input
-                                  autocomplete="off"
-                                  class=""
-                                  name="name"
-                                  placeholder=""
-                                  size="10"
-                                  type="text"
-                                  value="BBB"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td
-                          class=""
-                        >
-                          <div
-                            class="cxd-Form-item cxd-Form-item--normal"
-                            data-role="form-item"
-                          >
-                            <div
-                              class="cxd-NumberControl cxd-Form-control"
-                            >
-                              <div
-                                class="cxd-Number no-steps cxd-Number--borderFull"
-                              >
-                                <div
-                                  class="cxd-Number-handler-wrap"
-                                >
-                                  <span
-                                    aria-disabled="false"
-                                    aria-label="Increase Value"
-                                    class="cxd-Number-handler cxd-Number-handler-up"
-                                    role="button"
-                                    unselectable="on"
-                                  >
-                                    <span
-                                      class="cxd-Number-handler-up-inner"
-                                      unselectable="on"
-                                    />
-                                  </span>
-                                  <span
-                                    aria-disabled="false"
-                                    aria-label="Decrease Value"
-                                    class="cxd-Number-handler cxd-Number-handler-down"
-                                    role="button"
-                                    unselectable="on"
-                                  >
-                                    <span
-                                      class="cxd-Number-handler-down-inner"
-                                      unselectable="on"
-                                    />
-                                  </span>
-                                </div>
-                                <div
-                                  class="cxd-Number-input-wrap"
-                                >
-                                  <input
-                                    aria-valuenow="0"
-                                    autocomplete="off"
-                                    class="cxd-Number-input"
-                                    role="spinbutton"
-                                    step="1"
-                                    value="0"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td
-                          class=""
-                        >
-                          <div
-                            class="cxd-NumberControl cxd-Form-control"
-                          >
-                            <div
-                              class="cxd-Number no-steps cxd-Number--borderFull"
-                            >
-                              <div
-                                class="cxd-Number-handler-wrap"
-                              >
-                                <span
-                                  aria-disabled="false"
-                                  aria-label="Increase Value"
-                                  class="cxd-Number-handler cxd-Number-handler-up"
-                                  role="button"
-                                  unselectable="on"
-                                >
-                                  <span
-                                    class="cxd-Number-handler-up-inner"
-                                    unselectable="on"
-                                  />
-                                </span>
-                                <span
-                                  aria-disabled="false"
-                                  aria-label="Decrease Value"
-                                  class="cxd-Number-handler cxd-Number-handler-down"
-                                  role="button"
-                                  unselectable="on"
-                                >
-                                  <span
-                                    class="cxd-Number-handler-down-inner"
-                                    unselectable="on"
-                                  />
-                                </span>
-                              </div>
-                              <div
-                                class="cxd-Number-input-wrap"
-                              >
-                                <input
-                                  aria-valuenow="0"
-                                  autocomplete="off"
-                                  class="cxd-Number-input"
-                                  role="spinbutton"
-                                  step="1"
-                                  value="0"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td
-                          class=""
-                        >
-                          <div
-                            class="cxd-Form-item cxd-Form-item--normal"
-                            data-role="form-item"
-                          >
-                            <div
-                              class="cxd-NumberControl cxd-Form-control"
-                            >
-                              <div
-                                class="cxd-Number no-steps cxd-Number--borderFull"
-                              >
-                                <div
-                                  class="cxd-Number-handler-wrap"
-                                >
-                                  <span
-                                    aria-disabled="false"
-                                    aria-label="Increase Value"
-                                    class="cxd-Number-handler cxd-Number-handler-up"
-                                    role="button"
-                                    unselectable="on"
-                                  >
-                                    <span
-                                      class="cxd-Number-handler-up-inner"
-                                      unselectable="on"
-                                    />
-                                  </span>
-                                  <span
-                                    aria-disabled="false"
-                                    aria-label="Decrease Value"
-                                    class="cxd-Number-handler cxd-Number-handler-down"
-                                    role="button"
-                                    unselectable="on"
-                                  >
-                                    <span
-                                      class="cxd-Number-handler-down-inner"
-                                      unselectable="on"
-                                    />
-                                  </span>
-                                </div>
-                                <div
-                                  class="cxd-Number-input-wrap"
-                                >
-                                  <input
-                                    aria-valuenow="0"
-                                    autocomplete="off"
-                                    class="cxd-Number-input"
-                                    role="spinbutton"
-                                    step="1"
-                                    value="0"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div
-      class="cxd-Panel-footerWrap"
-    >
-      <div
-        class="cxd-Panel-btnToolbar cxd-Panel-footer"
-      >
-        <button
-          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
-          type="submit"
-        >
-          <span>
-            提交
           </span>
         </button>
       </div>
@@ -1914,10 +1210,10 @@ exports[`Renderer:input-table with combo column 1`] = `
         >
           <div
             class="cxd-InputTable cxd-Form-control"
+            style="position: relative;"
           >
             <div
               class="cxd-Table"
-              style="--Table-column-3-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-contentWrap"
@@ -1969,119 +1265,128 @@ exports[`Renderer:input-table with combo column 1`] = `
                           class=""
                         >
                           <div
-                            class="cxd-Form-item cxd-Form-item--normal"
-                            data-role="form-item"
+                            class="cxd-Form cxd-Form--normal cxd-Form--quickEdit"
+                            novalidate=""
                           >
+                            <input
+                              style="display: none;"
+                              type="submit"
+                            />
                             <div
-                              class="cxd-ComboControl cxd-Form-control"
+                              class="cxd-Form-item cxd-Form-item--normal"
+                              data-role="form-item"
                             >
                               <div
-                                class="cxd-Combo cxd-Combo--single cxd-Combo--hor"
+                                class="cxd-ComboControl cxd-Form-control"
                               >
                                 <div
-                                  class="cxd-Combo-item"
+                                  class="cxd-Combo cxd-Combo--single cxd-Combo--hor"
                                 >
                                   <div
-                                    class="cxd-Combo-itemInner"
+                                    class="cxd-Combo-item"
                                   >
                                     <div
-                                      class="cxd-Form cxd-Form--row cxd-Combo-form"
-                                      novalidate=""
+                                      class="cxd-Combo-itemInner"
                                     >
-                                      <input
-                                        style="display: none;"
-                                        type="submit"
-                                      />
                                       <div
-                                        class="cxd-Form-row"
+                                        class="cxd-Form cxd-Form--row cxd-Combo-form"
+                                        novalidate=""
                                       >
+                                        <input
+                                          style="display: none;"
+                                          type="submit"
+                                        />
                                         <div
-                                          class="cxd-Form-col"
+                                          class="cxd-Form-row"
                                         >
                                           <div
-                                            class="cxd-Form-item cxd-Form-item--row"
-                                            data-role="form-item"
+                                            class="cxd-Form-col"
                                           >
                                             <div
-                                              class="cxd-Form-rowInner"
+                                              class="cxd-Form-item cxd-Form-item--row"
+                                              data-role="form-item"
                                             >
                                               <div
-                                                class="cxd-NumberControl cxd-Form-control"
+                                                class="cxd-Form-rowInner"
                                               >
                                                 <div
-                                                  class="cxd-Number cxd-Number--borderFull"
+                                                  class="cxd-NumberControl cxd-Form-control"
                                                 >
                                                   <div
-                                                    class="cxd-Number-handler-wrap"
+                                                    class="cxd-Number cxd-Number--borderFull"
                                                   >
-                                                    <span
-                                                      aria-disabled="false"
-                                                      aria-label="Increase Value"
-                                                      class="cxd-Number-handler cxd-Number-handler-up"
-                                                      role="button"
-                                                      unselectable="on"
+                                                    <div
+                                                      class="cxd-Number-handler-wrap"
                                                     >
                                                       <span
-                                                        class="cxd-Number-handler-up-inner"
+                                                        aria-disabled="false"
+                                                        aria-label="Increase Value"
+                                                        class="cxd-Number-handler cxd-Number-handler-up"
+                                                        role="button"
                                                         unselectable="on"
-                                                      />
-                                                    </span>
-                                                    <span
-                                                      aria-disabled="false"
-                                                      aria-label="Decrease Value"
-                                                      class="cxd-Number-handler cxd-Number-handler-down"
-                                                      role="button"
-                                                      unselectable="on"
-                                                    >
+                                                      >
+                                                        <span
+                                                          class="cxd-Number-handler-up-inner"
+                                                          unselectable="on"
+                                                        />
+                                                      </span>
                                                       <span
-                                                        class="cxd-Number-handler-down-inner"
+                                                        aria-disabled="false"
+                                                        aria-label="Decrease Value"
+                                                        class="cxd-Number-handler cxd-Number-handler-down"
+                                                        role="button"
                                                         unselectable="on"
+                                                      >
+                                                        <span
+                                                          class="cxd-Number-handler-down-inner"
+                                                          unselectable="on"
+                                                        />
+                                                      </span>
+                                                    </div>
+                                                    <div
+                                                      class="cxd-Number-input-wrap"
+                                                    >
+                                                      <input
+                                                        aria-valuenow="88"
+                                                        autocomplete="off"
+                                                        class="cxd-Number-input"
+                                                        placeholder="请手动输入分数"
+                                                        role="spinbutton"
+                                                        step="1"
+                                                        value="88"
                                                       />
-                                                    </span>
-                                                  </div>
-                                                  <div
-                                                    class="cxd-Number-input-wrap"
-                                                  >
-                                                    <input
-                                                      aria-valuenow="88"
-                                                      autocomplete="off"
-                                                      class="cxd-Number-input"
-                                                      placeholder="请手动输入分数"
-                                                      role="spinbutton"
-                                                      step="1"
-                                                      value="88"
-                                                    />
+                                                    </div>
                                                   </div>
                                                 </div>
                                               </div>
                                             </div>
                                           </div>
-                                        </div>
-                                        <div
-                                          class="cxd-Form-col"
-                                        >
                                           <div
-                                            class="cxd-Form-item cxd-Form-item--row"
-                                            data-role="form-item"
+                                            class="cxd-Form-col"
                                           >
                                             <div
-                                              class="cxd-Form-rowInner"
+                                              class="cxd-Form-item cxd-Form-item--row"
+                                              data-role="form-item"
                                             >
                                               <div
-                                                class="cxd-Form-control cxd-TextControl"
+                                                class="cxd-Form-rowInner"
                                               >
                                                 <div
-                                                  class="cxd-TextControl-input"
+                                                  class="cxd-Form-control cxd-TextControl"
                                                 >
-                                                  <input
-                                                    autocomplete="off"
-                                                    class=""
-                                                    name="comment"
-                                                    placeholder="请手动输入意见"
-                                                    size="10"
-                                                    type="text"
-                                                    value="this is comment msg!!"
-                                                  />
+                                                  <div
+                                                    class="cxd-TextControl-input"
+                                                  >
+                                                    <input
+                                                      autocomplete="off"
+                                                      class=""
+                                                      name="comment"
+                                                      placeholder="请手动输入意见"
+                                                      size="10"
+                                                      type="text"
+                                                      value="this is comment msg!!"
+                                                    />
+                                                  </div>
                                                 </div>
                                               </div>
                                             </div>
@@ -2099,46 +1404,47 @@ exports[`Renderer:input-table with combo column 1`] = `
                     </tbody>
                   </table>
                 </div>
+                <span />
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
               <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
                 
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
     
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
                 <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
                 />
+                
+  
               </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>

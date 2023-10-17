@@ -914,7 +914,6 @@ test('Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmText'
   expect(fetcher).toHaveBeenCalled();
 });
 
-// 9. 自定义删除按钮
 test('Renderer:select autofill in combo', async () => {
   const {container, submitBtn, findByText, onSubmit, baseElement} = await setup(
     [
@@ -969,36 +968,4 @@ test('Renderer:select autofill in combo', async () => {
   expect(onSubmit.mock.calls[0][0]).toMatchObject({
     combo: [{type: '1', a: 'a'}]
   });
-});
-
-// 10. combo 内部表单项与 combo 同名时，原来会出现内部表单项的值变成数组的情况
-test('Renderer:combo 内部表单项与 combo 同名', async () => {
-  const {container, submitBtn, findByText, onSubmit, baseElement} = await setup(
-    [
-      {
-        type: 'combo',
-        name: 'a',
-        label: 'combo',
-        className: 'removableFalse',
-        removable: false,
-        multiple: true,
-        items: [
-          {
-            name: 'a',
-            type: 'input-text',
-            label: 'A'
-          }
-        ],
-        value: [{}]
-      }
-    ]
-  );
-
-  const input = container.querySelector('input[name="a"]') as HTMLInputElement;
-  fireEvent.change(input, {target: {value: '1'}});
-  await wait(400);
-
-  fireEvent.change(input, {target: {value: '123'}});
-  await wait(400);
-  expect(input.value).toBe('123');
 });

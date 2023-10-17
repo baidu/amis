@@ -56,7 +56,6 @@ import HeaderHideSchema from './CRUD/HeaderHide';
 import LoadOnceTableCrudSchema from './CRUD/LoadOnce';
 import ExportCSVExcelSchema from './CRUD/ExportCSVExcel';
 import CRUDDynamicSchema from './CRUD/Dynamic';
-import CRUDSimplePagerSchema from './CRUD/SimplePager';
 import ItemActionchema from './CRUD/ItemAction';
 import SdkTest from './Sdk/Test';
 import JSONSchemaForm from './Form/Schem';
@@ -455,11 +454,6 @@ export const examples = [
             label: '动态列',
             path: '/examples/crud/dynamic',
             component: makeSchemaRenderer(CRUDDynamicSchema)
-          },
-          {
-            label: '简单分页',
-            path: '/examples/crud/simple-pager',
-            component: makeSchemaRenderer(CRUDSimplePagerSchema)
           }
           // {
           //     label: '测试',

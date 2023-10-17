@@ -1374,7 +1374,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         <span
           className={cx('Table-row-indent', `indent-level-${levels.length}`)}
           style={
-            levels.length > 0 ? {width: indentSize * levels.length + 'px'} : {}
+            levels.length > 0
+              ? {paddingLeft: indentSize * levels.length + 'px'}
+              : {}
           }
         ></span>
       ) : null;

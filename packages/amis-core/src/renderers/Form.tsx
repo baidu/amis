@@ -495,7 +495,6 @@ export default class Form extends React.Component<FormProps, object> {
     this.dispatchInited = this.dispatchInited.bind(this);
     this.blockRouting = this.blockRouting.bind(this);
     this.beforePageUnload = this.beforePageUnload.bind(this);
-    this.formItemDispatchEvent = this.formItemDispatchEvent.bind(this);
 
     const {store, canAccessSuperData, persistData, simpleMode} = props;
 
@@ -963,9 +962,10 @@ export default class Form extends React.Component<FormProps, object> {
       store.setLocalPersistData(persistDataKeys);
     }
   }
-  formItemDispatchEvent(type: string, data: any) {
-    const {dispatchEvent} = this.props;
-    return dispatchEvent(type, data);
+  formItemDispatchEvent(dispatchEvent: any) {
+    return (type: string, data: any) => {
+      dispatchEvent(type, data);
+    };
   }
 
   async emitChange(submit: boolean) {
@@ -1688,7 +1688,7 @@ export default class Form extends React.Component<FormProps, object> {
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
-      formItemDispatchEvent: this.formItemDispatchEvent,
+      formItemDispatchEvent: this.formItemDispatchEvent(dispatchEvent),
       formPristine: form.pristine
       // value: (control as any)?.name
       //   ? getVariable(form.data, (control as any)?.name, canAccessSuperData)

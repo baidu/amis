@@ -3,25 +3,16 @@
  * @author fex
  */
 
-type EventType = 'both' | 'width' | 'height';
 class EventQueue {
-  q: Array<{
-    fn: Function;
-    type: EventType;
-  }> = [];
+  q: Array<Function> = [];
 
-  add(cb: Function, type: EventType = 'both') {
-    this.q.push({
-      fn: cb,
-      type
-    });
+  add(cb: Function) {
+    this.q.push(cb);
   }
 
-  call(type: EventType, ...args: any[]) {
-    this.q.forEach(item => {
-      if (item.type === type || type === 'both') {
-        item.fn.apply(null, args);
-      }
+  call(...args: Array<any>) {
+    this.q.forEach(fn => {
+      fn(...args);
     });
   }
 }
@@ -37,19 +28,15 @@ export function getComputedStyle(element: HTMLElement, prop: string) {
   }
 }
 
-function attachResizeEvent(
-  element: HTMLElement,
-  resized: () => void,
-  type: EventType = 'both'
-) {
+function attachResizeEvent(element: HTMLElement, resized: () => void) {
   if (!element) {
     return;
   }
   if (!(element as any).resizedAttached) {
     (element as any).resizedAttached = new EventQueue();
-    (element as any).resizedAttached.add(resized, type);
+    (element as any).resizedAttached.add(resized);
   } else if ((element as any).resizedAttached) {
-    (element as any).resizedAttached.add(resized, type);
+    (element as any).resizedAttached.add(resized);
     return;
   }
 
@@ -111,9 +98,9 @@ function attachResizeEvent(
 
   reset();
 
-  let changed = function (type: EventType = 'both') {
+  let changed = function () {
     if ((element as any).resizedAttached) {
-      (element as any).resizedAttached.call(type);
+      (element as any).resizedAttached.call();
     }
   };
 
@@ -134,16 +121,11 @@ function attachResizeEvent(
   };
 
   let onScroll = function (e: Event) {
-    const widthChanged = element.offsetWidth != lastWidth;
-    const heightChanged = element.offsetHeight != lastHeight;
-    if (widthChanged || heightChanged) {
-      changed(
-        widthChanged && heightChanged
-          ? 'both'
-          : widthChanged
-          ? 'width'
-          : 'height'
-      );
+    if (
+      element.offsetWidth != lastWidth ||
+      element.offsetHeight != lastHeight
+    ) {
+      changed();
     }
     reset();
   };
@@ -179,10 +161,13 @@ function detach(element: HTMLElement) {
 
 export function resizeSensor(
   element: HTMLElement,
+  callback: () => void
+): () => void;
+export function resizeSensor(
+  element: HTMLElement,
   callback: () => void,
-  once: boolean = false,
-  type: EventType = 'both'
-): () => void {
+  once: boolean = false
+) {
   if (!element) {
     return () => {};
   }
@@ -190,19 +175,15 @@ export function resizeSensor(
   let disposeEvent: (() => void) | undefined = undefined;
 
   if (once) {
-    disposeEvent = attachResizeEvent(
-      element,
-      function (this: any) {
-        callback.apply(this, arguments);
-        disposeEvent?.();
-        detach(element);
-      },
-      type
-    );
-    return () => {};
+    disposeEvent = attachResizeEvent(element, function (this: any) {
+      callback.apply(this, arguments);
+      disposeEvent?.();
+      detach(element);
+    });
+    return;
   }
 
-  disposeEvent = attachResizeEvent(element, callback, type);
+  disposeEvent = attachResizeEvent(element, callback);
   let detached = false;
 
   return function () {

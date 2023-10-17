@@ -54,6 +54,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
 import type {Option} from '../types';
+import isEqual from 'lodash/isEqual';
 import {resolveEventData} from '../utils';
 
 export {Option};
@@ -405,7 +406,11 @@ export function registerOptionsControl(config: OptionsConfig) {
         return true;
       } else if (nextProps.formItem?.expressionsInOptions) {
         return true;
-      } else if (anyChanged(detectProps, this.props, nextProps)) {
+      } else if (nextProps.formItem?.filteredOptions) {
+        return true;
+      }
+
+      if (anyChanged(detectProps, this.props, nextProps)) {
         return true;
       }
 
