@@ -346,15 +346,20 @@ export class FieldSetting extends React.Component<
     const scaffoldData = store?.data;
     const {initApi, listApi} = scaffoldData || {};
     const {loading} = this.state;
-    const fieldApi =
-      renderer === 'form' ? initApi : renderer === 'crud' ? listApi : '';
+    const isForm = renderer === 'form';
+    const isCRUD = renderer === 'crud';
+    const fieldApi = isForm ? initApi : isCRUD ? listApi : '';
     const isApiValid = isValidApi(normalizeApi(fieldApi)?.url);
     const showAutoGenBtn =
-      (renderer === 'form' && feat === 'Edit') ||
-      (renderer === 'crud' && feat === 'List' && ctx?.__step === 0);
+      (isForm && feat === 'Edit') ||
+      (isCRUD && feat === 'List' && ctx?.__step === 0);
 
     return showAutoGenBtn ? (
-      <div className={cx('ae-FieldSetting-footer', 'flex flex-row-reverse')}>
+      <div
+        className={cx('ae-FieldSetting-footer', {
+          ['ae-FieldSetting-footer--form']: isForm
+        })}
+      >
         <Button
           size="sm"
           level="link"
@@ -363,7 +368,7 @@ export class FieldSetting extends React.Component<
           disabledTip={{
             content: loading
               ? '数据处理中...'
-              : renderer === 'form'
+              : isForm
               ? '请先填写初始化接口'
               : '请先填写接口',
             tooltipTheme: 'dark'
@@ -401,8 +406,9 @@ export class FieldSetting extends React.Component<
               'ae-FieldSetting-Table',
               'mb-0'
             ) /** 底部有操作区，干掉默认的 margin-bottom */,
+            toolbarClassName: 'w-1/2',
             showIndex: true,
-            showFooterAddBtn: false,
+            showFooterAddBtn: true,
             addable: true,
             addBtnLabel: '新增',
             addBtnIcon: false,
@@ -426,6 +432,7 @@ export class FieldSetting extends React.Component<
               level: 'link',
               label: '添加字段'
             },
+            placeholder: '暂无字段',
             scaffold: this.scaffold,
             columns: [
               {
