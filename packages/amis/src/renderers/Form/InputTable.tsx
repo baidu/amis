@@ -19,6 +19,7 @@ import {
   ApiObject,
   autobind,
   isExpression,
+  ITableStore,
   isPureVariable,
   resolveVariableAndFilter,
   getRendererByName,
@@ -282,9 +283,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   entries: SimpleMap<any, number>;
   entityId: number = 1;
   subForms: any = {};
-  subFormItems: any = {};
   rowPrinstine: Array<any> = [];
   editting: any = {};
+  tableStore?: ITableStore;
 
   constructor(props: TableProps) {
     super(props);
@@ -304,7 +305,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.handleRadioChange = this.handleRadioChange.bind(this);
     this.getEntryId = this.getEntryId.bind(this);
     this.subFormRef = this.subFormRef.bind(this);
-    this.subFormItemRef = this.subFormItemRef.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.emitValue = this.emitValue.bind(this);
   }
@@ -384,10 +384,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.subForms[`${x}-${y}`] = form;
   }
 
-  subFormItemRef(form: any, x: number, y: number) {
-    this.subFormItems[`${x}-${y}`] = form;
-  }
-
   async validate(): Promise<string | void> {
     const {value, translate: __, columns} = this.props;
     const minLength = this.resolveVariableProps(this.props, 'minLength');
@@ -448,18 +444,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       }
     }
 
+    if (!this.tableStore) return;
+
     // 校验子项
-    const subFormItemss: Array<any> = [];
-    Object.keys(this.subFormItems).forEach(
-      key =>
-        this.subFormItems[key] && subFormItemss.push(this.subFormItems[key])
+    const children = this.tableStore.children.filter(
+      item => item?.storeType === 'FormItemStore'
     );
 
     const results = await Promise.all(
-      subFormItemss.map(item => item.props.onValidate())
+      children.map(item => item.validate(this.props.value))
     );
-    let msg = ~results.indexOf(false) ? __('Form.validateFailed') : '';
-    return msg;
   }
 
   async emitValue() {
@@ -736,12 +730,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       key => this.subForms[key] && subForms.push(this.subForms[key])
     );
     subForms.forEach(form => form.flush());
-
-    const subFormItems: Array<any> = [];
-    Object.keys(this.subFormItems).forEach(
-      key => this.subFormItems[key] && subFormItems.push(this.subFormItems[key])
-    );
-    subFormItems.forEach(item => item.props.onFlushChange?.());
 
     const validateForms: Array<any> = [];
     Object.keys(this.subForms).forEach(key => {
@@ -1246,7 +1234,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           label: __('Table.operation'),
           className: 'v-middle nowrap',
           fixed: 'right',
-          width: 150,
+          width: 100,
           innerClassName: 'm-n'
         };
         columns.push(operation);
@@ -1485,6 +1473,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     while (ref && ref.getWrappedInstance) {
       ref = ref.getWrappedInstance();
     }
+    this.tableStore = ref?.props?.store;
   }
 
   computedAddBtnDisabled() {
@@ -1569,7 +1558,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             onSaveOrder: this.handleSaveTableOrder,
             buildItemProps: this.buildItemProps,
             quickEditFormRef: this.subFormRef,
-            quickEditFormItemRef: this.subFormItemRef,
             columnsTogglable: columnsTogglable,
             combineNum: combineNum,
             combineFromIndex: combineFromIndex,

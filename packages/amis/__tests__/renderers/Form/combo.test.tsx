@@ -914,7 +914,6 @@ test('Renderer:combo with removable & deleteBtn & deleteApi & deleteConfirmText'
   expect(fetcher).toHaveBeenCalled();
 });
 
-// 9. 自定义删除按钮
 test('Renderer:select autofill in combo', async () => {
   const {container, submitBtn, findByText, onSubmit, baseElement} = await setup(
     [

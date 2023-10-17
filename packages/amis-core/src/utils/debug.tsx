@@ -502,30 +502,3 @@ export function warning(cat: Category, msg: string, ext?: object) {
   console.groupEnd();
   store.logs.push(log);
 }
-
-// 辅助定位是因为什么属性变化导致了组件更新
-export function traceProps(props: any, prevProps: any, componentName: string) {
-  console.log(
-    componentName,
-    Object.keys(props)
-      .map(key => {
-        if (props[key] !== prevProps[key]) {
-          if (key === 'data') {
-            return `data[${Object.keys(props[key])
-              .map(item => {
-                if (props[key][item] !== prevProps[key][item]) {
-                  return `${item}`;
-                }
-                return '';
-              })
-              .filter(item => item)
-              .join(', ')}]`;
-          }
-
-          return key;
-        }
-        return '';
-      })
-      .filter(item => item)
-  );
-}

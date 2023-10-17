@@ -61,7 +61,6 @@ export const Column = types
     rawIndex: 0,
     width: 0,
     minWidth: 0,
-    realWidth: 0,
     breakpoint: types.optional(types.frozen(), undefined),
     pristine: types.optional(types.frozen(), undefined),
     remark: types.optional(types.frozen(), undefined),
@@ -90,16 +89,11 @@ export const Column = types
       table.persistSaveToggledColumns();
     },
 
-    setMinWidth(value: number) {
-      self.minWidth = value;
-    },
-
-    setWidth(value: number) {
+    setWidth(value: number, minWidth?: number) {
       self.width = value;
-    },
-
-    setRealWidth(value: number) {
-      self.realWidth = value;
+      if (typeof minWidth === 'number') {
+        self.minWidth = minWidth;
+      }
     }
   }));
 
@@ -117,7 +111,6 @@ export const Row = types
     rowSpans: types.frozen({} as any),
     index: types.number,
     newIndex: types.number,
-    nth: 0,
     path: '', // 行数据的位置
     expandable: false,
     checkdisable: false,
@@ -126,9 +119,7 @@ export const Row = types
       types.array(types.late((): IAnyModelType => Row)),
       []
     ),
-    depth: types.number, // 当前children位于第几层，便于使用getParent获取最顶层TableStore
-    appeared: true,
-    lazyRender: false
+    depth: types.number // 当前children位于第几层，便于使用getParent获取最顶层TableStore
   })
   .views(self => ({
     get checked(): boolean {
@@ -262,12 +253,6 @@ export const Row = types
       }
 
       return true;
-    },
-
-    get indentStyle() {
-      return {
-        paddingLeft: `calc(${self.depth - 1} * var(--Table-tree-indent))`
-      };
     }
   }))
   .actions(self => ({
@@ -336,10 +321,6 @@ export const Row = types
           index++;
         }
       }
-    },
-
-    markAppeared(value: any) {
-      value && (self.appeared = !!value);
     }
   }));
 
@@ -363,8 +344,6 @@ export const TableStore = iRendererStore
       ),
       'asc'
     ),
-    loading: false,
-    canAccessSuperData: false,
     draggable: false,
     dragging: false,
     selectable: false,
@@ -386,9 +365,7 @@ export const TableStore = iRendererStore
     keepItemSelectionOnPageChange: false,
     // 导出 Excel 按钮的 loading 状态
     exportExcelLoading: false,
-    searchFormExpanded: false, // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
-    lazyRenderAfter: 100,
-    tableLayout: 'auto'
+    searchFormExpanded: false // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
   })
   .views(self => {
     function getColumnsExceptBuiltinTypes() {
@@ -440,7 +417,7 @@ export const TableStore = iRendererStore
             : item.type === '__dragme'
             ? self.dragging
             : item.type === '__expandme'
-            ? getFootableColumns().length && !self.dragging
+            ? (getFootableColumns().length || self.isNested) && !self.dragging
             : (item.toggled || !item.toggable) &&
               (!self.footable ||
                 !item.breakpoint ||
@@ -711,12 +688,10 @@ export const TableStore = iRendererStore
         return getUnSelectedRows();
       },
 
-      get falttenedRows() {
-        return flattenTree<IRow>(self.rows);
-      },
-
       get checkableRows() {
-        return this.falttenedRows.filter((item: IRow) => item.checkable);
+        return flattenTree<IRow>(self.rows).filter(
+          (item: IRow) => item.checkable
+        );
       },
 
       get expandableRows() {
@@ -785,7 +760,7 @@ export const TableStore = iRendererStore
       },
 
       get columnWidthReady() {
-        return getFilteredColumns().every(column => column.realWidth);
+        return getFilteredColumns().every(column => column.width);
       },
 
       getStickyStyles(column: IColumn, columns: Array<IColumn>) {
@@ -814,25 +789,21 @@ export const TableStore = iRendererStore
             stickyClassName += ' is-sticky-last-left';
           }
 
-          let left = [];
+          let left = 0;
           while (index >= 0) {
             const col = columns[index];
             if (
               (col && col.fixed === 'left') ||
               autoFixLeftColumns.includes(col.type)
             ) {
-              left.push(`var(--Table-column-${col.index}-width)`);
+              left += col.width;
             }
             index--;
           }
-          style.left = left.length
-            ? left.length === 1
-              ? left[0]
-              : `calc(${left.join(' + ')})`
-            : 0;
+          style.left = left;
         } else if (column.fixed === 'right') {
           stickyClassName = 'is-sticky is-sticky-right';
-          let right = [];
+          let right = 0;
           let index = columns.indexOf(column) + 1;
 
           if (columns.slice(0, index - 1).every(col => col.fixed !== 'right')) {
@@ -843,32 +814,13 @@ export const TableStore = iRendererStore
           while (index < len) {
             const col = columns[index];
             if (col && col.fixed === 'right') {
-              right.push(`var(--Table-column-${col.index}-width)`);
+              right += col.width;
             }
             index++;
           }
-          style.right = right.length
-            ? right.length === 1
-              ? right[0]
-              : `calc(${right.join(' + ')})`
-            : 0;
+          style.right = right;
         }
         return [style, stickyClassName];
-      },
-
-      get items() {
-        return self.rows.concat();
-      },
-
-      buildStyles(style: any) {
-        style = {...style};
-
-        getFilteredColumns().forEach(column => {
-          style[`--Table-column-${column.index}-width`] =
-            column.realWidth + 'px';
-        });
-
-        return style;
       }
     };
   })
@@ -879,67 +831,46 @@ export const TableStore = iRendererStore
       tableRef = ref;
     }
 
-    function getTable() {
-      return tableRef;
-    }
-
     function update(config: Partial<STableStore>) {
-      config.primaryField !== undefined &&
+      config.primaryField !== void 0 &&
         (self.primaryField = config.primaryField);
-      config.selectable !== undefined && (self.selectable = config.selectable);
-      config.columnsTogglable !== undefined &&
+      config.selectable !== void 0 && (self.selectable = config.selectable);
+      config.columnsTogglable !== void 0 &&
         (self.columnsTogglable = config.columnsTogglable);
-      config.draggable !== undefined && (self.draggable = config.draggable);
+      config.draggable !== void 0 && (self.draggable = config.draggable);
 
-      if (
-        typeof config.orderBy === 'string' ||
-        typeof config.orderDir === 'string'
-      ) {
+      if (typeof config.orderBy === 'string') {
         setOrderByInfo(
-          config.orderBy ?? self.orderBy,
-          config.orderDir !== undefined
-            ? config.orderDir === 'desc'
-              ? 'desc'
-              : 'asc'
-            : self.orderDir
+          config.orderBy,
+          config.orderDir === 'desc' ? 'desc' : 'asc'
         );
       }
 
-      config.multiple !== undefined && (self.multiple = config.multiple);
-      config.footable !== undefined && (self.footable = config.footable);
-      config.expandConfig !== undefined &&
+      config.multiple !== void 0 && (self.multiple = config.multiple);
+      config.footable !== void 0 && (self.footable = config.footable);
+      config.expandConfig !== void 0 &&
         (self.expandConfig = config.expandConfig);
-      config.itemCheckableOn !== undefined &&
+      config.itemCheckableOn !== void 0 &&
         (self.itemCheckableOn = config.itemCheckableOn);
-      config.itemDraggableOn !== undefined &&
+      config.itemDraggableOn !== void 0 &&
         (self.itemDraggableOn = config.itemDraggableOn);
-      config.hideCheckToggler !== undefined &&
+      config.hideCheckToggler !== void 0 &&
         (self.hideCheckToggler = !!config.hideCheckToggler);
 
-      config.combineNum !== undefined &&
+      config.combineNum !== void 0 &&
         (self.combineNum = parseInt(config.combineNum as any, 10) || 0);
-      config.combineFromIndex !== undefined &&
+      config.combineFromIndex !== void 0 &&
         (self.combineFromIndex =
           parseInt(config.combineFromIndex as any, 10) || 0);
 
-      config.maxKeepItemSelectionLength !== undefined &&
+      config.maxKeepItemSelectionLength !== void 0 &&
         (self.maxKeepItemSelectionLength = config.maxKeepItemSelectionLength);
-      config.keepItemSelectionOnPageChange !== undefined &&
+      config.keepItemSelectionOnPageChange !== void 0 &&
         (self.keepItemSelectionOnPageChange =
           config.keepItemSelectionOnPageChange);
 
       config.exportExcelLoading !== undefined &&
         (self.exportExcelLoading = config.exportExcelLoading);
-
-      config.loading !== undefined && (self.loading = config.loading);
-      config.canAccessSuperData !== undefined &&
-        (self.canAccessSuperData = !!config.canAccessSuperData);
-
-      typeof config.lazyRenderAfter === 'number' &&
-        (self.lazyRenderAfter = config.lazyRenderAfter);
-
-      typeof config.tableLayout === 'string' &&
-        (self.tableLayout = config.tableLayout);
 
       if (config.columns && Array.isArray(config.columns)) {
         let columns: Array<SColumn> = config.columns
@@ -1028,69 +959,31 @@ export const TableStore = iRendererStore
       }
     }
 
-    function initTableWidth() {
+    function syncTableWidth() {
       const table = tableRef;
       if (!table) {
         return;
       }
       const tableWidth = table.parentElement!.offsetWidth;
       const thead = table.querySelector(':scope>thead')!;
-      let tbody: HTMLElement | null = null;
-      const htmls: Array<string> = [];
-      const isFixed = self.tableLayout === 'fixed';
-      const someSettedWidth = self.columns.some(
-        column => column.pristine.width
-      );
-
-      const minWidths: {
-        [propName: string]: number;
-      } = {};
-
-      // fixed 模式需要参考 auto 获得列最小宽度
-      if (isFixed) {
-        tbody = table.querySelector(':scope>tbody');
-        htmls.push(
-          `<table style="table-layout:auto!important;width:0!important;min-width:0!important;" class="${table.className}">${thead.outerHTML}</table>`
-        );
-      }
-
-      if (someSettedWidth || isFixed) {
-        htmls.push(
-          `<table style="table-layout:auto!important;min-width:${tableWidth}px!important;width:${tableWidth}px!important;" class="${table.className.replace(
-            'is-layout-fixed',
-            ''
-          )}">${thead.outerHTML}${
-            tbody ? `<tbody>${tbody.innerHTML}</tbody>` : ''
-          }</table>`
-        );
-      }
-
-      if (!htmls.length) {
-        return;
-      }
-
+      const tbody = table.querySelector(':scope>tbody');
       const div = document.createElement('div');
       div.className = 'amis-scope'; // jssdk 里面 css 会在这一层
       div.style.cssText += `visibility: hidden!important;`;
-      div.innerHTML = htmls.join('');
-      let ths1: Array<HTMLTableCellElement> = [];
-      let ths2: Array<HTMLTableCellElement> = [];
-
-      if (isFixed) {
-        ths1 = [].slice.call(
-          div.querySelectorAll(
-            ':scope>table:first-child>thead>tr>th[data-index]'
-          )
-        );
-      }
-
-      if (someSettedWidth || isFixed) {
-        ths2 = [].slice.call(
-          div.querySelectorAll(
-            ':scope>table:last-child>thead>tr>th[data-index]'
-          )
-        );
-      }
+      div.innerHTML =
+        `<table style="table-layout:auto!important;width:0!important;min-width:0!important;" class="${table.className}">${thead.outerHTML}</table>` +
+        `<table style="table-layout:auto!important;min-width:${tableWidth}px!important;width:${tableWidth}px!important;" class="${table.className.replace(
+          'is-layout-fixed',
+          ''
+        )}">${thead.outerHTML}${
+          tbody ? `<tbody>${tbody.innerHTML}</tbody>` : ''
+        }</table>`;
+      const ths1: Array<HTMLTableCellElement> = [].slice.call(
+        div.querySelectorAll(':scope>table:first-child>thead>tr>th[data-index]')
+      );
+      const ths2: Array<HTMLTableCellElement> = [].slice.call(
+        div.querySelectorAll(':scope>table:last-child>thead>tr>th[data-index]')
+      );
 
       ths1.forEach(th => {
         th.style.cssText += 'width: 0';
@@ -1104,50 +997,36 @@ export const TableStore = iRendererStore
             ? `width: ${column.pristine.width}px;`
             : column.pristine.width
             ? `width: ${column.pristine.width};`
-            : '' // todo 可能需要让修改过列宽的保持相应宽度，目前这样相当于重置了
+            : ''
         }`;
       });
-
       document.body.appendChild(div);
-
+      const minWidths: {
+        [propName: string]: number;
+      } = {};
       ths1.forEach((th: HTMLTableCellElement) => {
-        const index = parseInt(th.getAttribute('data-index')!, 10);
-        minWidths[index] = th.clientWidth;
-        const column = self.columns[index];
-        column.setMinWidth(minWidths[index]);
+        minWidths[th.getAttribute('data-index')!] = th.clientWidth;
       });
 
       ths2.forEach((col: HTMLElement) => {
         const index = parseInt(col.getAttribute('data-index')!, 10);
         const column = self.columns[index];
-        if (column.pristine.width || isFixed) {
-          column.setWidth(
-            Math.max(
-              typeof column.pristine.width === 'number'
-                ? column.pristine.width
-                : col.clientWidth,
-              minWidths[index] || 0
-            )
-          );
-        }
+        column.setWidth(
+          Math.max(
+            typeof column.pristine.width === 'number'
+              ? column.pristine.width
+              : col.clientWidth - 2,
+            minWidths[index]
+          ),
+          minWidths[index]
+        );
       });
 
       document.body.removeChild(div);
     }
 
-    function syncTableWidth() {
-      const table = tableRef;
-      if (!table) {
-        return;
-      }
-      const cols = [].slice.call(
-        table.querySelectorAll(':scope>colgroup>col[data-index]')!
-      );
-      cols.forEach((col: HTMLElement) => {
-        const index = parseInt(col.getAttribute('data-index')!, 10);
-        const column = self.columns[index];
-        column.setRealWidth(col.clientWidth);
-      });
+    function invalidTableColumnWidth() {
+      self.columns.forEach(column => column.setWidth(0));
     }
 
     function combineCell(arr: Array<SRow>, keys: Array<string>): Array<SRow> {
@@ -1233,8 +1112,7 @@ export const TableStore = iRendererStore
       depth: number,
       pindex: number,
       parentId: string,
-      path: string = '',
-      nThRef: {index: number}
+      path: string = ''
     ): any {
       depth += 1;
       return children.map((item, index) => {
@@ -1253,7 +1131,6 @@ export const TableStore = iRendererStore
           path: `${path}${index}`,
           depth: depth,
           index: index,
-          nth: nThRef.index++,
           newIndex: index,
           pristine: item,
           data: item,
@@ -1265,8 +1142,7 @@ export const TableStore = iRendererStore
                   depth,
                   index,
                   id,
-                  `${path}${index}.`,
-                  nThRef
+                  `${path}${index}.`
                 )
               : [],
           expandable: !!(
@@ -1288,7 +1164,6 @@ export const TableStore = iRendererStore
       /* 避免输入内容为非数组挂掉 */
       rows = !Array.isArray(rows) ? [] : rows;
 
-      const nThRef = {index: 0};
       let arr: Array<SRow> = rows.map((item, index) => {
         if (!isObject(item)) {
           item = {
@@ -1305,7 +1180,6 @@ export const TableStore = iRendererStore
           key: String(`${index}-1-${index}`),
           depth: 1, // 最大父节点默认为第一层，逐层叠加
           index: index,
-          nth: nThRef.index++,
           newIndex: index,
           pristine: item,
           path: `${index}`,
@@ -1313,7 +1187,7 @@ export const TableStore = iRendererStore
           rowSpans: {},
           children:
             item && Array.isArray(item.children)
-              ? initChildren(item.children, 1, index, id, `${index}.`, nThRef)
+              ? initChildren(item.children, 1, index, id, `${index}.`)
               : [],
           expandable: !!(
             (item && Array.isArray(item.children) && item.children.length) ||
@@ -1333,21 +1207,6 @@ export const TableStore = iRendererStore
 
       replaceRow(arr, reUseRow);
       self.isNested = self.rows.some(item => item.children.length);
-
-      // 前 20 个直接渲染，后面的按需渲染
-      if (
-        self.lazyRenderAfter &&
-        self.falttenedRows.length > self.lazyRenderAfter
-      ) {
-        for (
-          let i = self.lazyRenderAfter, len = self.falttenedRows.length;
-          i < len;
-          i++
-        ) {
-          self.falttenedRows[i].appeared = false;
-          self.falttenedRows[i].lazyRender = true;
-        }
-      }
 
       const expand = self.footable && self.footable.expand;
       if (
@@ -1680,8 +1539,10 @@ export const TableStore = iRendererStore
       localStorage.setItem(
         key,
         JSON.stringify({
-          // 可显示列index
-          toggledColumnIndex: self.activeToggaleColumns.map(item => item.index),
+          // 可显示列index, 原始配置中存在 toggled: false 的列不持久化
+          toggledColumnIndex: self.activeToggaleColumns
+            .filter(item => !(item.pristine?.toggled === false))
+            .map(item => item.index),
           // 列排序，name，label可能不存在
           columnOrder: self.columnsData.map(
             item => item.name || item.label || item.rawIndex
@@ -1745,11 +1606,10 @@ export const TableStore = iRendererStore
 
     return {
       setTable,
-      getTable,
       update,
       updateColumns,
-      initTableWidth,
       syncTableWidth,
+      invalidTableColumnWidth,
       initRows,
       updateSelected,
       toggleAll,

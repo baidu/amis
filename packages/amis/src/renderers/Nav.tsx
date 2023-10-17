@@ -990,10 +990,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
 
     const children = Array.isArray(ret.data)
       ? ret.data
-      : ret.data?.links ||
-        ret.data?.options ||
-        ret.data?.items ||
-        ret.data?.rows;
+      : ret.data.links || ret.data.options || ret.data.items || ret.data.rows;
 
     if (Array.isArray(children)) {
       newItem.children = children.concat();

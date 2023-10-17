@@ -3,7 +3,7 @@ import {IFormStore, IFormItemStore} from '../store/form';
 import debouce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 
-import {RendererProps, Renderer, getRendererByName} from '../factory';
+import {RendererProps, Renderer} from '../factory';
 import {ComboStore, IComboStore, IUniqueGroup} from '../store/combo';
 import {
   anyChanged,
@@ -22,6 +22,7 @@ import {
 } from '../utils/formula';
 import {IIRendererStore, IRendererStore} from '../store';
 import {ScopedContext, IScopedContext} from '../Scoped';
+import {reaction} from 'mobx';
 import {FormItemStore} from '../store/formItem';
 import {isAlive} from 'mobx-state-tree';
 import {observer} from 'mobx-react';
@@ -31,7 +32,7 @@ import {FormBaseControl, FormItemWrap} from './Item';
 import {Api} from '../types';
 import {TableStore} from '../store/table';
 import pick from 'lodash/pick';
-import {callStrFunction, changedEffect} from '../utils';
+import {callStrFunction} from '../utils';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -101,12 +102,6 @@ export function wrapControl<
           hook3?: () => any;
           reaction?: () => void;
 
-          static displayName = `WrapControl${
-            ComposedComponent.displayName || ComposedComponent.name
-              ? `(${ComposedComponent.displayName || ComposedComponent.name})`
-              : ''
-          }`;
-
           static contextType = ScopedContext;
           static defaultProps = {};
 
@@ -126,8 +121,6 @@ export function wrapControl<
               onChange,
               data,
               inputGroupControl,
-              colIndex,
-              rowIndex,
               $schema: {
                 name,
                 id,
@@ -161,14 +154,17 @@ export function wrapControl<
             this.setPrinstineValue = this.setPrinstineValue.bind(this);
             this.controlRef = this.controlRef.bind(this);
             this.handleBlur = this.handleBlur.bind(this);
-            this.validate = this.validate.bind(this);
-            this.flushChange = this.flushChange.bind(this);
 
             if (!name) {
               // 一般情况下这些表单项都是需要 name 的，提示一下
               if (
                 typeof type === 'string' &&
-                getRendererByName(type)?.isFormItem
+                (type.startsWith('input-') ||
+                  type.endsWith('select') ||
+                  type === 'switch' ||
+                  type === 'textarea' ||
+                  type === 'radios') &&
+                type !== 'input-group'
               ) {
                 console.warn('name is required', this.props.$schema);
               }
@@ -182,9 +178,7 @@ export function wrapControl<
               path: this.props.$path,
               storeType: FormItemStore.name,
               parentId: store?.id,
-              name,
-              colIndex: colIndex !== undefined ? colIndex : undefined,
-              rowIndex: rowIndex !== undefined ? rowIndex : undefined
+              name
             }) as IFormItemStore;
             this.model = model;
             // @issue 打算干掉这个
@@ -197,7 +191,7 @@ export function wrapControl<
               ),
               id,
               type,
-              required: props.required || required,
+              required,
               unique,
               value,
               isValueSchemaExp: isExpression(value),
@@ -232,7 +226,6 @@ export function wrapControl<
             if (propValue !== undefined && propValue !== null) {
               // 同步 value: 优先使用 props 中的 value
               model.changeTmpValue(propValue, 'controlled');
-              model.setIsControlled(true);
             } else {
               const isExp = isExpression(value);
 
@@ -339,57 +332,67 @@ export function wrapControl<
 
           componentDidUpdate(prevProps: OuterProps) {
             const props = this.props;
+            const form = props.formStore;
             const model = this.model;
 
-            if (!model) {
-              return;
-            }
-
-            changedEffect(
-              [
-                'id',
-                'validations',
-                'validationErrors',
-                'value',
-                'defaultValue',
-                'required',
-                'unique',
-                'multiple',
-                'delimiter',
-                'valueField',
-                'labelField',
-                'joinValues',
-                'extractValue',
-                'selectFirst',
-                'autoFill',
-                'clearValueOnHidden',
-                'validateApi',
-                'minLength',
-                'maxLength',
-                'label',
-                'extraName'
-              ],
-              prevProps.$schema,
-              props.$schema,
-              changes => {
-                model.config({
-                  ...changes,
-
-                  // todo 优化后面两个
-                  isValueSchemaExp: isExpression(props.$schema.value),
-                  inputGroupControl: props?.inputGroupControl
-                } as any);
-              }
-            );
-
-            if (props.required !== prevProps.required) {
+            if (
+              model &&
+              anyChanged(
+                [
+                  'id',
+                  'validations',
+                  'validationErrors',
+                  'value',
+                  'defaultValue',
+                  'required',
+                  'unique',
+                  'multiple',
+                  'delimiter',
+                  'valueField',
+                  'labelField',
+                  'joinValues',
+                  'extractValue',
+                  'selectFirst',
+                  'autoFill',
+                  'clearValueOnHidden',
+                  'validateApi',
+                  'minLength',
+                  'maxLength',
+                  'label',
+                  'extraName'
+                ],
+                prevProps.$schema,
+                props.$schema
+              )
+            ) {
               model.config({
-                required: props.required
+                required: props.$schema.required,
+                id: props.$schema.id,
+                unique: props.$schema.unique,
+                value: props.$schema.value,
+                isValueSchemaExp: isExpression(props.$schema.value),
+                rules: props.$schema.validations,
+                multiple: props.$schema.multiple,
+                delimiter: props.$schema.delimiter,
+                valueField: props.$schema.valueField,
+                labelField: props.$schema.labelField,
+                joinValues: props.$schema.joinValues,
+                extractValue: props.$schema.extractValue,
+                messages: props.$schema.validationErrors,
+                selectFirst: props.$schema.selectFirst,
+                autoFill: props.$schema.autoFill,
+                clearValueOnHidden: props.$schema.clearValueOnHidden,
+                validateApi: props.$schema.validateApi,
+                minLength: props.$schema.minLength,
+                maxLength: props.$schema.maxLength,
+                label: props.$schema.label,
+                inputGroupControl: props?.inputGroupControl,
+                extraName: props.$schema.extraName
               });
             }
 
             // 此处需要同时考虑 defaultValue 和 value
-            if (typeof props.value !== 'undefined') {
+            if (model && typeof props.value !== 'undefined') {
               // 渲染器中的 value 优先
               if (
                 !isEqual(props.value, prevProps.value) &&
@@ -399,6 +402,7 @@ export function wrapControl<
                 model.changeTmpValue(props.value, 'controlled');
               }
             } else if (
+              model &&
               typeof props.defaultValue !== 'undefined' &&
               isExpression(props.defaultValue) &&
               (!isEqual(props.defaultValue, prevProps.defaultValue) ||
@@ -432,7 +436,7 @@ export function wrapControl<
                   props.onChange?.(curResult, model.name, false);
                 }
               }
-            } else {
+            } else if (model) {
               // value 非公式表达式时，name 值优先，若 defaultValue 主动变动时，则使用 defaultValue
               if (
                 // 然后才是查看关联的 name 属性值是否变化
@@ -601,16 +605,13 @@ export function wrapControl<
               result = [await this.model.validate(data)];
             }
 
-            const valid = !result.some(item => item === false);
-            formItemDispatchEvent?.(
-              valid ? 'formItemValidateSucc' : 'formItemValidateError',
-              data
-            );
-            return valid;
-          }
-
-          flushChange() {
-            this.lazyEmitChange.flush();
+            if (result && result.length) {
+              if (result.indexOf(false) > -1) {
+                formItemDispatchEvent('formItemValidateError', data);
+              } else {
+                formItemDispatchEvent('formItemValidateSucc', data);
+              }
+            }
           }
 
           handleChange(
@@ -846,7 +847,7 @@ export function wrapControl<
             const injectedProps: any = {
               defaultSize: controlWidth,
               disabled: disabled ?? control.disabled,
-              static: this.props.static ?? control.static ?? defaultStatic,
+              static: control.static ?? defaultStatic,
               formItem: this.model,
               formMode: control.mode || formMode,
               ref: this.controlRef,
@@ -861,11 +862,8 @@ export function wrapControl<
               getValue: this.getValue,
               prinstine: model ? model.prinstine : undefined,
               setPrinstineValue: this.setPrinstineValue,
-              onValidate: this.validate,
-              onFlushChange: this.flushChange
               // !没了这个， tree 里的 options 渲染会出问题
-              // todo 理论上不应该影响，待确认
-              // _filteredOptions: this.model?.filteredOptions
+              _filteredOptions: this.model?.filteredOptions
             };
 
             return (
