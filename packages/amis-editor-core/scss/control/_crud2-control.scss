@@ -162,3 +162,13 @@
     --Spinner-color: #fff;
   }
 }
+
+.ae-FieldSetting-footer {
+  position: absolute;
+  right: 0;
+  bottom: 35px;
+
+  &--form {
+    bottom: 55px;
+  }
+}
