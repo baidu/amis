@@ -193,7 +193,7 @@ export const FormStore = ServiceStore.named('FormStore')
           }
         }
         item.reset();
-        item.validateOnChange && item.validate(self.data);
+        self.inited && item.validateOnChange && item.validate(self.data);
       });
 
       // 同步 options
@@ -697,6 +697,9 @@ export const FormStore = ServiceStore.named('FormStore')
       self.items.forEach(item => {
         if (item.name && item.type !== 'hidden') {
           setVariable(toClear, item.name, item.resetValue);
+        }
+        if (item.extraName && typeof item.extraName === 'string') {
+          setVariable(toClear, item.extraName, item.resetValue);
         }
       });
       setValues(toClear);

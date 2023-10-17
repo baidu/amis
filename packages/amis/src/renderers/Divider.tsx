@@ -1,6 +1,13 @@
 import React from 'react';
-import {Renderer, RendererProps} from 'amis-core';
-import {BaseSchema} from '../Schema';
+import {
+  Renderer,
+  RendererProps,
+  CustomStyle,
+  setThemeClassName,
+  isPureVariable,
+  resolveVariableAndFilter
+} from 'amis-core';
+import {BaseSchema, SchemaCollection} from '../Schema';
 
 /**
  * Divider 分割线渲染器。
@@ -12,6 +19,9 @@ export interface DividerSchema extends BaseSchema {
   direction?: 'horizontal' | 'vertical';
   color?: string;
   rotate?: number;
+  title?: SchemaCollection;
+  titleClassName?: string;
+  titlePosition?: 'left' | 'center' | 'right';
   [propName: string]: any;
 }
 
@@ -20,20 +30,33 @@ export interface DividerProps
     Omit<DividerSchema, 'type' | 'className'> {}
 
 export default class Divider extends React.Component<DividerProps, object> {
-  static defaultProps: Pick<DividerProps, 'className' | 'lineStyle'> = {
+  static defaultProps: Pick<
+    DividerProps,
+    'className' | 'lineStyle' | 'titleClassName' | 'titlePosition'
+  > = {
     className: '',
-    lineStyle: 'solid'
+    lineStyle: 'solid',
+    titleClassName: '',
+    titlePosition: 'center'
   };
 
   render() {
-    const {
+    let {
+      render,
       classnames: cx,
       className,
       style = {},
       lineStyle,
       direction,
       color,
-      rotate
+      rotate,
+      title,
+      titleClassName,
+      titlePosition,
+      id,
+      themeCss,
+      env,
+      data
     } = this.props;
 
     const borderColor: any = {};
@@ -46,22 +69,77 @@ export default class Divider extends React.Component<DividerProps, object> {
       }
     }
 
-    let transform;
+    let transform = style?.transform || '';
     if (rotate) {
-      transform = `${style?.transform || ''} rotate(${rotate}deg)`;
+      transform += ` rotate(${rotate}deg)`;
     }
+
+    if (isPureVariable(title)) {
+      title = resolveVariableAndFilter(title, data);
+    }
+
+    const classNames = cx(
+      'Divider',
+      lineStyle ? `Divider--${lineStyle}` : '',
+      direction === 'vertical' ? 'Divider--vertical' : 'Divider--horizontal',
+      title && direction !== 'vertical' ? 'Divider--with-text' : '',
+      title && direction !== 'vertical' && titlePosition
+        ? `Divider--with-text-${titlePosition}`
+        : '',
+      title && direction !== 'vertical'
+        ? setThemeClassName('titleWrapperControlClassName', id, themeCss)
+        : '',
+      className
+    );
+
     return (
-      <div
-        className={cx(
-          'Divider',
-          lineStyle ? `Divider--${lineStyle}` : '',
-          direction === 'vertical'
-            ? 'Divider--vertical'
-            : 'Divider--horizontal',
-          className
-        )}
-        style={{...style, ...borderColor, transform}}
-      />
+      <div className={classNames} style={{...style, ...borderColor, transform}}>
+        {title && direction !== 'vertical' ? (
+          <span
+            className={cx(
+              `Divider-text Divider-text-${titlePosition} ${titleClassName}`,
+              setThemeClassName('titleControlClassName', id, themeCss)
+            )}
+          >
+            {render('title', title)}
+          </span>
+        ) : null}
+        <CustomStyle
+          config={{
+            themeCss: themeCss,
+            classNames: [
+              {
+                key: 'titleWrapperControlClassName',
+                weights: {
+                  default: {
+                    suf: '::before',
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'titleWrapperControlClassName',
+                weights: {
+                  default: {
+                    suf: '::after',
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'titleControlClassName',
+                weights: {
+                  default: {
+                    important: true
+                  }
+                }
+              }
+            ],
+            id
+          }}
+          env={env}
+        />
+      </div>
     );
   }
 }

@@ -80,9 +80,12 @@ export function HeadCellSearchDropDown({
 
     if (schema) {
       Array.isArray(schema.body) &&
-        schema.body.forEach(
-          (item: any) => item.name && formItems.push(item.name)
-        );
+        schema.body.forEach((item: any) => {
+          item.name && formItems.push(item.name);
+          item.extraName &&
+            typeof item.extraName === 'string' &&
+            formItems.push(item.extraName);
+        });
       schema = {
         ...schema,
         type: 'form',

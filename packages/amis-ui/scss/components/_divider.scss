@@ -23,16 +23,51 @@
   }
 
   &--horizontal {
-    border-bottom: var(--Divider-width) var(--Divider-style)
-      var(--Divider-color);
+    position: relative;
     height: px2rem(2px);
+    border-bottom: var(--Divider-width) var(--Divider-style) var(--Divider-color);
+    transform-origin: 0 center;
+    clear: both;
   }
 
   &--vertical {
     border-left: var(--Divider-width) var(--Divider-style) var(--Divider-color);
     height: var(--sizes-base-15);
+    transform-origin: center bottom;
     display: inline-block;
   }
+}
+
+.#{$ns}Divider--with-text {
+  display: flex;
+  align-items: center;
+  height: unset;
+  border-bottom-width: 0 !important;
+
+  &::before,
+  &::after {
+    content: '';
+    height: 0;
+    flex: 1;
+    border-bottom: inherit;
+    border-bottom-width: var(--Divider-width);
+  }
+
+  &.#{$ns}Divider--with-text-left:before,
+  &.#{$ns}Divider--with-text-right:after {
+    flex-basis: var(--Divider-text-width);
+    flex-grow: 0;
+  }
+}
+
+.#{$ns}Divider-text {
+  margin: var(--Divider-text-marginTop) var(--Divider-text-marginRight)
+    var(--Divider-text-marginBottom) var(--Divider-text-marginLeft);
+  font-size: var(--Divider-text-fontSize);
+  font-weight: var(--Divider-text-fontWeight);
+  line-height: 1;
+  color: var(--Divider-text-color);
+  box-sizing: border-box;
 }
 
 /* 移动端样式调整 */
