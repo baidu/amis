@@ -32,7 +32,7 @@ import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
 import {TableSchema} from '../Table';
-import {SchemaApi, SchemaCollection} from '../../Schema';
+import {SchemaApi, SchemaCollection, SchemaClassName} from '../../Schema';
 import find from 'lodash/find';
 import moment from 'moment';
 import merge from 'lodash/merge';
@@ -214,6 +214,11 @@ export interface TableControlSchema
    * 是否开启 static 状态切换
    */
   enableStaticTransform?: boolean;
+
+  /**
+   * 底部工具栏CSS样式类
+   */
+  toolbarClassName?: SchemaClassName;
 }
 
 export interface TableProps
@@ -283,7 +288,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     'deleteApi',
     'needConfirm',
     'canAccessSuperData',
-    'formStore'
+    'formStore',
+    'footerActions',
+    'toolbarClassName'
   ];
 
   entries: SimpleMap<any, number>;
@@ -1572,7 +1579,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       tableContentClassName,
       static: isStatic,
       showFooterAddBtn,
-      footerAddBtn
+      footerAddBtn,
+      toolbarClassName
     } = this.props;
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
 
@@ -1641,7 +1649,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           showFooterAddBtn !== false &&
           (!maxLength || maxLength > items.length)) ||
         showPager ? (
-          <div className={cx('InputTable-toolbar')}>
+          <div className={cx('InputTable-toolbar', toolbarClassName)}>
             {addable && showFooterAddBtn !== false
               ? render(
                   'button',
