@@ -698,6 +698,9 @@ export const FormStore = ServiceStore.named('FormStore')
         if (item.name && item.type !== 'hidden') {
           setVariable(toClear, item.name, item.resetValue);
         }
+        if (item.extraName && typeof item.extraName === 'string') {
+          setVariable(toClear, item.extraName, item.resetValue);
+        }
       });
       setValues(toClear);
       self.validated = false;
