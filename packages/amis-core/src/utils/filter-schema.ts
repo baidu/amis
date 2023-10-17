@@ -3,6 +3,7 @@ import {PlainObject} from '../types';
 import {injectPropsToObject, mapObject} from './helper';
 import isPlainObject from 'lodash/isPlainObject';
 import cx from 'classnames';
+import {tokenize} from './tokenize';
 
 /**
  * 处理 Props 数据，所有带 On 结束的做一次
@@ -29,17 +30,18 @@ export function getExprProperties(
     }
 
     let parts = /^(.*)(On|Expr|(?:c|C)lassName)(Raw)?$/.exec(key);
+    const type = parts?.[2];
     let value: any = schema[key];
 
     if (
       value &&
       typeof value === 'string' &&
       parts?.[1] &&
-      (parts[2] === 'On' || parts[2] === 'Expr')
+      (type === 'On' || type === 'Expr')
     ) {
       key = parts[1];
 
-      if (parts[2] === 'On' || parts[2] === 'Expr') {
+      if (type === 'On' || type === 'Expr') {
         if (
           !ctx &&
           props &&
@@ -51,7 +53,7 @@ export function getExprProperties(
           });
         }
 
-        if (parts[2] === 'On') {
+        if (type === 'On') {
           value = props?.[key] || evalExpression(value, ctx || data);
         } else {
           value = filter(value, ctx || data);
@@ -60,17 +62,22 @@ export function getExprProperties(
 
       exprProps[key] = value;
     } else if (
+      (type === 'className' || type === 'ClassName') &&
+      !props?.[key] && // 如果 props 里面有则是 props 优先
       value &&
-      isPlainObject(value) &&
-      (parts?.[2] === 'className' || parts?.[2] === 'ClassName')
+      (typeof value === 'string' || isPlainObject(value))
     ) {
-      key = parts[1] + parts[2];
       exprProps[`${key}Raw`] = value;
-      exprProps[key] = cx(
-        mapObject(value, (value: any) =>
-          typeof value === 'string' ? evalExpression(value, data) : value
-        )
-      );
+      exprProps[key] =
+        typeof value === 'string'
+          ? tokenize(value, data)
+          : mapObject(
+              value,
+              (value: any) =>
+                typeof value === 'string' ? evalExpression(value, data) : value,
+              undefined,
+              (key: string) => tokenize(key, data)
+            );
     }
   });
 
