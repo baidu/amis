@@ -193,7 +193,7 @@ export const FormStore = ServiceStore.named('FormStore')
           }
         }
         item.reset();
-        item.validateOnChange && item.validate(self.data);
+        self.inited && item.validateOnChange && item.validate(self.data);
       });
 
       // 同步 options
