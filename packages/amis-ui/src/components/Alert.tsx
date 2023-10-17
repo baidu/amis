@@ -54,7 +54,7 @@ export interface AlertState {
 export class Alert extends React.Component<AlertProps, AlertState> {
   static instance: any = null;
   static async getInstance() {
-    if (!Alert.instance) {
+    if (!Alert.instance || Alert.instance.unmount) {
       console.warn('Alert 组件应该没有被渲染，所以隐性的渲染到 body 了');
       const container = document.body;
       const div = document.createElement('div');
@@ -89,6 +89,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     cancelText: '取消'
   };
   originInstance: Alert | null;
+  unmount = false;
   constructor(props: AlertProps) {
     super(props);
 
@@ -125,6 +126,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
   }
 
   componentWillUnmount() {
+    this.unmount = true;
     if (Alert.instance === this) {
       Alert.instance = this.originInstance || null;
       this.originInstance = null;
