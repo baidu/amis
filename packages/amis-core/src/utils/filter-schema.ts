@@ -63,9 +63,13 @@ export function getExprProperties(
       exprProps[key] = value;
     } else if (
       (type === 'className' || type === 'ClassName') &&
-      !props?.[key] && // 如果 props 里面有则是 props 优先
       value &&
-      (typeof value === 'string' || isPlainObject(value))
+      (typeof value === 'string' || isPlainObject(value)) &&
+      // 如果 props 里面有则是 props 优先（props中存在且schema中未设置则认为是props下发的，否则当做表达式计算）
+      (!props?.[key] ||
+        (isPlainObject(value)
+          ? value.hasOwnProperty(props?.[key])
+          : value === props?.[key]))
     ) {
       exprProps[`${key}Raw`] = value;
       exprProps[key] =
