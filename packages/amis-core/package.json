@@ -46,7 +46,7 @@
     "esm"
   ],
   "dependencies": {
-    "amis-formula": "^3.4.0",
+    "amis-formula": "*",
     "classnames": "2.3.2",
     "file-saver": "^2.0.2",
     "hoist-non-react-statics": "^3.3.2",
@@ -58,8 +58,8 @@
     "moment": "^2.19.4",
     "papaparse": "^5.3.0",
     "qs": "6.9.7",
+    "react-intersection-observer": "9.5.2",
     "react-json-view": "1.21.3",
-    "react-visibility-sensor": "5.1.1",
     "tslib": "^2.3.1",
     "uncontrollable": "7.2.1"
   },
