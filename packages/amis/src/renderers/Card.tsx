@@ -6,7 +6,11 @@ import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {filter, evalExpression} from 'amis-core';
 import {Checkbox} from 'amis-ui';
 import {padArr, isVisible, isDisabled, noop, hashCode} from 'amis-core';
-import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
+import {
+  resolveVariable,
+  resolveVariableAndFilter,
+  filterClassNameObject
+} from 'amis-core';
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
 import {TableCell} from './Table';
@@ -460,7 +464,10 @@ export class CardRenderer extends React.Component<CardProps> {
                 disabled: dragging || isDisabled(action, data),
                 className: cx(
                   'Card-action',
-                  action.className || `${size ? `Card-action--${size}` : ''}`
+                  filterClassNameObject(
+                    action.className || `${size ? `Card-action--${size}` : ''}`,
+                    data
+                  )
                 ),
                 componentClass: 'a',
                 onAction: this.handleAction
@@ -529,7 +536,10 @@ export class CardRenderer extends React.Component<CardProps> {
             },
             {
               useCardLabel,
-              className: cx('Card-fieldValue', field.className),
+              className: cx(
+                'Card-fieldValue',
+                filterClassNameObject(field.className, data)
+              ),
               rowIndex: itemIndex,
               colIndex: key,
               value: field.name ? resolveVariable(field.name, data) : undefined,
@@ -721,16 +731,27 @@ export class CardRenderer extends React.Component<CardProps> {
       media,
       ...rest
     } = this.props;
-
-    const headerCn = header?.className || headerClassName;
-    const titleCn = header?.titleClassName || titleClassName;
-    const subTitleCn = header?.subTitleClassName || subTitleClassName;
-    const descCn = header?.descClassName || descClassName;
+    const ctx = this.props.data;
+    const headerCn =
+      filterClassNameObject(header?.className, ctx) || headerClassName;
+    const titleCn =
+      filterClassNameObject(header?.titleClassName, ctx) || titleClassName;
+    const subTitleCn =
+      filterClassNameObject(header?.subTitleClassName, ctx) ||
+      subTitleClassName;
+    const descCn =
+      filterClassNameObject(header?.descClassName, ctx) || descClassName;
     const descriptionCn =
-      header?.descriptionClassName || descriptionClassName || descCn;
-    const avatarTextCn = header?.avatarTextClassName || avatarTextClassName;
-    const avatarCn = header?.avatarClassName || avatarClassName;
-    const imageCn = header?.imageClassName || imageClassName;
+      filterClassNameObject(header?.descriptionClassName, ctx) ||
+      descriptionClassName ||
+      descCn;
+    const avatarTextCn =
+      filterClassNameObject(header?.avatarTextClassName, ctx) ||
+      avatarTextClassName;
+    const avatarCn =
+      filterClassNameObject(header?.avatarClassName, ctx) || avatarClassName;
+    const imageCn =
+      filterClassNameObject(header?.imageClassName, ctx) || imageClassName;
     const mediaPosition = media?.position;
 
     return (
