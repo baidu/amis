@@ -2713,7 +2713,7 @@ extendLocale('en-US', {
   '3bce1a6217990c8dc087d254f1fe754a': 'Automatic fill',
   'f01553e415ca33cc89d0bca84023f4b5':
     'Automatically fill the value in a field of the currently-selected option into a form item in the form. The data mapping is supportive.',
-  '04d815a5d4b803d6bb956d2da5a82688': 'Required?',
+  '04d815a5d4b803d6bb956d2da5a82688': 'Required',
   'a1b6281dc554ac84a3e6062f812fe50d':
     'Light text description below the form item control',
   '85541bd9f7f39a6e6d9d26cbe09cbdd4': 'Read-only',
