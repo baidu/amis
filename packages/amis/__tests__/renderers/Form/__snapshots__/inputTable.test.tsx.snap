@@ -375,6 +375,7 @@ exports[`Renderer:input table add 1`] = `
                           </svg>
                         </span>
                       </div>
+                      <span />
                       <span
                         style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
                       >
