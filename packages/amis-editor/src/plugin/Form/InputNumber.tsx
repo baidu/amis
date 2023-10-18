@@ -227,22 +227,48 @@ export class NumberControlPlugin extends BasePlugin {
                   label: '单位选项',
                   mode: 'normal',
                   name: 'unitOptions',
-                  flat: true,
+                  // flat: true,
                   items: [
                     {
-                      placeholder: '单位选项',
-                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-                      name: 'text'
+                      type: 'flex',
+                      items: [
+                        {
+                          placeholder: '文本',
+                          type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                          name: 'label',
+                          label: '文本：',
+                          labelWidth: '50px'
+                        },
+                        {
+                          placeholder: '值',
+                          type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                          name: 'value',
+                          label: '值：',
+                          labelWidth: '50px'
+                        }
+                      ],
+                      style: {
+                        position: 'static',
+                        flexWrap: 'nowrap',
+                        flexDirection: 'column'
+                      }
                     }
                   ],
                   draggable: false,
                   multiple: true,
                   pipeIn: (value: any) => {
-                    if (!isObject(value)) {
-                      return Array.isArray(value) ? value : [];
+                    if (Array.isArray(value)) {
+                      return value.map(item =>
+                        typeof item === 'string'
+                          ? {
+                              label: item,
+                              value: item
+                            }
+                          : item
+                      );
+                    } else {
+                      return [];
                     }
-                    const res = value.map((item: any) => item.value);
-                    return res;
                   },
                   pipeOut: (value: any[]) => {
                     if (!value.length) {
