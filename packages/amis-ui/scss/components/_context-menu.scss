@@ -127,6 +127,13 @@
     &.has-child:hover > a::after {
       border-color: transparent transparent transparent var(--menu-active-color);
     }
+
+    &-wrapper {
+      width: 0;
+      height: 0;
+      position: static;
+      display: inline;
+    }
   }
 
   &-itemIcon {

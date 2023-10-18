@@ -1,6 +1,6 @@
 import {ClassNamesFn, themeable} from 'amis-core';
 import React, {version} from 'react';
-import {render} from 'react-dom';
+import {render, unmountComponentAtNode} from 'react-dom';
 import {autobind, calculatePosition} from 'amis-core';
 import Transition, {
   ENTERED,
@@ -271,43 +271,48 @@ export class ContextMenu extends React.Component<
   render() {
     const {className, container, classnames: cx} = this.props;
 
+    // 为什么包个 div？
+    // 因为内嵌在 vue 里面报 Failed to execute 'insertBefore' on 'Node'
+    // 不知道为何啊
     return (
-      <Transition
-        mountOnEnter
-        unmountOnExit
-        onEnter={this.handleEnter}
-        in={this.state.isOpened}
-        timeout={500}
-      >
-        {(status: string) => (
-          <div
-            ref={this.menuRef}
-            role="contextmenu"
-            className={cx(
-              'ContextMenu',
-              {
-                'ContextMenu--left': this.state.align === 'left'
-              },
-              className
-            )}
-            onContextMenu={this.handleSelfContextMenu}
-          >
-            <div className={cx(`ContextMenu-overlay`, fadeStyles[status])} />
+      <div className={cx('ContextMenu-wrapper')}>
+        <Transition
+          mountOnEnter
+          unmountOnExit
+          onEnter={this.handleEnter}
+          in={this.state.isOpened}
+          timeout={500}
+        >
+          {(status: string) => (
             <div
-              className={cx(`ContextMenu-cursor`)}
-              style={{left: `${this.state.x}px`, top: `${this.state.y}px`}}
-            />
-            <div
-              style={{left: `${this.state.x}px`, top: `${this.state.y}px`}}
-              className={cx(`ContextMenu-menu`, fadeStyles[status])}
+              ref={this.menuRef}
+              role="contextmenu"
+              className={cx(
+                'ContextMenu',
+                {
+                  'ContextMenu--left': this.state.align === 'left'
+                },
+                className
+              )}
+              onContextMenu={this.handleSelfContextMenu}
             >
-              <ul className={cx('ContextMenu-list')}>
-                {this.renderMenus(this.state.menus)}
-              </ul>
+              <div className={cx(`ContextMenu-overlay`, fadeStyles[status])} />
+              <div
+                className={cx(`ContextMenu-cursor`)}
+                style={{left: `${this.state.x}px`, top: `${this.state.y}px`}}
+              />
+              <div
+                style={{left: `${this.state.x}px`, top: `${this.state.y}px`}}
+                className={cx(`ContextMenu-menu`, fadeStyles[status])}
+              >
+                <ul className={cx('ContextMenu-list')}>
+                  {this.renderMenus(this.state.menus)}
+                </ul>
+              </div>
             </div>
-          </div>
-        )}
-      </Transition>
+          )}
+        </Transition>
+      </div>
     );
   }
 }
