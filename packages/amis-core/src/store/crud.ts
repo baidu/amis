@@ -61,12 +61,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       // 因为会把数据呈现在地址栏上。
       return createObject(
         createObject(self.data, {
-          ...self.query,
           items: self.items.concat(),
           selectedItems: self.selectedItems.concat(),
           unSelectedItems: self.unSelectedItems.concat()
         }),
-        {}
+        {...self.query}
       );
     },
 
