@@ -258,6 +258,17 @@
     font-size: 12px;
   }
 
+  .common-actions {
+    position: absolute;
+    top: #{px2rem(-41px)};
+    left: #{px2rem(80px)};
+
+    .common-actions-label {
+      line-height: #{px2rem(24px)};
+      margin-right: 4px;
+    }
+  }
+
   .action-config-panel {
     background: #ffffff;
     border: 1px solid #e8e9eb;

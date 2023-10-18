@@ -7,6 +7,8 @@ import {
   defaultValue,
   EditorManager,
   getSchemaTpl,
+  persistGet,
+  persistSet,
   PluginActions,
   RendererPluginAction,
   RendererPluginEvent,
@@ -19,7 +21,9 @@ import {
   findTree,
   mapTree,
   normalizeApi,
-  PlainObject
+  PlainObject,
+  Schema,
+  Option
 } from 'amis-core';
 import {Button} from 'amis';
 import {i18n as _i18n} from 'i18n-runtime';
@@ -3171,4 +3175,23 @@ export const getEventControlConfig = (
       return action;
     }
   };
+};
+
+/**
+ * 更新localStorage存储的常用动作
+ */
+export const updateCommonUseActions = (action: Option) => {
+  const commonUseActions = persistGet('common-use-actions', []);
+  const index = commonUseActions.findIndex(
+    (item: Option) => item.value === action.value
+  );
+  if (index >= 0) {
+    commonUseActions[index].use += 1;
+  } else {
+    commonUseActions.unshift(action);
+  }
+  commonUseActions.sort(
+    (before: Option, next: Option) => next.use - before.use
+  );
+  persistSet('common-use-actions', commonUseActions);
 };

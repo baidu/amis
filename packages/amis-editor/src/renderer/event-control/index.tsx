@@ -21,7 +21,8 @@ import {
   getEventStrongDesc,
   getEventLabel,
   getPropOfAcion,
-  SELECT_PROPS_CONTAINER
+  SELECT_PROPS_CONTAINER,
+  updateCommonUseActions
 } from './helper';
 import {
   ActionConfig,
@@ -879,6 +880,12 @@ export class EventControl extends React.Component<
     } else if (type === 'update') {
       this.updateAction?.(config.eventKey, config.actionIndex, action);
     }
+
+    updateCommonUseActions({
+      label: action.__title,
+      value: config.actionType,
+      use: 1
+    });
 
     this.removeDataSchema();
     this.setState({showAcionDialog: false});
