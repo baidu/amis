@@ -363,12 +363,12 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       if (
         typeof rules !== 'undefined' ||
-        self.required ||
+        typeof required !== 'undefined' ||
         typeof minLength === 'number' ||
         typeof maxLength === 'number'
       ) {
         rules = {
-          ...rules,
+          ...(rules ?? self.rules),
           isRequired: self.required || rules?.isRequired
         };
 
@@ -376,11 +376,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         // 暂时先这样
         if (~['input-text', 'textarea'].indexOf(self.type)) {
           if (typeof minLength === 'number') {
-            rules.minLength = minLength;
+            (rules as any).minLength = minLength;
           }
 
           if (typeof maxLength === 'number') {
-            rules.maxLength = maxLength;
+            (rules as any).maxLength = maxLength;
           }
         }
 

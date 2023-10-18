@@ -1530,11 +1530,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     let items = this.state.items;
     let showPager = false;
-    const page = this.state.page || 1;
+    let page = this.state.page || 1;
     let offset = 0;
     let lastPage = 1;
     if (typeof perPage === 'number' && perPage && items.length > perPage) {
       lastPage = Math.ceil(items.length / perPage);
+      if (page > lastPage) {
+        page = lastPage;
+      }
       items = items.slice((page - 1) * perPage, page * perPage);
       showPager = true;
       offset = (page - 1) * perPage;
@@ -1614,7 +1617,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   },
                   {
                     activePage: page,
-                    lastPage: lastPage,
+                    perPage,
+                    total: this.state.items.length,
                     onPageChange: this.handlePageChange,
                     className: 'InputTable-pager'
                   }

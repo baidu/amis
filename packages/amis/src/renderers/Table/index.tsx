@@ -673,7 +673,7 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     updateRows && store.initRows(rows, props.getEntryId, props.reUseRow);
-    typeof props.selected !== 'undefined' &&
+    Array.isArray(props.selected) &&
       store.updateSelected(props.selected, props.valueField);
     return updateRows;
   }
@@ -1886,7 +1886,7 @@ export default class Table extends React.Component<TableProps, object> {
               orderBy = column.name as string;
             }
 
-            const order = orderDir ? 'desc' : 'asc';
+            const order = orderBy ? (orderDir ? 'desc' : 'asc') : '';
             const rendererEvent = await dispatchEvent(
               'columnSort',
               createObject(data, {
@@ -1902,7 +1902,7 @@ export default class Table extends React.Component<TableProps, object> {
             if (
               !onQuery ||
               onQuery({
-                orderBy: orderBy,
+                orderBy,
                 orderDir: order
               }) === false
             ) {

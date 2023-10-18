@@ -192,7 +192,7 @@ export function wrapControl<
               ),
               id,
               type,
-              required,
+              required: props.required || required,
               unique,
               value,
               isValueSchemaExp: isExpression(value),
@@ -336,46 +336,55 @@ export function wrapControl<
             const props = this.props;
             const model = this.model;
 
-            model &&
-              changedEffect(
-                [
-                  'id',
-                  'validations',
-                  'validationErrors',
-                  'value',
-                  'defaultValue',
-                  'required',
-                  'unique',
-                  'multiple',
-                  'delimiter',
-                  'valueField',
-                  'labelField',
-                  'joinValues',
-                  'extractValue',
-                  'selectFirst',
-                  'autoFill',
-                  'clearValueOnHidden',
-                  'validateApi',
-                  'minLength',
-                  'maxLength',
-                  'label',
-                  'extraName'
-                ],
-                prevProps.$schema,
-                props.$schema,
-                changes => {
-                  model.config({
-                    ...changes,
+            if (!model) {
+              return;
+            }
 
-                    // todo 优化后面两个
-                    isValueSchemaExp: isExpression(props.$schema.value),
-                    inputGroupControl: props?.inputGroupControl
-                  } as any);
-                }
-              );
+            changedEffect(
+              [
+                'id',
+                'validations',
+                'validationErrors',
+                'value',
+                'defaultValue',
+                'required',
+                'unique',
+                'multiple',
+                'delimiter',
+                'valueField',
+                'labelField',
+                'joinValues',
+                'extractValue',
+                'selectFirst',
+                'autoFill',
+                'clearValueOnHidden',
+                'validateApi',
+                'minLength',
+                'maxLength',
+                'label',
+                'extraName'
+              ],
+              prevProps.$schema,
+              props.$schema,
+              changes => {
+                model.config({
+                  ...changes,
+
+                  // todo 优化后面两个
+                  isValueSchemaExp: isExpression(props.$schema.value),
+                  inputGroupControl: props?.inputGroupControl
+                } as any);
+              }
+            );
+
+            if (props.required !== prevProps.required) {
+              model.config({
+                required: props.required
+              });
+            }
 
             // 此处需要同时考虑 defaultValue 和 value
-            if (model && typeof props.value !== 'undefined') {
+            if (typeof props.value !== 'undefined') {
               // 渲染器中的 value 优先
               if (
                 !isEqual(props.value, prevProps.value) &&
@@ -385,7 +394,6 @@ export function wrapControl<
                 model.changeTmpValue(props.value, 'controlled');
               }
             } else if (
-              model &&
               typeof props.defaultValue !== 'undefined' &&
               isExpression(props.defaultValue) &&
               (!isEqual(props.defaultValue, prevProps.defaultValue) ||
@@ -419,7 +427,7 @@ export function wrapControl<
                   props.onChange?.(curResult, model.name, false);
                 }
               }
-            } else if (model) {
+            } else {
               // value 非公式表达式时，name 值优先，若 defaultValue 主动变动时，则使用 defaultValue
               if (
                 // 然后才是查看关联的 name 属性值是否变化
@@ -833,7 +841,7 @@ export function wrapControl<
             const injectedProps: any = {
               defaultSize: controlWidth,
               disabled: disabled ?? control.disabled,
-              static: control.static ?? defaultStatic,
+              static: this.props.static ?? control.static ?? defaultStatic,
               formItem: this.model,
               formMode: control.mode || formMode,
               ref: this.controlRef,
