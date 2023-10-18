@@ -671,19 +671,26 @@ export const MainStore = types
           [propName: string]: Array<SubRendererInfo>;
         } = {};
 
+        const searchMap = new Map<string, any>();
         matchSorter(subRenderers, keywords, {
           keys: ['name', 'description', 'scaffold.type', 'searchKeywords']
         }).forEach(item => {
-          const tags = Array.isArray(item.tags)
-            ? item.tags.concat()
-            : item.tags
-            ? [item.tags]
-            : ['其他'];
+          searchMap.set(item.id, item);
+        });
 
-          tags.forEach(tag => {
-            grouped[tag] = grouped[tag] || [];
-            grouped[tag].push(item);
-          });
+        subRenderers.forEach(item => {
+          if (searchMap.has(item.id)) {
+            const tags = Array.isArray(item.tags)
+              ? item.tags.concat()
+              : item.tags
+              ? [item.tags]
+              : ['其他'];
+
+            tags.forEach(tag => {
+              grouped[tag] = grouped[tag] || [];
+              grouped[tag].push(item);
+            });
+          }
         });
 
         return grouped;
