@@ -222,35 +222,7 @@ export class NumberControlPlugin extends BasePlugin {
                 },
                 getSchemaTpl('prefix'),
                 getSchemaTpl('suffix'),
-                getSchemaTpl('combo-container', {
-                  type: 'combo',
-                  label: '单位选项',
-                  mode: 'normal',
-                  name: 'unitOptions',
-                  flat: true,
-                  items: [
-                    {
-                      placeholder: '单位选项',
-                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-                      name: 'text'
-                    }
-                  ],
-                  draggable: false,
-                  multiple: true,
-                  pipeIn: (value: any) => {
-                    if (!isObject(value)) {
-                      return Array.isArray(value) ? value : [];
-                    }
-                    const res = value.map((item: any) => item.value);
-                    return res;
-                  },
-                  pipeOut: (value: any[]) => {
-                    if (!value.length) {
-                      return undefined;
-                    }
-                    return value;
-                  }
-                }),
+                getSchemaTpl('keyValueMapControl'),
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
                 getSchemaTpl('placeholder'),
