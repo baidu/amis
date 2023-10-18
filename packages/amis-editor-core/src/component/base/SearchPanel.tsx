@@ -204,21 +204,28 @@ export default class SearchPanel extends React.Component<
         curSearchResult.push(item);
       });
     } else {
+      const searchMap = new Map<string, any>();
       matchSorter(allResult, keywords, {
         keys: ['name', 'description', 'scaffold.type', 'searchKeywords']
       }).forEach(item => {
-        if (item[curTagKey]) {
-          const tags = Array.isArray(item[curTagKey])
-            ? item[curTagKey].concat()
-            : item[curTagKey]
-            ? [item[curTagKey]]
-            : ['其他'];
-          tags.forEach((tag: string) => {
-            curSearchResultByTag[tag] = grouped[tag] || [];
-            curSearchResultByTag[tag].push(item);
-          });
-        } else {
-          curSearchResult.push(item);
+        searchMap.set(item.id, item);
+      });
+
+      allResult.forEach(item => {
+        if (searchMap.has(item.id)) {
+          if (item[curTagKey]) {
+            const tags = Array.isArray(item[curTagKey])
+              ? item[curTagKey].concat()
+              : item[curTagKey]
+              ? [item[curTagKey]]
+              : ['其他'];
+            tags.forEach((tag: string) => {
+              curSearchResultByTag[tag] = curSearchResultByTag[tag] || [];
+              curSearchResultByTag[tag].push(item);
+            });
+          } else {
+            curSearchResult.push(item);
+          }
         }
       });
     }
