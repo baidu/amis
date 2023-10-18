@@ -1209,10 +1209,16 @@ export async function resolveVariablesFromScope(node: any, manager: any) {
     (await manager?.dataSchema?.getDataPropsAsOptions()) ?? []
   );
 
+  // 子编辑器内读取的host节点自定义变量，非数据域方式，如listSelect的选项值
+  let hostNodeVaraibles = [];
+  if (manager?.store?.isSubEditor) {
+    hostNodeVaraibles = manager.config?.hostNode?.info?.subEditorVariable || [];
+  }
+
   const variables: VariableItem[] =
     manager?.variableManager?.getVariableFormulaOptions() || [];
 
-  return [...dataPropsAsOptions, ...variables].filter(
+  return [...hostNodeVaraibles, ...dataPropsAsOptions, ...variables].filter(
     (item: any) => item.children?.length
   );
 }
