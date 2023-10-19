@@ -2,6 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Sortable from 'sortablejs';
 import omit from 'lodash/omit';
+import {filterClassNameObject} from 'amis-core';
 import {Button, Spinner, Checkbox, Icon, SpinnerExtraProps} from 'amis-ui';
 import {
   ListStore,
@@ -1270,7 +1271,10 @@ export class ListItem extends React.Component<ListItemProps> {
             {
               rowIndex: itemIndex,
               colIndex: key,
-              className: cx('ListItem-fieldValue', field.className),
+              className: cx(
+                'ListItem-fieldValue',
+                filterClassNameObject(field.className, data)
+              ),
               value: field.name ? resolveVariable(field.name, data) : undefined,
               onAction: this.handleAction,
               onQuickChange: this.handleQuickChange
