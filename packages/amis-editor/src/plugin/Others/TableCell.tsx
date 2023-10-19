@@ -11,6 +11,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {getVariable} from 'amis-core';
+import {schemaToArray} from '../../util';
 
 export class TableCellPlugin extends BasePlugin {
   static id = 'TableCellPlugin';
@@ -124,7 +125,7 @@ export class TableCellPlugin extends BasePlugin {
                 const originMode = value.mode;
 
                 value = {
-                  type: 'input-text',
+                  type: 'wrapper',
                   name: data.name,
                   ...value
                 };
@@ -148,14 +149,15 @@ export class TableCellPlugin extends BasePlugin {
                           body: ['$$'],
                           wrapWithPanel: false
                         },
-                        onChange: value =>
+                        onChange: value => {
                           onChange(
                             {
                               ...value,
                               mode: originMode
                             },
                             'quickEdit'
-                          )
+                          );
+                        }
                       });
                     }}
                   >
