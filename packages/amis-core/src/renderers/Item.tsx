@@ -1706,6 +1706,7 @@ export const detectProps = [
   'revealPassword',
   'loading',
   'themeCss'
+  // 'unitOptions'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {

@@ -291,7 +291,7 @@ export default class NumberControl extends React.Component<
     }
 
     if (inputValue !== null && unitOptions && this.state.unit) {
-      inputValue = inputValue + this.state.unit;
+      inputValue = inputValue + String(this.state.unit);
     }
     return inputValue === null ? resetValue ?? null : inputValue;
   }
@@ -551,7 +551,8 @@ export default class NumberControl extends React.Component<
 }
 
 @FormItem({
-  type: 'input-number'
+  type: 'input-number',
+  detectProps: ['unitOptions']
 })
 export class NumberControlRenderer extends NumberControl {
   static defaultProps: Partial<FormControlProps> = {
