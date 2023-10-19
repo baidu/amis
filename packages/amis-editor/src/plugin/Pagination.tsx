@@ -5,6 +5,7 @@ import {
   tipedLabel,
   defaultValue,
   getSchemaTpl,
+  RendererPluginEvent,
   registerEditorPlugin
 } from 'amis-editor-core';
 import sortBy from 'lodash/sortBy';
@@ -46,6 +47,32 @@ export class PaginationPlugin extends BasePlugin {
     ...this.scaffold
   };
   panelTitle = '分页器';
+
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'change',
+      eventLabel: '值变化',
+      description: '输入内容变化',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前页码值'
+                }
+              },
+              description: '当前数据域，可以通过.字段名读取对应的值'
+            }
+          }
+        }
+      ]
+    }
+  ];
 
   panelJustify = true;
 

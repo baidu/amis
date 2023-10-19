@@ -5,7 +5,7 @@
  */
 import React from 'react';
 import isInteger from 'lodash/isInteger';
-import {localeable, LocaleProps} from 'amis-core';
+import {localeable, LocaleProps, resolveEventData} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import {autobind} from 'amis-core';
 import {Icon} from './icons';
@@ -139,8 +139,9 @@ export class Pagination extends React.Component<
     }
   }
 
-  handlePageNumChange(page: number, perPage?: number, dir?: string) {
-    const {disabled, onPageChange} = this.props;
+  async handlePageNumChange(page: number, perPage?: number, dir?: string) {
+    const {disabled, onPageChange, dispatchEvent} = this.props;
+    await dispatchEvent('change', resolveEventData(this.props, {page}));
 
     if (disabled) {
       return;

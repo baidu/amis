@@ -5,6 +5,7 @@ import {
   FormBaseControl,
   buildApi,
   qsstringify,
+  resolveEventData,
   autobind
 } from 'amis-core';
 import cx from 'classnames';
@@ -252,12 +253,13 @@ export default class RichTextControl extends React.Component<
     });
   }
 
-  handleChange(
+  async handleChange(
     value: any,
     submitOnChange?: boolean,
     changeImmediately?: boolean
   ) {
-    const {onChange, disabled} = this.props;
+    const {onChange, disabled, dispatchEvent} = this.props;
+    await dispatchEvent('change', resolveEventData(this.props, {value}));
 
     if (disabled) {
       return;
