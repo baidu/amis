@@ -248,9 +248,12 @@ export class Pagination extends React.Component<
   }
 
   @autobind
-  handlePageChange(e: React.ChangeEvent<any>) {
+  async handlePageChange(e: React.ChangeEvent<any>) {
     const lastPage = this.getLastPage();
     let value = e.currentTarget.value;
+
+    const {dispatchEvent} = this.props;
+    await dispatchEvent('change', resolveEventData(this.props, {value}));
 
     if (/^\d+$/.test(value) && parseInt(value, 10) > lastPage) {
       value = String(lastPage);
