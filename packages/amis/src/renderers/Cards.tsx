@@ -13,7 +13,11 @@ import {
   autobind,
   createObject
 } from 'amis-core';
-import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
+import {
+  isPureVariable,
+  resolveVariableAndFilter,
+  filterClassNameObject
+} from 'amis-core';
 import Sortable from 'sortablejs';
 import {filter} from 'amis-core';
 import {Icon} from 'amis-ui';
@@ -849,12 +853,15 @@ export default class Cards extends React.Component<GridProps, object> {
     } = this.props;
 
     let cardProps: Partial<CardProps | Card2Props> = {
-      className: cx((card && card.className) || '', {
-        'is-checked': item.checked,
-        'is-modified': item.modified,
-        'is-moved': item.moved,
-        'is-dragging': store.dragging
-      }),
+      className: cx(
+        filterClassNameObject((card && card.className) || '', item.locals),
+        {
+          'is-checked': item.checked,
+          'is-modified': item.modified,
+          'is-moved': item.moved,
+          'is-dragging': store.dragging
+        }
+      ),
       item,
       key: index,
       itemIndex: item.index,
