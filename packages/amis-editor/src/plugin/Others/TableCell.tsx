@@ -11,7 +11,6 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {getVariable} from 'amis-core';
-import {schemaToArray} from '../../util';
 
 export class TableCellPlugin extends BasePlugin {
   static id = 'TableCellPlugin';
