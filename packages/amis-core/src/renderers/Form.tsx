@@ -1274,7 +1274,7 @@ export default class Form extends React.Component<FormProps, object> {
               action.redirect || redirect,
               store.data
             );
-            finalRedirect && env.jumpTo(finalRedirect, action);
+            finalRedirect && env.jumpTo(finalRedirect, action, store.data);
           } else if (action.reload || reload) {
             this.reloadTarget(
               filterTarget(action.reload || reload!, store.data),
@@ -1352,7 +1352,7 @@ export default class Form extends React.Component<FormProps, object> {
 
           const redirect =
             action.redirect && filter(action.redirect, store.data);
-          redirect && env.jumpTo(redirect, action);
+          redirect && env.jumpTo(redirect, action, store.data);
 
           action.reload &&
             this.reloadTarget(

@@ -189,7 +189,7 @@ export const AppStore = ServiceStore.named('AppStore')
         self.schema = null;
         self.fetchSchema(page.schemaApi, self.activePage, {method: 'get'});
       } else if (page.redirect) {
-        env.jumpTo(page.redirect);
+        env.jumpTo(page.redirect, undefined, self.data);
         return;
       } else if (page.rewrite) {
         this.rewrite(page.rewrite, env);
