@@ -10,6 +10,7 @@ import isNaN from 'lodash/isNaN';
 import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
 import qs from 'qs';
+import {compile} from 'path-to-regexp';
 
 import type {Schema, PlainObject, FunctionPropertyNames} from '../types';
 
@@ -2183,4 +2184,12 @@ export function evalTrackExpression(
 // 很奇怪的问题，react-json-view import 有些情况下 mod.default 才是 esModule
 export function importLazyComponent(mod: any) {
   return mod.default.__esModule ? mod.default : mod;
+}
+
+export function replaceUrlParams(path: string, params: Record<string, any>) {
+  if (typeof path === 'string' && /\:\w+/.test(path)) {
+    return compile(path)(params);
+  }
+
+  return path;
 }
