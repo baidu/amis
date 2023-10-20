@@ -227,22 +227,36 @@ export class NumberControlPlugin extends BasePlugin {
                   label: '单位选项',
                   mode: 'normal',
                   name: 'unitOptions',
-                  flat: true,
                   items: [
                     {
-                      placeholder: '单位选项',
+                      placeholder: 'label',
                       type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-                      name: 'text'
+                      name: 'label'
+                    },
+                    {
+                      placeholder: 'value',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                      name: 'value'
                     }
                   ],
                   draggable: false,
                   multiple: true,
                   pipeIn: (value: any) => {
                     if (!isObject(value)) {
-                      return Array.isArray(value) ? value : [];
+                      if (Array.isArray(value)) {
+                        return value.every(item => typeof item === 'string')
+                          ? value.map((item: any) => ({
+                              label: item,
+                              value: item
+                            }))
+                          : value;
+                      }
+                      return [];
                     }
-                    const res = value.map((item: any) => item.value);
-                    return res;
+                    return value.map((item: any) => ({
+                      label: item.value,
+                      value: item.value
+                    }));
                   },
                   pipeOut: (value: any[]) => {
                     if (!value.length) {
