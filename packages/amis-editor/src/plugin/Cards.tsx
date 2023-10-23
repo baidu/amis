@@ -33,6 +33,7 @@ export class CardsPlugin extends BasePlugin {
   memberImmutable = true;
   description =
     '功能类似于表格，但是用一个个小卡片来展示数据。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。';
+  searchKeywords = '卡片组';
   docLink = '/amis/zh-CN/components/cards';
   tags = ['展示'];
   icon = 'fa fa-window-maximize';
