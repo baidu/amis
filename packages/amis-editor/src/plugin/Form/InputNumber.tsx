@@ -32,6 +32,7 @@ export class NumberControlPlugin extends BasePlugin {
   icon = 'fa fa-sort-numeric-asc';
   pluginIcon = 'input-number-plugin';
   description = '支持设定最大值和最小值，以及步长与精度';
+  searchKeywords = '数字输入框';
   docLink = '/amis/zh-CN/components/form/input-number';
   tags = ['表单项'];
   scaffold = {
@@ -222,35 +223,7 @@ export class NumberControlPlugin extends BasePlugin {
                 },
                 getSchemaTpl('prefix'),
                 getSchemaTpl('suffix'),
-                getSchemaTpl('combo-container', {
-                  type: 'combo',
-                  label: '单位选项',
-                  mode: 'normal',
-                  name: 'unitOptions',
-                  flat: true,
-                  items: [
-                    {
-                      placeholder: '单位选项',
-                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-                      name: 'text'
-                    }
-                  ],
-                  draggable: false,
-                  multiple: true,
-                  pipeIn: (value: any) => {
-                    if (!isObject(value)) {
-                      return Array.isArray(value) ? value : [];
-                    }
-                    const res = value.map((item: any) => item.value);
-                    return res;
-                  },
-                  pipeOut: (value: any[]) => {
-                    if (!value.length) {
-                      return undefined;
-                    }
-                    return value;
-                  }
-                }),
+                getSchemaTpl('keyValueMapControl'),
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
                 getSchemaTpl('placeholder'),

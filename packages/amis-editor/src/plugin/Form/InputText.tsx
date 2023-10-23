@@ -31,7 +31,7 @@ export class TextControlPlugin extends BasePlugin {
   order = -600;
   // 添加源对应组件中文名称 & type字段
   searchKeywords =
-    '文本框、邮箱框、input-email、URL框、input-url、密码框、input-password';
+    '文本框、邮箱框、input-email、URL框、input-url、密码框、input-password、密码输入框';
   // 组件名称
   name = '文本框';
 

@@ -22,6 +22,9 @@ export class SelectControlPlugin extends BasePlugin {
   icon = 'fa fa-th-list';
   pluginIcon = 'select-plugin';
   description = '支持多选，输入提示，可使用 source 获取选项';
+
+  searchKeywords = '选择器';
+
   docLink = '/amis/zh-CN/components/form/select';
   tags = ['表单项'];
   scaffold = {

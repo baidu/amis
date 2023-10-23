@@ -17,6 +17,7 @@ export class TooltipWrapperPlugin extends BasePlugin {
   name = '文字提示';
   description =
     '类似容器，可以将多个渲染器放置在一起，当用户鼠标悬停或者点击容器时，显示文字提示浮层';
+  searchKeywords = '文字提示容器';
   docLink = '/amis/zh-CN/components/tooltip';
   tags = ['功能'];
   icon = 'fa fa-comment-alt';
