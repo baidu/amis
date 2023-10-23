@@ -6,6 +6,7 @@ export * from './plugin';
 
 import './renderer/OptionControl';
 import './renderer/NavSourceControl';
+import './renderer/KeyValueMapControl';
 import './renderer/NavBadgeControl';
 import './renderer/NavDefaultActive';
 import './renderer/MapSourceControl';

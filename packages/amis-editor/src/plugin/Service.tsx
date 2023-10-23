@@ -23,6 +23,9 @@ export class ServicePlugin extends BasePlugin {
   isBaseComponent = true;
   description =
     '功能性容器，可以用来加载数据或者加载渲染器配置。加载到的数据在容器可以使用。';
+
+  searchKeywords = '功能型容器';
+
   docLink = '/amis/zh-CN/components/service';
   tags = ['数据容器'];
   icon = 'fa fa-server';
