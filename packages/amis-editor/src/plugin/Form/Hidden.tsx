@@ -14,6 +14,7 @@ export class HiddenControlPlugin extends BasePlugin {
   icon = 'fa fa-eye-slash';
   pluginIcon = 'hidden-plugin';
   description = '隐藏表单项';
+  searchKeywords = '隐藏字段';
   docLink = '/amis/zh-CN/components/form/hidden';
   tags = ['表单项'];
   scaffold = {

@@ -1983,7 +1983,8 @@ export class EditorManager {
 
     // 更新组件树中的所有上下文数据声明为最新数据
     while (scope) {
-      const [nodeId, type] = scope.id.split('-');
+      const [nodeId] = scope.id.split('-');
+      const type = scope.id.replace(`${nodeId}-`, '');
       const scopeNode = this.store.getNodeById(nodeId, type);
 
       // 拿非重复组件id的父组件作为主数据域展示，如CRUD，不展示表格，只展示增删改查信息，避免变量面板出现两份数据

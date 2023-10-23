@@ -37,6 +37,11 @@ export interface ListControlSchema extends FormOptionsSchema {
   itemSchema?: SchemaCollection;
 
   /**
+   * 激活态自定义展示模板。
+   */
+  activeItemSchema?: SchemaCollection;
+
+  /**
    * 支持配置 list div 的 css 类名。
    * 比如：flex justify-between
    */
@@ -171,6 +176,7 @@ export default class ListControl extends React.Component<ListProps, any> {
       imageClassName,
       submitOnDBClick,
       itemSchema,
+      activeItemSchema,
       data,
       labelField,
       listClassName,
@@ -187,7 +193,8 @@ export default class ListControl extends React.Component<ListProps, any> {
               key={key}
               className={cx(`ListControl-item`, itemClassName, {
                 'is-active': ~selectedOptions.indexOf(option),
-                'is-disabled': option.disabled || disabled
+                'is-disabled': option.disabled || disabled,
+                'is-custom': !!itemSchema
               })}
               onClick={this.handleClick.bind(this, option)}
               onDoubleClick={
@@ -197,9 +204,15 @@ export default class ListControl extends React.Component<ListProps, any> {
               }
             >
               {itemSchema
-                ? render(`${key}/body`, itemSchema, {
-                    data: createObject(data, option)
-                  })
+                ? render(
+                    `${key}/body`,
+                    ~selectedOptions.indexOf(option)
+                      ? activeItemSchema ?? itemSchema
+                      : itemSchema,
+                    {
+                      data: createObject(data, option)
+                    }
+                  )
                 : option.body
                 ? render(`${key}/body`, option.body)
                 : [

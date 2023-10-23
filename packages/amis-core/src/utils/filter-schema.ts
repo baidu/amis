@@ -2,8 +2,35 @@ import {evalExpression, filter} from './tpl';
 import {PlainObject} from '../types';
 import {injectPropsToObject, mapObject} from './helper';
 import isPlainObject from 'lodash/isPlainObject';
-import cx from 'classnames';
 import {tokenize} from './tokenize';
+import type {ClassValue} from '../theme';
+
+/**
+ * 计算下发给子组件的className，处理对象类型的className，将其中的表达式计算出来，避免被classnames识别为true
+ *
+ * @param value - CSS类名值
+ * @param ctx - 数据域
+ */
+export function filterClassNameObject(
+  classValue: ClassValue,
+  ctx: Record<string, any> = {}
+) {
+  let result = classValue;
+
+  if (classValue && typeof classValue === 'string') {
+    result = tokenize(classValue, ctx);
+  } else if (classValue && isPlainObject(classValue)) {
+    result = mapObject(
+      classValue,
+      (value: any) =>
+        typeof value === 'string' ? evalExpression(value, ctx) : value,
+      undefined,
+      (key: string) => tokenize(key, ctx)
+    );
+  }
+
+  return result;
+}
 
 /**
  * 处理 Props 数据，所有带 On 结束的做一次
@@ -68,16 +95,7 @@ export function getExprProperties(
       (typeof value === 'string' || isPlainObject(value))
     ) {
       exprProps[`${key}Raw`] = value;
-      exprProps[key] =
-        typeof value === 'string'
-          ? tokenize(value, data)
-          : mapObject(
-              value,
-              (value: any) =>
-                typeof value === 'string' ? evalExpression(value, data) : value,
-              undefined,
-              (key: string) => tokenize(key, data)
-            );
+      exprProps[key] = filterClassNameObject(value, data);
     }
   });
 
