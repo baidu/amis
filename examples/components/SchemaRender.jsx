@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, toast, Button, LazyComponent, Drawer} from 'amis';
+import {render, toast, makeTranslator, LazyComponent, Drawer} from 'amis';
 import axios from 'axios';
 import Portal from 'react-overlays/Portal';
 import {normalizeLink} from 'amis-core';
@@ -52,6 +52,7 @@ export default function (schema, schemaProps, showCode, envOverrides) {
       constructor(props) {
         super(props);
 
+        const __ = makeTranslator(props.locale);
         const {history} = props;
         this.env = {
           updateLocation: (location, replace) => {
@@ -106,14 +107,8 @@ export default function (schema, schemaProps, showCode, envOverrides) {
 
             return false;
           },
-          fetcher: async ({
-            url,
-            method,
-            data,
-            responseType,
-            config,
-            headers
-          }) => {
+          fetcher: async api => {
+            let {url, method, data, responseType, config, headers} = api;
             config = config || {};
             config.url = url;
             responseType && (config.responseType = responseType);
@@ -146,9 +141,7 @@ export default function (schema, schemaProps, showCode, envOverrides) {
             };
 
             let response = await axios(config);
-            response = await attachmentAdpator(response, s => {
-              return s;
-            });
+            response = await attachmentAdpator(response, __, api);
 
             if (response.status >= 400) {
               if (response.data) {
