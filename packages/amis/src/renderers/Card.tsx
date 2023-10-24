@@ -307,11 +307,15 @@ export class CardRenderer extends React.Component<CardProps> {
     } = this.props;
 
     if (href) {
-      env.jumpTo(filter(href, data), {
-        type: 'button',
-        actionType: 'url',
-        blank
-      });
+      env.jumpTo(
+        filter(href, data),
+        {
+          type: 'button',
+          actionType: 'url',
+          blank
+        },
+        data
+      );
       return;
     }
 

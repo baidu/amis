@@ -211,7 +211,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
 
           const redirect =
             action.redirect && filter(action.redirect, store.data);
-          redirect && env.jumpTo(redirect, action);
+          redirect && env.jumpTo(redirect, action, store.data);
           action.reload &&
             this.reloadTarget(
               delegate || (this.context as IScopedContext),

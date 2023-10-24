@@ -683,7 +683,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
           const reidrect =
             action.redirect && filter(action.redirect, store.data);
-          reidrect && env.jumpTo(reidrect, action);
+          reidrect && env.jumpTo(reidrect, action, store.data);
 
           action.reload &&
             this.reloadTarget(
@@ -908,7 +908,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             filter(action.redirect || step.redirect || redirect, store.data);
 
           if (finalRedirect) {
-            env.jumpTo(finalRedirect, action);
+            env.jumpTo(finalRedirect, action, store.data);
           } else if (action.reload || step.reload || reload) {
             this.reloadTarget(
               filterTarget(action.reload || step.reload || reload!, store.data),
@@ -931,7 +931,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         filter(action.redirect || step.redirect || redirect, store.data);
 
       if (finalRedirect) {
-        env.jumpTo(finalRedirect, action);
+        env.jumpTo(finalRedirect, action, store.data);
       } else if (action.reload || step.reload || reload) {
         this.reloadTarget(
           filterTarget(action.reload || step.reload || reload!, store.data),

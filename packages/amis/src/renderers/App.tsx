@@ -282,7 +282,7 @@ export default class App extends React.Component<AppProps, object> {
 
     const env = this.props.env;
     const link = e.currentTarget.getAttribute('href')!;
-    env.jumpTo(link);
+    env.jumpTo(link, undefined, this.props.data);
   }
 
   renderHeader() {
