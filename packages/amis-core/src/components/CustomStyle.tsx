@@ -48,13 +48,13 @@ export default function (props: CustomStyleProps) {
         id,
         defaultData,
         env?.customStyleClassPrefix,
-        env.getModalContainer?.().ownerDocument
+        env.getModalContainer?.()?.ownerDocument
       );
     }
 
     return () => {
       if (id && !styleIdCount.get(id)) {
-        removeCustomStyle('', id, env.getModalContainer?.().ownerDocument);
+        removeCustomStyle('', id, env.getModalContainer?.()?.ownerDocument);
       }
     };
   }, [themeCss, id]);
@@ -64,7 +64,7 @@ export default function (props: CustomStyleProps) {
       insertEditCustomStyle(
         wrapperCustomStyle,
         id,
-        env.getModalContainer?.().ownerDocument
+        env.getModalContainer?.()?.ownerDocument
       );
     }
 
@@ -73,7 +73,7 @@ export default function (props: CustomStyleProps) {
         removeCustomStyle(
           'wrapperCustomStyle',
           id,
-          env.getModalContainer?.().ownerDocument
+          env.getModalContainer?.()?.ownerDocument
         );
       }
     };
