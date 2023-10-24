@@ -198,6 +198,7 @@ export interface DownloadActionSchema
    * 指定为下载行为
    */
   actionType: 'download';
+  downloadFileName?: string;
 }
 
 export interface SaveAsActionSchema
@@ -362,6 +363,7 @@ export interface OtherActionSchema extends ButtonSchema {
 
 export interface VanillaAction extends ButtonSchema {
   actionType?: string;
+  downloadFileName?: string;
 }
 
 /**
@@ -426,7 +428,8 @@ const ActionProps = [
   'requireSelected',
   'countDown',
   'fileName',
-  'isolateScope'
+  'isolateScope',
+  'downloadFileName'
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
@@ -624,6 +627,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       action.actionType = 'ajax';
       const api = normalizeApi((action as AjaxActionSchema).api);
       api.responseType = 'blob';
+      api.downloadFileName = action.downloadFileName;
       (action as AjaxActionSchema).api = api;
     }
 

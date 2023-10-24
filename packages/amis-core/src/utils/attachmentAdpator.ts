@@ -5,24 +5,35 @@
  * @returns
  */
 
-export function attachmentAdpator(response: any, __: Function) {
+import {ApiObject} from '../types';
+
+export function attachmentAdpator(
+  response: any,
+  __: Function,
+  api?: ApiObject
+) {
   if (response && response.headers && response.headers['content-disposition']) {
     const disposition = response.headers['content-disposition'];
     let filename = '';
 
     if (disposition && disposition.indexOf('attachment') !== -1) {
-      // disposition 有可能是 attachment; filename="??.xlsx"; filename*=UTF-8''%E4%B8%AD%E6%96%87.xlsx
-      // 这种情况下最后一个才是正确的文件名
-      let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+      // 如果 api 中配置了，则优先用 api 中的配置
+      if (api?.downloadFileName) {
+        filename = api.downloadFileName;
+      } else {
+        // disposition 有可能是 attachment; filename="??.xlsx"; filename*=UTF-8''%E4%B8%AD%E6%96%87.xlsx
+        // 这种情况下最后一个才是正确的文件名
+        let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/i;
 
-      let matches = disposition.match(filenameRegex);
-      if (matches && matches.length) {
-        filename = matches[1].replace(`UTF-8''`, '').replace(/['"]/g, '');
-      }
+        let matches = disposition.match(filenameRegex);
+        if (matches && matches.length) {
+          filename = matches[1].replace(`UTF-8''`, '').replace(/['"]/g, '');
+        }
 
-      // 很可能是中文被 url-encode 了
-      if (filename && filename.replace(/[^%]/g, '').length > 2) {
-        filename = decodeURIComponent(filename);
+        // 很可能是中文被 url-encode 了
+        if (filename && filename.replace(/[^%]/g, '').length > 2) {
+          filename = decodeURIComponent(filename);
+        }
       }
 
       let type = response.headers['content-type'];

@@ -213,7 +213,7 @@ export function embed(
       let response = config.mockResponse
         ? config.mockResponse
         : await axios(config);
-      response = await attachmentAdpator(response, __);
+      response = await attachmentAdpator(response, __, api);
       response = responseAdaptor(api)(response);
 
       if (response.status >= 400) {
