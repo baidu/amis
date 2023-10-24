@@ -1,12 +1,19 @@
 import React from 'react';
 import {FormItem, Button, render as amisRender} from 'amis';
 import {autobind, getI18nEnabled} from 'amis-editor-core';
-import type {FormControlProps} from 'amis-core';
 import uniqBy from 'lodash/uniqBy';
+
+import type {FormControlProps} from 'amis-core';
+
+interface IOption {
+  label: string;
+  value: string;
+  editing?: boolean;
+}
 
 export interface KeyValueControlProps extends FormControlProps {}
 export interface KeyValueControlState {
-  unitOptions: Array<{label: string; value: string; editing?: boolean}>;
+  unitOptions: IOption[];
 }
 
 @FormItem({
@@ -41,6 +48,25 @@ export class KeyValueMapControl extends React.Component<
   }
 
   /**
+   * 数据更新
+   */
+  componentWillReceiveProps(nextProps: KeyValueControlProps) {
+    const unitOptions = nextProps.value ? this.transformOptions(nextProps) : [];
+    if (
+      JSON.stringify(
+        this.state.unitOptions.map(item => ({
+          ...item,
+          editing: undefined
+        }))
+      ) !== JSON.stringify(unitOptions)
+    ) {
+      this.setState({
+        unitOptions
+      });
+    }
+  }
+
+  /**
    * 增加
    */
   @autobind
@@ -60,7 +86,7 @@ export class KeyValueMapControl extends React.Component<
    * 批量增加
    */
   @autobind
-  handleBatchAdd(values: {batchOption: string}[], action: any) {
+  handleBatchAdd(values: {batchOption: string}[]) {
     const unitOptions = this.state.unitOptions.concat();
     const addedOptions: Array<{label: string; value: string}> =
       values[0].batchOption.split('\n').map(option => {
@@ -133,11 +159,10 @@ export class KeyValueMapControl extends React.Component<
     return;
   }
 
-  renderOption(props: any, index: number) {
-    const {label, value, editing} = props;
+  renderOption(item: IOption, index: number) {
+    const {label, value, editing} = item;
     const {render} = this.props;
     const i18nEnabled = getI18nEnabled();
-
     const editDom = editing ? (
       <div className="ae-KeyValMapControlItem-extendMore">
         {render('option', {
@@ -152,26 +177,42 @@ export class KeyValueMapControl extends React.Component<
               onClick: () => this.toggleEdit(index)
             },
             {
-              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-              placeholder: '显示文本',
-              label: '文本',
-              mode: 'horizontal',
-              value: label,
-              name: 'optionLabel',
-              labelClassName: 'ae-KeyValMapControlItem-EditLabel',
-              valueClassName: 'ae-KeyValMapControlItem-EditValue',
-              onChange: (v: string) => this.handleEditLabel(index, v)
+              children: ({render}: any) =>
+                render(
+                  'label',
+                  {
+                    type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                    placeholder: '显示文本',
+                    label: '文本',
+                    mode: 'horizontal',
+                    name: 'optionLabel',
+                    labelClassName: 'ae-KeyValMapControlItem-EditLabel',
+                    valueClassName: 'ae-KeyValMapControlItem-EditValue'
+                  },
+                  {
+                    value: label,
+                    onChange: (v: string) => this.handleEditLabel(index, v)
+                  }
+                )
             },
             {
-              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-              placeholder: '值内容',
-              label: '值',
-              mode: 'horizontal',
-              value: value,
-              name: 'optionValue',
-              labelClassName: 'ae-KeyValMapControlItem-EditLabel',
-              valueClassName: 'ae-KeyValMapControlItem-EditValue',
-              onChange: (v: string) => this.handleValueChange(index, v)
+              children: ({render}: any) =>
+                render(
+                  'value',
+                  {
+                    type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                    placeholder: '值内容',
+                    label: '值',
+                    mode: 'horizontal',
+                    name: 'optionValue',
+                    labelClassName: 'ae-KeyValMapControlItem-EditLabel',
+                    valueClassName: 'ae-KeyValMapControlItem-EditValue'
+                  },
+                  {
+                    value,
+                    onChange: (v: string) => this.handleValueChange(index, v)
+                  }
+                )
             }
           ]
         })}
@@ -194,35 +235,45 @@ export class KeyValueMapControl extends React.Component<
     ];
 
     return (
-      <div className="ae-KeyValMapControlItem">
+      <div className="ae-KeyValMapControlItem" key={index}>
         <div className="ae-KeyValMapControlItem-Main">
-          {amisRender({
-            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-            className: 'ae-KeyValMapControlItem-input',
-            value: label,
-            placeholder: '请输入文本/值',
-            clearable: false,
-            onChange: (value: string) => {
-              this.handleEditLabel(index, value);
-            }
+          {render('dropdown', {
+            type: 'flex',
+            className: 'ae-KeyValMapControlItem-flex',
+            items: [
+              {
+                children: ({render}: any) =>
+                  render(
+                    'value',
+                    {
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                      className: 'ae-KeyValMapControlItem-input',
+                      label: false,
+                      name: 'optionLabel',
+                      placeholder: '请输入文本/值',
+                      clearable: false
+                    },
+                    {
+                      value: label,
+                      onChange: (value: string) => {
+                        this.handleEditLabel(index, value);
+                      }
+                    }
+                  )
+              },
+              {
+                type: 'dropdown-button',
+                className: 'ae-KeyValMapControlItem-dropdown',
+                btnClassName: 'px-2',
+                icon: 'fa fa-ellipsis-h',
+                hideCaret: true,
+                closeOnClick: true,
+                align: 'right',
+                menuClassName: 'ae-KeyValMapControlItem-ulmenu',
+                buttons: operationBtn
+              }
+            ]
           })}
-          {render(
-            'dropdown',
-            {
-              type: 'dropdown-button',
-              className: 'ae-KeyValMapControlItem-dropdown',
-              btnClassName: 'px-2',
-              icon: 'fa fa-ellipsis-h',
-              hideCaret: true,
-              closeOnClick: true,
-              align: 'right',
-              menuClassName: 'ae-KeyValMapControlItem-ulmenu',
-              buttons: operationBtn
-            },
-            {
-              popOverContainer: null // amis 渲染挂载节点会使用 this.target
-            }
-          )}
         </div>
         {editDom}
       </div>
@@ -289,11 +340,11 @@ export class KeyValueMapControl extends React.Component<
     const {render} = this.props;
     return (
       <div className="ae-KeyValMapControl-wrapper">
-        {unitOptions.length && (
+        {unitOptions.length ? (
           <div>
             {unitOptions.map((item, index) => this.renderOption(item, index))}
           </div>
-        )}
+        ) : null}
         <div className="ae-KeyValMapControl-footer">
           <Button level="enhance" onClick={this.handleAdd}>
             添加选项
