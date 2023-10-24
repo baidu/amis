@@ -143,12 +143,12 @@ export class Pagination extends React.Component<
   async handlePageNumChange(page: number, perPage?: number, dir?: string) {
     const {disabled, onPageChange, dispatchEvent} = this.props;
     const _page = isNaN(Number(page)) || Number(page) < 1 ? 1 : page;
-    await dispatchEvent?.('change', resolveEventData(this.props, {_page}));
 
     if (disabled) {
       return;
     }
     onPageChange?.(_page, perPage, dir);
+    await dispatchEvent?.('change', resolveEventData(this.props, {_page}));
   }
 
   /**
@@ -253,7 +253,7 @@ export class Pagination extends React.Component<
     if (/^\d+$/.test(value) && parseInt(value, 10) > lastPage) {
       value = String(lastPage);
     }
-
+    console.log('kkkk', value);
     const {dispatchEvent} = this.props;
     await dispatchEvent?.('change', resolveEventData(this.props, {value}));
 
