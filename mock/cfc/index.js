@@ -49,6 +49,18 @@ function mockResponse(event, context, callback) {
         json: false,
         body: res
       });
+    },
+    download(file) {
+      callback(null, {
+        statusCode: 200,
+        headers: {
+          ...createHeaders(event.headers),
+          'Content-Type': 'application/octet-stream',
+          'Content-Disposition': `attachment; filename="${file}"`
+        },
+        json: false,
+        download: file
+      });
     }
   };
 }

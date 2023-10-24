@@ -5,7 +5,7 @@ import Portal from 'react-overlays/Portal';
 import {normalizeLink} from 'amis-core';
 import {withRouter} from 'react-router';
 import copy from 'copy-to-clipboard';
-import {qsparse, parseQuery} from 'amis-core';
+import {qsparse, parseQuery, attachmentAdpator} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 
 function loadEditor() {
@@ -106,16 +106,29 @@ export default function (schema, schemaProps, showCode, envOverrides) {
 
             return false;
           },
-          fetcher: ({url, method, data, config, headers}) => {
+          fetcher: async ({
+            url,
+            method,
+            data,
+            responseType,
+            config,
+            headers
+          }) => {
             config = config || {};
-            config.headers = headers || {};
+            config.url = url;
+            responseType && (config.responseType = responseType);
 
             if (config.cancelExecutor) {
               config.cancelToken = new axios.CancelToken(config.cancelExecutor);
             }
 
-            if (data && data instanceof FormData) {
-              // config.headers = config.headers || {};
+            config.headers = headers || {};
+            config.method = method;
+            config.data = data;
+
+            if (method === 'get' && data) {
+              config.params = data;
+            } else if (data && data instanceof FormData) {
               // config.headers['Content-Type'] = 'multipart/form-data';
             } else if (
               data &&
@@ -127,19 +140,40 @@ export default function (schema, schemaProps, showCode, envOverrides) {
               config.headers['Content-Type'] = 'application/json';
             }
 
-            if (method !== 'post' && method !== 'put' && method !== 'patch') {
-              if (data) {
-                if (method === 'delete') {
-                  config.data = data;
-                } else {
-                  config.params = data;
-                }
-              }
+            // 支持返回各种报错信息
+            config.validateStatus = function () {
+              return true;
+            };
 
-              return axios[method](url, config);
+            let response = await axios(config);
+            response = await attachmentAdpator(response, s => {
+              return s;
+            });
+
+            if (response.status >= 400) {
+              if (response.data) {
+                // 主要用于 raw: 模式下，后端自己校验登录，
+                if (
+                  response.status === 401 &&
+                  response.data.location &&
+                  response.data.location.startsWith('http')
+                ) {
+                  location.href = response.data.location.replace(
+                    '{{redirect}}',
+                    encodeURIComponent(location.href)
+                  );
+                  return new Promise(() => {});
+                } else if (response.data.msg) {
+                  throw new Error(response.data.msg);
+                } else {
+                  throw new Error(JSON.stringify(response.data, null, 2));
+                }
+              } else {
+                throw new Error(`${response.status}`);
+              }
             }
 
-            return axios[method](url, data, config);
+            return response;
           },
           isCancel: value => axios.isCancel(value),
           copy: (content, options) => {
