@@ -235,7 +235,7 @@ export class KeyValueMapControl extends React.Component<
     ];
 
     return (
-      <div className="ae-KeyValMapControlItem">
+      <div className="ae-KeyValMapControlItem" key={index}>
         <div className="ae-KeyValMapControlItem-Main">
           {render('dropdown', {
             type: 'flex',
@@ -340,11 +340,11 @@ export class KeyValueMapControl extends React.Component<
     const {render} = this.props;
     return (
       <div className="ae-KeyValMapControl-wrapper">
-        {unitOptions.length && (
+        {unitOptions.length ? (
           <div>
             {unitOptions.map((item, index) => this.renderOption(item, index))}
           </div>
-        )}
+        ) : null}
         <div className="ae-KeyValMapControl-footer">
           <Button level="enhance" onClick={this.handleAdd}>
             添加选项
