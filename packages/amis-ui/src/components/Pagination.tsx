@@ -148,7 +148,13 @@ export class Pagination extends React.Component<
       return;
     }
     onPageChange?.(_page, perPage, dir);
-    await dispatchEvent?.('change', resolveEventData(this.props, {_page}));
+    const rendererEvent = await dispatchEvent?.(
+      'change',
+      resolveEventData(this.props, {_page})
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
   }
 
   /**
@@ -254,7 +260,14 @@ export class Pagination extends React.Component<
       value = String(lastPage);
     }
     const {dispatchEvent} = this.props;
-    await dispatchEvent?.('change', resolveEventData(this.props, {value}));
+    const rendererEvent = await dispatchEvent?.(
+      'change',
+      resolveEventData(this.props, {value})
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     this.setState({pageNum: value});
   }

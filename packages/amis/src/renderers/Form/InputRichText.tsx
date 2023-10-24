@@ -259,13 +259,19 @@ export default class RichTextControl extends React.Component<
     changeImmediately?: boolean
   ) {
     const {onChange, disabled, dispatchEvent} = this.props;
-    await dispatchEvent('change', resolveEventData(this.props, {value}));
 
     if (disabled) {
       return;
     }
 
     onChange?.(value, submitOnChange, changeImmediately);
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(this.props, {value})
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
   }
 
   @autobind
