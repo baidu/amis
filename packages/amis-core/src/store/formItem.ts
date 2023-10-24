@@ -23,7 +23,8 @@ import {
   findTreeIndex,
   spliceTree,
   filterTree,
-  eachTree
+  eachTree,
+  mapTree
 } from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import find from 'lodash/find';
@@ -1253,9 +1254,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           });
 
         if (filteredOptions.length) {
-          filteredOptions = filteredOptions.filter(
-            option => !~options.indexOf(option.value)
-          );
+          filteredOptions = mapTree(filteredOptions, item => ({
+            ...item,
+            disabled: ~options.indexOf(item.value)
+          }));
         }
       }
 

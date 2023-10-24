@@ -1358,6 +1358,19 @@ export function getTreeParent<T extends TreeItem>(tree: Array<T>, value: T) {
   return ancestors?.length ? ancestors[ancestors.length - 1] : null;
 }
 
+export function countTree<T extends TreeItem>(
+  tree: Array<T>,
+  iterator?: (item: T, key: number, level: number, paths?: Array<T>) => any
+): number {
+  let count = 0;
+  eachTree(tree, (item, key, level, paths) => {
+    if (!iterator || iterator(item, key, level, paths)) {
+      count++;
+    }
+  });
+  return count;
+}
+
 export function ucFirst(str?: string) {
   return typeof str === 'string'
     ? str.substring(0, 1).toUpperCase() + str.substring(1)
