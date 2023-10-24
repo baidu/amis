@@ -439,6 +439,7 @@ order: 56
 | borderMode            | `"full"\| "half" \| "none"`               | `"full"`  | 输入框边框模式，全边框，还是半边框，或者没边框。                                            |
 | inputControlClassName | `string`                                  |           | control 节点的 CSS 类名                                                                     |
 | nativeInputClassName  | `string`                                  |           | 原生 input 标签的 CSS 类名                                                                  |
+| nativeAutoComplete    | `string`                                  | `off`     | 原生 input 标签的 `autoComplete` 属性，比如配置集成 `new-password`                          |
 
 ## 事件表
 

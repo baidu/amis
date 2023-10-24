@@ -666,7 +666,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const next = resolveVariableAndFilter(props.source, props.data, '| raw');
 
       if (!this.lastData || this.lastData !== next) {
-        store.initFromScope(props.data, props.source);
+        store.initFromScope(props.data, props.source, {
+          columns: store.columns ?? props.columns
+        });
         this.lastData = next;
       }
     }
@@ -739,7 +741,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
       // 由于 ajax 一段时间后再弹出，肯定被浏览器给阻止掉的，所以提前弹。
       const redirect = action.redirect && filter(action.redirect, data);
-      redirect && action.blank && env.jumpTo(redirect, action);
+      redirect && action.blank && env.jumpTo(redirect, action, data);
 
       return store
         .saveRemote(action.api!, data, {
@@ -759,7 +761,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           }
 
           const redirect = action.redirect && filter(action.redirect, data);
-          redirect && !action.blank && env.jumpTo(redirect, action);
+          redirect && !action.blank && env.jumpTo(redirect, action, data);
           action.reload
             ? this.reloadTarget(filterTarget(action.reload, data), data)
             : redirect
@@ -870,7 +872,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               action.close && this.closeTarget(action.close);
 
               const redirect = action.redirect && filter(action.redirect, data);
-              redirect && env.jumpTo(redirect, action);
+              redirect && env.jumpTo(redirect, action, data);
             })
             .catch(() => null);
       } else if (onAction) {
@@ -1135,7 +1137,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     let redirect = action.redirect ?? dialogAction.redirect;
     redirect = redirect && filter(redirect, ctx);
-    redirect && env.jumpTo(redirect, dialogAction);
+    redirect && env.jumpTo(redirect, dialogAction, ctx);
   }
 
   handleDialogClose(confirmed = false) {
@@ -1308,7 +1310,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               ));
             return value;
           })
-      : source && store.initFromScope(data, source);
+      : source &&
+        store.initFromScope(data, source, {
+          columns: store.columns ?? columns
+        });
   }
 
   silentSearch(values?: object, clearSelection?: boolean, forceReload = false) {

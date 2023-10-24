@@ -117,7 +117,7 @@ export default class RichTextControl extends React.Component<
     this.handleChange = this.handleChange.bind(this);
     const imageReceiver = normalizeApi(
       props.receiver,
-      props.receiver.method || 'post'
+      props.receiver?.method || 'post'
     );
     imageReceiver.data = imageReceiver.data || {};
     const imageApi = buildApi(imageReceiver, props.data, {
@@ -205,6 +205,15 @@ export default class RichTextControl extends React.Component<
             );
 
             try {
+              if (!imageApi.url) {
+                var reader = new FileReader();
+                reader.readAsDataURL(blobInfo.blob());
+                reader.onloadend = function () {
+                  var base64data = reader.result;
+                  resolve(base64data);
+                };
+                return;
+              }
               const receiver = {
                 adaptor: (payload: object) => {
                   return {

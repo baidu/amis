@@ -1063,6 +1063,19 @@ export default class Table extends React.Component<TableProps, object> {
 
     item.change(values, savePristine);
 
+    // 依然解决不了问题，所以先注释掉
+    // 预期是，这个表党项修改的时候，把其他还没运算公式的表单更新最新值
+    // 好让公式计算触发的值是最新的
+    // 但是事与愿违，应该是修改了 store.data 但是 props.data 还没变过来
+    // 即便如此，但是最终还是会算正确，只是会多触发几次 onChange :(
+    // const y = item.index;
+    // const str = `-${y}`;
+    // Object.keys(this.subForms).forEach(key => {
+    //   if (key.endsWith(str)) {
+    //     this.subForms[key].props.store.updateData(values);
+    //   }
+    // });
+
     // 值发生变化了，需要通过 onSelect 通知到外面，否则会出现数据不同步的问题
     item.modified && this.syncSelected();
 

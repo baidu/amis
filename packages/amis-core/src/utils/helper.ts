@@ -10,6 +10,7 @@ import isNaN from 'lodash/isNaN';
 import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
 import qs from 'qs';
+import {compile} from 'path-to-regexp';
 
 import type {Schema, PlainObject, FunctionPropertyNames} from '../types';
 
@@ -1358,6 +1359,19 @@ export function getTreeParent<T extends TreeItem>(tree: Array<T>, value: T) {
   return ancestors?.length ? ancestors[ancestors.length - 1] : null;
 }
 
+export function countTree<T extends TreeItem>(
+  tree: Array<T>,
+  iterator?: (item: T, key: number, level: number, paths?: Array<T>) => any
+): number {
+  let count = 0;
+  eachTree(tree, (item, key, level, paths) => {
+    if (!iterator || iterator(item, key, level, paths)) {
+      count++;
+    }
+  });
+  return count;
+}
+
 export function ucFirst(str?: string) {
   return typeof str === 'string'
     ? str.substring(0, 1).toUpperCase() + str.substring(1)
@@ -2183,4 +2197,12 @@ export function evalTrackExpression(
 // 很奇怪的问题，react-json-view import 有些情况下 mod.default 才是 esModule
 export function importLazyComponent(mod: any) {
   return mod.default.__esModule ? mod.default : mod;
+}
+
+export function replaceUrlParams(path: string, params: Record<string, any>) {
+  if (typeof path === 'string' && /\:\w+/.test(path)) {
+    return compile(path)(params);
+  }
+
+  return path;
 }

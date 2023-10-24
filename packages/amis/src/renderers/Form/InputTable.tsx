@@ -32,7 +32,7 @@ import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
 import {TableSchema} from '../Table';
-import {SchemaApi, SchemaCollection} from '../../Schema';
+import {SchemaApi, SchemaCollection, SchemaClassName} from '../../Schema';
 import find from 'lodash/find';
 import moment from 'moment';
 import merge from 'lodash/merge';
@@ -214,6 +214,11 @@ export interface TableControlSchema
    * 是否开启 static 状态切换
    */
   enableStaticTransform?: boolean;
+
+  /**
+   * 底部工具栏CSS样式类
+   */
+  toolbarClassName?: SchemaClassName;
 }
 
 export interface TableProps
@@ -283,7 +288,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     'deleteApi',
     'needConfirm',
     'canAccessSuperData',
-    'formStore'
+    'formStore',
+    'footerActions',
+    'toolbarClassName'
   ];
 
   entries: SimpleMap<any, number>;
@@ -1340,108 +1347,119 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     diff: Array<object> | object,
     rowIndexes: Array<string> | string
   ) {
-    const {perPage} = this.props;
-    const editIndex = this.state.editIndex;
-    const lastModifiedRow = this.state.lastModifiedRow;
-
-    if (~editIndex) {
-      const items = this.state.items.concat();
-      const origin = items[editIndex];
-
-      if (!origin) {
-        return;
-      }
-
-      const value: any = {
-        ...rows
-      };
-      this.entries.set(value, this.entries.get(origin) || this.entityId++);
-      this.entries.delete(origin);
-      items.splice(editIndex, 1, value);
-
-      this.setState({
-        items,
-        /** 记录最近一次编辑记录，用于取消编辑数据回溯， */
-        ...(lastModifiedRow?.index === editIndex
-          ? {}
-          : {
-              lastModifiedRow: origin.__isPlaceholder
-                ? undefined
-                : {index: editIndex, data: {...origin}}
-            })
-      });
-      return;
-    }
-
-    const page = this.state.page;
-    let items = this.state.items.concat();
-
-    if (Array.isArray(rows)) {
-      (rowIndexes as Array<string>).forEach((rowIndex, index) => {
-        const indexes = rowIndex.split('.').map(item => parseInt(item, 10));
-
-        if (page && page > 1 && typeof perPage === 'number') {
-          indexes[0] += (page - 1) * perPage;
-        }
-        const origin = getTree(items, indexes);
-        const data = merge({}, origin, (diff as Array<object>)[index]);
-
-        items = spliceTree(items, indexes, 1, data);
-      });
-    } else {
-      const indexes = (rowIndexes as string)
-        .split('.')
-        .map(item => parseInt(item, 10));
-
-      if (page && page > 1 && typeof perPage === 'number') {
-        indexes[0] += (page - 1) * perPage;
-      }
-
-      const origin = getTree(items, indexes);
-
-      const comboNames: Array<string> = [];
-      (this.props.$schema.columns ?? []).forEach((e: any) => {
-        if (e.type === 'combo' && !Array.isArray(diff)) {
-          comboNames.push(e.name);
-        }
-      });
-
-      const data = mergeWith(
-        {},
-        origin,
-        diff,
-        (
-          objValue: any,
-          srcValue: any,
-          key: string,
-          object: any,
-          source: any,
-          stack: any
-        ) => {
-          // 只对第一层做处理，如果不是combo，并且是数组，直接采用diff的值
-          if (
-            stack.size === 0 &&
-            comboNames.indexOf(key) === -1 &&
-            Array.isArray(objValue) &&
-            Array.isArray(srcValue)
-          ) {
-            return srcValue;
-          }
-          // 直接return，默认走的mergeWith自身的merge
-          return;
-        }
-      );
-
-      items = spliceTree(items, indexes, 1, data);
-      this.entries.set(data, this.entries.get(origin) || this.entityId++);
-      // this.entries.delete(origin); // 反正最后都会清理的，先不删了吧。
-    }
-
+    let callback: any;
+    // 这里有可能执行频率非常高，上次的变更还没结束就会再次进来，会拿不到最新的数据
+    // https://legacy.reactjs.org/docs/state-and-lifecycle.html#state-updates-may-be-asynchronous
     this.setState(
-      {
-        items
+      (state, props) => {
+        const newState = {};
+        const {perPage} = props;
+        const editIndex = state.editIndex;
+        const lastModifiedRow = state.lastModifiedRow;
+
+        if (~editIndex) {
+          const items = state.items.concat();
+          const origin = items[editIndex];
+
+          if (!origin) {
+            return newState;
+          }
+
+          const value: any = {
+            ...rows
+          };
+          this.entries.set(value, this.entries.get(origin) || this.entityId++);
+          this.entries.delete(origin);
+          items.splice(editIndex, 1, value);
+
+          Object.assign(newState, {
+            items,
+            /** 记录最近一次编辑记录，用于取消编辑数据回溯， */
+            ...(lastModifiedRow?.index === editIndex
+              ? {}
+              : {
+                  lastModifiedRow: origin.__isPlaceholder
+                    ? undefined
+                    : {index: editIndex, data: {...origin}}
+                })
+          });
+          return newState;
+        }
+
+        const page = state.page;
+        let items = state.items.concat();
+
+        if (Array.isArray(rows)) {
+          (rowIndexes as Array<string>).forEach((rowIndex, index) => {
+            const indexes = rowIndex.split('.').map(item => parseInt(item, 10));
+
+            if (page && page > 1 && typeof perPage === 'number') {
+              indexes[0] += (page - 1) * perPage;
+            }
+            const origin = getTree(items, indexes);
+            const data = merge({}, origin, (diff as Array<object>)[index]);
+
+            items = spliceTree(items, indexes, 1, data);
+          });
+        } else {
+          const indexes = (rowIndexes as string)
+            .split('.')
+            .map(item => parseInt(item, 10));
+
+          if (page && page > 1 && typeof perPage === 'number') {
+            indexes[0] += (page - 1) * perPage;
+          }
+
+          const origin = getTree(items, indexes);
+
+          const comboNames: Array<string> = [];
+          (props.$schema.columns ?? []).forEach((e: any) => {
+            if (e.type === 'combo' && !Array.isArray(diff)) {
+              comboNames.push(e.name);
+            }
+          });
+
+          const data = mergeWith(
+            {},
+            origin,
+            diff,
+            (
+              objValue: any,
+              srcValue: any,
+              key: string,
+              object: any,
+              source: any,
+              stack: any
+            ) => {
+              // 只对第一层做处理，如果不是combo，并且是数组，直接采用diff的值
+              if (
+                stack.size === 0 &&
+                comboNames.indexOf(key) === -1 &&
+                Array.isArray(objValue) &&
+                Array.isArray(srcValue)
+              ) {
+                return srcValue;
+              }
+              // 直接return，默认走的mergeWith自身的merge
+              return;
+            }
+          );
+
+          items = spliceTree(items, indexes, 1, data);
+          this.entries.set(data, this.entries.get(origin) || this.entityId++);
+          // this.entries.delete(origin); // 反正最后都会清理的，先不删了吧。
+        }
+
+        Object.assign(newState, {
+          items
+        });
+        callback = this.emitValue;
+
+        return newState;
       },
-      this.emitValue
+      () => {
+        callback && callback();
+      }
     );
   }
 
@@ -1572,7 +1590,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       tableContentClassName,
       static: isStatic,
       showFooterAddBtn,
-      footerAddBtn
+      footerAddBtn,
+      toolbarClassName
     } = this.props;
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
 
@@ -1641,7 +1660,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           showFooterAddBtn !== false &&
           (!maxLength || maxLength > items.length)) ||
         showPager ? (
-          <div className={cx('InputTable-toolbar')}>
+          <div className={cx('InputTable-toolbar', toolbarClassName)}>
             {addable && showFooterAddBtn !== false
               ? render(
                   'button',

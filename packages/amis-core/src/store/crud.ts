@@ -584,27 +584,75 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       self.hasInnerModalOpen = value;
     };
 
-    const initFromScope = function (scope: any, source: string) {
-      let rowsData: Array<any> = resolveVariableAndFilter(
-        source,
-        scope,
-        '| raw'
-      );
+    const initFromScope = function (
+      scope: any,
+      source: string,
+      options: {
+        columns?: Array<any>;
+      }
+    ) {
+      let items: Array<any> = resolveVariableAndFilter(source, scope, '| raw');
 
-      if (!Array.isArray(rowsData) && !self.items.length) {
+      if (!Array.isArray(items) && !self.items.length) {
         return;
       }
 
-      rowsData = Array.isArray(rowsData) ? rowsData : [];
+      items = Array.isArray(items) ? items : [];
+
+      if (Array.isArray(options.columns)) {
+        options.columns.forEach((column: any) => {
+          let value: any =
+            typeof column.name === 'string'
+              ? getVariable(self.query, column.name)
+              : undefined;
+          const key = column.name;
+
+          if (value != null && key) {
+            // value可能为null、undefined、''、0
+            if (Array.isArray(value)) {
+              if (value.length > 0) {
+                const arr = [...items];
+                let arrItems: Array<any> = [];
+                value.forEach(item => {
+                  arrItems = [
+                    ...arrItems,
+                    ...matchSorter(arr, item, {
+                      keys: [key],
+                      threshold: matchSorter.rankings.CONTAINS
+                    })
+                  ];
+                });
+                items = items.filter((item: any) =>
+                  arrItems.find(a => a === item)
+                );
+              }
+            } else {
+              items = matchSorter(items, value, {
+                keys: [key],
+                threshold: matchSorter.rankings.CONTAINS
+              });
+            }
+          }
+        });
+      }
+
+      if (self.query.orderBy) {
+        const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
+        items = sortArray(items, self.query.orderBy, dir);
+      }
 
       const data = {
         ...self.pristine,
-        items: rowsData,
-        count: 0,
-        total: rowsData.length
+        items: items.slice(
+          (self.page - 1) * self.perPage,
+          self.page * self.perPage
+        ),
+        count: items.length,
+        total: items.length
       };
 
-      self.items.replace(rowsData);
+      self.total = parseInt(data.total ?? data.count, 10) || 0;
+      self.items.replace(items);
       self.reInitData(data);
     };
 
