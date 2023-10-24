@@ -285,7 +285,7 @@ export class EventControl extends React.Component<
     if (config.actionType) {
       onEventConfig[event] = {
         ...onEventConfig[event],
-        actions: onEventConfig[event].actions.concat(config)
+        actions: (onEventConfig[event].actions || []).concat(config)
       };
     }
 
