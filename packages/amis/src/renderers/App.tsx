@@ -392,7 +392,12 @@ export default class App extends React.Component<AppProps, object> {
 
             if (!subHeader && link.icon) {
               children.push(
-                <Icon cx={cx} icon={link.icon} className="AsideNav-itemIcon" />
+                <Icon
+                  key="icon"
+                  cx={cx}
+                  icon={link.icon}
+                  className="AsideNav-itemIcon"
+                />
               );
             } else if (store.folded && depth === 1 && !subHeader) {
               children.push(
@@ -416,11 +421,12 @@ export default class App extends React.Component<AppProps, object> {
 
             return link.path ? (
               /^https?\:/.test(link.path) ? (
-                <a target="_blank" href={link.path} rel="noopener">
+                <a target="_blank" key="link" href={link.path} rel="noopener">
                   {children}
                 </a>
               ) : (
                 <a
+                  key="link"
                   onClick={this.handleNavClick}
                   href={link.path || (link.children && link.children[0].path)}
                 >
@@ -428,7 +434,10 @@ export default class App extends React.Component<AppProps, object> {
                 </a>
               )
             ) : (
-              <a onClick={link.children ? () => toggleExpand(link) : undefined}>
+              <a
+                key="link"
+                onClick={link.children ? () => toggleExpand(link) : undefined}
+              >
                 {children}
               </a>
             );
