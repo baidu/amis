@@ -339,30 +339,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           ])
         },
         {
-          actionLabel: '打开页面',
-          actionType: 'link',
-          description: '打开指定页面',
-          innerArgs: ['link', 'params', 'pageName', '__pageInputSchema'],
-          descDetail: (info: any) => {
-            return (
-              <div>
-                打开
-                <span className="variable-left variable-right">
-                  {info?.args?.pageName || '-'}
-                </span>
-                页面
-              </div>
-            );
-          },
-          schema: getArgsWrapper([
-            {
-              type: 'wrapper',
-              className: 'p-none',
-              body: [getSchemaTpl('app-page'), getSchemaTpl('app-page-args')]
-            }
-          ])
-        },
-        {
           actionLabel: '刷新页面',
           actionType: 'refresh',
           description: '触发浏览器刷新页面'
@@ -1974,15 +1950,73 @@ export const COMMON_ACTION_SCHEMA_MAP: {
       className: 'p-none',
       body: [
         {
+          type: 'radios',
+          name: '__containerType',
+          mode: 'horizontal',
+          label: '数据设置',
+          pipeIn: defaultValue('all'),
+          visibleOn: 'data.__isScopeContainer',
+          options: [
+            {
+              label: '直接赋值',
+              value: 'all'
+            },
+            {
+              label: '成员赋值',
+              value: 'appoint'
+            }
+          ],
+          onChange: (value: string, oldVal: any, data: any, form: any) => {
+            form.setValueByName('value', []);
+            form.setValueByName('__valueInput', undefined);
+          }
+        },
+        {
+          type: 'radios',
+          name: '__comboType',
+          inputClassName: 'event-action-radio',
+          mode: 'horizontal',
+          label: '数据设置',
+          pipeIn: defaultValue('all'),
+          visibleOn: `data.__rendererName === 'combo' || data.__rendererName === 'input-table'`,
+          options: [
+            {
+              label: '全量',
+              value: 'all'
+            },
+            {
+              label: '指定序号',
+              value: 'appoint'
+            }
+          ],
+          onChange: (value: string, oldVal: any, data: any, form: any) => {
+            form.setValueByName('index', undefined);
+            form.setValueByName('value', []);
+            form.setValueByName('__valueInput', undefined);
+          }
+        },
+        {
+          type: 'input-number',
+          required: true,
+          name: 'index',
+          mode: 'horizontal',
+          label: '输入序号',
+          size: 'lg',
+          placeholder: '请输入待更新序号',
+          visibleOn: `(data.__rendererName === 'input-table' || data.__rendererName === 'combo')
+          && data.__comboType === 'appoint'`
+        },
+        {
           type: 'combo',
           name: 'value',
-          label: '变量赋值',
+          label: '',
           multiple: true,
           removable: true,
           required: true,
           addable: true,
           strictMode: false,
           canAccessSuperData: true,
+          size: 'lg',
           mode: 'horizontal',
           items: [
             {
@@ -1997,15 +2031,15 @@ export const COMMON_ACTION_SCHEMA_MAP: {
             getSchemaTpl('formulaControl', {
               name: 'val',
               variables: '${variables}',
-              placeholder: '变量值'
+              placeholder: '字段值'
             })
           ],
-          visibleOn: 'data.__isScopeContainer'
+          visibleOn: `data.__isScopeContainer && data.__containerType === 'appoint' || data.__comboType === 'appoint'`
         },
         {
           type: 'combo',
           name: 'value',
-          label: '变量赋值',
+          label: '',
           multiple: true,
           removable: true,
           required: true,
@@ -2013,6 +2047,7 @@ export const COMMON_ACTION_SCHEMA_MAP: {
           strictMode: false,
           canAccessSuperData: true,
           mode: 'horizontal',
+          size: 'lg',
           items: [
             {
               type: 'combo',
@@ -2026,12 +2061,17 @@ export const COMMON_ACTION_SCHEMA_MAP: {
               strictMode: false,
               canAccessSuperData: true,
               className: 'm-l',
+              size: 'lg',
               mode: 'horizontal',
               items: [
                 {
                   name: 'key',
                   type: 'input-text',
-                  required: true
+                  source: '${__setValueDs}',
+                  labelField: 'label',
+                  valueField: 'value',
+                  required: true,
+                  visibleOn: `data.__rendererName`
                 },
                 getSchemaTpl('formulaControl', {
                   name: 'val',
@@ -2040,15 +2080,25 @@ export const COMMON_ACTION_SCHEMA_MAP: {
               ]
             }
           ],
-          visibleOn: `data.__rendererName === 'combo' || data.__rendererName === 'input-table'`
+          visibleOn: `(data.__rendererName === 'combo' || data.__rendererName === 'input-table')
+          && data.__comboType === 'all'`
         },
         getSchemaTpl('formulaControl', {
           name: '__valueInput',
-          label: '变量赋值',
+          label: '',
           variables: '${variables}',
           size: 'lg',
           mode: 'horizontal',
-          visibleOn: `!data.__isScopeContainer && data.__rendererName !== 'combo' && data.__rendererName !== 'input-table'`,
+          visibleOn: `(data.__isScopeContainer || ${SHOW_SELECT_PROP}) && data.__containerType === 'all'`,
+          required: true
+        }),
+        getSchemaTpl('formulaControl', {
+          name: '__valueInput',
+          label: '数据设置',
+          variables: '${variables}',
+          size: 'lg',
+          mode: 'horizontal',
+          visibleOn: `data.__rendererName && !data.__isScopeContainer && data.__rendererName !== 'combo' && data.__rendererName !== 'input-table'`,
           required: true
         })
       ]
