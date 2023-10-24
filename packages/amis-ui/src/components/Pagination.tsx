@@ -250,12 +250,12 @@ export class Pagination extends React.Component<
     const lastPage = this.getLastPage();
     let value = e.currentTarget.value;
 
-    const {dispatchEvent} = this.props;
-    await dispatchEvent?.('change', resolveEventData(this.props, {value}));
-
     if (/^\d+$/.test(value) && parseInt(value, 10) > lastPage) {
       value = String(lastPage);
     }
+
+    const {dispatchEvent} = this.props;
+    await dispatchEvent?.('change', resolveEventData(this.props, {value}));
 
     this.setState({pageNum: value});
   }
