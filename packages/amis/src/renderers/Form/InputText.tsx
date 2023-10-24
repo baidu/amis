@@ -65,6 +65,12 @@ export interface TextControlSchema extends FormOptionsSchema {
   autoComplete?: SchemaApi;
 
   /**
+   * 配置原生 input 的 autoComplete 属性
+   * @default off
+   */
+  nativeAutoComplete?: string;
+
+  /**
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
@@ -199,7 +205,8 @@ export default class TextControl extends React.PureComponent<
     valueField: 'value',
     placeholder: '',
     allowInputText: true,
-    trimContents: true
+    trimContents: true,
+    nativeAutoComplete: 'off'
   };
 
   componentDidMount() {
@@ -699,7 +706,8 @@ export default class TextControl extends React.PureComponent<
       popOverContainer,
       themeCss,
       css,
-      id
+      id,
+      nativeAutoComplete
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
 
@@ -816,7 +824,7 @@ export default class TextControl extends React.PureComponent<
                     maxLength,
                     minLength
                   })}
-                  autoComplete="off"
+                  autoComplete={nativeAutoComplete}
                   size={10}
                   className={cx(nativeInputClassName)}
                 />
@@ -943,7 +951,8 @@ export default class TextControl extends React.PureComponent<
       minLength,
       themeCss,
       css,
-      id
+      id,
+      nativeAutoComplete
     } = this.props;
 
     const type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -984,7 +993,7 @@ export default class TextControl extends React.PureComponent<
           min={min}
           maxLength={maxLength}
           minLength={minLength}
-          autoComplete="off"
+          autoComplete={nativeAutoComplete}
           size={10}
           step={step}
           onChange={this.handleNormalInputChange}
