@@ -55,12 +55,14 @@ test('2. change event', async () => {
     )
   );
 
-  const rich = container.querySelector('.cxd-RichTextControl')!;
+  const frame = container
+    .querySelector('.cxd-RichTextControl')
+    ?.querySelector('.tox-edit-area__iframe')!;
 
   fireEvent.change(
-    rich
-      .querySelector('.tox-edit-area__iframe')
-      ?.contentWindow.document.body.querySelector('p'),
+    (frame as HTMLIFrameElement)?.contentWindow?.document.body.querySelector(
+      'p'
+    )!,
     {
       target: {value: 9}
     }
