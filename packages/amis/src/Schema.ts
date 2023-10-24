@@ -617,6 +617,11 @@ export interface SchemaApiObject {
    * autoFill 是否显示自动填充错误提示
    */
   silent?: boolean;
+
+  /**
+   * 文件下载时，指定文件名
+   */
+  downloadFileName?: string;
 }
 
 export type SchemaApi = string | SchemaApiObject;

@@ -1018,7 +1018,7 @@ export class DialogRenderer extends Dialog {
 
           const reidrect =
             action.redirect && filter(action.redirect, store.data);
-          reidrect && env.jumpTo(reidrect, action);
+          reidrect && env.jumpTo(reidrect, action, store.data);
           action.reload &&
             this.reloadTarget(
               filterTarget(action.reload, store.data),

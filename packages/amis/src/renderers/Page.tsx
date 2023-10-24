@@ -522,7 +522,7 @@ export default class Page extends React.Component<PageProps> {
 
           const redirect =
             action.redirect && filter(action.redirect, store.data);
-          redirect && env.jumpTo(redirect, action);
+          redirect && env.jumpTo(redirect, action, store.data);
           action.reload &&
             this.reloadTarget(
               filterTarget(action.reload, store.data),
@@ -631,7 +631,7 @@ export default class Page extends React.Component<PageProps> {
         : target.closest('a[data-link]')?.getAttribute('data-link');
 
     if (env && link) {
-      env.jumpTo(link);
+      env.jumpTo(link, undefined, this.props.data);
       e.preventDefault();
     }
   }
