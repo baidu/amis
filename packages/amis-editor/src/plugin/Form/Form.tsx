@@ -978,24 +978,6 @@ export class FormPlugin extends BasePlugin {
                 }),
                 getSchemaTpl('horizontal'),
                 {
-                  name: 'labelAlign',
-                  label: '标签对齐方式',
-                  type: 'button-group-select',
-                  size: 'sm',
-                  visibleOn: "${mode === 'horizontal'}",
-                  pipeIn: defaultValue('right', false),
-                  options: [
-                    {
-                      label: '左对齐',
-                      value: 'left'
-                    },
-                    {
-                      label: '右对齐',
-                      value: 'right'
-                    }
-                  ]
-                },
-                {
                   label: '列数',
                   name: 'columnCount',
                   type: 'input-number',
