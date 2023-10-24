@@ -2599,7 +2599,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                     <div
                       class="cxd-Crud-statistics"
                     >
-                      1/1 共：0 项
+                      1/1 共：10 项
                     </div>
                   </div>
                   <div

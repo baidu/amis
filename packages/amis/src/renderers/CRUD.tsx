@@ -666,7 +666,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const next = resolveVariableAndFilter(props.source, props.data, '| raw');
 
       if (!this.lastData || this.lastData !== next) {
-        store.initFromScope(props.data, props.source);
+        store.initFromScope(props.data, props.source, {
+          columns: store.columns ?? props.columns
+        });
         this.lastData = next;
       }
     }
@@ -1308,7 +1310,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               ));
             return value;
           })
-      : source && store.initFromScope(data, source);
+      : source &&
+        store.initFromScope(data, source, {
+          columns: store.columns ?? columns
+        });
   }
 
   silentSearch(values?: object, clearSelection?: boolean, forceReload = false) {
