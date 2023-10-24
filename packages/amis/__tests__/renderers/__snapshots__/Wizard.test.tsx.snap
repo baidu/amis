@@ -385,14 +385,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
         class="cxd-Wizard-footer cxd-Panel-footer"
         role="wizard-footer"
       >
-        <div
-          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled btn-lg btn-primary"
-          disabled=""
-        >
-          <span>
-            PrevStep
-          </span>
-        </div>
         <button
           class="cxd-Button cxd-Button--primary cxd-Button--size-default btn-lg btn-primary"
           type="button"
@@ -815,14 +807,6 @@ exports[`Renderer:Wizard dialog 1`] = `
                 class="cxd-Wizard-footer cxd-Panel-footer"
                 role="wizard-footer"
               >
-                <div
-                  class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
-                  disabled=""
-                >
-                  <span>
-                    上一步
-                  </span>
-                </div>
                 <button
                   class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="button"
@@ -1202,14 +1186,6 @@ exports[`Renderer:Wizard dialog 2`] = `
                 class="cxd-Wizard-footer cxd-Panel-footer"
                 role="wizard-footer"
               >
-                <div
-                  class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
-                  disabled=""
-                >
-                  <span>
-                    上一步
-                  </span>
-                </div>
                 <button
                   class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="button"
@@ -1512,14 +1488,6 @@ exports[`Renderer:Wizard initApi default 1`] = `
         class="cxd-Wizard-footer cxd-Panel-footer"
         role="wizard-footer"
       >
-        <div
-          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
-          disabled=""
-        >
-          <span>
-            上一步
-          </span>
-        </div>
         <button
           class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
@@ -1789,14 +1757,6 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                 class="cxd-Wizard-footer cxd-Panel-footer"
                 role="wizard-footer"
               >
-                <div
-                  class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
-                  disabled=""
-                >
-                  <span>
-                    上一步
-                  </span>
-                </div>
                 <button
                   class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="button"
@@ -2593,14 +2553,6 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
         class="cxd-Wizard-footer cxd-Panel-footer"
         role="wizard-footer"
       >
-        <div
-          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
-          disabled=""
-        >
-          <span>
-            上一步
-          </span>
-        </div>
         <button
           class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
@@ -3912,14 +3864,6 @@ exports[`Renderer:Wizard validate 1`] = `
         class="cxd-Wizard-footer cxd-Panel-footer"
         role="wizard-footer"
       >
-        <div
-          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
-          disabled=""
-        >
-          <span>
-            上一步
-          </span>
-        </div>
         <button
           class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"

@@ -1117,6 +1117,9 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           {step.actions.map((action, index) =>
             render(`action/${index}`, action, {
               key: index,
+              data: createObject(this.props.data, {
+                currentStep: currentStepIndex
+              }),
               onAction: this.handleAction,
               disabled:
                 action.disabled ||
@@ -1140,11 +1143,13 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             type: 'button',
             label: __(actionPrevLabel),
             actionType: 'prev',
-            className: actionClassName
+            className: actionClassName,
+            hiddenOn: '${currentStep === 1}'
           },
           {
             disabled: waiting || !prevCanJump || disabled,
-            onAction: this.handleAction
+            onAction: this.handleAction,
+            data: createObject(this.props.data, {currentStep: currentStepIndex})
           }
         )}
 
