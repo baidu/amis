@@ -871,6 +871,13 @@ Content-Disposition: attachment; filename="download.pdf"
 Access-Control-Expose-Headers: Content-Disposition
 ```
 
+如果自己覆盖了 `fetcher` 函数，需要有类似如下代码，具体可以参考 `embed.tsx` 里的实现
+
+```javascript
+let response = await axios(config);
+response = await attachmentAdpator(response, __);
+```
+
 ### 配置提示信息
 
 可以通过`messages`自定义接口请求提示信息。
