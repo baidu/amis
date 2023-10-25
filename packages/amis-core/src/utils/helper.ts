@@ -2042,25 +2042,57 @@ export function isNumeric(value: any): boolean {
 }
 
 /**
+ * 解析Query字符串中的原始类型，目前仅支持转化布尔类型
+ *
+ * @param query 查询字符串
+ * @returns 解析后的查询字符串
+ */
+export function parsePrimitiveQueryString(rawQuery: Record<string, any>) {
+  if (!isPlainObject(rawQuery)) {
+    return rawQuery;
+  }
+
+  const query = JSONValueMap(rawQuery, value => {
+    /** 解析布尔类型，后续有需要在这里扩充 */
+    if (value === 'true' || value === 'false') {
+      return value === 'true';
+    }
+
+    return value;
+  });
+
+  return query;
+}
+
+/**
  * 获取URL链接中的query参数（包含hash mode）
  *
  * @param location Location对象，或者类Location结构的对象
+ * @param {Object} options 配置项
+ * @param {Boolean} options.parsePrimitive 是否将query的值解析为原始类型，目前仅支持转化布尔类型
  */
 export function parseQuery(
-  location?: Location | {query?: any; search?: any; [propName: string]: any}
+  location?: Location | {query?: any; search?: any; [propName: string]: any},
+  options?: {parsePrimitive?: boolean}
 ): Record<string, any> {
+  const {parsePrimitive = false} = options || {};
   const query =
     (location && !(location instanceof Location) && location?.query) ||
     (location && location?.search && qsparse(location.search.substring(1))) ||
     (window.location.search && qsparse(window.location.search.substring(1)));
+  const normalizedQuery = isPlainObject(query)
+    ? parsePrimitive
+      ? parsePrimitiveQueryString(query)
+      : query
+    : {};
   /* 处理hash中的query */
   const hash = window.location?.hash;
   let hashQuery = {};
   let idx = -1;
+
   if (typeof hash === 'string' && ~(idx = hash.indexOf('?'))) {
     hashQuery = qsparse(hash.substring(idx + 1));
   }
-  const normalizedQuery = isPlainObject(query) ? query : {};
 
   return merge(normalizedQuery, hashQuery);
 }
