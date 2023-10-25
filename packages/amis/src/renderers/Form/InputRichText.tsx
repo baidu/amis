@@ -264,7 +264,6 @@ export default class RichTextControl extends React.Component<
       return;
     }
 
-    onChange?.(value, submitOnChange, changeImmediately);
     const rendererEvent = await dispatchEvent(
       'change',
       resolveEventData(this.props, {value})
@@ -272,6 +271,7 @@ export default class RichTextControl extends React.Component<
     if (rendererEvent?.prevented) {
       return;
     }
+    onChange?.(value, submitOnChange, changeImmediately);
   }
 
   @autobind

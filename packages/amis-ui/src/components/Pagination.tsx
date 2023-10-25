@@ -93,8 +93,8 @@ export interface BasicPaginationProps {
    */
   popOverContainerSelector?: string;
 
-  onPageChange?: (page: number, perPage?: number, dir?: string) => void;
-  dispatchEvent?: Function;
+  onPageChange: (page: number, perPage?: number, dir?: string) => void;
+  dispatchEvent: Function;
 }
 export interface PaginationProps
   extends BasicPaginationProps,
@@ -147,7 +147,7 @@ export class Pagination extends React.Component<
     if (disabled) {
       return;
     }
-    onPageChange?.(_page, perPage, dir);
+
     const rendererEvent = await dispatchEvent?.(
       'change',
       resolveEventData(this.props, {_page})
@@ -155,6 +155,7 @@ export class Pagination extends React.Component<
     if (rendererEvent?.prevented) {
       return;
     }
+    onPageChange?.(_page, perPage, dir);
   }
 
   /**

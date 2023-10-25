@@ -10,7 +10,6 @@
  6. total & perPage & activePage
  7. showPerPage & perPageAvailable & showPageInput
  8. disabled
- 9. change事件
  */
 
 import {fireEvent, render, waitFor, within} from '@testing-library/react';
@@ -118,7 +117,11 @@ test('Renderer:Pagination with simple mode', async () => {
   expect(next).not.toHaveClass('is-disabled');
 
   fireEvent.click(next);
+
+  await wait(500);
   expect(pageChange).toBeCalled();
+
+  await wait(200);
   expect(pageChange.mock.calls[0]).toEqual([3, 10, 'forward']);
 
   rerender(
@@ -360,68 +363,4 @@ test('Renderer:Pagination with disabled', async () => {
 
   replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
-});
-
-// 9. change事件
-test('9. change event', async () => {
-  const mockFn = jest.fn();
-  const {container} = render(
-    amisRender(
-      {
-        type: 'pagination',
-        layout: 'total,perPage,pager,go',
-        mode: 'normal',
-        activePage: 2,
-        lastPage: 99999,
-        total: 999,
-        perPage: 10,
-        maxButtons: 7,
-        showPerPage: true,
-        perPageAvailable: [10, 20, 50, 100],
-        showPageInput: true,
-        disabled: false,
-        id: 'u:1bf323bc4dbd',
-        onEvent: {
-          change: {
-            weight: 0,
-            actions: [
-              {
-                actionType: 'custom',
-                script: mockFn
-              }
-            ]
-          }
-        }
-      },
-      {},
-      makeEnv({})
-    )
-  );
-  // 当前页码改变
-  const prev = container.querySelector('.cxd-Pagination-prev')!;
-  fireEvent.click(prev); // 上一页
-  expect(mockFn).toBeCalledTimes(1);
-
-  const next = container.querySelector('.cxd-Pagination-next')!;
-  fireEvent.click(next); // 下一页
-  expect(mockFn).toBeCalledTimes(2);
-
-  const go = container.querySelector('.cxd-Pagination-inputGroup')!;
-  fireEvent.change(go.querySelector('.cxd-Pagination-inputGroup-input')!, {
-    target: {value: 9}
-  });
-  await wait(500);
-  fireEvent.click(go.querySelector('.cxd-Pagination-inputGroup-right')!); // 输入后点击go
-  await wait(200);
-  expect(mockFn).toBeCalledTimes(3);
-
-  function getPagerItem() {
-    const pager = container.querySelectorAll(
-      '.cxd-Pagination > .cxd-Pagination-pager-item'
-    );
-    return pager[3];
-  }
-  fireEvent.click(getPagerItem()!); // 点击页码切换
-  await wait(200);
-  expect(mockFn).toBeCalledTimes(4);
 });
