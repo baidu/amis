@@ -46,6 +46,7 @@ test('pagination: pageNum change event', async () => {
   expect(mockFn).toBeCalledTimes(1);
   await wait(200);
   expect(pageChange).toBeCalled();
+  expect(pageChange.mock.calls[0]).toEqual([1, 10]);
 
   const next = container.querySelector('.cxd-Pagination-next')!;
   fireEvent.click(next); // 下一页
@@ -53,6 +54,7 @@ test('pagination: pageNum change event', async () => {
   expect(mockFn).toBeCalledTimes(2);
   await wait(200);
   expect(pageChange).toBeCalled();
+  expect(pageChange.mock.calls[1]).toEqual([3, 10]);
 
   const go = container.querySelector('.cxd-Pagination-inputGroup')!;
   fireEvent.change(go.querySelector('.cxd-Pagination-inputGroup-input')!, {
@@ -64,6 +66,7 @@ test('pagination: pageNum change event', async () => {
   expect(mockFn).toBeCalledTimes(3);
   await wait(200);
   expect(pageChange).toBeCalled();
+  expect(pageChange.mock.calls[2]).toEqual([9, 10]);
 
   function getPagerItem() {
     const pager = container.querySelectorAll(
@@ -76,6 +79,7 @@ test('pagination: pageNum change event', async () => {
   expect(mockFn).toBeCalledTimes(4);
   await wait(200);
   expect(pageChange).toBeCalled();
+  expect(pageChange.mock.calls[3]).toEqual([4, 10]);
 });
 
 test('pagination: prevent pageNum change event ', async () => {
