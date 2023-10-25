@@ -244,6 +244,9 @@ exports[`Form:initData:remote 2`] = `
     "onSuccess": [Function],
     "successMessage": undefined,
   },
+  "context": {
+    "c": "123",
+  },
   "method": "get",
   "query": {
     "c": "123",

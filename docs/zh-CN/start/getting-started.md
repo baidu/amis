@@ -157,6 +157,7 @@ let amisScoped = amis.embed(
     // requestAdaptor(api) {
     //   // 支持异步，可以通过 api.mockResponse 来设置返回结果，跳过真正的请求发送
     //   // 此功能自定义 fetcher 的话会失效
+    //   // api.context 中包含发送请求前的上下文信息
     //   return api;
     // }
     //
