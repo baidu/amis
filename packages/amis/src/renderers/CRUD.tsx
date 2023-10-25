@@ -57,6 +57,7 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   parseQuery,
+  parsePrimitiveQueryString,
   isMobile
 } from 'amis-core';
 
@@ -362,6 +363,11 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
    * 内容区域占满屏幕剩余空间
    */
   autoFillHeight?: TableSchema['autoFillHeight'];
+
+  /**
+   * 是否开启Query信息转换，开启后将会对url中的Query进行转换，将字符串格式的布尔值转化为同位类型
+   */
+  parsePrimitiveQuery?: boolean;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -461,7 +467,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'formStore',
     'autoFillHeight',
     'maxTagCount',
-    'overflowTagPopover'
+    'overflowTagPopover',
+    'parsePrimitiveQuery'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -478,7 +485,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     filterTogglable: false,
     filterDefaultVisible: true,
     loadDataOnce: false,
-    autoFillHeight: false
+    autoFillHeight: false,
+    parsePrimitiveQuery: true
   };
 
   control: any;
@@ -525,21 +533,22 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pageField,
       perPageField,
       syncLocation,
-      loadDataOnce
+      loadDataOnce,
+      parsePrimitiveQuery
     } = props;
 
     this.mounted = true;
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
-        parseQuery(location),
+        parseQuery(location, {parsePrimitive: parsePrimitiveQuery}),
         undefined,
         pageField,
         perPageField
       );
     } else if (syncLocation && !location && window.location.search) {
       store.updateQuery(
-        parseQuery(window.location),
+        parseQuery(window.location, {parsePrimitive: parsePrimitiveQuery}),
         undefined,
         pageField,
         perPageField
@@ -633,7 +642,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        parseQuery(props.location),
+        parseQuery(props.location, {parsePrimitive: props.parsePrimitiveQuery}),
         undefined,
         props.pageField,
         props.perPageField
@@ -972,7 +981,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       env,
       pageField,
       perPageField,
-      loadDataOnceFetchOnFilter
+      loadDataOnceFetchOnFilter,
+      parsePrimitiveQuery
     } = this.props;
 
     /** 找出clearValueOnHidden的字段, 保证updateQuery时不会使用上次的保留值 */
@@ -983,6 +993,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     values = syncLocation
       ? qsparse(qsstringify(values, undefined, true))
       : values;
+
+    /** 把布尔值反解出来 */
+    if (parsePrimitiveQuery) {
+      values = parsePrimitiveQueryString(values);
+    }
 
     store.updateQuery(
       {

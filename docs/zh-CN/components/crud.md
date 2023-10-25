@@ -200,6 +200,20 @@ CRUD 组件对数据源接口的数据结构要求如下：
 | orderDir | 'asc'/'desc' | 排序方式                       |
 | keywords | string       | 搜索关键字                     |
 
+### 解析Query原始类型
+
+> `3.5.0`及以上版本
+
+`syncLocation`开启后，CRUD在初始化数据域时，将会对url中的Query进行转换，将原始类型的字符串格式的转化为同位类型，目前仅支持**布尔类型**
+
+```
+"true"  ==> true
+"false" ==> false
+```
+
+如果只想保持字符串格式，可以设置`"parsePrimitiveQuery": false`关闭该特性，具体效果参考[示例](../../../examples/crud/parse-primitive-query)。
+
+
 ## 功能
 
 既然这个渲染器叫增删改查，那接下来分开介绍这几个功能吧。
@@ -2795,7 +2809,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 > 本文中的例子为了不相互影响都关闭了这个功能。
 > 另外如果需要使用接口联动，需要设置`syncLocation: false`
 
-`syncLocation`开启后，数据域经过地址栏同步后，原始值被转化为字符串同步回数据域，但布尔值（boolean）同步后不符合预期数据结构，导致组件渲染出错。比如查询条件表单中包含[Checkbox](./form/checkbox)组件，此时可以设置`{"trueValue": "1", "falseValue": "0"}`，将真值和假值设置为字符串格式规避。
+`syncLocation`开启后，数据域经过地址栏同步后，原始值被转化为字符串同步回数据域，但布尔值（boolean）同步后不符合预期数据结构，导致组件渲染出错。比如查询条件表单中包含[Checkbox](./form/checkbox)组件，此时可以设置`{"trueValue": "1", "falseValue": "0"}`，将真值和假值设置为字符串格式规避。从`3.5.0`版本开始，已经支持[`parsePrimitiveQuery`](#解析query原始类型)，该配置默认开启。
 
 ## 前端一次性加载
 
