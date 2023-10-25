@@ -252,7 +252,7 @@ export class Pagination extends React.Component<
   }
 
   @autobind
-  async handlePageChange(e: React.ChangeEvent<any>) {
+  handlePageChange(e: React.ChangeEvent<any>) {
     const lastPage = this.getLastPage();
     let value = e.currentTarget.value;
 
