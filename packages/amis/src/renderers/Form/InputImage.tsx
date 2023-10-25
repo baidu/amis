@@ -222,6 +222,11 @@ export interface ImageControlSchema extends FormBaseControlSchema {
   multiple?: boolean;
 
   /**
+   * 可配置移动端的拍照功能，比如配置 `camera` 移动端只能拍照，等
+   */
+  capture?: string;
+
+  /**
    * 单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。
    * 多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。
    */
@@ -393,6 +398,7 @@ export default class ImageControl extends React.Component<
     delimiter: ',',
     autoUpload: true,
     multiple: false,
+    capture: undefined,
     dropCrop: true,
     initAutoFill: true
   };
@@ -1566,6 +1572,7 @@ export default class ImageControl extends React.Component<
       classnames: cx,
       disabled,
       multiple,
+      capture,
       accept,
       maxLength,
       autoUpload,
@@ -1684,7 +1691,7 @@ export default class ImageControl extends React.Component<
                   })
                 })}
               >
-                <input {...getInputProps()} />
+                <input {...getInputProps()} capture={capture as any} />
 
                 {isDragActive || isDragAccept || isDragReject ? (
                   <div

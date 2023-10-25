@@ -70,7 +70,11 @@ export const Column = types
     get isPrimary() {
       const table = getParent(self, 2) as any;
 
-      return table.filteredColumns[0]?.id === self.id;
+      return (
+        table.filteredColumns.find(
+          (column: any) => !column.type.startsWith('__')
+        )?.id === self.id
+      );
     }
   }))
   .actions(self => ({

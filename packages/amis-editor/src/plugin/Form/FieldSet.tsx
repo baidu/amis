@@ -15,6 +15,7 @@ export class FieldSetControlPlugin extends BasePlugin {
   isBaseComponent = true;
   icon = 'fa fa-toggle-down';
   description = '多个表单项的组合，可配置是否折叠';
+  searchKeywords = '表单项集合';
   docLink = '/amis/zh-CN/components/form/fieldset';
   tags = ['表单项'];
   scaffold = {

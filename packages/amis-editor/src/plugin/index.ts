@@ -9,6 +9,7 @@ export * from './Layout/Layout_fixed'; // 悬浮容器
 export * from './CollapseGroup'; // 折叠面板
 export * from './Panel'; // 面板
 export * from './Tabs'; // 选项卡
+export * from './SwitchContainer'; // 状态容器
 
 // 数据容器
 export * from './CRUD'; // 增删改查

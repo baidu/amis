@@ -27,6 +27,7 @@ export class DiffEditorControlPlugin extends BasePlugin {
   description = `左右两边的代码做对比，支持的语言包括：${availableLanguages
     .slice(0, 10)
     .join('，')}等等`;
+  searchKeywords = '对比编辑器';
   docLink = '/amis/zh-CN/components/form/diff-editor';
   tags = ['表单项'];
   scaffold = {

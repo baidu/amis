@@ -1450,6 +1450,8 @@ order: 2
 
 ## 自动填充 autoFill
 
+> 支持该配置项的有：ButtonGroup、List、NestedSelect、Picker、Radios、Select、InputFile、InputImage、InputExcel
+
 一些选择器组件，支持配置`autoFill`，将当前已选中的选项的某个字段的值，自动填充到表单中某个表单项中，支持[数据映射](../../../docs/concepts/data-mapping)
 
 ```schema: scope="body"
@@ -1555,8 +1557,6 @@ order: 2
     ]
 }
 ```
-
-支持该配置项的有：ButtonGroup、List、NestedSelect、Picker、Radios、Select。
 
 ## 控制选项高度
 

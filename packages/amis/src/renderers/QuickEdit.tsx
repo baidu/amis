@@ -339,11 +339,11 @@ export const HocQuickEdit =
         onQuickChange(values, false, true);
       }
 
-      handleChange(values: object) {
+      handleChange(values: object, diff?: any) {
         const {onQuickChange, quickEdit} = this.props;
 
         onQuickChange(
-          values,
+          diff, // 只变化差异部分，其他值有可能是旧的
           (quickEdit as QuickEditConfig).saveImmediately,
           false,
           quickEdit as QuickEditConfig

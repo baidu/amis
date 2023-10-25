@@ -295,6 +295,7 @@ export class ImageGallery extends React.Component<
 
         <Modal
           closeOnEsc
+          closeOnOutside
           size="full"
           onHide={this.close}
           show={this.state.isOpened}

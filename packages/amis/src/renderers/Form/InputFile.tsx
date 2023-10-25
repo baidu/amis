@@ -58,6 +58,11 @@ export interface FileControlSchema extends FormBaseControlSchema {
   accept?: string;
 
   /**
+   * 控制 input 标签的 capture 属性，用于移动端拍照或录像。
+   */
+  capture?: string;
+
+  /**
    * 如果上传的文件比较小可以设置此选项来简单的把文件 base64 的值给 form 一起提交，目前不支持多选。
    */
   asBase64?: boolean;
@@ -1328,6 +1333,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     const {
       btnLabel,
       accept,
+      capture,
       disabled,
       maxLength,
       maxSize,
@@ -1405,7 +1411,11 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 'is-active': isDragActive
               })}
             >
-              <input disabled={disabled} {...getInputProps()} />
+              <input
+                disabled={disabled}
+                {...getInputProps()}
+                capture={capture as any}
+              />
 
               {drag || isDragActive ? (
                 <div

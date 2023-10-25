@@ -53,7 +53,10 @@ export function HeadCellSearchDropDown({
         ]
       };
     } else if (searchable) {
-      if (searchable.body || searchable.tabs || searchable.fieldSet) {
+      if (
+        !searchable.type &&
+        (searchable.body || searchable.tabs || searchable.fieldSet)
+      ) {
         // todo 删除此处代码，这些都是不推荐的用法
         schema = {
           title: '',
@@ -80,9 +83,12 @@ export function HeadCellSearchDropDown({
 
     if (schema) {
       Array.isArray(schema.body) &&
-        schema.body.forEach(
-          (item: any) => item.name && formItems.push(item.name)
-        );
+        schema.body.forEach((item: any) => {
+          item.name && formItems.push(item.name);
+          item.extraName &&
+            typeof item.extraName === 'string' &&
+            formItems.push(item.extraName);
+        });
       schema = {
         ...schema,
         type: 'form',
@@ -193,6 +199,7 @@ export function HeadCellSearchDropDown({
           >
             {
               render('quick-search-form', formSchema, {
+                popOverContainer,
                 data: {
                   ...data
                 },

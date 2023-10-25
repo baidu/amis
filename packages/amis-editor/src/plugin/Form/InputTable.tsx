@@ -1004,7 +1004,34 @@ export class TableControlPlugin extends BasePlugin {
               },
               getSchemaTpl('description'),
               getSchemaTpl('placeholder'),
-              getSchemaTpl('labelRemark')
+              getSchemaTpl('labelRemark'),
+              {
+                name: 'columnsTogglable',
+                label: tipedLabel(
+                  '列显示开关',
+                  '是否展示表格列的显隐控件，“自动”即列数量大于5时自动开启'
+                ),
+                type: 'button-group-select',
+                pipeIn: defaultValue('auto'),
+                size: 'sm',
+                labelAlign: 'left',
+                options: [
+                  {
+                    label: '自动',
+                    value: 'auto'
+                  },
+
+                  {
+                    label: '开启',
+                    value: true
+                  },
+
+                  {
+                    label: '关闭',
+                    value: false
+                  }
+                ]
+              }
             ]
           },
           {

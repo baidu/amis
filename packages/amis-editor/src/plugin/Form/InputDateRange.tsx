@@ -194,7 +194,7 @@ export class DateRangeControlPlugin extends BasePlugin {
   isBaseComponent = true;
   // 添加源对应组件中文名称 & type字段
   searchKeywords =
-    '日期范围框、input-datetime-range、日期时间范围、input-time-range、时间范围、input-month-range、月份范围、input-quarter-range、季度范围、input-year-range、年范围';
+    '日期范围框、input-datetime-range、日期时间范围、input-time-range、时间范围、input-month-range、月份范围、input-quarter-range、季度范围、input-year-range、年范围、年份范围';
   description =
     '日期范围选择，可通过<code>minDate</code>、<code>maxDate</code>设定最小、最大日期';
   docLink = '/amis/zh-CN/components/form/input-date-range';

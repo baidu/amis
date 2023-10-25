@@ -31,7 +31,7 @@ import {FormBaseControl, FormItemWrap} from './Item';
 import {Api} from '../types';
 import {TableStore} from '../store/table';
 import pick from 'lodash/pick';
-import {callStrFunction, changedEffect} from '../utils';
+import {callStrFunction, changedEffect, tokenize} from '../utils';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -129,7 +129,6 @@ export function wrapControl<
               colIndex,
               rowIndex,
               $schema: {
-                name,
                 id,
                 type,
                 required,
@@ -163,6 +162,13 @@ export function wrapControl<
             this.handleBlur = this.handleBlur.bind(this);
             this.validate = this.validate.bind(this);
             this.flushChange = this.flushChange.bind(this);
+            let name = this.props.$schema.name;
+
+            // 如果 name 是表达式
+            // 扩充 each 用法
+            if (isExpression(name)) {
+              name = tokenize(name, data);
+            }
 
             if (!name) {
               // 一般情况下这些表单项都是需要 name 的，提示一下
@@ -308,7 +314,7 @@ export function wrapControl<
             const {
               store,
               formStore: form,
-              $schema: {name, validate},
+              $schema: {validate},
               addHook
             } = this.props;
 
@@ -326,7 +332,7 @@ export function wrapControl<
                 return finalValidate(
                   this.props.data,
                   this.getValue(),
-                  name
+                  formItem.name
                 ).then((ret: any) => {
                   if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
                     formItem.addError(ret, 'control:valdiate');
@@ -516,12 +522,7 @@ export function wrapControl<
           }
 
           controlRef(control: any) {
-            const {
-              addHook,
-              removeHook,
-              formStore: form,
-              $schema: {name}
-            } = this.props;
+            const {addHook, removeHook, formStore: form} = this.props;
 
             // 因为 control 有可能被 n 层 hoc 包裹。
             while (control && control.getWrappedInstance) {
@@ -534,16 +535,15 @@ export function wrapControl<
               this.hook = () => {
                 formItem.clearError('component:valdiate');
 
-                return validate(this.props.data, this.getValue(), name).then(
-                  ret => {
-                    if (
-                      (typeof ret === 'string' || Array.isArray(ret)) &&
-                      ret
-                    ) {
-                      formItem.setError(ret, 'component:valdiate');
-                    }
+                return validate(
+                  this.props.data,
+                  this.getValue(),
+                  formItem.name
+                ).then(ret => {
+                  if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
+                    formItem.setError(ret, 'component:valdiate');
                   }
-                );
+                });
               };
               addHook?.(this.hook);
             } else if (!control && this.hook) {
@@ -675,7 +675,6 @@ export function wrapControl<
               formStore: form,
               onChange,
               $schema: {
-                name,
                 id,
                 label,
                 type,
@@ -713,7 +712,7 @@ export function wrapControl<
                   eventType: 'formItemChange',
                   eventData: {
                     id,
-                    name,
+                    name: model.name,
                     label,
                     type,
                     value
@@ -737,10 +736,10 @@ export function wrapControl<
 
             if (model.extraName) {
               const values = model.splitExtraValue(value);
-              onChange?.(values[0], name!);
+              onChange?.(values[0], model.name);
               onChange?.(values[1], model.extraName, submitOnChange === true);
             } else {
-              onChange?.(value, name!, submitOnChange === true);
+              onChange?.(value, model.name, submitOnChange === true);
             }
             this.checkValidate();
           }
@@ -766,7 +765,6 @@ export function wrapControl<
             const model = this.model;
             const {
               formStore: form,
-              name,
               $schema: {pipeOut},
               onChange,
               value: oldValue,
@@ -786,10 +784,10 @@ export function wrapControl<
 
             if (model.extraName) {
               const values = model.splitExtraValue(value);
-              onChange?.(values[0], name!, false, true);
+              onChange?.(values[0], model.name!, false, true);
               onChange?.(values[1], model.extraName!, false, true);
             } else {
-              onChange?.(value, name!, false, true);
+              onChange?.(value, model.name!, false, true);
             }
           }
 
@@ -812,12 +810,9 @@ export function wrapControl<
 
           // 兼容老版本用法，新版本直接用 onChange 就可以。
           setValue(value: any, key?: string) {
-            const {
-              $schema: {name},
-              onBulkChange
-            } = this.props;
+            const {onBulkChange} = this.props;
 
-            if (!key || key === name) {
+            if (!key || (this.model && key === this.model.name)) {
               this.handleChange(value);
             } else {
               onBulkChange &&
@@ -854,6 +849,7 @@ export function wrapControl<
               formMode: control.mode || formMode,
               ref: this.controlRef,
               data: data || store?.data,
+              name: model?.name ?? control.name,
               value,
               changeMotivation: model?.changeMotivation,
               defaultValue: control.value,

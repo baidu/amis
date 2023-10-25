@@ -304,6 +304,7 @@ export interface RendererInfo extends RendererScaffoldInfo {
   sharedContext?: Record<string, any>;
   dialogTitle?: string; //弹窗标题用于弹窗大纲的展示
   dialogType?: string; //区分确认对话框类型
+  subEditorVariable?: Array<{label: string; children: any}>; // 传递给子编辑器的组件自定义变量，如listSelect的选项名称和值
 }
 
 export type BasicRendererInfo = Omit<
@@ -1049,7 +1050,8 @@ export abstract class BasePlugin implements PluginInterface {
         isBaseComponent: plugin.isBaseComponent,
         isListComponent: plugin.isListComponent,
         rendererName: plugin.rendererName,
-        memberImmutable: plugin.memberImmutable
+        memberImmutable: plugin.memberImmutable,
+        subEditorVariable: plugin.subEditorVariable
       };
     }
   }

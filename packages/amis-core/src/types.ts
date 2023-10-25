@@ -230,6 +230,7 @@ export interface ApiObject extends BaseApiObject {
   ) => ApiObject | Promise<ApiObject>;
   /** 是否过滤为空字符串的 query 参数 */
   filterEmptyQuery?: boolean;
+  downloadFileName?: string;
 }
 export type ApiString = string;
 export type Api = ApiString | ApiObject;

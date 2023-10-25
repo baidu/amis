@@ -142,6 +142,25 @@ table tr {
 }
 ```
 
+## 图片保存为 base64
+
+当使用 tinymce 编辑器的时候，如果配置文件接收器为空，当选择图片的时候，会自动转成 base64 格式存储
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-rich-text",
+            "name": "rich",
+            "label": "Rich Text",
+            "receiver": ""
+        }
+    ]
+}
+```
+
 ## 扩充 tinymce 插件
 
 需要在调用 amis 的时候，通过 `env.loadTinymcePlugin` 来加载自定义插件，可以查考： [examples/components/SchemaRender.jsx](https://github.com/baidu/amis/blob/master/examples/components/SchemaRender.jsx) 文件中的示例。

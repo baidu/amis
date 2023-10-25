@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -37,8 +37,8 @@
     }
   ],
   "dependencies": {
-    "amis-core": "^3.4.1",
-    "amis-ui": "^3.4.1",
+    "amis-core": "*",
+    "amis-ui": "*",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
     "classnames": "2.3.2",
@@ -87,7 +87,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@types/async": "^2.0.45",
-    "@types/codemirror": "^5.60.3",
+    "@types/codemirror": "5.60.10",
     "@types/echarts": "^4.9.2",
     "@types/file-saver": "^2.0.1",
     "@types/history": "^4.6.0",

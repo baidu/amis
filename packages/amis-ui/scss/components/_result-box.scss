@@ -237,6 +237,14 @@
     }
   }
 
+  &-valueLabel {
+    max-width: var(--Form-valueLabel-maxWidth);
+    overflow: hidden;
+    vertical-align: top;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   &-placeholder {
     color: var(--Form-input-placeholderColor);
     flex-grow: 1;

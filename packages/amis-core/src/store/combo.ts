@@ -2,6 +2,7 @@ import {types, SnapshotIn, Instance} from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import type {IFormStore, IFormItemStore} from './form';
 import {getStoreById} from './manager';
+import {countTree} from '../utils/helper';
 
 export const UniqueGroup = types
   .model('UniqueGroup', {
@@ -58,7 +59,10 @@ export const ComboStore = iRendererStore
               return;
             }
 
-            let total = item.items[0].options.length;
+            let total = countTree(
+              item.items[0].options,
+              item => typeof item.value !== 'undefined'
+            );
             let current = item.items.reduce((total, item) => {
               return total + item.selectedOptions.length;
             }, 0);
