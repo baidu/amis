@@ -393,7 +393,8 @@ test('9. change event', async () => {
           }
         }
       },
-      {}
+      {},
+      makeEnv({})
     )
   );
   // 当前页码改变
@@ -403,7 +404,7 @@ test('9. change event', async () => {
 
   const next = container.querySelector('.cxd-Pagination-next')!;
   fireEvent.click(next); // 下一页
-  expect(mockFn).toBeCalledTimes(1);
+  expect(mockFn).toBeCalledTimes(2);
 
   const go = container.querySelector('.cxd-Pagination-inputGroup')!;
   fireEvent.change(go.querySelector('.cxd-Pagination-inputGroup-input')!, {
@@ -412,15 +413,15 @@ test('9. change event', async () => {
   await wait(500);
   fireEvent.click(go.querySelector('.cxd-Pagination-inputGroup-right')!); // 输入后点击go
   await wait(200);
-  expect(mockFn).toBeCalledTimes(1);
+  expect(mockFn).toBeCalledTimes(3);
 
-  function getLastPagerItem() {
+  function getPagerItem() {
     const pager = container.querySelectorAll(
       '.cxd-Pagination > .cxd-Pagination-pager-item'
     );
     return pager[3];
   }
-  fireEvent.click(getLastPagerItem()!); // 点击页码切换
+  fireEvent.click(getPagerItem()!); // 点击页码切换
   await wait(200);
-  expect(mockFn).toBeCalledTimes(1);
+  expect(mockFn).toBeCalledTimes(4);
 });
