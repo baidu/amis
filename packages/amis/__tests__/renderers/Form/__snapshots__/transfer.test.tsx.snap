@@ -2222,10 +2222,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                               <div
                                 class="cxd-Tree-item-icons"
                               >
-                                <a
-                                  data-position="left"
-                                  data-tooltip="移除该节点"
-                                >
+                                <a>
                                   <icon-mock
                                     classname="icon icon-minus"
                                     icon="minus"
@@ -2261,10 +2258,7 @@ exports[`Renderer:transfer follow left mode 1`] = `
                               <div
                                 class="cxd-Tree-item-icons"
                               >
-                                <a
-                                  data-position="left"
-                                  data-tooltip="移除该节点"
-                                >
+                                <a>
                                   <icon-mock
                                     classname="icon icon-minus"
                                     icon="minus"
@@ -2926,10 +2920,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                               <div
                                 class="cxd-Tree-item-icons"
                               >
-                                <a
-                                  data-position="left"
-                                  data-tooltip="移除该节点"
-                                >
+                                <a>
                                   <icon-mock
                                     classname="icon icon-minus"
                                     icon="minus"
@@ -2965,10 +2956,7 @@ exports[`Renderer:transfer follow left mode 2`] = `
                               <div
                                 class="cxd-Tree-item-icons"
                               >
-                                <a
-                                  data-position="left"
-                                  data-tooltip="移除该节点"
-                                >
+                                <a>
                                   <icon-mock
                                     classname="icon icon-minus"
                                     icon="minus"
