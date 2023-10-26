@@ -754,8 +754,7 @@ let amisScoped = amis.embed(
   {
     replaceText: {
       service: 'http://localhost'
-    },
-    replaceTextKeys: ['api']
+    }
   }
 );
 ```
@@ -773,6 +772,29 @@ type, name, mode, target, reload
 ```
 
 如果发现有字段被意外替换了，可以通过设置这个属性来避免
+
+通过字符串数组或者函数来过滤字段，比如：
+
+```javascript
+let amisScoped = amis.embed(
+  '#root',
+  {
+    type: 'page',
+    body: {
+      type: 'service',
+      api: 'service/api'
+    }
+  },
+  {},
+  {
+    replaceText: {
+      service: 'http://localhost'
+    },
+    // replaceTextIgnoreKeys: ['api']，
+    replaceTextIgnoreKeys: key => key === 'api'
+  }
+);
+```
 
 #### toastPosition
 
