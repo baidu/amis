@@ -259,7 +259,9 @@ export class NumberControlPlugin extends BasePlugin {
                     if (!value.length) {
                       return undefined;
                     }
-                    return value;
+                    return value.map(item =>
+                      item.value ? item : {label: item.label, value: item.label}
+                    );
                   }
                 }),
                 getSchemaTpl('labelRemark'),
