@@ -67,3 +67,10 @@ order: 73
 | showPageInput    | `boolean`                  | false                                    | 是否显示快速跳转输入框 layout 和 showPageInput 都可以控制 |
 | disabled         | `boolean`                  | false                                    | 是否禁用                                                  |
 | onPageChange     | page、perPage 改变时会触发 | (page: number, perPage: number) => void; | 分页改变触发                                              |
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细请查看[事件动作](../../docs/concepts/event-action)。
+
+> `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
+> | 事件名称 | 事件参数 | 说明 |
+> | -------- | ------------------------------------- | ------------------------------------------- |
+> | change | `[value]: object` 当前页码的值<br/> | 当前页码值改变时触发 |
