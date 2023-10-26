@@ -7,7 +7,6 @@ import InputBoxWithSuggestion from '../InputBoxWithSuggestion';
 import Select from '../Select';
 import type {InputJSONSchemaItemProps} from './index';
 import {InputJSONSchemaItem} from './Item';
-import {isMobile} from 'amis-core';
 
 type JSONSchemaObjectMember = {
   key: string;
@@ -27,7 +26,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     renderKey,
     collapsable,
     renderValue,
-    useMobileUI
+    mobileUI
   } = props;
   const buildMembers = React.useCallback((schema: any, value: any) => {
     const members: Array<JSONSchemaObjectMember> = [];
@@ -191,7 +190,6 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
     options.every(o => members.find(m => m.name === o.value))
   );
   const allowInput = props.schema.additionalProperties !== false;
-  const mobileUI = useMobileUI && isMobile();
 
   return (
     <>
@@ -255,7 +253,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
                             clearable={false}
                             placeholder={__('JSONSchema.key')}
                             options={filtedOptions}
-                            useMobileUI={useMobileUI}
+                            mobileUI={mobileUI}
                           />
                         ) : (
                           <Select
@@ -267,7 +265,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
                             clearable={false}
                             placeholder={__('JSONSchema.key')}
                             options={filtedOptions}
-                            useMobileUI={useMobileUI}
+                            mobileUI={mobileUI}
                           />
                         )
                       ) : (
@@ -277,7 +275,7 @@ export function InputJSONSchemaObject(props: InputJSONSchemaItemProps) {
                           onChange={onMemberKeyChange.bind(null, member)}
                           clearable={false}
                           placeholder={__('JSONSchema.key')}
-                          useMobileUI={useMobileUI}
+                          mobileUI={mobileUI}
                         />
                       )}
                     </>

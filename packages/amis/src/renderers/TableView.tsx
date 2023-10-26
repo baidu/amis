@@ -3,7 +3,12 @@
  */
 
 import React from 'react';
-import {Renderer, RendererProps, resolveMappingObject} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  resolveMappingObject,
+  CustomStyle
+} from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
 
 // 为了方便编辑器，目前考虑不区分 th 和 td，但因为可以控制展现，所以能实现一样的效果，同时后续这个组件还承担复杂布局的功能，不适合用 th
@@ -261,16 +266,47 @@ export default class TableView extends React.Component<TableViewProps, object> {
   }
 
   render() {
-    const {width, trs, classnames: cx, className} = this.props;
+    const {
+      width,
+      trs = [],
+      classnames: cx,
+      className,
+      id,
+      wrapperCustomStyle,
+      env,
+      themeCss,
+      baseControlClassName
+    } = this.props;
 
     return (
       <table
-        className={cx('TableView', className)}
+        className={cx(
+          'TableView',
+          className,
+          baseControlClassName,
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
+        )}
         style={{width: width, borderCollapse: 'collapse'}}
       >
         {this.renderCaption()}
         {this.renderCols()}
         <tbody>{this.renderTrs(trs)}</tbody>
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName
+              }
+            ]
+          }}
+          env={env}
+        />
       </table>
     );
   }

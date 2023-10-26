@@ -228,12 +228,13 @@ export class PagePlugin extends BasePlugin {
               {
                 title: '数据',
                 body: [
-                  getSchemaTpl('combo-container', {
-                    type: 'input-kv',
-                    mode: 'normal',
-                    name: 'data',
-                    label: '组件静态数据'
-                  }),
+                  // page组件下掉组件静态数据配置项，可通过页面变量来定义页面中的变量
+                  // getSchemaTpl('combo-container', {
+                  //   type: 'input-kv',
+                  //   mode: 'normal',
+                  //   name: 'data',
+                  //   label: '组件静态数据'
+                  // }),
                   getSchemaTpl('apiControl', {
                     name: 'initApi',
                     mode: 'row',
@@ -292,7 +293,40 @@ export class PagePlugin extends BasePlugin {
           className: 'p-none',
           body: [
             getSchemaTpl('collapseGroup', [
-              ...getSchemaTpl('theme:common', {exclude: ['layout']})
+              ...getSchemaTpl('theme:common', {
+                exclude: ['layout'],
+                classname: 'baseControlClassName',
+                baseTitle: '基本样式',
+                extra: [
+                  getSchemaTpl('theme:base', {
+                    classname: 'bodyControlClassName',
+                    title: '内容区样式',
+                    hiddenOn: 'data.regions && !data.regions.includes("body")'
+                  }),
+                  getSchemaTpl('theme:base', {
+                    classname: 'headerControlClassName',
+                    title: '标题栏样式',
+                    extra: [
+                      getSchemaTpl('theme:font', {
+                        label: '文字',
+                        name: 'font'
+                      })
+                    ],
+                    hiddenOn: 'data.regions && !data.regions.includes("header")'
+                  }),
+                  getSchemaTpl('theme:base', {
+                    classname: 'toolbarControlClassName',
+                    title: '工具栏样式',
+                    hiddenOn:
+                      'data.regions && !data.regions.includes("toolbar")'
+                  }),
+                  getSchemaTpl('theme:base', {
+                    classname: 'asideControlClassName',
+                    title: '边栏样式',
+                    hiddenOn: 'data.regions && !data.regions.includes("aside")'
+                  })
+                ]
+              })
             ])
           ]
         },

@@ -21,7 +21,7 @@ import type {RendererEvent} from './utils/renderer-event';
 import type {ListenerContext} from './actions/Action';
 import type {ICmptAction} from './actions/CmptAction';
 
-export interface wsObject {
+export interface WsObject {
   url: string;
   responseKey?: string;
   body?: any;
@@ -32,7 +32,7 @@ export interface RendererEnv {
   fetcher: (api: Api, data?: any, options?: object) => Promise<Payload>;
   isCancel: (val: any) => boolean;
   wsFetcher: (
-    ws: wsObject,
+    ws: WsObject,
     onMessage: (data: any) => void,
     onError: (error: any) => void
   ) => void;
@@ -82,7 +82,9 @@ export interface RendererEnv {
     reRender: Function
   ) => Promise<React.ElementType> | React.ElementType | JSX.Element | void;
   loadChartExtends?: () => void | Promise<void>;
+  loadTinymcePlugin?: (tinymce: any) => void | Promise<void>;
   useMobileUI?: boolean;
+  isMobile: () => boolean;
   /**
    * 过滤 html 标签，可用来添加 xss 保护逻辑
    */

@@ -330,13 +330,13 @@ export class Input extends React.Component<RangeItemProps, any> {
    */
   @autobind
   handleInputNumberChange(value: number) {
-    const {multiple, value: originValue, type, min, onChange} = this.props;
+    const {multiple, value: originValue, type, min, max, onChange} = this.props;
     const _value = this.getValue(value, type);
 
     onChange?.(
       multiple
         ? {...(originValue as MultipleValue), [type]: _value}
-        : value ?? min
+        : Math.max(Math.min(value, max), min)
     );
   }
 
@@ -471,7 +471,7 @@ export class Input extends React.Component<RangeItemProps, any> {
       disabled,
       max,
       min,
-      useMobileUI
+      mobileUI
     } = this.props;
     const _value = multiple
       ? type === 'min'
@@ -489,7 +489,7 @@ export class Input extends React.Component<RangeItemProps, any> {
           disabled={disabled}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
         />
       </div>
     );
@@ -689,7 +689,7 @@ export default class RangeControl extends React.PureComponent<
       render,
       marks,
       region,
-      useMobileUI
+      mobileUI
     } = props;
 
     // 处理自定义json配置
@@ -704,7 +704,6 @@ export default class RangeControl extends React.PureComponent<
             (renderMarks[key] = render(region, item as SchemaObject));
         }
       });
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div

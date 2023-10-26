@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:Picker base 1`] = `
+exports[`1. Renderer:Picker base 1`] = `
 <body
   class="is-modalOpened"
   style="width: calc(100% - 0px);"
@@ -222,7 +222,7 @@ exports[`Renderer:Picker base 1`] = `
 </body>
 `;
 
-exports[`Renderer:Picker base 2`] = `
+exports[`1. Renderer:Picker base 2`] = `
 <div>
   <div
     class="cxd-Form-item cxd-Form-item--normal"
@@ -261,8 +261,6 @@ exports[`Renderer:Picker base 2`] = `
               >
                 <span
                   class="cxd-Picker-valueIcon"
-                  data-position="bottom"
-                  data-tooltip="删除"
                 >
                   ×
                 </span>

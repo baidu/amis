@@ -285,8 +285,17 @@ export default class TextControl extends React.PureComponent<
     }
   }
 
-  clearValue() {
-    const {onChange, resetValue} = this.props;
+  async clearValue() {
+    const {onChange, resetValue, dispatchEvent} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'clear',
+      resolveEventData(this.props, {value: resetValue})
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     onChange(resetValue);
     this.setState(
@@ -1080,6 +1089,9 @@ export default class TextControl extends React.PureComponent<
   @autobind
   formatInputThemeCss() {
     const {themeCss, css} = this.props;
+    if (!themeCss && !css) {
+      return;
+    }
     const inputFontThemeCss: any = {inputControlClassName: {}};
     const inputControlClassNameObject =
       (themeCss || css)?.inputControlClassName || {};
@@ -1153,7 +1165,7 @@ export default class TextControl extends React.PureComponent<
                 }
               }
             ],
-            id: id + '-inner'
+            id: id && id + '-inner'
           }}
           env={env}
         />
@@ -1167,7 +1179,7 @@ export default class TextControl extends React.PureComponent<
                 value: addOnClassName
               }
             ],
-            id: id + '-addOn'
+            id: id && id + '-addOn'
           }}
           env={env}
         />

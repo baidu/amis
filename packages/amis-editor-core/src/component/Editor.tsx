@@ -5,7 +5,7 @@ import {autobind} from '../util';
 import {MainStore, EditorStoreType} from '../store/editor';
 import {EditorManager, EditorManagerConfig, PluginClass} from '../manager';
 import {reaction} from 'mobx';
-import {RenderOptions, toast} from 'amis';
+import {RenderOptions, closeContextMenus, toast} from 'amis';
 import {PluginEventListener, RendererPluginAction} from '../plugin';
 import {reGenerateID} from '../util';
 import {SubEditor} from './SubEditor';
@@ -39,6 +39,8 @@ export interface EditorProps extends PluginEventListener {
   amisDocHost?: string;
   superEditorData?: any;
   withSuperDataSchema?: boolean;
+  /** 当前 Editor 为 SubEditor 时触发的宿主节点 */
+  hostNode?: EditorNodeType;
   dataBindingChange?: (
     value: string,
     data: any,
@@ -49,7 +51,7 @@ export interface EditorProps extends PluginEventListener {
    * Preview 预览前可以修改配置。
    * 比如把api地址替换成 proxy 地址。
    */
-  schemaFilter?: (schema: any, preview?: boolean) => any;
+  schemaFilter?: (schema: any, isPreview?: boolean) => any;
   amisEnv?: RenderOptions;
 
   /**
@@ -81,10 +83,6 @@ export interface EditorProps extends PluginEventListener {
    * 传给预览器的其他属性
    */
   previewProps?: any;
-
-  // 如果配置了，编辑器变成 iframe 模式。
-  // 需要自己写代码去建立连接。
-  iframeUrl?: string;
 
   isHiddenProps?: (key: string) => boolean;
 
@@ -130,6 +128,8 @@ export interface EditorProps extends PluginEventListener {
   ) => Promise<void | boolean>;
 
   getHostNodeDataSchema?: () => Promise<any>;
+
+  getAvaiableContextFields?: (node: EditorNodeType) => Promise<any>;
 }
 
 export default class Editor extends Component<EditorProps> {
@@ -408,6 +408,7 @@ export default class Editor extends Component<EditorProps> {
   // 右键菜单
   @autobind
   handleContextMenu(e: React.MouseEvent<HTMLElement>) {
+    closeContextMenus();
     let targetId: string = '';
     let region = '';
 
@@ -449,11 +450,20 @@ export default class Editor extends Component<EditorProps> {
 
     e.preventDefault();
     e.stopPropagation();
-
     const manager = this.manager;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    // 说明是 iframe 里面
+    if ((e.target as HTMLElement).ownerDocument !== document) {
+      const rect = manager.store.getIframe()!.getBoundingClientRect();
+      offsetX = rect.left;
+      offsetY = rect.top;
+    }
+
     manager.openContextMenu(targetId, region, {
-      x: window.scrollX + e.clientX,
-      y: window.scrollY + e.clientY
+      x: window.scrollX + e.clientX + offsetX,
+      y: window.scrollY + e.clientY + offsetY
     });
   }
 
@@ -540,7 +550,6 @@ export default class Editor extends Component<EditorProps> {
       theme,
       appLocale,
       data,
-      iframeUrl,
       previewProps,
       autoFocus,
       isSubEditor,
@@ -573,7 +582,6 @@ export default class Editor extends Component<EditorProps> {
             )}
             <Preview
               {...previewProps}
-              iframeUrl={iframeUrl}
               editable={!preview}
               isMobile={isMobile}
               store={this.store}

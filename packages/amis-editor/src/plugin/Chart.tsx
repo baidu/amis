@@ -192,6 +192,7 @@ export class ChartPlugin extends BasePlugin {
   ];
 
   panelTitle = '图表';
+  panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
     return [
       getSchemaTpl('tabs', [
@@ -236,34 +237,48 @@ export class ChartPlugin extends BasePlugin {
                   },
                   */
                   getSchemaTpl('apiControl', {
-                    label: '数据接口',
-                    // visibleOn: 'chartDataType === "dataApi"',
-                    description:
+                    label: tipedLabel(
+                      '数据接口',
                       '接口可以返回echart图表完整配置，或者图表数据，建议返回图表数据映射到 Echarts 配置中'
+                    ),
+                    mode: 'normal'
+                    // visibleOn: 'chartDataType === "dataApi"'
                   }),
 
                   getSchemaTpl('switch', {
                     label: '初始是否拉取',
                     name: 'initFetch',
                     // visibleOn: 'chartDataType === "dataApi" && data.api',
-                    visibleOn: 'data.api',
+                    visibleOn: 'data.api.url',
                     pipeIn: defaultValue(true)
                   }),
-
                   {
                     name: 'interval',
-                    label: '定时刷新间隔',
+                    label: tipedLabel(
+                      '定时刷新间隔',
+                      '设置后将自动定时刷新，最小3000, 单位 ms'
+                    ),
                     type: 'input-number',
                     step: 500,
                     // visibleOn: 'chartDataType === "dataApi" && data.api',
-                    visibleOn: 'data.api',
-                    description: '设置后将自动定时刷新，最小3000, 单位 ms'
+                    visibleOn: 'data.api.url',
+                    unitOptions: ['ms']
                   },
+                  getSchemaTpl('expressionFormulaControl', {
+                    evalMode: false,
+                    label: tipedLabel(
+                      '跟踪表达式',
+                      '如果这个表达式的值有变化时会更新图表，当 config 中用了数据映射时有用'
+                    ),
+                    name: 'trackExpression',
+                    placeholder: '\\${xxx}'
+                  }),
                   {
                     name: 'config',
                     asFormItem: true,
                     // visibleOn: 'chartDataType === "json"',
                     component: ChartConfigEditor,
+                    mode: 'normal',
                     // type: 'json-editor',
                     label: tipedLabel(
                       'Echarts 配置',
@@ -274,32 +289,29 @@ export class ChartPlugin extends BasePlugin {
                     name: 'dataFilter',
                     type: 'js-editor',
                     allowFullscreen: true,
-                    label: '数据映射（dataFilter）',
+                    mode: 'normal',
+                    label: tipedLabel(
+                      '数据映射（dataFilter）',
+                      '如果后端没有直接返回 Echart 配置，可以自己写一段函数来包装'
+                    ),
                     size: 'lg',
-                    description: `
-                    如果后端没有直接返回 Echart 配置，可以自己写一段函数来包装。
-                    <p>签名：(config, echarts, data) => config</p>
-                    <p>参数说明</p>
-                    <ul>
-                    <li><code>config</code> 原始数据</li>
-                    <li><code>echarts</code> echarts 对象</li>
-                    <li><code>data</code> 如果配置了数据接口，接口返回的数据通过此变量传入</li>
-                    </ul>
-                    <p>示例</p>
-                    <pre>debugger; // 可以浏览器中断点调试\n\n// 查看原始数据\nconsole.log(config)\n\n// 返回新的结果 \nreturn {}</pre>
-                    `
+                    placeholder: `/* 参数说明
+    * config 原始数据
+    * echarts echarts 对象
+    * data 如果配置了数据接口，接口返回的数据通过此变量传入
+    示例
+    * debugger; // 可以浏览器中断点调试
+    * console.log(config); // 查看原始数据
+    * return {}; // 返回新的结果
+  */
+  (config, echarts, data) => config`
                   },
                   getSchemaTpl('switch', {
-                    label: 'Chart 配置完全替换',
-                    name: 'replaceChartOption',
-                    labelRemark: {
-                      trigger: 'click',
-                      className: 'm-l-xs',
-                      rootClose: true,
-                      content:
-                        '默认为追加模式，新的配置会跟旧的配置合并，如果勾选将直接完全覆盖。',
-                      placement: 'left'
-                    }
+                    label: tipedLabel(
+                      'Chart 配置完全替换',
+                      '默认为追加模式，新的配置会跟旧的配置合并，如果勾选将直接完全覆盖'
+                    ),
+                    name: 'replaceChartOption'
                   })
                 ]
               },
@@ -309,6 +321,7 @@ export class ChartPlugin extends BasePlugin {
                   {
                     name: 'clickAction',
                     asFormItem: true,
+                    label: false,
                     children: ({onChange, value}: any) => (
                       <div className="m-b">
                         <Button
@@ -341,11 +354,28 @@ export class ChartPlugin extends BasePlugin {
         {
           title: '外观',
           body: getSchemaTpl('collapseGroup', [
-            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
             {
-              title: '自定义 CSS 类名',
-              body: [getSchemaTpl('className')]
-            }
+              title: '宽高设置',
+              body: [
+                getSchemaTpl('style:widthHeight', {
+                  widthSchema: {
+                    label: tipedLabel(
+                      '宽度',
+                      '默认宽度为父容器宽度，值单位默认为 px，也支持百分比等单位 ，如：100%'
+                    ),
+                    pipeIn: defaultValue('100%')
+                  },
+                  heightSchema: {
+                    label: tipedLabel(
+                      '高度',
+                      '默认高度为300px，值单位默认为 px，也支持百分比等单位 ，如：100%'
+                    ),
+                    pipeIn: defaultValue('300px')
+                  }
+                })
+              ]
+            },
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
           ])
         },
         {

@@ -12,11 +12,10 @@ export interface CollapseItem {
 }
 
 import {ClassNamesFn, themeable, autobind} from 'amis-core';
-import type {SchemaNode} from 'amis-core';
-import {isMobile} from 'amis-core';
+import type {SchemaNode, ThemeProps} from 'amis-core';
 import isEqual from 'lodash/isEqual';
 
-export interface CollapseGroupProps {
+export interface CollapseGroupProps extends ThemeProps {
   defaultActiveKey?: Array<string | number | never> | string | number;
   accordion?: boolean;
   expandIcon?: SchemaNode;
@@ -24,10 +23,7 @@ export interface CollapseGroupProps {
   body?: Array<React.ReactElement>;
   className?: string;
   style?: any;
-  classnames: ClassNamesFn;
-  classPrefix: string;
   children?: React.ReactNode | Array<React.ReactNode>;
-  useMobileUI?: boolean;
   onCollapseChange?: (
     activeKeys: Array<string | number>,
     collapseId: string | number,
@@ -149,9 +145,8 @@ class CollapseGroup extends React.Component<
       style,
       expandIconPosition,
       children,
-      useMobileUI
+      mobileUI
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div

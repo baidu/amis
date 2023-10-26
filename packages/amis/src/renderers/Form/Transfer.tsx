@@ -6,7 +6,8 @@ import {
   OptionsControl,
   FormOptionsControl,
   resolveEventData,
-  str2function
+  str2function,
+  getOptionValueBindField
 } from 'amis-core';
 import {SpinnerExtraProps, Transfer} from 'amis-ui';
 import type {Option} from 'amis-core';
@@ -233,7 +234,11 @@ export class BaseTransferRenderer<
           optionValueCompare(
             item[(valueField as string) || 'value'],
             (valueField as string) || 'value'
-          )
+          ),
+          {
+            resolve: getOptionValueBindField(valueField),
+            value: item[valueField as string] || 'value'
+          }
         );
 
         if (!indexes) {
@@ -423,29 +428,21 @@ export class BaseTransferRenderer<
 
   @autobind
   optionItemRender(option: Option, states: ItemRenderStates) {
-    const {menuTpl, render, data, labelField = 'label'} = this.props;
+    const {menuTpl, render, data} = this.props;
 
-    if (menuTpl) {
-      return render(`item/${states.index}`, menuTpl, {
-        data: createObject(createObject(data, states), option)
-      });
-    }
-
-    return BaseSelection.itemRender(option, {labelField, ...states});
+    return render(`item/${states.index}`, menuTpl, {
+      data: createObject(createObject(data, states), option)
+    });
   }
 
   @autobind
   resultItemRender(option: Option, states: ItemRenderStates) {
     const {valueTpl, render, data} = this.props;
 
-    if (valueTpl) {
-      return render(`value/${states.index}`, valueTpl, {
-        onChange: states.onChange,
-        data: createObject(createObject(data, states), option)
-      });
-    }
-
-    return ResultList.itemRender(option, states);
+    return render(`value/${states.index}`, valueTpl, {
+      onChange: states.onChange,
+      data: createObject(createObject(data, states), option)
+    });
   }
 
   @autobind
@@ -503,6 +500,10 @@ export class BaseTransferRenderer<
       case 'selectAll':
         this.tranferRef?.selectAll();
         break;
+      case 'clearSearch': {
+        this.tranferRef?.clearSearch(data);
+        break;
+      }
     }
   }
 
@@ -528,6 +529,7 @@ export class BaseTransferRenderer<
       selectTitle,
       resultTitle,
       menuTpl,
+      valueTpl,
       searchPlaceholder,
       resultListModeFollowSelect = false,
       resultSearchPlaceholder,
@@ -540,7 +542,8 @@ export class BaseTransferRenderer<
       loadingConfig,
       showInvalidMatch,
       onlyChildren,
-      useMobileUI
+      mobileUI,
+      noResultsText
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -591,8 +594,8 @@ export class BaseTransferRenderer<
           statistics={statistics}
           labelField={labelField}
           valueField={valueField}
-          optionItemRender={this.optionItemRender}
-          resultItemRender={this.resultItemRender}
+          optionItemRender={menuTpl ? this.optionItemRender : undefined}
+          resultItemRender={valueTpl ? this.resultItemRender : undefined}
           onSelectAll={this.onSelectAll}
           onRef={this.getRef}
           virtualThreshold={virtualThreshold}
@@ -601,7 +604,8 @@ export class BaseTransferRenderer<
           }
           loadingConfig={loadingConfig}
           showInvalidMatch={showInvalidMatch}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
+          noResultsText={noResultsText}
         />
 
         <Spinner

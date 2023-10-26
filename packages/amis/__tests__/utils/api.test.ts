@@ -324,8 +324,8 @@ test('api:cache', async () => {
 });
 
 test('api:isvalidapi', () => {
-  expect(isValidApi('api/xxx')).toBeFalsy();
-  expect(isValidApi('api/xxx?a=1')).toBeFalsy();
+  expect(isValidApi('api/xxx')).toBeTruthy();
+  expect(isValidApi('api/xxx?a=1')).toBeTruthy();
   expect(isValidApi('/x')).toBeTruthy();
   expect(isValidApi('/api/xxx?a=1&b=2&c=3')).toBeTruthy();
   expect(isValidApi('http://xxxdomain')).toBeTruthy();
@@ -641,6 +641,7 @@ test('api:responseData2', async () => {
   expect(fetcher).toHaveBeenCalledTimes(1);
   expect(container.querySelector('input[name="id"]')).toBeInTheDocument();
   expect((container.querySelector('input[name="id"]') as any).value).toBe('1');
+  await wait(500);
 
   expect(container.querySelector('input[name="id2"]')).toBeInTheDocument();
   expect((container.querySelector('input[name="id2"]') as any).value).toBe('2');

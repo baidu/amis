@@ -149,7 +149,10 @@ export class Tag extends React.Component<TagProps> {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
-        <span className={cx('Tag-text')}>
+        <span
+          className={cx('Tag-text')}
+          title={typeof label === 'string' ? label : undefined}
+        >
           {prevIcon}
           {label || children}
         </span>
@@ -187,6 +190,7 @@ class CheckableTagComp extends React.Component<CheckableTagProps> {
         })}
         onClick={disabled ? noop : this.handleClick}
         style={style}
+        title={typeof label === 'string' ? label : undefined}
       >
         {label || children}
       </span>

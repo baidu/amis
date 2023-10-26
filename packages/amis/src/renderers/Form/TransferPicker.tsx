@@ -87,8 +87,12 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       loadingConfig,
       labelField = 'label',
       valueField = 'value',
-      useMobileUI,
-      env
+      menuTpl,
+      valueTpl,
+      mobileUI,
+      env,
+      maxTagCount,
+      overflowTagPopover
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -128,8 +132,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           columns={columns}
           leftMode={leftMode}
           leftOptions={leftOptions}
-          optionItemRender={this.optionItemRender}
-          resultItemRender={this.resultItemRender}
+          optionItemRender={menuTpl ? this.optionItemRender : undefined}
+          resultItemRender={valueTpl ? this.resultItemRender : undefined}
           onFocus={() => this.dispatchEvent('focus')}
           onBlur={() => this.dispatchEvent('blur')}
           labelField={labelField}
@@ -138,8 +142,10 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }
           virtualThreshold={virtualThreshold}
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
           popOverContainer={env?.getModalContainer}
+          maxTagCount={maxTagCount}
+          overflowTagPopover={overflowTagPopover}
         />
 
         <Spinner

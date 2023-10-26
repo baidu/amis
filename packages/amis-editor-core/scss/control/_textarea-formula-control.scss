@@ -56,7 +56,6 @@
       font-size: 12px;
       color: var(--text--muted-color);
       pointer-events: none;
-      padding: 10px;
     }
 
     &-footer {
@@ -74,6 +73,11 @@
       > li {
         margin-right: 10px;
         cursor: pointer;
+
+        &.is-loading {
+          display: flex;
+          cursor: unset;
+        }
       }
       &--fullscreen {
         > a {
@@ -134,6 +138,9 @@
             font-size: 20px;
           }
         }
+      }
+      &-placeholder {
+        padding: 10px;
       }
     }
   }

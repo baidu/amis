@@ -4,7 +4,6 @@ import Button from '../Button';
 import {Icon} from '../icons';
 import type {InputJSONSchemaItemProps} from './index';
 import {InputJSONSchemaItem} from './Item';
-import {isMobile} from 'amis-core';
 
 type JSONSchemaArrayMember = {
   key: string;
@@ -21,7 +20,7 @@ export function InputJSONSchemaArray(props: InputJSONSchemaItemProps) {
     translate: __,
     collapsable,
     renderValue,
-    useMobileUI
+    mobileUI
   } = props;
   const buildMembers = React.useCallback((schema: any, value: any) => {
     const members: Array<JSONSchemaArrayMember> = [];
@@ -139,7 +138,6 @@ export function InputJSONSchemaArray(props: InputJSONSchemaItemProps) {
   // todo additionalProperties 还有其他格式
   const allowAdd = !maxContains || maxContains > members.length;
   const allowDelete = !minContains || minContains < members.length;
-  const mobileUI = useMobileUI && isMobile();
 
   return (
     <>

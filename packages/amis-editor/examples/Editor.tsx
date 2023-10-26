@@ -9,9 +9,9 @@ import LayoutList from './layout/index';
 import themeConfig from 'amis-theme-editor-helper/lib/systemTheme/cxd';
 
 // 测试组织属性配置面板的国际化，可以放开如下注释
-// import '../renderer/InputTextI18n';
-// import '../renderer/TextareaI18n';
-// import '../utils/overwriteSchemaTpl';
+// import './renderer/InputTextI18n';
+// import './renderer/TextareaI18n';
+// import './utils/overwriteSchemaTpl';
 // const i18nEnabled = true;
 const i18nEnabled = false;
 setThemeConfig(themeConfig);
@@ -194,27 +194,27 @@ const variableSchemas = {
   type: 'object',
   $id: 'appVariables',
   properties: {
-    'appVariables.ProductName': {
+    ProductName: {
       type: 'string',
       title: '产品名称',
       default: '对象存储'
     },
-    'appVariables.Banlance': {
+    Banlance: {
       type: 'number',
       title: '账户余额',
       default: '0.00'
     },
-    'appVariables.ProductNum': {
+    ProductNum: {
       type: 'integer',
       title: '产品数量',
       default: '0.00'
     },
-    'appVariables.isOnline': {
+    isOnline: {
       type: 'boolean',
       title: '是否线上环境',
       default: 'false'
     },
-    'appVariables.ProductList': {
+    ProductList: {
       type: 'array',
       items: {
         type: 'string',
@@ -223,7 +223,7 @@ const variableSchemas = {
       title: '产品列表',
       default: '["BOS", "CFS", "PFS", "CloudFlow", "MongoDB"]'
     },
-    'appVariables.PROFILE': {
+    PROFILE: {
       type: 'object',
       title: '个人信息',
       properties: {
@@ -643,7 +643,6 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
         theme={theme || 'cxd'}
         showCustomRenderersPanel={true}
         plugins={LayoutList} // 存放常见布局组件
-        iframeUrl={'/packages/amis-editor/editor.html'}
         $schemaUrl={`${location.protocol}//${location.host}/schema.json`}
         actionOptions={{
           showOldEntry: false
@@ -662,7 +661,8 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
         ctx={{
           __page: {
             num: 2
-          }
+          },
+          ...variableDefaultData
         }}
       />
     );
@@ -701,13 +701,19 @@ export default class AMisSchemaEditor extends React.Component<any, any> {
 
             <div className="Editor-header-actions">
               <ShortcutKey />
-              {/* <Select
-                className="margin-left-space "
-                options={editorLanguages}
-                value={curLanguage}
-                clearable={false}
-                onChange={(e: any) => this.changeLocale(e.value)}
-              /> */}
+              {
+                // @ts-ignore
+                // vite编译时替换
+                __editor_i18n ? (
+                  <Select
+                    className="margin-left-space "
+                    options={editorLanguages}
+                    value={curLanguage}
+                    clearable={false}
+                    onChange={(e: any) => this.changeLocale(e.value)}
+                  />
+                ) : null
+              }
 
               {i18nEnabled && (
                 <Button

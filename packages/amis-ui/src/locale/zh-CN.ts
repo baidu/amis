@@ -218,6 +218,7 @@ register('zh-CN', {
   'Select.createLabel': '新增选项',
   'Select.placeholder': '请选择',
   'Select.searchPromptText': '搜索',
+  'Select.selected': '已选择',
   'sort': '排序',
   'SubForm.button': '设置',
   'SubForm.editDetail': '编辑详情',

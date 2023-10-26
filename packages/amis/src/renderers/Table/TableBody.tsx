@@ -64,6 +64,10 @@ export interface TableBodyProps extends LocaleProps {
 
 @observer
 export class TableBody extends React.Component<TableBodyProps> {
+  componentDidMount(): void {
+    this.props.store.syncTableWidth();
+  }
+
   renderRows(
     rows: Array<any>,
     columns = this.props.columns,

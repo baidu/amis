@@ -8,7 +8,8 @@ import {
   promisify,
   qsparse,
   string2regExp,
-  parseQuery
+  parseQuery,
+  isMobile
 } from './utils/helper';
 import {
   fetcherResult,
@@ -82,6 +83,7 @@ export interface RendererProps
     [propName: string]: any;
   };
   onBroadcast?: (type: string, rawEvent: RendererEvent<any>, ctx: any) => any;
+  mobileUI?: boolean;
   [propName: string]: any;
 }
 
@@ -98,24 +100,24 @@ export interface RenderSchemaFilter {
   (schema: Schema, renderer: RendererConfig, props?: any): Schema;
 }
 
-export interface wsObject {
+export interface WsObject {
   url: string;
   responseKey?: string;
   body?: any;
+}
+
+export interface FetcherConfig {
+  url: string;
+  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'jsonp' | 'js';
+  data?: any;
+  config?: any;
 }
 
 export interface RenderOptions
   extends Partial<Omit<RendererEnv, 'fetcher' | 'theme'>> {
   session?: string;
   theme?: string;
-  fetcher?: (config: fetcherConfig) => Promise<fetcherResult>;
-}
-
-export interface fetcherConfig {
-  url: string;
-  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'jsonp' | 'js';
-  data?: any;
-  config?: any;
+  fetcher?: (config: FetcherConfig) => Promise<fetcherResult>;
 }
 
 const renderers: Array<RendererConfig> = [];
@@ -236,7 +238,7 @@ export const defaultOptions: RenderOptions = {
   },
   // 使用 WebSocket 来实时获取数据
   wsFetcher(
-    ws: wsObject,
+    ws: WsObject,
     onMessage: (data: any) => void,
     onError: (error: any) => void
   ) {
@@ -343,7 +345,8 @@ export const defaultOptions: RenderOptions = {
   /**
    * 过滤 html 标签，可用来添加 xss 保护逻辑
    */
-  filterHtml: (input: string) => input
+  filterHtml: (input: string) => input,
+  isMobile: isMobile
 };
 
 export const stores: {

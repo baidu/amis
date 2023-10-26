@@ -339,7 +339,8 @@ export interface ActionObject extends ButtonObject {
     | 'collapse'
     | 'step-submit'
     | 'selectAll'
-    | 'changeTabKey';
+    | 'changeTabKey'
+    | 'clearSearch';
   api?: BaseApiObject | string;
   asyncApi?: BaseApiObject | string;
   payload?: any;
@@ -660,6 +661,11 @@ export interface BaseSchemaWithoutType {
      */
     mock?: any;
   };
+
+  /**
+   * 可以组件级别用来关闭移动端样式
+   */
+  useMobileUI?: boolean;
 }
 
 export type OperatorType =

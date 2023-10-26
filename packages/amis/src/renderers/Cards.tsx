@@ -1,6 +1,6 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, buildStyle} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {Button, Spinner, SpinnerExtraProps} from 'amis-ui';
 import {ListStore, IListStore} from 'amis-core';
@@ -832,7 +832,13 @@ export default class Cards extends React.Component<GridProps, object> {
   }
 
   // editor中重写，请勿更改前两个参数
-  renderCard(index: number, card: any, item: IItem, itemClassName: string) {
+  renderCard(
+    index: number,
+    card: any,
+    item: IItem,
+    itemClassName: string,
+    style: any
+  ) {
     const {
       render,
       classnames: cx,
@@ -876,7 +882,7 @@ export default class Cards extends React.Component<GridProps, object> {
     }
 
     return (
-      <div key={item.index} className={cx(itemClassName)}>
+      <div key={item.index} className={cx(itemClassName)} style={style}>
         {render(
           `card/${index}`,
           {
@@ -901,6 +907,7 @@ export default class Cards extends React.Component<GridProps, object> {
       itemClassName,
       placeholder,
       card,
+      data,
       render,
       affixHeader,
       masonryLayout,
@@ -938,13 +945,32 @@ export default class Cards extends React.Component<GridProps, object> {
           .join(' ');
     }
 
+    // 自定义行列间距
+    let wrapStyles: React.CSSProperties = {};
+    let itemStyles: React.CSSProperties = {};
+    if (style?.gutterX >= 0) {
+      wrapStyles.marginLeft = wrapStyles.marginRight =
+        -(style?.gutterX / 2) + 'px';
+      itemStyles.paddingLeft = itemStyles.paddingRight =
+        style?.gutterX / 2 + 'px';
+    }
+
+    if (style?.gutterY >= 0) {
+      itemStyles.marginBottom = style?.gutterY + 'px';
+    }
+    // 修正grid多列计算错误
+    if (columnsCount && !masonryLayout) {
+      itemStyles.flex = `0 0 ${100 / columnsCount}%`;
+      itemStyles.maxWidth = `${100 / columnsCount}%`;
+    }
+
     return (
       <div
         ref={this.bodyRef}
         className={cx('Cards', className, {
           'Cards--unsaved': !!store.modified || !!store.moved
         })}
-        style={style}
+        style={buildStyle(style, data)}
       >
         {affixHeader ? (
           <div
@@ -964,9 +990,10 @@ export default class Cards extends React.Component<GridProps, object> {
         {store.items.length ? (
           <div
             className={cx('Cards-body Grid', itemsClassName, masonryClassName)}
+            style={wrapStyles}
           >
             {store.items.map((item, index) =>
-              this.renderCard(index, card, item, itemFinalClassName)
+              this.renderCard(index, card, item, itemFinalClassName, itemStyles)
             )}
           </div>
         ) : (

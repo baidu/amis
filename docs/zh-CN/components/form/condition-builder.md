@@ -333,6 +333,7 @@ type Value = ValueGroup;
 - `source` 动态选项，请配置 api。
 - `searchable` 是否可以搜索
 - `autoComplete` 自动提示补全，每次输入新内容后，将调用接口，根据接口返回更新选项。
+- `maxTagCount` 可以限制标签的最大展示数量，超出数量的部分会收纳到 Popover 中，可以通过 `overflowTagPopover` 配置 Popover 相关的属性，注意该属性仅在多选模式开启后生效。
 
 ```schema: scope="body"
 {
@@ -1279,7 +1280,7 @@ selectMode 为`chained`时，使用`source`字段
               }
             ]
           },
-          "formula": {
+          "formulaForIf": {
             "mode":"input-group",
             "variables": [
               {
@@ -1435,7 +1436,9 @@ selectMode 为`chained`时，使用`source`字段
 | addBtnVisibleOn      | `string`                            |          | 表达式：控制按钮“添加条件”的显示。参数为`depth`、`breadth`，分别代表深度、长度。表达式需要返回`boolean`类型   | `3.2.0` |
 | addGroupBtnVisibleOn | `string`                            |          | 表达式：控制按钮“添加条件组”的显示。参数为`depth`、`breadth`，分别代表深度、长度。表达式需要返回`boolean`类型 | `3.2.0` |
 | inputSettings        | `InputSettings`                     |          | 开启公式编辑模式时的输入控件类型                                                                              | `3.2.0` |
+| formula              | `object`                            |          | 字段输入控件变成公式编辑器。                                                                                  | `3.2.0` |
 | showIf               | `boolean`                           |          | 开启后条件中额外还能配置启动条件。                                                                            | `3.2.0` |
+| formulaForIf         | `object`                            |          | 给 showIF 表达式用的公式信息                                                                                  | `3.4.0` |
 
 ### InputSettings
 

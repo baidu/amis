@@ -33,6 +33,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   showNot?: boolean; // 是否显示非按钮
   showANDOR?: boolean; // 是否显示并或切换键按钮
   showIf?: boolean; // 是否显示条件
+  formulaForIf?: FormulaPickerProps;
   value?: ConditionGroupValue;
   data?: any;
   onChange: (value?: ConditionGroupValue) => void;
@@ -263,7 +264,8 @@ export class QueryBuilder extends React.Component<
       selectMode,
       isAddBtnVisibleOn,
       isAddGroupBtnVisibleOn,
-      showIf
+      showIf,
+      formulaForIf
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -308,6 +310,7 @@ export class QueryBuilder extends React.Component<
         isAddBtnVisibleOn={isAddBtnVisibleOn}
         isAddGroupBtnVisibleOn={isAddGroupBtnVisibleOn}
         showIf={showIf}
+        formulaForIf={formulaForIf}
       />
     );
   }
@@ -325,7 +328,8 @@ export class QueryBuilder extends React.Component<
       value,
       title,
       disabled,
-      popOverContainer
+      popOverContainer,
+      mobileUI
     } = this.props;
 
     if (embed) {
@@ -371,7 +375,7 @@ export class QueryBuilder extends React.Component<
                 </span>
               )
             }
-            useMobileUI
+            mobileUI={mobileUI}
             onResultClick={onClick}
           ></ResultBox>
         )}

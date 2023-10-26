@@ -99,7 +99,7 @@ export interface NestedSelectProps
   withChildren?: boolean;
   onlyChildren?: boolean;
   hideNodePathLabel?: boolean;
-  useMobileUI?: boolean;
+  mobileUI?: boolean;
   maxTagCount?: number;
   overflowTagPopover?: TooltipObject;
 }
@@ -925,7 +925,7 @@ export default class NestedSelectControl extends React.Component<
       clearable,
       loading,
       borderMode,
-      useMobileUI,
+      mobileUI,
       popOverContainer,
       env,
       loadingConfig,
@@ -933,14 +933,13 @@ export default class NestedSelectControl extends React.Component<
       overflowTagPopover
     } = this.props;
 
-    const mobileUI = useMobileUI && isMobile();
     return (
       <div
         className={cx('NestedSelectControl', className)}
         ref={this.outTarget}
       >
         <ResultBox
-          useMobileUI={useMobileUI}
+          mobileUI={mobileUI}
           maxTagCount={maxTagCount}
           overflowTagPopover={overflowTagPopover}
           disabled={disabled}

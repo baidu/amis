@@ -1,0 +1,163 @@
+/**
+ * @file crud2-control.scss
+ * @desc CRUD2相关控件及样式
+ */
+
+.ae-CRUDConfigControl {
+  margin-bottom: var(--Form-item-gap);
+
+  &-list {
+    margin: 0;
+    padding: 0;
+    border-radius: 4px;
+    border: 1px solid #e8e9eb;
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+    &-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 30px;
+      padding: 0 var(--gap-sm);
+
+      &.is-draggable:hover {
+        background-color: #f9f9f9;
+        cursor: move;
+      }
+
+      &-dragger {
+        cursor: move;
+        margin: 0 var(--gap-sm) 0 0;
+        color: rgba(232, 233, 235, 1);
+      }
+
+      &-info {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        max-width: 140px;
+
+        & > span {
+          max-width: 100%;
+          min-width: 0;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          font-weight: 500;
+          color: #151b26;
+        }
+      }
+
+      &-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        & > button {
+          color: #151b26;
+          margin: 0;
+          padding-left: 0;
+          padding-right: 0;
+
+          &:not(:last-child) {
+            margin-right: var(--gap-sm);
+          }
+
+          & > svg {
+            width: px2rem(16px);
+            height: px2rem(16px);
+
+            &.icon-share-link {
+              width: px2rem(14px);
+              height: px2rem(14px);
+            }
+          }
+        }
+      }
+
+      &-tag {
+        cursor: auto;
+        background-color: transparent;
+        border: 1px solid #2468f2;
+        color: #2468f2;
+        border-radius: 2px;
+        line-height: #{px2rem(18px)};
+        height: #{px2rem(20px)};
+        margin-right: #{px2rem(8px)};
+        scale: 0.9;
+        max-width: 80px;
+
+        &--cascading {
+          color: #531dab;
+          border-color: #531dab;
+        }
+      }
+    }
+  }
+
+  &-placeholder {
+    color: #b4b6ba;
+    padding-top: px2rem(10px);
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  &-header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+
+    & > span:nth-child(1) {
+      margin-bottom: 0;
+    }
+
+    &-actions {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      align-items: center;
+
+      &-switch {
+        margin-right: var(--gap-sm);
+      }
+
+      &-divider {
+        width: 1px;
+        height: 16px;
+        margin: 0 4px;
+        background-color: #dfdfdf;
+      }
+    }
+  }
+
+  &-dropdown {
+    /* margin-bottom: var(--Form-mode-default-labelGap); */
+
+    & > button {
+      color: #4c5664;
+      margin: 0;
+      padding-left: 0;
+      padding-right: 0;
+      font-weight: bold;
+
+      & > svg {
+        width: px2rem(14px);
+        height: px2rem(14px);
+        margin-right: var(--gap-xs);
+      }
+    }
+  }
+
+  &-footer {
+    display: flex;
+    flex-flow: row-reverse nowrap;
+  }
+}
+
+.ae-CRUDConfigControl-modal {
+  &-btn-loading {
+    --Spinner-color: #fff;
+  }
+}

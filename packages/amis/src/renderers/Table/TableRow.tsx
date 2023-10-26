@@ -6,7 +6,7 @@ import {Action} from '../Action';
 import {isClickOnInput, createObject} from 'amis-core';
 
 interface TableRowProps extends Pick<RendererProps, 'render'> {
-  onCheck: (item: IRow) => Promise<void>;
+  onCheck: (item: IRow, value: boolean, shift?: boolean) => Promise<void>;
   onRowClick: (item: IRow, index: number) => Promise<RendererEvent<any> | void>;
   onRowDbClick: (
     item: IRow,
@@ -68,6 +68,8 @@ export class TableRow extends React.Component<TableRowProps> {
       return;
     }
 
+    const shiftKey = (e.nativeEvent as MouseEvent)?.shiftKey;
+
     e.preventDefault();
     e.stopPropagation();
 
@@ -85,7 +87,7 @@ export class TableRow extends React.Component<TableRowProps> {
       // item.toggle();
     } else {
       if (item.checkable && item.isCheckAvaiableOnClick) {
-        onCheck?.(item);
+        onCheck?.(item, !item.checked, shiftKey);
       }
     }
   }

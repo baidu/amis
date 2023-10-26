@@ -33,7 +33,7 @@ export interface CascaderProps extends OptionsControlProps {
   withChildren?: boolean;
   onlyChildren?: boolean;
   hideNodePathLabel?: boolean;
-  useMobileUI?: boolean;
+  mobileUI?: boolean;
   value?: (number | string)[];
   activeColor?: string;
   optionRender?: ({

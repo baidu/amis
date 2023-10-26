@@ -1015,9 +1015,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
     // Note: File类型字段放在后面，可以支持第三方云存储鉴权
     fd.append(config.fieldName || 'file', file);
-
+    api.data = fd;
     try {
-      return await this._send(file, api, fd, {}, onProgress);
+      return await this._send(file, api, {}, onProgress);
     } finally {
       this.removeFileCanelExecutor(file);
     }
@@ -1169,12 +1169,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
           // Note: File类型字段放在后面，可以支持第三方云存储鉴权
           fd.append(config.fieldName || 'file', blob, file.name);
+          api.data = fd;
 
           return self
             ._send(
               file,
               api,
-              fd,
               {},
               progress => updateProgress(task.partNumber, progress),
               3
@@ -1219,7 +1219,6 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   async _send(
     file: FileX,
     api: ApiObject | ApiString,
-    data?: any,
     options?: object,
     onProgress?: (progress: number) => void,
     maxRetryLimit = 0
@@ -1232,7 +1231,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
 
     try {
-      const result = await env.fetcher(api, data, {
+      const result = await env.fetcher(api, this.props.data, {
         method: 'post',
         ...options,
         withCredentials: true,
@@ -1256,14 +1255,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       return result;
     } catch (error) {
       if (maxRetryLimit > 0) {
-        return this._send(
-          file,
-          api,
-          data,
-          options,
-          onProgress,
-          maxRetryLimit - 1
-        );
+        return this._send(file, api, options, onProgress, maxRetryLimit - 1);
       }
       throw error;
     }

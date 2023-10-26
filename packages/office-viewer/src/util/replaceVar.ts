@@ -3,6 +3,7 @@
  * 为了避免 word 里不必要的标签要先执行 mergeRun
  */
 
+import {Pic} from '../openxml/drawing/Pic';
 import Word from '../Word';
 import {createObject} from './createObject';
 
@@ -32,15 +33,55 @@ function replaceText(word: Word, text: string, data: any) {
   return text;
 }
 
-function replaceAlt(word: Word, cNvPr: Element, data: any) {
+// 生成的新 id
+let newRelId = 1;
+
+/**
+ * 替换图片里的变量
+ * @param replaceImage 如果为 true，则会实际替换掉 zip 里的图片，但可能影响性能所以默认不开启，只有下载的时候才开启
+ */
+async function replaceAlt(
+  word: Word,
+  cNvPr: Element,
+  data: any,
+  replaceImage: boolean = false
+) {
+  if (cNvPr.getAttribute('downloaded')) {
+    // 已经替换过了
+    return;
+  }
   const alt = cNvPr.getAttribute('descr') || '';
-  cNvPr.setAttribute('descrVar', replaceText(word, alt, data));
+  const imageURL = replaceText(word, alt, data);
+  cNvPr.setAttribute('descrVar', imageURL);
+  if (replaceImage && imageURL) {
+    const parentElement = cNvPr.parentElement!.parentElement!;
+    const blip = parentElement.getElementsByTagName('a:blip').item(0);
+    if (blip) {
+      const newId = `rIdn${newRelId}`;
+      blip.setAttribute('r:embed', newId);
+      const imageResponse = await fetch(imageURL);
+      const imageData = await imageResponse.arrayBuffer();
+      word.saveNewImage(newId, new Uint8Array(imageData));
+      cNvPr.setAttribute('downloaded', 'true');
+      newRelId++;
+    }
+    const pic = Pic.fromXML(word, parentElement);
+    if (pic && pic.blipFill && pic.blipFill.blip) {
+      const blip = pic.blipFill.blip;
+      if (blip.embled) {
+      }
+    }
+  }
 }
 
 /**
  * 替换表格行
  */
-function replaceTableRow(word: Word, tr: Element) {
+async function replaceTableRow(
+  word: Word,
+  tr: Element,
+  replaceImage: boolean = false
+) {
   const evalVar = word.renderOptions.evalVar;
   const data = word.renderOptions.data;
   const table = tr.parentNode as Element;
@@ -86,13 +127,13 @@ function replaceTableRow(word: Word, tr: Element) {
         replaceT(word, t, rowData);
       }
 
-      // 替换图片里的变量
       for (const cNvPr of newTr.getElementsByTagName('pic:cNvPr')) {
-        replaceAlt(word, cNvPr, rowData);
+        await replaceAlt(word, cNvPr, rowData, replaceImage);
       }
 
       table.insertBefore(newTr, tr);
     }
+
     // 删除原来的行
     table.removeChild(tr);
   }
@@ -132,13 +173,41 @@ function removeAllAttr(node: Element) {
 /**
  * 替换表格，目前只支持行
  */
-function replaceTable(word: Word, documentData: Document) {
+async function replaceTable(
+  word: Word,
+  documentData: Document,
+  replaceImage: boolean = false
+) {
   const trs = [].slice.call(documentData.getElementsByTagName('w:tr'));
   for (const tr of trs) {
-    replaceTableRow(word, tr);
+    await replaceTableRow(word, tr, replaceImage);
   }
 }
 
-export function replaceVar(word: Word, documentData: Document) {
-  replaceTable(word, documentData);
+/**
+ * 替换单个图片，必须是不在表格里的
+ * @param word
+ * @param documentData
+ */
+async function replaceSingleImage(word: Word, documentData: Document) {
+  for (const cNvPr of documentData.getElementsByTagName('pic:cNvPr')) {
+    await replaceAlt(word, cNvPr, word.renderOptions.data, true);
+  }
+}
+
+/**
+ * 变量替换主入口
+ * @param word
+ * @param documentData
+ * @param replaceImage 是否替换掉图片，只有下载时才替换，避免性能问题
+ */
+export async function replaceVar(
+  word: Word,
+  documentData: Document,
+  replaceImage: boolean = false
+) {
+  await replaceTable(word, documentData, replaceImage);
+  if (replaceImage) {
+    await replaceSingleImage(word, documentData);
+  }
 }

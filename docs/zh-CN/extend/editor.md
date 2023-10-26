@@ -4,7 +4,7 @@ title: 可视化编辑器
 
 目前 amis 可视化编辑器也作为单独的 npm 包发布了出来，可以通过 npm 安装使用。
 
-在线体验：https://aisuda.github.io/amis-editor-demo  
+在线体验：https://aisuda.github.io/amis-editor-demo
 示例代码：https://github.com/aisuda/amis-editor-demo
 
 ## 使用
@@ -42,12 +42,11 @@ render() {
 - `preview?: boolean` 是否为预览模式。
 - `autoFocus?: boolean` 是否自动聚焦第一个可编辑的组件。
 - `isMobile?: boolean` 是否为移动端模式，当为移动模式时，将采用 iframe 来预览，需要配置 `iframeUrl`。
-- `iframeUrl?: string` 这个和 `isMobile` 搭配使用。具体看下面的说明。
 - `$schemaUrl?: string` 提供 amis 产出的 schema.json 的访问路径。主要用来给代码编辑模式提供属性提示信息。
 - `className?: string` 额外加个 css 类名，辅助样式定义。
 - `schemas?: JSONSchemaObject` 用来定义有哪些全局变量，辅助编辑器格式化绑定全局数据。
 - `theme?: string` amis 主题
-- `schemaFilter?: (schema: any) => any` 配置过滤器。可以用来实现 api proxy，比如原始配置中请求地址是 `http://baidu.com` 如果直接给编辑器预览请求，很可能会报跨域，可以自动转成 `/api/proxy?_url=xxxx`，走 proxy 解决。
+- `schemaFilter?: (schema: any, isPreview?: boolean) => any` 配置过滤器。可以用来实现 api proxy，比如原始配置中请求地址是 `http://baidu.com` 如果直接给编辑器预览请求，很可能会报跨域，可以自动转成 `/api/proxy?_url=xxxx`，走 proxy 解决。
 - `amisEnv?: any` 这是是给 amis 的 Env 对象，具体请前往 [env 说明](../start/getting-started#env)
 - `disableBultinPlugin?: boolean` 是否禁用内置插件
 - `disablePluginList?: Array<string> | (id: string, plugin: PluginClass) => boolean` 禁用插件列表
@@ -79,21 +78,6 @@ render() {
 - `onWidthChangeStart?: ` 当渲染器标记为 `widthMutable` 时会触发宽度变动事件
 - `onHeightChangeStart?: ` 当渲染器标记为 `heightMutable` 时会触发宽度变动事件
 - `onSizeChangeStart?: ` 当渲染器同时标记为 `widthMutable` 和 `heightMutable` 时会触发变动事件
-
-## 移动端编辑与预览
-
-移动端预览，需要额外提供 iframe 页面，并且与编辑器建立连接。mountInIframe 前请确保自定义的 amis 渲染器已经加载了，否则会出现自定义渲染器无法编辑的问题。
-
-```html
-<body>
-  <div id="root" class="app-wrapper"></div>
-  <script type="module">
-    import reactDom from 'react-dom';
-    import {mountInIframe} from 'amis-editor';
-    mountInIframe(document.getElementById('root'), reactDom);
-  </script>
-</body>
-```
 
 ## 自定义插件
 

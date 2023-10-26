@@ -34,6 +34,7 @@ const CertainPresetShorcut = {
 };
 
 const ModifyPresetShorcut = {
+  $hoursago: '最近n小时',
   $daysago: '最近n天',
   $dayslater: 'n天以内',
   $weeksago: '最近n周',
@@ -337,7 +338,8 @@ export class DateShortCutControl extends React.PureComponent<
 
     const key = (option.data as ModifyOptionType)
       .key as keyof typeof ModifyPresetShorcut;
-    const label = ModifyPresetShorcut[key].split('n');
+
+    const label = ModifyPresetShorcut[key]?.split('n') || [];
 
     return render(
       'inner',

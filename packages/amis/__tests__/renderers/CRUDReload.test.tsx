@@ -1,8 +1,19 @@
-import {render, fireEvent, waitFor} from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  waitFor,
+  cleanup,
+  screen
+} from '@testing-library/react';
 import '../../src';
-import {render as amisRender} from '../../src';
+import {render as amisRender, clearStoresCache} from '../../src';
 import {makeEnv, wait} from '../helper';
-jest.useRealTimers();
+
+afterEach(() => {
+  cleanup();
+  clearStoresCache();
+  jest.useRealTimers();
+});
 
 // 验证 crud 里面的 ajax 动作，结束后是否刷新 crud
 test('CRUD reload ajax1', async () => {
@@ -528,4 +539,111 @@ test('CRUD reload drawer2', async () => {
 
   expect(mockFetcher).toBeCalledTimes(2);
   expect(listApiCalledCount).toBe(1);
+});
+
+test.only('reload event triggered and clear selectedItems & unselectedItems', async () => {
+  const mockFetcher = jest.fn(async function fetcher(config: any) {
+    return {
+      status: 200,
+      headers: {},
+      data: {
+        status: 0,
+        msg: '',
+        data: {
+          count: 3,
+          items: [
+            {id: 1, name: 'amis1'},
+            {id: 2, name: 'amis2'},
+            {id: 3, name: 'amis3'}
+          ]
+        }
+      }
+    };
+  });
+
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'crud',
+          id: 'crud',
+          api: '/api/mock2/sample',
+          syncLocation: false,
+          keepItemSelectionOnPageChange: true,
+          bulkActions: [
+            {
+              type: 'action',
+              align: 'right',
+              icon: 'iconfont icon-refresh',
+              label: '刷新(actionType)',
+              tooltip: '',
+              level: 'primary',
+              actionType: 'reload',
+              target: 'crud'
+            }
+          ],
+          columns: [
+            {
+              name: 'id',
+              label: 'ID'
+            },
+            {
+              name: 'name',
+              label: 'name'
+            },
+            {
+              type: 'container',
+              label: '操作',
+              body: [
+                {
+                  label: '删除',
+                  type: 'action',
+                  level: 'danger',
+                  className: 'deleteBtn',
+                  onEvent: {
+                    click: {
+                      actions: [
+                        {
+                          actionType: 'ajax',
+                          args: {
+                            api: '/api/mock2/sample' /** mock */
+                          }
+                        },
+                        {
+                          actionType: 'reload',
+                          componentId: 'crud',
+                          dataMergeMode: 'override'
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({fetcher: mockFetcher})
+    )
+  );
+
+  await waitFor(() => {
+    expect(container.querySelectorAll('tbody>tr').length).toEqual(3);
+    expect(container.querySelectorAll('tbody>tr.is-checked').length).toEqual(0);
+  });
+
+  fireEvent.click(
+    container.querySelector('.cxd-Table-checkCell input[type="checkbox"]')!
+  );
+  await wait(200);
+  expect(container.querySelectorAll('tbody>tr.is-checked').length).toEqual(3);
+
+  /** 触发reload后勾选项清空 */
+  const deleteBtn = container.querySelector('.cxd-Button.deleteBtn');
+  expect(deleteBtn).toBeInTheDocument();
+  fireEvent.click(deleteBtn!);
+  await wait(500);
+  expect(container.querySelectorAll('tbody>tr.is-checked').length).toEqual(0);
 });

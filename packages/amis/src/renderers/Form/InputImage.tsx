@@ -39,6 +39,7 @@ import {filter} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
+import isNil from 'lodash/isNil';
 import {TplSchema} from '../Tpl';
 import Sortable from 'sortablejs';
 
@@ -639,12 +640,13 @@ export default class ImageControl extends React.Component<
       currentFiles = [];
     }
 
-    const allowed =
-      (multiple
-        ? maxLength
+    const allowed = !isNil(this.reuploadIndex)
+      ? reFiles.length
+      : (multiple
           ? maxLength
-          : reFiles.length + currentFiles.length
-        : 1) - currentFiles.length;
+            ? maxLength
+            : reFiles.length + currentFiles.length
+          : 1) - currentFiles.length;
 
     // 限制过多的错误文件
     if (allowed <= 0) {
@@ -1115,12 +1117,13 @@ export default class ImageControl extends React.Component<
       currentFiles = [];
     }
 
-    const allowed =
-      (multiple
-        ? maxLength
+    const allowed = !isNil(this.reuploadIndex)
+      ? files.length
+      : (multiple
           ? maxLength
-          : files.length + currentFiles.length
-        : 1) - currentFiles.length;
+            ? maxLength
+            : files.length + currentFiles.length
+          : 1) - currentFiles.length;
     const inputFiles: Array<FileX> = [];
 
     [].slice.call(files, 0, allowed).forEach((file: FileX) => {
@@ -1317,6 +1320,8 @@ export default class ImageControl extends React.Component<
     // Note: File类型字段放在后面，可以支持第三方云存储鉴权
     fd.append(fileField, file, (file as File).name || this.state.cropFileName);
 
+    api.data = fd;
+
     const env = this.props.env;
 
     if (!env || !env.fetcher) {
@@ -1324,7 +1329,7 @@ export default class ImageControl extends React.Component<
     }
 
     try {
-      return await env.fetcher(api, fd, {
+      return await env.fetcher(api, this.props.data, {
         method: 'post',
         cancelExecutor: (cancelExecutor: () => void) => {
           // 记录取消器，取消的时候要调用
@@ -1676,7 +1681,7 @@ export default class ImageControl extends React.Component<
                       <div className={cx('ImageControl-itemList')}>
                         {files.map((file, key) => (
                           <div
-                            key={this.getFileKey(file)}
+                            key={`${this.getFileKey(file)}-${key}`}
                             className={cx(
                               'ImageControl-item',
                               {
@@ -1998,16 +2003,7 @@ export default class ImageControl extends React.Component<
               {
                 key: 'inputImageControlClassName',
                 value: inputImageControlClassName
-              }
-            ],
-            id
-          }}
-          env={env}
-        />
-        <CustomStyle
-          config={{
-            themeCss,
-            classNames: [
+              },
               {
                 key: 'addBtnControlClassName',
                 value: addBtnControlClassName,
@@ -2019,16 +2015,7 @@ export default class ImageControl extends React.Component<
                     suf: ':not(:disabled):not(.is-disabled)'
                   }
                 }
-              }
-            ],
-            id: id + '-addOn'
-          }}
-          env={env}
-        />
-        <CustomStyle
-          config={{
-            themeCss,
-            classNames: [
+              },
               {
                 key: 'iconControlClassName',
                 value: iconControlClassName,
@@ -2039,7 +2026,7 @@ export default class ImageControl extends React.Component<
                 }
               }
             ],
-            id: id + '-icon'
+            id
           }}
           env={env}
         />

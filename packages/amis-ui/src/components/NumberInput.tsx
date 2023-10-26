@@ -10,14 +10,7 @@ import getMiniDecimal, {
 } from '@rc-component/mini-decimal';
 
 import {Icon} from './icons';
-import {
-  ThemeProps,
-  themeable,
-  isNumeric,
-  autobind,
-  ucFirst,
-  isMobile
-} from 'amis-core';
+import {ThemeProps, themeable, isNumeric, autobind, ucFirst} from 'amis-core';
 
 export type ValueType = string | number;
 
@@ -81,7 +74,6 @@ export interface NumberProps extends ThemeProps {
    * 数字输入框类名
    */
   inputControlClassName?: string;
-  useMobileUI?: boolean;
 }
 
 export interface NumberState {
@@ -316,12 +308,11 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       inputRef,
       keyboard,
       inputControlClassName,
-      useMobileUI
+      mobileUI
     } = this.props;
     const precisionProps: any = {
       precision: NumberInput.normalizePrecision(precision, step)
     };
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <InputNumber
@@ -370,10 +361,9 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       readOnly,
       displayMode,
       inputControlClassName,
-      useMobileUI
+      mobileUI
     } = this.props;
 
-    const mobileUI = useMobileUI && isMobile();
     return (
       <>
         {displayMode === 'enhance' ? (

@@ -1,6 +1,9 @@
 import React from 'react';
 import {Button} from 'amis';
 import omit from 'lodash/omit';
+import uniq from 'lodash/uniq';
+import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   EditorNodeType,
   getSchemaTpl,
@@ -52,6 +55,9 @@ export class PickerControlPlugin extends BasePlugin {
         value: 'B'
       }
     ],
+    overflowConfig: {
+      maxTagCount: -1
+    },
     modalClassName: 'app-popover'
   };
   previewSchema: any = {
@@ -174,6 +180,134 @@ export class PickerControlPlugin extends BasePlugin {
         })
       ];
     };
+    const getOverflowTagPopoverTpl = (schema: any = {}) => {
+      const {namePre, title, key} = schema;
+      delete schema.namePre;
+      return {
+        type: 'container',
+        body: [
+          {
+            type: 'switch',
+            label: title,
+            name: `${namePre}.${key}`,
+            inputClassName: 'is-inline',
+            onChange: (value: any, origin: any, item: any, form: any) => {
+              const overflowConfig = cloneDeep(form.data.overflowConfig) || {};
+              const displayPosition = overflowConfig.displayPosition || [];
+              if (value) {
+                overflowConfig.displayPosition = uniq([
+                  ...displayPosition,
+                  key
+                ]);
+              } else {
+                overflowConfig.displayPosition = displayPosition.filter(
+                  (_: string) => _ !== key
+                );
+                const configKey =
+                  key === 'select'
+                    ? 'overflowTagPopover'
+                    : 'overflowTagPopoverInCRUD';
+                delete overflowConfig[configKey];
+              }
+              form.setValues({
+                overflowConfig
+              });
+            }
+          },
+          {
+            name: namePre ? `${namePre}.trigger` : 'trigger',
+            type: 'select',
+            label: tipedLabel('触发方式', '默认方式为”鼠标悬停“'),
+            multiple: true,
+            value: ['hover'],
+            pipeIn: (value: any) =>
+              Array.isArray(value) ? value.join(',') : [],
+            pipeOut: (value: any) =>
+              value && value.length ? value.split(',') : undefined,
+            options: [
+              {
+                label: '鼠标悬停',
+                value: 'hover'
+              },
+
+              {
+                label: '点击',
+                value: 'click'
+              }
+            ],
+            visibleOn: `${namePre}.${key}`
+          },
+          {
+            type: 'button-group-select',
+            name: namePre ? `${namePre}.placement` : 'placement',
+            label: '提示位置',
+            size: 'sm',
+            options: [
+              {
+                label: '上',
+                value: 'top'
+              },
+              {
+                label: '下',
+                value: 'bottom'
+              },
+              {
+                label: '左',
+                value: 'left'
+              },
+              {
+                label: '右',
+                value: 'right'
+              }
+            ],
+            pipeIn: defaultValue('top'),
+            visibleOn: `${namePre}.${key}`
+          },
+          {
+            type: 'switch',
+            label: tipedLabel('展示浮层箭头', '关闭后提示浮层不展示指向箭头'),
+            name: namePre ? `${namePre}.showArrow` : 'showArrow',
+            inputClassName: 'is-inline',
+            visibleOn: `${namePre}.${key}`
+          },
+          {
+            type: 'input-group',
+            label: tipedLabel(
+              '浮层偏移量',
+              '提示浮层位置相对”水平“、”垂直“的偏移量'
+            ),
+            body: [
+              {
+                type: 'input-number',
+                name: namePre ? `${namePre}.offset` : 'offset',
+                prefix: 'X：',
+                pipeIn: (value: any) =>
+                  Array.isArray(value) ? value[0] || 0 : 0,
+                pipeOut: (value: any, oldValue: any, data: any) => {
+                  const offset =
+                    get(data, namePre ? `${namePre}.offset` : 'offset') || [];
+                  return [value, offset[1] || 0];
+                }
+              },
+              {
+                type: 'input-number',
+                name: namePre ? `${namePre}.offset` : 'offset',
+                prefix: 'Y：',
+                pipeIn: (value: any) =>
+                  Array.isArray(value) ? value[1] || 0 : 0,
+                pipeOut: (value: any, oldValue: any, data: any) => {
+                  const offset =
+                    get(data, namePre ? `${namePre}.offset` : 'offset') || [];
+                  return [offset[0] || 0, value];
+                }
+              }
+            ],
+            visibleOn: `${namePre}.${key}`
+          }
+        ],
+        ...schema
+      };
+    };
     return getSchemaTpl('tabs', [
       {
         title: '属性',
@@ -186,19 +320,18 @@ export class PickerControlPlugin extends BasePlugin {
                 required: true
               }),
               getSchemaTpl('label'),
-              getSchemaTpl('valueFormula', {
-                mode: 'vertical',
-                rendererSchema: context?.schema
-              }),
-              getSchemaTpl('switch', {
-                name: 'embed',
-                label: tipedLabel('开启内嵌', '是否不以弹框形式展示选择内容')
-              }),
               {
-                type: 'button-group-select',
-                label: tipedLabel('弹框类型', '设置弹框形式，弹框或抽屉'),
+                type: 'select',
+                label: tipedLabel(
+                  '选框类型',
+                  '内嵌：以平铺方式展示在页面，其它两种以弹框或抽屉形式弹出展示'
+                ),
                 name: 'modalMode',
                 options: [
+                  {
+                    label: '内嵌',
+                    value: 'inner'
+                  },
                   {
                     label: '弹框',
                     value: 'dialog'
@@ -209,16 +342,60 @@ export class PickerControlPlugin extends BasePlugin {
                   }
                 ],
                 pipeIn: defaultValue('dialog'),
-                visibleOn: '!this.embed'
+                onChange: (value: any, origin: any, item: any, form: any) => {
+                  form.setValues({
+                    embed: value === 'inner'
+                  });
+                  if (value !== 'inner') {
+                    form.setValues({
+                      modalMode: value
+                    });
+                  } else {
+                    const overflowConfig = cloneDeep(form.data.overflowConfig);
+                    delete overflowConfig.overflowTagPopoverInCRUD;
+                    overflowConfig.displayPosition = ['select'];
+                    form.setValues({
+                      overflowConfig
+                    });
+                  }
+                }
               },
               getSchemaTpl('multiple'),
-              getSchemaTpl('textareaFormulaControl', {
-                label: tipedLabel('标签模板', '已选定数据的label展示内容'),
-                name: 'labelTpl',
-                visibleOn: '!this.embed'
-              }),
+              {
+                type: 'ae-switch-more',
+                formType: 'dialog',
+                className: 'ae-switch-more-flex',
+                label: tipedLabel(
+                  '标签收纳',
+                  '当值数量超出一定数量时，可进行收纳显示'
+                ),
+                form: {
+                  body: [
+                    {
+                      type: 'input-number',
+                      name: 'overflowConfig.maxTagCount',
+                      label: '最大标签数',
+                      defaultValue: -1
+                    },
+                    getOverflowTagPopoverTpl({
+                      namePre: 'overflowConfig.overflowTagPopover',
+                      title: '选择器收纳器',
+                      key: 'select'
+                    }),
+                    getSchemaTpl('divider'),
+                    getOverflowTagPopoverTpl({
+                      namePre: 'overflowConfig.overflowTagPopoverInCRUD',
+                      title: 'CRUD收纳器',
+                      key: 'crud',
+                      hiddenOn: '!!embed'
+                    })
+                  ]
+                },
+                visibleOn: 'this.multiple'
+              },
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
+              getSchemaTpl('placeholder'),
               getSchemaTpl('description')
             ]
           },
@@ -226,6 +403,33 @@ export class PickerControlPlugin extends BasePlugin {
             title: '选项',
             body: [
               getSchemaTpl('optionControlV2'),
+              getSchemaTpl('valueFormula', {
+                mode: 'vertical',
+                rendererSchema: context?.schema,
+                label: tipedLabel(
+                  '默认值',
+                  `当在fx中配置多选值时，需要适配值格式，示例：
+                  选项值为 <br/><code>[
+                    {label: '选项A', value: 'A'},
+                    {label: '选项B', value: 'B'}
+                  ]</code>
+                  <br/>选中选项A和选项B：
+                  <ul>
+                    <li>开启拼接值且拼接符为 ‘,’ ：值示例 'A,B'</li>
+                    <li>关闭拼接值，开启仅提取值，值示例：['A', 'B']</li>
+                    <li>关闭拼接值，关闭仅提取值，值示例：[
+                      {label: '选项A', value: 'A'},
+                      {label: '选项B', value: 'B'}
+                    ]</li>
+                  </ul>`
+                )
+              }),
+              getSchemaTpl('textareaFormulaControl', {
+                label: tipedLabel('标签模板', '已选定数据的label展示内容'),
+                name: 'labelTpl',
+                mode: 'normal',
+                visibleOn: '!this.embed'
+              }),
               {
                 type: 'button',
                 label: '配置选框详情',
@@ -336,11 +540,12 @@ export class PickerControlPlugin extends BasePlugin {
                   type: 'icon-select',
                   returnSvg: true
                 },
-                getSchemaTpl('theme:size', {
-                  name: 'themeCss.pickControlClassName.--Pick-base-icon-size',
-                  label: '图标大小',
-                  editorThemePath: `default.body.icon-size`
-                }),
+                // 新版大小设置不兼容，先不加
+                // getSchemaTpl('theme:size', {
+                //   name: 'themeCss.pickControlClassName.--Pick-base-icon-size',
+                //   label: '图标大小',
+                //   editorThemePath: `default.body.icon-size`
+                // }),
                 getSchemaTpl('theme:colorPicker', {
                   label: '颜色',
                   labelMode: 'input',

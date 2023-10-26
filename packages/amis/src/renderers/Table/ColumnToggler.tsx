@@ -319,9 +319,9 @@ export default class ColumnToggler extends React.Component<
       children,
       closeOnClick,
       closeOnOutside,
-      useMobileUI
+      mobileUI
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
+
     const body = (
       <RootClose
         disabled={!this.state.isOpened}
@@ -522,9 +522,8 @@ export default class ColumnToggler extends React.Component<
       data,
       draggable,
       hideExpandIcon,
-      useMobileUI
+      mobileUI
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
 
     const button = (
       <button

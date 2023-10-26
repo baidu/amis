@@ -782,3 +782,11 @@ Toast 提示弹出位置，默认为`'top-center'`。
 ```
 'top-right' | 'top-center' | 'top-left' | 'bottom-center' | 'bottom-left' | 'bottom-right' | 'center'
 ```
+
+#### loadChartExtends
+
+可以用来加载 echarts 插件，首次加载 echarts 完毕后调用，支持异步返回一个 promise 即可。
+
+#### loadTinymcePlugin
+
+可以用来加载 tinymce 插件，每次渲染 tinymce 的时候执行，可以用来加载 tinymce 插件。

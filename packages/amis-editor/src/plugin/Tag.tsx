@@ -189,7 +189,13 @@ export class TagPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              getSchemaTpl('label'),
+              getSchemaTpl('valueFormula', {
+                name: 'label',
+                label: '标签内容',
+                rendererSchema: {
+                  type: 'input-text'
+                }
+              }),
               {
                 type: 'button-group-select',
                 label: '模式',

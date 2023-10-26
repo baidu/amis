@@ -129,7 +129,7 @@ export interface TreeSelectProps
   hideNodePathLabel?: boolean;
   enableNodePath?: boolean;
   pathSeparator?: string;
-  useMobileUI?: boolean;
+  mobileUI?: boolean;
 }
 
 export interface TreeSelectState {
@@ -603,14 +603,13 @@ export default class TreeSelectControl extends React.Component<
       itemHeight,
       menuTpl,
       enableDefaultIcon,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     let filtedOptions =
       !isEffectiveApi(autoComplete) && searchable && this.state.inputValue
         ? this.filterOptions(options, this.state.inputValue)
         : options;
-    const mobileUI = useMobileUI && isMobile();
 
     return (
       <TreeSelector
@@ -666,7 +665,7 @@ export default class TreeSelectControl extends React.Component<
         itemHeight={toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined}
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
-        useMobileUI={useMobileUI}
+        mobileUI={mobileUI}
       />
     );
   }
@@ -689,7 +688,7 @@ export default class TreeSelectControl extends React.Component<
       selectedOptions,
       placeholder,
       popOverContainer,
-      useMobileUI,
+      mobileUI,
       maxTagCount,
       overflowTagPopover,
       translate: __,
@@ -698,7 +697,6 @@ export default class TreeSelectControl extends React.Component<
     } = this.props;
 
     const {isOpened} = this.state;
-    const mobileUI = useMobileUI && isMobile();
     return (
       <div ref={this.container} className={cx(`TreeSelectControl`, className)}>
         <ResultBox
@@ -738,7 +736,7 @@ export default class TreeSelectControl extends React.Component<
           allowInput={!mobileUI && (searchable || isEffectiveApi(autoComplete))}
           hasDropDownArrow
           readOnly={mobileUI}
-          useMobileUI
+          mobileUI={mobileUI}
         >
           {loading ? (
             <Spinner loadingConfig={loadingConfig} size="sm" />

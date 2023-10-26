@@ -17,23 +17,23 @@
     min-height: 1px;
     max-width: 100%;
     width: 100%;
-    // padding-left: math.div($Grid-gutterWidth, 2);
-    // padding-right: math.div($Grid-gutterWidth, 2);
+    padding-left: math.div($Grid-gutterWidth, 2);
+    padding-right: math.div($Grid-gutterWidth, 2);
   }
 
   .#{$ns}Grid-col--#{$class}Auto {
     flex: 0 0 auto;
     width: auto;
     max-width: 100%;
-    // padding-left: math.div($Grid-gutterWidth, 2);
-    // padding-right: math.div($Grid-gutterWidth, 2);
+    padding-left: math.div($Grid-gutterWidth, 2);
+    padding-right: math.div($Grid-gutterWidth, 2);
   }
 }
 
 // Generate Grid row
 @mixin make-row($gutter: $Grid-gutterWidth) {
-  // margin-left: math.div($gutter, -2);
-  // margin-right: math.div($gutter, -2);
+  margin-left: math.div($gutter, -2);
+  margin-right: math.div($gutter, -2);
   display: flex;
   flex-wrap: wrap;
 }

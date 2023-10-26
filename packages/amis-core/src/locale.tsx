@@ -1,6 +1,7 @@
 // 多语言支持
 import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
+import moment from 'moment';
 import {resolveVariable} from './utils/tpl-builtin';
 
 export type TranslateFn<T = any> = (str: T, data?: object) => T;
@@ -10,6 +11,12 @@ interface LocaleConfig {
 }
 
 let defaultLocale: string = 'zh-CN';
+
+const momentLocaleMap: Record<string, string> = {
+  'zh-CN': 'zh-cn',
+  'en-US': 'en',
+  'de-DE': 'de'
+};
 
 const locales: {
   [propName: string]: LocaleConfig;
@@ -154,6 +161,7 @@ export function localeable<
           locale,
           translate: translate!
         };
+        moment.locale(momentLocaleMap?.[locale] ?? locale);
         const refConfig = ComposedComponent.prototype?.isReactComponent
           ? {ref: this.childRef}
           : {forwardedRef: this.childRef};

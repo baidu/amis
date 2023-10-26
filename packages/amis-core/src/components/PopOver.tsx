@@ -132,14 +132,17 @@ export class PopOver extends React.PureComponent<PopOverPorps, PopOverState> {
       top: (positionTop as number) + yOffset,
       left: (positionLeft as number) + xOffset
     };
+    const placements =
+      typeof activePlacement === 'string' ? activePlacement.split('-') : [];
 
     return (
       <div
         ref={this.wrapperRef}
         className={cx(
-          `${ns}PopOver`,
+          `PopOver`,
           className,
-          `${ns}PopOver--${camel(activePlacement)}`
+          `PopOver--${camel(activePlacement)}`,
+          placements[3] ? `PopOver--v-${placements[3]}` : ''
         )}
         style={outerStyle}
         {...rest}

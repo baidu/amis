@@ -313,6 +313,7 @@ export class GridPlugin extends BasePlugin {
                     label: '水平对齐',
                     tiled: true,
                     pipeIn: defaultValue('left'),
+                    inputClassName: 'flex-nowrap',
                     options: [
                       {
                         value: 'left',
@@ -339,6 +340,7 @@ export class GridPlugin extends BasePlugin {
                     label: '垂直对齐',
                     tiled: true,
                     pipeIn: defaultValue('top'),
+                    inputClassName: 'flex-nowrap',
                     options: [
                       {
                         value: 'top',
@@ -522,6 +524,7 @@ export class GridPlugin extends BasePlugin {
                       label: false,
                       tiled: true,
                       clearable: true,
+                      inputClassName: 'flex-nowrap',
                       options: [
                         {
                           value: 'top',

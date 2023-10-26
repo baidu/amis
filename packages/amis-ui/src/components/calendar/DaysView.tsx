@@ -13,9 +13,7 @@ import {
   LocaleProps,
   localeable,
   ClassNamesFn,
-  utils,
-  convertArrayValueToMoment,
-  isMobile
+  convertArrayValueToMoment
 } from 'amis-core';
 import type {RendererEnv} from 'amis-core';
 import Picker from '../Picker';
@@ -32,7 +30,7 @@ interface CustomDaysViewProps extends LocaleProps {
   selectedDate: moment.Moment;
   minDate: moment.Moment;
   maxDate: moment.Moment;
-  useMobileUI: boolean;
+  mobileUI: boolean;
   embed: boolean;
   timeFormat: string;
   requiredConfirm?: boolean;
@@ -775,14 +773,14 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
   render() {
     const {
       viewDate: date,
-      useMobileUI,
+      mobileUI,
       embed,
       timeFormat,
       classnames: cx
     } = this.props;
     const locale = date.localeData();
     const __ = this.props.translate;
-    if (isMobile() && useMobileUI && !embed) {
+    if (mobileUI && !embed) {
       return <div className="rdtYears">{this.renderPicker()}</div>;
     }
 

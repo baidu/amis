@@ -195,6 +195,10 @@
     border-spacing: 0;
     border-collapse: separate;
 
+    &.is-layout-fixed {
+      table-layout: fixed !important;
+    }
+
     & th,
     & td {
       text-align: left;
@@ -231,6 +235,11 @@
       }
     }
 
+    &.is-layout-fixed td {
+      white-space: normal;
+      word-break: break-all;
+    }
+
     &.table-fixed-left .is-sticky-last-left:after {
       box-shadow: var(--Table-fixedLeft-boxShadow);
     }
@@ -259,7 +268,7 @@
       padding-top: 0;
     }
 
-    &--affixHeader thead {
+    &--affixHeader > thead {
       visibility: collapse;
     }
 
@@ -506,7 +515,18 @@
 
       &.is-dragging {
         opacity: var(--Table-onDragging-opacity);
+        background-color: var(--Table-onDragging-bg);
       }
+    }
+
+    > tbody.is-dragging > tr:not(.is-dragging) {
+      background: var(--Table-bg);
+      color: var(--Table-color);
+    }
+
+    > tbody.is-dragging > tr:not(.is-drop-allowed):not(.is-dragging) {
+      color: var(--table-body-disabled-color);
+      background-color: var(--table-body-disabled-bg-color);
     }
 
     .#{$ns}Table-divider2 {
@@ -945,6 +965,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 25; // 因为 sticky 的时候是 20
   }
 
   &--autoFillHeight {
@@ -1062,5 +1083,25 @@
   > .#{$ns}Button--link {
     padding: 0;
     margin-right: px2rem(10px);
+  }
+}
+
+/* 移动端样式调整 */
+@include media-breakpoint-down(sm) {
+  .#{$ns}Table-table > thead > tr > th {
+    border-bottom: none;
+
+    &::before {
+      @include hairline-bottom(var(--Table-thead-borderColor));
+    }
+  }
+  .#{$ns}Table-table th,
+  .#{$ns}Table-table td {
+    position: relative;
+    border-bottom: none;
+
+    &::before {
+      @include hairline-bottom(var(--Table-borderColor));
+    }
   }
 }

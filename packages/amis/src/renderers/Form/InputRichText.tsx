@@ -4,7 +4,8 @@ import {
   FormControlProps,
   FormBaseControl,
   buildApi,
-  qsstringify
+  qsstringify,
+  autobind
 } from 'amis-core';
 import cx from 'classnames';
 import {LazyComponent} from 'amis-core';
@@ -182,6 +183,7 @@ export default class RichTextControl extends React.Component<
       const fetcher = props.env.fetcher;
       this.config = {
         ...props.options,
+        onLoaded: this.handleTinyMceLoaded,
         images_upload_handler: (blobInfo: any, progress: any) =>
           new Promise(async (resolve, reject) => {
             const formData = new FormData();
@@ -262,6 +264,12 @@ export default class RichTextControl extends React.Component<
     }
 
     onChange?.(value, submitOnChange, changeImmediately);
+  }
+
+  @autobind
+  handleTinyMceLoaded(tinymce: any) {
+    const env = this.props.env;
+    return env?.loadTinymcePlugin?.(tinymce);
   }
 
   render() {

@@ -125,6 +125,7 @@ setSchemaTpl('multiple', (schema: any = {}) => {
     label: '可多选',
     value: false,
     hiddenOnDefault: true,
+    clearChildValuesOnOff: false,
     formType: 'extend',
     ...(schema.patch || {}),
     form: {

@@ -31,6 +31,7 @@ import {Section} from './openxml/word/Section';
 import {printIframe} from './util/print';
 import {Settings} from './openxml/Settings';
 import {get} from './util/get';
+import {fileTypeFromBuffer} from './util/fileType';
 
 /**
  * 渲染配置
@@ -321,6 +322,8 @@ export default class Word {
    */
   currentSection: Section;
 
+  DOCUMENT_RELS = '/word/_rels/document.xml.rels';
+
   /**
    * 初始化一些公共资源，比如
    */
@@ -409,9 +412,9 @@ export default class Word {
     this.relationships = rels;
 
     let documentRels = {};
-    if (this.parser.fileExists('/word/_rels/document.xml.rels')) {
+    if (this.parser.fileExists(this.DOCUMENT_RELS)) {
       documentRels = parseRelationships(
-        this.parser.getXML('/word/_rels/document.xml.rels'),
+        this.parser.getXML(this.DOCUMENT_RELS),
         'word'
       );
     }
@@ -533,6 +536,48 @@ export default class Word {
     }
 
     return null;
+  }
+
+  /**
+   * 保存新图片，这个方法主要用于图片变量，需要生成新的 relation
+   * @param newRelId 关系 id
+   * @param blob 文件数据
+   * @param ext 扩展名
+   */
+  saveNewImage(newRelId: string, data: Uint8Array) {
+    if (this.parser.fileExists(this.DOCUMENT_RELS)) {
+      const documentRels = this.parser.getXML(this.DOCUMENT_RELS);
+      // 基于一个克隆更稳妥
+      const newRelation = documentRels
+        .getElementsByTagName('Relationship')
+        .item(0)!
+        .cloneNode(true) as Element;
+      newRelation.setAttributeNS(null, 'Id', newRelId);
+      newRelation.setAttributeNS(
+        null,
+        'Type',
+        'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image'
+      );
+      let ext = '';
+      const fileType = fileTypeFromBuffer(data);
+      if (fileType) {
+        ext = '.' + fileType.ext;
+      }
+
+      const imagePath = 'media/image' + newRelId + ext;
+      newRelation.setAttributeNS(null, 'Target', imagePath);
+      documentRels
+        .getElementsByTagName('Relationships')[0]
+        .appendChild(newRelation);
+
+      // 需要使用相对路径
+      this.parser.saveFile(
+        this.DOCUMENT_RELS.replace(/^\//, ''),
+        buildXML(documentRels)
+      );
+
+      this.parser.saveFile('word/' + imagePath, data);
+    }
   }
 
   loadFont(rId: string, key: string) {
@@ -674,12 +719,12 @@ export default class Word {
   /**
    * 下载生成的文档，会对 word/document.xml 进行处理，替换文本
    */
-  download(fileName: string = 'document.docx') {
+  async download(fileName: string = 'document.docx') {
     const documentData = this.getXML('word/document.xml');
 
     if (this.renderOptions.enableVar) {
       mergeRun(this, documentData);
-      replaceVar(this, documentData);
+      await replaceVar(this, documentData, true);
       // 对文本进行替换
       const ts = documentData.getElementsByTagName('w:t');
       for (let i = 0; i < ts.length; i++) {
@@ -755,7 +800,7 @@ export default class Word {
 
     if (renderOptions.enableVar) {
       mergeRun(this, documentData);
-      replaceVar(this, documentData);
+      await replaceVar(this, documentData);
       // 这里不进行变量替换，方便后续进行局部替换来更新变量
     }
 

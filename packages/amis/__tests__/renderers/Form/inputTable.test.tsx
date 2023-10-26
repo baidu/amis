@@ -21,7 +21,6 @@ test('Renderer:input table', async () => {
         type: 'page',
         body: {
           type: 'form',
-          debug: 'true',
           data: {
             table: [
               {
@@ -68,11 +67,7 @@ test('Renderer:input table', async () => {
 });
 
 test('Renderer: input-table with default value column', async () => {
-  const onSubmitCallbackFn = jest
-    .fn()
-    .mockImplementation((values: any, actions: any) => {
-      return true;
-    });
+  const onSubmitCallbackFn = jest.fn();
   const {container, getByText} = render(
     amisRender(
       {
@@ -444,4 +439,104 @@ test('Renderer:input-table cell selects delete', async () => {
   });
   replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
+});
+
+test('Renderer:input-table doaction:additem', async () => {
+  const onSubmit = jest.fn();
+  const {container, findByRole, findByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        data: {
+          table: [{a: 2}]
+        },
+        body: [
+          {
+            label: 'addItem1',
+            type: 'button',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'addItem',
+                    componentId: 'inputtable',
+                    args: {
+                      item: {
+                        a: 3
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            label: 'addItem2',
+            type: 'button',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'addItem',
+                    componentId: 'inputtable',
+                    args: {
+                      index: 0,
+                      item: {
+                        a: 1
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            type: 'input-table',
+            id: 'inputtable',
+            name: 'table',
+            label: 'Table',
+            needConfirm: false,
+            columns: [
+              {
+                type: 'text',
+                name: 'a',
+                quickEdit: false
+              }
+            ]
+          },
+          {
+            type: 'submit',
+            label: 'submitBtn'
+          }
+        ]
+      },
+      {onSubmit},
+      makeEnv({})
+    )
+  );
+
+  const addItem1 = await findByText('addItem1');
+  fireEvent.click(addItem1);
+
+  const addItem2 = await findByText('addItem2');
+  fireEvent.click(addItem2);
+
+  const submitBtn = await findByText('submitBtn');
+  fireEvent.click(submitBtn);
+  await wait(200);
+
+  expect(onSubmit).toBeCalled();
+  expect(onSubmit.mock.calls[0][0]).toEqual({
+    table: [
+      {
+        a: 1
+      },
+      {
+        a: 2
+      },
+      {
+        a: 3
+      }
+    ]
+  });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import {autobind, isMobile, PopOver, Overlay, toNumber} from 'amis-core';
+import {autobind, PopOver, Overlay, toNumber} from 'amis-core';
 import PopUp from './PopUp';
 import {findDOMNode} from 'react-dom';
 import isNumber from 'lodash/isNumber';
@@ -20,7 +20,7 @@ export interface PopOverContainerProps {
   popOverRender: (props: {onClose: () => void}) => JSX.Element;
   popOverContainer?: any;
   popOverClassName?: string;
-  useMobileUI?: boolean;
+  mobileUI?: boolean;
   placement?: string;
   overlayWidth?: number | string;
   overlayWidthField?: 'minWidth' | 'width';
@@ -144,7 +144,7 @@ export class PopOverContainer extends React.Component<
 
   render() {
     const {
-      useMobileUI,
+      mobileUI,
       children,
       popOverContainer,
       popOverClassName,
@@ -154,7 +154,7 @@ export class PopOverContainer extends React.Component<
       showConfirm,
       onConfirm
     } = this.props;
-    const mobileUI = useMobileUI && isMobile();
+
     return (
       <>
         {children({

@@ -203,7 +203,8 @@
   &:hover:active {
     @content;
   }
-  &.active {
+  &.active,
+  &.is-active {
     @content;
   }
 }
@@ -614,4 +615,89 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+@mixin hairline-common() {
+  position: absolute;
+  box-sizing: border-box;
+  content: ' ';
+  pointer-events: none;
+}
+
+@mixin hairline-top($color: var(--van-border-color), $left: 0, $right: 0) {
+  @include hairline-common();
+  top: 0;
+  right: $right;
+  left: $left;
+  border-top: 1px solid $color;
+  transform: scaleY(0.5);
+}
+
+@mixin hairline-bottom($color: var(--van-border-color), $left: 0, $right: 0) {
+  @include hairline-common();
+  right: $right;
+  bottom: 0;
+  left: $left;
+  border-bottom: 1px solid $color;
+  transform: scaleY(0.5);
+}
+
+@mixin tag-item($component-prefix) {
+  .#{$ns}#{$component-prefix}-value {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(2px)}
+    );
+    display: inline-block;
+    font-size: var(--Pick-base-value-fontSize);
+    color: var(--Pick-base-value-color);
+    font-weight: var(--Pick-base-value-fontWeight);
+    background: var(--Pick-base-value-bgColor);
+    border-width: var(--Pick-base-value-top-border-width)
+      var(--Pick-base-value-right-border-width)
+      var(--Pick-base-value-bottom-border-width)
+      var(--Pick-base-value-left-border-width);
+    border-style: var(--Pick-base-value-top-border-style)
+      var(--Pick-base-value-right-border-style)
+      var(--Pick-base-value-bottom-border-style)
+      var(--Pick-base-value-left-border-style);
+    border-color: var(--Pick-base-value-top-border-color)
+      var(--Pick-base-value-right-border-color)
+      var(--Pick-base-value-bottom-border-color)
+      var(--Pick-base-value-left-border-color);
+    border-radius: var(--Pick-base-top-left-border-radius)
+      var(--Pick-base-top-right-border-radius)
+      var(--Pick-base-bottom-right-border-radius)
+      var(--Pick-base-bottom-left-border-radius);
+    margin-right: var(--gap-xs);
+    margin-bottom: var(--gap-xs);
+    margin-top: var(--gap-xs);
+
+    &:hover {
+      background: var(--Form-selectValue-onHover-bg);
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+      opacity: var(--Button-onDisabled-opacity);
+    }
+  }
+
+  .#{$ns}#{$component-prefix}-valueIcon {
+    color: var(--Pick-base-value-icon-color);
+    cursor: pointer;
+    border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
+    padding: 1px 5px;
+
+    &:hover {
+      background: var(--Pick-base-value-hover-icon-color);
+    }
+  }
+
+  .#{$ns}#{$component-prefix}-valueLabel {
+    padding: 0 var(--gap-xs);
+  }
 }

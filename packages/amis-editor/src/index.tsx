@@ -1,6 +1,7 @@
 import 'amis';
 import './locale/index';
 export * from 'amis-editor-core';
+export * from './builder';
 import './tpl/index';
 export * from './plugin';
 
@@ -40,6 +41,11 @@ import './renderer/TransferTableControl';
 import './renderer/style-control/ThemeCssCode';
 import './renderer/ButtonGroupControl';
 import './renderer/FlexSettingControl';
+import './renderer/FieldSetting';
+import './renderer/TableColumnWidthControl';
+import './renderer/crud2-control/CRUDColumnControl';
+import './renderer/crud2-control/CRUDToolbarControl';
+import './renderer/crud2-control/CRUDFiltersControl';
 import 'amis-theme-editor/lib/locale/zh-CN';
 import 'amis-theme-editor/lib/locale/en-US';
 import 'amis-theme-editor/lib/renderers/Border';

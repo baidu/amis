@@ -250,13 +250,8 @@ $Table-strip-bg: transparent;
   --ColorPicker-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
   --ColorPicker-onHover-bg: var(--colors-neutral-fill-11);
   --ColorPicker-onHover-borderColor: var(--colors-brand-5);
-  --ColorPicker-paddingX: #{px2rem(12px)};
-  --ColorPicker-paddingY: calc(
-    (
-        var(--ColorPicker-height) - var(--ColorPicker-lineHeight) *
-          var(--ColorPicker-fontSize)
-      ) / 2 - var(--ColorPicker-borderWidth)
-  );
+  --ColorPicker-paddingX: var(--sizes-size-6);
+  --ColorPicker-paddingY: var(--sizes-size-3);
   --ColorPicker-placeholderColor: var(--colors-neutral-text-6);
   --ColorPicker-boxShadow: var(--shadows-shadow-normal);
 
@@ -345,12 +340,7 @@ $Table-strip-bg: transparent;
   --Form-input-password-icon-size: var(--sizes-size-9);
   --Form-input-password-icon-color: var(--colors-neutral-text-5);
 
-  --Form-input-paddingY: calc(
-    (
-        var(--Form-input-height) - var(--Form-input-lineHeight) *
-          var(--Form-input-fontSize) - #{px2rem(2px)}
-      ) / 2
-  );
+  --Form-input-paddingY: var(--sizes-size-3);
   --Form-input-placeholderColor: var(--text--muted-color);
   --Form-input-onDisabled-color: var(--colors-neutral-text-5);
 

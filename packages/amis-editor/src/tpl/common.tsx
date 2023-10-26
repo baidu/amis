@@ -6,7 +6,6 @@ import {
   tipedLabel,
   EditorManager
 } from 'amis-editor-core';
-import type {DSField} from 'amis-editor-core';
 import type {SchemaObject} from 'amis';
 import flatten from 'lodash/flatten';
 import {InputComponentName} from '../component/InputComponentName';
@@ -16,6 +15,8 @@ import reduce from 'lodash/reduce';
 import map from 'lodash/map';
 import omit from 'lodash/omit';
 import keys from 'lodash/keys';
+
+import type {DSField} from '../builder';
 
 /**
  * @deprecated 兼容当前组件的switch
@@ -79,27 +80,15 @@ setSchemaTpl('formItemName', {
   // validateOnChange: false
 });
 
-setSchemaTpl('formItemExtraName', {
-  className: 'mb-3',
-  type: 'fieldset',
-  body: [
-    getSchemaTpl('formItemName', {
-      required: true,
-      label: '额外字段',
-      name: 'extraName',
-      visibleOn: 'typeof this.extraName === "string"'
-    }),
-
-    {
-      type: 'switch',
-      label: tipedLabel('存成两个字段', '开启后将选中范围分别存成两个字段'),
-      name: 'extraName',
-      pipeIn: (value: any) => typeof value === 'string',
-      pipeOut: (value: any) => (value ? '' : undefined),
-      inputClassName: 'is-inline'
-    }
-  ]
-});
+setSchemaTpl(
+  'formItemExtraName',
+  getSchemaTpl('formItemName', {
+    required: false,
+    label: '结尾字段名',
+    name: 'extraName',
+    description: '配置了结尾字段名，该组件将开始和结尾存成两个字段'
+  })
+);
 
 setSchemaTpl(
   'formItemMode',
@@ -440,6 +429,7 @@ setSchemaTpl(
     variables?: Array<VariableItem> | Function; // 自定义变量集合
     requiredDataPropsVariables?: boolean; // 是否再从amis数据域中取变量结合， 默认 false
     variableMode?: 'tabs' | 'tree'; // 变量展现模式
+    className?: string; // 外层类名
     [key: string]: any; // 其他属性，例如包括表单项pipeIn\Out 等等
   }) => {
     const {
@@ -475,6 +465,7 @@ setSchemaTpl(
       // 上下展示，可避免 自定义渲染器 出现挤压
       mode: mode === 'vertical' ? 'vertical' : 'horizontal',
       visibleOn,
+      className: config?.className,
       body: [
         getSchemaTpl('formulaControl', {
           label: label ?? '默认值',
@@ -1083,6 +1074,8 @@ setSchemaTpl('buttonLevel', {
   label: '按钮样式',
   type: 'select',
   name: 'level',
+  menuTpl:
+    '<div class="ae-ButtonLevel-MenuTpl"><button type="button" class="cxd-Button cxd-Button--${value} cxd-Button--size-sm cxd-Button--block">${label}</button></div>',
   options: [
     {
       label: '默认',
@@ -1700,4 +1693,14 @@ setSchemaTpl('anchorNavTitle', {
   label: '标题',
   type: 'input-text',
   required: true
+});
+
+setSchemaTpl('primaryField', {
+  type: 'input-text',
+  name: 'primaryField',
+  label: tipedLabel(
+    '主键',
+    '每行记录的唯一标识符，通常用于行选择、批量操作等场景。'
+  ),
+  pipeIn: defaultValue('id')
 });

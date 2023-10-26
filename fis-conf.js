@@ -37,24 +37,24 @@ Resource.extend({
         const pkgNode = self.getNode(item.pkg, 'pkg');
         item.pkg = `${versionHash}-${item.pkg}`;
 
-        if (Array.isArray(item.deps) && pkgNode) {
-          item.deps = item.deps.filter(
-            dep =>
-              !pkgNode.has.find(id => {
-                const node = self.getNode(id);
-                const file = self.getFileById(id);
-                const moduleId =
-                  (node.extras && node.extras.moduleId) ||
-                  (file && file.moduleId) ||
-                  id.replace(/\.js$/i, '');
+        // if (Array.isArray(item.deps) && pkgNode) {
+        //   item.deps = item.deps.filter(
+        //     dep =>
+        //       !pkgNode.has.find(id => {
+        //         const node = self.getNode(id);
+        //         const file = self.getFileById(id);
+        //         const moduleId =
+        //           (node.extras && node.extras.moduleId) ||
+        //           (file && file.moduleId) ||
+        //           id.replace(/\.js$/i, '');
 
-                return moduleId === dep;
-              })
-          );
-          if (!item.deps.length) {
-            delete item.deps;
-          }
-        }
+        //         return moduleId === dep;
+        //       })
+        //   );
+        //   if (!item.deps.length) {
+        //     delete item.deps;
+        //   }
+        // }
       }
     });
     Object.keys(map.pkg).forEach(function (key) {

@@ -178,9 +178,10 @@ export class SearchBoxRenderer extends React.Component<
       this.setState({value: ''});
     }
   }
-
   setData(value: any) {
-    this.setState({value});
+    if (typeof value === 'string') {
+      this.setState({value});
+    }
   }
 
   render() {
@@ -197,7 +198,7 @@ export class SearchBoxRenderer extends React.Component<
       onChange,
       className,
       style,
-      useMobileUI
+      mobileUI
     } = this.props;
 
     const value = this.state.value;
@@ -222,7 +223,7 @@ export class SearchBoxRenderer extends React.Component<
         onChange={this.handleChange}
         onFocus={() => this.dispatchEvent('focus')}
         onBlur={() => this.dispatchEvent('blur')}
-        useMobileUI={useMobileUI}
+        mobileUI={mobileUI}
       />
     );
   }

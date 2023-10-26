@@ -1,5 +1,11 @@
 import React from 'react';
-import {FormHorizontal, Renderer, RendererProps, buildStyle} from 'amis-core';
+import {
+  FormHorizontal,
+  Renderer,
+  RendererProps,
+  buildStyle,
+  CustomStyle
+} from 'amis-core';
 import pick from 'lodash/pick';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 
@@ -201,7 +207,12 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
       align: hAlign,
       loading = false,
       loadingConfig,
-      data
+      data,
+      id,
+      wrapperCustomStyle,
+      env,
+      themeCss,
+      baseControlClassName
     } = this.props;
     const styleVar = buildStyle(style, data);
     return (
@@ -213,12 +224,30 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
             [`Grid--v${ucFirst(vAlign)}`]: vAlign,
             [`Grid--h${ucFirst(hAlign)}`]: hAlign
           },
-          className
+          className,
+          baseControlClassName,
+          wrapperCustomStyle
+            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
+            : ''
         )}
         style={styleVar}
       >
         {this.renderColumns(this.props.columns)}
         <Spinner loadingConfig={loadingConfig} overlay show={loading} />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                value: baseControlClassName
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

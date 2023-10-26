@@ -1,6 +1,6 @@
 import omit from 'lodash/omit';
 import {Api, ApiObject, EventTrack, fetcherResult, Payload} from '../types';
-import {fetcherConfig} from '../factory';
+import {FetcherConfig} from '../factory';
 import {tokenize, dataMapping, escapeHtml} from './tpl-builtin';
 import {evalExpression} from './tpl';
 import {
@@ -94,7 +94,7 @@ export function buildApi(
     ) as any;
   }
 
-  if (!data) {
+  if (!data || api.data instanceof FormData) {
     return api;
   } else if (
     data instanceof FormData ||
@@ -343,6 +343,20 @@ export function str2AsyncFunction(
   }
 }
 
+export function callStrFunction(
+  this: any,
+  fn: string | Function,
+  argNames: Array<string>,
+  ...args: Array<any>
+) {
+  if (typeof fn === 'function') {
+    return fn.apply(this, args);
+  } else if (typeof fn === 'string' && fn) {
+    const func = str2function(fn, ...argNames)!;
+    return func?.apply(this, args);
+  }
+}
+
 export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   let data = ret.data;
   let hasStatusField = true;
@@ -449,7 +463,7 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
 }
 
 export function wrapFetcher(
-  fn: (config: fetcherConfig) => Promise<fetcherResult>,
+  fn: (config: FetcherConfig) => Promise<fetcherResult>,
   tracker?: (eventTrack: EventTrack, data: any) => void
 ) {
   // 避免重复处理
@@ -583,7 +597,7 @@ export function wrapAdaptor(
  * @returns
  */
 export function jsFetcher(
-  fetcher: (config: fetcherConfig) => Promise<fetcherResult>,
+  fetcher: (config: FetcherConfig) => Promise<fetcherResult>,
   api: ApiObject
 ): Promise<fetcherResult> {
   return new Promise((resolve, reject) => {
@@ -756,15 +770,14 @@ export function isValidApi(api: string) {
   }
   const idx = api.indexOf('://');
 
-  // 不允许直接相对路径写 api
   // 不允许 :// 结尾
-  if ((!~idx && api[0] !== '/') || (~idx && idx + 3 === api.length)) {
+  if (~idx && idx + 3 === api.length) {
     return false;
   }
 
   try {
     // 不补一个协议，URL 判断为 false
-    api = (~idx ? '' : 'schema://domain') + api;
+    api = (~idx ? '' : `schema://domain${api[0] === '/' ? '' : '/'}`) + api;
     new URL(api);
   } catch (error) {
     return false;

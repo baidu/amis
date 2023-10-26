@@ -1,4 +1,4 @@
-import {findTree, resolveVariableAndFilter} from 'amis';
+import {JSONValueMap, findTree, resolveVariableAndFilter} from 'amis';
 import isString from 'lodash/isString';
 
 /**
@@ -64,3 +64,19 @@ export const resolveOptionType = (options: any) => {
 
   return value !== undefined ? typeof value : 'string';
 };
+
+/**
+ * 将组件配置里面的公式进行转义，一般是文本组件编辑器里直接显示公式所用
+ *
+ * @param conf 组件schema 配置
+ * @param keys 转义的字段key列表
+ * @returns 转义后的配置
+ */
+export function escapeFormula(conf: any, keys: string[] = ['tpl']) {
+  return JSONValueMap(conf, (value: any, key: string | number) => {
+    if (keys.includes(String(key)) && /(^|[^\\])\$\{.+\}/.test(value)) {
+      return value.replace(/\${/g, ' \\${');
+    }
+    return value;
+  });
+}
