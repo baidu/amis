@@ -122,7 +122,7 @@ test('Renderer:Pagination with simple mode', async () => {
   expect(pageChange).toBeCalled();
 
   await wait(200);
-  expect(pageChange.mock.calls[0]).toEqual([3, 10, 'forward']);
+  expect(pageChange.mock.calls[0]).toEqual([3, 10]);
 
   rerender(
     amisRender(
