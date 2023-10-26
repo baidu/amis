@@ -216,12 +216,12 @@ describe('Renderer:image', () => {
     const imgIns = baseElement.querySelector('.cxd-ImageGallery-main img')!;
 
     expect(imgIns).toHaveStyle({
-      transform: 'scale(1) rotate(0deg)'
+      transform: 'translate(0px, 0px) scale(1) rotate(0deg)'
     });
 
     fireEvent.click(actions[1].firstElementChild!);
     expect(imgIns).toHaveStyle({
-      transform: 'scale(1) rotate(90deg)'
+      transform: 'translate(0px, 0px) scale(1) rotate(90deg)'
     });
   });
 
