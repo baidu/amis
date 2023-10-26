@@ -332,6 +332,9 @@ export interface DateProps extends LocaleProps, ThemeProps {
   isEndDate?: boolean;
 
   disabledDate?: (date: moment.Moment) => any;
+  onClick?: (date: moment.Moment) => any;
+  onMouseEnter?: (date: moment.Moment) => any;
+  onMouseLeave?: (date: moment.Moment) => any;
 }
 
 export interface DatePickerState {
@@ -844,7 +847,10 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       onScheduleClick,
       mobileCalendarMode,
       label,
-      env
+      env,
+      onClick,
+      onMouseEnter,
+      onMouseLeave
     } = this.props;
 
     const __ = this.props.translate;
@@ -937,6 +943,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             embed={embed}
             mobileUI={mobileUI}
             isEndDate={isEndDate}
+            onClick={onClick}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
           />
         </div>
       );
@@ -1027,6 +1036,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 maxDate={maxDate}
                 mobileUI={mobileUI}
                 isEndDate={isEndDate}
+                onClick={onClick}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
                 // utc={utc}
               />
             </PopOver>
@@ -1066,6 +1078,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 minDate={minDate}
                 maxDate={maxDate}
                 mobileUI={mobileUI}
+                onClick={onClick}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
                 // utc={utc}
               />
             </PopUp>
