@@ -27,15 +27,20 @@ module.exports = function (req, res) {
     return require(file)(req, res);
   } else if (exist(jsFile)) {
     let file = require.resolve(path.join(DIRNAME, jsFile));
-    delete require.cache[file];
+    let mod = require(file);
+
+    if (!mod.cache) {
+      delete require.cache[file];
+      mod = require(file);
+    }
 
     if (req.query.waitSeconds) {
       return setTimeout(function () {
-        require(file)(req, res);
+        mod(req, res);
       }, parseInt(req.query.waitSeconds, 10) * 1000);
     }
 
-    return require(file)(req, res);
+    return mod(req, res);
   }
   if (exist(jsonFile)) {
     if (req.query.waitSeconds) {

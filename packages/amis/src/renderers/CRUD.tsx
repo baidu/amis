@@ -133,6 +133,11 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   api?: SchemaApi;
 
   /**
+   * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。
+   */
+  deferApi?: SchemaApi;
+
+  /**
    * 批量操作
    */
   bulkActions?: Array<ActionSchema>;

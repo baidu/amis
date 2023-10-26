@@ -1825,6 +1825,7 @@ popOver 的其它配置请参考 [popover](./popover)
 | type             | `string`                                                 |                           | `"type"` 指定为 table 渲染器                                              |                                   |
 | title            | `string`                                                 |                           | 标题                                                                      |                                   |
 | source           | `string`                                                 | `${items}`                | 数据源, 绑定当前环境变量                                                  |                                   |
+| deferApi         | [API](../../docs/types/api)                              |                           | 当行数据中有 defer 属性时，用此接口进一步加载内容                         |
 | affixHeader      | `boolean`                                                | `true`                    | 是否固定表头                                                              |                                   |
 | columnsTogglable | `auto` 或者 `boolean`                                    | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启                   |                                   |
 | placeholder      | `string` 或者 `SchemaTpl`                                | `暂无数据`                | 当没数据的时候的文字提示                                                  |                                   |
