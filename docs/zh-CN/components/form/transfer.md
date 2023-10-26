@@ -878,12 +878,95 @@ icon:
 }
 ```
 
+## 分页
+
+> `3.6.0`及以上版本
+
+当数据量庞大时，可以开启数据源分页，此时左侧列表底部会出现分页控件，相关配置参考属性表。通常在提交表单中使用分页场景，处理数据量较大的数据源。如果需要在表单中回显已选值，建议同时设置`{"joinValues": false, "extractValue": false}`，因为已选数据可能位于不同的分页，如果仅使用value值作为提交值，可能会导致右侧结果区无法正确渲染。
+
+> 仅列表（list）和表格（table）展示模式支持分页，接口的数据结构参考[CRUD数据源接口格式](../crud#数据结构)
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "label": "默认",
+        "type": "transfer",
+        "name": "transfer",
+        "joinValues": false,
+        "extractValue": false,
+        "source": "/api/mock2/options/transfer?page=${page}&perPage=${perPage}",
+        "pagination": {
+          "enable": true,
+          "layout": ["pager", "perpage", "total"],
+          "popOverContainerSelector": ".cxd-Panel--form"
+        },
+        "value": [
+          {"label": "Laura Lewis", "value": "1", "id": 1},
+          {"label": "Christopher Rodriguez", "value": "3", "id": 3},
+          {"label": "Laura Miller", "value": "12", "id": 12},
+          {"label": "Patricia Robinson", "value": "14", "id": 14}
+        ]
+      }
+    ]
+}
+```
+
+### 前端分页
+
+> `3.6.0`及以上版本
+
+当使用数据域变量作为数据源时，支持实现前端一次性加载并分页
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "service",
+        "api": {
+          "url": "/api/mock2/options/loadDataOnce",
+          "method": "get",
+          "responseData": {
+            "transferOptions": "${items}"
+          }
+        },
+        "body": [
+          {
+            "label": "默认",
+            "type": "transfer",
+            "name": "transfer",
+            "joinValues": false,
+            "extractValue": false,
+            "source": "${transferOptions}",
+            "pagination": {
+              "enable": true,
+              "layout": ["pager", "perpage", "total"],
+              "popOverContainerSelector": ".cxd-Panel--form"
+            },
+            "value": [
+              {"label": "Laura Lewis", "value": "1", "id": 1},
+              {"label": "Christopher Rodriguez", "value": "3", "id": 3},
+              {"label": "Laura Miller", "value": "12", "id": 12},
+              {"label": "Patricia Robinson", "value": "14", "id": 14}
+            ]
+          }
+        ]
+      }
+    ]
+}
+```
+
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名                     | 类型                                                  | 默认值       | 说明                                                                                                                                                                                                        |
-| -------------------------- | ----------------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 属性名                     | 类型                                                  | 默认值       | 说明                                                                                                                                                                                                        | 版本 |
+| -------------------------- | ----------------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
 | options                    | `Array<object>`或`Array<string>`                      |              | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)                                                                                                                                   |
 | source                     | `string`或 [API](../../../docs/types/api)             |              | [动态选项组](./options#%E5%8A%A8%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-source)                                                                                                                                |
 | delimeter                  | `string`                                              | `false`      | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                                                                                                                   |
@@ -909,6 +992,13 @@ icon:
 | valueTpl                   | `string` \| [SchemaNode](../../docs/types/schemanode) |              | 用来自定义值的展示                                                                                                                                                                                          |
 | itemHeight                 | `number`                                              | `32`         | 每个选项的高度，用于虚拟渲染                                                                                                                                                                                |
 | virtualThreshold           | `number`                                              | `100`        | 在选项数量超过多少时开启虚拟渲染                                                                                                                                                                            |
+| pagination           | `object`    |         | 分页配置          | `3.6.0` |
+| pagination.className           | `string`    |         | 分页控件CSS类名          | `3.6.0` |
+| pagination.enable          | `boolean`    |         | 是否开启分页          | `3.6.0` |
+| pagination.layout           | `string` \| `string[]`    |     `["pager"]`    | 通过控制 layout 属性的顺序，调整分页结构布局          | `3.6.0` |
+| pagination.perPageAvailable           | `number[]`    |     `[10, 20, 50, 100]`    | 指定每页可以显示多少条          | `3.6.0` |
+| pagination.maxButtons           | `number`    |     `5`    | 最多显示多少个分页按钮，最小为 5          | `3.6.0` |
+| pagination.popOverContainerSelector           | `string`    |         | 切换每页条数的控件挂载点         | `3.6.0` |
 
 ## 事件表
 
