@@ -923,7 +923,6 @@ export default class Cards extends React.Component<GridProps, object> {
       translate: __,
       loading = false,
       loadingConfig,
-      affixOffsetTop,
       env
     } = this.props;
 
@@ -980,10 +979,7 @@ export default class Cards extends React.Component<GridProps, object> {
         style={buildStyle(style, data)}
       >
         {affixHeader ? (
-          <div
-            className={cx('Cards-fixedTop')}
-            style={{top: affixOffsetTop ?? env?.affixOffsetTop ?? 0}}
-          >
+          <div className={cx('Cards-fixedTop')}>
             {header}
             {heading}
           </div>

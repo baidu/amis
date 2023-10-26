@@ -24,7 +24,6 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
             >
               <div
                 class="cxd-Table-fixedTop"
-                style="top: 0px;"
               >
                 <div
                   class="cxd-Table-toolbar cxd-Table-headToolbar"
@@ -863,7 +862,6 @@ exports[`4. Renderer:crud list 1`] = `
             >
               <div
                 class="cxd-List-fixedTop"
-                style="top: 0px;"
               >
                 <div
                   class="cxd-List-heading"
@@ -1271,7 +1269,6 @@ exports[`5. Renderer:crud cards 1`] = `
             >
               <div
                 class="cxd-Cards-fixedTop"
-                style="top: 0px;"
               />
               <div
                 class="cxd-Cards-body cxd-Grid"
@@ -2164,7 +2161,6 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
             >
               <div
                 class="cxd-Table-fixedTop"
-                style="top: 0px;"
               />
               <div
                 class="cxd-Table-contentWrap"
@@ -2807,7 +2803,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
             >
               <div
                 class="cxd-Table-fixedTop"
-                style="top: 0px;"
               >
                 <div
                   class="cxd-Table-toolbar cxd-Table-headToolbar"

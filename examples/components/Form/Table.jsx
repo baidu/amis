@@ -17,7 +17,6 @@ export default {
         name: 'tableAffixHeader',
         label: '头部固定',
         affixHeader: true,
-        affixOffsetTop: 50,
         columns: [
           {
             name: 'aa',

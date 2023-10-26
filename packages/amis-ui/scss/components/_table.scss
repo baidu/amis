@@ -10,6 +10,7 @@
 
   &-fixedTop {
     position: sticky;
+    top: var(--affix-offset-top);
     background: var(--Table-bg);
     display: block;
     opacity: 1;

@@ -228,6 +228,10 @@
           position: static;
           z-index: 0;
         }
+
+        > .cxd-Page > .cxd-Page-content {
+          height: auto;
+        }
       }
     }
 

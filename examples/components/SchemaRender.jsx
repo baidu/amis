@@ -179,7 +179,6 @@ export default function (schema, schemaProps, showCode, envOverrides) {
           tracker(eventTrack) {
             console.debug('eventTrack', eventTrack);
           },
-          affixOffsetTop: 50,
           loadTinymcePlugin: async tinymce => {
             // 参考：https://www.tiny.cloud/docs/advanced/creating-a-plugin/
             /*

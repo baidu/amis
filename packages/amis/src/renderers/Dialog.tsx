@@ -467,7 +467,6 @@ export default class Dialog extends React.Component<DialogProps> {
       onAction: this.handleAction,
       onFinished: this.handleChildFinished,
       popOverContainer: this.getPopOverContainer,
-      affixOffsetTop: 0,
       onChange: this.handleFormChange,
       onInit: this.handleFormInit,
       onSaved: this.handleFormSaved,

@@ -2057,7 +2057,6 @@ export default class Table extends React.Component<TableProps, object> {
       affixHeader,
       render,
       classnames: cx,
-      affixOffsetTop,
       autoFillHeight,
       env
     } = this.props;
@@ -2067,7 +2066,6 @@ export default class Table extends React.Component<TableProps, object> {
     return affixHeader && !autoFillHeight ? (
       <>
         <div
-          style={{top: affixOffsetTop ?? env?.affixOffsetTop ?? 0}}
           className={cx('Table-fixedTop', {
             'is-fakeHide': hideHeader
           })}

@@ -218,9 +218,7 @@ export default function Cell({
       column.pristine.className,
       stickyClassName,
       addtionalClassName
-    ),
-    /** 给子节点的设置默认值，避免取到env.affixHeader的默认值，导致表头覆盖首行 */
-    affixOffsetTop: 0
+    )
   };
   delete subProps.label;
 

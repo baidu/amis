@@ -722,9 +722,13 @@ render 有三个参数，后面会详细说明这三个参数内的属性
 
 固顶间距，当你的有其他固顶元素时，需要设置一定的偏移量，否则会重叠。
 
+> 3.5.0 及以上版本请直接通过外层设置 `--affix-offset-top` css 变量。
+
 #### affixOffsetBottom: number
 
 固底间距，当你的有其他固底元素时，需要设置一定的偏移量，否则会重叠。
+
+> 3.5.0 及以上版本请直接通过外层设置 `--affix-offset-bottom` css 变量。
 
 #### richTextToken: string
 

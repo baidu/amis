@@ -973,7 +973,6 @@ export default class List extends React.Component<ListProps, object> {
       hideCheckToggler,
       checkOnItemClick,
       itemAction,
-      affixOffsetTop,
       affixHeader,
       env,
       classnames: cx,
@@ -997,10 +996,7 @@ export default class List extends React.Component<ListProps, object> {
         ref={this.bodyRef}
       >
         {affixHeader ? (
-          <div
-            className={cx('List-fixedTop')}
-            style={{top: affixOffsetTop ?? env?.affixOffsetTop ?? 0}}
-          >
+          <div className={cx('List-fixedTop')}>
             {header}
             {heading}
           </div>
