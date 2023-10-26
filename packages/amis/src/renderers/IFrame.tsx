@@ -5,7 +5,8 @@ import {
   Renderer,
   RendererProps,
   runActions,
-  CustomStyle
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {filter} from 'amis-core';
 import {autobind, createObject} from 'amis-core';
@@ -264,10 +265,8 @@ export default class IFrame extends React.Component<IFrameProps, object> {
           className={cx(
             'IFrame',
             className,
-            baseControlClassName,
-            wrapperCustomStyle
-              ? ` wrapperCustomStyle-${id?.replace('u:', '')}`
-              : ''
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
           )}
           frameBorder={frameBorder}
           style={style}
@@ -285,8 +284,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
             themeCss,
             classNames: [
               {
-                key: 'baseControlClassName',
-                value: baseControlClassName
+                key: 'baseControlClassName'
               }
             ]
           }}

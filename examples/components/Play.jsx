@@ -199,7 +199,7 @@ export default class PlayGround extends React.Component {
         };
 
         let response = await axios(config);
-        response = await attachmentAdpator(response, __);
+        response = await attachmentAdpator(response, __, api);
 
         if (response.status >= 400) {
           if (response.data) {

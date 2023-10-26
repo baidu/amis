@@ -12,20 +12,10 @@
   box-shadow: var(--Panel-boxShadow);
 
   &-fixedBottom {
-    position: absolute;
+    position: sticky;
     background: var(--white);
-    z-index: -1;
-    opacity: 0;
-    bottom: 999999px;
-    box-shadow: var(--Panel-fixedBottom-boxShadow);
-    border-top: var(--Panel-fixedBottom-borderTop);
-
-    &.in {
-      position: fixed;
-      bottom: 0;
-      z-index: $zindex-affix;
-      opacity: 1;
-    }
+    bottom: var(--affix-offset-bottom);
+    z-index: $zindex-sticky;
   }
 
   /* 主题 */

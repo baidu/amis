@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from 'amis-ui';
+import {Button, Drawer, Modal} from 'amis-ui';
 import {
   registerEditorPlugin,
   BaseEventContext,
@@ -10,11 +10,24 @@ import {
   noop,
   defaultValue,
   EditorNodeType,
-  isEmpty
+  isEmpty,
+  getI18nEnabled
 } from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 import omit from 'lodash/omit';
 import type {RendererConfig, Schema} from 'amis-core';
+import {ModalProps} from 'amis-ui/src/components/Modal';
+
+interface InlineModalProps extends ModalProps {
+  type: string;
+  children: any;
+  dialogType?: string;
+  cancelText?: string;
+  confirmText?: string;
+  cancelBtnLevel?: string;
+  confirmBtnLevel?: string;
+  editorDialogMountNode?: HTMLDivElement;
+}
 
 export class DialogPlugin extends BasePlugin {
   static id = 'DialogPlugin';
@@ -23,7 +36,7 @@ export class DialogPlugin extends BasePlugin {
   $schema = '/schemas/DialogSchema.json';
 
   // 组件名称
-  name = '弹框';
+  name = '弹窗';
   isBaseComponent = true;
 
   wrapperProps = {
@@ -116,6 +129,7 @@ export class DialogPlugin extends BasePlugin {
   panelTitle = '弹框';
   panelJustify = true;
   panelBodyCreator = (context: BaseEventContext) => {
+    const i18nEnabled = getI18nEnabled();
     // 确认对话框的配置面板
     if (context.schema?.dialogType === 'confirm') {
       return getSchemaTpl('tabs', [
@@ -212,7 +226,7 @@ export class DialogPlugin extends BasePlugin {
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 label: '标题',
-                type: 'input-text',
+                type: i18nEnabled ? 'input-text-i18n' : 'input-text',
                 name: 'title'
               },
               getSchemaTpl('switch', {
@@ -221,10 +235,22 @@ export class DialogPlugin extends BasePlugin {
                 value: true
               }),
               getSchemaTpl('switch', {
+                label: '点击遮罩关闭',
+                name: 'closeOnOutside',
+                value: false
+              }),
+              getSchemaTpl('switch', {
                 label: '可按 Esc 关闭',
                 name: 'closeOnEsc',
                 value: false
               }),
+              {
+                type: 'ae-StatusControl',
+                label: '隐藏按钮区',
+                mode: 'normal',
+                name: 'hideActions',
+                expressionName: 'hideActionsOn'
+              },
               getSchemaTpl('switch', {
                 label: '左下角展示报错消息',
                 name: 'showErrorMsg',
@@ -244,13 +270,13 @@ export class DialogPlugin extends BasePlugin {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
           {
-            title: '基本',
+            title: '样式',
             body: [
               {
                 label: '尺寸',
                 type: 'button-group-select',
                 name: 'size',
-                size: 'sm',
+                size: 'xs',
                 options: [
                   {
                     label: '标准',
@@ -271,23 +297,160 @@ export class DialogPlugin extends BasePlugin {
                   {
                     label: '超大',
                     value: 'xl'
+                  },
+                  {
+                    label: '自定义',
+                    value: 'custom'
                   }
                 ],
                 pipeIn: defaultValue(''),
-                pipeOut: (value: string) => (value ? value : undefined)
-              }
+                pipeOut: (value: string) => (value ? value : undefined),
+                onChange: (
+                  value: string,
+                  oldValue: string,
+                  model: any,
+                  form: any
+                ) => {
+                  if (value !== 'custom') {
+                    form.setValueByName('style', undefined);
+                  }
+                }
+              },
+              {
+                type: 'input-number',
+                label: '宽度',
+                name: 'style.width',
+                disabled: true,
+                clearable: true,
+                unitOptions: ['px', '%', 'em', 'vh', 'vw'],
+                visibleOn: 'this.size !== "custom"',
+                pipeIn: (value: any, form: any) => {
+                  if (!form.data.size) {
+                    return '500px';
+                  } else if (form.data.size === 'sm') {
+                    return '350px';
+                  } else if (form.data.size === 'md') {
+                    return '800px';
+                  } else if (form.data.size === 'lg') {
+                    return '1100px';
+                  } else if (form.data.size === 'xl') {
+                    return '90%';
+                  }
+                  return '';
+                }
+              },
+              {
+                type: 'input-number',
+                label: '宽度',
+                name: 'style.width',
+                clearable: true,
+                unitOptions: ['px', '%', 'em', 'vh', 'vw'],
+                visibleOn: 'this.size === "custom"',
+                pipeOut: (value: string) => {
+                  const curValue = parseInt(value);
+                  if (value === 'auto' || curValue || curValue === 0) {
+                    return value;
+                  } else {
+                    return undefined;
+                  }
+                }
+              },
+              {
+                type: 'input-number',
+                label: '高度',
+                name: 'style.height',
+                disabled: true,
+                visibleOn: 'this.size !== "custom"',
+                clearable: true,
+                unitOptions: ['px', '%', 'em', 'vh', 'vw']
+              },
+              {
+                type: 'input-number',
+                label: '高度',
+                name: 'style.height',
+                visibleOn: 'this.size === "custom"',
+                clearable: true,
+                unitOptions: ['px', '%', 'em', 'vh', 'vw'],
+                pipeOut: (value: string) => {
+                  const curValue = parseInt(value);
+                  if (value === 'auto' || curValue || curValue === 0) {
+                    return value;
+                  } else {
+                    return undefined;
+                  }
+                }
+              },
+              getSchemaTpl('theme:border', {
+                name: 'themeCss.dialogClassName.border'
+              }),
+              getSchemaTpl('theme:radius', {
+                name: 'themeCss.dialogClassName.radius'
+              }),
+              getSchemaTpl('theme:shadow', {
+                name: 'themeCss.dialogClassName.box-shadow'
+              }),
+              getSchemaTpl('theme:colorPicker', {
+                label: '背景',
+                name: 'themeCss.dialogClassName.background',
+                labelMode: 'input'
+              }),
+              getSchemaTpl('theme:colorPicker', {
+                label: '遮罩颜色',
+                name: 'themeCss.dialogMaskClassName.background',
+                labelMode: 'input'
+              })
             ]
           },
           {
-            title: 'CSS类名',
+            title: '标题区',
             body: [
-              getSchemaTpl('className', {
-                name: 'className',
-                label: '外层'
+              getSchemaTpl('theme:font', {
+                label: '文字',
+                name: 'themeCss.dialogTitleClassName.font',
+                hasVertical: false
               }),
-              getSchemaTpl('className', {
-                name: 'bodyClassName',
-                label: '内容区域'
+              getSchemaTpl('theme:paddingAndMargin', {
+                name: 'themeCss.dialogHeaderClassName.padding-and-margin',
+                label: '间距'
+              }),
+              getSchemaTpl('theme:colorPicker', {
+                label: '背景',
+                name: 'themeCss.dialogHeaderClassName.background',
+                labelMode: 'input'
+              })
+            ]
+          },
+          {
+            title: '内容区',
+            body: [
+              getSchemaTpl('theme:border', {
+                name: 'themeCss.dialogBodyClassName.border'
+              }),
+              getSchemaTpl('theme:radius', {
+                name: 'themeCss.dialogBodyClassName.radius'
+              }),
+              getSchemaTpl('theme:paddingAndMargin', {
+                name: 'themeCss.dialogBodyClassName.padding-and-margin',
+                label: '间距'
+              }),
+              getSchemaTpl('theme:colorPicker', {
+                label: '背景',
+                name: 'themeCss.dialogBodyClassName.background',
+                labelMode: 'input'
+              })
+            ]
+          },
+          {
+            title: '底部区',
+            body: [
+              getSchemaTpl('theme:paddingAndMargin', {
+                name: 'themeCss.dialogFooterClassName.padding-and-margin',
+                label: '间距'
+              }),
+              getSchemaTpl('theme:colorPicker', {
+                label: '背景',
+                name: 'themeCss.dialogFooterClassName.background',
+                labelMode: 'input'
               })
             ]
           }
@@ -328,19 +491,20 @@ export class DialogPlugin extends BasePlugin {
         }
       }
 
-      // 数据链
-      const hostNodeDataSchema =
-        await this.manager.config.getHostNodeDataSchema?.();
-      hostNodeDataSchema
-        .filter(
-          (item: any) => !['system-variable', 'page-global'].includes(item.$id)
-        )
-        ?.forEach((item: any) => {
-          dataSchema = {
-            ...dataSchema,
-            ...item.properties
-          };
-        });
+      // 弹窗改版可能会有多个按钮触发一个弹窗，无法确定按钮的上下文
+      // TODO 数据链
+      // const hostNodeDataSchema =
+      //   await this.manager.config.getHostNodeDataSchema?.();
+      // hostNodeDataSchema
+      //   ?.filter(
+      //     (item: any) => !['system-variable', 'page-global'].includes(item.$id)
+      //   )
+      //   ?.forEach((item: any) => {
+      //     dataSchema = {
+      //       ...dataSchema,
+      //       ...item.properties
+      //     };
+      //   });
     }
 
     return {
@@ -383,40 +547,50 @@ export class DialogPlugin extends BasePlugin {
 
 registerEditorPlugin(DialogPlugin);
 
-export class InlineModal extends React.Component<any, any> {
+export class InlineModal extends React.Component<InlineModalProps, any> {
   componentDidMount() {}
 
   render() {
     let {
+      type,
       children,
       dialogType,
       cancelText,
       confirmText,
       cancelBtnLevel,
-      confirmBtnLevel
+      confirmBtnLevel,
+      editorDialogMountNode
     } = this.props;
+    const Container = type === 'drawer' ? Drawer : Modal;
+
     if (dialogType === 'confirm') {
       children = children.filter((item: any) => item?.key !== 'actions');
       return (
-        <div className="ae-InlineModal">
-          {children}
-          <div className="ae-InlineModal-footer">
-            <Button
-              className="ae-InlineModal-footer-btn"
-              level={cancelBtnLevel}
-            >
-              {cancelText || '取消'}
-            </Button>
-            <Button
-              className="ae-InlineModal-footer-btn"
-              level={confirmBtnLevel}
-            >
-              {confirmText || '确认'}
-            </Button>
+        <Modal {...this.props} container={editorDialogMountNode}>
+          <div className="ae-InlineModal">
+            {children}
+            <div className="ae-InlineModal-footer">
+              <Button
+                className="ae-InlineModal-footer-btn"
+                level={cancelBtnLevel}
+              >
+                {cancelText || '取消'}
+              </Button>
+              <Button
+                className="ae-InlineModal-footer-btn"
+                level={confirmBtnLevel}
+              >
+                {confirmText || '确认'}
+              </Button>
+            </div>
           </div>
-        </div>
+        </Modal>
       );
     }
-    return <div className="ae-InlineModal">{children}</div>;
+    return (
+      <Container {...this.props} container={editorDialogMountNode}>
+        {children}
+      </Container>
+    );
   }
 }

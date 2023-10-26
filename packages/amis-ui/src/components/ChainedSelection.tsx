@@ -106,7 +106,8 @@ export class ChainedSelection extends BaseSelection<
             checked: !!~valueArray.indexOf(option),
             onChange: () => this.toggleOption(option),
             disabled: disabled || option.disabled,
-            labelField
+            labelField,
+            classnames: cx
           })}
         </div>
       </div>
@@ -153,7 +154,8 @@ export class ChainedSelection extends BaseSelection<
               checked: !!~this.state.selected.indexOf(id),
               onChange: () => this.selectOption(option, depth, id),
               disabled: disabled || option.disabled,
-              labelField
+              labelField,
+              classnames: cx
             })}
           </div>
 

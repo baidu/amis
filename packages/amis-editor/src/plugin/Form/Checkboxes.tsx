@@ -15,6 +15,7 @@ import {
 } from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 
+import type {Schema} from 'amis';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {resolveOptionType} from '../../util';
@@ -166,7 +167,7 @@ export class CheckboxesControlPlugin extends BasePlugin {
                 }
               ],
               getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema,
+                rendererSchema: (schema: Schema) => schema,
                 useSelectMode: true, // 改用 Select 设置模式
                 visibleOn: 'this.options && this.options.length > 0'
               }),
@@ -191,27 +192,20 @@ export class CheckboxesControlPlugin extends BasePlugin {
               getSchemaTpl('optionControlV2', {
                 multiple: true
               }),
-              getSchemaTpl('creatable', {
-                formType: 'extend',
-                hiddenOnDefault: true,
-                form: {
-                  body: [getSchemaTpl('createBtnLabel'), getSchemaTpl('addApi')]
-                }
+              // 自定义选项模板
+              getSchemaTpl('optionsMenuTpl', {
+                manager: this.manager
               }),
-              getSchemaTpl('editable', {
-                formType: 'extend',
-                hiddenOnDefault: true,
-                form: {
-                  body: [getSchemaTpl('editApi')]
-                }
+              /** 新增选项 */
+              getSchemaTpl('optionAddControl', {
+                manager: this.manager
               }),
-              getSchemaTpl('removable', {
-                formType: 'extend',
-                hiddenOnDefault: true,
-                form: {
-                  body: [getSchemaTpl('deleteApi')]
-                }
-              })
+              /** 编辑选项 */
+              getSchemaTpl('optionEditControl', {
+                manager: this.manager
+              }),
+              /** 删除选项 */
+              getSchemaTpl('optionDeleteControl')
             ]
           },
           getSchemaTpl('status', {isFormItem: true}),
@@ -255,11 +249,11 @@ export class CheckboxesControlPlugin extends BasePlugin {
         type: 'object',
         title: node.schema?.label || node.schema?.name,
         properties: {
-          label: {
+          [node.schema?.labelField || 'label']: {
             type: 'string',
             title: '文本'
           },
-          value: {
+          [node.schema?.valueField || 'value']: {
             type,
             title: '值'
           }

@@ -30,7 +30,8 @@ export default class CmptActionSelect extends React.Component<RendererProps> {
           ...BASE_ACTION_PROPS,
           'componentId',
           '__rendererName',
-          '__cmptTreeSource'
+          '__cmptTreeSource',
+          '__cmptId'
         ].includes(key)
       ) {
         removeKeys[key] = undefined;

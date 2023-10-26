@@ -35,6 +35,7 @@ export class ListPlugin extends BasePlugin {
   isBaseComponent = true;
   isListComponent = true;
   disabledRendererPlugin = true;
+  memberImmutable = true;
   description =
     '展示一个列表，可以自定标题、副标题，内容及按钮组部分。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。';
   docLink = '/amis/zh-CN/components/list';
@@ -403,7 +404,8 @@ export class ListPlugin extends BasePlugin {
         wrapperResolve: plugin.wrapperResolve,
         filterProps: plugin.filterProps,
         $schema: plugin.$schema,
-        renderRenderer: plugin.renderRenderer
+        renderRenderer: plugin.renderRenderer,
+        memberImmutable: plugin.memberImmutable
       };
     }
 

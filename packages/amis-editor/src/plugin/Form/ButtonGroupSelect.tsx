@@ -10,6 +10,7 @@ import {getSchemaTpl, defaultValue} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
 import {resolveOptionType} from '../../util';
+import type {Schema} from 'amis';
 
 export class ButtonGroupControlPlugin extends BasePlugin {
   static id = 'ButtonGroupControlPlugin';
@@ -126,7 +127,7 @@ export class ButtonGroupControlPlugin extends BasePlugin {
                 getSchemaTpl('label'),
                 getSchemaTpl('multiple'),
                 getSchemaTpl('valueFormula', {
-                  rendererSchema: context?.schema,
+                  rendererSchema: (schema: Schema) => schema,
                   useSelectMode: true, // 改用 Select 设置模式
                   visibleOn: 'this.options && this.options.length > 0'
                 }),
@@ -218,11 +219,11 @@ export class ButtonGroupControlPlugin extends BasePlugin {
         type: 'object',
         title: node.schema?.label || node.schema?.name,
         properties: {
-          label: {
+          [node.schema?.labelField || 'label']: {
             type: 'string',
             title: '文本'
           },
-          value: {
+          [node.schema?.valueField || 'value']: {
             type,
             title: '值'
           }

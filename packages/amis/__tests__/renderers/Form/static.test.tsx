@@ -1,8 +1,8 @@
 import React = require('react');
-import {render, cleanup} from '@testing-library/react';
+import {render, cleanup, fireEvent} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv} from '../../helper';
+import {makeEnv, wait} from '../../helper';
 import {clearStoresCache} from '../../../src';
 
 afterEach(() => {
@@ -151,4 +151,41 @@ test('Renderer:static', async () => {
     )
   );
   expect(container).toMatchSnapshot();
+});
+
+test('Renderer:staticOn', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        title: 'The form',
+        body: [
+          {
+            type: 'switch',
+            name: 'a',
+            label: 'a'
+          },
+          {
+            type: 'input-text',
+            name: 'b',
+            value: '123',
+            label: 'b',
+            staticOn: '${a}'
+          }
+        ],
+        submitText: null,
+        actions: []
+      },
+      {},
+      makeEnv()
+    )
+  );
+
+  expect(container.querySelector('input[name="b"]')).toBeInTheDocument();
+  expect(container.querySelector('label.cxd-Switch')).toBeInTheDocument();
+  fireEvent.click(container.querySelector('label.cxd-Switch')!);
+  await wait(200);
+
+  const text = getByText('123');
+  expect(text).toBeInTheDocument();
 });

@@ -153,12 +153,71 @@ const applyCellStyle = (
   }
 };
 
+/**
+ * 输出总结行
+ */
+const renderSummary = (
+  worksheet: any,
+  data: any,
+  summarySchema: any,
+  rowIndex: number
+) => {
+  if (summarySchema && summarySchema.length > 0) {
+    const firstSchema = summarySchema[0];
+    // 总结行支持二维数组，所以统一转成二维数组来方便操作
+    let affixRows = summarySchema;
+    if (!Array.isArray(firstSchema)) {
+      affixRows = [summarySchema];
+    }
+
+    for (const affix of affixRows) {
+      rowIndex += 1;
+      const sheetRow = worksheet.getRow(rowIndex);
+      let columIndex = 0;
+      for (const col of affix) {
+        columIndex += 1;
+        // 文档示例中只有这两种，所以主要支持这两种，没法支持太多，因为没法用 react 渲染结果
+        if (col.text) {
+          sheetRow.getCell(columIndex).value = col.text;
+        }
+
+        if (col.tpl) {
+          sheetRow.getCell(columIndex).value = removeHTMLTag(
+            decodeEntity(filter(col.tpl, data))
+          );
+        }
+
+        // 处理合并行
+        if (col.colSpan) {
+          worksheet.mergeCells(
+            rowIndex,
+            columIndex,
+            rowIndex,
+            columIndex + col.colSpan - 1
+          );
+          columIndex += col.colSpan - 1;
+        }
+      }
+    }
+  }
+
+  return rowIndex;
+};
+
 export async function exportExcel(
   ExcelJS: any,
   props: TableProps,
   toolbar: ExportExcelToolbar
 ) {
-  const {store, env, classnames: cx, translate: __, data} = props;
+  const {
+    store,
+    env,
+    classnames: cx,
+    translate: __,
+    data,
+    prefixRow,
+    affixRow
+  } = props;
   let columns = store.exportColumns || [];
 
   let rows = [];
@@ -264,6 +323,8 @@ export async function exportExcel(
   if (toolbar.rowSlice) {
     rows = arraySlice(rows, toolbar.rowSlice);
   }
+  // 前置总结行
+  rowIndex = renderSummary(worksheet, data, prefixRow, rowIndex);
   for (const row of rows) {
     const rowData = createObject(data, row.data);
     rowIndex += 1;
@@ -449,6 +510,9 @@ export async function exportExcel(
       }
     }
   }
+
+  // 后置总结行
+  renderSummary(worksheet, data, affixRow, rowIndex);
 
   const buffer = await workbook.xlsx.writeBuffer();
 

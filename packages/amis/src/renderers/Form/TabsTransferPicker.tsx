@@ -53,7 +53,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
 
   @autobind
   optionItemRender(option: any, states: ItemRenderStates) {
-    const {menuTpl, render, data} = this.props;
+    const {menuTpl, render, data, classnames} = this.props;
     const ctx = arguments[2] || {};
 
     if (menuTpl) {
@@ -68,7 +68,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
       });
     }
 
-    return BaseSelection.itemRender(option, states);
+    return BaseSelection.itemRender(option, {...states, classnames});
   }
 
   // 动作

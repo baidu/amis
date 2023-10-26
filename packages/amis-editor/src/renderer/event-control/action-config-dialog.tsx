@@ -27,7 +27,10 @@ interface ActionDialogProp {
   onClose: () => void;
   getComponents: (action: RendererPluginAction) => ComponentInfo[]; // 当前页面组件树
   actionConfigInitFormatter?: (actionConfig: ActionConfig) => ActionConfig; // 动作配置初始化时格式化
-  actionConfigSubmitFormatter?: (actionConfig: ActionConfig) => ActionConfig; // 动作配置提交时格式化
+  actionConfigSubmitFormatter?: (
+    actionConfig: ActionConfig,
+    type?: string
+  ) => ActionConfig; // 动作配置提交时格式化
   render: (
     region: string,
     node: SchemaNode,
@@ -360,7 +363,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
             style: {
               borderStyle: 'solid'
             },
-            className: 'action-config-panel'
+            className: 'action-config-panel AMISCSSWrapper'
           }
         ],
         onClose

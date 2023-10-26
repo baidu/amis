@@ -14,6 +14,7 @@ import {ErrorRenderer} from './base/ErrorRenderer';
 import {isAlive} from 'mobx-state-tree';
 import {findTree} from 'amis-core';
 import BackTop from './base/BackTop';
+import {reaction} from 'mobx';
 import type {RendererConfig} from 'amis-core';
 import IFramePreview from './IFramePreview';
 
@@ -47,6 +48,7 @@ export interface PreviewState {
 @observer
 export default class Preview extends Component<PreviewProps> {
   currentDom: HTMLElement; // 用于记录当前dom元素
+  dialogReaction: any;
   env: RenderOptions = {
     ...this.props.manager.env,
     notify: (type, msg, conf) => {
@@ -71,22 +73,43 @@ export default class Preview extends Component<PreviewProps> {
 
     this.currentDom.addEventListener('mouseleave', this.handleMouseLeave);
     this.currentDom.addEventListener('mousemove', this.handleMouseMove);
-    this.currentDom.addEventListener('click', this.handleClick);
+    this.currentDom.addEventListener('click', this.handleClick, true);
     this.currentDom.addEventListener('mouseover', this.handeMouseOver);
 
     this.currentDom.addEventListener('mousedown', this.handeMouseDown);
 
     this.props.manager.on('after-update', this.handlePanelChange);
+
+    const store = this.props.store;
+    // 添加弹窗事件或弹窗列表进行弹窗切换后自动选中对应的弹窗
+    this.dialogReaction = reaction(
+      () =>
+        store.root.children?.length
+          ? `${store.root.children[0]?.type}:${store.root.children[0]?.id}`
+          : '',
+      info => {
+        const type = info.split(':')[0];
+        if (type === 'dialog' || type === 'drawer') {
+          const dialogId = info.split(':')[1];
+          store.changeOutlineTabsKey('dialog-outline');
+          store.setPreviewDialogId(dialogId);
+          store.setActiveId(dialogId);
+        } else {
+          store.setActiveId(store.getRootId());
+        }
+      }
+    );
   }
 
   componentWillUnmount() {
     if (this.currentDom) {
       this.currentDom.removeEventListener('mouseleave', this.handleMouseLeave);
       this.currentDom.removeEventListener('mousemove', this.handleMouseMove);
-      this.currentDom.removeEventListener('click', this.handleClick);
+      this.currentDom.removeEventListener('click', this.handleClick, true);
       this.currentDom.removeEventListener('mouseover', this.handeMouseOver);
       this.currentDom.removeEventListener('mousedown', this.handeMouseDown);
       this.props.manager.off('after-update', this.handlePanelChange);
+      this.dialogReaction?.();
     }
 
     this.scrollLayer?.removeEventListener('scroll', this.handlePanelChange);
@@ -390,24 +413,37 @@ export default class Preview extends Component<PreviewProps> {
 
   @autobind
   handleDragEnter(e: React.DragEvent) {
+    if (!this.props.editable) {
+      // 非编辑态下不监听拖拽事件
+      return;
+    }
     const manager = this.props.manager;
     manager.dnd.dragEnter(e.nativeEvent);
   }
 
   @autobind
   handleDragLeave(e: React.DragEvent) {
+    if (!this.props.editable) {
+      return;
+    }
     const manager = this.props.manager;
     manager.dnd.dragLeave(e.nativeEvent);
   }
 
   @autobind
   handleDragOver(e: React.DragEvent) {
+    if (!this.props.editable) {
+      return;
+    }
     const manager = this.props.manager;
     manager.dnd.dragOver(e.nativeEvent);
   }
 
   @autobind
   handleDrop(e: React.DragEvent) {
+    if (!this.props.editable) {
+      return;
+    }
     const manager = this.props.manager;
     manager.dnd.drop(e.nativeEvent);
   }
@@ -480,6 +516,7 @@ export default class Preview extends Component<PreviewProps> {
         onDrop={this.handleDrop}
         className={cx(
           'ae-Preview',
+          'AMISCSSWrapper',
           className,
           isMobile ? 'is-mobile-body hoverShowScrollBar' : 'is-pc-body'
         )}
@@ -592,6 +629,8 @@ export interface SmartPreviewProps {
 }
 @observer
 class SmartPreview extends React.Component<SmartPreviewProps> {
+  dialogMountRef: React.RefObject<HTMLDivElement> = React.createRef();
+
   componentDidMount() {
     const store = this.props.store;
 
@@ -626,20 +665,31 @@ class SmartPreview extends React.Component<SmartPreviewProps> {
     }
   }
 
+  @autobind
+  getDialogMountRef() {
+    return this.dialogMountRef.current;
+  }
+
   render() {
     const {editable, store, appLocale, autoFocus, env, data, manager, ...rest} =
       this.props;
 
-    return render(
-      editable ? store.filteredSchema : store.filteredSchemaForPreview,
-      {
-        ...rest,
-        key: editable ? 'edit-mode' : 'preview-mode',
-        theme: env.theme,
-        data: data ?? store.ctx,
-        locale: appLocale
-      },
-      env
+    return (
+      // 弹窗挂载节点
+      <div ref={this.dialogMountRef} className="ae-Dialog-preview-mount-node">
+        {render(
+          editable ? store.filteredSchema : store.filteredSchemaForPreview,
+          {
+            ...rest,
+            key: editable ? 'edit-mode' : 'preview-mode',
+            theme: env.theme,
+            data: data ?? store.ctx,
+            locale: appLocale,
+            editorDialogMountNode: this.getDialogMountRef
+          },
+          env
+        )}
+      </div>
     );
   }
 }

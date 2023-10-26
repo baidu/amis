@@ -539,3 +539,44 @@ test('evalute:ISTYPE', () => {
   expect(evaluate('${ISTYPE(f, "plain-object")}', data)).toBe(true);
   expect(evaluate('${ISTYPE(g, "date")}', data)).toBe(true);
 });
+
+test('evalute:Math', () => {
+  const data = {
+    float: 0.5,
+    integer1: 2,
+    integer2: 4,
+    negativeInteger: -2,
+    array: [1, 2, 3],
+    infinity: Infinity
+  };
+
+  expect(evaluate('${POW(integer1, integer2)}', data)).toBe(16);
+  expect(evaluate('${POW(integer2, 0.5)}', data)).toBe(2);
+  expect(evaluate('${POW(integer1, -2)}', data)).toBe(0.25);
+  /** 计算结果不合法，则返回NaN */
+  expect(evaluate('${POW(negativeInteger, 0.5)}', data)).toBe(NaN);
+  /** 参数值不合法，则返回基数本身*/
+  expect(evaluate('${POW(array, 2)}', data)).toBe(data.array);
+  /** 测试Infinity */
+  expect(evaluate('${POW(infinity, 2)}', data)).toBe(data.infinity);
+  expect(evaluate('${POW(1, infinity)}', data)).toBe(NaN);
+  expect(evaluate('${POW(2, infinity)}', data)).toBe(data.infinity);
+});
+
+test('evalute:namespace', () => {
+  localStorage.setItem('a', '1');
+  localStorage.setItem('b', '2');
+  localStorage.setItem('c', '{"a": 1, "b": 2, "c": {"d": 4}}');
+  localStorage.setItem('key', 'c');
+  localStorage.setItem('spec-var-name', 'you are right');
+
+  expect(evaluate('${ls: a}', {})).toBe(1);
+  expect(evaluate('${ls: b}', {})).toBe(2);
+  expect(evaluate('${ls: c}', {})).toMatchObject({a: 1, b: 2, c: {d: 4}});
+  // 被认为是减操作
+  expect(evaluate('${ls: spec-var-name}', {})).toBe(0);
+  expect(evaluate('${ls: spec\\-var\\-name}', {})).toBe('you are right');
+  expect(evaluate('${ls: &["spec-var-name"]}', {})).toBe('you are right');
+  expect(evaluate('${ls: &["c"]["c"]}', {})).toMatchObject({d: 4});
+  expect(evaluate('${ls: &["c"][key]}', {})).toMatchObject({d: 4});
+});

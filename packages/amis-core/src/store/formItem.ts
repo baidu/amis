@@ -23,7 +23,8 @@ import {
   findTreeIndex,
   spliceTree,
   filterTree,
-  eachTree
+  eachTree,
+  mapTree
 } from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import find from 'lodash/find';
@@ -67,6 +68,7 @@ const getSelectedOptionsCache: any = {
 export const FormItemStore = StoreNode.named('FormItemStore')
   .props({
     isFocused: false,
+    isControlled: false, // 是否是受控表单项，通常是用在别的组件里面
     type: '',
     label: '',
     unique: false,
@@ -107,7 +109,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     resetValue: types.optional(types.frozen(), ''),
     validateOnChange: false,
     /** 当前表单项所属的InputGroup父元素, 用于收集InputGroup的子元素 */
-    inputGroupControl: types.optional(types.frozen(), {})
+    inputGroupControl: types.optional(types.frozen(), {}),
+    colIndex: types.frozen(),
+    rowIndex: types.frozen()
   })
   .views(self => {
     function getForm(): any {
@@ -358,27 +362,34 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         inputGroupControl?.name != null &&
         (self.inputGroupControl = inputGroupControl);
 
-      rules = {
-        ...rules,
-        isRequired: self.required || rules?.isRequired
-      };
+      if (
+        typeof rules !== 'undefined' ||
+        typeof required !== 'undefined' ||
+        typeof minLength === 'number' ||
+        typeof maxLength === 'number'
+      ) {
+        rules = {
+          ...(rules ?? self.rules),
+          isRequired: self.required || rules?.isRequired
+        };
 
-      // todo 这个弄个配置由渲染器自己来决定
-      // 暂时先这样
-      if (~['input-text', 'textarea'].indexOf(self.type)) {
-        if (typeof minLength === 'number') {
-          rules.minLength = minLength;
+        // todo 这个弄个配置由渲染器自己来决定
+        // 暂时先这样
+        if (~['input-text', 'textarea'].indexOf(self.type)) {
+          if (typeof minLength === 'number') {
+            (rules as any).minLength = minLength;
+          }
+
+          if (typeof maxLength === 'number') {
+            (rules as any).maxLength = maxLength;
+          }
         }
 
-        if (typeof maxLength === 'number') {
-          rules.maxLength = maxLength;
+        if (isObjectShallowModified(rules, self.rules)) {
+          self.rules = rules;
+          clearError('builtin');
+          self.validated = false;
         }
-      }
-
-      if (isObjectShallowModified(rules, self.rules)) {
-        self.rules = rules;
-        clearError('builtin');
-        self.validated = false;
       }
     }
 
@@ -627,17 +638,18 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           if (!msg) {
             msg = `status: ${json.status}`;
           }
-          getEnv(self).notify(
-            'error',
-            apiObject.messages?.failed ??
-              (self.errors.join('') || `${apiObject.url}: ${msg}`),
-            json.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: json.msgTimeout
-                }
-              : undefined
-          );
+          !(api as any)?.silent &&
+            getEnv(self).notify(
+              'error',
+              apiObject.messages?.failed ??
+                (self.errors.join('') || `${apiObject.url}: ${msg}`),
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
         } else {
           result = json;
         }
@@ -657,7 +669,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         }
 
         console.error(e);
-        env.notify('error', e.message);
+        !(api as any)?.silent && env.notify('error', e.message);
         return;
       }
     } as any);
@@ -763,6 +775,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
 
       !silent &&
+        !(api as any)?.silent &&
         getEnv(self).notify('info', self.__('FormItem.autoFillLoadFailed'));
 
       return;
@@ -1108,8 +1121,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     // @issue 强依赖form，需要改造暂且放过。
     function syncOptions(originOptions?: Array<any>, data?: Object) {
       if (!self.options.length && typeof self.value === 'undefined') {
-        self.selectedOptions = [];
-        self.filteredOptions = [];
+        isArrayChildrenModified(self.filteredOptions, []) &&
+          (self.filteredOptions = []);
+        isArrayChildrenModified(self.selectedOptions, []) &&
+          (self.selectedOptions = []);
         return;
       }
 
@@ -1239,9 +1254,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           });
 
         if (filteredOptions.length) {
-          filteredOptions = filteredOptions.filter(
-            option => !~options.indexOf(option.value)
-          );
+          filteredOptions = mapTree(filteredOptions, item => ({
+            ...item,
+            disabled: ~options.indexOf(item.value)
+          }));
         }
       }
 
@@ -1269,7 +1285,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       if (subStore && subStore.storeType === 'ComboStore') {
         const combo = subStore as IComboStore;
-        combo.forms.forEach(form => form.reset());
+        combo.forms.forEach(form => form.reset(undefined, false)); // 仅重置校验状态，不要重置数据
       }
 
       !keepErrors && clearError();
@@ -1334,6 +1350,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
     }
 
+    function setIsControlled(value: any) {
+      self.isControlled = !!value;
+    }
+
     return {
       focus,
       blur,
@@ -1359,7 +1379,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       changeEmitedValue,
       addSubFormItem,
       removeSubFormItem,
-      loadAutoUpdateData
+      loadAutoUpdateData,
+      setIsControlled
     };
   });
 

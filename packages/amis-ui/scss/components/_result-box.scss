@@ -126,6 +126,7 @@
     margin-left: px2rem(4px);
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   &-singleValue {
@@ -234,6 +235,14 @@
     &.is-invalid {
       color: var(--Form-selectValue-onInvalid-color);
     }
+  }
+
+  &-valueLabel {
+    max-width: var(--Form-valueLabel-maxWidth);
+    overflow: hidden;
+    vertical-align: top;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &-placeholder {

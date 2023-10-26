@@ -3,9 +3,7 @@ import {RendererProps} from 'amis-core';
 import {ActionObject} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {Overlay} from 'amis-core';
-import {findDOMNode} from 'react-dom';
 import {PopOver} from 'amis-core';
-import {ITableStore} from 'amis-core';
 import {setVariable, createObject} from 'amis-core';
 
 export interface QuickSearchConfig {
@@ -23,35 +21,31 @@ export interface HeadCellSearchProps extends RendererProps {
   onQuery: (values: object) => void;
 }
 
-export class HeadCellSearchDropDown extends React.Component<
-  HeadCellSearchProps,
-  any
-> {
-  state = {
-    isOpened: false
-  };
-
-  formItems: Array<string> = [];
-  constructor(props: HeadCellSearchProps) {
-    super(props);
-
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleAction = this.handleAction.bind(this);
-  }
-
-  buildSchema() {
-    const {searchable, sortable, name, label, translate: __} = this.props;
-
+export function HeadCellSearchDropDown({
+  searchable,
+  name,
+  label,
+  onQuery,
+  data,
+  dispatchEvent,
+  onAction,
+  classnames: cx,
+  translate: __,
+  classPrefix: ns,
+  popOverContainer,
+  render
+}: HeadCellSearchProps) {
+  const ref = React.createRef<HTMLElement>();
+  const [formSchema, formItems] = React.useMemo(() => {
     let schema: any;
+    const formItems: Array<string> = [];
 
     if (searchable === true) {
       schema = {
         title: '',
-        controls: [
+        body: [
           {
-            type: 'text',
+            type: 'input-text',
             name,
             placeholder: label,
             clearable: true
@@ -59,21 +53,25 @@ export class HeadCellSearchDropDown extends React.Component<
         ]
       };
     } else if (searchable) {
-      if (searchable.controls || searchable.tabs || searchable.fieldSet) {
+      if (
+        !searchable.type &&
+        (searchable.body || searchable.tabs || searchable.fieldSet)
+      ) {
+        // todo 删除此处代码，这些都是不推荐的用法
         schema = {
           title: '',
           ...searchable,
-          controls: Array.isArray(searchable.controls)
-            ? searchable.controls.concat()
+          body: Array.isArray(searchable.body)
+            ? searchable.body.concat()
             : undefined
         };
       } else {
         schema = {
           title: '',
           className: searchable.formClassName,
-          controls: [
+          body: [
             {
-              type: searchable.type || 'text',
+              type: searchable.type || 'input-text',
               name: searchable.name || name,
               placeholder: label,
               ...searchable
@@ -83,41 +81,14 @@ export class HeadCellSearchDropDown extends React.Component<
       }
     }
 
-    if (schema && schema.controls && sortable) {
-      schema.controls.unshift(
-        {
-          type: 'hidden',
-          name: 'orderBy',
-          value: name
-        },
-        {
-          type: 'button-group',
-          name: 'orderDir',
-          label: __('sort'),
-          options: [
-            {
-              label: __('asc'),
-              value: 'asc'
-            },
-            {
-              label: __('desc'),
-              value: 'desc'
-            }
-          ]
-        }
-      );
-    }
-
     if (schema) {
-      const formItems: Array<string> = [];
-      schema.controls?.forEach(
-        (item: any) =>
-          item.name &&
-          item.name !== 'orderBy' &&
-          item.name !== 'orderDir' &&
-          formItems.push(item.name)
-      );
-      this.formItems = formItems;
+      Array.isArray(schema.body) &&
+        schema.body.forEach((item: any) => {
+          item.name && formItems.push(item.name);
+          item.extraName &&
+            typeof item.extraName === 'string' &&
+            formItems.push(item.extraName);
+        });
       schema = {
         ...schema,
         type: 'form',
@@ -144,64 +115,13 @@ export class HeadCellSearchDropDown extends React.Component<
       };
     }
 
-    return schema || 'error';
-  }
+    return [schema || 'error', formItems];
+  }, [searchable, name, label]);
 
-  handleClickOutside() {
-    this.close();
-  }
-
-  open() {
-    this.setState({
-      isOpened: true
-    });
-  }
-
-  close() {
-    this.setState({
-      isOpened: false
-    });
-  }
-
-  handleAction(e: any, action: ActionObject, ctx: object) {
-    const {onAction} = this.props;
-
-    if (action.actionType === 'cancel' || action.actionType === 'close') {
-      this.close();
-      return;
-    }
-
-    if (action.actionType === 'reset') {
-      this.close();
-      this.handleReset();
-      return;
-    }
-
-    onAction && onAction(e, action, ctx);
-  }
-
-  handleReset() {
-    const {onQuery, data, name} = this.props;
-    const values = {...data};
-    this.formItems.forEach(key => setVariable(values, key, undefined));
-
-    if (values.orderBy === name) {
-      values.orderBy = '';
-      values.orderDir = 'asc';
-    }
-    onQuery(values);
-  }
-
-  async handleSubmit(values: any) {
-    const {onQuery, name, data, dispatchEvent} = this.props;
-
-    if (values.orderDir) {
-      values = {
-        ...values,
-        orderBy: name
-      };
-    }
-
+  const [isOpened, setIsOpened] = React.useState(false);
+  const open = React.useCallback(() => setIsOpened(true), []);
+  const close = React.useCallback(() => setIsOpened(false), []);
+  const handleSubmit = React.useCallback(async (values: any) => {
     const rendererEvent = await dispatchEvent(
       'columnSearch',
       createObject(data, {
@@ -214,78 +134,82 @@ export class HeadCellSearchDropDown extends React.Component<
       return;
     }
 
-    this.close();
+    close();
+    onQuery(values);
+  }, []);
+
+  const handleAction = React.useCallback(
+    (e: any, action: ActionObject, ctx: object) => {
+      if (action.actionType === 'cancel' || action.actionType === 'close') {
+        close();
+        return;
+      }
+
+      if (action.actionType === 'reset') {
+        close();
+        handleReset();
+        return;
+      }
+
+      onAction && onAction(e, action, ctx);
+    },
+    []
+  );
+
+  const handleReset = React.useCallback(() => {
+    const values = {...data};
+    // todo 这里不精准，如果表单项有容器嵌套，这里将不正确
+    formItems.forEach(key => setVariable(values, key, undefined));
 
     onQuery(values);
-  }
+  }, [data]);
 
-  isActive() {
-    const {data, name, orderBy} = this.props;
+  const isActive = React.useMemo(() => {
+    // todo 这里不精准，如果表单项有容器嵌套，这里将不正确
+    return formItems.some(key => data?.[key]);
+  }, [data]);
 
-    return orderBy === name || this.formItems.some(key => data?.[key]);
-  }
-
-  render() {
-    const {
-      render,
-      name,
-      data,
-      searchable,
-      store,
-      orderBy,
-      popOverContainer,
-      classPrefix: ns,
-      classnames: cx
-    } = this.props;
-
-    const formSchema = this.buildSchema();
-    const isActive = this.isActive();
-
-    return (
-      <span
-        className={cx(
-          `${ns}TableCell-searchBtn`,
-          isActive ? 'is-active' : '',
-          this.state.isOpened ? 'is-opened' : ''
-        )}
-      >
-        <span onClick={this.open}>
-          <Icon icon="search" className="icon" />
-        </span>
-        {this.state.isOpened ? (
-          <Overlay
-            container={popOverContainer || (() => findDOMNode(this))}
-            placement="left-bottom-left-top right-bottom-right-top"
-            target={
-              popOverContainer ? () => findDOMNode(this)!.parentNode : null
-            }
-            show
-          >
-            <PopOver
-              classPrefix={ns}
-              onHide={this.close}
-              className={cx(
-                `${ns}TableCell-searchPopOver`,
-                (searchable as any).className
-              )}
-              overlay
-            >
-              {
-                render('quick-search-form', formSchema, {
-                  data: {
-                    ...data,
-                    orderBy: orderBy,
-                    orderDir:
-                      orderBy === name ? (store as ITableStore).orderDir : ''
-                  },
-                  onSubmit: this.handleSubmit,
-                  onAction: this.handleAction
-                }) as JSX.Element
-              }
-            </PopOver>
-          </Overlay>
-        ) : null}
+  return (
+    <span
+      ref={ref}
+      className={cx(
+        `${ns}TableCell-searchBtn`,
+        isActive ? 'is-active' : '',
+        isOpened ? 'is-opened' : ''
+      )}
+    >
+      <span onClick={open}>
+        <Icon icon="search" className="icon" />
       </span>
-    );
-  }
+      {isOpened ? (
+        <Overlay
+          container={popOverContainer || (() => ref.current)}
+          placement="left-bottom-left-top right-bottom-right-top"
+          target={popOverContainer ? () => ref.current?.parentNode : null}
+          show
+        >
+          <PopOver
+            classPrefix={ns}
+            onHide={close}
+            className={cx(
+              `${ns}TableCell-searchPopOver`,
+              (searchable as any).className
+            )}
+            overlay
+          >
+            {
+              render('quick-search-form', formSchema, {
+                popOverContainer,
+                data: {
+                  ...data
+                },
+                onSubmit: handleSubmit,
+                onAction: handleAction
+              }) as JSX.Element
+            }
+          </PopOver>
+        </Overlay>
+      ) : null}
+    </span>
+  );
 }

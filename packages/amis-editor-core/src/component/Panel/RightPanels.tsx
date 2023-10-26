@@ -102,6 +102,7 @@ export class RightPanels extends React.Component<
       <div
         className={cx(
           'editor-right-panel width-draggable',
+          'AMISCSSWrapper',
           panels.length > 1 ? 'mul-tabs-panel' : '',
           isOpenStatus ? '' : 'hidden-status',
           isFixedStatus ? 'fixed-status' : ''

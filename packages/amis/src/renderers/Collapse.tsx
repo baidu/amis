@@ -6,7 +6,9 @@ import {
   RendererProps,
   ScopedContext,
   autobind,
-  resolveEventData
+  resolveEventData,
+  isPureVariable,
+  resolveVariableAndFilter
 } from 'amis-core';
 import {Collapse as BasicCollapse, Icon} from 'amis-ui';
 import {BaseSchema, SchemaCollection, SchemaTpl, SchemaObject} from '../Schema';
@@ -109,6 +111,8 @@ export interface CollapseProps
 
   // 内容口子
   children?: JSX.Element | ((props?: any) => JSX.Element);
+  /** 当Collapse作为Form组件的子元素时，开启该属性后组件样式设置为FieldSet组件的样式，默认开启 */
+  enableFieldSetStyle?: boolean;
 }
 
 export default class Collapse extends React.Component<CollapseProps, {}> {
@@ -194,9 +198,9 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       collapsed,
       propsUpdate,
       mobileUI,
-      divideLine
+      divideLine,
+      enableFieldSetStyle
     } = this.props;
-
     const heading = title || header || '';
 
     return (
@@ -253,6 +257,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
         mobileUI={mobileUI}
         onCollapse={this.handleCollapseChange}
         divideLine={divideLine}
+        enableFieldSetStyle={enableFieldSetStyle}
       ></BasicCollapse>
     );
   }

@@ -54,7 +54,6 @@ export class BodyCell extends React.Component<Props> {
       style,
       groupId,
       depth,
-      index,
       col,
       wrapperComponent: Component,
       classnames: cx
@@ -73,7 +72,6 @@ export class BodyCell extends React.Component<Props> {
         data-group-id={groupId || null}
         data-depth={depth || null}
         data-col={col}
-        data-index={index === -1 ? null : index}
       >
         {children}
       </Component>

@@ -207,7 +207,8 @@ export function HocStoreFactory(renderer: {
                 ...(store.hasRemoteData ? store.data : null), // todo 只保留 remote 数据
                 ...this.formatData(props.defaultData),
                 ...this.formatData(props.data)
-              })
+              }),
+              props.updatePristineAfterStoreDataReInit === false
             );
           }
         } else if (
@@ -234,7 +235,8 @@ export function HocStoreFactory(renderer: {
                       store,
                       props.syncSuperStore === true
                     )
-              )
+              ),
+              props.updatePristineAfterStoreDataReInit === false
             );
           } else if (props.data && (props.data as any).__super) {
             store.initData(
@@ -245,11 +247,25 @@ export function HocStoreFactory(renderer: {
                       ...store.data,
                       ...props.data
                     }
-                  : undefined
-              )
+                  : // combo 不需要同步，如果要同步，在 Combo.tsx 里面已经实现了相关逻辑
+                  // 目前主要的问题是，如果 combo 中表单项名字和 combo 本身的名字一样，会导致里面的值会被覆盖成数组
+                  props.store?.storeType === 'ComboStore'
+                  ? undefined
+                  : syncDataFromSuper(
+                      props.data,
+                      (props.data as any).__super,
+                      (prevProps.data as any).__super,
+                      store,
+                      false
+                    )
+              ),
+              props.updatePristineAfterStoreDataReInit === false
             );
           } else {
-            store.initData(createObject(props.scope, props.data));
+            store.initData(
+              createObject(props.scope, props.data),
+              props.updatePristineAfterStoreDataReInit === false
+            );
           }
         } else if (
           !props.trackExpression &&
@@ -272,8 +288,9 @@ export function HocStoreFactory(renderer: {
                 ...store.data
               }),
 
-              store.storeType === 'FormStore' &&
-                prevProps.store?.storeType === 'CRUDStore'
+              props.updatePristineAfterStoreDataReInit === false ||
+                (store.storeType === 'FormStore' &&
+                  prevProps.store?.storeType === 'CRUDStore')
             );
           }
           // nextProps.data.__super !== props.data.__super) &&
@@ -289,7 +306,8 @@ export function HocStoreFactory(renderer: {
             createObject(props.scope, {
               // ...nextProps.data,
               ...store.data
-            })
+            }),
+            props.updatePristineAfterStoreDataReInit === false
           );
         }
       }

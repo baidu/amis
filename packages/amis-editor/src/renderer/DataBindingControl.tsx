@@ -194,7 +194,8 @@ export class SimpleDataBindingControl extends React.Component<
   async handleSearch(keywords: string) {
     this.setState({
       filteredFields: matchSorter(this.props.fields, keywords, {
-        keys: ['label', 'value', 'children']
+        keys: ['label', 'value', 'children'],
+        threshold: matchSorter.rankings.CONTAINS
       })
     });
   }

@@ -868,7 +868,11 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     if (response.value && !someTree(config, item => item.active)) {
       const {env} = props;
 
-      env.jumpTo(filter(response.value as string, props.data));
+      env.jumpTo(
+        filter(response.value as string, props.data),
+        undefined,
+        props.data
+      );
     }
   },
   normalizeConfig(
@@ -990,7 +994,10 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
 
     const children = Array.isArray(ret.data)
       ? ret.data
-      : ret.data.links || ret.data.options || ret.data.items || ret.data.rows;
+      : ret.data?.links ||
+        ret.data?.options ||
+        ret.data?.items ||
+        ret.data?.rows;
 
     if (Array.isArray(children)) {
       newItem.children = children.concat();
@@ -1259,7 +1266,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       if (!link.to) {
         return;
       }
-      env?.jumpTo(filter(link.to as string, data), link as any);
+      env?.jumpTo(filter(link.to as string, data), link as any, data);
     }
 
     render() {
@@ -1375,7 +1382,9 @@ export class NavigationRenderer extends React.Component<RendererProps> {
         );
 
         env?.jumpTo(
-          filter(child ? child.to : (children[0].to as string), data)
+          filter(child ? child.to : (children[0].to as string), data),
+          undefined,
+          data
         );
       }
     } else if (actionType === 'collapse') {

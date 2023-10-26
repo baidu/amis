@@ -33,6 +33,7 @@ export function handleAction(
     action.actionType = 'ajax';
     const api = normalizeApi((action as any).api);
     api.responseType = 'blob';
+    api.downloadFileName = action.downloadFileName;
     (action as any).api = api;
   }
 

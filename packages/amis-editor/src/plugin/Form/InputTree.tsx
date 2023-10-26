@@ -16,6 +16,7 @@ import {
 import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {resolveOptionType} from '../../util';
+import type {Schema} from 'amis';
 
 export class TreeControlPlugin extends BasePlugin {
   static id = 'TreeControlPlugin';
@@ -29,7 +30,8 @@ export class TreeControlPlugin extends BasePlugin {
   icon = 'fa fa-list-alt';
   pluginIcon = 'input-tree-plugin';
   description = '树型结构选择，支持 [内嵌模式] 与 [浮层模式] 的外观切换';
-  searchKeywords = 'tree、树下拉、树下拉框、tree-select';
+  searchKeywords =
+    'tree、树下拉、树下拉框、tree-select、树形选择框、树形选择器';
   docLink = '/amis/zh-CN/components/form/input-tree';
   tags = ['表单项'];
   scaffold = {
@@ -247,6 +249,11 @@ export class TreeControlPlugin extends BasePlugin {
       description: '重置数据'
     },
     {
+      actionType: 'reload',
+      actionLabel: '重新加载',
+      description: '触发组件数据刷新并重新渲染'
+    },
+    {
       actionType: 'setValue',
       actionLabel: '赋值',
       description: '触发组件数据更新'
@@ -413,10 +420,10 @@ export class TreeControlPlugin extends BasePlugin {
                 hiddenOn: '!data.multiple || !data.autoCheckChildren'
               }),
               getSchemaTpl('valueFormula', {
-                rendererSchema: {
-                  ...context?.schema,
+                rendererSchema: (schema: Schema) => ({
+                  ...schema,
                   type: 'tree-select'
-                },
+                }),
                 visibleOn: 'this.options && this.options.length > 0'
               }),
 
@@ -433,6 +440,10 @@ export class TreeControlPlugin extends BasePlugin {
                 label: '数据',
                 showIconField: true
               }),
+              // 自定义选项模板
+              getSchemaTpl('optionsMenuTpl', {
+                manager: this.manager
+              }),
               getSchemaTpl(
                 'loadingConfig',
                 {
@@ -444,41 +455,54 @@ export class TreeControlPlugin extends BasePlugin {
                 label: '只可选择叶子节点',
                 name: 'onlyLeaf'
               }),
-              getSchemaTpl('creatable', {
-                formType: 'extend',
-                hiddenOnDefault: true,
-                label: '可新增',
-                form: {
-                  body: [
-                    getSchemaTpl('switch', {
-                      label: '顶层可新增',
-                      value: true,
-                      name: 'rootCreatable'
-                    }),
-                    {
-                      type: 'input-text',
-                      label: '顶层文案',
-                      value: '添加一级节点',
-                      name: 'rootCreateTip',
-                      hiddenOn: '!data.rootCreatable'
-                    },
-                    getSchemaTpl('addApi')
-                  ]
-                }
+              /** 新增选项 */
+              getSchemaTpl('optionAddControl', {
+                manager: this.manager,
+                replace: true,
+                collections: [
+                  getSchemaTpl('switch', {
+                    label: '顶层可新增',
+                    value: true,
+                    name: 'rootCreatable'
+                  }),
+                  {
+                    type: 'input-text',
+                    label: '根节点文案',
+                    value: '添加一级节点',
+                    name: 'rootCreateTip',
+                    hiddenOn: '!data.rootCreatable'
+                  },
+                  {
+                    type: 'input-text',
+                    label: '新增文案提示',
+                    value: '添加子节点',
+                    name: 'createTip'
+                  }
+                ]
               }),
-              getSchemaTpl('editable', {
-                formType: 'extend',
-                hiddenOnDefault: true,
-                form: {
-                  body: [getSchemaTpl('editApi')]
-                }
+              /** 编辑选项 */
+              getSchemaTpl('optionEditControl', {
+                manager: this.manager,
+                collections: [
+                  {
+                    type: 'input-text',
+                    label: '编辑文案提示',
+                    value: '编辑该节点',
+                    name: 'editTip'
+                  }
+                ]
               }),
-              getSchemaTpl('removable', {
-                formType: 'extend',
-                hiddenOnDefault: true,
-                form: {
-                  body: [getSchemaTpl('deleteApi')]
-                }
+              /** 删除选项 */
+              getSchemaTpl('optionDeleteControl', {
+                manager: this.manager,
+                collections: [
+                  {
+                    type: 'input-text',
+                    label: '删除文案提示',
+                    value: '移除该节点',
+                    name: 'removeTip'
+                  }
+                ]
               })
             ]
           },
@@ -648,11 +672,11 @@ export class TreeControlPlugin extends BasePlugin {
         type: 'object',
         title: node.schema?.label || node.schema?.name,
         properties: {
-          label: {
+          [node.schema?.labelField || 'label']: {
             type: 'string',
             title: '文本'
           },
-          value: {
+          [node.schema?.valueField || 'value']: {
             type,
             title: '值'
           }

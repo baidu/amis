@@ -13,6 +13,7 @@ import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import isPlainObject from 'lodash/isPlainObject';
 import get from 'lodash/get';
+import isNumber from 'lodash/isNumber';
 import {EvaluatorOptions, FilterContext, FilterMap, FunctionMap} from './types';
 import {FormulaEvalError} from './error';
 
@@ -365,17 +366,65 @@ export class Evaluator {
     return ast.value;
   }
 
+  /**
+   * 名字空间下获取变量，可能存在变量名中带-的特殊情况，目前无法直接获取 ${ns:xxx-xxx}
+   * 想借助 ${ns:&['xxx-xxx']} 用法来支持特殊字符。
+   *
+   * 而 cookie, localstorage, sessionstorage 都不支持获取全量数据，如 ${ns: &}
+   * 所以当存在上述用法时，将 & 作为一个占位
+   *
+   * 比如 cookie 中有一个 key 为 xxx-xxx 的值，那么可以通过 &['xxx-xxx'] 来获取。
+   * 而无法通过 ${cookie:xxx-xxx} 来获取。 因为这样会被认为是减操作
+   * @param ast
+   * @returns
+   */
+  convertHostGetterToVariable(ast: any) {
+    if (ast.type !== 'getter') {
+      return ast;
+    }
+
+    let gettter = ast;
+    const keys: Array<string> = [];
+    while (gettter.host?.type === 'getter') {
+      keys.push('host');
+      gettter = gettter.host;
+    }
+    if (gettter.host?.type === 'variable' && gettter.host.name === '&') {
+      const ret: any = {
+        host: ast
+      };
+      const host = keys.reduce((host, key) => {
+        host[key] = {...host[key]};
+        return host[key];
+      }, ret);
+
+      host.host = {
+        start: host.host.start,
+        end: host.host.end,
+        type: 'variable',
+        name: this.evalute(host.host.key)
+      };
+      return ret.host;
+    }
+    return ast;
+  }
+
   nsVariable(ast: {namespace: string; body: any}) {
+    let body = ast.body;
     if (ast.namespace === 'window') {
       this.contextStack.push((name: string) =>
         name === '&' ? window : (window as any)[name]
       );
     } else if (ast.namespace === 'cookie') {
+      // 可能会利用 &['xxx-xxx'] 来取需要特殊变量
+      body = this.convertHostGetterToVariable(body);
       this.contextStack.push((name: string) => {
         return getCookie(name);
       });
     } else if (ast.namespace === 'ls' || ast.namespace === 'ss') {
       const ns = ast.namespace;
+      // 可能会利用 &['xxx-xxx'] 来取需要特殊变量
+      body = this.convertHostGetterToVariable(body);
       this.contextStack.push((name: string) => {
         const raw =
           ns === 'ss'
@@ -399,8 +448,10 @@ export class Evaluator {
       throw new Error('Unsupported namespace: ' + ast.namespace);
     }
 
-    const result = this.evalute(ast.body);
-    this.contextStack.pop();
+    const result = this.evalute(body);
+    result?.then
+      ? result.then(() => this.contextStack.pop())
+      : this.contextStack.pop();
     return result;
   }
 
@@ -978,6 +1029,24 @@ export class Evaluator {
     return arr.length ? arr[arr.length - 1] : null;
   }
 
+  /**
+   * 返回基数的指数次幂，参数base为基数，exponent为指数，如果参数值不合法则返回基数本身，计算结果不合法，则返回NaN。
+   *
+   * @example POW(base, exponent)
+   * @param {number} base 基数
+   * @param {number} exponent 指数
+   * @namespace 数学函数
+   *
+   * @returns {number} 基数的指数次幂
+   */
+  fnPOW(base: number, exponent: number) {
+    if (!isNumber(base) || !isNumber(exponent)) {
+      return base;
+    }
+
+    return Math.pow(base, exponent);
+  }
+
   // 文本函数
 
   normalizeText(raw: any) {
@@ -1215,6 +1284,7 @@ export class Evaluator {
    */
   fnBEFORELAST(text: string, delimiter: string = '.') {
     text = this.normalizeText(text);
+    delimiter = this.normalizeText(delimiter);
     return text.split(delimiter).slice(0, -1).join(delimiter) || text + '';
   }
 
@@ -1298,6 +1368,7 @@ export class Evaluator {
    * @returns {string} 判断结果
    */
   fnSTARTSWITH(text: string, search: string) {
+    search = this.normalizeText(search);
     if (!search) {
       return false;
     }
@@ -1317,6 +1388,7 @@ export class Evaluator {
    * @returns {string} 判断结果
    */
   fnENDSWITH(text: string, search: string) {
+    search = this.normalizeText(search);
     if (!search) {
       return false;
     }
@@ -1336,6 +1408,7 @@ export class Evaluator {
    * @returns {string} 判断结果
    */
   fnCONTAINS(text: string, search: string) {
+    search = this.normalizeText(search);
     if (!search) {
       return false;
     }
@@ -1357,7 +1430,13 @@ export class Evaluator {
    */
   fnREPLACE(text: string, search: string, replace: string) {
     text = this.normalizeText(text);
+    search = this.normalizeText(search);
+    replace = this.normalizeText(replace);
     let result = text;
+
+    if (typeof replace === 'undefined' || !search) {
+      return result;
+    }
 
     while (true) {
       const idx = result.indexOf(search);
@@ -1387,11 +1466,12 @@ export class Evaluator {
    * @returns {number} 命中的位置
    */
   fnSEARCH(text: string, search: string, start: number = 0) {
+    search = this.normalizeText(search);
     text = this.normalizeText(text);
     start = this.formatNumber(start);
 
     const idx = text.indexOf(search, start);
-    if (~idx) {
+    if (~idx && search) {
       return idx;
     }
 
@@ -1411,6 +1491,8 @@ export class Evaluator {
    */
   fnMID(text: string, from: number, len: number) {
     text = this.normalizeText(text);
+    from = this.formatNumber(from);
+    len = this.formatNumber(len);
     return text.substring(from, from + len);
   }
 
@@ -1507,7 +1589,8 @@ export class Evaluator {
    *
    * 示例
    *
-   * WEEKDAY('2023-02-27') 得到 1。
+   * WEEKDAY('2023-02-27') 得到 0。
+   * WEEKDAY('2023-02-27', 2) 得到 1。
    *
    * @example WEEKDAY(date)
    * @namespace 日期函数
@@ -1526,7 +1609,7 @@ export class Evaluator {
    *
    * 示例
    *
-   * WEEK('2023-03-05') 得到 10。
+   * WEEK('2023-03-05') 得到 9。
    *
    * @example WEEK(date)
    * @namespace 日期函数

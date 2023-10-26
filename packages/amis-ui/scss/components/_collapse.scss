@@ -172,15 +172,48 @@
 .#{$ns}Form {
   .#{$ns}Collapse {
     border: none;
-    &-header {
+
+    .#{$ns}Collapse-header {
       background-color: var(--white);
       display: inline-flex;
       justify-content: flex-end;
+      align-items: center;
       flex-direction: row-reverse;
       border-radius: 0;
     }
-    &-content {
+
+    .#{$ns}Collapse-content {
       padding: 0;
+    }
+  }
+
+  /* 恢复 Form 嵌套场景下的样式 */
+  .#{$ns}Collapse-fieldset--disabled {
+    border-width: var(--collapse-default-top-border-width)
+      var(--collapse-default-right-border-width)
+      var(--collapse-default-bottom-border-width)
+      var(--collapse-default-left-border-width);
+    border-style: var(--collapse-default-top-border-style)
+      var(--collapse-default-right-border-style)
+      var(--collapse-default-bottom-border-style)
+      var(--collapse-default-left-border-style);
+    border-color: var(--collapse-default-top-border-color)
+      var(--collapse-default-right-border-color)
+      var(--collapse-default-bottom-border-color)
+      var(--collapse-default-left-border-color);
+    border-radius: var(--collapse-default-top-left-border-radius)
+      var(--collapse-default-top-right-border-radius)
+      var(--collapse-default-bottom-right-border-radius)
+      var(--collapse-default-bottom-left-border-radius);
+
+    .#{$ns}Collapse-header {
+      background: var(--Collapse-header-bg);
+      display: block;
+      border-radius: unset;
+    }
+
+    .#{$ns}Collapse-content {
+      padding: var(--Collapse-content-padding);
     }
   }
 }

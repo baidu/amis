@@ -1,6 +1,6 @@
 import {observer} from 'mobx-react';
 import {EditorStoreType} from '../store/editor';
-import React from 'react';
+import React, {memo} from 'react';
 import {EditorManager} from '../manager';
 import Frame, {useFrame} from 'react-frame-component';
 import {
@@ -28,6 +28,8 @@ export interface IFramePreviewProps {
 @observer
 export default class IFramePreview extends React.Component<IFramePreviewProps> {
   initialContent: string = '';
+  dialogMountRef: React.RefObject<HTMLDivElement> = React.createRef();
+  iframeRef: HTMLIFrameElement;
   constructor(props: IFramePreviewProps) {
     super(props);
 
@@ -66,9 +68,9 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
   }
 
   @autobind
-  iframeRef(iframe: any) {
+  iframeRefFunc(iframe: any) {
     const store = this.props.store;
-
+    this.iframeRef = iframe;
     isAlive(store) && store.setIframe(iframe);
   }
 
@@ -83,6 +85,16 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
     return true;
   }
 
+  @autobind
+  getDialogMountRef() {
+    return this.dialogMountRef.current;
+  }
+
+  @autobind
+  iframeContentDidMount() {
+    this.iframeRef.contentWindow?.document.body.classList.add(`is-modalOpened`);
+  }
+
   render() {
     const {editable, store, appLocale, autoFocus, env, data, manager, ...rest} =
       this.props;
@@ -91,26 +103,31 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
       <Frame
         className={`ae-PreviewIFrame`}
         initialContent={this.initialContent}
-        ref={this.iframeRef}
+        ref={this.iframeRefFunc}
+        contentDidMount={this.iframeContentDidMount}
       >
         <InnerComponent store={store} editable={editable} manager={manager} />
-        {render(
-          editable ? store.filteredSchema : store.filteredSchemaForPreview,
-          {
-            ...rest,
-            key: editable ? 'edit-mode' : 'preview-mode',
-            theme: env.theme,
-            data: data ?? store.ctx,
-            locale: appLocale
-          },
-          {
-            ...env,
-            session: `${env.session}-iframe-preview`,
-            useMobileUI: true,
-            isMobile: this.isMobile,
-            getModalContainer: this.getModalContainer
-          }
-        )}
+        <div ref={this.dialogMountRef} className="ae-Dialog-preview-mount-node">
+          {render(
+            editable ? store.filteredSchema : store.filteredSchemaForPreview,
+            {
+              ...rest,
+              key: editable ? 'edit-mode' : 'preview-mode',
+              theme: env.theme,
+              data: data ?? store.ctx,
+              locale: appLocale,
+              editorDialogMountNode: this.getDialogMountRef
+            },
+            {
+              ...env,
+              session: `${env.session}-iframe-preview`,
+              useMobileUI: true,
+              isMobile: this.isMobile,
+              getModalContainer: this.getModalContainer
+            }
+          )}
+          <InnerSvgSpirit />
+        </div>
       </Frame>
     );
   }
@@ -190,7 +207,7 @@ function InnerComponent({
     doc!.addEventListener('click', handleBodyClick);
     layer!.addEventListener('mouseleave', handleMouseLeave);
     layer!.addEventListener('mousemove', handleMouseMove);
-    layer!.addEventListener('click', handleClick);
+    layer!.addEventListener('click', handleClick, true);
     layer!.addEventListener('mouseover', handeMouseOver);
 
     const unSensor = resizeSensor(doc!.body, () => {
@@ -219,3 +236,19 @@ function InnerComponent({
 
   return null;
 }
+
+const InnerSvgSpirit = memo(() => {
+  // @ts-ignore 这里取的是平台的变量
+  let spiriteIcons = window.spiriteIcons;
+  if (spiriteIcons) {
+    return (
+      <div
+        id="amis-icon-manage-mount-node"
+        style={{display: 'none'}}
+        dangerouslySetInnerHTML={{__html: spiriteIcons}}
+      ></div>
+    );
+  } else {
+    return null;
+  }
+});

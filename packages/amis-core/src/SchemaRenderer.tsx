@@ -64,7 +64,8 @@ export const RENDERER_TRANSMISSION_OMIT_PROPS = [
   'label',
   'renderLabel',
   'trackExpression',
-  'editorSetting'
+  'editorSetting',
+  'updatePristineAfterStoreDataReInit'
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
@@ -440,14 +441,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       exprProps = {};
     }
 
-    // style 支持公式
-    if (schema.style) {
-      // schema.style是readonly属性
-      schema = {...schema, style: buildStyle(schema.style, detectData)};
-    }
-
     const isClassComponent = Component.prototype?.isReactComponent;
-    const $schema = {...schema, ...exprProps};
     let props = {
       ...theme.getRendererConfig(renderer.name),
       ...restSchema,
@@ -459,7 +453,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       defaultActiveKey: defaultActiveKey,
       propKey: propKey,
       $path: $path,
-      $schema: $schema,
+      $schema: schema,
       ref: this.refFn,
       render: this.renderChild,
       rootStore,
@@ -467,6 +461,11 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       dispatchEvent: this.dispatchEvent,
       mobileUI: schema.useMobileUI === false ? false : rest.mobileUI
     };
+
+    // style 支持公式
+    if (schema.style) {
+      (props as any).style = buildStyle(schema.style, detectData);
+    }
 
     if (disable !== undefined) {
       (props as any).disabled = disable;
@@ -478,7 +477,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     // 自动解析变量模式，主要是方便直接引入第三方组件库，无需为了支持变量封装一层
     if (renderer.autoVar) {
-      for (const key of Object.keys($schema)) {
+      for (const key of Object.keys(schema)) {
         if (typeof props[key] === 'string') {
           props[key] = resolveVariableAndFilter(
             props[key],
@@ -504,11 +503,20 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 }
 
 class PlaceholderComponent extends React.Component {
+  childRef = React.createRef<any>();
+
+  getWrappedInstance() {
+    return this.childRef.current;
+  }
+
   render() {
     const {renderChildren, ...rest} = this.props as any;
 
     if (typeof renderChildren === 'function') {
-      return renderChildren(rest);
+      return renderChildren({
+        ...rest,
+        ref: this.childRef
+      });
     }
 
     return null;

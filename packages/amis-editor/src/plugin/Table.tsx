@@ -571,15 +571,14 @@ export class TablePlugin extends BasePlugin {
             body: [
               {
                 name: 'columnsTogglable',
-                label: '展示列显示开关',
+                label: tipedLabel(
+                  '列显示开关',
+                  '是否展示表格列的显隐控件，“自动”即列数量大于5时自动开启'
+                ),
                 type: 'button-group-select',
                 pipeIn: defaultValue('auto'),
                 size: 'sm',
                 labelAlign: 'left',
-                horizontal: {
-                  left: 5,
-                  right: 7
-                },
                 options: [
                   {
                     label: '自动',
@@ -595,8 +594,7 @@ export class TablePlugin extends BasePlugin {
                     label: '关闭',
                     value: false
                   }
-                ],
-                description: '自动即列数量大于5个时自动开启'
+                ]
               },
 
               getSchemaTpl('switch', {

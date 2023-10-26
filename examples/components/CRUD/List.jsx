@@ -3,32 +3,18 @@ export default {
   remark: 'bla bla bla',
   body: {
     type: 'crud',
-    api: '/api/sample',
+    name: 'thelist',
+    api: {
+      method: 'get',
+      url: '/api/sample',
+      sendOn: '${mode}'
+    },
     mode: 'list',
     draggable: true,
     saveOrderApi: {
       url: '/api/sample/saveOrder'
     },
     orderField: 'weight',
-    filter: {
-      title: '条件搜索',
-      submitText: '',
-      body: [
-        {
-          type: 'input-text',
-          name: 'keywords',
-          placeholder: '通过关键字搜索',
-          addOn: {
-            label: '搜索',
-            type: 'submit'
-          }
-        },
-        {
-          type: 'plain',
-          text: '这只是个示例, 目前搜索对查询结果无效.'
-        }
-      ]
-    },
     affixHeader: true,
     bulkActions: [
       {
@@ -63,6 +49,44 @@ export default {
     ],
     quickSaveApi: '/api/sample/bulkUpdate',
     quickSaveItemApi: '/api/sample/$id',
+    headerToolbar: [
+      {
+        type: 'form',
+        mode: 'inline',
+        wrapWithPanel: false,
+        submitOnChange: true,
+        submitOnInit: true,
+        target: 'thelist',
+        body: [
+          {
+            type: 'select',
+            name: 'mode',
+            className: 'mb-0',
+            selectFirst: true,
+            options: [
+              {
+                label: '模式 1',
+                value: 'mode1'
+              },
+              {
+                label: '模式 2',
+                value: 'mode2'
+              }
+            ]
+          },
+          {
+            type: 'input-text',
+            name: 'keywords',
+            placeholder: '通过关键字搜索',
+            className: 'mb-0',
+            addOn: {
+              label: '搜索',
+              type: 'submit'
+            }
+          }
+        ]
+      }
+    ],
     listItem: {
       actions: [
         {

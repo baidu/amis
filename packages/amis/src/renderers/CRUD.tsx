@@ -2,7 +2,13 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps, filterTarget, mapTree} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  evalExpressionWithConditionBuilder,
+  filterTarget,
+  mapTree
+} from 'amis-core';
 import {SchemaNode, Schema, ActionObject, PlainObject} from 'amis-core';
 import {CRUDStore, ICRUDStore} from 'amis-core';
 import {
@@ -15,7 +21,6 @@ import {
   getVariable,
   qsstringify,
   qsparse,
-  isArrayChildrenModified,
   isIntegerInRange
 } from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
@@ -52,12 +57,14 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   parseQuery,
+  parsePrimitiveQueryString,
   isMobile
 } from 'amis-core';
 
 import type {PaginationProps} from './Pagination';
 import {isAlive} from 'mobx-state-tree';
 import isPlainObject from 'lodash/isPlainObject';
+import memoize from 'lodash/memoize';
 
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
@@ -214,6 +221,12 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   perPageField?: string;
 
   /**
+   * 设置分页方向的字段名。单位简单分页时清楚时向前还是向后翻页。
+   * @default pageDir
+   */
+  pageDirectionField?: string;
+
+  /**
    * 快速编辑后用来批量保存的 API
    */
   quickSaveApi?: SchemaApi;
@@ -303,7 +316,11 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   loadDataOnce?: boolean;
 
   /**
-   * 在开启loadDataOnce时，filter时是否去重新请求api
+   * 在开启loadDataOnce时，当修改过滤条件时是否重新请求api
+   *
+   * 如果没有配置，当查询条件表单触发的会重新请求 api，当是列过滤或者是 search-box 触发的则不重新请求 api
+   * 如果配置为 true，则不管是什么触发都会重新请求 api
+   * 如果配置为 false 则不管是什么触发都不会重新请求 api
    */
   loadDataOnceFetchOnFilter?: boolean;
 
@@ -346,6 +363,11 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
    * 内容区域占满屏幕剩余空间
    */
   autoFillHeight?: TableSchema['autoFillHeight'];
+
+  /**
+   * 是否开启Query信息转换，开启后将会对url中的Query进行转换，将字符串格式的布尔值转化为同位类型
+   */
+  parsePrimitiveQuery?: boolean;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -407,6 +429,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'perPageAvailable',
     'pageField',
     'perPageField',
+    'pageDirectionField',
     'hideQuickSaveBtn',
     'autoJumpToTopOnPagerChange',
     'interval',
@@ -444,7 +467,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'formStore',
     'autoFillHeight',
     'maxTagCount',
-    'overflowTagPopover'
+    'overflowTagPopover',
+    'parsePrimitiveQuery'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -454,14 +478,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     syncLocation: true,
     pageField: 'page',
     perPageField: 'perPage',
+    pageDirectionField: 'pageDir',
     hideQuickSaveBtn: false,
     autoJumpToTopOnPagerChange: true,
     silentPolling: false,
     filterTogglable: false,
     filterDefaultVisible: true,
     loadDataOnce: false,
-    loadDataOnceFetchOnFilter: true,
-    autoFillHeight: false
+    autoFillHeight: false,
+    parsePrimitiveQuery: true
   };
 
   control: any;
@@ -472,6 +497,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   mounted: boolean;
   /** 父容器, 主要用于定位CRUD内部popover的挂载点 */
   parentContainer: Element | null;
+
+  filterOnEvent = memoize(onEvent =>
+    omitBy(onEvent, (event, key: any) => !INNER_EVENTS.includes(key))
+  );
 
   constructor(props: CRUDProps) {
     super(props);
@@ -504,21 +533,22 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pageField,
       perPageField,
       syncLocation,
-      loadDataOnce
+      loadDataOnce,
+      parsePrimitiveQuery
     } = props;
 
     this.mounted = true;
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
-        parseQuery(location),
+        parseQuery(location, {parsePrimitive: parsePrimitiveQuery}),
         undefined,
         pageField,
         perPageField
       );
     } else if (syncLocation && !location && window.location.search) {
       store.updateQuery(
-        parseQuery(window.location),
+        parseQuery(window.location, {parsePrimitive: parsePrimitiveQuery}),
         undefined,
         pageField,
         perPageField
@@ -548,8 +578,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   componentDidMount() {
-    const {store, autoGenerateFilter, columns} = this.props;
-    if (this.props.perPage) {
+    const {store, autoGenerateFilter, perPageField, columns} = this.props;
+    if (this.props.perPage && !store.query[perPageField || 'perPage']) {
       store.changePage(store.page, this.props.perPage);
     }
 
@@ -584,13 +614,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     let val: any;
-
     if (
       this.props.pickerMode &&
-      isArrayChildrenModified(
-        (val = getPropValue(this.props)),
-        getPropValue(prevProps)
-      ) &&
+      !isEqual((val = getPropValue(this.props)), getPropValue(prevProps)) &&
       !isEqual(val, store.selectedItems.concat())
     ) {
       /**
@@ -616,7 +642,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        parseQuery(props.location),
+        parseQuery(props.location, {parsePrimitive: props.parsePrimitiveQuery}),
         undefined,
         props.pageField,
         props.perPageField
@@ -649,7 +675,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const next = resolveVariableAndFilter(props.source, props.data, '| raw');
 
       if (!this.lastData || this.lastData !== next) {
-        store.initFromScope(props.data, props.source);
+        store.initFromScope(props.data, props.source, {
+          columns: store.columns ?? props.columns
+        });
         this.lastData = next;
       }
     }
@@ -662,6 +690,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   componentWillUnmount() {
     this.mounted = false;
     clearTimeout(this.timer);
+    this.filterOnEvent.cache.clear?.();
   }
 
   /** 查找CRUD最近层级的父窗口 */
@@ -721,7 +750,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
       // 由于 ajax 一段时间后再弹出，肯定被浏览器给阻止掉的，所以提前弹。
       const redirect = action.redirect && filter(action.redirect, data);
-      redirect && action.blank && env.jumpTo(redirect, action);
+      redirect && action.blank && env.jumpTo(redirect, action, data);
 
       return store
         .saveRemote(action.api!, data, {
@@ -741,7 +770,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           }
 
           const redirect = action.redirect && filter(action.redirect, data);
-          redirect && !action.blank && env.jumpTo(redirect, action);
+          redirect && !action.blank && env.jumpTo(redirect, action, data);
           action.reload
             ? this.reloadTarget(filterTarget(action.reload, data), data)
             : redirect
@@ -852,7 +881,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               action.close && this.closeTarget(action.close);
 
               const redirect = action.redirect && filter(action.redirect, data);
-              redirect && env.jumpTo(redirect, action);
+              redirect && env.jumpTo(redirect, action, data);
             })
             .catch(() => null);
       } else if (onAction) {
@@ -952,7 +981,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       env,
       pageField,
       perPageField,
-      loadDataOnceFetchOnFilter
+      loadDataOnceFetchOnFilter,
+      parsePrimitiveQuery
     } = this.props;
 
     /** 找出clearValueOnHidden的字段, 保证updateQuery时不会使用上次的保留值 */
@@ -963,6 +993,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     values = syncLocation
       ? qsparse(qsstringify(values, undefined, true))
       : values;
+
+    /** 把布尔值反解出来 */
+    if (parsePrimitiveQuery) {
+      values = parsePrimitiveQueryString(values);
+    }
 
     store.updateQuery(
       {
@@ -982,7 +1017,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         undefined,
         undefined,
         undefined,
-        loadDataOnceFetchOnFilter,
+        loadDataOnceFetchOnFilter !== false,
         isInit
       );
   }
@@ -1117,7 +1152,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     let redirect = action.redirect ?? dialogAction.redirect;
     redirect = redirect && filter(redirect, ctx);
-    redirect && env.jumpTo(redirect, dialogAction);
+    redirect && env.jumpTo(redirect, dialogAction, ctx);
   }
 
   handleDialogClose(confirmed = false) {
@@ -1175,7 +1210,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       env,
       loadDataOnce,
-      loadDataOnceFetchOnFilter,
       source,
       columns,
       dispatchEvent
@@ -1213,7 +1247,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             autoAppend: true,
             forceReload,
             loadDataOnce,
-            loadDataOnceFetchOnFilter,
             source,
             silent,
             pageField,
@@ -1292,27 +1325,38 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               ));
             return value;
           })
-      : source && store.initFromScope(data, source);
+      : source &&
+        store.initFromScope(data, source, {
+          columns: store.columns ?? columns
+        });
   }
 
   silentSearch(values?: object, clearSelection?: boolean, forceReload = false) {
     return this.search(values, true, clearSelection, forceReload);
   }
 
-  handleChangePage(page: number, perPage?: number) {
+  handleChangePage(
+    page: number,
+    perPage?: number,
+    dir?: 'forward' | 'backward'
+  ) {
     const {
       store,
       syncLocation,
       env,
       pageField,
       perPageField,
-      autoJumpToTopOnPagerChange,
-      affixOffsetTop
+      pageDirectionField,
+      autoJumpToTopOnPagerChange
     } = this.props;
 
     let query: any = {
       [pageField || 'page']: page
     };
+
+    if (dir) {
+      query[pageDirectionField || 'pageDir'] = dir;
+    }
 
     if (perPage) {
       query[perPageField || 'perPage'] = perPage;
@@ -1330,8 +1374,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (autoJumpToTopOnPagerChange && this.control) {
       (findDOMNode(this.control) as HTMLElement).scrollIntoView();
       const scrolledY = window.scrollY;
-      const offsetTop = affixOffsetTop ?? env?.affixOffsetTop ?? 0;
-      scrolledY && window.scroll(0, scrolledY - offsetTop);
+      scrolledY && window.scroll(0, scrolledY);
     }
   }
 
@@ -1646,11 +1689,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   handleQuery(
     values: object,
-    forceReload: boolean = false,
+    forceReload?: boolean,
     replace?: boolean,
     resetPage?: boolean
   ) {
-    const {store, syncLocation, env, pageField, perPageField} = this.props;
+    const {
+      store,
+      syncLocation,
+      env,
+      pageField,
+      perPageField,
+      loadDataOnceFetchOnFilter
+    } = this.props;
     store.updateQuery(
       resetPage
         ? {
@@ -1666,7 +1716,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       replace
     );
-    this.search(undefined, undefined, replace, forceReload);
+    this.search(
+      undefined,
+      undefined,
+      replace,
+      forceReload ?? loadDataOnceFetchOnFilter === true
+    );
   }
 
   reload(
@@ -1890,20 +1945,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       | 'popOverContainerSelector'
       | 'total'
       | 'perPageAvailable'
+      | 'showPerPage'
     > = {};
 
     /** 优先级：showPageInput显性配置 > (lastPage > 9) */
     if (typeof toolbar !== 'string') {
+      Object.assign(extraProps, toolbar);
       const showPageInput = (toolbar as Schema).showPageInput;
 
       extraProps.showPageInput =
         showPageInput === true || (lastPage > 9 && showPageInput == null);
-      extraProps.maxButtons = (toolbar as Schema).maxButtons;
-      extraProps.layout = (toolbar as Schema).layout;
-      extraProps.popOverContainerSelector = (
-        toolbar as Schema
-      ).popOverContainerSelector;
-      extraProps.perPageAvailable = (toolbar as Schema).perPageAvailable;
       extraProps.total = resolveVariableAndFilter(
         (toolbar as Schema).total,
         store.data
@@ -2451,10 +2502,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             ...rest,
             // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
             // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
-            onEvent: omitBy(
-              onEvent,
-              (event, key: any) => !INNER_EVENTS.includes(key)
-            ),
+            onEvent: this.filterOnEvent(onEvent),
             columns: store.columns ?? rest.columns,
             type: mode || 'table'
           },
@@ -2590,26 +2638,57 @@ export class CRUDRenderer extends CRUD {
     scoped.close(target);
   }
 
-  setData(
+  async setData(
     values: {
       items?: any[];
       rows?: any[];
       total?: number;
       count?: number;
     },
-    replace?: boolean
+    replace?: boolean,
+    index?: number | string,
+    condition?: any
   ) {
     const {store} = this.props;
-    const total = values?.total || values?.count;
-    if (total !== undefined) {
-      store.updateTotal(parseInt(total as any, 10));
-    }
+    const len = store.data.items.length;
 
-    return store.updateData(
-      {...values, items: values.rows ?? values.items}, // 做个兼容
-      undefined,
-      replace
-    );
+    if (index !== undefined) {
+      let items = [...store.data.items];
+      const indexs = String(index).split(',');
+      indexs.forEach(i => {
+        const intIndex = Number(i);
+        items.splice(intIndex, 1, values);
+      });
+      // 更新指定行记录，只需要提供行记录即可
+      return store.updateData({...values, items}, undefined, replace);
+    } else if (condition !== undefined) {
+      let items = [...store.data.items];
+      for (let i = 0; i < len; i++) {
+        const item = items[i];
+        const isUpdate = await evalExpressionWithConditionBuilder(
+          condition,
+          item
+        );
+
+        if (isUpdate) {
+          items.splice(i, 1, values);
+        }
+      }
+
+      // 更新指定行记录，只需要提供行记录即可
+      return store.updateData({...values, items}, undefined, replace);
+    } else {
+      const total = values?.total || values?.count;
+      if (total !== undefined) {
+        store.updateTotal(parseInt(total as any, 10));
+      }
+
+      return store.updateData(
+        {...values, items: values.rows ?? values.items}, // 做个兼容
+        undefined,
+        replace
+      );
+    }
   }
 
   getData() {

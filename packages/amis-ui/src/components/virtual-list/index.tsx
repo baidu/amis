@@ -98,7 +98,7 @@ const STYLE_ITEM: {
   position: 'absolute' as ItemPosition,
   top: 0,
   left: 0,
-  width: 'auto'
+  width: '100%'
 };
 
 const STYLE_STICKY_ITEM = {

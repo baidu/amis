@@ -2713,7 +2713,7 @@ extendLocale('en-US', {
   '3bce1a6217990c8dc087d254f1fe754a': 'Automatic fill',
   'f01553e415ca33cc89d0bca84023f4b5':
     'Automatically fill the value in a field of the currently-selected option into a form item in the form. The data mapping is supportive.',
-  '04d815a5d4b803d6bb956d2da5a82688': 'Required?',
+  '04d815a5d4b803d6bb956d2da5a82688': 'Required',
   'a1b6281dc554ac84a3e6062f812fe50d':
     'Light text description below the form item control',
   '85541bd9f7f39a6e6d9d26cbe09cbdd4': 'Read-only',
@@ -4139,10 +4139,12 @@ extendLocale('en-US', {
   'a094e5b7699ea4b61094cc4120170423': 'data sources ',
   '6f99b6eed37795cb97d5f6370c32113b': 'basic style',
   'c8b9dbab4a3e3ad283d3d95a1663cd68': 'Current row record: {{@1}}',
+  '83c9828692e1bb250a069bbf37807190': 'Table 2.0',
   '63ddcc28ac20f6cbd4197671ae7e628c': 'Start automatic refresh',
   'd6ba60b5bbf5df4cc2959dc897c2f792': 'Stop automatic refresh',
   '16ea2200bfba281fdf5e6870498790cc':
     'The value of [amis editor] [CRUD2Plugin] dynamicControls must be an object',
+  'd45a439fa6e82798bc1e98d738cedea3': 'Enable selection of table row data',
   'e821ce185e41eac2ab846ef5cfde2363': 'Paging settings',
   '4d7080ff1405a1f08c5415a0f942c336': 'paging mode ',
   '290026b0b40b637e774c6af435b897b5': 'Refresh on filter',
@@ -4193,6 +4195,12 @@ extendLocale('en-US', {
   'd0d852432ce09f627e6ae471b3f86b0a': 'Data Filter',
   '06e89ed3cb501da6d57e35bc28a37089':
     'If the backend does not directly return Echart configuration, you can write a function to wrap it yourself',
+  'f25c9fd2852b85502157decbedd19082': 'raw data',
+  '2695f318db820c2bfe4c886fed3697f0': 'Echarts object',
+  'b76e25de5689ea51af0688d0ea6d7b39':
+    'If a data interface is configured, the data returned by the interface is passed in through this variable',
+  '45bc998df29cf75725df6141098d5cec':
+    'Debugger// Can debug browser breakpoints  n  n//View raw data  nconsole. log (config)  n  n//Return new results  nreturn {}',
   'e8f96ea47cb322f4f1a4c938c7b155ac':
     'The default is append mode, and the new configuration will be merged with the old configuration. If checked, it will be directly overwritten completely',
   'e732f4c0d8075670b6c75cc52bd1f7d5': 'Chart Drill Down',
@@ -4220,6 +4228,10 @@ extendLocale('en-US', {
   '58164864ad00f5d134f304d309055eda': 'Current expanded index list',
   '44732aa2566399b71483e63252d3dbc7': 'Folder Index',
   'abd55237a0df8da6ffda1ef377982707': 'Column default display',
+  '67a2d9746956b631dd3ae9d13b6ae9ff': 'Click on the mask to close',
+  '36f5b682310bd52f19c63b077ec054d1': 'Hide button area',
+  '6bdc97671296112658e3a1cd369c0686': 'Mask color',
+  'b3b287010ea79586507a77e0580d9cad': 'Bottom zone',
   '38cf16f2204ffab8a6e0187070558721': 'confirm',
   '40d39c3bc7bebced7d63eace0191a0a8': 'angle',
   '5d606821df2528b127c07333f5f403cd': 'Top 1 number of follow-up visits',
@@ -4263,8 +4275,17 @@ extendLocale('en-US', {
   '0dad46b34f0ddc802bce0351dc4745eb': 'Region Code',
   'd3ce40d862f1c7e4748e6c28ffb0a007': 'region',
   '716c3dc1bd990ccebc4fee34eb9171cf': 'street',
+  'fd3913adcb81427f1895ab5b79ebe0b2':
+    'Response data returned after successful remote upload request',
   'cfe5917c83c8c31d5e57ddeb1f3460a5':
     'Please enter the line number. If it is blank, insert it at the end',
+  '9a3af29bac4ff8dff3305e283acb2516': 'Root node copy',
+  'f273cc663180d6f62497ff3a28f4fdd7': 'New copywriting prompt',
+  '897deae9c4c3dc0baa4a6989bb8727b6': 'Add Child Nodes',
+  'aefacb210d5fa5eff897a302269ed920': 'Edit copy prompt',
+  'f9886b3adb1ec253d24432615b62151c': 'Edit this node',
+  'b8079d1411b21dbc48749154a827a680': 'Delete copy prompt',
+  '176a53a7fc4759482d71312551d868ec': 'Remove this node',
   '7650487a8758fd50c87d6c9cff0aa5ac': 'address',
   '3d18ca01ddd1b95e982ec44ffcda8165': 'longitude',
   '6acaee71fe6a23c17f18625df01bab23': 'latitude',
@@ -4289,6 +4310,12 @@ extendLocale('en-US', {
   'b2f3c4387bcabafaf39a7be9c624b584': 'Label display content for selected data',
   '988d7b545c09108379a54a1e6060f563': 'Icon Color',
   '7278e97a3360f7b31768b86b8d22173d': 'Icon hover color',
+  'b7fc7efe26efb867838223936b7fc467': 'Left option display',
+  '505e204cdd98afd08c174d6dcec0dc09': 'Selected',
+  '9b1ddba55066e0f329ca3cca2e58909c':
+    'The retrieval results can be obtained through the interface, and the retrieval value can be obtained through the variable  ${term}, such as:“ https://xxx/search?name= \\{term}“',
+  '14079611c014884bbdffce4d0e5f4d73':
+    'Dynamic options can be obtained through the interface, pulling all at once',
   '1fd65acd90f99791d70ca70e046c9f05': 'Fake data image',
   '5789be67da4a1dc0fd9600bd626776a1':
     'Simulated images displayed only in the editing area will display the actual content of the images at runtime',
@@ -4372,17 +4399,21 @@ extendLocale('en-US', {
   '2043742930f9833b4405aa0314a496b1': 'Fill in false data',
   'a903e51cb1915b56f94bf54a81816cf5':
     'False data text displayed only in the editing area will display the actual content of the text at runtime',
+  'ddca9c0f0e3d07c3341701b80f139cc0':
+    'Whether to silently send requests and block error prompts',
   '6de215632addbb664d254e00532d92aa': 'Last n hours',
   '5bc676c0d274d9a4674f832ae07c6757':
     "The field name for sequence number '{{@1}}' cannot be empty",
   'aa70a469e4ceb0dede9d73cb8d8d953a':
     "The field name '{{@2}}' for sequence number '{{@1}}' is not unique",
+  'acb3aec4d12f6ca06a1e45302030cdb1': 'Data processing',
   'cdfd25057876424324682b5bdde38a3d':
     'Please fill in the initialization interface first',
   'a9fea442707e26dee478b34a2f2ce263': 'Please fill in the interface first',
   '4cc6a76c146c0360a41ceaf5e212c891':
     'Automatically generate fields based on interfaces',
   '4484fa04e7b71db4c8293e5bcb53eca4': 'Add Field',
+  'eea3ebc33e69694e0c12d4ab2e07a553': 'Field Title',
   '404f38ae7ac36860c0b3af6f2f4a13f9': 'Menu name is required',
   '822be91778b5ac22d31681f7256b849b': 'Cannot drag a menu inside itself',
   '088b54ee8f10a43977afa9d16ea5350f': 'Customize Menu',
@@ -4403,6 +4434,7 @@ extendLocale('en-US', {
   '81522afdfef2e4121c9240d00583f531': 'percentage',
   '9a8aed590bb7fcdd9198daca349b055a': 'Fixed column width',
   'e0dbf4a939e6c84610d28b8a9b1803c1': 'Percentage column width',
+  '41be5ce31e28742d0b259fe734e49c28': 'Retain at least one root node',
   '49198f84cea6c212cd5d463037827cd5': 'Add Column',
   'fb4c95bae088e3f216ea9312bcdb26ca': 'Column Type',
   '8eebb8ae809cf1ceaa23cd2fa2c73898': 'Field Column',
@@ -4431,6 +4463,16 @@ extendLocale('en-US', {
   '9cdfce42ef0fa346511538131e51328f': 'Presets',
   '17817a4d2da41f4261f4155ada59e395':
     '<%=data. ignoreError==false? Cannot find component and interrupt action execution failure ": typeof data. ignoreError==" undefined "? Component tolerance not found, action execution failed before interruption ":" "%>',
+  '0db9e779f5cd9ad8bd3d16d7e8a16b64': 'Pop up message',
+  '4a502e748d1335385c2c05bf30e582e7':
+    'Open the pop-up window, which supports complex interactive designs',
+  'c1b3a483bf057f5afa118f96644dc8a3': 'Popup Source',
+  '0c5cbc9d345936876230a0b09aece2ff': 'Select an existing pop-up on the page',
+  'a781b5903a4013c147783e1047f42e08': 'New Popup',
+  '53bed22bc03c0fd61fe4fb81101f712a': 'Popup Title',
+  '953131d14e66fae5e3611f8b419b7ed5': 'Please enter the pop-up title',
+  '7cc53692d650e049802d808b81efe7f5': 'Select Popup',
+  '939402f3ff754d8d815eb7f6cc991bea': 'Popup Type',
   '139c619a4dbfc26fb61d76dc388e3e7d': 'Request Results',
   '0eb4e63db88e158600dab0e723e8a213': 'Requesting data again',
   'f16654604d6cb2f62469e5aa9db19871':
@@ -4459,5 +4501,71 @@ extendLocale('en-US', {
   'c28f86f11fc814ea5696af5aa9464cbe':
     'A unique identifier for each row of records, usually used in scenarios such as row selection and batch operations.',
   'fa66d1acaef7cd181f21f5fc2895becc':
-    'Enabling strict mode will adopt strict equality comparison of values'
+    'Enabling strict mode will adopt strict equality comparison of values',
+  '9e3790244299ed296601d79e0bf43a5c': 'New button name',
+  'bbbeba31bfc391bd0741ac62ade78c5a': 'Edit initialization interface',
+  'ba62070c3a350918d542e990d3278b07': 'Add {{@1}}',
+  '06e2f88f428b7e26f7da3cd4d40ec2ed': 'Please enter a name',
+  'c630aa278a251b72bebf09284095112a': 'Configure New Forms',
+  '52830af276fb186ff93f16a562acb2f6': 'Card deck',
+  'f27f10e4660cba730189cc73bcbec0dc': 'Line length',
+  '35633d4bcf019258d4a5b927e8644bed': 'Title Style',
+  '3ec2bba02a859a90b023ee793a2381d5': 'distance',
+  '12ae2cd5a178cdaed37967ec4226c4d3':
+    'The distance between the title and the nearest left and right borders, with a default value of 5%',
+  '7eac9d196c43693b0820c7bc0ab504c7': 'Loop Renderer',
+  '21157967162b6206ec88d66789bb1eb4': 'Comparison Editor',
+  '6d36d88078b28530bd4a236b1033c1db': 'Form Item Collection',
+  'b400e476d7cc8a1b42744661f57525f2': 'Hide Fields',
+  'a0e6ecd1eba5673e16218e559f549112': 'Color selector',
+  'bb712c16299683ab1af22258740a537a':
+    'Date box, input date time, date time box, input time, time box, input month, month box, input quarter, quarter box, input year, year box, year box, year box, year selection',
+  '0bbad229b14369f667abae7fa8453d69':
+    'Date range box, input date time range, date time range, input time range, time range, input month range, month range, input quarter range, quarter range, input year range, year range, year range',
+  '912e3cf5ce8720c39e7a778e916898b5': 'Input box combination',
+  '9462f8cc8d65d991be1593493039b85b': 'Repetition frequency selector',
+  '224c9f857217e09f7c244093d4f08cd0': 'Changes in input content',
+  'ce369362c3ae69c27d717d3210303e27': 'Value of Rich Text',
+  'de0302f6f891653ac2d8417a46249ebf': 'Column display switch',
+  '142184926b0ae6169a9b7bdefb9b42ff':
+    'Whether to display explicit and implicit controls for table columns, "automatic" means to automatically turn on when the number of columns is greater than 5',
+  'a0d2d27fe320721bd5b0157fd5466b9d': 'tag chooser ',
+  '997a27d508152023fd04b7227b531681':
+    'Text box, email box, input email, URL box, input url, password box, input password, password input box',
+  '98cb62edf3436738df2561d01ee19ab0':
+    'Tree, tree dropdown, tree dropdown box, tree select, tree selection box, tree selector',
+  '010b98c12fe130496016ea515b70ec32': 'Current options',
+  'd8bab42dd5fad3f25760e190b552fac0': 'Configure default state templates',
+  '70864b156cd3a9c8d982074feb01f587': 'Configure Active Template',
+  '369f7b53301a54c2240a618827ee2f83': 'Option Name',
+  'ab7c4bf8e1f3d2779d62d0e5e038e2de': 'List selector',
+  '828476b63e65ac62976920fc753a3071': 'Multiline text input box',
+  '895013340b5cba65de69aefc9f4f0dff': 'Uuid field',
+  '993844afdf1cd0bd368cda41fe2d39d7': 'Horizontal Column',
+  'a94180c2142df3122cffcf1900c507f9': 'Real time logs',
+  '319c7a1a88910df53d6cd1b408f5894d': 'Current page number value',
+  '52f3b7dd57c2cc44b645afe6d944d07c': 'Functional container',
+  '7c39d9e0d516e260fc3513eb8e5243a5': 'Status container',
+  '39282fd22802ac1d9f99cdd0ffff253e':
+    'Container for component conditional rendering based on state, facilitating the design of multi-state components',
+  'f449bcac0f09a349882e74800f20d724': 'Status One',
+  '3b5a5cee1bd8775463be15d96eac23a1': 'Status 1 Content',
+  'f7361c5ad849477766b12e970bbd71f0': 'State Two',
+  '0880f36708cd0408167f318936cc6df1': 'Status 2 Content',
+  'c887c83f280bd63012d32179ff5273ed': 'Status Name',
+  'a30fd0a2a17e3dcf701b3334341aa39c': 'State conditions',
+  '7829a5f84414f02562a5b17b1c301046': 'Status {{@1}}',
+  'ca035ede21ad993ba8f29a2e615b61e0': 'Next state',
+  'b7349a87c4d838d1a6047c2844b1744a': 'Previous Status',
+  'df7f223af52c3261a3b23a152bffe26c': 'Status List',
+  '8256d18231287d07406fbf019e81bb01': 'New component status',
+  'bd863f35feb02c40cf14493b1dc1b198': 'Display conditions',
+  '93553f4588b0f0c782f58182db0490d7': 'Status Content',
+  '7cb7a4480adf1c3e13378201684dbd5f': 'Table presentation',
+  '22efa960b935516b3016b4a5bd7f1160': 'Task Action Collection',
+  'bab9f8592e1b8e286ee17ddf5dbea4b3': 'Display Text',
+  '97d43b5b163c9299f70b76d12541828c': 'New Status',
+  '01ceb3edde98440157f199c292011dfc': 'No data',
+  '8191e975f70edd63fe65476dd8bc0ddc': 'Component ID',
+  '7c80a8d7f7af4e8eeef653c0af82010d': 'Input component ID'
 });

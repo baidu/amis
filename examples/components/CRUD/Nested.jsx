@@ -15,7 +15,7 @@ export default {
         sortable: true,
         type: 'text',
         toggled: true,
-        width: 100
+        width: 150
       },
       {
         name: 'engine',

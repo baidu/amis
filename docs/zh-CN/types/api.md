@@ -690,7 +690,7 @@ const schema = {
 
 #### 拦截请求
 
-如果 api 发送适配器中，修改 api 对象，在 api 对象里面放入 `mockReponse` 属性，则会拦截请求发送，amis 内部会直接使用 `mockReponse` 的结果返回。
+如果 api 发送适配器中，修改 api 对象，在 api 对象里面放入 `mockResponse` 属性，则会拦截请求发送，amis 内部会直接使用 `mockResponse` 的结果返回。
 
 ```js
 const schema = {
@@ -869,6 +869,13 @@ Content-Disposition: attachment; filename="download.pdf"
 
 ```
 Access-Control-Expose-Headers: Content-Disposition
+```
+
+如果自己覆盖了 `fetcher` 函数，需要有类似如下代码，具体可以参考 `embed.tsx` 里的实现
+
+```javascript
+let response = await axios(config);
+response = await attachmentAdpator(response, __);
 ```
 
 ### 配置提示信息

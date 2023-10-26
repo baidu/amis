@@ -587,3 +587,33 @@ test('evalute:ISTYPE', async () => {
   );
   expect(await evaluateForAsync('${ISTYPE(g, "date")}', data)).toBe(true);
 });
+
+test('async-evalute:namespace', async () => {
+  localStorage.setItem('a', '1');
+  localStorage.setItem('b', '2');
+  localStorage.setItem('c', '{"a": 1, "b": 2, "c": {"d": 4}}');
+  localStorage.setItem('key', 'c');
+  localStorage.setItem('spec-var-name', 'you are right');
+
+  expect(await evaluateForAsync('${ls: a}', {})).toBe(1);
+  expect(await evaluateForAsync('${ls: b}', {})).toBe(2);
+  expect(await evaluateForAsync('${ls: c}', {})).toMatchObject({
+    a: 1,
+    b: 2,
+    c: {d: 4}
+  });
+  // 被认为是减操作
+  expect(await evaluateForAsync('${ls: spec-var-name}', {})).toBe(0);
+  expect(await evaluateForAsync('${ls: spec\\-var\\-name}', {})).toBe(
+    'you are right'
+  );
+  expect(await evaluateForAsync('${ls: &["spec-var-name"]}', {})).toBe(
+    'you are right'
+  );
+  expect(await evaluateForAsync('${ls: &["c"]["c"]}', {})).toMatchObject({
+    d: 4
+  });
+  expect(await evaluateForAsync('${ls: &["c"][key]}', {})).toMatchObject({
+    d: 4
+  });
+});

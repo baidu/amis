@@ -55,7 +55,8 @@ import {
   isObject,
   isLayoutPlugin,
   JSONPipeOut,
-  scrollToActive
+  scrollToActive,
+  JSONPipeIn
 } from './util';
 import {hackIn, makeSchemaFormRender, makeWrapper} from './component/factory';
 import {env} from './env';
@@ -976,7 +977,7 @@ export class EditorManager {
       let beforeId = -1;
       parent.some((item: any, index: number) => {
         let result = false;
-        if (item.$$id === curActiveId) {
+        if (item?.$$id === curActiveId) {
           beforeId = index;
           result = true;
         }
@@ -1025,20 +1026,19 @@ export class EditorManager {
     const store = this.store;
     const id = store.activeId;
     const node = store.getNodeById(id)!; // 当前选中节点
-    if (!node) {
-      return false;
-    }
     const regionNode = node.parent as EditorNodeType; // 父级节点
-    if (
-      regionNode &&
-      !regionNode.region &&
-      !regionNode.schema.body &&
-      regionNode.schema?.type !== 'flex'
-    ) {
+    if (!node || !regionNode || !regionNode.schema) {
       return false;
+    } else if (regionNode.memberImmutable('')) {
+      return false;
+    } else if (
+      regionNode.schema.body ||
+      (regionNode.schema.type === 'flex' && regionNode.schema.items) ||
+      node.schema.columns
+    ) {
+      return true;
     }
-
-    return true;
+    return false;
   }
 
   /**
@@ -1269,6 +1269,11 @@ export class EditorManager {
           type: schema.type,
           plugin: editor,
           renderer: renderer,
+          dialogTitle:
+            schema.type === 'dialog' || schema.type === 'drawer'
+              ? schema.title
+              : '',
+          dialogType: schema.dialogType,
           schemaPath
         };
         return true;
@@ -1543,8 +1548,7 @@ export class EditorManager {
     const commonContext = this.buildEventContext(id);
 
     // 填充id，有些脚手架生成了复杂的布局等，自动填充一下id
-    let curChildJson = {...json};
-    JsonGenerateID(curChildJson);
+    let curChildJson = JSONPipeIn(json, true);
 
     if (beforeId) {
       const arr = commonContext.schema[region];
@@ -1617,9 +1621,12 @@ export class EditorManager {
     subRenderer?: SubRendererInfo,
     region?: string
   ): boolean {
+    // 转成普通json并添加node id
+    let curJson = JSONPipeIn(json, true);
+
     const context: ReplaceEventContext = {
       ...this.buildEventContext(id),
-      data: {...json},
+      data: {...curJson},
       subRenderer,
       region
     };
@@ -1976,7 +1983,8 @@ export class EditorManager {
 
     // 更新组件树中的所有上下文数据声明为最新数据
     while (scope) {
-      const [nodeId, type] = scope.id.split('-');
+      const [nodeId] = scope.id.split('-');
+      const type = scope.id.replace(`${nodeId}-`, '');
       const scopeNode = this.store.getNodeById(nodeId, type);
 
       // 拿非重复组件id的父组件作为主数据域展示，如CRUD，不展示表格，只展示增删改查信息，避免变量面板出现两份数据
