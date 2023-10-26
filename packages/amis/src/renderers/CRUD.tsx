@@ -1347,8 +1347,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pageField,
       perPageField,
       pageDirectionField,
-      autoJumpToTopOnPagerChange,
-      affixOffsetTop
+      autoJumpToTopOnPagerChange
     } = this.props;
 
     let query: any = {
@@ -1375,8 +1374,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (autoJumpToTopOnPagerChange && this.control) {
       (findDOMNode(this.control) as HTMLElement).scrollIntoView();
       const scrolledY = window.scrollY;
-      const offsetTop = affixOffsetTop ?? env?.affixOffsetTop ?? 0;
-      scrolledY && window.scroll(0, scrolledY - offsetTop);
+      scrolledY && window.scroll(0, scrolledY);
     }
   }
 

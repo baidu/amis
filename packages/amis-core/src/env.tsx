@@ -73,8 +73,19 @@ export interface RendererEnv {
   copy?: (contents: string, format?: any) => void;
   getModalContainer?: () => HTMLElement;
   theme: ThemeInstance;
-  affixOffsetTop: number;
-  affixOffsetBottom: number;
+
+  /**
+   * @deprecated
+   * 请通过外层设置 `--affix-offset-top` css 变量设置
+   */
+  affixOffsetTop?: number;
+
+  /**
+   * @deprecated
+   * 请通过外层设置 `--affix-offset-bottom` css 变量设置
+   */
+  affixOffsetBottom?: number;
+
   richTextToken: string;
   loadRenderer: (
     schema: Schema,
