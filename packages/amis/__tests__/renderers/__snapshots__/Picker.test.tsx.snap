@@ -51,7 +51,7 @@ exports[`1. Renderer:Picker base 1`] = `
               class="cxd-Picker-btn"
             >
               <icon-mock
-                classname="icon icon-window-restore"
+                classname="icon  icon-window-restore"
                 icon="window-restore"
               />
             </span>
@@ -259,12 +259,12 @@ exports[`1. Renderer:Picker base 2`] = `
                 class="cxd-Picker-value"
               >
                 <span
-                  class="cxd-Picker-valueIcon"
+                  class="cxd-Picker-valueIcon "
                 >
                   ×
                 </span>
                 <span
-                  class="cxd-Picker-valueLabel"
+                  class="cxd-Picker-valueLabel "
                 >
                   B
                 </span>
@@ -278,7 +278,7 @@ exports[`1. Renderer:Picker base 2`] = `
             class="cxd-Picker-btn"
           >
             <icon-mock
-              classname="icon icon-window-restore"
+              classname="icon  icon-window-restore"
               icon="window-restore"
             />
           </span>
