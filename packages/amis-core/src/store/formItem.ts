@@ -1253,7 +1253,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             }
           });
 
-        if (filteredOptions.length) {
+        if (filteredOptions.length && options.length) {
           filteredOptions = mapTree(filteredOptions, item => {
             if (~options.indexOf(item.value)) {
               return {
