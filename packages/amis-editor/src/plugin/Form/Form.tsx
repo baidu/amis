@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import flatten from 'lodash/flatten';
 import cloneDeep from 'lodash/cloneDeep';
-import {isObject} from 'amis-core';
+import {isObject, getRendererByName} from 'amis-core';
 import {
   BasePlugin,
   tipedLabel,
@@ -783,29 +783,61 @@ export class FormPlugin extends BasePlugin {
                     '设置后将让表单的第一个可输入的表单项获得焦点'
                   )
                 }),
-                {
-                  type: 'ae-switch-more',
-                  mode: 'normal',
+                getSchemaTpl('switch', {
                   name: 'persistData',
                   label: tipedLabel(
                     '本地缓存',
                     '开启后，表单的数据会缓存在浏览器中，切换页面或关闭弹框不会清空当前表单内的数据'
                   ),
-                  hiddenOnDefault: true,
-                  formType: 'extend',
-                  form: {
-                    body: [
-                      getSchemaTpl('switch', {
-                        name: 'clearPersistDataAfterSubmit',
-                        label: tipedLabel(
-                          '提交成功后清空缓存',
-                          '开启本地缓存并开启本配置项后，表单提交成功后，会自动清除浏览器中当前表单的缓存数据'
-                        ),
-                        pipeIn: defaultValue(false),
-                        visibleOn: 'data.persistData'
-                      })
-                    ]
-                  }
+                  pipeIn: (value: boolean | string | undefined) => !!value
+                }),
+                {
+                  type: 'container',
+                  className: 'ae-ExtendMore mb-3',
+                  visibleOn: 'data.persistData',
+                  body: [
+                    getSchemaTpl('tplFormulaControl', {
+                      name: 'persistData',
+                      label: tipedLabel(
+                        '持久化Key',
+                        '使用静态数据或者变量：<code>"\\${id}"</code>，来为Form指定唯一的Key'
+                      ),
+                      pipeIn: (value: boolean | string | undefined) =>
+                        typeof value === 'string' ? value : ''
+                    }),
+                    {
+                      type: 'input-array',
+                      label: tipedLabel(
+                        '保留字段集合',
+                        '如果只需要保存Form中的部分字段值，请配置需要保存的字段名称集合，留空则保留全部字段'
+                      ),
+                      name: 'persistDataKeys',
+                      items: {
+                        type: 'input-text',
+                        placeholder: '请输入字段名',
+                        options: flatten(schema?.body ?? schema?.controls ?? [])
+                          .map((item: Record<string, any>) => {
+                            const isFormItem = getRendererByName(
+                              item?.type
+                            )?.isFormItem;
+
+                            return isFormItem && typeof item?.name === 'string'
+                              ? {label: item.name, value: item.name}
+                              : false;
+                          })
+                          .filter(Boolean)
+                      },
+                      itemClassName: 'bg-transparent'
+                    },
+                    getSchemaTpl('switch', {
+                      name: 'clearPersistDataAfterSubmit',
+                      label: tipedLabel(
+                        '提交成功后清空缓存',
+                        '开启本地缓存并开启本配置项后，表单提交成功后，会自动清除浏览器中当前表单的缓存数据'
+                      ),
+                      pipeIn: defaultValue(false)
+                    })
+                  ]
                 },
                 getSchemaTpl('switch', {
                   name: 'canAccessSuperData',
