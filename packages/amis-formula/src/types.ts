@@ -61,6 +61,8 @@ export interface LexerOptions {
    * ${abc | html}
    */
   allowFilter?: boolean;
+
+  isFilter?: (name: string) => boolean;
 }
 
 export type TokenTypeName =
