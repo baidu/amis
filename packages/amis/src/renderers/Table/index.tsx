@@ -603,7 +603,8 @@ export default class Table extends React.Component<TableProps, object> {
       loading,
       canAccessSuperData,
       lazyRenderAfter,
-      tableLayout
+      tableLayout,
+      resolveDefinitions
     } = props;
 
     let combineNum = props.combineNum;
@@ -614,29 +615,34 @@ export default class Table extends React.Component<TableProps, object> {
       );
     }
 
-    store.update({
-      selectable,
-      draggable,
-      columns,
-      columnsTogglable,
-      orderBy: onQuery ? orderBy : undefined,
-      orderDir,
-      multiple,
-      footable,
-      expandConfig,
-      primaryField,
-      itemCheckableOn,
-      itemDraggableOn,
-      hideCheckToggler,
-      combineNum,
-      combineFromIndex,
-      keepItemSelectionOnPageChange,
-      maxKeepItemSelectionLength,
-      loading,
-      canAccessSuperData,
-      lazyRenderAfter,
-      tableLayout
-    });
+    store.update(
+      {
+        selectable,
+        draggable,
+        columns,
+        columnsTogglable,
+        orderBy: onQuery ? orderBy : undefined,
+        orderDir,
+        multiple,
+        footable,
+        expandConfig,
+        primaryField,
+        itemCheckableOn,
+        itemDraggableOn,
+        hideCheckToggler,
+        combineNum,
+        combineFromIndex,
+        keepItemSelectionOnPageChange,
+        maxKeepItemSelectionLength,
+        loading,
+        canAccessSuperData,
+        lazyRenderAfter,
+        tableLayout
+      },
+      {
+        resolveDefinitions
+      }
+    );
 
     if (
       isPlainObject(autoGenerateFilter) &&
@@ -893,7 +899,9 @@ export default class Table extends React.Component<TableProps, object> {
         if (changes.orderBy && !props.onQuery) {
           delete changes.orderBy;
         }
-        store.update(changes as any);
+        store.update(changes as any, {
+          resolveDefinitions: props.resolveDefinitions
+        });
       }
     );
 
