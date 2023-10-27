@@ -22,13 +22,16 @@ import {
   isApiOutdated,
   isEffectiveApi,
   resolveEventData,
-  isIntegerInRange
+  CustomStyle,
+  isIntegerInRange,
+  setThemeClassName
 } from 'amis-core';
 import {Html, Icon, TooltipWrapper} from 'amis-ui';
 import {FormOptionsSchema, SchemaTpl} from '../../Schema';
 import intersectionWith from 'lodash/intersectionWith';
 import type {TooltipWrapperSchema} from '../TooltipWrapper';
 import type {Option} from 'amis-core';
+import {supportStatic} from './StaticHoc';
 
 /**
  * Picker
@@ -455,18 +458,29 @@ export default class PickerControl extends React.PureComponent<
       labelTpl,
       translate: __,
       disabled,
-      env
+      env,
+      id,
+      themeCss,
+      css
     } = this.props;
 
     return (
       <div
         key={index}
-        className={cx(`${ns}Picker-value`, {
-          'is-disabled': disabled
-        })}
+        className={cx(
+          `${ns}Picker-value`,
+          setThemeClassName('pickValueWrapClassName', id, themeCss || css),
+          {
+            'is-disabled': disabled
+          }
+        )}
       >
         <span
-          className={`${ns}Picker-valueIcon`}
+          className={`${ns}Picker-valueIcon ${setThemeClassName(
+            'pickValueIconClassName',
+            id,
+            themeCss || css
+          )}`}
           onClick={e => {
             e.stopPropagation();
             this.removeItem(index);
@@ -475,7 +489,11 @@ export default class PickerControl extends React.PureComponent<
           ×
         </span>
         <span
-          className={`${ns}Picker-valueLabel`}
+          className={`${ns}Picker-valueLabel ${setThemeClassName(
+            'pickFontClassName',
+            id,
+            themeCss || css
+          )}`}
           onClick={e => {
             e.stopPropagation();
             this.handleItemClick(item);
@@ -501,7 +519,10 @@ export default class PickerControl extends React.PureComponent<
       translate: __,
       disabled,
       multiple,
-      popOverContainer
+      popOverContainer,
+      id,
+      themeCss,
+      css
     } = this.props;
     const {maxTagCount, overflowTagPopover} = this.getOverflowConfig();
     const totalCount = selectedOptions.length;
@@ -563,7 +584,15 @@ export default class PickerControl extends React.PureComponent<
                     'is-disabled': disabled
                   })}
                 >
-                  <span className={`${ns}Picker-valueLabel`}>{item.label}</span>
+                  <span
+                    className={`${ns}Picker-valueLabel ${setThemeClassName(
+                      'pickFontClassName',
+                      id,
+                      themeCss || css
+                    )}`}
+                  >
+                    {item.label}
+                  </span>
                 </div>
               </TooltipWrapper>
             );
@@ -642,6 +671,7 @@ export default class PickerControl extends React.PureComponent<
         : {})
     }) as JSX.Element;
   }
+  @supportStatic()
   render() {
     const {
       className,
@@ -662,9 +692,13 @@ export default class PickerControl extends React.PureComponent<
       popOverContainer,
       modalTitle,
       data,
-      mobileUI
+      mobileUI,
+      env,
+      themeCss,
+      css,
+      id,
+      classPrefix: ns
     } = this.props;
-
     return (
       <div className={cx(`PickerControl`, {'is-mobile': mobileUI}, className)}>
         {embed ? (
@@ -680,7 +714,18 @@ export default class PickerControl extends React.PureComponent<
               'is-disabled': disabled
             })}
           >
-            <div onClick={this.handleClick} className={cx('Picker-input')}>
+            <div
+              onClick={this.handleClick}
+              className={cx(
+                'Picker-input',
+                setThemeClassName('pickControlClassName', id, themeCss || css),
+                setThemeClassName(
+                  'pickControlDisabledClassName',
+                  id,
+                  themeCss || css
+                )
+              )}
+            >
               {!selectedOptions.length && placeholder ? (
                 <div className={cx('Picker-placeholder')}>
                   {__(placeholder)}
@@ -710,7 +755,11 @@ export default class PickerControl extends React.PureComponent<
               <span onClick={this.open} className={cx('Picker-btn')}>
                 <Icon
                   icon="window-restore"
-                  className="icon"
+                  className={`icon ${setThemeClassName(
+                    'pickIconClassName',
+                    id,
+                    themeCss || css
+                  )}`}
                   iconContent="Picker-icon"
                 />
               </span>
@@ -740,6 +789,74 @@ export default class PickerControl extends React.PureComponent<
             )}
           </div>
         )}
+        <CustomStyle
+          config={{
+            themeCss: themeCss || css,
+            classNames: [
+              {
+                key: 'pickControlClassName',
+                weights: {
+                  default: {
+                    important: true
+                  },
+                  hover: {
+                    important: true
+                  },
+                  active: {
+                    important: true
+                  },
+                  disabled: {
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'pickControlDisabledClassName',
+                weights: {
+                  default: {
+                    pre: `${ns}Picker.is-disabled> .${setThemeClassName(
+                      'pickControlDisabledClassName',
+                      id,
+                      themeCss || css
+                    )}, `
+                  }
+                }
+              },
+              {
+                key: 'pickFontClassName'
+              },
+              {
+                key: 'pickValueWrapClassName',
+                weights: {
+                  default: {
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'pickValueIconClassName',
+                weights: {
+                  default: {
+                    important: true
+                  },
+                  hover: {
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'pickIconClassName',
+                weights: {
+                  default: {
+                    suf: ' svg'
+                  }
+                }
+              }
+            ],
+            id: id
+          }}
+          env={env}
+        />
       </div>
     );
   }
