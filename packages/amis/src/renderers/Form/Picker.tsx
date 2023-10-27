@@ -454,6 +454,7 @@ export default class PickerControl extends React.PureComponent<
   renderTag(item: Option, index: number) {
     const {
       classPrefix: ns,
+      classnames: cx,
       labelField,
       labelTpl,
       translate: __,
@@ -476,11 +477,10 @@ export default class PickerControl extends React.PureComponent<
         )}
       >
         <span
-          className={`${ns}Picker-valueIcon ${setThemeClassName(
-            'pickValueIconClassName',
-            id,
-            themeCss || css
-          )}`}
+          className={cx(
+            `${ns}Picker-valueIcon`,
+            setThemeClassName('pickValueIconClassName', id, themeCss || css)
+          )}
           onClick={e => {
             e.stopPropagation();
             this.removeItem(index);
@@ -489,11 +489,10 @@ export default class PickerControl extends React.PureComponent<
           ×
         </span>
         <span
-          className={`${ns}Picker-valueLabel ${setThemeClassName(
-            'pickFontClassName',
-            id,
-            themeCss || css
-          )}`}
+          className={cx(
+            `${ns}Picker-valueLabel`,
+            setThemeClassName('pickFontClassName', id, themeCss || css)
+          )}
           onClick={e => {
             e.stopPropagation();
             this.handleItemClick(item);
@@ -755,11 +754,10 @@ export default class PickerControl extends React.PureComponent<
               <span onClick={this.open} className={cx('Picker-btn')}>
                 <Icon
                   icon="window-restore"
-                  className={`icon ${setThemeClassName(
-                    'pickIconClassName',
-                    id,
-                    themeCss || css
-                  )}`}
+                  className={cx(
+                    'icon',
+                    setThemeClassName('pickIconClassName', id, themeCss || css)
+                  )}
                   iconContent="Picker-icon"
                 />
               </span>
