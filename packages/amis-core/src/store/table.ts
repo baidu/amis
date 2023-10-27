@@ -1113,10 +1113,7 @@ export const TableStore = iRendererStore
             pristine: item.pristine || item,
             toggled: item.toggled !== false,
             breakpoint: item.breakpoint,
-            /** 提前映射变量，方便后续view中使用 */
-            label: isPureVariable(item.label)
-              ? resolveVariableAndFilter(item.label, self.data)
-              : item.label
+            isPrimary: index === PARTITION_INDEX
           };
         });
 
