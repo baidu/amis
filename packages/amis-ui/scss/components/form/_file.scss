@@ -47,9 +47,10 @@
   // }
 
   &-description {
-    color: var(--inputFile-base-des-color);
-    font-size: var(--inputFile-base-des-fontSize);
-    font-weight: var(--inputFile-base-des-fontWeight);
+    margin-top: 4px;
+    line-height: 20px;
+    font-size: var(--fontSizeSm);
+    color: var(--FileControl-icon-color);
   }
 
   &-sizeTip {
