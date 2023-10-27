@@ -1254,10 +1254,15 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           });
 
         if (filteredOptions.length) {
-          filteredOptions = mapTree(filteredOptions, item => ({
-            ...item,
-            disabled: ~options.indexOf(item.value)
-          }));
+          filteredOptions = mapTree(filteredOptions, item => {
+            if (~options.indexOf(item.value)) {
+              return {
+                ...item,
+                disabled: true
+              };
+            }
+            return item;
+          });
         }
       }
 
