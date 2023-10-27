@@ -131,7 +131,9 @@ export interface RendererEnv {
   /**
    * 文本替换的黑名单，因为属性太多了所以改成黑名单的 flags
    */
-  replaceTextIgnoreKeys?: String[];
+  replaceTextIgnoreKeys?:
+    | String[]
+    | ((key: string, value: any, object: any) => boolean);
 
   /**
    * 解析url参数
