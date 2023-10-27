@@ -792,7 +792,7 @@ setSchemaTpl(
     return {
       title: '状态',
       body: [
-        getSchemaTpl('newVisible'),
+        getSchemaTpl('visible'),
         getSchemaTpl('hidden'),
         !config?.unsupportStatic && config?.isFormItem
           ? getSchemaTpl('static')
@@ -876,17 +876,6 @@ setSchemaTpl('static', {
   mode: 'normal',
   name: 'static',
   expressionName: 'staticOn'
-});
-
-// 新版配置面板兼容 [可见] 状态
-setSchemaTpl('newVisible', {
-  type: 'ae-StatusControl',
-  label: '可见',
-  mode: 'normal',
-  name: 'visible',
-  expressionName: 'visibleOn',
-  visibleOn:
-    'data.visible || data.visible === false || data.visibleOn !== undefined'
 });
 
 setSchemaTpl('hidden', {
