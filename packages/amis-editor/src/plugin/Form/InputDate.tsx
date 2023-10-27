@@ -293,7 +293,7 @@ export class DateControlPlugin extends BasePlugin {
 
                     form.setValues({
                       placeholder: DateType[type]?.placeholder,
-                      valueFormat: type === 'time' ? 'HH:mm' : 'X',
+                      valueFormat: 'X',
                       displayFormat: DateType[type]?.format,
                       minDate: '',
                       maxDate: '',
@@ -308,7 +308,7 @@ export class DateControlPlugin extends BasePlugin {
                     '值格式',
                     '提交数据前将根据设定格式化数据，请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
                   ),
-                  pipeIn: defaultValue('YYYY-MM-DD'),
+                  pipeIn: defaultValue('X'),
                   clearable: true,
                   onChange: (
                     value: string,
