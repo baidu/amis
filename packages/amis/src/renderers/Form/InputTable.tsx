@@ -1439,6 +1439,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 Array.isArray(srcValue)
               ) {
                 return srcValue;
+              } else if (
+                comboNames.includes(key) &&
+                Array.isArray(objValue) &&
+                Array.isArray(srcValue)
+              ) {
+                // 处理combo
+                return srcValue;
               }
               // 直接return，默认走的mergeWith自身的merge
               return;
