@@ -11,6 +11,7 @@ import pick from 'lodash/pick';
 import mapValues from 'lodash/mapValues';
 import {saveAs} from 'file-saver';
 import {normalizeApi} from './utils/api';
+import {findDOMNode} from 'react-dom';
 
 export interface RootRendererProps extends RootProps {
   location?: any;
@@ -52,6 +53,22 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       'visibilitychange',
       this.handlePageVisibilityChange
     );
+
+    // 兼容 affixOffsetTop 和 affixOffsetBottom
+    if (
+      typeof this.props.env.affixOffsetTop !== 'undefined' ||
+      typeof this.props.env.affixOffsetBottom !== 'undefined'
+    ) {
+      // top: var(--affix-offset-top);
+      const dom = findDOMNode(this);
+      if (dom?.parentElement) {
+        dom.parentElement.style.cssText += `--affix-offset-top: ${
+          this.props.env.affixOffsetTop || 0
+        }px; --affix-offset-bottom: ${
+          this.props.env.affixOffsetBottom || 0
+        }px;`;
+      }
+    }
   }
 
   componentDidUpdate(prevProps: RootRendererProps) {

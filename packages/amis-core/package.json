@@ -61,7 +61,8 @@
     "react-intersection-observer": "9.5.2",
     "react-json-view": "1.21.3",
     "tslib": "^2.3.1",
-    "uncontrollable": "7.2.1"
+    "uncontrollable": "7.2.1",
+    "path-to-regexp": "6.2.0"
   },
   "peerDependencies": {
     "amis-formula": "*",

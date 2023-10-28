@@ -478,6 +478,7 @@ export function wrapFetcher(
     options?: object
   ) {
     api = buildApi(api, data, options) as ApiObject;
+    (api as ApiObject).context = data;
 
     if (api.requestAdaptor) {
       debug('api', 'before requestAdaptor', api);

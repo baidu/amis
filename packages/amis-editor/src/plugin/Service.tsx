@@ -273,7 +273,7 @@ export class ServicePlugin extends BasePlugin {
             },
             {
               title: '状态',
-              body: [getSchemaTpl('hidden')]
+              body: [getSchemaTpl('visible'), getSchemaTpl('hidden')]
             },
             {
               title: '高级',

@@ -1632,8 +1632,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             affixHeader,
             prefixRow,
             affixRow,
-            affixOffsetTop:
-              this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0,
             autoFillHeight,
             tableContentClassName
           },

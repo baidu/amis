@@ -7,6 +7,9 @@ $Table-strip-bg: transparent;
 
 :root,
 .AMISCSSWrapper {
+  --affix-offset-top: 0px;
+  --affix-offset-bottom: 0px;
+
   --white: var(--colors-neutral-text-11);
   --primary: var(--colors-brand-5);
   --primary-onHover: var(--colors-brand-6);

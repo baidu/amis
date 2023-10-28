@@ -133,6 +133,11 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   api?: SchemaApi;
 
   /**
+   * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。
+   */
+  deferApi?: SchemaApi;
+
+  /**
    * 批量操作
    */
   bulkActions?: Array<ActionSchema>;
@@ -1347,8 +1352,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pageField,
       perPageField,
       pageDirectionField,
-      autoJumpToTopOnPagerChange,
-      affixOffsetTop
+      autoJumpToTopOnPagerChange
     } = this.props;
 
     let query: any = {
@@ -1375,8 +1379,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (autoJumpToTopOnPagerChange && this.control) {
       (findDOMNode(this.control) as HTMLElement).scrollIntoView();
       const scrolledY = window.scrollY;
-      const offsetTop = affixOffsetTop ?? env?.affixOffsetTop ?? 0;
-      scrolledY && window.scroll(0, scrolledY - offsetTop);
+      scrolledY && window.scroll(0, scrolledY);
     }
   }
 

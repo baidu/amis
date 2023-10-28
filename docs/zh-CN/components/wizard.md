@@ -57,7 +57,14 @@ order: 73
 
 ## 自定义按钮
 
-可以在每个 `step` 中配置 `actions` 来自定义按钮。
+可以在每个 `step` 中配置 `actions` 来自定义按钮。按钮所在数据域查看`WizardActionData`定义（`3.5.0`及以上版本支持）
+
+```typescript
+interface WizardActionData {
+  /* 当前步骤数值，从1开始 */
+  currentStep: number;
+}
+```
 
 ```schema: scope="body"
 {
@@ -78,6 +85,12 @@ order: 73
                 }
             ],
             actions: [
+                {
+                    "label": "Prev",
+                    "type": "button",
+                    "actionType": "prev",
+                    "disabledOn": "${currentStep === 1}"
+                },
                 {
                     label: "Next",
                     type: 'button',
@@ -100,7 +113,6 @@ order: 73
                     type: 'button',
                     actionType: 'prev'
                 },
-
                 {
                     label: "Submit",
                     type: 'button',

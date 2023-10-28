@@ -56,7 +56,7 @@ export function findOrCreateStyle(id: string, doc?: Document) {
 }
 
 export function insertStyle(style: string, id: string, doc?: Document) {
-  const varStyleTag = findOrCreateStyle(id, doc);
+  const varStyleTag = findOrCreateStyle('amis-' + id, doc);
 
   // bca-disable-line
   varStyleTag.innerHTML = style;
@@ -348,7 +348,7 @@ export interface InsertCustomStyle {
  */
 export function removeCustomStyle(type: string, id: string, doc?: Document) {
   const style = (doc || document).getElementById(
-    (type ? type + '-' : '') + id.replace('u:', '')
+    'amis-' + (type ? type + '-' : '') + id.replace('u:', '')
   );
   if (style) {
     style.remove();
