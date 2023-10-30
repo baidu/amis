@@ -326,3 +326,53 @@ test('Renderer:FormItem:label with variable', async () => {
     '<span><span class="cxd-TplField"><span>Label ${b}</span></span></span>'
   );
 });
+
+test('Renderer:FormItem:disabledInTabs', async () => {
+  const onSubmit = jest.fn();
+
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        id: 'theform',
+        submitText: 'Submit',
+        body: [
+          {
+            type: 'tabs',
+            disabled: false,
+            tabs: [
+              {
+                title: 'Tab1',
+                body: [
+                  {
+                    type: 'input-text',
+                    name: 'a',
+                    disabled: true
+                  }
+                ]
+              },
+
+              {
+                title: 'Tabb',
+                disabled: true,
+                body: [
+                  {
+                    type: 'input-text',
+                    name: 'b'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  await wait(200);
+
+  expect(container.querySelector('input[name=a]')).toBeDisabled();
+  expect(container.querySelector('input[name=b]')).toBeDisabled();
+});
