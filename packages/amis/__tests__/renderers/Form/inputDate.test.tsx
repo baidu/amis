@@ -504,10 +504,14 @@ test('Renderer:inputDate disabledDate', async () => {
   const monday = moment().day(1);
   const tuesday = moment().day(2);
   const mondayCell = container.querySelector(
-    '.cxd-DatePicker-popover tr td[data-value="' + monday.date() + '"]'
+    '.cxd-DatePicker-popover tr td[data-value="' +
+      monday.date() +
+      '"]:not(.rdtOld)'
   ) as HTMLElement;
   const tuesdayCell = container.querySelector(
-    '.cxd-DatePicker-popover tr td[data-value="' + tuesday.date() + '"]'
+    '.cxd-DatePicker-popover tr td[data-value="' +
+      tuesday.date() +
+      '"]:not(.rdtOld)'
   ) as HTMLElement;
 
   expect(mondayCell).toHaveClass('rdtDisabled');
