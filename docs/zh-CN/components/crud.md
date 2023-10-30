@@ -3085,6 +3085,126 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 }
 ```
 
+### 匹配函数
+
+> `3.5.0` 及以上版本
+
+支持自定义匹配函数`matchFunc`，当开启`loadDataOnce`时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景，函数签名如下：
+
+```typescript
+interface CRUDMatchFunc {
+  (
+    /* 当前行数据 */
+    item: any,
+    /* 全量数据 */
+    items: any,
+    /** 列相关配置 */
+    config?: {
+      /* 当前列配置 */
+      column: any,
+      /* 当前列查询参数的值 */
+      columnValue: any
+    }
+  ): boolean;
+}
+```
+
+```schema: scope="body"
+{
+  "type": "crud",
+  "syncLocation": false,
+  "api": "/api/mock2/crud/loadDataOnce",
+  "loadDataOnce": true,
+  "loadDataOnceFetchOnFilter": false,
+  "matchFunc": "const {column, columnValue} = config || {};\n      const key = column.name;\n      const itemValue = item[key];\n\n      if (key === 'status') {\n        return columnValue == null ? true : Boolean(columnValue) === itemValue;\n      } else if (key === 'time' && columnValue && typeof columnValue === 'string') {\n        const [start, end] = columnValue.split(\",\");\n\n        return Number(itemValue) >= Number(start) && Number(itemValue) <= Number(end);\n      }\n      else if (columnValue != null && columnValue !== '') {\n        return columnValue === itemValue;\n      }\n      else {\n        return true;\n      }\n    ",
+  "perPage": 5,
+  "filter": {
+    "debug": true,
+    "body": [
+        {
+          "type": "switch",
+          "name": "status",
+          "label": "已核验",
+          "size": "sm"
+        },
+        {
+          "type": "input-datetime-range",
+          "name": "time",
+          "label": "时间",
+          "size": "full"
+        }
+    ],
+    "actions": [
+      {
+        "type": "reset",
+        "label": "重置"
+      },
+      {
+          "type": "submit",
+          "level": "primary",
+          "label": "查询"
+      }
+    ]
+  },
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "version",
+      "label": "Engine version",
+      "searchable": {
+        "type": "select",
+        "name": "version",
+        "label": "Engine version",
+        "clearable": true,
+        "multiple": true,
+        "searchable": true,
+        "checkAll": true,
+        "options": [
+          "1.7",
+          "3.3",
+          "5.6"
+        ],
+        "maxTagCount": 10,
+        "extractValue": true,
+        "joinValues": false,
+        "delimiter": ",",
+        "defaultCheckAll": false,
+        "checkAllLabel": "全选"
+      }
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    },
+    {
+      "name": "status",
+      "label": "已核验",
+      "type": "tpl",
+      "tpl": "${status === true ? '是' : '否'}",
+      "filterable": {
+        "options": [
+          {"label": "是", "value": true},
+          {"label": "否", "value": false}
+        ]
+      }
+    },
+    {
+      "name": "time",
+      "type": "date",
+      "label": "时间",
+      "format": "YYYY-MM-DD HH:mm:ss"
+    }
+  ]
+}
+```
+
 ## 动态列
 
 > since 1.1.6
@@ -3220,8 +3340,8 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 ## 属性表
 
-| 属性名                                | 类型                                                                                    | 默认值                          | 说明                                                                                                                  |
-| ------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| 属性名                                | 类型                                                                                    | 默认值                          | 说明                                                                                                                  | 版本 |
+| ------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --- |
 | type                                  | `string`                                                                                |                                 | `type` 指定为 CRUD 渲染器                                                                                             |
 | mode                                  | `string`                                                                                | `"table"`                       | `"table" 、 "cards" 或者 "list"`                                                                                      |
 | title                                 | `string`                                                                                | `""`                            | 可设置成空，当设置成空时，没有标题栏                                                                                  |
@@ -3276,6 +3396,8 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | resetPageAfterAjaxItemAction          | `boolean`                                                                               | `false`                         | 单条数据 ajax 操作后是否重置页码为第一页                                                                              |
 | autoFillHeight                        | `boolean` 丨 `{height: number}`                                                         |                                 | 内容区域自适应高度                                                                                                    |
 | canAccessSuperData                    | `boolean`                                                                               | `true`                          | 指定是否可以自动获取上层的数据并映射到表格行数据上，如果列也配置了该属性，则列的优先级更高                            |
+| matchFunc | `string`                                  |    [`CRUDMatchFunc`](#匹配函数)            | 自定义匹配函数, 当开启`loadDataOnce`时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景 | `3.5.0` |
+
 
 注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
 

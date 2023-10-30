@@ -161,10 +161,24 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
         columns?: Array<any>;
+        matchFunc?: (
+          /* 当前行数据 */
+          item: any,
+          /* 全量数据 */
+          items: any,
+          /** 列相关配置 */
+          config?: {
+            /* 当前列配置 */
+            column: any;
+            /* 当前列查询参数的值 */
+            columnValue: any;
+          }
+        ) => boolean;
       } = {}
     ) {
       try {
         if (!options.forceReload && options.loadDataOnce && self.total) {
+          const matchFunc = options.matchFunc;
           let items = options.source
             ? resolveVariableAndFilter(
                 options.source,
@@ -184,30 +198,36 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                   : undefined;
               const key = column.name;
 
-              if (value != null && key) {
-                // value可能为null、undefined、''、0
-                if (Array.isArray(value)) {
-                  if (value.length > 0) {
-                    const arr = [...items];
-                    let arrItems: Array<any> = [];
-                    value.forEach(item => {
-                      arrItems = [
-                        ...arrItems,
-                        ...matchSorter(arr, item, {
-                          keys: [key],
-                          threshold: matchSorter.rankings.CONTAINS
-                        })
-                      ];
+              if (matchFunc && typeof matchFunc === 'function') {
+                items = items.filter((item: any) =>
+                  matchFunc(item, items, {column, columnValue: value})
+                );
+              } else {
+                if (value != null && key) {
+                  // value可能为null、undefined、''、0
+                  if (Array.isArray(value)) {
+                    if (value.length > 0) {
+                      const arr = [...items];
+                      let arrItems: Array<any> = [];
+                      value.forEach(item => {
+                        arrItems = [
+                          ...arrItems,
+                          ...matchSorter(arr, item, {
+                            keys: [key],
+                            threshold: matchSorter.rankings.CONTAINS
+                          })
+                        ];
+                      });
+                      items = items.filter((item: any) =>
+                        arrItems.find(a => a === item)
+                      );
+                    }
+                  } else {
+                    items = matchSorter(items, value, {
+                      keys: [key],
+                      threshold: matchSorter.rankings.CONTAINS
                     });
-                    items = items.filter((item: any) =>
-                      arrItems.find(a => a === item)
-                    );
                   }
-                } else {
-                  items = matchSorter(items, value, {
-                    keys: [key],
-                    threshold: matchSorter.rankings.CONTAINS
-                  });
                 }
               }
             });

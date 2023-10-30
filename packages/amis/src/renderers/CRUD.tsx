@@ -330,6 +330,27 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   loadDataOnceFetchOnFilter?: boolean;
 
   /**
+   * 自定义搜索匹配函数，当开启loadDataOnce时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景
+   * interface CRUDMatchFunc {
+   *  (
+   *    // 当前行数据
+   *    item: any,
+   *    // 当前列配置
+   *    items: any,
+   *    // 列相关配置
+   *    config: {
+   *      // 当前列配置
+   *      column: any,
+   *      //当前列查询参数的值
+   *      columnValue: any
+   *    }
+   *   ): boolean
+   * }
+   * @since 3.5.0
+   */
+  matchFunc?: string | any;
+
+  /**
    * 也可以直接从环境变量中读取，但是不太推荐。
    */
   source?: SchemaTokenizeableString;
@@ -473,7 +494,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'autoFillHeight',
     'maxTagCount',
     'overflowTagPopover',
-    'parsePrimitiveQuery'
+    'parsePrimitiveQuery',
+    'matchFunc'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -507,6 +529,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     omitBy(onEvent, (event, key: any) => !INNER_EVENTS.includes(key))
   );
 
+  /** 前端分页开启时的自定义匹配函数 */
+  matchFunc?: null | Function;
+
   constructor(props: CRUDProps) {
     super(props);
 
@@ -539,10 +564,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       syncLocation,
       loadDataOnce,
-      parsePrimitiveQuery
+      parsePrimitiveQuery,
+      matchFunc
     } = props;
 
     this.mounted = true;
+    this.matchFunc =
+      matchFunc && typeof matchFunc === 'string'
+        ? str2function(matchFunc, 'item', 'items', 'config')
+        : undefined;
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
@@ -1258,7 +1288,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             perPageField,
             loadDataMode,
             syncResponse2Query,
-            columns: store.columns ?? columns
+            columns: store.columns ?? columns,
+            matchFunc: this.matchFunc
           })
           .then(async value => {
             if (!isAlive(store)) {
