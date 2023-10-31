@@ -1,6 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps, normalizeDate} from 'amis-core';
 import moment, {Moment} from 'moment';
+import 'moment-timezone';
 import {BaseSchema} from '../Schema';
 import {getPropValue} from 'amis-core';
 
@@ -49,6 +50,11 @@ export interface DateSchema extends BaseSchema {
    * 更新频率， 默认为1分钟
    */
   updateFrequency?: number;
+
+  /**
+   * 时区
+   */
+  displayTimeZone?: string;
 }
 
 export interface DateProps
@@ -110,7 +116,8 @@ export class DateField extends React.Component<DateProps, DateState> {
       style,
       classnames: cx,
       locale,
-      translate: __
+      translate: __,
+      displayTimeZone
     } = this.props;
     let viewValue: React.ReactNode = (
       <span className="text-muted">{placeholder}</span>
@@ -121,7 +128,12 @@ export class DateField extends React.Component<DateProps, DateState> {
     // 主要是给 fromNow 用的
     let date: any = null;
     if (value && (date = normalizeDate(value, valueFormat))) {
-      const normalizeDate: Moment = date;
+      let normalizeDate: Moment = date;
+
+      if (displayTimeZone) {
+        normalizeDate = normalizeDate.clone().tz(displayTimeZone);
+      }
+
       viewValue = normalizeDate.format(displayFormat || format);
 
       if (viewValue) {
