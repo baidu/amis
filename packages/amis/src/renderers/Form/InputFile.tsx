@@ -1497,7 +1497,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
               return (
                 <li key={file.id}>
                   <TooltipWrapper
-                    placement="bottom"
+                    placement="top"
                     container={container || env?.getModalContainer}
                     tooltipClassName={cx(
                       'FileControl-list-tooltip',
