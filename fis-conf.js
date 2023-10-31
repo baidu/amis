@@ -241,7 +241,7 @@ fis.match('/examples/mod.js', {
   isMod: false
 });
 
-fis.match('markdown-it/**', {
+fis.match('{markdown-it,moment-timezone}/**', {
   preprocessor: fis.plugin('js-require-file')
 });
 
@@ -688,6 +688,7 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     postprocessor: convertSCSSIE11
   });
   const ghPages = fis.media('gh-pages');
+  ghPages.set('project.files', ['examples/index.html']);
 
   ghPages.match('*.scss', {
     parser: fis.plugin('sass', {
