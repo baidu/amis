@@ -322,7 +322,7 @@ export class TableRow extends React.PureComponent<
               onQuickChange: this.handleQuickChange,
               onChange: this.handleChange
             })
-          ) : (
+          ) : column.name && item.rowSpans[column.name] === 0 ? null : (
             <td key={column.id}>
               <div className={cx('Table-emptyBlock')}>&nbsp;</div>
             </td>
