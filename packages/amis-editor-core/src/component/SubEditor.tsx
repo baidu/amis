@@ -75,8 +75,8 @@ export class SubEditor extends React.Component<SubEditorProps> {
     if (!!context.info.memberImmutable) {
       const panels = context.data.concat();
       context.data.splice(0, context.data.length);
-      // const renderersPanel = panels.filter(r => r.key !== 'renderers');
-      panels && context.data.push(...panels);
+      const renderersPanel = panels.filter(r => r.key !== 'renderers');
+      renderersPanel && context.data.push(...renderersPanel);
       // 默认选中大纲
       context.changeLeftPanelKey = 'outline';
     }
