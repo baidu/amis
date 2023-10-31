@@ -84,6 +84,7 @@ const data = [
       "browser": "AOL browser (AOL desktop)",
       "platform": "Win XP",
       "grade": "A",
+      "version": "1",
       "status": false,
       "time": "1698364800"
   },
@@ -92,6 +93,7 @@ const data = [
       "browser": "Firefox 1.0",
       "platform": "Win 98+ / OSX.2+",
       "grade": "A",
+      "version": "1.8",
       "status": true,
       "time": "1698364800"
   },

@@ -18,6 +18,22 @@ import {normalizeApiResponseData} from '../utils/api';
 import {matchSorter} from 'match-sorter';
 import {filter} from '../utils/tpl';
 
+interface MatchFunc {
+  (
+    /* 当前列表的全量数据 */
+    items: any,
+    /* 最近一次接口返回的全量数据 */
+    itemsRaw: any,
+    /** 相关配置 */
+    options?: {
+      /* 查询参数 */
+      query: Record<string, any>;
+      /* 列配置 */
+      columns: any;
+    }
+  ): any;
+}
+
 class ServerError extends Error {
   type = 'ServerError';
 }
@@ -161,19 +177,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
         columns?: Array<any>;
-        matchFunc?: (
-          /* 当前行数据 */
-          item: any,
-          /* 全量数据 */
-          items: any,
-          /** 列相关配置 */
-          config?: {
-            /* 当前列配置 */
-            column: any;
-            /* 当前列查询参数的值 */
-            columnValue: any;
-          }
-        ) => boolean;
+        matchFunc?: MatchFunc;
       } = {}
     ) {
       try {
@@ -190,19 +194,21 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               )
             : self.items.concat();
 
-          if (Array.isArray(options.columns)) {
-            options.columns.forEach((column: any) => {
-              let value: any =
-                typeof column.name === 'string'
-                  ? getVariable(self.query, column.name)
-                  : undefined;
-              const key = column.name;
+          /** 字段的格式类型无法穷举，所以支持使用函数过滤 */
+          if (matchFunc && typeof matchFunc === 'function') {
+            items = matchFunc(items, self.data.itemsRaw, {
+              query: self.query,
+              columns: options.columns
+            });
+          } else {
+            if (Array.isArray(options.columns)) {
+              options.columns.forEach((column: any) => {
+                let value: any =
+                  typeof column.name === 'string'
+                    ? getVariable(self.query, column.name)
+                    : undefined;
+                const key = column.name;
 
-              if (matchFunc && typeof matchFunc === 'function') {
-                items = items.filter((item: any) =>
-                  matchFunc(item, items, {column, columnValue: value})
-                );
-              } else {
                 if (value != null && key) {
                   // value可能为null、undefined、''、0
                   if (Array.isArray(value)) {
@@ -229,8 +235,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                     });
                   }
                 }
-              }
-            });
+              });
+            }
           }
 
           if (self.query.orderBy) {
@@ -609,8 +615,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       source: string,
       options: {
         columns?: Array<any>;
+        matchFunc?: MatchFunc | null;
       }
     ) {
+      const matchFunc = options.matchFunc;
       let items: Array<any> = resolveVariableAndFilter(source, scope, '| raw');
 
       if (!Array.isArray(items) && !self.items.length) {
@@ -619,41 +627,49 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
       items = Array.isArray(items) ? items : [];
 
-      if (Array.isArray(options.columns)) {
-        options.columns.forEach((column: any) => {
-          let value: any =
-            typeof column.name === 'string'
-              ? getVariable(self.query, column.name)
-              : undefined;
-          const key = column.name;
-
-          if (value != null && key) {
-            // value可能为null、undefined、''、0
-            if (Array.isArray(value)) {
-              if (value.length > 0) {
-                const arr = [...items];
-                let arrItems: Array<any> = [];
-                value.forEach(item => {
-                  arrItems = [
-                    ...arrItems,
-                    ...matchSorter(arr, item, {
-                      keys: [key],
-                      threshold: matchSorter.rankings.CONTAINS
-                    })
-                  ];
-                });
-                items = items.filter((item: any) =>
-                  arrItems.find(a => a === item)
-                );
-              }
-            } else {
-              items = matchSorter(items, value, {
-                keys: [key],
-                threshold: matchSorter.rankings.CONTAINS
-              });
-            }
-          }
+      /** 字段的格式类型无法穷举，所以支持使用函数过滤 */
+      if (matchFunc && typeof matchFunc === 'function') {
+        items = matchFunc(items, items.concat(), {
+          query: self.query,
+          columns: options.columns
         });
+      } else {
+        if (Array.isArray(options.columns)) {
+          options.columns.forEach((column: any) => {
+            let value: any =
+              typeof column.name === 'string'
+                ? getVariable(self.query, column.name)
+                : undefined;
+            const key = column.name;
+
+            if (value != null && key) {
+              // value可能为null、undefined、''、0
+              if (Array.isArray(value)) {
+                if (value.length > 0) {
+                  const arr = [...items];
+                  let arrItems: Array<any> = [];
+                  value.forEach(item => {
+                    arrItems = [
+                      ...arrItems,
+                      ...matchSorter(arr, item, {
+                        keys: [key],
+                        threshold: matchSorter.rankings.CONTAINS
+                      })
+                    ];
+                  });
+                  items = items.filter((item: any) =>
+                    arrItems.find(a => a === item)
+                  );
+                }
+              } else {
+                items = matchSorter(items, value, {
+                  keys: [key],
+                  threshold: matchSorter.rankings.CONTAINS
+                });
+              }
+            }
+          });
+        }
       }
 
       if (self.query.orderBy) {

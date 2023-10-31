@@ -3094,116 +3094,23 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 ```typescript
 interface CRUDMatchFunc {
   (
-    /* 当前行数据 */
-    item: any,
-    /* 全量数据 */
+    /* 当前列表的全量数据 */
     items: any,
-    /** 列相关配置 */
-    config?: {
-      /* 当前列配置 */
-      column: any,
-      /* 当前列查询参数的值 */
-      columnValue: any
+    /* 最近一次接口返回的全量数据 */
+    itemsRaw: any,
+    /** 相关配置 */
+    options?: {
+      /* 查询参数 */
+      query: Record<string, any>,
+      /* 列配置 */
+      columns: any;
     }
   ): boolean;
 }
 ```
 
-```schema: scope="body"
-{
-  "type": "crud",
-  "syncLocation": false,
-  "api": "/api/mock2/crud/loadDataOnce",
-  "loadDataOnce": true,
-  "loadDataOnceFetchOnFilter": false,
-  "matchFunc": "const {column, columnValue} = config || {};\n      const key = column.name;\n      const itemValue = item[key];\n\n      if (key === 'status') {\n        return columnValue == null ? true : Boolean(columnValue) === itemValue;\n      } else if (key === 'time' && columnValue && typeof columnValue === 'string') {\n        const [start, end] = columnValue.split(\",\");\n\n        return Number(itemValue) >= Number(start) && Number(itemValue) <= Number(end);\n      }\n      else if (columnValue != null && columnValue !== '') {\n        return columnValue === itemValue;\n      }\n      else {\n        return true;\n      }\n    ",
-  "perPage": 5,
-  "filter": {
-    "debug": true,
-    "body": [
-        {
-          "type": "switch",
-          "name": "status",
-          "label": "已核验",
-          "size": "sm"
-        },
-        {
-          "type": "input-datetime-range",
-          "name": "time",
-          "label": "时间",
-          "size": "full"
-        }
-    ],
-    "actions": [
-      {
-        "type": "reset",
-        "label": "重置"
-      },
-      {
-          "type": "submit",
-          "level": "primary",
-          "label": "查询"
-      }
-    ]
-  },
-  "columns": [
-    {
-      "name": "id",
-      "label": "ID"
-    },
-    {
-      "name": "browser",
-      "label": "Browser"
-    },
-    {
-      "name": "version",
-      "label": "Engine version",
-      "searchable": {
-        "type": "select",
-        "name": "version",
-        "label": "Engine version",
-        "clearable": true,
-        "multiple": true,
-        "searchable": true,
-        "checkAll": true,
-        "options": [
-          "1.7",
-          "3.3",
-          "5.6"
-        ],
-        "maxTagCount": 10,
-        "extractValue": true,
-        "joinValues": false,
-        "delimiter": ",",
-        "defaultCheckAll": false,
-        "checkAllLabel": "全选"
-      }
-    },
-    {
-      "name": "grade",
-      "label": "CSS grade"
-    },
-    {
-      "name": "status",
-      "label": "已核验",
-      "type": "tpl",
-      "tpl": "${status === true ? '是' : '否'}",
-      "filterable": {
-        "options": [
-          {"label": "是", "value": true},
-          {"label": "否", "value": false}
-        ]
-      }
-    },
-    {
-      "name": "time",
-      "type": "date",
-      "label": "时间",
-      "format": "YYYY-MM-DD HH:mm:ss"
-    }
-  ]
-}
-```
+具体效果请参考[示例](../../../examples/crud/match-func)。
+
 
 ## 动态列
 
