@@ -591,6 +591,7 @@ amis 的 API 配置，如果无法配置出你想要的请求结构，那么可�
   - method：当前请求的方式
   - data：请求的数据体
   - headers：请求的头部信息
+  - context: 发送请求时的上下文数据
 - **context** 发送请求时的上下文数据
 
 ##### 字符串形式
@@ -869,6 +870,13 @@ Content-Disposition: attachment; filename="download.pdf"
 
 ```
 Access-Control-Expose-Headers: Content-Disposition
+```
+
+如果自己覆盖了 `fetcher` 函数，需要有类似如下代码，具体可以参考 `embed.tsx` 里的实现
+
+```javascript
+let response = await axios(config);
+response = await attachmentAdpator(response, __);
 ```
 
 ### 配置提示信息

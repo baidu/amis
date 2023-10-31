@@ -200,6 +200,19 @@ CRUD 组件对数据源接口的数据结构要求如下：
 | orderDir | 'asc'/'desc' | 排序方式                       |
 | keywords | string       | 搜索关键字                     |
 
+### 解析 Query 原始类型
+
+> `3.5.0`及以上版本
+
+`syncLocation`开启后，CRUD 在初始化数据域时，将会对 url 中的 Query 进行转换，将原始类型的字符串格式的转化为同位类型，目前仅支持**布尔类型**
+
+```
+"true"  ==> true
+"false" ==> false
+```
+
+如果只想保持字符串格式，可以设置`"parsePrimitiveQuery": false`关闭该特性，具体效果参考[示例](../../../examples/crud/parse-primitive-query)。
+
 ## 功能
 
 既然这个渲染器叫增删改查，那接下来分开介绍这几个功能吧。
@@ -567,6 +580,61 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
       }
     ]
   }
+}
+```
+
+## 嵌套
+
+当行数据中存在 `children` 字段时，CRUD 会自动识别为树形数据，并支持展开收起。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "name": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/crud/table2",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        }
+    ]
+}
+```
+
+## 嵌套懒加载
+
+如果数据量比较大不适合一次性加载，可以配置 `deferApi` 接口，结合行数据中标记 `defer: true` 属性，实现懒加载。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "name": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/crud/table6",
+    "deferApi": "/api/mock2/crud/table6?parentId=${id}",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        }
+    ]
 }
 ```
 
@@ -2795,7 +2863,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 > 本文中的例子为了不相互影响都关闭了这个功能。
 > 另外如果需要使用接口联动，需要设置`syncLocation: false`
 
-`syncLocation`开启后，数据域经过地址栏同步后，原始值被转化为字符串同步回数据域，但布尔值（boolean）同步后不符合预期数据结构，导致组件渲染出错。比如查询条件表单中包含[Checkbox](./form/checkbox)组件，此时可以设置`{"trueValue": "1", "falseValue": "0"}`，将真值和假值设置为字符串格式规避。
+`syncLocation`开启后，数据域经过地址栏同步后，原始值被转化为字符串同步回数据域，但布尔值（boolean）同步后不符合预期数据结构，导致组件渲染出错。比如查询条件表单中包含[Checkbox](./form/checkbox)组件，此时可以设置`{"trueValue": "1", "falseValue": "0"}`，将真值和假值设置为字符串格式规避。从`3.5.0`版本开始，已经支持[`parsePrimitiveQuery`](#解析query原始类型)，该配置默认开启。
 
 ## 前端一次性加载
 
@@ -3159,6 +3227,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | title                                 | `string`                                                                                | `""`                            | 可设置成空，当设置成空时，没有标题栏                                                                                  |
 | className                             | `string`                                                                                |                                 | 表格外层 Dom 的类名                                                                                                   |
 | api                                   | [API](../../docs/types/api)                                                             |                                 | CRUD 用来获取列表数据的 api。                                                                                         |
+| deferApi                              | [API](../../docs/types/api)                                                             |                                 | 当行数据中有 defer 属性时，用此接口进一步加载内容                                                                     |
 | loadDataOnce                          | `boolean`                                                                               |                                 | 是否一次性加载所有数据（前端分页）                                                                                    |
 | loadDataOnceFetchOnFilter             | `boolean`                                                                               | `true`                          | 在开启 loadDataOnce 时，filter 时是否去重新请求 api                                                                   |
 | source                                | `string`                                                                                |                                 | 数据映射接口返回某字段的值，不设置会默认使用接口返回的`${items}`或者`${rows}`，也可以设置成上层数据源的内容           |

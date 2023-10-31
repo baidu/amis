@@ -24,7 +24,9 @@ import {
   spliceTree,
   filterTree,
   eachTree,
-  mapTree
+  mapTree,
+  setVariable,
+  cloneObject
 } from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import find from 'lodash/find';
@@ -265,6 +267,14 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           ? value.split(delimiter || ',').map((v: string) => v.trim())
           : [];
         return values;
+      },
+
+      getMergedData(data: any) {
+        const result = cloneObject(data);
+        setVariable(result, self.name, self.tmpValue);
+        setVariable(result, '__value', self.tmpValue);
+        setVariable(result, '__name', self.name);
+        return result;
       }
     };
   })
@@ -1253,11 +1263,16 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             }
           });
 
-        if (filteredOptions.length) {
-          filteredOptions = mapTree(filteredOptions, item => ({
-            ...item,
-            disabled: ~options.indexOf(item.value)
-          }));
+        if (filteredOptions.length && options.length) {
+          filteredOptions = mapTree(filteredOptions, item => {
+            if (~options.indexOf(item.value)) {
+              return {
+                ...item,
+                disabled: true
+              };
+            }
+            return item;
+          });
         }
       }
 

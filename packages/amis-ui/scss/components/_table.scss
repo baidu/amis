@@ -10,6 +10,7 @@
 
   &-fixedTop {
     position: sticky;
+    top: var(--affix-offset-top);
     background: var(--Table-bg);
     display: block;
     opacity: 1;
@@ -619,6 +620,10 @@
     > thead > tr > th.#{$ns}Table-primayCell,
     > tbody > tr > td.#{$ns}Table-primayCell {
       white-space: nowrap; // 树形表格展示标题栏，不要换行
+
+      > .#{$ns}Spinner {
+        vertical-align: middle;
+      }
     }
   }
 
@@ -860,6 +865,14 @@
     > tbody > tr:not(:first-child) {
       border-top: var(--Table-borderWidth) solid
         var(--Table-tbody-borderTopColor);
+    }
+  }
+
+  &-retryBtn {
+    color: var(--Form-feedBack-color);
+    cursor: pointer;
+    &:hover {
+      color: var(--Form-feedBack-color);
     }
   }
 

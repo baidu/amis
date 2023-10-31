@@ -472,8 +472,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       onInit: this.handleFormInit,
       onSaved: this.handleFormSaved,
       onActionSensor: this.handleActionSensor,
-      syncLocation: false,
-      affixOffsetTop: 0
+      syncLocation: false
     };
 
     if (schema.type === 'form') {
@@ -872,9 +871,8 @@ export class DrawerRenderer extends Drawer {
     const {onClose, onAction, store, env, dispatchEvent} = this.props;
 
     if (action.from === this.$$id) {
-      return onAction
-        ? onAction(e, action, data, throwErrors, delegate || this.context)
-        : false;
+      // 可能是孩子又派送回来到自己了，这时候就不要处理了。
+      return;
     }
 
     const scoped = this.context as IScopedContext;

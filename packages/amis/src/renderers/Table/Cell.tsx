@@ -9,7 +9,7 @@ import {
   buildTrackExpression,
   evalTrackExpression
 } from 'amis-core';
-import {BadgeObject, Checkbox, Icon} from 'amis-ui';
+import {BadgeObject, Checkbox, Icon, Spinner} from 'amis-ui';
 import React from 'react';
 
 export interface CellProps extends ThemeProps {
@@ -32,6 +32,7 @@ export interface CellProps extends ThemeProps {
   popOverContainer?: any;
   quickEditFormRef: any;
   onImageEnlarge?: any;
+  translate: (key: string, ...args: Array<any>) => string;
 }
 
 export default function Cell({
@@ -51,7 +52,8 @@ export default function Cell({
   onDragStart,
   popOverContainer,
   quickEditFormRef,
-  onImageEnlarge
+  onImageEnlarge,
+  translate: __
 }: CellProps) {
   if (column.name && item.rowSpans[column.name] === 0) {
     return null;
@@ -134,7 +136,18 @@ export default function Cell({
         />
       );
       prefix.push(
-        item.expandable ? (
+        item.loading ? (
+          <Spinner key="loading" size="sm" show />
+        ) : item.error ? (
+          <a
+            className={cx('Table-retryBtn')}
+            key="retryBtn"
+            onClick={item.resetDefered}
+            data-tooltip={__('Options.retry', {reason: item.error})}
+          >
+            <Icon icon="retry" className="icon" />
+          </a>
+        ) : item.expandable ? (
           <a
             key="expandBtn2"
             className={cx('Table-expandBtn2', item.expanded ? 'is-active' : '')}
@@ -169,7 +182,13 @@ export default function Cell({
       );
     }
     return [prefix, affix, addtionalClassName];
-  }, [item.expandable, item.expanded, column.isPrimary]);
+  }, [
+    item.expandable,
+    item.expanded,
+    item.error,
+    item.loading,
+    column.isPrimary
+  ]);
 
   // 根据条件缓存 data，避免孩子重复渲染
   const hasCustomTrackExpression =
@@ -218,9 +237,7 @@ export default function Cell({
       column.pristine.className,
       stickyClassName,
       addtionalClassName
-    ),
-    /** 给子节点的设置默认值，避免取到env.affixHeader的默认值，导致表头覆盖首行 */
-    affixOffsetTop: 0
+    )
   };
   delete subProps.label;
 

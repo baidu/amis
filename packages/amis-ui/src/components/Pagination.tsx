@@ -5,7 +5,7 @@
  */
 import React from 'react';
 import isInteger from 'lodash/isInteger';
-import {localeable, LocaleProps} from 'amis-core';
+import {localeable, LocaleProps, resolveEventData} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import {autobind} from 'amis-core';
 import {Icon} from './icons';
@@ -94,6 +94,7 @@ export interface BasicPaginationProps {
   popOverContainerSelector?: string;
 
   onPageChange?: (page: number, perPage?: number, dir?: string) => void;
+  dispatchEvent?: Function;
 }
 export interface PaginationProps
   extends BasicPaginationProps,
@@ -139,17 +140,22 @@ export class Pagination extends React.Component<
     }
   }
 
-  handlePageNumChange(page: number, perPage?: number, dir?: string) {
-    const {disabled, onPageChange} = this.props;
+  async handlePageNumChange(page: number, perPage?: number, dir?: string) {
+    const {disabled, onPageChange, dispatchEvent} = this.props;
+    const _page = isNaN(Number(page)) || Number(page) < 1 ? 1 : page;
 
     if (disabled) {
       return;
     }
-    onPageChange?.(
-      isNaN(Number(page)) || Number(page) < 1 ? 1 : page,
-      perPage,
-      dir
+
+    const rendererEvent = await dispatchEvent?.(
+      'change',
+      resolveEventData(this.props, {_page})
     );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    onPageChange?.(_page, perPage, dir);
   }
 
   /**

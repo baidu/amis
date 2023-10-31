@@ -580,3 +580,9 @@ test('evalute:namespace', () => {
   expect(evaluate('${ls: &["c"]["c"]}', {})).toMatchObject({d: 4});
   expect(evaluate('${ls: &["c"][key]}', {})).toMatchObject({d: 4});
 });
+
+test('evalute:speical characters', () => {
+  // 优先识别成位运算，而不是过滤器
+  expect(evaluate('${1 | 2}', {})).toBe(3);
+  expect(evaluate('${1 | abc}', {abc: 2})).toBe(3);
+});

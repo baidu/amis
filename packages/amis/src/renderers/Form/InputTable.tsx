@@ -1431,13 +1431,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               source: any,
               stack: any
             ) => {
-              // 只对第一层做处理，如果不是combo，并且是数组，直接采用diff的值
-              if (
-                stack.size === 0 &&
-                comboNames.indexOf(key) === -1 &&
-                Array.isArray(objValue) &&
-                Array.isArray(srcValue)
-              ) {
+              if (Array.isArray(objValue) && Array.isArray(srcValue)) {
+                // 处理combo
                 return srcValue;
               }
               // 直接return，默认走的mergeWith自身的merge
@@ -1625,8 +1620,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             affixHeader,
             prefixRow,
             affixRow,
-            affixOffsetTop:
-              this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0,
             autoFillHeight,
             tableContentClassName
           },

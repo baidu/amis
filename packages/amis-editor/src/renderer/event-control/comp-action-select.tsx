@@ -31,6 +31,7 @@ export default class CmptActionSelect extends React.Component<RendererProps> {
           'componentId',
           '__rendererName',
           '__cmptTreeSource',
+          '__isScopeContainer',
           '__cmptId'
         ].includes(key)
       ) {
@@ -44,6 +45,13 @@ export default class CmptActionSelect extends React.Component<RendererProps> {
       groupType: option.value,
       __cmptActionDesc: option.description
     });
+    if (
+      formStore.data.actionType === 'component' &&
+      formStore.data.groupType === 'setValue'
+    ) {
+      formStore.setValueByName('args.__containerType', 'all');
+      formStore.setValueByName('args.__comboType', 'all');
+    }
 
     this.props.onChange(option.value);
   }

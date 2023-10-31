@@ -6,6 +6,7 @@
 
   .ae-TplResultBox {
     position: relative;
+    display: flex;
     flex: 1;
     overflow: hidden;
     border: 1px solid var(--Form-input-borderColor);
@@ -39,6 +40,8 @@
     }
 
     &-editor {
+      flex: 1 1;
+      width: 0px; // 通过flex-grow 展开宽度
       border-radius: var(--Form-input-borderRadius);
       & > .CodeMirror {
         height: 100%;
@@ -64,6 +67,17 @@
 
         .CodeMirror-hscrollbar {
           display: none !important;
+        }
+
+        .CodeMirror-scrollbar-filler {
+          display: none !important;
+        }
+        .CodeMirror-vscrollbar {
+          display: none !important;
+        }
+
+        .CodeMirror-scroll {
+          overflow: hidden !important;
         }
 
         .CodeMirror-lines {

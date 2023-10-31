@@ -7,7 +7,8 @@ import {
   SchemaExpression,
   position,
   animation,
-  evalExpressionWithConditionBuilder
+  evalExpressionWithConditionBuilder,
+  isEffectiveApi
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, ActionObject, Schema} from 'amis-core';
@@ -71,6 +72,7 @@ import ColGroup from './ColGroup';
 import debounce from 'lodash/debounce';
 import AutoFilterForm from './AutoFilterForm';
 import Cell from './Cell';
+import {reaction} from 'mobx';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -343,6 +345,11 @@ export interface TableSchema extends BaseSchema {
    * table layout
    */
   tableLayout?: 'fixed' | 'auto';
+
+  /**
+   * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。
+   */
+  deferApi?: SchemaApi;
 }
 
 export interface TableProps extends RendererProps, SpinnerExtraProps {
@@ -596,7 +603,8 @@ export default class Table extends React.Component<TableProps, object> {
       loading,
       canAccessSuperData,
       lazyRenderAfter,
-      tableLayout
+      tableLayout,
+      resolveDefinitions
     } = props;
 
     let combineNum = props.combineNum;
@@ -607,29 +615,34 @@ export default class Table extends React.Component<TableProps, object> {
       );
     }
 
-    store.update({
-      selectable,
-      draggable,
-      columns,
-      columnsTogglable,
-      orderBy: onQuery ? orderBy : undefined,
-      orderDir,
-      multiple,
-      footable,
-      expandConfig,
-      primaryField,
-      itemCheckableOn,
-      itemDraggableOn,
-      hideCheckToggler,
-      combineNum,
-      combineFromIndex,
-      keepItemSelectionOnPageChange,
-      maxKeepItemSelectionLength,
-      loading,
-      canAccessSuperData,
-      lazyRenderAfter,
-      tableLayout
-    });
+    store.update(
+      {
+        selectable,
+        draggable,
+        columns,
+        columnsTogglable,
+        orderBy: onQuery ? orderBy : undefined,
+        orderDir,
+        multiple,
+        footable,
+        expandConfig,
+        primaryField,
+        itemCheckableOn,
+        itemDraggableOn,
+        hideCheckToggler,
+        combineNum,
+        combineFromIndex,
+        keepItemSelectionOnPageChange,
+        maxKeepItemSelectionLength,
+        loading,
+        canAccessSuperData,
+        lazyRenderAfter,
+        tableLayout
+      },
+      {
+        resolveDefinitions
+      }
+    );
 
     if (
       isPlainObject(autoGenerateFilter) &&
@@ -640,6 +653,18 @@ export default class Table extends React.Component<TableProps, object> {
 
     formItem && isAlive(formItem) && formItem.setSubStore(store);
     Table.syncRows(store, this.props, undefined) && this.syncSelected();
+
+    this.toDispose.push(
+      reaction(
+        () =>
+          store
+            .getExpandedRows()
+            .filter(
+              row => row.defer && !row.loaded && !row.loading && !row.error
+            ),
+        (rows: Array<IRow>) => rows.forEach(this.loadDeferredRow)
+      )
+    );
   }
 
   static syncRows(
@@ -708,6 +733,34 @@ export default class Table extends React.Component<TableProps, object> {
       onSearchableFromInit
     ) {
       onSearchableFromInit({});
+    }
+  }
+
+  @autobind
+  async loadDeferredRow(row: IRow) {
+    const {env} = this.props;
+    const deferApi = row.data.deferApi || this.props.deferApi;
+
+    if (!isEffectiveApi(deferApi)) {
+      throw new Error('deferApi is required');
+    }
+
+    try {
+      row.markLoading(true);
+
+      const response = await env.fetcher(deferApi, row.locals);
+      if (!response.ok) {
+        throw new Error(response.msg);
+      }
+
+      row.setDeferData(response.data);
+      row.markLoaded(true);
+      row.setError('');
+    } catch (e) {
+      row.setError(e.message);
+      env.notify('error', e.message);
+    } finally {
+      row.markLoading(false);
     }
   }
 
@@ -846,7 +899,9 @@ export default class Table extends React.Component<TableProps, object> {
         if (changes.orderBy && !props.onQuery) {
           delete changes.orderBy;
         }
-        store.update(changes as any);
+        store.update(changes as any, {
+          resolveDefinitions: props.resolveDefinitions
+        });
       }
     );
 
@@ -2024,7 +2079,8 @@ export default class Table extends React.Component<TableProps, object> {
       checkOnItemClick,
       popOverContainer,
       canAccessSuperData,
-      itemBadge
+      itemBadge,
+      translate
     } = this.props;
 
     return (
@@ -2047,6 +2103,7 @@ export default class Table extends React.Component<TableProps, object> {
         popOverContainer={this.getPopOverContainer}
         quickEditFormRef={this.subFormRef}
         onImageEnlarge={this.handleImageEnlarge}
+        translate={translate}
       />
     );
   }
@@ -2057,7 +2114,6 @@ export default class Table extends React.Component<TableProps, object> {
       affixHeader,
       render,
       classnames: cx,
-      affixOffsetTop,
       autoFillHeight,
       env
     } = this.props;
@@ -2067,7 +2123,6 @@ export default class Table extends React.Component<TableProps, object> {
     return affixHeader && !autoFillHeight ? (
       <>
         <div
-          style={{top: affixOffsetTop ?? env?.affixOffsetTop ?? 0}}
           className={cx('Table-fixedTop', {
             'is-fakeHide': hideHeader
           })}

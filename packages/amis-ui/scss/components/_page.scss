@@ -122,6 +122,7 @@
       border: inherit;
     }
 
+    flex-shrink: 0;
     width: var(--Page-aside-width);
     border-right: var(--borderWidth) solid var(--borderColor);
 
@@ -140,6 +141,18 @@
     > .#{$ns}PullRefresh {
       width: 0;
       flex-grow: 1;
+    }
+  }
+
+  .#{$ns}Page--asideSticky {
+    > .#{$ns}Page-aside {
+      position: sticky;
+      top: var(--affix-offset-top);
+      max-height: calc(
+        100vh - var(--affix-offset-top) - var(--affix-offset-bottom)
+      );
+      overflow-x: hidden;
+      overflow-y: auto;
     }
   }
 }

@@ -739,13 +739,3 @@ setSchemaTpl('optionDeleteControl', (params: OptionControlParams) => {
     }
   });
 });
-
-/**
- * key value映射类组件
- */
-setSchemaTpl('keyValueMapControl', {
-  type: 'ae-keyValueMapControl',
-  label: '单位选项',
-  name: 'unitOptions',
-  mode: 'normal'
-});

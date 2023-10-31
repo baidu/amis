@@ -194,6 +194,7 @@ register('zh-CN', {
   'Options.editLabel': '编辑{{label}}',
   'Options.label': '选项',
   'Options.createFailed': '新增失败，请仔细检查',
+  'Options.retry': '加载失败「{{reason}}」，点击重试',
   'placeholder.empty': '<空>',
   'placeholder.enter': '请输入',
   'placeholder.noData': '暂无数据',

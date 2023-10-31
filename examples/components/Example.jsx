@@ -57,6 +57,7 @@ import LoadOnceTableCrudSchema from './CRUD/LoadOnce';
 import ExportCSVExcelSchema from './CRUD/ExportCSVExcel';
 import CRUDDynamicSchema from './CRUD/Dynamic';
 import CRUDSimplePagerSchema from './CRUD/SimplePager';
+import CRUDParsePrimitiveQuerySchema from './CRUD/ParsePrimitiveQuery';
 import ItemActionchema from './CRUD/ItemAction';
 import SdkTest from './Sdk/Test';
 import JSONSchemaForm from './Form/Schem';
@@ -460,6 +461,11 @@ export const examples = [
             label: '简单分页',
             path: '/examples/crud/simple-pager',
             component: makeSchemaRenderer(CRUDSimplePagerSchema)
+          },
+          {
+            label: '解析Query参数',
+            path: '/examples/crud/parse-primitive-query',
+            component: makeSchemaRenderer(CRUDParsePrimitiveQuerySchema)
           }
           // {
           //     label: '测试',

@@ -39,6 +39,45 @@ import {getStoreById} from './manager';
  */
 const PARTITION_INDEX = 3;
 
+function initChildren(
+  children: Array<any>,
+  depth: number,
+  pindex: number,
+  parentId: string,
+  path: string = ''
+): any {
+  depth += 1;
+  return children.map((item, index) => {
+    item = isObject(item)
+      ? item
+      : {
+          item
+        };
+    const id = item.__id ?? guid();
+
+    return {
+      // id: String(item && (item as any)[self.primaryField] || `${pindex}-${depth}-${key}`),
+      id: String(id),
+      parentId: String(parentId),
+      key: String(`${pindex}-${depth}-${index}`),
+      path: `${path}${index}`,
+      depth: depth,
+      index: index,
+      newIndex: index,
+      pristine: item,
+      data: item,
+      defer: !!item.defer,
+      loaded: false,
+      loading: false,
+      rowSpans: {},
+      children:
+        item && Array.isArray(item.children)
+          ? initChildren(item.children, depth, index, id, `${path}${index}.`)
+          : []
+    };
+  });
+}
+
 export const Column = types
   .model('Column', {
     label: types.optional(types.frozen(), undefined),
@@ -127,20 +166,33 @@ export const Row = types
     rowSpans: types.frozen({} as any),
     index: types.number,
     newIndex: types.number,
-    nth: 0,
     path: '', // 行数据的位置
-    expandable: false,
     checkdisable: false,
     isHover: false,
     children: types.optional(
       types.array(types.late((): IAnyModelType => Row)),
       []
     ),
+    defer: false, // 是否为懒数据
+    loaded: false, // 懒数据是否加载完了
+    loading: false, // 懒数据是否正在加载
+    error: '', // 懒数据加载失败的错误信息
     depth: types.number, // 当前children位于第几层，便于使用getParent获取最顶层TableStore
     appeared: true,
     lazyRender: false
   })
   .views(self => ({
+    get expandable(): boolean {
+      let table: any;
+      return !!(
+        (self && self.children.length) ||
+        (self && self.defer && !self.loaded) ||
+        ((table = getParent(self, self.depth * 2) as any) &&
+          table.footable &&
+          table.footableColumns.length)
+      );
+    },
+
     get checked(): boolean {
       return (getParent(self, self.depth * 2) as ITableStore).isSelected(
         self as IRow
@@ -320,36 +372,70 @@ export const Row = types
       });
 
       if (Array.isArray(data.children)) {
-        const arr = data.children;
-        const pool = arr.concat();
+        this.replaceChildren(data.children);
+      }
+    },
 
-        // 把多的删了先
-        if (self.children.length > arr.length) {
-          self.children.splice(arr.length, self.children.length - arr.length);
+    replaceChildren(children: Array<any>) {
+      const arr = children;
+      const pool = arr.concat();
+
+      // 把多的删了先
+      if (self.children.length > arr.length) {
+        self.children.splice(arr.length, self.children.length - arr.length);
+      }
+
+      let index = 0;
+      const len = self.children.length;
+      while (pool.length) {
+        // 因为父级id未更新，所以需要将子级的parentId正确指向父级id
+        const item = {
+          ...pool.shift(),
+          parentId: self.id
+        }!;
+
+        if (index < len) {
+          self.children[index].replaceWith(item);
+        } else {
+          const row = Row.create(item);
+          self.children.push(row);
         }
-
-        let index = 0;
-        const len = self.children.length;
-        while (pool.length) {
-          // 因为父级id未更新，所以需要将子级的parentId正确指向父级id
-          const item = {
-            ...pool.shift(),
-            parentId: self.id
-          }!;
-
-          if (index < len) {
-            self.children[index].replaceWith(item);
-          } else {
-            const row = Row.create(item);
-            self.children.push(row);
-          }
-          index++;
-        }
+        index++;
       }
     },
 
     markAppeared(value: any) {
       value && (self.appeared = !!value);
+    },
+
+    markLoading(value: any) {
+      self.loading = !!value;
+    },
+
+    markLoaded(value: any) {
+      self.loaded = !!value;
+    },
+
+    setError(value: any) {
+      self.error = String(value);
+    },
+
+    resetDefered() {
+      self.error = '';
+      self.loaded = false;
+    },
+
+    setDeferData({children, ...rest}: any) {
+      self.data = {
+        ...self.data,
+        ...rest
+      };
+
+      if (Array.isArray(children)) {
+        this.replaceChildren(
+          initChildren(children, self.depth, self.index, self.id, self.path)
+        );
+      }
     }
   }));
 
@@ -893,7 +979,12 @@ export const TableStore = iRendererStore
       return tableRef;
     }
 
-    function update(config: Partial<STableStore>) {
+    function update(
+      config: Partial<STableStore>,
+      options?: {
+        resolveDefinitions?: (ref: string) => any;
+      }
+    ) {
       config.primaryField !== undefined &&
         (self.primaryField = config.primaryField);
       config.selectable !== undefined && (self.selectable = config.selectable);
@@ -953,8 +1044,21 @@ export const TableStore = iRendererStore
 
       if (config.columns && Array.isArray(config.columns)) {
         let columns: Array<SColumn> = config.columns
-          .filter(column => column)
-          .concat();
+          .map(column => {
+            if (
+              options?.resolveDefinitions &&
+              typeof (column as any)?.$ref == 'string' &&
+              (column as any).$ref
+            ) {
+              return {
+                ...options.resolveDefinitions((column as any).$ref),
+                ...column
+              };
+            }
+
+            return column;
+          })
+          .filter(column => column);
 
         // 更新列顺序，afterCreate生命周期中更新columns不会触发组件的render
         const key = getPersistDataKey(columns);
@@ -1027,10 +1131,7 @@ export const TableStore = iRendererStore
             pristine: item.pristine || item,
             toggled: item.toggled !== false,
             breakpoint: item.breakpoint,
-            /** 提前映射变量，方便后续view中使用 */
-            label: isPureVariable(item.label)
-              ? resolveVariableAndFilter(item.label, self.data)
-              : item.label
+            isPrimary: index === PARTITION_INDEX
           };
         });
 
@@ -1238,55 +1339,6 @@ export const TableStore = iRendererStore
       return combineCell(arr, keys);
     }
 
-    function initChildren(
-      children: Array<any>,
-      depth: number,
-      pindex: number,
-      parentId: string,
-      path: string = '',
-      nThRef: {index: number}
-    ): any {
-      depth += 1;
-      return children.map((item, index) => {
-        item = isObject(item)
-          ? item
-          : {
-              item
-            };
-        const id = item.__id ?? guid();
-
-        return {
-          // id: String(item && (item as any)[self.primaryField] || `${pindex}-${depth}-${key}`),
-          id: String(id),
-          parentId: String(parentId),
-          key: String(`${pindex}-${depth}-${index}`),
-          path: `${path}${index}`,
-          depth: depth,
-          index: index,
-          nth: nThRef.index++,
-          newIndex: index,
-          pristine: item,
-          data: item,
-          rowSpans: {},
-          children:
-            item && Array.isArray(item.children)
-              ? initChildren(
-                  item.children,
-                  depth,
-                  index,
-                  id,
-                  `${path}${index}.`,
-                  nThRef
-                )
-              : [],
-          expandable: !!(
-            (item && Array.isArray(item.children) && item.children.length) ||
-            (self.footable && self.footableColumns.length)
-          )
-        };
-      });
-    }
-
     function initRows(
       rows: Array<any>,
       getEntryId?: (entry: any, index: number) => string,
@@ -1298,7 +1350,6 @@ export const TableStore = iRendererStore
       /* 避免输入内容为非数组挂掉 */
       rows = !Array.isArray(rows) ? [] : rows;
 
-      const nThRef = {index: 0};
       let arr: Array<SRow> = rows.map((item, index) => {
         if (!isObject(item)) {
           item = {
@@ -1315,20 +1366,18 @@ export const TableStore = iRendererStore
           key: String(`${index}-1-${index}`),
           depth: 1, // 最大父节点默认为第一层，逐层叠加
           index: index,
-          nth: nThRef.index++,
           newIndex: index,
           pristine: item,
           path: `${index}`,
           data: item,
           rowSpans: {},
+          defer: !!item.defer,
+          loaded: false,
+          loading: false,
           children:
             item && Array.isArray(item.children)
-              ? initChildren(item.children, 1, index, id, `${index}.`, nThRef)
-              : [],
-          expandable: !!(
-            (item && Array.isArray(item.children) && item.children.length) ||
-            (self.footable && self.footableColumns.length)
-          )
+              ? initChildren(item.children, 1, index, id, `${index}.`)
+              : []
         };
       });
 
@@ -1342,7 +1391,9 @@ export const TableStore = iRendererStore
       }
 
       replaceRow(arr, reUseRow);
-      self.isNested = self.rows.some(item => item.children.length);
+      self.isNested = self.rows.some(
+        item => item.children.length || (item.defer && !item.loaded)
+      );
 
       // 前 20 个直接渲染，后面的按需渲染
       if (

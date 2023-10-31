@@ -20,7 +20,6 @@ exports[`Renderer:list 1`] = `
           >
             <div
               class="cxd-Panel cxd-Panel--default"
-              style="position: relative;"
             >
               <div
                 class="cxd-Panel-heading"
@@ -45,7 +44,6 @@ exports[`Renderer:list 1`] = `
                 >
                   <div
                     class="cxd-List-fixedTop"
-                    style="top: 0px;"
                   />
                   <div
                     class="cxd-List-items"
@@ -733,45 +731,6 @@ exports[`Renderer:list 1`] = `
                   </div>
                 </div>
               </div>
-              <div
-                class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-  
-                <div
-                  class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-    
-                  <div
-                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                  />
-                  
-  
-                </div>
-                
-  
-                <div
-                  class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -805,7 +764,6 @@ exports[`Renderer:list with itemAction 1`] = `
             >
               <div
                 class="cxd-List-fixedTop"
-                style="top: 0px;"
               >
                 <div
                   class="cxd-List-heading"
@@ -1041,7 +999,6 @@ exports[`Renderer:list with listItem actions & actionsPosition 1`] = `
           >
             <div
               class="cxd-List-fixedTop"
-              style="top: 0px;"
             />
             <div
               class="cxd-List-items"
@@ -1243,7 +1200,6 @@ exports[`Renderer:list with listItem avatar & avatarClassName 1`] = `
           >
             <div
               class="cxd-List-fixedTop"
-              style="top: 0px;"
             />
             <div
               class="cxd-List-items"
@@ -1433,7 +1389,6 @@ exports[`Renderer:list with listItem title & titleClassName & subTitle & desc 1`
           >
             <div
               class="cxd-List-fixedTop"
-              style="top: 0px;"
             />
             <div
               class="cxd-List-items"
@@ -1656,7 +1611,6 @@ exports[`Renderer:list with title & header & footer & headerClassName & footerCl
           >
             <div
               class="cxd-List-fixedTop"
-              style="top: 0px;"
             >
               <div
                 class="cxd-List-header headerTplClassName"
