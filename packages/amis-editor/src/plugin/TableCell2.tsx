@@ -441,7 +441,7 @@ export class TableCell2Plugin extends BasePlugin {
         },
         isChecked: (e: any) => {
           const {data, name} = e;
-          return get(data, name);
+          return !!get(data, name);
         },
         form: {
           body: [
@@ -486,8 +486,8 @@ export class TableCell2Plugin extends BasePlugin {
               children: ({value, onBulkChange, name, data}: any) => {
                 if (value === true) {
                   value = {};
-                } else if (typeof value === 'undefined') {
-                  value = getVariable(data, 'quickEdit');
+                } else {
+                  value = getVariable(data.__super, 'quickEdit');
                 }
 
                 const originMode = value?.mode || 'popOver';

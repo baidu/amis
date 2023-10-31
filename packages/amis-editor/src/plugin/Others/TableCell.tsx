@@ -114,7 +114,7 @@ export class TableCellPlugin extends BasePlugin {
               visibleOn: 'data.quickEdit',
               name: 'quickEdit',
               asFormItem: true,
-              children: ({value, onChange, data}: any) => {
+              children: ({value, onBulkChange, name, data}: any) => {
                 if (value === true) {
                   value = {};
                 } else if (typeof value === 'undefined') {
@@ -124,14 +124,25 @@ export class TableCellPlugin extends BasePlugin {
                 const originMode = value.mode;
 
                 value = {
-                  type: 'wrapper',
-                  name: data.name,
-                  ...value
+                  ...value,
+                  type: 'form',
+                  mode: 'normal',
+                  wrapWithPanel: false,
+                  body: value?.body?.length
+                    ? value.body
+                    : [
+                        {
+                          type: 'input-text',
+                          name: data.key
+                        }
+                      ]
                 };
-                delete value.mode;
+
+                if (value.mode) {
+                  delete value.mode;
+                }
 
                 // todo 多个快速编辑表单模式看来只能代码模式编辑了。
-
                 return (
                   <Button
                     level="info"
@@ -142,20 +153,13 @@ export class TableCellPlugin extends BasePlugin {
                       this.manager.openSubEditor({
                         title: '配置快速编辑类型',
                         value: value,
-                        slot: {
-                          type: 'form',
-                          mode: 'normal',
-                          body: ['$$'],
-                          wrapWithPanel: false
-                        },
                         onChange: value => {
-                          onChange(
-                            {
+                          onBulkChange({
+                            [name]: {
                               ...value,
                               mode: originMode
-                            },
-                            'quickEdit'
-                          );
+                            }
+                          });
                         }
                       });
                     }}

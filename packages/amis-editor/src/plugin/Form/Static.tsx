@@ -1,15 +1,18 @@
 import React from 'react';
 import {Button} from 'amis';
+import get from 'lodash/get';
 import {
   defaultValue,
   getSchemaTpl,
   setSchemaTpl,
+  registerEditorPlugin,
+  BaseEventContext,
+  BasePlugin,
+  EditorNodeType,
+  mockValue,
   tipedLabel
 } from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BaseEventContext, BasePlugin} from 'amis-editor-core';
-import {EditorNodeType} from 'amis-editor-core';
-import {mockValue} from 'amis-editor-core';
+import {getVariable} from 'amis-core';
 
 // 快速编辑
 setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
@@ -21,6 +24,10 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
   hiddenOnDefault: true,
   formType: 'extend',
   pipeIn: (value: any) => !!value,
+  isChecked: (e: any) => {
+    const {data, name} = e;
+    return !!get(data, name);
+  },
   form: {
     body: [
       {
@@ -63,22 +70,35 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
         asFormItem: true,
         visibleOn: 'data.quickEdit',
         mode: 'row',
-        children: ({value, onChange, data}: any) => {
+        children: ({value, onBulkChange, name, data}: any) => {
           if (value === true) {
             value = {};
+          } else {
+            value = getVariable(data.__super, 'quickEdit');
           }
 
           const originMode = value.mode;
 
           value = {
-            type: 'input-text',
-            name: data.name,
-            ...value
+            ...value,
+            type: 'form',
+            mode: 'normal',
+            wrapWithPanel: false,
+            body: value?.body?.length
+              ? value.body
+              : [
+                  {
+                    type: 'input-text',
+                    name: data.key
+                  }
+                ]
           };
-          delete value.mode;
+
+          if (value.mode) {
+            delete value.mode;
+          }
 
           // todo 多个快速编辑表单模式看来只能代码模式编辑了。
-
           return (
             <Button
               block
@@ -87,20 +107,13 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
                 manager.openSubEditor({
                   title: '配置快速编辑类型',
                   value: value,
-                  slot: {
-                    type: 'form',
-                    mode: 'normal',
-                    body: ['$$'],
-                    wrapWithPanel: false
-                  },
                   onChange: (value: any) =>
-                    onChange(
-                      {
+                    onBulkChange({
+                      [name]: {
                         ...value,
                         mode: originMode
-                      },
-                      'quickEdit'
-                    )
+                      }
+                    })
                 });
               }}
             >
