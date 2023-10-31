@@ -7,7 +7,13 @@ import {
   PopOver,
   autobind
 } from 'amis-core';
-import {FormItem, FormBaseControl, FormControlProps} from 'amis-core';
+import {
+  FormItem,
+  FormBaseControl,
+  FormControlProps,
+  resolveEventData
+} from 'amis-core';
+import {Api, ActionObject} from 'amis-core';
 import {LocationPicker, Alert2, BaiduMapPicker, Icon} from 'amis-ui';
 import {filter} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
@@ -75,6 +81,19 @@ export class LocationControl extends React.Component<LocationControlProps> {
   }
 
   @autobind
+  async handleChange(value: any) {
+    const {dispatchEvent, onChange} = this.props;
+    onChange(value);
+    const dispatcher = await dispatchEvent(
+      'change',
+      resolveEventData(this.props, {value})
+    );
+    if (dispatcher?.prevented) {
+      return;
+    }
+  }
+
+  @autobind
   getParent() {
     return this.domRef.current?.parentElement;
   }
@@ -82,6 +101,19 @@ export class LocationControl extends React.Component<LocationControlProps> {
   @autobind
   getTarget() {
     return this.domRef.current;
+  }
+
+  doAction(action: ActionObject, data: object, throwErrors: boolean): any {
+    const {resetValue, onChange} = this.props;
+    const actionType = action?.actionType as string;
+    switch (actionType) {
+      case 'clear':
+        onChange('');
+        break;
+      case 'reset':
+        onChange?.(resetValue ?? {});
+        break;
+    }
   }
 
   renderStatic(displayValue = '-') {
@@ -152,6 +184,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
         <LocationPicker
           {...this.props}
           ak={filter(this.props.ak, this.props.data)}
+          onChange={this.handleChange}
         />
       </div>
     );
