@@ -45,10 +45,8 @@ function generateDefaultStyle(word: Word) {
     ${hyphens}
   }
 
-  .${classPrefix} .justify:after {
-    content: "";
-    display: inline-block;
-    width: 100%;
+  .${classPrefix} .justify {
+    text-align-last: left;
   }
 
   .${classPrefix} table {
