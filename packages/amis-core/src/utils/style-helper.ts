@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isObject from 'lodash/isObject';
 import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
+import kebabCase from 'lodash/kebabCase';
 
 export const valueMap: PlainObject = {
   'marginTop': 'margin-top',
@@ -43,18 +44,19 @@ interface extra {
   suf?: string;
 }
 
-export function findOrCreateStyle(id: string) {
-  let varStyleTag = document.getElementById(id);
+export function findOrCreateStyle(id: string, doc?: Document) {
+  doc = doc || document;
+  let varStyleTag = doc.getElementById(id);
   if (!varStyleTag) {
-    varStyleTag = document.createElement('style');
+    varStyleTag = doc.createElement('style');
     varStyleTag.id = id;
-    document.body.appendChild(varStyleTag);
+    doc.body.appendChild(varStyleTag);
   }
   return varStyleTag;
 }
 
-export function insertStyle(style: string, id: string) {
-  const varStyleTag = findOrCreateStyle(id);
+export function insertStyle(style: string, id: string, doc?: Document) {
+  const varStyleTag = findOrCreateStyle('amis-' + id, doc);
 
   // bca-disable-line
   varStyleTag.innerHTML = style;
@@ -77,9 +79,9 @@ function handleInheritData(statusMap: any, data: any) {
   }
   // 检查是否存在inherit
   ['hover', 'active'].forEach(status => {
-    for (let key in statusMap[status]) {
+    Object.keys(statusMap[status]).forEach(key => {
       if (typeof statusMap[status][key] === 'object') {
-        for (let style in statusMap[status][key]) {
+        Object.keys(statusMap[status][key]).forEach(style => {
           if (statusMap[status][key][style] === 'inherit') {
             // 值为inherit时设置为default的值或者主题中的default值
             if (statusMap['default'][key] && statusMap['default'][key][style]) {
@@ -90,7 +92,7 @@ function handleInheritData(statusMap: any, data: any) {
                 data['default'].body[value][style];
             }
           }
-        }
+        });
       } else {
         if (statusMap[status][key] === 'inherit') {
           if (statusMap['default'][key] && statusMap['default'][key]) {
@@ -101,29 +103,21 @@ function handleInheritData(statusMap: any, data: any) {
           }
         }
       }
-    }
+    });
   });
 }
 
 export function formatStyle(
   themeCss: any,
-  classNames?: {
-    key: string;
-    value?: string;
-    weights?: {
-      default?: extra;
-      hover?: extra;
-      active?: extra;
-      disabled?: extra;
-    };
-  }[],
+  classNames?: CustomStyleClassName[],
   id?: string,
   defaultData?: any
 ) {
+  // 没有具体的样式，或者没有对应的classname
   if (!themeCss || !classNames) {
     return {value: '', origin: []};
   }
-  const res = [];
+  const res: {className: string; content: string}[] = [];
   const status2string: PlainObject = {
     default: '',
     hover: ':hover',
@@ -133,42 +127,22 @@ export function formatStyle(
 
   for (let item of classNames) {
     const body = themeCss[item.key];
-    const list = item.value?.split(' ');
-    const classNameList: string[] = [];
 
     if (!body) {
       continue;
     }
 
-    list?.forEach(n => {
-      if (
-        n.includes('lassName-') &&
-        !!~n.indexOf(
-          id
-            ?.replace('u:', '')
-            .replace('-item', '')
-            .replace('-addOn', '')
-            .replace('-icon', '')
-            .replace('-inner', '') || ''
-        )
-      ) {
-        classNameList.push(n);
-      }
-    });
+    const className = item.key + '-' + id?.replace('u:', '');
     const weightsList: PlainObject = item.weights || {};
 
-    for (let className of classNameList) {
-      // 没有具体的样式，或者没有对应的classname
-      const statusMap: PlainObject = {
-        default: {},
-        hover: {},
-        active: {},
-        disabled: {}
-      };
-      for (let key in body) {
-        if (key === '$$id' || body[key] === '') {
-          continue;
-        }
+    const statusMap: PlainObject = {
+      default: {},
+      hover: {},
+      active: {},
+      disabled: {}
+    };
+    Object.keys(body).forEach(key => {
+      if (key !== '$$id' && body[key]) {
         if (!!~key.indexOf(':default')) {
           statusMap.default[key.replace(':default', '')] = body[key];
         } else if (!!~key.indexOf(':hover')) {
@@ -181,19 +155,18 @@ export function formatStyle(
           statusMap.default[key] = body[key];
         }
       }
-      handleInheritData(statusMap, defaultData);
+    });
+    handleInheritData(statusMap, defaultData);
 
-      for (let status in statusMap) {
-        const weights = weightsList[status];
-        const styles: string[] = [];
-        const fn = (key: string, value: string) => {
-          key = valueMap[key] || key;
-          styles.push(`${key}: ${value};`);
-        };
-        for (let key in statusMap[status]) {
-          if (key === '$$id') {
-            continue;
-          }
+    Object.keys(statusMap).forEach(status => {
+      const weights = weightsList[status];
+      const styles: string[] = [];
+      const fn = (key: string, value: string) => {
+        key = valueMap[key] || key;
+        styles.push(`${kebabCase(key)}: ${value};`);
+      };
+      Object.keys(statusMap[status]).forEach(key => {
+        if (key !== '$$id') {
           const style = statusMap[status][key];
           if (typeof style === 'object') {
             // 圆角特殊处理
@@ -201,20 +174,19 @@ export function formatStyle(
               fn(
                 'border-radius',
                 [
-                  style['top-left-border-radius'],
-                  style['top-right-border-radius'],
-                  style['bottom-right-border-radius'],
-                  style['bottom-left-border-radius']
+                  style['top-left-border-radius'] || 0,
+                  style['top-right-border-radius'] || 0,
+                  style['bottom-right-border-radius'] || 0,
+                  style['bottom-left-border-radius'] || 0
                 ].join(' ')
               );
             } else {
-              for (let k in style) {
-                if (k === '$$id') {
-                  continue;
+              Object.keys(style).forEach(k => {
+                if (k !== '$$id') {
+                  const value = style[k];
+                  value && fn(k, value);
                 }
-                const value = style[k];
-                value && fn(k, value);
-              }
+              });
             }
           } else {
             const value = style;
@@ -231,25 +203,25 @@ export function formatStyle(
             }
           }
         }
-        if (styles.length > 0) {
-          const cx = (weights?.pre || '') + className + (weights?.suf || '');
-          const inner = weights?.inner || '';
-          res.push({
-            className: cx + status2string[status] + inner,
-            content: `.${cx + status2string[status]} ${inner}{\n  ${styles.join(
-              '\n  '
-            )}\n}`
-          });
-          // TODO:切换状态暂时先不改变组件的样式
-          // if (['hover', 'active', 'disabled'].includes(status)) {
-          //   res.push({
-          //     className: cx + '.' + status,
-          //     content: `.${cx}.${status} {\n  ${styles.join('\n  ')}\n}`
-          //   });
-          // }
-        }
+      });
+      if (styles.length > 0) {
+        const cx = (weights?.pre || '') + className + (weights?.suf || '');
+        const inner = weights?.inner || '';
+        res.push({
+          className: cx + status2string[status] + inner,
+          content: `.${cx + status2string[status]} ${inner}{\n  ${styles.join(
+            '\n  '
+          )}\n}`
+        });
+        // TODO:切换状态暂时先不改变组件的样式
+        // if (['hover', 'active', 'disabled'].includes(status)) {
+        //   res.push({
+        //     className: cx + '.' + status,
+        //     content: `.${cx}.${status} {\n  ${styles.join('\n  ')}\n}`
+        //   });
+        // }
       }
-    }
+    });
   }
   return {
     value: res.map(n => n.content).join('\n'),
@@ -259,7 +231,6 @@ export function formatStyle(
 
 export interface CustomStyleClassName {
   key: string;
-  value?: string;
   weights?: {
     default?: extra;
     hover?: extra;
@@ -269,11 +240,12 @@ export interface CustomStyleClassName {
 }
 
 export function insertCustomStyle(
-  themeCss?: any,
-  classNames?: CustomStyleClassName[],
-  id?: string,
+  themeCss: any,
+  classNames: CustomStyleClassName[],
+  id: string,
   defaultData?: any,
-  customStyleClassPrefix?: string
+  customStyleClassPrefix?: string,
+  doc?: Document
 ) {
   if (!themeCss) {
     return;
@@ -284,7 +256,7 @@ export function insertCustomStyle(
     value = customStyleClassPrefix
       ? `${customStyleClassPrefix} ${value}`
       : value;
-    insertStyle(value, id?.replace('u:', '') || uuid());
+    insertStyle(value, id.replace('u:', ''), doc);
   }
 }
 
@@ -309,11 +281,8 @@ export function getValueByPath(path: string, data: any) {
 
 // 递归处理嵌套的样式，转化成一维对象
 function traverseStyle(style: any, path: string, result: any) {
-  for (let key in style) {
-    if (style.hasOwnProperty(key)) {
-      if (key === '$$id') {
-        continue;
-      }
+  Object.keys(style).forEach(key => {
+    if (key !== '$$id') {
       if (isObject(style[key])) {
         const nowPath = path ? `${path} ${key}` : key;
         traverseStyle(style[key], nowPath, result);
@@ -325,97 +294,95 @@ function traverseStyle(style: any, path: string, result: any) {
         result[path][key] = style[key];
       }
     }
-  }
+  });
 }
 
 /**
  * 设置源码编辑自定义样式
  */
-export function insertEditCustomStyle(customStyle: any, id?: string) {
+export function insertEditCustomStyle(
+  customStyle: any,
+  id?: string,
+  doc?: Document
+) {
   let styles: any = {};
   traverseStyle(customStyle, '', styles);
 
   let content = '';
   if (!isEmpty(styles)) {
     const className = `wrapperCustomStyle-${id?.replace('u:', '')}`;
-    for (let key in styles) {
-      if (styles.hasOwnProperty(key)) {
-        if (!isObject(styles[key])) {
-          content += `\n.${className} {\n  ${key}: ${styles[key]}\n}`;
-        } else if (key === 'root') {
-          const res = map(styles[key], (value, key) => `${key}: ${value};`);
-          content += `\n.${className} {\n  ${res.join('\n  ')}\n}`;
-        } else if (/^root:/.test(key)) {
-          const res = map(styles[key], (value, key) => `${key}: ${value};`);
-          const nowKey = key.replace('root', '');
-          content += `\n.${className} ${nowKey} {\n  ${res.join('\n  ')}\n}`;
-        } else {
-          const res = map(styles[key], (value, key) => `${key}: ${value};`);
-          content += `\n.${className} ${key} {\n  ${res.join('\n  ')}\n}`;
-        }
+    Object.keys(styles).forEach((key: string) => {
+      if (!isObject(styles[key])) {
+        content += `\n.${className} {\n  ${key}: ${styles[key]}\n}`;
+      } else if (key === 'root') {
+        const res = map(styles[key], (value, key) => `${key}: ${value};`);
+        content += `\n.${className} {\n  ${res.join('\n  ')}\n}`;
+      } else if (/^root:/.test(key)) {
+        const res = map(styles[key], (value, key) => `${key}: ${value};`);
+        const nowKey = key.replace('root', '');
+        content += `\n.${className} ${nowKey} {\n  ${res.join('\n  ')}\n}`;
+      } else {
+        const res = map(styles[key], (value, key) => `${key}: ${value};`);
+        content += `\n.${className} ${key} {\n  ${res.join('\n  ')}\n}`;
       }
-    }
+    });
   }
   insertStyle(
     content,
-    'wrapperCustomStyle-' + (id?.replace('u:', '') || uuid())
+    'wrapperCustomStyle-' + (id?.replace('u:', '') || uuid()),
+    doc
   );
 }
 
 export interface InsertCustomStyle {
-  themeCss?: any;
-  classNames?: CustomStyleClassName[];
+  themeCss: any;
+  classNames: CustomStyleClassName[];
   id?: string;
   defaultData?: any;
   customStyleClassPrefix?: string;
+  doc?: Document;
 }
 
-export class StyleDom {
-  id: string;
-  constructor(id: string) {
-    this.id = id;
+/**
+ * 移除自定义样式
+ */
+export function removeCustomStyle(type: string, id: string, doc?: Document) {
+  const style = (doc || document).getElementById(
+    'amis-' + (type ? type + '-' : '') + id.replace('u:', '')
+  );
+  if (style) {
+    style.remove();
   }
-  /**
-   * 插入自定义样式
-   *
-   * @param {InsertCustomStyle} params - 插入自定义样式的参数
-   * @param {string} params.themeCss - 主题样式
-   * @param {string} params.classNames - 自定义样式类名
-   * @param {string} params.defaultData - 默认数据
-   * @param {string} params.customStyleClassPrefix - 自定义样式类名前缀
-   */
-  insertCustomStyle({
-    themeCss,
-    classNames,
-    defaultData,
-    customStyleClassPrefix
-  }: InsertCustomStyle) {
-    insertCustomStyle(
-      themeCss,
-      classNames,
-      this.id,
-      defaultData,
-      customStyleClassPrefix
-    );
+}
+
+export function formatInputThemeCss(themeCss: any) {
+  if (!themeCss) {
+    return;
+  }
+  const inputFontThemeCss: any = {inputControlClassName: {}};
+  const inputControlClassNameObject = themeCss?.inputControlClassName || {};
+  Object.keys(inputControlClassNameObject).forEach((key: string) => {
+    if (~key.indexOf('font')) {
+      inputFontThemeCss.inputControlClassName[key] =
+        inputControlClassNameObject[key];
+    }
+  });
+  return inputFontThemeCss;
+}
+
+export function setThemeClassName(
+  name: string,
+  id?: string,
+  themeCss?: any,
+  extra?: string
+) {
+  if (!id || !themeCss) {
+    return '';
   }
 
-  /**
-   * 插入外层自定义样式
-   *
-   * @param wrapperCustomStyle 自定义样式
-   */
-  insertEditCustomStyle(wrapperCustomStyle: any) {
-    insertEditCustomStyle(wrapperCustomStyle, this.id);
+  if (name !== 'wrapperCustomStyle' && !themeCss[name]) {
+    return '';
   }
-  /**
-   * 移除自定义样式
-   */
-  removeCustomStyle(type?: string) {
-    const style = document.getElementById(
-      (type ? type + '-' : '') + this.id.replace('u:', '')
-    );
-    if (style) {
-      style.remove();
-    }
-  }
+
+  return `${name}-${id.replace('u:', '')}` + (extra ? `-${extra}` : '');
 }

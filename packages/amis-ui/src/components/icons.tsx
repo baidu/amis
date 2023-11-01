@@ -287,25 +287,26 @@ export function Icon({
     });
   }
 
-  // 从css变量中获取icon
-  function refFn(dom: any) {
-    if (dom) {
-      const domStyle = getComputedStyle(dom);
-      const svgStr = domStyle.getPropertyValue('content');
-      const svg = /(<svg.*<\/svg>)/.exec(svgStr);
+  if (iconContent) {
+    // 从css变量中获取icon
+    const refFn = function (dom: any) {
+      if (dom) {
+        const domStyle = getComputedStyle(dom);
+        const svgStr = domStyle.getPropertyValue('content');
+        const svg = /(<svg.*<\/svg>)/.exec(svgStr);
 
-      if (svg) {
-        const svgHTML = svg[0].replace(/\\"/g, '"');
-        if (dom.svgHTMLClone !== svgHTML) {
-          dom.innerHTML = svgHTML;
-          // 存储svg，不直接用innerHTML是防止<circle />渲染后变成<circle></circle>的情况
-          dom.svgHTMLClone = svgHTML;
-          dom.style.display = '';
+        if (svg) {
+          const svgHTML = svg[0].replace(/\\"/g, '"');
+          if (dom.svgHTMLClone !== svgHTML) {
+            dom.innerHTML = svgHTML;
+            // 存储svg，不直接用innerHTML是防止<circle />渲染后变成<circle></circle>的情况
+            dom.svgHTMLClone = svgHTML;
+            dom.style.display = '';
+          }
         }
       }
-    }
-  }
-  if (iconContent) {
+    };
+
     return (
       <div
         onClick={onClick}

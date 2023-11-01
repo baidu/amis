@@ -19,7 +19,7 @@ class EventQueue {
 
   call(type: EventType, ...args: any[]) {
     this.q.forEach(item => {
-      if (item.type === type || type === 'both') {
+      if (item.type === type || item.type === 'both' || type === 'both') {
         item.fn.apply(null, args);
       }
     });

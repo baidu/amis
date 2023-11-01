@@ -230,6 +230,110 @@ order: 15
 }
 ```
 
+## 数据处理函数
+
+> `3.5.0`及以上版本
+
+默认情况下，日期范围选择器组件的绑定值的开始时间为所选时间当天的0点（使用`moment().startOf('day')`处理），结束时间为所选时间当天的23时59分59秒999毫秒（使用`moment().endOf('day')`处理）。如果设置了`timeFormat`（时间格式），则会基于`timeFormat`配置决定**最小时间单位**，举例：
+
+- 不设置`timeFormat`（时间格式），默认按照天(day)级处理：
+
+    ```typescript
+    moment().startOf('day');  // 2008-08-08 00:00:00.000
+    moment().endOf('day');    // 2008-08-08 23:59:59.999
+    ```
+
+- `timeFormat`（时间格式）为 `"HH:mm:ss"`，则会按照秒(second)级处理：
+
+    ```typescript
+    moment().startOf('second');  // 2008-08-08 08:08:08.000
+    moment().endOf('second');    // 2008-08-08 08:08:08.999
+    ```
+
+- `timeFormat`（时间格式）为 `"HH:mm"`，则会按照分钟(minute)级处理：
+
+    ```typescript
+    moment().startOf('minute');  // 2008-08-08 08:08:00.000
+    moment().endOf('minute');    // 2008-08-08 08:08:59.999
+    ```
+
+- `timeFormat`（时间格式）为 `"HH"`，则会按照小时(hour)级处理：
+
+    ```typescript
+    moment().startOf('hour');  // 2008-08-08 08:00:00.000
+    moment().endOf('hour');    // 2008-08-08 08:59:59.999
+    ```
+
+部分情况下，即使配置`timeFormat`也无法满足需求，此时可以使用`transform`函数对时间值做进一步处理, 函数签名如下：
+
+```typescript
+interface TransFormFunc {
+    (
+        /* 当前值，Moment对象 */
+        value: moment.Moment,
+        config: {
+            /* 操作类型，start：起始时间；end：结束时间 */
+            type: 'start' | 'end';
+            /* 初始值，最近一次选择的时间值 */
+            originValue: moment.Moment,
+            /* 时间格式 */
+            timeFormat: string
+        },
+        /* 当前组件的属性 */
+        props: any,
+        /* 当前组件数据域 */
+        data: any,
+        /* moment函数 */
+        moment: moment
+    ): moment.Moment;
+}
+```
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-date-range",
+            "name": "range1",
+            "label": "日期范围（默认）",
+            "valueFormat": "YYYY-MM-DDTHH:mm:ss[Z]"
+        },
+        {
+            "type": "input-date-range",
+            "name": "range2",
+            "label": "日期范围（使用transform函数）",
+            "valueFormat": "YYYY-MM-DDTHH:mm:ss[Z]",
+            "transform": "const now = moment(); if (config.type === 'end') {value.set({hours: now.hours(), minutes: now.minutes(), seconds: now.seconds(), milliseconds: now.milliseconds()})}; return value;"
+        }
+    ]
+}
+```
+
+上面的示例使用 `transform` 函数，将结束时间的值设置为当前时间
+
+```typescript
+function transform(value, config, props, data) {
+    const now = moment();
+
+    if (config.type === 'end') {
+        value.set({
+            hours: now.hours(),
+            minutes: now.minutes(),
+            seconds: now.seconds(),
+            milliseconds: now.milliseconds()
+        });
+    }
+
+    return value;
+}
+```
+
+
+
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -249,6 +353,9 @@ order: 15
 | embed         | `boolean`                                                                          | `false`                                                         | 是否内联模式                                                                 |
 | animation     | `boolean`                                                                          | `true`                                                          | 是否启用游标动画                                                             | `2.2.0`                 |
 | extraName     | `string`                                                                           |                                                                 | 是否存成两个字段                                                             | `3.3.0`                 |
+| transform     | `string`                                                                           |                                                                 | 日期数据处理函数，用来处理选择日期之后的的值，返回值为 `Moment`对象                                                             | `3.5.0`                 |
+
+
 
 ## 事件表
 

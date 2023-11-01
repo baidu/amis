@@ -616,7 +616,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         this.gotoStep(this.state.currentStep + 1);
       })
       .catch(e => {
-        env.notify('error', e.message);
+        !finnalAsyncApi.silent && env.notify('error', e.message);
         store.markSaving(false);
       });
   }
@@ -683,7 +683,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
           const reidrect =
             action.redirect && filter(action.redirect, store.data);
-          reidrect && env.jumpTo(reidrect, action);
+          reidrect && env.jumpTo(reidrect, action, store.data);
 
           action.reload &&
             this.reloadTarget(
@@ -908,7 +908,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             filter(action.redirect || step.redirect || redirect, store.data);
 
           if (finalRedirect) {
-            env.jumpTo(finalRedirect, action);
+            env.jumpTo(finalRedirect, action, store.data);
           } else if (action.reload || step.reload || reload) {
             this.reloadTarget(
               filterTarget(action.reload || step.reload || reload!, store.data),
@@ -931,7 +931,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         filter(action.redirect || step.redirect || redirect, store.data);
 
       if (finalRedirect) {
-        env.jumpTo(finalRedirect, action);
+        env.jumpTo(finalRedirect, action, store.data);
       } else if (action.reload || step.reload || reload) {
         this.reloadTarget(
           filterTarget(action.reload || step.reload || reload!, store.data),
@@ -1117,6 +1117,9 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           {step.actions.map((action, index) =>
             render(`action/${index}`, action, {
               key: index,
+              data: createObject(this.props.data, {
+                currentStep: currentStepIndex
+              }),
               onAction: this.handleAction,
               disabled:
                 action.disabled ||
@@ -1140,11 +1143,13 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             type: 'button',
             label: __(actionPrevLabel),
             actionType: 'prev',
-            className: actionClassName
+            className: actionClassName,
+            hiddenOn: '${currentStep === 1}'
           },
           {
             disabled: waiting || !prevCanJump || disabled,
-            onAction: this.handleAction
+            onAction: this.handleAction,
+            data: createObject(this.props.data, {currentStep: currentStepIndex})
           }
         )}
 

@@ -328,9 +328,6 @@
 
   &-vertical.#{$ns}Nav-Menu-sub {
     min-width: 160px;
-    border-radius: 2px;
-    box-shadow: 0 4px 5px 0 rgba(21, 26, 38, 0.06),
-      0 1px 10px 0 rgba(21, 26, 38, 0.05), 0 2px 4px -1px rgba(21, 26, 38, 0.04);
   }
 
   &-item,
@@ -436,6 +433,12 @@
       background-color: var(--Layout-light-backgroundColor);
       line-height: var(--Nav-Item-height);
       cursor: pointer;
+      border-radius: 2px;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: 0 4px 5px 0 rgba(21, 26, 38, 0.06),
+        0 1px 10px 0 rgba(21, 26, 38, 0.05),
+        0 2px 4px -1px rgba(21, 26, 38, 0.04);
 
       // 横向收纳模式且有子菜单项的情况下 会显示2个展开箭头
       // 用css隐藏1个 自适应收纳的情况下 判断不出是子菜单项还是收纳项

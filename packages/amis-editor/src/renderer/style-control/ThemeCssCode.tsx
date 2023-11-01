@@ -94,27 +94,30 @@ function ThemeCssCode(props: FormControlProps) {
   }
 
   // 递归获取自定义样式
-  function getStyle(style: any, newStyle: PlainObject) {
+  function getStyle(style: any): PlainObject {
+    const newStyle: PlainObject = {};
     if (isEmpty(style)) {
-      return;
+      return newStyle;
     }
     style.nodes.forEach((node: any) => {
       const {prop, value, selector} = node;
       if (value) {
         newStyle[prop] = value;
+        if (node.important) {
+          newStyle[prop] += ' !important';
+        }
       }
       if (node.nodes) {
-        !newStyle[selector] && (newStyle[selector] = {});
-        getStyle(node, newStyle[selector]);
+        newStyle[selector] = getStyle(node);
       }
     });
+    return newStyle;
   }
 
   const editorChange = debounce((value: string) => {
-    const newStyle: PlainObject = {};
     try {
       const style = cssParse(value);
-      getStyle(style, newStyle);
+      const newStyle: PlainObject = getStyle(style);
       onBulkChange &&
         onBulkChange({
           wrapperCustomStyle: newStyle
@@ -138,6 +141,7 @@ function ThemeCssCode(props: FormControlProps) {
         </a>
         <div className="ThemeCssCode-editor-wrap" style={{height: '180px'}}>
           <Editor
+            className="ThemeCssCode-custom-editor"
             value={value}
             placeholder={editorPlaceholder}
             language="scss"

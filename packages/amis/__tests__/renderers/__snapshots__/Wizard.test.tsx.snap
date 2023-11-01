@@ -55,7 +55,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -99,7 +98,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -247,7 +245,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -291,7 +288,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -389,14 +385,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
         class="cxd-Wizard-footer cxd-Panel-footer"
         role="wizard-footer"
       >
-        <div
-          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled btn-lg btn-primary"
-          disabled=""
-        >
-          <span>
-            PrevStep
-          </span>
-        </div>
         <button
           class="cxd-Button cxd-Button--primary cxd-Button--size-default btn-lg btn-primary"
           type="button"
@@ -666,7 +654,6 @@ exports[`Renderer:Wizard dialog 1`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -710,7 +697,6 @@ exports[`Renderer:Wizard dialog 1`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -821,14 +807,6 @@ exports[`Renderer:Wizard dialog 1`] = `
                 class="cxd-Wizard-footer cxd-Panel-footer"
                 role="wizard-footer"
               >
-                <div
-                  class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
-                  disabled=""
-                >
-                  <span>
-                    上一步
-                  </span>
-                </div>
                 <button
                   class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="button"
@@ -1055,7 +1033,6 @@ exports[`Renderer:Wizard dialog 2`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -1099,7 +1076,6 @@ exports[`Renderer:Wizard dialog 2`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -1210,14 +1186,6 @@ exports[`Renderer:Wizard dialog 2`] = `
                 class="cxd-Wizard-footer cxd-Panel-footer"
                 role="wizard-footer"
               >
-                <div
-                  class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
-                  disabled=""
-                >
-                  <span>
-                    上一步
-                  </span>
-                </div>
                 <button
                   class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="button"
@@ -1327,7 +1295,6 @@ exports[`Renderer:Wizard initApi default 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -1371,7 +1338,6 @@ exports[`Renderer:Wizard initApi default 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -1415,7 +1381,6 @@ exports[`Renderer:Wizard initApi default 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -1523,14 +1488,6 @@ exports[`Renderer:Wizard initApi default 1`] = `
         class="cxd-Wizard-footer cxd-Panel-footer"
         role="wizard-footer"
       >
-        <div
-          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
-          disabled=""
-        >
-          <span>
-            上一步
-          </span>
-        </div>
         <button
           class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
@@ -1660,7 +1617,6 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -1704,7 +1660,6 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -1802,14 +1757,6 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                 class="cxd-Wizard-footer cxd-Panel-footer"
                 role="wizard-footer"
               >
-                <div
-                  class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
-                  disabled=""
-                >
-                  <span>
-                    上一步
-                  </span>
-                </div>
                 <button
                   class="cxd-Button cxd-Button--primary cxd-Button--size-default"
                   type="button"
@@ -1935,7 +1882,6 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -1979,7 +1925,6 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -2147,7 +2092,6 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -2191,7 +2135,6 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -2417,7 +2360,6 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -2461,7 +2403,6 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -2505,7 +2446,6 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -2613,14 +2553,6 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
         class="cxd-Wizard-footer cxd-Panel-footer"
         role="wizard-footer"
       >
-        <div
-          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
-          disabled=""
-        >
-          <span>
-            上一步
-          </span>
-        </div>
         <button
           class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"
@@ -2871,7 +2803,6 @@ exports[`Renderer:Wizard send data 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -2915,7 +2846,6 @@ exports[`Renderer:Wizard send data 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -3066,7 +2996,6 @@ exports[`Renderer:Wizard step initApi 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -3110,7 +3039,6 @@ exports[`Renderer:Wizard step initApi 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -3154,7 +3082,6 @@ exports[`Renderer:Wizard step initApi 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -3418,7 +3345,6 @@ exports[`Renderer:Wizard target 1`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -3462,7 +3388,6 @@ exports[`Renderer:Wizard target 1`] = `
                           </div>
                           <div
                             class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                            title="undefined"
                           >
                             <span />
                           </div>
@@ -3557,7 +3482,6 @@ exports[`Renderer:Wizard target 1`] = `
           </div>
           <div
             class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-            style="position: relative;"
           >
             <div
               class="cxd-Panel-heading"
@@ -3673,45 +3597,6 @@ exports[`Renderer:Wizard target 1`] = `
                 </button>
               </div>
             </div>
-            <div
-              class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-  
-              <div
-                class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-    
-                <div
-                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-    
-                <div
-                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -3772,7 +3657,6 @@ exports[`Renderer:Wizard validate 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -3816,7 +3700,6 @@ exports[`Renderer:Wizard validate 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -3860,7 +3743,6 @@ exports[`Renderer:Wizard validate 1`] = `
                   </div>
                   <div
                     class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                    title="undefined"
                   >
                     <span />
                   </div>
@@ -3982,14 +3864,6 @@ exports[`Renderer:Wizard validate 1`] = `
         class="cxd-Wizard-footer cxd-Panel-footer"
         role="wizard-footer"
       >
-        <div
-          class="cxd-Button cxd-Button--default cxd-Button--size-default is-disabled"
-          disabled=""
-        >
-          <span>
-            上一步
-          </span>
-        </div>
         <button
           class="cxd-Button cxd-Button--primary cxd-Button--size-default"
           type="button"

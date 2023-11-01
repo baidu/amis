@@ -13,7 +13,16 @@ import {EditorNodeContext, EditorNodeType} from '../store/node';
 import {EditorManager} from '../manager';
 import flatten from 'lodash/flatten';
 import {render as reactRender, unmountComponentAtNode} from 'react-dom';
-import {autobind, diff, getThemeConfig} from '../util';
+import {
+  autobind,
+  diff,
+  getThemeConfig,
+  JSONGetById,
+  JSONPipeIn,
+  JSONPipeOut,
+  JSONUpdate,
+  getFixDialogType
+} from '../util';
 import {createObject, createObjectFromChain} from 'amis-core';
 import {CommonConfigWrapper} from './CommonConfigWrapper';
 import type {Schema} from 'amis';
@@ -66,9 +75,12 @@ export function makeWrapper(
         isCommonConfig: !!this.props.$$commonSchema,
         path: this.props.$path,
         schemaPath: info.schemaPath,
+        dialogTitle: info.dialogTitle,
+        dialogType: info.dialogType,
         info,
         getData: () => this.props.data
       });
+
       this.editorNode!.setRendererConfig(rendererConfig);
 
       // 查找父数据域，将当前组件数据域追加上去，使其形成父子关系
@@ -215,6 +227,180 @@ export function makeWrapper(
   return Wrapper as any;
 }
 
+// 将之前选择的弹窗和本次现有弹窗schema替换为$ref引用
+
+/**
+ * 将之前选择的弹窗和本次现有弹窗schema替换为$ref引用
+ * @param schema
+ * @param dialogId 选择弹窗的id
+ * @param dialogRefsName
+ */
+function replaceDialogtoRef(
+  schema: Schema,
+  dialogId: string,
+  dialogRefsName: string
+) {
+  let replacedSchema = null;
+  const dialog = JSONGetById(schema, dialogId);
+  if (dialog) {
+    replacedSchema = JSONUpdate(schema, dialogId, {$ref: dialogRefsName}, true);
+  }
+  return replacedSchema;
+}
+
+// 添加definitions
+function addDefinitions(
+  schema: Schema,
+  definitions: Schema,
+  dialogMaxIndex: number,
+  selectDialog: any
+) {
+  let newSchema;
+  let dialogRefsName = '';
+  if (dialogMaxIndex) {
+    Object.keys(definitions).forEach(ref => {
+      const dialog = definitions[ref];
+      if (dialog.$$id === selectDialog) {
+        dialogRefsName = ref;
+      }
+    });
+  }
+  let dialogType = getFixDialogType(schema, selectDialog);
+  let newDefinitions = {...definitions};
+  if (!dialogRefsName) {
+    dialogRefsName = dialogMaxIndex
+      ? `${dialogType}-ref-${dialogMaxIndex + 1}`
+      : `${dialogType}-ref-1`;
+  }
+  let dialogBody = JSONGetById(schema, selectDialog);
+  // 防止definition被查找到替换为$ref重新生成一下
+  newDefinitions[dialogRefsName] = JSONPipeIn(
+    JSONPipeOut({
+      ...dialogBody,
+      type: dialogType
+    })
+  );
+  newSchema = {
+    ...schema,
+    definitions: newDefinitions
+  };
+  return {
+    dialogRefsName,
+    newSchema
+  };
+}
+
+// 选择现有弹窗后definitions设置和弹窗schema的同步
+function currentDialogOnchagne(
+  manager: EditorManager,
+  diffs: any,
+  newValue?: any
+) {
+  const {store} = manager;
+  let schema = store.schema;
+  let definitions = schema.definitions || {};
+  let dialogMaxIndex: number = 0;
+  Object.keys(definitions).forEach(k => {
+    if (k.includes('ref-')) {
+      let index = Number(k.split('-')[2]);
+      dialogMaxIndex = Math.max(dialogMaxIndex, index);
+    }
+  });
+  if (diffs?.length) {
+    let replacedSchema = null;
+    let editRefsName = '';
+    for (const diff of diffs) {
+      const {path, kind, item, rhs} = diff;
+      // 添加选择现有弹窗事件
+      if (
+        kind === 'A' &&
+        path.length > 1 &&
+        path?.[path.length - 1] === 'actions' &&
+        item.kind === 'N' &&
+        item.rhs?.__selectDialog
+      ) {
+        const {newSchema, dialogRefsName} = addDefinitions(
+          schema,
+          definitions,
+          dialogMaxIndex,
+          item.rhs?.__selectDialog
+        );
+        replacedSchema = replaceDialogtoRef(
+          newSchema,
+          item.rhs?.__selectDialog,
+          dialogRefsName
+        );
+        if (item.rhs?.__relatedDialogId) {
+          replacedSchema = replaceDialogtoRef(
+            replacedSchema,
+            item.rhs?.__relatedDialogId,
+            dialogRefsName
+          );
+        }
+        return replacedSchema;
+      }
+      // 编辑弹窗,从新建弹窗切换到现有弹窗,原始弹窗id
+      else if (
+        kind === 'N' &&
+        path?.length > 1 &&
+        path?.[path.length - 1] === '__selectDialog'
+      ) {
+        const {newSchema, dialogRefsName} = addDefinitions(
+          schema,
+          definitions,
+          dialogMaxIndex,
+          rhs
+        );
+        editRefsName = dialogRefsName;
+        replacedSchema = replaceDialogtoRef(newSchema, rhs, dialogRefsName);
+      }
+      // 编辑弹窗,从新建弹窗切换到现有弹窗,新生成弹窗id
+      else if (
+        kind === 'N' &&
+        path?.length > 1 &&
+        path?.[path.length - 1] === '__relatedDialogId'
+      ) {
+        replacedSchema = replaceDialogtoRef(
+          replacedSchema!,
+          rhs,
+          editRefsName!
+        );
+        return replacedSchema;
+      }
+      // 编辑弹窗,选择了其他现有弹窗，原始弹窗id
+      else if (
+        kind === 'E' &&
+        path?.length > 1 &&
+        path?.[path.length - 1] === '__selectDialog'
+      ) {
+        const {newSchema, dialogRefsName} = addDefinitions(
+          schema,
+          definitions,
+          dialogMaxIndex,
+          rhs
+        );
+        editRefsName = dialogRefsName;
+        replacedSchema = replaceDialogtoRef(newSchema, rhs, dialogRefsName);
+      }
+      // 编辑弹窗,选择了其他现有弹窗，新生成弹窗id
+      else if (
+        kind === 'E' &&
+        path?.length > 1 &&
+        path?.[path.length - 1] === '__relatedDialogId'
+      ) {
+        replacedSchema = replaceDialogtoRef(
+          replacedSchema!,
+          rhs,
+          editRefsName!
+        );
+        return replacedSchema;
+      }
+    }
+    return replacedSchema;
+  }
+  return null;
+}
+
 function SchemaFrom({
   propKey,
   body,
@@ -314,6 +500,23 @@ function SchemaFrom({
         newValue = pipeOut ? await pipeOut(newValue) : newValue;
         const diffValue = diff(value, newValue);
         onChange(newValue, diffValue);
+
+        // 如果是选择现有弹窗，需要提取Definitions，在这里一起做变更
+        const store = manager.store;
+        const schema = store.schema;
+        let newSchema = currentDialogOnchagne(manager, diffValue, newValue);
+        if (newSchema) {
+          const schemaDiff = diff(schema, newSchema);
+          store.definitionOnchangeValue(newSchema, schemaDiff);
+        }
+        // 添加弹窗事件后自动选中弹窗
+        if (store.activeDialogPath) {
+          let activeId = store.getSchemaByPath(
+            store.activeDialogPath.split('/')
+          )?.$$id;
+          activeId && store.setPreviewDialogId(activeId);
+          store.setActiveDialogPath('');
+        }
       },
       data: createObjectFromChain([ctx, themeConfig, finalValue]),
       node: node,

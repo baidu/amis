@@ -290,7 +290,8 @@ export class Log extends React.Component<LogProps, LogState> {
         }
       }
     } else {
-      env.notify('error', api?.messages?.failed ?? __('fetchFailed'));
+      !api.silent &&
+        env.notify('error', api?.messages?.failed ?? __('fetchFailed'));
     }
   }
 

@@ -11,7 +11,7 @@ import {
   render as amisRender
 } from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
-import {FormControlProps, autobind, findTree} from 'amis-core';
+import {FormControlProps, Schema, autobind, findTree} from 'amis-core';
 import ActionDialog from './action-config-dialog';
 import {
   findActionNode,
@@ -35,7 +35,9 @@ import {
   PluginEvents,
   RendererPluginAction,
   RendererPluginEvent,
-  SubRendererPluginAction
+  SubRendererPluginAction,
+  getDialogActions,
+  getFixDialogType
 } from 'amis-editor-core';
 export * from './helper';
 import {i18n as _i18n} from 'i18n-runtime';
@@ -59,7 +61,12 @@ interface EventControlProps extends FormControlProps {
   getComponents: (action: any) => ComponentInfo[]; // 当前页面组件树
   getContextSchemas?: (id?: string, withoutSuper?: boolean) => DataSchema; // 获取上下文
   actionConfigInitFormatter?: (actionConfig: ActionConfig) => ActionConfig; // 动作配置初始化时格式化
-  actionConfigSubmitFormatter?: (actionConfig: ActionConfig) => ActionConfig; // 动作配置提交时格式化
+  actionConfigSubmitFormatter?: (
+    actionConfig: ActionConfig,
+    type?: string,
+    actionData?: ActionData,
+    schema?: Schema
+  ) => ActionConfig; // 动作配置提交时格式化
   owner?: string; // 组件标识
 }
 
@@ -74,6 +81,23 @@ interface EventDialogData {
   [propName: string]: any;
 }
 
+export interface ActionData {
+  eventKey: string;
+  actionIndex?: number;
+  action?: ActionConfig;
+  variables?: ContextVariables[];
+  pluginActions: PluginActions;
+  getContextSchemas?: (id?: string, withoutSuper?: boolean) => DataSchema;
+  groupType?: string;
+  __actionDesc?: string;
+  __cmptTreeSource?: ComponentInfo[];
+  __superCmptTreeSource?: ComponentInfo[];
+  __actionSchema?: any;
+  __subActions?: SubRendererPluginAction[];
+  __setValueDs?: any[];
+  [propName: string]: any;
+}
+
 interface EventControlState {
   onEvent: ActionEventConfig;
   events: RendererPluginEvent[];
@@ -83,26 +107,16 @@ interface EventControlState {
   showAcionDialog: boolean;
   showEventDialog: boolean;
   eventDialogData?: EventDialogData;
-  actionData:
-    | {
-        eventKey: string;
-        actionIndex?: number;
-        action?: ActionConfig;
-        variables?: ContextVariables[];
-        pluginActions: PluginActions;
-        getContextSchemas?: (id?: string, withoutSuper?: boolean) => DataSchema;
-        groupType?: string;
-        __actionDesc?: string;
-        __cmptTreeSource?: ComponentInfo[];
-        __superCmptTreeSource?: ComponentInfo[];
-        __actionSchema?: any;
-        __subActions?: SubRendererPluginAction[];
-        __setValueDs?: any[];
-      }
-    | undefined;
+  actionData: ActionData | undefined;
   type: 'update' | 'add';
   appLocaleState?: number;
 }
+
+const dialogObjMap = {
+  dialog: 'dialog',
+  drawer: 'drawer',
+  confirmDialog: ['dialog', 'args']
+};
 
 export class EventControl extends React.Component<
   EventControlProps,
@@ -285,7 +299,7 @@ export class EventControl extends React.Component<
     if (config.actionType) {
       onEventConfig[event] = {
         ...onEventConfig[event],
-        actions: onEventConfig[event].actions.concat(config)
+        actions: (onEventConfig[event].actions || []).concat(config)
       };
     }
 
@@ -487,7 +501,7 @@ export class EventControl extends React.Component<
 
   destroyDragging() {
     Object.keys(this.eventPanelSortMap).forEach((key: string) => {
-      this.eventPanelSortMap[key]?.destroy();
+      this.eventPanelSortMap[key]?.el && this.eventPanelSortMap[key]?.destroy();
     });
   }
 
@@ -690,6 +704,26 @@ export class EventControl extends React.Component<
     return updateComponentContext(variables);
   }
 
+  // 获取现有弹窗列表
+  getDialogList(
+    manager: EditorManager,
+    action?: ActionConfig,
+    actionType?: keyof typeof dialogObjMap
+  ) {
+    if (
+      action &&
+      actionType &&
+      dialogObjMap[actionType] &&
+      !action?.args?.fromCurrentDialog
+    ) {
+      let dialogBodyContent = dialogObjMap[actionType];
+      let filterId = Array.isArray(dialogBodyContent)
+        ? action[dialogBodyContent[0]].id || action[dialogBodyContent[1]].id
+        : action[dialogBodyContent].id;
+      return getDialogActions(manager.store.schema, 'source', filterId);
+    } else return getDialogActions(manager.store.schema, 'source');
+  }
+
   // 唤起动作配置弹窗
   async activeActionDialog(
     data: Pick<EventControlState, 'showAcionDialog' | 'type' | 'actionData'>
@@ -740,6 +774,8 @@ export class EventControl extends React.Component<
         );
       }
 
+      const actionGroupType = actionConfig?.__actionType || action.actionType;
+
       data.actionData = {
         eventKey: data.actionData!.eventKey,
         actionIndex: data.actionData!.actionIndex,
@@ -747,16 +783,43 @@ export class EventControl extends React.Component<
         pluginActions,
         getContextSchemas,
         ...actionConfig,
-        groupType: actionConfig?.__actionType || action.actionType,
+        groupType: actionGroupType,
         __actionDesc: actionNode?.description ?? '', // 树节点描述
         __actionSchema: actionNode!.schema, // 树节点schema
         __subActions: hasSubActionNode?.actions, // 树节点子动作
         __cmptTreeSource: supportComponents ?? [],
+        __dialogActions: this.getDialogList(manager, action, actionGroupType),
         __superCmptTreeSource: allComponents,
         // __supersCmptTreeSource: '',
         __setValueDs: setValueDs
         // broadcastId: action.actionType === 'broadcast' ? action.eventName : ''
       };
+
+      // 编辑时准备已选的弹窗来源和标题
+      if (actionConfig?.actionType == 'openDialog') {
+        const definitions = manager.store.schema.definitions;
+        let dialogBody =
+          dialogObjMap[actionGroupType as keyof typeof dialogObjMap];
+        const dialogObj = Array.isArray(dialogBody)
+          ? dialogBody[0] || dialogBody[1]
+          : dialogBody;
+
+        const dialogRef = actionConfig?.[dialogObj!]?.$ref;
+
+        if (dialogRef) {
+          data.actionData!.__dialogTitle = definitions[dialogRef].title;
+        } else {
+          data.actionData!.__dialogTitle = actionConfig?.[dialogObj!]?.title;
+        }
+
+        if (actionConfig.args?.fromCurrentDialog) {
+          data.actionData!.__dialogSource = 'current';
+          data.actionData!.__selectDialog = definitions[dialogRef].$$id;
+        } else {
+          data.actionData!.__dialogSource = 'new';
+        }
+      }
+
       // 选中项自动滚动至可见位置
       setTimeout(
         () =>
@@ -771,7 +834,8 @@ export class EventControl extends React.Component<
         variables,
         pluginActions,
         getContextSchemas,
-        __superCmptTreeSource: allComponents
+        __superCmptTreeSource: allComponents,
+        __dialogActions: this.getDialogList(manager)
       };
     }
     this.setState(data);
@@ -819,15 +883,87 @@ export class EventControl extends React.Component<
     ) : null;
   }
 
+  getRefsFromCurrentDialog(store: any, action: any) {
+    let definitions = store.schema.definitions;
+    let dialogMaxIndex: number = 0;
+    let dialogRefsName = '';
+    if (definitions) {
+      Object.keys(definitions).forEach(k => {
+        const dialog = definitions[k];
+        if (dialog.$$id === action.__selectDialog) {
+          dialogRefsName = k;
+        }
+        if (k.includes('ref-')) {
+          let index = Number(k.split('-')[2]);
+          dialogMaxIndex = Math.max(dialogMaxIndex, index);
+        }
+      });
+    }
+    let dialogType = getFixDialogType(store.schema, action.__selectDialog);
+    if (!dialogRefsName) {
+      dialogRefsName = dialogMaxIndex
+        ? `${dialogType}-ref-${dialogMaxIndex + 1}`
+        : `${dialogType}-ref-1`;
+    }
+    return dialogRefsName;
+  }
+
   @autobind
   onSubmit(type: string, config: any) {
-    const {actionConfigSubmitFormatter} = this.props;
-    const action = actionConfigSubmitFormatter?.(config) ?? config;
+    const {actionConfigSubmitFormatter, manager} = this.props;
+    const {actionData} = this.state;
+    const store = manager.store;
+    const action =
+      actionConfigSubmitFormatter?.(config, type, actionData, store.schema) ??
+      config;
     delete action.__actionSchema;
     if (type === 'add') {
-      this.addAction?.(config.eventKey, action);
+      if (['dialog', 'drawer', 'confirmDialog'].includes(action.actionType)) {
+        let args =
+          action.actionType === 'dialog'
+            ? 'dialog'
+            : action.actionType === 'drawer'
+            ? 'drawer'
+            : 'dialog';
+
+        if (!config?.__dialogSource || config?.__dialogSource === 'new') {
+          let actionLength = this.state.onEvent[config.eventKey].actions.length;
+          let path = `${store.getSchemaPath(store.activeId)}/onEvent/${
+            config.eventKey
+          }/actions/${actionLength}/${args}`;
+          store.setActiveDialogPath(path);
+        } else if (config?.__dialogSource === 'current') {
+          let dialogRefsName = this.getRefsFromCurrentDialog(store, action);
+          let path = `definitions/${dialogRefsName}`;
+          store.setActiveDialogPath(path);
+        }
+        this.addAction?.(config.eventKey, action);
+      } else {
+        this.addAction?.(config.eventKey, action);
+      }
     } else if (type === 'update') {
-      this.updateAction?.(config.eventKey, config.actionIndex, action);
+      if (['dialog', 'drawer', 'confirmDialog'].includes(action.actionType)) {
+        let args =
+          action.actionType === 'dialog'
+            ? 'dialog'
+            : action.actionType === 'drawer'
+            ? 'drawer'
+            : 'dialog';
+
+        if (config.__dialogSource === 'new') {
+          let path = `${store.getSchemaPath(store.activeId)}/onEvent/${
+            config.eventKey
+          }/actions/${config.actionIndex}/${args}`;
+          store.setActiveDialogPath(path);
+        } else if (config.__dialogSource === 'current') {
+          let dialogRefsName = this.getRefsFromCurrentDialog(store, action);
+          let path = `definitions/${dialogRefsName}`;
+          store.setActiveDialogPath(path);
+        }
+        this.updateAction?.(config.eventKey, config.actionIndex, action);
+      } else {
+        this.updateAction?.(config.eventKey, config.actionIndex, action);
+      }
     }
 
     this.removeDataSchema();

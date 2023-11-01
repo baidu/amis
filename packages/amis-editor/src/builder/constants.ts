@@ -128,3 +128,7 @@ export const FormOperatorMap: Record<FormOperatorValue, FormOperator> = {
 };
 
 export const ModelDSBuilderKey = 'model-entity';
+
+export const ApiDSBuilderKey = 'api';
+
+export const ApiCenterDSBuilderKey = 'apicenter';

@@ -56,6 +56,10 @@ export const EditorNode = types
     w: 0,
     h: 0,
 
+    dialogTitle: '',
+
+    dialogType: '',
+
     children: types.optional(
       types.array(types.late((): IAnyModelType => EditorNode)),
       []
@@ -597,6 +601,8 @@ export const EditorNode = types
         getData?: () => any;
         preferTag?: string;
         schemaPath?: string;
+        dialogTitle?: string;
+        dialogType?: string;
         regionInfo?: RegionConfig;
         widthMutable?: boolean;
         memberIndex?: number;

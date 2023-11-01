@@ -211,15 +211,62 @@ order: 36
 }
 ```
 
+## 类FieldSet样式
+
+当Collapse组件作为Form组件的子元素时，`enableFieldSetStyle`属性可以控制Collapse组件样式风格，开启后转换为类似[FieldSet组件](./form/fieldset)的样式，默认开启。
+
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "switch",
+      "name": "enableFieldSetStyle",
+      "label": "切换展示方式",
+      "mode": "horizontal",
+      "value": true
+    },
+    {
+      "type": "collapse-group",
+      "activeKey": ["1"],
+      "enableFieldSetStyle": "${enableFieldSetStyle}",
+      "body": [
+        {
+          "type": "collapse",
+          "key": "1",
+          "header": "标题1",
+          "body": "这里是内容1"
+        },
+        {
+          "type": "collapse",
+          "key": "2",
+          "header": "标题2",
+          "body": "这里是内容2"
+        },
+        {
+          "type": "collapse",
+          "key": "3",
+          "header": "标题3",
+          "body": "这里是内容3"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## CollapseGroup 属性表
 
-| 属性名             | 类型                                                   | 默认值             | 说明                                |
-| ------------------ | ------------------------------------------------------ | ------------------ | ----------------------------------- |
+| 属性名             | 类型                                                   | 默认值             | 说明                                | 版本 |
+| ------------------ | ------------------------------------------------------ | ------------------ | ----------------------------------- | --- |
 | type               | `string`                                               | `"collapse-group"` | 指定为 collapse-group 渲染器        |
 | activeKey          | `Array<string \| number \| never> \| string \| number` | -                  | 初始化激活面板的 key                |
 | accordion          | `boolean`                                              | `false`            | 手风琴模式                          |
 | expandIcon         | `SchemaNode`                                           | -                  | 自定义切换图标                      |
 | expandIconPosition | `string`                                               | `"left"`           | 设置图标位置，可选值`left \| right` |
+| enableFieldSetStyle | `boolean`              | `true`       | 当Collapse作为Form组件的子元素时，开启该属性后组件样式设置为FieldSet组件的样式，默认开启           | `3.5.0` |
+
 
 ## CollapseGroup 事件表
 
@@ -297,8 +344,8 @@ order: 36
 
 ## Collapse 属性表
 
-| 属性名    | 类型                   | 默认值       | 说明                   |
-| --------- | ---------------------- | ------------ | ---------------------- |
+| 属性名    | 类型                   | 默认值       | 说明                   | 版本 |
+| --------- | ---------------------- | ------------ | ---------------------- | --- |
 | type      | `string`               | `"collapse"` | 指定为 collapse 渲染器 |
 | disabled  | `boolean`              | `false`      | 禁用                   |
 | collapsed | `boolean`              | `true`       | 初始状态是否折叠       |

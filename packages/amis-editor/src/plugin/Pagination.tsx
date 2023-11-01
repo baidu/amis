@@ -5,6 +5,7 @@ import {
   tipedLabel,
   defaultValue,
   getSchemaTpl,
+  RendererPluginEvent,
   registerEditorPlugin
 } from 'amis-editor-core';
 import sortBy from 'lodash/sortBy';
@@ -20,7 +21,7 @@ export class PaginationPlugin extends BasePlugin {
   name = '分页组件';
   isBaseComponent = true;
   description = '分页组件，可以对列表进行分页展示，提高页面性能';
-  tags = ['容器'];
+  tags = ['展示'];
   icon = 'fa fa-window-minimize';
   lastLayoutSetting = ['pager'];
   layoutOptions = [
@@ -46,6 +47,32 @@ export class PaginationPlugin extends BasePlugin {
     ...this.scaffold
   };
   panelTitle = '分页器';
+
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'change',
+      eventLabel: '值变化',
+      description: '输入内容变化',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'string',
+                  title: '当前页码值'
+                }
+              },
+              description: '当前数据域，可以通过.字段名读取对应的值'
+            }
+          }
+        }
+      ]
+    }
+  ];
 
   panelJustify = true;
 
@@ -122,13 +149,12 @@ export class PaginationPlugin extends BasePlugin {
                   {
                     type: 'checkbox',
                     name: 'checked',
-                    className: 'm-t-n-xxs',
-                    inputClassName: 'p-t-none'
+                    inputClassName: 'p-t-none mt-1.5'
                   },
                   {
                     type: 'tpl',
                     name: 'text',
-                    className: 'p-t-xs'
+                    className: 'inline-block pt-1.5'
                   }
                 ],
                 pipeIn: (value: any) => {

@@ -29,6 +29,10 @@ export class DrawerAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
+    // 防止editor preview模式下执行
+    if ((action as any).$$id !== undefined) {
+      return;
+    }
     renderer.props.onAction?.(
       event,
       {

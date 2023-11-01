@@ -242,6 +242,40 @@ order: 14
   }
   ```
 
+## 解析文件名称
+
+> `3.5.0`及以上版本
+
+文件解析成功后，可以使用`autoFill`属性，在当前组件所在的数据域中填充值，`input-excel`组件特有的保留字段请查看下方定义，`InputExcelData`中的字段可以用变量获取。通常可以利用这个属性为`input-excel`所在的表单追加文件名称。
+
+```typescript
+interface InputExcelData {
+  /* 文件名称 */
+  filename: string;
+}
+```
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-excel",
+            "name": "excel",
+            "label": "上传 Excel",
+            "autoFill": {
+              "operator": "amis",
+              "time": "${DATETOSTR(NOW(), 'YYYY-MM-DD HH:mm:ss')}",
+              "fileName": "${filename}"
+            }
+        }
+    ]
+}
+```
+
+
 ## 属性表
 
 | 属性名       | 类型                    | 默认值                          | 说明               | 版本    |
@@ -251,6 +285,7 @@ order: 14
 | includeEmpty | `boolean`               | true                            | 是否包含空值       |
 | plainText    | `boolean`               | true                            | 是否解析为纯文本   |
 | placeholder  | `string`                | `"拖拽 Excel 到这，或点击上传"` | 占位文本提示       | `2.8.1` |
+| autoFill  | `Record<string, string>`    |  | 自动填充       | `3.5.0` |
 
 ## 事件表
 

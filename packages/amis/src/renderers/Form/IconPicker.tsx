@@ -257,7 +257,10 @@ export default class IconPickerControl extends React.PureComponent<
         {({getInputProps, getItemProps, isOpen, inputValue}) => {
           let filteredOptions =
             inputValue && isOpen
-              ? matchSorter(options, inputValue, {keys: ['label', 'value']})
+              ? matchSorter(options, inputValue, {
+                  keys: ['label', 'value'],
+                  threshold: matchSorter.rankings.CONTAINS
+                })
               : options;
 
           return (

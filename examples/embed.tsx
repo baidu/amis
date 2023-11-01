@@ -32,11 +32,6 @@ export function embed(
 ) {
   const __ = makeTranslator(env?.locale || props?.locale);
 
-  // app 模式自动加 affixOffsetTop
-  if (!('affixOffsetTop' in props) && schema.type === 'app') {
-    props.affixOffsetTop = 50;
-  }
-
   if (typeof container === 'string') {
     container = document.querySelector(container) as HTMLElement;
   }
@@ -213,7 +208,7 @@ export function embed(
       let response = config.mockResponse
         ? config.mockResponse
         : await axios(config);
-      response = await attachmentAdpator(response, __);
+      response = await attachmentAdpator(response, __, api);
       response = responseAdaptor(api)(response);
 
       if (response.status >= 400) {

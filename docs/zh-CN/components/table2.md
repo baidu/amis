@@ -24,7 +24,8 @@ order: 67
             "columns": [
                 {
                     "title": "Engine",
-                    "name": "engine"
+                    "name": "engine",
+                    "width": 120
                 },
                 {
                     "title": "Version",
@@ -933,8 +934,36 @@ order: 67
                 {
                     "title": "Version",
                     "name": "version",
-                    "fixed": "left",
-                    "width": 100
+                    "type": "property",
+                    "width": 400,
+                    "items": [
+                        {
+                            "label": "cpu",
+                            "content": "1 core"
+                        },
+                        {
+                            "label": "memory",
+                            "content": "4G"
+                        },
+                        {
+                            "label": "disk",
+                            "content": "80G"
+                        },
+                        {
+                            "label": "network",
+                            "content": "4M",
+                            "span": 2
+                        },
+                        {
+                            "label": "IDC",
+                            "content": "beijing"
+                        },
+                        {
+                            "label": "Note",
+                            "content": "其它说明",
+                            "span": 3
+                        }
+                    ]
                 },
                 {
                     "title": "Browser",
@@ -1969,7 +1998,7 @@ order: 67
         "data":{
             "rows":[
                 {
-                    "engine":"Trident",
+                    "engine":"Trident1",
                     "browser":"Internet Explorer 4.0",
                     "platform":"Win 95+",
                     "version":"4",
@@ -1977,7 +2006,7 @@ order: 67
                     "id":1,
                     "children":[
                         {
-                            "engine":"Trident",
+                            "engine":"Trident1-1",
                             "browser":"Internet Explorer 4.0",
                             "platform":"Win 95+",
                             "version":"4",
@@ -1985,7 +2014,7 @@ order: 67
                             "id":1001,
                             "children":[
                                 {
-                                    "engine":"Trident",
+                                    "engine":"Trident1-1-1",
                                     "browser":"Internet Explorer 4.0",
                                     "platform":"Win 95+",
                                     "version":"4",
@@ -1993,7 +2022,7 @@ order: 67
                                     "id":10001
                                 },
                                 {
-                                    "engine":"Trident",
+                                    "engine":"Trident1-1-2",
                                     "browser":"Internet Explorer 5.0",
                                     "platform":"Win 95+",
                                     "version":"5",
@@ -2003,7 +2032,7 @@ order: 67
                             ]
                         },
                         {
-                            "engine":"Trident",
+                            "engine":"Trident1-2",
                             "browser":"Internet Explorer 5.0",
                             "platform":"Win 95+",
                             "version":"5",
@@ -2013,7 +2042,7 @@ order: 67
                     ]
                 },
                 {
-                    "engine":"Trident",
+                    "engine":"Trident2",
                     "browser":"Internet Explorer 5.0",
                     "platform":"Win 95+",
                     "version":"5",
@@ -2021,7 +2050,7 @@ order: 67
                     "id":2,
                     "children":[
                         {
-                            "engine":"Trident",
+                            "engine":"Trident2-1",
                             "browser":"Internet Explorer 4.0",
                             "platform":"Win 95+",
                             "version":"4",
@@ -2029,7 +2058,7 @@ order: 67
                             "id":2001
                         },
                         {
-                            "engine":"Trident",
+                            "engine":"Trident2-2",
                             "browser":"Internet Explorer 5.0",
                             "platform":"Win 95+",
                             "version":"5",
@@ -2123,6 +2152,10 @@ order: 67
                 "type":"table2",
                 "source":"$rows",
                 "columns":[
+                    {
+                        "name":"id",
+                        "title":"ID"
+                    },
                     {
                         "name":"engine",
                         "title":"Engine"
@@ -2321,6 +2354,10 @@ order: 67
                 "type":"table2",
                 "source":"$rows",
                 "columns":[
+                    {
+                        "name": "id",
+                        "title": "ID"
+                    },
                     {
                         "name":"engine",
                         "title":"Engine"

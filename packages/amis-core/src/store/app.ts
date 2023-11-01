@@ -4,6 +4,7 @@ import {NavigationObject} from '../types';
 import {
   createObject,
   filterTree,
+  replaceUrlParams,
   findTree,
   guid,
   mapTree
@@ -152,7 +153,12 @@ export const AppStore = ServiceStore.named('AppStore')
 
       findTree(self.pages, (item, index, level, paths) => {
         if (item.id === page.id) {
-          bcn = paths.filter(item => item.path && item.label);
+          bcn = paths
+            .filter(item => item.path && item.label)
+            .map(item => ({
+              ...item,
+              path: replaceUrlParams(item.path, params)
+            }));
           if (env.showFullBreadcrumbPath) {
             bcn = paths.filter(item => item.label);
           }
@@ -189,7 +195,7 @@ export const AppStore = ServiceStore.named('AppStore')
         self.schema = null;
         self.fetchSchema(page.schemaApi, self.activePage, {method: 'get'});
       } else if (page.redirect) {
-        env.jumpTo(page.redirect);
+        env.jumpTo(page.redirect, undefined, self.data);
         return;
       } else if (page.rewrite) {
         this.rewrite(page.rewrite, env);

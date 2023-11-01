@@ -37,6 +37,7 @@ import {LocaleProps, localeable} from 'amis-core';
 import Spinner, {SpinnerExtraProps} from './Spinner';
 import {ItemRenderStates} from './Selection';
 import VirtualList from './virtual-list';
+import TooltipWrapper from './TooltipWrapper';
 
 interface IDropIndicator {
   left: number;
@@ -1261,7 +1262,8 @@ export class TreeSelector extends React.Component<
                     checked: checked,
                     labelField: labelField,
                     onChange: () => this.handleCheck(item, !checked),
-                    disabled: disabled || item.disabled
+                    disabled: disabled || item.disabled,
+                    classnames: cx
                   })
                 : highlightTxt
                 ? highlight(`${item[labelField]}`, highlightTxt)
@@ -1274,33 +1276,42 @@ export class TreeSelector extends React.Component<
             !(item.defer && !item.loaded) ? (
               <div className={cx('Tree-item-icons')}>
                 {creatable && hasAbility(item, 'creatable') ? (
-                  <a
-                    onClick={this.handleAdd.bind(this, item)}
-                    data-tooltip={__(createTip)}
-                    data-position="left"
+                  <TooltipWrapper
+                    placement={'bottom'}
+                    tooltip={__(createTip)}
+                    trigger={'hover'}
+                    tooltipTheme="dark"
                   >
-                    <Icon icon="plus" className="icon" />
-                  </a>
+                    <a onClick={this.handleAdd.bind(this, item)}>
+                      <Icon icon="plus" className="icon" />
+                    </a>
+                  </TooltipWrapper>
                 ) : null}
 
                 {removable && hasAbility(item, 'removable') ? (
-                  <a
-                    onClick={this.handleRemove.bind(this, item)}
-                    data-tooltip={__(removeTip)}
-                    data-position="left"
+                  <TooltipWrapper
+                    placement={'bottom'}
+                    tooltip={__(removeTip)}
+                    trigger={'hover'}
+                    tooltipTheme="dark"
                   >
-                    <Icon icon="minus" className="icon" />
-                  </a>
+                    <a onClick={this.handleRemove.bind(this, item)}>
+                      <Icon icon="minus" className="icon" />
+                    </a>
+                  </TooltipWrapper>
                 ) : null}
 
                 {editable && hasAbility(item, 'editable') ? (
-                  <a
-                    onClick={this.handleEdit.bind(this, item)}
-                    data-tooltip={__(editTip)}
-                    data-position="left"
+                  <TooltipWrapper
+                    placement={'bottom'}
+                    tooltip={__(editTip)}
+                    trigger={'hover'}
+                    tooltipTheme="dark"
                   >
-                    <Icon icon="new-edit" className="icon" />
-                  </a>
+                    <a onClick={this.handleEdit.bind(this, item)}>
+                      <Icon icon="new-edit" className="icon" />
+                    </a>
+                  </TooltipWrapper>
                 ) : null}
               </div>
             ) : null}

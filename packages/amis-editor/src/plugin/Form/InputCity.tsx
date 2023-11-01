@@ -13,6 +13,7 @@ import {
   BaseEventContext
 } from 'amis-editor-core';
 import cloneDeep from 'lodash/cloneDeep';
+import type {Schema} from 'amis';
 
 import {formItemControl} from '../../component/BaseControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
@@ -32,6 +33,7 @@ export class CityControlPlugin extends BasePlugin {
   icon = 'fa fa-building-o';
   pluginIcon = 'input-city-plugin';
   description = '可配置是否选择区域或者城市';
+  searchKeywords = '城市选择器';
   docLink = '/amis/zh-CN/components/form/input-city';
   tags = ['表单项'];
   scaffold = {
@@ -118,7 +120,7 @@ export class CityControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('label'),
               getSchemaTpl('valueFormula', {
-                rendererSchema: context?.schema,
+                rendererSchema: (schema: Schema) => schema,
                 rendererWrapper: true,
                 mode: 'vertical' // 改成上下展示模式
               }),

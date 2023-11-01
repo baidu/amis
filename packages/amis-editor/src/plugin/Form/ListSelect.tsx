@@ -1,10 +1,15 @@
-import {EditorNodeType, getSchemaTpl} from 'amis-editor-core';
+import {
+  EditorNodeType,
+  JSONPipeIn,
+  JSONPipeOut,
+  getSchemaTpl
+} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, BaseEventContext} from 'amis-editor-core';
-
+import {BasePlugin, BaseEventContext, diff} from 'amis-editor-core';
 import {formItemControl} from '../../component/BaseControl';
-import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
-import {resolveOptionType} from '../../util';
+import type {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import type {Schema} from 'amis';
+import {resolveOptionType, schemaArrayFormat, schemaToArray} from '../../util';
 
 export class ListControlPlugin extends BasePlugin {
   static id = 'ListControlPlugin';
@@ -104,6 +109,22 @@ export class ListControlPlugin extends BasePlugin {
     }
   ];
 
+  subEditorVariable: Array<{label: string; children: any}> = [
+    {
+      label: '当前选项',
+      children: [
+        {
+          label: '选项名称',
+          value: 'label'
+        },
+        {
+          label: '选项值',
+          value: 'value'
+        }
+      ]
+    }
+  ];
+
   panelBodyCreator = (context: BaseEventContext) => {
     return formItemControl(
       {
@@ -118,7 +139,11 @@ export class ListControlPlugin extends BasePlugin {
             getSchemaTpl('multiple'),
             getSchemaTpl('extractValue'),
             getSchemaTpl('valueFormula', {
-              rendererSchema: context?.schema,
+              // 边栏渲染不渲染自定义样式，会干扰css生成
+              rendererSchema: (schema: Schema) => ({
+                ...(schema || {}),
+                itemSchema: null
+              }),
               mode: 'vertical',
               useSelectMode: true, // 改用 Select 设置模式
               visibleOn: 'this.options && this.options.length > 0'
@@ -126,7 +151,67 @@ export class ListControlPlugin extends BasePlugin {
           ]
         },
         option: {
-          body: [getSchemaTpl('optionControlV2')]
+          body: [
+            getSchemaTpl('optionControlV2'),
+            {
+              type: 'ae-switch-more',
+              mode: 'normal',
+              label: '自定义显示模板',
+              bulk: false,
+              name: 'itemSchema',
+              formType: 'extend',
+              form: {
+                body: [
+                  {
+                    type: 'dropdown-button',
+                    label: '配置显示模板',
+                    level: 'enhance',
+                    buttons: [
+                      {
+                        type: 'button',
+                        block: true,
+                        onClick: this.editDetail.bind(
+                          this,
+                          context.id,
+                          'itemSchema'
+                        ),
+                        label: '配置默认态模板'
+                      },
+                      {
+                        type: 'button',
+                        block: true,
+                        onClick: this.editDetail.bind(
+                          this,
+                          context.id,
+                          'activeItemSchema'
+                        ),
+                        label: '配置激活态模板'
+                      }
+                    ]
+                  }
+                ]
+              },
+              pipeIn: (value: any) => {
+                return value !== undefined;
+              },
+              pipeOut: (value: any, originValue: any, data: any) => {
+                if (value === true) {
+                  return {
+                    type: 'container',
+                    body: [
+                      {
+                        type: 'tpl',
+                        tpl: `\${${this.getDisplayField(value)}}`,
+                        wrapperComponent: '',
+                        inline: true
+                      }
+                    ]
+                  };
+                }
+                return value ? value : undefined;
+              }
+            }
+          ]
         },
         status: {}
       },
@@ -149,11 +234,11 @@ export class ListControlPlugin extends BasePlugin {
         type: 'object',
         title: node.schema?.label || node.schema?.name,
         properties: {
-          label: {
+          [node.schema?.labelField || 'label']: {
             type: 'string',
             title: '文本'
           },
-          value: {
+          [node.schema?.valueField || 'value']: {
             type,
             title: '值'
           }
@@ -182,6 +267,67 @@ export class ListControlPlugin extends BasePlugin {
     }
 
     return dataSchema;
+  }
+
+  filterProps(props: any) {
+    // 禁止选中子节点
+    return JSONPipeOut(props);
+  }
+
+  getDisplayField(data: any) {
+    if (
+      data.source ||
+      (data.map &&
+        Array.isArray(data.map) &&
+        data.map[0] &&
+        Object.keys(data.map[0]).length > 1)
+    ) {
+      return data.labelField ?? 'label';
+    }
+    return 'label';
+  }
+
+  editDetail(id: string, field: string) {
+    const manager = this.manager;
+    const store = manager.store;
+    const node = store.getNodeById(id);
+    const value = store.getValueOf(id);
+    let defaultItemSchema = {
+      type: 'container',
+      body: [
+        {
+          type: 'tpl',
+          tpl: `\${${this.getDisplayField(value)}}`,
+          inline: true,
+          wrapperComponent: ''
+        }
+      ]
+    };
+
+    // 首次编辑激活态样式时自动复制默认态
+    if (field !== 'itemSchema' && value?.itemSchema) {
+      defaultItemSchema = JSONPipeIn(value.itemSchema, true);
+    }
+
+    node &&
+      value &&
+      this.manager.openSubEditor({
+        title: '配置显示模板',
+        value: value[field] ?? defaultItemSchema,
+        slot: {
+          type: 'container',
+          body: '$$'
+        },
+        onChange: (newValue: any) => {
+          newValue = {...value, [field]: schemaArrayFormat(newValue)};
+          manager.panelChangeValue(newValue, diff(value, newValue));
+        },
+        data: {
+          [value.labelField || 'label']: '选项名',
+          [value.valueField || 'value']: '选项值',
+          item: '假数据'
+        }
+      });
   }
 }
 

@@ -288,7 +288,7 @@ run action ajax
 
 #### 静默模式
 
-当配置`options.silent: true`时，请求完成后不会弹出提示信息。
+当配置`silent: true`时，请求完成后不会弹出提示信息。
 
 ```schema
 {
@@ -316,9 +316,7 @@ run action ajax
                   success: '成功了！欧耶',
                   failed: '失败了呢。。'
                 },
-              },
-              options: {
-                silent: true,
+                silent: true
               },
               data: {
                 age: 18

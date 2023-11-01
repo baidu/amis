@@ -94,7 +94,7 @@ export function buildApi(
     ) as any;
   }
 
-  if (!data || api.data instanceof FormData) {
+  if (!data) {
     return api;
   } else if (
     data instanceof FormData ||
@@ -212,6 +212,7 @@ export function buildApi(
     return api;
   }
 
+  const hasCustomData = api.data;
   if (api.data) {
     api.body = api.data = dataMapping(
       api.data,
@@ -299,7 +300,7 @@ export function buildApi(
     );
     /** 同时设置了JSONQL和data时走兼容场景 */
     api.body = api.data =
-      api.data && api.jsonql
+      hasCustomData && api.jsonql
         ? {
             data: api.data,
             jsonql: api.jsonql
@@ -477,6 +478,7 @@ export function wrapFetcher(
     options?: object
   ) {
     api = buildApi(api, data, options) as ApiObject;
+    (api as ApiObject).context = data;
 
     if (api.requestAdaptor) {
       debug('api', 'before requestAdaptor', api);

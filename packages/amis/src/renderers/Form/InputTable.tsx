@@ -25,16 +25,14 @@ import {
   resolveEventData,
   ListenerAction,
   evalExpressionWithConditionBuilder,
-  mapTree
+  mapTree,
+  isObject
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
-import cloneDeep from 'lodash/cloneDeep';
-import isEqual from 'lodash/isEqual';
-import inRange from 'lodash/inRange';
 import {TableSchema} from '../Table';
-import {SchemaApi, SchemaCollection} from '../../Schema';
+import {SchemaApi, SchemaCollection, SchemaClassName} from '../../Schema';
 import find from 'lodash/find';
 import moment from 'moment';
 import merge from 'lodash/merge';
@@ -211,6 +209,16 @@ export interface TableControlSchema
    * 底部新增按钮配置
    */
   footerAddBtn?: SchemaCollection;
+
+  /**
+   * 是否开启 static 状态切换
+   */
+  enableStaticTransform?: boolean;
+
+  /**
+   * 底部工具栏CSS样式类
+   */
+  toolbarClassName?: SchemaClassName;
 }
 
 export interface TableProps
@@ -226,6 +234,10 @@ export interface TableState {
   editIndex: number;
   isCreateMode?: boolean;
   page?: number;
+  lastModifiedRow?: {
+    index: number;
+    data: Record<string, any>;
+  };
 }
 
 export type FormTableRendererEvent =
@@ -276,7 +288,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     'deleteApi',
     'needConfirm',
     'canAccessSuperData',
-    'formStore'
+    'formStore',
+    'footerActions',
+    'toolbarClassName'
   ];
 
   entries: SimpleMap<any, number>;
@@ -309,15 +323,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.emitValue = this.emitValue.bind(this);
   }
 
-  componentDidUpdate(nextProps: TableProps) {
+  componentDidUpdate(prevProps: TableProps, prevState: TableState) {
     const props = this.props;
     let toUpdate: any = null;
 
     // 如果static为true 或 disabled为true，
     // 则删掉正在新增 或 编辑的那一行
+    // Form会向FormItem下发disabled属性，disbaled 属性值也需要同步到
     if (
-      props.$schema.disabled !== nextProps.$schema.disabled ||
-      props.$schema.static !== nextProps.$schema.static
+      prevProps.disabled !== props.disabled ||
+      props.$schema.disabled !== prevProps.$schema.disabled ||
+      props.$schema.static !== prevProps.$schema.static
     ) {
       const items = this.state.items.filter(item => !item.__isPlaceholder);
       toUpdate = {
@@ -328,14 +344,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       };
     }
 
-    if (props.columns !== nextProps.columns) {
+    if (props.columns !== prevProps.columns) {
       toUpdate = {
         ...toUpdate,
         columns: this.buildColumns(props)
       };
     }
 
-    if (props.value !== nextProps.value) {
+    if (props.value !== prevProps.value) {
       toUpdate = {
         ...toUpdate,
         items: Array.isArray(props.value) ? props.value.concat() : [],
@@ -495,11 +511,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         if (isEffectiveApi(addApi, ctx)) {
           const payload = await env.fetcher(addApi, ctx);
           if (payload && !payload.ok) {
-            env.notify(
-              'error',
-              (addApi as ApiObject)?.messages?.failed ??
-                (payload.msg || __('fetchFailed'))
-            );
+            !(addApi as ApiObject)?.silent &&
+              env.notify(
+                'error',
+                (addApi as ApiObject)?.messages?.failed ??
+                  (payload.msg || __('fetchFailed'))
+              );
             return;
           } else if (payload && payload.ok) {
             toAdd = payload.data;
@@ -630,14 +647,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               column.type === 'input-quarter' ||
               column.type === 'input-year')
           ) {
-            const date = filterDate(column.value, data, column.format || 'X');
-            setVariable(
-              value,
-              column.name,
-              (column.utc ? moment.utc(date) : date).format(
-                column.format || 'X'
-              )
-            );
+            if (
+              !(typeof column.value === 'string' && column.value.trim() === '')
+            ) {
+              const date = filterDate(column.value, data, column.format || 'X');
+              setVariable(
+                value,
+                column.name,
+                (column.utc ? moment.utc(date) : date).format(
+                  column.format || 'X'
+                )
+              );
+            }
           } else {
             /** 如果value值设置为表达式，则忽略 */
             if (!isExpression(column.value)) {
@@ -720,7 +741,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.setState({
       editIndex: index,
       isCreateMode: isCreate,
-      columns: this.buildColumns(this.props, isCreate)
+      columns: this.buildColumns(this.props, isCreate, index)
     });
   }
 
@@ -783,7 +804,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     if (remote && !remote.ok) {
-      env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
+      !((isNew ? addApi : updateApi) as ApiObject)?.silent &&
+        env.notify('error', apiMsg ?? (remote.msg || __('saveFailed')));
       const failEventName = isNew ? 'addFail' : 'editFail';
       this.dispatchEvent(failEventName, {
         index: this.state.editIndex,
@@ -824,17 +846,35 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   cancelEdit() {
     const items = this.state.items.concat();
+    const lastModifiedRow = this.state.lastModifiedRow;
+
     let item = {
       ...items[this.state.editIndex]
     };
     const isNew = !!item.__isPlaceholder;
-    isNew && items.splice(this.state.editIndex, 1);
+
+    if (isNew) {
+      items.splice(this.state.editIndex, 1);
+    } else {
+      /** 恢复编辑前的值 */
+      if (
+        lastModifiedRow &&
+        ~lastModifiedRow?.index &&
+        isObject(lastModifiedRow?.data)
+      ) {
+        items.splice(this.state.editIndex, 1, {
+          ...item,
+          ...lastModifiedRow.data
+        });
+      }
+    }
 
     this.setState(
       {
         editIndex: -1,
         items: items,
-        columns: this.buildColumns(this.props)
+        columns: this.buildColumns(this.props),
+        lastModifiedRow: undefined
       },
       this.emitValue
     );
@@ -876,10 +916,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       const result = await env.fetcher(deleteApi, ctx);
 
       if (!result.ok) {
-        env.notify(
-          'error',
-          (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
-        );
+        !(deleteApi as ApiObject)?.silent &&
+          env.notify(
+            'error',
+            (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
+          );
         this.dispatchEvent('deleteFail', {index, item, error: result});
         return;
       }
@@ -916,8 +957,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     };
   }
 
-  buildColumns(props: TableProps, isCreateMode = false): Array<any> {
-    const env = this.props.env;
+  buildColumns(
+    props: TableProps,
+    isCreateMode = false,
+    editRowIndex?: number
+  ): Array<any> {
+    const {env, enableStaticTransform} = this.props;
     let columns: Array<any> = Array.isArray(props.columns)
       ? props.columns.concat()
       : [];
@@ -1028,7 +1073,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       isStatic !== true &&
       (props.addable || props.editable || isCreateMode)
     ) {
-      columns = columns.map(column => {
+      columns = columns.map((column, index) => {
         const quickEdit =
           !isCreateMode && column.hasOwnProperty('quickEditOnUpdate')
             ? column.quickEditOnUpdate
@@ -1036,19 +1081,28 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
         const render = getRendererByName(column?.type);
 
-        return quickEdit === false
-          ? omit(column, ['quickEdit'])
-          : {
-              ...column,
-              quickEdit: {
-                ...this.columnToQuickEdit(column),
-                ...quickEdit,
-                isQuickEditFormMode: !!render?.isFormItem,
-                saveImmediately: true,
-                mode: 'inline',
-                disabled
-              }
-            };
+        return {
+          ...(quickEdit === false
+            ? omit(column, ['quickEdit'])
+            : {
+                ...column,
+                quickEdit: {
+                  ...this.columnToQuickEdit(column),
+                  ...quickEdit,
+                  isQuickEditFormMode: !!render?.isFormItem,
+                  saveImmediately: true,
+                  mode: 'inline',
+                  disabled
+                }
+              }),
+          /**
+           * 非编辑态使用静态展示
+           * 编辑态仅当前编辑行使用静态展示
+           */
+          ...(enableStaticTransform && props.needConfirm !== false
+            ? {staticOn: `${!isCreateMode} || data.index !== ${editRowIndex}`}
+            : {})
+        };
       });
 
       !isStatic &&
@@ -1293,98 +1347,114 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     diff: Array<object> | object,
     rowIndexes: Array<string> | string
   ) {
-    const {perPage} = this.props;
-
-    if (~this.state.editIndex) {
-      const items = this.state.items.concat();
-      const origin = items[this.state.editIndex];
-
-      if (!origin) {
-        return;
-      }
-
-      const value: any = {
-        ...rows
-      };
-      this.entries.set(value, this.entries.get(origin) || this.entityId++);
-      this.entries.delete(origin);
-      items.splice(this.state.editIndex, 1, value);
-
-      this.setState({
-        items
-      });
-      return;
-    }
-
-    const page = this.state.page;
-    let items = this.state.items.concat();
-
-    if (Array.isArray(rows)) {
-      (rowIndexes as Array<string>).forEach((rowIndex, index) => {
-        const indexes = rowIndex.split('.').map(item => parseInt(item, 10));
-
-        if (page && page > 1 && typeof perPage === 'number') {
-          indexes[0] += (page - 1) * perPage;
-        }
-        const origin = getTree(items, indexes);
-        const data = merge({}, origin, (diff as Array<object>)[index]);
-
-        items = spliceTree(items, indexes, 1, data);
-      });
-    } else {
-      const indexes = (rowIndexes as string)
-        .split('.')
-        .map(item => parseInt(item, 10));
-
-      if (page && page > 1 && typeof perPage === 'number') {
-        indexes[0] += (page - 1) * perPage;
-      }
-
-      const origin = getTree(items, indexes);
-
-      const comboNames: Array<string> = [];
-      (this.props.$schema.columns ?? []).forEach((e: any) => {
-        if (e.type === 'combo' && !Array.isArray(diff)) {
-          comboNames.push(e.name);
-        }
-      });
-
-      const data = mergeWith(
-        {},
-        origin,
-        diff,
-        (
-          objValue: any,
-          srcValue: any,
-          key: string,
-          object: any,
-          source: any,
-          stack: any
-        ) => {
-          // 只对第一层做处理，如果不是combo，并且是数组，直接采用diff的值
-          if (
-            stack.size === 0 &&
-            comboNames.indexOf(key) === -1 &&
-            Array.isArray(objValue) &&
-            Array.isArray(srcValue)
-          ) {
-            return srcValue;
-          }
-          // 直接return，默认走的mergeWith自身的merge
-          return;
-        }
-      );
-
-      items = spliceTree(items, indexes, 1, data);
-      this.entries.set(data, this.entries.get(origin) || this.entityId++);
-      // this.entries.delete(origin); // 反正最后都会清理的，先不删了吧。
-    }
-
+    let callback: any;
+    // 这里有可能执行频率非常高，上次的变更还没结束就会再次进来，会拿不到最新的数据
+    // https://legacy.reactjs.org/docs/state-and-lifecycle.html#state-updates-may-be-asynchronous
     this.setState(
-      {
-        items
+      (state, props) => {
+        const newState = {};
+        const {perPage} = props;
+        const editIndex = state.editIndex;
+        const lastModifiedRow = state.lastModifiedRow;
+
+        if (~editIndex) {
+          const items = state.items.concat();
+          const origin = items[editIndex];
+
+          if (!origin) {
+            return newState;
+          }
+
+          const value: any = {
+            ...rows
+          };
+          this.entries.set(value, this.entries.get(origin) || this.entityId++);
+          this.entries.delete(origin);
+          items.splice(editIndex, 1, value);
+
+          Object.assign(newState, {
+            items,
+            /** 记录最近一次编辑记录，用于取消编辑数据回溯， */
+            ...(lastModifiedRow?.index === editIndex
+              ? {}
+              : {
+                  lastModifiedRow: origin.__isPlaceholder
+                    ? undefined
+                    : {index: editIndex, data: {...origin}}
+                })
+          });
+          return newState;
+        }
+
+        const page = state.page;
+        let items = state.items.concat();
+
+        if (Array.isArray(rows)) {
+          (rowIndexes as Array<string>).forEach((rowIndex, index) => {
+            const indexes = rowIndex.split('.').map(item => parseInt(item, 10));
+
+            if (page && page > 1 && typeof perPage === 'number') {
+              indexes[0] += (page - 1) * perPage;
+            }
+            const origin = getTree(items, indexes);
+            const data = merge({}, origin, (diff as Array<object>)[index]);
+
+            items = spliceTree(items, indexes, 1, data);
+          });
+        } else {
+          const indexes = (rowIndexes as string)
+            .split('.')
+            .map(item => parseInt(item, 10));
+
+          if (page && page > 1 && typeof perPage === 'number') {
+            indexes[0] += (page - 1) * perPage;
+          }
+
+          const origin = getTree(items, indexes);
+
+          const comboNames: Array<string> = [];
+          (props.$schema.columns ?? []).forEach((e: any) => {
+            if (e.type === 'combo' && !Array.isArray(diff)) {
+              comboNames.push(e.name);
+            }
+          });
+
+          const data = mergeWith(
+            {},
+            origin,
+            diff,
+            (
+              objValue: any,
+              srcValue: any,
+              key: string,
+              object: any,
+              source: any,
+              stack: any
+            ) => {
+              if (Array.isArray(objValue) && Array.isArray(srcValue)) {
+                // 处理combo
+                return srcValue;
+              }
+              // 直接return，默认走的mergeWith自身的merge
+              return;
+            }
+          );
+
+          items = spliceTree(items, indexes, 1, data);
+          this.entries.set(data, this.entries.get(origin) || this.entityId++);
+          // this.entries.delete(origin); // 反正最后都会清理的，先不删了吧。
+        }
+
+        Object.assign(newState, {
+          items
+        });
+        callback = this.emitValue;
+
+        return newState;
       },
-      this.emitValue
+      () => {
+        callback && callback();
+      }
     );
   }
 
@@ -1515,7 +1585,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       tableContentClassName,
       static: isStatic,
       showFooterAddBtn,
-      footerAddBtn
+      footerAddBtn,
+      toolbarClassName
     } = this.props;
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
 
@@ -1525,11 +1596,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     let items = this.state.items;
     let showPager = false;
-    const page = this.state.page || 1;
+    let page = this.state.page || 1;
     let offset = 0;
     let lastPage = 1;
     if (typeof perPage === 'number' && perPage && items.length > perPage) {
       lastPage = Math.ceil(items.length / perPage);
+      if (page > lastPage) {
+        page = lastPage;
+      }
       items = items.slice((page - 1) * perPage, page * perPage);
       showPager = true;
       offset = (page - 1) * perPage;
@@ -1546,8 +1620,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             affixHeader,
             prefixRow,
             affixRow,
-            affixOffsetTop:
-              this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0,
             autoFillHeight,
             tableContentClassName
           },
@@ -1581,7 +1653,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           showFooterAddBtn !== false &&
           (!maxLength || maxLength > items.length)) ||
         showPager ? (
-          <div className={cx('InputTable-toolbar')}>
+          <div className={cx('InputTable-toolbar', toolbarClassName)}>
             {addable && showFooterAddBtn !== false
               ? render(
                   'button',
@@ -1609,7 +1681,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                   },
                   {
                     activePage: page,
-                    lastPage: lastPage,
+                    perPage,
+                    total: this.state.items.length,
                     onPageChange: this.handlePageChange,
                     className: 'InputTable-pager'
                   }
@@ -1626,11 +1699,37 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   type: 'input-table'
 })
 export class TableControlRenderer extends FormTable {
-  setData(value: any, replace?: boolean, index?: number) {
-    if (index !== undefined && ~index) {
-      // 如果setValue动作传入了index，更新指定索引的值
-      const items = [...this.state.items];
-      items.splice(index, 1, value);
+  async setData(
+    value: any,
+    replace?: boolean,
+    index?: number | string,
+    condition?: any
+  ) {
+    const len = this.state.items.length;
+    if (index !== undefined) {
+      let items = [...this.state.items];
+      const indexs = String(index).split(',');
+      indexs.forEach(i => {
+        const intIndex = Number(i);
+        items.splice(intIndex, 1, value);
+      });
+      this.setState({items}, () => {
+        this.emitValue();
+      });
+    } else if (condition !== undefined) {
+      let items = [...this.state.items];
+      for (let i = 0; i < len; i++) {
+        const item = items[i];
+        const isUpdate = await evalExpressionWithConditionBuilder(
+          condition,
+          item
+        );
+
+        if (isUpdate) {
+          items.splice(i, 1, value);
+        }
+      }
+
       this.setState({items}, () => {
         this.emitValue();
       });
@@ -1680,11 +1779,12 @@ export class TableControlRenderer extends FormTable {
         if (isEffectiveApi(addApi, ctx)) {
           const payload = await env.fetcher(addApi, ctx);
           if (payload && !payload.ok) {
-            env.notify(
-              'error',
-              (addApi as ApiObject)?.messages?.failed ??
-                (payload.msg || __('fetchFailed'))
-            );
+            !(addApi as ApiObject)?.silent &&
+              env.notify(
+                'error',
+                (addApi as ApiObject)?.messages?.failed ??
+                  (payload.msg || __('fetchFailed'))
+              );
             return;
           } else if (payload && payload.ok) {
             toAdd = payload.data;
@@ -1775,11 +1875,12 @@ export class TableControlRenderer extends FormTable {
           createObject(ctx, {deletedItems})
         );
         if (payload && !payload.ok) {
-          env.notify(
-            'error',
-            (deleteApi as ApiObject)?.messages?.failed ??
-              (payload.msg || __('fetchFailed'))
-          );
+          !(deleteApi as ApiObject)?.silent &&
+            env.notify(
+              'error',
+              (deleteApi as ApiObject)?.messages?.failed ??
+                (payload.msg || __('fetchFailed'))
+            );
           return;
         }
       }

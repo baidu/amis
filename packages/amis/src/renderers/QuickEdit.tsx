@@ -339,11 +339,11 @@ export const HocQuickEdit =
         onQuickChange(values, false, true);
       }
 
-      handleChange(values: object) {
+      handleChange(values: object, diff?: any) {
         const {onQuickChange, quickEdit} = this.props;
 
         onQuickChange(
-          values,
+          diff, // 只变化差异部分，其他值有可能是旧的
           (quickEdit as QuickEditConfig).saveImmediately,
           false,
           quickEdit as QuickEditConfig
@@ -391,9 +391,9 @@ export const HocQuickEdit =
       }
 
       buildSchema() {
-        const {quickEdit, name, label, translate: __} = this.props;
-
+        const {quickEdit, name, label, translate: __, id} = this.props;
         let schema;
+        const isline = (quickEdit as QuickEditConfig).mode === 'inline';
 
         if (quickEdit === true) {
           schema = {
@@ -430,7 +430,7 @@ export const HocQuickEdit =
           ) {
             schema = {
               title: '',
-              autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
+              autoFocus: !isline,
               ...quickEdit,
               mode: 'normal',
               type: 'form'
@@ -440,13 +440,14 @@ export const HocQuickEdit =
               title: '',
               className: quickEdit.formClassName,
               type: 'form',
-              autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
+              autoFocus: !isline,
               mode: 'normal',
               body: [
                 {
                   type: quickEdit.type || 'input-text',
                   name: quickEdit.name || name,
                   ...quickEdit,
+                  ...(isline ? {id: id} : {}),
                   mode: undefined
                 }
               ]
@@ -454,7 +455,6 @@ export const HocQuickEdit =
           }
         }
 
-        const isline = (quickEdit as QuickEditConfig).mode === 'inline';
         const isFormMode = (quickEdit as QuickEditConfig)?.isFormMode;
 
         if (schema) {
@@ -532,7 +532,7 @@ export const HocQuickEdit =
             container={popOverContainer}
             target={() => this.target}
             onHide={this.closeQuickEdit}
-            placement="left-top right-top left-bottom right-bottom left-top left-top-right-top left-bottom-right-bottom"
+            placement="left-top right-top left-bottom right-bottom left-top-right-top left-bottom-right-bottom left-top"
             show
           >
             <PopOver
@@ -575,7 +575,7 @@ export const HocQuickEdit =
         ) {
           return render('inline-form-item', schema.body[0], {
             mode: 'normal',
-            value: value || '',
+            value: value ?? '',
             onChange: this.handleFormItemChange,
             ref: this.formItemRef
           });

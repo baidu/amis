@@ -2,6 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Sortable from 'sortablejs';
 import omit from 'lodash/omit';
+import {filterClassNameObject} from 'amis-core';
 import {Button, Spinner, Checkbox, Icon, SpinnerExtraProps} from 'amis-ui';
 import {
   ListStore,
@@ -972,7 +973,6 @@ export default class List extends React.Component<ListProps, object> {
       hideCheckToggler,
       checkOnItemClick,
       itemAction,
-      affixOffsetTop,
       affixHeader,
       env,
       classnames: cx,
@@ -996,10 +996,7 @@ export default class List extends React.Component<ListProps, object> {
         ref={this.bodyRef}
       >
         {affixHeader ? (
-          <div
-            className={cx('List-fixedTop')}
-            style={{top: affixOffsetTop ?? env?.affixOffsetTop ?? 0}}
-          >
+          <div className={cx('List-fixedTop')}>
             {header}
             {heading}
           </div>
@@ -1227,7 +1224,7 @@ export class ListItem extends React.Component<ListItemProps> {
     if (childNode.type === 'hbox' || childNode.type === 'grid') {
       return render(region, node, {
         key,
-        itemRender: this.itemRender
+        itemRender: this.itemRender.bind(this)
       }) as JSX.Element;
     }
 
@@ -1270,7 +1267,10 @@ export class ListItem extends React.Component<ListItemProps> {
             {
               rowIndex: itemIndex,
               colIndex: key,
-              className: cx('ListItem-fieldValue', field.className),
+              className: cx(
+                'ListItem-fieldValue',
+                filterClassNameObject(field.className, data)
+              ),
               value: field.name ? resolveVariable(field.name, data) : undefined,
               onAction: this.handleAction,
               onQuickChange: this.handleQuickChange

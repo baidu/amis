@@ -228,8 +228,14 @@ export interface ApiObject extends BaseApiObject {
     api: ApiObject,
     context: any
   ) => ApiObject | Promise<ApiObject>;
+  /**
+   * api 发送上下文，可以用来传递一些数据给 api 的 adaptor
+   * @readonly
+   */
+  context?: any;
   /** 是否过滤为空字符串的 query 参数 */
   filterEmptyQuery?: boolean;
+  downloadFileName?: string;
 }
 export type ApiString = string;
 export type Api = ApiString | ApiObject;

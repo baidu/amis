@@ -202,7 +202,7 @@ export const formItemControl: (
   const supportStatic = SUPPORT_STATIC_FORMITEM_CMPTS.includes(type);
   const collapseProps = {
     type: 'collapse',
-    headingClassName: 'ae-formItemControl-header',
+    headingClassName: 'ae-formItemControl-header ae-Collapse-header',
     bodyClassName: 'ae-formItemControl-body'
   };
   // 已经配置了的属性
@@ -253,6 +253,7 @@ export const formItemControl: (
           key: 'status',
           body: normalizeBodySchema(
             [
+              getSchemaTpl('visible'),
               getSchemaTpl('hidden'),
               supportStatic ? getSchemaTpl('static') : null,
               // TODO: 下面的部分表单项才有，是不是判断一下是否是表单项
@@ -429,7 +430,7 @@ export function remarkTpl(config: {
       },
       body: {
         type: 'grid',
-        className: 'pt-4 right-panel-pop',
+        className: 'pt-4 right-panel-pop AMISCSSWrapper',
         gap: 'lg',
         columns: [
           {

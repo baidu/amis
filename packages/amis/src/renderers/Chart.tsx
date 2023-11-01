@@ -7,7 +7,8 @@ import {
   RendererProps,
   loadScript,
   buildStyle,
-  CustomStyle
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {ServiceStore, IServiceStore} from 'amis-core';
 
@@ -475,17 +476,19 @@ export class Chart extends React.Component<ChartProps> {
         isAlive(store) && store.markFetching(false);
 
         if (!result.ok) {
-          return env.notify(
-            'error',
-            (api as ApiObject)?.messages?.failed ??
-              (result.msg || __('fetchFailed')),
-            result.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: result.msgTimeout
-                }
-              : undefined
-          );
+          !(api as ApiObject)?.silent &&
+            env.notify(
+              'error',
+              (api as ApiObject)?.messages?.failed ??
+                (result.msg || __('fetchFailed')),
+              result.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: result.msgTimeout
+                  }
+                : undefined
+            );
+          return;
         }
         delete this.reloadCancel;
 
@@ -510,7 +513,7 @@ export class Chart extends React.Component<ChartProps> {
         }
 
         isAlive(store) && store.markFetching(false);
-        env.notify('error', reason);
+        !(api as ApiObject)?.silent && env.notify('error', reason);
         this.echarts?.hideLoading();
       });
   }
@@ -611,10 +614,8 @@ export class Chart extends React.Component<ChartProps> {
         className={cx(
           `${ns}Chart`,
           className,
-          baseControlClassName,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={styleVar}
       >
@@ -632,8 +633,7 @@ export class Chart extends React.Component<ChartProps> {
             themeCss,
             classNames: [
               {
-                key: 'baseControlClassName',
-                value: baseControlClassName
+                key: 'baseControlClassName'
               }
             ]
           }}

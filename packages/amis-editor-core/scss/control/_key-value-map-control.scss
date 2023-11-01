@@ -1,0 +1,46 @@
+.ae-KeyValMapControl-wrapper {
+  .ae-KeyValMapControlItem-Main {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .ae-KeyValMapControlItem-flex {
+    width: 100%;
+  }
+
+  .ae-KeyValMapControlItem-input {
+    flex: 1;
+    margin-right: 10px;
+  }
+
+  .ae-ExtendMore {
+    position: relative;
+
+    .cxd-Container-body {
+      margin-top: 20px;
+    }
+  }
+
+  .ae-KeyValMapControlItem-closeBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 18px;
+    color: #151b26;
+    padding-right: 0.625rem;
+    z-index: 1;
+  }
+
+  .ae-KeyValMapControlItem-EditLabel {
+    margin-top: 10px;
+  }
+
+  .ae-KeyValMapControl-footer > * {
+    width: calc(50% - 0.375rem);
+  }
+
+  .ae-KeyValMapControl-footer > *:first-child {
+    margin-right: 0.75rem;
+  }
+}

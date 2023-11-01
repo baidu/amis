@@ -22,7 +22,6 @@ import {
 } from '../utils/formula';
 import {IIRendererStore, IRendererStore} from '../store';
 import {ScopedContext, IScopedContext} from '../Scoped';
-import {reaction} from 'mobx';
 import {FormItemStore} from '../store/formItem';
 import {isAlive} from 'mobx-state-tree';
 import {observer} from 'mobx-react';
@@ -32,7 +31,13 @@ import {FormBaseControl, FormItemWrap} from './Item';
 import {Api} from '../types';
 import {TableStore} from '../store/table';
 import pick from 'lodash/pick';
-import {callStrFunction, changedEffect} from '../utils';
+import {
+  callStrFunction,
+  changedEffect,
+  cloneObject,
+  setVariable,
+  tokenize
+} from '../utils';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -102,6 +107,12 @@ export function wrapControl<
           hook3?: () => any;
           reaction?: () => void;
 
+          static displayName = `WrapControl${
+            ComposedComponent.displayName || ComposedComponent.name
+              ? `(${ComposedComponent.displayName || ComposedComponent.name})`
+              : ''
+          }`;
+
           static contextType = ScopedContext;
           static defaultProps = {};
 
@@ -124,7 +135,6 @@ export function wrapControl<
               colIndex,
               rowIndex,
               $schema: {
-                name,
                 id,
                 type,
                 required,
@@ -158,6 +168,14 @@ export function wrapControl<
             this.handleBlur = this.handleBlur.bind(this);
             this.validate = this.validate.bind(this);
             this.flushChange = this.flushChange.bind(this);
+            this.renderChild = this.renderChild.bind(this);
+            let name = this.props.$schema.name;
+
+            // 如果 name 是表达式
+            // 扩充 each 用法
+            if (isExpression(name)) {
+              name = tokenize(name, data);
+            }
 
             if (!name) {
               // 一般情况下这些表单项都是需要 name 的，提示一下
@@ -192,7 +210,7 @@ export function wrapControl<
               ),
               id,
               type,
-              required,
+              required: props.required || required,
               unique,
               value,
               isValueSchemaExp: isExpression(value),
@@ -303,7 +321,7 @@ export function wrapControl<
             const {
               store,
               formStore: form,
-              $schema: {name, validate},
+              $schema: {validate},
               addHook
             } = this.props;
 
@@ -315,13 +333,13 @@ export function wrapControl<
 
             const formItem = this.model as IFormItemStore;
             if (formItem && validate) {
-              let finalValidate = promisify(validate.bind(formItem));
+              let finalValidate = promisify(validate.bind(this.control));
               this.hook2 = () => {
                 formItem.clearError('control:valdiate');
                 return finalValidate(
                   this.props.data,
                   this.getValue(),
-                  name
+                  formItem.name
                 ).then((ret: any) => {
                   if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
                     formItem.addError(ret, 'control:valdiate');
@@ -336,46 +354,55 @@ export function wrapControl<
             const props = this.props;
             const model = this.model;
 
-            model &&
-              changedEffect(
-                [
-                  'id',
-                  'validations',
-                  'validationErrors',
-                  'value',
-                  'defaultValue',
-                  'required',
-                  'unique',
-                  'multiple',
-                  'delimiter',
-                  'valueField',
-                  'labelField',
-                  'joinValues',
-                  'extractValue',
-                  'selectFirst',
-                  'autoFill',
-                  'clearValueOnHidden',
-                  'validateApi',
-                  'minLength',
-                  'maxLength',
-                  'label',
-                  'extraName'
-                ],
-                prevProps.$schema,
-                props.$schema,
-                changes => {
-                  model.config({
-                    ...changes,
+            if (!model) {
+              return;
+            }
 
-                    // todo 优化后面两个
-                    isValueSchemaExp: isExpression(props.$schema.value),
-                    inputGroupControl: props?.inputGroupControl
-                  } as any);
-                }
-              );
+            changedEffect(
+              [
+                'id',
+                'validations',
+                'validationErrors',
+                'value',
+                'defaultValue',
+                'required',
+                'unique',
+                'multiple',
+                'delimiter',
+                'valueField',
+                'labelField',
+                'joinValues',
+                'extractValue',
+                'selectFirst',
+                'autoFill',
+                'clearValueOnHidden',
+                'validateApi',
+                'minLength',
+                'maxLength',
+                'label',
+                'extraName'
+              ],
+              prevProps.$schema,
+              props.$schema,
+              changes => {
+                model.config({
+                  ...changes,
+
+                  // todo 优化后面两个
+                  isValueSchemaExp: isExpression(props.$schema.value),
+                  inputGroupControl: props?.inputGroupControl
+                } as any);
+              }
+            );
+
+            if (props.required !== prevProps.required) {
+              model.config({
+                required: props.required
+              });
+            }
 
             // 此处需要同时考虑 defaultValue 和 value
-            if (model && typeof props.value !== 'undefined') {
+            if (typeof props.value !== 'undefined') {
               // 渲染器中的 value 优先
               if (
                 !isEqual(props.value, prevProps.value) &&
@@ -385,7 +412,6 @@ export function wrapControl<
                 model.changeTmpValue(props.value, 'controlled');
               }
             } else if (
-              model &&
               typeof props.defaultValue !== 'undefined' &&
               isExpression(props.defaultValue) &&
               (!isEqual(props.defaultValue, prevProps.defaultValue) ||
@@ -419,7 +445,7 @@ export function wrapControl<
                   props.onChange?.(curResult, model.name, false);
                 }
               }
-            } else if (model) {
+            } else {
               // value 非公式表达式时，name 值优先，若 defaultValue 主动变动时，则使用 defaultValue
               if (
                 // 然后才是查看关联的 name 属性值是否变化
@@ -503,12 +529,7 @@ export function wrapControl<
           }
 
           controlRef(control: any) {
-            const {
-              addHook,
-              removeHook,
-              formStore: form,
-              $schema: {name}
-            } = this.props;
+            const {addHook, removeHook, formStore: form} = this.props;
 
             // 因为 control 有可能被 n 层 hoc 包裹。
             while (control && control.getWrappedInstance) {
@@ -521,16 +542,15 @@ export function wrapControl<
               this.hook = () => {
                 formItem.clearError('component:valdiate');
 
-                return validate(this.props.data, this.getValue(), name).then(
-                  ret => {
-                    if (
-                      (typeof ret === 'string' || Array.isArray(ret)) &&
-                      ret
-                    ) {
-                      formItem.setError(ret, 'component:valdiate');
-                    }
+                return validate(
+                  this.props.data,
+                  this.getValue(),
+                  formItem.name
+                ).then(ret => {
+                  if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
+                    formItem.setError(ret, 'component:valdiate');
                   }
-                );
+                });
               };
               addHook?.(this.hook);
             } else if (!control && this.hook) {
@@ -662,7 +682,6 @@ export function wrapControl<
               formStore: form,
               onChange,
               $schema: {
-                name,
                 id,
                 label,
                 type,
@@ -700,7 +719,7 @@ export function wrapControl<
                   eventType: 'formItemChange',
                   eventData: {
                     id,
-                    name,
+                    name: model.name,
                     label,
                     type,
                     value
@@ -724,10 +743,10 @@ export function wrapControl<
 
             if (model.extraName) {
               const values = model.splitExtraValue(value);
-              onChange?.(values[0], name!);
+              onChange?.(values[0], model.name);
               onChange?.(values[1], model.extraName, submitOnChange === true);
             } else {
-              onChange?.(value, name!, submitOnChange === true);
+              onChange?.(value, model.name, submitOnChange === true);
             }
             this.checkValidate();
           }
@@ -753,7 +772,6 @@ export function wrapControl<
             const model = this.model;
             const {
               formStore: form,
-              name,
               $schema: {pipeOut},
               onChange,
               value: oldValue,
@@ -773,10 +791,10 @@ export function wrapControl<
 
             if (model.extraName) {
               const values = model.splitExtraValue(value);
-              onChange?.(values[0], name!, false, true);
+              onChange?.(values[0], model.name!, false, true);
               onChange?.(values[1], model.extraName!, false, true);
             } else {
-              onChange?.(value, name!, false, true);
+              onChange?.(value, model.name!, false, true);
             }
           }
 
@@ -799,12 +817,9 @@ export function wrapControl<
 
           // 兼容老版本用法，新版本直接用 onChange 就可以。
           setValue(value: any, key?: string) {
-            const {
-              $schema: {name},
-              onBulkChange
-            } = this.props;
+            const {onBulkChange} = this.props;
 
-            if (!key || key === name) {
+            if (!key || (this.model && key === this.model.name)) {
               this.handleChange(value);
             } else {
               onBulkChange &&
@@ -812,6 +827,24 @@ export function wrapControl<
                   [key]: value
                 });
             }
+          }
+
+          renderChild(
+            region: string,
+            node?: any,
+            subProps: {
+              [propName: string]: any;
+            } = {}
+          ) {
+            const {render, data, store} = this.props;
+            const model = this.model;
+
+            return render(region, node, {
+              data: model
+                ? model.getMergedData(data || store?.data)
+                : data || store?.data,
+              ...subProps
+            });
           }
 
           render() {
@@ -836,11 +869,14 @@ export function wrapControl<
             const injectedProps: any = {
               defaultSize: controlWidth,
               disabled: disabled ?? control.disabled,
-              static: control.static ?? defaultStatic,
+              static: this.props.static ?? control.static ?? defaultStatic,
               formItem: this.model,
               formMode: control.mode || formMode,
               ref: this.controlRef,
-              data: data || store?.data,
+              data: model
+                ? model.getMergedData(data || store?.data)
+                : data || store?.data,
+              name: model?.name ?? control.name,
               value,
               changeMotivation: model?.changeMotivation,
               defaultValue: control.value,
@@ -853,8 +889,10 @@ export function wrapControl<
               setPrinstineValue: this.setPrinstineValue,
               onValidate: this.validate,
               onFlushChange: this.flushChange,
+              render: this.renderChild // 如果覆盖，那么用的就是 form 上的 render，这个里面用到的 data 是比较旧的。
               // !没了这个， tree 里的 options 渲染会出问题
-              _filteredOptions: this.model?.filteredOptions
+              // todo 理论上不应该影响，待确认
+              // _filteredOptions: this.model?.filteredOptions
             };
 
             return (

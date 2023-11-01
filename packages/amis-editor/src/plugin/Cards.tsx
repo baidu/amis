@@ -30,8 +30,10 @@ export class CardsPlugin extends BasePlugin {
   name = '卡片列表';
   isBaseComponent = true;
   isListComponent = true;
+  memberImmutable = true;
   description =
     '功能类似于表格，但是用一个个小卡片来展示数据。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。';
+  searchKeywords = '卡片组';
   docLink = '/amis/zh-CN/components/cards';
   tags = ['展示'];
   icon = 'fa fa-window-maximize';
@@ -46,316 +48,297 @@ export class CardsPlugin extends BasePlugin {
           type: 'container',
           body: [
             {
+              type: 'icon',
+              icon: 'fa fa-check',
+              vendor: '',
+              themeCss: {
+                className: {
+                  'font': {
+                    color: 'var(--colors-brand-6)',
+                    fontSize: '20px'
+                  },
+                  'padding-and-margin:default': {
+                    marginRight: '10px'
+                  }
+                }
+              }
+            },
+            {
+              type: 'tpl',
+              tpl: '流水线任务实例 ',
+              inline: true,
+              wrapperComponent: '',
+              editorSetting: {
+                mock: {}
+              },
+              style: {
+                fontSize: 'var(--fonts-size-6)',
+                color: 'var(--colors-neutral-text-2)',
+                fontWeight: 'var(--fonts-weight-3)'
+              }
+            }
+          ],
+          style: {
+            position: 'static',
+            display: 'flex',
+            flexWrap: 'nowrap',
+            alignItems: 'center',
+            marginBottom: '15px'
+          },
+          wrapperBody: false,
+          isFixedHeight: false,
+          isFixedWidth: false,
+          size: 'none'
+        },
+        {
+          type: 'flex',
+          className: 'p-1',
+          items: [
+            {
               type: 'container',
               body: [
                 {
-                  type: 'icon',
-                  icon: 'fa fa-check',
-                  vendor: '',
-                  themeCss: {
-                    className: {
-                      'font': {
-                        color: 'var(--colors-brand-6)',
-                        fontSize: '20px'
-                      },
-                      'padding-and-margin:default': {
-                        marginRight: '10px'
+                  type: 'container',
+                  body: [
+                    {
+                      type: 'tpl',
+                      tpl: '12/',
+                      inline: true,
+                      wrapperComponent: '',
+                      style: {
+                        fontSize: 'var(--fonts-size-6)',
+                        color: 'var(--colors-neutral-text-2)',
+                        fontWeight: 'var(--fonts-weight-3)'
+                      }
+                    },
+                    {
+                      type: 'tpl',
+                      tpl: '19',
+                      inline: true,
+                      wrapperComponent: '',
+                      style: {
+                        color: 'var(--colors-neutral-text-6)',
+                        fontSize: 'var(--fonts-size-6)'
                       }
                     }
-                  }
+                  ],
+                  style: {
+                    position: 'static',
+                    display: 'block',
+                    flex: '0 0 auto',
+                    marginTop: 'var(--sizes-size-0)',
+                    marginRight: 'var(--sizes-size-0)',
+                    marginBottom: 'var(--sizes-size-0)',
+                    marginLeft: 'var(--sizes-size-0)'
+                  },
+                  wrapperBody: false,
+                  isFixedWidth: false,
+                  size: 'none'
                 },
                 {
+                  type: 'container',
+                  body: [
+                    {
+                      type: 'tpl',
+                      tpl: '单元测试',
+                      inline: true,
+                      wrapperComponent: '',
+                      style: {
+                        color: 'var(--colors-neutral-text-5)'
+                      }
+                    }
+                  ],
+                  style: {
+                    position: 'static',
+                    display: 'flex',
+                    flexWrap: 'nowrap',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: '0 0 auto'
+                  },
+                  wrapperBody: false,
+                  isFixedHeight: false,
+                  isFixedWidth: false,
+                  size: 'none'
+                }
+              ],
+              size: 'xs',
+              style: {
+                position: 'static',
+                display: 'flex',
+                flex: '1 1 auto',
+                flexGrow: 1,
+                flexBasis: 'auto',
+                flexWrap: 'nowrap',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center'
+              },
+              wrapperBody: false,
+              isFixedHeight: false,
+              isFixedWidth: false
+            },
+            {
+              type: 'container',
+              body: [
+                {
                   type: 'tpl',
-                  tpl: '流水线任务实例 ',
+                  tpl: '100%',
                   inline: true,
                   wrapperComponent: '',
-                  editorSetting: {
-                    mock: {}
-                  },
                   style: {
                     fontSize: 'var(--fonts-size-6)',
                     color: 'var(--colors-neutral-text-2)',
                     fontWeight: 'var(--fonts-weight-3)'
                   }
+                },
+                {
+                  type: 'tpl',
+                  tpl: '通过率',
+                  inline: true,
+                  wrapperComponent: '',
+                  style: {
+                    color: 'var(--colors-neutral-text-5)'
+                  }
                 }
               ],
+              size: 'xs',
               style: {
                 position: 'static',
                 display: 'flex',
+                flex: '1 1 auto',
+                flexGrow: 1,
+                flexBasis: 'auto',
                 flexWrap: 'nowrap',
-                alignItems: 'center',
-                marginBottom: '15px'
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'center'
               },
               wrapperBody: false,
               isFixedHeight: false,
-              isFixedWidth: false,
-              size: 'none'
-            },
-            {
-              type: 'flex',
-              className: 'p-1',
-              items: [
-                {
-                  type: 'container',
-                  body: [
-                    {
-                      type: 'container',
-                      body: [
-                        {
-                          type: 'tpl',
-                          tpl: '12/',
-                          inline: true,
-                          wrapperComponent: '',
-                          style: {
-                            fontSize: 'var(--fonts-size-6)',
-                            color: 'var(--colors-neutral-text-2)',
-                            fontWeight: 'var(--fonts-weight-3)'
-                          }
-                        },
-                        {
-                          type: 'tpl',
-                          tpl: '19',
-                          inline: true,
-                          wrapperComponent: '',
-                          style: {
-                            color: 'var(--colors-neutral-text-6)',
-                            fontSize: 'var(--fonts-size-6)'
-                          }
-                        }
-                      ],
-                      style: {
-                        position: 'static',
-                        display: 'block',
-                        flex: '0 0 auto',
-                        marginTop: 'var(--sizes-size-0)',
-                        marginRight: 'var(--sizes-size-0)',
-                        marginBottom: 'var(--sizes-size-0)',
-                        marginLeft: 'var(--sizes-size-0)'
-                      },
-                      wrapperBody: false,
-                      isFixedWidth: false,
-                      size: 'none'
-                    },
-                    {
-                      type: 'container',
-                      body: [
-                        {
-                          type: 'tpl',
-                          tpl: '单元测试',
-                          inline: true,
-                          wrapperComponent: '',
-                          style: {
-                            color: 'var(--colors-neutral-text-5)'
-                          }
-                        }
-                      ],
-                      style: {
-                        position: 'static',
-                        display: 'flex',
-                        flexWrap: 'nowrap',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        flex: '0 0 auto'
-                      },
-                      wrapperBody: false,
-                      isFixedHeight: false,
-                      isFixedWidth: false,
-                      size: 'none'
-                    }
-                  ],
-                  size: 'xs',
-                  style: {
-                    position: 'static',
-                    display: 'flex',
-                    flex: '1 1 auto',
-                    flexGrow: 1,
-                    flexBasis: 'auto',
-                    flexWrap: 'nowrap',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  },
-                  wrapperBody: false,
-                  isFixedHeight: false,
-                  isFixedWidth: false
-                },
-                {
-                  type: 'container',
-                  body: [
-                    {
-                      type: 'tpl',
-                      tpl: '100%',
-                      inline: true,
-                      wrapperComponent: '',
-                      style: {
-                        fontSize: 'var(--fonts-size-6)',
-                        color: 'var(--colors-neutral-text-2)',
-                        fontWeight: 'var(--fonts-weight-3)'
-                      }
-                    },
-                    {
-                      type: 'tpl',
-                      tpl: '通过率',
-                      inline: true,
-                      wrapperComponent: '',
-                      style: {
-                        color: 'var(--colors-neutral-text-5)'
-                      }
-                    }
-                  ],
-                  size: 'xs',
-                  style: {
-                    position: 'static',
-                    display: 'flex',
-                    flex: '1 1 auto',
-                    flexGrow: 1,
-                    flexBasis: 'auto',
-                    flexWrap: 'nowrap',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-start',
-                    alignItems: 'center'
-                  },
-                  wrapperBody: false,
-                  isFixedHeight: false,
-                  isFixedWidth: false
-                },
-                {
-                  type: 'container',
-                  body: [
-                    {
-                      type: 'tpl',
-                      tpl: '99.9%',
-                      inline: true,
-                      wrapperComponent: '',
-                      style: {
-                        fontSize: 'var(--fonts-size-6)',
-                        color: 'var(--colors-neutral-text-2)',
-                        fontWeight: 'var(--fonts-weight-3)'
-                      }
-                    },
-                    {
-                      type: 'tpl',
-                      tpl: '任务实例',
-                      inline: true,
-                      wrapperComponent: '',
-                      style: {
-                        color: 'var(--colors-neutral-text-5)'
-                      }
-                    }
-                  ],
-                  size: 'xs',
-                  style: {
-                    position: 'static',
-                    display: 'flex',
-                    flex: '1 1 auto',
-                    flexGrow: 1,
-                    flexBasis: 'auto',
-                    flexWrap: 'nowrap',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'column'
-                  },
-                  wrapperBody: false,
-                  isFixedHeight: false,
-                  isFixedWidth: false
-                }
-              ],
-              style: {
-                position: 'relative'
-              }
+              isFixedWidth: false
             },
             {
               type: 'container',
               body: [
                 {
                   type: 'tpl',
-                  tpl: '报告',
+                  tpl: '99.9%',
                   inline: true,
                   wrapperComponent: '',
                   style: {
-                    fontSize: '14px',
-                    color: 'var(--colors-neutral-text-5)'
+                    fontSize: 'var(--fonts-size-6)',
+                    color: 'var(--colors-neutral-text-2)',
+                    fontWeight: 'var(--fonts-weight-3)'
                   }
                 },
                 {
                   type: 'tpl',
-                  tpl: '2023-01-01 12:00',
+                  tpl: '任务实例',
                   inline: true,
                   wrapperComponent: '',
                   style: {
-                    fontSize: '12px',
-                    color: 'var(--colors-neutral-text-6)'
+                    color: 'var(--colors-neutral-text-5)'
                   }
                 }
               ],
+              size: 'xs',
               style: {
                 position: 'static',
                 display: 'flex',
+                flex: '1 1 auto',
+                flexGrow: 1,
+                flexBasis: 'auto',
                 flexWrap: 'nowrap',
-                justifyContent: 'space-between',
-                marginTop: '20px'
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column'
               },
               wrapperBody: false,
               isFixedHeight: false,
               isFixedWidth: false
             }
           ],
-          size: 'none',
           style: {
-            'position': 'static',
-            'display': 'block',
-            'overflowY': 'auto',
-            'overflowX': 'auto',
-            'paddingTop': '10px',
-            'paddingRight': '10px',
-            'paddingBottom': '10px',
-            'paddingLeft': '10px',
-            'radius': {
-              'top-left-border-radius': '6px',
-              'top-right-border-radius': '6px',
-              'bottom-left-border-radius': '6px',
-              'bottom-right-border-radius': '6px'
+            position: 'relative'
+          }
+        },
+        {
+          type: 'container',
+          body: [
+            {
+              type: 'tpl',
+              tpl: '报告',
+              inline: true,
+              wrapperComponent: '',
+              style: {
+                fontSize: '14px',
+                color: 'var(--colors-neutral-text-5)'
+              }
             },
-            'top-border-width': 'var(--borders-width-4)',
-            'left-border-width': 'var(--borders-width-2)',
-            'right-border-width': 'var(--borders-width-2)',
-            'bottom-border-width': 'var(--borders-width-2)',
-            'top-border-style': 'var(--borders-style-2)',
-            'left-border-style': 'var(--borders-style-2)',
-            'right-border-style': 'var(--borders-style-2)',
-            'bottom-border-style': 'var(--borders-style-2)',
-            'top-border-color': 'var(--colors-brand-6)',
-            'left-border-color': 'var(--colors-brand-10)',
-            'right-border-color': 'var(--colors-brand-10)',
-            'bottom-border-color': 'var(--colors-brand-10)',
-            'flex': '0 0 150px',
-            'marginRight': '15px',
-            'flexBasis': '100%'
+            {
+              type: 'tpl',
+              tpl: '2023-01-01 12:00',
+              inline: true,
+              wrapperComponent: '',
+              style: {
+                fontSize: '12px',
+                color: 'var(--colors-neutral-text-6)'
+              }
+            }
+          ],
+          style: {
+            position: 'static',
+            display: 'flex',
+            flexWrap: 'nowrap',
+            justifyContent: 'space-between',
+            marginTop: '20px'
           },
           wrapperBody: false,
           isFixedHeight: false,
-          isFixedWidth: true,
-          onEvent: {
-            click: {
-              weight: 0,
-              actions: []
-            }
-          }
+          isFixedWidth: false
         }
       ],
+      size: 'none',
       style: {
-        position: 'static',
-        display: 'flex',
-        width: '1000%',
-        overflowX: 'auto',
-        margin: '0',
-        flexWrap: 'nowrap',
-        justifyContent: 'space-between'
+        'position': 'static',
+        'display': 'block',
+        'paddingTop': '10px',
+        'paddingRight': '10px',
+        'paddingBottom': '10px',
+        'paddingLeft': '10px',
+        'radius': {
+          'top-left-border-radius': '6px',
+          'top-right-border-radius': '6px',
+          'bottom-left-border-radius': '6px',
+          'bottom-right-border-radius': '6px'
+        },
+        'top-border-width': 'var(--borders-width-4)',
+        'left-border-width': 'var(--borders-width-2)',
+        'right-border-width': 'var(--borders-width-2)',
+        'bottom-border-width': 'var(--borders-width-2)',
+        'top-border-style': 'var(--borders-style-2)',
+        'left-border-style': 'var(--borders-style-2)',
+        'right-border-style': 'var(--borders-style-2)',
+        'bottom-border-style': 'var(--borders-style-2)',
+        'top-border-color': 'var(--colors-brand-6)',
+        'left-border-color': 'var(--colors-brand-10)',
+        'right-border-color': 'var(--colors-brand-10)',
+        'bottom-border-color': 'var(--colors-brand-10)',
+        'flex': '0 0 150px',
+        'marginRight': '15px',
+        'flexBasis': '100%'
       },
+      wrapperBody: false,
       isFixedHeight: false,
       isFixedWidth: true,
-      wrapperBody: false
+      onEvent: {
+        click: {
+          weight: 0,
+          actions: []
+        }
+      }
     },
     placeholder: '',
     name: '',
@@ -366,7 +349,16 @@ export class CardsPlugin extends BasePlugin {
   };
   previewSchema = {
     ...this.scaffold,
-    className: 'text-left '
+    className: 'text-left',
+    name: 'items',
+    columnsCount: 2,
+    style: {
+      ...this.scaffold.style,
+      transform: 'scale(0.5)',
+      width: '600px',
+      transformOrigin: 'left top'
+    },
+    items: [{}, {}, {}, {}]
   };
 
   panelTitle = '卡片集';
@@ -514,7 +506,8 @@ export class CardsPlugin extends BasePlugin {
         wrapperResolve: plugin.wrapperResolve,
         filterProps: plugin.filterProps,
         $schema: plugin.$schema,
-        renderRenderer: plugin.renderRenderer
+        renderRenderer: plugin.renderRenderer,
+        memberImmutable: plugin.memberImmutable
       };
     }
 

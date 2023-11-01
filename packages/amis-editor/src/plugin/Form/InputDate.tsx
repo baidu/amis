@@ -6,6 +6,7 @@ import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {FormulaDateType} from '../../renderer/FormulaControl';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
+import type {Schema} from 'amis';
 
 const formatX = [
   {
@@ -148,7 +149,7 @@ export class DateControlPlugin extends BasePlugin {
   isBaseComponent = true;
   // 添加源对应组件中文名称 & type字段
   searchKeywords =
-    '日期框、input-datetime、日期时间框、input-time、时间框、input-month、月份框、input-quarter、季度框、input-year、年框';
+    '日期框、input-datetime、日期时间框、input-time、时间框、input-month、月份框、input-quarter、季度框、input-year、年框、年份框、年份选择';
   description = '年月日选择，支持相对值设定，如<code>+2days</code>两天后';
   docLink = '/amis/zh-CN/components/form/input-date';
   tags = ['表单项'];
@@ -292,7 +293,7 @@ export class DateControlPlugin extends BasePlugin {
 
                     form.setValues({
                       placeholder: DateType[type]?.placeholder,
-                      valueFormat: type === 'time' ? 'HH:mm' : 'X',
+                      valueFormat: 'X',
                       displayFormat: DateType[type]?.format,
                       minDate: '',
                       maxDate: '',
@@ -307,7 +308,7 @@ export class DateControlPlugin extends BasePlugin {
                     '值格式',
                     '提交数据前将根据设定格式化数据，请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
                   ),
-                  pipeIn: defaultValue('YYYY-MM-DD'),
+                  pipeIn: defaultValue('X'),
                   clearable: true,
                   onChange: (
                     value: string,
@@ -347,9 +348,7 @@ export class DateControlPlugin extends BasePlugin {
                   pipeIn: defaultValue(true)
                 }),
                 getSchemaTpl('valueFormula', {
-                  rendererSchema: {
-                    ...context?.schema
-                  },
+                  rendererSchema: (schema: Schema) => schema,
                   placeholder: '请选择静态值',
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
@@ -359,9 +358,15 @@ export class DateControlPlugin extends BasePlugin {
                   name: 'minDate',
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
-                  rendererSchema: {
-                    ...context?.schema,
-                    value: context?.schema.minDate
+                  rendererSchema: () => {
+                    const schema = this.manager.store.getSchema(
+                      context.schema?.id,
+                      'id'
+                    );
+                    return {
+                      ...schema,
+                      value: context?.schema.minDate
+                    };
                   },
                   placeholder: '请选择静态值',
                   needDeleteProps: ['minDate'], // 避免自我限制
@@ -371,9 +376,15 @@ export class DateControlPlugin extends BasePlugin {
                   name: 'maxDate',
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
-                  rendererSchema: {
-                    ...context?.schema,
-                    value: context?.schema.maxDate
+                  rendererSchema: () => {
+                    const schema = this.manager.store.getSchema(
+                      context.schema?.id,
+                      'id'
+                    );
+                    return {
+                      ...schema,
+                      value: context?.schema.maxDate
+                    };
                   },
                   needDeleteProps: ['maxDate'], // 避免自我限制
                   label: tipedLabel('最大值', dateTooltip)

@@ -23,7 +23,10 @@ import {
   findTreeIndex,
   spliceTree,
   filterTree,
-  eachTree
+  eachTree,
+  mapTree,
+  setVariable,
+  cloneObject
 } from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import find from 'lodash/find';
@@ -264,6 +267,14 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           ? value.split(delimiter || ',').map((v: string) => v.trim())
           : [];
         return values;
+      },
+
+      getMergedData(data: any) {
+        const result = cloneObject(data);
+        setVariable(result, self.name, self.tmpValue);
+        setVariable(result, '__value', self.tmpValue);
+        setVariable(result, '__name', self.name);
+        return result;
       }
     };
   })
@@ -363,12 +374,12 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       if (
         typeof rules !== 'undefined' ||
-        self.required ||
+        typeof required !== 'undefined' ||
         typeof minLength === 'number' ||
         typeof maxLength === 'number'
       ) {
         rules = {
-          ...rules,
+          ...(rules ?? self.rules),
           isRequired: self.required || rules?.isRequired
         };
 
@@ -376,11 +387,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         // 暂时先这样
         if (~['input-text', 'textarea'].indexOf(self.type)) {
           if (typeof minLength === 'number') {
-            rules.minLength = minLength;
+            (rules as any).minLength = minLength;
           }
 
           if (typeof maxLength === 'number') {
-            rules.maxLength = maxLength;
+            (rules as any).maxLength = maxLength;
           }
         }
 
@@ -637,17 +648,18 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           if (!msg) {
             msg = `status: ${json.status}`;
           }
-          getEnv(self).notify(
-            'error',
-            apiObject.messages?.failed ??
-              (self.errors.join('') || `${apiObject.url}: ${msg}`),
-            json.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: json.msgTimeout
-                }
-              : undefined
-          );
+          !(api as any)?.silent &&
+            getEnv(self).notify(
+              'error',
+              apiObject.messages?.failed ??
+                (self.errors.join('') || `${apiObject.url}: ${msg}`),
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
         } else {
           result = json;
         }
@@ -667,7 +679,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         }
 
         console.error(e);
-        env.notify('error', e.message);
+        !(api as any)?.silent && env.notify('error', e.message);
         return;
       }
     } as any);
@@ -773,6 +785,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
 
       !silent &&
+        !(api as any)?.silent &&
         getEnv(self).notify('info', self.__('FormItem.autoFillLoadFailed'));
 
       return;
@@ -1118,8 +1131,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     // @issue 强依赖form，需要改造暂且放过。
     function syncOptions(originOptions?: Array<any>, data?: Object) {
       if (!self.options.length && typeof self.value === 'undefined') {
-        self.selectedOptions = [];
-        self.filteredOptions = [];
+        isArrayChildrenModified(self.filteredOptions, []) &&
+          (self.filteredOptions = []);
+        isArrayChildrenModified(self.selectedOptions, []) &&
+          (self.selectedOptions = []);
         return;
       }
 
@@ -1248,10 +1263,16 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             }
           });
 
-        if (filteredOptions.length) {
-          filteredOptions = filteredOptions.filter(
-            option => !~options.indexOf(option.value)
-          );
+        if (filteredOptions.length && options.length) {
+          filteredOptions = mapTree(filteredOptions, item => {
+            if (~options.indexOf(item.value)) {
+              return {
+                ...item,
+                disabled: true
+              };
+            }
+            return item;
+          });
         }
       }
 
@@ -1279,7 +1300,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       if (subStore && subStore.storeType === 'ComboStore') {
         const combo = subStore as IComboStore;
-        combo.forms.forEach(form => form.reset());
+        combo.forms.forEach(form => form.reset(undefined, false)); // 仅重置校验状态，不要重置数据
       }
 
       !keepErrors && clearError();

@@ -10,7 +10,7 @@ order: 48
 
 ## 基本用法
 
-参考 [Options](options)
+参考 [Options 选择器表单项](options)
 
 ## 自定义菜单
 
@@ -42,6 +42,7 @@ order: 48
 }
 ```
 
+## 展示模式
 ### 分组展示模式
 
 _单选_
@@ -55,6 +56,7 @@ _单选_
       "label": "分组",
       "type": "select",
       "name": "a",
+      "searchable": true,
       "selectMode": "group",
       "options": [
         {
@@ -114,6 +116,7 @@ _多选_
       "type": "select",
       "name": "a",
       "multiple": true,
+      "searchable": true,
       "selectMode": "group",
       "options": [
         {
@@ -176,6 +179,7 @@ _单选_
       "label": "表格形式",
       "type": "select",
       "name": "a",
+      "searchable": true,
       "selectMode": "table",
       "columns": [
         {
@@ -235,6 +239,7 @@ _多选_
       "label": "表格形式",
       "type": "select",
       "name": "a",
+      "searchable": true,
       "selectMode": "table",
       "multiple": true,
       "columns": [
@@ -297,6 +302,7 @@ _单选_
       "label": "树型展示",
       "type": "select",
       "name": "a",
+      "searchable": true,
       "selectMode": "tree",
       "options": [
         {
@@ -355,6 +361,7 @@ _多选_
       "label": "树型展示",
       "type": "select",
       "name": "a",
+      "searchable": true,
       "multiple": true,
       "selectMode": "tree",
       "options": [
@@ -418,6 +425,7 @@ _单选_
       "label": "级联选择",
       "type": "select",
       "name": "a",
+      "searchable": true,
       "selectMode": "chained",
       "options": [
         {
@@ -476,6 +484,7 @@ _多选_
       "label": "级联选择",
       "type": "select",
       "name": "a",
+      "searchable": true,
       "selectMode": "chained",
       "multiple": true,
       "options": [
@@ -524,7 +533,7 @@ _多选_
 }
 ```
 
-### 支持搜索
+## 支持搜索
 
 ```schema: scope="body"
 {
@@ -643,7 +652,43 @@ _多选_
 }
 ```
 
-### 延时加载
+### searchApi
+
+**发送**
+
+默认 GET，携带 term 变量，值为搜索框输入的文字，可从上下文中取数据设置进去。
+
+**响应**
+
+格式要求如下：
+
+```json
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "options": [
+      {
+        "label": "描述",
+        "value": "值" // ,
+        // "children": [] // 可以嵌套
+      },
+
+      {
+        "label": "描述2",
+        "value": "值2"
+      }
+    ],
+
+    "value": "值" // 默认值，可以获取列表的同时设置默认值。
+  }
+}
+```
+
+适用于需选择的数据/信息源较多时，用户可直观的知道自己所选择的数据/信息的场景，一般左侧框为数据/信息源，右侧为已选数据/信息，被选中信息同时存在于 2 个框内。
+
+
+## 延时加载
 
 选型设置 defer: true，结合配置组件层的 `deferApi` 来实现。
 
@@ -696,7 +741,7 @@ _多选_
 }
 ```
 
-### 关联选择模式
+## 关联选择模式
 
 分为左右两部分，左边点选后关联出现右边。左右都可以配置展示模式。
 
@@ -1117,41 +1162,6 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
   }
 }
 ```
-
-## searchApi
-
-**发送**
-
-默认 GET，携带 term 变量，值为搜索框输入的文字，可从上下文中取数据设置进去。
-
-**响应**
-
-格式要求如下：
-
-```json
-{
-  "status": 0,
-  "msg": "",
-  "data": {
-    "options": [
-      {
-        "label": "描述",
-        "value": "值" // ,
-        // "children": [] // 可以嵌套
-      },
-
-      {
-        "label": "描述2",
-        "value": "值2"
-      }
-    ],
-
-    "value": "值" // 默认值，可以获取列表的同时设置默认值。
-  }
-}
-```
-
-适用于需选择的数据/信息源较多时，用户可直观的知道自己所选择的数据/信息的场景，一般左侧框为数据/信息源，右侧为已选数据/信息，被选中信息同时存在于 2 个框内。
 
 ## 多选全选
 

@@ -8,10 +8,12 @@ import {findDOMNode, render, unmountComponentAtNode} from 'react-dom';
 // import {createRoot} from 'react-dom/client';
 import {autorun, observable} from 'mobx';
 import {observer} from 'mobx-react';
-import {uuidv4} from './helper';
+import {uuidv4, importLazyComponent} from './helper';
 import position from './position';
 
-export const JsonView = React.lazy(() => import('react-json-view'));
+export const JsonView = React.lazy(() =>
+  import('react-json-view').then(importLazyComponent)
+);
 
 class Log {
   @observable cat = '';
@@ -514,7 +516,7 @@ export function traceProps(props: any, prevProps: any, componentName: string) {
             return `data[${Object.keys(props[key])
               .map(item => {
                 if (props[key][item] !== prevProps[key][item]) {
-                  return `data.${item}`;
+                  return `${item}`;
                 }
                 return '';
               })
