@@ -21,7 +21,7 @@ class InputInner extends React.Component<InputProps, InputState> {
 
   componentDidUpdate(prevProps: InputProps) {
     const props = this.props;
-    if (prevProps.value !== props.value || this.state.value !== props.value) {
+    if (prevProps.value !== props.value) {
       this.setState({
         value: props.value
       });
