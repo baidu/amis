@@ -16,6 +16,25 @@ order: 61
 {
     "type": "form",
     "api": "/api/mock2/form/saveForm",
+    "data":{
+        "schema":{
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "age": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "age",
+                "name"
+            ],
+            "title": "Welcome"
+        }
+    },
     debug: true,
     "body": [
         {
