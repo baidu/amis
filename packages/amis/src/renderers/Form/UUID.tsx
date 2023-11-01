@@ -27,7 +27,7 @@ export default class UUIDControl extends React.Component<
   }
 
   componentDidUpdate(props: FormControlProps) {
-    if (!props.value) {
+    if (!props.value && props.formInited !== false) {
       this.setValue();
     }
   }
