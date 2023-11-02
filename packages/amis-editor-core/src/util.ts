@@ -73,7 +73,7 @@ let themeUselessPropKeys: Array<string> = [];
  * 给每个节点加个 $$id 这样方便编辑
  * @param obj
  */
-export function JSONPipeIn(obj: any, generateId = false): any {
+export function JSONPipeIn(obj: any, generateId = false, idMap: any = {}): any {
   if (!isObject(obj) || obj.$$typeof) {
     return obj;
   }
@@ -123,7 +123,9 @@ export function JSONPipeIn(obj: any, generateId = false): any {
 
       /** 脚手架构建的Schema提前构建好了组件 ID，此时无需生成 ID，避免破坏事件动作 */
       if (!obj.__origin || obj.__origin !== 'scaffold') {
-        toUpdate.id = generateNodeId();
+        const newId = generateNodeId();
+        obj.id && (idMap[obj.id] = newId);
+        toUpdate.id = newId;
       }
     }
   }
@@ -137,7 +139,7 @@ export function JSONPipeIn(obj: any, generateId = false): any {
       let flag2 = false;
 
       let patched = prop.map((item: any) => {
-        let patched = JSONPipeIn(item, generateId);
+        let patched = JSONPipeIn(item, generateId, idMap);
 
         if (patched !== item) {
           flag2 = true;
@@ -151,7 +153,14 @@ export function JSONPipeIn(obj: any, generateId = false): any {
         toUpdate[key] = patched;
       }
     } else {
-      let patched = JSONPipeIn(prop, generateId);
+      let patched = JSONPipeIn(prop, generateId, idMap);
+
+      if (generateId && typeof patched === 'string') {
+        Object.keys(idMap).forEach(oldId => {
+          const newId = idMap[oldId];
+          patched = (patched as string).replaceAll(oldId, newId);
+        });
+      }
 
       if (patched !== prop) {
         flag = true;
