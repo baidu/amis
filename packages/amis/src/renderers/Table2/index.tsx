@@ -1161,7 +1161,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
             api: saveImmediately.api,
             reload: options?.reload
           },
-          values
+          item.locals
         );
       return;
     }
