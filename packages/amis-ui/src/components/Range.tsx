@@ -502,7 +502,7 @@ export class Range extends React.Component<RangeItemProps, any> {
     // 遍历刻度标记masks 寻找距离当前节点最近的刻度标记 并记录差值
     keys(marks).forEach((mKey: keyof MarksType) => {
       const mNum = isString(mKey) ? parseInt(mKey, 10) : mKey;
-      if (mKey !== value) {
+      if (mKey !== value && !isNaN(mNum)) {
         maxWidth = Math.min(Math.abs(curNum - mNum), maxWidth);
       }
     });
