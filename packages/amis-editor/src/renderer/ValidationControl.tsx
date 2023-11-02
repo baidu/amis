@@ -330,6 +330,7 @@ export default class ValidationControl extends React.Component<
 
   renderValidateApiControl() {
     const {onBulkChange, render} = this.props;
+
     return (
       <div className="ae-ValidationControl-item">
         {render('validate-api-control', {
@@ -340,7 +341,6 @@ export default class ValidationControl extends React.Component<
           wrapperComponent: 'div',
           mode: 'horizontal',
           data: {
-            validateApi: this.props.data.validateApi,
             switchStatus: this.props.data.validateApi !== undefined
           },
           preventEnterSubmit: true,
@@ -369,6 +369,10 @@ export default class ValidationControl extends React.Component<
               className: 'ae-ExtendMore ae-ValidationControl-item-input',
               bodyClassName: 'w-full',
               visibleOn: 'this.switchStatus',
+              data: {
+                // 放在form中则包含的表达式会被求值
+                validateApi: this.props.data.validateApi
+              },
               body: [
                 getSchemaTpl('apiControl', {
                   name: 'validateApi',
