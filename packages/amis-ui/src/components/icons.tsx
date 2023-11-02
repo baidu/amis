@@ -3,7 +3,7 @@
  * @description
  * @author fex
  */
-import React, {useState, useEffect, useRef} from 'react';
+import React, {createElement} from 'react';
 import cxClass from 'classnames';
 import CloseIcon from '../icons/close.svg';
 import CloseSmallIcon from '../icons/close-small.svg';
@@ -346,22 +346,35 @@ export function Icon({
     typeof (icon as IconCheckedSchema).id === 'string' &&
     (icon as IconCheckedSchema).id.startsWith('svg-')
   ) {
-    return (
-      <svg
-        onClick={onClick}
-        className={cx('icon', 'icon-object', className, classNameProp)}
-        style={style}
-      >
-        <use
-          xlinkHref={`#${(icon as IconCheckedSchema).id.replace(/^svg-/, '')}`}
-        ></use>
-      </svg>
-    );
+    const svg = icon as IconCheckedSchema;
+    const id = `${svg.id.replace(/^svg-/, '')}`;
+    if (!document.getElementById(id)) {
+      // 如果svg symbol不存在，则尝试将svg字符串赋值给icon，走svg字符串的逻辑
+      icon = svg.svg?.replace(/'/g, '');
+    } else {
+      return (
+        <svg
+          onClick={onClick}
+          className={cx('icon', 'icon-object', className, classNameProp)}
+          style={style}
+        >
+          <use xlinkHref={'#' + id}></use>
+        </svg>
+      );
+    }
   }
 
   // 直接传入svg字符串
   if (typeof icon === 'string' && icon.startsWith('<svg')) {
-    return <i dangerouslySetInnerHTML={{__html: icon}} />;
+    const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
+    const svgHTML = createElement('svg', {
+      onClick,
+      className: cx('icon', className, classNameProp),
+      style,
+      dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
+      viewBox: '0 0 16 16'
+    });
+    return svgHTML;
   }
 
   // icon是链接
