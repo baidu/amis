@@ -365,8 +365,7 @@ export default class App extends React.Component<AppProps, object> {
             if (
               !subHeader &&
               link.children &&
-              link.children.filter((item: {visible: boolean}) => item?.visible)
-                .length
+              link.children.some((item: {visible: boolean}) => item?.visible)
             ) {
               children.push(
                 <span
