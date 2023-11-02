@@ -431,11 +431,6 @@ export class TableCell2Plugin extends BasePlugin {
         mode: 'normal',
         formType: 'extend',
         bulk: true,
-        defaultData: {
-          quickEdit: {
-            mode: 'popOver'
-          }
-        },
         trueValue: {
           mode: 'popOver'
         },
@@ -484,27 +479,20 @@ export class TableCell2Plugin extends BasePlugin {
               asFormItem: true,
               label: false,
               children: ({value, onBulkChange, name, data}: any) => {
-                if (value === true) {
-                  value = {};
+                // 打开快速编辑面板默认显示
+                if (!value.type) {
+                  value = {
+                    type: 'input-text',
+                    name: data.key
+                  };
                 } else {
-                  value = getVariable(data.__super, 'quickEdit');
+                  // 获取quickEdit属性值
+                  value = getVariable(data, 'quickEdit');
                 }
-
                 const originMode = value?.mode || 'popOver';
-
                 value = {
                   ...value,
-                  type: 'form',
-                  mode: 'normal',
-                  wrapWithPanel: false,
-                  body: value?.body?.length
-                    ? value.body
-                    : [
-                        {
-                          type: 'input-text',
-                          name: data.key
-                        }
-                      ]
+                  mode: 'normal'
                 };
 
                 if (value.mode) {

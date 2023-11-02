@@ -70,50 +70,36 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
         asFormItem: true,
         visibleOn: 'data.quickEdit',
         mode: 'row',
-        children: ({value, onBulkChange, name, data}: any) => {
-          if (value === true) {
-            value = {};
+        children: ({value, onChange, data}: any) => {
+          // 打开快速编辑面板默认显示
+          if (!value.type) {
+            value = {
+              type: 'input-text',
+              name: data.key
+            };
           } else {
-            value = getVariable(data.__super, 'quickEdit');
+            // 获取quickEdit属性值
+            value = getVariable(data, 'quickEdit');
           }
-
-          const originMode = value.mode;
-
+          const originMode = value?.mode || 'popOver';
           value = {
             ...value,
-            type: 'form',
-            mode: 'normal',
-            wrapWithPanel: false,
-            body: value?.body?.length
-              ? value.body
-              : [
-                  {
-                    type: 'input-text',
-                    name: data.key
-                  }
-                ]
+            mode: 'normal'
           };
-
-          if (value.mode) {
-            delete value.mode;
-          }
 
           // todo 多个快速编辑表单模式看来只能代码模式编辑了。
           return (
             <Button
+              level="info"
+              className="m-b"
+              size="sm"
               block
-              level="primary"
               onClick={() => {
                 manager.openSubEditor({
                   title: '配置快速编辑类型',
                   value: value,
                   onChange: (value: any) =>
-                    onBulkChange({
-                      [name]: {
-                        ...value,
-                        mode: originMode
-                      }
-                    })
+                    onChange({...value, mode: originMode}, 'quickEdit')
                 });
               }}
             >

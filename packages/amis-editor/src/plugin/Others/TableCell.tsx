@@ -11,6 +11,7 @@ import {
 } from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {getVariable} from 'amis-core';
+import {normalize} from 'path';
 
 export class TableCellPlugin extends BasePlugin {
   static id = 'TableCellPlugin';
@@ -114,33 +115,22 @@ export class TableCellPlugin extends BasePlugin {
               visibleOn: 'data.quickEdit',
               name: 'quickEdit',
               asFormItem: true,
-              children: ({value, onBulkChange, name, data}: any) => {
-                if (value === true) {
-                  value = {};
-                } else if (typeof value === 'undefined') {
+              children: ({value, onChange, data}: any) => {
+                // 打开快速编辑面板默认显示
+                if (!value.type) {
+                  value = {
+                    type: 'input-text',
+                    name: data.key
+                  };
+                } else {
+                  // 获取quickEdit属性值
                   value = getVariable(data, 'quickEdit');
                 }
-
-                const originMode = value.mode;
-
+                const originMode = value?.mode || 'popOver';
                 value = {
                   ...value,
-                  type: 'form',
-                  mode: 'normal',
-                  wrapWithPanel: false,
-                  body: value?.body?.length
-                    ? value.body
-                    : [
-                        {
-                          type: 'input-text',
-                          name: data.key
-                        }
-                      ]
+                  mode: 'normal'
                 };
-
-                if (value.mode) {
-                  delete value.mode;
-                }
 
                 // todo 多个快速编辑表单模式看来只能代码模式编辑了。
                 return (
@@ -153,14 +143,8 @@ export class TableCellPlugin extends BasePlugin {
                       this.manager.openSubEditor({
                         title: '配置快速编辑类型',
                         value: value,
-                        onChange: value => {
-                          onBulkChange({
-                            [name]: {
-                              ...value,
-                              mode: originMode
-                            }
-                          });
-                        }
+                        onChange: value =>
+                          onChange({...value, mode: originMode}, 'quickEdit')
                       });
                     }}
                   >
