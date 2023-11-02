@@ -107,7 +107,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
                   getSchemaTpl('layout:flex-setting', {
                     label: '弹性布局设置',
                     direction: curRendererSchema.direction,
-                    justify: curRendererSchema.justify,
+                    justify: curRendererSchema.justify || 'center',
                     alignItems: curRendererSchema.alignItems
                   }),
 
