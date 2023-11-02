@@ -496,7 +496,7 @@ export default class List extends React.Component<ListProps, object> {
           api: saveImmediately.api,
           reload: options?.reload
         },
-        values
+        item.locals
       );
       return;
     }

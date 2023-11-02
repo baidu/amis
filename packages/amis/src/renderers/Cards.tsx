@@ -430,7 +430,7 @@ export default class Cards extends React.Component<GridProps, object> {
           api: saveImmediately.api,
           reload: options?.reload
         },
-        values
+        item.locals
       );
       return;
     }
