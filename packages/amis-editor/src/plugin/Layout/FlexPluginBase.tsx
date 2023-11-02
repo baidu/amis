@@ -30,19 +30,39 @@ export const defaultFlexColumnSchema = (title?: string) => {
     isFixedWidth: false
   };
 };
+
+const defaultFlexPreviewSchema = (title?: string) => {
+  return {
+    type: 'tpl',
+    tpl: title,
+    wrapperComponent: '',
+    className: 'bg-light center',
+    style: {
+      display: 'block',
+      flex: '1 1 auto',
+      flexBasis: 'auto',
+      textAlign: 'center',
+      marginRight: 10
+    },
+    inline: false
+  };
+};
+
 // 默认的布局容器Schema
-const defaultFlexContainerSchema = {
+const defaultFlexContainerSchema = (
+  flexItemSchema: (title?: string) => any = defaultFlexColumnSchema
+) => ({
   type: 'flex',
   className: 'p-1',
   items: [
-    defaultFlexColumnSchema('第一列'),
-    defaultFlexColumnSchema('第二列'),
-    defaultFlexColumnSchema('第三列')
+    flexItemSchema('第一列'),
+    flexItemSchema('第二列'),
+    flexItemSchema('第三列')
   ],
   style: {
     position: 'relative'
   }
-};
+});
 
 export class FlexPluginBase extends LayoutBasePlugin {
   static id = 'FlexPluginBase';
@@ -59,10 +79,8 @@ export class FlexPluginBase extends LayoutBasePlugin {
     '布局容器 是基于 CSS Flex 实现的布局效果，它比 Grid 和 HBox 对子节点位置的可控性更强，比用 CSS 类的方式更易用';
   docLink = '/amis/zh-CN/components/flex';
   tags = ['布局容器'];
-  scaffold: any = defaultFlexContainerSchema;
-  previewSchema = {
-    ...this.scaffold
-  };
+  scaffold: any = defaultFlexContainerSchema();
+  previewSchema = defaultFlexContainerSchema(defaultFlexPreviewSchema);
 
   panelTitle = '布局容器';
 
@@ -266,7 +284,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
             className: 'ae-InsertBefore is-vertical',
             onClick: () =>
               this.manager.appendSiblingSchema(
-                defaultFlexContainerSchema,
+                defaultFlexContainerSchema(),
                 true,
                 true
               )
@@ -279,7 +297,7 @@ export class FlexPluginBase extends LayoutBasePlugin {
             className: 'ae-InsertAfter is-vertical',
             onClick: () =>
               this.manager.appendSiblingSchema(
-                defaultFlexContainerSchema,
+                defaultFlexContainerSchema(),
                 false,
                 true
               )

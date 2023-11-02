@@ -13,6 +13,7 @@ export class AudioPlugin extends BasePlugin {
   name = '音频';
   isBaseComponent = true;
   description = '音频控件，可以用来播放各种音频文件。';
+  docLink = '/amis/zh-CN/components/audio';
   tags = ['功能'];
   icon = 'fa fa-music';
   pluginIcon = 'audio-plugin';
