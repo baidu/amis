@@ -105,6 +105,7 @@ export * from './Images'; // 图片集
 export * from './Time'; // 时间展示
 export * from './Date'; // 日期展示
 export * from './Datetime'; // 日期时间展示
+export * from './Calendar'; // 日历日程展示
 export * from './Tag'; // 标签
 export * from './Json'; // JSON展示
 export * from './Progress'; // 进度展示

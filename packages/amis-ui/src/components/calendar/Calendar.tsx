@@ -65,6 +65,9 @@ interface BaseDatePickerProps {
   ) => boolean;
   onViewModeChange?: (type: string) => void;
   requiredConfirm?: boolean;
+  onClick?: (date: moment.Moment) => any;
+  onMouseEnter?: (date: moment.Moment) => any;
+  onMouseLeave?: (date: moment.Moment) => any;
   onClose?: () => void;
   onChange?: (value: any, viewMode?: Extract<ViewMode, 'time'>) => void;
   isEndDate?: boolean;
@@ -351,6 +354,9 @@ class BaseDatePicker extends React.Component<
       : this.props.viewMode || 'time';
 
     this.state = state;
+    this.onClick = this.onClick.bind(this);
+    this.onMouseEnter = this.onMouseEnter.bind(this);
+    this.onMouseLeave = this.onMouseLeave.bind(this);
   }
 
   getUpdateOn = (formats: any) => {
@@ -385,7 +391,10 @@ class BaseDatePicker extends React.Component<
       'subtractTime',
       'updateSelectedDate',
       'localMoment',
-      'handleClickOutside'
+      'handleClickOutside',
+      'onClick',
+      'onMouseEnter',
+      'onMouseLeave'
     ]
   };
 
@@ -517,8 +526,7 @@ class BaseDatePicker extends React.Component<
     };
   };
 
-  updateSelectedDate = (e: React.MouseEvent, close?: boolean) => {
-    const that: any = this;
+  getTargetDate = (e: React.MouseEvent) => {
     let target = e.currentTarget,
       modifier = 0,
       viewDate = this.state.viewDate,
@@ -557,6 +565,12 @@ class BaseDatePicker extends React.Component<
       .minutes(currentDate.minutes())
       .seconds(currentDate.seconds())
       .milliseconds(currentDate.milliseconds());
+    return date;
+  };
+
+  updateSelectedDate = (e: React.MouseEvent, close?: boolean) => {
+    const that: any = this;
+    const date = that.getTargetDate(e);
 
     if (!this.props.value) {
       var open = !(this.props.closeOnSelect && close);
@@ -663,6 +677,21 @@ class BaseDatePicker extends React.Component<
     this.props.onChange && this.props.onChange(date);
     this.props.onClose && this.props.onClose();
   };
+
+  onClick(e: React.MouseEvent) {
+    const date = this.getTargetDate(e);
+    this.props.onClick && this.props.onClick(date);
+  }
+
+  onMouseEnter(e: React.MouseEvent) {
+    const date = this.getTargetDate(e);
+    this.props.onMouseEnter && this.props.onMouseEnter(date);
+  }
+
+  onMouseLeave(e: React.MouseEvent) {
+    const date = this.getTargetDate(e);
+    this.props.onMouseLeave && this.props.onMouseLeave(date);
+  }
 
   render() {
     const {viewMode, timeFormat, dateFormat, timeRangeHeader, mobileUI} =

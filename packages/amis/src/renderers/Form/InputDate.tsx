@@ -572,6 +572,42 @@ export default class DateControl extends React.PureComponent<
     this.props.onChange(nextValue);
   }
 
+  // 点击日期事件
+  @autobind
+  async handleClick(date: moment.Moment) {
+    const {dispatchEvent, utc, valueFormat, format} = this.props;
+    dispatchEvent(
+      'click',
+      resolveEventData(this.props, {
+        value: (utc ? moment.utc(date) : date).format(valueFormat || format)
+      })
+    );
+  }
+
+  // 鼠标移入日期事件
+  @autobind
+  async handleMouseEnter(date: moment.Moment) {
+    const {dispatchEvent, utc, valueFormat, format} = this.props;
+    dispatchEvent(
+      'mouseenter',
+      resolveEventData(this.props, {
+        value: (utc ? moment.utc(date) : date).format(valueFormat || format)
+      })
+    );
+  }
+
+  // 鼠标移出日期事件
+  @autobind
+  async handleMouseLeave(date: moment.Moment) {
+    const {dispatchEvent, utc, valueFormat, format} = this.props;
+    dispatchEvent(
+      'mouseleave',
+      resolveEventData(this.props, {
+        value: (utc ? moment.utc(date) : date).format(valueFormat || format)
+      })
+    );
+  }
+
   @autobind
   isDisabledDate(currentDate: moment.Moment) {
     const {disabledDate} = this.props;
@@ -647,6 +683,9 @@ export default class DateControl extends React.PureComponent<
           onFocus={this.dispatchEvent}
           onBlur={this.dispatchEvent}
           disabledDate={this.isDisabledDate}
+          onClick={this.handleClick}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
         />
       </div>
     );

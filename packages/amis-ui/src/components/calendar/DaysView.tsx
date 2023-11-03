@@ -43,6 +43,9 @@ interface CustomDaysViewProps extends LocaleProps {
     value: moment.Moment,
     viewMode?: Extract<ViewMode, 'time'>
   ) => void;
+  onClick: (event: React.MouseEvent<any>) => void;
+  onMouseEnter: (event: React.MouseEvent<any>) => void;
+  onMouseLeave: (event: React.MouseEvent<any>) => void;
   onConfirm?: (value: number[], types: DateType[]) => void;
   setDateTimeState: (state: any) => void;
   showTime: () => void;
@@ -188,7 +191,18 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
         classes.includes('rdtToday') ? {todayActiveStyle} : {}
       );
 
-      if (!isDisabled) (dayProps as any).onClick = this.updateSelectedDate;
+      if (!isDisabled) {
+        (dayProps as any).onClick = (event: React.MouseEvent<any>) => {
+          this.props.onClick(event);
+          this.updateSelectedDate(event);
+        };
+        (dayProps as any).onMouseEnter = (event: React.MouseEvent<any>) => {
+          this.props.onMouseEnter(event);
+        };
+        (dayProps as any).onMouseLeave = (event: React.MouseEvent<any>) => {
+          this.props.onMouseLeave(event);
+        };
+      }
 
       days.push(renderer(dayProps, currentDate, selected));
 
