@@ -245,11 +245,11 @@ export class FlexPluginBase extends LayoutBasePlugin {
   ];
 
   buildEditorToolbar(
-    {id, info, schema}: BaseEventContext,
+    {id, info, schema, node}: BaseEventContext,
     toolbars: Array<BasicToolbarItem>
   ) {
-    const store = this.manager.store;
-    const parent = store.getSchemaParentById(id);
+    // const store = this.manager.store;
+    const parent = node.parent?.schema; // 或者 store.getSchemaParentById(id, true);
     const draggableContainer = this.manager.draggableContainer(id);
     const isFlexItem = this.manager?.isFlexItem(id);
     const isFlexColumnItem = this.manager?.isFlexColumnItem(id);
