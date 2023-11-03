@@ -117,7 +117,7 @@ export default class RichTextControl extends React.Component<
     this.state.config = this.getConfig(props);
   }
 
-  componentDidUpdate(prevProps: Readonly<RichTextProps>): void {
+  componentDidUpdate(prevProps: Readonly<RichTextProps>) {
     const props = this.props;
     const finnalVendor =
       props.vendor || (props.env.richTextToken ? 'froala' : 'tinymce');

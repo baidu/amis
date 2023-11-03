@@ -74,7 +74,6 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
   }
 
   componentDidUpdate(prevProps: TinymceEditorProps) {
-    console.log('componentDidUpdate', prevProps);
     const props = this.props;
 
     if (

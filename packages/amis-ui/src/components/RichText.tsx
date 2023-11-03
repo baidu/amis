@@ -100,6 +100,11 @@ class FroalaEditorComponent extends React.Component<FroalaEditorComponentProps> 
       this.config = {...this.config};
       this.editor = new FroalaEditor(this.element, this.config);
     }
+
+    if (JSON.stringify(this.oldModel) == JSON.stringify(this.props.model)) {
+      return;
+    }
+    this.setContent();
   }
 
   // Return cloned object
@@ -304,7 +309,6 @@ export default class extends React.Component<any, any> {
   }
 
   render() {
-    console.log('FroalaEditorComponent');
     return (
       <FroalaEditorComponent
         config={this.props.config}
