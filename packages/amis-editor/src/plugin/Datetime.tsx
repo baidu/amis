@@ -121,10 +121,10 @@ export class DatetimePlugin extends DatePlugin {
                   label: '日期时间值'
                 },
                 {
-                  type: 'select', // nested-select
+                  type: 'nested-select',
                   name: 'format',
-                  searchable: true,
-                  selectMode: 'tree', // tree、chained
+                  // searchable: true,
+                  // selectMode: 'chained', // tree、chained
                   hideNodePathLabel: true,
                   onlyLeaf: true,
                   label: tipedLabel(
@@ -132,8 +132,7 @@ export class DatetimePlugin extends DatePlugin {
                     '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
                   ),
                   clearable: true,
-                  creatable: true,
-                  createBtnLabel: '自定义时间格式',
+                  // creatable: true,
                   options: dateFormatOptions,
                   pipeIn: defaultValue('YYYY-MM-DD HH:mm:ss')
                 },
