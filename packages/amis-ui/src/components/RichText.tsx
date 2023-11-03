@@ -44,6 +44,7 @@ import 'froala-editor/js/languages/zh_cn.js';
 // Require Editor CSS files.
 // import 'froala-editor/css/froala_style.min.css';
 // import 'froala-editor/css/froala_editor.pkgd.min.css';
+import {anyChanged} from 'amis-core';
 
 export interface FroalaEditorComponentProps {
   config: any;
@@ -92,12 +93,13 @@ class FroalaEditorComponent extends React.Component<FroalaEditorComponentProps> 
     this.destroyEditor();
   }
 
-  componentDidUpdate() {
-    if (JSON.stringify(this.oldModel) == JSON.stringify(this.props.model)) {
-      return;
+  componentDidUpdate(prevProps: Readonly<FroalaEditorComponentProps>) {
+    if (this.props.config !== prevProps.config) {
+      this.editor?.destroy();
+      this.config = this.clone(this.props.config || this.config);
+      this.config = {...this.config};
+      this.editor = new FroalaEditor(this.element, this.config);
     }
-
-    this.setContent();
   }
 
   // Return cloned object
@@ -302,6 +304,7 @@ export default class extends React.Component<any, any> {
   }
 
   render() {
+    console.log('FroalaEditorComponent');
     return (
       <FroalaEditorComponent
         config={this.props.config}
