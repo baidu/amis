@@ -482,21 +482,31 @@ export class TableCell2Plugin extends BasePlugin {
                 // 打开快速编辑面板默认显示
                 if (!value.type) {
                   value = {
-                    type: 'input-text',
-                    name: data.key
+                    type: 'container',
+                    body: [
+                      {
+                        type: 'input-text',
+                        mode: 'normal',
+                        name: data.key
+                      }
+                    ]
                   };
                 } else {
                   // 获取quickEdit属性值
                   value = getVariable(data, 'quickEdit');
                 }
                 const originMode = value?.mode || 'popOver';
-                value = {
-                  ...value,
-                  mode: 'normal'
-                };
 
-                if (value.mode) {
-                  delete value.mode;
+                if (!value.body) {
+                  value = {
+                    type: 'container',
+                    body: [
+                      {
+                        ...value,
+                        mode: 'normal'
+                      }
+                    ]
+                  };
                 }
                 // todo 多个快速编辑表单模式看来只能代码模式编辑了。
                 return (
