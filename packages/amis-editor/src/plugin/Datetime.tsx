@@ -2,7 +2,6 @@ import {registerEditorPlugin, tipedLabel} from 'amis-editor-core';
 import {BaseEventContext} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {DatePlugin} from './Date';
-import {truncate} from 'lodash';
 
 const dateFormatOptions = [
   {
@@ -157,7 +156,24 @@ export class DatetimePlugin extends DatePlugin {
             getSchemaTpl('status')
           ])
         },
-        getSchemaTpl('onlyClassNameTab')
+        {
+          title: '外观',
+          body: getSchemaTpl('collapseGroup', [
+            ...getSchemaTpl('theme:common', {
+              exclude: ['layout'],
+              baseExtra: [
+                getSchemaTpl('theme:font', {
+                  label: '文字',
+                  name: 'themeCss.baseControlClassName.font'
+                })
+              ]
+            }),
+            {
+              title: 'CSS类名',
+              body: [getSchemaTpl('className')]
+            }
+          ])
+        }
       ])
     ];
   };
