@@ -40,7 +40,7 @@ export class TimePlugin extends DatePlugin {
   isBaseComponent = true;
 
   pluginIcon = 'time-plugin';
-
+  docLink = '/amis/zh-CN/components/date';
   scaffold = {
     type: 'time',
     value: Math.round(Date.now() / 1000),

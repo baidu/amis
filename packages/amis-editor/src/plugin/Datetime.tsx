@@ -45,7 +45,7 @@ export class DatetimePlugin extends DatePlugin {
   name = '日期时间展示';
   isBaseComponent = true;
   pluginIcon = 'datetime-plugin';
-
+  docLink = '/amis/zh-CN/components/date';
   previewSchema = {
     ...this.scaffold,
     format: 'YYYY-MM-DD HH:mm:ss',

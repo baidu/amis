@@ -20,6 +20,7 @@ export class EachPlugin extends BasePlugin {
   memberImmutable = true;
   description = '功能渲染器，可以基于现有变量循环输出渲染器。';
   searchKeywords = '循环渲染器';
+  docLink = '/amis/zh-CN/components/each';
   tags = ['功能'];
   icon = 'fa fa-repeat';
   pluginIcon = 'each-plugin';

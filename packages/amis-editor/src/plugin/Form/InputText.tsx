@@ -41,7 +41,7 @@ export class TextControlPlugin extends BasePlugin {
 
   description = '文本输入框，支持普通文本、密码、URL、邮箱等多种内容输入';
 
-  docLink = '/amis/zh-CN/components/form/text';
+  docLink = '/amis/zh-CN/components/form/input-text';
 
   tags = ['表单项'];
 
