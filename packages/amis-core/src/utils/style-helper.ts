@@ -252,12 +252,8 @@ export function insertCustomStyle(
   }
 
   let {value} = formatStyle(themeCss, classNames, id, defaultData);
-  if (value) {
-    value = customStyleClassPrefix
-      ? `${customStyleClassPrefix} ${value}`
-      : value;
-    insertStyle(value, id.replace('u:', ''), doc);
-  }
+  value = customStyleClassPrefix ? `${customStyleClassPrefix} ${value}` : value;
+  insertStyle(value, id.replace('u:', ''), doc);
 }
 
 /**
