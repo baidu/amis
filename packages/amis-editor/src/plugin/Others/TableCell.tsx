@@ -130,24 +130,25 @@ export class TableCellPlugin extends BasePlugin {
                 if (value.mode) {
                   delete value.mode;
                 }
-                value = value.body
-                  ? {
-                      // schema中存在容器，用自己的就行
-                      type: 'container',
-                      body: [],
-                      ...value
-                    }
-                  : {
-                      // schema中不存在容器，打开子编辑器时需要包裹一层
-                      type: 'container',
-                      body: [
-                        {
-                          type: 'input-text',
-                          name: data.name,
-                          ...value
-                        }
-                      ]
-                    };
+                value =
+                  value.body && !['input-group'].includes(value.type)
+                    ? {
+                        // schema中存在容器，用自己的就行
+                        type: 'container',
+                        body: [],
+                        ...value
+                      }
+                    : {
+                        // schema中不存在容器，打开子编辑器时需要包裹一层
+                        type: 'container',
+                        body: [
+                          {
+                            type: 'input-text',
+                            name: data.name,
+                            ...value
+                          }
+                        ]
+                      };
 
                 // todo 多个快速编辑表单模式看来只能代码模式编辑了。
                 return (
