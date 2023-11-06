@@ -63,6 +63,7 @@ export * from './Form/UUID'; // UUID
 export * from './Form/LocationPicker'; // 地理位置
 export * from './Form/InputSubForm'; // 子表单项
 export * from './Form/Hidden'; // 隐藏域
+export * from './Form/Static'; // 静态展示框
 
 // 功能
 export * from './Button'; // 按钮
@@ -136,7 +137,6 @@ export * from './Form/InputMonthRange';
 export * from './Form/InputPassword';
 export * from './Form/InputQuarter';
 export * from './Form/InputQuarterRange';
-export * from './Form/Static';
 export * from './Form/InputTime';
 export * from './Form/InputTimeRange';
 export * from './Form/TreeSelect';
