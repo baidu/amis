@@ -37,6 +37,11 @@ export class CmptAction implements RendererAction {
     const key = action.componentId || action.componentName;
     const dataMergeMode = action.dataMergeMode || 'merge';
 
+    if (!key) {
+      console.warn('请提供目标组件的componentId或componentName');
+      return;
+    }
+
     let component = key
       ? event.context.scoped?.[
           action.componentId ? 'getComponentById' : 'getComponentByName'
