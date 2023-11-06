@@ -1,5 +1,6 @@
 import {Button} from 'amis';
 import React from 'react';
+import {clone} from 'lodash';
 import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BasePlugin,
@@ -117,33 +118,24 @@ export class TableCellPlugin extends BasePlugin {
               asFormItem: true,
               children: ({value, onChange, data}: any) => {
                 // 打开快速编辑面板默认显示
-                if (!value.type) {
+                if (value === true || !value?.type) {
                   value = {
                     type: 'container',
                     body: [
                       {
                         type: 'input-text',
-                        mode: 'normal',
                         name: data.key
                       }
                     ]
                   };
                 } else {
                   // 获取quickEdit属性值
-                  value = getVariable(data, 'quickEdit');
+                  value = clone(getVariable(data, 'quickEdit'));
                 }
                 const originMode = value?.mode || 'popOver';
 
-                if (!value.body) {
-                  value = {
-                    type: 'container',
-                    body: [
-                      {
-                        ...value,
-                        mode: 'normal'
-                      }
-                    ]
-                  };
+                if (value?.mode) {
+                  delete value.mode;
                 }
                 // todo 多个快速编辑表单模式看来只能代码模式编辑了。
                 return (

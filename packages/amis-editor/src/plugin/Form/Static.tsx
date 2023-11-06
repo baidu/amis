@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button} from 'amis';
-import get from 'lodash/get';
+import {get, clone} from 'lodash';
 import {
   defaultValue,
   getSchemaTpl,
@@ -72,22 +72,25 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
         mode: 'row',
         children: ({value, onChange, data}: any) => {
           // 打开快速编辑面板默认显示
-          if (!value.type) {
+          if (value === true || !value?.type) {
             value = {
               type: 'container',
               body: [
                 {
                   type: 'input-text',
-                  mode: 'normal',
                   name: data.key
                 }
               ]
             };
           } else {
             // 获取quickEdit属性值
-            value = getVariable(data, 'quickEdit');
+            value = clone(getVariable(data, 'quickEdit'));
           }
           const originMode = value?.mode || 'popOver';
+
+          if (value?.mode) {
+            delete value.mode;
+          }
 
           if (!value.body) {
             value = {
@@ -117,121 +120,6 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
               }}
             >
               配置快速编辑
-            </Button>
-          );
-        }
-      }
-    ]
-  }
-}));
-
-// 查看更多
-setSchemaTpl('morePopOver', (patch: any, manager: any) => ({
-  type: 'ae-switch-more',
-  mode: 'normal',
-  name: 'popOver',
-  label: '查看更多展示',
-  value: false,
-  hiddenOnDefault: true,
-  formType: 'extend',
-  pipeIn: (value: any) => !!value,
-  form: {
-    body: [
-      {
-        label: '弹出模式',
-        name: 'popOver.mode',
-        type: 'button-group-select',
-        visibleOn: 'data.popOver',
-        pipeIn: defaultValue('popOver'),
-        options: [
-          {
-            label: '浮层',
-            value: 'popOver'
-          },
-
-          {
-            label: '弹框',
-            value: 'dialog'
-          },
-
-          {
-            label: '抽屉',
-            value: 'drawer'
-          }
-        ]
-      },
-      {
-        name: 'popOver.position',
-        label: '浮层位置',
-        type: 'select',
-        visibleOn:
-          'data.popOver && (data.popOver.mode === "popOver" || !data.popOver.mode)',
-        pipeIn: defaultValue('center'),
-        options: [
-          {
-            label: '目标左上角',
-            value: 'left-top'
-          },
-          {
-            label: '目标右上角',
-            value: 'right-top'
-          },
-          {
-            label: '目标中部',
-            value: 'center'
-          },
-          {
-            label: '目标左下角',
-            value: 'left-bottom'
-          },
-          {
-            label: '目标右下角',
-            value: 'right-bottom'
-          },
-          {
-            label: '页面左上角',
-            value: 'fixed-left-top'
-          },
-          {
-            label: '页面右上角',
-            value: 'fixed-right-top'
-          },
-          {
-            label: '页面左下角',
-            value: 'fixed-left-bottom'
-          },
-          {
-            label: '页面右下角',
-            value: 'fixed-right-bottom'
-          }
-        ]
-      },
-      {
-        visibleOn: 'data.popOver',
-        name: 'popOver',
-        mode: 'row',
-        asFormItem: true,
-        children: ({value, onChange}: any) => {
-          value = {
-            type: 'panel',
-            title: '查看详情',
-            body: '内容详情',
-            ...value
-          };
-
-          return (
-            <Button
-              block
-              level="primary"
-              onClick={() => {
-                manager.openSubEditor({
-                  title: '配置查看更多展示内容',
-                  value: value,
-                  onChange: (value: any) => onChange(value, 'quickEdit')
-                });
-              }}
-            >
-              查看更多内容配置
             </Button>
           );
         }

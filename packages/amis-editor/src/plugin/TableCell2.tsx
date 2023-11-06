@@ -1,5 +1,5 @@
 import React from 'react';
-import get from 'lodash/get';
+import {get, clone} from 'lodash';
 import flattenDeep from 'lodash/flattenDeep';
 import {Button, Icon} from 'amis';
 import {getVariable, isObject} from 'amis-core';
@@ -480,22 +480,25 @@ export class TableCell2Plugin extends BasePlugin {
               label: false,
               children: ({value, onBulkChange, name, data}: any) => {
                 // 打开快速编辑面板默认显示
-                if (!value.type) {
+                if (value === true || !value?.type) {
                   value = {
                     type: 'container',
                     body: [
                       {
                         type: 'input-text',
-                        mode: 'normal',
                         name: data.key
                       }
                     ]
                   };
                 } else {
                   // 获取quickEdit属性值
-                  value = getVariable(data, 'quickEdit');
+                  value = clone(getVariable(data, 'quickEdit'));
                 }
                 const originMode = value?.mode || 'popOver';
+
+                if (value?.mode) {
+                  delete value.mode;
+                }
 
                 if (!value.body) {
                   value = {
