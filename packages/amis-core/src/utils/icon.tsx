@@ -47,16 +47,30 @@ export const generateIcon = (
       typeof (icon as IconCheckedSchema).id === 'string' &&
       (icon as IconCheckedSchema).id.startsWith('svg-')
     ) {
-      return (
-        <svg className={cx('icon', 'icon-object', className, classNameProp)}>
-          <use
-            xlinkHref={`#${(icon as IconCheckedSchema).id.replace(
-              /^svg-/,
-              ''
-            )}`}
-          ></use>
-        </svg>
-      );
+      if (
+        !document.getElementById((icon as IconCheckedSchema).id) &&
+        (icon as IconCheckedSchema).svg
+      ) {
+        const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(
+          (icon as IconCheckedSchema).svg!
+        );
+        // 如果svg symbol不存在，则尝试将svg字符串赋值给icon，走svg字符串的逻辑
+        return React.createElement('svg', {
+          className: cx('icon', className, classNameProp),
+          dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
+          viewBox: '0 0 16 16'
+        });
+      } else
+        return (
+          <svg className={cx('icon', 'icon-object', className, classNameProp)}>
+            <use
+              xlinkHref={`#${(icon as IconCheckedSchema).id.replace(
+                /^svg-/,
+                ''
+              )}`}
+            ></use>
+          </svg>
+        );
     }
 
     return;
