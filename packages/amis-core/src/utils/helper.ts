@@ -251,7 +251,7 @@ export function rmUndefined(obj: PlainObject) {
 export function isObjectShallowModified(
   prev: any,
   next: any,
-  strictMode: boolean = true,
+  strictModeOrFunc: boolean | ((lhs: any, rhs: any) => boolean) = true,
   ignoreUndefined: boolean = false,
   statck: Array<any> = []
 ): boolean {
@@ -262,7 +262,7 @@ export function isObjectShallowModified(
           isObjectShallowModified(
             prev,
             next[index],
-            strictMode,
+            strictModeOrFunc,
             ignoreUndefined,
             statck
           )
@@ -281,7 +281,11 @@ export function isObjectShallowModified(
     isObservable(prev) ||
     isObservable(next)
   ) {
-    return strictMode ? prev !== next : prev != next;
+    if (strictModeOrFunc && typeof strictModeOrFunc === 'function') {
+      return strictModeOrFunc(prev, next);
+    }
+
+    return strictModeOrFunc ? prev !== next : prev != next;
   }
 
   if (ignoreUndefined) {
@@ -311,7 +315,7 @@ export function isObjectShallowModified(
       isObjectShallowModified(
         prev[key],
         next[key],
-        strictMode,
+        strictModeOrFunc,
         ignoreUndefined,
         statck
       )
