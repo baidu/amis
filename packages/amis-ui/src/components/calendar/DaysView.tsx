@@ -239,7 +239,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     const dateBoundary = this.props.getDateBoundary(currentDate);
     const columns = this.props.getColumns(types, dateBoundary);
     this.state = {
-      columns,
+      columns: this.getColumnsWithUnit(columns),
       types,
       pickerValue: currentDate.toArray(),
       uniqueTag: new Date().valueOf()
@@ -275,6 +275,19 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
         );
       }
     });
+  }
+
+  getColumnsWithUnit(columns: {options: PickerOption[]}[]) {
+    return this.props.locale === 'zh-CN' && columns.length === 3
+      ? columns.map((item, index) => {
+          item.options?.map((option: any) => {
+            option.text =
+              option.text + (index === 0 ? '年' : index === 1 ? '月' : '日');
+            return option;
+          });
+          return item;
+        })
+      : columns;
   }
 
   updateSelectedDate = (event: React.MouseEvent<any>) => {
@@ -767,7 +780,9 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
       );
       const dateBoundary = this.props.getDateBoundary(selectDate);
       this.setState({
-        columns: this.props.getColumns(this.state.types, dateBoundary),
+        columns: this.getColumnsWithUnit(
+          this.props.getColumns(this.state.types, dateBoundary)
+        ),
         pickerValue: value
       });
     }
