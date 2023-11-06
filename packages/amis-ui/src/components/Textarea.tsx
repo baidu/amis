@@ -233,9 +233,13 @@ export class Textarea extends React.Component<TextAreaProps, TextAreaState> {
               'is-clearable': clearable && !disabled && value
             })}
           >
-            {`${counter}${
-              typeof maxLength === 'number' && maxLength ? `/${maxLength}` : ''
-            }`}
+            <span>{counter}</span>
+            {typeof maxLength === 'number' && maxLength ? (
+              <>
+                <i>/</i>
+                <span>{maxLength}</span>
+              </>
+            ) : null}
           </span>
         ) : null}
       </div>
