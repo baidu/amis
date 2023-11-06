@@ -2,12 +2,13 @@
  * 组件名称：NestedSelect 级联选择器
  * 单测内容：
  * 01. maxTagLength
+ * 02. onlyLeaf
  */
 
-import {render, cleanup, waitFor} from '@testing-library/react';
+import {render, cleanup, waitFor, fireEvent} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
-import {makeEnv} from '../../helper';
+import {makeEnv, wait} from '../../helper';
 import {clearStoresCache} from '../../../src';
 
 afterEach(() => {
@@ -111,5 +112,109 @@ describe('Renderer:NestedSelect', () => {
     /** 收纳 Tag 可见 */
     expect(queryByText(overflowText)).toBeVisible();
     expect(container).toMatchSnapshot();
+  });
+});
+
+
+describe.only('Renderer:NestedSelect with onlyLeaf', () => {
+  test('single selection', async () => {
+    const optionWithNoChild = 'OptionWithNoChild';
+    const optionWithChild = 'OptionWithChild';
+    const {container, queryByText} = await setupNestedSelect({
+      "onlyLeaf": true,
+      "options": [
+        {"label": "选项A", "value": "A"},
+        {"label": optionWithNoChild, "value": "B", "children": []},
+        {
+          "label": optionWithChild,
+          "value": "C",
+          "children": [
+            {"label": "选项c1", "value": "c1"},
+            {"label": "选项c2", "value": "c2"}
+          ]
+        }
+      ]
+    });
+
+    const trigger = container.querySelector('.cxd-ResultBox');
+    expect(trigger).toBeInTheDocument();
+
+
+    fireEvent.click(trigger!);
+    await wait(200);
+
+    const parentNum = container.querySelectorAll('.cxd-NestedSelect-optionArrowRight')?.length ?? 0;
+    expect(parentNum).toEqual(1);
+
+    let options = container.querySelectorAll('.cxd-NestedSelect-optionLabel');
+    expect(options.length).toEqual(3);
+
+    /** onlyLeaf开启后，children为空数组的选项也可以选择 */
+    fireEvent.click(options[1]);
+    await wait(300);
+    expect(queryByText(optionWithNoChild)!).toBeInTheDocument();
+
+    fireEvent.click(trigger!);
+    await wait(200);
+    options = container.querySelectorAll('.cxd-NestedSelect-optionLabel');
+    fireEvent.click(options[2]);
+    await wait(300);
+    fireEvent.click(trigger!);
+    await wait(200);
+    expect(queryByText(optionWithNoChild)!).toBeInTheDocument();
+    /** onlyLeaf开启后，children非空的选项无法选择 */
+    expect(queryByText(optionWithChild)).toBeNull();
+  });
+
+  test('single selection', async () => {
+    const optionWithNoChild = 'OptionWithNoChild';
+    const optionWithChild = 'OptionWithChild';
+    const {container, queryByText} = await setupNestedSelect({
+      "onlyLeaf": true,
+      "multiple": true,
+      "options": [
+        {"label": "选项A", "value": "A"},
+        {"label": optionWithNoChild, "value": "B", "children": []},
+        {
+          "label": optionWithChild,
+          "value": "C",
+          "children": [
+            {"label": "选项c1", "value": "c1"},
+            {"label": "选项c2", "value": "c2"}
+          ]
+        }
+      ]
+    });
+
+    const trigger = container.querySelector('.cxd-ResultBox');
+    expect(trigger).toBeInTheDocument();
+
+
+    fireEvent.click(trigger!);
+    await wait(200);
+
+    const parentNum = container.querySelectorAll('.cxd-NestedSelect-optionArrowRight')?.length ?? 0;
+    expect(parentNum).toEqual(1);
+
+    let options = container.querySelectorAll('.cxd-NestedSelect-optionLabel');
+    expect(options.length).toEqual(3);
+
+    /** onlyLeaf开启后，children为空数组的选项也可以选择 */
+    fireEvent.click(options[1]);
+    await wait(300);
+    fireEvent.click(trigger!);
+    await wait(200);
+    expect(queryByText(optionWithNoChild)!).toBeInTheDocument();
+
+    fireEvent.click(trigger!);
+    await wait(200);
+    options = container.querySelectorAll('.cxd-NestedSelect-optionLabel');
+    fireEvent.click(options[2]);
+    await wait(300);
+    fireEvent.click(trigger!);
+    await wait(200);
+    expect(queryByText(optionWithNoChild)!).toBeInTheDocument();
+    /** onlyLeaf开启后，children非空的选项无法选择 */
+    expect(queryByText(optionWithChild)).toBeNull();
   });
 });
