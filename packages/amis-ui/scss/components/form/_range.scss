@@ -206,10 +206,10 @@
   }
 
   &-track--background {
-    left: 0.5rem;
+    left: px2rem(8px);
     margin-top: calc(-0.5 * var(--InputRange-track-height));
     position: absolute;
-    right: 0.5rem;
+    right: px2rem(8px);
     top: 50%;
   }
 
