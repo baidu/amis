@@ -87,7 +87,7 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
             delete value.mode;
           }
           value =
-            value.body && !['input-group'].includes(value.type)
+            value.body && ['container', 'wrapper'].includes(value.type)
               ? {
                   // schema中存在容器，用自己的就行
                   type: 'container',
