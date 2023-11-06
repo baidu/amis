@@ -140,7 +140,15 @@ exports[`Renderer:textarea with maxLength & clearable & resetValue 1`] = `
             <span
               class="cxd-TextareaControl-counter is-clearable"
             >
-              16/9
+              <span>
+                16
+              </span>
+              <i>
+                /
+              </i>
+              <span>
+                9
+              </span>
             </span>
           </div>
           <ul
@@ -321,7 +329,9 @@ exports[`Renderer:textarea with trimContents & showCounter 1`] = `
             <span
               class="cxd-TextareaControl-counter"
             >
-              5
+              <span>
+                5
+              </span>
             </span>
           </div>
         </div>

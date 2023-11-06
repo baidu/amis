@@ -101,7 +101,7 @@ test('Renderer:textarea with trimContents & showCounter', async () => {
   expect(
     (container.querySelector('.cxd-TextareaControl-counter') as Element)
       .innerHTML
-  ).toBe('3');
+  ).toBe('<span>3</span>');
 
   fireEvent.change(textarea, {target: {value: '   12345   '}});
   fireEvent.blur(textarea);
@@ -111,7 +111,7 @@ test('Renderer:textarea with trimContents & showCounter', async () => {
   expect(
     (container.querySelector('.cxd-TextareaControl-counter') as Element)
       .innerHTML
-  ).toBe('5');
+  ).toBe('<span>5</span>');
 
   expect(container).toMatchSnapshot();
 });
@@ -136,7 +136,7 @@ test('Renderer:textarea with maxLength & clearable & resetValue', async () => {
   expect(
     (container.querySelector('.cxd-TextareaControl-counter') as Element)
       .innerHTML
-  ).toBe('3/9');
+  ).toBe('<span>3</span><i>/</i><span>9</span>');
 
   fireEvent.click(container.querySelector('.cxd-TextareaControl-clear')!);
   await waitFor(() => {
@@ -144,7 +144,7 @@ test('Renderer:textarea with maxLength & clearable & resetValue', async () => {
     expect(
       (container.querySelector('.cxd-TextareaControl-counter') as Element)
         .innerHTML
-    ).toBe('16/9');
+    ).toBe('<span>16</span><i>/</i><span>9</span>');
   });
 
   const submitBtn = container.querySelector(
