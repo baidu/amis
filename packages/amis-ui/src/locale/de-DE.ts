@@ -187,6 +187,7 @@ register('de-DE', {
   'link': 'Link',
   'loading': 'Wird geladen...',
   'loadingFailed': 'Das Laden ist fehlgeschlagen',
+  'download': 'Herunterladen',
   'LocationPicker.placeholder': 'Wählen Sie einen Ort',
   'LocationPicker.getLocation':
     'Klicken Sie hier, um Standortinformationen zu erhalten',
@@ -349,6 +350,7 @@ register('de-DE', {
   'zoomIn': 'Vergrößern',
   'zoomOut': 'Verkleinern',
   'scale.origin': 'Originalmaße',
+  'default.view': 'Standardansicht',
   'Editor.fullscreen': 'Schirmfüllend Modus',
   'Editor.exitFullscreen': 'Zurücktreten Schirmfüllend Modus',
   'Condition.not': 'nicht',

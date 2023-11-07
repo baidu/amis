@@ -9,12 +9,14 @@ import {filter} from 'amis-core';
 import {
   resolveVariable,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  createObject
 } from 'amis-core';
 import Image, {ImageThumbProps, imagePlaceholder} from './Image';
 import {autobind, getPropValue} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
 import type {ImageToolbarAction} from './Image';
+import {ImageGallery} from 'amis-ui';
 
 /**
  * 图片集展示控件。
@@ -112,6 +114,11 @@ export interface ImagesSchema extends BaseSchema {
    * 工具栏配置
    */
   toolbarActions?: ImageToolbarAction[];
+
+  /**
+   * 内嵌模式
+   */
+  embed: boolean;
 }
 
 export interface ImagesProps
@@ -175,6 +182,33 @@ export class ImagesField extends React.Component<ImagesProps> {
       );
   }
 
+  stringParse(str: string, type: 'title' | 'caption') {
+    const {render, data} = this.props;
+
+    return render(type, str, {
+      data: createObject(createObject(data))
+    });
+  }
+
+  getList() {
+    const {src, originalSrc} = this.props;
+
+    return this.list.map(item => ({
+      src: src ? filter(src, item, '| raw') : (item && item.image) || item,
+      originalSrc: originalSrc
+        ? filter(originalSrc, item, '| raw')
+        : item?.src || filter(src, item, '| raw') || item?.image || item,
+      title: this.stringParse(
+        item && (item.enlargeTitle || item.title),
+        'title'
+      ),
+      caption: this.stringParse(
+        item && (item.enlargeCaption || item.description || item.caption),
+        'caption'
+      )
+    }));
+  }
+
   render() {
     const {
       className,
@@ -197,12 +231,11 @@ export class ImagesField extends React.Component<ImagesProps> {
       showToolbar,
       toolbarActions,
       imageGallaryClassName,
-      galleryControlClassName,
       id,
       wrapperCustomStyle,
       env,
       themeCss,
-      imagesControlClassName
+      embed
     } = this.props;
 
     let value: any;
@@ -237,7 +270,11 @@ export class ImagesField extends React.Component<ImagesProps> {
         )}
         style={style}
       >
-        {Array.isArray(list) ? (
+        {embed ? (
+          <ImageGallery items={this.getList()} showToolbar={showToolbar} embed>
+            <></>
+          </ImageGallery>
+        ) : Array.isArray(list) ? (
           <div className={cx('Images', listClassName)}>
             {list.map((item: any, index: number) => (
               <Image

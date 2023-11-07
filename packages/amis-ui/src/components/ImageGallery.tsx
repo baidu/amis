@@ -1,22 +1,34 @@
 import React from 'react';
 import debounce from 'lodash/debounce';
-import {themeable, ClassNamesFn, ThemeProps} from 'amis-core';
+import {themeable, ThemeProps} from 'amis-core';
 import {autobind} from 'amis-core';
 import Modal from './Modal';
 import {Icon} from './icons';
 import {LocaleProps, localeable} from 'amis-core';
+import Spinner, {SpinnerExtraProps} from './Spinner';
+import DragProgress from './DragProgress';
+import Sliding from './Sliding';
+import Pagination from './Pagination';
 
 export enum ImageActionKey {
+  /** 拖动 */
+  DRAG = 'drag',
+  /** 默认视图 */
+  DEFAULT_VIEW = 'default-view',
   /** 右旋转 */
   ROTATE_RIGHT = 'rotateRight',
   /** 左旋转 */
   ROTATE_LEFT = 'rotateLeft',
+  /** 下载 */
+  DOWNLOAD = 'download',
   /** 等比例放大 */
   ZOOM_IN = 'zoomIn',
   /** 等比例缩小 */
   ZOOM_OUT = 'zoomOut',
   /** 恢复原图缩放比例尺 */
-  SCALE_ORIGIN = 'scaleOrigin'
+  SCALE_ORIGIN = 'scaleOrigin',
+  /** 分页 */
+  PAGINATE = 'paginate'
 }
 
 export interface ImageAction {
@@ -28,23 +40,32 @@ export interface ImageAction {
   onClick?: (context: ImageGallery) => void;
 }
 
-export interface ImageGalleryProps extends ThemeProps, LocaleProps {
+interface ImageGalleryItem {
+  src: string;
+  originalSrc: string;
+  title?: string | React.JSX.Element;
+  caption?: string | React.JSX.Element;
+}
+
+export interface ImageGalleryProps
+  extends ThemeProps,
+    LocaleProps,
+    SpinnerExtraProps {
   children: React.ReactNode | Array<React.ReactNode>;
   modalContainer?: () => HTMLElement;
   /** 操作栏 */
   actions?: ImageAction[];
   imageGallaryClassName?: string;
+  showToolbar?: boolean;
+  /** 是否内嵌 */
+  embed?: boolean;
+  items: Array<ImageGalleryItem>;
 }
 
 export interface ImageGalleryState {
   isOpened: boolean;
   index: number;
-  items: Array<{
-    src: string;
-    originalSrc: string;
-    title?: string;
-    caption?: string;
-  }>;
+  items: Array<ImageGalleryItem>;
   /** 图片缩放比例尺 */
   scale: number;
   /** 图片旋转角度 */
@@ -65,32 +86,53 @@ export interface ImageGalleryState {
   imageGallaryClassName?: string;
   /** 工具栏配置 */
   actions?: ImageAction[];
+  /** 图片是否加载中 */
+  imageLoading: boolean;
+  /** 图片信息 */
+  imageLoadInfo?: {
+    naturalWidth: number;
+    naturalHeight: number;
+    url: string;
+  };
+  /** 图片是否使用1:1 */
+  isNaturalSize: boolean;
 }
 
 export class ImageGallery extends React.Component<
   ImageGalleryProps,
   ImageGalleryState
 > {
-  static defaultProps: Pick<ImageGalleryProps, 'actions'> = {
+  static defaultProps: Pick<ImageGalleryProps, 'actions' | 'embed'> = {
     actions: [
+      {
+        key: ImageActionKey.DRAG,
+        label: 'drag'
+      },
+      {
+        key: ImageActionKey.DEFAULT_VIEW,
+        icon: 'default-view',
+        label: 'default.view'
+      },
+      {
+        key: ImageActionKey.SCALE_ORIGIN,
+        icon: 'scale-origin',
+        label: 'scale.origin'
+      },
       {
         key: ImageActionKey.ROTATE_LEFT,
         icon: 'rotate-left',
         label: 'rotate.left'
       },
       {
-        key: ImageActionKey.ROTATE_RIGHT,
-        icon: 'rotate-right',
-        label: 'rotate.right'
+        key: ImageActionKey.DOWNLOAD,
+        icon: 'download-new',
+        label: 'download'
       },
-      {key: ImageActionKey.ZOOM_IN, icon: 'zoom-in', label: 'zoomIn'},
-      {key: ImageActionKey.ZOOM_OUT, icon: 'zoom-out', label: 'zoomOut'},
       {
-        key: ImageActionKey.SCALE_ORIGIN,
-        icon: 'scale-origin',
-        label: 'scale.origin'
+        key: ImageActionKey.PAGINATE
       }
-    ]
+    ],
+    embed: false
   };
 
   state: ImageGalleryState = {
@@ -103,10 +145,43 @@ export class ImageGallery extends React.Component<
     rotate: 0,
     showToolbar: false,
     imageGallaryClassName: '',
-    actions: ImageGallery.defaultProps.actions
+    actions: ImageGallery.defaultProps.actions,
+    imageLoading: false,
+    isNaturalSize: false
   };
 
   galleryMain?: HTMLDivElement;
+
+  constructor(props: ImageGalleryProps) {
+    super(props);
+
+    const hasItems = !!props?.items;
+
+    this.state = {
+      ...this.state,
+      items: hasItems ? props.items : [],
+      index: hasItems ? 0 : -1,
+      showToolbar: !!props?.showToolbar
+    };
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<ImageGalleryProps>,
+    prevState: Readonly<ImageGalleryState>,
+    snapshot?: any
+  ): void {
+    if (this.props.items !== prevProps.items) {
+      this.setState({
+        items: this.props.items
+      });
+    }
+    if (this.props?.showToolbar !== prevProps?.showToolbar) {
+      this.setState({
+        showToolbar: !!this.props.showToolbar
+      });
+    }
+  }
+
   @autobind
   galleryMainRef(ref: HTMLDivElement) {
     if (ref) {
@@ -215,7 +290,11 @@ export class ImageGallery extends React.Component<
   }
 
   resetImageAction() {
-    this.setState({scale: 1, rotate: 0});
+    this.setState({
+      scale: 1,
+      rotate: 0,
+      isNaturalSize: false
+    });
   }
 
   @autobind
@@ -229,22 +308,41 @@ export class ImageGallery extends React.Component<
   @autobind
   prev() {
     const index = this.state.index;
-    this.setState({index: index - 1});
+    this.setState({index: index - 1, imageLoading: true});
     this.resetImageAction();
   }
 
   @autobind
   next() {
     const index = this.state.index;
-    this.setState({index: index + 1});
+    this.setState({index: index + 1, imageLoading: true});
     this.resetImageAction();
   }
 
   @autobind
   handleItemClick(e: React.MouseEvent<HTMLDivElement>) {
     const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
-    this.setState({index});
+    this.setIndex(index);
+  }
+
+  /**
+   * 设置当前选中
+   */
+  @autobind
+  setIndex(index: number) {
+    this.setState({index, imageLoading: true});
     this.resetImageAction();
+  }
+
+  /**
+   * 下载图片
+   */
+  @autobind
+  downloadImage() {
+    console.log('downloadImage');
+    const {items, index} = this.state;
+    const url = items[index].originalSrc;
+    window.open(url, '_blank');
   }
 
   handleToolbarAction = debounce(
@@ -254,6 +352,14 @@ export class ImageGallery extends React.Component<
       }
 
       switch (action.key) {
+        case ImageActionKey.DEFAULT_VIEW:
+          this.setState({
+            scale: 1,
+            isNaturalSize: false,
+            tx: 0,
+            ty: 0
+          });
+          break;
         case ImageActionKey.ROTATE_LEFT:
           this.setState(prevState => ({
             rotate: prevState.rotate - 90,
@@ -261,29 +367,11 @@ export class ImageGallery extends React.Component<
             ty: 0
           }));
           break;
-        case ImageActionKey.ROTATE_RIGHT:
-          this.setState(prevState => ({
-            rotate: prevState.rotate + 90,
-            tx: 0,
-            ty: 0
-          }));
-          break;
-        case ImageActionKey.ZOOM_IN:
-          this.setState(prevState => ({
-            scale: prevState.scale + 0.5,
-            tx: 0,
-            ty: 0
-          }));
-          break;
-        case ImageActionKey.ZOOM_OUT:
-          this.setState(prevState => {
-            return prevState.scale - 0.5 > 0
-              ? {scale: prevState.scale - 0.5, tx: 0, ty: 0}
-              : null;
-          });
-          break;
         case ImageActionKey.SCALE_ORIGIN:
-          this.setState(() => ({scale: 1, tx: 0, ty: 0}));
+          this.setState(() => ({scale: 1, tx: 0, ty: 0, isNaturalSize: true}));
+          break;
+        case ImageActionKey.DOWNLOAD:
+          this.downloadImage();
           break;
       }
 
@@ -291,50 +379,120 @@ export class ImageGallery extends React.Component<
         action.onClick(this);
       }
     },
-    250,
+    100,
     {leading: true, trailing: false}
   );
 
+  @autobind
+  handleImageLoadStart() {
+    this.setState({
+      imageLoading: true
+    });
+  }
+
+  @autobind
+  handleImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
+    const {index, items} = this.state;
+    this.setState({
+      imageLoadInfo: {
+        url: items[index]?.src,
+        // @ts-ignore
+        naturalHeight: e.target?.naturalHeight,
+        // @ts-ignore
+        naturalWidth: e.target?.naturalWidth
+      },
+      imageLoading: false
+    });
+  }
+
+  @autobind
+  handleImageError() {
+    this.setState({
+      imageLoading: false
+    });
+  }
+
+  @autobind
+  handleDragProgress(precent: number) {
+    this.setState({
+      scale: precent / 100
+    });
+  }
+
+  @autobind
+  handlePageChange(page: number, perPage?: number | undefined) {
+    this.setIndex(page - 1);
+  }
+
   renderToolbar(actions: ImageAction[]) {
-    const {classnames: cx, translate: __, className} = this.props;
-    const scale = this.state.scale;
+    const {classnames: cx, translate: __, className, embed} = this.props;
+    const {scale, index, items} = this.state;
 
     return (
       <div className={cx('ImageGallery-toolbar', className)}>
-        {actions.map(action => (
-          <div
-            className={cx('ImageGallery-toolbar-action', {
-              'is-disabled':
-                action.disabled ||
-                (action.key === ImageActionKey.ZOOM_OUT && scale - 0.5 <= 0)
-            })}
-            key={action.key}
-            onClick={() => this.handleToolbarAction(action)}
-          >
-            <a
-              className={cx('ImageGallery-toolbar-action-icon')}
-              data-tooltip={__(action.label)}
-              data-position="top"
-            >
-              {React.isValidElement(action.icon) ? (
-                React.cloneElement(action.icon as React.ReactElement, {
-                  className: cx('icon', action.iconClassName)
-                })
-              ) : (
-                <Icon
-                  icon={action.icon}
-                  className={cx('icon', action.iconClassName)}
+        <div className={cx('ImageGallery-toolbar-list')}>
+          {actions.map(action => {
+            if (action.key === ImageActionKey.DRAG) {
+              return (
+                <DragProgress
+                  value={1}
+                  onChange={this.handleDragProgress}
+                  skin={embed ? 'light' : 'dark'}
                 />
-              )}
-            </a>
-          </div>
-        ))}
+              );
+            }
+
+            if (action.key === ImageActionKey.PAGINATE) {
+              return (
+                <Pagination
+                  perPage={1}
+                  activePage={index + 1}
+                  total={items.length}
+                  showPerPage
+                  hasNext
+                  mode="simple"
+                  onPageChange={this.handlePageChange}
+                />
+              );
+            }
+
+            return (
+              <div
+                className={cx('ImageGallery-toolbar-action', {
+                  'is-disabled':
+                    action.disabled ||
+                    (action.key === ImageActionKey.ZOOM_OUT && scale - 0.5 <= 0)
+                })}
+                key={action.key}
+                onClick={() => this.handleToolbarAction(action)}
+              >
+                <a
+                  className={cx('ImageGallery-toolbar-action-icon')}
+                  data-tooltip={__(action.label)}
+                  data-position="top"
+                >
+                  {React.isValidElement(action.icon) ? (
+                    React.cloneElement(action.icon as React.ReactElement, {
+                      className: cx('icon', action.iconClassName)
+                    })
+                  ) : (
+                    <Icon
+                      icon={action.icon}
+                      className={cx('icon', action.iconClassName)}
+                    />
+                  )}
+                </a>
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }
 
-  render() {
-    const {children, classnames: cx, modalContainer} = this.props;
+  @autobind
+  renderBody() {
+    const {classnames: cx, embed} = this.props;
     const {
       index,
       items,
@@ -345,116 +503,150 @@ export class ImageGallery extends React.Component<
       showToolbar,
       enlargeWithGallary,
       actions,
-      imageGallaryClassName
+      imageLoadInfo,
+      isNaturalSize,
+      imageLoading
     } = this.state;
-    const __ = this.props.translate;
+    const {translate: __, loadingConfig} = this.props;
+
+    const imageStyle = {
+      ...(isNaturalSize
+        ? {
+            width: `${imageLoadInfo?.naturalWidth}px`,
+            height: `${imageLoadInfo?.naturalHeight}px`
+          }
+        : {}),
+      ...(imageLoading
+        ? {
+            display: 'none'
+          }
+        : {}),
+      transform: `translate(${tx}px, ${ty}px) scale(${scale}) rotate(${rotate}deg)`
+    };
+
+    return [
+      ~index && items[index] ? (
+        <>
+          <div className={cx('ImageGallery-main')} ref={this.galleryMainRef}>
+            <div className={cx('ImageGallery-main-image')}>
+              <div className={cx('ImageGallery-main-image-wrap')}>
+                <img
+                  draggable={false}
+                  src={items[index].originalSrc}
+                  style={imageStyle}
+                  onLoadStart={this.handleImageLoadStart}
+                  onLoad={this.handleImageLoad}
+                  onError={this.handleImageError}
+                />
+                {items.length > 1 && enlargeWithGallary !== false ? (
+                  <>
+                    {index > 0 ? (
+                      <span
+                        className={cx(
+                          'ImageGallery-prevBtn',
+                          index <= 0 ? 'is-disabled' : ''
+                        )}
+                        onClick={this.prev}
+                      >
+                        <Icon
+                          icon="prev"
+                          className="icon"
+                          iconContent="ImageGallery-prevBtn"
+                        />
+                      </span>
+                    ) : null}
+                    {index < items.length - 1 ? (
+                      <span
+                        className={cx(
+                          'ImageGallery-nextBtn',
+                          index >= items.length - 1 ? 'is-disabled' : ''
+                        )}
+                        onClick={this.next}
+                      >
+                        <Icon
+                          icon="next"
+                          className="icon"
+                          iconContent="ImageGallery-nextBtn"
+                        />
+                      </span>
+                    ) : null}
+                  </>
+                ) : null}
+                <Spinner show={imageLoading} loadingConfig={loadingConfig} />
+              </div>
+            </div>
+
+            {showToolbar && Array.isArray(actions) && actions.length > 0
+              ? this.renderToolbar(actions)
+              : null}
+
+            {items.length > 1 && enlargeWithGallary !== false ? (
+              <Sliding
+                activeKey={index}
+                onChange={this.setIndex}
+                skin={embed ? 'light' : 'dark'}
+                options={items.map((item, itemIndex) => ({
+                  key: itemIndex,
+                  node: (
+                    <img
+                      src={item.src}
+                      className={cx('ImageGallery-sliding-img')}
+                    />
+                  )
+                }))}
+              />
+            ) : null}
+          </div>
+        </>
+      ) : null,
+      items[index]?.title || items[index]?.caption ? (
+        <div className={cx('ImageGallery-info')}>
+          <div className={cx('ImageGallery-info-title')}>
+            {items[index]?.title}
+          </div>
+          <div className={cx('ImageGallery-info-description')}>
+            {items[index]?.caption}
+          </div>
+        </div>
+      ) : null
+    ];
+  }
+
+  render() {
+    const {children, modalContainer, embed, classnames: cx} = this.props;
+    const {imageGallaryClassName, isOpened} = this.state;
 
     return (
       <>
         {React.cloneElement(children as any, {
           onImageEnlarge: this.handleImageEnlarge
         })}
-
-        <Modal
-          closeOnEsc
-          closeOnOutside
-          size="full"
-          onHide={this.close}
-          show={this.state.isOpened}
-          contentClassName={cx('ImageGallery', imageGallaryClassName)}
-          container={modalContainer}
-        >
-          <a
-            data-tooltip={__('Dialog.close')}
-            data-position="left"
-            className={cx('ImageGallery-close')}
-            onClick={this.close}
+        {!embed ? (
+          <Modal
+            closeOnEsc
+            size="full"
+            onHide={this.close}
+            show={isOpened}
+            contentClassName={cx('ImageGallery', imageGallaryClassName)}
+            modalMaskClassName={cx('ImageGallery-overlay')}
+            container={modalContainer}
           >
-            <Icon icon="close" className="icon" />
-          </a>
-          {~index && items[index] ? (
-            <>
-              <div className={cx('ImageGallery-title')}>
-                {items[index].title}
-              </div>
-              <div
-                className={cx('ImageGallery-main')}
-                ref={this.galleryMainRef}
-              >
-                <img
-                  draggable={false}
-                  src={items[index].originalSrc}
-                  style={{
-                    transform: `translate(${tx}px, ${ty}px) scale(${scale}) rotate(${rotate}deg)`
-                  }}
-                />
-
-                {showToolbar && Array.isArray(actions) && actions.length > 0
-                  ? this.renderToolbar(actions)
-                  : null}
-
-                {items.length > 1 && enlargeWithGallary !== false ? (
-                  <>
-                    <a
-                      className={cx(
-                        'ImageGallery-prevBtn',
-                        index <= 0 ? 'is-disabled' : ''
-                      )}
-                      onClick={this.prev}
-                    >
-                      <Icon
-                        icon="prev"
-                        className="icon"
-                        iconContent="ImageGallery-prevBtn"
-                      />
-                    </a>
-                    <a
-                      className={cx(
-                        'ImageGallery-nextBtn',
-                        index >= items.length - 1 ? 'is-disabled' : ''
-                      )}
-                      onClick={this.next}
-                    >
-                      <Icon
-                        icon="next"
-                        className="icon"
-                        iconContent="ImageGallery-nextBtn"
-                      />
-                    </a>
-                  </>
-                ) : null}
-              </div>
-            </>
-          ) : null}
-
-          {items.length > 1 && enlargeWithGallary !== false ? (
-            <div className={cx('ImageGallery-footer')}>
-              <a className={cx('ImageGallery-prevList is-disabled')}>
-                <Icon icon="prev" className="icon" />
-              </a>
-              <div className={cx('ImageGallery-itemsWrap')}>
-                <div className={cx('ImageGallery-items')}>
-                  {items.map((item, i) => (
-                    <div
-                      key={i}
-                      data-index={i}
-                      onClick={this.handleItemClick}
-                      className={cx(
-                        'ImageGallery-item',
-                        i === index ? 'is-active' : ''
-                      )}
-                    >
-                      <img src={item.src} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <a className={cx('ImageGallery-nextList is-disabled')}>
-                <Icon icon="next" className="icon" />
-              </a>
-            </div>
-          ) : null}
-        </Modal>
+            <span className={cx('ImageGallery-close')} onClick={this.close}>
+              <Icon icon="close" className="icon" />
+            </span>
+            {this.renderBody()}
+          </Modal>
+        ) : (
+          <div
+            className={cx(
+              'ImageGallery',
+              imageGallaryClassName,
+              'ImageGallery-embed'
+            )}
+          >
+            {this.renderBody()}
+          </div>
+        )}
       </>
     );
   }
