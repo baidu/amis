@@ -36,6 +36,19 @@ export class CmptAction implements RendererAction {
      */
     const key = action.componentId || action.componentName;
     const dataMergeMode = action.dataMergeMode || 'merge';
+    const path = action.args?.path;
+
+    /** 如果args中携带path参数, 则认为是全局变量赋值, 否则认为是组件变量赋值 */
+    if (action.actionType === 'setValue' && path && typeof path === 'string') {
+      const beforeSetData = renderer?.props?.env?.beforeSetData;
+      if (beforeSetData && typeof beforeSetData === 'function') {
+        const res = await beforeSetData(renderer, action, event);
+
+        if (res === false) {
+          return;
+        }
+      }
+    }
 
     if (!key) {
       console.warn('请提供目标组件的componentId或componentName');
@@ -59,23 +72,6 @@ export class CmptAction implements RendererAction {
     }
 
     if (action.actionType === 'setValue') {
-      const beforeSetData = renderer?.props?.env?.beforeSetData;
-      const path = action.args?.path;
-
-      /** 如果args中携带path参数, 则认为是全局变量赋值, 否则认为是组件变量赋值 */
-      if (
-        path &&
-        typeof path === 'string' &&
-        beforeSetData &&
-        typeof beforeSetData === 'function'
-      ) {
-        const res = await beforeSetData(renderer, action, event);
-
-        if (res === false) {
-          return;
-        }
-      }
-
       if (component?.setData) {
         return component?.setData(
           action.args?.value,
