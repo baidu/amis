@@ -751,10 +751,36 @@ export class CRUDPlugin extends BasePlugin {
               }
             }
           });
-        const hasOperate = valueSchema.columns.find(
+
+        const originOperateIndex = valueSchema.columns.findIndex(
           (item: any) => item.type === 'operation'
         );
-        hasFeatures && !hasOperate && valueSchema.columns.push(oper);
+        const originOperate = valueSchema.columns.find(
+          (item: any) => item.type === 'operation'
+        );
+        if (hasFeatures && !originOperate) {
+          // 原来无 需新增操作栏
+          valueSchema.columns.push(oper);
+        } else if (!hasFeatures && originOperate) {
+          // 原来有 需删除操作栏
+          valueSchema.columns.splice(originOperateIndex, 1);
+        } else if (hasFeatures && originOperate) {
+          // 原来有 需更新操作栏 保留原有操作按钮配置
+          const originButtons: ActionSchema[] = originOperate.buttons || [];
+          const newButtons = oper.buttons || [];
+          const buttons = newButtons.map(item => {
+            const originIndex = originButtons.findIndex(
+              btn => btn.label === item.label
+            );
+            return originIndex === -1 ? item : originButtons[originIndex];
+          });
+          valueSchema.columns.splice(originOperateIndex, 1);
+          valueSchema.columns.push({
+            type: 'operation',
+            label: '操作',
+            buttons
+          });
+        }
         return valueSchema;
       },
       canRebuild: true
