@@ -156,7 +156,8 @@ export function wrapControl<
                 minLength,
                 maxLength,
                 validateOnChange,
-                label
+                label,
+                pagination
               }
             } = this.props;
 
@@ -230,7 +231,8 @@ export function wrapControl<
               validateOnChange,
               label,
               inputGroupControl,
-              extraName
+              extraName,
+              pagination
             });
 
             // issue 这个逻辑应该在 combo 里面自己实现。
@@ -380,7 +382,8 @@ export function wrapControl<
                 'minLength',
                 'maxLength',
                 'label',
-                'extraName'
+                'extraName',
+                'pagination'
               ],
               prevProps.$schema,
               props.$schema,

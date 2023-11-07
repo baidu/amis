@@ -1392,7 +1392,6 @@ test('Renderer:transfer search highlight', async () => {
 });
 
 test('Renderer:transfer tree search', async () => {
-
   const onSubmit = jest.fn();
   const {container, findByText, getByText} = render(
     amisRender(
@@ -1486,7 +1485,7 @@ test('Renderer:transfer tree search', async () => {
   });
 
   await(300);
-  
+
   const libai = getByText('李白');
   expect(libai).not.toBeNull();
   fireEvent.click(libai);
@@ -1502,3 +1501,309 @@ test('Renderer:transfer tree search', async () => {
     transfer: "caocao,libai"
   });
 });
+
+test('Renderer:Transfer with pagination', async () => {
+  const mockData = [
+    {
+      "label": "Laura Lewis",
+      "value": "1"
+    },
+    {
+      "label": "David Gonzalez",
+      "value": "2"
+    },
+    {
+      "label": "Christopher Rodriguez",
+      "value": "3"
+    },
+    {
+      "label": "Sarah Young",
+      "value": "4"
+    },
+    {
+      "label": "James Jones",
+      "value": "5"
+    },
+    {
+      "label": "Larry Robinson",
+      "value": "6"
+    },
+    {
+      "label": "Christopher Perez",
+      "value": "7"
+    },
+    {
+      "label": "Sharon Davis",
+      "value": "8"
+    },
+    {
+      "label": "Kenneth Anderson",
+      "value": "9"
+    },
+    {
+      "label": "Deborah Lewis",
+      "value": "10"
+    },
+    {
+      "label": "Jennifer Lewis",
+      "value": "11"
+    },
+    {
+      "label": "Laura Miller",
+      "value": "12"
+    },
+    {
+      "label": "Larry Harris",
+      "value": "13"
+    },
+    {
+      "label": "Patricia Robinson",
+      "value": "14"
+    },
+    {
+      "label": "Mark Davis",
+      "value": "15"
+    },
+    {
+      "label": "Jessica Harris",
+      "value": "16"
+    },
+    {
+      "label": "Anna Brown",
+      "value": "17"
+    },
+    {
+      "label": "Lisa Young",
+      "value": "18"
+    },
+    {
+      "label": "Donna Williams",
+      "value": "19"
+    },
+    {
+      "label": "Shirley Davis",
+      "value": "20"
+    }
+  ];
+  const fetcher = jest.fn().mockImplementation((api) => {
+    const perPage = 10; /** 锁死10个方便测试 */
+    const page = Number(api.query.page || 1);
+
+    return Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          count: mockData.length,
+          page: page,
+          items: mockData.concat().splice((page - 1) * perPage, perPage)
+        }
+      }
+    });
+  });
+  const {container} = render(
+    amisRender(
+      {
+        "type": "form",
+        "debug": true,
+        "body": [
+          {
+            "label": "默认",
+            "type": "transfer",
+            "name": "transfer",
+            "joinValues": false,
+            "extractValue": false,
+            "source": "/api/mock2/options/transfer?page=${page}&perPage=${perPage}",
+            "pagination": {
+              "enable": true,
+              "layout": ["pager", "perpage", "total"],
+              "popOverContainerSelector": ".cxd-Panel--form"
+            },
+            "value": [
+              {"label": "Laura Lewis", "value": "1", id: 1},
+              {"label": "Christopher Rodriguez", "value": "3", id: 3},
+              {"label": "Laura Miller", "value": "12", id: 12},
+              {"label": "Patricia Robinson", "value": "14", id: 14}
+            ]
+          }
+        ]
+    }, {}, makeEnv({fetcher})));
+
+    await wait(500);
+    expect(container.querySelector('.cxd-Transfer-footer-pagination')).toBeInTheDocument();
+
+    const checkboxes = container.querySelectorAll('input[type=checkbox]')!;
+    expect(checkboxes.length).toEqual(11); /** 包括顶部全选 */
+    expect((checkboxes[1] as HTMLInputElement)?.checked).toEqual(true);
+    expect((checkboxes[2] as HTMLInputElement)?.checked).toEqual(false);
+    expect((checkboxes[3] as HTMLInputElement)?.checked).toEqual(true);
+    expect((checkboxes[4] as HTMLInputElement)?.checked).toEqual(false);
+
+    const nextBtn = container.querySelector('.cxd-Pagination-next')!;
+    fireEvent.click(nextBtn);
+    await wait(500);
+
+    const checkboxes2 = container.querySelectorAll('input[type=checkbox]')!;
+    expect(checkboxes2.length).toEqual(11);
+    expect((checkboxes2[1] as HTMLInputElement)?.checked).toEqual(false);
+    expect((checkboxes2[2] as HTMLInputElement)?.checked).toEqual(true);
+    expect((checkboxes2[3] as HTMLInputElement)?.checked).toEqual(false);
+    expect((checkboxes2[4] as HTMLInputElement)?.checked).toEqual(true);
+})
+
+test.only('Renderer:Transfer with pagination and data source from data scope', async () => {
+  const mockData = [
+    {
+      "label": "Laura Lewis",
+      "value": "1"
+    },
+    {
+      "label": "David Gonzalez",
+      "value": "2"
+    },
+    {
+      "label": "Christopher Rodriguez",
+      "value": "3"
+    },
+    {
+      "label": "Sarah Young",
+      "value": "4"
+    },
+    {
+      "label": "James Jones",
+      "value": "5"
+    },
+    {
+      "label": "Larry Robinson",
+      "value": "6"
+    },
+    {
+      "label": "Christopher Perez",
+      "value": "7"
+    },
+    {
+      "label": "Sharon Davis",
+      "value": "8"
+    },
+    {
+      "label": "Kenneth Anderson",
+      "value": "9"
+    },
+    {
+      "label": "Deborah Lewis",
+      "value": "10"
+    },
+    {
+      "label": "Jennifer Lewis",
+      "value": "11"
+    },
+    {
+      "label": "Laura Miller",
+      "value": "12"
+    },
+    {
+      "label": "Larry Harris",
+      "value": "13"
+    },
+    {
+      "label": "Patricia Robinson",
+      "value": "14"
+    },
+    {
+      "label": "Mark Davis",
+      "value": "15"
+    },
+    {
+      "label": "Jessica Harris",
+      "value": "16"
+    },
+    {
+      "label": "Anna Brown",
+      "value": "17"
+    },
+    {
+      "label": "Lisa Young",
+      "value": "18"
+    },
+    {
+      "label": "Donna Williams",
+      "value": "19"
+    },
+    {
+      "label": "Shirley Davis",
+      "value": "20"
+    }
+  ];
+  const fetcher = jest.fn().mockImplementation((api) => {
+    return Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          count: mockData.length,
+          items: mockData
+        }
+      }
+    });
+  });
+  const {container} = render(
+    amisRender(
+      {
+        "type": "form",
+        "debug": true,
+        "body": [
+          {
+            "type": "service",
+            "api": {
+              "url": "/api/mock2/options/loadDataOnce",
+              "method": "get",
+              "responseData": {
+                "transferOptions": "${items}"
+              }
+            },
+            body: [
+              {
+                "label": "默认",
+                "type": "transfer",
+                "name": "transfer",
+                "joinValues": false,
+                "extractValue": false,
+                "source": "${transferOptions}",
+                "pagination": {
+                  "enable": true,
+                  "layout": ["pager", "perpage", "total"],
+                  "popOverContainerSelector": ".cxd-Panel--form"
+                },
+                "value": [
+                  {"label": "Laura Lewis", "value": "1", id: 1},
+                  {"label": "Christopher Rodriguez", "value": "3", id: 3},
+                  {"label": "Laura Miller", "value": "12", id: 12},
+                  {"label": "Patricia Robinson", "value": "14", id: 14}
+                ]
+              }
+            ]
+          }
+        ]
+    }, {}, makeEnv({fetcher})));
+
+    await wait(500);
+    expect(container.querySelector('.cxd-Transfer-footer-pagination')).toBeInTheDocument();
+
+    const checkboxes = container.querySelectorAll('input[type=checkbox]')!;
+    expect(checkboxes.length).toEqual(11); /** 包括顶部全选 */
+    expect((checkboxes[1] as HTMLInputElement)?.checked).toEqual(true);
+    expect((checkboxes[2] as HTMLInputElement)?.checked).toEqual(false);
+    expect((checkboxes[3] as HTMLInputElement)?.checked).toEqual(true);
+    expect((checkboxes[4] as HTMLInputElement)?.checked).toEqual(false);
+
+    const nextBtn = container.querySelector('.cxd-Pagination-next')!;
+    fireEvent.click(nextBtn);
+    await wait(500);
+
+    const checkboxes2 = container.querySelectorAll('input[type=checkbox]')!;
+    expect(checkboxes2.length).toEqual(11);
+    expect((checkboxes2[1] as HTMLInputElement)?.checked).toEqual(false);
+    expect((checkboxes2[2] as HTMLInputElement)?.checked).toEqual(true);
+    expect((checkboxes2[3] as HTMLInputElement)?.checked).toEqual(false);
+    expect((checkboxes2[4] as HTMLInputElement)?.checked).toEqual(true);
+})
