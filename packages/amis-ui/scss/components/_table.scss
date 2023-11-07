@@ -1108,3 +1108,13 @@
     }
   }
 }
+
+.#{$ns}AutoFilterToolbar {
+  display: block;
+  text-align: right;
+  white-space: nowrap;
+
+  > .#{$ns}Button {
+    margin-top: 0;
+  }
+}
