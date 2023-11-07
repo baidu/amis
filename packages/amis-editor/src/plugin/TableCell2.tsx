@@ -1,7 +1,7 @@
 import {Button, Icon} from 'amis';
 import React from 'react';
 import {getVariable} from 'amis-core';
-
+import get from 'lodash/get';
 import {
   BasePlugin,
   BasicRendererInfo,
@@ -155,8 +155,14 @@ export class TableCell2Plugin extends BasePlugin {
         mode: 'normal',
         formType: 'extend',
         bulk: true,
-        defaultData: {
-          mode: 'popOver'
+        trueValue: {
+          mode: 'popOver',
+          type: 'container',
+          body: []
+        },
+        isChecked: (e: any) => {
+          const {data, name} = e;
+          return !!get(data, name);
         },
         form: {
           body: [
@@ -196,25 +202,31 @@ export class TableCell2Plugin extends BasePlugin {
                 } else if (typeof value === 'undefined') {
                   value = getVariable(data, 'quickEdit');
                 }
-
-                const originMode = value?.mode || 'popOver';
-
-                value = {
-                  ...value,
-                  type: 'form',
-                  mode: 'normal',
-                  wrapWithPanel: false,
-                  body: [
-                    {
-                      type: 'input-text',
-                      name: data.key
-                    }
-                  ]
-                };
-
+                value = {...value};
+                const originMode = value.mode || 'popOver';
                 if (value.mode) {
                   delete value.mode;
                 }
+                value =
+                  value.body && ['container', 'wrapper'].includes(value.type)
+                    ? {
+                        // schema中存在容器，用自己的就行
+                        type: 'container',
+                        body: [],
+                        ...value
+                      }
+                    : {
+                        // schema中不存在容器，打开子编辑器时需要包裹一层
+                        type: 'container',
+                        body: [
+                          {
+                            type: 'input-text',
+                            name: data.name,
+                            ...value
+                          }
+                        ]
+                      };
+
                 // todo 多个快速编辑表单模式看来只能代码模式编辑了。
                 return (
                   <Button

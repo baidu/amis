@@ -1,4 +1,6 @@
 import React from 'react';
+import get from 'lodash/get';
+import {getVariable} from 'amis-core';
 import {Button} from 'amis';
 import {
   defaultValue,
@@ -21,6 +23,15 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
   hiddenOnDefault: true,
   formType: 'extend',
   pipeIn: (value: any) => !!value,
+  trueValue: {
+    mode: 'popOver',
+    type: 'container',
+    body: []
+  },
+  isChecked: (e: any) => {
+    const {data, name} = e;
+    return !!get(data, name);
+  },
   form: {
     body: [
       {
@@ -66,19 +77,34 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
         children: ({value, onChange, data}: any) => {
           if (value === true) {
             value = {};
+          } else if (typeof value === 'undefined') {
+            value = getVariable(data, 'quickEdit');
           }
-
-          const originMode = value.mode;
-
-          value = {
-            type: 'input-text',
-            name: data.name,
-            ...value
-          };
-          delete value.mode;
-
+          value = {...value};
+          const originMode = value.mode || 'popOver';
+          if (value.mode) {
+            delete value.mode;
+          }
+          value =
+            value.body && ['container', 'wrapper'].includes(value.type)
+              ? {
+                  // schema中存在容器，用自己的就行
+                  type: 'container',
+                  body: [],
+                  ...value
+                }
+              : {
+                  // schema中不存在容器，打开子编辑器时需要包裹一层
+                  type: 'container',
+                  body: [
+                    {
+                      type: 'input-text',
+                      name: data.name,
+                      ...value
+                    }
+                  ]
+                };
           // todo 多个快速编辑表单模式看来只能代码模式编辑了。
-
           return (
             <Button
               block
@@ -87,12 +113,6 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
                 manager.openSubEditor({
                   title: '配置快速编辑类型',
                   value: value,
-                  slot: {
-                    type: 'form',
-                    mode: 'normal',
-                    body: ['$$'],
-                    wrapWithPanel: false
-                  },
                   onChange: (value: any) =>
                     onChange(
                       {
