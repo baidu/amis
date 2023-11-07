@@ -82,6 +82,7 @@ export default function Cell({
         <Checkbox
           classPrefix={ns}
           type={multiple ? 'checkbox' : 'radio'}
+          partial={item.partial}
           checked={item.checked}
           disabled={item.checkdisable || !item.checkable}
           onChange={onCheckboxChange}

@@ -358,6 +358,7 @@ export default observer((props: TableRowProps) => {
       id={item.id}
       newIndex={item.newIndex}
       isHover={item.isHover}
+      partial={item.partial}
       checked={item.checked}
       modified={item.modified}
       moved={item.moved}
