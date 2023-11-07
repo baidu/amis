@@ -1,5 +1,6 @@
 import {Button} from 'amis';
 import React from 'react';
+import get from 'lodash/get';
 import {getI18nEnabled, registerEditorPlugin} from 'amis-editor-core';
 import {
   BasePlugin,
@@ -69,6 +70,10 @@ export class TableCellPlugin extends BasePlugin {
             getSchemaTpl('switch', {
               name: 'quickEdit',
               label: '启用快速编辑',
+              isChecked: (e: any) => {
+                const {data, name} = e;
+                return !!get(data, name);
+              },
               pipeIn: (value: any) => !!value
             }),
 
@@ -120,18 +125,32 @@ export class TableCellPlugin extends BasePlugin {
                 } else if (typeof value === 'undefined') {
                   value = getVariable(data, 'quickEdit');
                 }
-
-                const originMode = value.mode;
-
-                value = {
-                  type: 'input-text',
-                  name: data.name,
-                  ...value
-                };
-                delete value.mode;
+                value = {...value};
+                const originMode = value.mode || 'popOver';
+                if (value.mode) {
+                  delete value.mode;
+                }
+                value =
+                  value.body && ['container', 'wrapper'].includes(value.type)
+                    ? {
+                        // schema中存在容器，用自己的就行
+                        type: 'container',
+                        body: [],
+                        ...value
+                      }
+                    : {
+                        // schema中不存在容器，打开子编辑器时需要包裹一层
+                        type: 'container',
+                        body: [
+                          {
+                            type: 'input-text',
+                            name: data.name,
+                            ...value
+                          }
+                        ]
+                      };
 
                 // todo 多个快速编辑表单模式看来只能代码模式编辑了。
-
                 return (
                   <Button
                     level="info"
@@ -142,12 +161,6 @@ export class TableCellPlugin extends BasePlugin {
                       this.manager.openSubEditor({
                         title: '配置快速编辑类型',
                         value: value,
-                        slot: {
-                          type: 'form',
-                          mode: 'normal',
-                          body: ['$$'],
-                          wrapWithPanel: false
-                        },
                         onChange: value =>
                           onChange(
                             {
