@@ -47,6 +47,11 @@ interface ImageGalleryItem {
   caption?: string | React.JSX.Element;
 }
 
+interface ImageGalleryPosition {
+  toolbar: 'top' | 'bottom';
+  list: 'top' | 'bottom';
+}
+
 export interface ImageGalleryProps
   extends ThemeProps,
     LocaleProps,
@@ -60,6 +65,7 @@ export interface ImageGalleryProps
   /** 是否内嵌 */
   embed?: boolean;
   items: Array<ImageGalleryItem>;
+  position?: ImageGalleryPosition;
 }
 
 export interface ImageGalleryState {
@@ -96,6 +102,7 @@ export interface ImageGalleryState {
   };
   /** 图片是否使用1:1 */
   isNaturalSize: boolean;
+  position?: ImageGalleryPosition;
 }
 
 export class ImageGallery extends React.Component<
@@ -165,11 +172,7 @@ export class ImageGallery extends React.Component<
     };
   }
 
-  componentDidUpdate(
-    prevProps: Readonly<ImageGalleryProps>,
-    prevState: Readonly<ImageGalleryState>,
-    snapshot?: any
-  ): void {
+  componentDidUpdate(prevProps: Readonly<ImageGalleryProps>): void {
     if (this.props.items !== prevProps.items) {
       this.setState({
         items: this.props.items
@@ -178,6 +181,12 @@ export class ImageGallery extends React.Component<
     if (this.props?.showToolbar !== prevProps?.showToolbar) {
       this.setState({
         showToolbar: !!this.props.showToolbar
+      });
+    }
+
+    if (this.props.position !== prevProps.position) {
+      this.setState({
+        position: this.props.position
       });
     }
   }
@@ -264,6 +273,7 @@ export class ImageGallery extends React.Component<
     imageGallaryClassName?: string;
     toolbarActions?: ImageAction[];
     enlargeWithGallary?: boolean;
+    position?: ImageGalleryPosition;
   }) {
     const {actions} = this.props;
     const validActionKeys = Object.values(ImageActionKey);
@@ -280,6 +290,7 @@ export class ImageGallery extends React.Component<
       showToolbar: !!info.showToolbar,
       enlargeWithGallary: info.enlargeWithGallary,
       imageGallaryClassName: info.imageGallaryClassName,
+      position: info?.position,
       /** 外部传入合法key值的actions才会生效 */
       actions: Array.isArray(info.toolbarActions)
         ? info.toolbarActions.filter(action =>
@@ -339,10 +350,27 @@ export class ImageGallery extends React.Component<
    */
   @autobind
   downloadImage() {
-    console.log('downloadImage');
     const {items, index} = this.state;
     const url = items[index].originalSrc;
-    window.open(url, '_blank');
+    const image = new Image();
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    image.src = url;
+    image.crossOrigin = 'Anonymous';
+    image.style.display = 'none';
+    image.onload = () => {
+      context?.drawImage(image, 0, 0);
+      const base64 = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = base64;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    };
+    image.onerror = () => {
+      window.open(url, '_blank');
+    };
   }
 
   handleToolbarAction = debounce(
@@ -415,7 +443,9 @@ export class ImageGallery extends React.Component<
   @autobind
   handleDragProgress(precent: number) {
     this.setState({
-      scale: precent / 100
+      scale: precent / 100,
+      tx: 0,
+      ty: 0
     });
   }
 
@@ -445,11 +475,12 @@ export class ImageGallery extends React.Component<
             if (action.key === ImageActionKey.PAGINATE) {
               return (
                 <Pagination
+                  className={cx('ImageGallery-toolbar-pagination')}
                   perPage={1}
                   activePage={index + 1}
                   total={items.length}
                   showPerPage
-                  hasNext
+                  hasNext={items.length > index + 1}
                   mode="simple"
                   onPageChange={this.handlePageChange}
                 />
@@ -528,57 +559,59 @@ export class ImageGallery extends React.Component<
       ~index && items[index] ? (
         <>
           <div className={cx('ImageGallery-main')} ref={this.galleryMainRef}>
-            <div className={cx('ImageGallery-main-image')}>
-              <div className={cx('ImageGallery-main-image-wrap')}>
-                <img
-                  draggable={false}
-                  src={items[index].originalSrc}
-                  style={imageStyle}
-                  onLoadStart={this.handleImageLoadStart}
-                  onLoad={this.handleImageLoad}
-                  onError={this.handleImageError}
-                />
-                {items.length > 1 && enlargeWithGallary !== false ? (
-                  <>
-                    {index > 0 ? (
-                      <span
-                        className={cx(
-                          'ImageGallery-prevBtn',
-                          index <= 0 ? 'is-disabled' : ''
-                        )}
-                        onClick={this.prev}
-                      >
-                        <Icon
-                          icon="prev"
-                          className="icon"
-                          iconContent="ImageGallery-prevBtn"
-                        />
-                      </span>
-                    ) : null}
-                    {index < items.length - 1 ? (
-                      <span
-                        className={cx(
-                          'ImageGallery-nextBtn',
-                          index >= items.length - 1 ? 'is-disabled' : ''
-                        )}
-                        onClick={this.next}
-                      >
-                        <Icon
-                          icon="next"
-                          className="icon"
-                          iconContent="ImageGallery-nextBtn"
-                        />
-                      </span>
-                    ) : null}
-                  </>
-                ) : null}
-                <Spinner show={imageLoading} loadingConfig={loadingConfig} />
+            <div className={cx('ImageGallery-preview')}>
+              <div className={cx('ImageGallery-image')}>
+                <div className={cx('ImageGallery-image-wrap')}>
+                  <img
+                    draggable={false}
+                    src={items[index].originalSrc}
+                    style={imageStyle}
+                    onLoadStart={this.handleImageLoadStart}
+                    onLoad={this.handleImageLoad}
+                    onError={this.handleImageError}
+                  />
+                  {items.length > 1 && enlargeWithGallary !== false ? (
+                    <>
+                      {index > 0 ? (
+                        <span
+                          className={cx(
+                            'ImageGallery-prevBtn',
+                            index <= 0 ? 'is-disabled' : ''
+                          )}
+                          onClick={this.prev}
+                        >
+                          <Icon
+                            icon="prev"
+                            className="icon"
+                            iconContent="ImageGallery-prevBtn"
+                          />
+                        </span>
+                      ) : null}
+                      {index < items.length - 1 ? (
+                        <span
+                          className={cx(
+                            'ImageGallery-nextBtn',
+                            index >= items.length - 1 ? 'is-disabled' : ''
+                          )}
+                          onClick={this.next}
+                        >
+                          <Icon
+                            icon="next"
+                            className="icon"
+                            iconContent="ImageGallery-nextBtn"
+                          />
+                        </span>
+                      ) : null}
+                    </>
+                  ) : null}
+                  <Spinner show={imageLoading} loadingConfig={loadingConfig} />
+                </div>
               </div>
-            </div>
 
-            {showToolbar && Array.isArray(actions) && actions.length > 0
-              ? this.renderToolbar(actions)
-              : null}
+              {showToolbar && Array.isArray(actions) && actions.length > 0
+                ? this.renderToolbar(actions)
+                : null}
+            </div>
 
             {items.length > 1 && enlargeWithGallary !== false ? (
               <Sliding
@@ -599,7 +632,7 @@ export class ImageGallery extends React.Component<
           </div>
         </>
       ) : null,
-      items[index]?.title || items[index]?.caption ? (
+      items[index]?.title && items[index]?.caption ? (
         <div className={cx('ImageGallery-info')}>
           <div className={cx('ImageGallery-info-title')}>
             {items[index]?.title}
@@ -614,7 +647,7 @@ export class ImageGallery extends React.Component<
 
   render() {
     const {children, modalContainer, embed, classnames: cx} = this.props;
-    const {imageGallaryClassName, isOpened} = this.state;
+    const {items, index, imageGallaryClassName, isOpened} = this.state;
 
     return (
       <>
@@ -634,6 +667,11 @@ export class ImageGallery extends React.Component<
             <span className={cx('ImageGallery-close')} onClick={this.close}>
               <Icon icon="close" className="icon" />
             </span>
+            {items[index]?.title && !items[index]?.caption ? (
+              <span className={cx('ImageGallery-toptitle')}>
+                {items[index].title}
+              </span>
+            ) : null}
             {this.renderBody()}
           </Modal>
         ) : (

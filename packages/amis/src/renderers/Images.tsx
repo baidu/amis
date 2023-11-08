@@ -119,6 +119,12 @@ export interface ImagesSchema extends BaseSchema {
    * 内嵌模式
    */
   embed: boolean;
+
+  /** 位置 */
+  position?: {
+    toolbar: 'top' | 'bottom';
+    list: 'top' | 'bottom';
+  };
 }
 
 export interface ImagesProps
@@ -159,7 +165,7 @@ export class ImagesField extends React.Component<ImagesProps> {
 
   @autobind
   handleEnlarge(info: ImageThumbProps) {
-    const {onImageEnlarge, src, originalSrc} = this.props;
+    const {onImageEnlarge} = this.props;
 
     onImageEnlarge &&
       onImageEnlarge(
@@ -167,15 +173,10 @@ export class ImagesField extends React.Component<ImagesProps> {
           ...info,
           originalSrc: info.originalSrc || info.src,
           list: this.list.map(item => ({
-            src: src
-              ? filter(src, item, '| raw')
-              : (item && item.image) || item,
-            originalSrc: originalSrc
-              ? filter(originalSrc, item, '| raw')
-              : item?.src || filter(src, item, '| raw') || item?.image || item,
-            title: item && (item.enlargeTitle || item.title),
-            caption:
-              item && (item.enlargeCaption || item.description || item.caption)
+            src: item.src,
+            originalSrc: item.originalSrc,
+            title: item.enlargeTitle || item.title,
+            caption: item.enlargeCaption || item.caption
           }))
         },
         this.props
@@ -188,25 +189,6 @@ export class ImagesField extends React.Component<ImagesProps> {
     return render(type, str, {
       data: createObject(createObject(data))
     });
-  }
-
-  getList() {
-    const {src, originalSrc} = this.props;
-
-    return this.list.map(item => ({
-      src: src ? filter(src, item, '| raw') : (item && item.image) || item,
-      originalSrc: originalSrc
-        ? filter(originalSrc, item, '| raw')
-        : item?.src || filter(src, item, '| raw') || item?.image || item,
-      title: this.stringParse(
-        item && (item.enlargeTitle || item.title),
-        'title'
-      ),
-      caption: this.stringParse(
-        item && (item.enlargeCaption || item.description || item.caption),
-        'caption'
-      )
-    }));
   }
 
   render() {
@@ -235,7 +217,8 @@ export class ImagesField extends React.Component<ImagesProps> {
       wrapperCustomStyle,
       env,
       themeCss,
-      embed
+      embed,
+      position
     } = this.props;
 
     let value: any;
@@ -258,6 +241,19 @@ export class ImagesField extends React.Component<ImagesProps> {
       list = [list];
     }
 
+    list = list.map((item: Record<string, string>) => {
+      const title = item && item.title;
+      const description = item && (item.description || item.caption);
+      return {
+        src: src ? filter(src, item, '| raw') : (item && item.image) || item,
+        originalSrc: originalSrc
+          ? filter(originalSrc, item, '| raw')
+          : item?.src || filter(src, item, '| raw') || item?.image || item,
+        title: title ? this.stringParse(title, 'title') : '',
+        caption: description ? this.stringParse(description, 'caption') : ''
+      };
+    });
+
     this.list = list;
 
     return (
@@ -271,7 +267,12 @@ export class ImagesField extends React.Component<ImagesProps> {
         style={style}
       >
         {embed ? (
-          <ImageGallery items={this.getList()} showToolbar={showToolbar} embed>
+          <ImageGallery
+            items={list}
+            showToolbar={showToolbar}
+            position={position}
+            embed
+          >
             <></>
           </ImageGallery>
         ) : Array.isArray(list) ? (
@@ -281,17 +282,10 @@ export class ImagesField extends React.Component<ImagesProps> {
                 index={index}
                 className={cx('Images-item')}
                 key={index}
-                src={
-                  (src ? filter(src, item, '| raw') : item && item.image) ||
-                  item
-                }
-                originalSrc={
-                  (originalSrc
-                    ? filter(originalSrc, item, '| raw')
-                    : item && item.src) || item
-                }
-                title={item && item.title}
-                caption={item && (item.description || item.caption)}
+                src={item.src}
+                originalSrc={item.originalSrc}
+                title={item.title}
+                caption={item.caption}
                 thumbMode={thumbMode}
                 thumbRatio={thumbRatio}
                 enlargeAble={enlargeAble!}

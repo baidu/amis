@@ -45,10 +45,8 @@
 
     .#{$ns}ImageGallery-toolbar {
       margin: px2rem(8px);
-      width: 100%;
       
       &-list {
-        width: 100%;
         background: var(--white);
         color: var(--dark);
         border: 1px solid #e8e9eb;
@@ -100,6 +98,19 @@
     }
   }
 
+  &-toptitle {
+    position: absolute;
+    left: 50%;
+    top: px2rem(5px);
+    transform: translate(-50%, 0);
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    z-index: 1;
+    color: var(--white);
+    cursor: pointer;
+  }
+
   &-close {
     position: absolute;
     right: 0;
@@ -132,51 +143,60 @@
   }
 
   &-main {
-    max-height: 100%;
-    flex-basis: 0;
-    flex-grow: 1;
-    position: relative;
+    width: 100%;
+    height: 100%;
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
-    overflow: hidden;
+    position: relative;
     margin-right: px2rem(14px);
-
-    &-image {
-      height: calc(100% - #{px2rem(122px)});
-      width: 100%;
-      position: relative;
-      inset: 0;
-      overflow: hidden;
-
-      &-wrap {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        > img {
-          display: inline-block;
-          position: absolute;
-          cursor: move;
-          cursor: -webkit-grab;
-          max-width: 100%;
-          max-height: 100%;
-          vertical-align: middle;
-          transform-origin: center;
-          transition: transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s;
-          z-index: 0;
-        }
-      }
-    }
 
     &.is-dragging > img {
       transition: none;
       user-select: none;
       cursor: -webkit-grabbing;
+    }
+  }
+
+  &-preview {
+    max-height: 100%;
+    flex-basis: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &-image {
+    height: calc(100% - #{px2rem(72px)});
+    width: 100%;
+    position: relative;
+    inset: 0;
+    overflow: hidden;
+
+    &-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      > img {
+        display: inline-block;
+        position: absolute;
+        cursor: move;
+        cursor: -webkit-grab;
+        max-width: 100%;
+        max-height: 100%;
+        vertical-align: middle;
+        transform-origin: center;
+        transition: transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s;
+        z-index: 0;
+      }
     }
   }
 
@@ -201,8 +221,8 @@
     animation-fill-mode: both;
 
     svg {
-      width: var(--image-images-item-size);
-      height: var(--image-images-item-size);
+      width: px2rem(12px);
+      height: px2rem(12px);
       fill: #151b26;
       color: #151b26;
     }
@@ -212,8 +232,8 @@
     }
   }
 
-  &-main-wrap:hover &-prevBtn,
-  &-main-wrap:hover &-nextBtn,
+  &-image:hover &-prevBtn,
+  &-image:hover &-nextBtn,
   &-prevBtn:hover,
   &-nextBtn:hover {
     animation-name: appear;
@@ -299,19 +319,17 @@
 }
 
 .#{$ns}ImageGallery-toolbar {
-  background-color: var(--image-images-preview-bgColor);
   border-radius: var(--image-images-preview-radius);
-  box-shadow: 0 2px 6px 0 rgba(211, 211, 211, 0.5);
-  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   height: px2rem(40px);
-  width: px2rem(40px);
-  margin: px2rem(16px) px2rem(24px);
+  width: 100%;
+  margin: px2rem(16px) 0;
   border-radius: 4px;
 
   &-list {
+    width: 100%;
     border-radius: var(--image-images-preview-radius);
     display: flex;
     align-items: flex-start;
@@ -327,14 +345,12 @@
   }
 
   &-action {
-    padding: px2rem(13px);
-    border-radius: px2rem(4px);
-    width: px2rem(40px);
-    height: px2rem(40px);
+    width: px2rem(36px);
+    height: px2rem(36px);
+    line-height: px2rem(36px);
     cursor: pointer;
     display: flex;
     justify-content: center;
-    align-items: center;
 
     &-icon {
       display: block;
@@ -370,10 +386,24 @@
     }
   }
 
-  .#{$ns}Pagination-simple {
+  &-pagination {
+    flex: 1;
+    text-align: right;
 
     > ul {
       width: px2rem(102px);
+
+      li {
+        color: var(--white);
+        
+        span {
+          min-width: unset;
+        }
+
+        svg {
+          color: var(--white);
+        }
+      }
     }
   }
 }

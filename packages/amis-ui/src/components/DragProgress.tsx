@@ -18,7 +18,7 @@ interface DragProgrocessState {
   precent: number;
 }
 
-const dragWidth = 160;
+const dragWidth = 140;
 const dragBtnWidth = 16;
 const leftStartPoint = -(dragBtnWidth / 2);
 const leftEndPoint = dragWidth + leftStartPoint;
