@@ -1514,6 +1514,21 @@ export class Evaluator {
     return text.split(/[\\/]/).pop();
   }
 
+  /**
+   * 生成UUID字符串
+   *
+   * @param {number} length - 生成的UUID字符串长度，默认为32位
+   * @example UUID()
+   * @example UUID(8)
+   * @namespace 文本函数
+   *
+   * @returns {string} 生成的UUID字符串
+   */
+  fnUUID(length: number = 32) {
+    const len = Math.min(Math.max(length, 0), 32);
+    return uuidv4().slice(0, len);
+  }
+
   // 日期函数
 
   /**
@@ -2413,4 +2428,26 @@ export function createObject(
   props && Object.keys(props).forEach(key => (obj[key] = props[key]));
 
   return obj;
+}
+
+export function createStr() {
+  return (
+    '00000000000000000' + (Math.random() * 0xffffffffffffffff).toString(16)
+  ).slice(-16);
+}
+
+export function uuidv4() {
+  const a = createStr();
+  const b = createStr();
+  return (
+    a.slice(0, 8) +
+    '-' +
+    a.slice(8, 12) +
+    '-4' +
+    a.slice(13) +
+    '-a' +
+    b.slice(1, 4) +
+    '-' +
+    b.slice(4)
+  );
 }
