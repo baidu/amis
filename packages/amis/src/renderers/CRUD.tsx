@@ -2218,7 +2218,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 toolbar.align || (type === 'pagination' ? 'right' : 'left');
               return (
                 <div
-                  key={index}
+                  key={toolbar.id || index}
                   className={cx(
                     'Crud-toolbar-item',
                     align ? `Crud-toolbar-item--${align}` : '',
