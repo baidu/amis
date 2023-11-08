@@ -1224,7 +1224,10 @@ export async function resolveVariablesFromScope(node: any, manager: any) {
   // 子编辑器内读取的host节点自定义变量，非数据域方式，如listSelect的选项值
   let hostNodeVaraibles = [];
   if (manager?.store?.isSubEditor) {
-    hostNodeVaraibles = manager.config?.hostNode?.info?.subEditorVariable || [];
+    hostNodeVaraibles =
+      manager.config?.hostNode?.info?.getSubEditorVariable?.(
+        manager.config?.hostNode.schema
+      ) || [];
   }
 
   const variables: VariableItem[] =
