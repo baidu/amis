@@ -563,6 +563,11 @@ test('evalute:Math', () => {
   expect(evaluate('${POW(2, infinity)}', data)).toBe(data.infinity);
 });
 
+test('evalute:UUID', () => {
+  expect(evaluate('${UUID()}', {}).length).toBe(32);
+  expect(evaluate('${UUID(8)}', {}).length).toBe(8);
+});
+
 test('evalute:namespace', () => {
   localStorage.setItem('a', '1');
   localStorage.setItem('b', '2');
