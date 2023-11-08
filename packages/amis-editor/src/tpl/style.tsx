@@ -481,6 +481,7 @@ setSchemaTpl('theme:form-description', () => {
 setSchemaTpl('theme:select', (option: any = {}) => {
   return {
     mode: 'horizontal',
+    labelAlign: 'left',
     type: 'amis-theme-select',
     label: '大小',
     name: `themeCss.className.select:default`,

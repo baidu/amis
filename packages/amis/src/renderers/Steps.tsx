@@ -6,7 +6,9 @@ import {
   resolveVariable,
   resolveVariableAndFilter,
   filter,
-  getPropValue
+  getPropValue,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Steps, StepStatus, RemoteOptionsProps, withRemoteConfig} from 'amis-ui';
 import {BaseSchema, SchemaCollection} from '../Schema';
@@ -92,6 +94,7 @@ export interface StepsProps
 
 export function StepsCmpt(props: StepsProps) {
   const {
+    classnames: cx,
     className,
     style,
     steps,
@@ -102,7 +105,11 @@ export function StepsCmpt(props: StepsProps) {
     data,
     source,
     render,
-    mobileUI
+    mobileUI,
+    wrapperCustomStyle,
+    id,
+    themeCss,
+    env
   } = props;
   let sourceResult: Array<StepSchema> = resolveVariableAndFilter(
     source,
@@ -155,17 +162,36 @@ export function StepsCmpt(props: StepsProps) {
   }
 
   return (
-    <Steps
-      current={currentValue}
-      steps={resolveSteps}
-      className={className}
-      style={style}
-      status={statusValue}
-      mode={mode}
-      progressDot={progressDot}
-      labelPlacement={labelPlacement}
-      mobileUI={mobileUI}
-    ></Steps>
+    <>
+      <Steps
+        current={currentValue}
+        steps={resolveSteps}
+        className={cx(
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+        style={style}
+        status={statusValue}
+        mode={mode}
+        progressDot={progressDot}
+        labelPlacement={labelPlacement}
+        mobileUI={mobileUI}
+      ></Steps>
+      <CustomStyle
+        config={{
+          wrapperCustomStyle,
+          id,
+          themeCss,
+          classNames: [
+            {
+              key: 'baseControlClassName'
+            }
+          ]
+        }}
+        env={env}
+      />
+    </>
   );
 }
 

@@ -628,14 +628,9 @@ export class TreeControlPlugin extends BasePlugin {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
           getSchemaTpl('style:formItem', {renderer}),
-          getSchemaTpl('style:classNames', {
-            schema: [
-              getSchemaTpl('className', {
-                label: '外层容器',
-                name: 'treeContainerClassName'
-              })
-            ]
-          })
+          getSchemaTpl('theme:form-label'),
+          getSchemaTpl('theme:form-description'),
+          ...getSchemaTpl('theme:common', {exclude: ['layout']})
         ])
       },
       {

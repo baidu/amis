@@ -315,41 +315,30 @@ export const formItemControl: (
         },
         {
           title: '外观',
+          className: 'p-none',
           body: normalizeBodySchema(
             [
-              getSchemaTpl('formItemMode'),
-              getSchemaTpl('horizontalMode'),
-              getSchemaTpl('horizontal', {
-                label: '',
-                visibleOn:
-                  'data.mode == "horizontal" && data.label !== false && data.horizontal'
-              }),
-              // renderer.sizeMutable !== false
-              //   ? getSchemaTpl('formItemSize')
-              //   : null,
-              getSchemaTpl('formItemInline'),
-              getSchemaTpl('className'),
-              getSchemaTpl('className', {
-                label: 'Label CSS 类名',
-                name: 'labelClassName'
-              }),
-              getSchemaTpl('className', {
-                label: '控件 CSS 类名',
-                name: 'inputClassName'
-              }),
-              getSchemaTpl('className', {
-                label: '描述 CSS 类名',
-                name: 'descriptionClassName',
-                visibleOn: 'this.description'
-              }),
-              ...(!supportStatic
-                ? []
-                : [
-                    getSchemaTpl('className', {
-                      label: '静态 CSS 类名',
-                      name: 'staticClassName'
-                    })
-                  ])
+              getSchemaTpl('collapseGroup', [
+                {
+                  title: '基本',
+                  body: [
+                    getSchemaTpl('formItemMode'),
+                    getSchemaTpl('horizontalMode'),
+                    getSchemaTpl('horizontal', {
+                      label: '',
+                      visibleOn:
+                        'data.mode == "horizontal" && data.label !== false && data.horizontal'
+                    }),
+                    // renderer.sizeMutable !== false
+                    //   ? getSchemaTpl('formItemSize')
+                    //   : null,
+                    getSchemaTpl('formItemInline')
+                  ]
+                },
+                getSchemaTpl('theme:form-label'),
+                getSchemaTpl('theme:form-description'),
+                ...getSchemaTpl('theme:common', {exclude: ['layout']})
+              ])
             ],
             panels?.style?.body,
             panels?.style?.replace,

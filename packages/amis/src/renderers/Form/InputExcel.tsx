@@ -1,7 +1,13 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import {autobind, createObject, isObject, resolveEventData} from 'amis-core';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
 import type {CellValue, CellRichTextValue} from 'exceljs';
 
@@ -356,11 +362,21 @@ export default class ExcelControl extends React.PureComponent<
       classPrefix: ns,
       disabled,
       translate: __,
-      placeholder
+      placeholder,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     return (
-      <div className={cx('ExcelControl', className)}>
+      <div
+        className={cx(
+          'ExcelControl',
+          className,
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         <Dropzone
           key="drop-zone"
           onDrop={this.handleDrop}
@@ -370,7 +386,14 @@ export default class ExcelControl extends React.PureComponent<
         >
           {({getRootProps, getInputProps}) => (
             <section className={cx('ExcelControl-container', className)}>
-              <div {...getRootProps({className: cx('ExcelControl-dropzone')})}>
+              <div
+                {...getRootProps({
+                  className: cx(
+                    'ExcelControl-dropzone',
+                    setThemeClassName('baseControlClassName', id, themeCss)
+                  )
+                })}
+              >
                 <input {...getInputProps()} />
                 {this.state.filename ? (
                   __('Excel.parsed', {
@@ -383,6 +406,19 @@ export default class ExcelControl extends React.PureComponent<
             </section>
           )}
         </Dropzone>
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

@@ -5,7 +5,9 @@ import {
   isPureVariable,
   Renderer,
   RendererProps,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {filter} from 'amis-core';
 import {Icon} from 'amis-ui';
@@ -109,7 +111,11 @@ export class StatusField extends React.Component<StatusProps, object> {
       style,
       placeholder,
       classnames: cx,
-      data
+      data,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
     const map = merge(StatusField.defaultProps.map, this.props?.map);
     const labelMap = merge(
@@ -215,7 +221,9 @@ export class StatusField extends React.Component<StatusProps, object> {
           'StatusField',
           classNameProp,
           className,
-          status.className
+          status.className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={{
           ...style,
@@ -224,6 +232,19 @@ export class StatusField extends React.Component<StatusProps, object> {
       >
         {iconElement}
         {labelElement}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </span>
     );
   }
