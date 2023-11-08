@@ -80,7 +80,7 @@ export default class SwitchContainer extends React.Component<
 
   componentDidUpdate(preProps: SwitchContainerProps) {
     const items = this.props.items || [];
-    if (this.state.activeIndex >= 0 && !items[this.state.activeIndex]) {
+    if (this.state.activeIndex > 0 && !items[this.state.activeIndex]) {
       this.setState({
         activeIndex: 0
       });
