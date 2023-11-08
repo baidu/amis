@@ -14,7 +14,9 @@ import {
   isEffectiveApi,
   normalizeApi,
   isApiOutdated,
-  isApiOutdatedWithData
+  isApiOutdatedWithData,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Icon} from 'amis-ui';
 import {TooltipWrapper, Button} from 'amis-ui';
@@ -1350,7 +1352,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       documentation,
       documentLink,
       env,
-      container
+      container,
+      wrapperCustomStyle,
+      id,
+      themeCss
     } = this.props;
     let {files, uploading, error} = this.state;
     const nameField = this.props.nameField || 'name';
@@ -1372,7 +1377,14 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       });
 
     return (
-      <div className={cx('FileControl', className)}>
+      <div
+        className={cx(
+          'FileControl',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         {templateUrl ? (
           <a
             className={cx('FileControl-templateInfo')}
@@ -1439,10 +1451,15 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   <Button
                     level="default"
                     disabled={disabled}
-                    className={cx('FileControl-selectBtn', btnClassName, {
-                      'is-disabled':
-                        multiple && !!maxLength && files.length >= maxLength
-                    })}
+                    className={cx(
+                      'FileControl-selectBtn',
+                      btnClassName,
+                      setThemeClassName('btnClassName', id, themeCss),
+                      {
+                        'is-disabled':
+                          multiple && !!maxLength && files.length >= maxLength
+                      }
+                    )}
                     tooltip={
                       multiple && maxLength && files.length >= maxLength
                         ? __('File.maxLength', {maxLength})
@@ -1582,12 +1599,36 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           <Button
             level="default"
             disabled={!hasPending}
-            className={cx('FileControl-uploadBtn', btnUploadClassName)}
+            className={cx(
+              'FileControl-uploadBtn',
+              btnUploadClassName,
+              setThemeClassName('btnUploadClassName', id, themeCss)
+            )}
             onClick={this.toggleUpload}
           >
             {__(uploading ? 'File.pause' : 'File.start')}
           </Button>
         ) : null}
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              },
+              {
+                key: 'btnClassName'
+              },
+              {
+                key: 'btnUploadClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

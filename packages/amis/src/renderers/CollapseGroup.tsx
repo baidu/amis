@@ -5,7 +5,9 @@ import {
   autobind,
   resolveEventData,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
 import {CollapseGroup} from 'amis-ui';
@@ -92,6 +94,7 @@ export class CollapseGroupRender extends React.Component<
 
   render() {
     const {
+      classnames: cx,
       defaultActiveKey,
       accordion,
       expandIcon,
@@ -101,7 +104,11 @@ export class CollapseGroupRender extends React.Component<
       style,
       render,
       mobileUI,
-      data
+      data,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
     let enableFieldSetStyle = this.props.enableFieldSetStyle;
 
@@ -114,18 +121,37 @@ export class CollapseGroupRender extends React.Component<
     }
 
     return (
-      <CollapseGroup
-        defaultActiveKey={defaultActiveKey}
-        accordion={accordion}
-        expandIcon={expandIcon}
-        expandIconPosition={expandIconPosition}
-        className={className}
-        style={style}
-        mobileUI={mobileUI}
-        onCollapseChange={this.handleCollapseChange}
-      >
-        {render('body', body || '', {enableFieldSetStyle})}
-      </CollapseGroup>
+      <>
+        <CollapseGroup
+          defaultActiveKey={defaultActiveKey}
+          accordion={accordion}
+          expandIcon={expandIcon}
+          expandIconPosition={expandIconPosition}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+          style={style}
+          mobileUI={mobileUI}
+          onCollapseChange={this.handleCollapseChange}
+        >
+          {render('body', body || '', {enableFieldSetStyle})}
+        </CollapseGroup>
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

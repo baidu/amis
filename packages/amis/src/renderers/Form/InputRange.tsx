@@ -14,7 +14,9 @@ import {
   ActionObject,
   isMobile,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Range as InputRange, NumberInput, Icon} from 'amis-ui';
 import {FormBaseControlSchema, SchemaObject} from '../../Schema';
@@ -689,7 +691,11 @@ export default class RangeControl extends React.PureComponent<
       render,
       marks,
       region,
-      mobileUI
+      mobileUI,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = props;
 
     // 处理自定义json配置
@@ -712,7 +718,9 @@ export default class RangeControl extends React.PureComponent<
           `${ns}InputRange`,
           {'is-disabled': disabled},
           {'is-mobile': mobileUI},
-          className
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
       >
         {showInput && multiple && <Input {...props} type="min" />}
@@ -730,6 +738,20 @@ export default class RangeControl extends React.PureComponent<
             <Icon icon="close" className="icon" />
           </a>
         ) : null}
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

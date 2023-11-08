@@ -8,7 +8,9 @@ import {
   autobind,
   resolveEventData,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Collapse as BasicCollapse, Icon} from 'amis-ui';
 import {BaseSchema, SchemaCollection, SchemaTpl, SchemaObject} from '../Schema';
@@ -199,66 +201,106 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       propsUpdate,
       mobileUI,
       divideLine,
-      enableFieldSetStyle
+      enableFieldSetStyle,
+      wrapperCustomStyle,
+      themeCss,
+      env
     } = this.props;
     const heading = title || header || '';
 
     return (
-      <BasicCollapse
-        id={id}
-        ref={this.basicCollapse}
-        classnames={cx}
-        classPrefix={ns}
-        mountOnEnter={mountOnEnter}
-        unmountOnExit={unmountOnExit}
-        size={size}
-        wrapperComponent={wrapperComponent}
-        headingComponent={headingComponent}
-        className={className}
-        style={style}
-        headingClassName={headingClassName}
-        bodyClassName={bodyClassName}
-        headerPosition={titlePosition || headerPosition}
-        collapsable={collapsable}
-        collapsed={collapsed}
-        showArrow={showArrow}
-        disabled={disabled}
-        propsUpdate={propsUpdate}
-        expandIcon={
-          expandIcon ? (
-            typeof (expandIcon as any).icon === 'object' ? (
-              <Icon
-                cx={cx}
-                icon={(expandIcon as any).icon}
-                className={cx('Collapse-icon-tranform')}
-              />
-            ) : (
-              render('arrow-icon', expandIcon || '', {
-                className: cx('Collapse-icon-tranform')
-              })
-            )
-          ) : null
-        }
-        collapseHeader={
-          collapseTitle || collapseHeader
-            ? render('heading', collapseTitle || collapseHeader)
-            : null
-        }
-        header={heading ? render('heading', heading) : null}
-        body={
-          children
-            ? typeof children === 'function'
-              ? children(this.props)
-              : children
-            : body
-            ? render('body', body)
-            : null
-        }
-        mobileUI={mobileUI}
-        onCollapse={this.handleCollapseChange}
-        divideLine={divideLine}
-        enableFieldSetStyle={enableFieldSetStyle}
-      ></BasicCollapse>
+      <>
+        <BasicCollapse
+          id={id}
+          ref={this.basicCollapse}
+          classnames={cx}
+          classPrefix={ns}
+          mountOnEnter={mountOnEnter}
+          unmountOnExit={unmountOnExit}
+          size={size}
+          wrapperComponent={wrapperComponent}
+          headingComponent={headingComponent}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+          style={style}
+          headingClassName={cx(
+            headingClassName,
+            setThemeClassName('headingClassName', id, themeCss)
+          )}
+          bodyClassName={cx(
+            bodyClassName,
+            setThemeClassName('bodyClassName', id, themeCss)
+          )}
+          headerPosition={titlePosition || headerPosition}
+          collapsable={collapsable}
+          collapsed={collapsed}
+          showArrow={showArrow}
+          disabled={disabled}
+          propsUpdate={propsUpdate}
+          expandIcon={
+            expandIcon ? (
+              typeof (expandIcon as any).icon === 'object' ? (
+                <Icon
+                  cx={cx}
+                  icon={(expandIcon as any).icon}
+                  className={cx('Collapse-icon-tranform')}
+                />
+              ) : (
+                render('arrow-icon', expandIcon || '', {
+                  className: cx('Collapse-icon-tranform')
+                })
+              )
+            ) : null
+          }
+          collapseHeader={
+            collapseTitle || collapseHeader
+              ? render('heading', collapseTitle || collapseHeader)
+              : null
+          }
+          header={heading ? render('heading', heading) : null}
+          body={
+            children
+              ? typeof children === 'function'
+                ? children(this.props)
+                : children
+              : body
+              ? render('body', body)
+              : null
+          }
+          mobileUI={mobileUI}
+          onCollapse={this.handleCollapseChange}
+          divideLine={divideLine}
+          enableFieldSetStyle={enableFieldSetStyle}
+        ></BasicCollapse>
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              },
+              {
+                key: 'headingClassName'
+              },
+              {
+                key: 'bodyClassName',
+                weights: {
+                  default: {suf: ' > div'},
+                  hover: {suf: ' > div'},
+                  active: {suf: ' > div'},
+                  disabled: {suf: ' > div'}
+                }
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }
