@@ -728,7 +728,11 @@ export default class NestedSelectControl extends React.Component<
                   </div>
 
                   {option.children && option.children.length ? (
-                    <div className={cx('NestedSelect-optionArrowRight')}>
+                    <div
+                      className={cx('NestedSelect-optionArrowRight', {
+                        'is-disabled': nodeDisabled
+                      })}
+                    >
                       <Icon icon="right-arrow-bold" className="icon" />
                     </div>
                   ) : null}

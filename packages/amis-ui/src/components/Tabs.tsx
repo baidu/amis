@@ -738,7 +738,7 @@ export class Tabs extends React.Component<TabsProps, any> {
           disabled && 'Tabs-linksContainer-arrow--disabled'
         )}
       >
-        <i className={'iconfont icon-arrow-' + type} />
+        <Icon icon="right-arrow-bold" className="icon" />
       </div>
     ) : null;
   }

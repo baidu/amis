@@ -4,7 +4,7 @@
   .#{$ns}NestedSelect-menu {
     padding-top: px2rem(4px);
     padding-bottom: px2rem(4px);
-    box-shadow: 0 px2rem(2px) px2rem(8px) 0 rgba(7, 12, 20, 0.12);
+    box-shadow: var(--Form-select-outer-boxShadow);
   }
 }
 
@@ -18,14 +18,18 @@
 
   &-optionArrowRight {
     display: inline-block;
-    padding-right: var(--Form-select-icon-rigin);
-
     svg {
       width: px2rem(10px);
       height: px2rem(10px);
       fill: var(--Form-input-iconColor);
       color: var(--default-icon-color);
       top: 0;
+    }
+  }
+
+  &-optionArrowRight.is-disabled {
+    svg {
+      color: var(--text--muted-color);
     }
   }
 
@@ -56,19 +60,23 @@
     max-height: px2rem(175px);
     background: var(--Form-select-menu-bg);
     color: var(--Form-select-menu-color);
-    border: var(--Form-select-outer-borderWidth) solid
-      var(--Form-input-onFocused-borderColor);
+    border-radius: var(--borderRadius);
     box-shadow: var(--Form-select-outer-boxShadow);
     overflow-y: auto;
     overflow-x: hidden;
-
+    border: var(--Form-select-outer-borderWidth) solid
+      var(--Form-input-onFocused-borderColor);
     &:not(:first-child) {
       border-left: 0;
+      margin-left: px2rem(4px);
     }
 
     .#{$ns}NestedSelect-option {
       position: relative;
-      padding-left: var(--gap-md);
+      padding: var(--select-base-default-option-paddingTop)
+        var(--select-base-default-option-paddingRight)
+        var(--select-base-default-option-paddingBottom)
+        var(--select-base-default-option-paddingLeft);
       min-height: var(--select-base-default-option-line-height);
       line-height: var(--select-base-default-option-line-height);
       cursor: pointer;
@@ -121,4 +129,9 @@
   &-popup {
     height: px2rem(340px);
   }
+}
+
+.#{$ns}NestedSelect-popover {
+  border: none;
+  box-shadow: none;
 }
