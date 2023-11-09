@@ -2,7 +2,9 @@ import React from 'react';
 import {
   RENDERER_TRANSMISSION_OMIT_PROPS,
   Renderer,
-  RendererProps
+  RendererProps,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {SchemaNode, ActionObject} from 'amis-core';
 import {getScrollParent, autobind} from 'amis-core';
@@ -268,6 +270,9 @@ export default class Panel extends React.Component<PanelProps> {
       classPrefix: ns,
       classnames: cx,
       id,
+      wrapperCustomStyle,
+      themeCss,
+      env,
       ...rest
     } = this.props;
 
@@ -285,7 +290,8 @@ export default class Panel extends React.Component<PanelProps> {
           className={cx(
             `Panel-btnToolbar`,
             actionsClassName || `Panel-footer`,
-            actionsControlClassName
+            actionsControlClassName,
+            setThemeClassName('actionsClassName', id, themeCss)
           )}
         >
           {actions}
@@ -307,7 +313,11 @@ export default class Panel extends React.Component<PanelProps> {
 
     let footerDom = footerDoms.length ? (
       <div
-        className={cx('Panel-footerWrap', footerWrapClassName)}
+        className={cx(
+          'Panel-footerWrap',
+          footerWrapClassName,
+          setThemeClassName('footerClassName', id, themeCss)
+        )}
         ref={this.footerDom}
       >
         {footerDoms}
@@ -315,12 +325,21 @@ export default class Panel extends React.Component<PanelProps> {
     ) : null;
 
     return (
-      <div className={cx(`Panel`, className || `Panel--default`)} style={style}>
+      <div
+        className={cx(
+          `Panel`,
+          className || `Panel--default`,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+        style={style}
+      >
         {header ? (
           <div
             className={cx(
               headerClassName || `Panel-heading`,
-              headerControlClassName
+              headerControlClassName,
+              setThemeClassName('headerClassName', id, themeCss)
             )}
           >
             {render('header', header, subProps)}
@@ -329,7 +348,8 @@ export default class Panel extends React.Component<PanelProps> {
           <div
             className={cx(
               headerClassName || `Panel-heading`,
-              headerControlClassName
+              headerControlClassName,
+              setThemeClassName('headerClassName', id, themeCss)
             )}
           >
             <h3 className={cx(`Panel-title`)}>
@@ -339,7 +359,11 @@ export default class Panel extends React.Component<PanelProps> {
         ) : null}
 
         <div
-          className={cx(bodyClassName || `Panel-body`, bodyControlClassName)}
+          className={cx(
+            bodyClassName || `Panel-body`,
+            bodyControlClassName,
+            setThemeClassName('bodyClassName', id, themeCss)
+          )}
         >
           {this.renderBody()}
         </div>
@@ -357,6 +381,37 @@ export default class Panel extends React.Component<PanelProps> {
             {footerDoms}
           </div>
         ) : null}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              },
+              {
+                key: 'headerClassName',
+                weights: {
+                  default: {important: true},
+                  hover: {important: true},
+                  active: {important: true},
+                  disabled: {important: true}
+                }
+              },
+              {
+                key: 'bodyClassName'
+              },
+              {
+                key: 'footerClassName'
+              },
+              {
+                key: 'actionsClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

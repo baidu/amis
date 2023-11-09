@@ -339,19 +339,10 @@ export class NestedSelectControlPlugin extends BasePlugin {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
           getSchemaTpl('style:formItem', {renderer}),
-          {
-            title: '边框',
-            key: 'borderMode',
-            body: [getSchemaTpl('borderMode')]
-          },
-          getSchemaTpl('style:classNames', {
-            schema: [
-              getSchemaTpl('className', {
-                label: '描述',
-                name: 'descriptionClassName',
-                visibleOn: 'this.description'
-              })
-            ]
+          getSchemaTpl('theme:form-label'),
+          getSchemaTpl('theme:form-description'),
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout']
           })
         ])
       },

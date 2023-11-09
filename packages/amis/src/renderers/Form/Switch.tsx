@@ -3,7 +3,9 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Icon, Switch} from 'amis-ui';
 import {createObject, autobind, isObject} from 'amis-core';
@@ -129,13 +131,24 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
       trueValue,
       falseValue,
       onChange,
-      disabled
+      disabled,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     const {on, off} = this.getResult();
 
     return (
-      <div className={cx(`SwitchControl`, className)}>
+      <div
+        className={cx(
+          `SwitchControl`,
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         {this.renderBody(
           <Switch
             classPrefix={ns}
@@ -149,6 +162,19 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
             size={size as any}
           />
         )}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

@@ -20,7 +20,7 @@ import type {
   Trigger
 } from 'amis-ui/lib/components/TooltipWrapper';
 import {resolveVariableAndFilter} from 'amis-core';
-import {isMobile} from 'amis-core';
+import {isMobile, CustomStyle, setThemeClassName} from 'amis-core';
 
 export type DropdownButton =
   | (ActionSchema & {children?: Array<DropdownButton>})
@@ -324,7 +324,8 @@ export default class DropDownButton extends React.Component<
       closeOnOutside,
       menuClassName,
       overlayPlacement,
-      trigger
+      trigger,
+      menuControlClassName
     } = this.props;
 
     const buttons =
@@ -346,7 +347,8 @@ export default class DropDownButton extends React.Component<
                 {
                   'is-mobile': isMobile()
                 },
-                menuClassName
+                menuClassName,
+                menuControlClassName
               )}
               onClick={closeOnClick ? this.close : noop}
               onMouseEnter={this.keepOpen}
@@ -378,7 +380,11 @@ export default class DropDownButton extends React.Component<
             overlay={trigger !== 'hover'}
             onHide={this.close}
             classPrefix={ns}
-            className={cx('DropDown-popover', menuClassName)}
+            className={cx(
+              'DropDown-popover',
+              menuClassName,
+              menuControlClassName
+            )}
             style={{minWidth: this.target?.offsetWidth}}
           >
             {popOverBody}
@@ -417,7 +423,10 @@ export default class DropDownButton extends React.Component<
       trigger,
       data,
       hideCaret,
-      env
+      env,
+      id,
+      themeCss,
+      wrapperCustomStyle
     } = this.props;
 
     return (
@@ -431,7 +440,8 @@ export default class DropDownButton extends React.Component<
             'is-actived': isActived,
             'is-mobile': isMobile()
           },
-          className
+          className,
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={style}
         onMouseEnter={trigger === 'hover' ? this.open : () => {}}
@@ -461,7 +471,8 @@ export default class DropDownButton extends React.Component<
                 'Button--primary': primary,
                 'Button--iconOnly': iconOnly
               },
-              `Button--size-${size}`
+              `Button--size-${size}`,
+              setThemeClassName('buttonControlClassName', id, themeCss)
             )}
           >
             <Icon c={cx} icon={icon} className="icon m-r-xs" />
@@ -477,6 +488,22 @@ export default class DropDownButton extends React.Component<
           </button>
         </TooltipWrapper>
         {this.state.isOpened ? this.renderOuter() : null}
+        <CustomStyle
+          config={{
+            id,
+            themeCss,
+            wrapperCustomStyle,
+            classNames: [
+              {
+                key: 'buttonControlClassName'
+              },
+              {
+                key: 'menuControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

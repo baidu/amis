@@ -268,9 +268,7 @@ export class CollapseGroupPlugin extends BasePlugin {
         {
           title: '外观',
           body: getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:classNames', {
-              isFormItem: false
-            })
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
           ])
         },
         {

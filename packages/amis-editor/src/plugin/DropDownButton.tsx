@@ -197,6 +197,17 @@ export class DropDownButtonPlugin extends BasePlugin {
                   label: '下拉菜单'
                 })
               ]
+            }),
+            ...getSchemaTpl('theme:common', {
+              exclude: ['layout'],
+              classname: 'buttonControlClassName',
+              baseTitle: '按钮样式',
+              extra: [
+                getSchemaTpl('theme:base', {
+                  classname: 'menuControlClassName',
+                  title: '下拉菜单样式'
+                })
+              ]
             })
           ])
         ]

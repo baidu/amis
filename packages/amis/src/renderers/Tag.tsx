@@ -5,7 +5,12 @@ import React from 'react';
 import {autobind, createObject, Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaIcon} from '../Schema';
 import {getPropValue} from 'amis-core';
-import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
+import {
+  isPureVariable,
+  resolveVariableAndFilter,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
 
 import {Tag} from 'amis-ui';
 
@@ -128,13 +133,18 @@ export class TagField extends React.Component<TagProps, object> {
 
   render() {
     let {
+      classnames: cx,
       icon,
       displayMode,
       color,
       className,
       closable,
       data,
-      style = {}
+      style = {},
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     const label = this.resolveLabel();
@@ -153,7 +163,11 @@ export class TagField extends React.Component<TagProps, object> {
 
     return (
       <Tag
-        className={className}
+        className={cx(
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
         displayMode={displayMode}
         color={color}
         icon={icon}
@@ -165,6 +179,19 @@ export class TagField extends React.Component<TagProps, object> {
         onClose={this.handleClose}
       >
         {label}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </Tag>
     );
   }

@@ -80,6 +80,16 @@ export class ControlPlugin extends BasePlugin {
           getSchemaTpl('placeholder'),
           getSchemaTpl('description')
         ]
+      },
+      style: {
+        replace: true,
+        body: [
+          getSchemaTpl('collapseGroup', [
+            getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description')
+          ])
+        ]
       }
     });
   };

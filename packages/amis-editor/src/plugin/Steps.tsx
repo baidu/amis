@@ -106,29 +106,34 @@ export class StepsPlugin extends BasePlugin {
       },
       {
         title: '外观',
-        body: [
+        body: getSchemaTpl('collapseGroup', [
           {
-            name: 'mode',
-            type: 'select',
-            label: '模式',
-            value: 'horizontal',
-            options: [
+            title: '基本',
+            body: [
               {
-                label: '水平',
-                value: 'horizontal'
-              },
-              {
-                label: '竖直',
-                value: 'vertical'
-              },
-              {
-                label: '简单',
-                value: 'simple'
+                name: 'mode',
+                type: 'select',
+                label: '模式',
+                value: 'horizontal',
+                options: [
+                  {
+                    label: '水平',
+                    value: 'horizontal'
+                  },
+                  {
+                    label: '竖直',
+                    value: 'vertical'
+                  },
+                  {
+                    label: '简单',
+                    value: 'simple'
+                  }
+                ]
               }
             ]
           },
-          getSchemaTpl('className')
-        ]
+          ...getSchemaTpl('theme:common', {exclude: ['layout']})
+        ])
       },
       {
         title: '显隐',

@@ -3,7 +3,9 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  resolveEventData
+  resolveEventData,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import Downshift from 'downshift';
 import find from 'lodash/find';
@@ -573,7 +575,10 @@ export default class TagControl extends React.PureComponent<
       loadingConfig,
       valueField,
       env,
-      mobileUI
+      mobileUI,
+      wrapperCustomStyle,
+      id,
+      themeCss
     } = this.props;
 
     const finnalOptions = Array.isArray(options)
@@ -600,7 +605,13 @@ export default class TagControl extends React.PureComponent<
       >
         {({isOpen, highlightedIndex, getItemProps, getInputProps}) => {
           return (
-            <div className={cx(className, `TagControl`)}>
+            <div
+              className={cx(
+                className,
+                `TagControl`,
+                setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+              )}
+            >
               {/* @ts-ignore 怪了为啥类型不对，后续看 */}
               <ResultBox
                 {...getInputProps({
@@ -616,7 +627,10 @@ export default class TagControl extends React.PureComponent<
                 onResultClick={mobileUI ? this.handleFocus : undefined}
                 inputPlaceholder={''}
                 onChange={this.handleInputChange}
-                className={cx('TagControl-input')}
+                className={cx(
+                  'TagControl-input',
+                  setThemeClassName('baseControlClassName', id, themeCss)
+                )}
                 result={selectedOptions}
                 onResultChange={this.handleChange}
                 itemRender={this.renderItem}
@@ -748,6 +762,19 @@ export default class TagControl extends React.PureComponent<
                   ))}
                 </div>
               )}
+              <CustomStyle
+                config={{
+                  wrapperCustomStyle,
+                  id,
+                  themeCss,
+                  classNames: [
+                    {
+                      key: 'baseControlClassName'
+                    }
+                  ]
+                }}
+                env={env}
+              />
             </div>
           );
         }}

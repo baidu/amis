@@ -66,7 +66,7 @@ exports[`Renderer:inputCity 1`] = `
                     class="cxd-Form-value"
                   >
                     <div
-                      class="cxd-CityPicker"
+                      class="cxd-CityPicker cxd-Form-control"
                     >
                       <div
                         aria-expanded="false"
@@ -301,7 +301,7 @@ exports[`Renderer:inputCity with searchable: open select 1`] = `
                     class="cxd-Form-value"
                   >
                     <div
-                      class="cxd-CityPicker"
+                      class="cxd-CityPicker cxd-Form-control"
                     >
                       <div
                         aria-expanded="true"

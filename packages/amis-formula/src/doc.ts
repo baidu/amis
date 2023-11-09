@@ -1057,7 +1057,8 @@ export const doc: {
   },
   {
     name: 'WEEKDAY',
-    description: "获取日期的星期几。\n\n示例\n\nWEEKDAY('2023-02-27') 得到 1。",
+    description:
+      "获取日期的星期几。\n\n示例\n\nWEEKDAY('2023-02-27') 得到 0。\nWEEKDAY('2023-02-27', 2) 得到 1。",
     example: 'WEEKDAY(date)',
     params: [
       {
@@ -1081,7 +1082,7 @@ export const doc: {
   {
     name: 'WEEK',
     description:
-      "获取年份的星期，即第几周。\n\n示例\n\nWEEK('2023-03-05') 得到 10。",
+      "获取年份的星期，即第几周。\n\n示例\n\nWEEK('2023-03-05') 得到 9。",
     example: 'WEEK(date)',
     params: [
       {

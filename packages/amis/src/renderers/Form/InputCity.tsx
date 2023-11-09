@@ -3,7 +3,9 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
@@ -86,6 +88,9 @@ export interface CityPickerProps
     [propName: string]: any;
   };
   popOverContainer?: any;
+  wrapperCustomStyle?: any;
+  id?: any;
+  themeCss?: any;
 }
 
 export interface CityDb {
@@ -419,7 +424,10 @@ export class CityPicker extends React.Component<
       translate: __,
       loadingConfig,
       popOverContainer,
-      itemClassName
+      itemClassName,
+      wrapperCustomStyle,
+      themeCss,
+      id
     } = this.props;
 
     const {provinceCode, cityCode, districtCode, street, db} = this.state;
@@ -567,6 +575,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
   @supportStatic()
   render() {
     const {
+      classnames: cx,
       value,
       allowCity,
       allowDistrict,
@@ -578,36 +587,67 @@ export class LocationControl extends React.Component<LocationControlProps> {
       env,
       mobileUI,
       popOverContainer,
-      itemClassName
+      className,
+      itemClassName,
+      wrapperCustomStyle,
+      id,
+      themeCss
     } = this.props;
 
-    return mobileUI ? (
-      <CityArea
-        value={value}
-        popOverContainer={env?.getModalContainer}
-        onChange={this.handleChange}
-        allowCity={allowCity}
-        allowDistrict={allowDistrict}
-        extractValue={extractValue}
-        joinValues={joinValues}
-        allowStreet={allowStreet}
-        disabled={disabled}
-        mobileUI={mobileUI}
-      />
-    ) : (
-      <ThemedCity
-        itemClassName={itemClassName}
-        popOverContainer={popOverContainer || env?.getModalContainer}
-        searchable={searchable}
-        value={value}
-        onChange={this.handleChange}
-        allowCity={allowCity}
-        allowDistrict={allowDistrict}
-        extractValue={extractValue}
-        joinValues={joinValues}
-        allowStreet={allowStreet}
-        disabled={disabled}
-      />
+    return (
+      <>
+        {mobileUI ? (
+          <CityArea
+            className={cx(
+              className,
+              setThemeClassName('baseControlClassName', id, themeCss),
+              setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            )}
+            value={value}
+            popOverContainer={env?.getModalContainer}
+            onChange={this.handleChange}
+            allowCity={allowCity}
+            allowDistrict={allowDistrict}
+            extractValue={extractValue}
+            joinValues={joinValues}
+            allowStreet={allowStreet}
+            disabled={disabled}
+            mobileUI={mobileUI}
+          />
+        ) : (
+          <ThemedCity
+            className={cx(
+              className,
+              setThemeClassName('baseControlClassName', id, themeCss),
+              setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            )}
+            itemClassName={itemClassName}
+            popOverContainer={popOverContainer || env?.getModalContainer}
+            searchable={searchable}
+            value={value}
+            onChange={this.handleChange}
+            allowCity={allowCity}
+            allowDistrict={allowDistrict}
+            extractValue={extractValue}
+            joinValues={joinValues}
+            allowStreet={allowStreet}
+            disabled={disabled}
+          />
+        )}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

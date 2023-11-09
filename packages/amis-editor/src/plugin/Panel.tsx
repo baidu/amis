@@ -157,8 +157,7 @@ export class PanelPlugin extends BasePlugin {
                 ]
               },
               {
-                className: 'p-none',
-                title: 'CSS 类名',
+                title: '主题',
                 body: [
                   {
                     name: isForm ? 'panelClassName' : 'className',
@@ -205,34 +204,30 @@ export class PanelPlugin extends BasePlugin {
                         value: 'Panel--danger'
                       }
                     ]
-                  },
-                  getSchemaTpl('className', {
-                    label: '外层',
-                    name: isForm ? 'panelClassName' : 'className',
-                    pipeIn: defaultValue('Panel--default')
+                  }
+                ]
+              },
+              ...getSchemaTpl('theme:common', {
+                exclude: ['layout'],
+                extra: [
+                  getSchemaTpl('theme:base', {
+                    classname: 'headerClassName',
+                    title: '头部区域样式'
                   }),
-
-                  getSchemaTpl('className', {
-                    name: 'headerClassName',
-                    label: '头部区域'
+                  getSchemaTpl('theme:base', {
+                    classname: 'bodyClassName',
+                    title: '内容区域样式'
                   }),
-
-                  getSchemaTpl('className', {
-                    name: 'bodyClassName',
-                    label: '内容区域'
+                  getSchemaTpl('theme:base', {
+                    classname: 'footerClassName',
+                    title: '底部区域样式'
                   }),
-
-                  getSchemaTpl('className', {
-                    name: 'footerClassName',
-                    label: '底部区域'
-                  }),
-
-                  getSchemaTpl('className', {
-                    name: 'actionsClassName',
-                    label: '按钮外层'
+                  getSchemaTpl('theme:base', {
+                    classname: 'actionsClassName',
+                    title: '按钮外层样式'
                   })
                 ]
-              }
+              })
             ])
           ]
         }

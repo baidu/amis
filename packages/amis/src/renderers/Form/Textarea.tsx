@@ -3,7 +3,9 @@ import {
   FormItem,
   FormControlProps,
   resolveEventData,
-  autobind
+  autobind,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Textarea} from 'amis-ui';
 import type {ListenerAction} from 'amis-core';
@@ -181,15 +183,49 @@ export default class TextAreaControl extends React.Component<
 
   @supportStatic()
   render() {
-    const {...rest} = this.props;
+    const {
+      classnames: cx,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env,
+      className,
+      ...rest
+    } = this.props;
     return (
-      <Textarea
-        {...rest}
-        forwardRef={this.inputRef}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        onChange={this.handleChange}
-      />
+      <>
+        <Textarea
+          {...rest}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+          forwardRef={this.inputRef}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          onChange={this.handleChange}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                weights: {
+                  default: {suf: ' > textarea'},
+                  hover: {suf: ' > textarea'},
+                  active: {suf: ' > textarea'},
+                  disabled: {suf: ' > textarea'}
+                }
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

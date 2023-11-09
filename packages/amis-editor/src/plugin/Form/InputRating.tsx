@@ -370,16 +370,18 @@ export class RateControlPlugin extends BasePlugin {
                 })
               ]
             },
-            getSchemaTpl('style:classNames', {
-              schema: [
-                getSchemaTpl('className', {
-                  label: '图标',
-                  name: 'charClassName'
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            ...getSchemaTpl('theme:common', {
+              exclude: ['layout'],
+              extra: [
+                getSchemaTpl('theme:base', {
+                  classname: 'charClassName',
+                  title: '图标样式'
                 }),
-
-                getSchemaTpl('className', {
-                  label: '评分描述',
-                  name: 'textClassName'
+                getSchemaTpl('theme:base', {
+                  classname: 'textClassName',
+                  title: '评分描述样式'
                 })
               ]
             })

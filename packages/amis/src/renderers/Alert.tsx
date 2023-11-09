@@ -7,7 +7,12 @@ import {
   SchemaCollection,
   SchemaIcon
 } from '../Schema';
-import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
+import {
+  isPureVariable,
+  resolveVariableAndFilter,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
 import type {AlertProps} from 'amis-ui/lib/components/Alert2';
 
 /**
@@ -66,7 +71,20 @@ export interface AlertSchema extends BaseSchema {
 })
 export class TplRenderer extends React.Component<AlertProps & RendererProps> {
   render() {
-    let {render, body, level, icon, showIcon, ...rest} = this.props;
+    let {
+      classnames: cx,
+      classname,
+      render,
+      body,
+      level,
+      icon,
+      showIcon,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env,
+      ...rest
+    } = this.props;
     if (isPureVariable(level)) {
       level = resolveVariableAndFilter(level, this.props.data);
     }
@@ -78,8 +96,32 @@ export class TplRenderer extends React.Component<AlertProps & RendererProps> {
     }
 
     return (
-      <Alert {...rest} level={level} icon={icon} showIcon={showIcon}>
+      <Alert
+        {...rest}
+        level={level}
+        icon={icon}
+        showIcon={showIcon}
+        className={cx(
+          classname,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         {render('body', body)}
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </Alert>
     );
   }
