@@ -41,7 +41,7 @@ export class CmptAction implements RendererAction {
       ? event.context.scoped?.[
           action.componentId ? 'getComponentById' : 'getComponentByName'
         ](key)
-      : null;
+      : renderer;
 
     if (key && !component) {
       const msg =
