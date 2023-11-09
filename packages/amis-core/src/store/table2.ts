@@ -449,10 +449,6 @@ export const TableStore2 = ServiceStore.named('TableStore2')
 
       if (item?.parentId) {
         const parent: IRow2 = self.getRowById(item.parentId) as any;
-        const offset = parent.children.indexOf(item) - fromIndex;
-        toIndex += offset;
-        fromIndex += offset;
-
         const newRows = parent.children.concat();
         newRows.splice(fromIndex, 1);
         newRows.splice(toIndex, 0, item);
@@ -464,7 +460,6 @@ export const TableStore2 = ServiceStore.named('TableStore2')
       const newRows = self.rows.concat();
       newRows.splice(fromIndex, 1);
       newRows.splice(toIndex, 0, item);
-
       newRows.forEach((item, index) => (item.newIndex = index));
       self.rows.replace(newRows);
     }

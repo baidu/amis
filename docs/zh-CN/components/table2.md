@@ -857,6 +857,113 @@ order: 67
 }
 ```
 
+表头分组的情况下也是合并单元格，但包含分组的表头配置`column.rowSpanExpr`或者`column.colSpanExpr`无效。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "service",
+      "body": [
+        {
+          "type": "table2",
+          "source": "$rows",
+          "columns": [
+            {
+              "title": "key",
+              "name": "key"
+            },
+            {
+              "title": "name",
+              "name": "name",
+              "colSpanExpr": "${rowIndex === 1 ? 2 : 1}"
+            },
+            {
+              "title": "age",
+              "name": "age",
+              "rowSpanExpr": "${rowIndex === 2 ? 1 : 0}"
+            },
+            {
+              "title": "Home Phone",
+              "name": "homephone",
+              "children": [
+                {
+                  "title": "tel",
+                  "name": "tel"
+                },
+                {
+                  "title": "phone",
+                  "name": "phone"
+                }
+              ]
+            },
+            {
+              "title": "address",
+              "name": "address"
+            }
+          ],
+          "bordered": true
+        }
+      ],
+      "data": {
+        "rows": [
+          {
+            "key": "1",
+            "name": "John Brown",
+            "age": 32,
+            "tel": "0571-22098909",
+            "phone": 18889898989,
+            "address": "New York No. 1 Lake Park"
+          },
+          {
+            "key": "2",
+            "name": "Jim Green",
+            "tel": "0571-22098333",
+            "phone": 18889898888,
+            "age": 42,
+            "address": "London No. 1 Lake Park"
+          },
+          {
+            "key": "3",
+            "name": "Joe Black",
+            "age": 32,
+            "tel": "0575-22098909",
+            "phone": 18900010002,
+            "address": "Sydney No. 1 Lake Park"
+          },
+          {
+            "key": "4",
+            "name": "Jim Red",
+            "age": 18,
+            "tel": "0575-22098909",
+            "phone": 18900010002,
+            "address": "London No. 2 Lake Park"
+          },
+          {
+            "key": "5",
+            "name": "Jake White",
+            "age": 18,
+            "tel": "0575-22098909",
+            "phone": 18900010002,
+            "address": "Dublin No. 2 Lake Park"
+          }
+        ]
+      }
+    }
+  ],
+  "asideResizor": false,
+  "pullRefresh": {
+    "disabled": true
+  },
+  "regions": [
+    "body",
+    "toolbar",
+    "header"
+  ]
+}
+```
+
 ## 固定表头
 
 给`scroll.y`设置一个固定高度，当表格行数据超过该高度时，会自动出现滚动条。
@@ -1093,7 +1200,8 @@ order: 67
                 },
                 {
                     "title": "Grade",
-                    "name": "grade"
+                    "name": "grade",
+                    "colSpanExpr": "<%= data.rowIndex === 1 ? 3 : 0 %>"
                 },
                 {
                     "title": "Grade1",
@@ -1190,188 +1298,188 @@ order: 67
 
 ```schema: scope="body"
 {
-    "type":"page",
-    "body":{
-        "type":"service",
-        "data":{
-            "rows":[
+    "type": "page",
+    "body": {
+        "type": "service",
+        "data": {
+            "rows": [
                 {
-                    "engine":"Trident",
-                    "browser":"Internet Explorer 4.0",
-                    "platform":"Win 95+",
-                    "version":"4",
-                    "grade":"X",
-                    "id":1,
-                    "children":[
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 4.0",
+                    "platform": "Win 95+",
+                    "version": "4",
+                    "grade": "X",
+                    "id": 1,
+                    "children": [
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":1001,
-                            "children":[
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 1001,
+                            "children": [
                                 {
-                                    "engine":"Trident",
-                                    "browser":"Internet Explorer 4.0",
-                                    "platform":"Win 95+",
-                                    "version":"4",
-                                    "grade":"X",
-                                    "id":10001
+                                    "engine": "Trident",
+                                    "browser": "Internet Explorer 4.0",
+                                    "platform": "Win 95+",
+                                    "version": "4",
+                                    "grade": "X",
+                                    "id": 10001
                                 },
                                 {
-                                    "engine":"Trident",
-                                    "browser":"Internet Explorer 5.0",
-                                    "platform":"Win 95+",
-                                    "version":"5",
-                                    "grade":"C",
-                                    "id":10002
+                                    "engine": "Trident",
+                                    "browser": "Internet Explorer 5.0",
+                                    "platform": "Win 95+",
+                                    "version": "5",
+                                    "grade": "C",
+                                    "id": 10002
                                 }
                             ]
                         },
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":1002
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 1002
                         }
                     ]
                 },
                 {
-                    "engine":"Trident",
-                    "browser":"Internet Explorer 5.0",
-                    "platform":"Win 95+",
-                    "version":"5",
-                    "grade":"C",
-                    "id":2,
-                    "children":[
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 5.0",
+                    "platform": "Win 95+",
+                    "version": "5",
+                    "grade": "C",
+                    "id": 2,
+                    "children": [
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":2001
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 2001
                         },
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":2002
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 2002
                         }
                     ]
                 },
                 {
-                    "engine":"Trident",
-                    "browser":"Internet Explorer 5.5",
-                    "platform":"Win 95+",
-                    "version":"5.5",
-                    "grade":"A",
-                    "id":3,
-                    "children":[
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 5.5",
+                    "platform": "Win 95+",
+                    "version": "5.5",
+                    "grade": "A",
+                    "id": 3,
+                    "children": [
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":3001
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 3001
                         },
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":3002
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 3002
                         }
                     ]
                 },
                 {
-                    "engine":"Trident",
-                    "browser":"Internet Explorer 6",
-                    "platform":"Win 98+",
-                    "version":"6",
-                    "grade":"A",
-                    "id":4,
-                    "children":[
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 6",
+                    "platform": "Win 98+",
+                    "version": "6",
+                    "grade": "A",
+                    "id": 4,
+                    "children": [
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":4001
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 4001
                         },
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":4002
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 4002
                         }
                     ]
                 },
                 {
-                    "engine":"Trident",
-                    "browser":"Internet Explorer 7",
-                    "platform":"Win XP SP2+",
-                    "version":"7",
-                    "grade":"A",
-                    "id":5,
-                    "children":[
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 7",
+                    "platform": "Win XP SP2+",
+                    "version": "7",
+                    "grade": "A",
+                    "id": 5,
+                    "children": [
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":5001
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 5001
                         },
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":5002
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 5002
                         }
                     ]
                 }
             ]
         },
-        "body":[
+        "body": [
             {
-                "type":"table2",
-                "source":"$rows",
-                "columns":[
+                "type": "table2",
+                "source": "$rows",
+                "columns": [
                     {
-                        "name":"engine",
-                        "title":"Engine"
+                        "name": "engine",
+                        "title": "Engine"
                     },
                     {
-                        "name":"grade",
-                        "title":"Grade"
+                        "name": "grade",
+                        "title": "Grade"
                     },
                     {
-                        "name":"browser",
-                        "title":"Browser"
+                        "name": "browser",
+                        "title": "Browser"
                     },
                     {
-                        "name":"id",
-                        "title":"ID"
+                        "name": "id",
+                        "title": "ID"
                     },
                     {
-                        "name":"platform",
-                        "title":"Platform"
+                        "name": "platform",
+                        "title": "Platform"
                     }
                 ],
-                "keyField":"id",
+                "keyField": "id",
                 "draggable": true
             }
         ]
@@ -1894,196 +2002,196 @@ order: 67
 
 ```schema: scope="body"
 {
-    "type":"page",
-    "body":{
-        "type":"service",
-        "data":{
-            "rows":[
+    "type": "page",
+    "body": {
+        "type": "service",
+        "data": {
+            "rows": [
                 {
-                    "engine":"Trident1",
-                    "browser":"Internet Explorer 4.0",
-                    "platform":"Win 95+",
-                    "version":"4",
-                    "grade":"X",
-                    "id":1,
-                    "children":[
+                    "engine": "Trident1",
+                    "browser": "Internet Explorer 4.0",
+                    "platform": "Win 95+",
+                    "version": "4",
+                    "grade": "X",
+                    "id": 1,
+                    "children": [
                         {
-                            "engine":"Trident1-1",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":1001,
-                            "children":[
+                            "engine": "Trident1-1",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 1001,
+                            "children": [
                                 {
-                                    "engine":"Trident1-1-1",
-                                    "browser":"Internet Explorer 4.0",
-                                    "platform":"Win 95+",
-                                    "version":"4",
-                                    "grade":"X",
-                                    "id":10001
+                                    "engine": "Trident1-1-1",
+                                    "browser": "Internet Explorer 4.0",
+                                    "platform": "Win 95+",
+                                    "version": "4",
+                                    "grade": "X",
+                                    "id": 10001
                                 },
                                 {
-                                    "engine":"Trident1-1-2",
-                                    "browser":"Internet Explorer 5.0",
-                                    "platform":"Win 95+",
-                                    "version":"5",
-                                    "grade":"C",
-                                    "id":10002
+                                    "engine": "Trident1-1-2",
+                                    "browser": "Internet Explorer 5.0",
+                                    "platform": "Win 95+",
+                                    "version": "5",
+                                    "grade": "C",
+                                    "id": 10002
                                 }
                             ]
                         },
                         {
-                            "engine":"Trident1-2",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":1002
+                            "engine": "Trident1-2",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 1002
                         }
                     ]
                 },
                 {
-                    "engine":"Trident2",
-                    "browser":"Internet Explorer 5.0",
-                    "platform":"Win 95+",
-                    "version":"5",
-                    "grade":"C",
-                    "id":2,
-                    "children":[
+                    "engine": "Trident2",
+                    "browser": "Internet Explorer 5.0",
+                    "platform": "Win 95+",
+                    "version": "5",
+                    "grade": "C",
+                    "id": 2,
+                    "children": [
                         {
-                            "engine":"Trident2-1",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":2001
+                            "engine": "Trident2-1",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 2001
                         },
                         {
-                            "engine":"Trident2-2",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":2002
+                            "engine": "Trident2-2",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 2002
                         }
                     ]
                 },
                 {
-                    "engine":"Trident",
-                    "browser":"Internet Explorer 5.5",
-                    "platform":"Win 95+",
-                    "version":"5.5",
-                    "grade":"A",
-                    "id":3,
-                    "children":[
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 5.5",
+                    "platform": "Win 95+",
+                    "version": "5.5",
+                    "grade": "A",
+                    "id": 3,
+                    "children": [
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":3001
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 3001
                         },
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":3002
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 3002
                         }
                     ]
                 },
                 {
-                    "engine":"Trident",
-                    "browser":"Internet Explorer 6",
-                    "platform":"Win 98+",
-                    "version":"6",
-                    "grade":"A",
-                    "id":4,
-                    "children":[
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 6",
+                    "platform": "Win 98+",
+                    "version": "6",
+                    "grade": "A",
+                    "id": 4,
+                    "children": [
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":4001
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 4001
                         },
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":4002
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 4002
                         }
                     ]
                 },
                 {
-                    "engine":"Trident",
-                    "browser":"Internet Explorer 7",
-                    "platform":"Win XP SP2+",
-                    "version":"7",
-                    "grade":"A",
-                    "id":5,
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 7",
+                    "platform": "Win XP SP2+",
+                    "version": "7",
+                    "grade": "A",
+                    "id": 5,
                     "children":[
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":5001
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 5001
                         },
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":5002
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 5002
                         }
                     ]
                 }
             ]
         },
-        "body":[
+        "body": [
             {
-                "type":"table2",
-                "source":"$rows",
-                "columns":[
+                "type": "table2",
+                "source": "$rows",
+                "columns": [
                     {
-                        "name":"id",
-                        "title":"ID"
+                        "name": "id",
+                        "title": "ID"
                     },
                     {
-                        "name":"engine",
-                        "title":"Engine"
+                        "name": "engine",
+                        "title": "Engine"
                     },
                     {
-                        "name":"grade",
-                        "title":"Grade"
+                        "name": "grade",
+                        "title": "Grade"
                     },
                     {
-                        "name":"version",
-                        "title":"Version"
+                        "name": "version",
+                        "title": "Version"
                     },
                     {
-                        "name":"browser",
-                        "title":"Browser"
+                        "name": "browser",
+                        "title": "Browser"
                     },
                     {
-                        "name":"id",
-                        "title":"ID"
+                        "name": "id",
+                        "title": "ID"
                     },
                     {
-                        "name":"platform",
-                        "title":"Platform"
+                        "name": "platform",
+                        "title": "Platform"
                     }
                 ],
-                "keyField":"id"
+                "keyField": "id"
             }
         ]
     }
@@ -2096,199 +2204,199 @@ order: 67
 
 ```schema: scope="body"
 {
-    "type":"page",
-    "body":{
-        "type":"service",
-        "data":{
-            "rows":[
+    "type": "page",
+    "body": {
+        "type": "service",
+        "data": {
+            "rows": [
                 {
-                    "engine":"Trident",
-                    "browser":"Internet Explorer 4.0",
-                    "platform":"Win 95+",
-                    "version":"4",
-                    "grade":"X",
-                    "id":1,
-                    "children":[
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 4.0",
+                    "platform": "Win 95+",
+                    "version": "4",
+                    "grade": "X",
+                    "id": 1,
+                    "children": [
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":1001,
-                            "children":[
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 1001,
+                            "children": [
                                 {
-                                    "engine":"Trident",
-                                    "browser":"Internet Explorer 4.0",
-                                    "platform":"Win 95+",
-                                    "version":"4",
-                                    "grade":"X",
-                                    "id":10001
+                                    "engine": "Trident",
+                                    "browser": "Internet Explorer 4.0",
+                                    "platform": "Win 95+",
+                                    "version": "4",
+                                    "grade": "X",
+                                    "id": 10001
                                 },
                                 {
-                                    "engine":"Trident",
-                                    "browser":"Internet Explorer 5.0",
-                                    "platform":"Win 95+",
-                                    "version":"5",
-                                    "grade":"C",
-                                    "id":10002
+                                    "engine": "Trident",
+                                    "browser": "Internet Explorer 5.0",
+                                    "platform": "Win 95+",
+                                    "version": "5",
+                                    "grade": "C",
+                                    "id": 10002
                                 }
                             ]
                         },
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":1002
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 1002
                         }
                     ]
                 },
                 {
-                    "engine":"Trident",
-                    "browser":"Internet Explorer 5.0",
-                    "platform":"Win 95+",
-                    "version":"5",
-                    "grade":"C",
-                    "id":2,
-                    "children":[
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 5.0",
+                    "platform": "Win 95+",
+                    "version": "5",
+                    "grade": "C",
+                    "id": 2,
+                    "children": [
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":2001
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 2001
                         },
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":2002
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 2002
                         }
                     ]
                 },
                 {
-                    "engine":"Trident",
-                    "browser":"Internet Explorer 5.5",
-                    "platform":"Win 95+",
-                    "version":"5.5",
-                    "grade":"A",
-                    "id":3,
-                    "children":[
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 5.5",
+                    "platform": "Win 95+",
+                    "version": "5.5",
+                    "grade": "A",
+                    "id": 3,
+                    "children": [
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":3001
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 3001
                         },
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":3002
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 3002
                         }
                     ]
                 },
                 {
-                    "engine":"Trident",
-                    "browser":"Internet Explorer 6",
-                    "platform":"Win 98+",
-                    "version":"6",
-                    "grade":"A",
-                    "id":4,
-                    "children":[
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 6",
+                    "platform": "Win 98+",
+                    "version": "6",
+                    "grade": "A",
+                    "id": 4,
+                    "children": [
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":4001
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 4001
                         },
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":4002
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 4002
                         }
                     ]
                 },
                 {
-                    "engine":"Trident",
-                    "browser":"Internet Explorer 7",
-                    "platform":"Win XP SP2+",
-                    "version":"7",
-                    "grade":"A",
-                    "id":5,
-                    "children":[
+                    "engine": "Trident",
+                    "browser": "Internet Explorer 7",
+                    "platform": "Win XP SP2+",
+                    "version": "7",
+                    "grade": "A",
+                    "id": 5,
+                    "children": [
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 4.0",
-                            "platform":"Win 95+",
-                            "version":"4",
-                            "grade":"X",
-                            "id":5001
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 4.0",
+                            "platform": "Win 95+",
+                            "version": "4",
+                            "grade": "X",
+                            "id": 5001
                         },
                         {
-                            "engine":"Trident",
-                            "browser":"Internet Explorer 5.0",
-                            "platform":"Win 95+",
-                            "version":"5",
-                            "grade":"C",
-                            "id":5002
+                            "engine": "Trident",
+                            "browser": "Internet Explorer 5.0",
+                            "platform": "Win 95+",
+                            "version": "5",
+                            "grade": "C",
+                            "id": 5002
                         }
                     ]
                 }
             ]
         },
-        "body":[
+        "body": [
             {
-                "type":"table2",
-                "source":"$rows",
-                "columns":[
+                "type": "table2",
+                "source": "$rows",
+                "columns": [
                     {
                         "name": "id",
                         "title": "ID"
                     },
                     {
-                        "name":"engine",
-                        "title":"Engine"
+                        "name": "engine",
+                        "title": "Engine"
                     },
                     {
-                        "name":"grade",
-                        "title":"Grade"
+                        "name": "grade",
+                        "title": "Grade"
                     },
                     {
-                        "name":"version",
-                        "title":"Version"
+                        "name": "version",
+                        "title": "Version"
                     },
                     {
-                        "name":"browser",
-                        "title":"Browser"
+                        "name": "browser",
+                        "title": "Browser"
                     },
                     {
-                        "name":"id",
-                        "title":"ID"
+                        "name": "id",
+                        "title": "ID"
                     },
                     {
-                        "name":"platform",
-                        "title":"Platform"
+                        "name": "platform",
+                        "title": "Platform"
                     }
                 ],
-                "keyField":"id",
-                "rowSelection":{
-                    "type":"checkbox",
-                    "keyField":"id"
+                "keyField": "id",
+                "rowSelection": {
+                    "type": "checkbox",
+                    "keyField": "id"
                 }
             }
         ]
@@ -3686,8 +3794,8 @@ order: 67
                         }
                     },
                     {
-                        "name": "grade",
-                        "title": "CSS grade",
+                        "name": "switch",
+                        "title": "switch",
                         "quickEdit": {
                             "mode": "inline",
                             "type": "switch",
