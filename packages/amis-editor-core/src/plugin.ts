@@ -304,7 +304,9 @@ export interface RendererInfo extends RendererScaffoldInfo {
   sharedContext?: Record<string, any>;
   dialogTitle?: string; //弹窗标题用于弹窗大纲的展示
   dialogType?: string; //区分确认对话框类型
-  getSubEditorVariable: (schema?: any) => Array<{label: string; children: any}>; // 传递给子编辑器的组件自定义变量，如listSelect的选项名称和值
+  getSubEditorVariable?: (
+    schema?: any
+  ) => Array<{label: string; children: any}>; // 传递给子编辑器的组件自定义变量，如listSelect的选项名称和值
 }
 
 export type BasicRendererInfo = Omit<
