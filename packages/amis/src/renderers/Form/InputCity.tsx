@@ -421,7 +421,10 @@ export class CityPicker extends React.Component<
       translate: __,
       loadingConfig,
       popOverContainer,
-      itemClassName
+      itemClassName,
+      wrapperCustomStyle,
+      themeCss,
+      id
     } = this.props;
 
     const {provinceCode, cityCode, districtCode, street, db} = this.state;
@@ -629,6 +632,9 @@ export class LocationControl extends React.Component<LocationControlProps> {
             joinValues={joinValues}
             allowStreet={allowStreet}
             disabled={disabled}
+            wrapperCustomStyle={wrapperCustomStyle}
+            id={id}
+            themeCss={themeCss}
           />
         )}
         <CustomStyle
