@@ -427,7 +427,14 @@ export class CityPicker extends React.Component<
     const {provinceCode, cityCode, districtCode, street, db} = this.state;
 
     return db ? (
-      <div className={cx('CityPicker', className)}>
+      <div
+        className={cx(
+          'CityPicker',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         <Select
           className={cx(itemClassName)}
           searchable={searchable}
@@ -610,11 +617,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
           />
         ) : (
           <ThemedCity
-            className={cx(
-              className,
-              setThemeClassName('baseControlClassName', id, themeCss),
-              setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
-            )}
+            className={className}
             itemClassName={itemClassName}
             popOverContainer={popOverContainer || env?.getModalContainer}
             searchable={searchable}
