@@ -66,7 +66,7 @@ test('Renderer:static', async () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:static', async () => {
+test('Renderer:static2', async () => {
   const {container} = render(
     amisRender(
       {
@@ -188,4 +188,40 @@ test('Renderer:staticOn', async () => {
 
   const text = getByText('123');
   expect(text).toBeInTheDocument();
+});
+
+test('Renderer:staticInColumn', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'crud',
+        source: '${items}',
+        columns: [
+          {
+            type: 'input-text',
+            name: 'a',
+            label: 'a',
+            static: true,
+            quickEdit: {
+              type: 'input-text',
+              mode: 'inline'
+            }
+          }
+        ],
+        submitText: null,
+        actions: []
+      },
+      {
+        data: {
+          items: [{a: '1'}]
+        }
+      },
+      makeEnv()
+    )
+  );
+
+  await wait(200);
+
+  expect(container.querySelector('input[name="a"]')).toBeInTheDocument();
+  expect((container.querySelector('input[name="a"]') as any).value).toBe('1');
 });
