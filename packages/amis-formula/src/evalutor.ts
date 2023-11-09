@@ -1524,8 +1524,8 @@ export class Evaluator {
    *
    * @returns {string} 生成的UUID字符串
    */
-  fnUUID(length: number = 32) {
-    const len = Math.min(Math.max(length, 0), 32);
+  fnUUID(length: number = 36) {
+    const len = Math.min(Math.max(length, 0), 36);
     return uuidv4().slice(0, len);
   }
 
