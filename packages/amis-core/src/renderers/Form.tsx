@@ -50,6 +50,7 @@ import {isAlive} from 'mobx-state-tree';
 
 import type {LabelAlign} from './Item';
 import {injectObjectChain} from '../utils';
+import {reaction} from 'mobx';
 
 export interface FormHorizontal {
   left?: number;
@@ -371,6 +372,7 @@ export interface FormProps
   onFailed?: (reason: string, errors: any) => any;
   onFinished: (values: object, action: any) => any;
   onValidate: (values: object, form: any) => any;
+  onValidChange?: (valid: boolean, props: any) => void; // 表单数据合法性变更
   messages: {
     fetchSuccess?: string;
     fetchFailed?: string;
@@ -443,6 +445,8 @@ export default class Form extends React.Component<FormProps, object> {
     'onChange',
     'onFailed',
     'onFinished',
+    'onValidate',
+    'onValidChange',
     'onSaved',
     'canAccessSuperData',
     'lazyChange',
@@ -460,8 +464,7 @@ export default class Form extends React.Component<FormProps, object> {
     [propName: string]: Array<() => Promise<any>>;
   } = {};
   asyncCancel: () => void;
-  disposeOnValidate: () => void;
-  disposeRulesValidate: () => void;
+  toDispose: Array<() => void> = [];
   shouldLoadInitApi: boolean = false;
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
@@ -543,6 +546,7 @@ export default class Form extends React.Component<FormProps, object> {
       store,
       messages: {fetchSuccess, fetchFailed},
       onValidate,
+      onValidChange,
       promptPageLeave,
       env,
       rules
@@ -552,49 +556,63 @@ export default class Form extends React.Component<FormProps, object> {
 
     if (onValidate) {
       const finalValidate = promisify(onValidate);
-      this.disposeOnValidate = this.addHook(async () => {
-        const result = await finalValidate(store.data, store);
+      this.toDispose.push(
+        this.addHook(async () => {
+          const result = await finalValidate(store.data, store);
 
-        if (result && isObject(result)) {
-          Object.keys(result).forEach(key => {
-            let msg = result[key];
-            const items = store.getItemsByPath(key);
+          if (result && isObject(result)) {
+            Object.keys(result).forEach(key => {
+              let msg = result[key];
+              const items = store.getItemsByPath(key);
 
-            // 没有找到
-            if (!Array.isArray(items) || !items.length) {
-              return;
-            }
+              // 没有找到
+              if (!Array.isArray(items) || !items.length) {
+                return;
+              }
 
-            // 在setError之前，提前把残留的error信息清除掉，否则每次onValidate后都会一直把报错 append 上去
-            items.forEach(item => item.clearError());
+              // 在setError之前，提前把残留的error信息清除掉，否则每次onValidate后都会一直把报错 append 上去
+              items.forEach(item => item.clearError());
 
-            if (msg) {
-              msg = Array.isArray(msg) ? msg : [msg];
-              items.forEach(item => item.addError(msg));
-            }
+              if (msg) {
+                msg = Array.isArray(msg) ? msg : [msg];
+                items.forEach(item => item.addError(msg));
+              }
 
-            delete result[key];
-          });
+              delete result[key];
+            });
 
-          isEmpty(result)
-            ? store.clearRestError()
-            : store.setRestError(Object.keys(result).map(key => result[key]));
-        }
-      });
+            isEmpty(result)
+              ? store.clearRestError()
+              : store.setRestError(Object.keys(result).map(key => result[key]));
+          }
+        })
+      );
+    }
+
+    // 表单校验结果发生变化时，触发 onValidChange
+    if (onValidChange) {
+      this.toDispose.push(
+        reaction(
+          () => store.valid,
+          valid => onValidChange(valid, this.props)
+        )
+      );
     }
 
     if (Array.isArray(rules) && rules.length) {
-      this.disposeRulesValidate = this.addHook(() => {
-        if (!store.valid) {
-          return;
-        }
+      this.toDispose.push(
+        this.addHook(() => {
+          if (!store.valid) {
+            return;
+          }
 
-        rules.forEach(
-          item =>
-            !evalExpression(item.rule, store.data) &&
-            store.addRestError(item.message, item.name)
-        );
-      });
+          rules.forEach(
+            item =>
+              !evalExpression(item.rule, store.data) &&
+              store.addRestError(item.message, item.name)
+          );
+        })
+      );
     }
 
     if (isEffectiveApi(initApi, store.data, initFetch, initFetchOn)) {
@@ -666,8 +684,8 @@ export default class Form extends React.Component<FormProps, object> {
     // this.lazyHandleChange.flush();
     this.lazyEmitChange.cancel();
     this.asyncCancel && this.asyncCancel();
-    this.disposeOnValidate && this.disposeOnValidate();
-    this.disposeRulesValidate && this.disposeRulesValidate();
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
     window.removeEventListener('beforeunload', this.beforePageUnload);
     this.unBlockRouting?.();
   }

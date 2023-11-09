@@ -7,7 +7,11 @@ import {
   FormBaseControl,
   resolveEventData,
   ApiObject,
-  FormHorizontal
+  FormHorizontal,
+  evalExpressionWithConditionBuilder,
+  IFormStore,
+  getVariable,
+  IFormItemStore
 } from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
@@ -36,7 +40,11 @@ import {isEffectiveApi, str2AsyncFunction} from 'amis-core';
 import {Alert2} from 'amis-ui';
 import memoize from 'lodash/memoize';
 import {Icon} from 'amis-ui';
-import {isAlive} from 'mobx-state-tree';
+import {
+  isAlive,
+  clone as cloneModel,
+  destroy as destroyModel
+} from 'mobx-state-tree';
 import {
   FormBaseControlSchema,
   SchemaApi,
@@ -47,7 +55,6 @@ import {
 import {ListenerAction} from 'amis-core';
 import type {SchemaTokenizeableString} from '../../Schema';
 import isPlainObject from 'lodash/isPlainObject';
-import {isMobile} from 'amis-core';
 
 export type ComboCondition = {
   test: string;
@@ -393,6 +400,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.dragTipRef = this.dragTipRef.bind(this);
     this.flush = this.flush.bind(this);
     this.handleComboTypeChange = this.handleComboTypeChange.bind(this);
+    this.handleSubFormValid = this.handleSubFormValid.bind(this);
     this.defaultValue = {
       ...props.scaffold
     };
@@ -798,6 +806,11 @@ export default class ComboControl extends React.Component<ComboProps> {
     );
   }
 
+  handleSubFormValid(valid: boolean, {index}: any) {
+    const {store} = this.props;
+    store.setMemberValid(valid, index);
+  }
+
   handleFormInit(values: any, {index}: any) {
     const {
       syncDefaultValue,
@@ -807,8 +820,14 @@ export default class ComboControl extends React.Component<ComboProps> {
       formInited,
       onChange,
       submitOnChange,
-      setPrinstineValue
+      setPrinstineValue,
+      formItem
     } = this.props;
+
+    // 已经开始验证了，那么打开成员的时候，就要验证一下。
+    if (formItem?.validated) {
+      this.subForms[index]?.validate(true, false, false);
+    }
 
     this.subFormDefaultValues.push({
       index,
@@ -882,7 +901,13 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   validate(): any {
-    const {messages, nullable, translate: __} = this.props;
+    const {
+      messages,
+      nullable,
+      value: rawValue,
+      translate: __,
+      store
+    } = this.props;
     const value = this.getValueAsArray();
     const minLength = this.resolveVariableProps(this.props, 'minLength');
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
@@ -897,18 +922,62 @@ export default class ComboControl extends React.Component<ComboProps> {
         (messages && messages.maxLengthValidateFailed) || 'Combo.maxLength',
         {maxLength}
       );
-    } else if (this.subForms.length && (!nullable || value)) {
-      return Promise.all(this.subForms.map(item => item.validate())).then(
-        values => {
-          if (~values.indexOf(false)) {
-            return __(
-              (messages && messages.validateFailed) || 'validateFailed'
-            );
-          }
+    } else if (nullable && !rawValue) {
+      return; // 不校验
+    } else if (value.length) {
+      return Promise.all(
+        value.map(async (values: any, index: number) => {
+          const subForm = this.subForms[index];
+          if (subForm) {
+            return subForm.validate(true, false, false);
+          } else {
+            // 那些还没有渲染出来的数据
+            // 因为有可能存在分页，有可能存在懒加载，所以没办法直接用 subForm 去校验了
+            const subForm = this.subForms[Object.keys(this.subForms)[0] as any];
+            if (subForm) {
+              const form: IFormStore = subForm.props.store;
+              let valid = false;
+              for (let formitem of form.items) {
+                const cloned: IFormItemStore = cloneModel(formitem);
+                let value: any = getVariable(values, formitem.name, false);
 
-          return;
+                if (formitem.extraName) {
+                  value = [
+                    getVariable(values, formitem.name, false),
+                    getVariable(values, formitem.extraName, false)
+                  ];
+                }
+
+                cloned.changeTmpValue(value, 'dataChanged');
+                valid = await cloned.validate(values);
+                destroyModel(cloned);
+                if (valid === false) {
+                  break;
+                }
+              }
+
+              store.setMemberValid(valid, index);
+              return valid;
+            }
+          }
+        })
+      ).then(values => {
+        if (~values.indexOf(false)) {
+          return __((messages && messages.validateFailed) || 'validateFailed');
         }
-      );
+
+        return;
+      });
+    } else if (this.subForms.length) {
+      return Promise.all(
+        this.subForms.map(item => item.validate(true, false, false))
+      ).then(values => {
+        if (~values.indexOf(false)) {
+          return __((messages && messages.validateFailed) || 'validateFailed');
+        }
+
+        return;
+      });
     }
   }
 
@@ -1254,6 +1323,12 @@ export default class ComboControl extends React.Component<ComboProps> {
               // 不能按需渲染，因为 unique 会失效。
               mountOnEnter={!hasUnique}
               unmountOnExit={false}
+              className={
+                store.memberValidMap[index] === false ? 'has-error' : ''
+              }
+              tabClassName={
+                store.memberValidMap[index] === false ? 'has-error' : ''
+              }
             >
               {condition && typeSwitchable !== false ? (
                 <div className={cx('Combo-itemTag')}>
@@ -1486,7 +1561,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       itemClassName,
       itemsWrapperClassName,
       static: isStatic,
-      mobileUI
+      mobileUI,
+      store
     } = this.props;
 
     let items = this.props.items;
@@ -1544,7 +1620,11 @@ export default class ComboControl extends React.Component<ComboProps> {
 
               return (
                 <div
-                  className={cx(`Combo-item`, itemClassName)}
+                  className={cx(
+                    `Combo-item`,
+                    itemClassName,
+                    store.memberValidMap[index] === false ? 'has-error' : ''
+                  )}
                   key={this.keys[index]}
                 >
                   {!isStatic && !disabled && draggable && thelist.length > 1 ? (
@@ -1623,7 +1703,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       nullable,
       translate: __,
       itemClassName,
-      mobileUI
+      mobileUI,
+      store
     } = this.props;
 
     let items = this.props.items;
@@ -1647,7 +1728,13 @@ export default class ComboControl extends React.Component<ComboProps> {
           disabled ? 'is-disabled' : ''
         )}
       >
-        <div className={cx(`Combo-item`, itemClassName)}>
+        <div
+          className={cx(
+            `Combo-item`,
+            itemClassName,
+            store.memberValidMap[0] === false ? 'has-error' : ''
+          )}
+        >
           {condition && typeSwitchable !== false ? (
             <div className={cx('Combo-itemTag')}>
               <label>{__('Combo.type')}</label>
@@ -1715,11 +1802,13 @@ export default class ComboControl extends React.Component<ComboProps> {
           className: cx(`Combo-form`, formClassName)
         },
         {
+          index: 0,
           disabled: disabled,
           static: isStatic,
           data,
           onChange: this.handleSingleFormChange,
           ref: this.makeFormRef(0),
+          onValidChange: this.handleSubFormValid,
           onInit: this.handleSingleFormInit,
           canAccessSuperData,
           formStore: undefined
@@ -1747,6 +1836,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           onAction: this.handleAction,
           onRadioChange: this.handleRadioChange,
           ref: this.makeFormRef(index),
+          onValidChange: this.handleSubFormValid,
           canAccessSuperData,
           lazyChange: changeImmediately ? false : true,
           formLazyChange: false,
