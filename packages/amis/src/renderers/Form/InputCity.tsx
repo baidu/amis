@@ -88,6 +88,9 @@ export interface CityPickerProps
     [propName: string]: any;
   };
   popOverContainer?: any;
+  wrapperCustomStyle?: any;
+  id?: any;
+  themeCss?: any;
 }
 
 export interface CityDb {
@@ -430,14 +433,7 @@ export class CityPicker extends React.Component<
     const {provinceCode, cityCode, districtCode, street, db} = this.state;
 
     return db ? (
-      <div
-        className={cx(
-          'CityPicker',
-          className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
-        )}
-      >
+      <div className={cx('CityPicker', className)}>
         <Select
           className={cx(itemClassName)}
           searchable={searchable}
@@ -620,7 +616,11 @@ export class LocationControl extends React.Component<LocationControlProps> {
           />
         ) : (
           <ThemedCity
-            className={className}
+            className={cx(
+              className,
+              setThemeClassName('baseControlClassName', id, themeCss),
+              setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            )}
             itemClassName={itemClassName}
             popOverContainer={popOverContainer || env?.getModalContainer}
             searchable={searchable}
@@ -632,9 +632,6 @@ export class LocationControl extends React.Component<LocationControlProps> {
             joinValues={joinValues}
             allowStreet={allowStreet}
             disabled={disabled}
-            wrapperCustomStyle={wrapperCustomStyle}
-            id={id}
-            themeCss={themeCss}
           />
         )}
         <CustomStyle
