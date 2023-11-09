@@ -49,7 +49,7 @@ interface ImageGalleryItem {
 
 interface ImageGalleryPosition {
   toolbar: 'top' | 'bottom';
-  list: 'top' | 'bottom';
+  description: 'left' | 'right';
 }
 
 export interface ImageGalleryProps
@@ -536,7 +536,8 @@ export class ImageGallery extends React.Component<
       actions,
       imageLoadInfo,
       isNaturalSize,
-      imageLoading
+      imageLoading,
+      position
     } = this.state;
     const {translate: __, loadingConfig} = this.props;
 
@@ -559,8 +560,22 @@ export class ImageGallery extends React.Component<
       ~index && items[index] ? (
         <>
           <div className={cx('ImageGallery-main')} ref={this.galleryMainRef}>
-            <div className={cx('ImageGallery-preview')}>
-              <div className={cx('ImageGallery-image')}>
+            <div
+              className={cx(
+                'ImageGallery-preview',
+                position?.toolbar === 'top'
+                  ? 'ImageGallery-preview-reverse'
+                  : ''
+              )}
+            >
+              <div
+                className={cx(
+                  'ImageGallery-image',
+                  enlargeWithGallary === false
+                    ? 'ImageGallery-image-bottom'
+                    : ''
+                )}
+              >
                 <div className={cx('ImageGallery-image-wrap')}>
                   <img
                     draggable={false}
@@ -645,9 +660,21 @@ export class ImageGallery extends React.Component<
     ];
   }
 
+  renderTitle() {
+    const {classnames: cx} = this.props;
+    const {items, index} = this.state;
+
+    return items[index]?.title && !items[index]?.caption ? (
+      <span className={cx('ImageGallery-toptitle')}>{items[index].title}</span>
+    ) : null;
+  }
+
   render() {
     const {children, modalContainer, embed, classnames: cx} = this.props;
-    const {items, index, imageGallaryClassName, isOpened} = this.state;
+    const {items, index, imageGallaryClassName, isOpened, position} =
+      this.state;
+
+    const isTopTitle = items[index]?.title && !items[index]?.caption;
 
     return (
       <>
@@ -660,18 +687,18 @@ export class ImageGallery extends React.Component<
             size="full"
             onHide={this.close}
             show={isOpened}
-            contentClassName={cx('ImageGallery', imageGallaryClassName)}
+            contentClassName={cx(
+              'ImageGallery',
+              imageGallaryClassName,
+              position?.description === 'left' ? 'ImageGallery-reverse' : ''
+            )}
             modalMaskClassName={cx('ImageGallery-overlay')}
             container={modalContainer}
           >
             <span className={cx('ImageGallery-close')} onClick={this.close}>
               <Icon icon="close" className="icon" />
             </span>
-            {items[index]?.title && !items[index]?.caption ? (
-              <span className={cx('ImageGallery-toptitle')}>
-                {items[index].title}
-              </span>
-            ) : null}
+            {this.renderTitle()}
             {this.renderBody()}
           </Modal>
         ) : (
@@ -679,9 +706,11 @@ export class ImageGallery extends React.Component<
             className={cx(
               'ImageGallery',
               imageGallaryClassName,
-              'ImageGallery-embed'
+              'ImageGallery-embed',
+              isTopTitle ? 'ImageGallery-embed-title' : ''
             )}
           >
+            {this.renderTitle()}
             {this.renderBody()}
           </div>
         )}

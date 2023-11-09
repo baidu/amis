@@ -166,6 +166,12 @@ export interface ImageSchema extends BaseSchema {
    * 工具栏配置
    */
   toolbarActions?: ImageToolbarAction[];
+
+  /** 位置 */
+  position?: {
+    toolbar: 'top' | 'bottom';
+    description: 'left' | 'right';
+  };
 }
 
 export interface ImageThumbProps

@@ -1,15 +1,14 @@
 @use 'sass:math';
 
 .#{$ns}Images {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 120px);
+  grid-row-gap: 8px;
+  grid-column-gap: 8px;
   margin: calc(var(--gap-xs) * -1);
 
   &-item {
     display: flex;
-    margin: var(--image-images-item-marginTop)
-      var(--image-images-item-marginRight) var(--image-images-item-marginBottom)
-      var(--image-images-item-marginLeft);
   }
 }
 

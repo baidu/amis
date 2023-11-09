@@ -123,8 +123,10 @@ export interface ImagesSchema extends BaseSchema {
   /** 位置 */
   position?: {
     toolbar: 'top' | 'bottom';
-    list: 'top' | 'bottom';
+    description: 'left' | 'right';
   };
+
+  imageStyle?: React.CSSProperties;
 }
 
 export interface ImagesProps
@@ -218,7 +220,8 @@ export class ImagesField extends React.Component<ImagesProps> {
       env,
       themeCss,
       embed,
-      position
+      position,
+      imageStyle
     } = this.props;
 
     let value: any;
@@ -280,6 +283,7 @@ export class ImagesField extends React.Component<ImagesProps> {
             {list.map((item: any, index: number) => (
               <Image
                 index={index}
+                style={imageStyle}
                 className={cx('Images-item')}
                 key={index}
                 src={item.src}
@@ -291,8 +295,11 @@ export class ImagesField extends React.Component<ImagesProps> {
                 enlargeAble={enlargeAble!}
                 enlargeWithGallary={enlargeWithGallary}
                 onEnlarge={this.handleEnlarge}
+                position={position}
                 showToolbar={showToolbar}
-                imageGallaryClassName={`${imageGallaryClassName} ${setThemeClassName(
+                imageGallaryClassName={`${
+                  imageGallaryClassName ?? ''
+                } ${setThemeClassName(
                   'imageGallaryClassName',
                   id,
                   themeCss
