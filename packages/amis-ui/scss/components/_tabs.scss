@@ -18,10 +18,10 @@
 
     .#{$ns}Tabs-addable {
       display: flex;
-      margin-left: var(--Tabs-add-margin);
       align-items: center;
-      justify-content: flex-start;
-      padding: var(--Tabs--line-addPadding);
+      margin-left: var(--Tabs-add-margin);
+      margin-bottom: px2rem(3px);
+      padding-bottom: px2rem(8px);
       white-space: nowrap;
       cursor: pointer;
 
@@ -60,16 +60,19 @@
       // }
 
       &-arrow {
-        margin: var(--Tabs--line-addPadding);
         width: 16px;
         height: 100%;
         display: flex;
         align-items: center;
         cursor: pointer;
         box-sizing: content-box;
+        margin-bottom: px2rem(3px);
+        padding-bottom: px2rem(8px);
 
-        .iconfont {
-          font-size: var(--Remark-icon-fontSize);
+        .icon {
+          top: 0;
+          width: var(--Remark-icon-fontSize);
+          height: var(--Remark-icon-fontSize);
         }
         &:hover {
           color: var(--icon-onHover-color);
@@ -77,6 +80,9 @@
 
         &--left {
           padding-right: 16px;
+          svg {
+            transform: rotate(180deg);
+          }
         }
 
         &--right {
@@ -672,6 +678,7 @@
       .#{$ns}Tabs-addable {
         padding: 0 var(--Tabs--tiled-add-gap);
         margin-left: 0;
+        margin-bottom: 0;
         white-space: nowrap;
         border-style: solid;
         border-color: var(--Tabs-borderColor);
@@ -1112,6 +1119,7 @@
       & > .#{$ns}Tabs-linksContainer {
         > .#{$ns}Tabs-linksContainer-arrow {
           margin-bottom: 0;
+          padding: 0;
         }
 
         > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
@@ -1224,21 +1232,6 @@
       > .#{$ns}Tabs-linksContainer {
         margin-bottom: calc(var(--Tabs-borderWidth) * -1);
 
-        &.#{$ns}Tabs-linksContainer--overflow
-          > .#{$ns}Tabs-linksContainer-main
-          > .#{$ns}Tabs-links
-          > .#{$ns}Tabs-link {
-          &:first-of-type {
-            border-left-width: 0;
-            border-top-left-radius: 0;
-          }
-
-          &:last-of-type {
-            border-right-width: 0;
-            border-top-right-radius: 0;
-          }
-        }
-
         .#{$ns}Tabs-linksContainer-arrow {
           width: var(--Tabs--strong-arrow-size);
           margin-bottom: 0;
@@ -1250,14 +1243,14 @@
 
           &--left {
             padding-right: 0;
-            border-right-width: 0;
             border-top-left-radius: var(--Tabs-borderRadius);
+            margin-right: px2rem(8px);
           }
 
           &--right {
             padding-left: 0;
-            border-left-width: 0;
-            border-top-right-radius: var(--Tabs-borderRadius);
+            border-top-left-radius: var(--Tabs-borderRadius);
+            margin-left: px2rem(8px);
           }
         }
 

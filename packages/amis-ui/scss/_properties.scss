@@ -274,22 +274,18 @@ $Table-strip-bg: transparent;
   --DropDown-menu-borderColor: var(--borderColor);
   --DropDown-menu-borderRadius: var(--borderRadius);
   --DropDown-menu-borderWidth: var(--borderWidth);
-  --DropDown-menu-boxShadow: var(--shadows-shadow-normal);
-  --DropDown-menu-height: #{px2rem(34px)};
+  --DropDown-menu-boxShadow: var(--Form-select-outer-boxShadow);
+  --DropDown-menu-height: #{px2rem(32px)};
   --DropDown-menu-minWidth: #{px2rem(160px)};
   --DropDown-menu-paddingX: 0;
   --DropDown-menu-paddingY: var(--gap-xs);
-  --DropDown-menuItem-onHover-bg: var(--ListMenu-item--onHover-bg);
+  --DropDown-menuItem-onHover-bg: var(--Form-select-menu-onHover-bg);
   --DropDown-group-color: #848b99;
   --DropDown-menuItem-color: #151a26;
-  --DropDown-menuItem-onHover-color: var(--colors-brand-5);
+  --DropDown-menuItem-onHover-color: var(--Form-select-menu-onHover-color);
   --DropDown-menuItem-onActive-color: var(--colors-brand-5);
   --DropDown-menuItem-onDisabled-color: #b4b6ba;
-  --DropDown-menuItem-paddingX: var(--gap-sm);
-  --DropDown-menuItem-paddingY: calc(
-    (var(--DropDown-menu-height) - var(--fontSizeBase) * var(--lineHeightBase)) /
-      2
-  );
+  --DropDown-menuItem-paddingX: var(--select-base-default-option-paddingRight);
 
   --Fieldset-legend-bgColor: var(--colors-neutral-fill-11);
 

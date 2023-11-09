@@ -3212,7 +3212,7 @@ export const getEventControlConfig = (
           showCloseButton: true,
           showErrorMsg: true,
           showLoading: true,
-          className: 'app-popover',
+          className: 'app-popover :AMISCSSWrapper',
           actions: [
             {
               type: 'button',
@@ -3239,7 +3239,7 @@ export const getEventControlConfig = (
               inline: false
             }
           ],
-          className: 'app-popover',
+          className: 'app-popover :AMISCSSWrapper',
           actions: [
             {
               type: 'button',
