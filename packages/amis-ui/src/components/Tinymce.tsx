@@ -41,6 +41,9 @@ import 'tinymce/plugins/help/js/i18n/keynav/zh_CN';
 import 'tinymce/plugins/help/js/i18n/keynav/en';
 import 'tinymce/plugins/help/js/i18n/keynav/de';
 
+// @ts-ignore
+import ContentUICSS from 'tinymce/skins/ui/oxide/content.min.css?inline';
+
 import {LocaleProps} from 'amis-core';
 
 interface TinymceEditorProps extends LocaleProps {
@@ -73,10 +76,18 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
     const locale = this.props.locale;
 
     const {onLoaded, ...rest} = this.props.config || {};
+    const injectedCSS = [
+      /** 包含Image Resize必要的CSS样式，会注入编辑器的iframe中 */
+      ContentUICSS,
+      // 很诡异的问题，video 会被复制放在光标上，直接用样式隐藏先
+      '[data-mce-bogus] video {display:none;}'
+    ];
+
     this.config = {
       inline: false,
       skin: false,
       content_css: false,
+      content_style: injectedCSS.join('\n'),
       height: 400,
       language: !locale || locale === 'zh-CN' ? 'zh_CN' : 'en',
       branding: false,
@@ -147,8 +158,9 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         help: {title: 'Help', items: 'help'}
       },
       paste_data_images: true,
-      // 很诡异的问题，video 会被复制放在光标上，直接用样式隐藏先
-      content_style: '[data-mce-bogus] video {display:none;}',
+      /** 允许调整图片尺寸 */
+      object_resizing: 'img',
+      image_caption: true,
       ...rest,
       target: this.elementRef.current,
       readOnly: this.props.disabled,
