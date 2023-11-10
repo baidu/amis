@@ -271,7 +271,7 @@ export interface TableSchema2 extends BaseSchema {
   /**
    * 表格可选择配置
    */
-  rowSelection?: RowSelectionSchema;
+  rowSelection?: RowSelectionSchema | boolean;
 
   /**
    * 表格行可展开配置
@@ -576,7 +576,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
         selectedRowKeys = [...props.rowSelection.selectedRowKeys];
       }
     }
-
     if (updateRows && selectedRowKeys.length > 0) {
       store.updateSelected(selectedRowKeys);
     }
@@ -730,7 +729,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
     // Header、Footer等SchemaObject转化成ReactNode
     if (schema && isObject(schema)) {
-      return render(key || 'field', {...schema, data: props.data}, props);
+      return render(key || 'field', {...schema, data: props?.data}, props);
     } else if (Array.isArray(schema)) {
       const renderers: Array<any> = [];
       schema.forEach((s, i) =>
@@ -739,7 +738,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
             key || 'field',
             {
               ...s,
-              data: props.data
+              data: props?.data
             },
             {...props, key: i}
           )
@@ -747,7 +746,9 @@ export default class Table2 extends React.Component<Table2Props, object> {
       );
       return renderers;
     }
-
+    if (typeof schema === 'string') {
+      return filter(schema, props?.data);
+    }
     return schema;
   }
   // editor传来的处理过的column 还可能包含其他字段
@@ -1161,7 +1162,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
             api: saveImmediately.api,
             reload: options?.reload
           },
-          values
+          item.locals
         );
       return;
     }
@@ -1686,12 +1687,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
       };
     }
 
+    const schemaProps = {data: this.props.data};
+
     return (
       <Table
         {...rest}
         onRef={this.getRef}
-        title={this.renderSchema('title', title, {data: this.props.data})}
-        footer={this.renderSchema('footer', footer, {data: this.props.data})}
+        title={this.renderSchema('title', title, schemaProps)}
+        footer={this.renderSchema('footer', footer, schemaProps)}
         columns={this.buildColumns(store.filteredColumns)}
         dataSource={store.dataSource}
         rowSelection={rowSelectionConfig}
@@ -1699,8 +1702,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
         expandable={expandableConfig}
         footSummary={this.buildSummary('footSummary', footSummary)}
         headSummary={this.buildSummary('headSummary', headSummary)}
-        loading={this.renderSchema('loading', loading)}
-        placeholder={this.renderSchema('placeholder', placeholder)}
+        loading={this.renderSchema('loading', loading, schemaProps)}
+        placeholder={this.renderSchema('placeholder', placeholder, schemaProps)}
         onSelect={this.handleSelected}
         onSelectAll={this.handleSelected}
         onSort={this.handleSort}
@@ -1720,10 +1723,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
   renderHeading() {
     let {
-      title,
       store,
       hideQuickSaveBtn,
-      data,
       classnames: cx,
       headingClassName,
       saveImmediately,
@@ -1750,7 +1751,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
     }
 
     if (
-      title ||
       (quickSaveApi &&
         !saveImmediately &&
         !isModifiedColumnSaveImmediately &&
@@ -1807,8 +1807,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
                 {__('Table.discard')}
               </button>
             </span>
-          ) : title ? (
-            filter(title, data)
           ) : (
             ''
           )}

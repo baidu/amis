@@ -21,6 +21,7 @@ export class ImagePlugin extends BasePlugin {
   isBaseComponent = true;
   description =
     '可以用来展示一张图片，支持静态设置图片地址，也可以配置 <code>name</code> 与变量关联。';
+  docLink = '/amis/zh-CN/components/image';
   tags = ['展示'];
   icon = 'fa fa-photo';
   pluginIcon = 'image-plugin';

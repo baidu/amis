@@ -786,6 +786,7 @@
   --transfer-base-header-paddingBottom: var(--sizes-size-5);
   --transfer-base-header-paddingLeft: var(--sizes-size-8);
   --transfer-base-header-paddingRight: var(--sizes-size-8);
+  --transfer-base-footer-border-color: var(--colors-neutral-line-8);
   --transfer-base-body-paddingTop: var(--sizes-size-0);
   --transfer-base-body-paddingBottom: var(--sizes-size-0);
   --transfer-base-body-paddingLeft: var(--sizes-size-0);
@@ -1659,8 +1660,8 @@
   --Form--horizontal-label-widthBase: var(--sizes-base-49);
   --Form--horizontal-label-widthXs: var(--sizes-base-25);
   --Form--horizontal-label-widthSm: var(--sizes-base-35);
-  --Form--horizontal-label-widthMd: 8.5rem;
-  --Form--horizontal-label-widthLg: 12.5rem;
+  --Form--horizontal-label-widthMd: #{px2rem(136px)};
+  --Form--horizontal-label-widthLg: #{px2rem(200px)};
   --Form--horizontal-value-marginTop: var(--sizes-size-0);
   --Form--horizontal-value-marginBottom: var(--sizes-size-0);
   --Form--horizontal-value-marginLeft: var(--sizes-size-5);
@@ -1682,7 +1683,7 @@
   --InputRange-handle-mobile-width: var(--sizes-base-10);
   --InputRange-handle-bg: var(--colors-neutral-fill-11);
   --InputRange-handle-top-border-color: var(--colors-brand-5);
-  --InputRange-handle-top-border-width: 0.0625rem;
+  --InputRange-handle-top-border-width: #{px2rem(1px)};
   --InputRange-handle-top-border-style: var(--borders-style-2);
   --InputRange-handle-top-right-border-radius: var(--borders-radius-7);
   --InputRange-handle-border: var(--InputRange-handle-top-border-width)
@@ -1773,9 +1774,9 @@
   --dialog-content-color: var(--colors-neutral-text-2);
   --dialog-footer-height: var(--sizes-size-1);
   --dialog-footer-margin-left: var(--sizes-size-5);
-  --dialog-size-sm-width: 21.875rem;
-  --dialog-size-normal-width: 31.25rem;
-  --dialog-size-lg-width: 68.75rem;
+  --dialog-size-sm-width: #{px2rem(350px)};
+  --dialog-size-normal-width: #{px2rem(500px)};
+  --dialog-size-lg-width: #{px2rem(1100px)};
   --dialog-size-xl-width: 90%;
 
   --Modal-bg: var(--background);
@@ -1828,10 +1829,10 @@
   --drawer-content-paddingRight: var(--sizes-base-12);
   --drawer-footer-height: var(--sizes-size-1);
   --drawer-footer-margin-left: var(--sizes-size-9);
-  --drawer-size-xs-width: 12.5rem;
-  --drawer-size-sm-width: 18.75rem;
-  --drawer-size-md-width: 31.25rem;
-  --drawer-size-lg-width: 50rem;
+  --drawer-size-xs-width: #{px2rem(200px)};
+  --drawer-size-sm-width: #{px2rem(300px)};
+  --drawer-size-md-width: #{px2rem(500px)};
+  --drawer-size-lg-width: #{px2rem(800px)};
   --drawer-size-xl-width: 90%;
 
   --Drawer-bg: var(--background);
@@ -2052,6 +2053,7 @@
   --Tabs-onActive-bg: var(--background);
   --Tabs-onActive-borderColor: var(--borderColor);
   --Tabs-onActive-color: var(--colors-neutral-text-2);
+  --Tabs-onError-color: var(--colors-error-5);
   --Tabs-onDisabled-color: var(--colors-neutral-text-7);
   --Tabs-onHover-borderColor: var(--colors-neutral-line-8);
   --Tabs-add-icon-size: #{px2rem(15px)};
@@ -2394,7 +2396,7 @@
   --Tabs--vertical-paddingLeft: var(--sizes-size-7);
   --Tabs--vertical-paddingRight: var(--sizes-size-7);
   --Tabs--vertical-bg: var(--colors-neutral-fill-10);
-  --Tabs--vertical-width: 8.75rem;
+  --Tabs--vertical-width: #{px2rem(140px)};
   --Tabs--vertical-active-color: var(--colors-brand-5);
   --Tabs--vertical-active-fontSize: var(--fonts-size-7);
   --Tabs--vertical-active-fontWeight: var(--fonts-weight-6);
@@ -3319,7 +3321,7 @@
   --image-images-item-marginBottom: var(--sizes-size-3);
   --image-images-item-marginLeft: var(--sizes-size-3);
   --image-images-item-marginRight: var(--sizes-size-3);
-  --image-images-item-size: 3rem;
+  --image-images-item-size: #{px2rem(48px)};
   --image-images-item-color: var(--colors-neutral-text-5);
   --image-images-preview-radius: var(--sizes-size-3);
   --image-images-preview-bgColor: var(--colors-neutral-text-11);
@@ -4130,6 +4132,7 @@
     var(--combo-vertical-right-border-color)
     var(--combo-vertical-bottom-border-color)
     var(--combo-vertical-left-border-color);
+  --Combo--vertical-item--onError-borderColor: var(--colors-error-5);
   --Combo--vertical-item-borderRadius: var(
       --combo-vertical-top-left-border-radius
     )

@@ -591,6 +591,16 @@
 
 返回：a.json`。
 
+### UUID
+
+用法：`UUID(8)`
+
+ * `length:number` 生成的UUID字符串长度，默认为32位
+
+返回：`string` 生成的UUID字符串
+
+生成UUID字符串
+
 ## 日期函数
 
 ### DATE

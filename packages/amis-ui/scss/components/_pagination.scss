@@ -74,7 +74,7 @@
     }
   }
   &-simple {
-    >ul >li {
+    > ul > li {
       &:hover,
       &:focus {
         outline: none;
@@ -94,8 +94,6 @@
     }
   }
 
-
-
   &-next {
     > span {
       cursor: pointer;
@@ -113,47 +111,47 @@
     align-items: center;
     height: var(--Pagination-height);
 
-      &-left {
-        color: var(--Pagination-light-color);
-      }
-      input {
-        min-width: px2rem(50px);
-        width: px2rem(50px);
-        height: var(--Pagination-height);
-        line-height: var(--Pagination-height);
-        // height: var(--Pagination-height);
-        border: none;
-        border: var(--borderWidth) solid var(--borderColor);
-        border-radius: var(--borderRadius) 0 0 var(--borderRadius);
-        padding: var(--Pagination-padding);
-        margin-left: px2rem(8px);
-        text-align: center;
+    &-left {
+      color: var(--Pagination-light-color);
+    }
+    input {
+      min-width: px2rem(50px);
+      width: px2rem(50px);
+      height: var(--Pagination-height);
+      line-height: var(--Pagination-height);
+      // height: var(--Pagination-height);
+      border: none;
+      border: var(--borderWidth) solid var(--borderColor);
+      border-radius: var(--borderRadius) 0 0 var(--borderRadius);
+      padding: var(--Pagination-padding);
+      margin-left: px2rem(8px);
+      text-align: center;
 
-        &:focus,
-        &:hover {
-          outline: none;
-          // border: var(--borderWidth) solid var(--primary);
-          border-color: var(--primary);
-        }
+      &:focus,
+      &:hover {
+        outline: none;
+        // border: var(--borderWidth) solid var(--primary);
+        border-color: var(--primary);
       }
-      &-right {
-        display: inline-block;
-        width: px2rem(32px);
-        cursor: pointer;
-        text-align: center;
-        height: var(--Pagination-height);
-        line-height: var(--Pagination-height);
-        border: var(--borderWidth) solid var(--borderColor);
-        border-left: none;
-        border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
-        font-size: var(--fontSizeSm);
-        &:hover {
-          color: var(--primary);
-          border-color: var(--primary);
-          border-left: var(--borderWidth) solid var(--primary);
-          margin-left: -1px;
-        }
+    }
+    &-right {
+      display: inline-block;
+      width: px2rem(32px);
+      cursor: pointer;
+      text-align: center;
+      height: var(--Pagination-height);
+      line-height: var(--Pagination-height);
+      border: var(--borderWidth) solid var(--borderColor);
+      border-left: none;
+      border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
+      font-size: var(--fontSizeSm);
+      &:hover {
+        color: var(--primary);
+        border-color: var(--primary);
+        border-left: var(--borderWidth) solid var(--primary);
+        margin-left: -1px;
       }
+    }
   }
 }
 
@@ -161,7 +159,6 @@
   line-height: px2rem(30px);
 
   .#{$ns}Pagination-item {
-    margin-left: px2rem(8px);
     &:nth-child(1) {
       margin-left: 0;
     }

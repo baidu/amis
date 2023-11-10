@@ -330,6 +330,12 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   loadDataOnceFetchOnFilter?: boolean;
 
   /**
+   * 自定义搜索匹配函数，当开启loadDataOnce时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景
+   * @since 3.5.0
+   */
+  matchFunc?: string | any;
+
+  /**
    * 也可以直接从环境变量中读取，但是不太推荐。
    */
   source?: SchemaTokenizeableString;
@@ -473,7 +479,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'autoFillHeight',
     'maxTagCount',
     'overflowTagPopover',
-    'parsePrimitiveQuery'
+    'parsePrimitiveQuery',
+    'matchFunc'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -1244,6 +1251,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       );
     this.lastQuery = store.query;
     const data = createObject(store.data, store.query);
+    const matchFunc =
+      this.props?.matchFunc && typeof this.props.matchFunc === 'string'
+        ? (str2function(
+            this.props.matchFunc,
+            'items',
+            'itemsRaw',
+            'options'
+          ) as any)
+        : undefined;
     isEffectiveApi(api, data)
       ? store
           .fetchInitData(api, data, {
@@ -1258,7 +1274,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             perPageField,
             loadDataMode,
             syncResponse2Query,
-            columns: store.columns ?? columns
+            columns: store.columns ?? columns,
+            matchFunc
           })
           .then(async value => {
             if (!isAlive(store)) {
@@ -1332,7 +1349,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           })
       : source &&
         store.initFromScope(data, source, {
-          columns: store.columns ?? columns
+          columns: store.columns ?? columns,
+          matchFunc
         });
   }
 
@@ -2200,7 +2218,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 toolbar.align || (type === 'pagination' ? 'right' : 'left');
               return (
                 <div
-                  key={index}
+                  key={toolbar.id || index}
                   className={cx(
                     'Crud-toolbar-item',
                     align ? `Crud-toolbar-item--${align}` : '',

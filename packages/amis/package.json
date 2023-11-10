@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "3.4.2",
+  "version": "3.5.1",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -37,8 +37,8 @@
     }
   ],
   "dependencies": {
-    "amis-core": "*",
-    "amis-ui": "*",
+    "amis-core": "^3.5.1",
+    "amis-ui": "^3.5.1",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
     "classnames": "2.3.2",
@@ -60,8 +60,9 @@
     "mobx-react": "^6.3.1",
     "mobx-state-tree": "^3.17.3",
     "moment": "^2.19.4",
+    "moment-timezone": "^0.5.34",
     "mpegts.js": "^1.6.10",
-    "office-viewer": "^0.2.0",
+    "office-viewer": "^0.2.1",
     "prop-types": "^15.6.1",
     "qrcode.react": "^3.1.0",
     "rc-overflow": "^1.2.4",
@@ -126,7 +127,6 @@
     "json5": "^2.2.1",
     "marked": ">=4.0.12",
     "mkdirp": "^1.0.4",
-    "moment-timezone": "^0.5.34",
     "postcss": "^8.4.6",
     "postcss-cli": "^9.1.0",
     "postcss-custom-properties": "^12.1.5",

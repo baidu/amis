@@ -376,7 +376,13 @@ export default class TextControl extends React.PureComponent<
       },
       () => {
         if (trimContents && value && typeof value === 'string') {
-          onChange(value.trim());
+          const trimedValue = value.trim();
+
+          // 因为下发给 Input 的 value 可能不会变，所以这里需要手动同步一下
+          if (this.input) {
+            this.input.value = trimedValue;
+          }
+          onChange(trimedValue);
         }
       }
     );

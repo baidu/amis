@@ -512,7 +512,7 @@ export const HocQuickEdit =
           >
             {render('quick-edit-form', this.buildSchema(), {
               value: undefined,
-              static: false,
+              defaultStatic: false,
               onSubmit: this.handleSubmit,
               onAction: this.handleAction,
               onChange: null,
@@ -532,7 +532,7 @@ export const HocQuickEdit =
             container={popOverContainer}
             target={() => this.target}
             onHide={this.closeQuickEdit}
-            placement="left-top right-top left-bottom right-bottom left-top left-top-right-top left-bottom-right-bottom"
+            placement="left-top right-top left-bottom right-bottom left-top-right-top left-bottom-right-bottom left-top"
             show
           >
             <PopOver
@@ -577,7 +577,8 @@ export const HocQuickEdit =
             mode: 'normal',
             value: value ?? '',
             onChange: this.handleFormItemChange,
-            ref: this.formItemRef
+            ref: this.formItemRef,
+            defaultStatic: false
           });
         }
 
@@ -591,7 +592,8 @@ export const HocQuickEdit =
           onChange: this.handleChange,
           formLazyChange: false,
           canAccessSuperData,
-          disabled
+          disabled,
+          defaultStatic: false
         });
       }
 

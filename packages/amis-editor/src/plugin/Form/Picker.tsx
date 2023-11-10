@@ -50,7 +50,7 @@ export class PickerControlPlugin extends BasePlugin {
         value: 'B'
       }
     ],
-    modalClassName: 'app-popover'
+    modalClassName: 'app-popover :AMISCSSWrapper'
   };
   previewSchema: any = {
     type: 'form',

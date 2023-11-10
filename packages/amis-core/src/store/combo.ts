@@ -35,7 +35,8 @@ export const ComboStore = iRendererStore
     minLength: 0,
     maxLength: 0,
     length: 0,
-    activeKey: 0
+    activeKey: 0,
+    memberValidMap: types.optional(types.frozen(), {})
   })
   .views(self => {
     function getForms() {
@@ -170,13 +171,21 @@ export const ComboStore = iRendererStore
       self.activeKey = key;
     }
 
+    function setMemberValid(valid: boolean, index: number) {
+      self.memberValidMap = {
+        ...self.memberValidMap,
+        [index]: valid
+      };
+    }
+
     return {
       config,
       setActiveKey,
       bindUniuqueItem,
       unBindUniuqueItem,
       addForm,
-      onChildStoreDispose
+      onChildStoreDispose,
+      setMemberValid
     };
   });
 

@@ -12,6 +12,8 @@ order: 67
 
 ## 基本用法
 
+可配置表头（`title`）、表尾(`footer`)，同时支持文本或者 schema 类型。
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -19,7 +21,7 @@ order: 67
     "body": [
         {
             "type": "table2",
-            "title": "表格标题",
+            "title": "表格标题 - ${rows.length}",
             "source": "$rows",
             "columns": [
                 {
@@ -72,7 +74,10 @@ order: 67
                     "size": "sm"
                 }
             ],
-            "footer": "表格Footer"
+            "footer": {
+                "type": "tpl",
+                "tpl": "表格Footer"
+            }
         }
     ]
 }
@@ -80,9 +85,11 @@ order: 67
 
 ## 可选择
 
-支持单选、多选
+可以通过配置`rowSelection`来支持单选或者多选，也可以配置`selectable`、`multiple`结合来实现，其中`selectable`、`multiple`的优先级更高。
 
 ### 多选
+
+可以简单将`rowSelection`设置为`true`开启多选，也可以给`rowSelection`配置更多属性，不指定`type`则默认为多选。也可以设置`selectable`为`true`，同时`multiple`设置为`true`，同样可以开启多选。
 
 ```schema: scope="body"
 {
@@ -124,6 +131,8 @@ order: 67
 
 ### 点击整行选择
 
+目前仅能通过`rowSelection.rowClick`属性来开启。
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -164,6 +173,8 @@ order: 67
 ```
 
 ### 已选择
+
+通过`rowSelection.selectedRowKeys`属性来设置表格内已选中的项，可以使用`primaryField`、`rowSelection.keyField`或者`keyField`指定数据源中用来做值匹配的字段，优先级依次递减。
 
 ```schema: scope="body"
 {
@@ -210,6 +221,8 @@ order: 67
 
 ### 已选择 - 正则表达式
 
+还可以使用正则表达式的方式来匹配已选中的项，`rowSelection.selectedRowKeysExpr`可以配置表达式。
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -255,7 +268,7 @@ order: 67
 
 ### 单选
 
-可通过`disableOn`来控制哪一行不可选，不可选情况下会有禁用样式，但如果行内如果有除文字外的其他组件，禁用样式需要自行控制
+设置`rowSelection.type`为`radio`或者设置`selectable`为`true`、`multiple`为`false`来实现单选，同时可通过`rowSelection.disableOn`来控制哪一行不可选，不可选情况下默认会有禁用样式，但如果行内有除文字外的其他组件，禁用样式需要自行控制。
 
 ```schema: scope="body"
 {
@@ -291,7 +304,7 @@ order: 67
 
 ### 自定义选择菜单
 
-内置全选`all`、反选`invert`、清空`none`、选中奇数行`odd`、选中偶数行`even`，存在禁止选择的行，不参与计算奇偶数
+内置全选`all`、反选`invert`、清空`none`、选中奇数行`odd`、选中偶数行`even`，可以通过`rowSelection.selections`自行配置，超出内置功能范围的不支持，配置了也无法使用。被禁用的行不参与计算奇偶数。
 
 ```schema: scope="body"
 {
@@ -355,7 +368,7 @@ order: 67
 
 ### 最大选择个数
 
-可通过设置`maxKeepItemSelectionLength`控制表格可选中的最大个数
+可通过设置`maxKeepItemSelectionLength`控制表格可选中的最大个数。
 
 ```schema: scope="body"
 {
@@ -397,6 +410,8 @@ order: 67
 ```
 
 ## 筛选和排序
+
+通过设置`column.sorter`开启列排序，只能通过`crud2`来看实际效果。通过`column.filters`开启列筛选，支持单选、多选两种模式，同样依赖`crud2`查看实际效果。
 
 ```schema: scope="body"
 {
@@ -451,6 +466,8 @@ order: 67
 
 ## 带边框
 
+可通过`bordered`属性控制表格是否有边框。
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -494,7 +511,7 @@ order: 67
 
 ### 默认展开
 
-默认模式 展开按钮在表格最左侧
+可简单设置`expandable`为`true`开启行展开功能，也可以在`expandable`属性上配置更多功能，`expandable.expandableOn`控制哪些行可以展开，`expandable.expandedRowKeys`控制哪些行默认展开，默认展开按钮放在表格最左侧。
 
 ```schema: scope="body"
 {
@@ -528,7 +545,7 @@ order: 67
             "expandable": {
                 "expandableOn": "this.record && (this.record.id === 1 || this.record.id === 3)",
                 "keyField": "id",
-                "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
+                "expandedRowClassNameExpr": "<%= data.rowIndex === 2 ? 'bg-success' : '' %>",
                 "expandedRowKeys": ["3"],
                 "type": "container",
                 "body": [
@@ -544,6 +561,8 @@ order: 67
 ```
 
 ### 默认展开 - 正则表达式
+
+也可以通过设置`expandable.expandedRowKeysExpr`使用正则表达式来控制默认展开项。
 
 ```schema: scope="body"
 {
@@ -594,7 +613,7 @@ order: 67
 
 ### 右侧展开按钮
 
-通过设置`expandable.position`属性为`right`控制，支持 不设置、`left`、`right`、`none`四种情况。
+通过设置`expandable.position`属性为`right`控制，支持不设置（展示在左侧）、`left`、`right`、`none`（无展开按钮）四种情况。
 
 ```schema: scope="body"
 {
@@ -661,7 +680,7 @@ order: 67
 
 ### 无展开按钮
 
-可设置无展开按钮，通过事件动作展开关闭，可单独行控制
+设置成无展开按钮形式，通过事件动作控制展开关闭，可单独行控制。
 
 ```schema: scope="body"
 {
@@ -724,7 +743,7 @@ order: 67
 }
 ```
 
-也可以通过正则表达式一次控制多行展开关闭
+也可以通过正则表达式一次控制多行展开关闭。
 
 ```schema: scope="body"
 {
@@ -795,6 +814,8 @@ order: 67
 
 ## 表格行/列合并
 
+可以通过设置`column.rowSpanExpr`来实现行合并，`column.colSpanExpr`来实现列合并。
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -838,6 +859,8 @@ order: 67
 
 ## 固定表头
 
+给`scroll.y`设置一个固定高度，当表格行数据超过该高度时，会自动出现滚动条。
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -867,6 +890,8 @@ order: 67
 ```
 
 ## 固定列
+
+如果列数足够多或者设置`scroll.x`一个超出表格可视范围的宽度，表格会自动出现横向滚动条，此时可以通过`column.fixed`来固定列，保证左右滑动的时候，一些关键列始终可见。
 
 ```schema: scope="body"
 {
@@ -914,6 +939,8 @@ order: 67
 ```
 
 ## 固定头和列
+
+同时设置`scroll.y`和`column.fixed`，内容超过可视范围，表格会自动出现横向、纵向滚动条，实现同时固定表头和指定列。
 
 ```schema: scope="body"
 {
@@ -990,6 +1017,8 @@ order: 67
 
 ## 表头分组
 
+通过`column.children`可以设置表头分组，实现多级表头，可以任意组合多级嵌套。
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -1041,6 +1070,8 @@ order: 67
     ]
 }
 ```
+
+`children`里的配置同`columns`，可以灵活组合，支持无限层级。
 
 ```schema: scope="body"
 {
@@ -1104,158 +1135,9 @@ order: 67
 }
 ```
 
-<!-- ```schema: scope="body"
-{
-    "type": "service",
-    "api": "/api/sample?perPage=10",
-    "body": [
-        {
-            "type": "table2",
-            "source": "$rows",
-            "columns": [
-                {
-                    "title": "序号",
-                    "name": "id"
-                },
-                {
-                    "title": "项目",
-                    "label": "项目",
-                    "name": "XM"
-                },
-                {
-                    "title": "分市场",
-                    "label": "项目",
-                    "name": "FSC",
-                    "children": [
-                        {
-                            "name": "JLDW",
-                            "title": "计量单位"
-                        },
-                        {
-                            "name": "HJ",
-                            "title": "合计"
-                        }
-                    ]
-                },
-                {
-                    "name": "JTN",
-                    "title": "集团内",
-                    "children": [
-                        {
-                            "title": "集团内小计",
-                            "name": "JTNXJ"
-                        },
-                        {
-                            "title": "胜利",
-                            "name": "SL",
-                            "children": [
-                                {
-                                    "title": "小计",
-                                    "name": "SLXJ"
-                                },
-                                {
-                                    "title": "其中",
-                                    "name": "SLQZ",
-                                    "children": [
-                                        {
-                                            "title": "东部",
-                                            "name": "SLQZDB"
-                                        },
-                                        {
-                                            "title": "新疆",
-                                            "name": "SLQZXJ"
-                                        },
-                                        {
-                                            "title": "雅动用",
-                                            "name": "YDY"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "title": "中原",
-                            "name": "ZY",
-                            "children": [
-                                {
-                                    "title": "小计",
-                                    "name": "ZYXJ"
-                                },
-                                {
-                                    "title": "其中",
-                                    "name": "ZYQZ",
-                                    "children": [
-                                        {
-                                            "title": "中原",
-                                            "name": "ZYQZZY"
-                                        },
-                                        {
-                                            "title": "普光",
-                                            "name": "ZYQZPG"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "title": "河南",
-                            "name": "HN",
-                            "children": [
-                                {
-                                    "title": "小计",
-                                    "name": "HNXJ"
-                                },
-                                {
-                                    "title": "其中",
-                                    "name": "HNQZ",
-                                    "children": [
-                                        {
-                                            "title": "河南",
-                                            "name": "HNQZHN"
-                                        },
-                                        {
-                                            "title": "春光",
-                                            "name": "HNQZCG"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "title": "江汉",
-                            "name": "JH",
-                            "children": [
-                                {
-                                    "title": "小计",
-                                    "name": "JHXJ"
-                                },
-                                {
-                                    "title": "其中",
-                                    "name": "JHQZ",
-                                    "children": [
-                                        {
-                                            "title": "清河",
-                                            "name": "JHQZQH"
-                                        },
-                                        {
-                                            "title": "涪陵",
-                                            "name": "JHQZFL"
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-}
-``` -->
-
 ## 拖拽排序
 
-支持手动拖动排序
+设置`draggable`为`true`，开启手动拖动排序。
 
 ### 默认拖拽排序
 
@@ -1304,7 +1186,7 @@ order: 67
 
 ### 嵌套拖拽排序
 
-数据源嵌套情况下，仅允许同层级之间排序
+数据源嵌套情况下，仅允许同层级之间排序。
 
 ```schema: scope="body"
 {
@@ -1499,7 +1381,11 @@ order: 67
 
 ## 总结栏
 
+支持在表格的顶部或底部设置总结栏。
+
 ### 顶部单行
+
+`headSummary`设置顶部导航栏，一维数组为单行，列数和表格列不一致的情况下，需要手动设置`colSpan`来保证总结栏展示和表格对应。
 
 ```schema: scope="body"
 {
@@ -1557,6 +1443,8 @@ order: 67
 ```
 
 ### 顶部多行
+
+`headSummary`设置为二维数组实现顶部多行。
 
 ```schema: scope="body"
 {
@@ -1624,6 +1512,8 @@ order: 67
 
 ### 尾部单行
 
+`footSummary`设置尾部总结行，格式同`headSummary`。
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -1679,6 +1569,8 @@ order: 67
 ```
 
 ### 尾部多行
+
+如果二维数组中出现了非数组，那么认为是第一行的数据追加进去。
 
 ```schema: scope="body"
 {
@@ -1743,6 +1635,8 @@ order: 67
 
 ## 调整列宽
 
+通过设置`resizable`为`true`开启列宽调整功能，开启后可以手动拖动来调整某一列的宽度。
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -1794,6 +1688,8 @@ order: 67
 
 ### 默认
 
+可简单设置`columnsTogglable`为`true`快速开启自定义列功能，适用于列数较多的情况，可以手动控制展示或隐藏一些列。
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -1842,6 +1738,8 @@ order: 67
 ```
 
 ### 自定义图标
+
+如果默认的自定义列图标不能满足需求，可以通过设置`columnsTogglable.icon`来自定义图标。
 
 ```schema: scope="body"
 {
@@ -1894,6 +1792,8 @@ order: 67
 
 ## 数据为空
 
+可以通过`placeholder`自定义数据为空时的展示内容，支持文本或者 schema 类型。
+
 ```schema
 {
     "type": "table2",
@@ -1939,6 +1839,8 @@ order: 67
 ```
 
 ## 数据加载中
+
+可以通过`loading`自定义数据加载时的展示内容，支持布尔或者 schema 类型。
 
 ```schema
 {
@@ -2190,7 +2092,7 @@ order: 67
 
 ### 多选嵌套
 
-表格支持多选的同时支持级联选中
+嵌套模式下表格支持多选的同时支持级联选中。
 
 ```schema: scope="body"
 {
@@ -2396,7 +2298,7 @@ order: 67
 
 ### 单选嵌套
 
-单选 不同层级之间都是互斥选择
+单选情况下，不同层级之间都是互斥选择。
 
 ```schema: scope="body"
 {
@@ -2597,6 +2499,8 @@ order: 67
 ```
 
 ### 缩进设置
+
+嵌套模式下可以通过`indentSize`来设置每一层级的缩进值。
 
 ```schema: scope="body"
 {
@@ -2799,6 +2703,8 @@ order: 67
 
 ## 列搜索
 
+通过设置`column.searchable`为`true`快速开启列搜索功能。
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -2846,6 +2752,8 @@ order: 67
 ```
 
 ## 粘性头部
+
+设置`sticky`为`true`开启粘性头部。
 
 ```schema: scope="body"
 {
@@ -2896,11 +2804,11 @@ order: 67
 
 ## 表格尺寸
 
-通过设置 size 属性来控制表格尺寸，支持`large`、`default`、`small`，`default`是中等尺寸
+通过设置`size`属性来控制表格尺寸，支持`large`、`default`、`small`，`default`是中等尺寸。
 
 ### 最大尺寸
 
-`large`是最大尺寸
+`large`是最大尺寸。
 
 ```schema: scope="body"
 {
@@ -2973,7 +2881,7 @@ order: 67
 
 ### 默认尺寸
 
-默认尺寸是`default`，即中等尺寸
+默认尺寸是`default`，即中等尺寸。
 
 ```schema: scope="body"
 {
@@ -3045,7 +2953,7 @@ order: 67
 
 ### 小尺寸
 
-最小尺寸
+`size`设置为`small`是最小尺寸。
 
 ```schema: scope="body"
 {
@@ -3118,6 +3026,8 @@ order: 67
 
 ## 可复制
 
+给列配置`copyable`属性即可开启列内容复制功能。
+
 ```schema: scope="body"
 {
     "type": "service",
@@ -3159,7 +3069,7 @@ order: 67
 
 ## 弹出框
 
-可以给列配置上`popOver`属性，默认会在该列内容区里渲染一个图标，点击会显示弹出框，用于展示内容
+可以给列配置上`popOver`属性，默认会在该列内容区里渲染一个图标，点击会显示弹出框，用于展示全部内容。
 
 ```schema: scope="body"
 {
@@ -3203,7 +3113,7 @@ order: 67
 }
 ```
 
-也可以设置图标不展示，结合 truncate 实现内容自动省略，其余可点击/悬浮查看更多
+也可以设置图标不展示，结合`truncate`实现内容自动省略，其余可点击/悬浮查看更多。
 
 ```schema: scope="body"
 {
@@ -3251,7 +3161,7 @@ order: 67
 }
 ```
 
-可以给列配置`popOverEnableOn`属性，该属性为表达式，来控制当前行是否启动`popOver`功能
+可以给列配置`popOverEnableOn`属性，该属性为表达式，来控制当前行是否启动`popOver`功能。
 
 ```schema: scope="body"
 {
@@ -3307,7 +3217,7 @@ order: 67
 
 ## 行角标
 
-通过属性`itemBadge`，可以为表格行配置[角标](./badge)，可以使用[数据映射](../../../docs/concepts/data-mapping)为每一行添加特定的 Badge 属性。[`visibleOn`](../../../docs/concepts/expression)属性控制显示的条件，表达式中`this`可以取到行所在上下文的数据，比如行数据中有`badgeText`字段才显示角标，可以设置`"visibleOn": "this.badgeText"`
+通过属性`itemBadge`，可以为表格行配置[角标](./badge)，可以使用[数据映射](../../../docs/concepts/data-mapping)为每一行添加特定的 Badge 属性。[`visibleOn`](../../../docs/concepts/expression)属性控制显示的条件，表达式中`this`可以取到行所在上下文的数据，比如行数据中有`badgeText`字段才显示角标，可以设置`"visibleOn": "this.badgeText"`。
 
 ```schema: scope="body"
 {
@@ -3530,7 +3440,7 @@ order: 67
 
 #### 指定编辑表单项类型
 
-`quickEdit`也可以配置对象形式，可以指定编辑表单项的类型，例如`"type": "select"`：
+`quickEdit`也可以配置对象形式，可以指定编辑表单项的类型，例如`"type": "select"`。
 
 ```schema: scope="body"
 {
@@ -3739,7 +3649,7 @@ order: 67
 }
 ```
 
-你也可以在`saveImmediately`中配置 api，实现即时保存
+你也可以在`saveImmediately`中配置 api，实现即时保存。
 
 ```schema: scope="body"
 {
@@ -3797,7 +3707,7 @@ order: 67
 
 ## 列样式
 
-可以通过设置`columns`中的`className`控制整列样式
+可以通过设置`columns`中的`className`控制整列样式。
 
 ```schema: scope="body"
 {
@@ -3834,7 +3744,7 @@ order: 67
 }
 ```
 
-也可以通过`titleClassName`单独控制表头对应单元格的样式
+也可以通过`titleClassName`单独控制表头对应单元格的样式。
 
 ```schema: scope="body"
 {
@@ -3874,7 +3784,7 @@ order: 67
 
 ## 单元格样式
 
-可以通过设置`columns`的`classNameExpr`，根据数据动态添加单元格 CSS 类，支持模版语法
+可以通过设置`columns`的`classNameExpr`，根据数据动态添加单元格 CSS 类，支持模版语法。
 
 ```schema: scope="body"
 {
@@ -3913,7 +3823,7 @@ order: 67
 
 ## 行操作按钮
 
-通过设置`itemActions`可以设置鼠标移动到行上出现操作按钮
+通过设置`itemActions`可以设置鼠标移动到行上出现操作按钮。
 
 ```schema: scope="body"
 {
@@ -3956,7 +3866,7 @@ order: 67
 }
 ```
 
-固定表头情况下，展示行操作按钮
+固定表头情况下，展示行操作按钮。
 
 ```schema: scope="body"
 {
