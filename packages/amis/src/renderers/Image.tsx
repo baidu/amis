@@ -14,7 +14,7 @@ import {
 import {filter} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import {autobind, getPropValue} from 'amis-core';
-import {Icon} from 'amis-ui';
+import {Icon, ImageGallery} from 'amis-ui';
 import {LocaleProps, localeable} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaTpl, SchemaUrlPath} from '../Schema';
 import {handleAction} from 'amis-core';
@@ -166,6 +166,11 @@ export interface ImageSchema extends BaseSchema {
    * 工具栏配置
    */
   toolbarActions?: ImageToolbarAction[];
+
+  /**
+   * 内嵌模式
+   */
+  embed?: boolean;
 
   /** 位置 */
   position?: {
@@ -565,6 +570,14 @@ export class ImageField extends React.Component<
     }
   }
 
+  stringParse(str: string, type: 'title' | 'caption') {
+    const {render, data} = this.props;
+
+    return render(type, str, {
+      data: createObject(data)
+    });
+  }
+
   render() {
     const {
       className,
@@ -590,7 +603,11 @@ export class ImageField extends React.Component<
       wrapperCustomStyle,
       id,
       themeCss,
-      env
+      env,
+      embed,
+      showToolbar,
+      enlargeWithGallary,
+      position
     } = this.props;
 
     const finnalSrc = src ? filter(src, data, '| raw') : '';
@@ -600,6 +617,32 @@ export class ImageField extends React.Component<
       defaultImage && !value
         ? filter(defaultImage, data, '| raw')
         : imagePlaceholder;
+
+    const filterSrc = value ? value : defaultValue;
+
+    if (embed) {
+      const filterOriginalSrc = filter(originalSrc, data, '| raw') ?? value;
+      const items = [
+        {
+          src: filterSrc,
+          originalSrc: filterOriginalSrc || src,
+          title: title ? this.stringParse(title, 'title') : '',
+          caption: imageCaption ? this.stringParse(imageCaption, 'caption') : ''
+        }
+      ];
+
+      return (
+        <ImageGallery
+          embed
+          items={items}
+          showToolbar={showToolbar}
+          position={position}
+          enlargeWithGallary={enlargeWithGallary}
+        >
+          <></>
+        </ImageGallery>
+      );
+    }
 
     return (
       <div
@@ -623,7 +666,7 @@ export class ImageField extends React.Component<
             thumbClassName={thumbClassName}
             height={height}
             width={width}
-            src={value ? value : defaultValue}
+            src={filterSrc}
             href={finnalHref}
             title={filter(title, data)}
             caption={filter(imageCaption, data)}

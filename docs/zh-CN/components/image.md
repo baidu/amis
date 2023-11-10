@@ -431,6 +431,22 @@ List 的内容、Card 卡片的内容配置同上
 }
 ```
 
+## 内嵌模式
+
+配置`"embed": true`，显示图片内嵌模式
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "image",
+        "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+        "embed": true,
+        "showToolbar": true
+    }
+}
+```
+
 ## 属性表
 
 | 属性名             | 类型                                             | 默认值    | 说明                                                                                          | 版本    |
@@ -458,6 +474,7 @@ List 的内容、Card 卡片的内容配置同上
 | imageMode          | `string`                                         | `thumb`   | 图片展示模式，可选：`'thumb'`, `'original'` 即：缩略图模式 或者 原图模式                      |
 | showToolbar        | `boolean`                                        | `false`   | 放大模式下是否展示图片的工具栏                                                                | `2.2.0` |
 | toolbarActions     | `ImageAction[]`                                  |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                  | `2.2.0` |
+| embed     | `boolean`                                  |           | 内嵌模式，当是 `true` 开启内嵌显示                                                  | `3.5.3` |
 | maxScale           | `number` 或 [模板](../../docs/concepts/template) |           | 执行调整图片比例动作时的最大百分比                                                            | `3.4.4` |
 | minScale           | `number` 或 [模板](../../docs/concepts/template) |           | 执行调整图片比例动作时的最小百分比                                                            | `3.4.4` |
 

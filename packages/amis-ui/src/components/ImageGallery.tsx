@@ -64,8 +64,9 @@ export interface ImageGalleryProps
   showToolbar?: boolean;
   /** 是否内嵌 */
   embed?: boolean;
-  items: Array<ImageGalleryItem>;
+  items?: Array<ImageGalleryItem>;
   position?: ImageGalleryPosition;
+  enlargeWithGallary?: boolean;
 }
 
 export interface ImageGalleryState {
@@ -74,6 +75,8 @@ export interface ImageGalleryState {
   items: Array<ImageGalleryItem>;
   /** 图片缩放比例尺 */
   scale: number;
+  /** 默认图片缩放比例尺 */
+  defaultScale: number;
   /** 图片旋转角度 */
   rotate: number;
   /**
@@ -95,7 +98,7 @@ export interface ImageGalleryState {
   /** 图片是否加载中 */
   imageLoading: boolean;
   /** 图片信息 */
-  imageLoadInfo?: {
+  imageLoadInfo: {
     naturalWidth: number;
     naturalHeight: number;
     url: string;
@@ -149,12 +152,18 @@ export class ImageGallery extends React.Component<
     tx: 0,
     ty: 0,
     scale: 1,
+    defaultScale: 1,
     rotate: 0,
     showToolbar: false,
     imageGallaryClassName: '',
     actions: ImageGallery.defaultProps.actions,
-    imageLoading: false,
-    isNaturalSize: false
+    imageLoading: true,
+    isNaturalSize: false,
+    imageLoadInfo: {
+      naturalWidth: 0,
+      naturalHeight: 0,
+      url: ''
+    }
   };
 
   galleryMain?: HTMLDivElement;
@@ -162,12 +171,10 @@ export class ImageGallery extends React.Component<
   constructor(props: ImageGalleryProps) {
     super(props);
 
-    const hasItems = !!props?.items;
-
     this.state = {
       ...this.state,
-      items: hasItems ? props.items : [],
-      index: hasItems ? 0 : -1,
+      items: props.items ?? [],
+      index: !!props?.items ? 0 : -1,
       showToolbar: !!props?.showToolbar
     };
   }
@@ -175,7 +182,7 @@ export class ImageGallery extends React.Component<
   componentDidUpdate(prevProps: Readonly<ImageGalleryProps>): void {
     if (this.props.items !== prevProps.items) {
       this.setState({
-        items: this.props.items
+        items: this.props.items ?? []
       });
     }
     if (this.props?.showToolbar !== prevProps?.showToolbar) {
@@ -187,6 +194,12 @@ export class ImageGallery extends React.Component<
     if (this.props.position !== prevProps.position) {
       this.setState({
         position: this.props.position
+      });
+    }
+
+    if (this.props.enlargeWithGallary !== prevProps.enlargeWithGallary) {
+      this.setState({
+        enlargeWithGallary: this.props.enlargeWithGallary
       });
     }
   }
@@ -291,6 +304,7 @@ export class ImageGallery extends React.Component<
       enlargeWithGallary: info.enlargeWithGallary,
       imageGallaryClassName: info.imageGallaryClassName,
       position: info?.position,
+      imageLoading: true,
       /** 外部传入合法key值的actions才会生效 */
       actions: Array.isArray(info.toolbarActions)
         ? info.toolbarActions.filter(action =>
@@ -301,8 +315,9 @@ export class ImageGallery extends React.Component<
   }
 
   resetImageAction() {
+    const {defaultScale} = this.state;
     this.setState({
-      scale: 1,
+      scale: defaultScale,
       rotate: 0,
       isNaturalSize: false
     });
@@ -319,15 +334,13 @@ export class ImageGallery extends React.Component<
   @autobind
   prev() {
     const index = this.state.index;
-    this.setState({index: index - 1, imageLoading: true});
-    this.resetImageAction();
+    this.setIndex(index - 1);
   }
 
   @autobind
   next() {
     const index = this.state.index;
-    this.setState({index: index + 1, imageLoading: true});
-    this.resetImageAction();
+    this.setIndex(index + 1);
   }
 
   @autobind
@@ -340,8 +353,16 @@ export class ImageGallery extends React.Component<
    * 设置当前选中
    */
   @autobind
-  setIndex(index: number) {
-    this.setState({index, imageLoading: true});
+  setIndex(cIndex: number) {
+    const {items, index} = this.state;
+    const bool = items[index].originalSrc === items[cIndex].originalSrc;
+    console.log(bool);
+    this.setState({
+      index: cIndex,
+      imageLoading: !bool,
+      tx: 0,
+      ty: 0
+    });
     this.resetImageAction();
   }
 
@@ -379,10 +400,11 @@ export class ImageGallery extends React.Component<
         return;
       }
 
+      const {defaultScale} = this.state;
       switch (action.key) {
         case ImageActionKey.DEFAULT_VIEW:
           this.setState({
-            scale: 1,
+            scale: defaultScale,
             isNaturalSize: false,
             tx: 0,
             ty: 0
@@ -421,13 +443,24 @@ export class ImageGallery extends React.Component<
   @autobind
   handleImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
     const {index, items} = this.state;
+    const {clientWidth, clientHeight} = this.galleryMain!;
+    // @ts-ignore
+    const naturalHeight = e.target?.naturalHeight;
+    // @ts-ignore
+    const naturalWidth = e.target?.naturalWidth;
+    let scale = 1;
+    if (naturalHeight >= clientHeight || naturalWidth >= clientWidth) {
+      const p1 = clientHeight / naturalHeight;
+      const p2 = clientWidth / naturalWidth;
+      scale = p1 > p2 ? p2 : p1;
+    }
     this.setState({
+      scale,
+      defaultScale: scale,
       imageLoadInfo: {
         url: items[index]?.src,
-        // @ts-ignore
-        naturalHeight: e.target?.naturalHeight,
-        // @ts-ignore
-        naturalWidth: e.target?.naturalWidth
+        naturalHeight,
+        naturalWidth
       },
       imageLoading: false
     });
@@ -465,9 +498,10 @@ export class ImageGallery extends React.Component<
             if (action.key === ImageActionKey.DRAG) {
               return (
                 <DragProgress
-                  value={1}
+                  value={scale}
                   onChange={this.handleDragProgress}
                   skin={embed ? 'light' : 'dark'}
+                  max={2}
                 />
               );
             }
@@ -559,7 +593,7 @@ export class ImageGallery extends React.Component<
     return [
       ~index && items[index] ? (
         <>
-          <div className={cx('ImageGallery-main')} ref={this.galleryMainRef}>
+          <div className={cx('ImageGallery-main')}>
             <div
               className={cx(
                 'ImageGallery-preview',
@@ -576,7 +610,10 @@ export class ImageGallery extends React.Component<
                     : ''
                 )}
               >
-                <div className={cx('ImageGallery-image-wrap')}>
+                <div
+                  className={cx('ImageGallery-image-wrap')}
+                  ref={this.galleryMainRef}
+                >
                   <img
                     draggable={false}
                     src={items[index].originalSrc}

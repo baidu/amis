@@ -118,7 +118,7 @@ export interface ImagesSchema extends BaseSchema {
   /**
    * 内嵌模式
    */
-  embed: boolean;
+  embed?: boolean;
 
   /** 位置 */
   position?: {
@@ -189,7 +189,7 @@ export class ImagesField extends React.Component<ImagesProps> {
     const {render, data} = this.props;
 
     return render(type, str, {
-      data: createObject(createObject(data))
+      data: createObject(data)
     });
   }
 

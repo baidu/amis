@@ -11,6 +11,7 @@ interface DragProgrocessProp extends ThemeProps, LocaleProps {
   value: number;
   onChange?: (value?: number) => void;
   skin: 'light' | 'dark';
+  max: number;
 }
 
 interface DragProgrocessState {
@@ -39,14 +40,16 @@ class DragProgress extends React.PureComponent<
   isDragging: boolean = false;
   previousX: number;
 
-  static defaultProps: Pick<DragProgrocessProp, 'skin'> = {
-    skin: 'light'
+  static defaultProps: Pick<DragProgrocessProp, 'skin' | 'max'> = {
+    skin: 'light',
+    max: 1
   };
 
   constructor(props: DragProgrocessProp) {
     super(props);
 
-    const left = props?.value ? getLeftByValue(props.value) : leftStartPoint;
+    const act = props.value / props.max;
+    const left = act ? getLeftByValue(act) : leftStartPoint;
     this.state = {
       left,
       precent: getPrecentByLeft(left)
@@ -54,6 +57,17 @@ class DragProgress extends React.PureComponent<
 
     document.addEventListener('mousemove', this.handleMouseMove);
     document.addEventListener('mouseup', this.handleMouseUp);
+  }
+
+  componentDidUpdate(prevProps: Readonly<DragProgrocessProp>): void {
+    if (prevProps.value !== this.props.value) {
+      const act = this.props.value / this.props.max;
+      const left = act ? getLeftByValue(act) : leftStartPoint;
+      this.setState({
+        left,
+        precent: getPrecentByLeft(left)
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -101,12 +115,13 @@ class DragProgress extends React.PureComponent<
   @autobind
   handleDrag(clientX: number) {
     this.previousX = clientX;
+    const max = this.props.max;
     const {precent} = this.state;
-    this.props?.onChange?.(precent);
+    this.props?.onChange?.(precent * max);
   }
 
   render() {
-    const {classnames: cx, skin} = this.props;
+    const {classnames: cx, skin, max} = this.props;
     const {left, precent} = this.state;
 
     return (
@@ -132,7 +147,7 @@ class DragProgress extends React.PureComponent<
             }}
           ></div>
         </div>
-        <div className={cx('DrapProgress-precent')}>{precent}%</div>
+        <div className={cx('DrapProgress-precent')}>{precent * max}%</div>
       </div>
     );
   }

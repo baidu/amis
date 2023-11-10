@@ -418,6 +418,56 @@ Array<{
 }
 ```
 
+## 内嵌模式
+
+在 **images 组件** 上，配置`embed`为`true`，支持放大预览
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "images": [
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
+                "title": "图片1",
+                "description": "图片1的描述"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
+                "title": "图片2",
+                "description": "图片2的描述"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
+                "title": "图片3",
+                "description": "图片3的描述"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
+                "title": "图片4",
+                "description": "图片4的描述"
+            },
+            {
+                "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
+                "title": "图片5",
+                "description": "图片5的描述"
+            }
+        ]
+    },
+    "body": {
+        "type": "images",
+        "source": "${images}",
+        "embed": true
+    }
+}
+```
+
+
 ## 用作 Field 时
 
 当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的 Static-XXX 中时，可以设置`name`属性，映射同名变量
@@ -680,3 +730,7 @@ List 的内容、Card 卡片的内容配置同上。
 | thumbRatio         | `string`                                   | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                                                                            |
 | showToolbar        | `boolean`                                  | `false`   | 放大模式下是否展示图片的工具栏                                                                                                          | `2.2.0` |
 | toolbarActions     | `ImageAction[]`                            |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                                                            | `2.2.0` |
+| embed     | `boolean`                                  |     `false`      | 内嵌模式，当是 `true` 开启内嵌显示                                                  | `3.5.3` |
+| imageStyle     | `object`                                  |           | 设置图片列表每一项的style                                                  | `3.5.3` |
+| position.toolbar     | `top' \| 'bottom'`                                  |      `'bottom'`     | 设置图片放大时，工具栏位置                                             | `3.5.3` |
+| position.description     | `'left' \| 'right'`                                  |     `'right'`     | 设置图片放大时，描述对应显示框位置                                                  | `3.5.3` |
