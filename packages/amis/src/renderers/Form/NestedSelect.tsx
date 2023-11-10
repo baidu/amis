@@ -172,6 +172,11 @@ export default class NestedSelectControl extends React.Component<
     return !!rendererEvent?.prevented;
   }
 
+  /** 是否为父节点 */
+  isParentNode(option: Option) {
+    return Array.isArray(option.children) && option.children.length > 0;
+  }
+
   @autobind
   handleOutClick(e: React.MouseEvent<any>) {
     const {options} = this.props;
@@ -295,7 +300,7 @@ export default class NestedSelectControl extends React.Component<
       return;
     }
 
-    if (onlyLeaf && option.children) {
+    if (onlyLeaf && this.isParentNode(option)) {
       return;
     }
 
@@ -327,7 +332,7 @@ export default class NestedSelectControl extends React.Component<
 
     let valueField = this.props.valueField || 'value';
 
-    if (onlyLeaf && !Array.isArray(option) && option.children) {
+    if (onlyLeaf && !Array.isArray(option) && this.isParentNode(option)) {
       return;
     }
 
@@ -431,6 +436,7 @@ export default class NestedSelectControl extends React.Component<
 
   allChecked(options: Options): boolean {
     const {selectedOptions, withChildren, onlyChildren} = this.props;
+
     return options.every(option => {
       if ((withChildren || onlyChildren) && option.children) {
         return this.allChecked(option.children);
@@ -683,8 +689,8 @@ export default class NestedSelectControl extends React.Component<
               if (
                 !selfChecked &&
                 onlyChildren &&
-                option.children &&
-                this.allChecked(option.children)
+                this.isParentNode(option) &&
+                this.allChecked(option.children!)
               ) {
                 selfChecked = true;
               }
@@ -803,8 +809,8 @@ export default class NestedSelectControl extends React.Component<
             if (
               !isChecked &&
               onlyChildren &&
-              option.children &&
-              this.allChecked(option.children)
+              this.isParentNode(option) &&
+              this.allChecked(option.children!)
             ) {
               isChecked = true;
             }
