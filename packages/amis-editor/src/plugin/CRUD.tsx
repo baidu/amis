@@ -578,7 +578,7 @@ export class CRUDPlugin extends BasePlugin {
               name: 'filterColumnCount'
             }
           ],
-          visibleOn: 'data.features && data.features.includes("filter")'
+          visibleOn: "${features && features.includes('filter')}"
         },
         {
           name: 'columns',
