@@ -24,4 +24,4 @@ export default {
   aside: '边栏',
   toolbar: '工具栏',
   initApi: '/api/mock2/page/initDataError'
-};
+}

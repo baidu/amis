@@ -1,23 +1,27 @@
 import React from 'react';
-import {RendererProps} from 'amis-core';
-import {isApiOutdated, isEffectiveApi, normalizeApi} from 'amis-core';
-import {Icon} from 'amis-ui';
-import {Overlay} from 'amis-core';
-import {PopOver} from 'amis-core';
-import {findDOMNode} from 'react-dom';
-import {Checkbox} from 'amis-ui';
 import xor from 'lodash/xor';
+import {findDOMNode} from 'react-dom';
 import {
+  Overlay,
+  PopOver,
+  isApiOutdated,
+  isEffectiveApi,
+  normalizeApi,
   normalizeOptions,
   getVariable,
   createObject,
-  isNumeric
+  isNumeric,
+  isPureVariable,
+  resolveVariableAndFilter
 } from 'amis-core';
-import type {Option} from 'amis-core';
+import {Checkbox, Icon} from 'amis-ui';
+
+import type {RendererProps, Option} from 'amis-core';
 
 export interface QuickFilterConfig {
   options: Array<any>;
-  // source: Api;
+  /** 数据源：API或上下文变量 */
+  source: any;
   multiple: boolean;
   /* 是否开启严格对比模式 */
   strictMode?: boolean;
@@ -26,7 +30,10 @@ export interface QuickFilterConfig {
 }
 
 export interface HeadCellFilterProps extends RendererProps {
+  /** 所在的CRUD的Query数据 */
   data: any;
+  /** 所在的CRUD的数据以及上层数据 */
+  superData: Record<string, any>;
   name: string;
   filterable: QuickFilterConfig;
   onQuery: (
@@ -57,11 +64,21 @@ export class HeadCellFilterDropDown extends React.Component<
   }
 
   componentDidMount() {
-    const {filterable} = this.props;
+    const {filterable, data} = this.props;
+    const {source, options} = filterable || {};
 
-    if (filterable.source) {
+    if (source && isPureVariable(source)) {
+      const datasource = resolveVariableAndFilter(
+        source,
+        this.props.superData,
+        '| raw'
+      );
+      this.setState({
+        filterOptions: this.alterOptions(datasource)
+      });
+    } else if (source && isEffectiveApi(source, data)) {
       this.fetchOptions();
-    } else if (filterable.options?.length > 0) {
+    } else if (options?.length > 0) {
       this.setState({
         filterOptions: this.alterOptions(filterable.options)
       });
@@ -70,7 +87,6 @@ export class HeadCellFilterDropDown extends React.Component<
 
   componentDidUpdate(prevProps: HeadCellFilterProps, prevState: any) {
     const name = this.props.name;
-
     const props = this.props;
 
     this.sourceInvalid = false;
@@ -186,9 +202,22 @@ export class HeadCellFilterDropDown extends React.Component<
   }
 
   async open() {
-    const {filterable} = this.props;
+    const {filterable, source} = this.props;
+
     if (filterable.refreshOnOpen && filterable.source) {
-      await this.fetchOptions();
+      if (source && isPureVariable(source)) {
+        const datasource = resolveVariableAndFilter(
+          source,
+          this.props.superData,
+          '| raw'
+        );
+
+        this.setState({
+          filterOptions: this.alterOptions(datasource)
+        });
+      } else {
+        await this.fetchOptions();
+      }
     }
     this.setState({
       isOpened: true
