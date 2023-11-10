@@ -111,7 +111,7 @@
     "@types/react-transition-group": "4.4.3",
     "@types/sortablejs": "^1.3.32",
     "@types/tinymce": "^4.5.24",
-    "axios": "0.25.0",
+    "axios": "1.6.0",
     "bce-sdk-js": "^0.2.9",
     "concurrently": "^7.3.0",
     "copy-to-clipboard": "3.3.1",
