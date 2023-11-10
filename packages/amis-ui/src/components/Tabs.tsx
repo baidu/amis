@@ -50,6 +50,7 @@ export interface TabProps extends ThemeProps {
   tip?: string;
   tab?: Schema;
   className?: string;
+  tabClassName?: string;
   activeKey?: string | number;
   reload?: boolean;
   mountOnEnter?: boolean;
