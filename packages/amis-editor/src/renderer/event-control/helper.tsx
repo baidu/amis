@@ -2352,6 +2352,12 @@ export const COMMON_ACTION_SCHEMA_MAP: {
   },
   confirm: {
     descDetail: (info: any) => <div>打开确认对话框</div>
+  },
+  preview: {
+    descDetail: (info: any) => <div>预览图片</div>
+  },
+  zoom: {
+    descDetail: (info: any) => <div>调整图片比例</div>
   }
 };
 
