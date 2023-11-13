@@ -896,7 +896,9 @@ export default class Page extends React.Component<PageProps> {
               loadingConfig={loadingConfig}
             />
 
-            {store.error && showErrorMsg !== false ? (
+            {!env.hiddenEditorShowMsg &&
+            store.error &&
+            showErrorMsg !== false ? (
               <Alert
                 level="danger"
                 showCloseButton

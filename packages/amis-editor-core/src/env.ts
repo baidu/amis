@@ -50,5 +50,7 @@ export const env: RenderOptions = {
     toast[type]
       ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息')
       : console.warn('[Notify]', type, msg);
-  }
+  },
+  // 屏蔽组件中展示msg，默认展示
+  hiddenEditorShowMsg: false
 };

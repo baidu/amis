@@ -28,6 +28,7 @@ export interface wsObject {
 }
 
 export interface RendererEnv {
+  hiddenEditorShowMsg?: boolean;
   session?: string;
   fetcher: (api: Api, data?: any, options?: object) => Promise<Payload>;
   isCancel: (val: any) => boolean;
