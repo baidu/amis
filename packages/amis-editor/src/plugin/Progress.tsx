@@ -92,26 +92,6 @@ export class ProgressPlugin extends BasePlugin {
                 needDeleteProps: ['placeholder'],
                 valueType: 'number' // 期望数值类型，不过 amis中会尝试字符串 trans 数值类型
               }),
-              getSchemaTpl('menuTpl', {
-                label: tipedLabel(
-                  '数值模板',
-                  '值渲染模板，支持JSX、数据域变量使用, 默认 ${value}%'
-                ),
-                name: 'valueTpl',
-                variables: [
-                  {
-                    label: '值字段',
-                    children: [
-                      {
-                        label: '进度值',
-                        value: 'value',
-                        tag: 'number'
-                      }
-                    ]
-                  }
-                ],
-                requiredDataPropsVariables: true
-              }),
 
               getSchemaTpl('switch', {
                 name: 'showLabel',

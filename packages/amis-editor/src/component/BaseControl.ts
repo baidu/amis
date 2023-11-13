@@ -253,6 +253,7 @@ export const formItemControl: (
           key: 'status',
           body: normalizeBodySchema(
             [
+              getSchemaTpl('visible'),
               getSchemaTpl('hidden'),
               supportStatic ? getSchemaTpl('static') : null,
               // TODO: 下面的部分表单项才有，是不是判断一下是否是表单项

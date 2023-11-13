@@ -229,7 +229,47 @@ export class NumberControlPlugin extends BasePlugin {
                 },
                 getSchemaTpl('prefix'),
                 getSchemaTpl('suffix'),
-                getSchemaTpl('keyValueMapControl'),
+                getSchemaTpl('combo-container', {
+                  type: 'combo',
+                  label: '单位选项',
+                  mode: 'normal',
+                  name: 'unitOptions',
+                  items: [
+                    {
+                      placeholder: '文本',
+                      type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+                      name: 'label'
+                    },
+                    {
+                      placeholder: '值',
+                      type: 'input-text',
+                      name: 'value'
+                    }
+                  ],
+                  draggable: false,
+                  multiple: true,
+                  pipeIn: (value: any) => {
+                    if (Array.isArray(value)) {
+                      return value.map(item =>
+                        typeof item === 'string'
+                          ? {
+                              label: item,
+                              value: item
+                            }
+                          : item
+                      );
+                    }
+                    return [];
+                  },
+                  pipeOut: (value: any[]) => {
+                    if (!value.length) {
+                      return undefined;
+                    }
+                    return value.map(item =>
+                      item.value ? item : {label: item.label, value: item.label}
+                    );
+                  }
+                }),
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
                 getSchemaTpl('placeholder'),
