@@ -19,6 +19,7 @@ import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {inputStateTpl} from '../../renderer/style-control/helper';
+import {Schema} from 'amis-core';
 
 export class NumberControlPlugin extends BasePlugin {
   static id = 'NumberControlPlugin';
@@ -177,16 +178,20 @@ export class NumberControlPlugin extends BasePlugin {
                 getSchemaTpl('kilobitSeparator'),
 
                 getSchemaTpl('valueFormula', {
-                  rendererSchema: context?.schema,
+                  rendererSchema: (schema: Schema) => ({
+                    ...schema,
+                    displayMode: 'base'
+                  }),
                   valueType: 'number' // 期望数值类型
                 }),
 
                 getSchemaTpl('valueFormula', {
                   name: 'min',
-                  rendererSchema: {
-                    ...context?.schema,
-                    value: context?.schema.min
-                  },
+                  rendererSchema: (schema: Schema) => ({
+                    ...schema,
+                    value: context?.schema.min,
+                    displayMode: 'base'
+                  }),
                   needDeleteProps: ['min'], // 避免自我限制
                   label: '最小值',
                   valueType: 'number'
@@ -194,10 +199,11 @@ export class NumberControlPlugin extends BasePlugin {
 
                 getSchemaTpl('valueFormula', {
                   name: 'max',
-                  rendererSchema: {
-                    ...context?.schema,
-                    value: context?.schema.max
-                  },
+                  rendererSchema: (schema: Schema) => ({
+                    ...schema,
+                    value: context?.schema.max,
+                    displayMode: 'base'
+                  }),
                   needDeleteProps: ['max'], // 避免自我限制
                   label: '最大值',
                   valueType: 'number'

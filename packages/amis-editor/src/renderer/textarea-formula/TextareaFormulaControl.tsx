@@ -145,7 +145,7 @@ export class TextareaFormulaControl extends React.Component<
   constructor(props: TextareaFormulaControlProps) {
     super(props);
     this.state = {
-      value: '',
+      value: this.props.value || '',
       variables: [],
       formulaPickerOpen: false,
       formulaPickerValue: '',
@@ -175,13 +175,17 @@ export class TextareaFormulaControl extends React.Component<
   }
 
   async componentDidUpdate(prevProps: TextareaFormulaControlProps) {
-    if (this.state.value !== this.props.value) {
+    if (
+      this.state.value !== this.props.value &&
+      prevProps.value !== this.props.value
+    ) {
       this.setState(
         {
           value: this.props.value
         },
         this.editorAutoMark
       );
+      this.editorPlugin.setValue(this.props.value || '');
     }
   }
 
@@ -253,6 +257,7 @@ export class TextareaFormulaControl extends React.Component<
 
   @autobind
   handleOnChange(value: any) {
+    this.setState({value});
     this.props.onChange?.(value);
   }
 
@@ -375,7 +380,7 @@ export class TextareaFormulaControl extends React.Component<
             editorDidMount={this.handleEditorMounted}
             onBlur={this.editorAutoMark}
           />
-          {!this.props.value && (
+          {!this.state.value && (
             <div className="ae-TextareaResultBox-placeholder">
               {placeholder}
             </div>
