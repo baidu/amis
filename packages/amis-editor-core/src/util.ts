@@ -79,7 +79,7 @@ export function JSONPipeIn(obj: any, generateId = false, idMap: any = {}): any {
   }
 
   if (Array.isArray(obj)) {
-    return obj.map((item, index) => JSONPipeIn(item, generateId));
+    return obj.map((item, index) => JSONPipeIn(item, generateId, idMap));
   }
 
   let toUpdate: any = {};
