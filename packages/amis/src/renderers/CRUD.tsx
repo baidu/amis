@@ -1949,7 +1949,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderPagination(toolbar: SchemaNode) {
-    const {store, render, classnames: cx, alwaysShowPagination} = this.props;
+    const {
+      store,
+      render,
+      classnames: cx,
+      alwaysShowPagination,
+      perPageAvailable
+    } = this.props;
     const {page, lastPage} = store;
 
     if (
@@ -1970,6 +1976,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       | 'perPageAvailable'
       | 'showPerPage'
     > = {};
+
+    // 下发 perPageAvailable
+    if (Array.isArray(perPageAvailable)) {
+      extraProps.perPageAvailable = perPageAvailable;
+    }
 
     /** 优先级：showPageInput显性配置 > (lastPage > 9) */
     if (typeof toolbar !== 'string') {
