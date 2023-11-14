@@ -679,7 +679,7 @@ export class ComboControlPlugin extends BasePlugin {
     }`;
     let isColumnChild = false;
 
-    if (trigger) {
+    if (trigger && items) {
       isColumnChild = someTree(items.children, item => item.id === trigger?.id);
 
       if (isColumnChild) {
@@ -698,7 +698,7 @@ export class ComboControlPlugin extends BasePlugin {
       }
     }
 
-    const pool = items.children.concat();
+    const pool = items?.children?.concat() || [];
 
     while (pool.length) {
       const current = pool.shift() as EditorNodeType;
