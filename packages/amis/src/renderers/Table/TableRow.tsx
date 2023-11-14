@@ -55,6 +55,7 @@ export class TableRow extends React.PureComponent<
     newIndex: number;
     isHover: boolean;
     checked: boolean;
+    partial?: boolean;
     modified: boolean;
     moved: boolean;
     depth: number;

@@ -1599,7 +1599,7 @@ export const TableStore = iRendererStore
 
       const selectedStatus = parent.childrenSelected();
 
-      toggle(parent, selectedStatus !== SELECTED_STATUS.NONE);
+      toggle(parent, selectedStatus === SELECTED_STATUS.ALL);
 
       toggleAncestors(parent);
     }
