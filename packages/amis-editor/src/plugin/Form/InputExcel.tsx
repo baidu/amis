@@ -45,6 +45,8 @@ export class ExcelControlPlugin extends BasePlugin {
   };
   panelTitle = '上传 Excel';
 
+  panelJustify = true;
+
   notRenderFormZone = true;
 
   // 事件定义

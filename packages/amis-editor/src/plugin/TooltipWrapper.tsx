@@ -238,24 +238,44 @@ export class TooltipWrapperPlugin extends BasePlugin {
                     name: 'showArrow',
                     inputClassName: 'is-inline'
                   },
-
                   {
-                    label: '延迟打开',
-                    type: 'input-number',
-                    min: 0,
-                    step: 100,
+                    type: 'input-group',
                     name: 'mouseEnterDelay',
-                    suffix: 'ms',
-                    pipeIn: defaultValue(0)
+                    label: '延迟打开',
+                    body: [
+                      {
+                        type: 'input-number',
+                        min: 0,
+                        step: 100,
+                        name: 'mouseEnterDelay',
+                        pipeIn: defaultValue(0)
+                      },
+                      {
+                        type: 'tpl',
+                        addOnclassName: 'border-0 bg-none',
+                        tpl: 'ms'
+                      }
+                    ]
                   },
                   {
-                    label: '延迟关闭',
-                    type: 'input-number',
-                    min: 0,
-                    step: 100,
+                    type: 'input-group',
                     name: 'mouseLeaveDelay',
-                    suffix: 'ms',
-                    pipeIn: defaultValue(0)
+                    label: '延迟关闭',
+                    body: [
+                      {
+                        label: '延迟关闭',
+                        type: 'input-number',
+                        min: 0,
+                        step: 100,
+                        name: 'mouseLeaveDelay',
+                        pipeIn: defaultValue(0)
+                      },
+                      {
+                        type: 'tpl',
+                        addOnclassName: 'border-0 bg-none',
+                        tpl: 'ms'
+                      }
+                    ]
                   }
                 ]
               }
