@@ -2324,6 +2324,70 @@ popOver 的其它配置请参考 [popover](./popover)
 }
 ```
 
+### rowDbClick
+
+双击整行时触发。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/mock2/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "onEvent": {
+                "rowDbClick": {
+                    "actions": [
+                        {
+                            "actionType": "toast",
+                            "args": {
+                                "msgType": "info",
+                                "msg": "行单击数据：${event.data.item|json}；行索引：${event.data.index}"
+                            }
+                        }
+                    ]
+                }
+            },
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID",
+                    "searchable": true
+                },
+                {
+                    "name": "engine",
+                    "label": "Rendering engine",
+                    "filterable": {
+                        "options": [
+                            "Internet Explorer 4.0",
+                            "Internet Explorer 5.0"
+                        ]
+                    }
+                },
+                {
+                    "name": "browser",
+                    "label": "Browser",
+                    "sortable": true
+                },
+                {
+                    "name": "platform",
+                    "label": "Platform(s)"
+                },
+                {
+                    "name": "version",
+                    "label": "Engine version"
+                },
+                {
+                    "name": "grade",
+                    "label": "CSS grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ### rowMouseEnter
 
 鼠标移入行记录。

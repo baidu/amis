@@ -1592,7 +1592,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       static: isStatic,
       showFooterAddBtn,
       footerAddBtn,
-      toolbarClassName
+      toolbarClassName,
+      onEvent
     } = this.props;
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
 
@@ -1627,7 +1628,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             prefixRow,
             affixRow,
             autoFillHeight,
-            tableContentClassName
+            tableContentClassName,
+            onEvent
           },
           {
             ref: this.tableRef.bind(this),
