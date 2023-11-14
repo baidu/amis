@@ -248,6 +248,20 @@ export function rmUndefined(obj: PlainObject) {
   return newObj;
 }
 
+function isReactElementOrRef(prev: any) {
+  if (React.isValidElement(prev)) {
+    return true;
+  }
+  if (
+    prev?.type?.prototype &&
+    (prev.type.prototype instanceof React.Component ||
+      prev.type.prototype instanceof React.PureComponent)
+  ) {
+    return true;
+  }
+  return false;
+}
+
 export function isObjectShallowModified(
   prev: any,
   next: any,
@@ -255,6 +269,10 @@ export function isObjectShallowModified(
   ignoreUndefined: boolean = false,
   statck: Array<any> = []
 ): boolean {
+  if (isReactElementOrRef(prev) || isReactElementOrRef(next)) {
+    return prev !== next;
+  }
+
   if (Array.isArray(prev) && Array.isArray(next)) {
     return prev.length !== next.length
       ? true
