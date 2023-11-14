@@ -413,14 +413,16 @@ export class ButtonPlugin extends BasePlugin {
             ? [
                 getSchemaTpl('eventControl', {
                   name: 'onEvent',
-                  ...getEventControlConfig(this.manager, context)
+                  ...getEventControlConfig(this.manager, context),
+                  rawType: 'button'
                 }),
                 getOldActionSchema(this.manager, context)
               ]
             : [
                 getSchemaTpl('eventControl', {
                   name: 'onEvent',
-                  ...getEventControlConfig(this.manager, context)
+                  ...getEventControlConfig(this.manager, context),
+                  rawType: 'button'
                 })
               ]
       }

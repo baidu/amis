@@ -63,7 +63,7 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
     const dateBoundary = this.props.getDateBoundary(currentDate);
     const columns = this.props.getColumns(['year', 'month'], dateBoundary);
     this.state = {
-      columns,
+      columns: this.getColumnsWithUnit(columns),
       pickerValue: currentDate.toArray()
     };
 
@@ -141,6 +141,18 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
     this.props.updateSelectedDate(event);
   }
 
+  getColumnsWithUnit(columns: {options: PickerOption[]}[]) {
+    return this.props.locale === 'zh-CN' && columns.length === 2
+      ? columns.map((item, index) => {
+          item.options?.map((option: any) => {
+            option.text = option.text + (index === 0 ? '年' : '月');
+            return option;
+          });
+          return item;
+        })
+      : columns;
+  }
+
   renderMonth = (
     props: any,
     month: number,
@@ -205,7 +217,10 @@ export class CustomMonthsView extends React.Component<CustomMonthsViewProps> {
           };
         })
       };
-      this.setState({columns, pickerValue: value});
+      this.setState({
+        columns: this.getColumnsWithUnit(columns),
+        pickerValue: value
+      });
     }
   };
 

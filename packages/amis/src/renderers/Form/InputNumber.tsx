@@ -473,9 +473,9 @@ export default class NumberControl extends React.Component<
         <NumberInput
           inputControlClassName={cx(
             inputControlClassName,
-            setThemeClassName(inputControlClassName, id, themeCss || css),
+            setThemeClassName('inputControlClassName', id, themeCss || css),
             setThemeClassName(
-              inputControlClassName,
+              'inputControlClassName',
               id,
               themeCss || css,
               'inner'

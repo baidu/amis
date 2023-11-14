@@ -5,11 +5,13 @@ $remFactor: 16px;
 /* 此处放置需要override的变量，因为部分变量已经在variables.scss中定义 */
 $Table-strip-bg: transparent;
 
-:root,
-.AMISCSSWrapper {
+:root {
   --affix-offset-top: 0px;
   --affix-offset-bottom: 0px;
+}
 
+:root,
+.AMISCSSWrapper {
   --white: var(--colors-neutral-text-11);
   --primary: var(--colors-brand-5);
   --primary-onHover: var(--colors-brand-6);
@@ -272,22 +274,18 @@ $Table-strip-bg: transparent;
   --DropDown-menu-borderColor: var(--borderColor);
   --DropDown-menu-borderRadius: var(--borderRadius);
   --DropDown-menu-borderWidth: var(--borderWidth);
-  --DropDown-menu-boxShadow: var(--shadows-shadow-normal);
-  --DropDown-menu-height: #{px2rem(34px)};
+  --DropDown-menu-boxShadow: var(--Form-select-outer-boxShadow);
+  --DropDown-menu-height: #{px2rem(32px)};
   --DropDown-menu-minWidth: #{px2rem(160px)};
   --DropDown-menu-paddingX: 0;
   --DropDown-menu-paddingY: var(--gap-xs);
-  --DropDown-menuItem-onHover-bg: var(--ListMenu-item--onHover-bg);
+  --DropDown-menuItem-onHover-bg: var(--Form-select-menu-onHover-bg);
   --DropDown-group-color: #848b99;
   --DropDown-menuItem-color: #151a26;
-  --DropDown-menuItem-onHover-color: var(--colors-brand-5);
+  --DropDown-menuItem-onHover-color: var(--Form-select-menu-onHover-color);
   --DropDown-menuItem-onActive-color: var(--colors-brand-5);
   --DropDown-menuItem-onDisabled-color: #b4b6ba;
-  --DropDown-menuItem-paddingX: var(--gap-sm);
-  --DropDown-menuItem-paddingY: calc(
-    (var(--DropDown-menu-height) - var(--fontSizeBase) * var(--lineHeightBase)) /
-      2
-  );
+  --DropDown-menuItem-paddingX: var(--select-base-default-option-paddingRight);
 
   --Fieldset-legend-bgColor: var(--colors-neutral-fill-11);
 
@@ -706,9 +704,9 @@ $Table-strip-bg: transparent;
   --Tooltip--attr-transition: all var(--animation-duration) ease-in-out;
   --Tooltip-arrow-color: var(--Tooltip-bg);
   --Tooltip-arrow-color--dark: rgba(7, 12, 20, 0.85);
-  --Tooltip-arrow-height: 0.25rem;
+  --Tooltip-arrow-height: #{px2rem(4px)};
   --Tooltip-arrow-outerColor: #{fade-in($borderColor, 0.05)};
-  --Tooltip-arrow-width: 0.5rem;
+  --Tooltip-arrow-width: #{px2rem(8px)};
   --Tooltip-bg: var(--background);
   --Tooltip-bg--dark: rgba(7, 12, 20, 0.85);
   --Tooltip-body-color: var(--text-color);

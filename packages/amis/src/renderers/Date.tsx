@@ -1,5 +1,11 @@
 import React from 'react';
-import {Renderer, RendererProps, normalizeDate} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  normalizeDate,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
 import moment, {Moment} from 'moment';
 import 'moment-timezone';
 import {BaseSchema} from '../Schema';
@@ -117,7 +123,13 @@ export class DateField extends React.Component<DateProps, DateState> {
       classnames: cx,
       locale,
       translate: __,
-      displayTimeZone
+      displayTimeZone,
+      data,
+      id,
+      wrapperCustomStyle,
+      env,
+      themeCss,
+      baseControlClassName
     } = this.props;
     let viewValue: React.ReactNode = (
       <span className="text-muted">{placeholder}</span>
@@ -152,13 +164,33 @@ export class DateField extends React.Component<DateProps, DateState> {
     );
 
     return (
-      <span
-        className={cx('DateField', className)}
-        style={style}
-        title={fromNow && date ? date : undefined}
-      >
-        {viewValue}
-      </span>
+      <>
+        <span
+          style={style}
+          title={fromNow && date ? date : undefined}
+          className={cx(
+            'DateField',
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+        >
+          {viewValue}
+        </span>
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

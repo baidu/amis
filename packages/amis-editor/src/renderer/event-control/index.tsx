@@ -131,14 +131,16 @@ export class EventControl extends React.Component<
 
   constructor(props: EventControlProps) {
     super(props);
-    const {events, value, data} = props;
+    const {events, value, data, rawType} = props;
 
     const eventPanelActive: {
       [prop: string]: boolean;
     } = {};
 
     const pluginEvents =
-      events[!data.type || data.type === 'text' ? 'plain' : data.type] || [];
+      events[
+        rawType || (!data.type || data.type === 'text' ? 'plain' : data.type)
+      ] || [];
 
     pluginEvents.forEach((event: RendererPluginEvent) => {
       eventPanelActive[event.eventName] = true;

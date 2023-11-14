@@ -148,7 +148,7 @@ export class TextareaFormulaControl extends React.Component<
   constructor(props: TextareaFormulaControlProps) {
     super(props);
     this.state = {
-      value: '',
+      value: this.props.value || '',
       variables: [],
       formulaPickerOpen: false,
       formulaPickerValue: '',

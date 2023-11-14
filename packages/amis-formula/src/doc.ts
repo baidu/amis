@@ -1004,8 +1004,31 @@ export const doc: {
     namespace: "文本函数"
   },
   {
+<<<<<<< HEAD
     name: "DATE",
     description: "创建日期对象，可以通过特定格式的字符串，或者数值。\n\n需要注意的是，其中月份的数值是从0开始的，\n即如果是12月份，你应该传入数值11。",
+=======
+    name: 'UUID',
+    description: '生成UUID字符串',
+    example: 'UUID(8)',
+    params: [
+      {
+        type: 'number',
+        name: 'length',
+        description: '生成的UUID字符串长度，默认为32位'
+      }
+    ],
+    returns: {
+      type: 'string',
+      description: '生成的UUID字符串'
+    },
+    namespace: '文本函数'
+  },
+  {
+    name: 'DATE',
+    description:
+      '创建日期对象，可以通过特定格式的字符串，或者数值。\n\n需要注意的是，其中月份的数值是从0开始的，\n即如果是12月份，你应该传入数值11。',
+>>>>>>> master
     example: "DATE('2021-12-06 08:20:00')",
     params: [],
     returns: {

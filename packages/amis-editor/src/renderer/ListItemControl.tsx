@@ -7,7 +7,7 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import get from 'lodash/get';
 import Sortable from 'sortablejs';
-import {FormItem, Button, Icon, render as amisRender} from 'amis';
+import {FormItem, Button, Icon, render as amisRender, toast} from 'amis';
 import {autobind} from 'amis-editor-core';
 import type {Option} from 'amis';
 import {createObject, FormControlProps} from 'amis-core';
@@ -30,7 +30,6 @@ export type SourceType = 'custom' | 'api' | 'apicenter' | 'variable';
 
 export interface OptionControlState {
   items: Array<PlainObject>;
-  api: SchemaApi;
   labelField: string;
   valueField: string;
 }
@@ -50,7 +49,6 @@ export default class ListItemControl extends React.Component<
 
     this.state = {
       items: this.transformOptions(props),
-      api: props.data.source,
       labelField: props.data.labelField || 'title',
       valueField: props.data.valueField
     };
@@ -173,6 +171,12 @@ export default class ListItemControl extends React.Component<
    */
   handleDelete(index: number) {
     const items = this.state.items.concat();
+    const minLength = this.props.minLength;
+
+    if (minLength > 0 && items.length <= minLength) {
+      toast.warning(`列表项数目不能少于${minLength}`);
+      return;
+    }
 
     items.splice(index, 1);
     this.setState({items}, () => this.onChange());

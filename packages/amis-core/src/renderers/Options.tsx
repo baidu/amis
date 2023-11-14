@@ -37,6 +37,7 @@ import {
   FormBaseControl
 } from './Item';
 import {IFormItemStore} from '../store/formItem';
+import {isObject} from 'amis-core';
 
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
@@ -230,7 +231,11 @@ export interface OptionsControlProps
   selectedOptions: Array<Option>;
   setOptions: (value: Array<any>, skipNormalize?: boolean) => void;
   setLoading: (value: boolean) => void;
-  reloadOptions: (setError?: boolean) => void;
+  reloadOptions: (
+    setError?: boolean,
+    isInit?: boolean,
+    data?: Record<string, any>
+  ) => void;
   deferLoad: (option: Option) => void;
   leftDeferLoad: (option: Option, leftOptions: Option) => void;
   expandTreeOptions: (nodePathArr: any[]) => void;
@@ -443,15 +448,12 @@ export function registerOptionsControl(config: OptionsConfig) {
           );
 
           if (prevOptions !== options) {
-            formItem.setOptions(
-              normalizeOptions(
-                options || [],
-                undefined,
-                props.valueField || 'value'
-              ),
-              this.changeOptionValue,
-              props.data
+            formItem.loadOptionsFromDataScope(
+              props.source as string,
+              props.data,
+              this.changeOptionValue
             );
+
             this.normalizeValue();
           }
         } else if (
@@ -792,20 +794,16 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    reloadOptions(setError?: boolean, isInit = false) {
-      const {source, formItem, data, onChange, setPrinstineValue, valueField} =
+    reloadOptions(setError?: boolean, isInit = false, data = this.props.data) {
+      const {source, formItem, onChange, setPrinstineValue, valueField} =
         this.props;
 
       if (formItem && isPureVariable(source as string)) {
         isAlive(formItem) &&
-          formItem.setOptions(
-            normalizeOptions(
-              resolveVariableAndFilter(source as string, data, '| raw') || [],
-              undefined,
-              valueField
-            ),
-            this.changeOptionValue,
-            data
+          formItem.loadOptionsFromDataScope(
+            source as string,
+            data,
+            this.changeOptionValue
           );
         return;
       } else if (!formItem || !isEffectiveApi(source, data)) {

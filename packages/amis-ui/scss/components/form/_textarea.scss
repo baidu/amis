@@ -48,6 +48,10 @@
     color: var(--input-count-multi-color);
     font-size: var(--input-count-multi-fontSize);
 
+    > i {
+      font-style: normal;
+    }
+
     &.is-empty {
       color: var(--input-count-multi-color);
     }
