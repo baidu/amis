@@ -192,13 +192,13 @@ export class TransferPlugin extends BasePlugin {
                 }),
                 visibleOn: 'data.options.length > 0'
               }),
-              getSchemaTpl('labelRemark'),
-              getSchemaTpl('remark'),
-              getSchemaTpl('description'),
               getSchemaTpl('switch', {
                 label: '统计数据',
                 name: 'statistics'
-              })
+              }),
+              getSchemaTpl('labelRemark'),
+              getSchemaTpl('remark'),
+              getSchemaTpl('description')
             ]
           },
           {
