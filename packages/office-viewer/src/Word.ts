@@ -760,7 +760,6 @@ export default class Word {
       printDocument.getElementById('print') as HTMLElement,
       // 这些配置可以让打印还原度更高
       {
-        page: true,
         pageWrap: false,
         pageShadow: false,
         pageMarginBottom: 0,

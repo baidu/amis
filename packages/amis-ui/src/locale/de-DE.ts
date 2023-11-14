@@ -197,6 +197,8 @@ register('de-DE', {
   'Options.editLabel': 'Bearbeiten {{label}}',
   'Options.label': 'Option',
   'Options.createFailed': 'Erstellen fehlgeschlagen',
+  'Options.retry':
+    "Laden fehlgeschlagen '{{reason}}', klicken Sie auf Wiederholen",
   'placeholder.empty': '<Empty>',
   'placeholder.enter': 'Eingabe',
   'placeholder.noData': 'Keine Daten',

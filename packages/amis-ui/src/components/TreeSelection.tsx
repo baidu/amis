@@ -267,7 +267,8 @@ export class TreeSelection extends BaseSelection<
               multiple: multiple,
               checked: checked,
               onChange: () => this.toggleOption(option),
-              disabled: disabled || option.disabled
+              disabled: disabled || option.disabled,
+              classnames: cx
             })}
           </div>
 

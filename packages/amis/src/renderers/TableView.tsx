@@ -7,7 +7,8 @@ import {
   Renderer,
   RendererProps,
   resolveMappingObject,
-  CustomStyle
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {BaseSchema, SchemaObject} from '../Schema';
 
@@ -283,10 +284,8 @@ export default class TableView extends React.Component<TableViewProps, object> {
         className={cx(
           'TableView',
           className,
-          baseControlClassName,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={{width: width, borderCollapse: 'collapse'}}
       >
@@ -300,8 +299,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
             themeCss,
             classNames: [
               {
-                key: 'baseControlClassName',
-                value: baseControlClassName
+                key: 'baseControlClassName'
               }
             ]
           }}

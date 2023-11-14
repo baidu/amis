@@ -261,7 +261,7 @@ export class TplPlugin extends BasePlugin {
             baseExtra: [
               getSchemaTpl('theme:font', {
                 label: '文字',
-                name: 'font'
+                name: 'themeCss.baseControlClassName.font'
               })
             ]
           })

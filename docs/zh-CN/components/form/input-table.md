@@ -1792,6 +1792,8 @@ order: 54
 
 ### setValue
 
+#### 更新列表记录
+
 ```schema: scope="body"
 {
   "type": "form",
@@ -1799,7 +1801,7 @@ order: 54
   "body": [
     {
       "type": "button",
-      "label": "赋值",
+      "label": "更新列表记录",
       "onEvent": {
         "click": {
           "actions": [
@@ -1818,6 +1820,149 @@ order: 54
                     "b": "b-setValue2"
                   }
                 ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "input-table",
+      "label": "表格表单",
+      "id": "setValue-input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "footerAddBtn": {
+        "label": "新增",
+        "icon": "fa fa-plus",
+        "hidden": true
+      },
+      "strictMode": true,
+      "minLength": 0,
+      "needConfirm": false,
+      "showTableAddBtn": false
+    }
+  ],
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "id": 3,
+        "a": "a3",
+        "b": "b3"
+      },
+      {
+        "id": 4,
+        "a": "a4",
+        "b": "b4"
+      },
+      {
+        "id": 5,
+        "a": "a5",
+        "b": "b5"
+      }
+    ]
+  }
+}
+```
+
+#### 更新指定行记录
+
+可以通过指定`index`或者`condition`来分别更新指定索引的行记录和指定满足条件（条件表达式或者 ConditionBuilder）的行记录。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "button",
+      "label": "更新index为1和3的行记录",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "setValue-input-table",
+              "actionType": "setValue",
+              "args": {
+                "value": {
+                    "a": "a-setValue1",
+                    "b": "b-setValue1"
+                },
+                "index": '1,3'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "button",
+      "label": "更新a=a3的行记录",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "setValue-input-table",
+              "actionType": "setValue",
+              "args": {
+                "value": {
+                    "a": "a-setValue1",
+                    "b": "b-setValue1"
+                },
+                "condition": "${a === 'a3'}"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "button",
+      "label": "更新a=a5的行记录",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "setValue-input-table",
+              "actionType": "setValue",
+              "args": {
+                "value": {
+                    "a": "a-setValue1",
+                    "b": "b-setValue1"
+                },
+                "condition": {
+                  conjunction: 'and',
+                  children: [
+                    {
+                      left: {
+                        type: 'field',
+                        field: 'a'
+                      },
+                      op: 'equal',
+                      right: "a5"
+                    }
+                  ]
+                }
               }
             }
           ]

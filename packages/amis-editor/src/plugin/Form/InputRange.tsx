@@ -9,6 +9,8 @@ import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
+import type {IFormStore, IFormItemStore} from 'amis-core';
+
 export class RangeControlPlugin extends BasePlugin {
   static id = 'RangeControlPlugin';
   // 关联渲染器名字
@@ -145,26 +147,43 @@ export class RangeControlPlugin extends BasePlugin {
               getSchemaTpl('formItemName', {
                 required: true
               }),
-
-              getSchemaTpl('label', {
-                label: 'Label'
+              getSchemaTpl('label'),
+              getSchemaTpl('switch', {
+                label: '双滑块',
+                name: 'multiple'
               }),
-
               {
-                label: '方式',
-                name: 'multiple',
-                type: 'select',
-                value: false,
-                options: [
-                  {
-                    label: '单滑块',
-                    value: false
-                  },
-                  {
-                    label: '双滑块',
-                    value: true
-                  }
+                type: 'container',
+                className: 'ae-sub-content',
+                visibleOn: 'data.multiple',
+                body: [
+                  getSchemaTpl('joinValues', {
+                    onChange: (
+                      value: boolean,
+                      oldValue: boolean,
+                      model: IFormItemStore,
+                      form: IFormStore
+                    ) => {
+                      form.deleteValueByName('value');
+                    }
+                  }),
+                  getSchemaTpl('delimiter', {
+                    onChange: (
+                      value: string,
+                      oldValue: string,
+                      model: IFormItemStore,
+                      form: IFormStore
+                    ) => {
+                      form.deleteValueByName('value');
+                    }
+                  })
                 ]
+              },
+              {
+                type: 'ae-input-range-value',
+                name: 'value',
+                label: '默认值',
+                visibleOn: 'data.multiple'
               },
 
               getSchemaTpl('valueFormula', {
@@ -189,7 +208,6 @@ export class RangeControlPlugin extends BasePlugin {
                 label: '最小值',
                 valueType: 'number'
               }),
-
               getSchemaTpl('valueFormula', {
                 name: 'max',
                 rendererSchema: {
@@ -201,34 +219,6 @@ export class RangeControlPlugin extends BasePlugin {
                 label: '最大值',
                 valueType: 'number'
               }),
-
-              {
-                label: '默认值',
-                type: 'input-group',
-                name: 'value',
-                visibleOn: 'data.multiple',
-                className: 'inputGroup-addOn-no-border',
-                body: [
-                  {
-                    type: 'input-number',
-                    validations: 'isNumeric',
-                    name: 'value.min',
-                    value: 0
-                  },
-                  {
-                    type: 'html',
-                    html: '-',
-                    className: 'inputGroup-split-line'
-                  },
-                  {
-                    type: 'input-number',
-                    validations: 'isNumeric',
-                    name: 'value.max',
-                    value: 100
-                  }
-                ]
-              },
-
               {
                 label: '步长',
                 name: 'step',

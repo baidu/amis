@@ -157,6 +157,7 @@ let amisScoped = amis.embed(
     // requestAdaptor(api) {
     //   // 支持异步，可以通过 api.mockResponse 来设置返回结果，跳过真正的请求发送
     //   // 此功能自定义 fetcher 的话会失效
+    //   // api.context 中包含发送请求前的上下文信息
     //   return api;
     // }
     //
@@ -722,9 +723,13 @@ render 有三个参数，后面会详细说明这三个参数内的属性
 
 固顶间距，当你的有其他固顶元素时，需要设置一定的偏移量，否则会重叠。
 
+> 3.5.0 及以上版本请直接通过外层设置 `--affix-offset-top` css 变量。
+
 #### affixOffsetBottom: number
 
 固底间距，当你的有其他固底元素时，需要设置一定的偏移量，否则会重叠。
+
+> 3.5.0 及以上版本请直接通过外层设置 `--affix-offset-bottom` css 变量。
 
 #### richTextToken: string
 
@@ -754,8 +759,7 @@ let amisScoped = amis.embed(
   {
     replaceText: {
       service: 'http://localhost'
-    },
-    replaceTextKeys: ['api']
+    }
   }
 );
 ```
@@ -773,6 +777,29 @@ type, name, mode, target, reload
 ```
 
 如果发现有字段被意外替换了，可以通过设置这个属性来避免
+
+通过字符串数组或者函数来过滤字段，比如：
+
+```javascript
+let amisScoped = amis.embed(
+  '#root',
+  {
+    type: 'page',
+    body: {
+      type: 'service',
+      api: 'service/api'
+    }
+  },
+  {},
+  {
+    replaceText: {
+      service: 'http://localhost'
+    },
+    // replaceTextIgnoreKeys: ['api']，
+    replaceTextIgnoreKeys: key => key === 'api'
+  }
+);
+```
 
 #### toastPosition
 

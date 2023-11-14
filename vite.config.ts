@@ -62,7 +62,8 @@ export default defineConfig({
     }),
     monacoEditorPlugin({}),
     replace({
-      __editor_i18n: !!I18N
+      __editor_i18n: !!I18N,
+      preventAssignment: true
     })
   ].filter(n => n),
   optimizeDeps: {

@@ -818,3 +818,71 @@ test('doAction:form static&nonstatic', async () => {
 
   expect(container).toMatchSnapshot();
 });
+
+test('doAction:form valdiate requiredOn', async () => {
+  const onSubmit = jest.fn();
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        submitText: '提交表单',
+        body: [
+          {
+            type: 'switch',
+            name: 'a',
+            label: 'a'
+          },
+          {
+            type: 'input-text',
+            name: 'b',
+            requiredOn: '${a}',
+            label: 'b'
+          }
+        ]
+      },
+      {
+        onSubmit
+      },
+      makeEnv({})
+    )
+  );
+
+  fireEvent.click(getByText('提交表单'));
+  await wait(200);
+  expect(onSubmit).toBeCalled();
+
+  expect(container.querySelector('.cxd-Switch')!).toBeInTheDocument();
+  fireEvent.click(container.querySelector('.cxd-Switch')!);
+  await wait(300);
+  fireEvent.click(getByText('提交表单'));
+  await wait(300);
+
+  const ul = container.querySelector('.cxd-Form-feedback');
+  expect(ul).toBeInTheDocument();
+
+  fireEvent.change(container.querySelector('input[name="b"]')!, {
+    target: {value: '123'}
+  });
+  fireEvent.click(getByText('提交表单'));
+
+  await wait(200);
+  expect(onSubmit).toBeCalledTimes(2);
+
+  expect(onSubmit.mock.calls[1][0]).toMatchObject({
+    a: true,
+    b: '123'
+  });
+
+  expect(container.querySelector('.cxd-Form-feedback')).toBeNull();
+
+  fireEvent.change(container.querySelector('input[name="b"]')!, {
+    target: {value: ''}
+  });
+  await wait(300);
+
+  expect(container.querySelector('.cxd-Form-feedback')).toBeInTheDocument();
+  fireEvent.click(container.querySelector('.cxd-Switch')!);
+  await wait(300);
+
+  expect(container.querySelector('.cxd-Form-feedback')).toBeNull();
+});

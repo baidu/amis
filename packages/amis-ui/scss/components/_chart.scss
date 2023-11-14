@@ -15,4 +15,8 @@
     width: 100%;
     height: 100%;
   }
+
+  > .visibility-sensor {
+    height: 100%; // 修复图表高度为 0 时，visibility-sensor 无法触发的问题
+  }
 }

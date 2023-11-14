@@ -4,7 +4,6 @@ exports[`Renderer:text 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -85,45 +84,6 @@ exports[`Renderer:text 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -132,7 +92,6 @@ exports[`Renderer:text type is email: validate fail 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -220,45 +179,6 @@ exports[`Renderer:text type is email: validate fail 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -267,7 +187,6 @@ exports[`Renderer:text type is email: validate success 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -348,45 +267,6 @@ exports[`Renderer:text type is email: validate success 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -395,7 +275,6 @@ exports[`Renderer:text type is password with revealPassword 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -476,45 +355,6 @@ exports[`Renderer:text type is password with revealPassword 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -523,7 +363,6 @@ exports[`Renderer:text type is password: password invisible 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -612,45 +451,6 @@ exports[`Renderer:text type is password: password invisible 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -659,7 +459,6 @@ exports[`Renderer:text type is password: password visible 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -748,45 +547,6 @@ exports[`Renderer:text type is password: password visible 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -795,7 +555,6 @@ exports[`Renderer:text type is url: validate fail 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -883,45 +642,6 @@ exports[`Renderer:text type is url: validate fail 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -930,7 +650,6 @@ exports[`Renderer:text type is url: validate success 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -1011,45 +730,6 @@ exports[`Renderer:text type is url: validate success 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -1058,7 +738,6 @@ exports[`Renderer:text with addOn 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -1151,45 +830,6 @@ exports[`Renderer:text with addOn 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -1198,7 +838,6 @@ exports[`Renderer:text with clearable 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -1287,45 +926,6 @@ exports[`Renderer:text with clearable 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -1334,7 +934,6 @@ exports[`Renderer:text with counter 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -1420,45 +1019,6 @@ exports[`Renderer:text with counter 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -1467,7 +1027,6 @@ exports[`Renderer:text with counter 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -1553,45 +1112,6 @@ exports[`Renderer:text with counter 2`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -1600,7 +1120,6 @@ exports[`Renderer:text with counter and maxLength 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -1687,45 +1206,6 @@ exports[`Renderer:text with counter and maxLength 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -1734,7 +1214,6 @@ exports[`Renderer:text with counter and maxLength 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -1821,45 +1300,6 @@ exports[`Renderer:text with counter and maxLength 2`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -1868,7 +1308,6 @@ exports[`Renderer:text with minLength 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -1958,45 +1397,6 @@ exports[`Renderer:text with minLength 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -2005,7 +1405,6 @@ exports[`Renderer:text with options 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -2090,45 +1489,6 @@ exports[`Renderer:text with options 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -2137,7 +1497,6 @@ exports[`Renderer:text with options and multiple and delimiter: first option sel
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -2374,45 +1733,6 @@ exports[`Renderer:text with options and multiple and delimiter: first option sel
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -2421,7 +1741,6 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -2659,45 +1978,6 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -2706,7 +1986,6 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -2943,45 +2222,6 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -2990,7 +2230,6 @@ exports[`Renderer:text with options and multiple and delimiter: second option se
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -3230,45 +2469,6 @@ exports[`Renderer:text with options and multiple and delimiter: second option se
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -3277,7 +2477,6 @@ exports[`Renderer:text with options and multiple and delimiter: thrid option cre
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -3419,45 +2618,6 @@ exports[`Renderer:text with options and multiple and delimiter: thrid option cre
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -3466,7 +2626,6 @@ exports[`Renderer:text with options: options is open 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -3662,45 +2821,6 @@ exports[`Renderer:text with options: options is open 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -3709,7 +2829,6 @@ exports[`Renderer:text with options: select first option 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -3796,45 +2915,6 @@ exports[`Renderer:text with options: select first option 1`] = `
         </button>
       </div>
     </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
-    </div>
   </div>
 </div>
 `;
@@ -3843,7 +2923,6 @@ exports[`Renderer:text with prefix and suffix 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-    style="position: relative;"
   >
     <div
       class="cxd-Panel-heading"
@@ -3933,45 +3012,6 @@ exports[`Renderer:text with prefix and suffix 1`] = `
           </span>
         </button>
       </div>
-    </div>
-    <div
-      class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-    >
-      
-  
-      <div
-        class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-      >
-        
-    
-        <div
-          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-        />
-        
-  
-      </div>
-      
-  
-      <div
-        class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-      />
     </div>
   </div>
 </div>

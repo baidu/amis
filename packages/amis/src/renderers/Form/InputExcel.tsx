@@ -1,8 +1,18 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
-import {autobind, createObject, isObject, resolveEventData} from 'amis-core';
-import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
-import {FormBaseControlSchema} from '../../Schema';
+import omit from 'lodash/omit';
+import merge from 'lodash/merge';
+import isEmpty from 'lodash/isEmpty';
+import isPlainObject from 'lodash/isPlainObject';
+import {
+  FormItem,
+  FormControlProps,
+  autobind,
+  isObject,
+  resolveEventData,
+  dataMapping
+} from 'amis-core';
+import {FormBaseControlSchema, SchemaTokenizeableString} from '../../Schema';
 import type {CellValue, CellRichTextValue} from 'exceljs';
 
 /**
@@ -47,6 +57,13 @@ export interface InputExcelControlSchema extends FormBaseControlSchema {
    * 占位文本提示
    */
   placeholder?: string;
+
+  /**
+   * 文件解析完成后将字段同步到表单内部
+   */
+  autoFill?: {
+    [propName: string]: SchemaTokenizeableString;
+  };
 }
 
 export interface ExcelProps
@@ -88,6 +105,28 @@ export default class ExcelControl extends React.PureComponent<
   }
 
   @autobind
+  syncAutoFill(filename: string) {
+    const {autoFill, onBulkChange, data, name} = this.props;
+
+    if (autoFill?.hasOwnProperty('api') || !isObject(autoFill)) {
+      return;
+    }
+
+    const excludeSelfAutoFill = name ? omit(autoFill, name) : autoFill;
+
+    if (!isEmpty(excludeSelfAutoFill) && onBulkChange) {
+      const toSync = dataMapping(excludeSelfAutoFill, {filename});
+
+      Object.keys(toSync).forEach(key => {
+        if (isPlainObject(toSync[key]) && isPlainObject(data[key])) {
+          toSync[key] = merge({}, data[key], toSync[key]);
+        }
+      });
+      onBulkChange(toSync);
+    }
+  }
+
+  @autobind
   handleDrop(files: File[]) {
     const excel = files[0];
     const fileName = excel.name;
@@ -116,7 +155,7 @@ export default class ExcelControl extends React.PureComponent<
   }
 
   processExcelFile(excelData: ArrayBuffer | string, fileName: string) {
-    const {allSheets, onChange, parseImage} = this.props;
+    const {allSheets, onChange, parseImage, autoFill} = this.props;
     import('exceljs').then(async (ExcelJS: any) => {
       this.ExcelJS = ExcelJS;
       const workbook = new ExcelJS.Workbook();
@@ -161,7 +200,13 @@ export default class ExcelControl extends React.PureComponent<
       if (dispatcher?.prevented) {
         return;
       }
+
       onChange(sheetsResult);
+
+      if (autoFill) {
+        this.syncAutoFill(fileName);
+      }
+
       this.setState({filename: fileName});
     });
   }

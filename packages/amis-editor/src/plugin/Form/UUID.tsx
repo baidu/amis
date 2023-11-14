@@ -19,6 +19,7 @@ export class UUIDControlPlugin extends BasePlugin {
   icon = 'fa fa-eye-slash';
   pluginIcon = 'uuid-plugin';
   description = '自动生成的 UUID';
+  searchKeywords = 'uuid字段';
   docLink = '/amis/zh-CN/components/form/uuid';
   tags = ['表单项'];
   scaffold = {

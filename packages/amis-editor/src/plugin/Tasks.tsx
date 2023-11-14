@@ -16,6 +16,7 @@ export class TasksPlugin extends BasePlugin {
   name = '异步任务';
   isBaseComponent = true;
   description = '用来做异步任务呈现或者操作。';
+  searchKeywords = '任务操作集合';
   docLink = '/amis/zh-CN/components/tasks';
   tags = ['功能'];
   icon = '';

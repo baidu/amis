@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Renderer, RendererProps, filterTarget} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  filterTarget,
+  setThemeClassName
+} from 'amis-core';
 import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from 'amis-core';
 import {
@@ -238,7 +243,6 @@ export default class Page extends React.Component<PageProps> {
   startX: number;
   startWidth: number;
   codeWrap: HTMLElement;
-  asideInner = React.createRef<HTMLDivElement>();
 
   static defaultProps = {
     asideClassName: '',
@@ -388,20 +392,12 @@ export default class Page extends React.Component<PageProps> {
       initFetchOn,
       store,
       messages,
-      asideSticky,
       data,
       dispatchEvent,
       env
     } = this.props;
 
     this.mounted = true;
-
-    if (asideSticky && this.asideInner.current) {
-      const dom = this.asideInner.current!;
-      dom.style.cssText += `position: sticky; top: ${
-        scrollPosition(dom).top
-      }px;`;
-    }
 
     const rendererEvent = await dispatchEvent('init', data, this);
 
@@ -517,7 +513,7 @@ export default class Page extends React.Component<PageProps> {
 
           const redirect =
             action.redirect && filter(action.redirect, store.data);
-          redirect && env.jumpTo(redirect, action);
+          redirect && env.jumpTo(redirect, action, store.data);
           action.reload &&
             this.reloadTarget(
               filterTarget(action.reload, store.data),
@@ -626,7 +622,7 @@ export default class Page extends React.Component<PageProps> {
         : target.closest('a[data-link]')?.getAttribute('data-link');
 
     if (env && link) {
-      env.jumpTo(link);
+      env.jumpTo(link, undefined, this.props.data);
       e.preventDefault();
     }
   }
@@ -782,8 +778,6 @@ export default class Page extends React.Component<PageProps> {
       remark,
       remarkPlacement,
       headerClassName,
-      headerControlClassName,
-      toolbarControlClassName,
       toolbarClassName,
       toolbar,
       render,
@@ -793,7 +787,9 @@ export default class Page extends React.Component<PageProps> {
       env,
       classnames: cx,
       regions,
-      translate: __
+      translate: __,
+      id,
+      themeCss
     } = this.props;
 
     const subProps = {
@@ -807,10 +803,19 @@ export default class Page extends React.Component<PageProps> {
     ) {
       header = (
         <div
-          className={cx(`Page-header`, headerClassName, headerControlClassName)}
+          className={cx(
+            `Page-header`,
+            headerClassName,
+            setThemeClassName('headerControlClassName', id, themeCss)
+          )}
         >
           {title ? (
-            <h2 className={cx('Page-title')}>
+            <h2
+              className={cx(
+                'Page-title',
+                setThemeClassName('titleControlClassName', id, themeCss)
+              )}
+            >
               {render('title', title, subProps)}
               {remark
                 ? render('remark', {
@@ -837,7 +842,7 @@ export default class Page extends React.Component<PageProps> {
           className={cx(
             `Page-toolbar`,
             toolbarClassName,
-            toolbarControlClassName
+            setThemeClassName('toolbarControlClassName', id, themeCss)
           )}
         >
           {render('toolbar', toolbar || '', subProps)}
@@ -873,6 +878,7 @@ export default class Page extends React.Component<PageProps> {
       style,
       data,
       asideResizor,
+      asideSticky,
       pullRefresh,
       mobileUI,
       translate: __,
@@ -880,12 +886,7 @@ export default class Page extends React.Component<PageProps> {
       id,
       wrapperCustomStyle,
       env,
-      themeCss,
-      baseControlClassName,
-      bodyControlClassName,
-      headerControlClassName,
-      toolbarControlClassName,
-      asideControlClassName
+      themeCss
     } = this.props;
 
     const subProps = {
@@ -908,7 +909,11 @@ export default class Page extends React.Component<PageProps> {
           {this.renderHeader()}
           {/* role 用于 editor 定位 Spinner */}
           <div
-            className={cx(`Page-body`, bodyClassName, bodyControlClassName)}
+            className={cx(
+              `Page-body`,
+              bodyClassName,
+              setThemeClassName('bodyControlClassName', id, themeCss)
+            )}
             role="page-body"
           >
             <Spinner
@@ -942,11 +947,10 @@ export default class Page extends React.Component<PageProps> {
         className={cx(
           `Page`,
           hasAside ? `Page--withSidebar` : '',
+          hasAside && asideSticky ? `Page--asideSticky` : '',
           className,
-          baseControlClassName,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         onClick={this.handleClick}
         style={styleVar}
@@ -957,20 +961,18 @@ export default class Page extends React.Component<PageProps> {
               `Page-aside`,
               asideResizor ? 'relative' : 'Page-aside--withWidth',
               asideClassName,
-              asideControlClassName
+              setThemeClassName('asideControlClassName', id, themeCss)
             )}
           >
-            <div className={cx(`Page-asideInner`)} ref={this.asideInner}>
-              {render('aside', aside || '', {
-                ...subProps,
-                ...(typeof aside === 'string'
-                  ? {
-                      inline: false,
-                      className: `Page-asideTplWrapper`
-                    }
-                  : null)
-              })}
-            </div>
+            {render('aside', aside || '', {
+              ...subProps,
+              ...(typeof aside === 'string'
+                ? {
+                    inline: false,
+                    className: `Page-asideTplWrapper`
+                  }
+                : null)
+            })}
             {asideResizor ? (
               <div
                 onMouseDown={this.handleResizeMouseDown}
@@ -1035,7 +1037,6 @@ export default class Page extends React.Component<PageProps> {
             classNames: [
               {
                 key: 'baseControlClassName',
-                value: baseControlClassName,
                 weights: {
                   default: {
                     important: true
@@ -1049,20 +1050,19 @@ export default class Page extends React.Component<PageProps> {
                 }
               },
               {
-                key: 'bodyControlClassName',
-                value: bodyControlClassName
+                key: 'bodyControlClassName'
               },
               {
-                key: 'headerControlClassName',
-                value: headerControlClassName
+                key: 'headerControlClassName'
               },
               {
-                key: 'toolbarControlClassName',
-                value: toolbarControlClassName
+                key: 'titleControlClassName'
               },
               {
-                key: 'asideControlClassName',
-                value: asideControlClassName
+                key: 'toolbarControlClassName'
+              },
+              {
+                key: 'asideControlClassName'
               }
             ]
           }}

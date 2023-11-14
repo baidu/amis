@@ -5,7 +5,7 @@ import Transition, {
   EXITING,
   EXITED
 } from 'react-transition-group/Transition';
-import {Renderer, RendererProps} from 'amis-core';
+import {Renderer, RendererProps, setThemeClassName} from 'amis-core';
 import {resolveVariableAndFilter} from 'amis-core';
 import {
   autobind,
@@ -462,9 +462,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       id,
       wrapperCustomStyle,
       env,
-      themeCss,
-      baseControlClassName,
-      galleryControlClassName
+      themeCss
     } = this.props;
     const {options, current, nextAnimation} = this.state;
 
@@ -616,10 +614,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
           `Carousel Carousel--${controlsTheme}`,
           {['Carousel-arrow--always']: !!alwaysShowArrow},
           className,
-          baseControlClassName,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={carouselStyles}
       >
@@ -628,7 +624,10 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         {dots ? this.renderDots() : null}
         {arrows ? (
           <div
-            className={cx('Carousel-leftArrow', galleryControlClassName)}
+            className={cx(
+              'Carousel-leftArrow',
+              setThemeClassName('galleryControlClassName', id, themeCss)
+            )}
             onClick={this.prev}
           >
             {icons && icons.prev ? (
@@ -648,7 +647,10 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         ) : null}
         {arrows ? (
           <div
-            className={cx('Carousel-rightArrow', galleryControlClassName)}
+            className={cx(
+              'Carousel-rightArrow',
+              setThemeClassName('galleryControlClassName', id, themeCss)
+            )}
             onClick={this.next}
           >
             {icons && icons.next ? (
@@ -673,12 +675,10 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             themeCss,
             classNames: [
               {
-                key: 'baseControlClassName',
-                value: baseControlClassName
+                key: 'baseControlClassName'
               },
               {
                 key: 'galleryControlClassName',
-                value: galleryControlClassName,
                 weights: {
                   default: {
                     suf: ' svg',

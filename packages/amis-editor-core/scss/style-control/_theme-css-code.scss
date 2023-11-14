@@ -99,3 +99,15 @@
     }
   }
 }
+
+.cxd-ThemeCssCode-custom-editor {
+  .suggest-widget {
+    width: auto !important;
+    left: 16px !important;
+    right: 0 !important;
+
+    .monaco-sash:first-child {
+      display: none;
+    }
+  }
+}

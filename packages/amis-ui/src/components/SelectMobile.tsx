@@ -111,7 +111,8 @@ export default class SelectMobile extends React.Component<Props, SelectState> {
     let filtedOptions: Array<Option> =
       inputValue && checkAllBySearch !== false
         ? matchSorter(options, inputValue, {
-            keys: [labelField || 'label', valueField || 'value']
+            keys: [labelField || 'label', valueField || 'value'],
+            threshold: matchSorter.rankings.CONTAINS
           })
         : options.concat();
     const optionsValues = filtedOptions.map(option => option.value);
@@ -231,7 +232,8 @@ export default class SelectMobile extends React.Component<Props, SelectState> {
       let filtedOptions: Array<Option> = (
         inputValue && !loadOptions
           ? matchSorter(options, inputValue, {
-              keys: [labelField || 'label', valueField || 'value']
+              keys: [labelField || 'label', valueField || 'value'],
+              threshold: matchSorter.rankings.CONTAINS
             })
           : options.concat()
       ).filter((option: Option) => !option.hidden && option.visible !== false);
@@ -282,7 +284,8 @@ export default class SelectMobile extends React.Component<Props, SelectState> {
     let filtedOptions: Array<Option> = (
       inputValue && isOpen && !loadOptions
         ? matchSorter(options, inputValue, {
-            keys: [labelField || 'label', valueField || 'value']
+            keys: [labelField || 'label', valueField || 'value'],
+            threshold: matchSorter.rankings.CONTAINS
           })
         : options.concat()
     ).filter(

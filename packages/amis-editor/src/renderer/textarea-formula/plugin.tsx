@@ -126,8 +126,8 @@ export class FormulaPlugin {
 
         for (let index = 0; index < charArr.length; index++) {
           const char = charArr[index];
-          if (char === '$' && charArr[index + 1] === '{') {
-            cache.push('${');
+          if (char === '{') {
+            cache.push('{');
           } else if (char === '}') {
             cache.pop();
           }

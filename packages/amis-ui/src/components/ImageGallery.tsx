@@ -49,6 +49,14 @@ export interface ImageGalleryState {
   scale: number;
   /** 图片旋转角度 */
   rotate: number;
+  /**
+   * 水平位移
+   */
+  tx: number;
+  /**
+   * 垂直位移
+   */
+  ty: number;
   /** 是否开启操作栏 */
   showToolbar?: boolean;
   /** 是否显示底部图片集 */
@@ -89,6 +97,8 @@ export class ImageGallery extends React.Component<
     isOpened: false,
     index: -1,
     items: [],
+    tx: 0,
+    ty: 0,
     scale: 1,
     rotate: 0,
     showToolbar: false,
@@ -103,8 +113,10 @@ export class ImageGallery extends React.Component<
       ref.addEventListener('wheel', this.onWheelScroll, {
         passive: false
       });
+      ref.addEventListener('mousedown', this.onMouseDown);
     } else {
       this.galleryMain?.removeEventListener('wheel', this.onWheelScroll);
+      this.galleryMain?.removeEventListener('mousedown', this.onMouseDown);
     }
 
     this.galleryMain = ref;
@@ -126,6 +138,38 @@ export class ImageGallery extends React.Component<
     } else if (event.deltaY < 0) {
       this.handleToolbarAction({key: 'zoomIn'} as ImageAction);
     }
+  }
+
+  startX = 0;
+  startY = 0;
+  startTx = 0;
+  startTy = 0;
+
+  @autobind
+  onMouseDown(event: MouseEvent) {
+    this.galleryMain?.classList.add('is-dragging');
+    document.body.addEventListener('mousemove', this.onMouseMove);
+    document.body.addEventListener('mouseup', this.onMouseUp);
+
+    this.startX = event.clientX;
+    this.startY = event.clientY;
+    this.startTx = this.state.tx;
+    this.startTy = this.state.ty;
+  }
+
+  @autobind
+  onMouseMove(event: MouseEvent) {
+    this.setState({
+      tx: this.startTx + event.clientX - this.startX,
+      ty: this.startTy + event.clientY - this.startY
+    });
+  }
+
+  @autobind
+  onMouseUp() {
+    this.galleryMain?.classList.remove('is-dragging');
+    document.body.removeEventListener('mousemove', this.onMouseMove);
+    document.body.removeEventListener('mouseup', this.onMouseUp);
   }
 
   @autobind
@@ -151,6 +195,10 @@ export class ImageGallery extends React.Component<
 
     this.setState({
       isOpened: true,
+      tx: 0,
+      ty: 0,
+      rotate: 0,
+      scale: 1,
       items: info.list ? info.list : [info],
       index: info.index || 0,
       /* children组件可以控制工具栏的展示 */
@@ -207,23 +255,35 @@ export class ImageGallery extends React.Component<
 
       switch (action.key) {
         case ImageActionKey.ROTATE_LEFT:
-          this.setState(prevState => ({rotate: prevState.rotate - 90}));
+          this.setState(prevState => ({
+            rotate: prevState.rotate - 90,
+            tx: 0,
+            ty: 0
+          }));
           break;
         case ImageActionKey.ROTATE_RIGHT:
-          this.setState(prevState => ({rotate: prevState.rotate + 90}));
+          this.setState(prevState => ({
+            rotate: prevState.rotate + 90,
+            tx: 0,
+            ty: 0
+          }));
           break;
         case ImageActionKey.ZOOM_IN:
-          this.setState(prevState => ({scale: prevState.scale + 0.5}));
+          this.setState(prevState => ({
+            scale: prevState.scale + 0.5,
+            tx: 0,
+            ty: 0
+          }));
           break;
         case ImageActionKey.ZOOM_OUT:
           this.setState(prevState => {
             return prevState.scale - 0.5 > 0
-              ? {scale: prevState.scale - 0.5}
+              ? {scale: prevState.scale - 0.5, tx: 0, ty: 0}
               : null;
           });
           break;
         case ImageActionKey.SCALE_ORIGIN:
-          this.setState(() => ({scale: 1}));
+          this.setState(() => ({scale: 1, tx: 0, ty: 0}));
           break;
       }
 
@@ -280,6 +340,8 @@ export class ImageGallery extends React.Component<
       items,
       rotate,
       scale,
+      tx,
+      ty,
       showToolbar,
       enlargeWithGallary,
       actions,
@@ -295,6 +357,7 @@ export class ImageGallery extends React.Component<
 
         <Modal
           closeOnEsc
+          closeOnOutside
           size="full"
           onHide={this.close}
           show={this.state.isOpened}
@@ -319,8 +382,11 @@ export class ImageGallery extends React.Component<
                 ref={this.galleryMainRef}
               >
                 <img
+                  draggable={false}
                   src={items[index].originalSrc}
-                  style={{transform: `scale(${scale}) rotate(${rotate}deg)`}}
+                  style={{
+                    transform: `translate(${tx}px, ${ty}px) scale(${scale}) rotate(${rotate}deg)`
+                  }}
                 />
 
                 {showToolbar && Array.isArray(actions) && actions.length > 0

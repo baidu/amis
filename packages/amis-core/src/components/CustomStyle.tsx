@@ -1,7 +1,11 @@
 import {useEffect, useRef} from 'react';
 import type {RendererEnv} from '../env';
-import type {InsertCustomStyle} from '../utils/style-helper';
-import {StyleDom} from '../utils/style-helper';
+import {
+  removeCustomStyle,
+  type InsertCustomStyle,
+  insertCustomStyle,
+  insertEditCustomStyle
+} from '../utils/style-helper';
 
 interface CustomStyleProps {
   config: {
@@ -11,32 +15,69 @@ interface CustomStyleProps {
   env: RendererEnv;
 }
 
+export const styleIdCount = new Map();
+
 export default function (props: CustomStyleProps) {
-  const {themeCss, classNames, id, defaultData, wrapperCustomStyle} =
-    props.config;
+  const {config, env} = props;
+  const {themeCss, classNames, id, defaultData, wrapperCustomStyle} = config;
   if (!themeCss && !wrapperCustomStyle) {
     return null;
   }
-  const styleDom = useRef(new StyleDom(id || '')).current;
 
   useEffect(() => {
-    styleDom.insertCustomStyle({
-      themeCss,
-      classNames,
-      defaultData,
-      customStyleClassPrefix: props.env?.customStyleClassPrefix
-    });
+    if (styleIdCount.has(id)) {
+      styleIdCount.set(id, styleIdCount.get(id) + 1);
+    } else if (id) {
+      styleIdCount.set(id, 1);
+    }
     return () => {
-      styleDom.removeCustomStyle();
+      if (styleIdCount.has(id)) {
+        styleIdCount.set(id, styleIdCount.get(id) - 1);
+        if (styleIdCount.get(id) === 0) {
+          styleIdCount.delete(id);
+        }
+      }
     };
-  }, [props.config.themeCss]);
+  }, [id]);
 
   useEffect(() => {
-    styleDom.insertEditCustomStyle(wrapperCustomStyle);
+    if (themeCss && id) {
+      insertCustomStyle(
+        themeCss,
+        classNames,
+        id,
+        defaultData,
+        env?.customStyleClassPrefix,
+        env.getModalContainer?.()?.ownerDocument
+      );
+    }
+
     return () => {
-      styleDom.removeCustomStyle('wrapperCustomStyle');
+      if (id && !styleIdCount.get(id)) {
+        removeCustomStyle('', id, env.getModalContainer?.()?.ownerDocument);
+      }
     };
-  }, [props.config.wrapperCustomStyle]);
+  }, [themeCss, id]);
+
+  useEffect(() => {
+    if (wrapperCustomStyle && id) {
+      insertEditCustomStyle(
+        wrapperCustomStyle,
+        id,
+        env.getModalContainer?.()?.ownerDocument
+      );
+    }
+
+    return () => {
+      if (id && !styleIdCount.get(id)) {
+        removeCustomStyle(
+          'wrapperCustomStyle',
+          id,
+          env.getModalContainer?.()?.ownerDocument
+        );
+      }
+    };
+  }, [wrapperCustomStyle, id]);
 
   return null;
 }

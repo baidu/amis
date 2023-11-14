@@ -31,13 +31,19 @@ test('lexer:simple', () => {
 test('lexer:filter', () => {
   expect(
     getTokens('\\$abc is ${abc | date: YYYY-MM-DD HH\\:mm\\:ss}', {
-      evalMode: false
+      evalMode: false,
+      filters: {
+        date() {}
+      }
     })
   ).toMatchSnapshot();
 
   expect(
     getTokens('\\$abc is ${abc | isTrue : trueValue : falseValue}', {
-      evalMode: false
+      evalMode: false,
+      filters: {
+        isTrue() {}
+      }
     })
   ).toMatchSnapshot();
 });
@@ -55,7 +61,10 @@ test('lexer:exception', () => {
 
   expect(() =>
     getTokens('${a | filter: \\x2}', {
-      evalMode: false
+      evalMode: false,
+      filters: {
+        filter() {}
+      }
     })
   ).toThrow('Unexpected token x in 1:17');
 });

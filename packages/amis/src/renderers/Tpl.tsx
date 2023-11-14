@@ -4,7 +4,8 @@ import {
   createObject,
   Renderer,
   RendererProps,
-  CustomStyle
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {filter, asyncFilter} from 'amis-core';
 import isEmpty from 'lodash/isEmpty';
@@ -199,8 +200,7 @@ export class Tpl extends React.Component<TplProps, TplState> {
       id,
       wrapperCustomStyle,
       env,
-      themeCss,
-      baseControlClassName
+      themeCss
     } = this.props;
     const Component = wrapperComponent || (inline ? 'span' : 'div');
     const {content} = this.state;
@@ -218,10 +218,8 @@ export class Tpl extends React.Component<TplProps, TplState> {
         className={cx(
           'TplField',
           className,
-          baseControlClassName,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={buildStyle(style, data)}
         {...(showNativeTitle ? {title: this.getTitle(content)} : {})}
@@ -241,8 +239,7 @@ export class Tpl extends React.Component<TplProps, TplState> {
             themeCss,
             classNames: [
               {
-                key: 'baseControlClassName',
-                value: baseControlClassName
+                key: 'baseControlClassName'
               }
             ]
           }}

@@ -254,7 +254,7 @@ order: 14
 
 可以通过 `disabledDate` 字符函数来控制，比如不允许选择周一、周六、周日
 
-函数签名: `(currentDate: moment.Moment, props: any) => boolean`  
+函数签名: `(currentDate: moment.Moment, props: any) => boolean`
 示例： `"return currentDate.day() == 1 || currentDate.day() == 0 || currentDate.day() == 6"`
 
 ```schema: scope="body"

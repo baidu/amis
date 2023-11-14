@@ -579,14 +579,17 @@ setSchemaTpl(
     classname?: string;
     title?: string;
     hiddenOn?: string;
+    hidePaddingAndMargin?: boolean;
   }) => {
     const {
       collapsed = false,
       extra = [],
       classname = 'baseControlClassName',
       title = '基本样式',
-      hiddenOn
+      hiddenOn,
+      hidePaddingAndMargin
     } = option;
+    const curHidePaddingAndMargin = hidePaddingAndMargin ?? false;
     const styleStateFunc = (visibleOn: string, state: string) => {
       return [
         getSchemaTpl('theme:border', {
@@ -597,10 +600,12 @@ setSchemaTpl(
           visibleOn: visibleOn,
           name: `themeCss.${classname}.radius:${state}`
         }),
-        getSchemaTpl('theme:paddingAndMargin', {
-          visibleOn: visibleOn,
-          name: `themeCss.${classname}.padding-and-margin:${state}`
-        }),
+        !curHidePaddingAndMargin
+          ? getSchemaTpl('theme:paddingAndMargin', {
+              visibleOn: visibleOn,
+              name: `themeCss.${classname}.padding-and-margin:${state}`
+            })
+          : null,
         getSchemaTpl('theme:colorPicker', {
           visibleOn: visibleOn,
           name: `themeCss.${classname}.background:${state}`,
@@ -614,15 +619,17 @@ setSchemaTpl(
           visibleOn: visibleOn,
           name: `themeCss.${classname}.boxShadow:${state}`
         })
-      ].concat(
-        extra.map(item => {
-          return {
-            ...item,
-            visibleOn: visibleOn,
-            name: `themeCss.${classname}.${item.name}:${state}`
-          };
-        })
-      );
+      ]
+        .filter(item => item)
+        .concat(
+          extra.map(item => {
+            return {
+              ...item,
+              visibleOn: visibleOn,
+              name: `${item.name}:${state}`
+            };
+          })
+        );
     };
     const styles = [
       {
@@ -672,6 +679,7 @@ setSchemaTpl(
     layoutExtra?: any[];
     classname?: string;
     baseTitle?: string;
+    hidePaddingAndMargin?: boolean;
   }) => {
     let {
       exclude,
@@ -680,7 +688,8 @@ setSchemaTpl(
       baseExtra,
       layoutExtra,
       classname,
-      baseTitle
+      baseTitle,
+      hidePaddingAndMargin
     } = option || {};
 
     const curCollapsed = collapsed ?? false; // 默认都展开
@@ -708,7 +717,8 @@ setSchemaTpl(
         collapsed: curCollapsed,
         extra: baseExtra,
         classname,
-        title: baseTitle
+        title: baseTitle,
+        hidePaddingAndMargin
       }),
       ...extra,
       {

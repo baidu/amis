@@ -326,7 +326,10 @@ export default class IconSelectControl extends React.PureComponent<
     const inputValue = this.state.searchValue;
 
     const filteredIcons = inputValue
-      ? matchSorter(icons, inputValue, {keys: ['name']})
+      ? matchSorter(icons, inputValue, {
+          keys: ['name'],
+          threshold: matchSorter.rankings.CONTAINS
+        })
       : icons;
     return (
       <>

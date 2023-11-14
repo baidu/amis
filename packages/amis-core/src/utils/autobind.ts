@@ -1,10 +1,10 @@
 const {defineProperty, getPrototypeOf} = Object;
 
 // 简写
-type Fn = Function
+type Fn = Function;
 // FIXME 正确写法，但过不了检查，暂时使用 any 兼容
 // type SuperStore = WeakMap<Fn, Fn>
-type SuperStore = WeakMap<Fn, any>
+type SuperStore = WeakMap<Fn, any>;
 
 export function bind(fn: Fn, thisArg: any): Fn {
   if (fn.bind) {

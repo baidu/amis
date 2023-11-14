@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import VisibilitySensor from 'react-visibility-sensor';
+import {InView} from 'react-intersection-observer';
 
 export interface LazyComponentProps {
   component?: React.ElementType;
@@ -13,7 +13,6 @@ export interface LazyComponentProps {
   placeholder?: React.ReactNode;
   unMountOnHidden?: boolean;
   childProps?: object;
-  visiblilityProps?: object;
   [propName: string]: any;
 }
 
@@ -56,7 +55,7 @@ export default class LazyComponent extends React.Component<
     this.mounted = false;
   }
 
-  handleVisibleChange(visible: boolean) {
+  handleVisibleChange(visible: boolean, entry?: any) {
     this.setState({
       visible: visible
     });
@@ -91,7 +90,6 @@ export default class LazyComponent extends React.Component<
       placeholder,
       unMountOnHidden,
       childProps,
-      visiblilityProps,
       partialVisibility,
       children,
       ...rest
@@ -102,33 +100,42 @@ export default class LazyComponent extends React.Component<
     // 需要监听从可见到不可见。
     if (unMountOnHidden) {
       return (
-        <VisibilitySensor
-          {...visiblilityProps}
-          partialVisibility={partialVisibility}
+        <InView
           onChange={this.handleVisibleChange}
+          threshold={partialVisibility ? 0 : 1}
         >
-          <div className="visibility-sensor">
-            {Component && visible ? (
-              <Component {...rest} {...childProps} />
-            ) : children && visible ? (
-              children
-            ) : (
-              placeholder
-            )}
-          </div>
-        </VisibilitySensor>
+          {({ref}) => {
+            return (
+              <div
+                ref={ref}
+                className={`visibility-sensor ${visible ? 'in' : ''}`}
+              >
+                {Component && visible ? (
+                  <Component {...rest} {...childProps} />
+                ) : children && visible ? (
+                  children
+                ) : (
+                  placeholder
+                )}
+              </div>
+            );
+          }}
+        </InView>
       );
     }
 
     if (!visible) {
       return (
-        <VisibilitySensor
-          {...visiblilityProps}
-          partialVisibility={partialVisibility}
+        <InView
           onChange={this.handleVisibleChange}
+          threshold={partialVisibility ? 0 : 1}
         >
-          <div className="visibility-sensor">{placeholder}</div>
-        </VisibilitySensor>
+          {({ref}) => (
+            <div ref={ref} className="visibility-sensor">
+              {placeholder}
+            </div>
+          )}
+        </InView>
       );
     } else if (Component) {
       // 只监听不可见到可见，一旦可见了，就销毁检查。

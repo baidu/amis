@@ -4,7 +4,7 @@ import cx from 'classnames';
 import FormulaEditor from 'amis-ui/lib/components/formula/Editor';
 
 export interface FormulaPickerProps {
-  onConfirm: (data: string) => void;
+  onConfirm: (data: string | undefined) => void;
   onClose: () => void;
   variables: any[];
   value?: string;
@@ -23,10 +23,10 @@ export interface CustomFormulaPickerProps extends FormulaPickerProps {
 
 const FormulaPicker: React.FC<FormulaPickerProps> = props => {
   const {variables, variableMode, evalMode = true} = props;
-  const [formula, setFormula] = React.useState('');
+  const [formula, setFormula] = React.useState<string | undefined>(undefined);
   useEffect(() => {
     const {initable, value} = props;
-    if (initable && value) {
+    if (initable) {
       setFormula(value);
     }
   }, [props.value]);

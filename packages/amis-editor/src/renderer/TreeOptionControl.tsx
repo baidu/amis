@@ -80,13 +80,12 @@ export default class TreeOptionControl extends React.Component<
   }
 
   transformOptions(props: OptionControlProps) {
-    const {
-      data: {options}
-    } = props;
-    if (!options || !options.length) {
+    const {value} = props;
+
+    if (!value || !Array.isArray(value) || !value.length) {
       return [{...defaultOption}];
     }
-    return options;
+    return value;
   }
 
   /**
@@ -231,10 +230,12 @@ export default class TreeOptionControl extends React.Component<
   @autobind
   handleDelete(pathStr: string, index: number) {
     const options = cloneDeep(this.state.options);
-    if (options.length === 1) {
-      toast.warning('至少保留一个节点', {closeButton: true});
+
+    if (!pathStr.includes('-') && options.length === 1) {
+      toast.warning('至少保留一个根节点', {closeButton: true});
       return;
     }
+
     const path = pathStr.split('-');
     if (path.length === 1) {
       options.splice(index, 1);

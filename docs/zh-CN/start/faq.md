@@ -8,7 +8,7 @@ title: 常见问题
 
 ## CRUD 顶部有重叠遮挡
 
-在初始化 amis 渲染器的时候设置 `affixOffsetTop`，或者通过 `"affixHeader": false` 关闭固定顶部功能。
+在初始化 amis 渲染器的时候设置 `--affix-offset-top` css 变量设置成合适的值，或者通过 `"affixHeader": false` 关闭固定顶部功能。
 
 ## 如何换行
 

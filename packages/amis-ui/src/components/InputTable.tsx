@@ -330,7 +330,7 @@ export interface InputTableRowProps {
   formRef: (form: UseFormReturn | null, id: string) => void;
 }
 
-export function InputTableRow({
+export const InputTableRow = React.memo(function InputTableRow({
   value,
   columns,
   index,
@@ -363,6 +363,6 @@ export function InputTableRow({
       ))}
     </>
   );
-}
+});
 
 export default themeable(localeable(InputTable));

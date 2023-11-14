@@ -53,6 +53,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-right: var(--gap-xs);
 
         & > button {
           color: #151b26;
@@ -159,5 +160,15 @@
 .ae-CRUDConfigControl-modal {
   &-btn-loading {
     --Spinner-color: #fff;
+  }
+}
+
+.ae-FieldSetting-footer {
+  position: absolute;
+  right: 0;
+  bottom: 35px;
+
+  &--form {
+    bottom: 55px;
   }
 }

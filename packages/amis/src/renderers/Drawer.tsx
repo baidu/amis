@@ -1,5 +1,12 @@
 import React from 'react';
-import {ScopedContext, IScopedContext, filterTarget} from 'amis-core';
+import {
+  ScopedContext,
+  IScopedContext,
+  filterTarget,
+  isPureVariable,
+  resolveVariableAndFilter,
+  setThemeClassName
+} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {Drawer as DrawerContainer, SpinnerExtraProps} from 'amis-ui';
@@ -15,7 +22,7 @@ import {findDOMNode} from 'react-dom';
 import {IModalStore, ModalStore} from 'amis-core';
 import {filter} from 'amis-core';
 import {Spinner} from 'amis-ui';
-import {IServiceStore} from 'amis-core';
+import {IServiceStore, CustomStyle} from 'amis-core';
 import {
   BaseSchema,
   SchemaClassName,
@@ -465,8 +472,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       onInit: this.handleFormInit,
       onSaved: this.handleFormSaved,
       onActionSensor: this.handleActionSensor,
-      syncLocation: false,
-      affixOffsetTop: 0
+      syncLocation: false
     };
 
     if (schema.type === 'form') {
@@ -483,8 +489,8 @@ export default class Drawer extends React.Component<DrawerProps> {
 
   renderFooter() {
     const actions = this.buildActions();
-
-    if (!actions || !actions.length) {
+    let {hideActions} = this.props;
+    if (!actions || !actions.length || hideActions) {
       return null;
     }
 
@@ -493,11 +499,19 @@ export default class Drawer extends React.Component<DrawerProps> {
       render,
       classnames: cx,
       showErrorMsg,
-      footerClassName
+      footerClassName,
+      id,
+      themeCss
     } = this.props;
 
     return (
-      <div className={cx('Drawer-footer', footerClassName)}>
+      <div
+        className={cx(
+          'Drawer-footer',
+          footerClassName,
+          setThemeClassName('drawerFooterClassName', id, themeCss)
+        )}
+      >
         {store.loading || store.error ? (
           <div className={cx('Drawer-info')}>
             <Spinner size="sm" key="info" show={store.loading} />
@@ -564,7 +578,10 @@ export default class Drawer extends React.Component<DrawerProps> {
       classnames: cx,
       drawerContainer,
       loadingConfig,
-      popOverContainer
+      popOverContainer,
+      themeCss,
+      id,
+      ...rest
     } = {
       ...this.props,
       ...store.schema
@@ -574,10 +591,17 @@ export default class Drawer extends React.Component<DrawerProps> {
 
     return (
       <Container
+        {...rest}
         resizable={resizable}
         classPrefix={ns}
         className={className}
         style={style}
+        drawerClassName={setThemeClassName('drawerClassName', id, themeCss)}
+        drawerMaskClassName={setThemeClassName(
+          'drawerMaskClassName',
+          id,
+          themeCss
+        )}
         size={size}
         onHide={this.handleSelfClose}
         disabled={store.loading}
@@ -595,9 +619,20 @@ export default class Drawer extends React.Component<DrawerProps> {
         }
         container={drawerContainer ? drawerContainer : env?.getModalContainer}
       >
-        <div className={cx('Drawer-header', headerClassName)}>
+        <div
+          className={cx(
+            'Drawer-header',
+            headerClassName,
+            setThemeClassName('drawerHeaderClassName', id, themeCss)
+          )}
+        >
           {title ? (
-            <div className={cx('Drawer-title')}>
+            <div
+              className={cx(
+                'Drawer-title',
+                setThemeClassName('drawerTitleClassName', id, themeCss)
+              )}
+            >
               {render('title', title, {
                 data: store.formData,
                 onConfirm: this.handleDrawerConfirm,
@@ -617,13 +652,53 @@ export default class Drawer extends React.Component<DrawerProps> {
         </div>
 
         {!store.entered ? (
-          <div className={cx('Drawer-body', bodyClassName)}>
+          <div
+            className={cx(
+              'Drawer-body',
+              bodyClassName,
+              setThemeClassName('drawerBodyClassName', id, themeCss)
+            )}
+          >
             <Spinner overlay show size="lg" loadingConfig={loadingConfig} />
           </div>
         ) : body ? (
           // dialog-body 用于在 editor 中定位元素
-          <div className={cx('Drawer-body', bodyClassName)} role="dialog-body">
+          <div
+            className={cx(
+              'Drawer-body',
+              bodyClassName,
+              setThemeClassName('drawerBodyClassName', id, themeCss)
+            )}
+            role="dialog-body"
+          >
             {this.renderBody(body, 'body')}
+            <CustomStyle
+              config={{
+                themeCss: themeCss,
+                classNames: [
+                  {
+                    key: 'drawerClassName'
+                  },
+                  {
+                    key: 'drawerMaskClassName'
+                  },
+                  {
+                    key: 'drawerHeaderClassName'
+                  },
+                  {
+                    key: 'drawerTitleClassName'
+                  },
+                  {
+                    key: 'drawerBodyClassName'
+                  },
+                  {
+                    key: 'drawerFooterClassName'
+                  }
+                ],
+                id: id
+              }}
+              env={env}
+            />
           </div>
         ) : null}
 
@@ -796,9 +871,8 @@ export class DrawerRenderer extends Drawer {
     const {onClose, onAction, store, env, dispatchEvent} = this.props;
 
     if (action.from === this.$$id) {
-      return onAction
-        ? onAction(e, action, data, throwErrors, delegate || this.context)
-        : false;
+      // 可能是孩子又派送回来到自己了，这时候就不要处理了。
+      return;
     }
 
     const scoped = this.context as IScopedContext;
@@ -864,7 +938,7 @@ export class DrawerRenderer extends Drawer {
 
           const redirect =
             action.redirect && filter(action.redirect, store.data);
-          redirect && env.jumpTo(redirect, action);
+          redirect && env.jumpTo(redirect, action, store.data);
           action.reload &&
             this.reloadTarget(
               filterTarget(action.reload, store.data),

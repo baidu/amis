@@ -68,7 +68,8 @@ class DropDownSelection extends BaseSelection<
         return !!(
           (Array.isArray(option.children) && option.children.length) ||
           !!matchSorter([option].concat(paths), text, {
-            keys: [labelField || 'label', valueField || 'value']
+            keys: [labelField || 'label', valueField || 'value'],
+            threshold: matchSorter.rankings.CONTAINS
           }).length
         );
       },

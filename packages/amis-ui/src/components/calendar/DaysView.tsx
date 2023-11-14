@@ -19,8 +19,10 @@ import type {RendererEnv} from 'amis-core';
 import Picker from '../Picker';
 import {PickerOption} from '../PickerColumn';
 import {DateType} from './Calendar';
-import type {TimeScale} from './TimeView';
 import {Icon} from '../icons';
+
+import type {TimeScale} from './TimeView';
+import type {ViewMode} from './Calendar';
 
 interface CustomDaysViewProps extends LocaleProps {
   classPrefix?: string;
@@ -37,7 +39,10 @@ interface CustomDaysViewProps extends LocaleProps {
   isEndDate?: boolean;
   renderDay?: Function;
   onClose?: () => void;
-  onChange: (value: moment.Moment) => void;
+  onChange: (
+    value: moment.Moment,
+    viewMode?: Extract<ViewMode, 'time'>
+  ) => void;
   onConfirm?: (value: number[], types: DateType[]) => void;
   setDateTimeState: (state: any) => void;
   showTime: () => void;
@@ -294,6 +299,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
 
   showTime = () => {
     const {selectedDate, viewDate, timeFormat} = this.props;
+
     return (
       <div key="stb" className="rdtShowTime">
         {(selectedDate || viewDate || moment()).format(timeFormat)}
@@ -306,15 +312,16 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     value: number
   ) => {
     const date = (this.props.selectedDate || this.props.viewDate).clone();
-    date[type](value);
 
+    date[type](value);
+    const updatedDate = date.clone();
     this.props.setDateTimeState({
-      viewDate: date.clone(),
-      selectedDate: date.clone()
+      viewDate: updatedDate,
+      selectedDate: updatedDate
     });
 
     if (!this.props.requiredConfirm) {
-      this.props.onChange(date);
+      this.props.onChange(date, 'time');
     }
   };
 

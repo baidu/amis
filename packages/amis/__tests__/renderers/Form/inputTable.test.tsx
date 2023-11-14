@@ -540,3 +540,110 @@ test('Renderer:input-table doaction:additem', async () => {
     ]
   });
 });
+
+test('Renderer:input-table init display', async () => {
+  const onSubmit = jest.fn();
+  const {container, findByRole, findByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        body: [
+          {
+            type: 'input-number',
+            name: 'aaa',
+            label: '数字',
+            id: 'u:2cf54f983323',
+            keyboard: true
+          },
+          {
+            addable: false,
+            footerAddBtn: {
+              icon: 'fa fa-plus',
+              label: '新增'
+            },
+            columns: [
+              {
+                quickEdit: {
+                  name: 'name',
+                  id: 'u:0d991cdb83f7',
+                  type: 'input-text'
+                },
+                name: 'name',
+                id: 'u:c03a3961b816',
+                label: '名称'
+              },
+              {
+                quickEdit: {
+                  name: 'score',
+                  id: 'u:fdd06fcb43ea',
+                  type: 'input-number',
+                  showSteps: false
+                },
+                name: 'score',
+                id: 'u:5cf9b284569d',
+                label: '分数'
+              },
+              {
+                quickEdit: false,
+                name: 'score',
+                id: 'u:8b9930874658',
+                label: '分数(不在quickEdit里面)',
+                type: 'input-number',
+                showSteps: false
+              },
+              {
+                quickEdit: {
+                  name: 'level',
+                  id: 'u:69f5cbdadbb0',
+                  type: 'input-number',
+                  showSteps: false
+                },
+                name: 'level',
+                id: 'u:3bd7b1d50f2d',
+                label: '等级'
+              }
+            ],
+            minLength: 0,
+            strictMode: true,
+            needConfirm: false,
+            name: 'tableList',
+            id: 'u:bda697db0d7e',
+            label: '表格表单',
+            type: 'input-table'
+          }
+        ],
+        id: 'u:1affe4fb299e',
+        actions: [
+          {
+            type: 'submit',
+            label: '提交',
+            primary: true,
+            id: 'u:6cde77348a96'
+          }
+        ],
+        data: {
+          aaa: 0,
+          tableList: [
+            {
+              score: 234,
+              level: 1,
+              name: 'AAA'
+            },
+            {
+              score: 0,
+              level: 0,
+              name: 'BBB'
+            }
+          ]
+        },
+        title: '表单'
+      },
+      {onSubmit},
+      makeEnv({})
+    )
+  );
+
+  await wait(200);
+  replaceReactAriaIds(container);
+  expect(container).toMatchSnapshot();
+});

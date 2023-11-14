@@ -101,7 +101,6 @@ exports[`1. Renderer:Picker base 1`] = `
           >
             <div
               class="cxd-List-fixedTop"
-              style="top: 0px;"
             />
             <div
               class="cxd-List-items"

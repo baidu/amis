@@ -7,7 +7,8 @@ import {
   FormBaseControl,
   resolveEventData,
   ApiObject,
-  FormHorizontal
+  FormHorizontal,
+  evalExpressionWithConditionBuilder
 } from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
@@ -274,6 +275,7 @@ export interface ComboControlSchema extends FormBaseControlSchema {
      */
     maxLengthValidateFailed?: string;
   };
+  updatePristineAfterStoreDataReInit?: boolean;
 }
 
 export type ComboRendererEvent = 'add' | 'delete' | 'tabsChange';
@@ -516,12 +518,12 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     let value = this.getValueAsArray();
 
-    this.keys.push(guid());
-
     if (addattop === true) {
+      this.keys.unshift(guid());
       value.unshift(itemValue);
     } else {
       value.push(itemValue);
+      this.keys.push(guid());
     }
 
     if (flat && joinValues) {
@@ -576,6 +578,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
 
     if (addattop === true) {
+      this.keys.unshift(this.keys.pop()!);
       value.unshift(value.pop());
     }
 
@@ -627,6 +630,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
 
     if (addattop === true) {
+      this.keys.unshift(this.keys.pop()!);
       value.unshift(value.pop());
     }
 
@@ -682,16 +686,17 @@ export default class ComboControl extends React.Component<ComboProps> {
       const result = await env.fetcher(deleteApi as Api, ctx);
 
       if (!result.ok) {
-        env.notify(
-          'error',
-          (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
-        );
+        !(deleteApi as ApiObject)?.silent &&
+          env.notify(
+            'error',
+            (deleteApi as ApiObject)?.messages?.failed ?? __('deleteFailed')
+          );
         return;
       }
     }
 
-    value.splice(key, 1);
     this.keys.splice(key, 1);
+    value.splice(key, 1);
 
     if (flat && joinValues) {
       value = value.join(delimiter || ',');
@@ -1177,7 +1182,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         activeKey={store.activeKey}
         onSelect={this.handleTabSelect}
         additionBtns={
-          !disabled ? (
+          !disabled && addable !== false && store.addable ? (
             <li className={cx(`Tabs-link ComboTabs-addLink`)}>
               {this.renderAddBtn()}
             </li>
@@ -1231,6 +1236,10 @@ export default class ComboControl extends React.Component<ComboProps> {
             Array.isArray(finnalControls) &&
             finnalControls.some((item: any) => item.unique);
 
+          if (!this.keys[index]) {
+            this.keys.splice(index, 0, guid());
+          }
+
           return (
             <Tab
               title={filter(
@@ -1238,7 +1247,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   __('{{index}}', {index: (data as any).index + 1}),
                 data
               )}
-              key={this.keys[index] || (this.keys[index] = guid())}
+              key={this.keys[index]}
               toolbar={toolbar}
               eventKey={index}
               // 不能按需渲染，因为 unique 会失效。
@@ -1528,10 +1537,14 @@ export default class ComboControl extends React.Component<ComboProps> {
                     ]
                   : items;
 
+              if (!this.keys[index]) {
+                this.keys.splice(index, 1, guid());
+              }
+
               return (
                 <div
                   className={cx(`Combo-item`, itemClassName)}
-                  key={this.keys[index] || (this.keys[index] = guid())}
+                  key={this.keys[index]}
                 >
                   {!isStatic && !disabled && draggable && thelist.length > 1 ? (
                     <div className={cx('Combo-itemDrager')}>
@@ -1684,7 +1697,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       changeImmediately,
       lazyLoad,
       translate: __,
-      static: isStatic
+      static: isStatic,
+      updatePristineAfterStoreDataReInit
     } = this.props;
 
     // 单个
@@ -1708,7 +1722,9 @@ export default class ComboControl extends React.Component<ComboProps> {
           ref: this.makeFormRef(0),
           onInit: this.handleSingleFormInit,
           canAccessSuperData,
-          formStore: undefined
+          formStore: undefined,
+          updatePristineAfterStoreDataReInit:
+            updatePristineAfterStoreDataReInit ?? false
         }
       );
     } else if (multiple && index !== undefined && index >= 0) {
@@ -1739,7 +1755,9 @@ export default class ComboControl extends React.Component<ComboProps> {
           value: undefined,
           formItemValue: undefined,
           formStore: undefined,
-          ...(tabsMode ? {} : {lazyLoad})
+          ...(tabsMode ? {} : {lazyLoad}),
+          updatePristineAfterStoreDataReInit:
+            updatePristineAfterStoreDataReInit ?? false
         }
       );
     }
@@ -1802,13 +1820,37 @@ export default class ComboControl extends React.Component<ComboProps> {
 })
 export class ComboControlRenderer extends ComboControl {
   // 支持更新指定索引的值
-  setData(value: any, replace?: boolean, index?: number) {
+  async setData(
+    value: any,
+    replace?: boolean,
+    index?: number | string,
+    condition?: any
+  ) {
     const {multiple, onChange, submitOnChange} = this.props;
     if (multiple) {
-      if (index !== undefined && ~index) {
-        let newValue = [...this.getValueAsArray()];
-        newValue.splice(index, 1, {...newValue[index], ...value});
-        onChange?.(newValue, submitOnChange, true);
+      let items = [...this.getValueAsArray()];
+      const len = items.length;
+      if (index !== undefined) {
+        const indexs = String(index).split(',');
+        indexs.forEach(i => {
+          const intIndex = Number(i);
+          items.splice(intIndex, 1, {...items[intIndex], ...value}); // 默认merge
+        });
+        onChange?.(items, submitOnChange, true);
+      } else if (condition !== undefined) {
+        for (let i = 0; i < len; i++) {
+          const item = items[i];
+          const isUpdate = await evalExpressionWithConditionBuilder(
+            condition,
+            item
+          );
+
+          if (isUpdate) {
+            items.splice(i, 1, {...items[i], ...value}); // 默认merge
+          }
+        }
+
+        onChange?.(items, submitOnChange, true);
       } else {
         onChange?.(value, submitOnChange, true);
       }

@@ -11,8 +11,14 @@ import {Button} from 'amis';
 
 export default class ActionConfigPanel extends React.Component<RendererProps> {
   render() {
-    const {data, onBulkChange, render, pluginActions, actionConfigItemsMap} =
-      this.props;
+    const {
+      data,
+      onBulkChange,
+      render,
+      pluginActions,
+      actionConfigItemsMap,
+      manager
+    } = this.props;
     const actionType = data.__subActions ? data.groupType : data.actionType;
     const commonActionConfig = {
       ...COMMON_ACTION_SCHEMA_MAP,
@@ -26,7 +32,13 @@ export default class ActionConfigPanel extends React.Component<RendererProps> {
         pluginActions?.[data.__rendererName]?.find(
           (item: RendererPluginAction) => item.actionType === data.groupType
         )?.schema ?? commonActionConfig[data.groupType]?.schema;
-      const baseSchema = renderCmptActionSelect('选择组件', true);
+      const baseSchema = renderCmptActionSelect(
+        '选择组件',
+        true,
+        () => {},
+        data.componentId === 'customCmptId' ? true : false,
+        manager
+      );
       // 追加到基础配置
       schema = [
         ...(Array.isArray(baseSchema) ? baseSchema : [baseSchema]),

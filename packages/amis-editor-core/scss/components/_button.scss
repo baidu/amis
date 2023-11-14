@@ -1,5 +1,10 @@
 .ae-ButtonLevel-MenuTpl {
-  height: 40px;
+  height: 32px;
   display: flex;
   align-items: center;
+  button {
+    width: 100%;
+    height: 26px;
+    padding: 0;
+  }
 }

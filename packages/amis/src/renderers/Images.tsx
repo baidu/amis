@@ -1,5 +1,10 @@
 import React from 'react';
-import {Renderer, RendererProps, CustomStyle} from 'amis-core';
+import {
+  Renderer,
+  RendererProps,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
 import {filter} from 'amis-core';
 import {
   resolveVariable,
@@ -227,10 +232,8 @@ export class ImagesField extends React.Component<ImagesProps> {
         className={cx(
           'ImagesField',
           className,
-          imagesControlClassName,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('imagesControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={style}
       >
@@ -258,11 +261,15 @@ export class ImagesField extends React.Component<ImagesProps> {
                 enlargeWithGallary={enlargeWithGallary}
                 onEnlarge={this.handleEnlarge}
                 showToolbar={showToolbar}
-                imageGallaryClassName={
-                  galleryControlClassName
-                    ? imageGallaryClassName + ' ' + galleryControlClassName
-                    : imageGallaryClassName
-                }
+                imageGallaryClassName={`${imageGallaryClassName} ${setThemeClassName(
+                  'imageGallaryClassName',
+                  id,
+                  themeCss
+                )} ${setThemeClassName(
+                  'galleryControlClassName',
+                  id,
+                  themeCss
+                )}`}
                 toolbarActions={toolbarActions}
               />
             ))}
@@ -286,12 +293,10 @@ export class ImagesField extends React.Component<ImagesProps> {
             themeCss,
             classNames: [
               {
-                key: 'imagesControlClassName',
-                value: imagesControlClassName
+                key: 'imagesControlClassName'
               },
               {
-                key: 'galleryControlClassName',
-                value: galleryControlClassName
+                key: 'galleryControlClassName'
               }
             ]
           }}

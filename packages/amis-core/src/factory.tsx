@@ -224,8 +224,6 @@ export function loadRenderer(schema: Schema, path: string) {
 
 export const defaultOptions: RenderOptions = {
   session: 'global',
-  affixOffsetTop: 0,
-  affixOffsetBottom: 0,
   richTextToken: '',
   useMobileUI: true, // 是否启用移动端原生 UI
   enableAMISDebug:

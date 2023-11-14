@@ -7,7 +7,8 @@ import {
   buildStyle,
   isPureVariable,
   resolveVariableAndFilter,
-  CustomStyle
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {DndContainer as DndWrapper} from 'amis-ui';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
@@ -213,10 +214,8 @@ export default class Container<T> extends React.Component<
           'Container',
           size && size !== 'none' ? `Container--${size}` : '',
           className,
-          baseControlClassName,
-          wrapperCustomStyle
-            ? `wrapperCustomStyle-${id?.replace('u:', '')}`
-            : ''
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
@@ -231,8 +230,7 @@ export default class Container<T> extends React.Component<
             themeCss,
             classNames: [
               {
-                key: 'baseControlClassName',
-                value: baseControlClassName
+                key: 'baseControlClassName'
               }
             ]
           }}

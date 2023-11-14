@@ -1645,7 +1645,7 @@
   --Form-description-fontWeight: var(--fonts-weight-6);
   --Form-description-lineHeight: var(--fonts-lineHeight-2);
   --Form-description-gap: var(--sizes-size-3);
-  --Form-item-onError-color: var(--colors-error-5);
+  --Form-item-onError-color: var(--colors-neutral-text-4);
   --Form-item-onError-borderColor: var(--colors-error-5);
   --Form-item-onError-bg: var(--colors-neutral-fill-11);
   --Form-feedBack-color: var(--colors-error-5);
@@ -2545,6 +2545,14 @@
   --Divider-marginLeft: var(--sizes-size-0);
   --Divider-marginRight: var(--sizes-size-0);
   --Divider-marginBottom: var(--sizes-size-7);
+  --Divider-text-width: 5%;
+  --Divider-text-fontSize: var(--fonts-size-7);
+  --Divider-text-fontWeight: var(--fonts-weight-6);
+  --Divider-text-color: var(--colors-neutral-text-2);
+  --Divider-text-marginTop: var(--sizes-size-0);
+  --Divider-text-marginLeft: var(--sizes-size-9);
+  --Divider-text-marginRight: var(--sizes-size-9);
+  --Divider-text-marginBottom: var(--sizes-size-0);
 
   --inputFile-base-des-color: var(--colors-neutral-text-2);
   --inputFile-base-des-fontSize: var(--fonts-size-7);
@@ -3501,7 +3509,7 @@
   --Toast--danger-bottom-left-border-radius: var(--borders-radius-3);
   --Toast--danger-bgColor: var(--colors-neutral-fill-11);
   --Toast--info-color: var(--colors-neutral-text-2);
-  --Toast--info-fontSize: var(--fonts-size-7);
+  --Toast--info-fontSize: var(--fonts-size-8);
   --Toast--info-fontWeight: var(--fonts-weight-6);
   --Toast--info-top-border-color: var(--colors-neutral-line-11);
   --Toast--info-top-border-width: var(--borders-width-2);
@@ -3517,7 +3525,6 @@
   --Toast--info-left-border-style: var(--borders-style-2);
   --Toast--info-bgColor: var(--colors-neutral-fill-11);
   --Toast--success-color: var(--colors-neutral-text-2);
-  --Toast--success-fontSize: var(--fonts-weight-6);
   --Toast--success-fontWeight: var(--fonts-weight-6);
   --Toast--success-fontSize: var(--fonts-size-8);
   --Toast--success-fontWeight: var(--fonts-weight-6);
@@ -4011,6 +4018,7 @@
   --Table-toolbar-marginX: #{px2rem(4px)};
   --Table-toolbar-marginY: var(--gap-base);
   --Table-tree-borderColor: var(--colors-neutral-line-8);
+  --Table-tree-indent: var(--gap-lg);
   --Table-searchableForm-backgroundColor: #f6f7f8;
   --Table-searchableForm-borderRadius: #{px2rem(4px)};
   --Table-empty-icon-size: #{px2rem(74px)};

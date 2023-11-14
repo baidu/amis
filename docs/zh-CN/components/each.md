@@ -10,6 +10,8 @@ order: 45
 
 ## 基本用法
 
+通过 name 属性指定要循环的数组，items 属性指定循环的内容。
+
 ```schema: scope="page"
 {
   "type": "page",
@@ -29,7 +31,9 @@ order: 45
 
 ### 如果是对象数组
 
-如果数组中的数据是对象，可以直接使用 data.xxx 来获取，另外能用 data.index 来获取数组索引，但如果对象本身也有名字为 index 的字段就会覆盖到，获取不到索引了。
+如果数组中的数据是对象，可以直接使用内部变量 xxx 来获取，或者通过 `item.xxxx`。另外能用 index 来获取数组索引。
+
+> 如果成员对象本身也有名字为 index 的字段就会覆盖到，获取不到索引了，请查看「循环嵌套」的章节解决
 
 ```schema:height="160" scope="page"
 {
@@ -42,8 +46,45 @@ order: 45
         "name": "arr",
         "items": {
             "type": "tpl",
-            "tpl": "<span class='label label-default m-l-sm'><%= data.name %>:<%= data.index %></span> "
+            "tpl": "<span class='label label-default m-l-sm'>${name}:${index}</span> "
         }
+    }
+}
+```
+
+### 循环嵌套
+
+如果存在嵌套使用，通过默认的 `item` 或者 `index` 始终是拿的最里面那层的信息，想要获取上层 each 的信息，则需要自定义 `itemKeyName` 和 `indexKeyName` 来指定字段名。
+
+```schema:height="160" scope="page"
+{
+  "type": "page",
+  "data": {
+    "arr": [{"name": "a", "subList": ["a1", "a2"]}, {"name": "b", "subList": ["b1", "b2"]}, {"name": "c", "subList": ["c1", "c2"]}]
+  },
+  "body": {
+        "type": "each",
+        "name": "arr",
+        "itemKeyName": "itemOutter",
+        "indexKeyName": "indexOutter",
+        "items": [
+            {
+                "type": "tpl",
+                "inline": false,
+                "tpl": "<span class='label label-default m-l-sm'>${name}:${index}</span> "
+            },
+
+            {
+                "type": "each",
+                "name": "subList",
+                "items": [
+                    {
+                        "type": "tpl",
+                        "tpl": "<span class='label label-default m-l-sm'>${itemOutter.name}-${item}:${indexOutter}-${index}</span> "
+                    }
+                ]
+            }
+        ]
     }
 }
 ```
@@ -138,13 +179,47 @@ List 的内容、Card 卡片的内容配置同上
 
 `name` 的优先级会比 `source` 更高
 
+## 动态表单项
+
+> 3.5.0 版本开始支持
+
+表单项支持通过表达式配置动态表单项，可结合 `each` 组件一起使用。
+
+```schema: scope="page"
+{
+  "type": "page",
+  "data": {
+    "arr": ["A", "B", "C"]
+  },
+  "body": [
+    {
+        type: "form",
+        debug: true,
+        body: [
+            {
+                "type": "each",
+                "source": "${arr}",
+                "items": {
+                    "type": "input-text",
+                    "label": "Input${item}",
+                    "name": "text${index}"
+                }
+            }
+        ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
-| 属性名      | 类型     | 默认值   | 说明                                                                 |
-| ----------- | -------- | -------- | -------------------------------------------------------------------- |
-| type        | `string` | `"each"` | 指定为 Each 组件                                                     |
-| value       | `array`  | `[]`     | 用于循环的值                                                         |
-| name        | `string` |          | 获取数据域中变量                                                     |
-| source      | `string` |          | 获取数据域中变量， 支持 [数据映射](../../docs/concepts/data-mapping) |
-| items       | `object` |          | 使用`value`中的数据，循环输出渲染器。                                |
-| placeholder | `string` |          | 当 `value` 值不存在或为空数组时的占位文本                            |
+| 属性名       | 类型     | 默认值   | 说明                                                                 |
+| ------------ | -------- | -------- | -------------------------------------------------------------------- |
+| type         | `string` | `"each"` | 指定为 Each 组件                                                     |
+| value        | `array`  | `[]`     | 用于循环的值                                                         |
+| name         | `string` |          | 获取数据域中变量                                                     |
+| source       | `string` |          | 获取数据域中变量， 支持 [数据映射](../../docs/concepts/data-mapping) |
+| items        | `object` |          | 使用`value`中的数据，循环输出渲染器。                                |
+| placeholder  | `string` |          | 当 `value` 值不存在或为空数组时的占位文本                            |
+| itemKeyName  | `string` | `item`   | 获取循环当前数组成员                                                 |
+| indexKeyName | `string` | `index`  | 获取循环当前索引                                                     |

@@ -10,7 +10,8 @@ export const env: RenderOptions = {
   jumpTo: () => {
     toast.info('温馨提示：预览模式下禁止跳转');
   },
-  fetcher: async ({url, method, data, config, headers}: any) => {
+  fetcher: async (api: any) => {
+    let {url, method, data, config, headers} = api;
     config = config || {};
     config.url = url;
     config.withCredentials = true;
@@ -40,7 +41,7 @@ export const env: RenderOptions = {
     }
 
     let response = await axios(config);
-    response = await attachmentAdpator(response, (msg: string) => '');
+    response = await attachmentAdpator(response, (msg: string) => msg, api);
     return response;
   },
   isCancel: (value: any) => (axios as any).isCancel(value),

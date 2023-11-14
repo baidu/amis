@@ -51,7 +51,7 @@ export class ContextMenu extends React.Component<
 > {
   static instance: any = null;
   static async getInstance() {
-    if (!ContextMenu.instance) {
+    if (!ContextMenu.instance || ContextMenu.instance.unmount) {
       const container = document.body;
       const div = document.createElement('div');
       container.appendChild(div);
@@ -84,6 +84,7 @@ export class ContextMenu extends React.Component<
     y: number;
   } | null;
 
+  unmount = false;
   constructor(props: ContextMenuProps) {
     super(props);
 
@@ -97,6 +98,7 @@ export class ContextMenu extends React.Component<
   }
 
   componentWillUnmount() {
+    this.unmount = true;
     ContextMenu.instance = this.originInstance;
     document.body.removeEventListener('click', this.handleOutClick, true);
     document.removeEventListener('keydown', this.handleKeyDown);

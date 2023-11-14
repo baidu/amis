@@ -1060,6 +1060,269 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 }
 ```
 
+#### 更新所有记录
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "data": {
+    "combo": [
+      {
+        "select_1": "A",
+        "select_2": "c"
+      },
+      {
+        "select_1": "A",
+        "select_2": "d"
+      },
+      {
+        "select_1": "B",
+        "select_2": "d"
+      }
+    ]
+  },
+  "mode": "horizontal",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "button",
+      "label": "更新所有记录",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "combo_setvalue_item",
+              "actionType": "setValue",
+              "args": {
+                "value": [
+                  {
+                      "select_1": "B",
+                      "select_2": "a"
+                  },
+                  {
+                      "select_1": "D",
+                      "select_2": "c"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "combo",
+      "label": "组合输入",
+      "name": "combo",
+      "className": "mt-2",
+      "id": "combo_setvalue_item",
+      "multiple": true,
+      "items": [
+        {
+          "type": "select",
+          "label": "选项",
+          "name": "select_1",
+          "options": [
+            {
+              "label": "选项A",
+              "value": "A"
+            },
+            {
+              "label": "选项B",
+              "value": "B"
+            },
+            {
+              "label": "选项C",
+              "value": "C"
+            },
+            {
+              "label": "选项D",
+              "value": "D"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "name": "select_2",
+          "placeholder": "选项",
+          "options": [
+            {
+              "label": "C",
+              "value": "c"
+            },
+            {
+              "label": "D",
+              "value": "c"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### 更新指定行记录
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "data": {
+    "combo": [
+      {
+        "select_1": "A",
+        "select_2": "c"
+      },
+      {
+        "select_1": "A",
+        "select_2": "d"
+      },
+      {
+        "select_1": "B",
+        "select_2": "d"
+      },
+      {
+        "select_1": "C",
+        "select_2": "d"
+      },
+      {
+        "select_1": "D",
+        "select_2": "d"
+      }
+    ]
+  },
+  "mode": "horizontal",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "button",
+      "label": "更新index为1和3的行记录",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "combo_setvalue_item",
+              "actionType": "setValue",
+              "args": {
+                "value": {
+                    "select_1": "B",
+                    "select_2": "a"
+                },
+                "index": '1,3'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "button",
+      "label": "更新选项为选项A的行记录",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "combo_setvalue_item",
+              "actionType": "setValue",
+              "args": {
+                "value": {
+                    "select_1": "B",
+                    "select_2": "a"
+                },
+                "condition": "${select_1 === 'A'}"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "button",
+      "label": "更新选项为选项D的行记录",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "combo_setvalue_item",
+              "actionType": "setValue",
+              "args": {
+                "value": {
+                    "select_1": "B",
+                    "select_2": "a"
+                },
+                "condition": {
+                  conjunction: 'and',
+                  children: [
+                    {
+                      left: {
+                        type: 'field',
+                        field: 'select_1'
+                      },
+                      op: 'equal',
+                      right: "D"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "combo",
+      "label": "组合输入",
+      "name": "combo",
+      "className": "mt-2",
+      "id": "combo_setvalue_item",
+      "multiple": true,
+      "items": [
+        {
+          "type": "select",
+          "label": "选项",
+          "name": "select_1",
+          "options": [
+            {
+              "label": "选项A",
+              "value": "A"
+            },
+            {
+              "label": "选项B",
+              "value": "B"
+            },
+            {
+              "label": "选项C",
+              "value": "C"
+            },
+            {
+              "label": "选项D",
+              "value": "D"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "name": "select_2",
+          "placeholder": "选项",
+          "options": [
+            {
+              "label": "C",
+              "value": "c"
+            },
+            {
+              "label": "D",
+              "value": "c"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
 #### 行记录内表单项联动
 
 在 combo 中行记录内表单项联动需要指定`componentName`为需要联动的表单项名称，以下示例中，当选择指定行内第一个下拉框的值时，将对应的修改所在行内第二个下拉框的值。

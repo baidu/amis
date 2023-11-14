@@ -15,4 +15,30 @@
     background: var(--Nav-item-onActive-color);
     height: 2px;
   }
+
+  &--searchable {
+    display: flex;
+
+    &:not(.#{$ns}Nav-horizontal) {
+      flex-flow: column nowrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+
+      .#{$ns}Nav-SearchBox {
+        &.is-active {
+          width: 100%;
+        }
+      }
+    }
+
+    &.#{$ns}Nav-horizontal {
+      flex-flow: column nowrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+
+      .#{$ns}Nav-SearchBox {
+        margin-left: px2rem(16px);
+      }
+    }
+  }
 }

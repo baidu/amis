@@ -7,6 +7,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "dev": "vite",
+    "start": "vite",
     "build": "npm run clean-dist &&  cross-env NODE_ENV=production rollup -c ",
     "build-esm": "npm run clean-dist &&  cross-env NODE_ENV=production rollup -c rollup.esm.config.js",
     "test": "jest",
@@ -50,7 +51,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^14.1.0",
     "@rollup/plugin-typescript": "^8.3.4",
-    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/jest-dom": "^5.17.0",
     "@types/jest": "^28.1.0",
     "@types/prettier": "^2.7.3",
     "amis-formula": "^2.7.2",

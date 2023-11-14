@@ -581,10 +581,10 @@ setSchemaTpl(
         if (value === '1 1 auto') {
           // 弹性
           if (config?.isFlexColumnItem) {
-            form.setValueByName('style.overflowY', 'auto');
+            // form.setValueByName('style.overflowY', 'auto');
             form.setValueByName('style.height', undefined);
           } else {
-            form.setValueByName('style.overflowX', 'auto');
+            // form.setValueByName('style.overflowX', 'auto');
             form.setValueByName('style.width', undefined);
           }
         } else if (value === '0 0 150px') {

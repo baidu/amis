@@ -1,14 +1,21 @@
+import React from 'react';
 import {
   setSchemaTpl,
   getSchemaTpl,
   defaultValue,
-  getI18nEnabled
+  getI18nEnabled,
+  tipedLabel,
+  JSONPipeOut
 } from 'amis-editor-core';
-import {tipedLabel} from 'amis-editor-core';
+import {findObjectsWithKey} from 'amis-core';
+import {Button, Icon} from 'amis-ui';
 import type {SchemaObject} from 'amis';
 import assign from 'lodash/assign';
 import cloneDeep from 'lodash/cloneDeep';
 import omit from 'lodash/omit';
+
+import type {RendererProps} from 'amis';
+import type {EditorManager} from 'amis-editor-core';
 
 setSchemaTpl('options', () => {
   const i18nEnabled = getI18nEnabled();
@@ -192,7 +199,7 @@ setSchemaTpl('checkAll', () => {
   ];
 });
 
-setSchemaTpl('joinValues', () =>
+setSchemaTpl('joinValues', (schemaPatches: Record<string, any> = {}) =>
   getSchemaTpl('switch', {
     label: tipedLabel(
       '拼接值',
@@ -200,7 +207,8 @@ setSchemaTpl('joinValues', () =>
     ),
     name: 'joinValues',
     visibleOn: 'data.multiple',
-    value: true
+    value: true,
+    ...schemaPatches
   })
 );
 
@@ -244,10 +252,10 @@ setSchemaTpl('addApi', () => {
 });
 
 setSchemaTpl('createBtnLabel', {
-  label: '按钮名称',
+  label: '新增按钮名称',
   name: 'createBtnLabel',
   type: 'input-text',
-  placeholder: '新建'
+  placeholder: '新增选项'
 });
 
 setSchemaTpl('editable', (schema: Partial<SchemaObject> = {}) => {
@@ -264,6 +272,15 @@ setSchemaTpl('editApi', () =>
   getSchemaTpl('apiControl', {
     label: '编辑接口',
     name: 'editApi',
+    mode: 'row',
+    visibleOn: 'data.editable'
+  })
+);
+
+setSchemaTpl('editInitApi', () =>
+  getSchemaTpl('apiControl', {
+    label: '编辑初始化接口',
+    name: 'editInitApi',
     mode: 'row',
     visibleOn: 'data.editable'
   })
@@ -413,9 +430,16 @@ setSchemaTpl('dataMap', {
           className: 'mb-0',
           pipeIn: defaultValue(false),
           onChange: (value: boolean, origin: boolean, item: any, form: any) => {
+            const data = form.data?.data || {};
             form.setValues({
-              data: value ? {'&': '$$'} : {},
-              dataMap: {}
+              data: value
+                ? {
+                    ...data,
+                    '&': '$$'
+                  }
+                : data && data['&'] === '$$'
+                ? omit(data, '&')
+                : data
             });
           }
         }),
@@ -427,6 +451,7 @@ setSchemaTpl('dataMap', {
           deleteBtn: {
             icon: 'fa fa-trash'
           },
+          updatePristineAfterStoreDataReInit: true,
           itemsWrapperClassName: 'ae-Combo-items',
           pipeIn: (e: any, form: any) => {
             const data = cloneDeep(form.data?.data);
@@ -445,4 +470,272 @@ setSchemaTpl('dataMap', {
       ]
     })
   ]
+});
+
+export interface OptionControlParams {
+  manager: EditorManager;
+  /** switch-more 控制器的配置 */
+  controlSchema?: Record<string, any>;
+  /** 子表单中的配置集合 */
+  collections?: Record<string, any>[];
+  /** 是否替换除了addControls以外的其他属性 */
+  replace?: boolean;
+}
+
+/**
+ * 选项类组件新增单选项控件
+ */
+setSchemaTpl('optionAddControl', (params: OptionControlParams) => {
+  const {manager, controlSchema = {}, collections = [], replace} = params || {};
+  const customFormItems = Array.isArray(collections)
+    ? collections
+    : [collections];
+
+  return getSchemaTpl('creatable', {
+    formType: 'extend',
+    autoFocus: false,
+    hiddenOnDefault: false,
+    ...controlSchema,
+    form: {
+      body: [
+        ...(replace
+          ? customFormItems
+          : [...customFormItems, getSchemaTpl('createBtnLabel')]),
+        getSchemaTpl('addApi'),
+        /** 用于关闭开关后清空相关配置 */
+        {
+          type: 'hidden',
+          name: 'addDialog'
+        },
+        {
+          name: 'addControls',
+          asFormItem: true,
+          label: false,
+          children: (props: RendererProps) => {
+            const {value, data: ctx, onBulkChange} = props || {};
+            const {addApi, createBtnLabel, addDialog, optionLabel} = ctx || {};
+            /** 新增表单弹窗 */
+            const scaffold = {
+              type: 'dialog',
+              title: createBtnLabel || `新增${optionLabel || '选项'}`,
+              ...addDialog,
+              body: {
+                /** 标识符，用于 SubEditor 确认后找到对应的 Schema */
+                'amis-select-addControls': true,
+                'type': 'form',
+                'api': addApi,
+                /** 这里是为了兼容旧版，比如type: text类型的组件会被渲染为input-text */
+                'controls': [
+                  ...(value
+                    ? Array.isArray(value)
+                      ? value
+                      : [value]
+                    : [
+                        /** FIXME: 这里是没做任何配置时的默认 scaffold */
+                        {
+                          type: 'input-text',
+                          name: 'label',
+                          label: false,
+                          required: true,
+                          placeholder: '请输入名称'
+                        }
+                      ])
+                ]
+              }
+            };
+
+            return (
+              <Button
+                className="w-full flex flex-col items-center"
+                level="enhance"
+                size="sm"
+                onClick={() => {
+                  manager.openSubEditor({
+                    title: '配置新增表单',
+                    value: scaffold,
+                    onChange: (value, diff: any) => {
+                      const pureSchema = JSONPipeOut(
+                        value,
+                        (key, propValue) =>
+                          key.substring(0, 2) === '__' || key === 'id'
+                      );
+                      const addDialog = omit(pureSchema, [
+                        'type',
+                        'body',
+                        'id'
+                      ]);
+                      const targetForm = findObjectsWithKey(
+                        pureSchema,
+                        'amis-select-addControls'
+                      );
+                      const addApi = targetForm?.[0]?.api;
+                      const addControls =
+                        targetForm?.[0]?.controls ?? targetForm?.[0]?.body;
+
+                      onBulkChange({addApi, addDialog, addControls});
+                    }
+                  });
+                }}
+              >
+                配置新增表单
+              </Button>
+            );
+          }
+        }
+        // {
+        //   label: '按钮位置',
+        //   name: 'valueType',
+        //   type: 'button-group-select',
+        //   size: 'sm',
+        //   tiled: true,
+        //   value: 'asUpload',
+        //   mode: 'row',
+        //   options: [
+        //     {
+        //       label: '顶部',
+        //       value: ''
+        //     },
+        //     {
+        //       label: '底部',
+        //       value: ''
+        //     },
+        //   ],
+        // }
+      ]
+    }
+  });
+});
+
+/**
+ * 选项类组件编辑单选项控件
+ */
+setSchemaTpl('optionEditControl', (params: OptionControlParams) => {
+  const {manager, controlSchema = {}, collections = [], replace} = params || {};
+  const customFormItems = Array.isArray(collections)
+    ? collections
+    : [collections];
+
+  return getSchemaTpl('editable', {
+    formType: 'extend',
+    autoFocus: false,
+    hiddenOnDefault: false,
+    ...controlSchema,
+    form: {
+      body: [
+        ...(replace ? customFormItems : [...customFormItems]),
+        getSchemaTpl('editInitApi'),
+        getSchemaTpl('editApi'),
+        /** 用于关闭开关后清空相关配置 */
+        {
+          type: 'hidden',
+          name: 'editDialog'
+        },
+        {
+          name: 'editControls',
+          asFormItem: true,
+          label: false,
+          children: (props: RendererProps) => {
+            const {value, data: ctx, onBulkChange} = props || {};
+            const {editApi, editInitApi, editDialog, optionLabel} = ctx || {};
+            /** 新增表单弹窗 */
+            const scaffold = {
+              type: 'dialog',
+              title: '编辑选项',
+              ...editDialog,
+              body: {
+                /** 标识符，用于 SubEditor 确认后找到对应的 Schema */
+                'amis-select-editControls': true,
+                'type': 'form',
+                'api': editApi,
+                'initApi': editInitApi,
+                /** 这里是为了兼容旧版，比如type: text类型的组件会被渲染为input-text */
+                'controls': [
+                  ...(value
+                    ? Array.isArray(value)
+                      ? value
+                      : [value]
+                    : [
+                        /** FIXME: 这里是没做任何配置时的默认 scaffold */
+                        {
+                          type: 'input-text',
+                          name: 'label',
+                          label: false,
+                          required: true,
+                          placeholder: '请输入名称'
+                        }
+                      ])
+                ]
+              }
+            };
+
+            return (
+              <Button
+                className="w-full flex flex-col items-center"
+                level="enhance"
+                size="sm"
+                onClick={() => {
+                  manager.openSubEditor({
+                    title: '配置编辑表单',
+                    value: scaffold,
+                    onChange: (value, diff: any) => {
+                      const pureSchema = JSONPipeOut(
+                        value,
+                        (key, propValue) =>
+                          key.substring(0, 2) === '__' || key === 'id'
+                      );
+                      const editDialog = omit(pureSchema, [
+                        'type',
+                        'body',
+                        'id'
+                      ]);
+                      const targetForm = findObjectsWithKey(
+                        pureSchema,
+                        'amis-select-editControls'
+                      );
+                      const editApi = targetForm?.[0]?.api;
+                      const editInitApi = targetForm?.[0]?.initApi;
+                      const editControls =
+                        targetForm?.[0]?.controls ?? targetForm?.[0]?.body;
+
+                      onBulkChange({
+                        editApi,
+                        editInitApi,
+                        editDialog,
+                        editControls
+                      });
+                    }
+                  });
+                }}
+              >
+                配置编辑表单
+              </Button>
+            );
+          }
+        }
+      ]
+    }
+  });
+});
+
+/**
+ * 选项类组件删除单选项控件
+ */
+setSchemaTpl('optionDeleteControl', (params: OptionControlParams) => {
+  const {manager, controlSchema = {}, collections = [], replace} = params || {};
+  const customFormItems = Array.isArray(collections)
+    ? collections
+    : [collections];
+
+  return getSchemaTpl('removable', {
+    formType: 'extend',
+    autoFocus: false,
+    hiddenOnDefault: false,
+    ...controlSchema,
+    form: {
+      body: [
+        ...(replace ? customFormItems : [...customFormItems]),
+        getSchemaTpl('deleteApi')
+      ]
+    }
+  });
 });

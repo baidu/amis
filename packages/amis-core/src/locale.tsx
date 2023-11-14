@@ -99,8 +99,8 @@ export function getDefaultLocale() {
   return defaultLocale;
 }
 
-export function setDefaultLocale(loacle: string) {
-  defaultLocale = loacle;
+export function setDefaultLocale(locale: string) {
+  defaultLocale = locale;
 }
 
 export interface LocaleProps {

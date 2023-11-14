@@ -559,7 +559,8 @@ export default class NestedSelectControl extends React.Component<
               paths: Array<Option>
             ) =>
               !!matchSorter([option].concat(paths), inputValue, {
-                keys: [labelField || 'label', valueField || 'value']
+                keys: [labelField || 'label', valueField || 'value'],
+                threshold: matchSorter.rankings.CONTAINS
               }).length || !!(option.children && option.children.length),
             1,
             true

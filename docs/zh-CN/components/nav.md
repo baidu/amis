@@ -715,10 +715,82 @@ order: 58
 }
 ```
 
+## 搜索导航项
+
+> `3.5.0` 及以上版本
+
+开启`"searchable": true`后，支持搜索当前数据源内的导航项，支持自定义匹配函数[`NavMatchFunc`](#navmatchfunc)，如果不设置默认模糊匹配导航对象中的`label`, `title` 和 `key` 字段。
+
+```schema: scope="body"
+{
+  "type": "container",
+  "className": "w-40",
+  "body": [
+    {
+      "type": "nav",
+      "stacked": true,
+      "searchable": true,
+      "searchConfig": {
+        "matchFunc": "return link.searchKey === keyword;"
+      },
+      "links": [
+          {
+            "label": "Nav 1",
+            "to": "?to=nav1",
+            "searchKey": "1"
+          },
+          {
+            "label": "Nav 2",
+            "to": "?to=nav2",
+            "searchKey": "2",
+            "children": [
+                {
+                  "label": "Nav 2-1",
+                  "to": "?to=nav2-1",
+                  "searchKey": "2-1",
+                  "children": [
+                      {
+                        "label": "Nav 2-1-1",
+                        "to": "?to=nav2-1-1",
+                        "searchKey": "2-1-1"
+                      }
+                  ]
+                }
+            ]
+          },
+          {
+            "label": "Nav 3",
+            "to": "?to=nav3",
+            "searchKey": "3",
+            "children": [
+                {
+                  "label": "Nav 3-1",
+                  "to": "?to=nav3-1",
+                  "searchKey": "3-1"
+                }
+            ]
+          },
+          {
+            "label": "Nav 4",
+            "to": "?to=nav4",
+            "searchKey": "4"
+          },
+          {
+            "label": "Nav 5",
+            "to": "?to=nav5",
+            "searchKey": "5"
+          }
+      ]
+    }
+  ]
+}
+```
+
+
 ## 属性表
 
-| 属性名                            | 类型                                      | 默认值             | 说明                                                                                     |
-| --------------------------------- | ----------------------------------------- | ------------------ | ---------------------------------------------------------------------------------------- |
+| 属性名                            | 类型                                      | 默认值             | 说明                                                                                     | 版本 |
+| --------------------------------- | ----------------------------------------- | ------------------ | ---------------------------------------------------------------------------------------- | --- |
 | type                              | `string`                                  | `"nav"`            | 指定为 Nav 渲染器                                                                        |
 | mode                              | `string`                                  | `"inline"`         | 导航模式，悬浮或者内联，默认内联模式                                                     |
 | collapsed                         | `boolean`                                 |                    | 控制导航是否缩起                                                                         |
@@ -763,6 +835,29 @@ order: 58
 | overflow.style                    | `React.CSSProperties`                     |                    | 自定义样式                                                                               |
 | overflow.overflowClassName        | `string`                                  | `""`               | 菜单按钮 CSS 类名                                                                        |
 | overflow.overflowPopoverClassName | `string`                                  | `""`               | Popover 浮层 CSS 类名                                                                    |
+| searchable | `boolean`                                  | `false`               | 是否开启搜索 | `3.5.0` |
+| searchConfig.matchFunc | `string`                                  |    [`NavMatchFunc`](#navmatchfunc)            | 自定义匹配函数, 默认模糊匹配导航对象中的`label`, `title` 和 `key` 字段 | `3.5.0` |
+| searchConfig.className | `string`                                  |   `""`             | 搜索框外层 CSS 类名 | `3.5.0` |
+| searchConfig.placeholder | `string`                                  | `false`               | 是否开启搜索 | `3.5.0` |
+| searchConfig.mini | `boolean`                                  | `false`               | 是否为 mini 模式 | `3.5.0` |
+| searchConfig.enhance | `boolean`                                  | `false`               | 是否为增强样式 | `3.5.0` |
+| searchConfig.clearable | `boolean`                                  | `false`               | 是否开启搜索 | `3.5.0` |
+| searchConfig.searchImediately | `boolean`                                  | `false`               | 是否立即搜索 | `3.5.0` |
+
+
+### NavMatchFunc
+
+```typescript
+interface NavMatchFunc {
+  (
+    /* 导航项对象 */
+    link: Link, /*
+    搜索关键字 */
+    keyword: string
+  ): boolean;
+}
+```
+
 
 ## 事件表
 

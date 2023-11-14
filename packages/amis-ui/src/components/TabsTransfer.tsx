@@ -52,6 +52,8 @@ export interface TabsTransferProps
   activeKey: number;
   onlyChildren?: boolean;
   ctx?: Record<string, any>;
+  selectMode?: 'table' | 'list' | 'tree' | 'chained' | 'associated';
+  searchable?: boolean;
 }
 
 export interface TabsTransferState {
@@ -167,12 +169,13 @@ export class TabsTransfer extends React.Component<
       itemHeight,
       virtualThreshold,
       onlyChildren,
+      selectMode,
       loadingConfig,
       valueField = 'value',
       labelField = 'label'
     } = this.props;
     const options = searchResult || [];
-    const mode = searchResultMode;
+    const mode = searchResultMode || selectMode; // 没有配置时默认和左侧选项展示形式一致
 
     return mode === 'table' ? (
       <TableCheckboxes
@@ -268,7 +271,8 @@ export class TabsTransfer extends React.Component<
       classnames: cx,
       translate: __,
       ctx,
-      mobileUI
+      mobileUI,
+      searchable
     } = this.props;
     const showOptions = options.filter(item => item.visible !== false);
 
@@ -297,7 +301,7 @@ export class TabsTransfer extends React.Component<
             )}
             className="TabsTransfer-tab"
           >
-            {option.searchable ? (
+            {option.searchable || searchable ? (
               <div
                 className={cx('TabsTransfer-search', {'is-mobile': mobileUI})}
               >
@@ -348,8 +352,9 @@ export class TabsTransfer extends React.Component<
       valueField = 'value',
       labelField = 'label'
     } = this.props;
+    const selectMode = option.selectMode || this.props.selectMode;
 
-    return option.selectMode === 'table' ? (
+    return selectMode === 'table' ? (
       <TableCheckboxes
         className={cx('Transfer-checkboxes')}
         columns={option.columns as any}
@@ -366,7 +371,7 @@ export class TabsTransfer extends React.Component<
         valueField={valueField}
         labelField={labelField}
       />
-    ) : option.selectMode === 'tree' ? (
+    ) : selectMode === 'tree' ? (
       <Tree
         loadingConfig={loadingConfig}
         className={cx('Transfer-checkboxes')}
@@ -395,7 +400,7 @@ export class TabsTransfer extends React.Component<
         valueField={valueField}
         labelField={labelField}
       />
-    ) : option.selectMode === 'chained' ? (
+    ) : selectMode === 'chained' ? (
       <ChainedCheckboxes
         className={cx('Transfer-checkboxes')}
         options={option.children || []}
@@ -420,7 +425,7 @@ export class TabsTransfer extends React.Component<
         valueField={valueField}
         labelField={labelField}
       />
-    ) : option.selectMode === 'associated' ? (
+    ) : selectMode === 'associated' ? (
       <AssociatedCheckboxes
         className={cx('Transfer-checkboxes')}
         options={option.children || []}

@@ -210,17 +210,18 @@ export function Combo({
     rules: finalRules
   });
 
-  const {trigger} = useFormContext();
+  const {trigger, setValue} = useFormContext();
 
   // useFieldArray 的 update 会更新行 id，导致重新渲染
   // 正在编辑中的元素失去焦点，所以自己写一个
   const lightUpdate = React.useCallback(
     (index: number, value: any) => {
-      const arr = control._getFieldArray(name);
-      arr[index] = {...value};
-      control._updateFieldArray(name, arr);
-      trigger(name);
-      control._subjects.watch.next({});
+      // const arr = control._getFieldArray(name);
+      // arr[index] = {...value};
+      // control._updateFieldArray(name, arr);
+      // trigger(name);
+      // control._subjects.watch.next({});
+      setValue(`${name}.${index}`, value);
     },
     [control]
   );

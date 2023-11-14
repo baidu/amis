@@ -32,6 +32,7 @@ export class NumberControlPlugin extends BasePlugin {
   icon = 'fa fa-sort-numeric-asc';
   pluginIcon = 'input-number-plugin';
   description = '支持设定最大值和最小值，以及步长与精度';
+  searchKeywords = '数字输入框';
   docLink = '/amis/zh-CN/components/form/input-number';
   tags = ['表单项'];
   scaffold = {
@@ -227,28 +228,40 @@ export class NumberControlPlugin extends BasePlugin {
                   label: '单位选项',
                   mode: 'normal',
                   name: 'unitOptions',
-                  flat: true,
                   items: [
                     {
-                      placeholder: '单位选项',
+                      placeholder: '文本',
                       type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-                      name: 'text'
+                      name: 'label'
+                    },
+                    {
+                      placeholder: '值',
+                      type: 'input-text',
+                      name: 'value'
                     }
                   ],
                   draggable: false,
                   multiple: true,
                   pipeIn: (value: any) => {
-                    if (!isObject(value)) {
-                      return Array.isArray(value) ? value : [];
+                    if (Array.isArray(value)) {
+                      return value.map(item =>
+                        typeof item === 'string'
+                          ? {
+                              label: item,
+                              value: item
+                            }
+                          : item
+                      );
                     }
-                    const res = value.map((item: any) => item.value);
-                    return res;
+                    return [];
                   },
                   pipeOut: (value: any[]) => {
                     if (!value.length) {
                       return undefined;
                     }
-                    return value;
+                    return value.map(item =>
+                      item.value ? item : {label: item.label, value: item.label}
+                    );
                   }
                 }),
                 getSchemaTpl('labelRemark'),

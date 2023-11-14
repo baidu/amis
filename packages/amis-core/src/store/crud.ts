@@ -18,6 +18,22 @@ import {normalizeApiResponseData} from '../utils/api';
 import {matchSorter} from 'match-sorter';
 import {filter} from '../utils/tpl';
 
+interface MatchFunc {
+  (
+    /* 当前列表的全量数据 */
+    items: any,
+    /* 最近一次接口返回的全量数据 */
+    itemsRaw: any,
+    /** 相关配置 */
+    options?: {
+      /* 查询参数 */
+      query: Record<string, any>;
+      /* 列配置 */
+      columns: any;
+    }
+  ): any;
+}
+
 class ServerError extends Error {
   type = 'ServerError';
 }
@@ -61,12 +77,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       // 因为会把数据呈现在地址栏上。
       return createObject(
         createObject(self.data, {
-          ...self.query,
           items: self.items.concat(),
           selectedItems: self.selectedItems.concat(),
           unSelectedItems: self.unSelectedItems.concat()
         }),
-        {}
+        {...self.query}
       );
     },
 
@@ -117,26 +132,27 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       replace: boolean = false
     ) {
       const originQuery = self.query;
-      self.query = replace
+      const query: any = replace
         ? {
             ...values
           }
         : {
-            ...self.query,
+            ...originQuery,
             ...values
           };
 
-      if (self.query[pageField || 'page']) {
-        self.page = parseInt(self.query[pageField || 'page'], 10);
-      }
+      if (isObjectShallowModified(originQuery, query, false)) {
+        if (query[pageField || 'page']) {
+          self.page = parseInt(query[pageField || 'page'], 10);
+        }
 
-      if (self.query[perPageField || 'perPage']) {
-        self.perPage = parseInt(self.query[perPageField || 'perPage'], 10);
-      }
+        if (query[perPageField || 'perPage']) {
+          self.perPage = parseInt(query[perPageField || 'perPage'], 10);
+        }
 
-      updater &&
-        isObjectShallowModified(originQuery, self.query, false) &&
-        setTimeout(updater.bind(null, `?${qsstringify(self.query)}`), 4);
+        self.query = query;
+        updater && setTimeout(updater.bind(null, `?${qsstringify(query)}`), 4);
+      }
     }
 
     const fetchInitData: (
@@ -144,8 +160,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       data?: object,
       options?: fetchOptions & {
         forceReload?: boolean;
-        loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
-        loadDataOnceFetchOnFilter?: boolean; // 在开启loadDataOnce时，filter时是否去重新请求api
+        loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等
         source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
@@ -158,15 +173,16 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       options: fetchOptions & {
         forceReload?: boolean;
         loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
-        loadDataOnceFetchOnFilter?: boolean; // 在开启loadDataOnce时，filter时是否去重新请求api
         source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
         columns?: Array<any>;
+        matchFunc?: MatchFunc;
       } = {}
     ) {
       try {
         if (!options.forceReload && options.loadDataOnce && self.total) {
+          const matchFunc = options.matchFunc;
           let items = options.source
             ? resolveVariableAndFilter(
                 options.source,
@@ -178,15 +194,23 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               )
             : self.items.concat();
 
-          if (Array.isArray(options.columns)) {
-            options.columns.forEach((column: any) => {
-              let value: any;
-              const key = column.name;
+          /** 字段的格式类型无法穷举，所以支持使用函数过滤 */
+          if (matchFunc && typeof matchFunc === 'function') {
+            items = matchFunc(items, self.data.itemsRaw, {
+              query: self.query,
+              columns: options.columns
+            });
+          } else {
+            if (Array.isArray(options.columns)) {
+              options.columns.forEach((column: any) => {
+                let value: any =
+                  typeof column.name === 'string'
+                    ? getVariable(self.query, column.name)
+                    : undefined;
+                const key = column.name;
 
-              if ((column.searchable || column.filterable) && key) {
-                // value可能为null、undefined、''、0
-                value = getVariable(self.query, key);
-                if (value != null) {
+                if (value != null && key) {
+                  // value可能为null、undefined、''、0
                   if (Array.isArray(value)) {
                     if (value.length > 0) {
                       const arr = [...items];
@@ -195,7 +219,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                         arrItems = [
                           ...arrItems,
                           ...matchSorter(arr, item, {
-                            keys: [key]
+                            keys: [key],
+                            threshold: matchSorter.rankings.CONTAINS
                           })
                         ];
                       });
@@ -205,12 +230,13 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                     }
                   } else {
                     items = matchSorter(items, value, {
-                      keys: [key]
+                      keys: [key],
+                      threshold: matchSorter.rankings.CONTAINS
                     });
                   }
                 }
-              }
-            });
+              });
+            }
           }
 
           if (self.query.orderBy) {
@@ -264,16 +290,17 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               self.__('CRUD.fetchFailed'),
             true
           );
-          getEnv(self).notify(
-            'error',
-            json.msg,
-            json.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: json.msgTimeout
-                }
-              : undefined
-          );
+          !(api as ApiObject)?.silent &&
+            getEnv(self).notify(
+              'error',
+              json.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
         } else {
           if (!json.data) {
             throw new Error(self.__('CRUD.invalidData'));
@@ -364,7 +391,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                         arrItems = [
                           ...arrItems,
                           ...matchSorter(arr, item, {
-                            keys: [key]
+                            keys: [key],
+                            threshold: matchSorter.rankings.CONTAINS
                           })
                         ];
                       });
@@ -374,7 +402,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                     }
                   } else {
                     filteredItems = matchSorter(filteredItems, value, {
-                      keys: [key]
+                      keys: [key],
+                      threshold: matchSorter.rankings.CONTAINS
                     });
                   }
                 }
@@ -447,7 +476,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         }
 
         console.error(e);
-        env.notify('error', e.message);
+        !(api as ApiObject)?.silent && env.notify('error', e.message);
         return;
       }
     });
@@ -503,16 +532,17 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               self.__('saveFailed'),
             true
           );
-          getEnv(self).notify(
-            'error',
-            self.msg,
-            json.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: json.msgTimeout
-                }
-              : undefined
-          );
+          !(api as ApiObject)?.silent &&
+            getEnv(self).notify(
+              'error',
+              self.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
           throw new ServerError(self.msg);
         } else {
           self.updateMessage(
@@ -541,7 +571,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           return;
         }
 
-        e.type !== 'ServerError' && getEnv(self).notify('error', e.message);
+        !(api as ApiObject)?.silent &&
+          e.type !== 'ServerError' &&
+          getEnv(self).notify('error', e.message);
         throw e;
       }
     });
@@ -578,27 +610,85 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       self.hasInnerModalOpen = value;
     };
 
-    const initFromScope = function (scope: any, source: string) {
-      let rowsData: Array<any> = resolveVariableAndFilter(
-        source,
-        scope,
-        '| raw'
-      );
+    const initFromScope = function (
+      scope: any,
+      source: string,
+      options: {
+        columns?: Array<any>;
+        matchFunc?: MatchFunc | null;
+      }
+    ) {
+      const matchFunc = options.matchFunc;
+      let items: Array<any> = resolveVariableAndFilter(source, scope, '| raw');
 
-      if (!Array.isArray(rowsData) && !self.items.length) {
+      if (!Array.isArray(items) && !self.items.length) {
         return;
       }
 
-      rowsData = Array.isArray(rowsData) ? rowsData : [];
+      items = Array.isArray(items) ? items : [];
+
+      /** 字段的格式类型无法穷举，所以支持使用函数过滤 */
+      if (matchFunc && typeof matchFunc === 'function') {
+        items = matchFunc(items, items.concat(), {
+          query: self.query,
+          columns: options.columns
+        });
+      } else {
+        if (Array.isArray(options.columns)) {
+          options.columns.forEach((column: any) => {
+            let value: any =
+              typeof column.name === 'string'
+                ? getVariable(self.query, column.name)
+                : undefined;
+            const key = column.name;
+
+            if (value != null && key) {
+              // value可能为null、undefined、''、0
+              if (Array.isArray(value)) {
+                if (value.length > 0) {
+                  const arr = [...items];
+                  let arrItems: Array<any> = [];
+                  value.forEach(item => {
+                    arrItems = [
+                      ...arrItems,
+                      ...matchSorter(arr, item, {
+                        keys: [key],
+                        threshold: matchSorter.rankings.CONTAINS
+                      })
+                    ];
+                  });
+                  items = items.filter((item: any) =>
+                    arrItems.find(a => a === item)
+                  );
+                }
+              } else {
+                items = matchSorter(items, value, {
+                  keys: [key],
+                  threshold: matchSorter.rankings.CONTAINS
+                });
+              }
+            }
+          });
+        }
+      }
+
+      if (self.query.orderBy) {
+        const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
+        items = sortArray(items, self.query.orderBy, dir);
+      }
 
       const data = {
         ...self.pristine,
-        items: rowsData,
-        count: 0,
-        total: rowsData.length
+        items: items.slice(
+          (self.page - 1) * self.perPage,
+          self.page * self.perPage
+        ),
+        count: items.length,
+        total: items.length
       };
 
-      self.items.replace(rowsData);
+      self.total = parseInt(data.total ?? data.count, 10) || 0;
+      self.items.replace(items);
       self.reInitData(data);
     };
 

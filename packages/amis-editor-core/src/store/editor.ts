@@ -18,8 +18,10 @@ import {
   stringRegExp,
   needDefaultWidth,
   guid,
-  addStyleClassName,
-  appTranslate
+  appTranslate,
+  JSONGetByPath,
+  getDialogActions,
+  getFixDialogType
 } from '../../src/util';
 import {
   InsertEventContext,
@@ -42,7 +44,7 @@ import {
   JSONPipeOut,
   JSONUpdate
 } from '../util';
-import type {Schema} from 'amis';
+import type {JSONSchema, Schema} from 'amis';
 import {toast, resolveVariable} from 'amis';
 import find from 'lodash/find';
 import {InsertSubRendererPanel} from '../component/Panel/InsertSubRendererPanel';
@@ -51,6 +53,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import {EditorManagerConfig} from '../manager';
 import {EditorNode, EditorNodeType} from './node';
 import findIndex from 'lodash/findIndex';
+import {matchSorter} from 'match-sorter';
 
 export interface SchemaHistory {
   versionId: number;
@@ -133,6 +136,8 @@ export const MainStore = types
     hoverId: '',
     hoverRegion: '',
     activeId: '',
+    previewDialogId: '', // 选择要进行编辑的弹窗id
+    activeDialogPath: '', // 记录选中设计的弹窗path
     activeRegion: '', // 记录当前激活的子区域
     mouseMoveRegion: '', // 记录当前鼠标hover到的区域，后续需要优化（合并MouseMoveRegion和hoverRegion）
 
@@ -179,6 +184,7 @@ export const MainStore = types
 
     showCustomRenderersPanel: false, // 是否显示自定义组件面板，默认不显示
     renderersTabsKey: 'base-renderers', // 组件面板tabs，默认显示「基础组件」，custom 则显示「自定义组件」
+    outlineTabsKey: 'component-outline', // 视图结构tabs，默认显示「组件大纲」，dialog 则显示「弹窗大纲」
     // 存放预置组件和自定义组件
     subRenderers: types.optional(types.frozen<Array<SubRendererInfo>>(), []),
     subRenderersKeywords: '', // 基础组件的查询关键字
@@ -196,6 +202,8 @@ export const MainStore = types
 
     scaffoldForm: types.maybe(types.frozen<ScaffoldFormContext>()),
     scaffoldFormStep: 0,
+    /** 脚手架是否进行过下一步 */
+    scaffoldStepManipulated: false,
     scaffoldFormBuzy: false,
     scaffoldError: '',
 
@@ -225,8 +233,18 @@ export const MainStore = types
     return {
       // 给编辑状态时的
       get filteredSchema() {
+        let schema = self.schema;
+        if (self.previewDialogId) {
+          let originDialogSchema = this.getSchema(self.previewDialogId);
+          schema = {
+            ...originDialogSchema,
+            type:
+              originDialogSchema.type ||
+              getFixDialogType(self.schema, self.previewDialogId)
+          };
+        }
         return filterSchemaForEditor(
-          getEnv(self).schemaFilter?.(self.schema) ?? self.schema
+          getEnv(self).schemaFilter?.(schema) ?? schema
         );
       },
 
@@ -397,6 +415,10 @@ export const MainStore = types
 
       getSchema(id?: string, idKey?: string) {
         return id ? JSONGetById(self.schema, id, idKey) : self.schema;
+      },
+
+      getSchemaByPath(path: Array<string>) {
+        return JSONGetByPath(self.schema, path);
       },
 
       getSchemaParentById(id: string, skipArray: boolean = false) {
@@ -663,27 +685,22 @@ export const MainStore = types
       /** 根据关键字过滤组件 */
       groupedRenderersByKeyword(
         _subRenderers: Array<SubRendererInfo>,
-        keywords?: string
+        keywords: string = ''
       ) {
         const subRenderers = _subRenderers;
         const grouped: {
           [propName: string]: Array<SubRendererInfo>;
         } = {};
 
-        const regular = keywords
-          ? new RegExp(stringRegExp(keywords), 'i')
-          : null;
+        const searchMap = new Map<string, any>();
+        matchSorter(subRenderers, keywords, {
+          keys: ['name', 'description', 'scaffold.type', 'searchKeywords']
+        }).forEach(item => {
+          searchMap.set(item.id, item);
+        });
 
         subRenderers.forEach(item => {
-          if (
-            !keywords ||
-            ['name', 'description', 'scaffold.type', 'searchKeywords'].some(
-              key =>
-                resolveVariable(key, item) &&
-                regular &&
-                regular.test(resolveVariable(key, item))
-            )
-          ) {
+          if (searchMap.has(item.id)) {
             const tags = Array.isArray(item.tags)
               ? item.tags.concat()
               : item.tags
@@ -1008,6 +1025,13 @@ export const MainStore = types
           ...(self.scaffoldForm?.value || {}),
           __step: self.scaffoldFormStep
         });
+      },
+
+      // 获取弹窗大纲列表
+      get dialogOutlineList() {
+        const schema = self.schema;
+        let actions = getDialogActions(schema, 'list');
+        return actions;
       }
     };
   })
@@ -1135,7 +1159,7 @@ export const MainStore = types
         if (event.context.beforeId) {
           const idx = findIndex(
             arr,
-            (item: any) => item.$$id === event.context.beforeId
+            (item: any) => item?.$$id === event.context.beforeId
           );
           ~idx ? arr.splice(idx, 0, child) : arr.push(child);
         } else {
@@ -1212,6 +1236,14 @@ export const MainStore = types
         // if (!self.panelKey && id) {
         //   self.panelKey = 'config';
         // }
+      },
+
+      setActiveDialogPath(path: string) {
+        self.activeDialogPath = path;
+      },
+
+      setPreviewDialogId(id?: string) {
+        self.previewDialogId = id ? id : '';
       },
 
       setSelections(ids: Array<string>) {
@@ -1343,6 +1375,12 @@ export const MainStore = types
         }
       },
 
+      changeOutlineTabsKey(key: string) {
+        if (key !== self.outlineTabsKey) {
+          self.outlineTabsKey = key;
+        }
+      },
+
       changeLeftPanelOpenStatus(isOpenStatus: boolean) {
         if (isOpenStatus !== self.leftPanelOpenStatus) {
           self.leftPanelOpenStatus = isOpenStatus;
@@ -1372,6 +1410,10 @@ export const MainStore = types
         this.changeValueById(self.activeId, value, diff);
       },
 
+      definitionOnchangeValue(value: Schema, diff?: any) {
+        this.changeValueById(self.getRootId(), value, diff);
+      },
+
       changeValueById(
         id: string,
         value: Schema,
@@ -1389,22 +1431,12 @@ export const MainStore = types
         if (diff) {
           const result = patchDiff(origin, diff);
           this.traceableSetSchema(
-            JSONUpdate(
-              self.schema,
-              id,
-              addStyleClassName(JSONPipeIn(result)),
-              true
-            ),
+            JSONUpdate(self.schema, id, JSONPipeIn(result), true),
             noTrace
           );
         } else {
           this.traceableSetSchema(
-            JSONUpdate(
-              self.schema,
-              id,
-              addStyleClassName(JSONPipeIn(value)),
-              replace
-            ),
+            JSONUpdate(self.schema, id, JSONPipeIn(value), replace),
             noTrace
           );
         }
@@ -1679,6 +1711,8 @@ export const MainStore = types
 
       openScaffoldForm(context: ScaffoldFormContext) {
         self.scaffoldForm = context;
+        /** 打开前重置状态 */
+        self.scaffoldStepManipulated = false;
       },
 
       closeScaffoldForm() {
@@ -1691,6 +1725,10 @@ export const MainStore = types
 
       setScaffoldStep(value: number) {
         self.scaffoldFormStep = value;
+      },
+
+      setScaffoldStepManipulated(value: boolean) {
+        self.scaffoldStepManipulated = value;
       },
 
       setScaffoldError(msg: string = '') {

@@ -130,7 +130,7 @@ export class IconPlugin extends BasePlugin {
               body: [
                 getSchemaTpl('theme:select', {
                   label: '尺寸',
-                  name: 'themeCss.className.font.fontSize'
+                  name: 'themeCss.className.iconSize'
                 }),
                 getSchemaTpl('theme:colorPicker', {
                   label: '颜色',

@@ -3,7 +3,7 @@ import {render} from '@testing-library/react';
 import * as renderer from 'react-test-renderer';
 import '../../src';
 import {render as amisRender} from '../../src';
-import {makeEnv} from '../helper';
+import {makeEnv, wait} from '../helper';
 
 test('Renderer:card', () => {
   const {container} = render(
@@ -370,4 +370,104 @@ test('Renderer:cards hightlight', () => {
   );
 
   expect(container).toMatchSnapshot();
+});
+
+
+test('Renderer:card with expression in className property', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          "mockTrue": true,
+          "mockFalse": false,
+          "status": "success"
+        },
+        body: {
+          type: 'card',
+          className: "bg-${status}",
+          header: {
+            className: {
+              "mockClassName1": "${mockTrue === true}",
+              "mockClassName2": "${mockFalse === true}"
+            },
+            title: '标题'
+          },
+          href: 'href',
+          body: '这里是内容',
+          bodyClassName: 'bodyClassName'
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  expect(container).toBeInTheDocument();
+
+  await wait(200);
+
+  const card = container.querySelector('.cxd-Card');
+  const head = container.querySelector('.cxd-Card .cxd-Card-heading');
+
+  expect(card?.classList).toContain('bg-success');
+  expect(head?.classList).toContain('mockClassName1');
+})
+
+test('Renderer:cards with expression in className property', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          items: [
+            {
+              engine: 'Trident',
+              browser: 'Internet Explorer 4.0',
+              mockField: "abc"
+            },
+            {
+              engine: 'Chrome',
+              browser: 'Chrome 44',
+              mockField: 'def'
+            }
+          ]
+        },
+        body: {
+          type: 'cards',
+          source: '$items',
+          card: {
+            className: {
+              'mockClassName1': 'this.mockField === "abc"',
+              'mockClassName2': 'this.mockField === "abcd"',
+              'mockClassName3': '${mockField === "def"}',
+              'mockClassName4': '${mockField === "defg"}'
+            },
+            body: [
+              {
+                "label": "Engine",
+                "name": "engine"
+              },
+              {
+                "label": "Browser",
+                "name": "browser"
+              }
+            ]
+          }
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  expect(container).toBeInTheDocument();
+
+  await wait(200);
+
+  const cardList = container.querySelectorAll('.cxd-Cards .cxd-Card');
+
+  expect(cardList.length).toEqual(2);
+  expect(cardList[0].classList).toContain('mockClassName1');
+  expect(cardList[1].classList).toContain('mockClassName3');
 });

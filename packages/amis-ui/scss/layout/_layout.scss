@@ -46,6 +46,8 @@ body {
       width: 100%;
       z-index: $zindex-fixed;
     }
+
+    --affix-offset-top: var(--Layout-header-height);
   }
 
   &-brandBar {

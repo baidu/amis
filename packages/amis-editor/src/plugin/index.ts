@@ -9,10 +9,12 @@ export * from './Layout/Layout_fixed'; // 悬浮容器
 export * from './CollapseGroup'; // 折叠面板
 export * from './Panel'; // 面板
 export * from './Tabs'; // 选项卡
+export * from './SwitchContainer'; // 状态容器
 
 // 数据容器
 export * from './CRUD'; // 增删改查
 export * from './CRUD2/CRUDTable'; // 增删改查v2.0
+export * from './CRUD2/utils';
 export * from './Form/Form'; // 表单
 export * from './Service'; // 服务service
 

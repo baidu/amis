@@ -3,7 +3,7 @@ import {createObject, Renderer, RendererProps} from 'amis-core';
 import {Overlay} from 'amis-core';
 import {PopOver} from 'amis-core';
 import {TooltipWrapper} from 'amis-ui';
-import {isDisabled, isVisible, noop} from 'amis-core';
+import {isDisabled, isVisible, noop, filterClassNameObject} from 'amis-core';
 import {filter} from 'amis-core';
 import {Icon, hasIcon} from 'amis-ui';
 import {
@@ -289,7 +289,7 @@ export default class DropDownButton extends React.Component<
               : button.level
               ? `Button--${button.level}`
               : '',
-            button.className
+            filterClassNameObject(button.className, data)
           )}
         >
           {render(

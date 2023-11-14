@@ -180,7 +180,7 @@ exports[`Renderers:Action all levels 1`] = `
             </span>
           </button>
           <div
-            class="cxd-Divider cxd-Divider--dashed cxd-Divider--horizontal"
+            class="cxd-Divider cxd-Divider--solid cxd-Divider--horizontal"
           />
           <div
             class="cxd-Button cxd-Button--link cxd-Button--size-default is-disabled"

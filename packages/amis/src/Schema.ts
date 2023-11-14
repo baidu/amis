@@ -1,4 +1,5 @@
 import {PageSchema} from './renderers/Page';
+import {FlexSchema} from './renderers/Flex';
 import {TplSchema} from './renderers/Tpl';
 import {RemarkSchema, SchemaRemark} from './renderers/Remark';
 import {ActionSchema} from './renderers/Action';
@@ -15,6 +16,7 @@ import {CollapseSchema} from './renderers/Collapse';
 import {CollapseGroupSchema} from './renderers/CollapseGroup';
 import {ColorSchema} from './renderers/Color';
 import {ContainerSchema} from './renderers/Container';
+import {SwitchContainerSchema} from './renderers/SwitchContainer';
 import {CRUDSchema} from './renderers/CRUD';
 import {CRUD2Schema} from './renderers/CRUD2';
 import {DateSchema} from './renderers/Date';
@@ -237,6 +239,7 @@ export type SchemaType =
   | 'combo'
   | 'condition-builder'
   | 'container'
+  | 'switch-container'
   | 'input-date'
   | 'input-datetime'
   | 'input-time'
@@ -361,6 +364,7 @@ export type SchemaType =
 
 export type SchemaObject =
   | PageSchema
+  | FlexSchema
   | TplSchema
   | RemarkSchema
   | ActionSchema
@@ -378,6 +382,7 @@ export type SchemaObject =
   | CollapseGroupSchema
   | ColorSchema
   | ContainerSchema
+  | SwitchContainerSchema
   | CRUDSchema
   | CRUD2Schema
   | DateSchema
@@ -612,6 +617,11 @@ export interface SchemaApiObject {
    * autoFill 是否显示自动填充错误提示
    */
   silent?: boolean;
+
+  /**
+   * 文件下载时，指定文件名
+   */
+  downloadFileName?: string;
 }
 
 export type SchemaApi = string | SchemaApiObject;

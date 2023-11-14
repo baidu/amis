@@ -31,6 +31,8 @@ export class WidthDraggableBtn extends React.Component<WidthDraggableProps> {
     document.addEventListener('mouseup', this.handleResizeMouseUp);
     this.startX = e.clientX;
     this.startWidth = this.dragWrap.offsetWidth;
+    // 拖拽过程中会选中文本，导致卡顿，所以阻止下默认行为
+    e.preventDefault();
   }
 
   handleResizeMouseMove(e: MouseEvent) {

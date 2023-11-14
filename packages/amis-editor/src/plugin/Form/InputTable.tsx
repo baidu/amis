@@ -1037,6 +1037,43 @@ export class TableControlPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
+          {
+            title: '基本',
+            body: [
+              {
+                name: 'columnsTogglable',
+                label: tipedLabel(
+                  '列显示开关',
+                  '是否展示表格列的显隐控件，“自动”即列数量大于5时自动开启'
+                ),
+                type: 'button-group-select',
+                pipeIn: defaultValue('auto'),
+                size: 'sm',
+                labelAlign: 'left',
+                options: [
+                  {
+                    label: '自动',
+                    value: 'auto'
+                  },
+
+                  {
+                    label: '开启',
+                    value: true
+                  },
+
+                  {
+                    label: '关闭',
+                    value: false
+                  }
+                ]
+              },
+              getSchemaTpl('switch', {
+                name: 'affixHeader',
+                label: '是否固定表头',
+                pipeIn: defaultValue(false)
+              })
+            ]
+          },
           getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
           getSchemaTpl('style:classNames', {
             schema: [

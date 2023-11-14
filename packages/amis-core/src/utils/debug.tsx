@@ -8,10 +8,12 @@ import {findDOMNode, render, unmountComponentAtNode} from 'react-dom';
 // import {createRoot} from 'react-dom/client';
 import {autorun, observable} from 'mobx';
 import {observer} from 'mobx-react';
-import {uuidv4} from './helper';
+import {uuidv4, importLazyComponent} from './helper';
 import position from './position';
 
-export const JsonView = React.lazy(() => import('react-json-view'));
+export const JsonView = React.lazy(() =>
+  import('react-json-view').then(importLazyComponent)
+);
 
 class Log {
   @observable cat = '';
@@ -501,4 +503,31 @@ export function warning(cat: Category, msg: string, ext?: object) {
   console.trace(log);
   console.groupEnd();
   store.logs.push(log);
+}
+
+// 辅助定位是因为什么属性变化导致了组件更新
+export function traceProps(props: any, prevProps: any, componentName: string) {
+  console.log(
+    componentName,
+    Object.keys(props)
+      .map(key => {
+        if (props[key] !== prevProps[key]) {
+          if (key === 'data') {
+            return `data[${Object.keys(props[key])
+              .map(item => {
+                if (props[key][item] !== prevProps[key][item]) {
+                  return `${item}`;
+                }
+                return '';
+              })
+              .filter(item => item)
+              .join(', ')}]`;
+          }
+
+          return key;
+        }
+        return '';
+      })
+      .filter(item => item)
+  );
 }

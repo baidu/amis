@@ -189,6 +189,7 @@ register('en-US', {
   'Options.editLabel': 'Edit {{label}}',
   'Options.label': 'option',
   'Options.createFailed': 'create failed, please check',
+  'Options.retry': "Loading failed '{{reason}}', click retry",
   'placeholder.empty': '<Empty>',
   'placeholder.enter': 'Enter',
   'placeholder.noData': 'No data',

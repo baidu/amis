@@ -200,6 +200,19 @@ CRUD 组件对数据源接口的数据结构要求如下：
 | orderDir | 'asc'/'desc' | 排序方式                       |
 | keywords | string       | 搜索关键字                     |
 
+### 解析 Query 原始类型
+
+> `3.5.0`及以上版本
+
+`syncLocation`开启后，CRUD 在初始化数据域时，将会对 url 中的 Query 进行转换，将原始类型的字符串格式的转化为同位类型，目前仅支持**布尔类型**
+
+```
+"true"  ==> true
+"false" ==> false
+```
+
+如果只想保持字符串格式，可以设置`"parsePrimitiveQuery": false`关闭该特性，具体效果参考[示例](../../../examples/crud/parse-primitive-query)。
+
 ## 功能
 
 既然这个渲染器叫增删改查，那接下来分开介绍这几个功能吧。
@@ -567,6 +580,61 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
       }
     ]
   }
+}
+```
+
+## 嵌套
+
+当行数据中存在 `children` 字段时，CRUD 会自动识别为树形数据，并支持展开收起。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "name": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/crud/table2",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        }
+    ]
+}
+```
+
+## 嵌套懒加载
+
+如果数据量比较大不适合一次性加载，可以配置 `deferApi` 接口，结合行数据中标记 `defer: true` 属性，实现懒加载。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "name": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/crud/table6",
+    "deferApi": "/api/mock2/crud/table6?parentId=${id}",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        }
+    ]
 }
 ```
 
@@ -2795,6 +2863,8 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 > 本文中的例子为了不相互影响都关闭了这个功能。
 > 另外如果需要使用接口联动，需要设置`syncLocation: false`
 
+`syncLocation`开启后，数据域经过地址栏同步后，原始值被转化为字符串同步回数据域，但布尔值（boolean）同步后不符合预期数据结构，导致组件渲染出错。比如查询条件表单中包含[Checkbox](./form/checkbox)组件，此时可以设置`{"trueValue": "1", "falseValue": "0"}`，将真值和假值设置为字符串格式规避。从`3.5.0`版本开始，已经支持[`parsePrimitiveQuery`](#解析query原始类型)，该配置默认开启。
+
 ## 前端一次性加载
 
 如果你的数据并不是很大，而且后端不方便做分页和条件过滤操作，那么通过配置`loadDataOnce`实现前端一次性加载并支持分页和条件过滤操作。
@@ -2843,8 +2913,6 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
     "syncLocation": false,
     "api": "/api/mock2/sample",
     "loadDataOnce": true,
-    "autoGenerateFilter": true,
-    "filterSettingSource": ["browser", "version"],
     "columns": [
         {
             "name": "id",
@@ -2891,6 +2959,158 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 ```
 
 > **注意：**如果你的数据量较大，请务必使用服务端分页的方案，过多的前端数据展示，会显著影响前端页面的性能
+
+另外前端一次性加载当有查寻条件的时候，默认还是会重新请求一次，如果配置 `loadDataOnceFetchOnFilter` 为 `false` 则为前端过滤。
+
+```schema: scope="body"
+{
+  "type": "crud",
+  "syncLocation": false,
+  "api": "/api/mock2/sample",
+  "loadDataOnce": true,
+  "loadDataOnceFetchOnFilter": false,
+  "autoGenerateFilter": true,
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "platform",
+      "label": "Platform(s)"
+    },
+    {
+      "name": "version",
+      "label": "Engine version",
+      "searchable": {
+        "type": "select",
+        "name": "version",
+        "label": "Engine version",
+        "clearable": true,
+        "multiple": true,
+        "searchable": true,
+        "checkAll": true,
+        "options": [
+          "1.7",
+          "3.3",
+          "5.6"
+        ],
+        "maxTagCount": 10,
+        "extractValue": true,
+        "joinValues": false,
+        "delimiter": ",",
+        "defaultCheckAll": false,
+        "checkAllLabel": "全选"
+      }
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    }
+  ]
+}
+```
+
+`loadDataOnceFetchOnFilter` 配置成 `true` 则会强制重新请求接口比如以下用法
+
+> 此时如果不配置或者配置为 `false` 是前端直接过滤，不过记得配置 name 为行数据中的属性，如果行数据中没有对应属性则不会起作用
+
+```schema: scope="body"
+{
+  "type": "crud",
+  "syncLocation": false,
+  "api": "/api/mock2/sample",
+  "loadDataOnce": true,
+  "loadDataOnceFetchOnFilter": true,
+  "headerToolbar": [
+    {
+      "type": "search-box",
+      "name": "keywords"
+    }
+  ],
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "platform",
+      "label": "Platform(s)"
+    },
+    {
+      "name": "version",
+      "label": "Engine version",
+      "searchable": {
+        "type": "select",
+        "name": "version",
+        "label": "Engine version",
+        "clearable": true,
+        "multiple": true,
+        "searchable": true,
+        "checkAll": true,
+        "options": [
+          "1.7",
+          "3.3",
+          "5.6"
+        ],
+        "maxTagCount": 10,
+        "extractValue": true,
+        "joinValues": false,
+        "delimiter": ",",
+        "defaultCheckAll": false,
+        "checkAllLabel": "全选"
+      }
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    }
+  ]
+}
+```
+
+### 匹配函数
+
+> `3.5.0` 及以上版本
+
+支持自定义匹配函数`matchFunc`，当开启`loadDataOnce`时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景，函数签名如下：
+
+```typescript
+interface CRUDMatchFunc {
+  (
+    /* 当前列表的全量数据 */
+    items: any,
+    /* 最近一次接口返回的全量数据 */
+    itemsRaw: any,
+    /** 相关配置 */
+    options?: {
+      /* 查询参数 */
+      query: Record<string, any>,
+      /* 列配置 */
+      columns: any;
+    }
+  ): boolean;
+}
+```
+
+具体效果请参考[示例](../../../examples/crud/match-func)。
+
 
 ## 动态列
 
@@ -3027,13 +3247,14 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 ## 属性表
 
-| 属性名                                | 类型                                                                                    | 默认值                          | 说明                                                                                                                  |
-| ------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| 属性名                                | 类型                                                                                    | 默认值                          | 说明                                                                                                                  | 版本 |
+| ------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --- |
 | type                                  | `string`                                                                                |                                 | `type` 指定为 CRUD 渲染器                                                                                             |
 | mode                                  | `string`                                                                                | `"table"`                       | `"table" 、 "cards" 或者 "list"`                                                                                      |
 | title                                 | `string`                                                                                | `""`                            | 可设置成空，当设置成空时，没有标题栏                                                                                  |
 | className                             | `string`                                                                                |                                 | 表格外层 Dom 的类名                                                                                                   |
 | api                                   | [API](../../docs/types/api)                                                             |                                 | CRUD 用来获取列表数据的 api。                                                                                         |
+| deferApi                              | [API](../../docs/types/api)                                                             |                                 | 当行数据中有 defer 属性时，用此接口进一步加载内容                                                                     |
 | loadDataOnce                          | `boolean`                                                                               |                                 | 是否一次性加载所有数据（前端分页）                                                                                    |
 | loadDataOnceFetchOnFilter             | `boolean`                                                                               | `true`                          | 在开启 loadDataOnce 时，filter 时是否去重新请求 api                                                                   |
 | source                                | `string`                                                                                |                                 | 数据映射接口返回某字段的值，不设置会默认使用接口返回的`${items}`或者`${rows}`，也可以设置成上层数据源的内容           |
@@ -3066,6 +3287,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | defaultParams                         | `Object`                                                                                |                                 | 设置默认 filter 默认参数，会在查询的时候一起发给后端                                                                  |
 | pageField                             | `string`                                                                                | `"page"`                        | 设置分页页码字段名。                                                                                                  |
 | perPageField                          | `string`                                                                                | `"perPage"`                     | 设置分页一页显示的多少条数据的字段名。注意：最好与 defaultParams 一起使用，请看下面例子。                             |
+| pageDirectionField                    | `string`                                                                                | `"pageDir"`                     | 分页方向字段名可能是 forward 或者 backward                                                                            |
 | perPageAvailable                      | `Array<number>`                                                                         | `[5, 10, 20, 50, 100]`          | 设置一页显示多少条数据下拉框可选条数。                                                                                |
 | orderField                            | `string`                                                                                |                                 | 设置用来确定位置的字段名，设置后新的顺序将被赋值到该字段中。                                                          |
 | hideQuickSaveBtn                      | `boolean`                                                                               | `false`                         | 隐藏顶部快速保存提示                                                                                                  |
@@ -3081,6 +3303,8 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | resetPageAfterAjaxItemAction          | `boolean`                                                                               | `false`                         | 单条数据 ajax 操作后是否重置页码为第一页                                                                              |
 | autoFillHeight                        | `boolean` 丨 `{height: number}`                                                         |                                 | 内容区域自适应高度                                                                                                    |
 | canAccessSuperData                    | `boolean`                                                                               | `true`                          | 指定是否可以自动获取上层的数据并映射到表格行数据上，如果列也配置了该属性，则列的优先级更高                            |
+| matchFunc | `string`                                  |    [`CRUDMatchFunc`](#匹配函数)            | 自定义匹配函数, 当开启`loadDataOnce`时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景 | `3.5.0` |
+
 
 注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
 
@@ -3145,17 +3369,17 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
 
-| 事件名称       | 事件参数                                                                | 说明                 |
-| -------------- | ----------------------------------------------------------------------- | -------------------- |
-| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行 | 手动选择表格项时触发 |
-| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值            | 点击列排序时触发     |
-| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string \| undefined` 列筛选值      | 点击列筛选时触发，点击重置后事件参数`filterValue`为`undefined`     |
-| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: object` 列搜索数据    | 点击列搜索时触发     |
-| orderChange    | `movedItems: item[]` 已排序数据                                         | 手动拖拽行排序时触发 |
-| columnToggled  | `columns: item[]` 当前显示的列配置数据                                  | 点击自定义列时触发   |
-| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引                    | 点击整行时触发       |
-| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                    | 移入整行时触发       |
-| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                    | 移出整行时触发       |
+| 事件名称       | 事件参数                                                                        | 说明                                                           |
+| -------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| selectedChange | `selectedItems: item[]` 已选择行<br/>`unSelectedItems: item[]` 未选择行         | 手动选择表格项时触发                                           |
+| columnSort     | `orderBy: string` 列排序列名<br/>`orderDir: string` 列排序值                    | 点击列排序时触发                                               |
+| columnFilter   | `filterName: string` 列筛选列名<br/>`filterValue: string \| undefined` 列筛选值 | 点击列筛选时触发，点击重置后事件参数`filterValue`为`undefined` |
+| columnSearch   | `searchName: string` 列搜索列名<br/>`searchValue: object` 列搜索数据            | 点击列搜索时触发                                               |
+| orderChange    | `movedItems: item[]` 已排序数据                                                 | 手动拖拽行排序时触发                                           |
+| columnToggled  | `columns: item[]` 当前显示的列配置数据                                          | 点击自定义列时触发                                             |
+| rowClick       | `item: object` 行点击数据<br/>`index: number` 行索引                            | 点击整行时触发                                                 |
+| rowMouseEnter  | `item: object` 行移入数据<br/>`index: number` 行索引                            | 移入整行时触发                                                 |
+| rowMouseLeave  | `item: object` 行移出数据<br/>`index: number` 行索引                            | 移出整行时触发                                                 |
 
 ### selectedChange
 
@@ -4269,7 +4493,7 @@ value 结构说明：
 
 ### setValue
 
-通过`setValue`更新指定CRUD的数据。
+通过`setValue`更新指定 CRUD 的数据。
 
 #### 合并数据
 
@@ -4406,6 +4630,7 @@ value 结构说明：
     }
 ]
 ```
+
 #### 更新列表记录
 
 ```schema: scope="body"
@@ -4499,6 +4724,165 @@ value 结构说明：
       ]
     }
 ]
+```
+
+#### 更新指定行记录
+
+可以通过指定`index`或者`condition`来分别更新指定索引的行记录和指定满足条件（条件表达式或者 ConditionBuilder）的行记录，另外`replace`同样生效，即可以完全替换指定行记录，也可以对指定行记录做合并。
+
+```schema
+{
+  type: 'page',
+  data: {
+    i: '3,5'
+  },
+  body: [
+    [
+      {
+        "type": "button",
+        "label": "更新index为3和5的行记录",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "crud_setvalue_item",
+                "args": {
+                  "value": {
+                    "engine": "amis",
+                    "browser": "Chrome",
+                    "platform": "Mac Pro",
+                    "version": "4",
+                    "grade": "Y",
+                    "badgeText": "你好！",
+                    "id": 1234
+                  },
+                  "index": "${i}"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "button",
+        "label": "更新index为3和5的行记录(替换)",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "crud_setvalue_item",
+                "args": {
+                  "value": {
+                    "engine": "amis",
+                    "id": 1234
+                  },
+                  "index": "${i}",
+                  "replace": true
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+          "type": "button",
+          "label": "更新version=7的行记录",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "setValue",
+                  "componentId": "crud_setvalue_item",
+                  "args": {
+                    "value": {
+                      "engine": "amis",
+                      "browser": "Chrome",
+                      "platform": "Mac Pro",
+                      "version": "4",
+                      "grade": "Y",
+                      "badgeText": "你好！",
+                      "id": 1234
+                    },
+                    "condition": "${version === '7'}"
+                  }
+                }
+              ]
+            }
+          }
+      },
+      {
+        "type": "button",
+        "label": "更新version=4的行记录",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "setValue",
+                "componentId": "crud_setvalue_item",
+                "args": {
+                  "value": {
+                    "engine": "amis",
+                    "browser": "Chrome",
+                    "platform": "Mac Pro",
+                    "version": "4",
+                    "grade": "Y",
+                    "badgeText": "你好！",
+                    "id": 1234
+                  },
+                  "condition": {
+                      conjunction: 'and',
+                      children: [
+                        {
+                          left: {
+                            type: 'field',
+                            field: 'version'
+                          },
+                          op: 'equal',
+                          right: "4"
+                        }
+                      ]
+                    }
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "crud",
+        "id": "crud_setvalue_item",
+        "syncLocation": false,
+        "api": "/api/mock2/sample",
+        "quickSaveApi": "/api/mock2/sample/bulkUpdate",
+        "headerToolbar": [
+          {
+            "type": "tpl",
+            "tpl": "记录总数：${count}"
+          }
+        ],
+        "columns": [
+          {
+            "name": "id",
+            "label": "ID",
+            "id": "u:3db3f2b1b99e"
+          },
+          {
+            "name": "engine",
+            "label": "engine",
+            "id": "u:0b9be99f3403"
+          },
+          {
+            "name": "version",
+            "label": "version",
+            "id": "u:4868d7db0139"
+          }
+        ]
+      }
+  ]
+  ]
+}
 ```
 
 #### 行记录中字段赋值

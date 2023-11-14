@@ -453,9 +453,38 @@ export const doc: {
     namespace: "数学函数"
   },
   {
+<<<<<<< HEAD
     name: "LEFT",
     description: "返回传入文本左侧的指定长度字符串。",
     example: "LEFT(text, len)",
+=======
+    name: 'POW',
+    description:
+      '返回基数的指数次幂，参数base为基数，exponent为指数，如果参数值不合法则返回基数本身，计算结果不合法，则返回NaN。',
+    example: 'POW(base, exponent)',
+    params: [
+      {
+        type: 'number',
+        name: 'base',
+        description: '基数'
+      },
+      {
+        type: 'number',
+        name: 'exponent',
+        description: '指数'
+      }
+    ],
+    returns: {
+      type: 'number',
+      description: '基数的指数次幂'
+    },
+    namespace: '数学函数'
+  },
+  {
+    name: 'LEFT',
+    description: '返回传入文本左侧的指定长度字符串。',
+    example: 'LEFT(text, len)',
+>>>>>>> master
     params: [
       {
         type: "string",
@@ -1030,9 +1059,10 @@ export const doc: {
     namespace: "日期函数"
   },
   {
-    name: "WEEKDAY",
-    description: "获取日期的星期几。\n\n示例\n\nWEEKDAY('2023-02-27') 得到 1。",
-    example: "WEEKDAY(date)",
+    name: 'WEEKDAY',
+    description:
+      "获取日期的星期几。\n\n示例\n\nWEEKDAY('2023-02-27') 得到 0。\nWEEKDAY('2023-02-27', 2) 得到 1。",
+    example: 'WEEKDAY(date)',
     params: [
       {
         type: "any",
@@ -1052,9 +1082,10 @@ export const doc: {
     namespace: "日期函数"
   },
   {
-    name: "WEEK",
-    description: "获取年份的星期，即第几周。\n\n示例\n\nWEEK('2023-03-05') 得到 10。",
-    example: "WEEK(date)",
+    name: 'WEEK',
+    description:
+      "获取年份的星期，即第几周。\n\n示例\n\nWEEK('2023-03-05') 得到 9。",
+    example: 'WEEK(date)',
     params: [
       {
         type: "any",

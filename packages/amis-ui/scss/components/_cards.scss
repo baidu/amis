@@ -33,6 +33,7 @@
   &-fixedTop {
     position: sticky;
     background: var(--white);
+    top: var(--affix-offset-top);
     // box-shadow: var(--Cards-fixedTop-boxShadow);
     padding: var(--gap-sm);
     z-index: $zindex-sticky;

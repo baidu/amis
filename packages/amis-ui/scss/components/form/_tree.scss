@@ -199,6 +199,7 @@
     height: var(--Tree-itemHeight);
     line-height: var(--Tree-itemHeight);
     padding-right: var(--Tree-icon-gap);
+    flex-shrink: 0;
 
     > a {
       display: inline-block;
@@ -359,7 +360,6 @@
 
   &-itemText {
     cursor: pointer;
-    flex: 1 auto;
     display: inline-block;
     color: var(--inputTree-base-default-color);
     font-size: var(--select-tree-fontSize);

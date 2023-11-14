@@ -49,7 +49,7 @@ export const FormStore = ServiceStore.named('FormStore')
       while (pool.length) {
         const current = pool.shift()!;
 
-        if (current.storeType === 'FormItemStore') {
+        if (current.storeType === 'FormItemStore' && !current.isControlled) {
           formItems.push(current);
         } else if (
           !['ComboStore', 'TableStore', 'FormStore'].includes(current.storeType)
@@ -193,7 +193,7 @@ export const FormStore = ServiceStore.named('FormStore')
           }
         }
         item.reset();
-        item.validateOnChange && item.validate(self.data);
+        self.inited && item.validateOnChange && item.validate(self.data);
       });
 
       // 同步 options
@@ -439,20 +439,22 @@ export const FormStore = ServiceStore.named('FormStore')
         if (ret?.dispatcher?.prevented) {
           return;
         }
-        if (e.type === 'ServerError') {
-          const result = (e as ServerError).response;
-          getEnv(self).notify(
-            'error',
-            e.message,
-            result.msgTimeout !== undefined
-              ? {
-                  closeButton: true,
-                  timeout: result.msgTimeout
-                }
-              : undefined
-          );
-        } else {
-          getEnv(self).notify('error', e.message);
+        if (!(api as ApiObject)?.silent) {
+          if (e.type === 'ServerError') {
+            const result = (e as ServerError).response;
+            getEnv(self).notify(
+              'error',
+              e.message,
+              result.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: result.msgTimeout
+                  }
+                : undefined
+            );
+          } else {
+            getEnv(self).notify('error', e.message);
+          }
         }
         throw e;
       }
@@ -695,6 +697,9 @@ export const FormStore = ServiceStore.named('FormStore')
       self.items.forEach(item => {
         if (item.name && item.type !== 'hidden') {
           setVariable(toClear, item.name, item.resetValue);
+        }
+        if (item.extraName && typeof item.extraName === 'string') {
+          setVariable(toClear, item.extraName, item.resetValue);
         }
       });
       setValues(toClear);

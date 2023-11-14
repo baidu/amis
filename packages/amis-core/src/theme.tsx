@@ -122,7 +122,7 @@ export interface ThemeProps {
   };
 }
 
-export interface ThemeOutterProps extends Partial<ThemeProps> {}
+export interface ThemeOuterProps extends Partial<ThemeProps> {}
 
 export let defaultTheme: string = 'cxd';
 export const ThemeContext = React.createContext('');
@@ -136,7 +136,7 @@ export function themeable<
     T,
     Omit<React.ComponentProps<T>, keyof ThemeProps>
   > &
-    ThemeOutterProps;
+    ThemeOuterProps;
 
   const result = hoistNonReactStatic(
     class extends React.Component<OuterProps> {

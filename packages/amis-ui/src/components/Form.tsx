@@ -34,8 +34,9 @@ export interface FormProps extends ThemeProps, LocaleProps {
 
 export function Form(props: FormProps) {
   const {classnames: cx, className, autoSubmit, value, onChange} = props;
+  const defaultValues = props.value ?? props.defaultValue;
   const methods = useForm({
-    defaultValues: props.value ?? props.defaultValue,
+    defaultValues: defaultValues,
     resolver: useValidationResolver(props.translate, props.onValidate)
   });
   let onSubmit = React.useRef<(data: any) => void>(
@@ -59,7 +60,7 @@ export function Form(props: FormProps) {
     }, []);
   }
   React.useEffect(() => {
-    if (value && isObjectShallowModified(value, methods.getValues())) {
+    if (value && isObjectShallowModified(value, methods.getValues(), false)) {
       Object.keys(value).forEach(key => {
         methods.setValue(key, value[key]);
       });
@@ -67,17 +68,17 @@ export function Form(props: FormProps) {
   }, [value]);
   if (onChange) {
     React.useEffect(() => {
-      const subscriber = methods.watch(value => {
-        onChange(value);
+      const subscriber = methods.watch((value, info) => {
+        onChange({...defaultValues, ...value});
       });
       return () => subscriber.unsubscribe();
     }, [onChange]);
   }
 
-  React.useEffect(() => {
-    if (props.forwardRef) {
-      // 这个模式别的组件没见到过不知道后续会不会不允许
-      props.forwardRef.current = {
+  React.useImperativeHandle(
+    props.forwardRef,
+    () => {
+      return {
         submit: () =>
           new Promise<any>(resolve => {
             methods.handleSubmit(
@@ -87,16 +88,24 @@ export function Form(props: FormProps) {
               },
               e => resolve(e.customValidate?.message || false)
             )();
+          }),
+        validate: () =>
+          new Promise<any>(resolve => {
+            methods.handleSubmit(
+              () => {
+                resolve('');
+              },
+              e =>
+                resolve(
+                  e.customValidate?.message ||
+                    props.translate('Form.validateFailed')
+                )
+            )();
           })
       };
-    }
-
-    return () => {
-      if (props.forwardRef) {
-        props.forwardRef.current = undefined;
-      }
-    };
-  });
+    },
+    []
+  );
 
   return (
     <FormProvider {...methods}>

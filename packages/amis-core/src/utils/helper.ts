@@ -1,15 +1,16 @@
 import React from 'react';
 import moment from 'moment';
 import {isObservable, isObservableArray} from 'mobx';
-import uniq from 'lodash/uniq'
-import last from 'lodash/last'
-import merge from 'lodash/merge'
-import isPlainObject from 'lodash/isPlainObject'
-import isEqual from 'lodash/isEqual'
-import isNaN from 'lodash/isNaN'
-import isNumber from 'lodash/isNumber'
-import isString from 'lodash/isString'
+import uniq from 'lodash/uniq';
+import last from 'lodash/last';
+import merge from 'lodash/merge';
+import isPlainObject from 'lodash/isPlainObject';
+import isEqual from 'lodash/isEqual';
+import isNaN from 'lodash/isNaN';
+import isNumber from 'lodash/isNumber';
+import isString from 'lodash/isString';
 import qs from 'qs';
+import {compile} from 'path-to-regexp';
 
 import type {Schema, PlainObject, FunctionPropertyNames} from '../types';
 
@@ -20,7 +21,8 @@ import {autobindMethod} from './autobind';
 import {
   isPureVariable,
   resolveVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  tokenize
 } from './tpl-builtin';
 import {
   cloneObject,
@@ -196,9 +198,37 @@ export function anyChanged(
   to: {[propName: string]: any},
   strictMode: boolean = true
 ): boolean {
-  return (typeof attrs === 'string' ? attrs.split(/\s*,\s*/) : attrs).some(
-    key => (strictMode ? from[key] !== to[key] : from[key] != to[key])
-  );
+  return (
+    typeof attrs === 'string'
+      ? attrs.split(',').map(item => item.trim())
+      : attrs
+  ).some(key => (strictMode ? from[key] !== to[key] : from[key] != to[key]));
+}
+
+type Mutable<T> = {
+  -readonly [k in keyof T]: T[k];
+};
+
+export function changedEffect<T extends Record<string, any>>(
+  attrs: string | Array<string>,
+  origin: T,
+  data: T,
+  effect: (changes: Partial<Mutable<T>>) => void,
+  strictMode: boolean = true
+) {
+  const changes: Partial<T> = {};
+  const keys =
+    typeof attrs === 'string'
+      ? attrs.split(',').map(item => item.trim())
+      : attrs;
+
+  keys.forEach(key => {
+    if (strictMode ? origin[key] !== data[key] : origin[key] != data[key]) {
+      (changes as any)[key] = data[key];
+    }
+  });
+
+  Object.keys(changes).length && effect(changes);
 }
 
 export function rmUndefined(obj: PlainObject) {
@@ -1329,6 +1359,19 @@ export function getTreeParent<T extends TreeItem>(tree: Array<T>, value: T) {
   return ancestors?.length ? ancestors[ancestors.length - 1] : null;
 }
 
+export function countTree<T extends TreeItem>(
+  tree: Array<T>,
+  iterator?: (item: T, key: number, level: number, paths?: Array<T>) => any
+): number {
+  let count = 0;
+  eachTree(tree, (item, key, level, paths) => {
+    if (!iterator || iterator(item, key, level, paths)) {
+      count++;
+    }
+  });
+  return count;
+}
+
 export function ucFirst(str?: string) {
   return typeof str === 'string'
     ? str.substring(0, 1).toUpperCase() + str.substring(1)
@@ -1537,8 +1580,9 @@ export function chainEvents(props: any, schema: any) {
 
 export function mapObject(
   value: any,
-  fn: Function,
-  skipFn?: (value: any) => boolean
+  valueMapper: (value: any) => any,
+  skipFn?: (value: any) => boolean,
+  keyMapper?: (key: string) => string
 ): any {
   // 如果value值满足skipFn条件则不做map操作
   skipFn =
@@ -1553,25 +1597,29 @@ export function mapObject(
           return false;
         };
 
-  if (!!skipFn(value)) {
+  if (skipFn(value)) {
     return value;
   }
 
   if (Array.isArray(value)) {
-    return value.map(item => mapObject(item, fn));
+    return value.map(item => mapObject(item, valueMapper, skipFn, keyMapper));
   }
 
   if (isObject(value)) {
-    let tmpValue = {...value};
-    Object.keys(tmpValue).forEach(key => {
-      (tmpValue as PlainObject)[key] = mapObject(
-        (tmpValue as PlainObject)[key],
-        fn
+    let tmpValue = {};
+    Object.keys(value).forEach(key => {
+      const newKey = keyMapper ? keyMapper(key) : key;
+
+      (tmpValue as PlainObject)[newKey] = mapObject(
+        (value as PlainObject)[key],
+        valueMapper,
+        skipFn,
+        keyMapper
       );
     });
     return tmpValue;
   }
-  return fn(value);
+  return valueMapper(value);
 }
 
 export function loadScript(src: string) {
@@ -1712,7 +1760,7 @@ function resolveValueByName(
   canAccessSuper?: boolean
 ) {
   return isPureVariable(name)
-    ? resolveVariableAndFilter(name, data)
+    ? resolveVariableAndFilter(name, data, '|raw')
     : resolveVariable(name, data, canAccessSuper);
 }
 
@@ -1868,13 +1916,17 @@ export function hashCode(s: string): number {
  */
 export function JSONTraverse(
   json: any,
-  mapper: (value: any, key: string | number, host: Object) => any
+  mapper: (value: any, key: string | number, host: Object) => any,
+  maxDeep: number = Number.MAX_VALUE
 ) {
+  if (maxDeep <= 0) {
+    return;
+  }
   Object.keys(json).forEach(key => {
     const value: any = json[key];
     if (!isObservable(value)) {
       if (isPlainObject(value) || Array.isArray(value)) {
-        JSONTraverse(value, mapper);
+        JSONTraverse(value, mapper, maxDeep - 1);
       } else {
         mapper(value, key, json);
       }
@@ -1990,25 +2042,57 @@ export function isNumeric(value: any): boolean {
 }
 
 /**
+ * 解析Query字符串中的原始类型，目前仅支持转化布尔类型
+ *
+ * @param query 查询字符串
+ * @returns 解析后的查询字符串
+ */
+export function parsePrimitiveQueryString(rawQuery: Record<string, any>) {
+  if (!isPlainObject(rawQuery)) {
+    return rawQuery;
+  }
+
+  const query = JSONValueMap(rawQuery, value => {
+    /** 解析布尔类型，后续有需要在这里扩充 */
+    if (value === 'true' || value === 'false') {
+      return value === 'true';
+    }
+
+    return value;
+  });
+
+  return query;
+}
+
+/**
  * 获取URL链接中的query参数（包含hash mode）
  *
  * @param location Location对象，或者类Location结构的对象
+ * @param {Object} options 配置项
+ * @param {Boolean} options.parsePrimitive 是否将query的值解析为原始类型，目前仅支持转化布尔类型
  */
 export function parseQuery(
-  location?: Location | {query?: any; search?: any; [propName: string]: any}
+  location?: Location | {query?: any; search?: any; [propName: string]: any},
+  options?: {parsePrimitive?: boolean}
 ): Record<string, any> {
+  const {parsePrimitive = false} = options || {};
   const query =
     (location && !(location instanceof Location) && location?.query) ||
     (location && location?.search && qsparse(location.search.substring(1))) ||
     (window.location.search && qsparse(window.location.search.substring(1)));
+  const normalizedQuery = isPlainObject(query)
+    ? parsePrimitive
+      ? parsePrimitiveQueryString(query)
+      : query
+    : {};
   /* 处理hash中的query */
   const hash = window.location?.hash;
   let hashQuery = {};
   let idx = -1;
+
   if (typeof hash === 'string' && ~(idx = hash.indexOf('?'))) {
     hashQuery = qsparse(hash.substring(idx + 1));
   }
-  const normalizedQuery = isPlainObject(query) ? query : {};
 
   return merge(normalizedQuery, hashQuery);
 }
@@ -2044,4 +2128,113 @@ export function differenceFromAll<T>(
   differenceFromAllCache.options = options;
   differenceFromAllCache.res = res;
   return res;
+}
+
+/**
+ * 基于 schema 自动提取 trackExpression
+ * 可能会不准确，建议用户自己配置
+ * @param schema
+ * @returns
+ */
+export function buildTrackExpression(schema: any) {
+  if (!isPlainObject(schema) && !Array.isArray(schema)) {
+    return '';
+  }
+
+  const trackExpressions: Array<string> = [];
+  JSONTraverse(
+    schema,
+    (value, key: string) => {
+      if (typeof value !== 'string') {
+        return;
+      }
+
+      if (key === 'name') {
+        trackExpressions.push(isPureVariable(value) ? value : `\${${value}}`);
+      } else if (key === 'source') {
+        trackExpressions.push(value);
+      } else if (
+        key.endsWith('On') ||
+        key === 'condition' ||
+        key === 'trackExpression'
+      ) {
+        trackExpressions.push(
+          value.startsWith('${') ? value : `<script>${value}</script>`
+        );
+      } else if (value.includes('$')) {
+        trackExpressions.push(value);
+      }
+    },
+    10 // 最多遍历 10 层
+  );
+
+  return trackExpressions.join('|');
+}
+
+export function evalTrackExpression(
+  expression: string,
+  data: Record<string, any>
+) {
+  if (typeof expression !== 'string') {
+    return '';
+  }
+
+  const parts: Array<{
+    type: 'text' | 'script';
+    value: string;
+  }> = [];
+  while (true) {
+    // 这个是自动提取的时候才会用到，用户配置不要用到这个语法
+    const idx = expression.indexOf('<script>');
+    if (idx === -1) {
+      break;
+    }
+    const endIdx = expression.indexOf('</script>');
+    if (endIdx === -1) {
+      throw new Error(
+        'Invalid trackExpression miss end script token `</script>`'
+      );
+    }
+    if (idx) {
+      parts.push({
+        type: 'text',
+        value: expression.substring(0, idx)
+      });
+    }
+
+    parts.push({
+      type: 'script',
+      value: expression.substring(idx + 8, endIdx)
+    });
+    expression = expression.substring(endIdx + 9);
+  }
+
+  expression &&
+    parts.push({
+      type: 'text',
+      value: expression
+    });
+
+  return parts
+    .map(item => {
+      if (item.type === 'text') {
+        return tokenize(item.value, data);
+      }
+
+      return evalExpression(item.value, data);
+    })
+    .join('');
+}
+
+// 很奇怪的问题，react-json-view import 有些情况下 mod.default 才是 esModule
+export function importLazyComponent(mod: any) {
+  return mod.default.__esModule ? mod.default : mod;
+}
+
+export function replaceUrlParams(path: string, params: Record<string, any>) {
+  if (typeof path === 'string' && /\:\w+/.test(path)) {
+    return compile(path)(params);
+  }
+
+  return path;
 }

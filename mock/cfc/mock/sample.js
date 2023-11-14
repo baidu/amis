@@ -31,6 +31,8 @@ module.exports = function (req, res) {
     return res.json({myItems: DB.concat()});
   } else if (pathname === 'sample/arrayInData') {
     return res.json({data: DB.concat()});
+  } else if (pathname === 'sample/simpleList') {
+    return indexSimple(req, res);
   }
 
   return index(req, res);
@@ -97,6 +99,73 @@ function index(req, res) {
   }
 
   return response();
+}
+
+function indexSimple(req, res) {
+  const perPage = 10;
+  const page = parseInt(req.query.page, 10) || 1;
+  const dir = req.query.pageDir;
+  const after = req.query.after;
+  const before = req.query.before;
+
+  let items = DB.concat();
+
+  // 制造点随机内容不然还以为没刷新
+  items = items.map(item => {
+    return {
+      ...item,
+      engine: item.engine + ' - ' + Math.random().toString(36).substring(7)
+    };
+  });
+
+  if (req.query.keywords && !req.query.loadDataOnce) {
+    const keywords = req.query.keywords;
+    items = items.filter(function (item) {
+      return ~JSON.stringify(item).indexOf(keywords);
+    });
+  }
+
+  if (req.query.engine && !req.query.loadDataOnce) {
+    const keywords = req.query.engine;
+    items = items.filter(function (item) {
+      return ~JSON.stringify(item.engine).indexOf(keywords);
+    });
+  }
+
+  if (req.query.orderBy && !req.query.loadDataOnce) {
+    const field = req.query.orderBy;
+    const direction = req.query.orderDir === 'desc' ? -1 : 1;
+    items = items.sort(function (a, b) {
+      a = String(a[field]);
+      b = String(b[field]);
+
+      if (/^\d+$/.test(a) && /^\d+$/.test(b)) {
+        a = parseInt(a, 10);
+        b = parseInt(b, 10);
+        return (a > b ? 1 : a < b ? -1 : 0) * direction;
+      }
+
+      return a.localeCompare(b) * direction;
+    });
+  }
+  let idx = 0;
+  if (dir === 'forward' && after) {
+    idx = items.findIndex(item => item.id === parseInt(after, 10)) + 1;
+  } else if (dir === 'backward' && before) {
+    idx = items.findIndex(item => item.id === parseInt(before, 10)) - perPage;
+  } else if (page) {
+    idx = (page - 1) * perPage;
+  }
+  idx = Math.max(Math.min(idx, items.length - 1), 0);
+
+  res.json({
+    status: 0,
+    msg: 'ok',
+    data: {
+      hasNext: idx + perPage < items.length,
+      rows: items.splice(idx, perPage)
+    }
+  });
 }
 
 function store(req, res) {

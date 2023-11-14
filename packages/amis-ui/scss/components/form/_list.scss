@@ -206,5 +206,20 @@
         var(--listSelect-base-disabled-bottom-left-border-radius);
       background: var(--listSelect-base-disabled-bg-color);
     }
+
+    &.is-custom {
+      border: none;
+      padding: 0;
+
+      &:hover,
+      &.is-active {
+        border: none;
+      }
+
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
   }
 }

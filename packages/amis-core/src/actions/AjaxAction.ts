@@ -54,7 +54,7 @@ export class AjaxAction implements RendererAction {
     }
 
     const env = event.context.env;
-    const silent = action?.options?.silent;
+    const silent = action?.options?.silent || (action?.api as ApiObject).silent;
     const messages = (action?.api as ApiObject)?.messages;
     let api = normalizeApi(action.api);
 

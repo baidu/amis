@@ -96,7 +96,6 @@ exports[`Renderer:steps 1`] = `
             </div>
             <div
               class="cxd-StepsItem-description cxd-StepsItem-ellText"
-              title="undefined"
             >
               <span />
             </div>
@@ -140,7 +139,6 @@ exports[`Renderer:steps 1`] = `
             </div>
             <div
               class="cxd-StepsItem-description cxd-StepsItem-ellText"
-              title="undefined"
             >
               <span />
             </div>
@@ -248,7 +246,6 @@ exports[`Renderer:steps 2`] = `
             </div>
             <div
               class="cxd-StepsItem-description cxd-StepsItem-ellText"
-              title="undefined"
             >
               <span />
             </div>
@@ -292,7 +289,6 @@ exports[`Renderer:steps 2`] = `
             </div>
             <div
               class="cxd-StepsItem-description cxd-StepsItem-ellText"
-              title="undefined"
             >
               <span />
             </div>
@@ -345,7 +341,6 @@ exports[`Renderer:steps labelPlacement 1`] = `
             </div>
             <div
               class="cxd-StepsItem-description cxd-StepsItem-ellText"
-              title="undefined"
             >
               <span />
             </div>
@@ -441,7 +436,6 @@ exports[`Renderer:steps labelPlacement 1`] = `
             </div>
             <div
               class="cxd-StepsItem-description cxd-StepsItem-ellText"
-              title="undefined"
             >
               <span />
             </div>
@@ -488,7 +482,6 @@ exports[`Renderer:steps progressDot 1`] = `
             </div>
             <div
               class="cxd-StepsItem-description cxd-StepsItem-ellText"
-              title="undefined"
             >
               <span />
             </div>
@@ -572,7 +565,6 @@ exports[`Renderer:steps progressDot 1`] = `
             </div>
             <div
               class="cxd-StepsItem-description cxd-StepsItem-ellText"
-              title="undefined"
             >
               <span />
             </div>
@@ -625,7 +617,6 @@ exports[`Renderer:steps status 1`] = `
             </div>
             <div
               class="cxd-StepsItem-description cxd-StepsItem-ellText"
-              title="undefined"
             >
               <span />
             </div>
@@ -721,7 +712,6 @@ exports[`Renderer:steps status 1`] = `
             </div>
             <div
               class="cxd-StepsItem-description cxd-StepsItem-ellText"
-              title="undefined"
             >
               <span />
             </div>
@@ -768,7 +758,6 @@ exports[`Renderer:steps with vertical mode 1`] = `
             </div>
             <div
               class="cxd-StepsItem-description cxd-StepsItem-ellText"
-              title="undefined"
             >
               <span />
             </div>
@@ -852,7 +841,6 @@ exports[`Renderer:steps with vertical mode 1`] = `
             </div>
             <div
               class="cxd-StepsItem-description cxd-StepsItem-ellText"
-              title="undefined"
             >
               <span />
             </div>

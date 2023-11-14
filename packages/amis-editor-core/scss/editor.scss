@@ -38,6 +38,7 @@
 @import './control/tree_option_control';
 @import './control/_inpupt-file';
 @import './control/_nav-control';
+@import './control/_key-value-map-control';
 @import './control/_status';
 @import './control/_icon-button-group-control';
 @import './control/_flex-setting-control';
@@ -216,6 +217,22 @@
         box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
         margin-bottom: 0;
       }
+      .ae-Dialog-preview-mount-node {
+        display: flex;
+        flex-direction: column;
+        > *:first-child {
+          flex: 1;
+        }
+        .amis-dialog-widget {
+          // 编辑态防止内容超出底部空白
+          position: static;
+          z-index: 0;
+        }
+
+        > .cxd-Page > .cxd-Page-content {
+          height: auto;
+        }
+      }
     }
 
     &:focus {
@@ -363,7 +380,8 @@
 
 .ae-IFramePreview {
   &,
-  & > .frame-content {
+  & > .frame-content,
+  .ae-Dialog-preview-mount-node {
     width: 100%;
     height: 100%;
     display: flex;
@@ -371,7 +389,7 @@
     flex: 1;
   }
 
-  > .frame-content > *:first-child {
+  > .frame-content .ae-Dialog-preview-mount-node > *:first-child {
     flex: 1;
     min-width: 100%;
     position: relative;
@@ -1214,7 +1232,6 @@
   &.layout-content {
     height: 100%;
     min-height: 88px;
-    background: #f7f7f8;
   }
 
   &.fill-placeholder {
@@ -1235,7 +1252,7 @@
 
 [data-region] {
   position: relative;
-  min-height: 10px;
+  min-height: 34px;
 
   &:empty {
     min-width: 20px;
@@ -1321,6 +1338,11 @@
       padding: 2px 5px;
     }
   }
+}
+
+[data-renderer='switch-container'],
+[data-renderer='container'] {
+  min-height: 0;
 }
 
 // 移动端有问题，先注释了
@@ -1618,7 +1640,6 @@ div.ae-DragImage {
   flex-direction: column;
   height: auto;
   width: 100%;
-  border: 1px solid $borderColor;
   > div:nth-child(2),
   div[data-renderer='drawer'] {
     flex-basis: auto;
@@ -1770,13 +1791,21 @@ div.ae-DragImage {
   width: px2rem(700px);
   @include panel-sm-content();
 
-  --radio-default-default-fontSize: #{$Editor-right-panel-font-size};
+  --Form-item-fontSize: #{$Editor-right-panel-font-size};
+  --select-base-default-fontSize: #{$Editor-right-panel-font-size};
+  --select-base-default-option-fontSize: #{$Editor-right-panel-font-size};
   --Table-thead-fontSize: #{$Editor-right-panel-font-size};
   --button-size-default-fontSize: #{$Editor-right-panel-font-size};
   --checkbox-checkbox-default-fontSize: #{$Editor-right-panel-font-size};
+  --radio-default-default-fontSize: #{$Editor-right-panel-font-size};
+  --radio-default-default-lineHeight: #{$Editor-right-panel-radios-line-height};
   --Tabs--vertical-fontSize: #{$Editor-right-panel-font-size};
   --Tabs--vertical-active-fontSize: #{$Editor-right-panel-font-size};
   --Tabs--vertical-hover-fontSize: #{$Editor-right-panel-font-size};
+
+  &--CRUD {
+    width: px2rem(800px);
+  }
 
   .ae-Steps {
     margin: auto;
@@ -1796,6 +1825,14 @@ div.ae-DragImage {
 
   &-Tabs {
     --Tabs-linkFontSize: #{px2rem(12px)};
+  }
+}
+
+/* 脚手架中配置弹窗 */
+.ae-Scaffold-Modal-settings {
+  .ae-Scaffold-Modal {
+    width: px2rem(400px);
+    max-width: px2rem(400px);
   }
 }
 

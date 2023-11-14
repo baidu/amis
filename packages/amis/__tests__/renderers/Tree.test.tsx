@@ -530,3 +530,76 @@ test('Tree: item disabled', async () => {
     transfer: ''
   });
 });
+
+test('Tree: single value mode should not render input when searchable enabled and default value settled', async () => {
+  const {container} = render(
+    amisRender({
+      type: 'container',
+      body: [
+        {
+          "type": "tree-select",
+          "name": "tree",
+          "label": "Tree",
+          "searchable": true,
+          "value": 2,
+          "inputClassName": "single",
+          "options": [
+            {
+              "label": "Folder A",
+              "value": 1,
+              "children": [
+                {
+                  "label": "file A",
+                  "value": 2
+                },
+                {
+                  "label": "file B",
+                  "value": 3
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tree-select",
+          "name": "tree2",
+          "label": "Tree2",
+          "searchable": true,
+          "value": "2,4",
+          "multiple": true,
+          "inputClassName": "multiple",
+          "options": [
+            {
+              "label": "Folder A",
+              "value": 1,
+              "children": [
+                {
+                  "label": "file A",
+                  "value": 2
+                },
+                {
+                  "label": "file B",
+                  "value": 3
+                }
+              ]
+            },
+            {
+              "label": "file C",
+              "value": 4
+            }
+          ]
+        }
+      ]
+    },
+    {},
+    makeEnv({})
+  ));
+
+  const singleModeInput = container.querySelector('.single .cxd-ResultBox-value-input');
+  const multipleModeInput = container.querySelector('.multiple .cxd-ResultBox-value-input');
+
+  /** 单选模式且已选值，不应该再有 input */
+  expect(singleModeInput).not.toBeInTheDocument();
+  /** 多选模式始终都有 input */
+  expect(multipleModeInput).toBeInTheDocument();
+})

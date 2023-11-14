@@ -199,6 +199,14 @@ setSchemaTpl('api', (patch: any = {}) => {
 
           {
             type: 'switch',
+            label: '静默请求',
+            name: 'silent',
+            mode: 'inline',
+            description: '是否静默发送请求，屏蔽报错提示'
+          },
+
+          {
+            type: 'switch',
             label: '是否设置缓存',
             name: 'cache',
             className: 'w-full m-b-xs',

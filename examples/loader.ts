@@ -16,6 +16,7 @@
     'fflate': __moduleId('fflate'),
     'moment': __moduleId('moment'),
     'mobx': __moduleId('mobx'),
+    'mobx-react': __moduleId('mobx-react'),
     'mobx-state-tree': __moduleId('mobx-state-tree'),
     'react-transition-group': __moduleId('react-transition-group'),
     'papaparse': __moduleId('papaparse'),
@@ -29,7 +30,12 @@
     'prop-types': __moduleId('prop-types'),
     'qs': __moduleId('qs'),
     'path-to-regexp': __moduleId('path-to-regexp'),
-    'history': __moduleId('history')
+    'history': __moduleId('history'),
+    'tslib': __moduleId('tslib'),
+    '@fex/amis': __moduleId('amis'),
+    '@fex/amis-ui': __moduleId('amis-ui'),
+    '@fex/amis-core': __moduleId('amis-core'),
+    '@fex/amis-formula': __moduleId('amis-formula')
   };
 
   Object.keys(mapping).forEach(key => {

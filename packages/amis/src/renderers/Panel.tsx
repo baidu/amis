@@ -4,10 +4,6 @@ import {
   Renderer,
   RendererProps
 } from 'amis-core';
-import {SchemaNode, ActionObject} from 'amis-core';
-import {getScrollParent, autobind} from 'amis-core';
-import {findDOMNode} from 'react-dom';
-import {resizeSensor} from 'amis-core';
 import {
   BaseSchema,
   SchemaClassName,
@@ -119,67 +115,6 @@ export default class Panel extends React.Component<PanelProps> {
     // bodyClassName: 'Panel-body'
   };
 
-  parentNode?: any;
-  unSensor: Function;
-  affixDom: React.RefObject<HTMLDivElement> = React.createRef();
-  footerDom: React.RefObject<HTMLDivElement> = React.createRef();
-  timer: ReturnType<typeof setTimeout>;
-
-  componentDidMount() {
-    const dom = findDOMNode(this) as HTMLElement;
-    let parent: HTMLElement | Window | null = dom ? getScrollParent(dom) : null;
-    if (!parent || parent === document.body) {
-      parent = window;
-    }
-    this.parentNode = parent;
-    parent.addEventListener('scroll', this.affixDetect);
-    this.unSensor = resizeSensor(dom as HTMLElement, this.affixDetect);
-    this.affixDetect();
-  }
-
-  componentWillUnmount() {
-    const parent = this.parentNode;
-    parent && parent.removeEventListener('scroll', this.affixDetect);
-    this.unSensor && this.unSensor();
-    clearTimeout(this.timer);
-  }
-
-  @autobind
-  affixDetect() {
-    if (
-      !this.props.affixFooter ||
-      !this.affixDom.current ||
-      !this.footerDom.current
-    ) {
-      return;
-    }
-
-    const affixDom = this.affixDom.current;
-    const footerDom = this.footerDom.current;
-    const offsetBottom =
-      this.props.affixOffsetBottom ?? this.props.env.affixOffsetBottom ?? 0;
-    let affixed = false;
-
-    if (footerDom.offsetWidth) {
-      affixDom.style.cssText = `bottom: ${offsetBottom}px;width: ${footerDom.offsetWidth}px`;
-    } else {
-      this.timer = setTimeout(this.affixDetect, 250);
-      return;
-    }
-
-    if (this.props.affixFooter === 'always') {
-      affixed = true;
-      footerDom.classList.add('invisible2');
-    } else {
-      const clip = footerDom.getBoundingClientRect();
-      const clientHeight = window.innerHeight;
-      // affixed = clip.top + clip.height / 2 > clientHeight;
-      affixed = clip.bottom > clientHeight - offsetBottom;
-    }
-
-    affixed ? affixDom.classList.add('in') : affixDom.classList.remove('in');
-  }
-
   renderBody(): JSX.Element | null {
     const {
       type,
@@ -287,8 +222,11 @@ export default class Panel extends React.Component<PanelProps> {
 
     let footerDom = footerDoms.length ? (
       <div
-        className={cx('Panel-footerWrap', footerWrapClassName)}
-        ref={this.footerDom}
+        className={cx(
+          'Panel-footerWrap',
+          footerWrapClassName,
+          affixFooter ? 'Panel-fixedBottom' : ''
+        )}
       >
         {footerDoms}
       </div>
@@ -313,18 +251,6 @@ export default class Panel extends React.Component<PanelProps> {
         </div>
 
         {footerDom}
-
-        {affixFooter && footerDoms.length ? (
-          <div
-            ref={this.affixDom}
-            className={cx(
-              'Panel-fixedBottom Panel-footerWrap',
-              footerWrapClassName
-            )}
-          >
-            {footerDoms}
-          </div>
-        ) : null}
       </div>
     );
   }

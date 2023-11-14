@@ -82,25 +82,6 @@ export class CardPlugin extends BasePlugin {
             getSchemaTpl('layout:originPosition', {value: 'left-top'}),
             {
               children: (
-                <Button
-                  size="sm"
-                  className="m-b-sm"
-                  level="info"
-                  block
-                  onClick={() =>
-                    // this.manager.showInsertPanel('actions', context.id)
-                    this.manager.showRendererPanel(
-                      '按钮',
-                      '请从左侧组件面板中点击添加按钮元素'
-                    )
-                  }
-                >
-                  新增按钮
-                </Button>
-              )
-            },
-            {
-              children: (
                 <div>
                   <Button
                     block

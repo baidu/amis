@@ -17,14 +17,13 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
         >
           <div
             class="cxd-Crud"
-            style="position: relative;"
           >
             <div
               class="cxd-Table cxd-Crud-body"
+              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-fixedTop"
-                style="top: 0px;"
               >
                 <div
                   class="cxd-Table-toolbar cxd-Table-headToolbar"
@@ -144,7 +143,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                     </thead>
                     <tbody>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
                       >
@@ -177,7 +176,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="2"
                         data-index="1"
                       >
@@ -210,7 +209,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="3"
                         data-index="2"
                       >
@@ -243,7 +242,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="4"
                         data-index="3"
                       >
@@ -276,7 +275,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="5"
                         data-index="4"
                       >
@@ -309,7 +308,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="6"
                         data-index="5"
                       >
@@ -342,7 +341,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="7"
                         data-index="6"
                       >
@@ -375,7 +374,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="8"
                         data-index="7"
                       >
@@ -408,7 +407,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="9"
                         data-index="8"
                       >
@@ -441,7 +440,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="10"
                         data-index="9"
                       >
@@ -487,7 +486,6 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                     class="cxd-Spinner-icon cxd-Spinner-icon--default"
                   />
                 </div>
-                <span />
               </div>
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
@@ -793,45 +791,45 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-  
               <div
-                class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                class="resize-sensor"
+                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
               >
                 
-    
+  
                 <div
-                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
+                  class="resize-sensor-expand"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
     
-                <div
-                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                />
+                  <div
+                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                  />
+                  
+  
+                </div>
                 
   
-              </div>
-              
+                <div
+                  class="resize-sensor-shrink"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                  />
+                  
   
-              <div
-                class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-              />
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-appear"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -864,7 +862,6 @@ exports[`4. Renderer:crud list 1`] = `
             >
               <div
                 class="cxd-List-fixedTop"
-                style="top: 0px;"
               >
                 <div
                   class="cxd-List-heading"
@@ -1272,7 +1269,6 @@ exports[`5. Renderer:crud cards 1`] = `
             >
               <div
                 class="cxd-Cards-fixedTop"
-                style="top: 0px;"
               />
               <div
                 class="cxd-Cards-body cxd-Grid"
@@ -2158,14 +2154,13 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
         >
           <div
             class="cxd-Crud"
-            style="position: relative;"
           >
             <div
               class="cxd-Table cxd-Crud-body"
+              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-fixedTop"
-                style="top: 0px;"
               />
               <div
                 class="cxd-Table-contentWrap"
@@ -2255,7 +2250,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                     </thead>
                     <tbody>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
                       >
@@ -2288,7 +2283,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="2"
                         data-index="1"
                       >
@@ -2321,7 +2316,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="3"
                         data-index="2"
                       >
@@ -2354,7 +2349,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="4"
                         data-index="3"
                       >
@@ -2387,7 +2382,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="5"
                         data-index="4"
                       >
@@ -2420,7 +2415,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="6"
                         data-index="5"
                       >
@@ -2453,7 +2448,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="7"
                         data-index="6"
                       >
@@ -2486,7 +2481,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="8"
                         data-index="7"
                       >
@@ -2519,7 +2514,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="9"
                         data-index="8"
                       >
@@ -2552,7 +2547,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="10"
                         data-index="9"
                       >
@@ -2587,7 +2582,6 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                     </tbody>
                   </table>
                 </div>
-                <span />
               </div>
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
@@ -2601,7 +2595,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                     <div
                       class="cxd-Crud-statistics"
                     >
-                      1/1 共：0 项
+                      1/1 共：10 项
                     </div>
                   </div>
                   <div
@@ -2651,45 +2645,45 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-  
               <div
-                class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                class="resize-sensor"
+                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
               >
                 
-    
+  
                 <div
-                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
+                  class="resize-sensor-expand"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
     
-                <div
-                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                />
+                  <div
+                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                  />
+                  
+  
+                </div>
                 
   
-              </div>
-              
+                <div
+                  class="resize-sensor-shrink"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                  />
+                  
   
-              <div
-                class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-              />
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-appear"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -2716,7 +2710,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
         >
           <div
             class="cxd-Crud"
-            style="position: relative;"
           >
             <div
               class="cxd-Crud-selection"
@@ -2806,10 +2799,10 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
             </div>
             <div
               class="cxd-Table cxd-Crud-body"
+              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative; --Table-column-1-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
-                style="top: 0px;"
               >
                 <div
                   class="cxd-Table-toolbar cxd-Table-headToolbar"
@@ -2956,7 +2949,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                     </thead>
                     <tbody>
                       <tr
-                        class="is-checked cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr is-checked cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="1"
                         data-index="0"
                       >
@@ -3006,7 +2999,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="is-checked cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr is-checked cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="2"
                         data-index="1"
                       >
@@ -3056,7 +3049,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="is-checked cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr is-checked cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="3"
                         data-index="2"
                       >
@@ -3106,7 +3099,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="is-checked cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr is-checked cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="4"
                         data-index="3"
                       >
@@ -3156,7 +3149,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="5"
                         data-index="4"
                       >
@@ -3207,7 +3200,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="6"
                         data-index="5"
                       >
@@ -3258,7 +3251,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="7"
                         data-index="6"
                       >
@@ -3309,7 +3302,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="8"
                         data-index="7"
                       >
@@ -3360,7 +3353,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--odd cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--odd cxd-Table-tr--1th"
                         data-id="9"
                         data-index="8"
                       >
@@ -3411,7 +3404,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                         </td>
                       </tr>
                       <tr
-                        class="cxd-Table-tr--even cxd-Table-tr--1th"
+                        class="cxd-Table-table-tr cxd-Table-tr--even cxd-Table-tr--1th"
                         data-id="10"
                         data-index="9"
                       >
@@ -3464,7 +3457,45 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                     </tbody>
                   </table>
                 </div>
-                <span />
+              </div>
+              <div
+                class="resize-sensor"
+                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+  
+                <div
+                  class="resize-sensor-expand"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-shrink"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-appear"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                />
               </div>
               <div
                 class="cxd-Table-toolbar cxd-Table-footToolbar"
@@ -3619,45 +3650,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-  
-              <div
-                class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-    
-                <div
-                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-    
-                <div
-                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-              />
             </div>
           </div>
         </div>

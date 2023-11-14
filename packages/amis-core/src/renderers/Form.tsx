@@ -495,6 +495,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.dispatchInited = this.dispatchInited.bind(this);
     this.blockRouting = this.blockRouting.bind(this);
     this.beforePageUnload = this.beforePageUnload.bind(this);
+    this.formItemDispatchEvent = this.formItemDispatchEvent.bind(this);
 
     const {store, canAccessSuperData, persistData, simpleMode} = props;
 
@@ -962,10 +963,9 @@ export default class Form extends React.Component<FormProps, object> {
       store.setLocalPersistData(persistDataKeys);
     }
   }
-  formItemDispatchEvent(dispatchEvent: any) {
-    return (type: string, data: any) => {
-      dispatchEvent(type, data);
-    };
+  formItemDispatchEvent(type: string, data: any) {
+    const {dispatchEvent} = this.props;
+    return dispatchEvent(type, data);
   }
 
   async emitChange(submit: boolean) {
@@ -1154,6 +1154,8 @@ export default class Form extends React.Component<FormProps, object> {
 
         if (target) {
           this.submitToTarget(filterTarget(target, values), values);
+          /** 可能配置页面跳转事件，页面路由变化导致persistKey不一致，无法清除持久化数据，所以提交成功事件之前先清理一下 */
+          clearPersistDataAfterSubmit && store.clearLocalPersistData();
           dispatchEvent('submitSucc', createObject(this.props.data, values));
         } else if (action.actionType === 'reload') {
           action.target &&
@@ -1185,6 +1187,7 @@ export default class Form extends React.Component<FormProps, object> {
                   ? filter(saveFailed, store.data)
                   : undefined,
               onSuccess: async (result: Payload) => {
+                clearPersistDataAfterSubmit && store.clearLocalPersistData();
                 // result为提交接口返回的内容
                 const dispatcher = await dispatchEvent(
                   'submitSucc',
@@ -1245,6 +1248,7 @@ export default class Form extends React.Component<FormProps, object> {
               });
             });
         } else {
+          clearPersistDataAfterSubmit && store.clearLocalPersistData();
           // type为submit，但是没有配api以及target时，只派发事件
           dispatchEvent('submitSucc', createObject(this.props.data, values));
         }
@@ -1270,7 +1274,7 @@ export default class Form extends React.Component<FormProps, object> {
               action.redirect || redirect,
               store.data
             );
-            finalRedirect && env.jumpTo(finalRedirect, action);
+            finalRedirect && env.jumpTo(finalRedirect, action, store.data);
           } else if (action.reload || reload) {
             this.reloadTarget(
               filterTarget(action.reload || reload!, store.data),
@@ -1348,7 +1352,7 @@ export default class Form extends React.Component<FormProps, object> {
 
           const redirect =
             action.redirect && filter(action.redirect, store.data);
-          redirect && env.jumpTo(redirect, action);
+          redirect && env.jumpTo(redirect, action, store.data);
 
           action.reload &&
             this.reloadTarget(
@@ -1688,7 +1692,7 @@ export default class Form extends React.Component<FormProps, object> {
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
-      formItemDispatchEvent: this.formItemDispatchEvent(dispatchEvent),
+      formItemDispatchEvent: this.formItemDispatchEvent,
       formPristine: form.pristine
       // value: (control as any)?.name
       //   ? getVariable(form.data, (control as any)?.name, canAccessSuperData)

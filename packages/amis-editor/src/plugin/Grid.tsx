@@ -30,6 +30,7 @@ export class GridPlugin extends BasePlugin {
   name = '分栏';
   isBaseComponent = true;
   description = '分栏布局';
+  searchKeywords = '水平分栏';
   docLink = '/amis/zh-CN/components/grid';
   tags = ['布局容器'];
   order = -2;

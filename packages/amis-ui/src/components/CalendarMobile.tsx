@@ -11,6 +11,7 @@ import {themeable, ThemeProps} from 'amis-core';
 import {LocaleProps, localeable} from 'amis-core';
 import {autobind} from 'amis-core';
 import {ShortCuts} from './DatePicker';
+import type {ViewMode} from './calendar/Calendar';
 
 export interface CalendarMobileProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -25,7 +26,7 @@ export interface CalendarMobileProps extends ThemeProps, LocaleProps {
   maxDuration?: moment.Duration;
   dateFormat?: string;
   embed?: boolean;
-  viewMode?: 'days' | 'months' | 'years' | 'time' | 'quarters';
+  viewMode?: ViewMode;
   close?: () => void;
   confirm?: (startDate?: any, endTime?: any) => void;
   onChange?: (data: any, callback?: () => void) => void;

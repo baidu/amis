@@ -15,6 +15,7 @@ import reduce from 'lodash/reduce';
 import map from 'lodash/map';
 import omit from 'lodash/omit';
 import keys from 'lodash/keys';
+import type {Schema} from 'amis';
 
 import type {DSField} from '../builder';
 
@@ -364,14 +365,13 @@ setSchemaTpl(
       )
       .map(item => ({
         type: 'collapse',
-        headingClassName: 'ae-formItemControl-header',
+        headingClassName: 'ae-formItemControl-header ae-Collapse-header',
         bodyClassName: 'ae-formItemControl-body',
         ...item,
         collapsed: item.collapsed ?? false,
         key: item.title,
         body: flatten(item.body)
       }));
-
     return {
       type: 'collapse-group',
       activeKey: collapseGroupBody
@@ -452,11 +452,18 @@ setSchemaTpl(
     } = config || {};
     let curRendererSchema = rendererSchema;
 
-    if (useSelectMode && curRendererSchema && curRendererSchema.options) {
-      curRendererSchema = {
-        ...curRendererSchema,
-        type: 'select'
-      };
+    if (useSelectMode && curRendererSchema) {
+      if (typeof curRendererSchema === 'function') {
+        curRendererSchema = (schema: Schema) => ({
+          ...rendererSchema(schema),
+          type: 'select'
+        });
+      } else if (curRendererSchema.options) {
+        curRendererSchema = {
+          ...curRendererSchema,
+          type: 'select'
+        };
+      }
     }
 
     return {
@@ -785,7 +792,7 @@ setSchemaTpl(
     return {
       title: '状态',
       body: [
-        getSchemaTpl('newVisible'),
+        getSchemaTpl('visible'),
         getSchemaTpl('hidden'),
         !config?.unsupportStatic && config?.isFormItem
           ? getSchemaTpl('static')
@@ -856,6 +863,7 @@ setSchemaTpl('readonly', {
 
 setSchemaTpl('visible', {
   type: 'ae-StatusControl',
+  defaultTrue: true,
   label: '可见',
   mode: 'normal',
   name: 'visible',
@@ -868,17 +876,6 @@ setSchemaTpl('static', {
   mode: 'normal',
   name: 'static',
   expressionName: 'staticOn'
-});
-
-// 新版配置面板兼容 [可见] 状态
-setSchemaTpl('newVisible', {
-  type: 'ae-StatusControl',
-  label: '可见',
-  mode: 'normal',
-  name: 'visible',
-  expressionName: 'visibleOn',
-  visibleOn:
-    'data.visible || data.visible === false || data.visibleOn !== undefined'
 });
 
 setSchemaTpl('hidden', {
@@ -1017,18 +1014,21 @@ setSchemaTpl('borderMode', {
   pipeIn: defaultValue('full')
 });
 
-setSchemaTpl('searchable', () =>
+setSchemaTpl('searchable', (schema: object = {}) =>
   getSchemaTpl('switch', {
     label: '可检索',
-    name: 'searchable'
+    name: 'searchable',
+    ...schema
   })
 );
 
-setSchemaTpl('sortable', {
-  type: 'switch',
-  label: '可排序',
-  name: 'sortable'
-});
+setSchemaTpl('sortable', (schema: object = {}) =>
+  getSchemaTpl('switch', {
+    label: '可排序',
+    name: 'sortable',
+    ...schema
+  })
+);
 
 setSchemaTpl('onlyLeaf', {
   type: 'switch',
@@ -1074,8 +1074,17 @@ setSchemaTpl('buttonLevel', {
   label: '按钮样式',
   type: 'select',
   name: 'level',
-  menuTpl:
-    '<div class="ae-ButtonLevel-MenuTpl"><button type="button" class="cxd-Button cxd-Button--${value} cxd-Button--size-sm cxd-Button--block">${label}</button></div>',
+  menuTpl: {
+    type: 'container',
+    bodyClassName: 'ae-ButtonLevel-MenuTpl',
+    body: {
+      type: 'button',
+      label: '${label}',
+
+      size: 'sm',
+      level: '${value}'
+    }
+  },
   options: [
     {
       label: '默认',
@@ -1695,6 +1704,7 @@ setSchemaTpl('anchorNavTitle', {
   required: true
 });
 
+/** 给 CRUD2 使用 */
 setSchemaTpl('primaryField', {
   type: 'input-text',
   name: 'primaryField',
@@ -1702,5 +1712,17 @@ setSchemaTpl('primaryField', {
     '主键',
     '每行记录的唯一标识符，通常用于行选择、批量操作等场景。'
   ),
-  pipeIn: defaultValue('id')
+  pipeIn: (value: any, formStore: any) => {
+    const rowSelection = formStore?.data?.rowSelection;
+
+    if (value == null || typeof value !== 'string') {
+      return rowSelection &&
+        rowSelection?.keyField &&
+        typeof rowSelection.keyField === 'string'
+        ? rowSelection?.keyField
+        : 'id';
+    }
+
+    return value;
+  }
 });

@@ -13,6 +13,7 @@ export interface ICmptAction extends ListenerAction {
     path?: string; // setValue时，目标变量的path
     value?: string | {[key: string]: string}; // setValue时，目标变量的值
     index?: number; // setValue时，支持更新指定索引的数据，一般用于数组类型
+    condition?: any; // setValue时，支持更新指定条件的数据，一般用于数组类型
   };
 }
 
@@ -74,7 +75,8 @@ export class CmptAction implements RendererAction {
         return component?.setData(
           action.args?.value,
           dataMergeMode === 'override',
-          action.args?.index
+          action.args?.index,
+          action.args?.condition
         );
       } else {
         return component?.props.onChange?.(action.args?.value);

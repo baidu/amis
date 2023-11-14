@@ -859,3 +859,80 @@ test('Renderer:Nav with reload2', async () => {
   await wait(500);
   expect(fetcher).toBeCalled();
 });
+
+test('Renderer:Nav with searchable', async () => {
+  const {container} = render(amisRender({
+    "type": "nav",
+    "stacked": true,
+    "searchable": true,
+    "searchConfig": {
+      "matchFunc": "return link.searchKey === keyword;"
+    },
+    "links": [
+        {
+          "label": "Nav 1",
+          "to": "?to=nav1",
+          "searchKey": "1"
+        },
+        {
+          "label": "Nav 2",
+          "to": "?to=nav2",
+          "searchKey": "2",
+          "children": [
+              {
+                "label": "Nav 2-1",
+                "to": "?to=nav2-1",
+                "searchKey": "2-1",
+                "children": [
+                    {
+                      "label": "Nav 2-1-1",
+                      "to": "?to=nav2-1-1",
+                      "searchKey": "2-1-1"
+                    }
+                ]
+              }
+          ]
+        },
+        {
+          "label": "Nav 3",
+          "to": "?to=nav3",
+          "searchKey": "3",
+          "children": [
+              {
+                "label": "Nav 3-1",
+                "to": "?to=nav3-1",
+                "searchKey": "3-1"
+              }
+          ]
+        },
+        {
+          "label": "Nav 4",
+          "to": "?to=nav4",
+          "searchKey": "4"
+        },
+        {
+          "label": "Nav 5",
+          "to": "?to=nav5",
+          "searchKey": "5"
+        }
+    ]
+  }, {}, makeEnv({})));
+
+  const nav = container.querySelector('.cxd-Nav')!;
+  const searchbox = container.querySelector('.cxd-Nav-SearchBox input')!;
+  const searchboxBtn = container.querySelector('.cxd-SearchBox-searchBtn')!;
+
+  expect(nav).toBeInTheDocument();
+
+  fireEvent.change(searchbox, {target: {value: '2-1-1'}});
+  await wait(200);
+  fireEvent.click(searchboxBtn);
+  await wait(200);
+  expect(document.querySelectorAll('[role=menuitem]')?.length).toEqual(3);
+
+  fireEvent.change(searchbox, {target: {value: '3'}});
+  await wait(200);
+  fireEvent.click(searchboxBtn);
+  await wait(200);
+  expect(document.querySelectorAll('[role=menuitem]')?.length).toEqual(2);
+});

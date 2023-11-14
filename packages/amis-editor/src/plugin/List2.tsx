@@ -24,6 +24,7 @@ export class List2Plugin extends BasePlugin {
   name = '列表';
   isBaseComponent = true;
   isListComponent = true;
+  memberImmutable = true;
   description =
     '功能类似于表格，但是用一个个小卡片来展示数据。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。';
   docLink = '/amis/zh-CN/components/cards';
@@ -40,263 +41,225 @@ export class List2Plugin extends BasePlugin {
           type: 'container',
           body: [
             {
-              type: 'flex',
-              items: [
+              type: 'tpl',
+              tpl: '01',
+              inline: true,
+              wrapperComponent: '',
+              style: {
+                color: 'var(--colors-neutral-text-2)',
+                fontSize: 'var(--fonts-size-3)',
+                fontWeight: 'var(--fonts-weight-5)',
+                marginRight: '10px'
+              }
+            },
+            {
+              type: 'tpl',
+              tpl: '/',
+              inline: true,
+              wrapperComponent: '',
+              style: {
+                marginRight: '10px',
+                fontSize: 'var(--fonts-size-3)',
+                color: '#cccccc'
+              },
+              id: 'u:95d2a3ac3e70'
+            },
+            {
+              type: 'container',
+              body: [
                 {
-                  type: 'container',
-                  body: [
-                    {
-                      type: 'tpl',
-                      tpl: '01',
-                      inline: true,
-                      wrapperComponent: '',
-                      style: {
-                        color: 'var(--colors-neutral-text-2)',
-                        fontSize: 'var(--fonts-size-3)',
-                        fontWeight: 'var(--fonts-weight-5)',
-                        marginRight: '10px'
-                      }
-                    },
-                    {
-                      type: 'tpl',
-                      tpl: '/',
-                      inline: true,
-                      wrapperComponent: '',
-                      style: {
-                        marginRight: '10px',
-                        fontSize: 'var(--fonts-size-3)',
-                        color: '#cccccc'
-                      },
-                      id: 'u:95d2a3ac3e70'
-                    },
-                    {
-                      type: 'container',
-                      body: [
-                        {
-                          type: 'tpl',
-                          tpl: '3月',
-                          inline: true,
-                          wrapperComponent: '',
-                          style: {
-                            fontSize: 'var(--fonts-size-6)'
-                          }
-                        },
-                        {
-                          type: 'tpl',
-                          tpl: '2023',
-                          inline: true,
-                          wrapperComponent: '',
-                          style: {
-                            fontSize: 'var(--fonts-size-6)'
-                          }
-                        }
-                      ],
-                      style: {
-                        position: 'static',
-                        display: 'flex',
-                        flexWrap: 'nowrap',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      },
-                      wrapperBody: false,
-                      isFixedHeight: false,
-                      isFixedWidth: false
-                    }
-                  ],
-                  size: 'none',
+                  type: 'tpl',
+                  tpl: '3月',
+                  inline: true,
+                  wrapperComponent: '',
                   style: {
-                    'position': 'static',
-                    'display': 'flex',
-                    'flex': '1 1 auto',
-                    'flexGrow': 0,
-                    'flexBasis': 'auto',
-                    'flexWrap': 'nowrap',
-                    'justifyContent': 'flex-start',
-                    'alignItems': 'center',
-                    'paddingLeft': '20px',
-                    'paddingRight': '40px',
-                    'right-border-width': 'var(--borders-width-2)',
-                    'right-border-style': 'var(--borders-style-2)',
-                    'right-border-color': '#ececec',
-                    'marginRight': '40px'
-                  },
-                  wrapperBody: false,
-                  isFixedHeight: false,
-                  isFixedWidth: false
+                    fontSize: 'var(--fonts-size-6)'
+                  }
                 },
                 {
-                  type: 'container',
-                  body: [
-                    {
-                      type: 'tpl',
-                      tpl: '列表标题',
-                      inline: true,
-                      wrapperComponent: '',
-                      style: {
-                        fontSize: 'var(--fonts-size-5)',
-                        color: 'var(--colors-neutral-text-4)',
-                        fontWeight: 'var(--fonts-weight-4)',
-                        marginBottom: '10px'
-                      },
-                      maxLine: 1,
-                      id: 'u:105ca9cda3ef'
-                    },
-                    {
-                      type: 'tpl',
-                      tpl: '这是内容简介，可以设置显示行数',
-                      inline: true,
-                      wrapperComponent: '',
-                      maxLine: 1,
-                      style: {
-                        fontSize: '13px',
-                        color: 'var(--colors-neutral-text-5)'
-                      }
-                    }
-                  ],
-                  size: 'none',
+                  type: 'tpl',
+                  tpl: '2023',
+                  inline: true,
+                  wrapperComponent: '',
                   style: {
-                    position: 'static',
-                    display: 'flex',
-                    flex: '1 1 auto',
-                    flexGrow: 1,
-                    flexBasis: 'auto',
-                    flexWrap: 'nowrap',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start'
-                  },
-                  wrapperBody: false,
-                  isFixedHeight: false,
-                  isFixedWidth: false
-                },
-                {
-                  type: 'container',
-                  body: [
-                    {
-                      type: 'button',
-                      label: '查看详情',
-                      onEvent: {
-                        click: {
-                          actions: []
-                        }
-                      },
-                      level: 'default',
-                      size: 'default',
-                      editorState: 'default',
-                      themeCss: {
-                        className: {
-                          'border:default': {
-                            'top-border-width': 'var(--borders-width-2)',
-                            'left-border-width': 'var(--borders-width-2)',
-                            'right-border-width': 'var(--borders-width-2)',
-                            'bottom-border-width': 'var(--borders-width-2)',
-                            'top-border-style': 'var(--borders-style-2)',
-                            'left-border-style': 'var(--borders-style-2)',
-                            'right-border-style': 'var(--borders-style-2)',
-                            'bottom-border-style': 'var(--borders-style-2)',
-                            'top-border-color': 'var(--colors-brand-6)',
-                            'left-border-color': 'var(--colors-brand-6)',
-                            'right-border-color': 'var(--colors-brand-6)',
-                            'bottom-border-color': 'var(--colors-brand-6)'
-                          },
-                          'padding-and-margin:default': {
-                            paddingLeft: '20px',
-                            paddingRight: '20px'
-                          },
-                          'radius:default': {
-                            'top-left-border-radius': '20px',
-                            'top-right-border-radius': '20px',
-                            'bottom-left-border-radius': '20px',
-                            'bottom-right-border-radius': '20px'
-                          },
-                          'font:default': {
-                            color: 'var(--colors-brand-6)'
-                          }
-                        }
-                      }
-                    }
-                  ],
-                  size: 'xs',
-                  style: {
-                    position: 'static',
-                    display: 'flex',
-                    flex: '1 1 auto',
-                    flexGrow: 0,
-                    flexBasis: 'auto',
-                    flexWrap: 'nowrap',
-                    flexDirection: 'column',
-                    justifyContent: 'center'
-                  },
-                  wrapperBody: false,
-                  isFixedHeight: false,
-                  isFixedWidth: false,
-                  id: 'u:77cb3edb2288'
+                    fontSize: 'var(--fonts-size-6)'
+                  }
                 }
               ],
               style: {
-                position: 'relative'
-              }
+                position: 'static',
+                display: 'flex',
+                flexWrap: 'nowrap',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center'
+              },
+              wrapperBody: false,
+              isFixedHeight: false,
+              isFixedWidth: false
             }
           ],
           size: 'none',
           style: {
             'position': 'static',
-            'display': 'block',
-            'overflowY': 'auto',
-            'overflowX': 'auto',
-            'paddingTop': '10px',
-            'paddingRight': '10px',
-            'paddingBottom': '10px',
-            'paddingLeft': '10px',
-            'radius': {
-              'top-left-border-radius': '6px',
-              'top-right-border-radius': '6px',
-              'bottom-left-border-radius': '6px',
-              'bottom-right-border-radius': '6px'
-            },
-            'top-border-width': 'var(--borders-width-1)',
-            'left-border-width': 'var(--borders-width-1)',
-            'right-border-width': 'var(--borders-width-1)',
-            'bottom-border-width': 'var(--borders-width-1)',
-            'top-border-style': 'var(--borders-style-1)',
-            'left-border-style': 'var(--borders-style-1)',
-            'right-border-style': 'var(--borders-style-1)',
-            'bottom-border-style': 'var(--borders-style-1)',
-            'top-border-color': '#3be157',
-            'left-border-color': '#3be157',
-            'right-border-color': '#3be157',
-            'bottom-border-color': '#3be157',
-            'flex': '0 0 150px',
-            'marginRight': '15px',
-            'flexBasis': '100%',
-            'boxShadow': ' 0px 0px 10px 0px var(--colors-neutral-line-8)'
+            'display': 'flex',
+            'flex': '1 1 auto',
+            'flexGrow': 0,
+            'flexBasis': 'auto',
+            'flexWrap': 'nowrap',
+            'justifyContent': 'flex-start',
+            'alignItems': 'center',
+            'paddingLeft': '20px',
+            'paddingRight': '40px',
+            'right-border-width': 'var(--borders-width-2)',
+            'right-border-style': 'var(--borders-style-2)',
+            'right-border-color': '#ececec',
+            'marginRight': '40px'
           },
           wrapperBody: false,
           isFixedHeight: false,
-          isFixedWidth: true,
-          onEvent: {
-            click: {
-              weight: 0,
-              actions: []
+          isFixedWidth: false
+        },
+        {
+          type: 'container',
+          body: [
+            {
+              type: 'tpl',
+              tpl: '列表标题',
+              inline: true,
+              wrapperComponent: '',
+              style: {
+                fontSize: 'var(--fonts-size-5)',
+                color: 'var(--colors-neutral-text-4)',
+                fontWeight: 'var(--fonts-weight-4)',
+                marginBottom: '10px'
+              },
+              maxLine: 1,
+              id: 'u:105ca9cda3ef'
+            },
+            {
+              type: 'tpl',
+              tpl: '这是内容简介，可以设置显示行数',
+              inline: true,
+              wrapperComponent: '',
+              maxLine: 1,
+              style: {
+                fontSize: '13px',
+                color: 'var(--colors-neutral-text-5)'
+              }
             }
-          }
+          ],
+          size: 'none',
+          style: {
+            position: 'static',
+            display: 'flex',
+            flex: '1 1 auto',
+            flexGrow: 1,
+            flexBasis: 'auto',
+            flexWrap: 'nowrap',
+            flexDirection: 'column',
+            alignItems: 'flex-start'
+          },
+          wrapperBody: false,
+          isFixedHeight: false,
+          isFixedWidth: false
+        },
+        {
+          type: 'container',
+          body: [
+            {
+              type: 'button',
+              label: '查看详情',
+              onEvent: {
+                click: {
+                  actions: []
+                }
+              },
+              level: 'default',
+              size: 'default',
+              editorState: 'default',
+              themeCss: {
+                className: {
+                  'border:default': {
+                    'top-border-width': 'var(--borders-width-2)',
+                    'left-border-width': 'var(--borders-width-2)',
+                    'right-border-width': 'var(--borders-width-2)',
+                    'bottom-border-width': 'var(--borders-width-2)',
+                    'top-border-style': 'var(--borders-style-2)',
+                    'left-border-style': 'var(--borders-style-2)',
+                    'right-border-style': 'var(--borders-style-2)',
+                    'bottom-border-style': 'var(--borders-style-2)',
+                    'top-border-color': 'var(--colors-brand-6)',
+                    'left-border-color': 'var(--colors-brand-6)',
+                    'right-border-color': 'var(--colors-brand-6)',
+                    'bottom-border-color': 'var(--colors-brand-6)'
+                  },
+                  'padding-and-margin:default': {
+                    paddingLeft: '20px',
+                    paddingRight: '20px'
+                  },
+                  'radius:default': {
+                    'top-left-border-radius': '20px',
+                    'top-right-border-radius': '20px',
+                    'bottom-left-border-radius': '20px',
+                    'bottom-right-border-radius': '20px'
+                  },
+                  'font:default': {
+                    color: 'var(--colors-brand-6)'
+                  }
+                }
+              }
+            }
+          ],
+          size: 'xs',
+          style: {
+            position: 'static',
+            display: 'flex',
+            flex: '1 1 auto',
+            flexGrow: 0,
+            flexBasis: 'auto',
+            flexWrap: 'nowrap',
+            flexDirection: 'column',
+            justifyContent: 'center'
+          },
+          wrapperBody: false,
+          isFixedHeight: false,
+          isFixedWidth: false,
+          id: 'u:77cb3edb2288'
         }
       ],
+      wrapperBody: false,
       style: {
-        position: 'static',
-        display: 'flex',
-        width: '100%',
-        overflowX: 'visible',
-        margin: '0',
-        flexWrap: 'nowrap',
-        justifyContent: 'space-between'
-      },
-      isFixedHeight: false,
-      isFixedWidth: true,
-      wrapperBody: false
+        'position': 'relative',
+        'display': 'flex',
+        'width': '100%',
+        'paddingTop': '10px',
+        'paddingRight': '10px',
+        'paddingBottom': '10px',
+        'paddingLeft': '10px',
+        'radius': {
+          'top-left-border-radius': '6px',
+          'top-right-border-radius': '6px',
+          'bottom-left-border-radius': '6px',
+          'bottom-right-border-radius': '6px'
+        },
+        'top-border-width': 'var(--borders-width-1)',
+        'left-border-width': 'var(--borders-width-1)',
+        'right-border-width': 'var(--borders-width-1)',
+        'bottom-border-width': 'var(--borders-width-1)',
+        'top-border-style': 'var(--borders-style-1)',
+        'left-border-style': 'var(--borders-style-1)',
+        'right-border-style': 'var(--borders-style-1)',
+        'bottom-border-style': 'var(--borders-style-1)',
+        'top-border-color': '#3be157',
+        'left-border-color': '#3be157',
+        'right-border-color': '#3be157',
+        'bottom-border-color': '#3be157',
+        'boxShadow': ' 0px 0px 10px 0px var(--colors-neutral-line-8)'
+      }
     },
     placeholder: '',
-    name: 'items',
+    // name: 'items',
     style: {
       gutterY: 10
     }
@@ -304,7 +267,15 @@ export class List2Plugin extends BasePlugin {
 
   previewSchema = {
     ...this.scaffold,
-    className: 'text-left '
+    className: 'text-left ',
+    items: [{}, {}, {}],
+    style: {
+      gutterY: 10,
+      transform: 'scale(0.7)',
+      width: '1200px',
+      transformOrigin: 'left top'
+    },
+    name: 'items'
   };
 
   panelTitle = '列表';
@@ -448,7 +419,8 @@ export class List2Plugin extends BasePlugin {
         wrapperResolve: plugin.wrapperResolve,
         filterProps: plugin.filterProps,
         $schema: plugin.$schema,
-        renderRenderer: plugin.renderRenderer
+        renderRenderer: plugin.renderRenderer,
+        memberImmutable: plugin.memberImmutable
       };
     }
 

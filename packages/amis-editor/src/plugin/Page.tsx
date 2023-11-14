@@ -309,7 +309,7 @@ export class PagePlugin extends BasePlugin {
                     extra: [
                       getSchemaTpl('theme:font', {
                         label: '文字',
-                        name: 'font'
+                        name: 'themeCss.titleControlClassName.font'
                       })
                     ],
                     hiddenOn: 'data.regions && !data.regions.includes("header")'

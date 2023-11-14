@@ -378,7 +378,7 @@ export class NavPlugin extends BasePlugin {
           // },
           {
             title: '状态',
-            body: [getSchemaTpl('hidden')]
+            body: [getSchemaTpl('visible'), getSchemaTpl('hidden')]
           }
         ])
       },

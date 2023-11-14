@@ -1,4 +1,4 @@
-module.exports = [
+const list = [
   {
     engine: 'Trident',
     browser: 'Internet Explorer 4.0',
@@ -1202,8 +1202,21 @@ module.exports = [
     version: '-',
     grade: 'U'
   }
-].map(function (item, index) {
-  return Object.assign({}, item, {
-    id: index + 1
+];
+
+// 多来点测试数据
+module.exports = list
+  .concat(list)
+  .concat(list)
+  .concat(list)
+  .concat(list)
+  .concat(list)
+  .concat(list)
+  .concat(list)
+  .concat(list)
+  .concat(list)
+  .map(function (item, index) {
+    return Object.assign({}, item, {
+      id: index + 1
+    });
   });
-});

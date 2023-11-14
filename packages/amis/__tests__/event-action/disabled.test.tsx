@@ -1,7 +1,7 @@
 import {fireEvent, render} from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
-import {makeEnv} from '../helper';
+import {makeEnv, wait} from '../helper';
 
 test('EventAction:disabled', async () => {
   const {getByText, container}: any = render(
@@ -98,4 +98,50 @@ test('EventAction:disabled', async () => {
   fireEvent.click(getByText(/按钮6/));
 
   expect(container).toMatchSnapshot();
+});
+
+test('EventAction:disabledFormItem', async () => {
+  const {getByText, container}: any = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'form',
+            body: [
+              {
+                type: 'textarea',
+                id: 'textarea',
+                name: 'textarea',
+                disabled: true
+              }
+            ]
+          },
+          {
+            type: 'action',
+            label: '启用textarea',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'enabled',
+                    componentId: 'textarea'
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  expect(container.querySelector('textarea[name="textarea"]')).toBeDisabled();
+  fireEvent.click(getByText(/启用textarea/));
+  await wait(200);
+  expect(
+    container.querySelector('textarea[name="textarea"]')
+  ).not.toBeDisabled();
 });

@@ -15,14 +15,14 @@ export interface SvgIconGroup {
 
 export let svgIcons: SvgIconGroup[] = [];
 
-function getSvgMountNode() {
-  const node = document.getElementById('amis-icon-manage-mount-node');
+function getSvgMountNode(nodeId: string = 'amis-icon-manage-mount-node') {
+  const node = document.getElementById(nodeId);
 
   if (node) {
     return node;
   } else {
     const newNode = document.createElement('div');
-    newNode.setAttribute('id', 'amis-icon-manage-mount-node');
+    newNode.setAttribute('id', nodeId);
     newNode.setAttribute('style', 'width:0;height:0;visibility:hidden;');
 
     if (document.body.firstElementChild) {
@@ -35,9 +35,9 @@ function getSvgMountNode() {
   }
 }
 
-export function mountIconSpiriteToDom(spirite: string) {
-  const node = getSvgMountNode();
-  node && (node.innerHTML = spirite);
+export function mountIconSpriteToDom(sprite: string, nodeId?: string) {
+  const node = getSvgMountNode(nodeId);
+  node && (node.innerHTML = sprite);
 }
 
 type refreshIconListFunc = null | (() => any);
@@ -47,17 +47,17 @@ export let refreshIconList: refreshIconListFunc = null;
 export function setRefreshSvgListAction(
   func: ({
     setSvgIconList,
-    mountIconSpiriteToDom
+    mountIconSpriteToDom
   }: {
     setSvgIconList: (arr: SvgIconGroup[]) => void;
-    mountIconSpiriteToDom: (str: string) => void;
+    mountIconSpriteToDom: (str: string) => void;
   }) => any
 ) {
   if (func && typeof func === 'function') {
     refreshIconList = () =>
       func({
         setSvgIconList,
-        mountIconSpiriteToDom
+        mountIconSpriteToDom
       });
   } else {
     refreshIconList = null;

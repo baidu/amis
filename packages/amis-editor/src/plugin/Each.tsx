@@ -17,7 +17,9 @@ export class EachPlugin extends BasePlugin {
   name = '循环 Each';
   isBaseComponent = true;
   isListComponent = true;
+  memberImmutable = true;
   description = '功能渲染器，可以基于现有变量循环输出渲染器。';
+  searchKeywords = '循环渲染器';
   tags = ['功能'];
   icon = 'fa fa-repeat';
   pluginIcon = 'each-plugin';
@@ -134,7 +136,13 @@ export class EachPlugin extends BasePlugin {
 
   previewSchema = {
     ...this.scaffold,
-    value: ['a', 'b', 'c']
+    style: {
+      ...this.scaffold.style,
+      transform: 'scale(0.6)',
+      width: '600px',
+      transformOrigin: 'left top'
+    },
+    value: ['a', 'b']
   };
 
   panelTitle = '循环';
@@ -206,10 +214,6 @@ export class EachPlugin extends BasePlugin {
           {
             title: '布局',
             body: [
-              getSchemaTpl('layout:padding'),
-              getSchemaTpl('layout:position', {
-                visibleOn: '!data.stickyStatus'
-              }),
               getSchemaTpl('layout:originPosition'),
               getSchemaTpl('layout:inset', {
                 mode: 'vertical'

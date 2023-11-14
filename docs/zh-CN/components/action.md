@@ -333,6 +333,8 @@ icon 也可以是 url 地址，比如
 
 通过配置 `"actionType":"download"` 和 `api`，可以实现下载请求，它其实是 `ajax` 的一种特例，自动给 api 加上了 `"responseType": "blob"`。
 
+> 3.5.0 版本开始可以配置 `downloadFileName` 来覆盖下载文件名。注意：即便配置了 `downloadFileName`，api 依然需要返回 `Content-Disposition` 头。
+
 ```schema: scope="body"
 {
     "label": "下载",

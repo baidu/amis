@@ -1,6 +1,7 @@
 import React from 'react';
 import toString from 'lodash/toString';
 import {getPropValue, FormControlProps} from 'amis-core';
+import {ErrorBoundary} from 'react-error-boundary';
 
 function renderCommonStatic(props: any, defaultValue: string) {
   const {type, render, staticSchema} = props;
@@ -135,7 +136,9 @@ export function supportStatic<T extends FormControlProps>() {
 
         return (
           <div className={cx(`${ns}Form-static`, className)}>
-            {React.isValidElement(body) ? body : toString(body)}
+            <ErrorBoundary fallback={<>{toString(body)}</>}>
+              {body}
+            </ErrorBoundary>
           </div>
         );
       }
@@ -147,11 +150,12 @@ export function supportStatic<T extends FormControlProps>() {
 }
 
 function renderStaticDateTypes(props: any) {
-  const {render, type, inputFormat, timeFormat, format, value} = props;
+  const {render, type, inputFormat, valueFormat, timeFormat, format, value} =
+    props;
   return render('static-input-date', {
     type: 'date',
     value,
     format: type === 'time' && timeFormat ? timeFormat : inputFormat,
-    valueFormat: format
+    valueFormat: valueFormat || format
   });
 }
