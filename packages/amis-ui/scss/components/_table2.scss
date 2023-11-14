@@ -677,6 +677,11 @@
           }
         }
       }
+      > thead > tr > .#{$ns}Table-cell-last {
+        .#{$ns}Table-thead-resizable {
+          right: 0;
+        }
+      }
     }
   }
 

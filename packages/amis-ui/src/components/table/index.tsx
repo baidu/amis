@@ -833,7 +833,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
     const column = this.tdColumns[index];
     this.resizeIndex = index;
-    this.resizeWidth = this.state.colWidths[column.name].width;
+    this.resizeWidth =
+      this.state.colWidths[column.name].width ??
+      this.state.colWidths[column.name].realWidth;
     this.resizeTarget!.classList.add('is-resizing');
 
     document.addEventListener('mousemove', this.onResizeMouseMove);
