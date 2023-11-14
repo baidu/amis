@@ -784,14 +784,12 @@ setSchemaTpl(
       body: [
         getSchemaTpl('visible'),
         getSchemaTpl('hidden'),
+        config?.isFormItem ? getSchemaTpl('clearValueOnHidden') : null,
         !config?.unsupportStatic && config?.isFormItem
           ? getSchemaTpl('static')
           : null,
         config?.readonly ? getSchemaTpl('readonly') : null,
-        config?.disabled || config?.isFormItem
-          ? getSchemaTpl('disabled')
-          : null,
-        config?.isFormItem ? getSchemaTpl('clearValueOnHidden') : null
+        config?.disabled || config?.isFormItem ? getSchemaTpl('disabled') : null
       ].filter(Boolean)
     };
   }
