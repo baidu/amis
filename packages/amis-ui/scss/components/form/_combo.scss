@@ -258,6 +258,12 @@
         var(--combo-vertical-paddingRight) var(--combo-vertical-paddingBottom)
         var(--combo-vertical-paddingLeft);
       position: relative;
+
+      &.has-error {
+        border-color: var(
+          --Combo--vertical-item--onError-borderColor
+        ) !important; // 因为下面的规则权重更高 &:not(.is-disabled) > .#{$ns}Combo-items > .#{$ns}Combo-item:hover
+      }
     }
 
     > .#{$ns}Combo-items > .#{$ns}Combo-item {

@@ -9,11 +9,11 @@
   }
 
   &-container > p {
-    font-size: 1rem;
+    font-size: px2rem(16px);
   }
 
   &-container > em {
-    font-size: 0.8rem;
+    font-size: px2rem(12px);
   }
 
   &-dropzone {

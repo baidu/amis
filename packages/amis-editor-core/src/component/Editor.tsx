@@ -373,11 +373,16 @@ export default class Editor extends Component<EditorProps> {
       // 删除快捷键
       if (this.store.activeId) {
         const node = store.getNodeById(this.store.activeId);
-        if (node && store.activeRegion) {
+        if (
+          node &&
+          store.activeRegion &&
+          node.info?.regions &&
+          node.info.regions.length > 1
+        ) {
           toast.warning('区域节点不可以直接删除。');
         } else if (store.isRootSchema(this.store.activeId)) {
           toast.warning('根节点不允许删除。');
-        } else if (node && node.moveable) {
+        } else if (node && (node.removable || node.removable === undefined)) {
           this.manager.del(this.store.activeId);
         } else {
           toast.warning('当前元素不允许删除。');

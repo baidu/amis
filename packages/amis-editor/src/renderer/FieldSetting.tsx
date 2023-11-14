@@ -144,10 +144,7 @@ export class FieldSetting extends React.Component<
       (prevValue?.length !== value?.length || !isEqual(prevValue, value)) &&
       !isEqual(value, prevState?.fields)
     ) {
-      this.setState({
-        loading: true,
-        fields: Array.isArray(value) ? value : []
-      });
+      this.setState({fields: Array.isArray(value) ? value : []});
     }
   }
 

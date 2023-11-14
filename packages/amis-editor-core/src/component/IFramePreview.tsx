@@ -44,7 +44,7 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
 
     this.initialContent = `<!DOCTYPE html><html><head>${styles.join(
       ''
-    )}</head><body><div class="ae-IFramePreview"></div></body></html>`;
+    )}</head><body><div class="ae-IFramePreview AMISCSSWrapper"></div></body></html>`;
   }
 
   componentDidMount() {
@@ -101,7 +101,7 @@ export default class IFramePreview extends React.Component<IFramePreviewProps> {
 
     return (
       <Frame
-        className={`ae-PreviewIFrame`}
+        className={'ae-PreviewIFrame'}
         initialContent={this.initialContent}
         ref={this.iframeRefFunc}
         contentDidMount={this.iframeContentDidMount}

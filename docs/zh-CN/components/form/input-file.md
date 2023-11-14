@@ -302,6 +302,48 @@ order: 21
 }
 ```
 
+## 上传文件列表
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "data": {
+      "files": [
+        {
+          "id":"2ba48d02d349",
+          "value":"http://amis.bj.bcebos.com/amis/2017-11/1510713111265/fis3-react.md",
+          "url":"http://amis.bj.bcebos.com/amis/2017-11/1510713111265/fis3-react.md",
+          "filename":"file1.md",
+          "name":"file1.md",
+          "state":"uploaded"
+        },
+        {
+          "id":"14723e0bc640",
+          "value":"http://amis.bj.bcebos.com/amis/2017-11/1510713111265/fis3-react.md",
+          "url":"http://amis.bj.bcebos.com/amis/2017-11/1510713111265/fis3-react.md",
+          "filename":"file2.md",
+          "name":"file2.md",
+          "state":"uploaded"
+        }
+      ]
+    },
+    "body": [
+      {
+          "type": "input-file",
+          "name": "files",
+          "label": false,
+          "mode": "horizontal",
+          "accept": "*",
+          "receiver": "/api/mock2/upload/random",
+          "multiple": true,
+          "joinValues": false
+      }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置

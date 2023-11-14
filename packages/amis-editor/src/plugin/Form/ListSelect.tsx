@@ -109,21 +109,26 @@ export class ListControlPlugin extends BasePlugin {
     }
   ];
 
-  subEditorVariable: Array<{label: string; children: any}> = [
-    {
-      label: '当前选项',
-      children: [
-        {
-          label: '选项名称',
-          value: 'label'
-        },
-        {
-          label: '选项值',
-          value: 'value'
-        }
-      ]
-    }
-  ];
+  getSubEditorVariable(schema: any): Array<{label: string; children: any}> {
+    let labelField = schema?.labelField || 'label';
+    let valueField = schema?.valueField || 'value';
+
+    return [
+      {
+        label: '当前选项',
+        children: [
+          {
+            label: '选项名称',
+            value: labelField
+          },
+          {
+            label: '选项值',
+            value: valueField
+          }
+        ]
+      }
+    ];
+  }
 
   panelBodyCreator = (context: BaseEventContext) => {
     return formItemControl(
@@ -201,7 +206,7 @@ export class ListControlPlugin extends BasePlugin {
                     body: [
                       {
                         type: 'tpl',
-                        tpl: `\${${this.getDisplayField(value)}}`,
+                        tpl: `\${${this.getDisplayField(data)}}`,
                         wrapperComponent: '',
                         inline: true
                       }
@@ -275,16 +280,7 @@ export class ListControlPlugin extends BasePlugin {
   }
 
   getDisplayField(data: any) {
-    if (
-      data.source ||
-      (data.map &&
-        Array.isArray(data.map) &&
-        data.map[0] &&
-        Object.keys(data.map[0]).length > 1)
-    ) {
-      return data.labelField ?? 'label';
-    }
-    return 'label';
+    return data?.labelField ?? 'label';
   }
 
   editDetail(id: string, field: string) {

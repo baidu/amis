@@ -1071,6 +1071,16 @@ export class TableControlPlugin extends BasePlugin {
                 name: 'affixHeader',
                 label: '是否固定表头',
                 pipeIn: defaultValue(false)
+              }),
+              getSchemaTpl('switch', {
+                name: 'showFooterAddBtn',
+                label: '展示底部新增按钮',
+                pipeIn: defaultValue(true)
+              }),
+              getSchemaTpl('switch', {
+                name: 'showTableAddBtn',
+                label: '展示操作列新增按钮',
+                pipeIn: defaultValue(true)
               })
             ]
           },
@@ -1080,6 +1090,10 @@ export class TableControlPlugin extends BasePlugin {
               getSchemaTpl('className', {
                 name: 'rowClassName',
                 label: '行样式'
+              }),
+              getSchemaTpl('className', {
+                name: 'toolbarClassName',
+                label: '工具栏'
               })
             ]
           })

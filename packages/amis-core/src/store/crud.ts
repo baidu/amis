@@ -141,7 +141,32 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             ...values
           };
 
-      if (isObjectShallowModified(originQuery, query, false)) {
+      /**
+       * 非严格模式下也需要严格比较的CASE
+       * @reference https://tc39.es/ecma262/#sec-islooselyequal
+       */
+      const exceptedLooselyRules: [any, any][] = [
+        [0, ''],
+        [false, ''],
+        [false, '0'],
+        [false, 0],
+        [true, 1],
+        [true, '1']
+      ];
+
+      if (
+        isObjectShallowModified(originQuery, query, (lhs: any, rhs: any) => {
+          if (
+            exceptedLooselyRules.some(
+              rule => rule.includes(lhs) && rule.includes(rhs)
+            )
+          ) {
+            return lhs !== rhs;
+          }
+
+          return lhs != rhs;
+        })
+      ) {
         if (query[pageField || 'page']) {
           self.page = parseInt(query[pageField || 'page'], 10);
         }

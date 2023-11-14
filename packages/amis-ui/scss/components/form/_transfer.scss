@@ -39,6 +39,42 @@
     }
   }
 
+  &-footer {
+    border-top: 1px solid var(--transfer-base-footer-border-color);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    padding: var(--gap-sm);
+
+    /* 底部空间较小，让Pagination紧凑一些 */
+    &-pagination {
+      & > ul {
+        &.#{$ns}Pagination-item {
+          margin-left: 0;
+        }
+
+        & > li {
+          --Pagination-minWidth: #{px2rem(22px)};
+          --Pagination-height: #{px2rem(22px)};
+          --Pagination-padding: 0 #{px2rem(6px)};
+        }
+      }
+
+      .#{$ns}Pagination-perpage {
+        --select-base-default-paddingTop: 0;
+        --select-base-default-paddingBottom: 0;
+        --select-base-default-paddingLeft: #{px2rem(6px)};
+        --select-base-default-paddingRight: #{px2rem(6px)};
+
+        margin-left: 0;
+
+        .#{$ns}Select-valueWrap {
+          line-height: #{px2rem(22px)};
+        }
+      }
+    }
+  }
+
   &-select,
   &-result {
     overflow: hidden;
@@ -64,6 +100,10 @@
       var(--transfer-base-top-right-border-radius)
       var(--transfer-base-bottom-right-border-radius)
       var(--transfer-base-bottom-left-border-radius);
+
+    &--pagination {
+      max-height: px2rem(475px);
+    }
   }
 
   &-select > &-selection,

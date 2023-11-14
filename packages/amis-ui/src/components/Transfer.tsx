@@ -4,7 +4,6 @@ import includes from 'lodash/includes';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import unionWith from 'lodash/unionWith';
-
 import {ThemeProps, themeable, findTree, differenceFromAll} from 'amis-core';
 import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';
 import {Options, Option} from './Select';
@@ -24,6 +23,7 @@ import {ItemRenderStates as ResultItemRenderStates} from './ResultList';
 import ResultTableList from './ResultTableList';
 import ResultTreeList from './ResultTreeList';
 import {SpinnerExtraProps} from './Spinner';
+import Pagination from './Pagination';
 
 export type SelectMode =
   | 'table'
@@ -113,6 +113,44 @@ export interface TransferProps
   checkAllLabel?: string;
   /** 树形模式下，给 tree 的属性 */
   onlyChildren?: boolean;
+  /** 分页模式下累积的选项值，用于右侧回显 */
+  accumulatedOptions?: Option[];
+  /** 分页配置 */
+  pagination?: {
+    /** 是否开启分页 */
+    enable: boolean;
+    /** 分页组件CSS类名 */
+    className?: string;
+    /**
+     * 通过控制layout属性的顺序，调整分页结构 total,perPage,pager,go
+     * @default 'pager'
+     */
+    layout?: string | Array<string>;
+
+    /**
+     * 指定每页可以显示多少条
+     * @default [10, 20, 50, 100]
+     */
+    perPageAvailable?: Array<number>;
+
+    /**
+     * 最多显示多少个分页按钮。
+     *
+     * @default 5
+     */
+    maxButtons?: number;
+    page?: number;
+    perPage?: number;
+    total?: number;
+    popOverContainer?: any;
+    popOverContainerSelector?: string;
+  };
+  /** 切换分页事件 */
+  onPageChange?: (
+    page: number,
+    perPage?: number,
+    direction?: 'forward' | 'backward'
+  ) => void;
 }
 
 export interface TransferState {
@@ -549,8 +587,31 @@ export class Transfer<
         {this.state.searchResult !== null
           ? this.renderSearchResult(props)
           : this.renderOptions(props)}
+
+        {this.renderFooter()}
       </>
     );
+  }
+
+  renderFooter() {
+    const {classnames: cx, pagination, onPageChange} = this.props;
+
+    return pagination?.enable ? (
+      <div className={cx('Transfer-footer')}>
+        <Pagination
+          className={cx('Transfer-footer-pagination', pagination.className)}
+          activePage={pagination.page}
+          perPage={pagination.perPage}
+          total={pagination.total}
+          layout={pagination.layout}
+          maxButtons={pagination.maxButtons}
+          perPageAvailable={pagination.perPageAvailable}
+          popOverContainer={pagination.popOverContainer}
+          popOverContainerSelector={pagination.popOverContainerSelector}
+          onPageChange={onPageChange}
+        />
+      </div>
+    ) : null;
   }
 
   renderSearchResult(props: TransferProps) {
@@ -827,9 +888,10 @@ export class Transfer<
       virtualThreshold,
       itemHeight,
       loadingConfig,
-      showInvalidMatch
+      showInvalidMatch,
+      pagination,
+      accumulatedOptions
     } = this.props;
-
     const {resultSelectMode, isTreeDeferLoad} = this.state;
     const searchable = !isTreeDeferLoad && resultSearchable;
 
@@ -840,7 +902,7 @@ export class Transfer<
             ref={this.domResultRef}
             classnames={cx}
             columns={columns!}
-            options={options || []}
+            options={(pagination?.enable ? accumulatedOptions : options) || []}
             value={value}
             disabled={disabled}
             option2value={option2value}
@@ -862,7 +924,7 @@ export class Transfer<
             loadingConfig={loadingConfig}
             classnames={cx}
             className={cx('Transfer-value')}
-            options={options}
+            options={(pagination?.enable ? accumulatedOptions : options) || []}
             valueField={'value'}
             value={value || []}
             onChange={onChange!}
@@ -915,7 +977,8 @@ export class Transfer<
       selectMode = 'list',
       translate: __,
       valueField = 'value',
-      mobileUI
+      mobileUI,
+      pagination
     } = this.props as any;
     const {searchResult} = this.state;
 
@@ -939,7 +1002,11 @@ export class Transfer<
       <div
         className={cx('Transfer', className, inline ? 'Transfer--inline' : '')}
       >
-        <div className={cx('Transfer-select')}>
+        <div
+          className={cx('Transfer-select', {
+            'Transfer-select--pagination': !!pagination?.enable
+          })}
+        >
           {this.renderSelect(this.props)}
         </div>
         <div className={cx('Transfer-mid', {'is-mobile': mobileUI})}>
@@ -949,7 +1016,12 @@ export class Transfer<
             </div>
           ) : null}
         </div>
-        <div className={cx('Transfer-result', {'is-mobile': mobileUI})}>
+        <div
+          className={cx('Transfer-result', {
+            'is-mobile': mobileUI,
+            'Transfer-select--pagination': !!pagination?.enable
+          })}
+        >
           <div
             className={cx(
               'Transfer-title',

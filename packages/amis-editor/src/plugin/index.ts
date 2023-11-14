@@ -63,6 +63,7 @@ export * from './Form/UUID'; // UUID
 export * from './Form/LocationPicker'; // 地理位置
 export * from './Form/InputSubForm'; // 子表单项
 export * from './Form/Hidden'; // 隐藏域
+export * from './Form/Static'; // 静态展示框
 
 // 功能
 export * from './Button'; // 按钮
@@ -105,6 +106,7 @@ export * from './Images'; // 图片集
 export * from './Time'; // 时间展示
 export * from './Date'; // 日期展示
 export * from './Datetime'; // 日期时间展示
+export * from './Calendar'; // 日历日程展示
 export * from './Tag'; // 标签
 export * from './Json'; // JSON展示
 export * from './Progress'; // 进度展示
@@ -135,7 +137,6 @@ export * from './Form/InputMonthRange';
 export * from './Form/InputPassword';
 export * from './Form/InputQuarter';
 export * from './Form/InputQuarterRange';
-export * from './Form/Static';
 export * from './Form/InputTime';
 export * from './Form/InputTimeRange';
 export * from './Form/TreeSelect';

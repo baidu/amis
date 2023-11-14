@@ -383,11 +383,16 @@ export class Range extends React.Component<RangeItemProps, any> {
   getStepValue(value: number, step: number) {
     const surplus = value % step;
     let result = 0;
+    let closeNum = Math.floor(value - (value % step));
     // 余数 >= 步长一半 -> 向上取
     // 余数 <  步长一半 -> 向下取
     const _value = surplus >= step / 2 ? value : safeSub(value, step);
     while (result <= _value) {
-      result = safeAdd(result, step);
+      if (step < 1 || result === 0 || result === closeNum) {
+        result = safeAdd(result, step);
+      } else {
+        result = closeNum;
+      }
     }
     return result;
   }

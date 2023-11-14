@@ -474,7 +474,7 @@ export class FormPlugin extends BasePlugin {
                 return {
                   type: 'container',
                   className: 'form-item-gap',
-                  visibleOn: `data.feat === '${feat.value}' && (!data.dsType || data.dsType === '${builderKey}')`,
+                  visibleOn: `$\{feat === '${feat.value}' && (!dsType || dsType === '${builderKey}')}`,
                   body: flatten([
                     builder.makeSourceSettingForm({
                       feat: feat.value,
@@ -685,26 +685,28 @@ export class FormPlugin extends BasePlugin {
       const dsSettings = flatten(
         this.Features.map(feat =>
           this.dsManager.buildCollectionFromBuilders(
-            (builder, builderKey, index) => ({
-              type: 'container',
-              className: 'form-item-gap',
-              visibleOn: `data.feat === '${
-                feat.value
-              }' && (data.dsType == null ? '${builderKey}' === '${
-                defaultDsType || ApiDSBuilderKey
-              }' : data.dsType === '${builderKey}')`,
-              body: flatten([
-                builder.makeSourceSettingForm({
-                  feat: feat.value,
-                  renderer: 'form',
-                  inScaffold: false,
-                  sourceSettings: {
-                    renderLabel: true,
-                    userOrders: false
-                  }
-                })
-              ])
-            })
+            (builder, builderKey, index) => {
+              return {
+                type: 'container',
+                className: 'form-item-gap',
+                visibleOn: `$\{feat === '${
+                  feat.value
+                }' && (dsType == null ? '${builderKey}' === '${
+                  defaultDsType || ApiDSBuilderKey
+                }' : dsType === '${builderKey}')}`,
+                body: flatten([
+                  builder.makeSourceSettingForm({
+                    feat: feat.value,
+                    renderer: 'form',
+                    inScaffold: false,
+                    sourceSettings: {
+                      renderLabel: true,
+                      userOrders: false
+                    }
+                  })
+                ])
+              };
+            }
           )
         )
       );

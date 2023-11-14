@@ -71,18 +71,18 @@
 
   &-asideResizor {
     position: absolute;
-    right: -0.375rem;
+    right: px2rem(-6px);
     top: 50%;
     cursor: ew-resize;
     writing-mode: vertical-lr;
-    width: 0.75rem;
-    height: 1.5rem;
-    margin-top: -0.75rem;
+    width: px2rem(12px);
+    height: px2rem(24px);
+    margin-top: px2rem(-12px);
     border: 0.0625rem solid #dee2e6;
     background-color: #fff;
-    border-radius: 0.142rem;
+    border-radius: px2rem(2px);
     font-size: 12px;
-    line-height: 0.625rem;
+    line-height: px2rem(10px);
     text-align: center;
     user-select: none;
     color: #666;

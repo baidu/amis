@@ -21,6 +21,7 @@ export class PaginationPlugin extends BasePlugin {
   name = '分页组件';
   isBaseComponent = true;
   description = '分页组件，可以对列表进行分页展示，提高页面性能';
+  docLink = '/amis/zh-CN/components/pagination';
   tags = ['展示'];
   icon = 'fa fa-window-minimize';
   lastLayoutSetting = ['pager'];

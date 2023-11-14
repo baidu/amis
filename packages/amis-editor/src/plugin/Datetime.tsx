@@ -5,24 +5,76 @@ import {DatePlugin} from './Date';
 
 const dateFormatOptions = [
   {
-    label: 'X(时间戳)',
-    value: 'X'
+    label: '时间戳',
+    children: [
+      {
+        label: 'X(时间戳)',
+        value: 'X'
+      },
+      {
+        label: 'x(毫秒时间戳)',
+        value: 'x'
+      }
+    ]
   },
   {
-    label: 'x(毫秒时间戳)',
-    value: 'x'
+    label: '日期格式',
+    children: [
+      {
+        label: 'YYYY-MM-DD',
+        value: 'YYYY-MM-DD'
+      },
+      {
+        label: 'YYYY/MM/DD',
+        value: 'YYYY/MM/DD'
+      },
+      {
+        label: 'YYYY年MM月DD日',
+        value: 'YYYY年MM月DD日'
+      }
+    ]
   },
   {
-    label: 'YYYY-MM-DD HH:mm:ss',
-    value: 'YYYY-MM-DD HH:mm:ss'
+    label: '时间格式',
+    children: [
+      {
+        label: 'HH:mm:ss',
+        value: 'HH:mm:ss',
+        timeFormat: 'HH:mm:ss'
+      },
+      {
+        label: 'HH:mm',
+        value: 'HH:mm',
+        timeFormat: 'HH:mm'
+      },
+      {
+        label: 'HH时mm分',
+        value: 'HH时mm分',
+        timeFormat: 'HH:mm'
+      },
+      {
+        label: 'HH时mm分ss秒',
+        value: 'HH时mm分ss秒',
+        timeFormat: 'HH:mm:ss'
+      }
+    ]
   },
   {
-    label: 'YYYY/MM/DD HH:mm:ss',
-    value: 'YYYY/MM/DD HH:mm:ss'
-  },
-  {
-    label: 'YYYY年MM月DD日 HH时mm分ss秒',
-    value: 'YYYY年MM月DD日 HH时mm分ss秒'
+    label: '日期时间格式',
+    children: [
+      {
+        label: 'YYYY-MM-DD HH:mm:ss',
+        value: 'YYYY-MM-DD HH:mm:ss'
+      },
+      {
+        label: 'YYYY/MM/DD HH:mm:ss',
+        value: 'YYYY/MM/DD HH:mm:ss'
+      },
+      {
+        label: 'YYYY年MM月DD日 HH时mm分ss秒',
+        value: 'YYYY年MM月DD日 HH时mm分ss秒'
+      }
+    ]
   }
 ];
 const valueDateFormatOptions = [
@@ -39,13 +91,15 @@ export class DatetimePlugin extends DatePlugin {
 
   scaffold = {
     type: 'datetime',
+    format: 'YYYY-MM-DD HH:mm:ss',
     value: Math.round(Date.now() / 1000)
   };
 
   name = '日期时间展示';
   isBaseComponent = true;
+  disabledRendererPlugin = false; // 避免被 DatePlugin 覆盖
   pluginIcon = 'datetime-plugin';
-
+  docLink = '/amis/zh-CN/components/date';
   previewSchema = {
     ...this.scaffold,
     format: 'YYYY-MM-DD HH:mm:ss',
@@ -67,13 +121,18 @@ export class DatetimePlugin extends DatePlugin {
                   label: '日期时间值'
                 },
                 {
-                  type: 'input-text',
+                  type: 'nested-select',
                   name: 'format',
+                  // searchable: true,
+                  // selectMode: 'chained', // tree、chained
+                  hideNodePathLabel: true,
+                  onlyLeaf: true,
                   label: tipedLabel(
                     '显示格式',
                     '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。'
                   ),
                   clearable: true,
+                  // creatable: true,
                   options: dateFormatOptions,
                   pipeIn: defaultValue('YYYY-MM-DD HH:mm:ss')
                 },
@@ -97,7 +156,24 @@ export class DatetimePlugin extends DatePlugin {
             getSchemaTpl('status')
           ])
         },
-        getSchemaTpl('onlyClassNameTab')
+        {
+          title: '外观',
+          body: getSchemaTpl('collapseGroup', [
+            ...getSchemaTpl('theme:common', {
+              exclude: ['layout'],
+              baseExtra: [
+                getSchemaTpl('theme:font', {
+                  label: '文字',
+                  name: 'themeCss.baseControlClassName.font'
+                })
+              ]
+            }),
+            {
+              title: 'CSS类名',
+              body: [getSchemaTpl('className')]
+            }
+          ])
+        }
       ])
     ];
   };

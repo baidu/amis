@@ -105,7 +105,7 @@
     padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
 
     > input {
-      width: 1rem;
+      width: px2rem(16px);
       display: inline-block;
     }
   }
