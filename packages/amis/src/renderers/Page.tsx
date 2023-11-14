@@ -853,6 +853,7 @@ export default class Page extends React.Component<PageProps> {
       body,
       bodyClassName,
       render,
+      env,
       aside,
       asideClassName,
       classnames: cx,
