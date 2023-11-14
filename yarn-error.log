@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/lsr/.nvm/versions/node/v16.14.2/bin/node /Users/lsr/.nvm/versions/node/v16.14.2/bin/yarn install
+  /Users/lsr/.nvm/versions/node/v16.14.2/bin/node /Users/lsr/.nvm/versions/node/v16.14.2/bin/yarn inatll
 
 PATH: 
   /Users/lsr/.rvm/gems/ruby-2.3.0/bin:/Users/lsr/.rvm/gems/ruby-2.3.0@global/bin:/Users/lsr/.rvm/rubies/ruby-2.3.0/bin:/Users/lsr/.nvm/versions/node/v16.14.2/bin:/Applications/Flutter/flutter/bin:/Library/Frameworks/Python.framework/Versions/3.10/bin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/lsr/.rvm/bin

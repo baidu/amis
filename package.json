@@ -42,13 +42,7 @@
   "dependencies": {
     "path-to-regexp": "^6.2.0",
     "postcss": "^8.4.14",
-<<<<<<< HEAD
-    "qs": "6.9.7",
-    "rc-component": "^0.1.0",
-    "path-to-regexp": "^6.2.0"
-=======
     "qs": "6.9.7"
->>>>>>> master
   },
   "devDependencies": {
     "@babel/generator": "^7.22.9",
