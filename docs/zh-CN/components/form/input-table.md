@@ -1574,6 +1574,7 @@ order: 54
 | setValue   | `value: object \| Array<object>` 替换的值<br /> `index?: number` 可选，替换第几行数据，如果没有指定，则替换全部表格数据            | 替换表格数据                                                         |
 | clear      | -                                                                                                                                  | 清空表格数据                                                         |
 | reset      | -                                                                                                                                  | 将表格数据重置为`resetValue`，若没有配置`resetValue`，则清空表格数据 |
+| initDrag   | -                                                                                                                                  | 开启表格拖拽排序功能                                                 |
 
 ### addItem
 
@@ -2146,6 +2147,86 @@ order: 54
           "b": "b-resetValue2"
         }
       ],
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "footerAddBtn": {
+        "label": "新增",
+        "icon": "fa fa-plus",
+        "hidden": true
+      },
+      "strictMode": true,
+      "minLength": 0,
+      "needConfirm": false,
+      "showTableAddBtn": false
+    }
+  ],
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "id": 3,
+        "a": "a3",
+        "b": "b3"
+      },
+      {
+        "id": 4,
+        "a": "a4",
+        "b": "b4"
+      },
+      {
+        "id": 5,
+        "a": "a5",
+        "b": "b5"
+      }
+    ]
+  }
+}
+```
+
+### initDrag
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "button",
+      "label": "开始表格排序",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "drag-input-table",
+              "actionType": "initDrag"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "input-table",
+      "label": "表格表单",
+      "id": "drag-input-table",
+      "name": "table",
       "columns": [
         {
           "name": "a",
