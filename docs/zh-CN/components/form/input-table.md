@@ -917,6 +917,11 @@ order: 54
 | deleteSuccess | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/> `[name]: object[]`列表记录                                                          | 配置了`deleteApi`，调用接口成功时触发                                |
 | deleteFail    | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/> `[name]: object[]`列表记录<br />`error: object` `deleteApi`请求失败后返回的错误信息 | 配置了`deleteApi`，调用接口失败时触发                                |
 | change        | `[name]: object[]` 列表记录                                                                                                                               | 组件数据发生改变时触发                                               |
+| orderChange   | `movedItems: item[]` 已排序数据                                                                                                                           | 手动拖拽行排序时触发                                                 |
+| rowClick      | `item: object` 行点击数据<br/>`index: number` 行索引                                                                                                      | 单击整行时触发                                                       |
+| rowDbClick    | `item: object` 行点击数据<br/>`index: number` 行索引                                                                                                      | 双击整行时触发                                                       |
+| rowMouseEnter | `item: object` 行移入数据<br/>`index: number` 行索引                                                                                                      | 移入整行时触发                                                       |
+| rowMouseLeave | `item: object` 行移出数据<br/>`index: number` 行索引                                                                                                      | 移出整行时触发                                                       |
 
 ### add
 
@@ -1553,6 +1558,287 @@ order: 54
                 "position": "top-right",
                 "title": "change事件",
                 "msg": "value: ${event.data.value | json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### orderChange
+
+在开启拖拽排序行记录后才会用到，排序确认后触发。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      }
+    ]
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "draggable": true,
+      "onEvent": {
+          "orderChange": {
+              "actions": [
+                  {
+                      "actionType": "toast",
+                      "args": {
+                          "msgType": "info",
+                          "msg": "${event.data.movedItems.length|json}行发生移动"
+                      }
+                  }
+              ]
+          }
+      }
+    }
+  ]
+}
+```
+
+### rowClick
+
+点击行记录。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      }
+    ]
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "onEvent": {
+        "rowClick": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "行单击数据：${event.data.item|json}；行索引：${event.data.index}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### rowDbClick
+
+双击行记录。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      }
+    ]
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "onEvent": {
+        "rowDbClick": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "行单击数据：${event.data.item|json}；行索引：${event.data.index}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### rowMouseEnter
+
+鼠标移入行记录。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      }
+    ]
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "onEvent": {
+        "rowMouseEnter": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "行索引：${event.data.index}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### rowMouseLeave
+
+鼠标移出行记录。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      }
+    ]
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "onEvent": {
+        "rowMouseLeave": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "行索引：${event.data.index}"
               }
             }
           ]
