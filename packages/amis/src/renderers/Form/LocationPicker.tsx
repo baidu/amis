@@ -83,7 +83,6 @@ export class LocationControl extends React.Component<LocationControlProps> {
   @autobind
   async handleChange(value: any) {
     const {dispatchEvent, onChange} = this.props;
-    onChange(value);
     const dispatcher = await dispatchEvent(
       'change',
       resolveEventData(this.props, {value})
@@ -91,6 +90,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
     if (dispatcher?.prevented) {
       return;
     }
+    onChange(value);
   }
 
   @autobind
