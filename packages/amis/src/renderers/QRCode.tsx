@@ -1,12 +1,15 @@
 import React from 'react';
 import cx from 'classnames';
 import {
+  ActionObject,
+  IScopedContext,
   isNumeric,
   isObject,
   isPureVariable,
   Renderer,
   RendererProps,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  ScopedContext
 } from 'amis-core';
 import {FormItem, FormControlProps} from 'amis-core';
 import {filter} from 'amis-core';
@@ -14,6 +17,19 @@ import {QRCodeSVG} from 'qrcode.react';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import {getPropValue} from 'amis-core';
 import mapValues from 'lodash/mapValues';
+
+function downloadBlob(blob: Blob, filename: string) {
+  const objectUrl = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = objectUrl;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  setTimeout(() => URL.revokeObjectURL(objectUrl), 500);
+}
 
 export interface QRCodeImageSettings {
   src: string;
@@ -87,6 +103,13 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
     placeholder: '-'
   };
 
+  ref: React.RefObject<HTMLDivElement>;
+
+  constructor(props: QRCodeProps) {
+    super(props);
+    this.ref = React.createRef();
+  }
+
   /**
    * 获取图片配置
    */
@@ -119,6 +142,26 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
     });
   }
 
+  /**
+   * 接收动作事件
+   */
+  doAction(action: ActionObject, args: any, throwErrors: boolean): any {
+    const actionType = action?.actionType as string;
+    if (actionType === 'saveAs') {
+      const fileName = args?.name || 'qr-code.svg';
+      if (this.ref?.current) {
+        const svgElement = this.ref.current.querySelector('svg');
+        if (svgElement) {
+          const contentWithSvg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" height="128" width="128" viewBox="0 0 29 29">
+         ${svgElement.innerHTML}
+         </svg>`;
+          const blob = new Blob([contentWithSvg], {type: 'image/svg+xml'});
+          downloadBlob(blob, fileName);
+        }
+      }
+    }
+  }
+
   render() {
     const {
       className,
@@ -140,7 +183,11 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
     );
 
     return (
-      <div className={cx(`${ns}QrCode`, className)} style={style}>
+      <div
+        className={cx(`${ns}QrCode`, className)}
+        style={style}
+        ref={this.ref}
+      >
         {!finalValue ? (
           <span className={`${ns}QrCode--placeholder`}>{placeholder}</span>
         ) : finalValue.length > 2953 ? (
@@ -169,4 +216,18 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
   test: /(^|\/)qr\-?code$/,
   name: 'qrcode'
 })
-export class QRCodeRenderer extends QRCode {}
+export class QRCodeRenderer extends QRCode {
+  static contextType = ScopedContext;
+
+  constructor(props: QRCodeProps, context: IScopedContext) {
+    super(props);
+    const scoped = context;
+    scoped.registerComponent(this);
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount?.();
+    const scoped = this.context as IScopedContext;
+    scoped.unRegisterComponent(this);
+  }
+}
