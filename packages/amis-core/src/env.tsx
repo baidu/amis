@@ -87,6 +87,16 @@ export interface RendererEnv {
   affixOffsetBottom?: number;
 
   richTextToken: string;
+
+  /**
+   * 默认的选址组件提供商，目前支持仅 baidu
+   */
+  locationPickerVendor?: string;
+
+  /**
+   * 选址组件的 ak
+   */
+  locationPickerAK?: string;
   loadRenderer: (
     schema: Schema,
     path: string,
