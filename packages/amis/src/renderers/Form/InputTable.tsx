@@ -299,6 +299,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   subFormItems: any = {};
   rowPrinstine: Array<any> = [];
   editting: any = {};
+  table: any;
 
   constructor(props: TableProps) {
     super(props);
@@ -587,6 +588,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       );
 
       return;
+    } else if (actionType === 'initDrag') {
+      const tableStore = this.table?.props?.store;
+      tableStore?.stopDragging();
+      tableStore?.toggleDragging();
     }
     return onAction && onAction(action, ctx, ...rest);
   }
@@ -1550,6 +1555,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     while (ref && ref.getWrappedInstance) {
       ref = ref.getWrappedInstance();
     }
+    this.table = ref;
   }
 
   computedAddBtnDisabled() {
