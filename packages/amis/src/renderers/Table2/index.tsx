@@ -37,7 +37,8 @@ import type {
   OnRowProps,
   SummaryProps,
   RowSelectionProps,
-  ExpandableProps
+  ExpandableProps,
+  AutoFillHeightObject
 } from 'amis-ui/lib/components/table';
 import {
   BaseSchema,
@@ -392,6 +393,11 @@ export interface TableSchema2 extends BaseSchema {
   primaryField?: string;
 
   tableLayout?: 'fixed' | 'auto';
+
+  /**
+   * 表格自动计算高度
+   */
+  autoFillHeight?: boolean | AutoFillHeightObject;
 }
 
 // 事件调整 对应CRUD2里的事件配置也需要同步修改

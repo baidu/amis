@@ -7,7 +7,6 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
-import filter from 'lodash/filter';
 import debounce from 'lodash/debounce';
 import intersection from 'lodash/intersection';
 import Sortable from 'sortablejs';
@@ -18,9 +17,14 @@ import {
   ThemeProps,
   localeable,
   LocaleProps,
-  autobind
+  autobind,
+  isObject,
+  offset,
+  getScrollParent,
+  position
 } from 'amis-core';
 import {resizeSensor} from 'amis-core';
+import {getStyleNumber} from 'amis-core';
 import Spinner, {SpinnerExtraProps} from '../Spinner';
 import ItemActionsWrapper from './ItemActionsWrapper';
 import Cell from './Cell';
@@ -119,6 +123,8 @@ export interface SortProps {
   orderDir: string;
 }
 
+export type AutoFillHeightObject = Record<'height' | 'maxHeight', number>;
+
 export interface TableProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   title: string | React.ReactNode | Function;
   footer?: string | React.ReactNode | Function;
@@ -159,6 +165,10 @@ export interface TableProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   onSelectAll?: Function;
   itemActions?: Function;
   onRef?: (ref: any) => void;
+  /**
+   * 表格自动计算高度
+   */
+  autoFillHeight?: boolean | AutoFillHeightObject;
 }
 
 export interface ScrollProps {
@@ -245,12 +255,22 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   contentDom: React.RefObject<HTMLDivElement> = React.createRef();
   headerDom: React.RefObject<HTMLDivElement> = React.createRef();
   footDom: React.RefObject<HTMLDivElement> = React.createRef();
+  containerDom: React.RefObject<HTMLDivElement> = React.createRef();
 
   toDispose: Array<() => void> = [];
   updateTableInfoLazy = debounce(this.updateTableInfo.bind(this), 250, {
     trailing: true,
     leading: false
   });
+  updateAutoFillHeightLazy = debounce(
+    this.updateAutoFillHeight.bind(this),
+    250,
+    {
+      trailing: true,
+      leading: false
+    }
+  );
+  timer: ReturnType<typeof setTimeout>;
 
   componentDidMount() {
     this.props?.onRef?.(this);
@@ -280,6 +300,17 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     this.updateStickyHeader();
 
     const currentNode = findDOMNode(this) as HTMLElement;
+    if (this.props.autoFillHeight) {
+      this.toDispose.push(
+        resizeSensor(
+          currentNode.parentElement!,
+          this.updateAutoFillHeightLazy,
+          false,
+          'height'
+        )
+      );
+      this.updateAutoFillHeight();
+    }
 
     this.toDispose.push(
       resizeSensor(currentNode, this.updateTableInfoLazy, false, 'width')
@@ -385,6 +416,97 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     this.toDispose = [];
 
     this.updateTableInfoLazy.cancel();
+    this.updateAutoFillHeightLazy.cancel();
+
+    clearTimeout(this.timer);
+  }
+
+  /**
+   * 自动设置表格高度占满界面剩余区域
+   * 用 css 实现有点麻烦，要改很多结构，所以先用 dom hack 了，避免对之前的功能有影响
+   */
+  @autobind
+  updateAutoFillHeight() {
+    const {autoFillHeight} = this.props;
+    if (!autoFillHeight) {
+      return;
+    }
+    const tableContent = this.containerDom.current as HTMLElement;
+
+    if (!tableContent) {
+      return;
+    }
+
+    // 可能数据还没到，没有渲染 footer
+    // 也可能是弹窗中，弹窗还在动画中，等一下再执行
+    if (
+      !tableContent.offsetHeight ||
+      tableContent.getBoundingClientRect().height / tableContent.offsetHeight <
+        0.8
+    ) {
+      this.timer = setTimeout(() => {
+        this.updateAutoFillHeight();
+      }, 100);
+      return;
+    }
+
+    // 计算 table-content 在 dom 中的位置
+    let viewportHeight = window.innerHeight;
+    let tableContentTop = offset(tableContent).top;
+
+    const parent = getScrollParent(tableContent.parentElement as HTMLElement);
+    if (parent && parent !== document.body) {
+      viewportHeight = parent.clientHeight - 1;
+      tableContentTop = position(tableContent, parent).top;
+    }
+
+    let tableContentBottom = 0;
+    let selfNode = tableContent;
+    let parentNode = selfNode.parentElement;
+    while (parentNode) {
+      const paddingBottom = getStyleNumber(parentNode, 'padding-bottom');
+      const borderBottom = getStyleNumber(parentNode, 'border-bottom-width');
+
+      let nextSiblingHeight = 0;
+      let nextSibling = selfNode.nextElementSibling as HTMLElement;
+      while (nextSibling) {
+        const positon = getComputedStyle(nextSibling).position;
+        if (positon !== 'absolute' && positon !== 'fixed') {
+          nextSiblingHeight +=
+            nextSibling.offsetHeight +
+            getStyleNumber(nextSibling, 'margin-bottom');
+        }
+
+        nextSibling = nextSibling.nextElementSibling as HTMLElement;
+      }
+
+      const marginBottom = getStyleNumber(selfNode, 'margin-bottom');
+      tableContentBottom +=
+        paddingBottom + borderBottom + marginBottom + nextSiblingHeight;
+
+      selfNode = parentNode;
+      parentNode = selfNode.parentElement;
+      if (parent && parent !== document.body && parent === selfNode) {
+        break;
+      }
+    }
+
+    const heightField =
+      autoFillHeight && (autoFillHeight as AutoFillHeightObject).maxHeight
+        ? 'maxHeight'
+        : 'height';
+
+    const heightValue = isObject(autoFillHeight)
+      ? (autoFillHeight as AutoFillHeightObject)[heightField]
+      : 0;
+
+    const tableContentHeight = heightValue
+      ? heightValue
+      : Math.round(viewportHeight - tableContentTop - tableContentBottom);
+
+    if (tableContentHeight > 0) {
+      tableContent.style[heightField] = `${tableContentHeight}px`;
+    }
   }
 
   initDragging() {
@@ -1313,7 +1435,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     const {footSummary, classnames: cx} = this.props;
 
     return (
-      <div className={cx('Table-container')}>
+      <div className={cx('Table-container')} ref={this.containerDom}>
         {this.renderScrollTableHeader()}
         {this.renderScrollTableBody()}
         {footSummary ? this.renderScrollTableFoot() : null}
@@ -1524,7 +1646,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         {hasScrollY || sticky ? (
           this.renderScrollTable()
         ) : (
-          <div className={cx('Table-container')}>{this.renderTable()}</div>
+          <div className={cx('Table-container')} ref={this.containerDom}>
+            {this.renderTable()}
+          </div>
         )}
 
         {footer ? (
