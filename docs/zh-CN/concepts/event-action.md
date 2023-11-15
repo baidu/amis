@@ -75,42 +75,42 @@ order: 9
 
 ```schema
 {
-  type: 'page',
-  body: [
+  "type": "page",
+  "body": [
     {
-      type: 'button',
-      label: '尝试点击、鼠标移入/移出',
-      level: 'primary',
-      onEvent: {
-        click: {
-          actions: [
+      "type": "button",
+      "label": "尝试点击、鼠标移入/移出",
+      "level": "primary",
+      "onEvent": {
+        "click": {
+          "actions": [
             {
-              actionType: 'toast',
-              args: {
-                msgType: 'info',
-                msg: '派发点击事件'
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "派发点击事件"
               }
             }
           ]
         },
-        mouseenter: {
-          actions: [
+        "mouseenter": {
+          "actions": [
             {
-              actionType: 'toast',
-              args: {
-                msgType: 'info',
-                msg: '派发鼠标移入事件'
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "派发鼠标移入事件"
               }
             }
           ]
         },
-        mouseleave: {
-          actions: [
+        "mouseleave": {
+          "actions": [
             {
-              actionType: 'toast',
-              args: {
-                msgType: 'info',
-                msg: '派发鼠标移出事件'
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "派发鼠标移出事件"
               }
             }
           ]

@@ -20,7 +20,7 @@ export class CalendarPlugin extends BasePlugin {
   panelTitle = '日历日程';
 
   description = '展示日历及日程。';
-  docLink = '/amis/zh-CN/components/calendor';
+  docLink = '/amis/zh-CN/components/calendar';
   tags = ['展示'];
 
   scaffold = {

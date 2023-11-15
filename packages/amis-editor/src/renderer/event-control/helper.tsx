@@ -1244,8 +1244,6 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
             'path',
             'value',
             'index',
-            'fromPage',
-            'fromApp',
             '__valueInput',
             '__comboType',
             '__containerType'
@@ -1283,29 +1281,34 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           supportComponents: 'byComponent',
           schema: [
             {
-              name: '__actionSubType',
-              type: 'radios',
-              label: '动作类型',
-              mode: 'horizontal',
-              options: [
-                {label: '组件变量', value: 'cmpt'},
-                {label: '页面变量', value: 'page'},
-                {label: '内存变量', value: 'app'}
-              ],
-              value:
-                '${args.fromApp ? "app" : args.fromPage ? "page" : "cmpt"}',
-              onChange: (value: string, oldVal: any, data: any, form: any) => {
-                form.setValueByName('__valueInput', undefined);
-                form.setValueByName('args.value', undefined);
-                form.deleteValueByName('args.path');
-                form.deleteValueByName('args.fromApp');
-                form.deleteValueByName('args.fromPage');
-
-                if (value === 'page') {
-                  form.setValueByName('args.fromPage', true);
-                } else if (value === 'app') {
-                  form.setValueByName('args.fromApp', true);
-                }
+              children: ({render, data}: any) => {
+                const path = data?.args?.path || '';
+                return render('setValueType', {
+                  name: '__actionSubType',
+                  type: 'radios',
+                  label: '动作类型',
+                  mode: 'horizontal',
+                  options: [
+                    {label: '组件变量', value: 'cmpt'},
+                    {label: '页面变量', value: 'page'},
+                    {label: '内存变量', value: 'app'}
+                  ],
+                  value: /^appVariables/.test(path) // 只需要初始化时更新value
+                    ? 'app'
+                    : /^(__page|__query)/.test(path)
+                    ? 'page'
+                    : 'cmpt',
+                  onChange: (
+                    value: string,
+                    oldVal: any,
+                    data: any,
+                    form: any
+                  ) => {
+                    form.setValueByName('__valueInput', undefined);
+                    form.setValueByName('args.value', undefined);
+                    form.deleteValueByName('args.path');
+                  }
+                });
               }
             },
             // 组件变量
@@ -2349,6 +2352,12 @@ export const COMMON_ACTION_SCHEMA_MAP: {
   },
   confirm: {
     descDetail: (info: any) => <div>打开确认对话框</div>
+  },
+  preview: {
+    descDetail: (info: any) => <div>预览图片</div>
+  },
+  zoom: {
+    descDetail: (info: any) => <div>调整图片比例</div>
   }
 };
 
@@ -3212,7 +3221,7 @@ export const getEventControlConfig = (
           showCloseButton: true,
           showErrorMsg: true,
           showLoading: true,
-          className: 'app-popover',
+          className: 'app-popover :AMISCSSWrapper',
           actions: [
             {
               type: 'button',
@@ -3239,7 +3248,7 @@ export const getEventControlConfig = (
               inline: false
             }
           ],
-          className: 'app-popover',
+          className: 'app-popover :AMISCSSWrapper',
           actions: [
             {
               type: 'button',
@@ -3376,9 +3385,7 @@ export const getEventControlConfig = (
           /** 应用变量赋值 */
           action.args = {
             path: config.args.path,
-            value: config.args?.value ?? '',
-            fromPage: action.args?.fromPage,
-            fromApp: action.args?.fromApp
+            value: config.args?.value ?? ''
           };
 
           action.hasOwnProperty('componentId') && delete action.componentId;

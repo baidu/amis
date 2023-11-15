@@ -786,6 +786,7 @@
   --transfer-base-header-paddingBottom: var(--sizes-size-5);
   --transfer-base-header-paddingLeft: var(--sizes-size-8);
   --transfer-base-header-paddingRight: var(--sizes-size-8);
+  --transfer-base-footer-border-color: var(--colors-neutral-line-8);
   --transfer-base-body-paddingTop: var(--sizes-size-0);
   --transfer-base-body-paddingBottom: var(--sizes-size-0);
   --transfer-base-body-paddingLeft: var(--sizes-size-0);
@@ -2052,6 +2053,7 @@
   --Tabs-onActive-bg: var(--background);
   --Tabs-onActive-borderColor: var(--borderColor);
   --Tabs-onActive-color: var(--colors-neutral-text-2);
+  --Tabs-onError-color: var(--colors-error-5);
   --Tabs-onDisabled-color: var(--colors-neutral-text-7);
   --Tabs-onHover-borderColor: var(--colors-neutral-line-8);
   --Tabs-add-icon-size: #{px2rem(15px)};
@@ -4130,6 +4132,7 @@
     var(--combo-vertical-right-border-color)
     var(--combo-vertical-bottom-border-color)
     var(--combo-vertical-left-border-color);
+  --Combo--vertical-item--onError-borderColor: var(--colors-error-5);
   --Combo--vertical-item-borderRadius: var(
       --combo-vertical-top-left-border-radius
     )

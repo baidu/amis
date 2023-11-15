@@ -161,10 +161,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               rule => rule.includes(lhs) && rule.includes(rhs)
             )
           ) {
-            return lhs === rhs;
+            return lhs !== rhs;
           }
 
-          return lhs == rhs;
+          return lhs != rhs;
         })
       ) {
         if (query[pageField || 'page']) {

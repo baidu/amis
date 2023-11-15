@@ -321,6 +321,7 @@ export class SwitchContainerPlugin extends LayoutBasePlugin {
                 name: 'items',
                 label: '状态列表',
                 addTip: '新增组件状态',
+                minLength: 1,
                 items: [
                   {
                     type: 'input-text',
@@ -356,6 +357,10 @@ export class SwitchContainerPlugin extends LayoutBasePlugin {
         title: '外观',
         className: 'p-none',
         body: getSchemaTpl('collapseGroup', [
+          getSchemaTpl('theme:base', {
+            collapsed: false,
+            extra: []
+          }),
           {
             title: '布局',
             body: [
@@ -460,7 +465,15 @@ export class SwitchContainerPlugin extends LayoutBasePlugin {
               getSchemaTpl('layout:stickyPosition')
             ]
           },
-          ...getSchemaTpl('theme:common', {exclude: ['layout']})
+          {
+            title: '自定义样式',
+            body: [
+              {
+                type: 'theme-cssCode',
+                label: false
+              }
+            ]
+          }
         ])
       },
       {

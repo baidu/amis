@@ -142,17 +142,15 @@ export class LocationControl extends React.Component<LocationControlProps> {
 
   @supportStatic()
   render() {
-    const {style} = this.props;
+    const {style, env} = this.props;
+    const ak = filter(this.props.ak, this.props.data) || env.locationPickerAK!;
     return (
       <div
         className={this.props.classnames('LocationControl', {
           'is-mobile': isMobile()
         })}
       >
-        <LocationPicker
-          {...this.props}
-          ak={filter(this.props.ak, this.props.data)}
-        />
+        <LocationPicker {...this.props} ak={ak} />
       </div>
     );
   }

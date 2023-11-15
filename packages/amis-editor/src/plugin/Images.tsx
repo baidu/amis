@@ -20,7 +20,7 @@ export class ImagesPlugin extends BasePlugin {
   pluginIcon = 'images-plugin';
   scaffold = {
     type: 'images',
-    imageGallaryClassName: 'app-popover'
+    imageGallaryClassName: 'app-popover :AMISCSSWrapper'
   };
   previewSchema = {
     ...this.scaffold,

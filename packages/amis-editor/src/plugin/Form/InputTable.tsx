@@ -653,6 +653,132 @@ export class TableControlPlugin extends BasePlugin {
           }
         }
       ]
+    },
+    {
+      eventName: 'orderChange',
+      eventLabel: '行排序',
+      description: '手动拖拽行排序事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                movedItems: {
+                  type: 'array',
+                  title: '已排序记录'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowClick',
+      eventLabel: '行单击',
+      description: '点击整行事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '当前行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '当前行索引'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowDbClick',
+      eventLabel: '行双击',
+      description: '双击整行事件',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '当前行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '当前行索引'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowMouseEnter',
+      eventLabel: '鼠标移入行事件',
+      description: '移入整行时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '当前行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '当前行索引'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'rowMouseLeave',
+      eventLabel: '鼠标移出行事件',
+      description: '移出整行时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '当前行记录'
+                },
+                index: {
+                  type: 'number',
+                  title: '当前行索引'
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   ];
 
@@ -811,6 +937,11 @@ export class TableControlPlugin extends BasePlugin {
       actionType: 'clear',
       actionLabel: '清空',
       description: '清空组件数据'
+    },
+    {
+      actionType: 'initDrag',
+      actionLabel: '开启排序',
+      description: '开启表格拖拽排序功能'
     }
   ];
 
@@ -1071,6 +1202,16 @@ export class TableControlPlugin extends BasePlugin {
                 name: 'affixHeader',
                 label: '是否固定表头',
                 pipeIn: defaultValue(false)
+              }),
+              getSchemaTpl('switch', {
+                name: 'showFooterAddBtn',
+                label: '展示底部新增按钮',
+                pipeIn: defaultValue(true)
+              }),
+              getSchemaTpl('switch', {
+                name: 'showTableAddBtn',
+                label: '展示操作列新增按钮',
+                pipeIn: defaultValue(true)
               })
             ]
           },
@@ -1080,6 +1221,10 @@ export class TableControlPlugin extends BasePlugin {
               getSchemaTpl('className', {
                 name: 'rowClassName',
                 label: '行样式'
+              }),
+              getSchemaTpl('className', {
+                name: 'toolbarClassName',
+                label: '工具栏'
               })
             ]
           })
