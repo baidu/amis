@@ -8,11 +8,11 @@ import {isExpression, resolveVariableAndFilter} from 'amis-core';
 import type {VariableItem} from 'amis-ui';
 import {isObservable, reaction} from 'mobx';
 import DeepDiff, {Diff} from 'deep-diff';
-import assign from 'lodash/assign'
-import cloneDeep from 'lodash/cloneDeep'
-import isPlainObject from 'lodash/isPlainObject'
-import isEqual from 'lodash/isEqual'
-import isNumber from 'lodash/isNumber'
+import assign from 'lodash/assign';
+import cloneDeep from 'lodash/cloneDeep';
+import isPlainObject from 'lodash/isPlainObject';
+import isEqual from 'lodash/isEqual';
+import isNumber from 'lodash/isNumber';
 
 const {
   guid,
@@ -70,13 +70,30 @@ export function cleanUndefined(obj: any) {
  * 给每个节点加个 $$id 这样方便编辑
  * @param obj
  */
-export function JSONPipeIn(obj: any): any {
-  if (!isObject(obj) || obj.$$typeof) {
-    return obj;
-  }
-
+export function JSONPipeIn(
+  obj: any,
+  reGenerateId = false,
+  idMap: any = {}
+): any {
   if (Array.isArray(obj)) {
-    return obj.map(JSONPipeIn);
+    let flag = false; // 有必要时才去改变对象的引用
+    const ret = obj.map(item => {
+      const patched = JSONPipeIn(item, reGenerateId, idMap);
+      if (patched !== item) {
+        flag = true;
+      }
+      return patched;
+    });
+    return flag ? ret : obj;
+  } else if (!isObject(obj) || obj.constructor !== Object) {
+    if (typeof obj === 'string') {
+      Object.keys(idMap).forEach(oldId => {
+        const newId = idMap[oldId];
+        obj = obj.replaceAll(oldId, newId);
+      });
+    }
+
+    return obj;
   }
 
   let toUpdate: any = {};
@@ -95,35 +112,33 @@ export function JSONPipeIn(obj: any): any {
   //   }
   // });
 
+  if (obj.type) {
+    // 重新生成组件ID
+    if (reGenerateId) {
+      flag = true;
+
+      /** 脚手架构建的Schema提前构建好了组件 ID，此时无需生成 ID，避免破坏事件动作 */
+      if (
+        (!obj.__origin || obj.__origin !== 'scaffold') &&
+        (typeof obj.id !== 'string' || !obj.id || obj.id.startsWith('u:'))
+      ) {
+        const newId = generateNodeId();
+        obj.id && (idMap[obj.id] = newId);
+        toUpdate.id = newId;
+      }
+    } else if (!obj.id) {
+      flag = true;
+      toUpdate.id = generateNodeId();
+    }
+  }
+
   Object.keys(obj).forEach(key => {
-    let prop = obj[key];
+    let item = obj[key];
+    let patched = JSONPipeIn(item, reGenerateId, idMap);
 
-    if (Array.isArray(prop)) {
-      // 如果没有修改过还是用原来的对象
-      // 为了方便上层diff。
-      let flag2 = false;
-
-      let patched = prop.map((item: any) => {
-        let patched = JSONPipeIn(item);
-
-        if (patched !== item) {
-          flag2 = true;
-        }
-
-        return patched;
-      });
-
-      if (flag2) {
-        flag = true;
-        toUpdate[key] = patched;
-      }
-    } else {
-      let patched = JSONPipeIn(prop);
-
-      if (patched !== prop) {
-        flag = true;
-        toUpdate[key] = patched;
-      }
+    if (patched !== item) {
+      flag = true;
+      toUpdate[key] = patched;
     }
   });
 
@@ -1094,7 +1109,10 @@ export function needFillPlaceholder(curProps: any) {
   }
 
   // 支持在plugin中配置
-  return !!(curProps.$$editor?.needFillPlaceholder || curProps.regionConfig?.needFillPlaceholder);
+  return !!(
+    curProps.$$editor?.needFillPlaceholder ||
+    curProps.regionConfig?.needFillPlaceholder
+  );
 }
 // 设置主题数据
 export function setThemeConfig(config: any) {
