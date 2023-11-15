@@ -44,7 +44,7 @@ export interface State {
   filteredValue: Array<string>;
 }
 
-export class HeadCellFilter extends React.Component<Props, State> {
+export class HeadCellFilter extends React.PureComponent<Props, State> {
   static defaultProps = {
     filteredValue: [],
     filterMultiple: false
