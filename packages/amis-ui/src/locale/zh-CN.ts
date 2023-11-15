@@ -155,6 +155,7 @@ register('zh-CN', {
   'Form.unique': '当前值不唯一',
   'Form.validateFailed': '依赖的部分字段没有通过验证',
   'Form.nestedError': '表单不要直接嵌套在表单下面',
+  'Form.rules.message': '表单项联合校验失败',
   'Iframe.invalid': 'iframe 地址不合法',
   'Iframe.invalidProtocol': '无法加载 http 协议的 iframe',
   'Image.dragTip': '拖拽排序',

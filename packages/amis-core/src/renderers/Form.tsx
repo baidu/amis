@@ -537,10 +537,9 @@ export default class Form extends React.Component<FormProps, object> {
       onValidate,
       onValidChange,
       promptPageLeave,
-      env,
-      rules
+      env
     } = this.props;
-
+    const rules = this.getNormalizedRules();
     this.mounted = true;
 
     if (onValidate) {
@@ -588,7 +587,7 @@ export default class Form extends React.Component<FormProps, object> {
       );
     }
 
-    if (Array.isArray(rules) && rules.length) {
+    if (rules.length) {
       this.toDispose.push(
         this.addHook(() => {
           if (!store.valid) {
@@ -677,6 +676,24 @@ export default class Form extends React.Component<FormProps, object> {
     this.toDispose = [];
     window.removeEventListener('beforeunload', this.beforePageUnload);
     this.unBlockRouting?.();
+  }
+
+  /** 获取表单联合校验的规则 */
+  getNormalizedRules() {
+    const {rules, translate: __} = this.props;
+
+    if (!Array.isArray(rules) || rules.length < 1) {
+      return [];
+    }
+
+    return rules
+      .map(item => ({
+        ...item,
+        ...(!item.message || typeof item.message !== 'string'
+          ? {message: __('Form.rules.message')}
+          : {})
+      }))
+      .filter(item => item.rule && typeof item.rule === 'string');
   }
 
   async dispatchInited(value: any) {
