@@ -769,6 +769,19 @@ setSchemaTpl('combo-container', (config: SchemaObject) => {
 });
 
 /**
+ * Page组件静态数据
+ */
+setSchemaTpl(
+  'pageData',
+  getSchemaTpl('combo-container', {
+    type: 'input-kv',
+    mode: 'normal',
+    name: 'data',
+    label: '组件静态数据'
+  })
+);
+
+/**
  * 所有组件的状态
  */
 setSchemaTpl(
