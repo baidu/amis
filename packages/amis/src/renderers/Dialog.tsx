@@ -502,6 +502,7 @@ export default class Dialog extends React.Component<DialogProps> {
     const {
       store,
       render,
+      env,
       classnames: cx,
       showErrorMsg,
       showLoading,
@@ -517,7 +518,9 @@ export default class Dialog extends React.Component<DialogProps> {
             {showLoading !== false ? (
               <Spinner size="sm" key="info" show={store.loading} />
             ) : null}
-            {store.error && showErrorMsg !== false ? (
+            {!env.forceSilenceInsideError &&
+            store.error &&
+            showErrorMsg !== false ? (
               <span className={cx('Dialog-error')}>{store.msg}</span>
             ) : null}
           </div>
