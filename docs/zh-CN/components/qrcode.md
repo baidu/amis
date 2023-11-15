@@ -222,7 +222,9 @@ order: 61
             {
               "actionType": "saveAs",
               "componentId": "qr-code-download",
-              "name": "download.svg"
+              "args": {
+                "name": "download.svg"
+              }
             }
           ]
         }
