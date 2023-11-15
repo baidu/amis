@@ -227,8 +227,6 @@ export function makeWrapper(
   return Wrapper as any;
 }
 
-// 将之前选择的弹窗和本次现有弹窗schema替换为$ref引用
-
 /**
  * 将之前选择的弹窗和本次现有弹窗schema替换为$ref引用
  * @param schema
@@ -240,7 +238,7 @@ function replaceDialogtoRef(
   dialogId: string,
   dialogRefsName: string
 ) {
-  let replacedSchema = null;
+  let replacedSchema = schema;
   const dialog = JSONGetById(schema, dialogId);
   if (dialog) {
     replacedSchema = JSONUpdate(schema, dialogId, {$ref: dialogRefsName}, true);
@@ -512,7 +510,7 @@ function SchemaFrom({
         // 添加弹窗事件后自动选中弹窗
         if (store.activeDialogPath) {
           let activeId = store.getSchemaByPath(
-            store.activeDialogPath.split('/')
+            store.activeDialogPath.split('/').filter(item => item !== '')
           )?.$$id;
           activeId && store.setPreviewDialogId(activeId);
           store.setActiveDialogPath('');
