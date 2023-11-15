@@ -18,6 +18,23 @@ import {Icon} from './icons';
 import {LocaleProps, localeable} from 'amis-core';
 import {autobind, getScrollbarWidth} from 'amis-core';
 
+export const getContainerWithFullscreen =
+  (container?: () => HTMLElement | HTMLElement | null) => () => {
+    const envContainer =
+      typeof container === 'function' ? container() : container;
+
+    // 获取当前全屏元素
+    const fullscreenElement = document.fullscreenElement;
+
+    if (
+      fullscreenElement &&
+      (!envContainer || !fullscreenElement.contains(envContainer))
+    ) {
+      return fullscreenElement as HTMLElement;
+    }
+    return envContainer || null;
+  };
+
 export interface ModalProps extends ThemeProps, LocaleProps {
   className?: string;
   contentClassName?: string;
@@ -300,7 +317,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         onEntered={this.handleEntered}
       >
         {(status: string) => (
-          <Portal container={container}>
+          <Portal container={getContainerWithFullscreen(container)}>
             <div
               ref={this.modalRef}
               role="dialog"
