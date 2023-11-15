@@ -61,12 +61,12 @@ export class TableCell2Plugin extends BasePlugin {
         wrapperResolve: (dom: HTMLDivElement) => {
           // 固定这种结构 amis里改了 这里也得改
           const parent = dom.parentElement?.parentElement;
-          const groupId = parent?.getAttribute('data-group-id');
+          const col = parent?.getAttribute('data-col');
           const wrapper = dom.closest('table')!.parentElement?.parentElement;
           return [].slice.call(
             wrapper?.querySelectorAll(
-              `th[data-group-id="${groupId}"],
-              td[data-group-id="${groupId}"]`
+              `th[data-col="${col}"],
+              td[data-col="${col}"]`
             )
           );
         }
