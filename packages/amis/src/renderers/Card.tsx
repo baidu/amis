@@ -471,7 +471,10 @@ export class CardRenderer extends React.Component<CardProps> {
                   filterClassNameObject(
                     action.className || `${size ? `Card-action--${size}` : ''}`,
                     data
-                  )
+                  ),
+                  {
+                    'is-disabled': isDisabled(action, data)
+                  }
                 ),
                 componentClass: 'a',
                 onAction: this.handleAction
