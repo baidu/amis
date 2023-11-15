@@ -24,11 +24,7 @@ export class CalendarPlugin extends BasePlugin {
   tags = ['展示'];
 
   scaffold = {
-    type: 'page',
-    body: {
-      type: 'calendar',
-      value: ''
-    }
+    type: 'calendar'
   };
   previewSchema = {
     ...this.scaffold
