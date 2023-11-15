@@ -226,7 +226,13 @@ export const Row = types
     },
 
     get partial(): boolean {
-      return this.childrenSelected() === SELECTED_STATUS.PARTIAL;
+      const childrenSelected =
+        this.childrenSelected() === SELECTED_STATUS.PARTIAL;
+      const childrenPartial = (self as IRow).children.some(
+        (child: IRow) => child.partial
+      );
+
+      return childrenSelected || childrenPartial;
     },
 
     get checked(): boolean {

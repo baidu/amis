@@ -7,7 +7,7 @@ import {
   within
 } from '@testing-library/react';
 import {render as amisRender} from '../../../src';
-import {makeEnv, wait} from '../../helper';
+import {makeEnv} from '../../helper';
 
 const items = [
   {

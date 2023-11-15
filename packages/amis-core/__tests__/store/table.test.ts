@@ -107,7 +107,7 @@ describe('TableStore', () => {
     expect(secondLevel2.checked).toBe(false);
     expect(secondLevel2.partial).toBe(true);
 
-    expect(firstLevel.partial).toBe(false);
     expect(firstLevel.checked).toBe(false);
+    expect(firstLevel.partial).toBe(true);
   });
 });
