@@ -2124,6 +2124,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       return;
     }
 
+    this.syncTableWidth();
     this.initTableWidth();
   }
 
