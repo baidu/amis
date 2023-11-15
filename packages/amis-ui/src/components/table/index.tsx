@@ -116,6 +116,7 @@ export interface OnRowProps {
   onRowMouseEnter?: Function;
   onRowMouseLeave?: Function;
   onRowClick?: Function;
+  onRowDbClick?: Function;
 }
 
 export interface SortProps {
@@ -804,6 +805,22 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   }
 
   @autobind
+  async onRowDbClick(
+    event: React.ChangeEvent<any>,
+    record?: any,
+    rowIndex?: number
+  ) {
+    const {onRow} = this.props;
+
+    if (onRow && onRow.onRowDbClick) {
+      const prevented = await onRow.onRowDbClick(event, record, rowIndex);
+      if (prevented) {
+        return;
+      }
+    }
+  }
+
+  @autobind
   async onRowMouseEnter(
     event: React.ChangeEvent<any>,
     record?: any,
@@ -1067,6 +1084,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         onMouseEnter={this.onRowMouseEnter}
         onMouseLeave={this.onRowMouseLeave}
         onClick={this.onRowClick}
+        onDoubleClick={this.onRowDbClick}
         onChange={this.onRowChange}
         childrenColumnName={this.getChildrenColumnName()}
         keyField={keyField}
