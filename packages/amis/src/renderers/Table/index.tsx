@@ -1233,6 +1233,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (this.resizeLine) {
       return;
     }
+    this.props.store.syncTableWidth();
     this.props.store.initTableWidth();
     this.handleOutterScroll();
     callback && setTimeout(callback, 20);
