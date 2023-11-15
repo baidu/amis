@@ -769,6 +769,19 @@ setSchemaTpl('combo-container', (config: SchemaObject) => {
 });
 
 /**
+ * Page组件静态数据
+ */
+setSchemaTpl(
+  'pageData',
+  getSchemaTpl('combo-container', {
+    type: 'input-kv',
+    mode: 'normal',
+    name: 'data',
+    label: '组件静态数据'
+  })
+);
+
+/**
  * 所有组件的状态
  */
 setSchemaTpl(
@@ -784,14 +797,12 @@ setSchemaTpl(
       body: [
         getSchemaTpl('visible'),
         getSchemaTpl('hidden'),
+        config?.isFormItem ? getSchemaTpl('clearValueOnHidden') : null,
         !config?.unsupportStatic && config?.isFormItem
           ? getSchemaTpl('static')
           : null,
         config?.readonly ? getSchemaTpl('readonly') : null,
-        config?.disabled || config?.isFormItem
-          ? getSchemaTpl('disabled')
-          : null,
-        config?.isFormItem ? getSchemaTpl('clearValueOnHidden') : null
+        config?.disabled || config?.isFormItem ? getSchemaTpl('disabled') : null
       ].filter(Boolean)
     };
   }

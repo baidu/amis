@@ -270,7 +270,12 @@ export class ServicePlugin extends BasePlugin {
             },
             {
               title: '状态',
-              body: [getSchemaTpl('ref'), getSchemaTpl('visible')]
+              body: [
+                getSchemaTpl('ref'),
+                getSchemaTpl('visible'),
+                ,
+                getSchemaTpl('hidden')
+              ]
             }
           ])
         ]
