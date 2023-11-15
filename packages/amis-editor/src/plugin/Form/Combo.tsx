@@ -458,11 +458,6 @@ export class ComboControlPlugin extends BasePlugin {
                 getSchemaTpl('description')
               ]
             },
-            getSchemaTpl('status', {
-              isFormItem: true,
-              readonly: true
-            }),
-            getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect}),
             getSchemaTpl('collapseGroup', [
               {
                 className: 'p-none',
@@ -523,7 +518,12 @@ export class ComboControlPlugin extends BasePlugin {
                   })
                 ]
               }
-            ])
+            ]),
+            getSchemaTpl('status', {
+              isFormItem: true,
+              readonly: true
+            }),
+            getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})
           ])
         ]
       },

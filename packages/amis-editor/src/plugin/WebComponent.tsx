@@ -67,7 +67,11 @@ export class WebComponentPlugin extends BasePlugin {
                 getSchemaTpl('combo-container', {
                   type: 'input-kv',
                   mode: 'normal',
+                  draggable: false,
                   name: 'props',
+                  valueSchema: getSchemaTpl('formulaControl', {
+                    placeholder: 'Value'
+                  }),
                   label: '属性'
                 })
               ]
