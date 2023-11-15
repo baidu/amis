@@ -253,7 +253,7 @@ export function isObjectShallowModified(
   next: any,
   strictModeOrFunc: boolean | ((lhs: any, rhs: any) => boolean) = true,
   ignoreUndefined: boolean = false,
-  statck: Array<any> = []
+  stack: Array<any> = []
 ): boolean {
   if (Array.isArray(prev) && Array.isArray(next)) {
     return prev.length !== next.length
@@ -264,7 +264,7 @@ export function isObjectShallowModified(
             next[index],
             strictModeOrFunc,
             ignoreUndefined,
-            statck
+            stack
           )
         );
   }
@@ -278,8 +278,10 @@ export function isObjectShallowModified(
     null == next ||
     !isObject(prev) ||
     !isObject(next) ||
-    isObservable(prev) ||
-    isObservable(next)
+    // 不是 Object.create 创建的对象
+    // 不是 plain object
+    prev.constructor !== Object ||
+    next.constructor !== Object
   ) {
     if (strictModeOrFunc && typeof strictModeOrFunc === 'function') {
       return strictModeOrFunc(prev, next);
@@ -303,11 +305,11 @@ export function isObjectShallowModified(
   }
 
   // 避免循环引用死循环。
-  if (~statck.indexOf(prev)) {
+  if (~stack.indexOf(prev)) {
     return false;
   }
 
-  statck.push(prev);
+  stack.push(prev);
 
   for (let i: number = keys.length - 1; i >= 0; i--) {
     const key = keys[i];
@@ -317,7 +319,7 @@ export function isObjectShallowModified(
         next[key],
         strictModeOrFunc,
         ignoreUndefined,
-        statck
+        stack
       )
     ) {
       return true;
