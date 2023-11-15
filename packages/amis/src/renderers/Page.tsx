@@ -853,6 +853,7 @@ export default class Page extends React.Component<PageProps> {
       body,
       bodyClassName,
       render,
+      env,
       aside,
       asideClassName,
       classnames: cx,
@@ -896,7 +897,9 @@ export default class Page extends React.Component<PageProps> {
               loadingConfig={loadingConfig}
             />
 
-            {store.error && showErrorMsg !== false ? (
+            {!env.forceSilenceInsideError &&
+            store.error &&
+            showErrorMsg !== false ? (
               <Alert
                 level="danger"
                 showCloseButton
