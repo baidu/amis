@@ -502,7 +502,7 @@ export default class Drawer extends React.Component<DrawerProps> {
         {store.loading || store.error ? (
           <div className={cx('Drawer-info')}>
             <Spinner size="sm" key="info" show={store.loading} />
-            {!env.hiddenEditorShowMsg && showErrorMsg && store.error ? (
+            {!env.forceSilenceInsideError && showErrorMsg && store.error ? (
               <span className={cx('Drawer-error')}>{store.msg}</span>
             ) : null}
           </div>

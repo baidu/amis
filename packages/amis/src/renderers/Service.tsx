@@ -794,7 +794,9 @@ export default class Service extends React.Component<ServiceProps> {
 
     return (
       <div className={cx(`${ns}Service`, className)} style={style}>
-        {!env.hiddenEditorShowMsg && store.error && showErrorMsg !== false ? (
+        {!env.forceSilenceInsideError &&
+        store.error &&
+        showErrorMsg !== false ? (
           <Alert
             level="danger"
             showCloseButton

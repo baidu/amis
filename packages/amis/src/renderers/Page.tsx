@@ -897,7 +897,7 @@ export default class Page extends React.Component<PageProps> {
               loadingConfig={loadingConfig}
             />
 
-            {!env.hiddenEditorShowMsg &&
+            {!env.forceSilenceInsideError &&
             store.error &&
             showErrorMsg !== false ? (
               <Alert
