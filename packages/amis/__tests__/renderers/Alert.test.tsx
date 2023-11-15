@@ -212,3 +212,31 @@ test('Renderer:alert with showCloseButton & closeButtonClassName', () => {
 
   expect(container.querySelector('.cxd-Alert')).not.toBeInTheDocument();
 });
+
+test('Renderer:alert with actions', () => {
+
+  const {container} = render(amisRender({
+    "type": "alert",
+    "level": "success",
+    "className": "mb-3",
+    "showIcon": true,
+    "showCloseButton": true,
+    "title": "标题",
+    "body": "创建成功",
+    "actions": [
+      {
+        "type": "button",
+        "label": "查看详情",
+        "size": "xs",
+        "level": "link"
+      }
+    ]
+  }, {}, makeEnv({})));
+
+  const alert = container.querySelector('.cxd-Alert');
+  expect(alert).toBeInTheDocument();
+
+  const actions = container.querySelector('.cxd-Alert-actions')!;
+  expect(actions).toBeInTheDocument();
+  expect(actions.childNodes.length).toEqual(1);
+});
