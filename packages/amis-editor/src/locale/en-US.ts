@@ -4504,13 +4504,6 @@ extendLocale('en-US', {
   '7eac9d196c43693b0820c7bc0ab504c7': 'Loop Renderer',
   '21157967162b6206ec88d66789bb1eb4': 'Comparison Editor',
   '6d36d88078b28530bd4a236b1033c1db': 'Form Item Collection',
-  'c619838a5e3c9641a80fc5f1a9001a9e': 'Persistent Key',
-  '78979b40f53cb6510c6bc1e1a2473fc1':
-    'Use static data or variables:<code>" ${id}"</code>to specify a unique Key for the Form',
-  '72f4712f23226b5e01442ab9b6ae90bd': 'Preserve Field Collection',
-  'bee8b35158dc5ddd44ebbbd9f29de422':
-    'If you only need to save some of the field values in the Form, please configure the set of field names that need to be saved. If left blank, all fields will be retained',
-  '5755fa70717929d1cabc4f4d9778d08e': 'Please enter a field name',
   'b400e476d7cc8a1b42744661f57525f2': 'Hide Fields',
   'a0e6ecd1eba5673e16218e559f549112': 'Color selector',
   'bb712c16299683ab1af22258740a537a':
@@ -4523,7 +4516,7 @@ extendLocale('en-US', {
   'ce369362c3ae69c27d717d3210303e27': 'Value of Rich Text',
   'de0302f6f891653ac2d8417a46249ebf': 'Column display switch',
   '142184926b0ae6169a9b7bdefb9b42ff':
-    'Whether to display explicit and implicit controls for table columns, "automatic" means that they will be automatically turned on when the number of columns is greater than 5',
+    'Whether to display explicit and implicit controls for table columns, "automatic" means to automatically turn on when the number of columns is greater than 5',
   'a0d2d27fe320721bd5b0157fd5466b9d': 'tag chooser ',
   '997a27d508152023fd04b7227b531681':
     'Text box, email box, input email, URL box, input url, password box, input password, password input box',
@@ -4533,19 +4526,8 @@ extendLocale('en-US', {
   'd8bab42dd5fad3f25760e190b552fac0': 'Configure default state templates',
   '70864b156cd3a9c8d982074feb01f587': 'Configure Active Template',
   '369f7b53301a54c2240a618827ee2f83': 'Option Name',
+  '70aefc6ad8dffc85d083aaa38aad9d28': 'manufacturer',
   'ab7c4bf8e1f3d2779d62d0e5e038e2de': 'List selector',
-  '8ea6d154a7c25f8802406719c2ec3c02':
-    'Embedded: displayed in a tiled manner on the page, while the other two are displayed in pop-up or drawer form',
-  '361f434f3b82973d6526efefbb538118': 'Label storage',
-  'deab2747ddf5310781cad655c4f7a50f':
-    'When the number of values exceeds a certain amount, it can be stored and displayed',
-  '8c019e522d7bfbf02d6600f91f3b4edf': 'Maximum number of labels',
-  '5404c803438f1027131cb6fe35037075': 'Selector storage unit',
-  '5d16dd78f1b9194d063322d117c75162': 'CRUD storage unit',
-  '00e44cfe38bdcdefa40ad63dec4e9bd4': 'Label template',
-  'b2f3c4387bcabafaf39a7be9c624b584': 'Label display content for selected data',
-  '988d7b545c09108379a54a1e6060f563': 'Icon Color',
-  '7278e97a3360f7b31768b86b8d22173d': 'Icon hover color',
   '828476b63e65ac62976920fc753a3071': 'Multiline text input box',
   '895013340b5cba65de69aefc9f4f0dff': 'Uuid field',
   '993844afdf1cd0bd368cda41fe2d39d7': 'Horizontal Column',
@@ -4574,5 +4556,24 @@ extendLocale('en-US', {
   '97d43b5b163c9299f70b76d12541828c': 'New Status',
   '01ceb3edde98440157f199c292011dfc': 'No data',
   '8191e975f70edd63fe65476dd8bc0ddc': 'Component ID',
-  '7c80a8d7f7af4e8eeef653c0af82010d': 'Input component ID'
+  '7c80a8d7f7af4e8eeef653c0af82010d': 'Input component ID',
+  'c619838a5e3c9641a80fc5f1a9001a9e': 'Persistent Key',
+  '78979b40f53cb6510c6bc1e1a2473fc1':
+    'Use static data or variables:<code>" ${id}"</code>to specify a unique Key for the Form',
+  '72f4712f23226b5e01442ab9b6ae90bd': 'Preserve Field Collection',
+  'bee8b35158dc5ddd44ebbbd9f29de422':
+    'If you only need to save some of the field values in the Form, please configure the set of field names that need to be saved. If left blank, all fields will be retained',
+  '5755fa70717929d1cabc4f4d9778d08e': 'Please enter a field name',
+  '8ea6d154a7c25f8802406719c2ec3c02':
+    'Embedded: displayed in a tiled manner on the page, while the other two are displayed in pop-up or drawer form',
+  '361f434f3b82973d6526efefbb538118': 'Label storage',
+  'deab2747ddf5310781cad655c4f7a50f':
+    'When the number of values exceeds a certain amount, it can be stored and displayed',
+  '8c019e522d7bfbf02d6600f91f3b4edf': 'Maximum number of labels',
+  '5404c803438f1027131cb6fe35037075': 'Selector storage unit',
+  '5d16dd78f1b9194d063322d117c75162': 'CRUD storage unit',
+  '00e44cfe38bdcdefa40ad63dec4e9bd4': 'Label template',
+  'b2f3c4387bcabafaf39a7be9c624b584': 'Label display content for selected data',
+  '988d7b545c09108379a54a1e6060f563': 'Icon Color',
+  '7278e97a3360f7b31768b86b8d22173d': 'Icon hover color'
 });
