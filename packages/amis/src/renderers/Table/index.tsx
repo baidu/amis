@@ -2018,6 +2018,7 @@ export default class Table extends React.Component<TableProps, object> {
           name={column.name}
           type={column.type}
           data={query}
+          superData={createObject(data, query)}
           filterable={column.filterable}
           popOverContainer={this.getPopOverContainer}
         />
