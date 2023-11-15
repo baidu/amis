@@ -1047,7 +1047,9 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 }
 ```
 
-## searchApi
+### searchApi
+
+> `3.6.0` 及以上版本
 
 **发送**
 
@@ -1096,7 +1098,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | labelField             | `string`                                     | `"label"`        | [选项标签字段](./options#%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE%E5%AD%97%E6%AE%B5-labelfield)                                          |
 | valueField             | `string`                                     | `"value"`        | [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)                                                     |
 | iconField              | `string`                                     | `"icon"`         | 图标值字段                                                                                                                           |
-| deferField             | `string`                                     | `"defer"`        | 懒加载字段                                                                                                                           |
+| deferField             | `string`                                     | `"defer"`        | 懒加载字段                                                                                                                           | `3.6.0`                      |
 | joinValues             | `boolean`                                    | `true`           | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                                           |
 | extractValue           | `boolean`                                    | `false`          | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                                       |
 | creatable              | `boolean`                                    | `false`          | [新增选项](./options#%E5%89%8D%E7%AB%AF%E6%96%B0%E5%A2%9E-creatable)                                                                 |
@@ -1142,7 +1144,7 @@ true        false        false      [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 
 | 事件名称     | 事件参数                                                                                        | 说明                         |
 | ------------ | ----------------------------------------------------------------------------------------------- | ---------------------------- |
-| change       | `items: object[]`选项集合（< 3.4.0 及以下版本 不支持该参数）<br/>`[name]: string` 组件的值      | 选中值变化时触发             |
+| change       | `items: object[]`选项集合（< 3.6.0 及以下版本 不支持该参数）<br/>`[name]: string` 组件的值      | 选中值变化时触发             |
 | add          | `items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）<br/>`[name]: object` 新增的节点信息 | 新增节点提交时触发           |
 | edit         | `items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）<br/>`[name]: object` 编辑的节点信息 | 编辑节点提交时触发           |
 | delete       | `items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）<br/>`[name]: object` 删除的节点信息 | 删除节点提交时触发           |

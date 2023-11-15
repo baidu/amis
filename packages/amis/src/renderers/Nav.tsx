@@ -318,11 +318,6 @@ export interface NavSchema extends BaseSchema {
      * 指定唯一标识字段
      */
     valueField?: string;
-
-    /**
-     * 懒加载字段
-     */
-    deferField?: string;
   };
 }
 
@@ -380,7 +375,6 @@ export interface NavigationProps
    * 菜单DOM挂载点
    */
   popOverContainer?: () => HTMLElement;
-  deferField: string;
 }
 
 export interface IDropInfo {
@@ -396,9 +390,8 @@ export class Navigation extends React.Component<
   NavigationProps,
   NavigationState
 > {
-  static defaultProps: Pick<NavigationProps, 'indentSize' | 'deferField'> = {
-    indentSize: 16,
-    deferField: 'defer'
+  static defaultProps: Pick<NavigationProps, 'indentSize'> = {
+    indentSize: 16
   };
 
   dragNode: {
@@ -1256,8 +1249,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         stacked,
         mode,
         accordion,
-        data,
-        deferField
+        data
       } = this.props;
 
       const isAccordion = stacked && mode !== 'float' && accordion;
@@ -1274,7 +1266,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         return;
       }
 
-      if (target[deferField] && !target.loaded) {
+      if (target.defer && !target.loaded) {
         deferLoad(target);
       } else {
         updateConfig(

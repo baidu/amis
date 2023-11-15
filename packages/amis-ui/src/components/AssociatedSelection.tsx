@@ -36,7 +36,6 @@ export interface AssociatedSelectionProps
     colIndex: number,
     rowIndex: number
   ) => JSX.Element;
-  deferField: string;
 }
 
 export interface AssociatedSelectionState {
@@ -47,18 +46,13 @@ export class AssociatedSelection extends BaseSelection<
   AssociatedSelectionProps,
   AssociatedSelectionState
 > {
-  static defaultProps = {
-    ...BaseSelection.defaultProps,
-    deferField: 'defer'
-  };
-
   state: AssociatedSelectionState = {
     leftValue: this.props.leftDefaultValue
   };
 
   componentDidMount() {
     const leftValue = this.state.leftValue;
-    const {options, onDeferLoad, deferField} = this.props;
+    const {options, onDeferLoad, deferField = 'defer'} = this.props;
 
     if (leftValue) {
       const selectdOption = BaseSelection.resolveSelected(
@@ -80,7 +74,7 @@ export class AssociatedSelection extends BaseSelection<
 
   @autobind
   handleLeftSelect(value: Option) {
-    const {options, onDeferLoad, deferField} = this.props;
+    const {options, onDeferLoad, deferField = 'defer'} = this.props;
     this.setState({leftValue: value});
 
     const selectdOption = BaseSelection.resolveSelected(
@@ -134,7 +128,7 @@ export class AssociatedSelection extends BaseSelection<
       loadingConfig,
       checkAll,
       checkAllLabel,
-      deferField
+      deferField = 'defer'
     } = this.props;
 
     const selectdOption = BaseSelection.resolveSelected(

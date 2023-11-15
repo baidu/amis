@@ -17,7 +17,6 @@ export interface ChainedSelectionProps
   extends BaseSelectionProps,
     SpinnerExtraProps {
   defaultSelectedIndex?: string;
-  deferField: string;
 }
 
 export interface ChainedSelectionState {
@@ -28,11 +27,6 @@ export class ChainedSelection extends BaseSelection<
   ChainedSelectionProps,
   ChainedSelectionState
 > {
-  static defaultProps = {
-    ...BaseSelection.defaultProps,
-    deferField: 'defer'
-  };
-
   valueArray: Array<Option>;
   state: ChainedSelectionState = {
     selected: []
@@ -50,7 +44,7 @@ export class ChainedSelection extends BaseSelection<
   }
 
   selectOption(option: Option, depth: number, id: string) {
-    const {onDeferLoad, deferField} = this.props;
+    const {onDeferLoad, deferField = 'defer'} = this.props;
 
     const selected = this.state.selected.concat();
     selected.splice(depth, selected.length - depth);
@@ -135,7 +129,7 @@ export class ChainedSelection extends BaseSelection<
       itemRender,
       multiple,
       labelField,
-      deferField,
+      deferField = 'defer',
       loadingConfig
     } = this.props;
     const valueArray = this.valueArray;

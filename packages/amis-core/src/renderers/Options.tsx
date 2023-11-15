@@ -128,6 +128,11 @@ export interface FormOptionsControl extends FormBaseControl {
   resetValue?: string;
 
   /**
+   * 懒加载字段
+   */
+  deferField?: string;
+
+  /**
    * 延时加载的 API，当选项中有 defer: true 的选项时，点开会通过此接口扩充。
    */
   deferApi?: BaseApiObject | string;
@@ -1073,7 +1078,10 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       // 如果是懒加载的，只懒加载当前节点。
-      if (parent && parent.hasOwnProperty(deferField) && parent[deferField]) {
+      if (
+        (parent?.hasOwnProperty(deferField) && parent[deferField]) ||
+        parent?.defer
+      ) {
         await this.deferLoad(parent);
       } else if (source && addApi) {
         // 如果配置了 source 且配置了 addApi 直接重新拉取接口就够了

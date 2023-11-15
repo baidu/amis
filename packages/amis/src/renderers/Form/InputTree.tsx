@@ -17,7 +17,9 @@ import {
   toNumber,
   findTreeIndex,
   hasAbility,
-  findTree
+  findTree,
+  isEffectiveApi,
+  BaseApiObject
 } from 'amis-core';
 import {Spinner, SearchBox} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
@@ -99,11 +101,6 @@ export interface TreeControlSchema extends FormOptionsSchema {
    * 是否显示展开线
    */
   showOutline?: boolean;
-
-  /**
-   * 懒加载字段
-   */
-  deferField?: string;
 
   /**
    * 懒加载接口
@@ -286,7 +283,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       const value = hasAbility(item, valueAbility) ? item[valueAbility] : '';
       return value === originValue;
     });
-    onEdit && onEdit(item, editItem!, true);
+    onEdit && editItem && onEdit(item, editItem, true);
   }
 
   @autobind
@@ -352,7 +349,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
     let filterOptions: Array<Option> = [];
 
-    if (searchApi) {
+    if (isEffectiveApi(searchApi)) {
       try {
         const payload = await env.fetcher(
           searchApi,
@@ -372,7 +369,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         filterOptions = result;
       } catch (e) {
         if (!env.isCancel(e)) {
-          env.notify('error', e.message);
+          !(searchApi as BaseApiObject).silent &&
+            env.notify('error', e.message);
         }
       }
     } else if (keyword) {

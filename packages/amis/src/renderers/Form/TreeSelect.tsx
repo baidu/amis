@@ -107,11 +107,6 @@ export interface TreeSelectControlSchema extends FormOptionsSchema {
   showOutline?: boolean;
 
   /**
-   * 懒加载字段
-   */
-  deferField?: string;
-
-  /**
    * 懒加载接口
    */
   deferApi?: SchemaApi;
@@ -544,7 +539,7 @@ export default class TreeSelectControl extends React.Component<
       const value = hasAbility(item, valueAbility) ? item[valueAbility] : '';
       return value === originValue;
     });
-    onEdit && onEdit(item, editItem!, true);
+    onEdit && editItem && onEdit(item, editItem, true);
   }
 
   @autobind
@@ -565,7 +560,7 @@ export default class TreeSelectControl extends React.Component<
     const {onChange, options, dispatchEvent, searchable, autoComplete} =
       this.props;
 
-    let filtedOptions =
+    const filteredOptions =
       !isEffectiveApi(autoComplete) && searchable && this.state.inputValue
         ? this.filterOptions(options, this.state.inputValue)
         : options;
@@ -574,7 +569,7 @@ export default class TreeSelectControl extends React.Component<
       'change',
       resolveEventData(this.props, {
         value,
-        items: filtedOptions
+        items: filteredOptions
       })
     );
 

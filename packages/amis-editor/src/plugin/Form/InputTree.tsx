@@ -18,6 +18,109 @@ import {ValidatorTag} from '../../validator';
 import {resolveOptionType} from '../../util';
 import type {Schema} from 'amis';
 
+// 树组件公共动作
+export const TreeCommonAction: RendererPluginAction[] = [
+  {
+    actionType: 'add',
+    actionLabel: '新增',
+    description: '新增数据项',
+    innerArgs: ['item', 'parentValue'],
+    schema: getArgsWrapper({
+      type: 'container',
+      body: [
+        {
+          type: 'input-kv',
+          label: '数据项',
+          name: 'item',
+          mode: 'horizontal',
+          inputClassName: 'ml-2',
+          size: 'lg',
+          required: true,
+          draggable: false,
+          valueType: 'ae-formulaControl',
+          keyPlaceholder: 'Option中属性的Key',
+          value: {
+            label: '',
+            value: ''
+          }
+        },
+        getSchemaTpl('formulaControl', {
+          label: '父级数据项的值',
+          name: 'parentValue',
+          mode: 'horizontal',
+          inputClassName: 'ml-2',
+          size: 'lg',
+          variables: '${variables}',
+          inputMode: 'input-group',
+          placeholder: '请输入父级数据项 valueField 的值'
+        })
+      ]
+    })
+  },
+  {
+    actionType: 'edit',
+    actionLabel: '编辑',
+    description: '编辑数据项',
+    innerArgs: ['item', 'originValue'],
+    schema: getArgsWrapper({
+      type: 'container',
+      body: [
+        {
+          type: 'input-kv',
+          label: '数据项',
+          name: 'item',
+          mode: 'horizontal',
+          inputClassName: 'ml-2',
+          size: 'lg',
+          required: true,
+          draggable: false,
+          valueType: 'ae-formulaControl',
+          keyPlaceholder: 'Option中属性的Key',
+          value: {
+            label: '',
+            value: ''
+          }
+        },
+        getSchemaTpl('formulaControl', {
+          label: '数据编辑项的值',
+          name: 'originValue',
+          mode: 'horizontal',
+          inputClassName: 'ml-2',
+          required: true,
+          size: 'lg',
+          variables: '${variables}',
+          inputMode: 'input-group',
+          placeholder: '请输入数据项编辑前 valueField 的值'
+        })
+      ]
+    })
+  },
+  {
+    actionType: 'delete',
+    actionLabel: '删除',
+    description: '删除数据项',
+    innerArgs: ['value'],
+    schema: getArgsWrapper([
+      getSchemaTpl('formulaControl', {
+        label: '数据删除项的值',
+        name: 'value',
+        mode: 'horizontal',
+        inputClassName: 'ml-2',
+        required: true,
+        size: 'lg',
+        variables: '${variables}',
+        inputMode: 'input-group',
+        placeholder: '请输入删除项 valueField 的值'
+      })
+    ])
+  },
+  {
+    actionType: 'reload',
+    actionLabel: '刷新',
+    description: '刷新数据'
+  }
+];
+
 export class TreeControlPlugin extends BasePlugin {
   static id = 'TreeControlPlugin';
   // 关联渲染器名字
@@ -27,16 +130,16 @@ export class TreeControlPlugin extends BasePlugin {
   // 组件名称
   name = '树组件';
   isBaseComponent = true;
+  disabledRendererPlugin = true;
   icon = 'fa fa-list-alt';
   pluginIcon = 'input-tree-plugin';
   description = '树型结构选择，支持 [内嵌模式] 与 [浮层模式] 的外观切换';
   searchKeywords =
     'tree、树下拉、树下拉框、tree-select、树形选择框、树形选择器';
-  // docLink = '/amis/zh-CN/components/form/input-tree'; // 内嵌模式
-  docLink = '/amis/zh-CN/components/form/treeselect'; // 浮层模式
+  docLink = '/amis/zh-CN/components/form/input-tree';
   tags = ['表单项'];
   scaffold = {
-    type: 'tree-select', // 默认使用浮层模式
+    type: 'input-tree',
     label: '树组件',
     name: 'tree',
     options: [
@@ -69,7 +172,7 @@ export class TreeControlPlugin extends BasePlugin {
     body: [
       {
         ...this.scaffold,
-        label: '树组件 - 浮层模式',
+        label: '树组件 - 内嵌模式',
         mode: 'normal'
       }
     ]
@@ -243,105 +346,8 @@ export class TreeControlPlugin extends BasePlugin {
       actionLabel: '收起',
       description: '收起树节点'
     },
-    {
-      actionType: 'add',
-      actionLabel: '新增',
-      description: '新增数据项',
-      innerArgs: ['item', 'parentValue'],
-      schema: getArgsWrapper({
-        type: 'container',
-        body: [
-          {
-            type: 'input-kv',
-            label: '数据项',
-            name: 'item',
-            mode: 'horizontal',
-            inputClassName: 'ml-2',
-            size: 'lg',
-            required: true,
-            draggable: false,
-            valueType: 'ae-formulaControl',
-            keyPlaceholder: 'Option中属性的Key',
-            value: {
-              label: '',
-              value: ''
-            }
-          },
-          getSchemaTpl('formulaControl', {
-            label: '父级数据项的值',
-            name: 'parentValue',
-            mode: 'horizontal',
-            inputClassName: 'ml-2',
-            size: 'lg',
-            variables: '${variables}',
-            inputMode: 'input-group',
-            placeholder: '请输入父级数据项 valueField 的值'
-          })
-        ]
-      })
-    },
-    {
-      actionType: 'edit',
-      actionLabel: '编辑',
-      description: '编辑数据项',
-      innerArgs: ['item', 'originValue'],
-      schema: getArgsWrapper({
-        type: 'container',
-        body: [
-          {
-            type: 'input-kv',
-            label: '数据项',
-            name: 'item',
-            mode: 'horizontal',
-            inputClassName: 'ml-2',
-            size: 'lg',
-            required: true,
-            draggable: false,
-            valueType: 'ae-formulaControl',
-            keyPlaceholder: 'Option中属性的Key',
-            value: {
-              label: '',
-              value: ''
-            }
-          },
-          getSchemaTpl('formulaControl', {
-            label: '数据编辑项的值',
-            name: 'originValue',
-            mode: 'horizontal',
-            inputClassName: 'ml-2',
-            required: true,
-            size: 'lg',
-            variables: '${variables}',
-            inputMode: 'input-group',
-            placeholder: '请输入数据项编辑前 valueField 的值'
-          })
-        ]
-      })
-    },
-    {
-      actionType: 'delete',
-      actionLabel: '删除',
-      description: '删除数据项',
-      innerArgs: ['value'],
-      schema: getArgsWrapper([
-        getSchemaTpl('formulaControl', {
-          label: '数据删除项的值',
-          name: 'value',
-          mode: 'horizontal',
-          inputClassName: 'ml-2',
-          required: true,
-          size: 'lg',
-          variables: '${variables}',
-          inputMode: 'input-group',
-          placeholder: '请输入删除项 valueField 的值'
-        })
-      ])
-    },
-    {
-      actionType: 'reload',
-      actionLabel: '刷新',
-      description: '刷新数据'
-    },
+    /** 新增、编辑、删除、刷新 */
+    ...TreeCommonAction,
     {
       actionType: 'clear',
       actionLabel: '清空',

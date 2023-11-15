@@ -32,7 +32,7 @@ export interface UserSelectProps
   selection?: Array<Option>;
   valueField?: string;
   labelField?: string;
-  deferField: string;
+  deferField?: string;
   multi?: boolean;
   multiple?: boolean;
   isDep?: boolean;
@@ -544,7 +544,7 @@ export class UserSelect extends React.Component<
       displayFields,
       isTab,
       multiple,
-      deferField
+      deferField = 'defer'
     } = this.props;
     let selection = controlled
       ? this.props.selection || []

@@ -262,7 +262,7 @@ register('zh-CN', {
   'Tree.addChild': '添加子节点',
   'Tree.addRoot': '添加一级节点',
   'Tree.editNode': '编辑该节点',
-  'Tree.invalidArray': 'data 必须是数组',
+  'Tree.invalidArray': 'data.options、data.items 或data必须是数组',
   'Tree.removeNode': '移除该节点',
   'Tree.root': '顶级',
   'validate.equals': '输入的数据与 $1 不一致',

@@ -13,7 +13,6 @@ export interface TreeSelectionProps
   extends BaseSelectionProps,
     SpinnerExtraProps {
   expand?: 'all' | 'first' | 'root' | 'none';
-  deferField: string;
 }
 
 export interface TreeSelectionState {
@@ -31,8 +30,7 @@ export class TreeSelection extends BaseSelection<
 
   static defaultProps = {
     ...BaseSelection.defaultProps,
-    expand: 'first' as 'first',
-    deferField: 'defer'
+    expand: 'first' as 'first'
   };
 
   componentDidMount() {
@@ -89,7 +87,7 @@ export class TreeSelection extends BaseSelection<
       multiple,
       clearable,
       valueField,
-      deferField
+      deferField = 'defer'
     } = this.props;
 
     if (disabled || option.disabled) {
@@ -154,8 +152,7 @@ export class TreeSelection extends BaseSelection<
   }
 
   toggleCollapsed(option: Option, index: string) {
-    const onDeferLoad = this.props.onDeferLoad;
-    const deferField = this.props.deferField;
+    const {onDeferLoad, deferField = 'defer'} = this.props;
     const expanded = this.state.expanded.concat();
     const idx = expanded.indexOf(index);
 
@@ -182,7 +179,7 @@ export class TreeSelection extends BaseSelection<
       itemRender,
       multiple,
       loadingConfig,
-      deferField
+      deferField = 'defer'
     } = this.props;
     const id = indexes.join('-');
     const valueArray = this.valueArray;
