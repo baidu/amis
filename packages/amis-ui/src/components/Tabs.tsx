@@ -50,6 +50,7 @@ export interface TabProps extends ThemeProps {
   tip?: string;
   tab?: Schema;
   className?: string;
+  tabClassName?: string;
   activeKey?: string | number;
   reload?: boolean;
   mountOnEnter?: boolean;
@@ -738,7 +739,7 @@ export class Tabs extends React.Component<TabsProps, any> {
           disabled && 'Tabs-linksContainer-arrow--disabled'
         )}
       >
-        <i className={'iconfont icon-arrow-' + type} />
+        <Icon icon="right-arrow-bold" className="icon" />
       </div>
     ) : null;
   }

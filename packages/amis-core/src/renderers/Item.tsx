@@ -28,13 +28,12 @@ import {
   ClassName,
   Schema
 } from '../types';
-import {filter} from '../utils/tpl';
 import {HocStoreFactory} from '../WithStore';
 import {wrapControl} from './wrapControl';
 import debounce from 'lodash/debounce';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {findDOMNode} from 'react-dom';
-import {dataMapping, setThemeClassName} from '../utils';
+import {dataMapping, setThemeClassName, traceProps} from '../utils';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 import CustomStyle from '../components/CustomStyle';
@@ -1022,12 +1021,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               style={labelWidth != null ? {width: labelWidth} : undefined}
             >
               <span>
-                {label
-                  ? render(
-                      'label',
-                      typeof label === 'string' ? filter(label, data) : label
-                    )
-                  : null}
+                {label ? render('label', label) : null}
                 {required && (label || labelRemark) ? (
                   <span className={cx(`Form-star`)}>*</span>
                 ) : null}
@@ -1163,12 +1157,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {label && renderLabel !== false ? (
             <label className={cx(`Form-label`, getItemLabelClassName(props))}>
               <span>
-                {label
-                  ? render(
-                      'label',
-                      typeof label === 'string' ? filter(label, data) : label
-                    )
-                  : null}
+                {label ? render('label', label) : null}
                 {required && (label || labelRemark) ? (
                   <span className={cx(`Form-star`)}>*</span>
                 ) : null}
@@ -1355,12 +1344,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               style={labelWidth != null ? {width: labelWidth} : undefined}
             >
               <span>
-                {label
-                  ? render(
-                      'label',
-                      typeof label === 'string' ? filter(label, data) : label
-                    )
-                  : label}
+                {label ? render('label', label) : label}
                 {required && (label || labelRemark) ? (
                   <span className={cx(`Form-star`)}>*</span>
                 ) : null}
@@ -1494,10 +1478,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 style={labelWidth != null ? {width: labelWidth} : undefined}
               >
                 <span>
-                  {render(
-                    'label',
-                    typeof label === 'string' ? filter(label, data) : label
-                  )}
+                  {render('label', label)}
                   {required && (label || labelRemark) ? (
                     <span className={cx(`Form-star`)}>*</span>
                   ) : null}

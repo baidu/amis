@@ -1,13 +1,13 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-
+import {observer} from 'mobx-react';
 import {
   RendererProps,
   ActionObject,
   setVariable,
   createObject,
-  ITableStore2,
-  ClassNamesFn
+  ClassNamesFn,
+  ITableStore2
 } from 'amis-core';
 import {Icon, HeadCellDropDown} from 'amis-ui';
 import type {FilterDropdownProps} from 'amis-ui/lib/components/table/HeadCellDropDown';
@@ -25,14 +25,14 @@ export interface HeadCellSearchProps extends RendererProps {
   searchable: boolean | QuickSearchConfig;
   onSearch?: Function; // (values: object) => void;
   onAction?: Function;
-  store: ITableStore2;
   sortable?: boolean;
   label?: string;
   orderBy: string;
-  orderDir: string;
+  order: string;
   popOverContainer?: any;
   classnames: ClassNamesFn;
   classPrefix: string;
+  store: ITableStore2;
 }
 
 export class HeadCellSearchDropDown extends React.Component<
@@ -195,7 +195,7 @@ export class HeadCellSearchDropDown extends React.Component<
   }
 
   async handleReset() {
-    const {onSearch, data, name, store} = this.props;
+    const {onSearch, data, name} = this.props;
     const values = {...data};
 
     this.formItems.forEach(key => setVariable(values, key, undefined));
@@ -205,13 +205,13 @@ export class HeadCellSearchDropDown extends React.Component<
       values.order = 'asc';
     }
 
-    store.updateQuery(values);
+    onSearch && (await onSearch(name, values));
 
     onSearch && onSearch(values);
   }
 
   async handleSubmit(values: any, confirm: Function) {
-    const {onSearch, name, store, dispatchEvent, data} = this.props;
+    const {onSearch, name} = this.props;
 
     if (values.order) {
       values = {
@@ -220,28 +220,13 @@ export class HeadCellSearchDropDown extends React.Component<
       };
     }
 
-    const rendererEvent = await dispatchEvent(
-      'columnSearch',
-      createObject(data, {
-        searchName: name,
-        searchValue: values
-      })
-    );
-
-    if (rendererEvent?.prevented) {
-      return;
-    }
-
-    store.updateQuery(values);
-
-    onSearch && onSearch(values);
+    onSearch && (await onSearch(name, values));
 
     confirm();
   }
 
   isActive() {
     const {data, name, orderBy} = this.props;
-
     return (
       (orderBy && orderBy === name) || this.formItems.some(key => data?.[key])
     );
@@ -253,7 +238,7 @@ export class HeadCellSearchDropDown extends React.Component<
       name,
       data,
       searchable,
-      store,
+      order,
       orderBy,
       popOverContainer,
       classPrefix: ns,
@@ -291,8 +276,7 @@ export class HeadCellSearchDropDown extends React.Component<
             data: {
               ...data,
               orderBy,
-              order:
-                orderBy && orderBy === name ? (store as ITableStore2).order : ''
+              order: orderBy && orderBy === name ? order : ''
             },
             onSubmit: (values: object) => this.handleSubmit(values, confirm),
             onAction: (e: any, action: ActionObject, ctx: object) => {
@@ -304,3 +288,15 @@ export class HeadCellSearchDropDown extends React.Component<
     );
   }
 }
+
+export default observer((props: HeadCellSearchProps) => {
+  const store = props.store;
+  return (
+    <HeadCellSearchDropDown
+      {...props}
+      data={store.query}
+      orderBy={store.orderBy}
+      order={store.order}
+    />
+  );
+});

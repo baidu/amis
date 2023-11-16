@@ -308,7 +308,7 @@ function AMISRenderer({
   }
 
   // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations
-  envOverwrite(schema, locale);
+  schema = envOverwrite(schema, locale);
   schema = replaceText(schema, options.replaceText, env.replaceTextIgnoreKeys);
 
   return (

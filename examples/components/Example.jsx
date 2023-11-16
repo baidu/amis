@@ -58,6 +58,7 @@ import ExportCSVExcelSchema from './CRUD/ExportCSVExcel';
 import CRUDDynamicSchema from './CRUD/Dynamic';
 import CRUDSimplePagerSchema from './CRUD/SimplePager';
 import CRUDParsePrimitiveQuerySchema from './CRUD/ParsePrimitiveQuery';
+import CRUDMatchFuncSchema from './CRUD/MatchFunc';
 import ItemActionchema from './CRUD/ItemAction';
 import SdkTest from './Sdk/Test';
 import JSONSchemaForm from './Form/Schem';
@@ -438,9 +439,20 @@ export const examples = [
             component: makeSchemaRenderer(PopOverCrudSchema)
           },
           {
-            label: '一次性加载',
-            path: '/examples/crud/load-once',
-            component: makeSchemaRenderer(LoadOnceTableCrudSchema)
+            label: '前端分页',
+            icon: 'fa fa-list-ol',
+            children: [
+              {
+                label: '一次性加载',
+                path: '/examples/crud/load-once',
+                component: makeSchemaRenderer(LoadOnceTableCrudSchema)
+              },
+              {
+                label: '匹配函数',
+                path: '/examples/crud/match-func',
+                component: makeSchemaRenderer(CRUDMatchFuncSchema)
+              }
+            ]
           },
           {
             label: '点击联动',

@@ -31,7 +31,13 @@ import {FormBaseControl, FormItemWrap} from './Item';
 import {Api} from '../types';
 import {TableStore} from '../store/table';
 import pick from 'lodash/pick';
-import {callStrFunction, changedEffect, tokenize} from '../utils';
+import {
+  callStrFunction,
+  changedEffect,
+  cloneObject,
+  setVariable,
+  tokenize
+} from '../utils';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -150,7 +156,8 @@ export function wrapControl<
                 minLength,
                 maxLength,
                 validateOnChange,
-                label
+                label,
+                pagination
               }
             } = this.props;
 
@@ -162,6 +169,7 @@ export function wrapControl<
             this.handleBlur = this.handleBlur.bind(this);
             this.validate = this.validate.bind(this);
             this.flushChange = this.flushChange.bind(this);
+            this.renderChild = this.renderChild.bind(this);
             let name = this.props.$schema.name;
 
             // 如果 name 是表达式
@@ -223,7 +231,8 @@ export function wrapControl<
               validateOnChange,
               label,
               inputGroupControl,
-              extraName
+              extraName,
+              pagination
             });
 
             // issue 这个逻辑应该在 combo 里面自己实现。
@@ -373,7 +382,8 @@ export function wrapControl<
                 'minLength',
                 'maxLength',
                 'label',
-                'extraName'
+                'extraName',
+                'pagination'
               ],
               prevProps.$schema,
               props.$schema,
@@ -822,6 +832,24 @@ export function wrapControl<
             }
           }
 
+          renderChild(
+            region: string,
+            node?: any,
+            subProps: {
+              [propName: string]: any;
+            } = {}
+          ) {
+            const {render, data, store} = this.props;
+            const model = this.model;
+
+            return render(region, node, {
+              data: model
+                ? model.getMergedData(data || store?.data)
+                : data || store?.data,
+              ...subProps
+            });
+          }
+
           render() {
             const {
               controlWidth,
@@ -848,7 +876,9 @@ export function wrapControl<
               formItem: this.model,
               formMode: control.mode || formMode,
               ref: this.controlRef,
-              data: data || store?.data,
+              data: model
+                ? model.getMergedData(data || store?.data)
+                : data || store?.data,
               name: model?.name ?? control.name,
               value,
               changeMotivation: model?.changeMotivation,
@@ -861,7 +891,8 @@ export function wrapControl<
               prinstine: model ? model.prinstine : undefined,
               setPrinstineValue: this.setPrinstineValue,
               onValidate: this.validate,
-              onFlushChange: this.flushChange
+              onFlushChange: this.flushChange,
+              render: this.renderChild // 如果覆盖，那么用的就是 form 上的 render，这个里面用到的 data 是比较旧的。
               // !没了这个， tree 里的 options 渲染会出问题
               // todo 理论上不应该影响，待确认
               // _filteredOptions: this.model?.filteredOptions

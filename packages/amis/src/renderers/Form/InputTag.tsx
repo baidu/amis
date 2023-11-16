@@ -21,6 +21,7 @@ import {isMobile} from 'amis-core';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 import {TooltipWrapperSchema} from '../TooltipWrapper';
+import {matchSorter} from 'match-sorter';
 
 /**
  * Tag 输入框
@@ -516,7 +517,7 @@ export default class TagControl extends React.PureComponent<
       this.addItem2(option);
       return;
     }
-    if (this.isReachMax() || this.state.inputValue || !option) {
+    if (this.isReachMax() || !option) {
       return;
     }
 
@@ -573,16 +574,22 @@ export default class TagControl extends React.PureComponent<
       loadingConfig,
       valueField,
       env,
-      mobileUI
+      mobileUI,
+      labelField
     } = this.props;
 
+    const term = this.state.inputValue;
     const finnalOptions = Array.isArray(options)
       ? filterTree(
           options,
-          item =>
-            (Array.isArray(item.children) && !!item.children.length) ||
-            (item[valueField || 'value'] !== undefined &&
-              (mobileUI || !~selectedOptions.indexOf(item))),
+          (item: Option, key: number, level: number, paths: Array<Option>) =>
+            item[valueField || 'value'] !== undefined &&
+            (mobileUI || !~selectedOptions.indexOf(item)) &&
+            (matchSorter([item].concat(paths), term, {
+              keys: [labelField || 'label', valueField || 'value'],
+              threshold: matchSorter.rankings.CONTAINS
+            }).length ||
+              (Array.isArray(item.children) && !!item.children.length)),
           0,
           true
         )

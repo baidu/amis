@@ -1447,7 +1447,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
               ) : (
                 <>
                   <Button
-                    level="default"
+                    level="enhance"
                     disabled={disabled}
                     className={cx('FileControl-selectBtn', btnClassName, {
                       'is-disabled':
@@ -1471,18 +1471,15 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   </Button>
                 </>
               )}
-              {description
-                ? render('desc', description, {
-                    className: cx(
-                      'FileControl-description',
-                      descriptionClassName
-                    )
-                  })
-                : null}
             </div>
           )}
         </DropZone>
 
+        {description
+          ? render('desc', description, {
+              className: cx('FileControl-description', descriptionClassName)
+            })
+          : null}
         {maxSize && !drag ? (
           <div className={cx('FileControl-sizeTip')}>
             {__('File.sizeLimit', {maxSize: prettyBytes(maxSize, 1024)})}
@@ -1500,7 +1497,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
               return (
                 <li key={file.id}>
                   <TooltipWrapper
-                    placement="bottom"
+                    placement="top"
                     container={container || env?.getModalContainer}
                     tooltipClassName={cx(
                       'FileControl-list-tooltip',

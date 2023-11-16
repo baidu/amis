@@ -132,16 +132,62 @@ List 的内容、Card 卡片的内容配置同上
 }
 ```
 
+## 设置展示时区
+
+通过配置 `displayTimeZone` 参数，可以设置展示时区，默认展示当前时区。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "api": {
+      "method": "get",
+      "url": "/whatever/api",
+      "mockResponse": {
+        "status": 200,
+        "data": [
+          {
+            "date": "2023-10-27 15:00:00"
+          }
+        ]
+      }
+    },
+    "columns": [
+      {
+        "type": "date",
+        "label": "Asia/Shanghai",
+        "name": "date",
+        "displayTimeZone": "Asia/Shanghai",
+        "format": "YYYY-MM-DD HH:mm:ss"
+      },
+      {
+        "type": "date",
+        "label": "America/Los_Angeles",
+        "name": "date",
+        "displayTimeZone": "America/Los_Angeles",
+        "format": "YYYY-MM-DD HH:mm:ss"
+      },
+      {
+        "type": "date",
+        "name": "date",
+        "label": "Asia/Tokyo",
+        "displayTimeZone": "Asia/Tokyo",
+        "format": "YYYY-MM-DD HH:mm:ss"
+      }
+    ]
+  }
+```
+
 ## 属性表
 
-| 属性名          | 类型      | 默认值       | 说明                                                                                               | 版本                    |
-| --------------- | --------- | ------------ | -------------------------------------------------------------------------------------------------- | ----------------------- |
-| type            | `string`  |              | 如果在 Table、Card 和 List 中，为`"date"`；在 Form 中用作静态展示，为`"static-date"`               |
-| className       | `string`  |              | 外层 CSS 类名                                                                                      |
-| value           | `string`  |              | 显示的日期数值                                                                                     |
-| name            | `string`  |              | 在其他组件中，时，用作变量映射                                                                     |
-| placeholder     | `string`  | `-`          | 占位内容                                                                                           |
-| displayFormat   | `string`  | `YYYY-MM-DD` | 展示格式, 更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                | 版本号 3.4.0 及以上支持 |
-| valueFormat     | `string`  | `X`          | 数据格式，默认为时间戳。更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)  |
-| fromNow         | `boolean` | `false`      | 是否显示相对当前的时间描述，比如: 11 小时前、3 天前、1 年前等，fromNow 为 true 时，format 不生效。 |
-| updateFrequency | `number`  | `60000`      | 更新频率， 默认为 1 分钟                                                                           |
+| 属性名          | 类型      | 默认值       | 说明                                                                                                   | 版本                    |
+| --------------- | --------- | ------------ | ------------------------------------------------------------------------------------------------------ | ----------------------- |
+| type            | `string`  |              | 如果在 Table、Card 和 List 中，为`"date"`；在 Form 中用作静态展示，为`"static-date"`                   |
+| className       | `string`  |              | 外层 CSS 类名                                                                                          |
+| value           | `string`  |              | 显示的日期数值                                                                                         |
+| name            | `string`  |              | 在其他组件中，时，用作变量映射                                                                         |
+| placeholder     | `string`  | `-`          | 占位内容                                                                                               |
+| displayFormat   | `string`  | `YYYY-MM-DD` | 展示格式, 更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                    | 版本号 3.4.0 及以上支持 |
+| valueFormat     | `string`  | `X`          | 数据格式，默认为时间戳。更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)      |
+| fromNow         | `boolean` | `false`      | 是否显示相对当前的时间描述，比如: 11 小时前、3 天前、1 年前等，fromNow 为 true 时，format 不生效。     |
+| updateFrequency | `number`  | `60000`      | 更新频率， 默认为 1 分钟                                                                               |
+| displayTimeZone | `string`  |              | 设置日期展示时区，可设置清单参考：https://gist.github.com/diogocapela/12c6617fc87607d11fd62d2a4f42b02a |

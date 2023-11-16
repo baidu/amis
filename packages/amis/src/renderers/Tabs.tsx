@@ -808,7 +808,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               `item/${index}`,
               (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
               {
-                disabled: disabled,
+                disabled: disabled || isDisabled(tab, ctx) || undefined, // 下发个 undefined，让子表单项自己判断
                 data: ctx,
                 formMode: tab.mode || subFormMode || formMode,
                 formHorizontal:
@@ -853,7 +853,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                   `tab/${index}`,
                   (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
                   {
-                    disabled: disabled,
+                    disabled: disabled || isDisabled(tab, data) || undefined, // 下发个 undefined，让子表单项自己判断,
                     formMode: tab.mode || subFormMode || formMode,
                     formHorizontal:
                       tab.horizontal || subFormHorizontal || formHorizontal

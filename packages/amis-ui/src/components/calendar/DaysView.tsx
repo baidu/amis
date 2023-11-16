@@ -21,6 +21,7 @@ import {PickerOption} from '../PickerColumn';
 import {DateType} from './Calendar';
 import {Icon} from '../icons';
 
+import type {Moment} from 'moment';
 import type {TimeScale} from './TimeView';
 import type {ViewMode} from './Calendar';
 
@@ -43,6 +44,9 @@ interface CustomDaysViewProps extends LocaleProps {
     value: moment.Moment,
     viewMode?: Extract<ViewMode, 'time'>
   ) => void;
+  onClick: (event: React.MouseEvent<any>) => void;
+  onMouseEnter: (event: React.MouseEvent<any>) => void;
+  onMouseLeave: (event: React.MouseEvent<any>) => void;
   onConfirm?: (value: number[], types: DateType[]) => void;
   setDateTimeState: (state: any) => void;
   showTime: () => void;
@@ -188,7 +192,18 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
         classes.includes('rdtToday') ? {todayActiveStyle} : {}
       );
 
-      if (!isDisabled) (dayProps as any).onClick = this.updateSelectedDate;
+      if (!isDisabled) {
+        (dayProps as any).onClick = (event: React.MouseEvent<any>) => {
+          this.props.onClick(event);
+          this.updateSelectedDate(event);
+        };
+        (dayProps as any).onMouseEnter = (event: React.MouseEvent<any>) => {
+          this.props.onMouseEnter(event);
+        };
+        (dayProps as any).onMouseLeave = (event: React.MouseEvent<any>) => {
+          this.props.onMouseLeave(event);
+        };
+      }
 
       days.push(renderer(dayProps, currentDate, selected));
 
@@ -225,7 +240,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     const dateBoundary = this.props.getDateBoundary(currentDate);
     const columns = this.props.getColumns(types, dateBoundary);
     this.state = {
-      columns,
+      columns: this.getColumnsWithUnit(columns),
       types,
       pickerValue: currentDate.toArray(),
       uniqueTag: new Date().valueOf()
@@ -238,12 +253,33 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
 
   componentDidMount() {
     const {timeFormat, selectedDate, viewDate, isEndDate} = this.props;
+    const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
+    this.setupTime(date, timeFormat, 'init');
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<CustomDaysViewProps>,
+    prevState: Readonly<{}>,
+    snapshot?: any
+  ): void {
+    const currentDate = this.props.selectedDate;
+
+    if (
+      moment.isMoment(currentDate) &&
+      currentDate.isValid() &&
+      !currentDate.isSame(prevProps.selectedDate)
+    ) {
+      const {timeFormat} = this.props;
+      this.setupTime(currentDate, timeFormat);
+    }
+  }
+
+  setupTime(date: Moment, timeFormat: string, mode?: 'init') {
     const formatMap = {
       hours: 'HH',
       minutes: 'mm',
       seconds: 'ss'
     };
-    const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
     timeFormat.split(':').forEach((format, i) => {
       const type = /h/i.test(format)
         ? 'hours'
@@ -257,10 +293,23 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
           type,
           parseInt(date.format(formatMap[type]), 10),
           i,
-          'init'
+          mode
         );
       }
     });
+  }
+
+  getColumnsWithUnit(columns: {options: PickerOption[]}[]) {
+    return this.props.locale === 'zh-CN' && columns.length === 3
+      ? columns.map((item, index) => {
+          item.options?.map((option: any) => {
+            option.text =
+              option.text + (index === 0 ? '年' : index === 1 ? '月' : '日');
+            return option;
+          });
+          return item;
+        })
+      : columns;
   }
 
   updateSelectedDate = (event: React.MouseEvent<any>) => {
@@ -753,7 +802,9 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
       );
       const dateBoundary = this.props.getDateBoundary(selectDate);
       this.setState({
-        columns: this.props.getColumns(this.state.types, dateBoundary),
+        columns: this.getColumnsWithUnit(
+          this.props.getColumns(this.state.types, dateBoundary)
+        ),
         pickerValue: value
       });
     }

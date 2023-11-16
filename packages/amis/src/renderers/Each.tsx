@@ -1,5 +1,12 @@
 import React from 'react';
-import {Renderer, RendererProps, buildStyle, isPureVariable} from 'amis-core';
+import {
+  CustomStyle,
+  Renderer,
+  RendererProps,
+  buildStyle,
+  isPureVariable,
+  setThemeClassName
+} from 'amis-core';
 import {Schema} from 'amis-core';
 import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
 import {createObject, getPropValue, isObject} from 'amis-core';
@@ -20,8 +27,7 @@ function EachItem(props: EachExtraProps) {
   const ctx = React.useMemo(
     () =>
       createObject(data, {
-        ...(isObject(item) ? item : {}),
-        [name]: item,
+        ...(isObject(item) ? {index, ...item} : {[name]: item}),
         [itemKeyName || 'item']: item,
         [indexKeyName || 'index']: index
       }),
@@ -96,7 +102,11 @@ export default class Each extends React.Component<EachProps> {
       indexKeyName,
       placeholder,
       classnames: cx,
-      translate: __
+      translate: __,
+      env,
+      id,
+      wrapperCustomStyle,
+      themeCss
     } = this.props;
 
     const value = getPropValue(this.props, props =>
@@ -124,7 +134,14 @@ export default class Each extends React.Component<EachProps> {
     }
 
     return (
-      <div className={cx('Each', className)} style={buildStyle(style, data)}>
+      <div
+        className={cx(
+          'Each',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss)
+        )}
+        style={buildStyle(style, data)}
+      >
         {Array.isArray(arr) && arr.length && items ? (
           arr.map((item: any, index: number) => (
             <EachItem
@@ -144,6 +161,20 @@ export default class Each extends React.Component<EachProps> {
             {render('placeholder', __(placeholder))}
           </div>
         )}
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

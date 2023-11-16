@@ -14,7 +14,8 @@ import {
   ActionObject,
   isMobile,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  isNumeric
 } from 'amis-core';
 import {Range as InputRange, NumberInput, Icon} from 'amis-ui';
 import {FormBaseControlSchema, SchemaObject} from '../../Schema';
@@ -702,6 +703,11 @@ export default class RangeControl extends React.PureComponent<
         if (isObject(item) && (item as SchemaObject).type) {
           renderMarks &&
             (renderMarks[key] = render(region, item as SchemaObject));
+        }
+
+        /** 过滤掉不合法的值（合法的值是数字 & 百分数） */
+        if (renderMarks && !isNumeric(key.replace(/%$/, ''))) {
+          delete renderMarks[key];
         }
       });
 

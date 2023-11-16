@@ -379,6 +379,34 @@ order: 14
 }
 ```
 
+## 确认模式
+
+> `3.6.0`及以上版本
+
+设置`"closeOnSelect": false`，点选日期时间后，不会自动关闭浮层，需要点击底部工具栏的确认才会关闭。点击**取消按钮**或者**浮层外部区域**也会关闭浮层，并将值重置为初始状态。
+
+> 注意：该特性仅对`input-datetime`有效，其他日期时间组件无效。开启内嵌模式后，该特性无效。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-datetime",
+            "name": "datetime",
+            "label": "日期时间",
+            "shortcuts": ["yesterday", "today", "tomorrow"],
+            "closeOnSelect": false,
+            "valueFormat": "YYYY-MM-DD HH:mm:ss",
+            "displayFormat": "YYYY-MM-DD HH:mm:ss",
+            "clearable": true
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置

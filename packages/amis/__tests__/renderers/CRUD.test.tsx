@@ -20,6 +20,7 @@
  * 17. api 返回格式支持取对象中的第一个数组
  * 18. CRUD 事件
  * 19. fetchInitData silent 静默请求
+ * 20. CRUD表头查询字段更新后严格比较场景
  */
 
 import {
@@ -1046,9 +1047,8 @@ test('17. should use the first array item in the response if provided', async ()
     )
   );
 
-  waitFor(() => {
-    expect(container.querySelectorAll('tbody>tr').length).toBe(2);
-  });
+  await wait(200);
+  expect(container.querySelectorAll('tbody>tr').length).toBe(2);
 });
 
 describe('18. inner events', () => {
@@ -1149,3 +1149,169 @@ test('19. fetchInitData silent true', async () => {
     expect(notify).toBeCalledTimes(1);
   });
 });
+
+test('20. CRUD filters contain fields that modification inspection should use strict mode', async () => {
+  let keyword;
+  const mockFetcher = jest.fn().mockImplementation((req) => {
+    /** mock.calls[0][0]拿不到filter里的参数，先用闭包测试吧 */
+    keyword = req.data.version;
+    return Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          count: 0,
+          items: []
+        }
+      }
+    })
+  });
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            "type": "crud",
+            "name": "crud",
+            "syncLocation": false,
+            "api": {
+              "method": "post",
+              "url": "/api/mock/crud"
+            },
+            "filter": {
+              "body": [
+                {
+                  "type": "select",
+                  "name": "version",
+                  "label": "version",
+                  "clearable": true,
+                  "options": [
+                    {"label": "0", "value": 0},
+                    {"label": "1", "value": 1},
+                    {"label": "true", "value": true},
+                    {"label": "false", "value": false},
+                    {"label": "emptyString", "value": ''},
+                    {"label": "stringZero", "value": '0'},
+                    {"label": "stringOne", "value": '1'}
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "type": "submit",
+                  "label": "SubmitBtn",
+                  "primary": true
+                }
+              ]
+            },
+            "columns": [
+              {
+                "name": "id",
+                "label": "ID"
+              },
+              {
+                "name": "version",
+                "label": "Engine version engine"
+              }
+            ],
+          }
+        ]
+      },
+      {},
+      makeEnv({fetcher: mockFetcher})
+    )
+  );
+
+  const select = container.querySelector('.cxd-Select')!;
+  const submitBtn = container.querySelector("button[type='submit']")!;
+
+  fireEvent.click(select);
+  await wait(200);
+  let options = container.querySelectorAll('.cxd-Select-option-content');
+  fireEvent.click(options[0]);
+  await wait(200);
+  fireEvent.click(submitBtn);
+  await wait(200);
+  expect(keyword).toEqual(0);
+
+  /** 从 0 -> false 查询成功 */
+  fireEvent.click(select);
+  await wait(200);
+  options = container.querySelectorAll('.cxd-Select-option-content');
+  fireEvent.click(options[3]);
+  await wait(200);
+  fireEvent.click(submitBtn);
+  await wait(200);
+  expect(keyword).toEqual(false);
+
+  /** 从 false -> '' 查询成功 */
+  fireEvent.click(select);
+  await wait(200);
+  options = container.querySelectorAll('.cxd-Select-option-content');
+  fireEvent.click(options[4]);
+  await wait(200);
+  fireEvent.click(submitBtn);
+  await wait(200);
+  expect(keyword).toEqual('');
+
+  /** 从 '' -> 0 查询成功 */
+  fireEvent.click(select);
+  await wait(200);
+  options = container.querySelectorAll('.cxd-Select-option-content');
+  fireEvent.click(options[0]);
+  await wait(200);
+  fireEvent.click(submitBtn);
+  await wait(200);
+  expect(keyword).toEqual(0);
+
+  /** 切换到1 */
+  fireEvent.click(select);
+  await wait(200);
+  options = container.querySelectorAll('.cxd-Select-option-content');
+  fireEvent.click(options[1]);
+  await wait(200);
+  fireEvent.click(submitBtn);
+  await wait(200);
+  expect(keyword).toEqual(1);
+
+  /** 从 1 -> true 查询成功 */
+  fireEvent.click(select);
+  await wait(200);
+  options = container.querySelectorAll('.cxd-Select-option-content');
+  fireEvent.click(options[2]);
+  await wait(200);
+  fireEvent.click(submitBtn);
+  await wait(200);
+  expect(keyword).toEqual(true);
+
+  /** 从 true -> '1' 查询成功 */
+  fireEvent.click(select);
+  await wait(200);
+  options = container.querySelectorAll('.cxd-Select-option-content');
+  fireEvent.click(options[6]);
+  await wait(200);
+  fireEvent.click(submitBtn);
+  await wait(200);
+  expect(keyword).toEqual('1');
+
+  /** 切换到false */
+  fireEvent.click(select);
+  await wait(200);
+  options = container.querySelectorAll('.cxd-Select-option-content');
+  fireEvent.click(options[3]);
+  await wait(200);
+  fireEvent.click(submitBtn);
+  await wait(200);
+  expect(keyword).toEqual(false);
+
+  /** 从 false -> '0' 查询成功 */
+  fireEvent.click(select);
+  await wait(200);
+  options = container.querySelectorAll('.cxd-Select-option-content');
+  fireEvent.click(options[5]);
+  await wait(200);
+  fireEvent.click(submitBtn);
+  await wait(200);
+  expect(keyword).toEqual('0');
+}, 7000);

@@ -65,7 +65,7 @@
           transparent 75%,
           transparent
         );
-        background-size: 2rem 2rem;
+        background-size: px2rem(32px) px2rem(32px);
       }
 
       &--animate {

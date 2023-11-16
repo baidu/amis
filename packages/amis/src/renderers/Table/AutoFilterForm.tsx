@@ -71,7 +71,7 @@ export function AutoFilterForm({
       })
     );
 
-    let showExpander = searchableColumns.length >= columnsNum;
+    let showExpander = activedSearchableColumns.length >= columnsNum;
 
     // todo 以后做动画
     if (!searchFormExpanded && body.length) {
@@ -100,7 +100,7 @@ export function AutoFilterForm({
     }
     lastGroup.body.push({
       type: 'container',
-      className: 'ButtonToolbar text-right block',
+      className: 'AutoFilterToolbar',
       wrapperBody: false,
       body: [
         {
@@ -114,32 +114,31 @@ export function AutoFilterForm({
           visible: showBtnToolbar,
           buttons: searchableColumns.map(column => {
             return {
-              type: 'checkbox',
-              label: false,
-              className: cx('Table-searchableForm-checkbox'),
-              inputClassName: cx('Table-searchableForm-checkbox-inner'),
-              name: `${
-                column.searchable.strategy === 'jsonql' ? '' : '__search_'
-              }${column.searchable?.name ?? column.name}`,
-              option: column.searchable?.label ?? column.label,
-              /**
-               * syncLocation开启后，参数值会从地址栏Query中二次同步到数据域中，其中布尔(boolean)类型的值被转化为字符串
-               * eg:
-               *     true ==> "true"
-               *     false ==> "false"
-               * 所以这里将真值和假值转化成字符串格式规避
-               */
-              trueValue: '1',
-              falseValue: '0',
-              value: !!column.enableSearch ? '1' : '0',
-              badge: {
-                offset: [-10, 5],
-                visibleOn: `${
-                  column.toggable && !column.toggled && column.enableSearch
-                }`
-              },
-              onChange: (value: '1' | '0') =>
-                onItemToggleExpanded?.(column, value === '1' ? true : false)
+              children: ({render}: any) =>
+                render(
+                  `column-search-toggler-${column.id}`,
+                  {
+                    type: 'checkbox',
+                    label: false,
+                    className: cx('Table-searchableForm-checkbox'),
+                    inputClassName: cx('Table-searchableForm-checkbox-inner'),
+                    name: `__whatever_name`,
+                    option: column.searchable?.label ?? column.label,
+                    badge: {
+                      offset: [-10, 5],
+                      visibleOn: `${
+                        column.toggable &&
+                        !column.toggled &&
+                        column.enableSearch
+                      }`
+                    }
+                  },
+                  {
+                    value: activedSearchableColumns.includes(column),
+                    onChange: (value: any) =>
+                      onItemToggleExpanded?.(column, value)
+                  }
+                )
             };
           })
         },
@@ -147,34 +146,35 @@ export function AutoFilterForm({
         {
           type: 'submit',
           label: __('search'),
+          size: 'sm',
           level: 'primary',
-          className: 'w-18'
+          className: 'w-18 mr-2'
         },
         {
           type: 'reset',
           label: __('reset'),
+          size: 'sm',
           className: 'w-18'
         },
 
-        showExpander
-          ? {
-              children: () => (
-                <a
-                  className={cx(
-                    'Table-SFToggler',
-                    searchFormExpanded ? 'is-expanded' : ''
-                  )}
-                  onClick={onToggleExpanded}
-                >
-                  {__(searchFormExpanded ? 'collapse' : 'expand')}
-                  <span className={cx('Table-SFToggler-arrow')}>
-                    <Icon icon="right-arrow-bold" className="icon" />
-                  </span>
-                </a>
-              )
-            }
-          : null
-      ].filter(item => item)
+        {
+          children: () =>
+            showExpander ? (
+              <a
+                className={cx(
+                  'Table-SFToggler',
+                  searchFormExpanded ? 'is-expanded' : ''
+                )}
+                onClick={onToggleExpanded}
+              >
+                {__(searchFormExpanded ? 'collapse' : 'expand')}
+                <span className={cx('Table-SFToggler-arrow')}>
+                  <Icon icon="right-arrow-bold" className="icon" />
+                </span>
+              </a>
+            ) : null
+        }
+      ]
     });
 
     return {
@@ -227,7 +227,7 @@ export default observer(
     const onItemToggleExpanded = React.useCallback(
       (column: IColumn, value: boolean) => {
         column.setEnableSearch(value);
-        store.setSearchFormExpanded(true);
+        value && store.setSearchFormExpanded(true);
       },
       []
     );

@@ -14,12 +14,13 @@ export class ImagesPlugin extends BasePlugin {
   name = '图片集';
   isBaseComponent = true;
   description = '展示多张图片';
+  docLink = '/amis/zh-CN/components/images';
   tags = ['展示'];
   icon = 'fa fa-clone';
   pluginIcon = 'images-plugin';
   scaffold = {
     type: 'images',
-    imageGallaryClassName: 'app-popover'
+    imageGallaryClassName: 'app-popover :AMISCSSWrapper'
   };
   previewSchema = {
     ...this.scaffold,

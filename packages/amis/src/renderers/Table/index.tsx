@@ -603,7 +603,8 @@ export default class Table extends React.Component<TableProps, object> {
       loading,
       canAccessSuperData,
       lazyRenderAfter,
-      tableLayout
+      tableLayout,
+      resolveDefinitions
     } = props;
 
     let combineNum = props.combineNum;
@@ -614,29 +615,34 @@ export default class Table extends React.Component<TableProps, object> {
       );
     }
 
-    store.update({
-      selectable,
-      draggable,
-      columns,
-      columnsTogglable,
-      orderBy: onQuery ? orderBy : undefined,
-      orderDir,
-      multiple,
-      footable,
-      expandConfig,
-      primaryField,
-      itemCheckableOn,
-      itemDraggableOn,
-      hideCheckToggler,
-      combineNum,
-      combineFromIndex,
-      keepItemSelectionOnPageChange,
-      maxKeepItemSelectionLength,
-      loading,
-      canAccessSuperData,
-      lazyRenderAfter,
-      tableLayout
-    });
+    store.update(
+      {
+        selectable,
+        draggable,
+        columns,
+        columnsTogglable,
+        orderBy: onQuery ? orderBy : undefined,
+        orderDir,
+        multiple,
+        footable,
+        expandConfig,
+        primaryField,
+        itemCheckableOn,
+        itemDraggableOn,
+        hideCheckToggler,
+        combineNum,
+        combineFromIndex,
+        keepItemSelectionOnPageChange,
+        maxKeepItemSelectionLength,
+        loading,
+        canAccessSuperData,
+        lazyRenderAfter,
+        tableLayout
+      },
+      {
+        resolveDefinitions
+      }
+    );
 
     if (
       isPlainObject(autoGenerateFilter) &&
@@ -893,7 +899,9 @@ export default class Table extends React.Component<TableProps, object> {
         if (changes.orderBy && !props.onQuery) {
           delete changes.orderBy;
         }
-        store.update(changes as any);
+        store.update(changes as any, {
+          resolveDefinitions: props.resolveDefinitions
+        });
       }
     );
 
@@ -1141,7 +1149,7 @@ export default class Table extends React.Component<TableProps, object> {
           api: saveImmediately.api,
           reload: options?.reload
         },
-        values
+        item.locals
       );
       return;
     }
@@ -1294,6 +1302,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (this.resizeLine) {
       return;
     }
+    this.props.store.syncTableWidth();
     this.props.store.initTableWidth();
     this.handleOutterScroll();
     callback && setTimeout(callback, 20);
@@ -2009,6 +2018,7 @@ export default class Table extends React.Component<TableProps, object> {
           name={column.name}
           type={column.type}
           data={query}
+          superData={createObject(data, query)}
           filterable={column.filterable}
           popOverContainer={this.getPopOverContainer}
         />

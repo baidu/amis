@@ -17,8 +17,8 @@ export function setElementStyle(
   if (properties.cssStyle) {
     applyStyle(element, properties.cssStyle);
 
-    // 需要依赖这个 class 才能实现水平分布
-    // https://stackoverflow.com/a/21199162
+    // 目前默认最后一行用左对齐
+    // 这里用 class 的主要原因是方便用户自己覆盖，比如可能有语言需要右对齐
     if (properties.cssStyle['text-align'] === 'justify') {
       addClassName(element, 'justify');
     }

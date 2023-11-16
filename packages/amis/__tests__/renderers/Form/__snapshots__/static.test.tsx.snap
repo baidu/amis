@@ -119,7 +119,7 @@ exports[`Renderer:static 1`] = `
 </div>
 `;
 
-exports[`Renderer:static 2`] = `
+exports[`Renderer:static2 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"

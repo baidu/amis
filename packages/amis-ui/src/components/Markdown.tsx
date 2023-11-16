@@ -55,6 +55,17 @@ export default class Markdown extends React.Component<MarkdownProps> {
   async _render() {
     const {content, options} = this.props;
     this.dom.innerHTML = markdown(content, options);
+
+    // @ts-ignore 需要用户手动加载 katex
+    if (typeof renderMathInElement === 'function') {
+      // @ts-ignore
+      renderMathInElement(this.dom, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
   }
 
   render() {

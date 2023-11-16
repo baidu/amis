@@ -11,7 +11,9 @@ import {
   difference,
   ucFirst,
   autobind,
-  createObject
+  createObject,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {
   isPureVariable,
@@ -430,7 +432,7 @@ export default class Cards extends React.Component<GridProps, object> {
           api: saveImmediately.api,
           reload: options?.reload
         },
-        values
+        item.locals
       );
       return;
     }
@@ -923,7 +925,10 @@ export default class Cards extends React.Component<GridProps, object> {
       translate: __,
       loading = false,
       loadingConfig,
-      env
+      env,
+      id,
+      wrapperCustomStyle,
+      themeCss
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -973,9 +978,15 @@ export default class Cards extends React.Component<GridProps, object> {
     return (
       <div
         ref={this.bodyRef}
-        className={cx('Cards', className, {
-          'Cards--unsaved': !!store.modified || !!store.moved
-        })}
+        className={cx(
+          'Cards',
+          className,
+          {
+            'Cards--unsaved': !!store.modified || !!store.moved
+          },
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
         style={buildStyle(style, data)}
       >
         {affixHeader ? (
@@ -1007,6 +1018,20 @@ export default class Cards extends React.Component<GridProps, object> {
 
         {footer}
         <Spinner loadingConfig={loadingConfig} overlay show={loading} />
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

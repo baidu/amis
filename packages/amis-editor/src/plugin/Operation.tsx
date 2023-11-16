@@ -50,29 +50,16 @@ export class OperationPlugin extends BasePlugin {
 
   panelTitle = '操作栏';
   panelBodyCreator = (context: BaseEventContext) => {
-    return [
-      getSchemaTpl('className', {
-        name: 'innerClassName'
-      }),
-
+    return getSchemaTpl('tabs', [
       {
-        children: (
-          <Button
-            block
-            className="m-b-sm ae-Button--enhance"
-            onClick={() => {
-              // this.manager.showInsertPanel('buttons', context.id, '按钮');
-              this.manager.showRendererPanel(
-                '按钮',
-                '请从左侧组件面板中点击添加新的按钮'
-              );
-            }}
-          >
-            添加按钮
-          </Button>
-        )
+        title: '外观',
+        body: [
+          getSchemaTpl('className', {
+            name: 'innerClassName'
+          })
+        ]
       }
-    ];
+    ]);
   };
 
   buildSubRenderers(

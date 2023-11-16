@@ -228,13 +228,7 @@ export class PagePlugin extends BasePlugin {
               {
                 title: '数据',
                 body: [
-                  // page组件下掉组件静态数据配置项，可通过页面变量来定义页面中的变量
-                  // getSchemaTpl('combo-container', {
-                  //   type: 'input-kv',
-                  //   mode: 'normal',
-                  //   name: 'data',
-                  //   label: '组件静态数据'
-                  // }),
+                  getSchemaTpl('pageData'),
                   getSchemaTpl('apiControl', {
                     name: 'initApi',
                     mode: 'row',

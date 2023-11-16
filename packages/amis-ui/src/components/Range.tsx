@@ -383,11 +383,16 @@ export class Range extends React.Component<RangeItemProps, any> {
   getStepValue(value: number, step: number) {
     const surplus = value % step;
     let result = 0;
+    let closeNum = Math.floor(value - (value % step));
     // 余数 >= 步长一半 -> 向上取
     // 余数 <  步长一半 -> 向下取
     const _value = surplus >= step / 2 ? value : safeSub(value, step);
     while (result <= _value) {
-      result = safeAdd(result, step);
+      if (step < 1 || result === 0 || result === closeNum) {
+        result = safeAdd(result, step);
+      } else {
+        result = closeNum;
+      }
     }
     return result;
   }
@@ -502,7 +507,7 @@ export class Range extends React.Component<RangeItemProps, any> {
     // 遍历刻度标记masks 寻找距离当前节点最近的刻度标记 并记录差值
     keys(marks).forEach((mKey: keyof MarksType) => {
       const mNum = isString(mKey) ? parseInt(mKey, 10) : mKey;
-      if (mKey !== value) {
+      if (mKey !== value && !isNaN(mNum)) {
         maxWidth = Math.min(Math.abs(curNum - mNum), maxWidth);
       }
     });

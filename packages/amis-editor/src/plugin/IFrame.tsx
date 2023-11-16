@@ -18,6 +18,7 @@ export class IFramePlugin extends BasePlugin {
   name = 'iFrame';
   isBaseComponent = true;
   description = '可以用来嵌入现有页面。';
+  docLink = '/amis/zh-CN/components/iframe';
   tags = ['功能'];
   icon = 'fa fa-window-maximize';
   pluginIcon = 'iframe-plugin';

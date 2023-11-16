@@ -584,26 +584,15 @@
 }
 
 .#{$ns}Select-popover {
-  margin-top: calc(var(--Form-select-outer-borderWidth) * -1);
-
   background: var(--Form-select-menu-bg);
   color: var(--Form-select-menu-color);
   border: var(--Form-select-outer-borderWidth) solid
     var(--Form-input-onFocused-borderColor);
   box-shadow: var(--Form-select-outer-boxShadow);
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
   // min-width: px2rem(100px);
 
   // PopOver 上已经配置了，这个要是配置就会覆盖，所以先干掉好了
   // z-index: 10;
-
-  &.#{$ns}PopOver--leftTopLeftBottom {
-    margin-top: calc(
-      (var(--Form-select-popoverGap) - var(--Form-select-outer-borderWidth)) *
-        -1
-    );
-  }
 }
 
 .#{$ns}SelectControl {

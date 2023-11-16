@@ -47,6 +47,8 @@
   // }
 
   &-description {
+    margin-top: var(--inputFile-base-des-margin);
+    line-height: 20px;
     color: var(--inputFile-base-des-color);
     font-size: var(--inputFile-base-des-fontSize);
     font-weight: var(--inputFile-base-des-fontWeight);
@@ -298,6 +300,7 @@
 
     > a {
       cursor: pointer;
+      font-size: var(--fontSizeSm);
     }
   }
 }

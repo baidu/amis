@@ -979,7 +979,12 @@ export const TableStore = iRendererStore
       return tableRef;
     }
 
-    function update(config: Partial<STableStore>) {
+    function update(
+      config: Partial<STableStore>,
+      options?: {
+        resolveDefinitions?: (ref: string) => any;
+      }
+    ) {
       config.primaryField !== undefined &&
         (self.primaryField = config.primaryField);
       config.selectable !== undefined && (self.selectable = config.selectable);
@@ -1039,8 +1044,21 @@ export const TableStore = iRendererStore
 
       if (config.columns && Array.isArray(config.columns)) {
         let columns: Array<SColumn> = config.columns
-          .filter(column => column)
-          .concat();
+          .map(column => {
+            if (
+              options?.resolveDefinitions &&
+              typeof (column as any)?.$ref == 'string' &&
+              (column as any).$ref
+            ) {
+              return {
+                ...options.resolveDefinitions((column as any).$ref),
+                ...column
+              };
+            }
+
+            return column;
+          })
+          .filter(column => column);
 
         // 更新列顺序，afterCreate生命周期中更新columns不会触发组件的render
         const key = getPersistDataKey(columns);
