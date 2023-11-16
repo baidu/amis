@@ -92,11 +92,17 @@ class FroalaEditorComponent extends React.Component<FroalaEditorComponentProps> 
     this.destroyEditor();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: Readonly<FroalaEditorComponentProps>) {
+    if (this.props.config !== prevProps.config) {
+      this.editor?.destroy();
+      this.config = this.clone(this.props.config || this.config);
+      this.config = {...this.config};
+      this.editor = new FroalaEditor(this.element, this.config);
+    }
+
     if (JSON.stringify(this.oldModel) == JSON.stringify(this.props.model)) {
       return;
     }
-
     this.setContent();
   }
 
