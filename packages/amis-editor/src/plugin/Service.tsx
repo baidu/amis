@@ -272,10 +272,6 @@ export class ServicePlugin extends BasePlugin {
               ]
             },
             {
-              title: '状态',
-              body: [getSchemaTpl('visible'), getSchemaTpl('hidden')]
-            },
-            {
               title: '高级',
               body: [
                 getSchemaTpl('combo-container', {
@@ -317,6 +313,10 @@ export class ServicePlugin extends BasePlugin {
                     '/**\n * @param data 上下文数据\n * @param setData 更新数据的函数\n * @param env 环境变量\n */\ninterface DataProvider {\n   (data: any, setData: (data: any) => void, env: any): void;\n}\n'
                 }
               ]
+            },
+            {
+              title: '状态',
+              body: [getSchemaTpl('visible'), getSchemaTpl('hidden')]
             }
           ])
         ]

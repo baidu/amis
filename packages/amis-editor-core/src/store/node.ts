@@ -646,10 +646,6 @@ export const EditorNode = types
         let schema = root.getSchema(info.id);
         let patched = schema;
 
-        if (!patched?.id) {
-          patched = {...patched, id: 'u:' + guid()};
-        }
-
         if (
           (Array.isArray(info.regions) && info.regions.length) ||
           Array.isArray(info.patchContainers)
@@ -673,9 +669,15 @@ export const EditorNode = types
             },
             component?.props
           ) || patched;
-        patched = JSONPipeIn(patched);
+
         if (patched !== schema) {
-          root.changeValueById(info.id, patched, undefined, true, true);
+          root.changeValueById(
+            info.id,
+            JSONPipeIn(patched),
+            undefined,
+            true,
+            true
+          );
         }
       },
 

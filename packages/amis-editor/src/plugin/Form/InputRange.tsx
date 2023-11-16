@@ -1,15 +1,21 @@
+import {isObject} from 'amis';
 import {
-  EditorNodeType,
-  RendererPluginAction,
-  RendererPluginEvent
+  BasePlugin,
+  defaultValue,
+  getSchemaTpl,
+  tipedLabel,
+  registerEditorPlugin
 } from 'amis-editor-core';
-import {defaultValue, getSchemaTpl, tipedLabel} from 'amis-editor-core';
-import {registerEditorPlugin} from 'amis-editor-core';
-import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 
 import type {IFormStore, IFormItemStore} from 'amis-core';
+import type {
+  EditorNodeType,
+  RendererPluginAction,
+  RendererPluginEvent,
+  BaseEventContext
+} from 'amis-editor-core';
 
 export class RangeControlPlugin extends BasePlugin {
   static id = 'RangeControlPlugin';
@@ -135,6 +141,19 @@ export class RangeControlPlugin extends BasePlugin {
   panelTitle = '滑块';
 
   panelJustify = true;
+
+  filterProps(props: Record<string, any>, node: EditorNodeType) {
+    if (
+      props.marks &&
+      isObject(props.marks) &&
+      props.marks.hasOwnProperty('$$id')
+    ) {
+      delete props.marks.$$id;
+    }
+
+    return props;
+  }
+
   panelBodyCreator = (context: BaseEventContext) => {
     return getSchemaTpl('tabs', [
       {

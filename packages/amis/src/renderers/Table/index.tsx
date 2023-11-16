@@ -1302,6 +1302,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (this.resizeLine) {
       return;
     }
+    this.props.store.syncTableWidth();
     this.props.store.initTableWidth();
     this.handleOutterScroll();
     callback && setTimeout(callback, 20);
@@ -2017,6 +2018,7 @@ export default class Table extends React.Component<TableProps, object> {
           name={column.name}
           type={column.type}
           data={query}
+          superData={createObject(data, query)}
           filterable={column.filterable}
           popOverContainer={this.getPopOverContainer}
         />

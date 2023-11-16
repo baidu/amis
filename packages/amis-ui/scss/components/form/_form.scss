@@ -666,6 +666,7 @@
       flex: 1;
       flex-wrap: wrap;
       font-size: var(--fontSizeLg);
+      min-width: 0;
 
       .#{$ns}ColorPicker {
         > input {

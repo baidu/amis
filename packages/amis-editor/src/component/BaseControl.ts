@@ -255,10 +255,10 @@ export const formItemControl: (
             [
               getSchemaTpl('visible'),
               getSchemaTpl('hidden'),
+              getSchemaTpl('clearValueOnHidden'),
               supportStatic ? getSchemaTpl('static') : null,
               // TODO: 下面的部分表单项才有，是不是判断一下是否是表单项
-              getSchemaTpl('disabled'),
-              getSchemaTpl('clearValueOnHidden')
+              getSchemaTpl('disabled')
             ],
             panels?.status?.body,
             panels?.status?.replace,

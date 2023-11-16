@@ -1,14 +1,21 @@
 import React from 'react';
-import {observer} from 'mobx-react';
 
-import {ColumnProps} from './index';
+import {ColumnProps, DefaultCellWidth} from './index';
+import {getBuildColumns} from './util';
 
-export function ColGroup({
+export default function ColGroup({
   columns,
   colWidths,
   isFixed,
   syncTableWidth,
   initTableWidth,
+  selectable,
+  expandable,
+  draggable,
+  rowSelectionColumnWidth,
+  expandableColumnWidth,
+  isRightExpandable,
+  isLeftExpandable,
   showReal
 }: {
   columns: Array<ColumnProps>;
@@ -23,8 +30,17 @@ export function ColGroup({
   isFixed: boolean;
   syncTableWidth: Function;
   initTableWidth: Function;
+  selectable: boolean;
+  expandable: boolean;
+  draggable: boolean;
+  rowSelectionColumnWidth: number;
+  expandableColumnWidth: number;
+  isRightExpandable?: boolean;
+  isLeftExpandable?: boolean;
   showReal?: boolean;
 }) {
+  const {tdColumns} = getBuildColumns(columns);
+
   const domRef = React.createRef<HTMLTableColElement>();
 
   React.useEffect(() => {
@@ -51,7 +67,14 @@ export function ColGroup({
 
   return (
     <colgroup ref={domRef}>
-      {columns.map((col, index) => {
+      {draggable ? <col style={{width: DefaultCellWidth + 'px'}} /> : null}
+      {selectable ? (
+        <col style={{width: rowSelectionColumnWidth + 'px'}} />
+      ) : null}
+      {expandable && isLeftExpandable ? (
+        <col style={{width: expandableColumnWidth + 'px'}} />
+      ) : null}
+      {tdColumns.map((col, index) => {
         const style: any = {};
 
         if (colWidths[col?.name]?.width) {
@@ -68,8 +91,9 @@ export function ColGroup({
 
         return <col style={style} key={index} />;
       })}
+      {expandable && isRightExpandable ? (
+        <col style={{width: expandableColumnWidth + 'px'}} />
+      ) : null}
     </colgroup>
   );
 }
-
-export default observer(ColGroup);
