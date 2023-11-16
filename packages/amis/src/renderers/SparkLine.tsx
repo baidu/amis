@@ -5,6 +5,7 @@ import {resolveVariableAndFilter} from 'amis-core';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import {ActionSchema} from './Action';
 import {autobind, createObject, getPropValue} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 
 export interface SparkLineSchema extends BaseSchema {
   type: 'sparkline';
@@ -95,15 +96,46 @@ export class SparkLineRenderer extends React.Component<SparkLineRendProps> {
   }
 
   render() {
-    const {value, name, data, clickAction} = this.props;
+    const {
+      value,
+      name,
+      data,
+      clickAction,
+      className,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env,
+      classnames: cx
+    } = this.props;
     const finalValue = getPropValue(this.props) || [1, 1];
 
     return (
-      <SparkLine
-        onClick={clickAction ? this.handleClick : undefined}
-        {...this.props}
-        value={finalValue}
-      />
+      <>
+        <SparkLine
+          onClick={clickAction ? this.handleClick : undefined}
+          {...this.props}
+          value={finalValue}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

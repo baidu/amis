@@ -184,20 +184,6 @@ export class DropDownButtonPlugin extends BasePlugin {
                 })
               ]
             },
-            getSchemaTpl('style:classNames', {
-              isFormItem: false,
-              schema: [
-                getSchemaTpl('className', {
-                  name: 'btnClassName',
-                  label: '按钮'
-                }),
-
-                getSchemaTpl('className', {
-                  name: 'menuClassName',
-                  label: '下拉菜单'
-                })
-              ]
-            }),
             ...getSchemaTpl('theme:common', {
               exclude: ['layout'],
               classname: 'buttonControlClassName',

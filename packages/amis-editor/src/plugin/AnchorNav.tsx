@@ -182,16 +182,16 @@ export class AnchorNavPlugin extends BasePlugin {
               }
             ]
           },
-          getSchemaTpl('style:classNames', {
-            isFormItem: false,
-            schema: [
-              getSchemaTpl('className', {
-                name: 'linkClassName',
-                label: '导航'
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            extra: [
+              getSchemaTpl('theme:base', {
+                classname: 'linkClassName',
+                title: '导航区样式'
               }),
-              getSchemaTpl('className', {
-                name: 'sectionClassName',
-                label: '区域内容'
+              getSchemaTpl('theme:base', {
+                classname: 'sectionClassName',
+                title: '内容区样式'
               })
             ]
           })

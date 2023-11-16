@@ -39,7 +39,10 @@ export class MarkdownPlugin extends BasePlugin {
         },
         {
           title: '外观',
-          body: [getSchemaTpl('className')]
+          body: getSchemaTpl(
+            'collapseGroup',
+            getSchemaTpl('theme:common', {exclude: ['layout']})
+          )
         },
         {
           title: '显隐',

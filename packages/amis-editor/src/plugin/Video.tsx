@@ -76,40 +76,44 @@ export class VideoPlugin extends BasePlugin {
       },
       {
         title: '外观',
-        body: [
+        body: getSchemaTpl('collapseGroup', [
           {
-            name: 'aspectRatio',
-            label: '视频比例',
-            type: 'button-group-select',
-            size: 'sm',
-            mode: 'inline',
-            className: 'block',
-            value: 'auto',
-            options: [
+            title: '基本',
+            body: [
               {
-                label: '自动',
-                value: 'auto'
+                name: 'aspectRatio',
+                label: '视频比例：',
+                type: 'button-group-select',
+                size: 'sm',
+                mode: 'inline',
+                className: 'block',
+                value: 'auto',
+                options: [
+                  {
+                    label: '自动',
+                    value: 'auto'
+                  },
+
+                  {
+                    label: '4:3',
+                    value: '4:3'
+                  },
+
+                  {
+                    label: '16:9',
+                    value: '16:9'
+                  }
+                ]
               },
 
-              {
-                label: '4:3',
-                value: '4:3'
-              },
-
-              {
-                label: '16:9',
-                value: '16:9'
-              }
+              getSchemaTpl('switch', {
+                name: 'splitPoster',
+                label: '分开显示封面'
+              })
             ]
           },
-
-          getSchemaTpl('switch', {
-            name: 'splitPoster',
-            label: '分开显示封面'
-          }),
-
-          getSchemaTpl('className')
-        ]
+          ...getSchemaTpl('theme:common', {exclude: ['layout']})
+        ])
       },
       {
         title: '显隐',

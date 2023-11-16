@@ -653,34 +653,23 @@ export class TablePlugin extends BasePlugin {
               }
             ]
           },
-          {
-            title: 'CSS类名',
-            body: [
-              getSchemaTpl('className', {
-                label: '外层'
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            extra: [
+              getSchemaTpl('theme:base', {
+                classname: 'headerClassName',
+                title: '顶部外层'
               }),
-
-              getSchemaTpl('className', {
-                name: 'tableClassName',
-                label: '表格'
+              getSchemaTpl('theme:base', {
+                classname: 'footerClassName',
+                title: '底部外层'
               }),
-
-              getSchemaTpl('className', {
-                name: 'headerClassName',
-                label: '顶部外层'
-              }),
-
-              getSchemaTpl('className', {
-                name: 'footerClassName',
-                label: '底部外层'
-              }),
-
-              getSchemaTpl('className', {
-                name: 'toolbarClassName',
-                label: '工具栏'
+              getSchemaTpl('theme:base', {
+                classname: 'toolbarClassName',
+                title: '工具栏'
               })
             ]
-          }
+          })
         ])
       },
       isCRUDBody

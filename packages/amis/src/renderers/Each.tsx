@@ -3,6 +3,7 @@ import {Renderer, RendererProps, buildStyle, isPureVariable} from 'amis-core';
 import {Schema} from 'amis-core';
 import {resolveVariable, resolveVariableAndFilter} from 'amis-core';
 import {createObject, getPropValue, isObject} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 import {BaseSchema, SchemaCollection} from '../Schema';
 
 /**
@@ -52,7 +53,11 @@ export default class Each extends React.Component<EachProps> {
       items,
       placeholder,
       classnames: cx,
-      translate: __
+      translate: __,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     const value = getPropValue(this.props, props =>
@@ -80,7 +85,15 @@ export default class Each extends React.Component<EachProps> {
     }
 
     return (
-      <div className={cx('Each', className)} style={buildStyle(style, data)}>
+      <div
+        className={cx(
+          'Each',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+        style={buildStyle(style, data)}
+      >
         {Array.isArray(arr) && arr.length && items ? (
           arr.map((item: any, index: number) =>
             render(`item/${index}`, items, {
@@ -98,6 +111,19 @@ export default class Each extends React.Component<EachProps> {
             {render('placeholder', __(placeholder))}
           </div>
         )}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

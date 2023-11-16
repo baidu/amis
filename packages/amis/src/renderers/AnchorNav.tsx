@@ -3,6 +3,7 @@ import {Renderer, RendererProps} from 'amis-core';
 import {AnchorNav as CAnchorNav, AnchorNavSection} from 'amis-ui';
 import {isVisible, autobind} from 'amis-core';
 import {filter} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 import find from 'lodash/find';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 
@@ -151,7 +152,11 @@ export default class AnchorNav extends React.Component<
       direction,
       sectionRender,
       render,
-      data
+      data,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     let links = this.props.links;
@@ -182,19 +187,55 @@ export default class AnchorNav extends React.Component<
       .filter(item => !!item);
 
     return (
-      <CAnchorNav
-        classPrefix={ns}
-        classnames={cx}
-        className={className}
-        style={style}
-        linkClassName={linkClassName}
-        sectionClassName={sectionClassName}
-        onSelect={this.handleSelect}
-        active={this.state.active}
-        direction={direction}
-      >
-        {children}
-      </CAnchorNav>
+      <>
+        <CAnchorNav
+          classPrefix={ns}
+          classnames={cx}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+          style={style}
+          linkClassName={cx(
+            linkClassName,
+            setThemeClassName('linkClassName', id, themeCss)
+          )}
+          sectionClassName={cx(
+            sectionClassName,
+            setThemeClassName('sectionClassName', id, themeCss)
+          )}
+          onSelect={this.handleSelect}
+          active={this.state.active}
+          direction={direction}
+        >
+          {children}
+        </CAnchorNav>
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              },
+              {
+                key: 'linkClassName',
+                weights: {
+                  default: {important: true},
+                  hover: {important: true},
+                  active: {important: true}
+                }
+              },
+              {
+                key: 'sectionClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

@@ -16,6 +16,7 @@ import {getPropValue, padArr} from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {resolveVariable} from 'amis-core';
 import {filter} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 // import css
 // import 'video-react/dist/video-react.css';
 import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
@@ -776,17 +777,39 @@ export default class Video extends React.Component<VideoProps, VideoState> {
       className,
       style,
       classPrefix: ns,
-      classnames: cx
+      classnames: cx,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     return (
       <div
-        className={cx(`Video`, className)}
+        className={cx(
+          `Video`,
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
         onClick={this.onClick as any}
         style={style}
       >
         {this.renderFrames()}
         {splitPoster ? this.renderPosterAndPlayer() : this.renderPlayer()}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

@@ -135,6 +135,23 @@ export class TimelinePlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            extra: [
+              getSchemaTpl('theme:base', {
+                classname: 'timeClassName',
+                title: '时间区样式'
+              }),
+              getSchemaTpl('theme:base', {
+                classname: 'titleClassName',
+                title: '标题区样式'
+              }),
+              getSchemaTpl('theme:base', {
+                classname: 'detailClassName',
+                title: '详情区样式'
+              })
+            ]
+          }),
           getSchemaTpl('style:classNames', {
             isFormItem: false,
             schema: [

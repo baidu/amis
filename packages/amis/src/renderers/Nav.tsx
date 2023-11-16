@@ -12,7 +12,9 @@ import {
   buildStyle,
   filter,
   evalExpression,
-  insertStyle
+  insertStyle,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {
   guid,
@@ -715,7 +717,9 @@ export class Navigation extends React.Component<
       id,
       render,
       popOverContainer,
-      env
+      env,
+      wrapperCustomStyle,
+      themeCss
     } = this.props;
     const {dropIndicator} = this.state;
 
@@ -760,9 +764,15 @@ export class Navigation extends React.Component<
 
     return (
       <div
-        className={cx('Nav', className, {
-          ['Nav-horizontal']: !stacked
-        })}
+        className={cx(
+          'Nav',
+          className,
+          {
+            ['Nav-horizontal']: !stacked
+          },
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
         style={styleConfig}
       >
         <>
@@ -832,6 +842,20 @@ export class Navigation extends React.Component<
         {dropIndicator ? (
           <div className={cx('Nav-dropIndicator')} style={dropIndicator} />
         ) : null}
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

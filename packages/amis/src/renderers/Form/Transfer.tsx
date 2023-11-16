@@ -7,7 +7,9 @@ import {
   FormOptionsControl,
   resolveEventData,
   str2function,
-  getOptionValueBindField
+  getOptionValueBindField,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {SpinnerExtraProps, Transfer} from 'amis-ui';
 import type {Option} from 'amis-core';
@@ -543,7 +545,11 @@ export class BaseTransferRenderer<
       showInvalidMatch,
       onlyChildren,
       mobileUI,
-      noResultsText
+      noResultsText,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -564,7 +570,14 @@ export class BaseTransferRenderer<
     }
 
     return (
-      <div className={cx('TransferControl', className)}>
+      <div
+        className={cx(
+          'TransferControl',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         <Transfer
           onlyChildren={onlyChildren}
           value={selectedOptions}
@@ -613,6 +626,20 @@ export class BaseTransferRenderer<
           key="info"
           loadingConfig={loadingConfig}
           show={loading}
+        />
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
         />
       </div>
     );

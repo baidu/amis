@@ -138,7 +138,12 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       <>
         <Radios
           inline={inline || formMode === 'inline'}
-          className={cx(`${ns}RadiosControl`, className)}
+          className={cx(
+            `${ns}RadiosControl`,
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
           value={typeof value === 'undefined' || value === null ? '' : value}
           disabled={disabled}
           onChange={this.handleChange}
@@ -146,10 +151,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
           extractValue={extractValue!}
           delimiter={delimiter!}
           /** 兼容一下错误的用法 */
-          labelClassName={cx(
-            optionClassName ?? labelClassName,
-            setThemeClassName('radioClassName', id, themeCss)
-          )}
+          labelClassName={optionClassName ?? labelClassName}
           labelField={labelField}
           valueField={valueField}
           placeholder={__(placeholder)}
@@ -163,22 +165,16 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         />
         <CustomStyle
           config={{
-            wrapperCustomStyle, // 传入自定义样式
-            id, // 传入id
-            themeCss, // 传入外观样式
+            wrapperCustomStyle,
+            id,
+            themeCss,
             classNames: [
-              // 外观配置的类名，是个数组，解析各个类的外观样式，具体配置可以看后面讲解
               {
-                key: 'radioClassName',
-                weights: {
-                  default: {
-                    important: true
-                  }
-                }
+                key: 'baseControlClassName'
               }
             ]
           }}
-          env={env} // 传入env
+          env={env}
         />
       </>
     );

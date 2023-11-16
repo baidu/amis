@@ -11,7 +11,9 @@ import {
   isVisible,
   getScrollParent,
   autobind,
-  SkipOperation
+  SkipOperation,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
 import {IFormStore} from 'amis-core';
@@ -1182,7 +1184,9 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       classnames: cx,
       affixFooter,
       footerClassName,
-      wrapWithPanel
+      wrapWithPanel,
+      themeCss,
+      id
     } = this.props;
 
     return (
@@ -1194,7 +1198,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             'Wizard-footer',
             wrapWithPanel ? 'Panel-footer' : '',
             affixFooter ? 'Wizard-fixedButtom' : '',
-            footerClassName
+            footerClassName,
+            setThemeClassName('footerClassName', id, themeCss)
           )}
         >
           {actions}
@@ -1206,7 +1211,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             className={cx(
               wrapWithPanel ? 'Panel-fixedBottom' : '',
               'Wizard-footer',
-              footerClassName
+              footerClassName,
+              setThemeClassName('footerClassName', id, themeCss)
             )}
           >
             <div className={cx('Panel-footer')}>{actions}</div>
@@ -1231,7 +1237,11 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       loadingConfig,
       stepClassName,
       bodyClassName,
-      wrapWithPanel
+      wrapWithPanel,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
     const {rawSteps: stateSteps, currentStep} = this.state;
 
@@ -1254,7 +1264,9 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         className={cx(
           wrapWithPanel ? `${ns}Panel ${ns}Panel--default` : '',
           `${ns}Wizard ${ns}Wizard--${mode}`,
-          className
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={style}
       >
@@ -1320,6 +1332,22 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           overlay
           key="info"
           show={store.loading}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              },
+              {
+                key: 'footerClassName'
+              }
+            ]
+          }}
+          env={env}
         />
       </div>
     );

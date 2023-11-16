@@ -361,19 +361,10 @@ export class TransferPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('style:formItem', renderer),
-          getSchemaTpl('style:classNames', [
-            getSchemaTpl('className', {
-              label: '描述',
-              name: 'descriptionClassName',
-              visibleOn: 'this.description'
-            }),
-            getSchemaTpl('className', {
-              name: 'addOn.className',
-              label: 'AddOn',
-              visibleOn: 'this.addOn && this.addOn.type === "text"'
-            })
-          ])
+          getSchemaTpl('style:formItem', {renderer}),
+          getSchemaTpl('theme:form-label'),
+          getSchemaTpl('theme:form-description'),
+          ...getSchemaTpl('theme:common', {exclude: ['layout']})
         ])
       },
       {

@@ -149,9 +149,7 @@ export class LogPlugin extends BasePlugin {
               }
             ]
           },
-          getSchemaTpl('style:classNames', {
-            isFormItem: false
-          })
+          ...getSchemaTpl('theme:common', {exclude: ['layout']})
         ])
       }
     ]);
