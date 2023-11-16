@@ -125,16 +125,7 @@ export default class RichTextControl extends React.Component<
     if (finnalVendor === 'froala') {
       if (
         anyChanged(
-          [
-            'receiver',
-            'data',
-            'imageEditable',
-            'options',
-            'editorClass',
-            'placeholder',
-            'url',
-            'buttons'
-          ],
+          ['options', 'editorClass', 'placeholder', 'buttons'],
           prevProps,
           props
         )
@@ -144,13 +135,7 @@ export default class RichTextControl extends React.Component<
         });
       }
     } else if (finnalVendor === 'tinymce') {
-      if (
-        anyChanged(
-          ['receiver', 'data', 'imageEditable', 'options', 'fileField'],
-          prevProps,
-          props
-        )
-      ) {
+      if (anyChanged(['options', 'fileField'], prevProps, props)) {
         this.setState({
           config: this.getConfig(props)
         });
