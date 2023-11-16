@@ -14,7 +14,7 @@ import {
 import uniq from 'lodash/uniq';
 import {RegionConfig, RendererInfo} from '../plugin';
 import {guid, JSONPipeIn} from '../util';
-import {filterSchema} from 'amis';
+import {filterSchema, isObjectShallowModified} from 'amis';
 import React from 'react';
 import {EditorStoreType} from './editor';
 import findIndex from 'lodash/findIndex';
@@ -670,7 +670,7 @@ export const EditorNode = types
             component?.props
           ) || patched;
 
-        if (patched !== schema) {
+        if (patched !== schema && isObjectShallowModified(patched, schema)) {
           root.changeValueById(
             info.id,
             JSONPipeIn(patched),
