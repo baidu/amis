@@ -80,3 +80,39 @@ export function escapeFormula(conf: any, keys: string[] = ['tpl']) {
     return value;
   });
 }
+
+/**
+ * 判断给定的 schema 是否为 model 组件
+ *
+ * @param schema schema 对象
+ * @returns 如果给定的 schema 是 model 组件则返回 true，否则返回 false
+ */
+export function _isModelComp(schema: Record<string, any>): boolean {
+  if (!schema) {
+    return false;
+  }
+
+  if (
+    schema.hasOwnProperty('$$m') &&
+    (schema.$$m?.type === 'list' || schema.$$m?.type === 'form')
+  ) {
+    return true;
+  }
+
+  const extraEvaluation = ['source', 'api', 'initApi'].some(key => {
+    if (schema?.[key] && typeof schema[key] === 'string') {
+      return schema?.[key].startsWith('model://');
+    }
+
+    if (schema?.[key]?.url && typeof schema[key].url === 'string') {
+      return (
+        schema[key].url.startsWith('model://') &&
+        !schema[key].hasOwnProperty('strategy')
+      );
+    }
+
+    return false;
+  });
+
+  return extraEvaluation;
+}
