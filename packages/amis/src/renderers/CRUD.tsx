@@ -686,7 +686,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     } else if (!props.api && isPureVariable(props.source)) {
       const next = resolveVariableAndFilter(props.source, props.data, '| raw');
 
-      if (!this.lastData || this.lastData !== next) {
+      if (!this.lastData || !isEqual(this.lastData, next)) {
         store.initFromScope(props.data, props.source, {
           columns: store.columns ?? props.columns
         });
