@@ -476,7 +476,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
     'primaryField',
     'hideQuickSaveBtn',
     'selected',
-    'placeholder'
+    'placeholder',
+    'autoFillHeight'
   ];
 
   renderedToolbars: Array<string> = [];
@@ -518,7 +519,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     this.expandable = this.buildExpandable();
     this.reactions.push(
       reaction(
-        () => store.currentSelectedRowKeys,
+        () => store.currentSelectedRowKeys.join(','),
         () => {
           this.rowSelection = this.buildRowSelection();
           this.forceUpdate();
@@ -527,7 +528,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     );
     this.reactions.push(
       reaction(
-        () => store.currentExpandedKeys,
+        () => store.currentExpandedKeys.join(','),
         () => {
           this.expandable = this.buildExpandable();
           this.forceUpdate();
