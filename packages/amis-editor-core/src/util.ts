@@ -147,9 +147,6 @@ export function JSONPipeIn(
         obj.id && (idMap[obj.id] = newId);
         toUpdate.id = newId;
       }
-    } else if (!obj.id) {
-      flag = true;
-      toUpdate.id = generateNodeId();
     }
   }
 
