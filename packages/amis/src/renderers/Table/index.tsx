@@ -24,7 +24,9 @@ import {
   isArrayChildrenModified,
   eachTree,
   isObject,
-  createObject
+  createObject,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {
   isPureVariable,
@@ -2423,7 +2425,9 @@ export default class Table extends React.Component<TableProps, object> {
       store,
       classnames: cx,
       data,
-      translate: __
+      translate: __,
+      id,
+      themeCss
     } = this.props;
 
     if (showHeader === false) {
@@ -2453,7 +2457,8 @@ export default class Table extends React.Component<TableProps, object> {
           className={cx(
             'Table-toolbar Table-headToolbar',
             toolbarClassName,
-            headerToolbarClassName
+            headerToolbarClassName,
+            setThemeClassName('toolbarClassName', id, themeCss)
           )}
           key="header-toolbar"
         >
@@ -2468,7 +2473,14 @@ export default class Table extends React.Component<TableProps, object> {
       ) : null;
     const headerNode =
       header && (!Array.isArray(header) || header.length) ? (
-        <div className={cx('Table-header', headerClassName)} key="header">
+        <div
+          className={cx(
+            'Table-header',
+            headerClassName,
+            setThemeClassName('headerClassName', id, themeCss)
+          )}
+          key="header"
+        >
           {render('header', header, {
             ...(editable === false ? otherProps : null),
             data: store.getData(data)
@@ -2492,7 +2504,9 @@ export default class Table extends React.Component<TableProps, object> {
       showFooter,
       store,
       data,
-      classnames: cx
+      classnames: cx,
+      id,
+      themeCss
     } = this.props;
 
     if (showFooter === false) {
@@ -2518,7 +2532,8 @@ export default class Table extends React.Component<TableProps, object> {
           className={cx(
             'Table-toolbar Table-footToolbar',
             toolbarClassName,
-            footerToolbarClassName
+            footerToolbarClassName,
+            setThemeClassName('toolbarClassName', id, themeCss)
           )}
           key="footer-toolbar"
         >
@@ -2528,7 +2543,14 @@ export default class Table extends React.Component<TableProps, object> {
       ) : null;
     const footerNode =
       footer && (!Array.isArray(footer) || footer.length) ? (
-        <div className={cx('Table-footer', footerClassName)} key="footer">
+        <div
+          className={cx(
+            'Table-footer',
+            footerClassName,
+            setThemeClassName('footerClassName', id, themeCss)
+          )}
+          key="footer"
+        >
           {render('footer', footer, {
             data: store.getData(data)
           })}
@@ -2684,7 +2706,11 @@ export default class Table extends React.Component<TableProps, object> {
       affixHeader,
       autoFillHeight,
       autoGenerateFilter,
-      mobileUI
+      mobileUI,
+      themeCss,
+      wrapperCustomStyle,
+      id,
+      env
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -2698,10 +2724,17 @@ export default class Table extends React.Component<TableProps, object> {
 
     return (
       <div
-        className={cx('Table', {'is-mobile': mobileUI}, className, {
-          'Table--unsaved': !!store.modified || !!store.moved,
-          'Table--autoFillHeight': autoFillHeight
-        })}
+        className={cx(
+          'Table',
+          {'is-mobile': mobileUI},
+          className,
+          {
+            'Table--unsaved': !!store.modified || !!store.moved,
+            'Table--autoFillHeight': autoFillHeight
+          },
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
         style={store.buildStyles(style)}
       >
         {autoGenerateFilter ? this.renderAutoFilterForm() : null}
@@ -2716,6 +2749,29 @@ export default class Table extends React.Component<TableProps, object> {
         </div>
 
         {footer}
+
+        <CustomStyle
+          config={{
+            themeCss,
+            wrapperCustomStyle,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              },
+              {
+                key: 'headerClassName'
+              },
+              {
+                key: 'footerClassName'
+              },
+              {
+                key: 'toolbarClassName'
+              }
+            ],
+            id
+          }}
+          env={env}
+        />
       </div>
     );
   }

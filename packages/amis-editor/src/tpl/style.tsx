@@ -628,6 +628,9 @@ setSchemaTpl(
     const styles = [
       {
         type: 'select',
+        mode: 'horizontal',
+        labelAlign: 'left',
+        labelWidth: 80,
         name: 'editorState',
         label: '状态',
         selectFirst: true,

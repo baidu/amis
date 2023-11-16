@@ -2,7 +2,9 @@ import React from 'react';
 import {
   OptionsControl,
   OptionsControlProps,
-  FormOptionsControl
+  FormOptionsControl,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import type {Option} from 'amis-core';
 import {ActionObject, isObject} from 'amis-core';
@@ -102,6 +104,10 @@ export default class ButtonGroupControl extends React.Component<
       vertical,
       tiled,
       badge,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env,
       translate: __
     } = props;
 
@@ -179,7 +185,9 @@ export default class ButtonGroupControl extends React.Component<
             'ButtonGroup--tiled': tiled,
             [`ButtonGroup--${size}`]: size
           },
-          className
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
       >
         {body.length ? (
@@ -189,6 +197,20 @@ export default class ButtonGroupControl extends React.Component<
             {__(placeholder)}
           </span>
         )}
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

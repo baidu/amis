@@ -3,7 +3,9 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import cx from 'classnames';
 import {Checkbox} from 'amis-ui';
@@ -139,11 +141,23 @@ export default class CheckboxControl extends React.Component<
       optionType,
       checked,
       labelClassName,
-      classPrefix: ns
+      classPrefix: ns,
+      classnames: cx,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     return (
-      <div className={cx(`${ns}CheckboxControl`, className)}>
+      <div
+        className={cx(
+          `${ns}CheckboxControl`,
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         <Checkbox
           inline
           value={value || ''}
@@ -158,6 +172,20 @@ export default class CheckboxControl extends React.Component<
         >
           {option ? render('option', option) : null}
         </Checkbox>
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

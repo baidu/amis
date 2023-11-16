@@ -123,17 +123,9 @@ export class ButtonToolbarControlPlugin extends BasePlugin {
                 })
               ]
             },
-            getSchemaTpl('style:classNames', {
-              isFormItem: true,
-              unsupportStatic: true,
-              schema: [
-                getSchemaTpl('className', {
-                  label: '描述',
-                  name: 'descriptionClassName',
-                  visibleOn: 'this.description'
-                })
-              ]
-            })
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
           ])
         ]
       }

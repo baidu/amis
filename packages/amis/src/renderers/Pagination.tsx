@@ -3,7 +3,9 @@ import {
   Renderer,
   RendererProps,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {Pagination as BasicPagination} from 'amis-ui';
@@ -104,15 +106,46 @@ export default class Pagination extends React.Component<PaginationProps> {
   }
 
   render() {
-    const {maxButtons, activePage, total, perPage} = this.props;
+    const {
+      maxButtons,
+      activePage,
+      total,
+      perPage,
+      classnames: cx,
+      className,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
+    } = this.props;
     return (
-      <BasicPagination
-        {...this.props}
-        maxButtons={this.formatNumber(maxButtons)}
-        activePage={this.formatNumber(activePage)}
-        total={this.formatNumber(total)}
-        perPage={this.formatNumber(perPage)}
-      />
+      <>
+        <BasicPagination
+          {...this.props}
+          maxButtons={this.formatNumber(maxButtons)}
+          activePage={this.formatNumber(activePage)}
+          total={this.formatNumber(total)}
+          perPage={this.formatNumber(perPage)}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }
