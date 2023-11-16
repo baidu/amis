@@ -65,7 +65,6 @@
     "office-viewer": "^0.2.1",
     "prop-types": "^15.6.1",
     "qrcode.react": "^3.1.0",
-    "rc-overflow": "^1.2.4",
     "react-cropper": "^2.1.8",
     "react-dropzone": "^11.4.2",
     "react-error-boundary": "^4.0.11",
