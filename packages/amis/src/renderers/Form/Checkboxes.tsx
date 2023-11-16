@@ -6,7 +6,9 @@ import {
   autobind,
   hasAbility,
   columnsSplit,
-  flattenTreeWithLeafNodes
+  flattenTreeWithLeafNodes,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import type {ActionObject, Api, OptionsControlProps, Option} from 'amis-core';
 import {Checkbox, Icon, Spinner} from 'amis-ui';
@@ -351,7 +353,11 @@ export default class CheckboxesControl extends React.Component<
       translate: __,
       optionType,
       loading,
-      loadingConfig
+      loadingConfig,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     let body: Array<React.ReactNode> = [];
@@ -384,7 +390,15 @@ export default class CheckboxesControl extends React.Component<
     body = this.columnsSplit(body);
 
     return (
-      <div className={cx(`CheckboxesControl`, className)} ref="checkboxRef">
+      <div
+        className={cx(
+          `CheckboxesControl`,
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+        ref="checkboxRef"
+      >
         {body && body.length ? (
           body
         ) : loading ? null : (
@@ -407,6 +421,20 @@ export default class CheckboxesControl extends React.Component<
             {__(createBtnLabel)}
           </a>
         ) : null}
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

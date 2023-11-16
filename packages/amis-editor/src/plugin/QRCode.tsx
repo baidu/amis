@@ -75,27 +75,33 @@ export class QRCodePlugin extends BasePlugin {
       },
       {
         title: '外观',
-        body: [
+        body: getSchemaTpl('collapseGroup', [
           {
-            name: 'codeSize',
-            type: 'input-number',
-            label: '宽高值',
-            pipeIn: defaultValue(128)
+            title: '基本',
+            body: [
+              {
+                name: 'codeSize',
+                type: 'input-number',
+                label: '宽高值',
+                pipeIn: defaultValue(128)
+              },
+              {
+                name: 'backgroundColor',
+                type: 'input-color',
+                label: '背景色',
+                pipeIn: defaultValue('#fff')
+              },
+              {
+                name: 'foregroundColor',
+                type: 'input-color',
+                label: '前景色',
+                pipeIn: defaultValue('#000')
+              }
+            ]
           },
-          {
-            name: 'backgroundColor',
-            type: 'input-color',
-            label: '背景色',
-            pipeIn: defaultValue('#fff')
-          },
-          {
-            name: 'foregroundColor',
-            type: 'input-color',
-            label: '前景色',
-            pipeIn: defaultValue('#000')
-          },
-          getSchemaTpl('className')
-        ]
+          ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+          getSchemaTpl('style:classNames', {isFormItem: false})
+        ])
       },
       {
         title: '显隐',

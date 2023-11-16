@@ -94,6 +94,15 @@
       }
     }
   }
+
+  .ae-sub-content {
+    @include extend-more();
+    margin-bottom: var(--Form-item-gap);
+
+    &.is-bottom {
+      margin-bottom: 0;
+    }
+  }
 }
 
 /* 状态配置控件 */

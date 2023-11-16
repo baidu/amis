@@ -679,8 +679,26 @@ export class TablePlugin extends BasePlugin {
               }
             ]
           },
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            extra: [
+              getSchemaTpl('theme:base', {
+                classname: 'headerClassName',
+                title: '顶部外层'
+              }),
+              getSchemaTpl('theme:base', {
+                classname: 'footerClassName',
+                title: '底部外层'
+              }),
+              getSchemaTpl('theme:base', {
+                classname: 'toolbarClassName',
+                title: '工具栏'
+              })
+            ]
+          }),
           {
             title: 'CSS类名',
+            collapsed: true,
             body: [
               getSchemaTpl('className', {
                 label: '外层'

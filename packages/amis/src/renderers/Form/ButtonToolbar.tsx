@@ -2,6 +2,7 @@ import React from 'react';
 import {BaseSchema} from '../../Schema';
 import {ActionSchema} from '../Action';
 import {FormControlProps, FormItem} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 
 /**
  * Button Toolar 渲染器。
@@ -42,11 +43,41 @@ export default class ButtonToolbar extends React.Component<
   }
 
   render() {
-    const {buttons, className, classnames: cx, render, style} = this.props;
+    const {
+      buttons,
+      className,
+      classnames: cx,
+      render,
+      style,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
+    } = this.props;
 
     return (
-      <div className={cx('ButtonToolbar', className)}>
+      <div
+        className={cx(
+          'ButtonToolbar',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         {this.renderButtons()}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

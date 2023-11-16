@@ -12,6 +12,10 @@ import {
   isEffectiveApi,
   isPureVariable,
   resolveVariableAndFilter,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
+import {
   autobind,
   filterTree,
   string2regExp,
@@ -595,8 +599,11 @@ export class BaseTransferRenderer<
       noResultsText,
       pagination,
       formItem,
-      env,
-      popOverContainer
+      popOverContainer,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -617,7 +624,14 @@ export class BaseTransferRenderer<
     }
 
     return (
-      <div className={cx('TransferControl', className)}>
+      <div
+        className={cx(
+          'TransferControl',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         <Transfer
           onlyChildren={onlyChildren}
           value={selectedOptions}
@@ -689,6 +703,20 @@ export class BaseTransferRenderer<
           key="info"
           loadingConfig={loadingConfig}
           show={loading}
+        />
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
         />
       </div>
     );

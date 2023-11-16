@@ -14,7 +14,9 @@ import {
   RendererProps,
   resolveVariable,
   resolveVariableAndFilter,
-  ScopedContext
+  ScopedContext,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import type {Word} from 'office-viewer';
 import {Spinner} from 'amis-ui';
@@ -263,7 +265,11 @@ export default class OfficeViewer extends React.Component<
       src,
       name,
       display,
-      loadingConfig
+      loadingConfig,
+      themeCss,
+      wrapperCustomStyle,
+      id,
+      env
     } = this.props;
     return (
       <div>
@@ -292,7 +298,12 @@ export default class OfficeViewer extends React.Component<
         )}
         <div
           ref={this.rootElement}
-          className={cx('office-viewer', className)}
+          className={cx(
+            'office-viewer',
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
         ></div>
 
         <Spinner
@@ -300,6 +311,20 @@ export default class OfficeViewer extends React.Component<
           key="info"
           show={loading && this.state.loading}
           loadingConfig={loadingConfig}
+        />
+
+        <CustomStyle
+          config={{
+            themeCss,
+            wrapperCustomStyle,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ],
+            id
+          }}
+          env={env}
         />
       </div>
     );

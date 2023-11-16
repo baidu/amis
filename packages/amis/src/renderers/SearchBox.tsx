@@ -7,6 +7,8 @@ import {
   resolveEventData,
   ScopedComponentType,
   ScopedContext,
+  CustomStyle,
+  setThemeClassName,
   autobind,
   getPropValue,
   setVariable
@@ -210,6 +212,11 @@ export class SearchBoxRenderer extends React.Component<
       className,
       style,
       mobileUI,
+      classnames: cx,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env,
       loading,
       loadingConfig,
       onEvent
@@ -219,29 +226,50 @@ export class SearchBoxRenderer extends React.Component<
     const isDisabled = (!onQuery && !onEvent?.search) || disabled;
 
     return (
-      <SearchBox
-        className={className}
-        style={style}
-        name={name}
-        disabled={isDisabled}
-        loading={loading}
-        loadingConfig={loadingConfig}
-        defaultActive={!!value}
-        defaultValue={onChange ? undefined : value}
-        value={value}
-        mini={mini}
-        enhance={enhance}
-        clearable={clearable}
-        searchImediately={searchImediately}
-        clearAndSubmit={clearAndSubmit}
-        onSearch={this.handleSearch}
-        onCancel={this.handleCancel}
-        placeholder={placeholder}
-        onChange={this.handleChange}
-        onFocus={() => this.dispatchEvent('focus')}
-        onBlur={() => this.dispatchEvent('blur')}
-        mobileUI={mobileUI}
-      />
+      <>
+        <SearchBox
+          className={className}
+          style={style}
+          name={name}
+          disabled={isDisabled}
+          loading={loading}
+          loadingConfig={loadingConfig}
+          defaultActive={!!value}
+          defaultValue={onChange ? undefined : value}
+          value={value}
+          mini={mini}
+          enhance={enhance}
+          clearable={clearable}
+          searchImediately={searchImediately}
+          clearAndSubmit={clearAndSubmit}
+          onSearch={this.handleSearch}
+          onCancel={this.handleCancel}
+          placeholder={placeholder}
+          onChange={this.handleChange}
+          onFocus={() => this.dispatchEvent('focus')}
+          onBlur={() => this.dispatchEvent('blur')}
+          mobileUI={mobileUI}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                weights: {
+                  default: {important: true},
+                  hover: {important: true},
+                  active: {important: true},
+                  disabled: {important: true}
+                }
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

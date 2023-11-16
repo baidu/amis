@@ -1314,6 +1314,7 @@ export class TableControlPlugin extends BasePlugin {
             ]
           },
           getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+          ...getSchemaTpl('theme:common', {exclude: ['layout']}),
           getSchemaTpl('style:classNames', {
             schema: [
               getSchemaTpl('className', {

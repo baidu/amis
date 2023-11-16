@@ -294,83 +294,15 @@ export class AvatarPlugin extends BasePlugin {
               }
             ]
           },
-          // 兼容旧的外观面板
-          {
-            header: '文字',
-            key: 'font',
-            body: [
-              {
-                type: 'style-font',
-                label: false,
-                name: 'style'
-              }
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            baseExtra: [
+              getSchemaTpl('theme:font', {
+                label: '文字',
+                name: 'themeCss.baseControlClassName.font'
+              })
             ]
-          },
-          {
-            header: '内外边距',
-            key: 'box-model',
-            body: [
-              {
-                type: 'style-box-model',
-                label: false,
-                name: 'style'
-              }
-            ]
-          },
-          {
-            header: '边框',
-            key: 'border',
-            body: [
-              {
-                type: 'style-border',
-                label: false,
-                name: 'style',
-                disableRadius: true
-              }
-            ]
-          },
-          {
-            title: '背景',
-            body: [
-              {
-                type: 'style-background',
-                label: false,
-                name: 'style',
-                noImage: true
-              }
-            ]
-          },
-          {
-            header: '阴影',
-            key: 'box-shadow',
-            body: [
-              {
-                type: 'style-box-shadow',
-                label: false,
-                name: 'style.boxShadow'
-              }
-            ]
-          },
-          {
-            header: '其他',
-            key: 'other',
-            body: [
-              {
-                label: '透明度',
-                name: 'style.opacity',
-                min: 0,
-                max: 1,
-                step: 0.05,
-                type: 'input-range',
-                pipeIn: defaultValue(1),
-                marks: {
-                  '0%': '0',
-                  '50%': '0.5',
-                  '100%': '1'
-                }
-              }
-            ]
-          },
+          }),
           getSchemaTpl('style:classNames', {isFormItem: false})
         ])
       },

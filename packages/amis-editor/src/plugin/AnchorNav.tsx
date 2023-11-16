@@ -182,6 +182,19 @@ export class AnchorNavPlugin extends BasePlugin {
               }
             ]
           },
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            extra: [
+              getSchemaTpl('theme:base', {
+                classname: 'linkClassName',
+                title: '导航区样式'
+              }),
+              getSchemaTpl('theme:base', {
+                classname: 'sectionClassName',
+                title: '内容区样式'
+              })
+            ]
+          }),
           getSchemaTpl('style:classNames', {
             isFormItem: false,
             schema: [
@@ -248,6 +261,7 @@ export class AnchorNavPlugin extends BasePlugin {
             getSchemaTpl('collapseGroup', [
               {
                 title: 'CSS 类名',
+                collapsed: true,
                 body: [getSchemaTpl('className')]
               }
             ])

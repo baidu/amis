@@ -11,6 +11,7 @@ import {findDOMNode} from 'react-dom';
 import {isMobile} from 'amis-core';
 import {PopUp} from 'amis-ui';
 import {autobind} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 
 /**
  * SubForm 子表单
@@ -579,13 +580,23 @@ export default class SubFormControl extends React.PureComponent<
       render,
       mobileUI,
       env,
-      popOverContainer
+      popOverContainer,
+      wrapperCustomStyle,
+      id,
+      themeCss
     } = this.props;
     const dialogData = this.state.dialogData;
     const dialogCtx = this.state.dialogCtx;
 
     return (
-      <div className={cx(`${ns}SubFormControl`, className)}>
+      <div
+        className={cx(
+          `${ns}SubFormControl`,
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         {multiple ? this.renderMultipe() : this.renderSingle()}
         {!mobileUI ? (
           render(`modal`, this.buildDialogSchema(), {
@@ -619,6 +630,19 @@ export default class SubFormControl extends React.PureComponent<
             </div>
           </PopUp>
         )}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

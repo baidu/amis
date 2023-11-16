@@ -19,14 +19,16 @@ const inputStateFunc = (visibleOn: string, state: string) => {
     getSchemaTpl('theme:border', {
       name: `${addBtnCssClassName}.border:${state}`,
       visibleOn: visibleOn,
-      editorThemePath: `${editorPath}.${state}.body.border`
+      editorThemePath: `${editorPath}.${state}.body.border`,
+      state
     }),
     getSchemaTpl('theme:colorPicker', {
       label: '文字',
       name: `${addBtnCssClassName}.color:${state}`,
       labelMode: 'input',
       visibleOn: visibleOn,
-      editorThemePath: `${editorPath}.${state}.body.color`
+      editorThemePath: `${editorPath}.${state}.body.color`,
+      state
     }),
     getSchemaTpl('theme:colorPicker', {
       label: '背景',
@@ -35,14 +37,16 @@ const inputStateFunc = (visibleOn: string, state: string) => {
       needGradient: true,
       needImage: true,
       visibleOn: visibleOn,
-      editorThemePath: `${editorPath}.${state}.body.bg-color`
+      editorThemePath: `${editorPath}.${state}.body.bg-color`,
+      state
     }),
     getSchemaTpl('theme:colorPicker', {
       label: '图标',
       name: `${addBtnCssClassName}.icon-color:${state}`,
       labelMode: 'input',
       visibleOn: visibleOn,
-      editorThemePath: `${editorPath}.${state}.body.icon-color`
+      editorThemePath: `${editorPath}.${state}.body.icon-color`,
+      state
     })
   ];
 };

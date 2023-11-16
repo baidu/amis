@@ -91,7 +91,8 @@ const CityArea = memo<AreaProps>(props => {
     translate: __,
     disabled = false,
     popOverContainer,
-    mobileUI
+    mobileUI,
+    className
   } = props;
 
   const [values, setValues] = useState<Array<number>>([]);
@@ -274,7 +275,7 @@ const CityArea = memo<AreaProps>(props => {
     .join(delimiter);
 
   return (
-    <div className={cx(`CityArea`)} style={style}>
+    <div className={cx(`CityArea`, className)} style={style}>
       <ResultBox
         className={cx('CityArea-Input', isOpened ? 'is-active' : '')}
         allowInput={false}

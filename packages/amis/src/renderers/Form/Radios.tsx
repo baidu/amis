@@ -6,7 +6,9 @@ import {
   OptionsControlProps,
   Option,
   FormOptionsControl,
-  resolveEventData
+  resolveEventData,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {autobind, isEmpty, createObject} from 'amis-core';
 import {ActionObject} from 'amis-core';
@@ -126,32 +128,55 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       data,
       translate: __,
       optionType,
-      level
+      level,
+      id, // 组件在编辑器中生成的id
+      wrapperCustomStyle, // 自定义样式源码
+      env, // 环境信息，需要传
+      themeCss // 外观样式的配置
     } = this.props;
-
     return (
-      <Radios
-        inline={inline || formMode === 'inline'}
-        className={cx(`${ns}RadiosControl`, className)}
-        value={typeof value === 'undefined' || value === null ? '' : value}
-        disabled={disabled}
-        onChange={this.handleChange}
-        joinValues={joinValues}
-        extractValue={extractValue!}
-        delimiter={delimiter!}
-        /** 兼容一下错误的用法 */
-        labelClassName={optionClassName ?? labelClassName}
-        labelField={labelField}
-        valueField={valueField}
-        placeholder={__(placeholder)}
-        options={options}
-        renderLabel={this.renderLabel}
-        columnsCount={columnsCount}
-        classPrefix={classPrefix}
-        itemClassName={itemClassName}
-        optionType={optionType}
-        level={level}
-      />
+      <>
+        <Radios
+          inline={inline || formMode === 'inline'}
+          className={cx(
+            `${ns}RadiosControl`,
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+          value={typeof value === 'undefined' || value === null ? '' : value}
+          disabled={disabled}
+          onChange={this.handleChange}
+          joinValues={joinValues}
+          extractValue={extractValue!}
+          delimiter={delimiter!}
+          /** 兼容一下错误的用法 */
+          labelClassName={optionClassName ?? labelClassName}
+          labelField={labelField}
+          valueField={valueField}
+          placeholder={__(placeholder)}
+          options={options}
+          renderLabel={this.renderLabel}
+          columnsCount={columnsCount}
+          classPrefix={classPrefix}
+          itemClassName={itemClassName}
+          optionType={optionType}
+          level={level}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

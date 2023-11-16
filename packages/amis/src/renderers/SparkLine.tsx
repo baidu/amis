@@ -5,7 +5,8 @@ import {
   autobind,
   createObject,
   getPropValue,
-  CustomStyle
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import React from 'react';
 import {resolveVariableAndFilter} from 'amis-core';
@@ -101,8 +102,18 @@ export class SparkLineRenderer extends React.Component<SparkLineRendProps> {
   }
 
   render() {
-    const {value, name, clickAction, id, wrapperCustomStyle, env, themeCss} =
-      this.props;
+    const {
+      value,
+      name,
+      data,
+      clickAction,
+      className,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env,
+      classnames: cx
+    } = this.props;
     const finalValue = getPropValue(this.props) || [1, 1];
 
     return (
@@ -111,6 +122,11 @@ export class SparkLineRenderer extends React.Component<SparkLineRendProps> {
           onClick={clickAction ? this.handleClick : undefined}
           {...this.props}
           value={finalValue}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
         />
         <CustomStyle
           config={{

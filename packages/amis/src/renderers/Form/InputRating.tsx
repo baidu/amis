@@ -3,7 +3,9 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {autobind, createObject, filter, toNumber} from 'amis-core';
 import {ActionObject} from 'amis-core';
@@ -176,7 +178,11 @@ export default class RatingControl extends React.Component<RatingProps, any> {
       charClassName,
       textClassName,
       textPosition,
-      classnames: cx
+      classnames: cx,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     let finalCount: number = getFinalCount(count, this.props.data);
@@ -184,7 +190,14 @@ export default class RatingControl extends React.Component<RatingProps, any> {
     finalCount > 100 && (finalCount = 100);
 
     return (
-      <div className={cx('RatingControl', className)}>
+      <div
+        className={cx(
+          'RatingControl',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         <Rating
           classnames={cx}
           value={value}
@@ -197,13 +210,38 @@ export default class RatingControl extends React.Component<RatingProps, any> {
           inactiveColor={inactiveColor}
           colors={colors}
           texts={texts}
-          charClassName={charClassName}
-          textClassName={textClassName}
+          charClassName={cx(
+            charClassName,
+            setThemeClassName('charClassName', id, themeCss)
+          )}
+          textClassName={cx(
+            textClassName,
+            setThemeClassName('textClassName', id, themeCss)
+          )}
           textPosition={textPosition}
           onChange={this.handleChange}
           onHoverChange={(value: number) => {
             onHoverChange && onHoverChange(value);
           }}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              },
+              {
+                key: 'charClassName'
+              },
+              {
+                key: 'textClassName'
+              }
+            ]
+          }}
+          env={env}
         />
       </div>
     );

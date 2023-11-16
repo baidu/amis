@@ -3,7 +3,9 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {LazyComponent} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
@@ -305,7 +307,11 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
       options,
       language,
       theme,
-      classnames: cx
+      classnames: cx,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     return (
@@ -317,7 +323,9 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
           className,
           {
             'is-focused': this.state.focused
-          }
+          },
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
       >
         <LazyComponent
@@ -334,6 +342,20 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
             readOnly: disabled
           }}
           isDiffEditor
+        />
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
         />
       </div>
     );

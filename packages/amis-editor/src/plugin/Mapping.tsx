@@ -119,14 +119,8 @@ export class MappingPlugin extends BasePlugin {
         {
           title: '外观',
           body: getSchemaTpl('collapseGroup', [
-            {
-              title: 'CSS类名',
-              body: [
-                getSchemaTpl('className', {
-                  label: '外层'
-                })
-              ]
-            }
+            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+            getSchemaTpl('style:classNames', {isFormItem: false})
           ])
         }
       ])

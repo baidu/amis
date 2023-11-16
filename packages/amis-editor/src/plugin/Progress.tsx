@@ -293,6 +293,7 @@ export class ProgressPlugin extends BasePlugin {
               })
             ]
           },
+          ...getSchemaTpl('theme:common', {exclude: ['layout']}),
           getSchemaTpl('style:classNames', {
             schema: [],
             isFormItem

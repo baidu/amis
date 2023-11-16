@@ -47,10 +47,12 @@ import {dataMapping} from '../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import LazyComponent from '../components/LazyComponent';
 import {isAlive} from 'mobx-state-tree';
+import CustomStyle from '../components/CustomStyle';
 
 import type {LabelAlign} from './Item';
 import {injectObjectChain} from '../utils';
 import {reaction} from 'mobx';
+import {setThemeClassName} from '../utils/style-helper';
 
 export interface FormHorizontal {
   left?: number;
@@ -1808,7 +1810,13 @@ export default class Form extends React.Component<FormProps, object> {
       render,
       staticClassName,
       static: isStatic = false,
-      loadingConfig
+      loadingConfig,
+      wrapWithPanel,
+      css,
+      themeCss,
+      id,
+      wrapperCustomStyle,
+      env
     } = this.props;
 
     const {restError} = store;
@@ -1836,7 +1844,10 @@ export default class Form extends React.Component<FormProps, object> {
           `Form--${mode || 'normal'}`,
           columnCount ? `Form--column Form--column-${columnCount}` : null,
           staticClassName && isStatic ? staticClassName : className,
-          isStatic ? 'Form--isStatic' : null
+          isStatic ? 'Form--isStatic' : null,
+          setThemeClassName('formControlClassName', id, themeCss),
+          !wrapWithPanel &&
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         onSubmit={this.handleFormSubmit}
         noValidate
@@ -1910,6 +1921,43 @@ export default class Form extends React.Component<FormProps, object> {
             show: store.drawerOpen
           }
         )}
+
+        <CustomStyle
+          config={{
+            themeCss: themeCss || css,
+            classNames: [
+              {
+                key: 'formControlClassName'
+              },
+              {
+                key: 'panelControlClassName'
+              },
+              {
+                key: 'headerControlClassName',
+                weights: {
+                  default: {
+                    important: true
+                  },
+                  hover: {
+                    important: true
+                  },
+                  active: {
+                    important: true
+                  }
+                }
+              },
+              {
+                key: 'bodyControlClassName'
+              },
+              {
+                key: 'actionsControlClassName'
+              }
+            ],
+            wrapperCustomStyle,
+            id: id && id + '-item'
+          }}
+          env={env}
+        />
       </WrapperComponent>
     );
   }
@@ -1928,12 +1976,18 @@ export default class Form extends React.Component<FormProps, object> {
       footerWrapClassName,
       actionsClassName,
       bodyClassName,
+      headerControlClassName,
+      bodyControlClassName,
+      actionsControlClassName,
       classnames: cx,
       style,
       affixFooter,
       lazyLoad,
       translate: __,
-      footer
+      footer,
+      id,
+      wrapperCustomStyle,
+      themeCss
     } = this.props;
 
     let body: JSX.Element = this.renderBody();
@@ -1946,7 +2000,12 @@ export default class Form extends React.Component<FormProps, object> {
           title: __(title)
         },
         {
-          className: cx(panelClassName, 'Panel--form'),
+          className: cx(
+            panelClassName,
+            'Panel--form',
+            setThemeClassName('panelControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          ),
           style: style,
           formStore: this.props.store,
           children: body,
@@ -1961,7 +2020,22 @@ export default class Form extends React.Component<FormProps, object> {
           footerWrapClassName,
           actionsClassName,
           bodyClassName,
-          affixFooter
+          affixFooter,
+          headerControlClassName: setThemeClassName(
+            'headerControlClassName',
+            id,
+            themeCss
+          ),
+          bodyControlClassName: setThemeClassName(
+            'bodyControlClassName',
+            id,
+            themeCss
+          ),
+          actionsControlClassName: setThemeClassName(
+            'actionsControlClassName',
+            id,
+            themeCss
+          )
         }
       ) as JSX.Element;
     }

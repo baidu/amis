@@ -131,6 +131,7 @@ export class ButtonGroupPlugin extends BasePlugin {
                 })
               ]
             },
+            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
             getSchemaTpl('style:classNames', {
               isFormItem: false,
               schema: [

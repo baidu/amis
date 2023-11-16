@@ -145,7 +145,8 @@ export class IconPlugin extends BasePlugin {
                   label: '边距'
                 })
               ]
-            }
+            },
+            getSchemaTpl('theme:cssCode')
           ])
         },
         {

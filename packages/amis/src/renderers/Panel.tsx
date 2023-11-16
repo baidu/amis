@@ -2,7 +2,9 @@ import React from 'react';
 import {
   RENDERER_TRANSMISSION_OMIT_PROPS,
   Renderer,
-  RendererProps
+  RendererProps,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {
   BaseSchema,
@@ -87,6 +89,13 @@ export interface PanelSchema extends BaseSchema {
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
   subFormHorizontal?: FormHorizontal;
+
+  /**
+   * 外观配置的classname
+   */
+  headerControlClassName: string;
+  bodyControlClassName: string;
+  actionsControlClassName: string;
 }
 
 export interface PanelProps
@@ -186,6 +195,9 @@ export default class Panel extends React.Component<PanelProps> {
       actionsClassName,
       footerClassName,
       footerWrapClassName,
+      headerControlClassName,
+      bodyControlClassName,
+      actionsControlClassName,
       children,
       title,
       footer,
@@ -193,6 +205,9 @@ export default class Panel extends React.Component<PanelProps> {
       classPrefix: ns,
       classnames: cx,
       id,
+      wrapperCustomStyle,
+      themeCss,
+      env,
       ...rest
     } = this.props;
 
@@ -207,7 +222,12 @@ export default class Panel extends React.Component<PanelProps> {
       footerDoms.push(
         <div
           key="actions"
-          className={cx(`Panel-btnToolbar`, actionsClassName || `Panel-footer`)}
+          className={cx(
+            `Panel-btnToolbar`,
+            actionsClassName || `Panel-footer`,
+            actionsControlClassName,
+            setThemeClassName('actionsClassName', id, themeCss)
+          )}
         >
           {actions}
         </div>
@@ -215,7 +235,13 @@ export default class Panel extends React.Component<PanelProps> {
 
     footer &&
       footerDoms.push(
-        <div key="footer" className={cx(footerClassName || `Panel-footer`)}>
+        <div
+          key="footer"
+          className={cx(
+            footerClassName || `Panel-footer`,
+            actionsControlClassName
+          )}
+        >
           {render('footer', footer, subProps)}
         </div>
       );
@@ -225,7 +251,8 @@ export default class Panel extends React.Component<PanelProps> {
         className={cx(
           'Panel-footerWrap',
           footerWrapClassName,
-          affixFooter ? 'Panel-fixedBottom' : ''
+          affixFooter ? 'Panel-fixedBottom' : '',
+          setThemeClassName('footerClassName', id, themeCss)
         )}
       >
         {footerDoms}
@@ -233,24 +260,82 @@ export default class Panel extends React.Component<PanelProps> {
     ) : null;
 
     return (
-      <div className={cx(`Panel`, className || `Panel--default`)} style={style}>
+      <div
+        className={cx(
+          `Panel`,
+          className || `Panel--default`,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+        style={style}
+      >
         {header ? (
-          <div className={cx(headerClassName || `Panel-heading`)}>
+          <div
+            className={cx(
+              headerClassName || `Panel-heading`,
+              headerControlClassName,
+              setThemeClassName('headerClassName', id, themeCss)
+            )}
+          >
             {render('header', header, subProps)}
           </div>
         ) : title ? (
-          <div className={cx(headerClassName || `Panel-heading`)}>
+          <div
+            className={cx(
+              headerClassName || `Panel-heading`,
+              headerControlClassName,
+              setThemeClassName('headerClassName', id, themeCss)
+            )}
+          >
             <h3 className={cx(`Panel-title`)}>
               {render('title', title, subProps)}
             </h3>
           </div>
         ) : null}
 
-        <div className={bodyClassName || `${ns}Panel-body`}>
+        <div
+          className={cx(
+            bodyClassName || `Panel-body`,
+            bodyControlClassName,
+            setThemeClassName('bodyClassName', id, themeCss)
+          )}
+        >
           {this.renderBody()}
         </div>
 
         {footerDom}
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              },
+              {
+                key: 'headerClassName',
+                weights: {
+                  default: {important: true},
+                  hover: {important: true},
+                  active: {important: true},
+                  disabled: {important: true}
+                }
+              },
+              {
+                key: 'bodyClassName'
+              },
+              {
+                key: 'footerClassName'
+              },
+              {
+                key: 'actionsClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

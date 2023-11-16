@@ -106,6 +106,7 @@ import ScaleOrigin from '../icons/scale-origin.svg';
 import If from '../icons/if.svg';
 
 import isObject from 'lodash/isObject';
+import {PlainObject} from 'amis-core';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -262,10 +263,8 @@ export function Icon({
   iconContent,
   vendor,
   cx: iconCx,
-  onClick = () => {},
-  onMouseEnter = () => {},
-  onMouseLeave = () => {},
-  style
+  style,
+  ...rest
 }: {
   icon: string;
   iconContent?: string;
@@ -280,6 +279,12 @@ export function Icon({
     return null;
   }
 
+  const eventProps = Object.fromEntries(
+    Object.entries(rest).filter(
+      ([key, value]) => typeof value === 'function' && key.startsWith('on')
+    )
+  );
+
   // 直接的icon dom
   if (React.isValidElement(icon)) {
     return React.cloneElement(icon, {
@@ -289,9 +294,7 @@ export function Icon({
         (icon.props as any).className
       ),
       style,
-      onClick,
-      onMouseEnter,
-      onMouseLeave
+      ...eventProps
     });
   }
 
@@ -317,12 +320,10 @@ export function Icon({
 
     return (
       <div
-        onClick={onClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
         className={cx(iconContent, className, classNameProp)}
         ref={refFn}
         style={style}
+        {...eventProps}
       ></div>
     );
   }
@@ -332,13 +333,11 @@ export function Icon({
   if (Component) {
     return (
       <Component
-        onClick={onClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
         className={cx(className, `icon-${icon}`, classNameProp)}
         // @ts-ignore
         icon={icon}
         style={style}
+        {...eventProps}
       />
     );
   }
@@ -366,11 +365,9 @@ export function Icon({
     } else {
       return (
         <svg
-          onClick={onClick}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
           className={cx('icon', 'icon-object', className, classNameProp)}
           style={style}
+          {...eventProps}
         >
           <use xlinkHref={'#' + id}></use>
         </svg>
@@ -382,13 +379,11 @@ export function Icon({
   if (typeof icon === 'string' && icon.startsWith('<svg')) {
     const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
     const svgHTML = createElement('svg', {
-      onClick,
-      onMouseEnter,
-      onMouseLeave,
       className: cx('icon', className, classNameProp),
       style,
       dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
-      viewBox: '0 0 16 16'
+      viewBox: '0 0 16 16',
+      ...eventProps
     });
     return svgHTML;
   }
@@ -398,12 +393,10 @@ export function Icon({
   if (isURLIcon) {
     return (
       <img
-        onClick={onClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
         className={cx(`${classPrefix}Icon`, className, classNameProp)}
         src={icon}
         style={style}
+        {...eventProps}
       />
     );
   }
@@ -425,11 +418,9 @@ export function Icon({
   if (isIconfont) {
     return (
       <i
-        onClick={onClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
         className={cx(icon, className, classNameProp, iconPrefix)}
         style={style}
+        {...eventProps}
       />
     );
   }

@@ -109,11 +109,15 @@ function ShadowEditor(props: ShadowEditorProps) {
 
   if (state && state !== 'default') {
     shadowOptions.unshift({
-      value: editorThemePath ? 'inherit' : `var(${data.default.token}shadow)`,
+      value:
+        editorThemePath || !data?.default
+          ? 'inherit'
+          : `var(${data?.default?.token}shadow)`,
       label: '继承常规',
-      realValue: editorThemePath
-        ? ['继承常规']
-        : [`var(${data.default.token}${itemName})`]
+      realValue:
+        editorThemePath || !data?.default
+          ? ['继承常规']
+          : [`var(${data?.default?.token}${itemName})`]
     });
   }
   const editorDefaultValue = getValueByPath(editorThemePath, data);

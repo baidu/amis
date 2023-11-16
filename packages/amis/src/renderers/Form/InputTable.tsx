@@ -26,7 +26,9 @@ import {
   ListenerAction,
   evalExpressionWithConditionBuilder,
   mapTree,
-  isObject
+  isObject,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Button, Icon} from 'amis-ui';
 import omit from 'lodash/omit';
@@ -1604,7 +1606,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       showFooterAddBtn,
       footerAddBtn,
       toolbarClassName,
-      onEvent
+      onEvent,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
     const maxLength = this.resolveVariableProps(this.props, 'maxLength');
 
@@ -1628,7 +1634,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     return (
-      <div className={cx('InputTable', className)}>
+      <div
+        className={cx(
+          'InputTable',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         {render(
           'body',
           {
@@ -1709,6 +1722,19 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               : null}
           </div>
         ) : null}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

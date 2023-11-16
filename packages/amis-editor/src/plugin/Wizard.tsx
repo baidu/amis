@@ -585,48 +585,62 @@ export class WizardPlugin extends BasePlugin {
 
         {
           title: '外观',
-          body: [
+          body: getSchemaTpl('collapseGroup', [
             {
-              name: 'mode',
-              label: '展示模式',
-              type: 'button-group-select',
-              size: 'sm',
-              mode: 'inline',
-              className: 'w-full',
-              value: 'horizontal',
-              options: [
+              title: '配置',
+              body: [
                 {
-                  label: '水平',
-                  value: 'horizontal'
+                  name: 'mode',
+                  label: '展示模式：',
+                  type: 'button-group-select',
+                  size: 'sm',
+                  mode: 'inline',
+                  className: 'w-full',
+                  value: 'horizontal',
+                  options: [
+                    {
+                      label: '水平',
+                      value: 'horizontal'
+                    },
+
+                    {
+                      label: '垂直',
+                      value: 'vertical'
+                    }
+                  ]
                 },
 
-                {
-                  label: '垂直',
-                  value: 'vertical'
-                }
+                getSchemaTpl('actionPrevLabel'),
+
+                getSchemaTpl('actionNextLabel'),
+
+                getSchemaTpl('actionNextSaveLabel'),
+
+                getSchemaTpl('actionFinishLabel'),
+
+                // {
+                //   type: 'alert',
+                //   level: 'info',
+                //   body: `温馨提示：操作按钮每个步骤可以单独配置，请在右侧切换到需要单独配置的步骤后，点击下方的【自定义按钮】定制。`
+                // },
+
+                getSchemaTpl('className'),
+                getSchemaTpl('className', {
+                  name: 'actionClassName',
+                  label: '按钮 CSS 类名'
+                })
               ]
             },
-
-            getSchemaTpl('actionPrevLabel'),
-
-            getSchemaTpl('actionNextLabel'),
-
-            getSchemaTpl('actionNextSaveLabel'),
-
-            getSchemaTpl('actionFinishLabel'),
-
-            // {
-            //   type: 'alert',
-            //   level: 'info',
-            //   body: `温馨提示：操作按钮每个步骤可以单独配置，请在右侧切换到需要单独配置的步骤后，点击下方的【自定义按钮】定制。`
-            // },
-
-            getSchemaTpl('className'),
-            getSchemaTpl('className', {
-              name: 'actionClassName',
-              label: '按钮 CSS 类名'
+            ...getSchemaTpl('theme:common', {
+              exclude: ['layout'],
+              extra: [
+                getSchemaTpl('theme:base', {
+                  classname: 'footerClassName',
+                  title: '按钮区样式'
+                })
+              ]
             })
-          ]
+          ])
         },
 
         {

@@ -921,7 +921,8 @@ function FontEditor(props: FontEditorProps) {
     fontWeightOptions = data.fontWeightOptions || defaultFontWeight,
     lineHeightOptions = data.lineHeightOptions || defaultlineHeight,
     fontFamilyOptions = data.fontFamilyOptions || SYSTEM_FONT_FAMILY,
-    editorThemePath
+    editorThemePath,
+    inheritValue
   } = props;
 
   const alignOptions = hasVertical
@@ -1018,7 +1019,7 @@ function FontEditor(props: FontEditorProps) {
                   itemName="fontSize"
                   menuTpl="label"
                   state={state}
-                  inheritValue={editorThemePath ? 'inherit' : ''}
+                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.fontSize}
                 />
               </div>
@@ -1037,7 +1038,7 @@ function FontEditor(props: FontEditorProps) {
                   itemName="fontWeight"
                   menuTpl="label"
                   state={state}
-                  inheritValue={editorThemePath ? 'inherit' : ''}
+                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.fontWeight}
                 />
                 {(!hideLineHeight || !hideFontFamily) && (
@@ -1057,7 +1058,7 @@ function FontEditor(props: FontEditorProps) {
                   itemName="lineHeight"
                   menuTpl="label"
                   state={state}
-                  inheritValue={editorThemePath ? 'inherit' : ''}
+                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.lineHeight}
                 />
                 <div className="Theme-FontEditor-item-label">行高</div>
@@ -1075,7 +1076,7 @@ function FontEditor(props: FontEditorProps) {
                   itemName="fontFamily"
                   menuTpl="label"
                   state={state}
-                  inheritValue={editorThemePath ? 'inherit' : ''}
+                  inheritValue={inheritValue}
                 />
                 <div className="Theme-FontEditor-item-label">字体</div>
               </div>

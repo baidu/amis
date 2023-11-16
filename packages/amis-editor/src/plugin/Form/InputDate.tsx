@@ -348,7 +348,18 @@ export class DateControlPlugin extends BasePlugin {
                   pipeIn: defaultValue(true)
                 }),
                 getSchemaTpl('valueFormula', {
-                  rendererSchema: (schema: Schema) => schema,
+                  rendererSchema: () => {
+                    const schema = this.manager.store.getSchema(
+                      context.schema?.id,
+                      'id'
+                    );
+                    return {
+                      ...schema,
+                      themeCss: null,
+                      baseControlClassName: '',
+                      wrapperCustomStyle: null
+                    };
+                  },
                   placeholder: '请选择静态值',
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
@@ -361,7 +372,10 @@ export class DateControlPlugin extends BasePlugin {
                   rendererSchema: (schema: Schema) => {
                     return {
                       ...schema,
-                      value: context?.schema.minDate
+                      value: context?.schema.minDate,
+                      themeCss: null,
+                      baseControlClassName: '',
+                      wrapperCustomStyle: null
                     };
                   },
                   placeholder: '请选择静态值',
@@ -375,7 +389,10 @@ export class DateControlPlugin extends BasePlugin {
                   rendererSchema: (schema: Schema) => {
                     return {
                       ...schema,
-                      value: context?.schema.maxDate
+                      value: context?.schema.maxDate,
+                      themeCss: null,
+                      baseControlClassName: '',
+                      wrapperCustomStyle: null
                     };
                   },
                   needDeleteProps: ['maxDate'], // 避免自我限制
@@ -404,25 +421,12 @@ export class DateControlPlugin extends BasePlugin {
           'collapseGroup',
           [
             getSchemaTpl('style:formItem', renderer),
-            getSchemaTpl('style:classNames', [
-              getSchemaTpl('className', {
-                label: '描述',
-                name: 'descriptionClassName',
-                visibleOn: 'this.description'
-              }),
-              getSchemaTpl('className', {
-                name: 'addOn.className',
-                label: 'AddOn',
-                visibleOn: 'this.addOn && this.addOn.type === "text"'
-              })
-            ]),
             getSchemaTpl('style:others', [
               {
                 name: 'embed',
                 type: 'button-group-select',
                 size: 'md',
                 label: '模式',
-                mode: 'row',
                 pipeIn: defaultValue(false),
                 options: [
                   {
@@ -435,6 +439,23 @@ export class DateControlPlugin extends BasePlugin {
                   }
                 ]
               }
+            ]),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            ...getSchemaTpl('theme:common', {
+              exclude: ['layout']
+            }),
+            getSchemaTpl('style:classNames', [
+              getSchemaTpl('className', {
+                label: '描述',
+                name: 'descriptionClassName',
+                visibleOn: 'this.description'
+              }),
+              getSchemaTpl('className', {
+                name: 'addOn.className',
+                label: 'AddOn',
+                visibleOn: 'this.addOn && this.addOn.type === "text"'
+              })
             ])
           ],
           {...context?.schema, configTitle: 'style'}

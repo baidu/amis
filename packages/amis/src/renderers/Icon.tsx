@@ -96,7 +96,8 @@ export class Icon extends React.Component<IconProps, object> {
         />
         <CustomStyle
           config={{
-            themeCss: themeCss,
+            themeCss,
+            wrapperCustomStyle,
             classNames: [
               {
                 key: 'className'

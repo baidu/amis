@@ -3,7 +3,9 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  resolveEventData
+  resolveEventData,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {LazyComponent} from 'amis-core';
 import {Editor} from 'amis-ui';
@@ -288,7 +290,11 @@ export default class EditorControl extends React.Component<EditorProps, any> {
       size,
       data,
       allowFullscreen,
-      placeholder
+      placeholder,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     let language = this.props.language;
@@ -312,7 +318,9 @@ export default class EditorControl extends React.Component<EditorProps, any> {
             'is-focused': this.state.focused,
             [`EditorControl--${size}`]: size
           },
-          className
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
       >
         <LazyComponent
@@ -334,6 +342,20 @@ export default class EditorControl extends React.Component<EditorProps, any> {
             ...options,
             readOnly: disabled
           }}
+        />
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
         />
       </div>
     );

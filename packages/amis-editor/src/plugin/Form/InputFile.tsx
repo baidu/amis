@@ -405,6 +405,21 @@ export class FileControlPlugin extends BasePlugin {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
           getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+          getSchemaTpl('theme:form-label'),
+          getSchemaTpl('theme:form-description'),
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            extra: [
+              getSchemaTpl('theme:base', {
+                classname: 'btnClassName',
+                title: '选择按钮'
+              }),
+              getSchemaTpl('theme:base', {
+                classname: 'btnUploadClassName',
+                title: '上传按钮'
+              })
+            ]
+          }),
           getSchemaTpl('style:classNames', {
             unsupportStatic: true,
             schema: [

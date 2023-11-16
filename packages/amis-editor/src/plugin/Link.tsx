@@ -95,6 +95,15 @@ export class LinkPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            baseExtra: [
+              getSchemaTpl('theme:font', {
+                label: '文字',
+                name: 'themeCss.baseControlClassName.font'
+              })
+            ]
+          }),
           getSchemaTpl('style:classNames', {
             isFormItem: false,
             schema: [

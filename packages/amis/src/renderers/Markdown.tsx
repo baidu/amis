@@ -8,6 +8,7 @@ import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import {LazyComponent} from 'amis-core';
 import {getPropValue} from 'amis-core';
 import {isApiOutdated, isEffectiveApi} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 
 /**
  * Markdown 渲染
@@ -99,14 +100,44 @@ export class Markdown extends React.Component<MarkdownProps, MarkdownState> {
   }
 
   render() {
-    const {className, style, classnames: cx, options} = this.props;
+    const {
+      className,
+      style,
+      classnames: cx,
+      options,
+      themeCss,
+      wrapperCustomStyle,
+      id,
+      env
+    } = this.props;
 
     return (
-      <div className={cx('Markdown', className)} style={style}>
+      <div
+        className={cx(
+          'Markdown',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+        style={style}
+      >
         <LazyComponent
           getComponent={loadComponent}
           content={this.state.content || ''}
           options={options}
+        />
+        <CustomStyle
+          config={{
+            themeCss,
+            wrapperCustomStyle,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ],
+            id
+          }}
+          env={env}
         />
       </div>
     );

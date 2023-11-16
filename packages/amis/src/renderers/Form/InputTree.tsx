@@ -19,7 +19,9 @@ import {
   hasAbility,
   findTree,
   isEffectiveApi,
-  BaseApiObject
+  BaseApiObject,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Spinner, SearchBox} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
@@ -471,7 +473,11 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       searchable,
       searchConfig = {},
       heightAuto,
-      mobileUI
+      mobileUI,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
     let {highlightTxt} = this.props;
     const {filteredOptions, keyword} = this.state;
@@ -540,10 +546,17 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
     return (
       <div
-        className={cx(`${ns}TreeControl`, className, treeContainerClassName, {
-          'is-sticky': searchable && searchConfig?.sticky,
-          'h-auto': heightAuto
-        })}
+        className={cx(
+          `${ns}TreeControl`,
+          className,
+          treeContainerClassName,
+          {
+            'is-sticky': searchable && searchConfig?.sticky,
+            'h-auto': heightAuto
+          },
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
       >
         <Spinner
           size="sm"
@@ -570,6 +583,19 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         ) : (
           TreeCmpt
         )}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

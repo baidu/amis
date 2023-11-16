@@ -14,7 +14,9 @@ import {
   isEffectiveApi,
   isApiOutdated,
   createObject,
-  autobind
+  autobind,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {TransferDropDown, Spinner, Select, SpinnerExtraProps} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
@@ -476,6 +478,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       mobileUI,
       overlay,
       filterOption,
+      themeCss,
       ...rest
     } = this.props;
 
@@ -492,6 +495,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         ) : (
           <Select
             {...rest}
+            className={cx(
+              setThemeClassName('baseControlClassName', id, themeCss)
+            )}
             mobileUI={mobileUI}
             popOverContainer={
               mobileUI
@@ -524,6 +530,18 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             overlay={overlay}
           />
         )}
+        <CustomStyle
+          config={{
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

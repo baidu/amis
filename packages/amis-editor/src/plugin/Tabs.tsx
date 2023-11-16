@@ -286,6 +286,28 @@ export class TabsPlugin extends BasePlugin {
                 })
               ]
             },
+            ...getSchemaTpl('theme:common', {
+              exclude: ['layout'],
+              extra: [
+                getSchemaTpl('theme:base', {
+                  classname: 'linksClassName',
+                  title: '标题区样式'
+                }),
+                getSchemaTpl('theme:base', {
+                  classname: 'toolbarClassName',
+                  title: '工具栏样式'
+                }),
+                getSchemaTpl('theme:base', {
+                  classname: 'contentClassName',
+                  title: '内容区样式'
+                }),
+                getSchemaTpl('theme:base', {
+                  classname: 'showTipClassName',
+                  title: '提示样式',
+                  hiddenOn: '!data.showTip'
+                })
+              ]
+            }),
             getSchemaTpl('style:classNames', {
               isFormItem: false,
               schema: [
@@ -415,6 +437,7 @@ export class TabsPlugin extends BasePlugin {
         {
           title: '外观',
           body: getSchemaTpl('collapseGroup', [
+            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
             getSchemaTpl('style:classNames', {
               isFormItem: false
             })

@@ -6,7 +6,13 @@ import {Renderer, RendererProps} from 'amis-core';
 import {Avatar} from 'amis-ui';
 import {BadgeObject, withBadge} from 'amis-ui';
 import {BaseSchema, SchemaClassName} from '../Schema';
-import {isPureVariable, resolveVariableAndFilter, autobind} from 'amis-core';
+import {
+  isPureVariable,
+  resolveVariableAndFilter,
+  autobind,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
 
 export interface AvatarSchema extends BaseSchema {
   // 指定类型
@@ -129,7 +135,11 @@ export class AvatarField extends React.Component<AvatarProps> {
       draggable,
       crossOrigin,
       onError,
-      data
+      data,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     let errHandler = () => false;
@@ -155,25 +165,44 @@ export class AvatarField extends React.Component<AvatarProps> {
     }
 
     return (
-      <Avatar
-        style={style}
-        className={className}
-        classnames={cx}
-        src={src || defaultAvatar}
-        icon={icon}
-        fit={fit}
-        shape={shape}
-        size={size}
-        text={text}
-        gap={gap}
-        alt={alt}
-        draggable={draggable}
-        crossOrigin={crossOrigin}
-        onError={errHandler}
-        onClick={this.handleClick}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      />
+      <>
+        <Avatar
+          style={style}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+          classnames={cx}
+          src={src}
+          icon={icon}
+          fit={fit}
+          shape={shape}
+          size={size}
+          text={text}
+          gap={gap}
+          alt={alt}
+          draggable={draggable}
+          crossOrigin={crossOrigin}
+          onError={errHandler}
+          onClick={this.handleClick}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

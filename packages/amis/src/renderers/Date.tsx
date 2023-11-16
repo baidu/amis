@@ -164,24 +164,22 @@ export class DateField extends React.Component<DateProps, DateState> {
     );
 
     return (
-      <>
-        <span
-          style={style}
-          title={fromNow && date ? date : undefined}
-          className={cx(
-            'DateField',
-            className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
-          )}
-        >
-          {viewValue}
-        </span>
+      <span
+        className={cx(
+          'DateField',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+        style={style}
+        title={fromNow && date ? date : undefined}
+      >
+        {viewValue}
         <CustomStyle
           config={{
-            wrapperCustomStyle,
             id,
             themeCss,
+            wrapperCustomStyle,
             classNames: [
               {
                 key: 'baseControlClassName'
@@ -190,7 +188,7 @@ export class DateField extends React.Component<DateProps, DateState> {
           }}
           env={env}
         />
-      </>
+      </span>
     );
   }
 }

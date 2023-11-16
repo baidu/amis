@@ -260,6 +260,9 @@ export class ColorControlPlugin extends BasePlugin {
           'collapseGroup',
           [
             getSchemaTpl('style:formItem', {renderer}),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
             getSchemaTpl('style:classNames', {
               schema: [
                 getSchemaTpl('className', {

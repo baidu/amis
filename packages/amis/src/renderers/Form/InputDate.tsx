@@ -5,7 +5,9 @@ import {
   FormBaseControl,
   resolveEventData,
   str2function,
-  normalizeDate
+  normalizeDate,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import cx from 'classnames';
 import {filterDate, isPureVariable, resolveVariableAndFilter} from 'amis-core';
@@ -664,6 +666,8 @@ export default class DateControl extends React.PureComponent<
       render,
       mobileUI,
       placeholder,
+      id,
+      themeCss,
       ...rest
     } = this.props;
 
@@ -708,6 +712,19 @@ export default class DateControl extends React.PureComponent<
           onClick={this.handleClick}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
+          className={setThemeClassName('baseControlClassName', id, themeCss)}
+        />
+        <CustomStyle
+          config={{
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
         />
       </div>
     );

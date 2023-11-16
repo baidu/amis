@@ -12,6 +12,7 @@ import {
 } from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {Icon, SearchBox, VirtualList} from 'amis-ui';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 
 const foregroundColors = {
   '30': 'black',
@@ -421,7 +422,11 @@ export class Log extends React.Component<LogProps, LogState> {
       rowHeight,
       disableColor,
       translate: __,
-      operation
+      operation,
+      themeCss,
+      wrapperCustomStyle,
+      id,
+      env
     } = this.props;
 
     const {refresh, showLineNumber} = this.state;
@@ -467,7 +472,15 @@ export class Log extends React.Component<LogProps, LogState> {
     }
 
     return (
-      <div className={cx('Log', className)} style={style}>
+      <div
+        className={cx(
+          'Log',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+        style={style}
+      >
         <div className={cx('Log-operation')}>
           {operation && operation?.length > 0 && (
             <>
@@ -537,6 +550,19 @@ export class Log extends React.Component<LogProps, LogState> {
         >
           {useVirtualRender ? lines : lines.length ? lines : loading}
         </div>
+        <CustomStyle
+          config={{
+            themeCss,
+            wrapperCustomStyle,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ],
+            id
+          }}
+          env={env}
+        />
       </div>
     );
   }

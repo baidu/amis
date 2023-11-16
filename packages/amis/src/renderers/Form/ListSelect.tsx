@@ -3,7 +3,9 @@ import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl
+  FormOptionsControl,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {ActionObject, Schema} from 'amis-core';
 import {createObject, isEmpty} from 'amis-core';
@@ -180,6 +182,10 @@ export default class ListControl extends React.Component<ListProps, any> {
       data,
       labelField,
       listClassName,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env,
       translate: __
     } = this.props;
 
@@ -241,7 +247,14 @@ export default class ListControl extends React.Component<ListProps, any> {
     }
 
     return (
-      <div className={cx('ListControl', className)}>
+      <div
+        className={cx(
+          'ListControl',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         {body ? (
           body
         ) : (
@@ -249,6 +262,19 @@ export default class ListControl extends React.Component<ListProps, any> {
             {__(placeholder)}
           </span>
         )}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

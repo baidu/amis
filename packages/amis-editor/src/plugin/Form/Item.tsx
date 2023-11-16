@@ -122,64 +122,13 @@ export class ItemPlugin extends BasePlugin {
 
         {
           title: '外观',
-          body: [
-            getSchemaTpl('formItemMode'),
-            getSchemaTpl('horizontalMode'),
-            getSchemaTpl('horizontal', {
-              label: '',
-              visibleOn:
-                'data.mode == "horizontal" && data.label !== false && data.horizontal'
-            }),
-
-            renderer.sizeMutable !== false
-              ? getSchemaTpl('formItemSize', {
-                  options: [
-                    {
-                      label: '小',
-                      value: 'sm'
-                    },
-
-                    {
-                      label: '中',
-                      value: 'md'
-                    },
-
-                    {
-                      label: '大',
-                      value: 'lg'
-                    },
-                    {
-                      label: '默认（占满）',
-                      value: 'full'
-                    }
-                  ]
-                })
-              : null,
-            getSchemaTpl('formItemInline'),
-
-            getSchemaTpl('className'),
-            getSchemaTpl('className', {
-              label: 'Label CSS 类名',
-              name: 'labelClassName'
-            }),
-            getSchemaTpl('className', {
-              label: '控件 CSS 类名',
-              name: 'inputClassName'
-            }),
-            getSchemaTpl('className', {
-              label: '描述 CSS 类名',
-              name: 'descriptionClassName',
-              visibleOn: 'this.description'
-            }),
-            ...(!supportStatic
-              ? []
-              : [
-                  getSchemaTpl('className', {
-                    label: '静态 CSS 类名',
-                    name: 'staticClassName'
-                  })
-                ])
-          ]
+          body: getSchemaTpl('collapseGroup', [
+            getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+            getSchemaTpl('style:classNames')
+          ])
         },
 
         {

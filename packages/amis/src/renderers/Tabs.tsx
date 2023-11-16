@@ -9,7 +9,9 @@ import {
   isObject,
   createObject,
   getVariable,
-  isObjectShallowModified
+  isObjectShallowModified,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import findIndex from 'lodash/findIndex';
 import {Tabs as CTabs, Tab} from 'amis-ui';
@@ -226,6 +228,9 @@ export interface TabsProps
 
 interface TabSource extends TabSchema {
   data?: any;
+  id?: string;
+  themeCss?: any;
+  wrapperCustomStyle?: any;
 }
 
 export interface TabsState {
@@ -721,10 +726,23 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 
   renderToolbar() {
-    const {toolbar, render, classnames: cx, toolbarClassName} = this.props;
+    const {
+      toolbar,
+      render,
+      classnames: cx,
+      toolbarClassName,
+      id,
+      themeCss
+    } = this.props;
 
     return toolbar ? (
-      <div className={cx(`Tabs-toolbar`, toolbarClassName)}>
+      <div
+        className={cx(
+          `Tabs-toolbar`,
+          toolbarClassName,
+          setThemeClassName('toolbarClassName', id, themeCss)
+        )}
+      >
         {render('toolbar', toolbar)}
       </div>
     ) : null;
@@ -763,7 +781,11 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       collapseBtnLabel,
       disabled,
       mobileUI,
-      swipeable
+      swipeable,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -809,6 +831,15 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 : unmountOnExit
             }
             onSelect={this.handleSelect}
+            className={cx(
+              tab.className,
+              setThemeClassName('baseControlClassName', tab.id, tab.themeCss),
+              setThemeClassName(
+                'wrapperCustomStyle',
+                tab.id,
+                tab.wrapperCustomStyle
+              )
+            )}
           >
             {render(
               `item/${index}`,
@@ -821,6 +852,19 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                   tab.horizontal || subFormHorizontal || formHorizontal
               }
             )}
+            <CustomStyle
+              config={{
+                wrapperCustomStyle: tab.wrapperCustomStyle,
+                id: tab.id,
+                themeCss: tab.themeCss,
+                classNames: [
+                  {
+                    key: 'baseControlClassName'
+                  }
+                ]
+              }}
+              env={env}
+            />
           </Tab>
         ) : null;
       });
@@ -850,6 +894,15 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 : unmountOnExit
             }
             onSelect={this.handleSelect}
+            className={cx(
+              tab.className,
+              setThemeClassName('baseControlClassName', tab.id, tab.themeCss),
+              setThemeClassName(
+                'wrapperCustomStyle',
+                tab.id,
+                tab.wrapperCustomStyle
+              )
+            )}
           >
             {this.renderTab
               ? this.renderTab(tab, this.props, index)
@@ -865,41 +918,94 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                       tab.horizontal || subFormHorizontal || formHorizontal
                   }
                 )}
+            <CustomStyle
+              config={{
+                wrapperCustomStyle: tab.wrapperCustomStyle,
+                id: tab.id,
+                themeCss: tab.themeCss,
+                classNames: [
+                  {
+                    key: 'baseControlClassName'
+                  }
+                ]
+              }}
+              env={env}
+            />
           </Tab>
         ) : null
       );
     }
 
     return (
-      <CTabs
-        addBtnText={__(addBtnText || 'add')}
-        classPrefix={ns}
-        classnames={cx}
-        mode={mode}
-        closable={closable}
-        className={className}
-        style={style}
-        contentClassName={contentClassName}
-        linksClassName={linksClassName}
-        onSelect={this.handleSelect}
-        activeKey={this.state.activeKey}
-        toolbar={this.renderToolbar()}
-        addable={addable}
-        onAdd={this.handleAdd}
-        onClose={this.handleClose}
-        draggable={draggable}
-        onDragChange={this.handleDragChange}
-        showTip={showTip}
-        showTipClassName={showTipClassName}
-        editable={editable}
-        onEdit={this.handleEdit}
-        sidePosition={sidePosition}
-        collapseOnExceed={collapseOnExceed}
-        collapseBtnLabel={collapseBtnLabel}
-        mobileUI={mobileUI}
-      >
-        {children}
-      </CTabs>
+      <>
+        <CTabs
+          addBtnText={__(addBtnText || 'add')}
+          classPrefix={ns}
+          classnames={cx}
+          mode={mode}
+          closable={closable}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+          style={style}
+          contentClassName={cx(
+            contentClassName,
+            setThemeClassName('contentClassName', id, themeCss)
+          )}
+          linksClassName={cx(
+            linksClassName,
+            setThemeClassName('linksClassName', id, themeCss)
+          )}
+          onSelect={this.handleSelect}
+          activeKey={this.state.activeKey}
+          toolbar={this.renderToolbar()}
+          addable={addable}
+          onAdd={this.handleAdd}
+          onClose={this.handleClose}
+          draggable={draggable}
+          onDragChange={this.handleDragChange}
+          showTip={showTip}
+          showTipClassName={cx(
+            showTipClassName,
+            setThemeClassName('showTipClassName', id, themeCss)
+          )}
+          editable={editable}
+          onEdit={this.handleEdit}
+          sidePosition={sidePosition}
+          collapseOnExceed={collapseOnExceed}
+          collapseBtnLabel={collapseBtnLabel}
+          mobileUI={mobileUI}
+        >
+          {children}
+        </CTabs>
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              },
+              {
+                key: 'linksClassName'
+              },
+              {
+                key: 'toolbarClassName'
+              },
+              {
+                key: 'contentClassName'
+              },
+              {
+                key: 'showTipClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 

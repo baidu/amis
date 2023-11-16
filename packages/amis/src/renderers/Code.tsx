@@ -8,6 +8,7 @@ import {Renderer, RendererProps, anyChanged} from 'amis-core';
 import {getPropValue} from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
 import type {editor as EditorNamespace} from 'monaco-editor';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 
 export type MonacoEditor = typeof EditorNamespace;
 
@@ -331,7 +332,11 @@ export default class Code extends React.Component<CodeProps> {
       editorTheme,
       customLang,
       wordWrap,
-      wrapperComponent
+      wrapperComponent,
+      themeCss,
+      wrapperCustomStyle,
+      id,
+      env
     } = this.props;
     const language = this.resolveLanguage();
     const isMultiLine =
@@ -359,12 +364,27 @@ export default class Code extends React.Component<CodeProps> {
             'Code-pre-wrap': Component === 'pre',
             'word-break': wordWrap
           },
-          className
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={style}
         data-lang={language}
       >
         {sourceCode}
+        <CustomStyle
+          config={{
+            themeCss,
+            wrapperCustomStyle,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ],
+            id
+          }}
+          env={env}
+        />
       </Component>
     );
   }

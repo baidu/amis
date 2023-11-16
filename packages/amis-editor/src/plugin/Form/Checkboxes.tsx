@@ -231,6 +231,9 @@ export class CheckboxesControlPlugin extends BasePlugin {
         body: [
           getSchemaTpl('collapseGroup', [
             getSchemaTpl('style:formItem', {renderer}),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
             getSchemaTpl('style:classNames')
           ])
         ]

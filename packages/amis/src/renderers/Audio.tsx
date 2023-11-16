@@ -5,6 +5,7 @@ import {autobind, detectPropValueChanged, getPropValue} from 'amis-core';
 import {Icon} from 'amis-ui';
 import {resolveVariable} from 'amis-core';
 import {filter} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 import {BaseSchema, SchemaUrlPath} from '../Schema';
 
 /**
@@ -460,13 +461,23 @@ export class Audio extends React.Component<AudioProps, AudioState> {
       autoPlay,
       loop,
       controls,
-      classnames: cx
+      classnames: cx,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
     const {muted, src} = this.state;
 
     return (
       <div
-        className={cx('Audio', className, inline ? 'Audio--inline' : '')}
+        className={cx(
+          'Audio',
+          className,
+          inline ? 'Audio--inline' : '',
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
         style={style}
       >
         <audio
@@ -496,6 +507,19 @@ export class Audio extends React.Component<AudioProps, AudioState> {
               );
             })}
         </div>
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

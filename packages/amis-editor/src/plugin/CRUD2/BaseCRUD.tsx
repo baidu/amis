@@ -953,6 +953,23 @@ export class BaseCRUDPlugin extends BasePlugin {
       title: '外观',
       className: 'p-none',
       body: getSchemaTpl('collapseGroup', [
+        ...getSchemaTpl('theme:common', {
+          exclude: ['layout'],
+          extra: [
+            getSchemaTpl('theme:base', {
+              classname: 'bodyControlClassName',
+              title: '表格区样式'
+            }),
+            getSchemaTpl('theme:base', {
+              classname: 'headerToolbarControlClassName',
+              title: '顶部工具栏样式'
+            }),
+            getSchemaTpl('theme:base', {
+              classname: 'footerToolbarControlClassName',
+              title: '底部工具栏样式'
+            })
+          ]
+        }),
         getSchemaTpl('style:classNames', {
           isFormItem: false,
           schema: [

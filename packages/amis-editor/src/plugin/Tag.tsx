@@ -272,6 +272,7 @@ export class TagPlugin extends BasePlugin {
               }
             ]
           },
+          ...getSchemaTpl('theme:common', {exclude: ['layout']}),
           getSchemaTpl('style:classNames', {
             isFormItem: false
           })
