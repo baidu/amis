@@ -27,8 +27,7 @@ function EachItem(props: EachExtraProps) {
   const ctx = React.useMemo(
     () =>
       createObject(data, {
-        ...(isObject(item) ? item : {}),
-        [name]: item,
+        ...(isObject(item) ? {index, ...item} : {[name]: item}),
         [itemKeyName || 'item']: item,
         [indexKeyName || 'index']: index
       }),
