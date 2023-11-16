@@ -391,6 +391,6 @@ export default class RichTextControl extends React.Component<
 @FormItem({
   type: 'input-rich-text',
   sizeMutable: false,
-  detectProps: ['options']
+  detectProps: ['options', 'buttons']
 })
 export class RichTextControlRenderer extends RichTextControl {}

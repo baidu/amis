@@ -41,7 +41,7 @@ import 'tinymce/plugins/help/js/i18n/keynav/zh_CN';
 import 'tinymce/plugins/help/js/i18n/keynav/en';
 import 'tinymce/plugins/help/js/i18n/keynav/de';
 
-import {LocaleProps, autobind, anyChanged} from 'amis-core';
+import {LocaleProps, autobind} from 'amis-core';
 
 interface TinymceEditorProps extends LocaleProps {
   model: string;

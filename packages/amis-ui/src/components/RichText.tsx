@@ -44,7 +44,6 @@ import 'froala-editor/js/languages/zh_cn.js';
 // Require Editor CSS files.
 // import 'froala-editor/css/froala_style.min.css';
 // import 'froala-editor/css/froala_editor.pkgd.min.css';
-import {anyChanged} from 'amis-core';
 
 export interface FroalaEditorComponentProps {
   config: any;
