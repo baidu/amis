@@ -676,6 +676,13 @@
             background: var(--primary);
           }
         }
+
+        &:last-child {
+          .#{$ns}Table-thead-resizable {
+            width: 4px;
+            right: 0;
+          }
+        }
       }
     }
   }

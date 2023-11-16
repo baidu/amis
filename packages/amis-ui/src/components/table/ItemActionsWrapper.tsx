@@ -8,7 +8,7 @@ export interface ItemActionsProps {
   dom: HTMLTableRowElement;
 }
 
-export default class ItemActionsWrapper extends React.Component<
+export default class ItemActionsWrapper extends React.PureComponent<
   ItemActionsProps,
   {}
 > {

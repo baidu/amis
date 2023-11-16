@@ -594,6 +594,7 @@ export class ImageField extends React.Component<
       defaultImage && !value
         ? filter(defaultImage, data, '| raw')
         : imagePlaceholder;
+
     return (
       <div
         className={cx(
@@ -623,7 +624,7 @@ export class ImageField extends React.Component<
             thumbMode={thumbMode}
             thumbRatio={thumbRatio}
             originalSrc={filter(originalSrc, data, '| raw') ?? value}
-            enlargeAble={enlargeAble && value !== defaultValue}
+            enlargeAble={enlargeAble && value && value !== defaultValue}
             onEnlarge={this.handleEnlarge}
             imageMode={imageMode}
             imageControlClassName={setThemeClassName(

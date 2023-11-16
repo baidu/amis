@@ -512,7 +512,6 @@ export class TreeControlPlugin extends BasePlugin {
               getSchemaTpl('valueFormula', {
                 name: 'highlightTxt',
                 label: '高亮节点字符',
-                type: 'input-text',
                 visibleOn: 'data.type === "input-tree"'
               }),
               {

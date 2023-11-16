@@ -10,6 +10,7 @@ import {
   getVariable,
   removeHTMLTag,
   decodeEntity,
+  flattenTree,
   createObject
 } from 'amis-core';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
@@ -325,6 +326,8 @@ export async function exportExcel(
   }
   // 前置总结行
   rowIndex = renderSummary(worksheet, data, prefixRow, rowIndex);
+  // children 展开
+  rows = flattenTree(rows, item => item);
   for (const row of rows) {
     const rowData = createObject(data, row.data);
     rowIndex += 1;

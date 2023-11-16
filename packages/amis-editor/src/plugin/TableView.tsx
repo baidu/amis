@@ -188,6 +188,9 @@ export class TableViewPlugin extends BasePlugin {
   ];
 
   panelTitle = '表格视图';
+
+  panelJustify = true;
+
   panelBody = [
     getSchemaTpl('tabs', [
       {
@@ -240,7 +243,8 @@ export class TableViewPlugin extends BasePlugin {
                   pipeIn: defaultValue('#eceff8')
                 }
               ]
-            }
+            },
+            getSchemaTpl('status')
           ])
         ]
       },
@@ -248,10 +252,6 @@ export class TableViewPlugin extends BasePlugin {
         title: '外观',
         className: 'p-none',
         body: getSchemaTpl('collapseGroup', [...getSchemaTpl('theme:common')])
-      },
-      {
-        title: '状态',
-        body: [getSchemaTpl('visible')]
       }
     ])
   ];

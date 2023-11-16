@@ -14,7 +14,9 @@ import {
 import {PickerOption} from '../PickerColumn';
 import 'moment/locale/zh-cn';
 import 'moment/locale/de';
+
 import type {RendererEnv} from 'amis-core';
+import type {unitOfTime} from 'moment';
 
 /** 视图模式 */
 export type ViewMode = 'days' | 'months' | 'years' | 'time' | 'quarters';
@@ -26,6 +28,16 @@ export type DateType =
   | 'hours'
   | 'minutes'
   | 'seconds';
+
+/** 底层View组件修改的值类型：time时间、days日期 */
+export type ChangeEventViewMode = Extract<ViewMode, 'time' | 'days'>;
+
+/** 可改变的时间单位 */
+export type MutableUnitOfTime = Extract<
+  unitOfTime.All,
+  'date' | 'hour' | 'minute' | 'second' | 'millisecond'
+>;
+
 export interface BoundaryObject {
   max: number;
   min: number;
@@ -69,7 +81,7 @@ interface BaseDatePickerProps {
   onMouseEnter?: (date: moment.Moment) => any;
   onMouseLeave?: (date: moment.Moment) => any;
   onClose?: () => void;
-  onChange?: (value: any, viewMode?: Extract<ViewMode, 'time'>) => void;
+  onChange?: (value: any, viewMode?: ChangeEventViewMode) => void;
   isEndDate?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
@@ -595,7 +607,7 @@ class BaseDatePicker extends React.Component<
       }
     }
 
-    that.props.onChange(date);
+    that.props.onChange(date, 'days');
   };
 
   getDateBoundary = (currentDate: moment.Moment) => {

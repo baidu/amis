@@ -36,7 +36,7 @@ import type {
 } from 'amis-editor-core';
 import {normalizeApi} from 'amis-core';
 import isPlainObject from 'lodash/isPlainObject';
-import omit from 'lodash/omit';
+import findLastIndex from 'lodash/findLastIndex';
 
 interface ColumnItem {
   label: string;
@@ -371,6 +371,9 @@ export class CRUDPlugin extends BasePlugin {
       type: 'button',
       actionType: 'dialog',
       level: 'primary',
+      editorSetting: {
+        behavior: 'create'
+      },
       dialog: {
         title: '新增',
         body: {
@@ -385,6 +388,9 @@ export class CRUDPlugin extends BasePlugin {
       type: 'button',
       actionType: 'dialog',
       level: 'link',
+      editorSetting: {
+        behavior: 'update'
+      },
       dialog: {
         title: '编辑',
         body: {
@@ -399,6 +405,9 @@ export class CRUDPlugin extends BasePlugin {
       type: 'button',
       actionType: 'dialog',
       level: 'link',
+      editorSetting: {
+        behavior: 'view'
+      },
       dialog: {
         title: '查看详情',
         body: {
@@ -415,7 +424,10 @@ export class CRUDPlugin extends BasePlugin {
       level: 'link',
       className: 'text-danger',
       confirmText: '确定要删除？',
-      api: 'delete:/xxx/delete'
+      api: 'delete:/xxx/delete',
+      editorSetting: {
+        behavior: 'delete'
+      }
     },
     bulkDelete: {
       type: 'button',
@@ -423,12 +435,18 @@ export class CRUDPlugin extends BasePlugin {
       label: '批量删除',
       actionType: 'ajax',
       confirmText: '确定要删除？',
-      api: '/xxx/batch-delete'
+      api: '/xxx/batch-delete',
+      editorSetting: {
+        behavior: 'bulkDelete'
+      }
     },
     bulkUpdate: {
       type: 'button',
       label: '批量编辑',
       actionType: 'dialog',
+      editorSetting: {
+        behavior: 'bulkUpdate'
+      },
       dialog: {
         title: '批量编辑',
         size: 'md',
@@ -543,7 +561,7 @@ export class CRUDPlugin extends BasePlugin {
           }
         },
         {
-          name: 'features',
+          name: '__features',
           label: '启用功能',
           type: 'checkboxes',
           joinValues: false,
@@ -575,10 +593,10 @@ export class CRUDPlugin extends BasePlugin {
               type: 'input-number',
               label: '每列显示几个字段',
               value: 3,
-              name: 'filterColumnCount'
+              name: '__filterColumnCount'
             }
           ],
-          visibleOn: "${features && features.includes('filter')}"
+          visibleOn: "${__features && CONTAINS(__features, 'filter')}"
         },
         {
           name: 'columns',
@@ -641,33 +659,99 @@ export class CRUDPlugin extends BasePlugin {
           ]
         }
       ],
+      pipeIn: (value: any) => {
+        const __features = [];
+        // 收集 filter
+        if (value.filter) {
+          __features.push('filter');
+        }
+        // 收集 列操作
+        const lastIndex = findLastIndex(
+          value.columns || [],
+          (item: any) => item.type === 'operation'
+        );
+        if (lastIndex !== -1) {
+          const operBtns: Array<string> = ['update', 'view', 'delete'];
+          (value.columns[lastIndex].buttons || []).forEach((btn: any) => {
+            if (operBtns.includes(btn.editorSetting?.behavior || '')) {
+              __features.push(btn.editorSetting?.behavior);
+            }
+          });
+        }
+        // 收集批量操作
+        if (Array.isArray(value.bulkActions)) {
+          value.bulkActions.forEach((item: any) => {
+            if (item.editorSetting?.behavior) {
+              __features.push(item.editorSetting?.behavior);
+            }
+          });
+        }
+        // 收集新增
+        if (
+          Array.isArray(value.headerToolbar) &&
+          value.headerToolbar.some(
+            (item: any) => item.editorSetting?.behavior === 'create'
+          )
+        ) {
+          __features.push('create');
+        }
+        return {
+          ...value,
+          __filterColumnCount: value?.filter?.columnCount || 3,
+          __features: __features,
+          __LastFeatures: [...__features]
+        };
+      },
       pipeOut: (value: any) => {
         let valueSchema = cloneDeep(value);
-        // 查看/删除 操作，可选择是否使用接口返回值预填充
-        const features: Array<any> = valueSchema.features;
-        const oper: {
-          type: 'operation';
-          label?: string;
-          buttons: Array<ActionSchema>;
-        } = {
-          type: 'operation',
-          label: '操作',
-          buttons: []
-        };
-        const itemBtns: Array<string> = ['update', 'view', 'delete'];
-        const hasFeatures = get(features, 'length');
-
-        valueSchema.bulkActions = [];
         /** 统一api格式 */
         valueSchema.api =
           typeof valueSchema.api === 'string'
             ? normalizeApi(valueSchema.api)
             : valueSchema.api;
-        hasFeatures &&
-          features.forEach((item: string) => {
-            if (itemBtns.includes(item)) {
-              let schema;
 
+        const features: string[] = valueSchema.__features;
+        const lastFeatures: string[] = valueSchema.__LastFeatures;
+        const willAddedList = features.filter(
+          item => !lastFeatures.includes(item)
+        );
+        const willRemoveList = lastFeatures.filter(
+          item => !features.includes(item)
+        );
+
+        const operButtons: any[] = [];
+        const operBtns: string[] = ['update', 'view', 'delete'];
+
+        if (!valueSchema.bulkActions) {
+          valueSchema.bulkActions = [];
+        } else {
+          // 删除 未勾选的批量操作
+          valueSchema.bulkActions = valueSchema.bulkActions.filter(
+            (item: any) =>
+              !willRemoveList.includes(item.editorSetting?.behavior)
+          );
+        }
+
+        // 删除 未勾选的 filter
+        if (willRemoveList.includes('filter') && valueSchema.filter) {
+          delete valueSchema.filter;
+        }
+
+        // 删除 未勾选的 新增
+        if (
+          willRemoveList.includes('create') &&
+          Array.isArray(valueSchema.headerToolbar)
+        ) {
+          valueSchema.headerToolbar = valueSchema.headerToolbar.filter(
+            (item: any) => item.editorSetting?.behavior !== 'create'
+          );
+        }
+
+        willAddedList.length &&
+          willAddedList.forEach((item: string) => {
+            if (operBtns.includes(item)) {
+              // 列操作按钮
+              let schema;
               if (item === 'update') {
                 schema = cloneDeep(this.btnSchemas.update);
                 schema.dialog.body.body = value.columns
@@ -692,9 +776,7 @@ export class CRUDPlugin extends BasePlugin {
                   ? valueSchema.api
                   : {...valueSchema.api, method: 'post'};
               }
-
-              // 添加操作按钮
-              this.addItem(oper.buttons, schema);
+              schema && operButtons.push(schema);
             } else {
               // 批量操作
               if (item === 'bulkUpdate') {
@@ -730,13 +812,14 @@ export class CRUDPlugin extends BasePlugin {
                 };
                 valueSchema.headerToolbar = [createSchemaBase, 'bulkActions'];
               }
+              // 查询
               let keysFilter = Object.keys(valueSchema.filter || {});
               if (item === 'filter' && !keysFilter.length) {
                 if (valueSchema.filterEnabledList) {
                   valueSchema.filter = {
                     title: '查询条件'
                   };
-                  valueSchema.filter.columnCount = value.filterColumnCount;
+                  valueSchema.filter.columnCount = value.__filterColumnCount;
                   valueSchema.filter.mode = 'horizontal';
                   valueSchema.filter.body = valueSchema.filterEnabledList.map(
                     (item: any) => {
@@ -751,10 +834,30 @@ export class CRUDPlugin extends BasePlugin {
               }
             }
           });
-        const hasOperate = valueSchema.columns.find(
+
+        // 处理列操作按钮
+        const lastIndex = findLastIndex(
+          value.columns || [],
           (item: any) => item.type === 'operation'
         );
-        hasFeatures && !hasOperate && valueSchema.columns.push(oper);
+        if (lastIndex === -1) {
+          if (operButtons.length) {
+            valueSchema.columns.push({
+              type: 'operation',
+              label: '操作',
+              buttons: operButtons
+            });
+          }
+        } else {
+          const operColumn = valueSchema.columns[lastIndex];
+          operColumn.buttons = (operColumn.buttons || [])
+            .filter(
+              (btn: any) =>
+                !willRemoveList.includes(btn.editorSetting?.behavior)
+            )
+            .concat(operButtons);
+        }
+
         return valueSchema;
       },
       canRebuild: true

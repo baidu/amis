@@ -9,6 +9,46 @@ export default {
       },
       items: [
         {
+          link: 'https://www.microsoft1.com/',
+          icon: __uri('../../static/ie.png'),
+          browser: 'Internet Explorer 4.2 2',
+          platform: 'Win 95+',
+          notExport: '1',
+          grade: 'A',
+          engine: {
+            name: 'Trident1',
+            version: '4/2'
+          },
+          date: '1591326307',
+          num: '12312334234234523',
+          children: [
+            {
+              link: 'https://www.microsoft2.com/',
+              engine: {
+                name: 'Trident2',
+                version: '4/2'
+              },
+              browser: 'Internet Explorer 4.0',
+              platform: 'Win 95+',
+              version: '4',
+              grade: 'X',
+              id: 1001
+            },
+            {
+              link: 'https://www.microsoft3.com/',
+              engine: {
+                name: 'Trident3',
+                version: '3/2'
+              },
+              browser: 'Internet Explorer 5.0',
+              platform: 'Win 95+',
+              version: '5',
+              grade: 'C',
+              id: 1002
+            }
+          ]
+        },
+        {
           link: 'https://www.microsoft.com/',
           icon: __uri('../../static/ie.png'),
           browser: 'Internet Explorer 4.2',

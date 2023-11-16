@@ -72,9 +72,6 @@ export class LinkPlugin extends BasePlugin {
               })
             ]
           },
-          getSchemaTpl('status', {
-            disabled: true
-          }),
           getSchemaTpl('collapseGroup', [
             {
               title: '高级设置',
@@ -89,7 +86,10 @@ export class LinkPlugin extends BasePlugin {
                 }
               ]
             }
-          ])
+          ]),
+          getSchemaTpl('status', {
+            disabled: true
+          })
         ])
       },
       {

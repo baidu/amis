@@ -17,6 +17,7 @@ import cx from 'classnames';
 import {current, addModal, removeModal} from './ModalManager';
 import {ClassNamesFn, themeable} from 'amis-core';
 import {noop, autobind, getScrollbarWidth} from 'amis-core';
+import {getContainerWithFullscreen} from './Modal';
 
 type DrawerPosition = 'top' | 'right' | 'bottom' | 'left';
 
@@ -318,7 +319,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
     const bodyStyle = this.getDrawerStyle();
 
     return (
-      <Portal container={container}>
+      <Portal container={getContainerWithFullscreen(container)}>
         <Transition
           mountOnEnter
           unmountOnExit
