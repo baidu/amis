@@ -261,6 +261,11 @@ export class DialogPlugin extends BasePlugin {
                 name: 'showLoading',
                 value: true
               }),
+              getSchemaTpl('switch', {
+                label: '是否可拖拽',
+                name: 'draggable',
+                value: false
+              }),
               getSchemaTpl('dataMap')
             ]
           }
