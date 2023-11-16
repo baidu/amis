@@ -270,7 +270,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       leading: false
     }
   );
-  timer: ReturnType<typeof setTimeout>;
 
   componentDidMount() {
     this.props?.onRef?.(this);
@@ -322,6 +321,15 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       this.setState({
         dataSource: [...this.props.dataSource]
       });
+    }
+
+    if (
+      prevProps.autoFillHeight !== this.props.autoFillHeight ||
+      ((!isEqual(prevState.dataSource, this.state.dataSource) ||
+        prevProps.loading !== this.props.loading) &&
+        this.props.autoFillHeight)
+    ) {
+      this.updateAutoFillHeight();
     }
 
     // 选择项发生了变化触发
@@ -417,8 +425,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
     this.updateTableInfoLazy.cancel();
     this.updateAutoFillHeightLazy.cancel();
-
-    clearTimeout(this.timer);
   }
 
   /**
@@ -427,26 +433,16 @@ export class Table extends React.PureComponent<TableProps, TableState> {
    */
   @autobind
   updateAutoFillHeight() {
-    const {autoFillHeight} = this.props;
-    if (!autoFillHeight) {
-      return;
-    }
     const tableContent = this.containerDom.current as HTMLElement;
 
     if (!tableContent) {
       return;
     }
 
-    // 可能数据还没到，没有渲染 footer
-    // 也可能是弹窗中，弹窗还在动画中，等一下再执行
-    if (
-      !tableContent.offsetHeight ||
-      tableContent.getBoundingClientRect().height / tableContent.offsetHeight <
-        0.8
-    ) {
-      this.timer = setTimeout(() => {
-        this.updateAutoFillHeight();
-      }, 100);
+    tableContent.removeAttribute('style');
+
+    const {autoFillHeight} = this.props;
+    if (!autoFillHeight) {
       return;
     }
 
@@ -506,6 +502,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
     if (tableContentHeight > 0) {
       tableContent.style[heightField] = `${tableContentHeight}px`;
+      tableContent.style['overflow'] = 'auto';
     }
   }
 
