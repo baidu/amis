@@ -47,11 +47,11 @@ fieldset.#{$ns}Collapse {
       var(--fieldSet-legend-paddingRight) var(--fieldSet-legend-paddingBottom)
       var(--fieldSet-legend-paddingLeft);
     cursor: pointer;
-    border-bottom: none !important;
     background: transparent;
     display: inline-flex !important;
     flex-direction: row-reverse;
     justify-content: flex-end;
+    box-sizing: content-box;
     // width: 100%;
 
     .#{$ns}TplField {
