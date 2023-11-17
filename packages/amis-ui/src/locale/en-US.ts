@@ -150,6 +150,7 @@ register('en-US', {
   'Form.unique': 'Current value is not unique',
   'Form.validateFailed': 'Form input validation failed',
   'Form.nestedError': 'Form cannot appear as a descendant of form',
+  'Form.rules.message': 'The joint verification of form items failed',
   'File.imageAfterCrop': 'Cropped image',
   'Iframe.invalid': 'Invalid iframe url',
   'Iframe.invalidProtocol': 'Can not use http url iframe in https',

@@ -1175,6 +1175,16 @@ export class FormPlugin extends BasePlugin {
     ];
   };
 
+  filterProps(props: Record<string, any>, node: EditorNodeType) {
+    ['rules'].forEach(name => {
+      if (props.hasOwnProperty(name)) {
+        props[name] = JSONPipeOut(props[name], false);
+      }
+    });
+
+    return props;
+  }
+
   /** 重新构建 API */
   panelFormPipeOut = async (schema: any) => {
     const entity = schema?.api?.entity;
