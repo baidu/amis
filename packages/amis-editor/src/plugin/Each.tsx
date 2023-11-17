@@ -47,18 +47,25 @@ export class EachPlugin extends BasePlugin {
                     fontSize: '20px'
                   }
                 }
-              }
+              },
+              id: 'u:7fb7aa9c1c43'
             },
             {
               type: 'tpl',
-              style: {
-                fontWeight: 'var(--fonts-weight-3)',
-                fontSize: '16px',
-                color: 'var(--colors-brand-6)'
-              },
+              style: {},
               tpl: '回访数量TOP1',
               inline: true,
-              wrapperComponent: ''
+              wrapperComponent: '',
+              themeCss: {
+                baseControlClassName: {
+                  'font:default': {
+                    fontWeight: 'var(--fonts-weight-3)',
+                    fontSize: '16px',
+                    color: 'var(--colors-brand-6)'
+                  }
+                }
+              },
+              id: 'u:5b5f4735dcb0'
             }
           ],
           style: {
@@ -66,12 +73,19 @@ export class EachPlugin extends BasePlugin {
             display: 'flex',
             flexWrap: 'nowrap',
             justifyContent: 'flex-start',
-            alignItems: 'center',
-            marginBottom: '6px'
+            alignItems: 'center'
           },
           wrapperBody: false,
           isFixedHeight: false,
-          isFixedWidth: false
+          isFixedWidth: false,
+          themeCss: {
+            baseControlClassName: {
+              'padding-and-margin:default': {
+                marginBottom: '6px'
+              }
+            }
+          },
+          id: 'u:ee96c8898ee8'
         },
         {
           type: 'container',
@@ -81,19 +95,26 @@ export class EachPlugin extends BasePlugin {
               tpl: '北京分公司',
               inline: true,
               wrapperComponent: '',
-              style: {
-                'fontSize': 'var(--fonts-size-4)',
-                'color': 'var(--colors-neutral-text-2)',
-                'fontWeight': 'var(--fonts-weight-3)',
-                'font-family': '-apple-system'
-              }
+              style: {},
+              themeCss: {
+                baseControlClassName: {
+                  'font:default': {
+                    'fontSize': 'var(--fonts-size-4)',
+                    'color': 'var(--colors-neutral-text-2)',
+                    'fontWeight': 'var(--fonts-weight-3)',
+                    'font-family': '-apple-system'
+                  }
+                }
+              },
+              id: 'u:d7c386d27b64'
             }
           ],
           style: {
             position: 'static',
             display: 'block'
           },
-          wrapperBody: false
+          wrapperBody: false,
+          id: 'u:ba92a34b6492'
         }
       ],
       size: 'none',
@@ -101,24 +122,31 @@ export class EachPlugin extends BasePlugin {
         position: 'static',
         display: 'block',
         flex: '0 0 150px',
-        marginRight: '20px',
-        paddingTop: '20px',
-        paddingRight: '15px',
-        paddingBottom: '20px',
-        paddingLeft: '15px',
         flexBasis: '250px',
         overflowX: 'auto',
-        overflowY: 'auto',
-        boxShadow: ' 0px 0px 8px 0px rgba(3, 3, 3, 0.1)',
-        radius: {
-          'top-left-border-radius': 'var(--borders-radius-3)',
-          'top-right-border-radius': 'var(--borders-radius-3)',
-          'bottom-left-border-radius': 'var(--borders-radius-3)',
-          'bottom-right-border-radius': 'var(--borders-radius-3)'
-        }
+        overflowY: 'auto'
       },
       wrapperBody: false,
-      isFixedHeight: false
+      isFixedHeight: false,
+      themeCss: {
+        baseControlClassName: {
+          'boxShadow:default': ' 0px 0px 8px 0px rgba(3, 3, 3, 0.1)',
+          'radius:default': {
+            'top-left-border-radius': 'var(--borders-radius-3)',
+            'top-right-border-radius': 'var(--borders-radius-3)',
+            'bottom-left-border-radius': 'var(--borders-radius-3)',
+            'bottom-right-border-radius': 'var(--borders-radius-3)'
+          },
+          'padding-and-margin:default': {
+            marginRight: '20px',
+            paddingTop: '20px',
+            paddingRight: '15px',
+            paddingBottom: '20px',
+            paddingLeft: '15px'
+          }
+        }
+      },
+      id: 'u:7484a2c497ed'
     },
     placeholder: '',
     style: {
@@ -132,7 +160,8 @@ export class EachPlugin extends BasePlugin {
     },
     isFixedHeight: false,
     isFixedWidth: false,
-    size: 'none'
+    size: 'none',
+    id: 'u:330fe2b1f73e'
   };
 
   previewSchema = {

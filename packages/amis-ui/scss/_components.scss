@@ -2556,7 +2556,7 @@
   --Divider-text-marginRight: var(--sizes-size-9);
   --Divider-text-marginBottom: var(--sizes-size-0);
 
-  --inputFile-base-des-color: var(--colors-neutral-text-2);
+  --inputFile-base-des-color: var(--Form-description-color);
   --inputFile-base-des-fontSize: var(--fonts-size-7);
   --inputFile-base-des-fontWeight: var(--fonts-weight-6);
   --inputFile-base-des-margin: var(--sizes-base-5);
@@ -3282,6 +3282,7 @@
   --Alert-fontColor: var(--colors-neutral-text-4);
   --Alert-title-fontColor: var(--colors-neutral-text-2);
   --Alert-height: var(--sizes-base-20);
+  --Alert-actions-marginRight: var(--sizes-base-4);
 
   --spinner-base-color: var(--colors-link-5);
   --spinner-base-fontSize: var(--fonts-size-8);

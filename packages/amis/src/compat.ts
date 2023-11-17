@@ -5,7 +5,7 @@
 import {Schema} from 'amis-core';
 import {addSchemaFilter} from 'amis-core';
 import {CheckboxControlRenderer} from './renderers/Form/Checkbox';
-import {FormRenderer} from 'amis-core';
+import {FormRenderer, isObjectShallowModified} from 'amis-core';
 import {FieldSetRenderer} from './renderers/Form/FieldSet';
 import {CardRenderer} from './renderers/Card';
 import {ListItemRenderer} from './renderers/List';
@@ -482,10 +482,11 @@ function wrapStatic(item: any) {
 addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
   const type =
     typeof schema?.type === 'string' ? schema.type.toLowerCase() : '';
+  let newSchema = schema;
 
   // controls 转成 body
   if (type === 'combo' && Array.isArray(schema.conditions)) {
-    schema = {
+    newSchema = {
       ...schema,
       conditions: schema.conditions.map(condition => {
         if (Array.isArray(condition.controls)) {
@@ -506,7 +507,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
     schema.type !== 'audio' &&
     schema.type !== 'carousel'
   ) {
-    schema = {
+    newSchema = {
       ...schema,
       [schema.type === 'combo' ? `items` : 'body']: (Array.isArray(
         schema.controls
@@ -515,7 +516,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         : [schema.controls]
       ).map(controlToNormalRenderer)
     };
-    delete schema.controls;
+    delete newSchema.controls;
   } else if (
     schema?.quickEdit?.controls &&
     (!schema.quickEdit.type ||
@@ -523,7 +524,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         schema.quickEdit.type
       ))
   ) {
-    schema = {
+    newSchema = {
       ...schema,
       quickEdit: {
         ...schema.quickEdit,
@@ -533,14 +534,14 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         ).map(controlToNormalRenderer)
       }
     };
-    delete schema.quickEdit.controls;
+    delete newSchema.quickEdit.controls;
   } else if (schema?.quickEdit?.type) {
-    schema = {
+    newSchema = {
       ...schema,
       quickEdit: controlToNormalRenderer(schema.quickEdit)
     };
   } else if (type === 'tabs' && Array.isArray(schema.tabs)) {
-    schema = {
+    newSchema = {
       ...schema,
       tabs: schema.tabs.map(tab => {
         if (Array.isArray(tab.controls) && !Array.isArray(tab.body)) {
@@ -555,7 +556,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
       })
     };
   } else if (type === 'anchor-nav' && Array.isArray(schema.links)) {
-    schema = {
+    newSchema = {
       ...schema,
       links: schema.links.map(link => {
         if (Array.isArray(link.controls)) {
@@ -571,7 +572,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
       })
     };
   } else if (type === 'input-array' && schema.items) {
-    schema = {
+    newSchema = {
       ...schema,
       items: Array.isArray(schema.items)
         ? schema.items.map(controlToNormalRenderer)
@@ -581,7 +582,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
     (type === 'grid' || type === 'hbox') &&
     Array.isArray(schema.columns)
   ) {
-    schema = {
+    newSchema = {
       ...schema,
       columns: schema.columns.map(column => {
         if (Array.isArray(column.controls)) {
@@ -603,13 +604,20 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
       })
     };
   } else if (type === 'service' && schema?.body?.controls) {
-    schema = {
+    newSchema = {
       ...schema,
       body: (Array.isArray(schema.body.controls)
         ? schema.body.controls
         : [schema.body.controls]
       ).map(controlToNormalRenderer)
     };
+  }
+
+  if (
+    newSchema !== schema &&
+    isObjectShallowModified(newSchema, schema, false)
+  ) {
+    return newSchema;
   }
 
   return schema;

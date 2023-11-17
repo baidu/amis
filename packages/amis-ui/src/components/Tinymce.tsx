@@ -41,7 +41,7 @@ import 'tinymce/plugins/help/js/i18n/keynav/zh_CN';
 import 'tinymce/plugins/help/js/i18n/keynav/en';
 import 'tinymce/plugins/help/js/i18n/keynav/de';
 
-import {LocaleProps} from 'amis-core';
+import {LocaleProps, autobind} from 'amis-core';
 
 interface TinymceEditorProps extends LocaleProps {
   model: string;
@@ -69,7 +69,33 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
 
   elementRef: React.RefObject<HTMLTextAreaElement> = React.createRef();
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.initTiny();
+  }
+
+  componentDidUpdate(prevProps: TinymceEditorProps) {
+    const props = this.props;
+
+    if (
+      props.model !== prevProps.model &&
+      props.model !== this.currentContent
+    ) {
+      this.editorInitialized && this.editor?.setContent(props.model || '');
+    }
+
+    if (this.props.config !== prevProps.config) {
+      tinymce.remove(this.editor);
+      this.initTiny();
+    }
+  }
+
+  componentWillUnmount() {
+    tinymce.remove(this.editor);
+    this.unmounted = true;
+  }
+
+  @autobind
+  async initTiny() {
     const locale = this.props.locale;
 
     const {onLoaded, ...rest} = this.props.config || {};
@@ -165,22 +191,6 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
 
     await onLoaded?.(tinymce);
     this.unmounted || tinymce.init(this.config);
-  }
-
-  componentDidUpdate(prevProps: TinymceEditorProps) {
-    const props = this.props;
-
-    if (
-      props.model !== prevProps.model &&
-      props.model !== this.currentContent
-    ) {
-      this.editorInitialized && this.editor?.setContent(props.model || '');
-    }
-  }
-
-  componentWillUnmount() {
-    tinymce.remove(this.editor);
-    this.unmounted = true;
   }
 
   initEditor(e: any, editor: any) {

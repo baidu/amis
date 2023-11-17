@@ -61,7 +61,8 @@ export class CardsPlugin extends BasePlugin {
                     marginRight: '10px'
                   }
                 }
-              }
+              },
+              id: 'u:c3a694c7f4e6'
             },
             {
               type: 'tpl',
@@ -71,24 +72,37 @@ export class CardsPlugin extends BasePlugin {
               editorSetting: {
                 mock: {}
               },
-              style: {
-                fontSize: 'var(--fonts-size-6)',
-                color: 'var(--colors-neutral-text-2)',
-                fontWeight: 'var(--fonts-weight-3)'
-              }
+              style: {},
+              themeCss: {
+                baseControlClassName: {
+                  'font:default': {
+                    fontSize: 'var(--fonts-size-6)',
+                    color: 'var(--colors-neutral-text-2)',
+                    fontWeight: 'var(--fonts-weight-3)'
+                  }
+                }
+              },
+              id: 'u:4273575e1d7b'
             }
           ],
           style: {
             position: 'static',
             display: 'flex',
             flexWrap: 'nowrap',
-            alignItems: 'center',
-            marginBottom: '15px'
+            alignItems: 'center'
           },
           wrapperBody: false,
           isFixedHeight: false,
           isFixedWidth: false,
-          size: 'none'
+          size: 'none',
+          themeCss: {
+            baseControlClassName: {
+              'padding-and-margin:default': {
+                marginBottom: '15px'
+              }
+            }
+          },
+          id: 'u:561592d2ff0a'
         },
         {
           type: 'flex',
@@ -105,35 +119,54 @@ export class CardsPlugin extends BasePlugin {
                       tpl: '12/',
                       inline: true,
                       wrapperComponent: '',
-                      style: {
-                        fontSize: 'var(--fonts-size-6)',
-                        color: 'var(--colors-neutral-text-2)',
-                        fontWeight: 'var(--fonts-weight-3)'
-                      }
+                      style: {},
+                      themeCss: {
+                        baseControlClassName: {
+                          'font:default': {
+                            fontSize: 'var(--fonts-size-6)',
+                            color: 'var(--colors-neutral-text-2)',
+                            fontWeight: 'var(--fonts-weight-3)'
+                          }
+                        }
+                      },
+                      id: 'u:c53d2e838649'
                     },
                     {
                       type: 'tpl',
                       tpl: '19',
                       inline: true,
                       wrapperComponent: '',
-                      style: {
-                        color: 'var(--colors-neutral-text-6)',
-                        fontSize: 'var(--fonts-size-6)'
-                      }
+                      style: {},
+                      themeCss: {
+                        baseControlClassName: {
+                          'font:default': {
+                            color: 'var(--colors-neutral-text-6)',
+                            fontSize: 'var(--fonts-size-6)'
+                          }
+                        }
+                      },
+                      id: 'u:774766c09a3e'
                     }
                   ],
                   style: {
                     position: 'static',
                     display: 'block',
-                    flex: '0 0 auto',
-                    marginTop: 'var(--sizes-size-0)',
-                    marginRight: 'var(--sizes-size-0)',
-                    marginBottom: 'var(--sizes-size-0)',
-                    marginLeft: 'var(--sizes-size-0)'
+                    flex: '0 0 auto'
                   },
                   wrapperBody: false,
                   isFixedWidth: false,
-                  size: 'none'
+                  size: 'none',
+                  themeCss: {
+                    baseControlClassName: {
+                      'padding-and-margin:default': {
+                        marginTop: 'var(--sizes-size-0)',
+                        marginRight: 'var(--sizes-size-0)',
+                        marginBottom: 'var(--sizes-size-0)',
+                        marginLeft: 'var(--sizes-size-0)'
+                      }
+                    }
+                  },
+                  id: 'u:7b8d9478caf0'
                 },
                 {
                   type: 'container',
@@ -143,9 +176,15 @@ export class CardsPlugin extends BasePlugin {
                       tpl: '单元测试',
                       inline: true,
                       wrapperComponent: '',
-                      style: {
-                        color: 'var(--colors-neutral-text-5)'
-                      }
+                      style: {},
+                      themeCss: {
+                        baseControlClassName: {
+                          'font:default': {
+                            color: 'var(--colors-neutral-text-5)'
+                          }
+                        }
+                      },
+                      id: 'u:4abe984e2cdf'
                     }
                   ],
                   style: {
@@ -160,7 +199,8 @@ export class CardsPlugin extends BasePlugin {
                   wrapperBody: false,
                   isFixedHeight: false,
                   isFixedWidth: false,
-                  size: 'none'
+                  size: 'none',
+                  id: 'u:10268e055c48'
                 }
               ],
               size: 'xs',
@@ -177,7 +217,8 @@ export class CardsPlugin extends BasePlugin {
               },
               wrapperBody: false,
               isFixedHeight: false,
-              isFixedWidth: false
+              isFixedWidth: false,
+              id: 'u:a35d9094c57a'
             },
             {
               type: 'container',
@@ -187,20 +228,32 @@ export class CardsPlugin extends BasePlugin {
                   tpl: '100%',
                   inline: true,
                   wrapperComponent: '',
-                  style: {
-                    fontSize: 'var(--fonts-size-6)',
-                    color: 'var(--colors-neutral-text-2)',
-                    fontWeight: 'var(--fonts-weight-3)'
-                  }
+                  style: {},
+                  themeCss: {
+                    baseControlClassName: {
+                      'font:default': {
+                        fontSize: 'var(--fonts-size-6)',
+                        color: 'var(--colors-neutral-text-2)',
+                        fontWeight: 'var(--fonts-weight-3)'
+                      }
+                    }
+                  },
+                  id: 'u:dfa080010477'
                 },
                 {
                   type: 'tpl',
                   tpl: '通过率',
                   inline: true,
                   wrapperComponent: '',
-                  style: {
-                    color: 'var(--colors-neutral-text-5)'
-                  }
+                  style: {},
+                  themeCss: {
+                    baseControlClassName: {
+                      'font:default': {
+                        color: 'var(--colors-neutral-text-5)'
+                      }
+                    }
+                  },
+                  id: 'u:ee6afab8bebf'
                 }
               ],
               size: 'xs',
@@ -217,7 +270,8 @@ export class CardsPlugin extends BasePlugin {
               },
               wrapperBody: false,
               isFixedHeight: false,
-              isFixedWidth: false
+              isFixedWidth: false,
+              id: 'u:8d1113a60808'
             },
             {
               type: 'container',
@@ -227,20 +281,32 @@ export class CardsPlugin extends BasePlugin {
                   tpl: '99.9%',
                   inline: true,
                   wrapperComponent: '',
-                  style: {
-                    fontSize: 'var(--fonts-size-6)',
-                    color: 'var(--colors-neutral-text-2)',
-                    fontWeight: 'var(--fonts-weight-3)'
-                  }
+                  style: {},
+                  themeCss: {
+                    baseControlClassName: {
+                      'font:default': {
+                        fontSize: 'var(--fonts-size-6)',
+                        color: 'var(--colors-neutral-text-2)',
+                        fontWeight: 'var(--fonts-weight-3)'
+                      }
+                    }
+                  },
+                  id: 'u:538523c38973'
                 },
                 {
                   type: 'tpl',
                   tpl: '任务实例',
                   inline: true,
                   wrapperComponent: '',
-                  style: {
-                    color: 'var(--colors-neutral-text-5)'
-                  }
+                  style: {},
+                  themeCss: {
+                    baseControlClassName: {
+                      'font:default': {
+                        color: 'var(--colors-neutral-text-5)'
+                      }
+                    }
+                  },
+                  id: 'u:4b2f8311836c'
                 }
               ],
               size: 'xs',
@@ -257,12 +323,14 @@ export class CardsPlugin extends BasePlugin {
               },
               wrapperBody: false,
               isFixedHeight: false,
-              isFixedWidth: false
+              isFixedWidth: false,
+              id: 'u:7543aef28c33'
             }
           ],
           style: {
             position: 'relative'
-          }
+          },
+          id: 'u:0f802c8852fd'
         },
         {
           type: 'container',
@@ -272,63 +340,59 @@ export class CardsPlugin extends BasePlugin {
               tpl: '报告',
               inline: true,
               wrapperComponent: '',
-              style: {
-                fontSize: '14px',
-                color: 'var(--colors-neutral-text-5)'
-              }
+              style: {},
+              themeCss: {
+                baseControlClassName: {
+                  'font:default': {
+                    fontSize: '14px',
+                    color: 'var(--colors-neutral-text-5)'
+                  }
+                }
+              },
+              id: 'u:ec80d1113007'
             },
             {
               type: 'tpl',
               tpl: '2023-01-01 12:00',
               inline: true,
               wrapperComponent: '',
-              style: {
-                fontSize: '12px',
-                color: 'var(--colors-neutral-text-6)'
-              }
+              style: {},
+              themeCss: {
+                baseControlClassName: {
+                  'font:default': {
+                    fontSize: '12px',
+                    color: 'var(--colors-neutral-text-6)'
+                  }
+                }
+              },
+              id: 'u:7f6bef513eb3'
             }
           ],
           style: {
             position: 'static',
             display: 'flex',
             flexWrap: 'nowrap',
-            justifyContent: 'space-between',
-            marginTop: '20px'
+            justifyContent: 'space-between'
           },
           wrapperBody: false,
           isFixedHeight: false,
-          isFixedWidth: false
+          isFixedWidth: false,
+          themeCss: {
+            baseControlClassName: {
+              'padding-and-margin:default': {
+                marginTop: '20px'
+              }
+            }
+          },
+          id: 'u:6606cebce092'
         }
       ],
       size: 'none',
       style: {
-        'position': 'static',
-        'display': 'block',
-        'paddingTop': '10px',
-        'paddingRight': '10px',
-        'paddingBottom': '10px',
-        'paddingLeft': '10px',
-        'radius': {
-          'top-left-border-radius': '6px',
-          'top-right-border-radius': '6px',
-          'bottom-left-border-radius': '6px',
-          'bottom-right-border-radius': '6px'
-        },
-        'top-border-width': 'var(--borders-width-4)',
-        'left-border-width': 'var(--borders-width-2)',
-        'right-border-width': 'var(--borders-width-2)',
-        'bottom-border-width': 'var(--borders-width-2)',
-        'top-border-style': 'var(--borders-style-2)',
-        'left-border-style': 'var(--borders-style-2)',
-        'right-border-style': 'var(--borders-style-2)',
-        'bottom-border-style': 'var(--borders-style-2)',
-        'top-border-color': 'var(--colors-brand-6)',
-        'left-border-color': 'var(--colors-brand-10)',
-        'right-border-color': 'var(--colors-brand-10)',
-        'bottom-border-color': 'var(--colors-brand-10)',
-        'flex': '0 0 150px',
-        'marginRight': '15px',
-        'flexBasis': '100%'
+        position: 'static',
+        display: 'block',
+        flex: '0 0 150px',
+        flexBasis: '100%'
       },
       wrapperBody: false,
       isFixedHeight: false,
@@ -338,14 +402,47 @@ export class CardsPlugin extends BasePlugin {
           weight: 0,
           actions: []
         }
-      }
+      },
+      themeCss: {
+        baseControlClassName: {
+          'radius:default': {
+            'top-left-border-radius': '6px',
+            'top-right-border-radius': '6px',
+            'bottom-left-border-radius': '6px',
+            'bottom-right-border-radius': '6px'
+          },
+          'border:default': {
+            'top-border-width': 'var(--borders-width-4)',
+            'left-border-width': 'var(--borders-width-2)',
+            'right-border-width': 'var(--borders-width-2)',
+            'bottom-border-width': 'var(--borders-width-2)',
+            'top-border-style': 'var(--borders-style-2)',
+            'left-border-style': 'var(--borders-style-2)',
+            'right-border-style': 'var(--borders-style-2)',
+            'bottom-border-style': 'var(--borders-style-2)',
+            'top-border-color': 'var(--colors-brand-6)',
+            'left-border-color': 'var(--colors-brand-10)',
+            'right-border-color': 'var(--colors-brand-10)',
+            'bottom-border-color': 'var(--colors-brand-10)'
+          },
+          'padding-and-margin:default': {
+            paddingTop: '10px',
+            paddingRight: '10px',
+            paddingBottom: '10px',
+            paddingLeft: '10px',
+            marginRight: '15px'
+          }
+        }
+      },
+      id: 'u:b39411e7f540'
     },
     placeholder: '',
     name: '',
     style: {
       gutterX: 15,
       gutterY: 15
-    }
+    },
+    id: 'u:1f941707f77f'
   };
   previewSchema = {
     ...this.scaffold,

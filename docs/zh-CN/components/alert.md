@@ -202,17 +202,82 @@ order: 27
 ]
 ```
 
+## 操作区域
+
+> `3.6.0`及以上版本
+
+配置`actions`属性，可以添加操作区域。
+
+```schema: scope="body"
+[
+  {
+    "type": "alert",
+    "level": "success",
+    "className": "mb-3",
+    "showIcon": true,
+    "showCloseButton": true,
+    "title": "标题",
+    "body": "创建成功",
+    "actions": [
+      {
+        "type": "button",
+        "label": "查看详情",
+        "size": "xs",
+        "level": "link",
+        "style": {
+          "position": "relative",
+          "top": "25px",
+          "left": "30px"
+        }
+      }
+    ]
+  },
+  {
+    "type": "alert",
+    "level": "info",
+    "showIcon": true,
+    "showCloseButton": true,
+    "body": "创建成功",
+    "actions": {
+      "type": "flex",
+      "justify": "flex-start",
+      "alignItems": "flex-start",
+      "direction": "column",
+      "style": {"padding": "6px"},
+      "items": [
+        {
+          "type": "button",
+          "label": "详情",
+          "size": "xs",
+          "level": "primary",
+          "style": {
+            "marginBottom": "5px"
+          }
+        },
+        {
+          "type": "button",
+          "label": "关闭",
+          "size": "xs",
+          "level": "danger"
+        }
+      ]
+    }
+  }
+]
+```
+
 ## 属性表
 
-| 属性名               | 类型                                      | 默认值    | 说明                                                     |
-| -------------------- | ----------------------------------------- | --------- | -------------------------------------------------------- |
+| 属性名               | 类型                                      | 默认值    | 说明                                                     | 版本 |
+| -------------------- | ----------------------------------------- | --------- | -------------------------------------------------------- | --- |
 | type                 | `string`                                  | `"alert"` | 指定为 alert 渲染器                                      |
 | title                | `string`                                  |           | alert标题                                                |
 | className            | `string`                                  |           | 外层 Dom 的类名                                          |
 | level                | `string`                                  | `info`    | 级别，可以是：`info`、`success`、`warning` 或者 `danger` |
-| body                 | [SchemaNode](../../docs/types/schemanode) |           | 显示内容                                                 |
+| body                 | [`SchemaNode[] \| SchemaNode`](../../docs/types/schemanode) |           | 显示内容                                                 |
 | showCloseButton      | `boolean`                                 | `false`   | 是否显示关闭按钮                                         |
 | closeButtonClassName | `string`                                  |           | 关闭按钮的 CSS 类名                                      |
 | showIcon             | `boolean`                                 | `false`   | 是否显示 icon                                            |
 | icon                 | `string`                                  |           | 自定义 icon                                              |
 | iconClassName        | `string`                                  |           | icon 的 CSS 类名                                         |
+| actions        | [`SchemaNode[] \| SchemaNode`](../../docs/types/schemanode)               |           | 操作区域                                         | `3.6.0` |

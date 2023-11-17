@@ -642,8 +642,8 @@ export const MainStore = types
           return list.some(node => {
             if (!node.patched && !node.isRegion) {
               return true;
-            } else if (node.children.length) {
-              return hasUnPatched(node.children);
+            } else if (node.uniqueChildren.length) {
+              return hasUnPatched(node.uniqueChildren);
             }
 
             return false;
