@@ -35,6 +35,7 @@ export const FormStore = ServiceStore.named('FormStore')
     submited: false,
     submiting: false,
     savedData: types.frozen(),
+    emitData: types.frozen(), // 记录上次 onChange 出去的值
     // items: types.optional(types.array(types.late(() => FormItemStore)), []),
     canAccessSuperData: true,
     persistData: types.optional(types.union(types.string, types.boolean), ''),
@@ -748,6 +749,10 @@ export const FormStore = ServiceStore.named('FormStore')
       self.savedData = self.data;
     }
 
+    function setEmitData(value: any) {
+      self.emitData = value;
+    }
+
     return {
       setInited,
       setValues,
@@ -773,6 +778,7 @@ export const FormStore = ServiceStore.named('FormStore')
       setRestError,
       addRestError,
       clearRestError,
+      setEmitData,
       beforeDestroy() {
         syncOptions.cancel();
         toastValidateError.cancel();

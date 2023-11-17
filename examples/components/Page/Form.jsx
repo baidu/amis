@@ -1,24 +1,23 @@
 export default {
   type: 'page',
-  title: '表单页面',
-  body: [
-    {
-      type: 'form',
-      mode: 'horizontal',
-      api: '/api/mock2/form/saveForm',
-      body: [
-        {
-          label: 'Name',
+  body: {
+    type: 'form',
+    api: '/api/mock/saveForm?waitSeconds=1',
+    mode: 'horizontal',
+    onSubmit: values => {
+      debugger;
+    },
+    body: [
+      {
+        name: 'array',
+        label: '颜色集合',
+        type: 'input-array',
+        inline: true,
+        items: {
           type: 'input-text',
-          name: 'name'
-        },
-        {
-          label: 'Email',
-          type: 'input-email',
-          placeholder: '请输入邮箱地址',
-          name: 'email'
+          clearable: false
         }
-      ]
-    }
-  ]
+      }
+    ]
+  }
 };

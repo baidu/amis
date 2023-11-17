@@ -670,6 +670,8 @@ export function wrapControl<
 
             this.model.changeTmpValue(value, 'input');
 
+            console.log(`formItemOnchange`, this.model.name, value);
+
             if (changeImmediately || conrolChangeImmediately || !formInited) {
               this.emitChange(submitOnChange);
             } else {
@@ -701,6 +703,11 @@ export function wrapControl<
             if (!this.model) {
               return;
             }
+            console.log(
+              `formItemEmitchange`,
+              this.model.name,
+              this.model.tmpValue
+            );
             const model = this.model;
             const value = this.model.tmpValue;
             const oldValue = model.extraName

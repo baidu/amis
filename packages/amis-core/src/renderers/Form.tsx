@@ -468,6 +468,7 @@ export default class Form extends React.Component<FormProps, object> {
   shouldLoadInitApi: boolean = false;
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
+  submitOnChange = false;
   lazyEmitChange = debouce(this.emitChange.bind(this), 250, {
     trailing: true,
     leading: false
@@ -522,6 +523,20 @@ export default class Form extends React.Component<FormProps, object> {
         )
       );
     }
+
+    this.toDispose.push(
+      reaction(
+        () => store.data,
+        () => {
+          if (store.data !== store.emitData) {
+            this.props.formLazyChange === false
+              ? this.emitChange()
+              : this.lazyEmitChange();
+          }
+          store.setEmitData(store.data);
+        }
+      )
+    );
   }
 
   componentDidMount() {
@@ -984,11 +999,14 @@ export default class Form extends React.Component<FormProps, object> {
     if (typeof name !== 'string') {
       return;
     }
+    this.submitOnChange = submit;
     store.changeValue(name, value, changePristine);
+    console.log(`ChangeValue${this.props.index}`, name, value);
+
+    // 为什么保留这个？
+    // 这个执行时间更快点，有保障，reaction 那个会有延迟。
     if (!changePristine) {
-      (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(
-        submit
-      );
+      (formLazyChange === false ? this.emitChange : this.lazyEmitChange)();
     }
 
     if (store.persistData && store.inited) {
@@ -1000,12 +1018,18 @@ export default class Form extends React.Component<FormProps, object> {
     return dispatchEvent(type, data);
   }
 
-  async emitChange(submit: boolean) {
+  async emitChange() {
     const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
 
-    if (!isAlive(store)) {
+    if (!isAlive(store) || !store.inited) {
       return;
     }
+    store.setEmitData(store.data); // 这样是为了 reaction 里面不要去重复执行执行了
+
+    console.log(`emitChange ${this.props.index}`);
+
+    let shouldSubmitOnChange = this.submitOnChange;
+    this.submitOnChange = false;
 
     // 提前准备好 onChange 的参数。
     // 因为 store.data 会在 await 期间被 WithStore.componentDidUpdate 中的 store.initData 改变。导致数据丢失
@@ -1015,16 +1039,16 @@ export default class Form extends React.Component<FormProps, object> {
       this.props
     ];
 
-    const dispatcher = await dispatchEvent(
-      'change',
-      createObject(data, store.data)
-    );
-    if (!dispatcher?.prevented) {
-      onChange && onChange.apply(null, changeProps);
-    }
+    // const dispatcher = await dispatchEvent(
+    //   'change',
+    //   createObject(data, store.data)
+    // );
+    // if (!dispatcher?.prevented) {
+    onChange && onChange.apply(null, changeProps);
+    // }
 
     store.clearRestError();
-    (submit || (submitOnChange && store.inited)) &&
+    (shouldSubmitOnChange || (submitOnChange && store.inited)) &&
       this.handleAction(
         undefined,
         {
@@ -1036,7 +1060,10 @@ export default class Form extends React.Component<FormProps, object> {
 
   handleBulkChange(values: Object, submit: boolean) {
     const {onChange, store, formLazyChange} = this.props;
+
+    this.submitOnChange = submit;
     store.setValues(values);
+
     // store.updateData(values);
 
     // store.items.forEach(formItem => {
@@ -1050,7 +1077,8 @@ export default class Form extends React.Component<FormProps, object> {
     //     formItem.validateOnChange && formItem.validate(values);
     //   }
     // });
-    (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(submit);
+
+    (formLazyChange === false ? this.emitChange : this.lazyEmitChange)();
   }
 
   handleFormSubmit(e: React.UIEvent<any>) {
@@ -1178,6 +1206,7 @@ export default class Form extends React.Component<FormProps, object> {
       }
 
       return this.submit((values): any => {
+        console.log(`OnSubmit ${this.props.index}`);
         if (onSubmit && onSubmit(values, action) === false) {
           return Promise.resolve(false);
         }

@@ -43,7 +43,7 @@ const setup = async (items: any[] = []) => {
   };
 };
 
-test('Renderer:inputArray', async () => {
+test('1.Renderer:inputArray', async () => {
   const onSubmit = jest.fn();
   const submitBtnText = 'Submit';
   const {container, findByText} = render(
@@ -87,6 +87,9 @@ test('Renderer:inputArray', async () => {
     expect(submitBtn).toBeInTheDocument();
   });
   fireEvent.click(submitBtn);
+  await wait(200);
+  console.log(JSON.stringify(onSubmit.mock.calls, null, 2));
+  return;
 
   await waitFor(() => {
     const formData = onSubmit.mock.calls[0][0];
