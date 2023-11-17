@@ -31,14 +31,18 @@ export function safeSub(arg1: number, arg2: number) {
   return (arg1 * maxDigits - arg2 * maxDigits) / maxDigits;
 }
 
-export function numberFormatter(num: number | string, precision: number = 0) {
+export function numberFormatter(num: number | string, precision?: number) {
   const ZERO = 0;
   const number = +num;
+  const finalP =
+    typeof precision === 'number'
+      ? precision
+      : number.toString().split('.')[1]?.length || 0;
   if (typeof number === 'number' && !isNaN(number)) {
-    const regexp = precision ? /(\d)(?=(\d{3})+\.)/g : /(\d)(?=(\d{3})+$)/g;
-    return number.toFixed(precision).replace(regexp, '$1,');
+    const regexp = finalP ? /(\d)(?=(\d{3})+\.)/g : /(\d)(?=(\d{3})+$)/g;
+    return number.toFixed(finalP).replace(regexp, '$1,');
   }
-  return ZERO.toFixed(precision);
+  return ZERO.toFixed(finalP);
 }
 
 /**

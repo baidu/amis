@@ -330,6 +330,7 @@ export default class NumberControl extends React.Component<
       return;
     }
     const {kilobitSeparator, prefix} = this.props;
+    const integer = value > 0 ? Math.floor(value) : Math.ceil(value);
     let pos = `${value}`.length;
 
     if (prefix) {
@@ -338,13 +339,13 @@ export default class NumberControl extends React.Component<
 
     if (kilobitSeparator) {
       // 处理有千分符的情况 123,456,789
-      const ksLen = Math.floor((`${Math.abs(value)}`.length - 1) / 3);
+      const ksLen = Math.floor((`${Math.abs(integer)}`.length - 1) / 3);
       if (ksLen > 0) {
         pos += ksLen;
       }
     }
 
-    if (this.input) {
+    if (this.input && (kilobitSeparator || prefix)) {
       this.input.setSelectionRange?.(pos, pos);
     }
   }

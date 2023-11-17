@@ -16,6 +16,8 @@ test(`math safeSub:test`, () => {
 
 test('numberFormatter:test', () => {
   expect(numberFormatter(0)).toEqual('0');
+  expect(numberFormatter(0.123)).toEqual('0.123');
+  expect(numberFormatter(0.123, 0)).toEqual('0');
   expect(numberFormatter(0, 2)).toEqual('0.00');
   expect(numberFormatter(0, 8)).toEqual('0.00000000');
   expect(numberFormatter(123456)).toEqual('123,456');
