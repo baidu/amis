@@ -274,7 +274,8 @@ function createScopedTools(
             location.reload();
           }
         } else {
-          const component = scoped.getComponentByName(name);
+          const component =
+            scoped.getComponentByName(name) || scoped.getComponentById(name);
           component &&
             component.reload &&
             component.reload(subPath, query, ctx);
