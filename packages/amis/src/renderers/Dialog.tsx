@@ -123,6 +123,10 @@ export interface DialogSchema extends BaseSchema {
    * 弹框类型 confirm 确认弹框
    */
   dialogType?: 'confirm';
+  /**
+   * 可拖拽
+   */
+  draggable?: boolean;
 }
 
 export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
@@ -164,7 +168,8 @@ export default class Dialog extends React.Component<DialogProps> {
     'showErrorMsg',
     'actions',
     'popOverContainer',
-    'overlay'
+    'overlay',
+    'draggable'
   ];
   static defaultProps = {
     title: 'Dialog.title',
