@@ -814,7 +814,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
     if (onRow && onRow.onRowDbClick) {
       const prevented = await onRow.onRowDbClick(event, record, rowIndex);
-      if (prevented) {
+      if (prevented === false) {
         return;
       }
     }
