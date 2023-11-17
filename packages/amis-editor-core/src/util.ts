@@ -141,7 +141,8 @@ export function JSONPipeIn(
       /** 脚手架构建的Schema提前构建好了组件 ID，此时无需生成 ID，避免破坏事件动作 */
       if (
         (!obj.__origin || obj.__origin !== 'scaffold') &&
-        (typeof obj.id !== 'string' || !obj.id || obj.id.startsWith('u:'))
+        typeof obj.id === 'string' &&
+        obj.id.startsWith('u:')
       ) {
         const newId = generateNodeId();
         obj.id && (idMap[obj.id] = newId);
