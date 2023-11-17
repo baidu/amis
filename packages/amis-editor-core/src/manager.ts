@@ -1751,11 +1751,14 @@ export class EditorManager {
   });
 
   patching = false;
+  patchingInvalid = false;
   patchSchema(force = false) {
     if (this.patching) {
+      this.patchingInvalid = true;
       return;
     }
     this.patching = true;
+    this.patchingInvalid = false;
     let patchList = (list: Array<EditorNodeType>) => {
       // 深度优先
       list.forEach((node: EditorNodeType) => {
@@ -1771,6 +1774,7 @@ export class EditorManager {
 
     patchList(this.store.root.children);
     this.patching = false;
+    this.patchingInvalid && this.patchSchema(force);
   }
 
   /**

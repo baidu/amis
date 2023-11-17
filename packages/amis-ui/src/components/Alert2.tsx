@@ -21,6 +21,7 @@ export interface AlertProps {
   classnames: ClassNamesFn;
   classPrefix: string;
   children?: React.ReactNode | Array<React.ReactNode>;
+  actions?: React.ReactNode | React.ReactNode[];
 }
 
 export interface AlertState {
@@ -68,6 +69,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
       style,
       level,
       children,
+      actions,
       showCloseButton,
       title,
       icon,
@@ -98,6 +100,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
           {title ? <div className={cx('Alert-title')}>{title}</div> : null}
           <div className={cx('Alert-desc')}>{children}</div>
         </div>
+        {actions ? <div className={cx('Alert-actions')}>{actions}</div> : null}
         {showCloseButton ? (
           <button
             className={cx('Alert-close', closeButtonClassName)}

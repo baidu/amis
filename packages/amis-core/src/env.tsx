@@ -28,6 +28,8 @@ export interface WsObject {
 }
 
 export interface RendererEnv {
+  /* 强制隐藏组件内部的报错信息，会覆盖组件内部属性 */
+  forceSilenceInsideError?: boolean;
   session?: string;
   fetcher: (api: Api, data?: any, options?: object) => Promise<Payload>;
   isCancel: (val: any) => boolean;

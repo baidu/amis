@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {RendererProps, getRendererByName, noop} from 'amis-core';
+import {RendererProps, getRendererByName, noop, setVariable} from 'amis-core';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {ActionObject} from 'amis-core';
 import keycode from 'keycode';
@@ -353,8 +353,10 @@ export const HocQuickEdit =
       handleFormItemChange(value: any) {
         const {onQuickChange, quickEdit, name} = this.props;
 
+        const data = {};
+        setVariable(data, name!, value);
         onQuickChange(
-          {[name!]: value},
+          data,
           (quickEdit as QuickEditConfig).saveImmediately,
           false,
           quickEdit as QuickEditConfig

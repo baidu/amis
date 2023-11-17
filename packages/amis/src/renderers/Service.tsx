@@ -793,6 +793,7 @@ export default class Service extends React.Component<ServiceProps> {
       style,
       store,
       render,
+      env,
       classPrefix: ns,
       classnames: cx,
       loadingConfig,
@@ -801,7 +802,9 @@ export default class Service extends React.Component<ServiceProps> {
 
     return (
       <div className={cx(`${ns}Service`, className)} style={style}>
-        {store.error && showErrorMsg !== false ? (
+        {!env.forceSilenceInsideError &&
+        store.error &&
+        showErrorMsg !== false ? (
           <Alert
             level="danger"
             showCloseButton

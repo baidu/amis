@@ -52,6 +52,10 @@
     }
   }
 
+  &-actions {
+    margin-right: var(--Alert-actions-marginRight);
+  }
+
   &-close {
     outline: none;
     padding: 0;

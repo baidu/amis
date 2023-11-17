@@ -45,24 +45,39 @@ export class List2Plugin extends BasePlugin {
               tpl: '01',
               inline: true,
               wrapperComponent: '',
-              style: {
-                color: 'var(--colors-neutral-text-2)',
-                fontSize: 'var(--fonts-size-3)',
-                fontWeight: 'var(--fonts-weight-5)',
-                marginRight: '10px'
-              }
+              style: {},
+              themeCss: {
+                baseControlClassName: {
+                  'padding-and-margin:default': {
+                    marginRight: '10px'
+                  },
+                  'font:default': {
+                    color: 'var(--colors-neutral-text-2)',
+                    fontSize: 'var(--fonts-size-3)',
+                    fontWeight: 'var(--fonts-weight-5)'
+                  }
+                }
+              },
+              id: 'u:0597d8ab5c3a'
             },
             {
               type: 'tpl',
               tpl: '/',
               inline: true,
               wrapperComponent: '',
-              style: {
-                marginRight: '10px',
-                fontSize: 'var(--fonts-size-3)',
-                color: '#cccccc'
-              },
-              id: 'u:95d2a3ac3e70'
+              style: {},
+              id: 'u:95d2a3ac3e70',
+              themeCss: {
+                baseControlClassName: {
+                  'padding-and-margin:default': {
+                    marginRight: '10px'
+                  },
+                  'font:default': {
+                    fontSize: 'var(--fonts-size-3)',
+                    color: '#cccccc'
+                  }
+                }
+              }
             },
             {
               type: 'container',
@@ -72,18 +87,30 @@ export class List2Plugin extends BasePlugin {
                   tpl: '3月',
                   inline: true,
                   wrapperComponent: '',
-                  style: {
-                    fontSize: 'var(--fonts-size-6)'
-                  }
+                  style: {},
+                  themeCss: {
+                    baseControlClassName: {
+                      'font:default': {
+                        fontSize: 'var(--fonts-size-6)'
+                      }
+                    }
+                  },
+                  id: 'u:d153d5c33ebf'
                 },
                 {
                   type: 'tpl',
                   tpl: '2023',
                   inline: true,
                   wrapperComponent: '',
-                  style: {
-                    fontSize: 'var(--fonts-size-6)'
-                  }
+                  style: {},
+                  themeCss: {
+                    baseControlClassName: {
+                      'font:default': {
+                        fontSize: 'var(--fonts-size-6)'
+                      }
+                    }
+                  },
+                  id: 'u:4e03af905add'
                 }
               ],
               style: {
@@ -96,29 +123,39 @@ export class List2Plugin extends BasePlugin {
               },
               wrapperBody: false,
               isFixedHeight: false,
-              isFixedWidth: false
+              isFixedWidth: false,
+              id: 'u:3e3e5dc43b6a'
             }
           ],
           size: 'none',
           style: {
-            'position': 'static',
-            'display': 'flex',
-            'flex': '1 1 auto',
-            'flexGrow': 0,
-            'flexBasis': 'auto',
-            'flexWrap': 'nowrap',
-            'justifyContent': 'flex-start',
-            'alignItems': 'center',
-            'paddingLeft': '20px',
-            'paddingRight': '40px',
-            'right-border-width': 'var(--borders-width-2)',
-            'right-border-style': 'var(--borders-style-2)',
-            'right-border-color': '#ececec',
-            'marginRight': '40px'
+            position: 'static',
+            display: 'flex',
+            flex: '1 1 auto',
+            flexGrow: 0,
+            flexBasis: 'auto',
+            flexWrap: 'nowrap',
+            justifyContent: 'flex-start',
+            alignItems: 'center'
           },
           wrapperBody: false,
           isFixedHeight: false,
-          isFixedWidth: false
+          isFixedWidth: false,
+          themeCss: {
+            baseControlClassName: {
+              'border:default': {
+                'right-border-width': 'var(--borders-width-2)',
+                'right-border-style': 'var(--borders-style-2)',
+                'right-border-color': '#ececec'
+              },
+              'padding-and-margin:default': {
+                paddingLeft: '20px',
+                paddingRight: '40px',
+                marginRight: '40px'
+              }
+            }
+          },
+          id: 'u:7a02e453c997'
         },
         {
           type: 'container',
@@ -128,14 +165,21 @@ export class List2Plugin extends BasePlugin {
               tpl: '列表标题',
               inline: true,
               wrapperComponent: '',
-              style: {
-                fontSize: 'var(--fonts-size-5)',
-                color: 'var(--colors-neutral-text-4)',
-                fontWeight: 'var(--fonts-weight-4)',
-                marginBottom: '10px'
-              },
+              style: {},
               maxLine: 1,
-              id: 'u:105ca9cda3ef'
+              id: 'u:105ca9cda3ef',
+              themeCss: {
+                baseControlClassName: {
+                  'padding-and-margin:default': {
+                    marginBottom: '10px'
+                  },
+                  'font:default': {
+                    fontSize: 'var(--fonts-size-5)',
+                    color: 'var(--colors-neutral-text-4)',
+                    fontWeight: 'var(--fonts-weight-4)'
+                  }
+                }
+              }
             },
             {
               type: 'tpl',
@@ -143,10 +187,16 @@ export class List2Plugin extends BasePlugin {
               inline: true,
               wrapperComponent: '',
               maxLine: 1,
-              style: {
-                fontSize: '13px',
-                color: 'var(--colors-neutral-text-5)'
-              }
+              style: {},
+              themeCss: {
+                baseControlClassName: {
+                  'font:default': {
+                    fontSize: '13px',
+                    color: 'var(--colors-neutral-text-5)'
+                  }
+                }
+              },
+              id: 'u:d8e3f4be33db'
             }
           ],
           size: 'none',
@@ -162,7 +212,8 @@ export class List2Plugin extends BasePlugin {
           },
           wrapperBody: false,
           isFixedHeight: false,
-          isFixedWidth: false
+          isFixedWidth: false,
+          id: 'u:0c0b56fd0c17'
         },
         {
           type: 'container',
@@ -177,7 +228,6 @@ export class List2Plugin extends BasePlugin {
               },
               level: 'default',
               size: 'default',
-              editorState: 'default',
               themeCss: {
                 className: {
                   'border:default': {
@@ -208,7 +258,8 @@ export class List2Plugin extends BasePlugin {
                     color: 'var(--colors-brand-6)'
                   }
                 }
-              }
+              },
+              id: 'u:0a2fe27eb501'
             }
           ],
           size: 'xs',
@@ -230,39 +281,48 @@ export class List2Plugin extends BasePlugin {
       ],
       wrapperBody: false,
       style: {
-        'position': 'relative',
-        'display': 'flex',
-        'width': '100%',
-        'paddingTop': '10px',
-        'paddingRight': '10px',
-        'paddingBottom': '10px',
-        'paddingLeft': '10px',
-        'radius': {
-          'top-left-border-radius': '6px',
-          'top-right-border-radius': '6px',
-          'bottom-left-border-radius': '6px',
-          'bottom-right-border-radius': '6px'
-        },
-        'top-border-width': 'var(--borders-width-1)',
-        'left-border-width': 'var(--borders-width-1)',
-        'right-border-width': 'var(--borders-width-1)',
-        'bottom-border-width': 'var(--borders-width-1)',
-        'top-border-style': 'var(--borders-style-1)',
-        'left-border-style': 'var(--borders-style-1)',
-        'right-border-style': 'var(--borders-style-1)',
-        'bottom-border-style': 'var(--borders-style-1)',
-        'top-border-color': '#3be157',
-        'left-border-color': '#3be157',
-        'right-border-color': '#3be157',
-        'bottom-border-color': '#3be157',
-        'boxShadow': ' 0px 0px 10px 0px var(--colors-neutral-line-8)'
-      }
+        position: 'relative',
+        display: 'flex',
+        width: '100%'
+      },
+      themeCss: {
+        baseControlClassName: {
+          'radius:default': {
+            'top-left-border-radius': '6px',
+            'top-right-border-radius': '6px',
+            'bottom-left-border-radius': '6px',
+            'bottom-right-border-radius': '6px'
+          },
+          'boxShadow:default': ' 0px 0px 10px 0px var(--colors-neutral-line-8)',
+          'border:default': {
+            'top-border-width': 'var(--borders-width-1)',
+            'left-border-width': 'var(--borders-width-1)',
+            'right-border-width': 'var(--borders-width-1)',
+            'bottom-border-width': 'var(--borders-width-1)',
+            'top-border-style': 'var(--borders-style-1)',
+            'left-border-style': 'var(--borders-style-1)',
+            'right-border-style': 'var(--borders-style-1)',
+            'bottom-border-style': 'var(--borders-style-1)',
+            'top-border-color': '#3be157',
+            'left-border-color': '#3be157',
+            'right-border-color': '#3be157',
+            'bottom-border-color': '#3be157'
+          },
+          'padding-and-margin:default': {
+            paddingTop: '10px',
+            paddingRight: '10px',
+            paddingBottom: '10px',
+            paddingLeft: '10px'
+          }
+        }
+      },
+      id: 'u:bb14c60372c6'
     },
     placeholder: '',
-    // name: 'items',
     style: {
       gutterY: 10
-    }
+    },
+    id: 'u:0fb820345fc1'
   };
 
   previewSchema = {

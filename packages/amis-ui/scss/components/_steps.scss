@@ -13,16 +13,18 @@
       position: relative;
       &Icon {
         vertical-align: top;
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
         padding-right: var(--steps-base-icon-paddingRight);
+        height: px2rem(32px);
         .#{$ns}StepsItem-icon {
-          display: inline-block;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           width: var(--steps-base-icon-size);
           height: var(--steps-base-icon-size);
-          line-height: px2rem(28px);
           border-radius: 50%;
           font-size: var(--Steps-icon-fontsize);
-          text-align: center;
           .icon {
             width: px2rem(12px);
             height: px2rem(12px);
