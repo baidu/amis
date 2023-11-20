@@ -29,6 +29,161 @@ icon:
 }
 ```
 
+## 禁用样式
+
+> `6.0.0`及以上版本
+
+```schema
+{
+    "type": "page",
+    "initApi": "/api/mock2/page/initData?keywords=${keywords}",
+    "body": [
+      {
+        "type": "flex",
+        "direction": "column",
+        "justify": "flex-start",
+        "alignItems": "flex-start",
+        "items": [
+          {
+            "type": "search-box",
+            "name": "keywords",
+            "disabled": true,
+            "style": {
+              "marginBottom": "10px"
+            }
+          },
+          {
+            "type": "search-box",
+            "name": "keywords",
+            "mini": true,
+            "disabled": true
+          }
+        ]
+      }
+    ]
+}
+```
+
+## 加载状态
+
+> `6.0.0` 及以上版本
+
+设置`"loading": true`, 标识开关操作的异步任务仍在执行中。另外`loadingOn`支持表达式，配合`ajax`动作，实现搜索操作时的loading状态。
+
+```schema
+{
+  "type": "page",
+  "id": "demo-page",
+  "data": {
+    "isFetching": false,
+    "fetched": false
+  },
+  "body": [
+    {
+      "type": "search-box",
+      "name": "keywords",
+      "clearable": true,
+      "loadingOn": "${isFetching}",
+      "className": "mb-2",
+      "onEvent": {
+        "search": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "demo-page",
+              "args": {
+                "value": {
+                  "isFetching": true
+                }
+              }
+            },
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "warning",
+                "msg": "开始检索..."
+              }
+            },
+            {
+              "actionType": "ajax",
+              "api": {
+                "url": "/api/mock2/sample?perPage=5&waitSeconds=2&keywords=${keywords}",
+                "method": "get",
+                "messages": {
+                  "success": "检索完成",
+                  "failed": "检索失败"
+                }
+              }
+            },
+            {
+              "actionType": "setValue",
+              "componentId": "demo-page",
+              "args": {
+                "value": {
+                  "isFetching": false,
+                  "fetched": true,
+                  "total": "${event.data.responseResult.count}",
+                  "datasource": "${event.data.responseResult.rows}"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "flex",
+      "visibleOn": "${fetched && !isFetching}",
+      "justify": "flex-start",
+      "alignItems": "flex-start",
+      "direction": "column",
+      "items": [
+        {
+          "type": "flex",
+          "className": "mb-2",
+          "alignItems": "self-end",
+          "items": [
+            {
+              "type": "status",
+              "value": "success",
+              "className": "mr-2",
+              "labelMap": {
+                "success": "检索成功："
+              }
+            },
+            {
+              "type": "tpl",
+              "tpl": "总计${total}条，当前仅展示5条"
+            },
+          ]
+        },
+        {
+          "type": "list",
+          "source": "${datasource}",
+          "listItem": {
+            "body": [
+              {
+                "type": "hbox",
+                "columns": [
+                  {
+                    "label": "Engine",
+                    "name": "engine"
+                  },
+                  {
+                    "name": "version",
+                    "label": "Version"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 加强样式
 
 ```schema
@@ -224,6 +379,8 @@ icon:
 | mini             | `boolean` |        | 是否为 mini 模式             |
 | searchImediately | `boolean` |        | 是否立即搜索                 |
 | clearAndSubmit   | `boolean` |        | 清空搜索框内容后立即执行搜索 | `2.8.0` |
+| disabled   | `boolean` |    `false`    | 是否为禁用状态 | `6.0.0` |
+| loading   | `boolean` |    `false`    | 是否处于加载状态 | `6.0.0` |
 
 ## 事件表
 
