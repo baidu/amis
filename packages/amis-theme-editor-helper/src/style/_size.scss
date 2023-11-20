@@ -1,0 +1,118 @@
+$ns: cxd-;
+
+.Theme-SizeEditor {
+  &-label {
+    margin-bottom: 0.625rem;
+    color: #5c5f66;
+    font-size: 12px;
+  }
+
+  &-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: px2rem(12px);
+
+    .#{$ns}Button {
+      padding: px2rem(6px) px2rem(8px);
+      width: px2rem(32px);
+    }
+
+    &-no-hide {
+      .Theme-SizeEditor-item {
+        width: px2rem(210px);
+        max-width: px2rem(210px);
+        .theme-select {
+          width: px2rem(174px);
+          max-width: px2rem(174px);
+        }
+      }
+    }
+
+    .Theme-SizeEditor-item-label {
+      width: px2rem(36px);
+    }
+
+    .Theme-SizeEditor-item:not(:last-child) {
+      margin-bottom: px2rem(8px);
+    }
+  }
+
+  &-lock {
+    position: relative;
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: px2rem(-10px);
+      left: px2rem(-10px);
+      width: px2rem(26px);
+      height: px2rem(10px);
+      border: none;
+      border-top: 1px solid #b8babf;
+      border-right: 1px solid #b8babf;
+    }
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: px2rem(-10px);
+      left: px2rem(-10px);
+      width: px2rem(26px);
+      height: px2rem(10px);
+      border: none;
+      border-bottom: 1px solid #b8babf;
+      border-right: 1px solid #b8babf;
+    }
+  }
+
+  &-item {
+    display: flex;
+    flex: 1;
+    align-items: center;
+
+    &-label {
+      padding: px2rem(6px) px2rem(12px);
+      font-size: 12px;
+      color: #b8babf;
+      line-height: 18px;
+      border: px2rem(1px) solid #e8e9eb;
+      border-right: 0;
+      border-top-left-radius: px2rem(4px);
+      border-bottom-left-radius: px2rem(4px);
+    }
+
+    .#{$ns}Form-item {
+      margin: 0;
+    }
+
+    .#{$ns}TextControl-input {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      font-size: 12px;
+    }
+
+    .#{$ns}TextControl-sugs {
+      min-width: px2rem(150px) !important;
+    }
+  }
+
+  &-item-sigle {
+    display: block;
+
+    .#{$ns}Form-item {
+      width: auto;
+    }
+
+    .Theme-SizeEditor-item {
+      div {
+        flex-grow: 1;
+      }
+
+      .Theme-SizeEditor-item-label {
+        width: auto;
+        flex-grow: 0;
+      }
+    }
+  }
+}

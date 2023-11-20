@@ -14,25 +14,6 @@ import i18nConfig from './i18nConfig';
 
 var I18N = process.env.I18N;
 
-var PROXY_THEME = process.env.PROXY_THEME
-  ? [
-      {
-        find: 'amis-theme-editor/lib/renderers.css',
-        replacement: path.resolve(
-          __dirname,
-          '../editor/packages/amis-theme-editor/src/renderers/style/_index.scss'
-        )
-      },
-      {
-        find: 'amis-theme-editor/lib',
-        replacement: path.resolve(
-          __dirname,
-          '../editor/packages/amis-theme-editor/src'
-        )
-      }
-    ]
-  : [];
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -126,7 +107,14 @@ export default defineConfig({
       {
         find: 'office-viewer',
         replacement: path.resolve(__dirname, './packages/office-viewer/src')
+      },
+      {
+        find: 'amis-theme-editor-helper',
+        replacement: path.resolve(
+          __dirname,
+          './packages/amis-theme-editor-helper/src'
+        )
       }
-    ].concat(PROXY_THEME)
+    ]
   }
 });
