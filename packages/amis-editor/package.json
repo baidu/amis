@@ -43,7 +43,6 @@
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "amis-editor-core": "*",
     "amis-postcss": "1.0.0",
-    "amis-theme-editor": "*",
     "i18n-runtime": "*",
     "lodash": "^4.17.15",
     "mobx-state-tree": "^3.17.3"
@@ -102,7 +101,6 @@
     "amis": "*",
     "amis-core": "*",
     "amis-formula": "*",
-    "amis-theme-editor": "*",
     "amis-ui": "*",
     "i18n-runtime": "*",
     "react": ">=16.8.6",
