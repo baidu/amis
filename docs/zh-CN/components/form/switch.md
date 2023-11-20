@@ -86,7 +86,7 @@ order: 51
 
 ## 配置开启和关闭状态的文本
 
-> 1.1.5 版本之后支持
+> `1.1.5` 版本之后支持
 
 ```schema: scope="body"
 {
@@ -101,6 +101,47 @@ order: 51
     ]
 }
 ```
+
+### 使用Schema配置文本
+
+> `3.6.0` 版本之后支持
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "name": "switch",
+            "type": "switch",
+            "onText": [
+                {
+                    "type": "icon",
+                    "icon": "fa fa-plane",
+                    "vendor": "",
+                    "className": "mr-1"
+                },
+                {
+                    "type": "tpl",
+                    "tpl": "飞行模式"
+                }
+            ],
+            "offText": [
+                {
+                    "type": "icon",
+                    "icon": "fa fa-plane",
+                    "vendor": "",
+                    "className": "mr-1"
+                },
+                {
+                    "type": "tpl",
+                    "tpl": "飞行模式"
+                }
+            ]
+        }
+    ]
+}
+```
+
 
 ## 默认值
 
@@ -256,10 +297,10 @@ order: 51
 | 属性名     | 类型                        | 默认值  | 说明                 | 版本 |
 | ---------- | --------------------------- | ------- | -------------------- | --- |
 | option     | `string`                    |         | 选项说明             |
-| onText     | `string / IconSchema`       |         | 开启时开关显示的内容 |
-| offText    | `string / IconSchema`       |         | 关闭时开关显示的内容 |
-| trueValue  | `boolean / string / number` | `true`  | 标识真值             |
-| falseValue | `boolean / string / number` | `false` | 标识假值             |
+| onText     | `string \| IconSchema \| SchemaCollection`       |         | 开启时开关显示的内容 | `3.6.0`支持Schema |
+| offText    | `string \| IconSchema \| SchemaCollection`       |         | 关闭时开关显示的内容 | `3.6.0`支持Schema |
+| trueValue  | `boolean \| string \| number` | `true`  | 标识真值             |
+| falseValue | `boolean \| string \| number` | `false` | 标识假值             |
 | size       | `"sm" \| "md"`              | `"md"`  | 开关大小             |
 | loading    | `boolean`                   | `false`  | 是否处于加载状态     | `3.6.0` |
 
