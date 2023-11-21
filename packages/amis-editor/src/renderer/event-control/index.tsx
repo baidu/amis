@@ -241,10 +241,8 @@ export class EventControl extends React.Component<
       };
     }
     if (!eventInfo.track) {
-      // 防抖配置的默认值
       eventInfo.track = {
-        open: false,
-        wait: 100
+        open: false
       };
     } else {
       eventInfo.track = {
