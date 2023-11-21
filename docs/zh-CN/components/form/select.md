@@ -25,16 +25,16 @@ order: 48
             "menuTpl": "<div>${label} 值：${value}, 当前是否选中: ${checked}</div>",
             "options": [
                 {
-                    "label":"A",
-                    "value":"a"
+                  "label": "A",
+                  "value": "a"
                 },
                 {
-                    "label":"B",
-                    "value":"b"
+                  "label": "B",
+                  "value": "b"
                 },
                 {
-                    "label":"C",
-                    "value":"c"
+                  "label": "C",
+                  "value": "c"
                 }
             ]
         }

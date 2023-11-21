@@ -5,47 +5,46 @@
  * @date 2017-11-07
  */
 
-import {
-  getOptionValue,
-  getOptionValueBindField,
-  uncontrollable
-} from 'amis-core';
 import React from 'react';
+import {findDOMNode} from 'react-dom';
+import {ErrorBoundary} from 'react-error-boundary';
 import isInteger from 'lodash/isInteger';
 import omit from 'lodash/omit';
 import merge from 'lodash/merge';
-import VirtualList from './virtual-list';
-import {Overlay} from 'amis-core';
-import {PopOver} from 'amis-core';
-import TooltipWrapper from './TooltipWrapper';
-import Downshift, {ControllerStateAndHelpers} from 'downshift';
-import {closeIcon, Icon} from './icons';
+import isPlainObject from 'lodash/isPlainObject';
 import {matchSorter} from 'match-sorter';
+import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import {
   noop,
   isObject,
   findTree,
   autobind,
   ucFirst,
-  normalizeNodePath
+  normalizeNodePath,
+  themeable,
+  ThemeProps,
+  LocaleProps,
+  localeable,
+  highlight,
+  Overlay,
+  PopOver,
+  getOptionValue,
+  getOptionValueBindField,
+  uncontrollable
 } from 'amis-core';
-import find from 'lodash/find';
-import isPlainObject from 'lodash/isPlainObject';
-import union from 'lodash/union';
-import {highlight} from 'amis-core';
-import {findDOMNode} from 'react-dom';
-import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
+import VirtualList from './virtual-list';
+import TooltipWrapper from './TooltipWrapper';
+import {Icon} from './icons';
 import Checkbox from './Checkbox';
 import Input from './Input';
-import {LocaleProps, localeable} from 'amis-core';
 import Spinner, {SpinnerExtraProps} from './Spinner';
-import type {Option, Options} from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
-import Picker from './Picker';
-import PopUp from './PopUp';
 import BasePopover, {PopOverOverlay} from './PopOverContainer';
 import SelectMobile from './SelectMobile';
+import {Alert} from './Alert2';
 
+import type {FallbackProps} from 'react-error-boundary';
+import type {Option, Options} from 'amis-core';
 import type {TooltipObject} from '../components/TooltipWrapper';
 
 export {Option, Options};
@@ -398,6 +397,11 @@ export interface SelectProps
    * 检索函数
    */
   filterOption?: FilterOption;
+
+  /**
+   * 隐藏组件内部报错提示
+   */
+  forceSilenceInsideError?: boolean;
 }
 
 interface SelectState {
@@ -987,6 +991,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       multiple,
       valuesNoWrap,
       classnames: cx,
+      classPrefix,
       popoverClassName,
       popOverContainerSelector,
       checkAll,
@@ -1006,7 +1011,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       virtualThreshold = 100,
       mobileUI,
       filterOption = defaultFilterOption,
-      overlay
+      overlay,
+      forceSilenceInsideError
     } = this.props;
     const {selection} = this.state;
 
@@ -1037,7 +1043,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     // 用于虚拟渲染的每项高度
     const virtualItemHeight = this.props.itemHeight || this.state.itemHeight;
-
     // 渲染单个选项
     const renderItem = ({index, style}: {index: number; style?: object}) => {
       const item = filtedOptions[index];
@@ -1271,7 +1276,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       >
         <PopOver
           overlay
-          className={cx('Select-popover')}
+          className={cx('Select-popover', popoverClassName)}
           style={{
             width:
               (overlay &&
@@ -1283,7 +1288,28 @@ export class Select extends React.Component<SelectProps, SelectState> {
           }}
           onHide={this.close}
         >
-          {menu}
+          <ErrorBoundary
+            FallbackComponent={({error}: FallbackProps) => {
+              if (!forceSilenceInsideError) {
+                return (
+                  <Alert
+                    classnames={cx}
+                    classPrefix={classPrefix}
+                    showIcon
+                    level="danger"
+                  >
+                    {error.message}
+                  </Alert>
+                );
+              } else {
+                console.warn(error.message);
+              }
+
+              return null;
+            }}
+          >
+            {menu}
+          </ErrorBoundary>
         </PopOver>
       </Overlay>
     );

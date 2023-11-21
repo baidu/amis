@@ -516,6 +516,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             noResultsText={noResultsText}
             renderMenu={menuTpl ? this.renderMenu : undefined}
             overlay={overlay}
+            forceSilenceInsideError={env?.forceSilenceInsideError}
           />
         )}
       </div>
