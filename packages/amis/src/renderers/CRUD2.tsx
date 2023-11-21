@@ -21,7 +21,6 @@ import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from 'amis-core';
 import {isEffectiveApi, isApiOutdated} from 'amis-core';
 import findIndex from 'lodash/findIndex';
-import isEqual from 'lodash/isEqual';
 import {Html, SpinnerExtraProps} from 'amis-ui';
 import {
   BaseSchema,
@@ -395,7 +394,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     } else if (!props.api && isPureVariable(props.source)) {
       const next = resolveVariableAndFilter(props.source, props.data, '| raw');
 
-      if (!this.lastData || !isEqual(this.lastData, next)) {
+      if (!this.lastData || this.lastData !== next) {
         store.initFromScope(props.data, props.source, {
           columns: store.columns ?? props.columns
         });
