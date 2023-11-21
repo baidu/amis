@@ -29,6 +29,17 @@ export interface LocationControlSchema extends FormBaseControlSchema {
    * 有的地图需要设置 ak 信息
    */
   ak?: string;
+
+  /**
+   * 是否自动选中当前地理位置
+   */
+  autoSelectCurrentLoc?: boolean;
+
+  /**
+   * 是否只能选中当前地理位置
+   * 备注：可用于充当定位组件，只允许选择当前位置
+   */
+  onlySelectCurrentLoc?: boolean;
 }
 
 export interface LocationControlProps
