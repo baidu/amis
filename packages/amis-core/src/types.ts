@@ -458,7 +458,8 @@ export interface EventTrack {
     | 'tabChange'
     | 'pageLoaded'
     | 'pageHidden'
-    | 'pageVisible';
+    | 'pageVisible'
+    | string;
 
   /**
    * 事件数据
