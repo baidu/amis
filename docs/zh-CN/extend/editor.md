@@ -41,7 +41,7 @@ render() {
 - `onChange: (value: Schema) => void` 当编辑器修改的时候会触发。
 - `preview?: boolean` 是否为预览模式。
 - `autoFocus?: boolean` 是否自动聚焦第一个可编辑的组件。
-- `isMobile?: boolean` 是否为移动端模式，当为移动模式时，将采用 iframe 来预览，需要配置 `iframeUrl`。
+- `isMobile?: boolean` 是否为移动端模式，当为移动模式时，将采用 iframe 来预览。
 - `$schemaUrl?: string` 提供 amis 产出的 schema.json 的访问路径。主要用来给代码编辑模式提供属性提示信息。
 - `className?: string` 额外加个 css 类名，辅助样式定义。
 - `schemas?: JSONSchemaObject` 用来定义有哪些全局变量，辅助编辑器格式化绑定全局数据。

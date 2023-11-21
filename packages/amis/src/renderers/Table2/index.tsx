@@ -1,5 +1,6 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import {reaction} from 'mobx';
 import {isAlive} from 'mobx-state-tree';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
@@ -34,7 +35,10 @@ import type {
   SortProps,
   ColumnProps,
   OnRowProps,
-  SummaryProps
+  SummaryProps,
+  RowSelectionProps,
+  ExpandableProps,
+  AutoFillHeightObject
 } from 'amis-ui/lib/components/table';
 import {
   BaseSchema,
@@ -44,7 +48,7 @@ import {
   SchemaMessage
 } from '../../Schema';
 import {ActionSchema} from '../Action';
-import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
+import HeadCellSearchDropDown from './HeadCellSearchDropdown';
 import './TableCell';
 import './ColumnToggler';
 import {Action} from '../../types';
@@ -389,6 +393,11 @@ export interface TableSchema2 extends BaseSchema {
   primaryField?: string;
 
   tableLayout?: 'fixed' | 'auto';
+
+  /**
+   * 表格自动计算高度
+   */
+  autoFillHeight?: boolean | AutoFillHeightObject;
 }
 
 // 事件调整 对应CRUD2里的事件配置也需要同步修改
@@ -467,12 +476,17 @@ export default class Table2 extends React.Component<Table2Props, object> {
     'primaryField',
     'hideQuickSaveBtn',
     'selected',
-    'placeholder'
+    'placeholder',
+    'autoFillHeight'
   ];
 
   renderedToolbars: Array<string> = [];
   tableRef?: any;
   subForms: any = {};
+  columns: Array<ColumnProps> = [];
+  rowSelection: RowSelectionProps;
+  expandable: ExpandableProps;
+  reactions: Array<any> = [];
 
   static defaultProps: Partial<Table2Props> = {
     keyField: 'id'
@@ -499,11 +513,43 @@ export default class Table2 extends React.Component<Table2Props, object> {
       rowSelectionKeyField: primaryField || rowSelection?.keyField || keyField
     });
     Table2.syncRows(store, props, undefined) && this.syncSelected();
+
+    this.columns = this.buildColumns(store.filteredColumns, [], []);
+    this.rowSelection = this.buildRowSelection();
+    this.expandable = this.buildExpandable();
+    this.reactions.push(
+      reaction(
+        () => store.currentSelectedRowKeys.join(','),
+        () => {
+          this.rowSelection = this.buildRowSelection();
+          this.forceUpdate();
+        }
+      )
+    );
+    this.reactions.push(
+      reaction(
+        () => store.currentExpandedKeys.join(','),
+        () => {
+          this.expandable = this.buildExpandable();
+          this.forceUpdate();
+        }
+      )
+    );
+    this.reactions.push(
+      reaction(
+        () => store.filteredColumns,
+        () => {
+          this.columns = this.buildColumns(store.filteredColumns, [], []);
+          this.forceUpdate();
+        }
+      )
+    );
   }
 
   componentWillUnmount() {
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
+    this.reactions && this.reactions.forEach(reaction => reaction());
   }
 
   syncSelected() {
@@ -639,10 +685,25 @@ export default class Table2 extends React.Component<Table2Props, object> {
       prevSelectedRows !== selectedRows && this.syncSelected();
     }
 
-    if (!isEqual(prevProps.columns, props.columns)) {
+    if (anyChanged(['columns'], prevProps, props)) {
       store.update({
         columns: props.columns
       });
+    }
+
+    if (
+      anyChanged(
+        [
+          'rowSelection',
+          'selectable',
+          'multiple',
+          'maxKeepItemSelectionLength'
+        ],
+        prevProps,
+        props
+      )
+    ) {
+      this.rowSelection = this.buildRowSelection();
     }
 
     if (
@@ -655,12 +716,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
       store.update({
         rowSelectionKeyField:
           props.primaryField || props.rowSelection?.keyField || props.keyField
-      });
-    }
-
-    if (prevProps.columnsTogglable !== props.columnsTogglable) {
-      store.update({
-        columnsTogglable: props.columnsTogglable
       });
     }
   }
@@ -752,7 +807,11 @@ export default class Table2 extends React.Component<Table2Props, object> {
     return schema;
   }
   // editor传来的处理过的column 还可能包含其他字段
-  buildColumns(columns: Array<any>) {
+  buildColumns(
+    columns: Array<any>,
+    rowSpans: Array<CellSpan>,
+    colSpans: Array<CellSpan>
+  ) {
     const {
       render,
       store,
@@ -764,8 +823,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
     } = this.props;
 
     const cols: Array<any> = [];
-    const rowSpans: Array<CellSpan> = [];
-    const colSpans: Array<CellSpan> = [];
+    rowSpans = rowSpans;
+    colSpans = colSpans;
 
     Array.isArray(columns) &&
       columns.forEach((column, col) => {
@@ -816,6 +875,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
           title: titleRender
         });
 
+        const isGroupColumn = !!column.children?.length;
         // 设置了type值 就完全按渲染器处理了
         if (column.type) {
           Object.assign(clone, {
@@ -865,7 +925,9 @@ export default class Table2 extends React.Component<Table2Props, object> {
                 }),
                 props
               };
-              if (column.rowSpanExpr) {
+
+              // 分组表头配置了合并行或者列也不生效
+              if (!isGroupColumn && column.rowSpanExpr) {
                 const rowSpan = +filter(column.rowSpanExpr, {
                   record,
                   rowIndex,
@@ -877,7 +939,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
                 }
               }
 
-              if (column.colSpanExpr) {
+              if (!isGroupColumn && column.colSpanExpr) {
                 const colSpan = +filter(column.colSpanExpr, {
                   record,
                   rowIndex,
@@ -933,21 +995,24 @@ export default class Table2 extends React.Component<Table2Props, object> {
               name={column.name}
               searchable={column.searchable}
               orderBy={store.orderBy}
-              orderDir={store.order}
+              order={store.order}
               data={store.query}
+              onSearch={this.handleSearch}
               key={'th-search-' + col}
-              store={store}
             />
           );
         }
 
-        if (column.children) {
-          clone.children = this.buildColumns(column.children);
+        if (isGroupColumn) {
+          clone.children = this.buildColumns(
+            column.children,
+            rowSpans,
+            colSpans
+          );
         }
 
         cols.push(clone);
       });
-
     return cols;
   }
 
@@ -983,6 +1048,175 @@ export default class Table2 extends React.Component<Table2Props, object> {
     }
 
     return result.length ? result : null;
+  }
+
+  @autobind
+  rowClassName(record: any, rowIndex: number) {
+    const {rowClassNameExpr, store} = this.props;
+
+    const classnames = [];
+    if (rowClassNameExpr) {
+      classnames.push(filter(rowClassNameExpr, {record, rowIndex}));
+    }
+    // row可能不存在
+    // 比如初始化给了10条数据，异步接口又替换成4条
+    const row = store.getRowByIndex(rowIndex);
+    if (row?.modified) {
+      classnames.push('is-modified');
+    }
+    if (row?.moved) {
+      classnames.push('is-moved');
+    }
+    return classnames.join(' ');
+  }
+
+  buildRowSelection() {
+    const {
+      selectable,
+      multiple,
+      maxKeepItemSelectionLength,
+      rowSelection,
+      store
+    } = this.props;
+
+    let rowSelectionConfig: any = null;
+    if (selectable) {
+      rowSelectionConfig = {
+        type: multiple === false ? 'radio' : '', // rowSelection.type不设置 默认为多选
+        selectedRowKeys: store.currentSelectedRowKeys,
+        maxSelectedLength: maxKeepItemSelectionLength
+      };
+    } else if (rowSelection) {
+      const {selectedRowKeys, selections, ...rest} = rowSelection;
+      rowSelectionConfig = {
+        selectedRowKeys: store.currentSelectedRowKeys,
+        maxSelectedLength: maxKeepItemSelectionLength,
+        ...rest
+      };
+
+      rowSelectionConfig.getCheckboxProps = (record: any, rowIndex: number) => {
+        const {rowSelection, maxKeepItemSelectionLength, store} = this.props;
+        const disableOn = rowSelection?.disableOn;
+
+        return {
+          disabled:
+            (disableOn
+              ? evalExpression(disableOn, {record, rowIndex})
+              : false) ||
+            (maxKeepItemSelectionLength &&
+              store.currentSelectedRowKeys.length >=
+                maxKeepItemSelectionLength &&
+              !store.currentSelectedRowKeys.includes(record[store.keyField]))
+        };
+      };
+
+      rowSelection.disableOn && delete rowSelectionConfig.disableOn;
+
+      if (selections && Array.isArray(selections)) {
+        rowSelectionConfig.selections = [];
+
+        selections.forEach((item: RowSelectionOptionsSchema) => {
+          rowSelectionConfig.selections.push({
+            key: item.key,
+            text: item.text,
+            onSelect: (changableRowKeys: Array<string | number>) => {
+              let newSelectedRowKeys = [];
+              newSelectedRowKeys = changableRowKeys.filter((key, index) => {
+                if (item.key === 'all') {
+                  return true;
+                }
+                if (item.key === 'none') {
+                  return false;
+                }
+                if (item.key === 'invert') {
+                  return !store.currentSelectedRowKeys.includes(key);
+                }
+                // 奇数行
+                if (item.key === 'odd') {
+                  if (index % 2 !== 0) {
+                    return false;
+                  }
+                  return true;
+                }
+                // 偶数行
+                if (item.key === 'even') {
+                  if (index % 2 !== 0) {
+                    return true;
+                  }
+                  return false;
+                }
+                return true;
+              });
+              store.updateSelected(newSelectedRowKeys);
+            }
+          });
+        });
+      }
+    }
+
+    return rowSelectionConfig;
+  }
+
+  @autobind
+  expandedRowClassName(record: any, rowIndex: number) {
+    const {expandable} = this.props;
+    return filter(expandable?.expandedRowClassNameExpr, {record, rowIndex});
+  }
+
+  @autobind
+  expandedRowRender(record: any, rowIndex: number) {
+    const {expandable} = this.props;
+
+    return this.renderSchema(
+      'expandableBody',
+      {...expandable},
+      {
+        data: {
+          ...this.props.data,
+          record,
+          rowIndex
+        }
+      }
+    );
+  }
+
+  @autobind
+  rowExpandable(record: any, rowIndex: number, rowIndexes: number[]) {
+    const {expandable} = this.props;
+    if (expandable?.expandableOn) {
+      return evalExpression(expandable.expandableOn, {record, rowIndex});
+    }
+    return false;
+  }
+
+  buildExpandable() {
+    const {expandable, store} = this.props;
+
+    let expandableConfig: any = null;
+    if (expandable) {
+      const {expandedRowKeys, ...rest} = expandable;
+
+      expandableConfig = {
+        expandedRowKeys: store.currentExpandedKeys,
+        ...rest
+      };
+
+      if (expandable.expandableOn) {
+        expandableConfig.rowExpandable = this.rowExpandable;
+        delete expandableConfig.expandableOn;
+      }
+
+      if (expandable && expandable.type) {
+        expandableConfig.expandedRowRender = this.expandedRowRender;
+      }
+
+      if (expandable.expandedRowClassNameExpr) {
+        expandableConfig.expandedRowClassName = this.expandedRowClassName;
+        delete expandableConfig.expandedRowClassNameExpr;
+      }
+    }
+
+    return expandableConfig;
   }
 
   reloadTarget(target: string, data: any) {
@@ -1278,7 +1512,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
     if (rendererEvent?.prevented) {
       return rendererEvent?.prevented;
     }
-
     store.updateSelected(selectedRowKeys);
     this.syncSelected();
   }
@@ -1317,6 +1550,25 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   @autobind
+  async handleSearch(name: string, values: any) {
+    const {data, dispatchEvent, store} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'columnSearch',
+      createObject(data, {
+        searchName: name,
+        searchValue: values
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    store.updateQuery(values);
+  }
+
+  @autobind
   async handleRowClick(
     event: React.ChangeEvent<any>,
     rowItem: any,
@@ -1336,6 +1588,29 @@ export default class Table2 extends React.Component<Table2Props, object> {
     if (rowItem && onRow) {
       onRow.onRowClick && onRow.onRowClick(event, rowItem, rowIndex);
     }
+  }
+
+  @autobind
+  async handleRowDbClick(
+    event: React.ChangeEvent<any>,
+    rowItem: any,
+    rowIndex?: number
+  ) {
+    const {dispatchEvent, data, onRow} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'rowDbClick',
+      createObject(data, {item: rowItem, index: rowIndex})
+    );
+
+    if (rendererEvent?.prevented) {
+      return false;
+    }
+
+    if (rowItem && onRow) {
+      onRow.onRowDbClick && onRow.onRowDbClick(event, rowItem, rowIndex);
+    }
+    return true;
   }
 
   @autobind
@@ -1526,134 +1801,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
       ...rest
     } = this.props;
 
-    let expandableConfig: any = null;
-    if (expandable) {
-      const {expandedRowKeys, ...rest} = expandable;
-
-      expandableConfig = {
-        expandedRowKeys: store.currentExpandedKeys,
-        ...rest
-      };
-
-      if (expandable.expandableOn) {
-        expandableConfig.rowExpandable = (record: any, rowIndex: number) =>
-          evalExpression(expandable.expandableOn, {record, rowIndex});
-        delete expandableConfig.expandableOn;
-      }
-
-      if (expandable && expandable.type) {
-        expandableConfig.expandedRowRender = (record: any, rowIndex: number) =>
-          this.renderSchema(
-            'expandableBody',
-            {...expandable},
-            {
-              data: {
-                ...this.props.data,
-                record
-              }
-            }
-          );
-      }
-
-      if (expandable.expandedRowClassNameExpr) {
-        expandableConfig.expandedRowClassName = (
-          record: any,
-          rowIndex: number
-        ) => filter(expandable.expandedRowClassNameExpr, {record, rowIndex});
-        delete expandableConfig.expandedRowClassNameExpr;
-      }
-    }
-
-    let rowSelectionConfig: any = null;
-    if (selectable) {
-      rowSelectionConfig = {
-        type: multiple === false ? 'radio' : '', // rowSelection.type不设置 默认为多选
-        selectedRowKeys: store.currentSelectedRowKeys,
-        maxSelectedLength: maxKeepItemSelectionLength
-      };
-    } else if (rowSelection) {
-      const {selectedRowKeys, selections, ...rest} = rowSelection;
-      rowSelectionConfig = {
-        selectedRowKeys: store.currentSelectedRowKeys,
-        maxSelectedLength: maxKeepItemSelectionLength,
-        ...rest
-      };
-
-      const disableOn = rowSelection.disableOn;
-      rowSelectionConfig.getCheckboxProps = (record: any, rowIndex: number) => {
-        return {
-          disabled:
-            (disableOn
-              ? evalExpression(disableOn, {record, rowIndex})
-              : false) ||
-            (maxKeepItemSelectionLength &&
-              store.currentSelectedRowKeys.length >=
-                maxKeepItemSelectionLength &&
-              !store.currentSelectedRowKeys.includes(record[store.keyField]))
-        };
-      };
-
-      disableOn && delete rowSelectionConfig.disableOn;
-
-      if (selections && Array.isArray(selections)) {
-        rowSelectionConfig.selections = [];
-
-        selections.forEach((item: RowSelectionOptionsSchema) => {
-          rowSelectionConfig.selections.push({
-            key: item.key,
-            text: item.text,
-            onSelect: (changableRowKeys: Array<string | number>) => {
-              let newSelectedRowKeys = [];
-              newSelectedRowKeys = changableRowKeys.filter((key, index) => {
-                if (item.key === 'all') {
-                  return true;
-                }
-                if (item.key === 'none') {
-                  return false;
-                }
-                if (item.key === 'invert') {
-                  return !store.currentSelectedRowKeys.includes(key);
-                }
-                // 奇数行
-                if (item.key === 'odd') {
-                  if (index % 2 !== 0) {
-                    return false;
-                  }
-                  return true;
-                }
-                // 偶数行
-                if (item.key === 'even') {
-                  if (index % 2 !== 0) {
-                    return true;
-                  }
-                  return false;
-                }
-                return true;
-              });
-              store.updateSelected(newSelectedRowKeys);
-            }
-          });
-        });
-      }
-    }
-
-    const rowClassName = (record: any, rowIndex: number) => {
-      const classnames = [];
-      if (rowClassNameExpr) {
-        classnames.push(filter(rowClassNameExpr, {record, rowIndex}));
-      }
-      // row可能不存在
-      // 比如初始化给了10条数据，异步接口又替换成4条
-      const row = store.getRowByIndex(rowIndex);
-      if (row?.modified) {
-        classnames.push('is-modified');
-      }
-      if (row?.moved) {
-        classnames.push('is-moved');
-      }
-      return classnames.join(' ');
-    };
-
     let itemActionsConfig = undefined;
     if (itemActions) {
       const finalActions = Array.isArray(itemActions)
@@ -1695,11 +1842,11 @@ export default class Table2 extends React.Component<Table2Props, object> {
         onRef={this.getRef}
         title={this.renderSchema('title', title, schemaProps)}
         footer={this.renderSchema('footer', footer, schemaProps)}
-        columns={this.buildColumns(store.filteredColumns)}
+        columns={this.columns}
         dataSource={store.dataSource}
-        rowSelection={rowSelectionConfig}
-        rowClassName={rowClassName}
-        expandable={expandableConfig}
+        rowSelection={this.rowSelection}
+        rowClassName={this.rowClassName}
+        expandable={this.expandable}
         footSummary={this.buildSummary('footSummary', footSummary)}
         headSummary={this.buildSummary('headSummary', headSummary)}
         loading={this.renderSchema('loading', loading, schemaProps)}
@@ -1714,6 +1861,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
         onRow={{
           ...onRow,
           onRowClick: this.handleRowClick,
+          onRowDbClick: this.handleRowDbClick,
           onRowMouseEnter: this.handleRowMouseEnter,
           onRowMouseLeave: this.handleRowMouseLeave
         }}

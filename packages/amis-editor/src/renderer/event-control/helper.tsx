@@ -2352,6 +2352,12 @@ export const COMMON_ACTION_SCHEMA_MAP: {
   },
   confirm: {
     descDetail: (info: any) => <div>打开确认对话框</div>
+  },
+  preview: {
+    descDetail: (info: any) => <div>预览图片</div>
+  },
+  zoom: {
+    descDetail: (info: any) => <div>调整图片比例</div>
   }
 };
 
@@ -3294,7 +3300,7 @@ export const getEventControlConfig = (
           // 选择现有弹窗后为了使之前的弹窗和现有弹窗$$id唯一，这里重新生成一下
           let newDialogId = guid();
           action.actionType = dialogType;
-          action.dialog = {
+          action[dialogType] = {
             $$id: newDialogId,
             type: dialogType
           };

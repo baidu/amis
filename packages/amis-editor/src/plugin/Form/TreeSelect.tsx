@@ -249,6 +249,11 @@ export class TreeSelectControlPlugin extends BasePlugin {
       actionType: 'setValue',
       actionLabel: '赋值',
       description: '触发组件数据更新'
+    },
+    {
+      actionType: 'reload',
+      actionLabel: '重新加载',
+      description: '触发组件数据刷新并重新渲染'
     }
   ];
 
@@ -507,7 +512,6 @@ export class TreeSelectControlPlugin extends BasePlugin {
               getSchemaTpl('valueFormula', {
                 name: 'highlightTxt',
                 label: '高亮节点字符',
-                type: 'input-text',
                 visibleOn: 'data.type === "input-tree"'
               }),
               {

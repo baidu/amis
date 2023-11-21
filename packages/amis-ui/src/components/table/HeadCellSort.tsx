@@ -27,7 +27,7 @@ export interface State {
   orderBy: string; // 一次只能按一列排序 当前列的key
 }
 
-export class HeadCellSort extends React.Component<Props, State> {
+export class HeadCellSort extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
 

@@ -105,6 +105,16 @@ export interface TextareaFormulaControlProps extends FormControlProps {
    * 弹窗顶部标题，默认为 "表达式"
    */
   header: string;
+
+  /**
+   * 是否支持全屏，默认 true
+   */
+  allowFullscreen?: boolean;
+
+  /**
+   * fx 更新前事件
+   */
+  beforeFxConfirm?: (plugin: FormulaPlugin) => void;
 }
 
 interface TextareaFormulaControlState {
@@ -247,7 +257,9 @@ export class TextareaFormulaControl extends React.Component<
 
   @autobind
   handleConfirm(value: any) {
+    const {beforeFxConfirm} = this.props;
     const {expressionBrace} = this.state;
+    beforeFxConfirm && beforeFxConfirm(this.editorPlugin);
     // 去除可能包裹的最外层的${}
     value = value.replace(/^\$\{(.*)\}$/, (match: string, p1: string) => p1);
     value = value ? `\${${value}}` : value;
@@ -373,6 +385,7 @@ export class TextareaFormulaControl extends React.Component<
       additionalMenus,
       onOverallClick,
       customFormulaPicker,
+      allowFullscreen = true,
       ...rest
     } = this.props;
     const {
@@ -425,19 +438,21 @@ export class TextareaFormulaControl extends React.Component<
             </div>
           )}
           <ul className="ae-TextareaResultBox-footer">
-            <li className="ae-TextareaResultBox-footer-fullscreen">
-              <a
-                className={cx('Modal-fullscreen')}
-                data-tooltip={isFullscreen ? '退出全屏' : '全屏'}
-                data-position="top"
-                onClick={this.handleFullscreenModeChange}
-              >
-                <Icon
-                  icon={isFullscreen ? 'compress-alt' : 'expand-alt'}
-                  className="icon"
-                />
-              </a>
-            </li>
+            {allowFullscreen ? (
+              <li className="ae-TextareaResultBox-footer-fullscreen">
+                <a
+                  className={cx('Modal-fullscreen')}
+                  data-tooltip={isFullscreen ? '退出全屏' : '全屏'}
+                  data-position="top"
+                  onClick={this.handleFullscreenModeChange}
+                >
+                  <Icon
+                    icon={isFullscreen ? 'compress-alt' : 'expand-alt'}
+                    className="icon"
+                  />
+                </a>
+              </li>
+            ) : null}
             <li
               className={cx('ae-TextareaResultBox-footer-fxIcon', {
                 'is-loading': loading

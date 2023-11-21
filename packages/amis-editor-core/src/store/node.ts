@@ -673,9 +673,15 @@ export const EditorNode = types
             },
             component?.props
           ) || patched;
-        patched = JSONPipeIn(patched);
+
         if (patched !== schema) {
-          root.changeValueById(info.id, patched, undefined, true, true);
+          root.changeValueById(
+            info.id,
+            JSONPipeIn(patched),
+            undefined,
+            true,
+            true
+          );
         }
       },
 

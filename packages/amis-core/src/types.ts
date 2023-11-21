@@ -658,6 +658,11 @@ export interface BaseSchemaWithoutType {
    */
   editorSetting?: {
     /**
+     * 组件行为、用途，如 create、update、remove
+     */
+    behavior?: string;
+
+    /**
      * 组件名称，通常是业务名称方便定位
      */
     displayName?: string;
@@ -666,6 +671,8 @@ export interface BaseSchemaWithoutType {
      * 编辑器假数据，方便展示
      */
     mock?: any;
+
+    [propName: string]: any;
   };
 
   /**

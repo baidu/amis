@@ -65,6 +65,10 @@
     }
   }
 
+  &-draggable > &-header {
+    cursor: move;
+  }
+
   &-overlay {
     transition: ease-in-out opacity var(--animation-duration);
     position: fixed;

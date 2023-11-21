@@ -253,7 +253,7 @@ export function isObjectShallowModified(
   next: any,
   strictModeOrFunc: boolean | ((lhs: any, rhs: any) => boolean) = true,
   ignoreUndefined: boolean = false,
-  statck: Array<any> = []
+  stack: Array<any> = []
 ): boolean {
   if (Array.isArray(prev) && Array.isArray(next)) {
     return prev.length !== next.length
@@ -264,7 +264,7 @@ export function isObjectShallowModified(
             next[index],
             strictModeOrFunc,
             ignoreUndefined,
-            statck
+            stack
           )
         );
   }
@@ -278,8 +278,10 @@ export function isObjectShallowModified(
     null == next ||
     !isObject(prev) ||
     !isObject(next) ||
-    isObservable(prev) ||
-    isObservable(next)
+    // 不是 Object.create 创建的对象
+    // 不是 plain object
+    prev.constructor !== Object ||
+    next.constructor !== Object
   ) {
     if (strictModeOrFunc && typeof strictModeOrFunc === 'function') {
       return strictModeOrFunc(prev, next);
@@ -303,11 +305,11 @@ export function isObjectShallowModified(
   }
 
   // 避免循环引用死循环。
-  if (~statck.indexOf(prev)) {
+  if (~stack.indexOf(prev)) {
     return false;
   }
 
-  statck.push(prev);
+  stack.push(prev);
 
   for (let i: number = keys.length - 1; i >= 0; i--) {
     const key = keys[i];
@@ -317,7 +319,7 @@ export function isObjectShallowModified(
         next[key],
         strictModeOrFunc,
         ignoreUndefined,
-        statck
+        stack
       )
     ) {
       return true;
@@ -1952,6 +1954,7 @@ export function JSONValueMap(
     host: Object,
     stack: Array<Object>
   ) => any,
+  deepFirst: boolean = false,
   stack: Array<Object> = []
 ) {
   if (!isPlainObject(json) && !Array.isArray(json)) {
@@ -1964,40 +1967,42 @@ export function JSONValueMap(
     host: any,
     stack: Array<any> = []
   ) => {
-    let maped: any = mapper(origin, key, host, stack);
+    if (deepFirst) {
+      const value = JSONValueMap(origin, mapper, deepFirst, stack);
+      return mapper(value, key, host, stack) ?? value;
+    }
 
-    if (maped === origin && (isPlainObject(origin) || Array.isArray(origin))) {
-      return JSONValueMap(origin, mapper, stack);
+    let maped: any = mapper(origin, key, host, stack) ?? origin;
+
+    // 如果不是深度优先，上层的对象都修改了，就不继续递归进到新返回的对象了
+    if (maped === origin) {
+      return JSONValueMap(origin, mapper, deepFirst, stack);
     }
     return maped;
   };
 
   if (Array.isArray(json)) {
-    let flag = false;
-    let mapped = json.map((value, index) => {
-      let result: any = iterator(value, index, json, [json].concat(stack));
-      if (result !== value) {
-        flag = true;
-        return result;
-      }
-      return value;
+    let modified = false;
+    let arr = json.map((value, index) => {
+      let newValue: any = iterator(value, index, json, [json].concat(stack));
+      modified = modified || newValue !== value;
+      return newValue;
     });
-    return flag ? mapped : json;
+    return modified ? arr : json;
   }
 
-  let flag = false;
+  let modified = false;
   const toUpdate: any = {};
   Object.keys(json).forEach(key => {
     const value: any = json[key];
     let result: any = iterator(value, key, json, [json].concat(stack));
     if (result !== value) {
-      flag = true;
+      modified = true;
       toUpdate[key] = result;
-      return;
     }
   });
 
-  return flag
+  return modified
     ? {
         ...json,
         ...toUpdate

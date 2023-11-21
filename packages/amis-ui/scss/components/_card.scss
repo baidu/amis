@@ -162,6 +162,7 @@
 
       &.is-disabled {
         color: var(--text--muted-color);
+        cursor: not-allowed;
 
         &:hover {
           text-decoration: none;

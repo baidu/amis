@@ -32,7 +32,7 @@ export interface State {
   key: Array<string | number> | string;
 }
 
-export class HeadCellSelect extends React.Component<Props, State> {
+export class HeadCellSelect extends React.PureComponent<Props, State> {
   static defaultProps = {
     selections: []
   };

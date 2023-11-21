@@ -21,6 +21,7 @@ import {PickerOption} from '../PickerColumn';
 import {DateType} from './Calendar';
 import {Icon} from '../icons';
 
+import type {Moment} from 'moment';
 import type {TimeScale} from './TimeView';
 import type {ViewMode} from './Calendar';
 
@@ -252,12 +253,33 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
 
   componentDidMount() {
     const {timeFormat, selectedDate, viewDate, isEndDate} = this.props;
+    const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
+    this.setupTime(date, timeFormat, 'init');
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<CustomDaysViewProps>,
+    prevState: Readonly<{}>,
+    snapshot?: any
+  ): void {
+    const currentDate = this.props.selectedDate;
+
+    if (
+      moment.isMoment(currentDate) &&
+      currentDate.isValid() &&
+      !currentDate.isSame(prevProps.selectedDate)
+    ) {
+      const {timeFormat} = this.props;
+      this.setupTime(currentDate, timeFormat);
+    }
+  }
+
+  setupTime(date: Moment, timeFormat: string, mode?: 'init') {
     const formatMap = {
       hours: 'HH',
       minutes: 'mm',
       seconds: 'ss'
     };
-    const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
     timeFormat.split(':').forEach((format, i) => {
       const type = /h/i.test(format)
         ? 'hours'
@@ -271,7 +293,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
           type,
           parseInt(date.format(formatMap[type]), 10),
           i,
-          'init'
+          mode
         );
       }
     });

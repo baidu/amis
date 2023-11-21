@@ -6,12 +6,13 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
+import pick from 'lodash/pick';
 import {FormItem, Button, Icon, toast, Spinner, autobind} from 'amis';
 import {TooltipWrapper} from 'amis-ui';
-import {findTreeAll} from 'amis-core';
 import {JSONPipeIn} from 'amis-editor-core';
 import {DSFeature, DSFeatureType, DSFeatureEnum} from '../../builder';
-import {deepRemove} from '../../plugin/CRUD2/utils';
+import {traverseSchemaDeep} from '../../builder/utils';
+import {deepRemove, addSchema2Toolbar} from '../../plugin/CRUD2/utils';
 
 import type {FormControlProps} from 'amis';
 import type {EditorNodeType} from 'amis-editor-core';
@@ -68,35 +69,41 @@ export class CRUDToolbarControl extends React.Component<
 
   componentDidMount(): void {
     this.dom = findDOMNode(this) as HTMLElement;
-    const actions = this.getActions(this.props);
+    const actions = this.getActionNodes(this.props);
     this.initOptions(actions);
   }
 
-  componentDidUpdate(prevProps: Readonly<CRUDToolbarControlProps>): void {
-    if (prevProps.data.headerToolbar !== this.props.data.headerToolbar) {
-      const actions = this.getActions(this.props);
-      this.initOptions(actions);
-    }
-  }
-
-  getActions(props: CRUDToolbarControlProps) {
-    const {manager, nodeId} = props;
+  getActionNodes(props: CRUDToolbarControlProps) {
+    const {manager, nodeId, name = 'headerToolbar'} = props;
     const store = manager.store;
-    const node: EditorNodeType = store.getNodeById(nodeId);
-    const actions = findTreeAll(node.children, item =>
-      [
-        DSFeatureEnum.Insert,
-        DSFeatureEnum.BulkEdit,
-        DSFeatureEnum.BulkDelete,
-        'custom'
-      ].includes(item.schema.behavior)
-    ) as unknown as EditorNodeType[];
+    const hostNode: EditorNodeType = store.getNodeById(nodeId);
+    const actionNodes: EditorNodeType[] = [];
+    traverseSchemaDeep(
+      pick(hostNode?.schema, name),
+      (key: string, value: any, host: any) => {
+        if (
+          key === 'behavior' &&
+          [
+            DSFeatureEnum.Insert,
+            DSFeatureEnum.BulkEdit,
+            DSFeatureEnum.BulkDelete,
+            'custom'
+          ].includes(value)
+        ) {
+          const node = store.getNodeById(host?.$$id);
 
-    return actions;
+          !!node && actionNodes.push(node);
+        }
+
+        return [key, value];
+      }
+    );
+
+    return actionNodes;
   }
 
   initOptions(actions: EditorNodeType[]) {
-    if (!actions || !actions.length) {
+    if (!actions || !Array.isArray(actions) || !actions.length) {
       this.setState({options: []});
       return;
     }
@@ -137,7 +144,14 @@ export class CRUDToolbarControl extends React.Component<
   @autobind
   async handleAddAction(type: ActionValue) {
     this.setState({loading: true});
-    const {onBulkChange, data: ctx, nodeId, manager, builder} = this.props;
+    const {
+      onBulkChange,
+      onChange,
+      data: ctx,
+      nodeId,
+      manager,
+      builder
+    } = this.props;
     const options = this.state.options.concat();
     const node = manager.store.getNodeById(nodeId);
     const CRUDSchemaID = node?.schema?.id;
@@ -230,20 +244,16 @@ export class CRUDToolbarControl extends React.Component<
     });
 
     this.setState({options, loading: false}, () => {
-      const target = headerToolbarSchema?.[0]?.items?.[0]?.body;
-
-      if (target && Array.isArray(target)) {
-        target.push(actionSchema);
-      } else {
-        headerToolbarSchema.unshift(actionSchema);
-      }
-      onBulkChange?.({headerToolbar: headerToolbarSchema});
+      const fakeCRUD = {headerToolbar: headerToolbarSchema};
+      /** 自适应添加操作按钮到顶部工具栏 */
+      addSchema2Toolbar(fakeCRUD, actionSchema, 'header', 'left');
+      onChange?.(fakeCRUD.headerToolbar, true, true);
     });
   }
 
   @autobind
   async handleDelete(option: Option, index: number) {
-    const {env, data: ctx, onBulkChange} = this.props;
+    const {env, data: ctx, onBulkChange, onChange} = this.props;
     const options = this.state.options.concat();
     const confirmed = await env.confirm(
       `确定要删除工具栏中「${option.label}」吗？`
@@ -261,7 +271,7 @@ export class CRUDToolbarControl extends React.Component<
         options.splice(index, 1);
 
         this.setState({options}, () => {
-          onBulkChange?.({headerToolbar: headerToolbarSchema});
+          onChange?.(headerToolbarSchema, true, true);
         });
       }
     }

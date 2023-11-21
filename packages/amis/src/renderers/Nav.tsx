@@ -40,7 +40,7 @@ import {ScopedContext, IScopedContext} from 'amis-core';
 import type {NavigationItem} from 'amis-ui/lib/components/menu';
 import type {MenuItemProps} from 'amis-ui/lib/components/menu/MenuItem';
 
-import type {LinkItem, Payload} from 'amis-core';
+import type {Payload} from 'amis-core';
 import type {
   BaseSchema,
   SchemaObject,
@@ -313,6 +313,11 @@ export interface NavSchema extends BaseSchema {
      * 是否立马搜索。
      */
     searchImediately?: boolean;
+
+    /**
+     * 指定唯一标识字段
+     */
+    valueField?: string;
   };
 }
 
@@ -1035,7 +1040,8 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         location,
         level,
         defaultOpenLevel,
-        disabled
+        disabled,
+        valueField
       } = props;
 
       const isActive = (link: Link, depth: number) => {
@@ -1080,17 +1086,29 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
             __id: link.__id ?? guid()
           };
 
+          let originLink = null;
+          // 懒加载的菜单项不保留展开状态
+          if (!link.defer && valueField && link[valueField]) {
+            originLink = findTree(
+              origin || [],
+              originItem => originItem[valueField] === link[valueField]
+            );
+          }
+
           // defaultOpenLevel depth <= defaultOpenLevel的默认全部展开
           // 优先级比unfolded属性低 如果用户配置了unfolded为false 那么默认不展开
-          item.unfolded =
-            typeof link.unfolded !== 'undefined'
-              ? isUnfolded(item, {unfoldedField, foldedField})
-              : defaultOpenLevel && depth <= defaultOpenLevel
-              ? true
-              : link.children &&
-                !!findTree(link.children, (child, i, d) =>
-                  isActive(child, depth + d)
-                );
+          // 如果defer菜单项，unfolded默认设置了true，那么会有问题
+          // 先前相同菜单做了展开收起操作的话 优先级最高
+          item.unfolded = originLink
+            ? isUnfolded(originLink, {unfoldedField, foldedField})
+            : typeof link.unfolded !== 'undefined'
+            ? isUnfolded(item, {unfoldedField, foldedField})
+            : defaultOpenLevel && depth <= defaultOpenLevel
+            ? true
+            : link.children &&
+              !!findTree(link.children, (child, i, d) =>
+                isActive(child, depth + d)
+              );
 
           return item;
         },

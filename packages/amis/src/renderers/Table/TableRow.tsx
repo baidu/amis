@@ -55,6 +55,7 @@ export class TableRow extends React.PureComponent<
     newIndex: number;
     isHover: boolean;
     checked: boolean;
+    partial?: boolean;
     modified: boolean;
     moved: boolean;
     depth: number;
@@ -358,6 +359,7 @@ export default observer((props: TableRowProps) => {
       id={item.id}
       newIndex={item.newIndex}
       isHover={item.isHover}
+      partial={item.partial}
       checked={item.checked}
       modified={item.modified}
       moved={item.moved}

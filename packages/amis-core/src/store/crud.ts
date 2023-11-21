@@ -704,10 +704,13 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
       const data = {
         ...self.pristine,
-        items: items.slice(
-          (self.page - 1) * self.perPage,
-          self.page * self.perPage
-        ),
+        items:
+          items.length > self.perPage
+            ? items.slice(
+                (self.page - 1) * self.perPage,
+                self.page * self.perPage
+              )
+            : items,
         count: items.length,
         total: items.length
       };

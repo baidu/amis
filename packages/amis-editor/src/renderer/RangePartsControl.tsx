@@ -156,32 +156,18 @@ export class PartsControl extends React.Component<
     const {source} = this.state;
     const classPrefix = env?.theme?.classPrefix;
 
-    return (
-      <div
-        className={cx(
-          `${classPrefix}Form-item`,
-          `${classPrefix}Form-item--horizontal`,
-          `${classPrefix}Form-item--horizontal-justify`
-        )}
-      >
-        <label
-          className={cx(
-            `${classPrefix}Form-label`,
-            `${classPrefix}Form-itemColumn--4`
-          )}
-        >
-          分块
-        </label>
-        <div className={cx(`${classPrefix}Form-value`)}>
-          {render('header', {
-            type: 'select',
-            name: 'optionSourceList',
-            options: PartsSourceOptions,
-            value: source,
-            onChange: this.handleSourceChange
-          })}
-        </div>
-      </div>
+    return render(
+      'header',
+      {
+        type: 'select',
+        name: 'optionSourceList',
+        label: '分块'
+      },
+      {
+        options: PartsSourceOptions,
+        value: source,
+        onChange: this.handleSourceChange
+      }
     );
   }
 
@@ -386,35 +372,20 @@ export class MarksControl extends React.Component<
   }
 
   renderHeader() {
-    const {env, render} = this.props;
+    const {render} = this.props;
     const {source} = this.state;
-    const classPrefix = env?.theme?.classPrefix;
-    return (
-      <div
-        className={cx(
-          `${classPrefix}Form-item`,
-          `${classPrefix}Form-item--horizontal`,
-          `${classPrefix}Form-item--horizontal-justify`
-        )}
-      >
-        <label
-          className={cx(
-            `${classPrefix}Form-label`,
-            `${classPrefix}Form-itemColumn--4`
-          )}
-        >
-          下标
-        </label>
-        <div className={cx(`${classPrefix}Form-value`)}>
-          {render('header', {
-            type: 'select',
-            name: 'optionSourceList',
-            options: MarksSourceOptions,
-            value: source,
-            onChange: this.handleSourceChange
-          })}
-        </div>
-      </div>
+    return render(
+      'header',
+      {
+        type: 'select',
+        name: 'optionSourceList',
+        label: '下标'
+      },
+      {
+        options: MarksSourceOptions,
+        value: source,
+        onChange: this.handleSourceChange
+      }
     );
   }
 

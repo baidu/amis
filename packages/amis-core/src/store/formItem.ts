@@ -858,12 +858,12 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           ...(ctx?.perPage ? {perPage: ctx?.perPage} : {}),
           total: options.length
         };
-      }
 
-      options = options.slice(
-        (self.pagination.page - 1) * self.pagination.perPage,
-        self.pagination.page * self.pagination.perPage
-      );
+        options = options.slice(
+          (self.pagination.page - 1) * self.pagination.perPage,
+          self.pagination.page * self.pagination.perPage
+        );
+      }
 
       setOptions(options, onChange, ctx);
 

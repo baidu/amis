@@ -13,18 +13,22 @@ import {
   isExpression,
   FormulaExec,
   filterDate,
-  string2regExp
+  string2regExp,
+  autobind
 } from 'amis-core';
 import PopUp from './PopUp';
 import {Overlay} from 'amis-core';
-import {ClassNamesFn, themeable, ThemeProps} from 'amis-core';
+import {themeable, ThemeProps} from 'amis-core';
 import Calendar from './calendar/Calendar';
 import {localeable, LocaleProps, TranslateFn} from 'amis-core';
 import {ucFirst} from 'amis-core';
 import CalendarMobile from './CalendarMobile';
 import Input from './Input';
-import type {PlainObject} from 'amis-core';
-import type {RendererEnv} from 'amis-core';
+import Button from './Button';
+
+import type {Moment} from 'moment';
+import type {PlainObject, RendererEnv} from 'amis-core';
+import type {ChangeEventViewMode, MutableUnitOfTime} from './calendar/Calendar';
 
 const availableShortcuts: {[propName: string]: any} = {
   now: {
@@ -344,6 +348,7 @@ export interface DatePickerState {
   inputValue: string | undefined; // 手动输入的值
   curTimeFormat: string; // 根据displayFormat / inputFormat 计算展示的时间粒度
   curDateFormat: string; // 根据displayFormat / inputFormat 计算展示的日期粒度
+  isModified: boolean;
 }
 
 export class DatePicker extends React.Component<DateProps, DatePickerState> {
@@ -420,7 +425,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           displayFormat || inputFormat
         ) || '',
       curTimeFormat,
-      curDateFormat
+      curDateFormat,
+      isModified: false
     } as DatePickerState;
   }
 
@@ -490,6 +496,14 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     }
   }
 
+  isConfirmMode() {
+    const {closeOnSelect, embed, mobileUI} = this.props;
+    const {curTimeFormat} = this.state;
+
+    /** 日期时间选择器才支持confirm */
+    return closeOnSelect === false && !!curTimeFormat && !embed && !mobileUI;
+  }
+
   focus() {
     if (!this.dom) {
       return;
@@ -545,9 +559,22 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   }
 
   close() {
-    this.setState({
-      isOpened: false
-    });
+    const isConfirmMode = this.isConfirmMode();
+
+    if (isConfirmMode) {
+      const {value, valueFormat, format, displayFormat, inputFormat} =
+        this.props;
+
+      this.setState({
+        value: normalizeDate(value, valueFormat || format),
+        inputValue:
+          normalizeDate(value, valueFormat || format)?.format(
+            displayFormat || inputFormat
+          ) || ''
+      });
+    }
+
+    this.setState({isOpened: false, isModified: false});
   }
 
   clearValue(e: React.MouseEvent<any>) {
@@ -555,14 +582,14 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     e.stopPropagation();
     const onChange = this.props.onChange;
     onChange('');
-    this.setState({inputValue: ''});
+    this.setState({inputValue: '', isModified: false});
   }
 
   // 清空
   clear() {
     const onChange = this.props.onChange;
     onChange('');
-    this.setState({inputValue: ''});
+    this.setState({inputValue: '', isModified: false});
   }
 
   // 重置
@@ -576,11 +603,16 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     this.setState({
       inputValue: normalizeDate(resetValue, valueFormat || format)?.format(
         displayFormat || inputFormat || ''
-      )
+      ),
+      isModified: false
     });
   }
 
-  handleChange(value: moment.Moment) {
+  /**
+   * 如果为日期时间选择器，则单独处理时间选择事件，点击确认的时候才触发onChange
+   */
+  @autobind
+  handleConfirm() {
     const {
       onChange,
       format,
@@ -589,14 +621,12 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       maxDate,
       inputFormat,
       displayFormat,
-      closeOnSelect,
-      utc,
-      viewMode
+      utc
     } = this.props;
+    let value = this.state.value;
+    const isConfirmMode = this.isConfirmMode();
 
-    const {curDateFormat, curTimeFormat} = this.state;
-
-    if (!moment.isMoment(value)) {
+    if (!isConfirmMode || !value) {
       return;
     }
 
@@ -611,15 +641,86 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         ? moment.utc(value).format(valueFormat || format)
         : value.format(valueFormat || format)
     );
-    if (closeOnSelect && curDateFormat && !curTimeFormat) {
-      this.close();
-    }
 
     this.setState({
       inputValue: utc
         ? moment.utc(value).format(displayFormat || inputFormat)
-        : value.format(displayFormat || inputFormat)
+        : value.format(displayFormat || inputFormat),
+      isOpened: false,
+      isModified: true
     });
+  }
+
+  handleChange(value: Moment, viewMode?: ChangeEventViewMode) {
+    const {
+      onChange,
+      format,
+      valueFormat,
+      minDate,
+      maxDate,
+      inputFormat,
+      displayFormat,
+      closeOnSelect,
+      utc,
+      value: defaultValue
+    } = this.props;
+    const {curDateFormat, curTimeFormat, isModified} = this.state;
+    const isConfirmMode = this.isConfirmMode();
+
+    if (!moment.isMoment(value)) {
+      return;
+    }
+
+    if (minDate && value && value.isBefore(minDate, 'second')) {
+      value = minDate;
+    } else if (maxDate && value && value.isAfter(maxDate, 'second')) {
+      value = maxDate;
+    }
+
+    /** 首次选择且当前未绑定值，则默认使用当前时间 */
+    if (!defaultValue && !!curTimeFormat && !isModified) {
+      const now = moment();
+      const timePart: Record<MutableUnitOfTime, number> = {
+        date: value.get('date'),
+        hour: value.get('hour'),
+        minute: value.get('minute'),
+        second: value.get('second'),
+        millisecond: value.get('millisecond')
+      };
+
+      Object.keys(timePart).forEach((unit: MutableUnitOfTime) => {
+        /** 首次选择时间，日期使用当前时间; 将未设置过的时间字段设置为当前值 */
+        if (
+          (unit === 'date' && viewMode === 'time') ||
+          (unit !== 'date' && timePart[unit] === 0)
+        ) {
+          timePart[unit] = now.get(unit);
+        }
+      });
+
+      value.set(timePart);
+    }
+
+    const updatedValue = utc
+      ? moment.utc(value).format(valueFormat || format)
+      : value.format(valueFormat || format);
+    const updatedInputValue = utc
+      ? moment.utc(value).format(displayFormat || inputFormat)
+      : value.format(displayFormat || inputFormat);
+
+    if (isConfirmMode) {
+      this.setState({value, inputValue: updatedInputValue});
+      this.inputValueCache = updatedInputValue;
+    } else {
+      onChange(updatedValue);
+
+      if (closeOnSelect && curDateFormat && !curTimeFormat) {
+        this.close();
+      }
+
+      this.setState({inputValue: updatedInputValue});
+    }
+    this.setState({isModified: true});
   }
 
   // 手动输入日期
@@ -641,10 +742,10 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     } else {
       // 将输入的格式转成正则匹配，比如 YYYY-MM-DD HH:mm:ss 改成 \d\d\d\d\-
       // 只有匹配成功才更新
-      const inputCheckRegex = string2regExp(
-        (displayFormat || inputFormat)!
-          .replace(/[ymdhs]/gi, `${string2regExp('\\d')}`)
-          .replace(/-/gi, `${string2regExp('\\-')}`)
+      const inputCheckRegex = new RegExp(
+        (valueFormat || inputFormat || displayFormat)!
+          .replace(/[ymdhs]/gi, '\\d')
+          .replace(/-/gi, '\\-')
       );
 
       if (inputCheckRegex.test(value)) {
@@ -850,13 +951,24 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       env,
       onClick,
       onMouseEnter,
-      onMouseLeave
+      onMouseLeave,
+      closeOnSelect
     } = this.props;
 
     const __ = this.props.translate;
-    const {curTimeFormat, curDateFormat} = this.state;
-    const isOpened = this.state.isOpened;
+    const {curTimeFormat, curDateFormat, isOpened} = this.state;
+    const isConfirmMode = this.isConfirmMode();
     let date: moment.Moment | undefined = this.state.value;
+    let isConfirmBtnDisbaled = false;
+
+    if (isConfirmMode) {
+      const lastModifiedValue = normalizeDate(value, valueFormat || format);
+
+      isConfirmBtnDisbaled =
+        date && lastModifiedValue
+          ? moment(date).isSame(lastModifiedValue, 'second')
+          : date === lastModifiedValue;
+    }
 
     const calendarMobile = (
       <CalendarMobile
@@ -1041,6 +1153,22 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 onMouseLeave={onMouseLeave}
                 // utc={utc}
               />
+              {isConfirmMode ? (
+                <div className={`${ns}DateRangePicker-actions`}>
+                  <Button size="sm" onClick={this.close}>
+                    {__('cancel')}
+                  </Button>
+                  <Button
+                    level="primary"
+                    size="sm"
+                    disabled={isConfirmBtnDisbaled}
+                    className={cx('m-l-sm')}
+                    onClick={this.handleConfirm}
+                  >
+                    {__('confirm')}
+                  </Button>
+                </div>
+              ) : null}
             </PopOver>
           </Overlay>
         ) : null}

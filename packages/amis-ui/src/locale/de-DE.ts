@@ -155,6 +155,8 @@ register('de-DE', {
   'Form.unique': 'Aktueller Wert ist nicht eindeutig',
   'Form.validateFailed': 'Fehler bei der Überprüfung der Formulareingabe',
   'Form.nestedError': 'Form kann nicht als Nachkomme von Form erscheinen',
+  'Form.rules.message':
+    'Die gemeinsame Überprüfung von Formularelementen ist fehlgeschlagen',
   'Iframe.invalid': 'Ungültige Iframe-URL',
   'Iframe.invalidProtocol':
     'HTTP-URL-Iframe kann nicht in https verwendet werden',
@@ -186,6 +188,8 @@ register('de-DE', {
   'loading': 'Wird geladen...',
   'loadingFailed': 'Das Laden ist fehlgeschlagen',
   'LocationPicker.placeholder': 'Wählen Sie einen Ort',
+  'LocationPicker.getLocation':
+    'Klicken Sie hier, um Standortinformationen zu erhalten',
   'Month.placeholder': 'Wählen Sie einen Monat',
   'Nav.sourceError': 'Fehler beim Abrufen des Links',
   'networkError':

@@ -56,6 +56,7 @@ exports[`Renderer:image image as form item 1`] = `
             >
               <div
                 class="cxd-ImageField cxd-ImageField--thumb"
+                style="transform: scale(1);"
               >
                 <div
                   class="cxd-Image cxd-Image--thumb no-border"
@@ -103,6 +104,7 @@ exports[`Renderer:image image:basic 1`] = `
 <div>
   <div
     class="cxd-ImageField cxd-ImageField--thumb show"
+    style="transform: scale(1);"
   >
     <div
       class="cxd-Image cxd-Image--thumb"
@@ -138,6 +140,7 @@ exports[`Renderer:image image:enlargeAble & originalSrc & enlargeTitle & showToo
 <div>
   <div
     class="cxd-ImageField cxd-ImageField--thumb"
+    style="transform: scale(1);"
   >
     <div
       class="cxd-Image cxd-Image--thumb"
@@ -178,6 +181,7 @@ exports[`Renderer:image image:enlargeAble & originalSrc & enlargeTitle & showToo
 <div>
   <div
     class="cxd-ImageField cxd-ImageField--thumb"
+    style="transform: scale(1);"
   >
     <div
       class="cxd-Image cxd-Image--thumb"
@@ -231,6 +235,7 @@ exports[`Renderer:image image:href 1`] = `
         >
           <div
             class="cxd-ImageField cxd-ImageField--thumb"
+            style="transform: scale(1);"
           >
             <a
               class="cxd-Link"
@@ -263,10 +268,62 @@ exports[`Renderer:image image:href 1`] = `
 </div>
 `;
 
+exports[`Renderer:image image:preview 预览动作 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-ImageField cxd-ImageField--thumb"
+            style="transform: scale(1);"
+          >
+            <div
+              class="cxd-Image cxd-Image--thumb"
+            >
+              <div
+                class="cxd-Image-thumbWrap"
+              >
+                <div
+                  class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                >
+                  <img
+                    class="cxd-Image-image"
+                    src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              预览图片
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer:image image:title & imageCaption 1`] = `
 <div>
   <div
     class="cxd-ImageField cxd-ImageField--thumb"
+    style="transform: scale(1);"
   >
     <div
       class="cxd-Image cxd-Image--thumb"
@@ -308,6 +365,7 @@ exports[`Renderer:image image:width & height 1`] = `
 <div>
   <div
     class="cxd-ImageField cxd-ImageField--thumb"
+    style="transform: scale(1);"
   >
     <div
       class="cxd-Image cxd-Image--thumb"
@@ -323,6 +381,65 @@ exports[`Renderer:image image:width & height 1`] = `
             class="cxd-Image-image"
             src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_400,l_1,f_jpg,q_80"
           />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:image image:zoom & maxScale & minScale 调整图片比例动作 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+          role="page-body"
+        >
+          <div
+            class="cxd-ImageField cxd-ImageField--thumb"
+            style="transform: scale(1);"
+          >
+            <div
+              class="cxd-Image cxd-Image--thumb"
+            >
+              <div
+                class="cxd-Image-thumbWrap"
+              >
+                <div
+                  class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                >
+                  <img
+                    class="cxd-Image-image"
+                    src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              放大图片
+            </span>
+          </button>
+          <button
+            class="cxd-Button cxd-Button--default cxd-Button--size-default"
+            type="button"
+          >
+            <span>
+              缩小图片
+            </span>
+          </button>
         </div>
       </div>
     </div>
