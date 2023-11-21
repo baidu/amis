@@ -78,6 +78,11 @@ interface EventDialogData {
     open: boolean;
     wait?: number;
   };
+  trackConfig?: {
+    open: boolean;
+    id: string;
+    name: string;
+  };
   [propName: string]: any;
 }
 
@@ -235,6 +240,16 @@ export class EventControl extends React.Component<
         ...eventInfo.debounce
       };
     }
+    if (!eventInfo.track) {
+      eventInfo.track = {
+        open: false
+      };
+    } else {
+      eventInfo.track = {
+        open: true,
+        ...eventInfo.track
+      };
+    }
     this.setState({
       eventDialogData: eventInfo,
       showEventDialog: true
@@ -243,11 +258,11 @@ export class EventControl extends React.Component<
 
   eventDialogSubmit(formData: any) {
     const {onChange} = this.props;
-    const {eventName, debounce = {}} = formData;
+    const {eventName, debounce = {}, track = {}} = formData;
     let onEvent = {
       ...this.state.onEvent
     };
-    let eventConfig = onEvent[`${eventName}`];
+    let eventConfig = {...onEvent[`${eventName}`]};
     if (!debounce.open) {
       delete eventConfig.debounce;
     } else {
@@ -258,6 +273,18 @@ export class EventControl extends React.Component<
         }
       };
     }
+    if (!track.open) {
+      delete eventConfig.track;
+    } else {
+      eventConfig = {
+        ...eventConfig,
+        track: {
+          id: track.id,
+          name: track.name
+        }
+      };
+    }
+
     onEvent[`${eventName}`] = {
       ...eventConfig
     };
@@ -1256,6 +1283,27 @@ export class EventControl extends React.Component<
                         max: 10000,
                         min: 0,
                         type: 'input-number'
+                      },
+                      {
+                        label: '事件埋点',
+                        type: 'switch',
+                        name: 'track.open',
+                        description:
+                          '开启事件埋点后，每次事件触发都会发送埋点数据到后台'
+                      },
+                      {
+                        label: 'track-id',
+                        required: true,
+                        hiddenOn: '!track.open',
+                        name: 'track.id',
+                        type: 'input-text'
+                      },
+                      {
+                        label: 'track-name',
+                        required: true,
+                        hiddenOn: '!track.open',
+                        name: 'track.name',
+                        type: 'input-text'
                       }
                     ],
                     onSubmit: this.eventDialogSubmit.bind(this)

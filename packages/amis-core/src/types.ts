@@ -1,7 +1,7 @@
 // https://json-schema.org/draft-07/json-schema-release-notes.html
 import type {JSONSchema7} from 'json-schema';
 import {ListenerAction} from './actions/Action';
-import {debounceConfig} from './utils/renderer-event';
+import {debounceConfig, trackConfig} from './utils/renderer-event';
 
 export interface Option {
   /**
@@ -458,7 +458,8 @@ export interface EventTrack {
     | 'tabChange'
     | 'pageLoaded'
     | 'pageHidden'
-    | 'pageVisible';
+    | 'pageVisible'
+    | string;
 
   /**
    * 事件数据
@@ -618,6 +619,7 @@ export interface BaseSchemaWithoutType {
       weight?: number; // 权重
       actions: ListenerAction[]; // 执行的动作集
       debounce?: debounceConfig;
+      track?: trackConfig;
     };
   };
   /**
