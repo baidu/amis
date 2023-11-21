@@ -742,10 +742,10 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     } else {
       // 将输入的格式转成正则匹配，比如 YYYY-MM-DD HH:mm:ss 改成 \d\d\d\d\-
       // 只有匹配成功才更新
-      const inputCheckRegex = string2regExp(
-        (displayFormat || inputFormat)!
-          .replace(/[ymdhs]/gi, `${string2regExp('\\d')}`)
-          .replace(/-/gi, `${string2regExp('\\-')}`)
+      const inputCheckRegex = new RegExp(
+        (valueFormat || inputFormat || displayFormat)!
+          .replace(/[ymdhs]/gi, '\\d')
+          .replace(/-/gi, '\\-')
       );
 
       if (inputCheckRegex.test(value)) {
