@@ -5,7 +5,9 @@ import {
   ThemeProps,
   Overlay,
   PopOver,
-  autobind
+  autobind,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {FormItem, FormBaseControl, FormControlProps} from 'amis-core';
 import {LocationPicker, Alert2, BaiduMapPicker, Icon} from 'amis-ui';
@@ -142,7 +144,15 @@ export class LocationControl extends React.Component<LocationControlProps> {
 
   @supportStatic()
   render() {
-    const {style} = this.props;
+    const {
+      style,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env,
+      className,
+      classnames: cx
+    } = this.props;
     return (
       <div
         className={this.props.classnames('LocationControl', {
@@ -151,7 +161,25 @@ export class LocationControl extends React.Component<LocationControlProps> {
       >
         <LocationPicker
           {...this.props}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
           ak={filter(this.props.ak, this.props.data)}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
         />
       </div>
     );

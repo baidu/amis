@@ -215,31 +215,37 @@ export class MatrixControlPlugin extends BasePlugin {
         title: '外观',
         body: [
           getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
-            getSchemaTpl('style:classNames'),
-            {
-              label: tipedLabel('对齐方式', '默认当开启全选后居左排列'),
-              name: 'textAlign',
-              type: 'select',
-              options: [
+            getSchemaTpl('style:formItem', {
+              renderer: context.info.renderer,
+              schema: [
                 {
-                  label: '居中',
-                  value: 'center'
-                },
-                {
-                  label: '居左',
-                  value: 'left'
-                },
-                {
-                  label: '居右',
-                  value: 'right'
-                },
-                {
-                  label: '两端对齐',
-                  value: 'justify'
+                  label: tipedLabel('对齐方式', '默认当开启全选后居左排列'),
+                  name: 'textAlign',
+                  type: 'select',
+                  options: [
+                    {
+                      label: '居中',
+                      value: 'center'
+                    },
+                    {
+                      label: '居左',
+                      value: 'left'
+                    },
+                    {
+                      label: '居右',
+                      value: 'right'
+                    },
+                    {
+                      label: '两端对齐',
+                      value: 'justify'
+                    }
+                  ]
                 }
               ]
-            }
+            }),
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
           ])
         ]
       },
