@@ -60,5 +60,7 @@ order: 30
 | vendor          | 'baidu'   | 'baidu' \| 'gaode' | 地图厂商，目前只实现了百度地图和高德地图                   |
 | ak              | `string`  | 无                 | 百度/高德地图的 ak                                         |
 | clearable       | `boolean` | false              | 输入框是否可清空                                           |
-| placeholder     | `string`  | '请选择位置'       | 默认提示                                                   |
-| coordinatesType | `string`  | 'bd09'             | 默为百度/高德坐标，可设置为'gcj02', 高德地图不支持坐标转换 |
+| placeholder     | `string`  | '请选择位置'         | 默认提示                                                   |
+| autoSelectCurrentLoc     | `boolean`  | false    | 是否自动选中当前地理位置                                 |
+| onlySelectCurrentLoc     | `boolean`  | false    | 是否限制只能选中当前地理位置，设置为true后，可用于充当定位组件 |
+| coordinatesType | `string`  | 'bd09'             | 默为百度/高德坐标，可设置为'gcj02', 高德地图不支持坐标转换   |

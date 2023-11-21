@@ -180,6 +180,7 @@ register('en-US', {
   'loading': 'Loading',
   'loadingFailed': 'Loading failed',
   'LocationPicker.placeholder': 'Pick location',
+  'LocationPicker.getLocation': 'Click to obtain location information',
   'Month.placeholder': 'Select a month',
   'Nav.sourceError': 'Fetch link error',
   'networkError': 'Network error or missing CORS configuration',
