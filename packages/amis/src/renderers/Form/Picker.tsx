@@ -864,6 +864,7 @@ export default class PickerControl extends React.PureComponent<
           }}
           env={env}
         />
+
         <CustomStyle
           config={{
             wrapperCustomStyle,

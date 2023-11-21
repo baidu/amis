@@ -228,12 +228,15 @@ export class SearchBoxRenderer extends React.Component<
     return (
       <>
         <SearchBox
-          className={className}
           style={style}
-          name={name}
-          disabled={isDisabled}
           loading={loading}
           loadingConfig={loadingConfig}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+          disabled={!onQuery}
           defaultActive={!!value}
           defaultValue={onChange ? undefined : value}
           value={value}

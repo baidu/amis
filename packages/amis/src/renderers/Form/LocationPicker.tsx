@@ -197,6 +197,19 @@ export class LocationControl extends React.Component<LocationControlProps> {
           }}
           env={env}
         />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }
