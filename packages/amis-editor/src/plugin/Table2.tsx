@@ -208,6 +208,32 @@ export const Table2RenderereEvent: RendererPluginEvent[] = [
       }
     ]
   },
+   {
+    eventName: 'rowDbClick',
+    eventLabel: '行双击',
+    description: '双击整行事件',
+    dataSchema: [
+      {
+        type: 'object',
+        properties: {
+          data: {
+            type: 'object',
+            title: '数据',
+            properties: {
+              item: {
+                type: 'object',
+                title: '当前行记录'
+              },
+              index: {
+                type: 'number',
+                title: '当前行索引'
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
   {
     eventName: 'rowMouseEnter',
     eventLabel: '鼠标移入行事件',
