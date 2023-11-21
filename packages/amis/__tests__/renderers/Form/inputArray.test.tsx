@@ -194,6 +194,7 @@ test('Renderer:inputArray with minLength & maxLength', async () => {
   expect(container.querySelector('.cxd-Combo-addBtn')).toBeInTheDocument();
   // 最大值
   fireEvent.click(container.querySelector('.cxd-Combo-addBtn')!);
+  await wait(300);
   await waitFor(() => {
     expect(container.querySelector('a.cxd-Combo-delBtn')).toBeInTheDocument();
     expect(

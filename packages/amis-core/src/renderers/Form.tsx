@@ -522,6 +522,18 @@ export default class Form extends React.Component<FormProps, object> {
         )
       );
     }
+
+    // withStore 里面与上层数据会做同步
+    // 这个时候变更的数据没有同步 onChange 出去，出现数据不一致的问题。
+    // https://github.com/baidu/amis/issues/8773
+    this.toDispose.push(
+      reaction(
+        () => store.initedAt,
+        () => {
+          store.inited && this.emitChange(!!this.props.submitOnChange);
+        }
+      )
+    );
   }
 
   componentDidMount() {
