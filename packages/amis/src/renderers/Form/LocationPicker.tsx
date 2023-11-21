@@ -36,7 +36,7 @@ export interface LocationControlSchema extends FormBaseControlSchema {
   autoSelectCurrentLoc?: boolean;
 
   /**
-   * 是否只能选中当前地理位置
+   * 是否限制只能选中当前地理位置
    * 备注：可用于充当定位组件，只允许选择当前位置
    */
   onlySelectCurrentLoc?: boolean;
