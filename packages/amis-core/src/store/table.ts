@@ -1050,7 +1050,13 @@ export const TableStore = iRendererStore
         );
       }
 
-      config.multiple !== undefined && (self.multiple = config.multiple);
+      if (config.multiple !== undefined) {
+        self.multiple = config.multiple;
+      } else {
+        // 如果通过crud或picker，multiple始终设置了true或false
+        // 如果仅使用table，默认multiple为true，但props未设置multiple的情况下其实是展示单选
+        self.multiple = false;
+      }
       config.footable !== undefined && (self.footable = config.footable);
       config.expandConfig !== undefined &&
         (self.expandConfig = config.expandConfig);
