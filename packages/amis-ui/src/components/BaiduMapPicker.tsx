@@ -137,7 +137,7 @@ export class BaiduMapPicker extends React.Component<
 
     const geolocationControl = new BMap.GeolocationControl();
     geolocationControl.addEventListener('locationSuccess', (e: any) => {
-      this.getLocations(e.point);
+      this.getLocations(e.point, true);
     });
     map.addControl(geolocationControl);
 
@@ -187,7 +187,7 @@ export class BaiduMapPicker extends React.Component<
     value ? this.getLocations(point) : geolocationControl.location();
   }
 
-  getLocations(point: any, select?: boolean) {
+  getLocations(point: any, selectCurrentLoc?: boolean) {
     const map = this.map;
 
     map.clearOverlays();
@@ -231,7 +231,7 @@ export class BaiduMapPicker extends React.Component<
           locs
         },
         () => {
-          if (!select) {
+          if (!selectCurrentLoc) {
             return;
           }
 
@@ -308,6 +308,7 @@ export class BaiduMapPicker extends React.Component<
           city: loc.city
         });
     }
+    console.log('this.props:', this.props);
   }
 
   @autobind

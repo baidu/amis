@@ -51,33 +51,6 @@ export class LocationControl extends React.Component<LocationControlProps> {
     coordinatesType: 'bd09'
   };
   domRef: React.RefObject<HTMLDivElement> = React.createRef();
-  state = {
-    isOpened: false
-  };
-
-  @autobind
-  close() {
-    this.setState({
-      isOpened: false
-    });
-  }
-
-  @autobind
-  open() {
-    this.setState({
-      isOpened: true
-    });
-  }
-
-  @autobind
-  handleClick() {
-    this.state.isOpened ? this.close() : this.open();
-  }
-
-  @autobind
-  getParent() {
-    return this.domRef.current?.parentElement;
-  }
 
   @autobind
   getTarget() {
@@ -85,14 +58,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
   }
 
   renderStatic(displayValue = '-') {
-    const {
-      classnames: cx,
-      value,
-      vendor,
-      ak,
-      coordinatesType,
-      popOverContainer
-    } = this.props;
+    const {classnames: cx, value} = this.props;
     const __ = this.props.translate;
 
     if (!value) {
@@ -107,35 +73,6 @@ export class LocationControl extends React.Component<LocationControlProps> {
         ref={this.domRef}
       >
         <span>{value.address}</span>
-        <a
-          className={cx('LocationPicker-toggler', 'ml-1')}
-          onClick={this.handleClick}
-        >
-          <Icon icon="location" className="icon" />
-        </a>
-        <Overlay
-          target={this.getTarget}
-          container={popOverContainer || this.getParent}
-          rootClose={false}
-          show={this.state.isOpened}
-        >
-          <PopOver
-            className={cx('LocationPicker-popover')}
-            onHide={this.close}
-            overlay
-            style={{width: this.getTarget()?.offsetWidth}}
-          >
-            {vendor === 'baidu' ? (
-              <BaiduMapPicker
-                ak={ak}
-                value={value}
-                coordinatesType={coordinatesType}
-              />
-            ) : (
-              <Alert2>{__('{{vendor}} 地图控件不支持', {vendor})}</Alert2>
-            )}
-          </PopOver>
-        </Overlay>
       </div>
     );
   }
