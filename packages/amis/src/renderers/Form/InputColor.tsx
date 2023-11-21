@@ -4,6 +4,7 @@ import cx from 'classnames';
 import {FormItem, FormControlProps} from 'amis-core';
 import type {PresetColor} from 'amis-ui';
 import {isMobile} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
@@ -81,15 +82,28 @@ export default class ColorControl extends React.PureComponent<
       env,
       static: isStatic,
       mobileUI,
+      wrapperCustomStyle,
+      id,
+      themeCss,
       ...rest
     } = this.props;
 
     return (
-      <div className={cx(`${ns}ColorControl`, className)}>
+      <div
+        className={cx(
+          `${ns}ColorControl`,
+          className,
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         <Suspense fallback={<div>...</div>}>
           <ColorPicker
             classPrefix={ns}
             {...rest}
+            className={cx(
+              className,
+              setThemeClassName('baseControlClassName', id, themeCss)
+            )}
             mobileUI={mobileUI}
             popOverContainer={
               mobileUI
@@ -99,6 +113,19 @@ export default class ColorControl extends React.PureComponent<
             value={value || ''}
           />
         </Suspense>
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

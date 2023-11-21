@@ -22,7 +22,9 @@ import {
   isApiOutdated,
   isEffectiveApi,
   resolveEventData,
-  isIntegerInRange
+  isIntegerInRange,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Html, Icon, TooltipWrapper} from 'amis-ui';
 import {FormOptionsSchema, SchemaTpl} from '../../Schema';
@@ -662,11 +664,22 @@ export default class PickerControl extends React.PureComponent<
       popOverContainer,
       modalTitle,
       data,
-      mobileUI
+      mobileUI,
+      id,
+      wrapperCustomStyle,
+      env,
+      themeCss
     } = this.props;
 
     return (
-      <div className={cx(`PickerControl`, {'is-mobile': mobileUI}, className)}>
+      <div
+        className={cx(
+          `PickerControl`,
+          {'is-mobile': mobileUI},
+          className,
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         {embed ? (
           <div className={cx('Picker')}>
             {this.renderBody({popOverContainer})}
@@ -680,7 +693,13 @@ export default class PickerControl extends React.PureComponent<
               'is-disabled': disabled
             })}
           >
-            <div onClick={this.handleClick} className={cx('Picker-input')}>
+            <div
+              onClick={this.handleClick}
+              className={cx(
+                'Picker-input',
+                setThemeClassName('baseControlClassName', id, themeCss)
+              )}
+            >
               {!selectedOptions.length && placeholder ? (
                 <div className={cx('Picker-placeholder')}>
                   {__(placeholder)}
@@ -740,6 +759,20 @@ export default class PickerControl extends React.PureComponent<
             )}
           </div>
         )}
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

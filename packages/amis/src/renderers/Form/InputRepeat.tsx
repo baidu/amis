@@ -9,6 +9,7 @@ import React from 'react';
 import cx from 'classnames';
 import {isMobile} from 'amis-core';
 import {FormItem, FormControlProps, FormBaseControl} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 
 /**
  * Repeat
@@ -233,11 +234,39 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
   }
 
   render() {
-    const {className, style, classPrefix: ns} = this.props;
+    const {
+      className,
+      style,
+      classPrefix: ns,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
+    } = this.props;
 
     return (
-      <div className={cx(`${ns}RepeatControl`, className)}>
+      <div
+        className={cx(
+          `${ns}RepeatControl`,
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         {this.renderInput()}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

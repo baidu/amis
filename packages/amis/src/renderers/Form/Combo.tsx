@@ -7,7 +7,9 @@ import {
   FormBaseControl,
   resolveEventData,
   ApiObject,
-  FormHorizontal
+  FormHorizontal,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {ActionObject, Api} from 'amis-core';
 import {ComboStore, IComboStore} from 'amis-core';
@@ -1778,7 +1780,11 @@ export default class ComboControl extends React.Component<ComboProps> {
       classPrefix: ns,
       classnames: cx,
       static: isStatic,
-      staticSchema
+      staticSchema,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     // 静态展示时
@@ -1792,8 +1798,28 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
 
     return formInited || typeof formInited === 'undefined' ? (
-      <div className={cx(`ComboControl`, className)}>
+      <div
+        className={cx(
+          `ComboControl`,
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         {multiple ? this.renderMultipe() : this.renderSingle()}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     ) : null;
   }

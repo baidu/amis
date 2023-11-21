@@ -4,6 +4,7 @@ import {SchemaCollection, SchemaTpl} from '../../Schema';
 import Collapse, {CollapseSchema} from '../Collapse';
 import {FormBaseControl} from 'amis-core';
 import type {FormHorizontal} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 
 /**
  * FieldSet 表单项集合
@@ -139,17 +140,77 @@ export default class FieldSetControl extends React.Component<
   }
 
   render() {
-    const {controls, className, mode, body, ...rest} = this.props;
+    const {
+      controls,
+      className,
+      headingClassName,
+      bodyClassName,
+      mode,
+      body,
+      classnames: cx,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env,
+      ...rest
+    } = this.props;
 
     return (
-      <Collapse
-        {...rest}
-        body={body!}
-        className={className}
-        children={this.renderBody}
-        wrapperComponent="fieldset"
-        headingComponent={rest.titlePosition === 'bottom' ? 'div' : 'legend'}
-      />
+      <>
+        <Collapse
+          {...rest}
+          body={body!}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+          headingClassName={cx(
+            headingClassName,
+            setThemeClassName('headingClassName', id, themeCss)
+          )}
+          bodyClassName={cx(
+            bodyClassName,
+            setThemeClassName('bodyClassName', id, themeCss)
+          )}
+          children={this.renderBody}
+          wrapperComponent="fieldset"
+          headingComponent={rest.titlePosition === 'bottom' ? 'div' : 'legend'}
+          env={env}
+          classnames={cx}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              },
+              {
+                key: 'headingClassName',
+                weights: {
+                  default: {important: true},
+                  hover: {important: true},
+                  active: {important: true},
+                  disabled: {important: true}
+                }
+              },
+              {
+                key: 'bodyClassName',
+                weights: {
+                  default: {suf: ' > div'},
+                  hover: {suf: ' > div'},
+                  active: {suf: ' > div'},
+                  disabled: {suf: ' > div'}
+                }
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

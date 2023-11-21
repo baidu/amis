@@ -429,7 +429,9 @@ export class RichTextControlPlugin extends BasePlugin {
             getSchemaTpl('style:formItem', {
               renderer: context.info.renderer
             }),
-            getSchemaTpl('style:classNames')
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
           ])
         ]
       }

@@ -259,15 +259,9 @@ export class ColorControlPlugin extends BasePlugin {
           'collapseGroup',
           [
             getSchemaTpl('style:formItem', {renderer}),
-            getSchemaTpl('style:classNames', {
-              schema: [
-                getSchemaTpl('className', {
-                  label: '描述',
-                  name: 'descriptionClassName',
-                  visibleOn: 'this.description'
-                })
-              ]
-            })
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
           ],
           {...context?.schema, configTitle: 'style'}
         )

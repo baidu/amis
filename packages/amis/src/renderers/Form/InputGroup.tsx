@@ -6,7 +6,9 @@ import {
   FormControlProps,
   IFormItemStore,
   IFormStore,
-  anyChanged
+  anyChanged,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {FormBaseControlSchema, SchemaCollection} from '../../Schema';
 import {isMobile} from 'amis-core';
@@ -195,7 +197,11 @@ export class InputGroup extends React.Component<
       classnames: cx,
       static: isStatic,
       disabled,
-      mobileUI
+      mobileUI,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
     const {errorMode} = this.getValidationConfig();
 
@@ -235,7 +241,9 @@ export class InputGroup extends React.Component<
           },
           {
             'is-mobile': mobileUI
-          }
+          },
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
       >
         {inputs.map((control, index) => {
@@ -280,6 +288,26 @@ export class InputGroup extends React.Component<
             dom
           );
         })}
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName',
+                weights: {
+                  default: {suf: ' > div'},
+                  hover: {suf: ' > div'},
+                  active: {suf: ' > div'},
+                  disabled: {suf: ' > div'}
+                }
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }
