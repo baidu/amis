@@ -544,8 +544,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     const {flat, joinValues, delimiter, type, formItem} = props;
     // 因为 combo 多个子表单可能同时发生变化。
     // onChagne 触发多次，上次变更还没应用到 props.value 上来，这次触发变更就会包含历史数据，把上次触发的数据给重置成旧的了。
-    // 通过 props.getValue() 拿到的是最新的
-    let value = props.getValue();
+    let value = formItem?.tmpValue || props.value;
 
     if (joinValues && flat && typeof value === 'string') {
       value = value.split(delimiter || ',');
