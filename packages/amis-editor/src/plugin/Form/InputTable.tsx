@@ -1268,7 +1268,11 @@ export class TableControlPlugin extends BasePlugin {
       props.value = arr.slice(0, 10);
     }
 
-    return props;
+    return {
+      ...props,
+      // 阻止编辑器预览态的 change 事件，避免特殊case引发change后导致的死循环
+      onChange: () => true
+    };
   }
 
   // 自动插入 label
