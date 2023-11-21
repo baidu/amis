@@ -1271,7 +1271,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       >
         <PopOver
           overlay
-          className={cx('Select-popover')}
+          className={cx('Select-popover', popoverClassName)}
           style={{
             width:
               (overlay &&
