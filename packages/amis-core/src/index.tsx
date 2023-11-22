@@ -96,6 +96,7 @@ import type {FilterContext} from 'amis-formula';
 import LazyComponent from './components/LazyComponent';
 import Overlay from './components/Overlay';
 import PopOver from './components/PopOver';
+import ErrorBoundary from './components/ErrorBoundary';
 import {FormRenderer} from './renderers/Form';
 import type {FormHorizontal, FormSchemaBase} from './renderers/Form';
 import {
@@ -182,6 +183,7 @@ export {
   LazyComponent,
   Overlay,
   PopOver,
+  ErrorBoundary,
   addSchemaFilter,
   OptionsControlProps,
   FormOptionsControl,
