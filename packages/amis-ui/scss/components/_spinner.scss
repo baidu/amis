@@ -77,6 +77,15 @@
       height: auto;
     }
 
+    &.#{$ns}Spinner-icon--disabled > svg.icon {
+      color: var(--Spinner-color--disabled);
+      fill: var(--Spinner-color--disabled);
+
+      & path {
+        fill: var(--Spinner-color--disabled);
+      }
+    }
+
     &--lg {
       width: var(--Spinner--lg-width);
       height: var(--Spinner--lg-height);
