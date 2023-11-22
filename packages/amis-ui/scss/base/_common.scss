@@ -9,3 +9,11 @@
 .visibility-sensor {
   min-height: 5px;
 }
+
+.renderer-error-boundary {
+  padding: 5px;
+  font-family: PingFangSC-Medium;
+  font-size: 14px;
+  color: #cf1322;
+  border: 1px dashed #cf1322;
+}
