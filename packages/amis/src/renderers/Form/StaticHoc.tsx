@@ -138,7 +138,7 @@ export function supportStatic<T extends FormControlProps>() {
             customErrorMsg={`拦截到${props.$schema.type}渲染错误，当前组件schema: ${props.$schema}`}
             fallback={() => {
               return (
-                <div className="ae-Editor-renderer-error">
+                <div className="renderer-error-boundary">
                   {props.$schema?.type}
                   渲染发生错误，详细错误信息请查看控制台输出。
                 </div>

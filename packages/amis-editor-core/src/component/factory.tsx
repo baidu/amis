@@ -192,7 +192,7 @@ export function makeWrapper(
             }渲染错误，当前组件信息: ${JSON.stringify(this.props.$schema)}`}
             fallback={() => {
               return (
-                <div className="ae-Editor-renderer-error">
+                <div className="renderer-error-boundary">
                   {info?.type}
                   渲染发生错误，详细错误信息请查看控制台输出。
                 </div>

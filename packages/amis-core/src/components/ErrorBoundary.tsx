@@ -47,7 +47,7 @@ export default class ErrorBoundary extends React.Component<
 
       // 默认渲染错误信息
       return (
-        <div className="ae-Editor-renderer-error">
+        <div className="renderer-error-boundary">
           渲染发生错误，详细错误信息请查看控制台输出。
         </div>
       );
