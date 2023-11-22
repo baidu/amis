@@ -5,7 +5,8 @@ import {
   filterTarget,
   isPureVariable,
   resolveVariableAndFilter,
-  setThemeClassName
+  setThemeClassName,
+  ValidateError
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
@@ -214,6 +215,7 @@ export default class Drawer extends React.Component<DrawerProps> {
   reaction: any;
   $$id: string = guid();
   drawer: any;
+  clearErrorTimer: ReturnType<typeof setTimeout> | undefined;
   constructor(props: DrawerProps) {
     super(props);
 
@@ -251,6 +253,7 @@ export default class Drawer extends React.Component<DrawerProps> {
 
   componentWillUnmount() {
     this.reaction && this.reaction();
+    clearTimeout(this.clearErrorTimer);
   }
 
   buildActions(): Array<ActionSchema> {
@@ -850,6 +853,13 @@ export class DrawerRenderer extends Drawer {
         .catch(reason => {
           store.updateMessage(reason.message, true);
           store.markBusying(false);
+
+          if (reason.constructor?.name === ValidateError.name) {
+            clearTimeout(this.clearErrorTimer);
+            this.clearErrorTimer = setTimeout(() => {
+              store.updateMessage('');
+            }, 3000);
+          }
         });
 
       return true;
