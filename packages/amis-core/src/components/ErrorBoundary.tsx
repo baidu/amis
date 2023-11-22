@@ -6,7 +6,8 @@
 import React from 'react';
 
 interface ErrorBoundaryProps {
-  curErrorSchema?: any;
+  // 自定义错误信息，控制台输出
+  customErrorMsg?: string;
   fallback?: () => void;
   children: any;
 }
@@ -25,12 +26,9 @@ export default class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: any, errorInfo: any) {
-    const {curErrorSchema} = this.props;
-    if (curErrorSchema) {
-      console.warn(
-        `拦截到${curErrorSchema.type}渲染错误，当前组件schema:`,
-        curErrorSchema
-      );
+    const {customErrorMsg} = this.props;
+    if (customErrorMsg) {
+      console.warn(customErrorMsg);
     }
 
     console.warn('错误对象：', error);
@@ -41,7 +39,7 @@ export default class ErrorBoundary extends React.Component<
   }
 
   render() {
-    const {curErrorSchema, fallback} = this.props;
+    const {fallback} = this.props;
     if (this.state.hasError) {
       if (fallback) {
         return fallback();
@@ -50,7 +48,7 @@ export default class ErrorBoundary extends React.Component<
       // 默认渲染错误信息
       return (
         <div className="ae-Editor-renderer-error">
-          {curErrorSchema.type} 渲染发生错误，详细错误信息请查看控制台输出。
+          渲染发生错误，详细错误信息请查看控制台输出。
         </div>
       );
     }
