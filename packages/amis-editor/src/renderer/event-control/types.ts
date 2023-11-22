@@ -13,6 +13,10 @@ export interface ActionEventConfig {
     debounce?: {
       wait: number;
     };
+    track?: {
+      id: string;
+      name: string;
+    };
   };
 }
 

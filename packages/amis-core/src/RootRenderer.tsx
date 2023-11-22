@@ -474,7 +474,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     const store = this.store;
 
     if (store.runtimeError) {
-      this.renderRuntimeError();
+      return this.renderRuntimeError();
     }
 
     return (
