@@ -448,8 +448,8 @@ export const HocQuickEdit =
                 {
                   type: quickEdit.type || 'input-text',
                   name: quickEdit.name || name,
-                  ...quickEdit,
                   ...(isline ? {id: id} : {}),
+                  ...quickEdit,
                   mode: undefined
                 }
               ]
