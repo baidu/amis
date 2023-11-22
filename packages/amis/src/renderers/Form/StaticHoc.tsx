@@ -134,7 +134,17 @@ export function supportStatic<T extends FormControlProps>() {
         }
 
         return (
-          <ErrorBoundary curSchema={props.$schema}>
+          <ErrorBoundary
+            curErrorSchema={props.$schema}
+            fallback={() => {
+              return (
+                <div className="ae-Editor-renderer-error">
+                  {props.$schema?.type}
+                  渲染发生错误，详细错误信息请查看控制台输出。
+                </div>
+              );
+            }}
+          >
             <div className={cx(`${ns}Form-static`, className)}>{body}</div>
           </ErrorBoundary>
         );
