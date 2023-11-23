@@ -39,7 +39,7 @@ export class AjaxAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    if (!renderer.props.env?.fetcher) {
+    if (!event.context.env?.fetcher) {
       throw new Error('env.fetcher is required!');
     }
 
