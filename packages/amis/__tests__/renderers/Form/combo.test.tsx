@@ -659,6 +659,17 @@ test('Renderer:combo with canAccessSuperData & strictMode & syncFields', async (
   expect(comboInputs[0]!.value).toBe('');
   expect(comboInputs[1]!.value).toBe('123');
   expect(comboInputs[2]!.value).toBe('123456');
+
+  fireEvent.click(submitBtn);
+  await wait(300);
+  expect(onSubmit).toHaveBeenCalled();
+
+  expect(onSubmit.mock.calls[0][0]).toMatchObject({
+    super_text: '123456',
+    combo1: [{}],
+    combo2: [{super_text: '123'}],
+    combo3: [{super_text: '123456'}]
+  });
 });
 
 // 9. tabsMode
