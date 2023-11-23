@@ -558,6 +558,21 @@ export default class DateControl extends React.PureComponent<
     }
   }
 
+  setData(value: any) {
+    const {data, valueFormat, format, utc, onChange} = this.props;
+
+    if (
+      typeof value === 'string' ||
+      typeof value === 'number' ||
+      value instanceof Date
+    ) {
+      const date = filterDate(value as any, data, valueFormat || format);
+      value = (utc ? moment.utc(date) : date).format(valueFormat || format);
+    }
+
+    onChange(value);
+  }
+
   // 值的变化
   @autobind
   async handleChange(nextValue: any) {
