@@ -6,7 +6,7 @@ import {currentLocale} from 'i18n-runtime';
 import {Portal} from 'react-overlays';
 import {Icon} from './icons/index';
 import LayoutList from './layout/index';
-import themeConfig from 'amis-theme-editor-helper/lib/systemTheme/cxd';
+import {cxdData} from 'amis-theme-editor-helper';
 
 // 测试组织属性配置面板的国际化，可以放开如下注释
 // import './renderer/InputTextI18n';
@@ -14,7 +14,7 @@ import themeConfig from 'amis-theme-editor-helper/lib/systemTheme/cxd';
 // import './utils/overwriteSchemaTpl';
 // const i18nEnabled = true;
 const i18nEnabled = false;
-setThemeConfig(themeConfig);
+setThemeConfig(cxdData);
 
 const schema = {
   type: 'page',
