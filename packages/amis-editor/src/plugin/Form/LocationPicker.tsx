@@ -190,15 +190,6 @@ export class LocationControlPlugin extends BasePlugin {
           getSchemaTpl('collapseGroup', [
             getSchemaTpl('style:formItem', {renderer}),
             getSchemaTpl('theme:form-label'),
-            {
-              title: '输入框样式',
-              body: [
-                ...inputStateTpl(
-                  'themeCss.inputControlClassName',
-                  'input.base.default'
-                )
-              ]
-            },
             getSchemaTpl('theme:classNames', {
               schema: [
                 {
