@@ -179,6 +179,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
         )
       );
     }
+    // todo 支持值格式的自动纠正
   }
 
   componentDidUpdate(prevProps: DateRangeProps) {

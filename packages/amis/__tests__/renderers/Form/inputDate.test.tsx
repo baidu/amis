@@ -522,6 +522,27 @@ test('Renderer:inputDate disabledDate', async () => {
   expect(tuesdayCell).not.toHaveClass('rdtDisabled');
 });
 
+test('Renderer:inputDate defaultValue with formula', async () => {
+  const {container} = await setup([
+    {
+      type: 'input-date',
+      name: 'date',
+      label: '日期',
+      valueFormat: 'YYYY-MM-DD',
+      value: '${ DATE("2021-12-06 08:20:00") }'
+    }
+  ]);
+
+  await wait(300);
+  const input = container.querySelector(
+    '.cxd-DatePicker-input'
+  )! as HTMLInputElement;
+
+  expect(input).toBeInTheDocument();
+  expect(input.value).toBe('2021-12-06');
+
+});
+  
 test('Renderer:inputDate setValue actions with special words', async () => {
   const {container, submitBtn, onSubmit, getByText} = await setup([
     {
