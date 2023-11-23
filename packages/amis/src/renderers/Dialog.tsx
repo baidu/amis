@@ -6,7 +6,8 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   setVariable,
-  setThemeClassName
+  setThemeClassName,
+  ValidateError
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
@@ -805,6 +806,7 @@ export default class Dialog extends React.Component<DialogProps> {
 })
 export class DialogRenderer extends Dialog {
   static contextType = ScopedContext;
+  clearErrorTimer: ReturnType<typeof setTimeout>;
 
   constructor(props: DialogProps, context: IScopedContext) {
     super(props);
@@ -817,6 +819,7 @@ export class DialogRenderer extends Dialog {
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
     super.componentWillUnmount();
+    clearTimeout(this.clearErrorTimer);
   }
 
   tryChildrenToHandle(
@@ -897,6 +900,16 @@ export class DialogRenderer extends Dialog {
           }
           store.updateMessage(reason.message, true);
           store.markBusying(false);
+
+          if (reason.constructor?.name === ValidateError.name) {
+            clearTimeout(this.clearErrorTimer);
+            this.clearErrorTimer = setTimeout(() => {
+              if (this.isDead) {
+                return;
+              }
+              store.updateMessage('');
+            }, 3000);
+          }
         });
 
       return true;
