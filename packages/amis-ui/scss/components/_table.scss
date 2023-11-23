@@ -273,8 +273,12 @@
       padding-top: 0;
     }
 
-    &--affixHeader > thead {
-      visibility: collapse;
+    &--affixHeader {
+      margin-top: calc(var(--Table-thead-height) * -1);
+
+      > thead {
+        visibility: hidden;
+      }
     }
 
     &--withCombine {

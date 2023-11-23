@@ -20,7 +20,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
           >
             <div
               class="cxd-Table cxd-Crud-body"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -2157,7 +2157,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
           >
             <div
               class="cxd-Table cxd-Crud-body"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -2799,7 +2799,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
             </div>
             <div
               class="cxd-Table cxd-Crud-body"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative; --Table-column-1-width: 0px;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative; --Table-column-1-width: 0px;"
             >
               <div
                 class="cxd-Table-fixedTop"
