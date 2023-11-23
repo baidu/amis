@@ -45,14 +45,14 @@ export function filterClassNameObject(
 export function getExprProperties(
   schema: PlainObject,
   data: object = {},
-  blackList: Array<string> = ['addOn', 'ref'],
+  ignoreList: Array<string> = ['addOn', 'ref'],
   props?: any
 ): PlainObject {
   const exprProps: PlainObject = {};
   let ctx: any = null;
 
   Object.getOwnPropertyNames(schema).forEach(key => {
-    if (blackList && ~blackList.indexOf(key)) {
+    if (ignoreList && ~ignoreList.indexOf(key)) {
       return;
     }
 
@@ -100,6 +100,20 @@ export function getExprProperties(
   });
 
   return exprProps;
+}
+
+export function hasExprPropertiesChanged(
+  schema: PlainObject,
+  prevSchema: PlainObject
+) {
+  return Object.getOwnPropertyNames(schema).some(key => {
+    let parts = /^(.*)(On|Expr|(?:c|C)lassName)(Raw)?$/.exec(key);
+    if (parts) {
+      return schema[key] !== prevSchema[key];
+    }
+
+    return false;
+  });
 }
 
 export default getExprProperties;
