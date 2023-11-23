@@ -958,11 +958,17 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 可以在列上配置`"sortable": true`，该列表头右侧会渲染一个可点击的排序图标，可以切换`正序`和`倒序`。
 
+> 如果想默认就基于某个字段排序，可以结合 `defaultParams` 一起配置。
+
 ```schema: scope="body"
 {
     "type": "crud",
     "syncLocation": false,
     "api": "/api/mock2/sample",
+    "defaultParams": {
+      "orderBy": "engine",
+      "orderDir": "desc"
+    },
     "columns": [
         {
             "name": "id",
