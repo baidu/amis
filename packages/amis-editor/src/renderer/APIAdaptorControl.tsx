@@ -197,7 +197,7 @@ export class APIAdaptorControlRenderer extends APIAdaptorControl {}
  * @param size 渲染区域的width, height, 代码区域是异步渲染，tooltip时计算会偏移
  * @returns
  */
-const genCodeSchema = (code: string, size?: string[]) => ({
+export const genCodeSchema = (code: string, size?: string[]) => ({
   type: 'container',
   ...(!size
     ? {}
