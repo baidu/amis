@@ -32,6 +32,8 @@ export default {
       query: Record<string, any>,
       /* 列配置 */
       columns: any;
+      /** match-sorter 匹配函数 */
+      matchSorter: (items: any[], value: string, options?: MatchSorterOptions<any>) => any[]
     }
   ): boolean;
 }`
