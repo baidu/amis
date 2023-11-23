@@ -51,11 +51,7 @@ export class CmptAction implements RendererAction {
     }
 
     // 如果key没指定，则默认是当前组件
-    let component = key
-      ? event.context.scoped?.[
-          action.componentId ? 'getComponentById' : 'getComponentByName'
-        ](key)
-      : renderer;
+    let component = action.component;
 
     // 如果key指定来，但是没找到组件，则报错
     if (key && !component) {

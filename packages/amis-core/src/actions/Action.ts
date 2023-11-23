@@ -285,17 +285,26 @@ export const runAction = async (
     delete action.args?.options;
     delete action.args?.messages;
   }
-
+  const cmptFlag = key.componentId || key.componentName;
+  let targetComponent = cmptFlag
+    ? event.context.scoped?.[
+        action.componentId ? 'getComponentById' : 'getComponentByName'
+      ](cmptFlag)
+    : renderer;
   // 动作配置
-  const args = dataMapping(action.args, mergeData, key =>
-    [
+  const args = dataMapping(action.args, mergeData, (key: string) => {
+    const ignoreKey = [
       'adaptor',
       'responseAdaptor',
       'requestAdaptor',
-      'responseData',
-      'condition'
-    ].includes(key)
-  );
+      'responseData'
+    ];
+    if (targetComponent?.props?.type === 'input-table') {
+      return [...ignoreKey, 'condition'].includes(key);
+    } else {
+      return ignoreKey.includes(key);
+    }
+  });
   const afterMappingData = dataMapping(action.data, mergeData);
 
   // 动作数据
@@ -325,6 +334,7 @@ export const runAction = async (
     {
       ...action,
       args,
+      component: targetComponent,
       data: action.actionType === 'reload' ? actionData : data, // 如果是刷新动作，则只传action.data
       ...key
     },
