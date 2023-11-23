@@ -958,11 +958,17 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 可以在列上配置`"sortable": true`，该列表头右侧会渲染一个可点击的排序图标，可以切换`正序`和`倒序`。
 
+> 如果想默认就基于某个字段排序，可以结合 `defaultParams` 一起配置。
+
 ```schema: scope="body"
 {
     "type": "crud",
     "syncLocation": false,
     "api": "/api/mock2/sample",
+    "defaultParams": {
+      "orderBy": "engine",
+      "orderDir": "desc"
+    },
     "columns": [
         {
             "name": "id",
@@ -1074,7 +1080,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 
 #### 下拉数据源
 
-过滤器的数据域支持API接口和上下文数据(`3.6.0`及以上版本)
+过滤器的数据域支持 API 接口和上下文数据(`3.6.0`及以上版本)
 
 ```schema
 {
@@ -3378,22 +3384,22 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 除了 Table 组件默认支持的列配置，CRUD 的列配置还额外支持以下属性：
 
 | 属性名             | 类型                                                            | 默认值  | 说明                                                                        | 版本 |
-| ------------------ | --------------------------------------------------------------- | ------- | --------------------------------------------------------------------------- | --- |
+| ------------------ | --------------------------------------------------------------- | ------- | --------------------------------------------------------------------------- | ---- |
 | sortable           | `boolean`                                                       | `false` | 是否可排序                                                                  |
 | searchable         | `boolean` \| `Schema`                                           | `false` | 是否可快速搜索，开启`autoGenerateFilter`后，`searchable`支持配置`Schema`    |
 | filterable         | `boolean` \| [`QuickFilterConfig`](./crud.md#quickfilterconfig) | `false` | 是否可快速搜索，`options`属性为静态选项，支持设置`source`属性从接口获取选项 |
 | quickEdit          | `boolean` \| [`QuickEditConfig`](./crud.md#quickeditconfig)     | -       | 快速编辑，一般需要配合`quickSaveApi`接口使用                                |
-| quickEditEnabledOn | `SchemaExpression`                                              | -       | 开启快速编辑条件[表达式](../../docs/concepts/expression)                    |     |
+| quickEditEnabledOn | `SchemaExpression`                                              | -       | 开启快速编辑条件[表达式](../../docs/concepts/expression)                    |      |
 
 #### QuickFilterConfig
 
-| 属性名        | 类型                          | 默认值  | 说明                                                     | 版本    |
-| ------------- | ----------------------------- | ------- | -------------------------------------------------------- | ------- |
-| options       | `Array<any>`                  | -       | 静态选项                                                 |         |
-| multiple      | `boolean`                     | `false` | 是否支持多选                                             |         |
-| source        | [`Api`](../../docs/types/api) \| `string`  | -       | 选项 API 接口                                            |   `3.6.0`版本后支持上下文变量      |
-| refreshOnOpen | `boolean`                     | `false` | 配置 source 前提下，每次展开筛选浮层是否重新加载选项数据 | `2.9.0` |
-| strictMode    | `boolean`                     | `false` | 严格模式，开启严格模式后，会采用 JavaScript 严格相等比较 | `2.3.0` |
+| 属性名        | 类型                                      | 默认值  | 说明                                                     | 版本                        |
+| ------------- | ----------------------------------------- | ------- | -------------------------------------------------------- | --------------------------- |
+| options       | `Array<any>`                              | -       | 静态选项                                                 |                             |
+| multiple      | `boolean`                                 | `false` | 是否支持多选                                             |                             |
+| source        | [`Api`](../../docs/types/api) \| `string` | -       | 选项 API 接口                                            | `3.6.0`版本后支持上下文变量 |
+| refreshOnOpen | `boolean`                                 | `false` | 配置 source 前提下，每次展开筛选浮层是否重新加载选项数据 | `2.9.0`                     |
+| strictMode    | `boolean`                                 | `false` | 严格模式，开启严格模式后，会采用 JavaScript 严格相等比较 | `2.3.0`                     |
 
 #### QuickEditConfig
 
@@ -4948,7 +4954,7 @@ value 结构说明：
 
 #### 行记录中字段赋值
 
-需要通过表达式配置动态`name`或`id`和`componentName`或`componentId`。例如修改`engine`选中状态的同时选中`version`，勾选`id`的同时去掉对`engine`的选中。
+需要通过表达式配置动态`id`和`componentId`。例如修改`engine`选中状态的同时选中`version`，勾选`id`的同时去掉对`engine`的选中。
 
 ```schema: scope="body"
 {
@@ -4960,13 +4966,12 @@ value 结构说明：
         {
             "name": "id",
             "label": "ID",
-            "id": "u:3db3f2b1b99e",
             "onEvent": {
                 "click": {
                     "actions": [
                     {
                         "actionType": "setValue",
-                        "componentId": "u:4868d7db0139_${index}",
+                        "componentId": "version_${index}",
                         "args": {
                             "value": false
                         }
@@ -4981,13 +4986,12 @@ value 结构说明：
             "label": "engine",
             "quickEdit": true,
             "quickEditEnabledOn": "this.id < 5",
-            "id": "u:0b9be99f3403",
             "onEvent": {
                 "change": {
                     "actions": [
                     {
                         "actionType": "setValue",
-                        "componentName": "version_${index}",
+                        "componentId": "version_${index}",
                         "args": {
                             "value": true
                         }
@@ -4997,12 +5001,12 @@ value 结构说明：
             }
         },
         {
-            "name": "version_${index}",
+            "name": "version",
             "type": "checkbox",
             "label": "version",
             "quickEdit": true,
             "quickEditEnabledOn": "this.id < 5",
-            "id": "u:4868d7db0139_${index}"
+            "id": "version_${index}"
         }
     ],
     "id": "u:f5bad706d7c5"

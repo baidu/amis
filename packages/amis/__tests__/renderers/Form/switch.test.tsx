@@ -71,3 +71,42 @@ describe('Renderer:Switch', () => {
     expect(container).toMatchSnapshot();
   });
 });
+
+/**
+ * 默认状态为开启时
+ * 默认状态为关闭时
+ * 默认状态为禁用时
+ */
+test('Renderer:Switch with loading status', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'form',
+        body: [
+          {
+            "type": "switch",
+            "name": "switch1",
+            "label": "",
+            "loading": true,
+            "value": true
+          },
+          {
+            "type": "switch",
+            "name": "switch2",
+            "label": "",
+            "disabled": true,
+            "loading": true,
+            "value": false
+          }
+        ],
+        actions: []
+      },
+      {},
+      makeEnv()
+    )
+  );
+
+  const loadingDom = container.querySelectorAll('.cxd-Switch-spinner');
+
+  expect(loadingDom?.length).toEqual(2);
+});

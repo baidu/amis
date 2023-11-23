@@ -35,6 +35,8 @@ export interface SpinnerProps extends ThemeProps, SpinnerExtraProps {
   tipPlacement?: 'top' | 'right' | 'bottom' | 'left'; // spinner文案位置
   delay?: number; // 延迟显示
   overlay?: boolean; // 是否显示遮罩层，有children属性才生效
+  /** 是否处于禁用状态 */
+  disabled?: boolean;
 }
 
 export interface SpinnerExtraProps {
@@ -114,7 +116,8 @@ export class Spinner extends React.Component<
     tipPlacement: 'bottom' as 'bottom',
     delay: 0,
     overlay: false,
-    loadingConfig: {}
+    loadingConfig: {},
+    disabled: false
   };
 
   state = {
@@ -190,7 +193,8 @@ export class Spinner extends React.Component<
       icon: iconConfig,
       tip,
       tipPlacement = '',
-      loadingConfig
+      loadingConfig,
+      disabled
     } = this.props;
     // 定义了挂载位置时只能使用默认icon
     const icon = loadingConfig?.root ? undefined : iconConfig;
@@ -241,9 +245,10 @@ export class Spinner extends React.Component<
                       `Spinner-icon`,
                       {
                         [`Spinner-icon--${size}`]: ['lg', 'sm'].includes(size),
-                        [`Spinner-icon--default`]: !icon,
-                        [`Spinner-icon--simple`]: !isCustomIcon && icon,
-                        [`Spinner-icon--custom`]: isCustomIcon
+                        'Spinner-icon--default': !icon,
+                        'Spinner-icon--simple': !isCustomIcon && icon,
+                        'Spinner-icon--custom': isCustomIcon,
+                        'Spinner-icon--disabled': disabled
                       },
                       spinnerClassName
                     )}

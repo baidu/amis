@@ -33,6 +33,8 @@ export function attachmentAdpator(
         // 很可能是中文被 url-encode 了
         if (filename && filename.replace(/[^%]/g, '').length > 2) {
           filename = decodeURIComponent(filename);
+          // 有些后端用错了，导致空格转义成了 +，这里转回来
+          filename = filename.replace(/\+/g, ' ');
         }
       }
 

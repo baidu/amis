@@ -1591,6 +1591,10 @@ export default class Table extends React.Component<TableProps, object> {
 
     document.addEventListener('mousemove', this.handleColResizeMouseMove);
     document.addEventListener('mouseup', this.handleColResizeMouseUp);
+
+    // 防止选中文本
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   // 垂直线拖拽移动
@@ -1760,8 +1764,6 @@ export default class Table extends React.Component<TableProps, object> {
       store,
       query,
       onQuery,
-      multiple,
-      env,
       render,
       classPrefix: ns,
       resizable,
@@ -1805,7 +1807,7 @@ export default class Table extends React.Component<TableProps, object> {
           style={style}
           className={cx(column.pristine.className, stickyClassName)}
         >
-          {store.rows.length && multiple ? (
+          {store.rows.length && store.multiple ? (
             <Checkbox
               classPrefix={ns}
               partial={store.someChecked && !store.allChecked}
@@ -2038,11 +2040,8 @@ export default class Table extends React.Component<TableProps, object> {
     const {
       render,
       store,
-      multiple,
       classPrefix: ns,
       classnames: cx,
-      checkOnItemClick,
-      popOverContainer,
       canAccessSuperData,
       itemBadge,
       translate
@@ -2058,7 +2057,7 @@ export default class Table extends React.Component<TableProps, object> {
         ignoreDrag={ignoreDrag}
         render={render}
         store={store}
-        multiple={multiple}
+        multiple={store.multiple}
         canAccessSuperData={canAccessSuperData}
         classnames={cx}
         classPrefix={ns}

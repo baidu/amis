@@ -188,6 +188,8 @@ register('de-DE', {
   'loading': 'Wird geladen...',
   'loadingFailed': 'Das Laden ist fehlgeschlagen',
   'LocationPicker.placeholder': 'Wählen Sie einen Ort',
+  'LocationPicker.getLocation':
+    'Klicken Sie hier, um Standortinformationen zu erhalten',
   'Month.placeholder': 'Wählen Sie einen Monat',
   'Nav.sourceError': 'Fehler beim Abrufen des Links',
   'networkError':

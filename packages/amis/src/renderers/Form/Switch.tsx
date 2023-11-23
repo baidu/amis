@@ -6,10 +6,12 @@ import {
   resolveEventData
 } from 'amis-core';
 import {Icon, Switch} from 'amis-ui';
-import {createObject, autobind, isObject} from 'amis-core';
+import {autobind, isObject} from 'amis-core';
 import {IconSchema} from '../Icon';
 import {FormBaseControlSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
+
+import type {SpinnerExtraProps} from 'amis-ui';
 
 /**
  * Switch
@@ -49,13 +51,17 @@ export interface SwitchControlSchema extends FormBaseControlSchema {
 
   /** 开关尺寸 */
   size?: 'sm' | 'md';
+
+  /** 是否处于加载状态 */
+  loading?: boolean;
 }
 
-export interface SwitchProps extends FormControlProps {
+export interface SwitchProps extends FormControlProps, SpinnerExtraProps {
   option?: string;
   trueValue?: any;
   falseValue?: any;
   size?: 'sm';
+  loading?: boolean;
 }
 
 export type SwitchRendererEvent = 'change';
@@ -129,7 +135,9 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
       trueValue,
       falseValue,
       onChange,
-      disabled
+      disabled,
+      loading,
+      loadingConfig
     } = this.props;
 
     const {on, off} = this.getResult();
@@ -147,6 +155,8 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
             disabled={disabled}
             onChange={this.handleChange}
             size={size as any}
+            loading={loading}
+            loadingConfig={loadingConfig}
           />
         )}
       </div>

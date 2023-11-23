@@ -528,7 +528,8 @@ export const TableStore = iRendererStore
     exportExcelLoading: false,
     searchFormExpanded: false, // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
     lazyRenderAfter: 100,
-    tableLayout: 'auto'
+    tableLayout: 'auto',
+    theadHeight: 0
   })
   .views(self => {
     function getColumnsExceptBuiltinTypes() {
@@ -1001,7 +1002,7 @@ export const TableStore = iRendererStore
       },
 
       buildStyles(style: any) {
-        style = {...style};
+        style = {...style, '--Table-thead-height': self.theadHeight + 'px'};
 
         getFilteredColumns().forEach(column => {
           style[`--Table-column-${column.index}-width`] =
@@ -1050,13 +1051,7 @@ export const TableStore = iRendererStore
         );
       }
 
-      if (config.multiple !== undefined) {
-        self.multiple = config.multiple;
-      } else {
-        // 如果通过crud或picker，multiple始终设置了true或false
-        // 如果仅使用table，默认multiple为true，但props未设置multiple的情况下其实是展示单选
-        self.multiple = false;
-      }
+      config.multiple !== undefined && (self.multiple = config.multiple);
       config.footable !== undefined && (self.footable = config.footable);
       config.expandConfig !== undefined &&
         (self.expandConfig = config.expandConfig);
@@ -1301,9 +1296,9 @@ export const TableStore = iRendererStore
       if (!table) {
         return;
       }
-      const cols = [].slice.call(
-        table.querySelectorAll(':scope>thead>tr>th[data-index]')
-      );
+      const thead = table.querySelector(':scope>thead') as HTMLElement;
+      const cols = [].slice.call(thead.querySelectorAll('tr>th[data-index]'));
+      self.theadHeight = thead.offsetHeight;
       cols.forEach((col: HTMLElement) => {
         const index = parseInt(col.getAttribute('data-index')!, 10);
         const column = self.columns[index];

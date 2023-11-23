@@ -1972,6 +1972,9 @@
   --Switch-checked-bgColor: var(--switch-default-on-bg-color);
   --Switch-checked-onHover-bgColor: var(--switch-default-on-hover-bg-color);
   --Switch-checked-onActive-bgColor: var(--colors-brand-4);
+  --Switch-spinner-icon-width: var(--sizes-base-7);
+  --Switch-spinner-icon-width--sm: var(--sizes-base-5);
+  --switch-spinner-left--sm: var(--sizes-size-0);
 
   --collapse-default-top-border-color: var(--colors-neutral-line-8);
   --collapse-default-top-border-width: var(--borders-width-2);
@@ -3292,7 +3295,6 @@
   --spinner-size-size: var(--sizes-base-16);
   --spinner-lg-size: var(--sizes-base-24);
   --spinner-overlay-bg: var(--colors-neutral-fill-11);
-  --spinner-color: var(--colors-brand-5);
 
   --Spinner--lg-height: var(--spinner-lg-size);
   --Spinner--lg-width: var(--spinner-lg-size);
@@ -3304,6 +3306,7 @@
   --Spinner-overlay-bg: rgba(255, 255, 255, 0.4);
   --Spinner-width: var(--spinner-size-size);
   --Spinner-color: var(--spinner-base-color);
+  --Spinner-color--disabled: rgba(0, 0, 0, 0.65);
 
   // Image
   --image-image-normal-paddingTop: var(--sizes-size-3);

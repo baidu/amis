@@ -1901,6 +1901,7 @@ order: 54
     {
       "type": "button",
       "label": "新增一行（未指定添加位置）",
+      "className": "mr-2",
       "onEvent": {
         "click": {
           "actions": [
@@ -1985,6 +1986,7 @@ order: 54
     {
       "type": "button",
       "label": "删除行（指定行号）",
+      "className": "mr-2",
       "onEvent": {
         "click": {
           "actions": [
@@ -2184,6 +2186,7 @@ order: 54
     {
       "type": "button",
       "label": "更新index为1和3的行记录",
+      "className": "mr-2",
       "onEvent": {
         "click": {
           "actions": [
@@ -2205,6 +2208,7 @@ order: 54
     {
       "type": "button",
       "label": "更新a=a3的行记录",
+      "className": "mr-2",
       "onEvent": {
         "click": {
           "actions": [
@@ -2309,6 +2313,74 @@ order: 54
         "id": 5,
         "a": "a5",
         "b": "b5"
+      }
+    ]
+  }
+}
+```
+
+#### 行记录内表单项联动
+
+需要通过表达式配置动态 `id` 和 `componentId`。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-table",
+      "label": "表格表单",
+      "id": "setValue-input-table",
+      "name": "table",
+      "columns": [
+        {
+          "type": "input-number",
+          "name": "num1",
+          "label": "数量",
+          "onEvent": {
+            "change": {
+              "actions": [
+                {
+                  "actionType": "setValue",
+                  "componentId": "num2_${index}",
+                  "args": {
+                    "value": "${num1 * 10}"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "num2",
+          "id": "num2_${index}",
+          "label": "金额"
+        }
+      ],
+      "addable": true,
+      "footerAddBtn": {
+        "label": "新增",
+        "icon": "fa fa-plus",
+        "hidden": true
+      },
+      "strictMode": true,
+      "minLength": 0,
+      "needConfirm": false,
+      "showTableAddBtn": false
+    }
+  ],
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "num1": 1,
+        "num2": "10"
+      },
+      {
+        "id": 2,
+        "num1": "2",
+        "num2": 20
       }
     ]
   }
