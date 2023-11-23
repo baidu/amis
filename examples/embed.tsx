@@ -259,7 +259,13 @@ export function embed(
       ...props,
       scopeRef: (ref: any) => {
         if (ref) {
-          Object.assign(scoped, ref);
+          Object.keys(ref).forEach(key => {
+            let value = ref[key];
+            if (typeof value === 'function') {
+              value = value.bind(ref);
+            }
+            (scoped as any)[key] = value;
+          });
           callback?.();
         }
       }
