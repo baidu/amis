@@ -1197,8 +1197,7 @@ test('Renderer:table-column-quickEdit-inline', async () => {
             type: 'switch',
             quickEdit: {
               type: 'switch',
-              mode: 'inline',
-              id: 'u:4201a414cde3'
+              mode: 'inline'
             }
           },
           {
