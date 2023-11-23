@@ -1149,9 +1149,50 @@ export function deleteThemeConfigData(data: any) {
 export async function resolveVariablesFromScope(node: any, manager: any) {
   await manager?.getContextSchemas(node);
   // 获取当前组件内相关变量，如表单、增删改查
-  const dataPropsAsOptions: VariableItem[] = updateComponentContext(
-    (await manager?.dataSchema?.getDataPropsAsOptions()) ?? []
-  );
+
+  let variableOptions =
+    (await manager?.dataSchema?.getDataPropsAsOptions()) ?? [];
+  // 子编辑器内读取的host节点自定义变量，非数据域方式，如listSelect的选项值
+  let hostNodeVaraibles = [];
+  if (manager?.store?.isSubEditor) {
+    hostNodeVaraibles =
+      manager.config?.hostNode?.info?.getSubEditorVariable?.(
+        manager.config?.hostNode.schema
+      ) || [];
+
+    // 获取父编辑器内组件上下文变量，与当前自编辑器进行拼接
+    const hostNodeDataSchema = await manager.config.getHostNodeDataSchema();
+    const hostContextVariables = (
+      hostNodeDataSchema?.getDataPropsAsOptions() || []
+    )
+      .filter((item: any) => item.label === '组件上下文')
+      .reduce((arr: any, item: any) => {
+        arr.push(...(item.children || []));
+        return arr;
+      }, []);
+    if (hostContextVariables?.length) {
+      let hasContextVariables = false;
+      variableOptions = variableOptions.map((item: any) => {
+        if (item.label === '组件上下文' && !hasContextVariables) {
+          hasContextVariables = true;
+          item.children = item.children.concat(hostContextVariables);
+        }
+        return item;
+      });
+
+      if (!hasContextVariables) {
+        variableOptions = [
+          {
+            label: '组件上下文',
+            children: hostContextVariables
+          },
+          ...variableOptions
+        ];
+      }
+    }
+  }
+  const dataPropsAsOptions: VariableItem[] =
+    updateComponentContext(variableOptions);
 
   const variables: VariableItem[] =
     manager?.variableManager?.getVariableFormulaOptions() || [];

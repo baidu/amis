@@ -168,6 +168,7 @@ setSchemaTpl('formItemInline', {
   label: '表单项内联',
   name: 'inline',
   visibleOn: 'data.mode != "inline"',
+  inputClassName: 'is-inline',
   pipeIn: defaultValue(false)
   // onChange: (value:any, origin:any, item:any, form:any) => form.getValueByName('size') === "full" && form.setValueByName('')
 });
