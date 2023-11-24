@@ -126,8 +126,7 @@ export class LocationControlPlugin extends BasePlugin {
                   rendererSchema: context?.schema,
                 }),
                 */
-                {
-                  type: 'input-text',
+                getSchemaTpl('formulaControl', {
                   name: 'ak',
                   label: '百度地图的 AK',
                   required: true,
@@ -137,7 +136,7 @@ export class LocationControlPlugin extends BasePlugin {
                   },
                   description:
                     '请从<a href="http://lbsyun.baidu.com/" target="_blank" class="text-sm">百度地图开放平台</a>获取'
-                },
+                }),
                 {
                   type: 'select',
                   name: 'coordinatesType',
