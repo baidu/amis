@@ -529,7 +529,7 @@ export default class Form extends React.Component<FormProps, object> {
       reaction(
         () => store.initedAt,
         () => {
-          store.inited && this.emitChange(!!this.props.submitOnChange);
+          store.inited && this.emitChange(!!this.props.submitOnChange, true);
         }
       )
     );
@@ -1014,21 +1014,21 @@ export default class Form extends React.Component<FormProps, object> {
     };
   }
 
-  async emitChange(submit: boolean) {
+  async emitChange(submit: boolean, skipIfNothingChanges: boolean = false) {
     const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
 
     if (!isAlive(store)) {
       return;
     }
 
+    const diff = difference(store.data, store.pristine);
+    if (skipIfNothingChanges && !Object.keys(diff).length) {
+      return;
+    }
+
     // 提前准备好 onChange 的参数。
     // 因为 store.data 会在 await 期间被 WithStore.componentDidUpdate 中的 store.initData 改变。导致数据丢失
-    const changeProps = [
-      store.data,
-      difference(store.data, store.pristine),
-      this.props
-    ];
-
+    const changeProps = [store.data, diff, this.props];
     const dispatcher = await dispatchEvent(
       'change',
       createObject(data, store.data)
