@@ -6,7 +6,9 @@ import React from 'react';
 import {RendererProps} from './factory';
 import {IIRendererStore, IRendererStore} from './store';
 import {RendererData, SchemaNode} from './types';
-import getExprProperties from './utils/filter-schema';
+import getExprProperties, {
+  hasExprPropertiesChanged
+} from './utils/filter-schema';
 import {
   createObject,
   extendObject,
@@ -127,26 +129,19 @@ export function HocStoreFactory(renderer: {
         this.state = {};
         const {detectField, ...rest} = props;
         let exprProps: any = {};
+
         if (!detectField || detectField === 'data') {
-          exprProps = getExprProperties(rest, store.data, undefined, rest);
+          exprProps = getExprProperties(rest, store.data);
 
           this.state = {
             ...exprProps
           };
 
           this.unReaction = reaction(
-            () =>
-              JSON.stringify(
-                getExprProperties(this.props, store.data, undefined, this.props)
-              ),
+            () => JSON.stringify(getExprProperties(this.props, store.data)),
             () =>
               this.setState({
-                ...getExprProperties(
-                  this.props,
-                  store.data,
-                  undefined,
-                  this.props
-                )
+                ...getExprProperties(this.props, store.data)
               })
           );
         }
@@ -173,6 +168,27 @@ export function HocStoreFactory(renderer: {
       componentDidUpdate(prevProps: Props) {
         const props = this.props;
         const store = this.store;
+
+        // dialog 场景下 schema 是显示的时候更新的，
+        // 所以 schema 里面有表达式属性其实是监听不到变化的
+        // 所以这里需要根据新属性重新 reaction 一下
+        if (
+          (!props.detectField || props.detectField === 'data') &&
+          hasExprPropertiesChanged(this.props, prevProps)
+        ) {
+          const state = getExprProperties(this.props, store.data);
+          isObjectShallowModified(state, this.state) && this.setState(state);
+          // 需要重新监听
+          this.unReaction?.();
+          this.unReaction = reaction(
+            () => JSON.stringify(getExprProperties(props, store.data)),
+            () =>
+              this.setState({
+                ...getExprProperties(this.props, store.data)
+              })
+          );
+        }
+
         const shouldSync = renderer.shouldSyncSuperStore?.(
           store,
           props,
