@@ -52,6 +52,10 @@ export interface ListenerContext extends React.Component<RendererProps> {
   [propName: string]: any;
 }
 
+interface MappingIgnoreMap {
+  [propName: string]: string[];
+}
+
 // Action 基础接口
 export interface RendererAction {
   // 运行这个 Action，每个类型的 Action 都只有一个实例，run 函数是个可重入的函数
@@ -291,19 +295,31 @@ export const runAction = async (
         action.componentId ? 'getComponentById' : 'getComponentByName'
       ](cmptFlag)
     : renderer;
+  // 如果key指定来，但是没找到组件，则报错
+  if (cmptFlag && !targetComponent) {
+    const msg =
+      '尝试执行一个不存在的目标组件动作，请检查目标组件非隐藏状态，且正确指定了componentId或componentName';
+    if (action.ignoreError === false) {
+      throw Error(msg);
+    } else {
+      console.warn(msg);
+    }
+  }
   // 动作配置
   const args = dataMapping(action.args, mergeData, (key: string) => {
+    const actionIgnoreKey: MappingIgnoreMap = {
+      ajax: ['adaptor', 'responseAdaptor', 'requestAdaptor', 'responseData']
+    };
+    const cmptIgnoreMap: MappingIgnoreMap = {
+      'input-table': ['condition']
+    };
+    const curCmptType: string = targetComponent?.props?.type;
+    const curActionType: string = action.actionType;
     const ignoreKey = [
-      'adaptor',
-      'responseAdaptor',
-      'requestAdaptor',
-      'responseData'
+      ...(actionIgnoreKey[curActionType] || []),
+      ...(cmptIgnoreMap[curCmptType] || [])
     ];
-    if (targetComponent?.props?.type === 'input-table') {
-      return [...ignoreKey, 'condition'].includes(key);
-    } else {
-      return ignoreKey.includes(key);
-    }
+    return ignoreKey.includes(key);
   });
   const afterMappingData = dataMapping(action.data, mergeData);
 

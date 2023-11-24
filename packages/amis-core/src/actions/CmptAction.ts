@@ -50,20 +50,7 @@ export class CmptAction implements RendererAction {
       }
     }
 
-    // 如果key没指定，则默认是当前组件
-    let component = action.component;
-
-    // 如果key指定来，但是没找到组件，则报错
-    if (key && !component) {
-      const msg =
-        '尝试执行一个不存在的目标组件动作，请检查目标组件非隐藏状态，且正确指定了componentId或componentName';
-      if (action.ignoreError === false) {
-        throw Error(msg);
-      } else {
-        console.warn(msg);
-      }
-    }
-
+    const component = action.component;
     if (action.actionType === 'setValue') {
       if (component?.setData) {
         return component?.setData(
