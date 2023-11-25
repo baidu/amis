@@ -897,8 +897,8 @@
   --input-default-default-lineHeight: var(--fonts-lineHeight-2);
   --input-default-default-paddingTop: var(--sizes-size-3);
   --input-default-default-paddingBottom: var(--sizes-size-3);
-  --input-default-default-paddingLeft: var(--sizes-size-6);
-  --input-default-default-paddingRight: var(--sizes-size-6);
+  --input-default-default-paddingLeft: var(--sizes-size-9);
+  --input-default-default-paddingRight: var(--sizes-size-9);
   --input-default-default-bg-color: var(--colors-neutral-fill-11);
   --input-default-hover-top-border-color: var(--colors-brand-5);
   --input-default-hover-top-border-width: var(--borders-width-2);
@@ -918,8 +918,8 @@
   --input-default-hover-bottom-left-border-radius: var(--borders-radius-3);
   --input-default-hover-paddingTop: var(--sizes-size-3);
   --input-default-hover-paddingBottom: var(--sizes-size-3);
-  --input-default-hover-paddingLeft: var(--sizes-size-6);
-  --input-default-hover-paddingRight: var(--sizes-size-6);
+  --input-default-hover-paddingLeft: var(--sizes-size-9);
+  --input-default-hover-paddingRight: var(--sizes-size-9);
   --input-default-hover-bg-color: var(--colors-neutral-fill-11);
   --input-default-active-top-border-color: var(--colors-brand-5);
   --input-default-active-top-border-width: var(--borders-width-2);
@@ -939,8 +939,8 @@
   --input-default-active-bottom-left-border-radius: var(--borders-radius-3);
   --input-default-active-paddingTop: var(--sizes-size-3);
   --input-default-active-paddingBottom: var(--sizes-size-3);
-  --input-default-active-paddingLeft: var(--sizes-size-6);
-  --input-default-active-paddingRight: var(--sizes-size-6);
+  --input-default-active-paddingLeft: var(--sizes-size-9);
+  --input-default-active-paddingRight: var(--sizes-size-9);
   --input-default-active-shadow: var(--shadows-shadow-none);
   --input-default-active-bg-color: var(--colors-neutral-fill-11);
   --input-default-disabled-top-border-color: var(--colors-neutral-line-8);
@@ -1028,8 +1028,8 @@
   --inputNumber-base-default-bottom-left-border-radius: var(--borders-radius-3);
   --inputNumber-base-default-paddingTop: var(--sizes-size-3);
   --inputNumber-base-default-paddingBottom: var(--sizes-size-3);
-  --inputNumber-base-default-paddingLeft: var(--sizes-size-6);
-  --inputNumber-base-default-paddingRight: var(--sizes-size-6);
+  --inputNumber-base-default-paddingLeft: var(--sizes-size-9);
+  --inputNumber-base-default-paddingRight: var(--sizes-size-9);
   --inputNumber-base-default-bg-color: var(--colors-neutral-fill-11);
   --inputNumber-base-hover-top-border-color: var(--colors-brand-5);
   --inputNumber-base-hover-top-border-width: var(--borders-width-2);
@@ -2736,16 +2736,17 @@
   --select-base-default-bottom-left-border-radius: var(--borders-radius-3);
   --select-base-default-paddingTop: var(--sizes-size-3);
   --select-base-default-paddingBottom: var(--sizes-size-3);
-  --select-base-default-paddingLeft: var(--sizes-size-6);
-  --select-base-default-paddingRight: var(--sizes-size-6);
+  --select-base-default-paddingLeft: var(--sizes-size-9);
+  --select-base-default-paddingRight: var(--sizes-size-9);
   --select-base-default-color: var(--colors-neutral-text-2);
   --select-base-default-fontSize: var(--fonts-size-7);
   --select-base-default-fontWeight: var(--fonts-weight-6);
   --select-base-default-bg-color: var(--colors-neutral-fill-11);
   --select-base-default-option-paddingTop: var(--sizes-size-0);
   --select-base-default-option-paddingBottom: var(--sizes-size-0);
-  --select-base-default-option-paddingLeft: var(--sizes-size-6);
-  --select-base-default-option-paddingRight: var(--sizes-size-6);
+  --select-base-default-option-paddingLeft: var(--sizes-size-9);
+  --select-base-default-option-paddingRight: var(--sizes-size-9);
+
   --select-base-default-option-color: var(--colors-neutral-text-2);
   --select-base-default-option-fontSize: var(--fonts-size-7);
   --select-base-default-option-fontWeight: var(--fonts-weight-6);
@@ -2958,8 +2959,8 @@
   --inputDate-default-bottom-left-border-radius: var(--borders-radius-3);
   --inputDate-default-paddingTop: var(--sizes-size-3);
   --inputDate-default-paddingBottom: var(--sizes-size-3);
-  --inputDate-default-paddingLeft: var(--sizes-size-6);
-  --inputDate-default-paddingRight: var(--sizes-size-6);
+  --inputDate-default-paddingLeft: var(--sizes-size-9);
+  --inputDate-default-paddingRight: var(--sizes-size-9);
   --inputDate-default-fontSize: var(--fonts-size-7);
   --inputDate-default-fontWeight: var(--fonts-weight-6);
   --inputDate-default-height: var(--sizes-base-16);
