@@ -41,16 +41,17 @@
     ]
   },
   "dependencies": {
+    "amis-theme-editor-helper": "^2.0.22-beta.2",
     "path-to-regexp": "^6.2.0",
     "postcss": "^8.4.14",
     "qs": "6.9.7"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^6.1.1",
     "@babel/generator": "^7.22.9",
     "@babel/parser": "^7.22.7",
     "@babel/traverse": "^7.22.8",
     "@babel/types": "^7.22.5",
+    "@fortawesome/fontawesome-free": "^6.1.1",
     "@rollup/plugin-replace": "^5.0.1",
     "@types/express": "^4.17.14",
     "@types/jest": "^28.1.0",
