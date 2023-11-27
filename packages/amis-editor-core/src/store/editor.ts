@@ -52,6 +52,7 @@ import {EditorManagerConfig} from '../manager';
 import {EditorNode, EditorNodeType} from './node';
 import findIndex from 'lodash/findIndex';
 import {matchSorter} from 'match-sorter';
+import debounce from 'lodash/debounce';
 
 export interface SchemaHistory {
   versionId: number;
@@ -1015,6 +1016,15 @@ export const MainStore = types
     let doc: Document = document;
     let iframe: HTMLIFrameElement | undefined = undefined;
 
+    const lazyUpdateTargetName = debounce(
+      () => (self as any).updateTargetName(),
+      250,
+      {
+        leading: false,
+        trailing: true
+      }
+    );
+
     return {
       setLayer(value: any) {
         layer = value;
@@ -1094,7 +1104,7 @@ export const MainStore = types
         }
 
         this.resetHistory();
-        this.updateTargetName();
+        lazyUpdateTargetName();
       },
 
       insertSchema(event: PluginEvent<InsertEventContext>) {
@@ -1404,6 +1414,15 @@ export const MainStore = types
             noTrace
           );
         }
+      },
+
+      batchChangeValue(list: Array<{id: string; value: Schema}>) {
+        this.traceableSetSchema(
+          list.reduce((schema, item) => {
+            return JSONUpdate(schema, item.id, JSONPipeIn(item.value), true);
+          }, self.schema),
+          true
+        );
       },
 
       /**
@@ -1776,7 +1795,7 @@ export const MainStore = types
           schema: schema
         });
         self.schema = schema;
-        this.updateTargetName();
+        lazyUpdateTargetName();
       },
 
       undo() {
@@ -1788,7 +1807,7 @@ export const MainStore = types
           const version = self.schemaHistory[idx - 1];
           self.versionId = version.versionId;
           self.schema = version.schema;
-          this.updateTargetName();
+          lazyUpdateTargetName();
           this.autoSelectRoot();
         }
       },
@@ -1801,7 +1820,7 @@ export const MainStore = types
           const version = self.schemaHistory[idx + 1];
           self.versionId = version.versionId;
           self.schema = version.schema;
-          this.updateTargetName();
+          lazyUpdateTargetName();
           this.autoSelectRoot();
         }
       },
@@ -1889,6 +1908,10 @@ export const MainStore = types
       setAppCorpusData(data: any = {}) {
         self.appCorpusData = data;
         this.updateAppLocaleState();
+      },
+
+      beforeDestroy() {
+        lazyUpdateTargetName.cancel();
       }
     };
   });

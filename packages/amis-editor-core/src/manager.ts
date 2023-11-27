@@ -65,6 +65,7 @@ import {VariableManager} from './variable';
 import type {IScopedContext} from 'amis';
 import type {SchemaObject, SchemaCollection} from 'amis';
 import type {RendererConfig} from 'amis-core';
+import {isAlive} from 'mobx-state-tree';
 
 export interface EditorManagerConfig
   extends Omit<EditorProps, 'value' | 'onChange'> {}
@@ -1687,11 +1688,15 @@ export class EditorManager {
   });
 
   patching = false;
+  patchingInvalid = false;
   patchSchema(force = false) {
     if (this.patching) {
+      this.patchingInvalid = true;
       return;
     }
     this.patching = true;
+    this.patchingInvalid = false;
+    const batch: Array<{id: string; value: any}> = [];
     let patchList = (list: Array<EditorNodeType>) => {
       // 深度优先
       list.forEach((node: EditorNodeType) => {
@@ -1699,14 +1704,18 @@ export class EditorManager {
           patchList(node.uniqueChildren);
         }
 
-        if (!node.isRegion) {
-          node.patch(this.store, force);
+        if (isAlive(node) && !node.isRegion) {
+          node.patch(this.store, force, (id, value) =>
+            batch.unshift({id, value})
+          );
         }
       });
     };
 
     patchList(this.store.root.children);
+    this.store.batchChangeValue(batch);
     this.patching = false;
+    this.patchingInvalid && this.patchSchema(force);
   }
 
   /**
