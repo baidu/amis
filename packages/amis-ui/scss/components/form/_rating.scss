@@ -16,11 +16,14 @@
   }
 
   &-star {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--Rating-star-size);
+    height: var(--Rating-star-size);
     position: relative;
-    margin-right: var(--Rating-star-margin);
     overflow: hidden;
-    display: block;
-    font-size: var(--Rating-star-size);
+    font-size: var(--Rating-star-icon-size);
     line-height: 1;
     cursor: pointer;
     user-select: none;
@@ -71,7 +74,18 @@
 }
 
 .Rating-star-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--Rating-star-size);
+  height: var(--Rating-star-size);
   content: var(--Rating-star-icon);
+
+  & > svg.icon {
+    width: var(--Rating-star-icon-size);
+    height: var(--Rating-star-icon-size);
+    top: 0;
+  }
 }
 
 .#{$ns}RatingControl {

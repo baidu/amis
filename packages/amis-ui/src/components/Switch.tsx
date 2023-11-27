@@ -6,7 +6,7 @@
 
 import React from 'react';
 import {ClassNamesFn, themeable} from 'amis-core';
-import {classPrefix, classnames} from '../themes/default';
+import {Spinner} from './Spinner';
 
 const sizeMap = {
   sm: 'Switch--sm',
@@ -39,6 +39,11 @@ interface SwitchProps {
   onText?: React.ReactNode;
   offText?: React.ReactNode;
   checked?: boolean;
+  loading?: boolean;
+  loadingConfig?: {
+    root?: string;
+    show?: boolean;
+  };
 }
 
 export class Switch extends React.PureComponent<SwitchProps, any> {
@@ -80,6 +85,8 @@ export class Switch extends React.PureComponent<SwitchProps, any> {
       readOnly,
       checked,
       classnames: cx,
+      loading,
+      loadingConfig,
       ...rest
     } = this.props;
 
@@ -94,27 +101,42 @@ export class Switch extends React.PureComponent<SwitchProps, any> {
         : typeof value === 'undefined'
         ? false
         : value == trueValue;
+    const isDisabled = disabled || loading;
 
     return (
       <label
-        className={cx(
-          `Switch`,
-          isChecked ? 'is-checked' : '',
-          disabled ? 'is-disabled' : '',
-          className
-        )}
+        className={cx(`Switch`, className, {
+          'is-checked': isChecked,
+          'is-disabled': isDisabled
+        })}
       >
         <input
           type="checkbox"
           checked={isChecked}
           onChange={this.hanldeCheck}
-          disabled={disabled}
+          disabled={isDisabled}
           readOnly={readOnly}
           {...rest}
         />
 
         <span className="text">{isChecked ? onText : offText}</span>
-        <span className="slider"></span>
+        <span className="slider">
+          {loading ? (
+            <Spinner
+              classnames={cx}
+              classPrefix={classPrefix}
+              className={cx('Switch-spinner', {
+                'Switch-spinner--sm': size === 'sm',
+                'Switch-spinner--checked': isChecked
+              })}
+              spinnerClassName={cx('Switch-spinner-icon')}
+              disabled={!isChecked}
+              size="sm"
+              icon="loading-outline"
+              loadingConfig={loadingConfig}
+            />
+          ) : null}
+        </span>
       </label>
     );
   }

@@ -101,7 +101,7 @@ onUnmount 是在组件销毁的时候执行，可以在这里做资源清理，�
 
 ### Vue.js
 
-因为 onMount 拿到的 dom 就是标准的 dom，所以可以执行任意 JavaScript 代码，包括 jQuery 等，下面的例子演示了如何使用 vue 实现自定义组件：
+因为 onMount 拿到的 dom 就是标准的 dom，所以可以执行任意 JavaScript 代码，包括 jQuery 等，下面的例子演示了如何使用 vue 2.0 实现自定义组件：
 
 ```javascript
 {
@@ -139,6 +139,9 @@ onUnmount 是在组件销毁的时候执行，可以在这里做资源清理，�
   }
 }
 ```
+【温馨提示】   
+custom 组件中使用 vue2 语法，请先引入vue.js（umd 或 global 模块，比如：https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js） 。   
+同理，使用 vue3 语法请先引入 vue3 对应的 umd 或 global 模块，比如：https://unpkg.com/vue@3/dist/vue.global.js 。
 
 ### props
 

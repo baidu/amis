@@ -47,6 +47,7 @@
     "static"
   ],
   "dependencies": {
+    "amis-theme-editor-helper": "*",
     "axios": "0.21.1",
     "deep-diff": "1.0.2",
     "json-ast-comments": "^1.1.0",

@@ -14,6 +14,8 @@ _site
 node_modules
 /dist
 /lib
+**/esm
+**/lib
 /sdk
 /public
 /gh-pages
@@ -26,6 +28,7 @@ node_modules
 /npm
 /mock/cfc/cfc.zip
 .rollup.cache
+/theme-npm
 
 dist
 tsconfig.tsbuildinfo

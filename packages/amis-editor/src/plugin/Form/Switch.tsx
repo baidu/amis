@@ -84,6 +84,7 @@ export class SwitchControlPlugin extends BasePlugin {
   ];
 
   panelJustify = true;
+
   panelBodyCreator = (context: BaseEventContext) =>
     getSchemaTpl('tabs', [
       {

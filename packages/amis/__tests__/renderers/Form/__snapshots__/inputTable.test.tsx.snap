@@ -53,7 +53,7 @@ exports[`Renderer:input table 1`] = `
                   >
                     <div
                       class="cxd-Table"
-                      style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+                      style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
                     >
                       <div
                         class="cxd-Table-contentWrap"
@@ -378,7 +378,7 @@ exports[`Renderer:input table add 1`] = `
           >
             <div
               class="cxd-Table"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-contentWrap"
@@ -690,7 +690,7 @@ exports[`Renderer:input-table cell selects delete 1`] = `
           >
             <div
               class="cxd-Table"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-contentWrap"
@@ -1029,7 +1029,7 @@ exports[`Renderer:input-table init display 1`] = `
           >
             <div
               class="cxd-Table"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-contentWrap"
@@ -1716,7 +1716,7 @@ exports[`Renderer:input-table with combo column 1`] = `
           >
             <div
               class="cxd-Table"
-              style="--Table-column-3-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-contentWrap"
