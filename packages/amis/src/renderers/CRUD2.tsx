@@ -1,8 +1,18 @@
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import omitBy from 'lodash/omitBy';
-import {Renderer, RendererProps, filterTarget, ActionObject} from 'amis-core';
-import {CRUDStore, ICRUDStore} from 'amis-core';
+import pick from 'lodash/pick';
+import findIndex from 'lodash/findIndex';
+import upperFirst from 'lodash/upperFirst';
 import {
+  Renderer,
+  RendererProps,
+  filterTarget,
+  ActionObject,
+  ScopedContext,
+  IScopedContext,
+  CRUDStore,
+  ICRUDStore,
   createObject,
   extendObject,
   isObjectShallowModified,
@@ -13,14 +23,15 @@ import {
   isArrayChildrenModified,
   autobind,
   parseQuery,
-  isObject
+  isObject,
+  evalExpression,
+  filter,
+  isEffectiveApi,
+  isApiOutdated,
+  isPureVariable,
+  resolveVariableAndFilter,
+  parsePrimitiveQueryString
 } from 'amis-core';
-import {ScopedContext, IScopedContext} from 'amis-core';
-import pick from 'lodash/pick';
-import {findDOMNode} from 'react-dom';
-import {evalExpression, filter} from 'amis-core';
-import {isEffectiveApi, isApiOutdated} from 'amis-core';
-import findIndex from 'lodash/findIndex';
 import {Html, SpinnerExtraProps} from 'amis-ui';
 import {
   BaseSchema,
@@ -33,11 +44,10 @@ import {
 import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema2} from './Table2';
+import {SchemaCollection} from '../Schema';
+
 import type {Table2RendererEvent} from './Table2';
 import type {CardsRendererEvent} from './Cards';
-import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
-import {SchemaCollection} from '../Schema';
-import upperFirst from 'lodash/upperFirst';
 
 export type CRUDRendererEvent = Table2RendererEvent | CardsRendererEvent;
 
@@ -184,6 +194,11 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
 
   /** 行标识符，默认为id */
   primaryField?: string;
+
+  /**
+   * 是否开启Query信息转换，开启后将会对url中的Query进行转换，将字符串格式的布尔值转化为同位类型
+   */
+  parsePrimitiveQuery?: boolean;
 }
 
 export type CRUD2CardsSchema = CRUD2CommonSchema & {
@@ -252,8 +267,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     'showSelection',
     'headerToolbarClassName',
     'footerToolbarClassName',
-    'primaryField'
+    'primaryField',
+    'parsePrimitiveQuery'
   ];
+
   static defaultProps = {
     toolbarInline: true,
     syncLocation: true,
@@ -263,7 +280,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     autoFillHeight: false,
     showSelection: true,
     perPage: 10,
-    primaryField: 'id'
+    primaryField: 'id',
+    parsePrimitiveQuery: true
   };
 
   control: any;
@@ -279,20 +297,27 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   constructor(props: CRUD2Props) {
     super(props);
 
-    const {location, store, syncLocation, pageField, perPageField} = props;
+    const {
+      location,
+      store,
+      syncLocation,
+      pageField,
+      perPageField,
+      parsePrimitiveQuery
+    } = props;
 
     this.mounted = true;
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
-        parseQuery(location),
+        parseQuery(location, {parsePrimitive: parsePrimitiveQuery}),
         undefined,
         pageField,
         perPageField
       );
     } else if (syncLocation && !location && window.location.search) {
       store.updateQuery(
-        parseQuery(window.location),
+        parseQuery(window.location, {parsePrimitive: parsePrimitiveQuery}),
         undefined,
         pageField,
         perPageField
@@ -339,6 +364,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   componentDidUpdate(prevProps: CRUD2Props) {
     const props = this.props;
     const store = prevProps.store;
+    const {parsePrimitiveQuery} = props;
+
     if (prevProps.columns !== props.columns) {
       store.updateColumns(props.columns);
     }
@@ -362,7 +389,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        parseQuery(props.location),
+        parseQuery(props.location, {parsePrimitive: parsePrimitiveQuery}),
         undefined,
         props.pageField,
         props.perPageField
@@ -438,7 +465,8 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         ...store.query
       },
       replaceQuery: this.props.initFetch !== false,
-      loadMore: loadType === 'more'
+      loadMore: loadType === 'more',
+      resetPage: false
     });
 
     // 保留一次用于重置查询条件
@@ -463,14 +491,28 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     resetQuery?: boolean;
     replaceQuery?: boolean;
     loadMore?: boolean;
+    /** 是否重置当页码到首页 */
+    resetPage?: boolean;
   }) {
-    const {store, syncLocation, env, pageField, perPageField} = this.props;
-    let {query, resetQuery, replaceQuery, loadMore} = data || {};
+    const {
+      store,
+      syncLocation,
+      env,
+      pageField,
+      perPageField,
+      parsePrimitiveQuery
+    } = this.props;
+    let {query, resetQuery, replaceQuery, loadMore, resetPage} = data || {};
 
     query =
       syncLocation && query
         ? qsparse(qsstringify(query, undefined, true))
-        : query;
+        : query || {};
+
+    /** 把布尔值反解出来 */
+    if (parsePrimitiveQuery) {
+      query = parsePrimitiveQueryString(query);
+    }
 
     store.updateQuery(
       resetQuery ? this.props.store.pristineQuery : query,
@@ -481,7 +523,10 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       perPageField,
       replaceQuery
     );
-    store.changePage(1);
+
+    if (resetPage) {
+      store.changePage(1);
+    }
 
     this.lastQuery = store.query;
     this.getData(undefined, undefined, undefined, loadMore ?? false);
@@ -637,7 +682,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       pageField,
       perPageField
     );
-
+    store.changePage(page, perPage);
     this.getData();
 
     if (autoJumpToTopOnPagerChange && this.control) {
@@ -1110,15 +1155,18 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     );
   }
 
-  renderFilter(filter: SchemaObject[] | SchemaObject) {
-    if (!filter || (Array.isArray(filter) && filter.length === 0)) {
+  renderFilter(filterSchema: SchemaObject[] | SchemaObject) {
+    if (
+      !filterSchema ||
+      (Array.isArray(filterSchema) && filterSchema.length === 0)
+    ) {
       return null;
     }
 
-    const filterSchemas = Array.isArray(filter)
-      ? filter
-      : isObject(filter) && filter.type != null
-      ? [filter]
+    const filterSchemas = Array.isArray(filterSchema)
+      ? filterSchema
+      : isObject(filterSchema) && filterSchema.type != null
+      ? [filterSchema]
       : [];
 
     if (filterSchemas.length < 1) {
@@ -1129,11 +1177,13 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       this.renderChild(`filter/${index}`, item, {
         key: index + 'filter',
         data: this.props.store.filterData,
-        onSubmit: (data: any) => this.handleSearch({query: data}),
+        onSubmit: (data: any) =>
+          this.handleSearch({query: data, resetPage: true}),
         onReset: () =>
           this.handleSearch({
             resetQuery: true,
-            replaceQuery: true
+            replaceQuery: true,
+            resetPage: true
           })
       })
     );
@@ -1198,7 +1248,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       className,
       style,
       bodyClassName,
-      filter,
+      filter: filterSchema,
       render,
       store,
       mode = 'table2',
@@ -1241,7 +1291,9 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
         })}
         style={style}
       >
-        <div className={cx('Crud2-filter')}>{this.renderFilter(filter)}</div>
+        <div className={cx('Crud2-filter')}>
+          {this.renderFilter(filterSchema)}
+        </div>
 
         <div className={cx('Crud2-toolbar', headerToolbarClassName)}>
           {this.renderToolbar('headerToolbar', headerToolbar)}
@@ -1270,7 +1322,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             key: 'body',
             className: cx('Crud2-body', bodyClassName),
             ref: this.controlRef,
-            autoGenerateFilter: !filter && autoGenerateFilter,
+            autoGenerateFilter: !filterSchema && autoGenerateFilter,
             autoFillHeight: autoFillHeight,
             checkAll: false, // 不使用组件的全选，因为不在工具栏里
             selectable: !!(selectable ?? pickerMode),
