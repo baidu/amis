@@ -1593,6 +1593,7 @@ order: 2
 | multiple         | `boolean`                                                                         | `false`   | 是否支持多选                                                                 |
 | labelField       | `boolean`                                                                         | `"label"` | 标识选项中哪个字段是`label`值                                                |
 | valueField       | `boolean`                                                                         | `"value"` | 标识选项中哪个字段是`value`值                                                |
+| deferField       | `string`                                                                          | `"defer"` | 标识选项中哪个字段是`defer`值                                                |
 | joinValues       | `boolean`                                                                         | `true`    | 是否拼接`value`值                                                            |
 | extractValue     | `boolean`                                                                         | `false`   | 是否将`value`值抽取出来组成新的数组，只有在`joinValues`是`false`是生效       |
 | itemHeight       | `number`                                                                          | `32`      | 每个选项的高度，用于虚拟渲染                                                 |
