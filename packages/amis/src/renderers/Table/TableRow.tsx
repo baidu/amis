@@ -92,8 +92,15 @@ export class TableRow extends React.PureComponent<
     e.preventDefault();
     e.stopPropagation();
 
-    const {itemAction, onAction, item, itemIndex, onCheck, onRowClick} =
-      this.props;
+    const {
+      itemAction,
+      onAction,
+      item,
+      itemIndex,
+      onCheck,
+      onRowClick,
+      checkOnItemClick
+    } = this.props;
 
     const rendererEvent = await onRowClick?.(item?.data, itemIndex);
 
@@ -105,7 +112,7 @@ export class TableRow extends React.PureComponent<
       onAction && onAction(e, itemAction, item?.locals);
       // item.toggle();
     } else {
-      if (item.checkable && item.isCheckAvaiableOnClick) {
+      if (item.checkable && item.isCheckAvaiableOnClick && checkOnItemClick) {
         onCheck?.(item, !item.checked, shiftKey);
       }
     }
