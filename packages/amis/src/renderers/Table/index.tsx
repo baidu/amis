@@ -967,54 +967,25 @@ export default class Table extends React.Component<TableProps, object> {
 
     value = value !== undefined ? value : !item.checked;
 
-    let rows = [item];
-    if (shift) {
-      rows = store.getToggleShiftRows(item);
-    }
-
-    const selectedItems = value
-      ? [
-          ...store.selectedRows.map((row: IRow) => row.data),
-          ...rows.map((row: IRow) => row.data)
-        ]
-      : store.selectedRows
-          .filter(
-            (row: IRow) =>
-              rows.findIndex((rowItem: IRow) => rowItem === row) === -1
-          )
-          .map((row: IRow) => row.data);
-    const unSelectedItems = value
-      ? store.unSelectedRows
-          .filter(
-            (row: IRow) =>
-              rows.findIndex((rowItem: IRow) => rowItem === row) === -1
-          )
-          .map((row: IRow) => row.data)
-      : [
-          ...store.unSelectedRows.map((row: IRow) => row.data),
-          ...rows.map((row: IRow) => row.data)
-        ];
-
-    const rendererEvent = await dispatchEvent(
-      'selectedChange',
-      createObject(data, {
-        selectedItems,
-        unSelectedItems
-      })
-    );
-
-    if (rendererEvent?.prevented) {
-      return;
-    }
-
     if (shift) {
       store.toggleShift(item, value);
     } else {
       // 如果picker的value是绑定的上层数量变量
       // 那么用户只能通过事件动作来更新上层变量来实现选中
-      // 但是注册了setValue动作后，会优先通过componentDidUpdate更新了selectedRows
-      // 那么这里直接toggle就判断出错了 需要明确是选中还是取消选中
       item.toggle(value);
+    }
+
+    const rendererEvent = await dispatchEvent(
+      'selectedChange',
+      createObject(data, {
+        selectedItems: store.selectedRows.map(row => row.data),
+        unSelectedItems: store.unSelectedRows.map(row => row.data),
+        item: item.data
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
     }
 
     this.syncSelected();
@@ -1069,27 +1040,19 @@ export default class Table extends React.Component<TableProps, object> {
     const {store, data, dispatchEvent} = this.props;
     const items = store.rows.map((row: any) => row.data);
 
-    const allChecked = store.allChecked;
-    const selectedItems = store.getSelectedRows();
+    store.toggleAll();
 
     const rendererEvent = await dispatchEvent(
       'selectedChange',
       createObject(data, {
-        selectedItems: allChecked
-          ? selectedItems.filter(item => !item.checkable).map(item => item.data)
-          : selectedItems.map(item => item.data),
-        unSelectedItems: allChecked ? selectedItems.map(item => item.data) : [],
+        selectedItems: store.selectedRows.map(row => row.data),
+        unSelectedItems: store.unSelectedRows.map(row => row.data),
         items
       })
     );
+
     if (rendererEvent?.prevented) {
       return;
-    }
-
-    // selectedChange事件注册的动作里，有可能已经通过setValue把selectedRows的情况改了
-    // 没有改的情况下 才会去执行store.toogleAll()
-    if (allChecked === store.allChecked) {
-      store.toggleAll();
     }
 
     this.syncSelected();
@@ -1628,6 +1591,10 @@ export default class Table extends React.Component<TableProps, object> {
 
     document.addEventListener('mousemove', this.handleColResizeMouseMove);
     document.addEventListener('mouseup', this.handleColResizeMouseUp);
+
+    // 防止选中文本
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   // 垂直线拖拽移动
@@ -1797,8 +1764,6 @@ export default class Table extends React.Component<TableProps, object> {
       store,
       query,
       onQuery,
-      multiple,
-      env,
       render,
       classPrefix: ns,
       resizable,
@@ -1842,7 +1807,7 @@ export default class Table extends React.Component<TableProps, object> {
           style={style}
           className={cx(column.pristine.className, stickyClassName)}
         >
-          {store.rows.length && multiple ? (
+          {store.rows.length && store.multiple ? (
             <Checkbox
               classPrefix={ns}
               partial={store.someChecked && !store.allChecked}
@@ -2075,11 +2040,8 @@ export default class Table extends React.Component<TableProps, object> {
     const {
       render,
       store,
-      multiple,
       classPrefix: ns,
       classnames: cx,
-      checkOnItemClick,
-      popOverContainer,
       canAccessSuperData,
       itemBadge,
       translate
@@ -2095,7 +2057,7 @@ export default class Table extends React.Component<TableProps, object> {
         ignoreDrag={ignoreDrag}
         render={render}
         store={store}
-        multiple={multiple}
+        multiple={store.multiple}
         canAccessSuperData={canAccessSuperData}
         classnames={cx}
         classPrefix={ns}

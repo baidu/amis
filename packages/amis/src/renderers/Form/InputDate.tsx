@@ -4,7 +4,8 @@ import {
   FormControlProps,
   FormBaseControl,
   resolveEventData,
-  str2function
+  str2function,
+  normalizeDate
 } from 'amis-core';
 import cx from 'classnames';
 import {filterDate, isPureVariable, resolveVariableAndFilter} from 'amis-core';
@@ -404,7 +405,8 @@ export default class DateControl extends React.PureComponent<
       data,
       format,
       valueFormat,
-      utc
+      utc,
+      changeMotivation
     } = props;
 
     if (defaultValue && value === defaultValue) {
@@ -412,6 +414,11 @@ export default class DateControl extends React.PureComponent<
       setPrinstineValue(
         (utc ? moment.utc(date) : date).format(valueFormat || format)
       );
+    } else if (changeMotivation === 'formulaChanged' && defaultValue && value) {
+      const date = normalizeDate(value, valueFormat || format);
+      if (date && date.format(valueFormat || format) !== value) {
+        setPrinstineValue(date.format(valueFormat || format));
+      }
     }
 
     let schedulesData = props.schedules;
@@ -556,6 +563,21 @@ export default class DateControl extends React.PureComponent<
     if (action.actionType === 'reset' && resetValue) {
       this.dateRef?.reset(resetValue);
     }
+  }
+
+  setData(value: any) {
+    const {data, valueFormat, format, utc, onChange} = this.props;
+
+    if (
+      typeof value === 'string' ||
+      typeof value === 'number' ||
+      value instanceof Date
+    ) {
+      const date = filterDate(value as any, data, valueFormat || format);
+      value = (utc ? moment.utc(date) : date).format(valueFormat || format);
+    }
+
+    onChange(value);
   }
 
   // 值的变化

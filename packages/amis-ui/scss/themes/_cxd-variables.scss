@@ -106,9 +106,12 @@ $ns: 'cxd-';
   --colors-neutral-line-9: #f2f3f5;
   --colors-neutral-line-10: #f7f8fa;
   --colors-neutral-line-11: #ffffff;
-  --fonts-base-family: -apple-system, BlinkMacSystemFont, SF Pro SC, SF Pro Text,
-    Helvetica Neue, Helvetica, PingFang SC, Segoe UI, Roboto, Hiragino Sans GB,
-    Arial, microsoft yahei ui, Microsoft YaHei, SimSun, sans-serif;
+  // 参考 https://zenozeng.github.io/fonts.css/
+  --fonts-base-family: -apple-system, 'Noto Sans', 'Helvetica Neue', Helvetica,
+    'Nimbus Sans L', Arial, 'Liberation Sans', 'PingFang SC', 'Hiragino Sans GB',
+    'Noto Sans CJK SC', 'Source Han Sans SC', 'Source Han Sans CN',
+    'Microsoft YaHei', 'Wenquanyi Micro Hei', 'WenQuanYi Zen Hei', 'ST Heiti',
+    SimHei, 'WenQuanYi Zen Hei Sharp', sans-serif;
   --fonts-size-1: 48px;
   --fonts-size-2: 40px;
   --fonts-size-3: 32px;

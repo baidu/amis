@@ -34,7 +34,7 @@ export class LinkAction implements RendererAction {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    if (!renderer.props.env?.jumpTo) {
+    if (!event.context.env?.jumpTo) {
       throw new Error('env.jumpTo is required!');
     }
 
@@ -53,7 +53,7 @@ export class LinkAction implements RendererAction {
       }
     );
 
-    renderer.props.env.jumpTo(
+    event.context.env?.jumpTo(
       urlObj.url,
       {
         actionType: action.actionType,

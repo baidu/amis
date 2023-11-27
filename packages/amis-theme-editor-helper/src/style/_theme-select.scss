@@ -1,0 +1,88 @@
+$ns: cxd-;
+
+.theme-select {
+  position: relative;
+  flex: 1 0 px2rem(32px);
+  border: 1px solid #e8e9eb;
+  border-radius: 4px;
+  height: px2rem(32px);
+  padding: 0 px2rem(8px);
+  display: flex;
+  align-items: center;
+  .ThemeSelectContent-theme {
+    background-color: #f7f8fa;
+    border-radius: 2px;
+    padding: 0 px2rem(4px);
+    width: fit-content;
+    height: px2rem(24px);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+    > div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    > .icon-close {
+      color: #b8babf;
+      margin-left: px2rem(4px);
+      top: 0;
+      flex: 1 0 1em;
+      &:hover {
+        color: #2468f2;
+      }
+    }
+  }
+  .ThemeSelectContent-input {
+    border: none;
+    outline: none;
+    width: 100%;
+    &::placeholder {
+      color: #b8babf;
+    }
+  }
+
+  &:hover,
+  &--active {
+    border-color: #2468f2;
+  }
+}
+
+.theme-select--disabled {
+  background-color: #f7f8fa;
+  cursor: not-allowed;
+  .ThemeSelectContent-theme {
+    cursor: not-allowed;
+  }
+}
+
+.ThemeSelectContent-input-select {
+  max-height: px2rem(200px);
+  max-width: px2rem(200px);
+  overflow: scroll;
+  & > div {
+    height: px2rem(32px);
+    line-height: px2rem(32px);
+    padding: 0 px2rem(8px);
+    cursor: pointer;
+    &:hover {
+      background-color: #e6f0ff;
+    }
+  }
+  &-item--active {
+    color: #2468f2;
+  }
+}
+
+.arrow-icon {
+  width: px2rem(10px);
+  height: px2rem(10px);
+  color: #84868c;
+  transform: rotate(90deg);
+  transition: transform 0.2s ease;
+}
+
+.arrow-icon-reverse {
+  transform: rotate(270deg);
+}

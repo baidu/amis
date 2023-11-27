@@ -87,6 +87,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       loadingConfig,
       labelField = 'label',
       valueField = 'value',
+      deferField = 'defer',
       menuTpl,
       valueTpl,
       mobileUI,
@@ -138,6 +139,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           onBlur={() => this.dispatchEvent('blur')}
           labelField={labelField}
           valueField={valueField}
+          deferField={deferField}
           itemHeight={
             toNumber(itemHeight) > 0 ? toNumber(itemHeight) : undefined
           }

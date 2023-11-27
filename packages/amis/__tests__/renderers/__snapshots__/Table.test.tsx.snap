@@ -4,7 +4,7 @@ exports[`Renderer:table 1`] = `
 <div>
   <div
     class="cxd-Table"
-    style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
   >
     <div
       class="cxd-Table-fixedTop"
@@ -370,7 +370,7 @@ exports[`Renderer:table align 1`] = `
 <div>
   <div
     class="cxd-Table"
-    style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
   >
     <div
       class="cxd-Table-fixedTop"
@@ -775,7 +775,7 @@ exports[`Renderer:table children 1`] = `
           >
             <div
               class="cxd-Table m-b-none"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -1355,7 +1355,7 @@ exports[`Renderer:table classNameExpr 1`] = `
 <div>
   <div
     class="cxd-Table"
-    style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
   >
     <div
       class="cxd-Table-fixedTop"
@@ -1721,7 +1721,7 @@ exports[`Renderer:table column head style className 1`] = `
 <div>
   <div
     class="cxd-Table className"
-    style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
   >
     <div
       class="cxd-Table-fixedTop"
@@ -2114,7 +2114,7 @@ exports[`Renderer:table combine Renderer:table combineNum only 1`] = `
           >
             <div
               class="cxd-Table"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -2689,7 +2689,7 @@ exports[`Renderer:table combine Renderer:table combineNum with fromIndex 1`] = `
           >
             <div
               class="cxd-Table"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -3334,7 +3334,7 @@ exports[`Renderer:table groupName-default 1`] = `
           >
             <div
               class="cxd-Table m-b-none"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -4113,7 +4113,7 @@ exports[`Renderer:table groupName-middleNoGroupName 1`] = `
           >
             <div
               class="cxd-Table m-b-none"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -4896,7 +4896,7 @@ exports[`Renderer:table groupName-startNoGroupName 1`] = `
           >
             <div
               class="cxd-Table m-b-none"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -5667,7 +5667,7 @@ exports[`Renderer:table groupName-withTpl 1`] = `
           >
             <div
               class="cxd-Table m-b-none"
-              style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px; position: relative;"
+              style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-8-width: 0px; position: relative;"
             >
               <div
                 class="cxd-Table-fixedTop"
@@ -6430,7 +6430,7 @@ exports[`Renderer:table isHead fixed 1`] = `
 <div>
   <div
     class="cxd-Table"
-    style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
   >
     <div
       class="cxd-Table-fixedTop"
@@ -6807,7 +6807,7 @@ exports[`Renderer:table list 1`] = `
 <div>
   <div
     class="cxd-Table"
-    style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px; --Table-column-10-width: 0px; --Table-column-11-width: 0px; position: relative;"
+    style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; --Table-column-5-width: 0px; --Table-column-6-width: 0px; --Table-column-7-width: 0px; --Table-column-8-width: 0px; --Table-column-9-width: 0px; --Table-column-10-width: 0px; --Table-column-11-width: 0px; position: relative;"
   >
     <div
       class="cxd-Table-toolbar cxd-Table-headToolbar"

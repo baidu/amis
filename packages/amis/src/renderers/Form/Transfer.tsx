@@ -245,7 +245,8 @@ export class BaseTransferRenderer<
       dispatchEvent,
       setOptions,
       selectMode,
-      deferApi
+      deferApi,
+      deferField = 'defer'
     } = this.props;
     let newValue: any = value;
     let newOptions = options.concat();
@@ -318,7 +319,7 @@ export class BaseTransferRenderer<
       (!!deferApi ||
         !!findTree(
           options,
-          (option: Option) => option.deferApi || option.defer
+          (option: Option) => option.deferApi || option[deferField]
         ));
 
     if (

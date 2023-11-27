@@ -1,0 +1,224 @@
+$bg: url('data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjI1NnB4IiBoZWlnaHQ9IjEzMnB4IiB2aWV3Qm94PSIwIDAgMjU2IDEzMiIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDxnIGlkPSLpobXpnaItMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHJlY3QgaWQ9IuefqeW9oiIgZmlsbD0iI0VFRjNGRSIgeD0iMCIgeT0iMCIgd2lkdGg9IjI1NiIgaGVpZ2h0PSIxMzIiIHJ4PSI0Ij48L3JlY3Q+CiAgICAgICAgPHBhdGggZD0iTTEuNTgwNzA5MDIsMC44MTQyODgxMyBMMTI4LDY2IEwxLjU4MDcwOTAyLDEzMS4xODU3MTIgQzAuNjIwMTMxOTM0LDEzMC40NTUxMDUgMS41OTIwMDcxMWUtMTYsMTI5LjI5OTk3MiAwLDEyOCBMMCw0IEMtMS41OTIwMDcxMWUtMTYsMi43MDAwMjc1NCAwLjYyMDEzMTkzNCwxLjU0NDg5NDY2IDEuNTgwNzA5MDIsMC44MTQyODgxMyBaIE0yNTYsNCBMMjU2LDEyOCBDMjU2LDEyOS4yOTk1MiAyNTUuMzgwMywxMzAuNDU0MzAxIDI1NC40MjAyOTQsMTMxLjE4NDk0OSBMMTI4LDY2IEwyNTQuNDE5MjkxLDAuODE0Mjg4MTMgQzI1NS4zNzk4NjgsMS41NDQ4OTQ2NiAyNTYsMi43MDAwMjc1NCAyNTYsNCBaIiBpZD0i5b2i54q257uT5ZCIIiBmaWxsPSIjRTNFRUZGIj48L3BhdGg+CiAgICAgICAgPHBhdGggZD0iTTIxMSwyMyBMMjExLDEwOSBMNDQsMTA5IEw0NCwyMyBMMjExLDIzIFogTTE5OSwyOSBMNTYsMjkgTDU2LDEwMyBMMTk5LDEwMyBMMTk5LDI5IFoiIGlkPSLlvaLnirbnu5PlkIgiIGZpbGw9IiNGRkZGRkYiPjwvcGF0aD4KICAgICAgICA8cmVjdCBpZD0i55+p5b2iIiBmaWxsPSIjRkZGRkZGIiB4PSIxMTEiIHk9IjU3IiB3aWR0aD0iMzQiIGhlaWdodD0iMTgiPjwvcmVjdD4KICAgIDwvZz4KPC9zdmc+');
+.Theme-PaddingAndMargin {
+  &-title {
+    margin-bottom: px2rem(10px);
+    color: #5c5f66;
+    font-size: 12px;
+  }
+  &-inner {
+    display: flex;
+    justify-content: space-between;
+    .theme-select {
+      width: 100%;
+    }
+  }
+  &-input {
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    margin-left: px2rem(4px);
+    min-width: 0;
+    &-label {
+      font-size: 12px;
+      color: #5c5f66;
+      text-align: center;
+    }
+  }
+  &-label {
+    border-radius: 4px;
+    overflow: hidden;
+    height: px2rem(32px);
+    width: px2rem(32px);
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: flex;
+    cursor: pointer;
+    &-all {
+      background: #f7f7f9;
+      height: px2rem(32px);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: px2rem(32px);
+      &:before {
+        content: '';
+        height: px2rem(14px);
+        width: px2rem(14px);
+        display: block;
+        border: 2px solid #5c5f66;
+        border-radius: 2px;
+      }
+    }
+    &-custom {
+      background: #f7f7f9;
+      height: px2rem(32px);
+      width: px2rem(32px);
+      position: relative;
+      border-left: 1px solid #e8e9eb;
+      > div {
+        height: px2rem(14px);
+        width: px2rem(14px);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        &:before,
+        &:after {
+          position: absolute;
+          content: '';
+          display: block;
+          background: #5c5f66;
+          height: px2rem(2px);
+          width: px2rem(2px);
+          border-radius: px2rem(1px);
+        }
+      }
+      > div:first-child {
+        &:before {
+          width: px2rem(8px);
+          top: 0;
+          left: px2rem(3px);
+        }
+        &:after {
+          height: px2rem(8px);
+          top: px2rem(3px);
+          left: 0;
+        }
+      }
+      > div:last-child {
+        &:before {
+          width: px2rem(8px);
+          bottom: 0;
+          left: px2rem(3px);
+        }
+        &:after {
+          height: px2rem(8px);
+          bottom: px2rem(3px);
+          right: 0;
+        }
+      }
+    }
+    &-all--active {
+      &:before {
+        border-color: #2468f2;
+      }
+    }
+    &-custom--active > div {
+      &:before,
+      &:after {
+        background-color: #2468f2;
+      }
+    }
+  }
+  &-label--custom {
+    width: px2rem(64px);
+  }
+  .cxd-Form-item {
+    margin-bottom: 0;
+  }
+
+  &-custom {
+    height: px2rem(132px);
+    width: px2rem(256px);
+    margin: 0 auto;
+    margin-top: px2rem(8px);
+    background: $bg;
+    position: relative;
+    &::before,
+    &::after {
+      font-size: 10px;
+      color: #b8babf;
+      font-weight: 400;
+      position: absolute;
+      transform: scale(0.8);
+    }
+    & > div {
+      font-size: 12px;
+      color: #5c5f66;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: px2rem(2px);
+      cursor: pointer;
+      word-wrap: break-word;
+      line-height: 0.8;
+      min-width: px2rem(40px);
+      min-height: px2rem(14px);
+      border: 1px solid transparent;
+      div {
+        transform: scale(0.8);
+        transform-origin: left;
+      }
+      &:hover {
+        color: #2468f2;
+        border-color: #2468f2;
+        border-radius: px2rem(2px);
+      }
+    }
+    &-marginTop {
+      top: px2rem(4px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    &-marginBottom {
+      bottom: px2rem(4px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    &-marginLeft {
+      left: px2rem(4px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: px2rem(40px);
+    }
+    &-marginRight {
+      right: px2rem(4px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: px2rem(40px);
+    }
+    &-paddingTop {
+      top: px2rem(34px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    &-paddingBottom {
+      bottom: px2rem(34px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    &-paddingLeft {
+      left: px2rem(60px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: px2rem(40px);
+    }
+    &-paddingRight {
+      right: px2rem(60px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: px2rem(40px);
+    }
+    &-popover {
+      padding: px2rem(16px) px2rem(12px);
+      .cxd-Form-item {
+        margin-bottom: 0;
+      }
+    }
+  }
+  &-custom--padding {
+    &::after {
+      content: 'Padding';
+      top: px2rem(28px);
+      left: px2rem(56px);
+    }
+  }
+  &-custom--margin {
+    &::before {
+      content: 'Margin';
+      top: 0;
+      left: px2rem(2px);
+    }
+  }
+}

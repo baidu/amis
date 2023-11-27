@@ -179,6 +179,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
         )
       );
     }
+    // todo 支持值格式的自动纠正
   }
 
   componentDidUpdate(prevProps: DateRangeProps) {
@@ -243,6 +244,27 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
     if (action.actionType === 'reset' && resetValue) {
       this.dateRef?.reset();
     }
+  }
+
+  setData(value: any) {
+    const {data, delimiter, valueFormat, format, joinValues, utc, onChange} =
+      this.props;
+
+    if (typeof value === 'string') {
+      let arr = typeof value === 'string' ? value.split(delimiter) : value;
+      value = DateRangePicker.formatValue(
+        {
+          startDate: filterDate(arr[0], data, valueFormat || format),
+          endDate: filterDate(arr[1], data, valueFormat || format)
+        },
+        valueFormat || format,
+        joinValues,
+        delimiter,
+        utc
+      );
+    }
+
+    onChange(value);
   }
 
   // 值的变化

@@ -1,4 +1,4 @@
-import {EditorNodeType, getSchemaTpl} from 'amis-editor-core';
+import {EditorNodeType, getSchemaTpl, tipedLabel} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
@@ -82,11 +82,30 @@ export class LocationControlPlugin extends BasePlugin {
                     {label: '国测局坐标', value: 'gcj02'}
                   ]
                 },
-
+                getSchemaTpl('switch', {
+                  name: 'autoSelectCurrentLoc',
+                  label: tipedLabel(
+                    '自动选择',
+                    '开启后，自动选中用户当前的地理位置'
+                  )
+                }),
+                getSchemaTpl('switch', {
+                  name: 'onlySelectCurrentLoc',
+                  label: tipedLabel(
+                    '只读模式',
+                    '开启后，只能使用当前地理位置，不可选择其他地理位置'
+                  )
+                }),
                 getSchemaTpl('clearable'),
                 getSchemaTpl('labelRemark'),
                 getSchemaTpl('remark'),
-                getSchemaTpl('placeholder'),
+                getSchemaTpl('placeholder', {
+                  visibleOn: '!onlySelectCurrentLoc'
+                }),
+                getSchemaTpl('placeholder', {
+                  name: 'getLocationPlaceholder',
+                  visibleOn: 'onlySelectCurrentLoc'
+                }),
                 getSchemaTpl('description')
               ]
             },

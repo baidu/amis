@@ -45,7 +45,7 @@ export class CRUDListPlugin extends BaseCRUDPlugin {
 
   $schema = '/schemas/CRUD2ListSchema.json';
 
-  docLink = '/amis/zh-CN/components/crud2';
+  docLink = '/amis/zh-CN/components/list';
 
   previewSchema: Record<string, any> = this.generatePreviewSchema('list');
 
