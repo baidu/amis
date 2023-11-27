@@ -1,0 +1,236 @@
+$ns: cxd-;
+
+.Theme-ShadowEditor {
+  .#{$ns}Theme-ShadowEditor-add {
+    color: #5c5f66;
+    width: px2rem(12px);
+    height: px2rem(12px);
+    padding: 0;
+
+    &:not(:disabled):not(.is-disabled):hover {
+      color: #5c5f66;
+    }
+  }
+  &-customContent {
+    background-color: #f7f7f9;
+    border-radius: 4px;
+    padding: px2rem(10px);
+    margin-top: px2rem(10px);
+  }
+
+  &-sub-header {
+    margin-bottom: 0;
+    .Theme-Wrapper-header-left {
+      color: #5c5f66;
+    }
+  }
+
+  &-line {
+    display: flex;
+    justify-content: space-between;
+    margin-top: px2rem(12px);
+
+    .#{$ns}Button {
+      padding: px2rem(6px) px2rem(8px);
+    }
+  }
+
+  &-item {
+    display: flex;
+    flex: 1;
+    margin-right: px2rem(4px);
+    align-items: top;
+    flex-direction: column;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &-label {
+      font-size: 12px;
+      color: #5c5f66;
+      line-height: px2rem(12px);
+      margin: px2rem(4px) 0 px2rem(8px);
+      text-align: center;
+    }
+
+    .#{$ns}Form-item {
+      flex: 1;
+      margin: 0;
+    }
+
+    .#{$ns}Select {
+      font-size: 12px;
+    }
+
+    .#{$ns}Select-popover {
+      min-width: px2rem(150px) !important;
+    }
+
+    .Theme-ShadowEditor-color-picker {
+      background: #fff;
+      border: 1px solid rgba($color: #979797, $alpha: 0.1);
+      border-radius: px2rem(4px);
+      padding: px2rem(6px) px2rem(12px);
+      height: px2rem(32px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .Theme-ColorPicker-arrow {
+        display: none;
+      }
+
+      .Theme-ColorPicker-label-out,
+      .Theme-ColorPicker-label {
+        height: px2rem(20px);
+      }
+    }
+
+    .#{$ns}Number {
+      .#{$ns}Select {
+        display: none;
+      }
+      .#{$ns}Number-handler-wrap {
+        display: none !important;
+      }
+      input {
+        padding: 0 px2rem(4px) !important;
+      }
+    }
+  }
+
+  .trash-icon {
+    font-size: px2rem(16px);
+    align-items: center;
+    margin-left: px2rem(4px);
+    flex-basis: px2rem(16px);
+    flex-grow: initial;
+    .common-icon {
+      margin-top: px2rem(8px);
+      cursor: pointer;
+      path {
+        fill: var(--colors-neutral-text-2);
+      }
+      &:hover {
+        path {
+          fill: var(--colors-brand-5);
+        }
+      }
+    }
+    .disabled-icon {
+      cursor: not-allowed;
+      path {
+        fill: var(--colors-neutral-text-5);
+      }
+      &:hover {
+        path {
+          fill: var(--colors-neutral-text-5);
+        }
+      }
+    }
+  }
+
+  &-view {
+    width: px2rem(42px);
+    height: px2rem(32px);
+    border: 1px solid rgba($color: #979797, $alpha: 0.1);
+    border-radius: px2rem(4px);
+    margin-right: px2rem(4px);
+    background-color: #fff;
+    background-image: linear-gradient(
+        45deg,
+        #f7f8fa 25%,
+        transparent 25%,
+        transparent 75%,
+        #f7f8fa 75%,
+        #f7f8fa
+      ),
+      linear-gradient(
+        45deg,
+        #f7f8fa 25%,
+        transparent 25%,
+        transparent 75%,
+        #f7f8fa 75%,
+        #f7f8fa
+      );
+    background-size: 10px 10px;
+    background-position: 0 0, 5px 5px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-inner {
+      width: px2rem(28px);
+      height: px2rem(20px);
+      background: #fff;
+    }
+  }
+}
+
+.Theme-ShadowView {
+  width: px2rem(300px);
+  font-size: 12px;
+  padding: px2rem(12px);
+
+  &-header {
+    color: #050a10;
+    line-height: px2rem(20px);
+    font-weight: 500;
+    margin-bottom: px2rem(8px);
+  }
+
+  &-body {
+    border: 1px solid #e8e9eb;
+    border-radius: px2rem(4px);
+    padding: px2rem(12px);
+
+    &-shadow {
+      width: 100%;
+      height: px2rem(100px);
+      background-color: #fff;
+      background-image: linear-gradient(
+          45deg,
+          #f7f8fa 25%,
+          transparent 25%,
+          transparent 75%,
+          #f7f8fa 75%,
+          #f7f8fa
+        ),
+        linear-gradient(
+          45deg,
+          #f7f8fa 25%,
+          transparent 25%,
+          transparent 75%,
+          #f7f8fa 75%,
+          #f7f8fa
+        );
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &-shadow-square {
+      width: px2rem(164px);
+      height: px2rem(70px);
+      background: #fff;
+    }
+
+    &-title {
+      font-size: 12px;
+      color: #050a10;
+      line-height: px2rem(20px);
+      font-weight: 500;
+      margin: px2rem(8px) 0 0;
+    }
+
+    &-value {
+      color: #83868c;
+      line-height: px2rem(20px);
+    }
+  }
+}

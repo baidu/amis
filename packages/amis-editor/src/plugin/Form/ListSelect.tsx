@@ -59,6 +59,8 @@ export class ListControlPlugin extends BasePlugin {
 
   panelTitle = '列表选择';
 
+  panelJustify = true;
+
   // 事件定义
   events: RendererPluginEvent[] = [
     {
@@ -149,7 +151,6 @@ export class ListControlPlugin extends BasePlugin {
                 ...(schema || {}),
                 itemSchema: null
               }),
-              mode: 'vertical',
               useSelectMode: true, // 改用 Select 设置模式
               visibleOn: 'this.options && this.options.length > 0'
             })

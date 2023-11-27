@@ -358,11 +358,7 @@ export class DateControlPlugin extends BasePlugin {
                   name: 'minDate',
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
-                  rendererSchema: () => {
-                    const schema = this.manager.store.getSchema(
-                      context.schema?.id,
-                      'id'
-                    );
+                  rendererSchema: (schema: Schema) => {
                     return {
                       ...schema,
                       value: context?.schema.minDate
@@ -376,11 +372,7 @@ export class DateControlPlugin extends BasePlugin {
                   name: 'maxDate',
                   header: '表达式或相对值',
                   DateTimeType: FormulaDateType.IsDate,
-                  rendererSchema: () => {
-                    const schema = this.manager.store.getSchema(
-                      context.schema?.id,
-                      'id'
-                    );
+                  rendererSchema: (schema: Schema) => {
                     return {
                       ...schema,
                       value: context?.schema.maxDate

@@ -703,8 +703,7 @@ export class ComboControlPlugin extends BasePlugin {
     while (pool.length) {
       const current = pool.shift() as EditorNodeType;
       const schema = current.schema;
-
-      if (schema.name) {
+      if (schema?.name) {
         itemsSchema.properties[schema.name] =
           await current.info.plugin.buildDataSchemas?.(
             current,

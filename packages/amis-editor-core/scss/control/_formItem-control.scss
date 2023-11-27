@@ -15,6 +15,10 @@
       line-height: 32px;
       margin: 0;
       padding-top: 0;
+
+      > span {
+        display: inline;
+      }
     }
   }
 

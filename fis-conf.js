@@ -688,7 +688,10 @@ if (fis.project.currentMedia() === 'publish-sdk') {
     postprocessor: convertSCSSIE11
   });
   const ghPages = fis.media('gh-pages');
-  ghPages.set('project.files', ['examples/index.html']);
+  ghPages.set('project.files', [
+    'examples/index.html',
+    '/examples/static/*.docx'
+  ]);
 
   ghPages.match('*.scss', {
     parser: fis.plugin('sass', {
@@ -1006,6 +1009,10 @@ if (fis.project.currentMedia() === 'publish-sdk') {
 
   ghPages.match('::image', {
     useHash: true
+  });
+
+  ghPages.match('*.docx', {
+    useHash: false
   });
 
   ghPages.match('*.{js,ts,tsx,jsx}', {

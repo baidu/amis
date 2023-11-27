@@ -18,6 +18,8 @@ import {normalizeApiResponseData} from '../utils/api';
 import {matchSorter} from 'match-sorter';
 import {filter} from '../utils/tpl';
 
+import type {MatchSorterOptions} from 'match-sorter';
+
 interface MatchFunc {
   (
     /* 当前列表的全量数据 */
@@ -30,6 +32,15 @@ interface MatchFunc {
       query: Record<string, any>;
       /* 列配置 */
       columns: any;
+      /**
+       * match-sorter 匹配函数
+       * @doc https://github.com/kentcdodds/match-sorter
+       */
+      matchSorter: (
+        items: any[],
+        value: string,
+        options?: MatchSorterOptions<any>
+      ) => any[];
     }
   ): any;
 }
@@ -223,7 +234,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           if (matchFunc && typeof matchFunc === 'function') {
             items = matchFunc(items, self.data.itemsRaw, {
               query: self.query,
-              columns: options.columns
+              columns: options.columns,
+              matchSorter: matchSorter
             });
           } else {
             if (Array.isArray(options.columns)) {
@@ -395,8 +407,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           };
 
           if (options.loadDataOnce) {
-            // 记录原始集合，后续可能基于原始数据做排序查找。
-            data.itemsRaw = oItems || oRows;
+            /**
+             * 1. 记录原始集合，后续可能基于原始数据做排序查找。
+             * 2. 接口返回中没有 items 和 rows 字段，则直接用查到的数据。
+             */
+            data.itemsRaw = oItems || oRows || rowsData.concat();
             let filteredItems = rowsData.concat();
 
             if (Array.isArray(options.columns)) {
@@ -656,7 +671,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       if (matchFunc && typeof matchFunc === 'function') {
         items = matchFunc(items, items.concat(), {
           query: self.query,
-          columns: options.columns
+          columns: options.columns,
+          matchSorter: matchSorter
         });
       } else {
         if (Array.isArray(options.columns)) {
@@ -673,6 +689,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                 if (value.length > 0) {
                   const arr = [...items];
                   let arrItems: Array<any> = [];
+                  /** 搜索 query 值为数组的情况 */
                   value.forEach(item => {
                     arrItems = [
                       ...arrItems,
@@ -704,10 +721,13 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
       const data = {
         ...self.pristine,
-        items: items.slice(
-          (self.page - 1) * self.perPage,
-          self.page * self.perPage
-        ),
+        items:
+          items.length > self.perPage
+            ? items.slice(
+                (self.page - 1) * self.perPage,
+                self.page * self.perPage
+              )
+            : items,
         count: items.length,
         total: items.length
       };

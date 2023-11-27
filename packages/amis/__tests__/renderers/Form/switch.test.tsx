@@ -71,3 +71,90 @@ describe('Renderer:Switch', () => {
     expect(container).toMatchSnapshot();
   });
 });
+
+/**
+ * 默认状态为开启时
+ * 默认状态为关闭时
+ * 默认状态为禁用时
+ */
+test('Renderer:Switch with loading status', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'form',
+        body: [
+          {
+            "type": "switch",
+            "name": "switch1",
+            "label": "",
+            "loading": true,
+            "value": true
+          },
+          {
+            "type": "switch",
+            "name": "switch2",
+            "label": "",
+            "disabled": true,
+            "loading": true,
+            "value": false
+          }
+        ],
+        actions: []
+      },
+      {},
+      makeEnv()
+    )
+  );
+
+  const loadingDom = container.querySelectorAll('.cxd-Switch-spinner');
+
+  expect(loadingDom?.length).toEqual(2);
+});
+
+test('Renderer:Switch onText & offText schema', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'form',
+        body: [
+          {
+            "name": "switch",
+            "type": "switch",
+            "onText": [
+              {
+                "type": "icon",
+                "icon": "fa fa-plane",
+                "vendor": "",
+                "className": "mr-1"
+              },
+              {
+                "type": "tpl",
+                "tpl": "飞行模式"
+              }
+            ],
+            "offText": [
+              {
+                "type": "icon",
+                "icon": "fa fa-plane",
+                "vendor": "",
+                "className": "mr-1"
+              },
+              {
+                "type": "tpl",
+                "tpl": "飞行模式"
+              }
+            ]
+          }
+        ],
+        actions: []
+      },
+      {},
+      makeEnv()
+    )
+  );
+
+  const text = container.querySelector('.cxd-Switch > span.text')!;
+
+  /** offText的Schema包含了2个元素 */
+  expect(text?.childNodes?.length).toEqual(2);
+});

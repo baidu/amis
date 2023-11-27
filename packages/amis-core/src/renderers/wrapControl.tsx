@@ -179,14 +179,6 @@ export function wrapControl<
             }
 
             if (!name) {
-              // 一般情况下这些表单项都是需要 name 的，提示一下
-              if (
-                typeof type === 'string' &&
-                getRendererByName(type)?.isFormItem
-              ) {
-                console.warn('name is required', this.props.$schema);
-              }
-
               return;
             }
 

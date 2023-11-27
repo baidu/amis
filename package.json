@@ -6,7 +6,8 @@
     "packages/amis-ui",
     "packages/amis",
     "packages/amis-editor-core",
-    "packages/amis-editor"
+    "packages/amis-editor",
+    "packages/amis-theme-editor-helper"
   ],
   "scripts": {
     "fis3-serve": "fis3 server start --www ./public --port 8888 --no-daemon --no-browse",
@@ -45,6 +46,7 @@
     "qs": "6.9.7"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.1.1",
     "@babel/generator": "^7.22.9",
     "@babel/parser": "^7.22.7",
     "@babel/traverse": "^7.22.8",
@@ -85,7 +87,7 @@
     "magic-string": "^0.26.7",
     "marked": "^4.2.1",
     "monaco-editor": "0.30.1",
-    "plugin-react-i18n": "1.0.1",
+    "plugin-react-i18n": "1.0.4",
     "postcss-scss": "^4.0.6",
     "prismjs": "^1.29.0",
     "react": "^18.2.0",

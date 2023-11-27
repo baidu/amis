@@ -113,7 +113,7 @@ export default class ExpressionFormulaControl extends React.Component<
   handleClearExpression(e: React.MouseEvent<HTMLElement>) {
     e.stopPropagation();
     e.preventDefault();
-    this.props?.onChange?.('');
+    this.props?.onChange?.(undefined);
   }
 
   @autobind

@@ -77,7 +77,7 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
   } = props;
   const schemaType = inputSettings.type;
   /** 自上层共享的属性 */
-  const sharedProps = pick(props, ['disabeld', 'clearable']);
+  const sharedProps = pick(props, ['disabled', 'clearable']);
   const pipInValue = useCallback(
     (value?: any) => {
       return value;
