@@ -187,9 +187,7 @@ export function makeWrapper(
           value={this.editorNode || (this.context as any)}
         >
           <ErrorBoundary
-            customErrorMsg={`拦截到${
-              info.type
-            }渲染错误，当前组件信息: ${JSON.stringify(this.props.$schema)}`}
+            customErrorMsg={`拦截到${info.type}渲染错误`}
             fallback={() => {
               return (
                 <div className="renderer-error-boundary">
