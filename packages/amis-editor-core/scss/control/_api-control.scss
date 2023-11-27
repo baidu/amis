@@ -88,9 +88,6 @@
 
       .ae-ApiControl-form {
         @include panel-sm-content();
-        --Tabs--line-fontSize: #{$Editor-right-panel-font-size};
-        --Tabs--line-active-fontSize: #{$Editor-right-panel-font-size};
-        --Tabs--line-hover-fontSize: #{$Editor-right-panel-font-size};
         .ae-ApiControl-tabContent {
           max-height: 560px;
           overflow-x: hidden;
