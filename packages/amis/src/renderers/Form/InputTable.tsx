@@ -1775,10 +1775,6 @@ export class TableControlRenderer extends FormTable {
     const ctx = this.props.store?.data || {}; // 获取当前上下文数据
 
     if (actionType === 'addItem') {
-      if (addable === false) {
-        return;
-      }
-
       const items = this.state.items.concat();
 
       if (addApi || args) {

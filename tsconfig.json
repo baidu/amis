@@ -29,7 +29,10 @@
       "amis": ["./packages/amis/src/index.tsx"],
       "office-viewer": ["./packages/office-viewer/src/index.ts"],
       "amis-editor-core": ["./packages/amis-editor-core/src/index.ts"],
-      "amis-editor": ["./packages/amis-editor/src/index.tsx"]
+      "amis-editor": ["./packages/amis-editor/src/index.tsx"],
+      "amis-theme-editor-helper": [
+        "./packages/amis-theme-editor-helper/src/index.ts"
+      ]
     }
   },
   "watchOptions": {

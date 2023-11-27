@@ -521,3 +521,63 @@ test('Renderer:inputDate disabledDate', async () => {
   expect(mondayCell).toHaveClass('rdtDisabled');
   expect(tuesdayCell).not.toHaveClass('rdtDisabled');
 });
+
+test('Renderer:inputDate defaultValue with formula', async () => {
+  const {container} = await setup([
+    {
+      type: 'input-date',
+      name: 'date',
+      label: '日期',
+      valueFormat: 'YYYY-MM-DD',
+      value: '${ DATE("2021-12-06 08:20:00") }'
+    }
+  ]);
+
+  await wait(300);
+  const input = container.querySelector(
+    '.cxd-DatePicker-input'
+  )! as HTMLInputElement;
+
+  expect(input).toBeInTheDocument();
+  expect(input.value).toBe('2021-12-06');
+
+});
+  
+test('Renderer:inputDate setValue actions with special words', async () => {
+  const {container, submitBtn, onSubmit, getByText} = await setup([
+    {
+      type: 'input-date',
+      name: 'date',
+      id: 'date',
+      label: '日期',
+      format: 'YYYY-MM-DD'
+    },
+
+    {
+      type: 'button',
+      label: '设置值',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'date',
+              args: {
+                value: 'today'
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]);
+
+  // 打开弹框
+  fireEvent.click(getByText('设置值'));
+  await wait(200);
+  const today = moment();
+  const inputDate = container.querySelector('.cxd-DatePicker-input');
+
+  expect(inputDate).toBeInTheDocument();
+  expect((inputDate as any)?.value).toEqual(today.format('YYYY-MM-DD'));
+});

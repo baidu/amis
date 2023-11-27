@@ -14,6 +14,7 @@ export interface LocationProps extends ThemeProps, LocaleProps {
   vendor: 'baidu' | 'gaode' | 'tenxun';
   coordinatesType: 'bd09' | 'gcj02';
   placeholder: string;
+  getLocationPlaceholder: string;
   clearable: boolean;
   ak: string;
   value?: {
@@ -27,6 +28,8 @@ export interface LocationProps extends ThemeProps, LocaleProps {
   popoverClassName?: string;
   onChange: (value: any) => void;
   popOverContainer?: any;
+  autoSelectCurrentLoc?: boolean;
+  onlySelectCurrentLoc?: boolean;
 }
 
 export interface LocationState {
@@ -40,6 +43,7 @@ export class LocationPicker extends React.Component<
 > {
   static defaultProps = {
     placeholder: 'LocationPicker.placeholder',
+    getLocationPlaceholder: 'LocationPicker.getLocation',
     clearable: false
   };
   domRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -155,12 +159,15 @@ export class LocationPicker extends React.Component<
       popoverClassName,
       disabled,
       placeholder,
+      getLocationPlaceholder,
       clearable,
       popOverContainer,
       vendor,
       coordinatesType,
       ak,
-      mobileUI
+      mobileUI,
+      autoSelectCurrentLoc,
+      onlySelectCurrentLoc
     } = this.props;
     const __ = this.props.translate;
     const {isFocused, isOpened} = this.state;
@@ -173,6 +180,8 @@ export class LocationPicker extends React.Component<
               ak={ak}
               value={value}
               coordinatesType={coordinatesType}
+              autoSelectCurrentLoc={autoSelectCurrentLoc}
+              onlySelectCurrentLoc={onlySelectCurrentLoc}
               onChange={this.handleChange}
             />
           );
@@ -213,7 +222,7 @@ export class LocationPicker extends React.Component<
           <span className={cx('LocationPicker-value')}>{value.address}</span>
         ) : (
           <span className={cx('LocationPicker-placeholder')}>
-            {__(placeholder)}
+            {__(onlySelectCurrentLoc ? getLocationPlaceholder : placeholder)}
           </span>
         )}
 
@@ -242,6 +251,8 @@ export class LocationPicker extends React.Component<
                   ak={ak}
                   value={value}
                   coordinatesType={coordinatesType}
+                  autoSelectCurrentLoc={autoSelectCurrentLoc}
+                  onlySelectCurrentLoc={onlySelectCurrentLoc}
                   onChange={this.handleTempChange}
                 />
               ) : (
@@ -268,6 +279,8 @@ export class LocationPicker extends React.Component<
                   ak={ak}
                   value={value}
                   coordinatesType={coordinatesType}
+                  autoSelectCurrentLoc={autoSelectCurrentLoc}
+                  onlySelectCurrentLoc={onlySelectCurrentLoc}
                   onChange={this.handleChange}
                 />
               ) : (

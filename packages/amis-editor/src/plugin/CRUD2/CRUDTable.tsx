@@ -38,7 +38,7 @@ export class CRUDTablePlugin extends BaseCRUDPlugin {
 
   $schema = '/schemas/CRUD2TableSchema.json';
 
-  docLink = '/amis/zh-CN/components/crud2';
+  docLink = '/amis/zh-CN/components/table2';
 
   previewSchema: Record<string, any> = this.generatePreviewSchema('table2');
 

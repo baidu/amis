@@ -8,10 +8,14 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import cloneDeep from 'lodash/cloneDeep';
-import {getEventControlConfig} from '../../renderer/event-control/helper';
+import {
+  getArgsWrapper,
+  getEventControlConfig
+} from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
 import {tipedLabel} from 'amis-editor-core';
 import {resolveOptionType} from '../../util';
+import {TreeCommonAction} from './InputTree';
 
 export class TreeSelectControlPlugin extends BasePlugin {
   static id = 'TreeSelectControlPlugin';
@@ -20,17 +24,18 @@ export class TreeSelectControlPlugin extends BasePlugin {
   $schema = '/schemas/TreeSelectControlSchema.json';
 
   // 组件名称
-  name = '树选择框';
+  name = '树组件';
   isBaseComponent = true;
-  disabledRendererPlugin = true;
   icon = 'fa fa-list-alt';
   pluginIcon = 'tree-select-plugin';
   description = '树型结构选择，支持 [内嵌模式] 与 [浮层模式] 的外观切换';
+  searchKeywords =
+    'tree、树下拉、树下拉框、tree-select、树形选择框、树形选择器';
   docLink = '/amis/zh-CN/components/form/treeselect';
   tags = ['表单项'];
   scaffold = {
     type: 'tree-select',
-    label: '树下拉框',
+    label: '树组件',
     name: 'tree',
     clearable: false,
     options: [
@@ -61,7 +66,9 @@ export class TreeSelectControlPlugin extends BasePlugin {
     mode: 'horizontal',
     wrapWithPanel: false,
     body: {
-      ...this.scaffold
+      ...this.scaffold,
+      label: '树组件 - 浮层模式',
+      mode: 'normal'
     }
   };
 
@@ -86,6 +93,10 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 value: {
                   type: 'string',
                   title: '选中的节点值'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项列表'
                 }
               }
             }
@@ -235,6 +246,8 @@ export class TreeSelectControlPlugin extends BasePlugin {
 
   // 动作定义
   actions: RendererPluginAction[] = [
+    /** 新增、编辑、删除、刷新 */
+    ...TreeCommonAction,
     {
       actionType: 'clear',
       actionLabel: '清空',
@@ -249,6 +262,11 @@ export class TreeSelectControlPlugin extends BasePlugin {
       actionType: 'setValue',
       actionLabel: '赋值',
       description: '触发组件数据更新'
+    },
+    {
+      actionType: 'reload',
+      actionLabel: '重新加载',
+      description: '触发组件数据刷新并重新渲染'
     }
   ];
 
@@ -363,8 +381,13 @@ export class TreeSelectControlPlugin extends BasePlugin {
               }),
               getSchemaTpl('switch', {
                 label: '可检索',
-                name: 'searchable',
-                visibleOn: 'data.type === "tree-select"'
+                name: 'searchable'
+              }),
+              getSchemaTpl('apiControl', {
+                name: 'searchApi',
+                label: '选项搜索接口',
+                labelClassName: 'none',
+                visibleOn: 'data.type === "input-tree" && data.searchable'
               }),
               getSchemaTpl('multiple', {
                 body: [
@@ -440,6 +463,12 @@ export class TreeSelectControlPlugin extends BasePlugin {
               getSchemaTpl('optionsMenuTpl', {
                 manager: this.manager
               }),
+              getSchemaTpl('apiControl', {
+                name: 'deferApi',
+                label: '懒加载接口',
+                labelClassName: 'none'
+              }),
+              getSchemaTpl('deferField'),
               getSchemaTpl(
                 'loadingConfig',
                 {

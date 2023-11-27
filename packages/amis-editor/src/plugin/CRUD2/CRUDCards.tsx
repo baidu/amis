@@ -45,7 +45,7 @@ export class CRUDCardsPlugin extends BaseCRUDPlugin {
 
   $schema = '/schemas/CRUD2CardsSchema.json';
 
-  docLink = '/amis/zh-CN/components/crud2';
+  docLink = '/amis/zh-CN/components/cards';
 
   previewSchema: Record<string, any> = this.generatePreviewSchema('cards');
 

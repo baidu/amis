@@ -83,7 +83,7 @@ exports[`Renderer:Pagination 1`] = `
       </div>
       <div
         class="cxd-Table"
-        style="--Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
+        style="--Table-thead-height: 0px; --Table-column-3-width: 0px; --Table-column-4-width: 0px; position: relative;"
       >
         <div
           class="cxd-Table-fixedTop"

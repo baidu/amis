@@ -1,7 +1,6 @@
 import React from 'react';
-import toString from 'lodash/toString';
 import {getPropValue, FormControlProps} from 'amis-core';
-import {ErrorBoundary} from 'react-error-boundary';
+import {ErrorBoundary} from 'amis-core';
 
 function renderCommonStatic(props: any, defaultValue: string) {
   const {type, render, staticSchema} = props;
@@ -135,11 +134,19 @@ export function supportStatic<T extends FormControlProps>() {
         }
 
         return (
-          <div className={cx(`${ns}Form-static`, className)}>
-            <ErrorBoundary fallback={<>{toString(body)}</>}>
-              {body}
-            </ErrorBoundary>
-          </div>
+          <ErrorBoundary
+            customErrorMsg={`拦截到${props.$schema.type}渲染错误`}
+            fallback={() => {
+              return (
+                <div className="renderer-error-boundary">
+                  {props.$schema?.type}
+                  渲染发生错误，详细错误信息请查看控制台输出。
+                </div>
+              );
+            }}
+          >
+            <div className={cx(`${ns}Form-static`, className)}>{body}</div>
+          </ErrorBoundary>
         );
       }
 

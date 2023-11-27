@@ -1,0 +1,97 @@
+$ns: cxd-;
+
+.Theme-FontEditor {
+  .common-icon {
+    width: px2rem(16px);
+    height: px2rem(16px);
+    cursor: pointer;
+    color: #5c5f66;
+  }
+
+  &-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: px2rem(12px);
+
+    .#{$ns}Button {
+      padding: px2rem(6px) px2rem(8px);
+    }
+  }
+
+  &-item {
+    display: flex;
+    flex: 1;
+    margin-right: px2rem(4px);
+    align-items: top;
+    flex-direction: column;
+    min-width: 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &-label {
+      font-size: 12px;
+      color: #5c5f66;
+      line-height: px2rem(20px);
+      margin-top: px2rem(4px);
+      text-align: center;
+    }
+
+    .#{$ns}Form-item {
+      flex: 1;
+      margin: 0;
+    }
+
+    .#{$ns}Select {
+      font-size: 12px;
+    }
+
+    .#{$ns}Select-popover {
+      min-width: px2rem(150px) !important;
+    }
+
+    .color-picker {
+      background: #151b26;
+      border-radius: 4px;
+      width: px2rem(32px);
+      height: px2rem(32px);
+    }
+
+    &-color-picker {
+      width: px2rem(32px);
+      flex: 0 1 2rem;
+    }
+  }
+
+  &-font-line {
+    margin: 0;
+  }
+
+  &-font-style {
+    display: flex;
+    justify-content: stretch;
+    background: #f7f7f9;
+    margin-bottom: px2rem(12px);
+    margin-top: px2rem(8px);
+
+    &-icon {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: px2rem(32px);
+      cursor: pointer;
+    }
+
+    .right-line {
+      border-right: 1px solid #d8d8d8;
+    }
+
+    &-selected {
+      .common-icon {
+        color: #2468f2;
+      }
+    }
+  }
+}

@@ -78,6 +78,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   labelField: string;
   valueField: string;
   iconField: string;
+  deferField: string;
   unfoldedField: string;
   foldedField: string;
   disabledField: string;
@@ -186,6 +187,7 @@ export class TreeSelector extends React.Component<
     labelField: 'label',
     valueField: 'value',
     iconField: 'icon',
+    deferField: 'defer',
     unfoldedField: 'unfolded',
     foldedField: 'foled',
     disabledField: 'disabled',
@@ -319,7 +321,7 @@ export class TreeSelector extends React.Component<
 
     // 初始化树节点的展开状态
     let unfolded = this.unfolded;
-    const {foldedField, unfoldedField} = this.props;
+    const {deferField, foldedField, unfoldedField} = this.props;
 
     eachTree(props.options, (node: Option, index, level) => {
       if (unfolded.has(node) && !initFoldedLevel) {
@@ -330,7 +332,7 @@ export class TreeSelector extends React.Component<
         let ret: any = true;
 
         if (
-          node.defer &&
+          node[deferField] &&
           node.loaded &&
           !initFoldedLevel &&
           unfoldedField &&
@@ -362,14 +364,14 @@ export class TreeSelector extends React.Component<
   @autobind
   toggleUnfolded(node: any) {
     const unfolded = this.unfolded;
-    const {onDeferLoad, unfoldedField} = this.props;
+    const {deferField, onDeferLoad, unfoldedField} = this.props;
 
-    if (node.defer && !node.loaded) {
+    if (node[deferField] && !node.loaded) {
       onDeferLoad?.(node);
       return;
     }
     // ！ hack: 在node上直接添加属性，options 在更新的时候旧的字段会保留
-    if (node.defer && node.loaded) {
+    if (node[deferField] && node.loaded) {
       node[unfoldedField] = !unfolded.get(node);
     }
 
@@ -452,11 +454,17 @@ export class TreeSelector extends React.Component<
 
   @autobind
   handleSelect(node: any, value?: any) {
-    const {joinValues, valueField, onChange, enableNodePath, onlyLeaf} =
-      this.props;
+    const {
+      joinValues,
+      valueField,
+      deferField,
+      onChange,
+      enableNodePath,
+      onlyLeaf
+    } = this.props;
 
     if (node[valueField as string] === undefined) {
-      if (node.defer && !node.loaded) {
+      if (node[deferField] && !node.loaded) {
         this.toggleUnfolded(node);
       }
       return;
@@ -1103,6 +1111,7 @@ export class TreeSelector extends React.Component<
       multiple,
       labelField,
       iconField,
+      deferField,
       cascade,
       classnames: cx,
       highlightTxt,
@@ -1201,7 +1210,7 @@ export class TreeSelector extends React.Component<
               spinnerClassName={cx('Tree-spinner')}
               loadingConfig={loadingConfig}
             />
-          ) : !isLeaf || (item.defer && !item.loaded) ? (
+          ) : !isLeaf || (item[deferField] && !item.loaded) ? (
             <div
               onClick={() => this.toggleUnfolded(item)}
               className={cx('Tree-itemArrow', {
@@ -1273,7 +1282,7 @@ export class TreeSelector extends React.Component<
             {!disabled &&
             !isAdding &&
             !isEditing &&
-            !(item.defer && !item.loaded) ? (
+            !(item[deferField] && !item.loaded) ? (
               <div className={cx('Tree-item-icons')}>
                 {creatable && hasAbility(item, 'creatable') ? (
                   <TooltipWrapper

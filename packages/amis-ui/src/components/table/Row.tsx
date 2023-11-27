@@ -41,6 +41,7 @@ export interface Props extends ThemeProps {
   onMouseEnter: Function;
   onMouseLeave: Function;
   onClick: Function;
+  onDoubleClick: Function;
   onChange: Function;
   childrenColumnName: string;
   selectable: boolean;
@@ -84,6 +85,15 @@ export default class BodyRow extends React.PureComponent<Props> {
   onClick(event: React.ChangeEvent<any>, record?: any, rowIndex?: number) {
     const {onClick} = this.props;
     onClick && onClick(event, record, rowIndex);
+  }
+
+  onDoubleClick(
+    event: React.ChangeEvent<any>,
+    record?: any,
+    rowIndex?: number
+  ) {
+    const {onDoubleClick} = this.props;
+    onDoubleClick && onDoubleClick(event, record, rowIndex);
   }
 
   getExpandedIcons() {
@@ -321,6 +331,7 @@ export default class BodyRow extends React.PureComponent<Props> {
         onMouseEnter={e => this.onMouseEnter(e, data, rowIndex)}
         onMouseLeave={e => this.onMouseLeave(e, data, rowIndex)}
         onClick={e => this.onClick(e, data, rowIndex)}
+        onDoubleClick={e => this.onDoubleClick(e, data, rowIndex)}
       >
         {draggable ? (
           <Cell

@@ -1591,6 +1591,29 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   @autobind
+  async handleRowDbClick(
+    event: React.ChangeEvent<any>,
+    rowItem: any,
+    rowIndex?: number
+  ) {
+    const {dispatchEvent, data, onRow} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'rowDbClick',
+      createObject(data, {item: rowItem, index: rowIndex})
+    );
+
+    if (rendererEvent?.prevented) {
+      return false;
+    }
+
+    if (rowItem && onRow) {
+      onRow.onRowDbClick && onRow.onRowDbClick(event, rowItem, rowIndex);
+    }
+    return true;
+  }
+
+  @autobind
   async handleRowMouseEnter(
     event: React.MouseEvent<HTMLTableRowElement>,
     rowItem: any,
@@ -1838,6 +1861,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
         onRow={{
           ...onRow,
           onRowClick: this.handleRowClick,
+          onRowDbClick: this.handleRowDbClick,
           onRowMouseEnter: this.handleRowMouseEnter,
           onRowMouseLeave: this.handleRowMouseLeave
         }}

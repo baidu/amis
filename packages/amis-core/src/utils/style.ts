@@ -46,7 +46,8 @@ export function buildStyle(style: any, data: any) {
         styleVar.radius['bottom-left-border-radius'];
       delete styleVar['radius'];
     }
-    if (key.indexOf('-') !== -1) {
+    // 将属性短横线命名转换为驼峰命名，如background-color => backgroundColor。但不处理css variable，如--colors-brand-5
+    if (key.indexOf('-') > 0) {
       styleVar[camelCase(valueMap[key] || key)] = styleVar[key];
       delete styleVar[key];
     }

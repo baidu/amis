@@ -1,9 +1,8 @@
 import {toast, normalizeApiResponseData} from 'amis';
-import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import React from 'react';
 import {getEventControlConfig} from '../renderer/event-control/helper';
-
+import {genCodeSchema} from '../renderer/APIAdaptorControl';
 import {
   getI18nEnabled,
   jsonToJsonSchema,
@@ -1209,6 +1208,38 @@ export class CRUDPlugin extends BasePlugin {
               placement: 'left'
             }
           }),
+
+          {
+            name: 'matchFunc',
+            type: 'ae-functionEditorControl',
+            allowFullscreen: true,
+            mode: 'normal',
+            label: tipedLabel(
+              '搜索匹配函数',
+              '自定义搜索匹配函数，当开启<code>loadDataOnce</code>时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景。<code>matchSorter</code>函数用于处理复杂的过滤场景，比如模糊匹配等，更多详细内容推荐查看<a href="https://github.com/kentcdodds/match-sorter" target="_blank">match-sorter</a>。'
+            ),
+            renderLabel: true,
+            params: [
+              {
+                label: 'items',
+                tip: genCodeSchema('/* 当前列表的全量数据 */\nitems: any[]')
+              },
+              {
+                label: 'itemsRaw',
+                tip: genCodeSchema(
+                  '/* 最近一次接口返回的全量数据 */\nitemsRaw: any[]'
+                )
+              },
+              {
+                label: 'options',
+                tip: genCodeSchema(
+                  '/* 额外的配置 */\noptions?: {\n  /* 查询参数 */\n  query: Record < string, any>;\n  /* 列配置 */\n  columns: any;\n  /** match-sorter 匹配函数 */\n  matchSorter: (items: any[], value: string, options?: MatchSorterOptions<any>) => any[]\n}'
+                )
+              }
+            ],
+            placeholder: `return items;`,
+            visibleOn: '${loadDataOnce === true}'
+          },
 
           getSchemaTpl('switch', {
             label: '开启定时刷新',
