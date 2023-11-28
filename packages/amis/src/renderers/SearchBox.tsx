@@ -180,7 +180,7 @@ export class SearchBoxRenderer extends React.Component<
   }
   setData(value: any) {
     if (typeof value === 'string') {
-      this.setState({value});
+      this.handleChange(value);
     }
   }
 
