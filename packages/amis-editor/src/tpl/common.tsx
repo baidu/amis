@@ -7,7 +7,7 @@ import {
   EditorManager
 } from 'amis-editor-core';
 import type {DSField} from 'amis-editor-core';
-import type {SchemaObject} from 'amis';
+import type {SchemaObject, Schema} from 'amis';
 import flatten from 'lodash/flatten';
 import {InputComponentName} from '../component/InputComponentName';
 import {FormulaDateType} from '../renderer/FormulaControl';
@@ -450,11 +450,18 @@ setSchemaTpl(
     } = config || {};
     let curRendererSchema = rendererSchema;
 
-    if (useSelectMode && curRendererSchema && curRendererSchema.options) {
-      curRendererSchema = {
-        ...curRendererSchema,
-        type: 'select'
-      };
+    if (useSelectMode && curRendererSchema) {
+      if (typeof curRendererSchema === 'function') {
+        curRendererSchema = (schema: Schema) => ({
+          ...rendererSchema(schema),
+          type: 'select'
+        });
+      } else if (curRendererSchema.options) {
+        curRendererSchema = {
+          ...curRendererSchema,
+          type: 'select'
+        };
+      }
     }
 
     return {
