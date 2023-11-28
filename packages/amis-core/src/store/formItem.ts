@@ -500,23 +500,28 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           validateCancel = null;
         }
 
-        const json: Payload = yield getEnv(self).fetcher(
-          self.validateApi,
-          /** 如果配置validateApi，需要将用户最新输入同步到数据域内 */
-          createObject(data, {[self.name]: self.tmpValue}),
-          {
-            cancelExecutor: (executor: Function) => (validateCancel = executor)
-          }
-        );
-        validateCancel = null;
-
-        if (!json.ok && json.status === 422 && json.errors) {
-          addError(
-            String(
-              (self.validateApi as ApiObject)?.messages?.failed ??
-                (json.errors || json.msg || `表单项「${self.name}」校验失败`)
-            )
+        try {
+          const json: Payload = yield getEnv(self).fetcher(
+            self.validateApi,
+            /** 如果配置validateApi，需要将用户最新输入同步到数据域内 */
+            createObject(data, {[self.name]: self.tmpValue}),
+            {
+              cancelExecutor: (executor: Function) =>
+                (validateCancel = executor)
+            }
           );
+          validateCancel = null;
+
+          if (!json.ok && json.status === 422 && json.errors) {
+            addError(
+              String(
+                (self.validateApi as ApiObject)?.messages?.failed ??
+                  (json.errors || json.msg || `表单项「${self.name}」校验失败`)
+              )
+            );
+          }
+        } catch (err) {
+          addError(String(err));
         }
       }
 

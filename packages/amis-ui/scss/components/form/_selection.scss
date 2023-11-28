@@ -217,6 +217,7 @@
 
   &-item {
     position: relative;
+    margin-bottom: 2px;
   }
   &-item.is-expanded > &-sublist {
     display: block;
