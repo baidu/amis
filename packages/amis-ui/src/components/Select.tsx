@@ -477,14 +477,19 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   @autobind
   open() {
-    this.props.disabled ||
-      this.setState(
-        {
-          isOpen: true,
-          highlightedIndex: -1
-        },
-        () => setTimeout(this.focus, 500)
-      );
+    const {disabled, loading} = this.props;
+
+    if (disabled || loading) {
+      return;
+    }
+
+    this.setState(
+      {
+        isOpen: true,
+        highlightedIndex: -1
+      },
+      () => setTimeout(this.focus, 500)
+    );
   }
 
   @autobind
@@ -505,38 +510,36 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   @autobind
   toggle(e?: React.MouseEvent<HTMLDivElement>) {
+    const {disabled, loading} = this.props;
+
     if (
-      e &&
-      this.menu.current &&
-      this.menu.current.contains(e.target as HTMLElement)
+      (e &&
+        this.menu.current &&
+        this.menu.current.contains(e.target as HTMLElement)) ||
+      disabled ||
+      loading
     ) {
       return;
     }
 
-    this.props.disabled ||
-      this.setState(
-        {
-          isOpen: !this.state.isOpen,
-          highlightedIndex: -1
-        },
-        this.state.isOpen ? undefined : () => setTimeout(this.focus, 500)
-      );
+    this.setState(
+      {
+        isOpen: !this.state.isOpen,
+        highlightedIndex: -1
+      },
+      this.state.isOpen ? undefined : () => setTimeout(this.focus, 500)
+    );
   }
 
   @autobind
   onFocus(e: any) {
-    const {simpleValue} = this.props;
-    const {selection} = this.state;
+    const {simpleValue, disabled, loading} = this.props;
+    const {selection, isOpen} = this.state;
     const value = simpleValue ? selection.map(item => item.value) : selection;
 
-    this.props.disabled ||
-      this.state.isOpen ||
-      this.setState(
-        {
-          isFocused: true
-        },
-        this.focus
-      );
+    if (!disabled && !loading && !isOpen) {
+      this.setState({isFocused: true}, this.focus);
+    }
 
     this.props.onFocus &&
       this.props.onFocus({
@@ -657,10 +660,18 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
   }
 
+  /**
+   * DownShift中ESC按键动作会触发change事件，此时selectItem为null，需要单独处理，参考：
+   * {@link https://github.com/downshift-js/downshift/issues/719 GitHub Issue #719}
+   */
   @autobind
   handleChange(selectItem: any) {
     const {onChange, multiple, simpleValue, valueField} = this.props;
     let {selection} = this.state;
+
+    if (selectItem == null) {
+      return;
+    }
 
     if (multiple) {
       const selectionValues = selection.map(item => item[valueField]);
@@ -785,6 +796,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       translate: __
     } = this.props;
     const selection = this.state.selection;
+    const labelKey = labelField || 'label';
 
     if (!selection.length) {
       return (
@@ -815,7 +827,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       };
       return [
         ...selection.slice(0, maxVisibleCount),
-        {label: `+ ${selection.length - maxVisibleCount} ...`}
+        {[labelKey]: `+ ${selection.length - maxVisibleCount} ...`}
       ].map((item, index) => {
         if (index === maxVisibleCount) {
           return (
@@ -843,7 +855,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                             <span className={cx('Select-valueLabel')}>
                               {renderValueLabel
                                 ? renderValueLabel(item)
-                                : item[labelField || 'label']}
+                                : item[labelKey]}
                             </span>
                             <span
                               className={cx('Select-valueIcon', {
@@ -870,9 +882,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 } /** 避免点击查看浮窗时呼出下拉菜单 */
               >
                 <span className={cx('Select-valueLabel')}>
-                  {renderValueLabel
-                    ? renderValueLabel(item)
-                    : item[labelField || 'label']}
+                  {renderValueLabel ? renderValueLabel(item) : item[labelKey]}
                 </span>
               </div>
             </TooltipWrapper>
@@ -883,7 +893,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           <TooltipWrapper
             container={popOverContainer}
             placement={'top'}
-            tooltip={item[labelField || 'label']}
+            tooltip={item[labelKey]}
             trigger={'hover'}
             key={index}
           >
@@ -894,9 +904,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               })}
             >
               <span className={cx('Select-valueLabel')}>
-                {renderValueLabel
-                  ? renderValueLabel(item)
-                  : item[labelField || 'label']}
+                {renderValueLabel ? renderValueLabel(item) : item[labelKey]}
               </span>
               <span
                 className={cx('Select-valueIcon', {
@@ -922,22 +930,18 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
             key={index}
           >
-            {renderValueLabel
-              ? renderValueLabel(item)
-              : item[labelField || 'label']}
+            {renderValueLabel ? renderValueLabel(item) : item[labelKey]}
           </div>
         );
       }
 
       return valuesNoWrap ? (
-        `${item[labelField || 'label']}${
-          index === selection.length - 1 ? '' : ' + '
-        }`
+        `${item[labelKey]}${index === selection.length - 1 ? '' : ' + '}`
       ) : (
         <TooltipWrapper
           container={popOverContainer}
           placement={'top'}
-          tooltip={item[labelField || 'label']}
+          tooltip={item[labelKey]}
           trigger={'hover'}
           key={index}
         >
@@ -948,9 +952,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
           >
             <span className={cx('Select-valueLabel')}>
-              {renderValueLabel
-                ? renderValueLabel(item)
-                : item[labelField || 'label']}
+              {renderValueLabel ? renderValueLabel(item) : item[labelKey]}
             </span>
             <span
               className={cx('Select-valueIcon', {
@@ -978,7 +980,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const {
       popOverContainer,
       options,
-      value,
       valueField,
       labelField,
       noResultsText,
@@ -1345,7 +1346,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                   [`Select--searchable`]: searchable,
                   'is-opened': isOpen,
                   'is-focused': this.state.isFocused,
-                  'is-disabled': disabled,
+                  'is-disabled': disabled || loading,
                   'is-mobile': mobileUI,
                   'is-error': hasError,
                   [`Select--border${ucFirst(borderMode)}`]: borderMode

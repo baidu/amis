@@ -258,7 +258,9 @@ export function HocStoreFactory(renderer: {
             store.initData(
               extendObject(
                 props.data,
-                store.hasRemoteData || store.path === 'page'
+                // 有远程数据
+                // 或者顶级 store
+                store.hasRemoteData || !store.path.includes('/')
                   ? {
                       ...store.data,
                       ...props.data

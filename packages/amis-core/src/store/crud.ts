@@ -521,13 +521,18 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       }
     });
 
-    function changePage(page: number, perPage?: number | string) {
-      self.page = page;
+    function changePage(page: number | string, perPage?: number | string) {
+      const pageNum = typeof page !== 'number' ? parseInt(page, 10) : page;
+
+      self.page = isNaN(pageNum) ? 1 : pageNum;
       perPage && changePerPage(perPage);
     }
 
     function changePerPage(perPage: number | string) {
-      self.perPage = parseInt(perPage as string, 10);
+      const perPageNum =
+        typeof perPage !== 'number' ? parseInt(perPage, 10) : perPage;
+
+      self.perPage = isNaN(perPageNum) ? 10 : perPageNum;
     }
 
     function selectAction(action: ActionObject) {

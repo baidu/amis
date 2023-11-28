@@ -1759,6 +1759,7 @@ export class EditorManager {
     }
     this.patching = true;
     this.patchingInvalid = false;
+    const batch: Array<{id: string; value: any}> = [];
     let patchList = (list: Array<EditorNodeType>) => {
       // 深度优先
       list.forEach((node: EditorNodeType) => {
@@ -1767,12 +1768,15 @@ export class EditorManager {
         }
 
         if (isAlive(node) && !node.isRegion) {
-          node.patch(this.store, force);
+          node.patch(this.store, force, (id, value) =>
+            batch.unshift({id, value})
+          );
         }
       });
     };
 
     patchList(this.store.root.children);
+    this.store.batchChangeValue(batch);
     this.patching = false;
     this.patchingInvalid && this.patchSchema(force);
   }

@@ -140,14 +140,6 @@ test('Renderer:condition-builder add', async () => {
 
   fireEvent.click(textType);
 
-  const textOpType = await findByText('请选择操作');
-
-  fireEvent.click(textOpType);
-
-  const qualOpType = await findByText('等于');
-
-  fireEvent.click(qualOpType);
-
   const textRightInput = await findByPlaceholderText('请输入文本');
 
   fireEvent.change(textRightInput, {target: {value: 'amis'}});
@@ -251,8 +243,6 @@ test('Renderer:condition-builder with number type', async () => {
   fireEvent.click(await findByText('添加条件'));
   fireEvent.click(await findByText('请选择字段'));
   fireEvent.click(await findByText('数字'));
-  fireEvent.click(await findByText('请选择操作'));
-  fireEvent.click(await findByText('等于'));
 
   fireEvent.change(await findByPlaceholderText('请输入数字'), {
     target: {value: 81192}
@@ -396,8 +386,6 @@ test('Renderer:condition-builder with select type & source & searchable', async 
   fireEvent.click(await findByText('添加条件'));
   fireEvent.click(await findByText('请选择字段'));
   fireEvent.click(await findByText('动态选项'));
-  fireEvent.click(await findByText('请选择操作'));
-  fireEvent.click(await findByText('等于'));
 
   await wait(200);
   expect(fetcher).toHaveBeenCalled();
@@ -573,8 +561,6 @@ test('Renderer:condition-builder with source fields', async () => {
   fireEvent.click(await findByText('添加条件'));
   fireEvent.click(await findByText('请选择字段'));
   fireEvent.click(await findByText('布尔'));
-  fireEvent.click(await findByText('请选择操作'));
-  fireEvent.click(await findByText('等于'));
   fireEvent.click(container.querySelector('.cxd-Switch')!);
 
   await wait(200);
@@ -706,8 +692,6 @@ test('Renderer:condition-builder with builderMode & showANDOR & showNot', async 
 
   fireEvent.click(await findByText('请选择字段'));
   fireEvent.click(await findByText('布尔'));
-  fireEvent.click(await findByText('请选择操作'));
-  fireEvent.click(await findByText('等于'));
   fireEvent.click(container.querySelector('.cxd-Switch')!);
 
   await wait(200);
@@ -810,7 +794,7 @@ test('Renderer:condition-builder with not embed', async () => {
   fireEvent.click(await findByText('添加条件'));
   fireEvent.click(await findByText('请选择字段'));
   fireEvent.click(await findByText('日期测试'));
-  fireEvent.click(await findByText('请选择操作'));
+  fireEvent.click(await findByText('等于'));
   fireEvent.click(await findByText('不属于范围'));
 
   expect(
