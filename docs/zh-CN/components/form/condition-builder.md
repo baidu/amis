@@ -328,7 +328,7 @@ type Value = ValueGroup;
 - `label` 字段名称。
 - `placeholder` 占位符
 - `operators` 默认为 `[ 'select_equals', 'select_not_equals', 'select_any_in', 'select_not_any_in' ]` 如果不要那么多，可以配置覆盖。
-- `defaultOp`
+- `defaultOp` 默认为 `"select_equals"`
 - `options` 选项列表，`Array<{label: string, value: any}>`
 - `source` 动态选项，请配置 api。
 - `searchable` 是否可以搜索
@@ -392,7 +392,9 @@ type Value = ValueGroup;
 - `label` 字段名称
 - `placeholder` 占位符
 - `operators` 默认为空，需配置自定义判断条件，支持字符串或 key-value 格式
+- `defaultOp` 默认操作符
 - `value` 字段配置右边值需要渲染的组件，支持 amis 输入类组件或自定义输入类组件
+- `defaultValue` 右边值的默认值
 
 ```schema: scope="body"
 {
@@ -412,6 +414,8 @@ type Value = ValueGroup;
               "value": {
                 "type": "input-color"
               },
+              "defaultOp": "equal",
+              "defaultValue": "#ff0000",
               "operators": [
                 "equal",
                 {
