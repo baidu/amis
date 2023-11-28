@@ -188,6 +188,33 @@ icon:
 }
 ```
 
+## 立刻搜索模式
+
+设置 `"searchImediately": true` 实现输入时即搜索
+
+```schema
+{
+    "type": "page",
+    "body": [
+      {
+        "type": "service",
+        "api": "/api/mock2/page/initData?keywords=${keywords}",
+        "body": [
+          {
+            "type": "search-box",
+            "name": "keywords",
+            "searchImediately": true
+          },
+          {
+            "type": "tpl",
+            "tpl": "<p>关键字：${keywords}</p><p>返回结果：${&|json}</p>"
+          }
+        ]
+      }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名           | 类型      | 默认值 | 说明                         | 版本    |
