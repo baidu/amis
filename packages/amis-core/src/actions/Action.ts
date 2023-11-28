@@ -295,16 +295,6 @@ export const runAction = async (
         action.componentId ? 'getComponentById' : 'getComponentByName'
       ](cmptFlag)
     : renderer;
-  // 如果key指定来，但是没找到组件，则报错
-  if (cmptFlag && !targetComponent) {
-    const msg =
-      '尝试执行一个不存在的目标组件动作，请检查目标组件非隐藏状态，且正确指定了componentId或componentName';
-    if (action.ignoreError === false) {
-      throw Error(msg);
-    } else {
-      console.warn(msg);
-    }
-  }
   // 动作配置
   const args = dataMapping(action.args, mergeData, (key: string) => {
     const actionIgnoreKey: MappingIgnoreMap = {
@@ -350,7 +340,6 @@ export const runAction = async (
     {
       ...action,
       args,
-      targetComponent,
       data: action.actionType === 'reload' ? actionData : data, // 如果是刷新动作，则只传action.data
       ...key
     },
