@@ -2272,6 +2272,7 @@ popOver 的其它配置请参考 [popover](./popover)
         {
             "type": "table",
             "source": "$rows",
+            "selectable": true,
             "onEvent": {
                 "rowClick": {
                     "actions": [
