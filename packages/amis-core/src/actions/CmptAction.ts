@@ -50,7 +50,7 @@ export class CmptAction implements RendererAction {
       }
     }
 
-    const component = action.component;
+    const component = action.targetComponent;
     if (action.actionType === 'setValue') {
       if (component?.setData) {
         return component?.setData(

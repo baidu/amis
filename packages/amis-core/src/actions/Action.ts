@@ -350,7 +350,7 @@ export const runAction = async (
     {
       ...action,
       args,
-      component: targetComponent,
+      targetComponent,
       data: action.actionType === 'reload' ? actionData : data, // 如果是刷新动作，则只传action.data
       ...key
     },
