@@ -1249,7 +1249,7 @@ export default class Table extends React.Component<TableProps, object> {
       );
       const newValue = {...value, ids: undefined};
       rows.forEach(row => row.change(newValue));
-    } else {
+    } else if (Array.isArray(items)) {
       const rows = store.rows.filter(item => ~items.indexOf(item.pristine));
       rows.forEach(row => row.change(value));
     }
