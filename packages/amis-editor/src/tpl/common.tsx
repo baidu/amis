@@ -1738,3 +1738,16 @@ setSchemaTpl('primaryField', {
     return value;
   }
 });
+
+/**
+ * 是否为懒加载节点字段
+ */
+setSchemaTpl('deferField', {
+  label: tipedLabel(
+    '懒加载字段',
+    '是否为懒加载节点的字段名称，默认为defer，可以用该配置项自定义字段名称'
+  ),
+  name: 'deferField',
+  type: 'input-text',
+  placeholder: '自定义开启懒加载的字段'
+});

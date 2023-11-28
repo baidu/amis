@@ -363,7 +363,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
             style: {
               borderStyle: 'solid'
             },
-            className: 'action-config-panel AMISCSSWrapper'
+            className: 'action-config-panel :AMISCSSWrapper'
           }
         ],
         onClose

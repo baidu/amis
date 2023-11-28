@@ -259,6 +259,7 @@ register('en-US', {
   'Tree.addChild': 'Add child',
   'Tree.addRoot': 'Add root node',
   'Tree.editNode': 'Edit this node',
+  'Tree.invalidArray': 'Data.options, data.items, or data must be arrays',
   'Tree.removeNode': 'Remove this node',
   'Tree.root': 'Root',
   'validate.equals': 'value must be $1',

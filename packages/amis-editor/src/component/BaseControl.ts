@@ -430,7 +430,7 @@ export function remarkTpl(config: {
       },
       body: {
         type: 'grid',
-        className: 'pt-4 right-panel-pop AMISCSSWrapper',
+        className: 'pt-4 right-panel-pop :AMISCSSWrapper',
         gap: 'lg',
         columns: [
           {
@@ -480,17 +480,16 @@ export function remarkTpl(config: {
               getSchemaTpl('icon'),
               {
                 name: 'className',
-                label: 'CSS 类名',
-                type: 'input-text',
-                labelRemark: BaseLabelMark(
+                label: tipedLabel(
+                  'CSS 类名',
                   '有哪些辅助类 CSS 类名？请前往 <a href="https://baidu.gitee.io/amis/zh-CN/style/index" target="_blank">样式说明</a>，除此之外你可以添加自定义类名，然后在系统配置中添加自定义样式。'
-                )
+                ),
+                type: 'input-text'
               },
               {
                 name: 'trigger',
                 type: 'select',
-                label: '触发方式',
-                labelRemark: BaseLabelMark('浮层触发方式默认值为鼠标悬停'),
+                label: tipedLabel('触发方式', '浮层触发方式默认值为鼠标悬停'),
                 multiple: true,
                 pipeIn: (value: any) =>
                   Array.isArray(value) ? value.join(',') : [],

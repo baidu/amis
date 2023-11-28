@@ -1187,6 +1187,38 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 }
 ```
 
+## 自动补全 autoComplete
+
+可以在`autoComplete`配置中，用数据映射，获取变量`term`，为当前输入的关键字。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "name": "select1",
+            "type": "select",
+            "label": "选项自动补全（单选）",
+            "autoComplete": "/api/mock2/options/autoComplete?term=${term}",
+            "placeholder": "请输入",
+            "clearable": true
+        },
+        {
+            "name": "select2",
+            "type": "select",
+            "label": "选项自动补全（多选）",
+            "autoComplete": "/api/mock2/options/autoComplete?labelField=name&valueField=id&term=${term}",
+            "placeholder": "请输入",
+            "labelField": "name",
+            "valueField": "id",
+            "clearable": true,
+            "multiple": true,
+            "maxTagCount": 2
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -1261,3 +1293,70 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | reset    | -                                      | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                  |
 | reload   | -                                      | 重新加载，调用 `source`，刷新数据域数据刷新（重新加载）                                 |
 | setValue | `value: string` \| `string[]` 更新的值 | 更新数据，开启`multiple`支持设置多项，开启`joinValues`时，多值用`,`分隔，否则多值用数组 |
+
+
+### 刷新数据源 reload
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+          "type": "control",
+          "label": "点击刷新",
+          "mode": "horizontal",
+          "body": [
+            {
+              "type": "action",
+              "label": "点击刷新Select数据源",
+              "level": "primary",
+              "className": "mb-2",
+              "onEvent": {
+                "click": {
+                  "actions": [
+                    {
+                      "componentId": "select_reload",
+                      "actionType": "reload",
+                    }
+                  ],
+                  "debounce": {
+                    "wait": 200
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+            "name": "watchField",
+            "type": "input-text",
+            "label": "监听字段刷新",
+            "mode": "horizontal",
+            "placeholder": "输入内容刷新Select数据源",
+            "onEvent": {
+            "change": {
+              "actions": [
+                {
+                  "componentId": "select_reload",
+                  "actionType": "reload",
+                }
+              ],
+              "debounce": {
+                "wait": 250
+              }
+            }
+          }
+        },
+        {
+            "label": "Select",
+            "type": "select",
+            "name": "select",
+            "id": "select_reload",
+            "mode": "horizontal",
+            "source": "/api/mock2/form/getOptions?waitSeconds=3",
+            "multiple": true,
+            "clearable": true
+        }
+    ]
+}
+```

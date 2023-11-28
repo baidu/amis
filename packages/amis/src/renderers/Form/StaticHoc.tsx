@@ -135,7 +135,7 @@ export function supportStatic<T extends FormControlProps>() {
 
         return (
           <ErrorBoundary
-            customErrorMsg={`拦截到${props.$schema.type}渲染错误，当前组件schema: ${props.$schema}`}
+            customErrorMsg={`拦截到${props.$schema.type}渲染错误`}
             fallback={() => {
               return (
                 <div className="renderer-error-boundary">
