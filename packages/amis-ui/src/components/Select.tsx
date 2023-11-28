@@ -477,14 +477,19 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   @autobind
   open() {
-    this.props.disabled ||
-      this.setState(
-        {
-          isOpen: true,
-          highlightedIndex: -1
-        },
-        () => setTimeout(this.focus, 500)
-      );
+    const {disabled, loading} = this.props;
+
+    if (disabled || loading) {
+      return;
+    }
+
+    this.setState(
+      {
+        isOpen: true,
+        highlightedIndex: -1
+      },
+      () => setTimeout(this.focus, 500)
+    );
   }
 
   @autobind
@@ -505,38 +510,36 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   @autobind
   toggle(e?: React.MouseEvent<HTMLDivElement>) {
+    const {disabled, loading} = this.props;
+
     if (
-      e &&
-      this.menu.current &&
-      this.menu.current.contains(e.target as HTMLElement)
+      (e &&
+        this.menu.current &&
+        this.menu.current.contains(e.target as HTMLElement)) ||
+      disabled ||
+      loading
     ) {
       return;
     }
 
-    this.props.disabled ||
-      this.setState(
-        {
-          isOpen: !this.state.isOpen,
-          highlightedIndex: -1
-        },
-        this.state.isOpen ? undefined : () => setTimeout(this.focus, 500)
-      );
+    this.setState(
+      {
+        isOpen: !this.state.isOpen,
+        highlightedIndex: -1
+      },
+      this.state.isOpen ? undefined : () => setTimeout(this.focus, 500)
+    );
   }
 
   @autobind
   onFocus(e: any) {
-    const {simpleValue} = this.props;
-    const {selection} = this.state;
+    const {simpleValue, disabled, loading} = this.props;
+    const {selection, isOpen} = this.state;
     const value = simpleValue ? selection.map(item => item.value) : selection;
 
-    this.props.disabled ||
-      this.state.isOpen ||
-      this.setState(
-        {
-          isFocused: true
-        },
-        this.focus
-      );
+    if (!disabled && !loading && !isOpen) {
+      this.setState({isFocused: true}, this.focus);
+    }
 
     this.props.onFocus &&
       this.props.onFocus({
@@ -1345,7 +1348,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                   [`Select--searchable`]: searchable,
                   'is-opened': isOpen,
                   'is-focused': this.state.isFocused,
-                  'is-disabled': disabled,
+                  'is-disabled': disabled || loading,
                   'is-mobile': mobileUI,
                   'is-error': hasError,
                   [`Select--border${ucFirst(borderMode)}`]: borderMode
