@@ -31,15 +31,18 @@ const db = [
 ];
 
 module.exports = function (req, res) {
+  const labelField = req.query.labelField || 'label';
+  const valueField = req.query.valueField || 'value';
   const term = req.query.term || '';
+  const list = db.map(item => ({[labelField]: item.label, [valueField]: item.value}))
 
   res.json({
     status: 0,
     msg: '',
     data: term
-      ? db.filter(function (item) {
+      ? list.filter(function (item) {
           return term ? ~item.label.indexOf(term) : false;
         })
-      : db
+      : list
   });
 };
