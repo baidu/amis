@@ -181,9 +181,10 @@ export class SubEditor extends React.Component<SubEditorProps> {
                       }
                       return;
                     }}
-                    getHostNodeDataSchema={() =>
-                      manager.getContextSchemas(manager.store.activeId)
-                    }
+                    getHostNodeDataSchema={async () => {
+                      await manager.getContextSchemas(manager.store.activeId);
+                      return manager.dataSchema;
+                    }}
                   />
                 )
               }
