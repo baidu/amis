@@ -188,6 +188,7 @@ export class SearchBoxRenderer extends React.Component<
     const {
       data,
       name,
+      disabled,
       onQuery: onQuery,
       mini,
       enhance,
@@ -208,7 +209,8 @@ export class SearchBoxRenderer extends React.Component<
         className={className}
         style={style}
         name={name}
-        disabled={!onQuery}
+        // disabled={!onQuery}
+        disabled={disabled}
         defaultActive={!!value}
         defaultValue={onChange ? undefined : value}
         value={value}
