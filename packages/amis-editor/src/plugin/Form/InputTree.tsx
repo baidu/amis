@@ -130,7 +130,6 @@ export class TreeControlPlugin extends BasePlugin {
   // 组件名称
   name = '树组件';
   isBaseComponent = true;
-  disabledRendererPlugin = true;
   icon = 'fa fa-list-alt';
   pluginIcon = 'input-tree-plugin';
   description = '树型结构选择，支持 [内嵌模式] 与 [浮层模式] 的外观切换';
