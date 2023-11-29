@@ -32,7 +32,11 @@ import Button from './Button';
 
 import type {Moment} from 'moment';
 import type {PlainObject, ThemeProps, LocaleProps} from 'amis-core';
-import type {ViewMode} from './calendar/Calendar';
+import type {
+  ViewMode,
+  ChangeEventViewMode,
+  MutableUnitOfTime
+} from './calendar/Calendar';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -890,23 +894,65 @@ export class DateRangePicker extends React.Component<
       type: 'start' | 'end';
       originValue?: moment.Moment;
       timeFormat?: string;
-      subControlViewMode?: 'time';
+      subControlViewMode?: ChangeEventViewMode;
+      /** 自动初始化绑定值，用于首次选择且当前未绑定值，默认使用当前时间 */
+      autoInitDefaultValue?: boolean;
     } = {type: 'start'}
   ): moment.Moment {
-    const {type, originValue, timeFormat, subControlViewMode} = options || {
+    const {
+      type,
+      originValue,
+      timeFormat,
+      subControlViewMode,
+      autoInitDefaultValue
+    } = options || {
       type: 'start'
     };
     let value = date.clone();
     const {transform, data} = this.props;
-    const transformFn =
-      transform && typeof transform === 'string'
-        ? str2function(transform, 'value', 'config', 'props', 'data', 'moment')
-        : transform;
+    const {startDate, endDate} = this.state;
+
+    /** 此时为点选后的值初始化设置，不应该被内部转化逻辑和transformFn限制 */
+    if (autoInitDefaultValue === true) {
+      const now = moment();
+
+      /** 如果已经设置了结束时间且当前时间已经超出了结束时间，则开始时间不能超过结束时间 */
+      if (!startDate && endDate && type === 'start' && now.isAfter(endDate)) {
+        value = endDate.clone();
+        return value;
+      }
+
+      const timePart: Record<MutableUnitOfTime, number> = {
+        date: value.get('date'),
+        hour: value.get('hour'),
+        minute: value.get('minute'),
+        second: value.get('second'),
+        millisecond: value.get('millisecond')
+      };
+
+      Object.keys(timePart).forEach((unit: MutableUnitOfTime) => {
+        /** 首次选择时间，日期使用当前时间; 将未设置过的时间字段设置为当前值 */
+        if (
+          (unit === 'date' && subControlViewMode === 'time') ||
+          (unit !== 'date' && timePart[unit] === 0)
+        ) {
+          timePart[unit] = now.get(unit);
+        }
+      });
+
+      value.set(timePart);
+      return value;
+    }
 
     /** 日期时间选择器组件支持用户选择时间，如果用户手动选择了时间，则不需要走默认处理 */
     if (subControlViewMode && subControlViewMode === 'time') {
       return value;
     }
+
+    const transformFn =
+      transform && typeof transform === 'string'
+        ? str2function(transform, 'value', 'config', 'props', 'data', 'moment')
+        : transform;
 
     // 没有初始值
     if (!originValue) {
@@ -951,19 +997,31 @@ export class DateRangePicker extends React.Component<
    */
   handleStartDateChange(
     newValue: moment.Moment,
-    subControlViewMode?: Extract<ViewMode, 'time'>
+    subControlViewMode?: ChangeEventViewMode
   ) {
-    const {minDate, inputFormat, displayFormat, type} = this.props;
-    let {startDate, endDateOpenedFirst, curTimeFormat: timeFormat} = this.state;
+    const {
+      minDate,
+      inputFormat,
+      displayFormat,
+      type,
+      value: defaultValue
+    } = this.props;
+    let {
+      startDate,
+      oldStartDate,
+      endDateOpenedFirst,
+      curTimeFormat: timeFormat
+    } = this.state;
     if (minDate && newValue.isBefore(minDate)) {
       newValue = minDate;
     }
-
     const date = this.filterDate(newValue, {
       type: 'start',
       originValue: startDate || minDate,
       timeFormat,
-      subControlViewMode
+      subControlViewMode,
+      autoInitDefaultValue:
+        !!timeFormat && newValue && (!oldStartDate || !startDate)
     });
     const newState = {
       startDate: date,
@@ -988,12 +1046,19 @@ export class DateRangePicker extends React.Component<
    */
   handelEndDateChange(
     newValue: moment.Moment,
-    subControlViewMode?: Extract<ViewMode, 'time'>
+    subControlViewMode?: ChangeEventViewMode
   ) {
-    const {embed, inputFormat, displayFormat, type} = this.props;
+    const {
+      embed,
+      inputFormat,
+      displayFormat,
+      type,
+      value: defaultValue
+    } = this.props;
     let {
       startDate,
       endDate,
+      oldEndDate,
       endDateOpenedFirst,
       curTimeFormat: timeFormat
     } = this.state;
@@ -1003,8 +1068,11 @@ export class DateRangePicker extends React.Component<
       type: 'end',
       originValue: endDate,
       timeFormat,
-      subControlViewMode
+      subControlViewMode,
+      autoInitDefaultValue:
+        !!timeFormat && newValue && (!oldEndDate || !endDate)
     });
+
     this.setState(
       {
         endDate: date,

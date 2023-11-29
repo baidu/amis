@@ -217,6 +217,7 @@
 
   &-item {
     position: relative;
+    margin-bottom: 2px;
   }
   &-item.is-expanded > &-sublist {
     display: block;
@@ -444,7 +445,7 @@
 .#{$ns}DropDownSelection {
   position: relative;
   display: inline-block;
-  margin: 0.1875rem;
+  margin: px2rem(3px);
   vertical-align: middle;
 
   &-caret {

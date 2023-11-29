@@ -81,7 +81,7 @@ export class BaseCRUDPlugin extends BasePlugin {
 
   $schema = '/schemas/CRUD2Schema.json';
 
-  docLink = '/amis/zh-CN/components/crud2';
+  docLink = '/amis/zh-CN/components/table2';
 
   tags = ['数据容器'];
 
@@ -164,7 +164,7 @@ export class BaseCRUDPlugin extends BasePlugin {
         }
       },
       className:
-        'ae-Scaffold-Modal ae-Scaffold-Modal--CRUD ae-Scaffold-Modal-content AMISCSSWrapper', //  ae-formItemControl
+        'ae-Scaffold-Modal ae-Scaffold-Modal--CRUD ae-Scaffold-Modal-content :AMISCSSWrapper', //  ae-formItemControl
       stepsBody: true,
       canSkip: true,
       canRebuild: true,

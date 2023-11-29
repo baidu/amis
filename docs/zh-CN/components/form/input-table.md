@@ -917,6 +917,11 @@ order: 54
 | deleteSuccess | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/> `[name]: object[]`列表记录                                                          | 配置了`deleteApi`，调用接口成功时触发                                |
 | deleteFail    | `index: number` 所在行记录索引 <br /> `item: object` 所在行记录 <br/> `[name]: object[]`列表记录<br />`error: object` `deleteApi`请求失败后返回的错误信息 | 配置了`deleteApi`，调用接口失败时触发                                |
 | change        | `[name]: object[]` 列表记录                                                                                                                               | 组件数据发生改变时触发                                               |
+| orderChange   | `movedItems: item[]` 已排序数据                                                                                                                           | 手动拖拽行排序时触发                                                 |
+| rowClick      | `item: object` 行点击数据<br/>`index: number` 行索引                                                                                                      | 单击整行时触发                                                       |
+| rowDbClick    | `item: object` 行点击数据<br/>`index: number` 行索引                                                                                                      | 双击整行时触发                                                       |
+| rowMouseEnter | `item: object` 行移入数据<br/>`index: number` 行索引                                                                                                      | 移入整行时触发                                                       |
+| rowMouseLeave | `item: object` 行移出数据<br/>`index: number` 行索引                                                                                                      | 移出整行时触发                                                       |
 
 ### add
 
@@ -1563,6 +1568,287 @@ order: 54
 }
 ```
 
+### orderChange
+
+在开启拖拽排序行记录后才会用到，排序确认后触发。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      }
+    ]
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "draggable": true,
+      "onEvent": {
+          "orderChange": {
+              "actions": [
+                  {
+                      "actionType": "toast",
+                      "args": {
+                          "msgType": "info",
+                          "msg": "${event.data.movedItems.length|json}行发生移动"
+                      }
+                  }
+              ]
+          }
+      }
+    }
+  ]
+}
+```
+
+### rowClick
+
+点击行记录。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      }
+    ]
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "onEvent": {
+        "rowClick": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "行单击数据：${event.data.item|json}；行索引：${event.data.index}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### rowDbClick
+
+双击行记录。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      }
+    ]
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "onEvent": {
+        "rowDbClick": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "行单击数据：${event.data.item|json}；行索引：${event.data.index}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### rowMouseEnter
+
+鼠标移入行记录。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      }
+    ]
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "onEvent": {
+        "rowMouseEnter": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "行索引：${event.data.index}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### rowMouseLeave
+
+鼠标移出行记录。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      }
+    ]
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type": "input-table",
+      "name": "table",
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "onEvent": {
+        "rowMouseLeave": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "行索引：${event.data.index}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
 ## 动作表
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定 actionType: 动作名称、componentId: 该组件 id 来触发这些动作，动作配置可以通过 args: {动作配置项名称: xxx}来配置具体的参数，详细请查看事件动作。
@@ -1574,6 +1860,7 @@ order: 54
 | setValue   | `value: object \| Array<object>` 替换的值<br /> `index?: number` 可选，替换第几行数据，如果没有指定，则替换全部表格数据            | 替换表格数据                                                         |
 | clear      | -                                                                                                                                  | 清空表格数据                                                         |
 | reset      | -                                                                                                                                  | 将表格数据重置为`resetValue`，若没有配置`resetValue`，则清空表格数据 |
+| initDrag   | -                                                                                                                                  | 开启表格拖拽排序功能                                                 |
 
 ### addItem
 
@@ -1614,6 +1901,7 @@ order: 54
     {
       "type": "button",
       "label": "新增一行（未指定添加位置）",
+      "className": "mr-2",
       "onEvent": {
         "click": {
           "actions": [
@@ -1698,6 +1986,7 @@ order: 54
     {
       "type": "button",
       "label": "删除行（指定行号）",
+      "className": "mr-2",
       "onEvent": {
         "click": {
           "actions": [
@@ -1897,6 +2186,7 @@ order: 54
     {
       "type": "button",
       "label": "更新index为1和3的行记录",
+      "className": "mr-2",
       "onEvent": {
         "click": {
           "actions": [
@@ -1918,6 +2208,7 @@ order: 54
     {
       "type": "button",
       "label": "更新a=a3的行记录",
+      "className": "mr-2",
       "onEvent": {
         "click": {
           "actions": [
@@ -2022,6 +2313,74 @@ order: 54
         "id": 5,
         "a": "a5",
         "b": "b5"
+      }
+    ]
+  }
+}
+```
+
+#### 行记录内表单项联动
+
+需要通过表达式配置动态 `id` 和 `componentId`。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-table",
+      "label": "表格表单",
+      "id": "setValue-input-table",
+      "name": "table",
+      "columns": [
+        {
+          "type": "input-number",
+          "name": "num1",
+          "label": "数量",
+          "onEvent": {
+            "change": {
+              "actions": [
+                {
+                  "actionType": "setValue",
+                  "componentId": "num2_${index}",
+                  "args": {
+                    "value": "${num1 * 10}"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "num2",
+          "id": "num2_${index}",
+          "label": "金额"
+        }
+      ],
+      "addable": true,
+      "footerAddBtn": {
+        "label": "新增",
+        "icon": "fa fa-plus",
+        "hidden": true
+      },
+      "strictMode": true,
+      "minLength": 0,
+      "needConfirm": false,
+      "showTableAddBtn": false
+    }
+  ],
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "num1": 1,
+        "num2": "10"
+      },
+      {
+        "id": 2,
+        "num1": "2",
+        "num2": 20
       }
     ]
   }
@@ -2146,6 +2505,86 @@ order: 54
           "b": "b-resetValue2"
         }
       ],
+      "columns": [
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+      ],
+      "addable": true,
+      "footerAddBtn": {
+        "label": "新增",
+        "icon": "fa fa-plus",
+        "hidden": true
+      },
+      "strictMode": true,
+      "minLength": 0,
+      "needConfirm": false,
+      "showTableAddBtn": false
+    }
+  ],
+  "data": {
+    "table": [
+      {
+        "id": 1,
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "id": 2,
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "id": 3,
+        "a": "a3",
+        "b": "b3"
+      },
+      {
+        "id": 4,
+        "a": "a4",
+        "b": "b4"
+      },
+      {
+        "id": 5,
+        "a": "a5",
+        "b": "b5"
+      }
+    ]
+  }
+}
+```
+
+### initDrag
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "button",
+      "label": "开始表格排序",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "componentId": "drag-input-table",
+              "actionType": "initDrag"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "input-table",
+      "label": "表格表单",
+      "id": "drag-input-table",
+      "name": "table",
       "columns": [
         {
           "name": "a",

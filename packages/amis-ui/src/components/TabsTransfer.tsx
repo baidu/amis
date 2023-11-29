@@ -350,7 +350,8 @@ export class TabsTransfer extends React.Component<
       onlyChildren,
       loadingConfig,
       valueField = 'value',
-      labelField = 'label'
+      labelField = 'label',
+      deferField = 'defer'
     } = this.props;
     const selectMode = option.selectMode || this.props.selectMode;
 
@@ -453,6 +454,7 @@ export class TabsTransfer extends React.Component<
         virtualThreshold={virtualThreshold}
         valueField={valueField}
         labelField={labelField}
+        deferField={deferField}
       />
     ) : (
       <ListCheckboxes

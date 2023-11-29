@@ -786,6 +786,7 @@
   --transfer-base-header-paddingBottom: var(--sizes-size-5);
   --transfer-base-header-paddingLeft: var(--sizes-size-8);
   --transfer-base-header-paddingRight: var(--sizes-size-8);
+  --transfer-base-footer-border-color: var(--colors-neutral-line-8);
   --transfer-base-body-paddingTop: var(--sizes-size-0);
   --transfer-base-body-paddingBottom: var(--sizes-size-0);
   --transfer-base-body-paddingLeft: var(--sizes-size-0);
@@ -1659,8 +1660,8 @@
   --Form--horizontal-label-widthBase: var(--sizes-base-49);
   --Form--horizontal-label-widthXs: var(--sizes-base-25);
   --Form--horizontal-label-widthSm: var(--sizes-base-35);
-  --Form--horizontal-label-widthMd: 8.5rem;
-  --Form--horizontal-label-widthLg: 12.5rem;
+  --Form--horizontal-label-widthMd: #{px2rem(136px)};
+  --Form--horizontal-label-widthLg: #{px2rem(200px)};
   --Form--horizontal-value-marginTop: var(--sizes-size-0);
   --Form--horizontal-value-marginBottom: var(--sizes-size-0);
   --Form--horizontal-value-marginLeft: var(--sizes-size-5);
@@ -1682,7 +1683,7 @@
   --InputRange-handle-mobile-width: var(--sizes-base-10);
   --InputRange-handle-bg: var(--colors-neutral-fill-11);
   --InputRange-handle-top-border-color: var(--colors-brand-5);
-  --InputRange-handle-top-border-width: 0.0625rem;
+  --InputRange-handle-top-border-width: #{px2rem(1px)};
   --InputRange-handle-top-border-style: var(--borders-style-2);
   --InputRange-handle-top-right-border-radius: var(--borders-radius-7);
   --InputRange-handle-border: var(--InputRange-handle-top-border-width)
@@ -1773,9 +1774,9 @@
   --dialog-content-color: var(--colors-neutral-text-2);
   --dialog-footer-height: var(--sizes-size-1);
   --dialog-footer-margin-left: var(--sizes-size-5);
-  --dialog-size-sm-width: 21.875rem;
-  --dialog-size-normal-width: 31.25rem;
-  --dialog-size-lg-width: 68.75rem;
+  --dialog-size-sm-width: #{px2rem(350px)};
+  --dialog-size-normal-width: #{px2rem(500px)};
+  --dialog-size-lg-width: #{px2rem(1100px)};
   --dialog-size-xl-width: 90%;
 
   --Modal-bg: var(--background);
@@ -1828,10 +1829,10 @@
   --drawer-content-paddingRight: var(--sizes-base-12);
   --drawer-footer-height: var(--sizes-size-1);
   --drawer-footer-margin-left: var(--sizes-size-9);
-  --drawer-size-xs-width: 12.5rem;
-  --drawer-size-sm-width: 18.75rem;
-  --drawer-size-md-width: 31.25rem;
-  --drawer-size-lg-width: 50rem;
+  --drawer-size-xs-width: #{px2rem(200px)};
+  --drawer-size-sm-width: #{px2rem(300px)};
+  --drawer-size-md-width: #{px2rem(500px)};
+  --drawer-size-lg-width: #{px2rem(800px)};
   --drawer-size-xl-width: 90%;
 
   --Drawer-bg: var(--background);
@@ -1861,6 +1862,7 @@
   // 评分
   --Rating-star-margin: var(--sizes-size-5);
   --Rating-star-size: var(--sizes-base-12);
+  --Rating-star-icon-size: var(--sizes-base-9);
   --Rating-star-icon: '<svg class="icon" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path fill="currentColor" d="M4.99672493,4.37617062 L1.28100904,4.93702533 C0.463702827,5.06039054 -0.102812689,5.85030962 0.0156612291,6.70135899 C0.0628630935,7.04043042 0.216147743,7.35382434 0.451761131,7.59297508 L3.14101949,10.3226082 L3.14101949,10.3226082 L2.50531937,14.1787855 C2.3655991,15.0263332 2.91216489,15.8313483 3.72610824,15.9768371 C4.05030943,16.0347866 4.38381497,15.9798039 4.67496871,15.8204054 L7.99934906,14.0003997 L7.99934906,14.0003997 L11.3254267,15.8208814 C12.0564401,16.2209912 12.9605363,15.9282748 13.3447823,15.167081 C13.4978067,14.8639388 13.5505833,14.5167196 13.4949403,14.1791872 L12.859174,10.3226082 L12.859174,10.3226082 L15.5482634,7.59400813 C16.1397301,6.99385103 16.1519752,6.00805341 15.5756136,5.39216751 C15.3460036,5.14681192 15.0450939,4.98715562 14.7195072,4.93793566 L11.0034685,4.37617062 L11.0034685,4.37617062 L9.34151455,0.868493275 C8.97611971,0.0973002947 8.07952072,-0.219434766 7.33890469,0.161045701 C7.04395753,0.312570398 6.80521255,0.561123051 6.65963735,0.868217393 L4.99672493,4.37617062 L4.99672493,4.37617062 Z"></path></svg>';
   --Rating-colors: '[{"value":"#abadb1","id":2},{"value":"#787b81","id":3},{"value":"#ffa900","id":5}]';
   --Rating-text-color: var(--colors-neutral-text-2);
@@ -1971,6 +1973,9 @@
   --Switch-checked-bgColor: var(--switch-default-on-bg-color);
   --Switch-checked-onHover-bgColor: var(--switch-default-on-hover-bg-color);
   --Switch-checked-onActive-bgColor: var(--colors-brand-4);
+  --Switch-spinner-icon-width: var(--sizes-base-7);
+  --Switch-spinner-icon-width--sm: var(--sizes-base-5);
+  --switch-spinner-left--sm: var(--sizes-size-0);
 
   --collapse-default-top-border-color: var(--colors-neutral-line-8);
   --collapse-default-top-border-width: var(--borders-width-2);
@@ -2052,6 +2057,7 @@
   --Tabs-onActive-bg: var(--background);
   --Tabs-onActive-borderColor: var(--borderColor);
   --Tabs-onActive-color: var(--colors-neutral-text-2);
+  --Tabs-onError-color: var(--colors-error-5);
   --Tabs-onDisabled-color: var(--colors-neutral-text-7);
   --Tabs-onHover-borderColor: var(--colors-neutral-line-8);
   --Tabs-add-icon-size: #{px2rem(15px)};
@@ -2394,7 +2400,7 @@
   --Tabs--vertical-paddingLeft: var(--sizes-size-7);
   --Tabs--vertical-paddingRight: var(--sizes-size-7);
   --Tabs--vertical-bg: var(--colors-neutral-fill-10);
-  --Tabs--vertical-width: 8.75rem;
+  --Tabs--vertical-width: #{px2rem(140px)};
   --Tabs--vertical-active-color: var(--colors-brand-5);
   --Tabs--vertical-active-fontSize: var(--fonts-size-7);
   --Tabs--vertical-active-fontWeight: var(--fonts-weight-6);
@@ -2554,7 +2560,7 @@
   --Divider-text-marginRight: var(--sizes-size-9);
   --Divider-text-marginBottom: var(--sizes-size-0);
 
-  --inputFile-base-des-color: var(--colors-neutral-text-2);
+  --inputFile-base-des-color: var(--Form-description-color);
   --inputFile-base-des-fontSize: var(--fonts-size-7);
   --inputFile-base-des-fontWeight: var(--fonts-weight-6);
   --inputFile-base-des-margin: var(--sizes-base-5);
@@ -3280,6 +3286,7 @@
   --Alert-fontColor: var(--colors-neutral-text-4);
   --Alert-title-fontColor: var(--colors-neutral-text-2);
   --Alert-height: var(--sizes-base-20);
+  --Alert-actions-marginRight: var(--sizes-base-4);
 
   --spinner-base-color: var(--colors-link-5);
   --spinner-base-fontSize: var(--fonts-size-8);
@@ -3289,7 +3296,6 @@
   --spinner-size-size: var(--sizes-base-16);
   --spinner-lg-size: var(--sizes-base-24);
   --spinner-overlay-bg: var(--colors-neutral-fill-11);
-  --spinner-color: var(--colors-brand-5);
 
   --Spinner--lg-height: var(--spinner-lg-size);
   --Spinner--lg-width: var(--spinner-lg-size);
@@ -3301,6 +3307,7 @@
   --Spinner-overlay-bg: rgba(255, 255, 255, 0.4);
   --Spinner-width: var(--spinner-size-size);
   --Spinner-color: var(--spinner-base-color);
+  --Spinner-color--disabled: rgba(0, 0, 0, 0.65);
 
   // Image
   --image-image-normal-paddingTop: var(--sizes-size-3);
@@ -3319,7 +3326,7 @@
   --image-images-item-marginBottom: var(--sizes-size-3);
   --image-images-item-marginLeft: var(--sizes-size-3);
   --image-images-item-marginRight: var(--sizes-size-3);
-  --image-images-item-size: 3rem;
+  --image-images-item-size: #{px2rem(48px)};
   --image-images-item-color: var(--colors-neutral-text-5);
   --image-images-preview-radius: var(--sizes-size-3);
   --image-images-preview-bgColor: var(--colors-neutral-text-11);
@@ -4130,6 +4137,7 @@
     var(--combo-vertical-right-border-color)
     var(--combo-vertical-bottom-border-color)
     var(--combo-vertical-left-border-color);
+  --Combo--vertical-item--onError-borderColor: var(--colors-error-5);
   --Combo--vertical-item-borderRadius: var(
       --combo-vertical-top-left-border-radius
     )

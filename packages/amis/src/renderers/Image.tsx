@@ -3,7 +3,13 @@ import {
   Renderer,
   RendererProps,
   CustomStyle,
-  setThemeClassName
+  setThemeClassName,
+  ActionObject,
+  IScopedContext,
+  ScopedContext,
+  createObject,
+  resolveVariableAndFilter,
+  isPureVariable
 } from 'amis-core';
 import {filter} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
@@ -398,6 +404,8 @@ export interface ImageFieldProps extends RendererProps {
   enlargeWithGallary?: boolean;
   showToolbar?: boolean;
   toolbarActions?: ImageAction[];
+  maxScale?: number;
+  minScale?: number;
   onImageEnlarge?: (
     info: {
       src: string;
@@ -414,9 +422,21 @@ export interface ImageFieldProps extends RendererProps {
     target: any
   ) => void;
   imageGallaryClassName?: string;
+  onClick?:
+    | ((e: React.MouseEvent<any>, props: any) => void)
+    | string
+    | Function
+    | null;
 }
 
-export class ImageField extends React.Component<ImageFieldProps, object> {
+interface ImageFieldState {
+  scale: number; // 放大倍率
+}
+
+export class ImageField extends React.Component<
+  ImageFieldProps,
+  ImageFieldState
+> {
   static defaultProps: Pick<
     ImageFieldProps,
     'defaultImage' | 'thumbMode' | 'thumbRatio'
@@ -424,6 +444,10 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
     defaultImage: imagePlaceholder,
     thumbMode: 'contain',
     thumbRatio: '1:1'
+  };
+
+  state: ImageFieldState = {
+    scale: 1
   };
 
   @autobind
@@ -468,10 +492,70 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
   }
 
   @autobind
-  handleClick(e: React.MouseEvent<HTMLElement>) {
+  async handleClick(e: React.MouseEvent<HTMLElement>) {
+    const {dispatchEvent, data} = this.props;
     const clickAction = this.props.clickAction;
+    const rendererEvent = await dispatchEvent(
+      e,
+      createObject(data, {
+        nativeEvent: e
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
     if (clickAction) {
       handleAction(e, clickAction, this.props);
+    }
+  }
+
+  @autobind
+  handleMouseEnter(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(e, data);
+  }
+
+  @autobind
+  handleMouseLeave(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(e, data);
+  }
+
+  handleSelfAction(actionType: string, action: ActionObject) {
+    let {data, maxScale = 200, minScale = 50} = this.props;
+    let {scale = 50} = action.args;
+    if (actionType === 'zoom') {
+      if (isPureVariable(maxScale)) {
+        maxScale = isNaN(
+          resolveVariableAndFilter(maxScale, createObject(action.data, data))
+        )
+          ? 200
+          : resolveVariableAndFilter(maxScale, createObject(action.data, data));
+      }
+      if (isPureVariable(minScale)) {
+        minScale = isNaN(
+          resolveVariableAndFilter(minScale, createObject(action.data, data))
+        )
+          ? 50
+          : resolveVariableAndFilter(minScale, createObject(action.data, data));
+      }
+
+      if (scale >= 0) {
+        this.setState({
+          scale:
+            this.state.scale + scale / 100 < maxScale / 100
+              ? this.state.scale + scale / 100
+              : maxScale / 100
+        });
+      } else {
+        this.setState({
+          scale:
+            this.state.scale + scale / 100 > minScale / 100
+              ? this.state.scale + scale / 100
+              : minScale / 100
+        });
+      }
     }
   }
 
@@ -510,6 +594,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       defaultImage && !value
         ? filter(defaultImage, data, '| raw')
         : imagePlaceholder;
+
     return (
       <div
         className={cx(
@@ -520,8 +605,10 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
           className,
           setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
-        style={style}
+        style={{...style, transform: `scale(${this.state.scale})`}}
         onClick={this.handleClick}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
       >
         {value || (!value && !placeholder) ? (
           <ThemedImageThumb
@@ -537,7 +624,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             thumbMode={thumbMode}
             thumbRatio={thumbRatio}
             originalSrc={filter(originalSrc, data, '| raw') ?? value}
-            enlargeAble={enlargeAble && value !== defaultValue}
+            enlargeAble={enlargeAble && value && value !== defaultValue}
             onEnlarge={this.handleEnlarge}
             imageMode={imageMode}
             imageControlClassName={setThemeClassName(
@@ -597,4 +684,26 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
 @Renderer({
   type: 'image'
 })
-export class ImageFieldRenderer extends ImageField {}
+export class ImageFieldRenderer extends ImageField {
+  static contextType = ScopedContext;
+  constructor(props: ImageFieldProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
+    scoped.registerComponent(this);
+  }
+
+  componentWillUnmount() {
+    const scoped = this.context as IScopedContext;
+    scoped.unRegisterComponent(this);
+  }
+
+  doAction(action: ActionObject) {
+    const actionType = action?.actionType as string;
+    if (actionType === 'preview') {
+      this.handleEnlarge(this.props as ImageThumbProps);
+    } else {
+      this.handleSelfAction(actionType, action);
+    }
+  }
+}

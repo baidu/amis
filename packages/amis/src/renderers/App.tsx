@@ -362,7 +362,11 @@ export default class App extends React.Component<AppProps, object> {
               return null;
             }
 
-            if (!subHeader && link.children && link.children.length) {
+            if (
+              !subHeader &&
+              link.children &&
+              link.children.some((item: {visible: boolean}) => item?.visible)
+            ) {
               children.push(
                 <span
                   key="expand-toggle"

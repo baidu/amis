@@ -5,7 +5,7 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {RendererProps, getRendererByName, noop} from 'amis-core';
+import {RendererProps, getRendererByName, noop, setVariable} from 'amis-core';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {ActionObject} from 'amis-core';
 import keycode from 'keycode';
@@ -353,8 +353,10 @@ export const HocQuickEdit =
       handleFormItemChange(value: any) {
         const {onQuickChange, quickEdit, name} = this.props;
 
+        const data = {};
+        setVariable(data, name!, value);
         onQuickChange(
-          {[name!]: value},
+          data,
           (quickEdit as QuickEditConfig).saveImmediately,
           false,
           quickEdit as QuickEditConfig
@@ -446,8 +448,8 @@ export const HocQuickEdit =
                 {
                   type: quickEdit.type || 'input-text',
                   name: quickEdit.name || name,
-                  ...quickEdit,
                   ...(isline ? {id: id} : {}),
+                  ...quickEdit,
                   mode: undefined
                 }
               ]
@@ -512,7 +514,7 @@ export const HocQuickEdit =
           >
             {render('quick-edit-form', this.buildSchema(), {
               value: undefined,
-              static: false,
+              defaultStatic: false,
               onSubmit: this.handleSubmit,
               onAction: this.handleAction,
               onChange: null,
@@ -532,7 +534,7 @@ export const HocQuickEdit =
             container={popOverContainer}
             target={() => this.target}
             onHide={this.closeQuickEdit}
-            placement="left-top right-top left-bottom right-bottom left-top left-top-right-top left-bottom-right-bottom"
+            placement="left-top right-top left-bottom right-bottom left-top-right-top left-bottom-right-bottom left-top"
             show
           >
             <PopOver
@@ -577,7 +579,8 @@ export const HocQuickEdit =
             mode: 'normal',
             value: value ?? '',
             onChange: this.handleFormItemChange,
-            ref: this.formItemRef
+            ref: this.formItemRef,
+            defaultStatic: false
           });
         }
 
@@ -591,7 +594,8 @@ export const HocQuickEdit =
           onChange: this.handleChange,
           formLazyChange: false,
           canAccessSuperData,
-          disabled
+          disabled,
+          defaultStatic: false
         });
       }
 

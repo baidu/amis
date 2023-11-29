@@ -1,17 +1,17 @@
 import React from 'react';
 import find from 'lodash/find';
-
+import pick from 'lodash/pick';
+import {isAlive} from 'mobx-state-tree';
+import {matchSorter} from 'match-sorter';
 import {
   OptionsControlProps,
   OptionsControl,
-  FormOptionsControl,
   resolveEventData,
   str2function,
-  getOptionValueBindField
-} from 'amis-core';
-import {SpinnerExtraProps, Transfer} from 'amis-ui';
-import type {Option} from 'amis-core';
-import {
+  getOptionValueBindField,
+  isEffectiveApi,
+  isPureVariable,
+  resolveVariableAndFilter,
   autobind,
   filterTree,
   string2regExp,
@@ -20,18 +20,25 @@ import {
   findTreeIndex,
   getTree,
   spliceTree,
-  mapTree
+  mapTree,
+  optionValueCompare,
+  resolveVariable,
+  ActionObject,
+  toNumber
 } from 'amis-core';
-import {Spinner} from 'amis-ui';
-import {optionValueCompare} from 'amis-core';
-import {resolveVariable} from 'amis-core';
-import {FormOptionsSchema, SchemaApi, SchemaObject} from '../../Schema';
-import {Selection as BaseSelection} from 'amis-ui';
-import {ResultList} from 'amis-ui';
-import {ActionObject, toNumber} from 'amis-core';
-import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
+import {SpinnerExtraProps, Transfer, Spinner, ResultList} from 'amis-ui';
+import {
+  FormOptionsSchema,
+  SchemaApi,
+  SchemaObject,
+  SchemaExpression,
+  SchemaClassName
+} from '../../Schema';
 import {supportStatic} from './StaticHoc';
-import {matchSorter} from 'match-sorter';
+
+import type {ItemRenderStates} from 'amis-ui/lib/components/Selection';
+import type {Option} from 'amis-core';
+import type {PaginationSchema} from '../Pagination';
 
 /**
  * Transfer
@@ -161,6 +168,22 @@ export interface TransferControlSchema
    * 树形模式下，仅选中子节点
    */
   onlyChildren?: boolean;
+
+  /**
+   * 分页配置，selectMode为默认和table才会生效
+   * @since 3.6.0
+   */
+  pagination?: {
+    /** 是否左侧选项分页，默认不开启 */
+    enable: SchemaExpression;
+    /** 分页组件CSS类名 */
+    className?: SchemaClassName;
+    /** 是否开启前端分页 */
+    loadDataOnce?: boolean;
+  } & Pick<
+    PaginationSchema,
+    'layout' | 'maxButtons' | 'perPageAvailable' | 'popOverContainerSelector'
+  >;
 }
 
 export interface BaseTransferProps
@@ -222,7 +245,8 @@ export class BaseTransferRenderer<
       dispatchEvent,
       setOptions,
       selectMode,
-      deferApi
+      deferApi,
+      deferField = 'defer'
     } = this.props;
     let newValue: any = value;
     let newOptions = options.concat();
@@ -295,7 +319,7 @@ export class BaseTransferRenderer<
       (!!deferApi ||
         !!findTree(
           options,
-          (option: Option) => option.deferApi || option.defer
+          (option: Option) => option.deferApi || option[deferField]
         ));
 
     if (
@@ -428,6 +452,30 @@ export class BaseTransferRenderer<
   }
 
   @autobind
+  handlePageChange(
+    page: number,
+    perPage?: number,
+    direction?: 'forward' | 'backward'
+  ) {
+    const {source, data, formItem, onChange} = this.props;
+    const ctx = createObject(data, {
+      page: page ?? 1,
+      perPage: perPage ?? 10,
+      ...(direction ? {pageDir: direction} : {})
+    });
+
+    if (!formItem || !isAlive(formItem)) {
+      return;
+    }
+
+    if (isPureVariable(source)) {
+      formItem.loadOptionsFromDataScope(source, ctx, onChange);
+    } else if (isEffectiveApi(source, ctx)) {
+      formItem.loadOptions(source, ctx, undefined, false, onChange, false);
+    }
+  }
+
+  @autobind
   optionItemRender(option: Option, states: ItemRenderStates) {
     const {menuTpl, render, data} = this.props;
 
@@ -544,7 +592,11 @@ export class BaseTransferRenderer<
       showInvalidMatch,
       onlyChildren,
       mobileUI,
-      noResultsText
+      noResultsText,
+      pagination,
+      formItem,
+      env,
+      popOverContainer
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -570,6 +622,7 @@ export class BaseTransferRenderer<
           onlyChildren={onlyChildren}
           value={selectedOptions}
           options={options}
+          accumulatedOptions={formItem?.accumulatedOptions ?? []}
           disabled={disabled}
           onChange={this.handleChange}
           option2value={this.option2value}
@@ -607,6 +660,28 @@ export class BaseTransferRenderer<
           showInvalidMatch={showInvalidMatch}
           mobileUI={mobileUI}
           noResultsText={noResultsText}
+          pagination={{
+            ...pick(pagination, [
+              'className',
+              'layout',
+              'perPageAvailable',
+              'popOverContainerSelector'
+            ]),
+            enable:
+              !!formItem?.enableSourcePagination &&
+              (!selectMode ||
+                selectMode === 'list' ||
+                selectMode === 'table') &&
+              options.length > 0,
+            maxButtons: Number.isInteger(pagination?.maxButtons)
+              ? pagination.maxButtons
+              : 5,
+            page: formItem?.sourcePageNum,
+            perPage: formItem?.sourcePerPageNum,
+            total: formItem?.sourceTotalNum,
+            popOverContainer: popOverContainer ?? env?.getModalContainer
+          }}
+          onPageChange={this.handlePageChange}
         />
 
         <Spinner

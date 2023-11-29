@@ -629,7 +629,11 @@ export const EditorNode = types
         self.folded = !self.folded;
       },
 
-      patch(store: any, force = false) {
+      patch(
+        store: any,
+        force = false,
+        setPatchInfo?: (id: string, value: any) => void
+      ) {
         // 避免重复 patch
         if (self.patched && !force) {
           return;
@@ -673,9 +677,11 @@ export const EditorNode = types
             },
             component?.props
           ) || patched;
-        patched = JSONPipeIn(patched);
+
         if (patched !== schema) {
-          root.changeValueById(info.id, patched, undefined, true, true);
+          setPatchInfo
+            ? setPatchInfo(info.id, patched)
+            : root.changeValueById(info.id, patched, undefined, true, true);
         }
       },
 

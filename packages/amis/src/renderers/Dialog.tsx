@@ -6,7 +6,8 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   setVariable,
-  setThemeClassName
+  setThemeClassName,
+  ValidateError
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
@@ -123,6 +124,10 @@ export interface DialogSchema extends BaseSchema {
    * 弹框类型 confirm 确认弹框
    */
   dialogType?: 'confirm';
+  /**
+   * 可拖拽
+   */
+  draggable?: boolean;
 }
 
 export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
@@ -164,7 +169,8 @@ export default class Dialog extends React.Component<DialogProps> {
     'showErrorMsg',
     'actions',
     'popOverContainer',
-    'overlay'
+    'overlay',
+    'draggable'
   ];
   static defaultProps = {
     title: 'Dialog.title',
@@ -502,6 +508,7 @@ export default class Dialog extends React.Component<DialogProps> {
     const {
       store,
       render,
+      env,
       classnames: cx,
       showErrorMsg,
       showLoading,
@@ -517,7 +524,9 @@ export default class Dialog extends React.Component<DialogProps> {
             {showLoading !== false ? (
               <Spinner size="sm" key="info" show={store.loading} />
             ) : null}
-            {store.error && showErrorMsg !== false ? (
+            {!env.forceSilenceInsideError &&
+            store.error &&
+            showErrorMsg !== false ? (
               <span className={cx('Dialog-error')}>{store.msg}</span>
             ) : null}
           </div>
@@ -797,6 +806,7 @@ export default class Dialog extends React.Component<DialogProps> {
 })
 export class DialogRenderer extends Dialog {
   static contextType = ScopedContext;
+  clearErrorTimer: ReturnType<typeof setTimeout>;
 
   constructor(props: DialogProps, context: IScopedContext) {
     super(props);
@@ -809,6 +819,7 @@ export class DialogRenderer extends Dialog {
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
     super.componentWillUnmount();
+    clearTimeout(this.clearErrorTimer);
   }
 
   tryChildrenToHandle(
@@ -889,6 +900,16 @@ export class DialogRenderer extends Dialog {
           }
           store.updateMessage(reason.message, true);
           store.markBusying(false);
+
+          if (reason.constructor?.name === ValidateError.name) {
+            clearTimeout(this.clearErrorTimer);
+            this.clearErrorTimer = setTimeout(() => {
+              if (this.isDead) {
+                return;
+              }
+              store.updateMessage('');
+            }, 3000);
+          }
         });
 
       return true;

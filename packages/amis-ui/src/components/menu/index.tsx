@@ -12,7 +12,6 @@ import RcMenu, {
   Divider as RcDivider,
   ItemGroup
 } from 'rc-menu';
-import Overflow from 'rc-overflow';
 import Sortable from 'sortablejs';
 import {
   mapTree,
@@ -28,6 +27,9 @@ import {BadgeObject} from '../Badge';
 import MenuItem, {MenuItemProps} from './MenuItem';
 import SubMenu, {SubMenuProps} from './SubMenu';
 import {MenuContext} from './MenuContext';
+
+const INVALIDATE = 'invalidate';
+const RESPONSIVE = 'responsive';
 
 export interface NavigationItem {
   id?: string;
@@ -669,6 +671,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       expandBefore,
       onDragStart
     } = this.props;
+
     const {navigations, activeKey, defaultOpenKeys, openKeys} = this.state;
     const isDarkTheme = themeColor === 'dark';
     const rcMode = stacked
@@ -734,8 +737,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           // @ts-ignore
           maxCount={
             stacked || disabledOverflow
-              ? Overflow.INVALIDATE
-              : overflowMaxCount || Overflow.RESPONSIVE
+              ? INVALIDATE
+              : overflowMaxCount || RESPONSIVE
           }
           component={overflowComponent || 'ul'}
           style={overflowStyle}

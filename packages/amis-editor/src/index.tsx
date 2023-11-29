@@ -51,16 +51,7 @@ import './renderer/InputRangeValueControl';
 import './renderer/FunctionEditorControl';
 import './renderer/ListItemControl';
 
-import 'amis-theme-editor/lib/locale/zh-CN';
-import 'amis-theme-editor/lib/locale/en-US';
-import 'amis-theme-editor/lib/renderers/Border';
-import 'amis-theme-editor/lib/renderers/ColorPicker';
-import 'amis-theme-editor/lib/renderers/Font';
-import 'amis-theme-editor/lib/renderers/PaddingAndMargin';
-import 'amis-theme-editor/lib/renderers/Radius';
-import 'amis-theme-editor/lib/renderers/Shadow';
-import 'amis-theme-editor/lib/renderers/Size';
-import 'amis-theme-editor/lib/renderers.css';
+import 'amis-theme-editor-helper';
 
 export * from './component/BaseControl';
 export * from './icons/index';

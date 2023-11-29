@@ -109,6 +109,7 @@ export interface TooltipWrapperProps {
    */
   onVisibleChange?: (visible: boolean) => void;
   children?: React.ReactNode | Array<React.ReactNode>;
+  disabled?: boolean;
 }
 
 interface TooltipWrapperState {

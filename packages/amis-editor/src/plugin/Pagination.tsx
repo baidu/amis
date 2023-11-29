@@ -21,6 +21,7 @@ export class PaginationPlugin extends BasePlugin {
   name = '分页组件';
   isBaseComponent = true;
   description = '分页组件，可以对列表进行分页展示，提高页面性能';
+  docLink = '/amis/zh-CN/components/pagination';
   tags = ['展示'];
   icon = 'fa fa-window-minimize';
   lastLayoutSetting = ['pager'];
@@ -61,9 +62,13 @@ export class PaginationPlugin extends BasePlugin {
               type: 'object',
               title: '数据',
               properties: {
-                value: {
-                  type: 'string',
+                page: {
+                  type: 'number',
                   title: '当前页码值'
+                },
+                perPage: {
+                  type: 'number',
+                  title: '每页显示的记录数'
                 }
               },
               description: '当前数据域，可以通过.字段名读取对应的值'

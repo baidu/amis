@@ -57,6 +57,7 @@
       overflow-y: auto;
       overflow-x: hidden;
       max-height: px2rem(300px);
+      margin-top: px2rem(4px);
     }
   }
 
@@ -67,10 +68,11 @@
 
   &-menuItem,
   &-menu > li {
-    padding: var(--DropDown-menuItem-paddingY) var(--DropDown-menuItem-paddingX);
+    padding: 0 var(--DropDown-menuItem-paddingX);
     white-space: nowrap;
     box-sizing: border-box;
     height: var(--DropDown-menu-height);
+    line-height: var(--DropDown-menu-height);
     vertical-align: middle;
     user-select: none;
     color: var(--DropDown-menuItem-color);
@@ -95,7 +97,7 @@
 
     &.#{$ns}DropDown-divider {
       height: px2rem(1px);
-      margin: px2rem(9px) 0;
+      margin: px2rem(4px) 0;
       overflow: hidden;
       background: var(--DropDown-menu-borderColor);
       padding: 0;

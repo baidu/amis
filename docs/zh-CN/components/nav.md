@@ -14,41 +14,41 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "className": "w-md",
-    "itemBadge": {
-      "mode": "ribbon",
-      "text": "${customText}",
-      "position": "top-left",
-      "visibleOn": "this.customText",
-      "level": "${customLevel}"
+  "type": "nav",
+  "stacked": true,
+  "className": "w-md",
+  "itemBadge": {
+    "mode": "ribbon",
+    "text": "${customText}",
+    "position": "top-left",
+    "visibleOn": "this.customText",
+    "level": "${customLevel}"
+  },
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "/docs/index",
+      "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+      "active": true
     },
-    "links": [
-        {
-            "label": "Nav 1",
-            "to": "/docs/index",
-            "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
-            "active": true
-        },
-        {
-            "label": "Nav 2",
-            "to": "/docs/api",
-            "customText": "HOT",
-            "customLevel": "danger"
-        },
-        {
-            "label": "Nav 3",
-            "to": "/docs/renderers",
-            "customText": "SUC",
-            "customLevel": "success"
-        },
-        {
-            "label": "外部地址",
-            "to": "http://www.baidu.com/",
-            "target": "_blank"
-        }
-    ]
+    {
+      "label": "Nav 2",
+      "to": "/docs/api",
+      "customText": "HOT",
+      "customLevel": "danger"
+    },
+    {
+      "label": "Nav 3",
+      "to": "/docs/renderers",
+      "customText": "SUC",
+      "customLevel": "success"
+    },
+    {
+      "label": "外部地址",
+      "to": "http://www.baidu.com/",
+      "target": "_blank"
+    }
+  ]
 }
 ```
 
@@ -56,40 +56,40 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "className": "w-md",
-    "links": [
+  "type": "nav",
+  "stacked": true,
+  "className": "w-md",
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "/docs/index",
+      "icon": "fa fa-user",
+      "active": true
+    },
+    {
+      "label": "Nav 2",
+      "unfolded": true,
+      "children": [
         {
-            "label": "Nav 1",
-            "to": "/docs/index",
-            "icon": "fa fa-user",
-            "active": true
+          "label": "Nav 2-1",
+          "children": [
+            {
+              "label": "Nav 2-1-1",
+              "to": "/docs/api-2-1-1"
+            }
+          ]
         },
         {
-            "label": "Nav 2",
-            "unfolded": true,
-            "children": [
-                {
-                    "label": "Nav 2-1",
-                    "children": [
-                        {
-                            "label": "Nav 2-1-1",
-                            "to": "/docs/api-2-1-1"
-                        }
-                    ]
-                },
-                {
-                    "label": "Nav 2-2",
-                    "to": "/docs/api-2-2"
-                }
-            ]
-        },
-        {
-            "label": "Nav 3",
-            "to": "/docs/renderers"
+          "label": "Nav 2-2",
+          "to": "/docs/api-2-2"
         }
-    ]
+      ]
+    },
+    {
+      "label": "Nav 3",
+      "to": "/docs/renderers"
+    }
+  ]
 }
 ```
 
@@ -97,23 +97,23 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": false,
-    "links": [
-        {
-            "label": "Nav 1",
-            "to": "/docs/index",
-            "icon": "fa fa-user"
-        },
-        {
-            "label": "Nav 2",
-            "to": "/docs/api"
-        },
-        {
-            "label": "Nav 3",
-            "to": "/docs/renderers"
-        }
-    ]
+  "type": "nav",
+  "stacked": false,
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "/docs/index",
+      "icon": "fa fa-user"
+    },
+    {
+      "label": "Nav 2",
+      "to": "/docs/api"
+    },
+    {
+      "label": "Nav 3",
+      "to": "/docs/renderers"
+    }
+  ]
 }
 ```
 
@@ -123,67 +123,67 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": false,
-    "overflow": {
-        "enable": true
+  "type": "nav",
+  "stacked": false,
+  "overflow": {
+    "enable": true
+  },
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "?to=nav1"
     },
-    "links": [
+    {
+      "label": "Nav 2",
+      "to": "?to=nav1"
+    },
+    {
+      "label": "Nav 3",
+      "to": "?to=nav3"
+    },
+    {
+      "label": "Nav 4",
+      "to": "?to=nav4"
+    },
+    {
+      "label": "Nav 5",
+      "to": "?to=nav5"
+    },
+    {
+      "label": "Nav 6",
+      "to": "?to=nav6"
+    },
+    {
+      "label": "Nav 7",
+      "to": "?to=nav7"
+    },
+    {
+      "label": "Nav 8",
+      "to": "?to=nav8"
+    },
+    {
+      "label": "Nav 9",
+      "to": "?to=nav9"
+    },
+    {
+      "label": "Nav 10",
+      "to": "?to=nav10"
+    },
+    {
+      "label": "Nav 11",
+      "to": "?to=nav11",
+      "children": [
         {
-            "label": "Nav 1",
-            "to": "?to=nav1",
-        },
-        {
-            "label": "Nav 2",
-            "to": "?to=nav1"
-        },
-        {
-            "label": "Nav 3",
-            "to": "?to=nav3"
-        },
-        {
-            "label": "Nav 4",
-            "to": "?to=nav4"
-        },
-        {
-            "label": "Nav 5",
-            "to": "?to=nav5"
-        },
-        {
-            "label": "Nav 6",
-            "to": "?to=nav6"
-        },
-        {
-            "label": "Nav 7",
-            "to": "?to=nav7"
-        },
-        {
-            "label": "Nav 8",
-            "to": "?to=nav8"
-        },
-        {
-            "label": "Nav 9",
-            "to": "?to=nav9"
-        },
-        {
-            "label": "Nav 10",
-            "to": "?to=nav10"
-        },
-        {
-            "label": "Nav 11",
-            "to": "?to=nav11",
-            "children": [
-                {
-                    "label": "Nav 13",
-                    "to": "?to=nav13"
-                }
-            ]
-        },
-        {
-            "label": "Nav 12",
-            "to": "?to=nav12"
+          "label": "Nav 13",
+          "to": "?to=nav13"
         }
-    ]
+      ]
+    },
+    {
+      "label": "Nav 12",
+      "to": "?to=nav12"
+    }
+  ]
 }
 ```
 
@@ -192,50 +192,50 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": false,
-    "overflow": {
-        "enable": true,
-        "overflowClassName": "nav-overflow-btn",
-        "overflowPopoverClassName": "nav-overflow-popover",
-        "overflowIndicator": "fas fa-angle-double-down",
-        "overflowLabel": "更多",
-        "maxVisibleCount": 5,
+  "type": "nav",
+  "stacked": false,
+  "overflow": {
+    "enable": true,
+    "overflowClassName": "nav-overflow-btn",
+    "overflowPopoverClassName": "nav-overflow-popover",
+    "overflowIndicator": "fas fa-angle-double-down",
+    "overflowLabel": "更多",
+    "maxVisibleCount": 5
+  },
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "?to=nav1"
     },
-    "links": [
-        {
-            "label": "Nav 1",
-            "to": "?to=nav1",
-        },
-        {
-            "label": "Nav 2",
-            "to": "?to=nav1"
-        },
-        {
-            "label": "Nav 3",
-            "to": "?to=nav3"
-        },
-        {
-            "label": "Nav 4",
-            "to": "?to=nav4"
-        },
-        {
-            "label": "Nav 5",
-            "to": "?to=nav5"
-        },
-        {
-            "label": "Nav 6",
-            "to": "?to=nav6"
-        },
-        {
-            "label": "Nav 7",
-            "to": "?to=nav7"
-        },
-         {
-            "label": "Nav 8 Nav 8 Nav 8 Nav 8 Nav 8",
-            "to": "?to=nav8"
-        }
-    ]
+    {
+      "label": "Nav 2",
+      "to": "?to=nav1"
+    },
+    {
+      "label": "Nav 3",
+      "to": "?to=nav3"
+    },
+    {
+      "label": "Nav 4",
+      "to": "?to=nav4"
+    },
+    {
+      "label": "Nav 5",
+      "to": "?to=nav5"
+    },
+    {
+      "label": "Nav 6",
+      "to": "?to=nav6"
+    },
+    {
+      "label": "Nav 7",
+      "to": "?to=nav7"
+    },
+    {
+      "label": "Nav 8 Nav 8 Nav 8 Nav 8 Nav 8",
+      "to": "?to=nav8"
+    }
+  ]
 }
 ```
 
@@ -245,52 +245,52 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "expandPosition": "after",
-    "style": {
-        "width": 200
-    },
-    "links": [
+  "type": "nav",
+  "stacked": true,
+  "expandPosition": "after",
+  "style": {
+    "width": 200
+  },
+  "links": [
+    {
+      "label": [
         {
-            "label": [
-                {
-                    "type": "tpl",
-                    "tpl": "Nav1"
-                }
-            ],
-            "to": "#/"
+          "type": "tpl",
+          "tpl": "Nav1"
+        }
+      ],
+      "to": "#/"
+    },
+    {
+      "label": "Nav2",
+      "unfolded": true,
+      "overflow": {
+        "enable": true
+      },
+      "children": [
+        {
+          "label": "Nav 2-1",
+          "to": "#/test2"
         },
         {
-            "label": "Nav2",
-            "unfolded": true,
-            "overflow": {
-                "enable": true
-            },
-            "children": [
-                {
-                    "label": "Nav 2-1",
-                    "to": "#/test2"
-                },
-                {
-                    "label": "Nav 2-2",
-                    "to": "#/test3"
-                },
-                {
-                    "label": "Nav 2-3",
-                    "to": "#/test1"
-                },
-                {
-                    "label": "Nav 2-4",
-                    "to": "#/test4"
-                },
-                {
-                    "label": "Nav 2-5",
-                    "to": "#/test5"
-                }
-            ]
+          "label": "Nav 2-2",
+          "to": "#/test3"
+        },
+        {
+          "label": "Nav 2-3",
+          "to": "#/test1"
+        },
+        {
+          "label": "Nav 2-4",
+          "to": "#/test4"
+        },
+        {
+          "label": "Nav 2-5",
+          "to": "#/test5"
         }
-    ]
+      ]
+    }
+  ]
 }
 ```
 
@@ -300,29 +300,29 @@ order: 58
 
 ```schema
 {
-    "type": "page",
-    "data": {
-        "nav": [
-            {
-                "label": "Nav 1",
-                "to": "/docs/index",
-                "icon": "fa fa-user"
-            },
-            {
-                "label": "Nav 2",
-                "to": "/docs/api"
-            },
-            {
-                "label": "Nav 3",
-                "to": "/docs/renderers"
-            }
-        ]
-    },
-    "body": {
-        "type": "nav",
-        "stacked": true,
-        "source": "${nav}"
-    }
+  "type": "page",
+  "data": {
+    "nav": [
+      {
+        "label": "Nav 1",
+        "to": "/docs/index",
+        "icon": "fa fa-user"
+      },
+      {
+        "label": "Nav 2",
+        "to": "/docs/api"
+      },
+      {
+        "label": "Nav 3",
+        "to": "/docs/renderers"
+      }
+    ]
+  },
+  "body": {
+    "type": "nav",
+    "stacked": true,
+    "source": "${nav}"
+  }
 }
 ```
 
@@ -332,9 +332,9 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "source": "/api/options/nav?parentId=${value}"
+  "type": "nav",
+  "stacked": true,
+  "source": "/api/options/nav?parentId=${value}"
 }
 ```
 
@@ -342,39 +342,38 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "className": "w-md",
-    "draggable": true,
-    "saveOrderApi": "/api/options/nav",
-    "source": "/api/options/nav?parentId=${value}",
-    "style": {
-        "width": 160
+  "type": "nav",
+  "stacked": true,
+  "className": "w-md",
+  "draggable": true,
+  "saveOrderApi": "/api/options/nav",
+  "source": "/api/options/nav?parentId=${value}",
+  "style": {
+    "width": 160
+  },
+  "itemActions": [
+    {
+      "type": "icon",
+      "icon": "cloud",
+      "visibleOn": "this.to === '?cat=1'"
     },
-    "itemActions": [
+    {
+      "type": "dropdown-button",
+      "level": "link",
+      "icon": "fa fa-ellipsis-h",
+      "hideCaret": true,
+      "buttons": [
         {
-            "type": "icon",
-            "icon": "cloud",
-            "visibleOn": "this.to === '?cat=1'"
+          "type": "button",
+          "label": "编辑"
         },
         {
-            "type": "dropdown-button",
-            "level": "link",
-            "icon": "fa fa-ellipsis-h",
-            "hideCaret": true,
-            "buttons": [
-                {
-                    "type": "button",
-                    "label": "编辑",
-
-                },
-                {
-                    "type": "button",
-                    "label": "删除"
-                }
-            ]
+          "type": "button",
+          "label": "删除"
         }
-    ]
+      ]
+    }
+  ]
 }
 ```
 
@@ -384,43 +383,43 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "mode": "float",
-    "style": {
-        "width": "200px"
+  "type": "nav",
+  "stacked": true,
+  "mode": "float",
+  "style": {
+    "width": "200px"
+  },
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "/docs/index",
+      "icon": "fa fa-user",
+      "active": true
     },
-    "links": [
+    {
+      "label": "Nav 2",
+      "unfolded": true,
+      "children": [
         {
-            "label": "Nav 1",
-            "to": "/docs/index",
-            "icon": "fa fa-user",
-            "active": true
+          "label": "Nav 2-1",
+          "children": [
+            {
+              "label": "Nav 2-1-1",
+              "to": "/docs/api-2-1-1"
+            }
+          ]
         },
         {
-            "label": "Nav 2",
-            "unfolded": true,
-            "children": [
-                {
-                    "label": "Nav 2-1",
-                    "children": [
-                        {
-                            "label": "Nav 2-1-1",
-                            "to": "/docs/api-2-1-1"
-                        }
-                    ]
-                },
-                {
-                    "label": "Nav 2-2",
-                    "to": "/docs/api-2-2"
-                }
-            ]
-        },
-        {
-            "label": "Nav 3",
-            "to": "/docs/renderers"
+          "label": "Nav 2-2",
+          "to": "/docs/api-2-2"
         }
-    ]
+      ]
+    },
+    {
+      "label": "Nav 3",
+      "to": "/docs/renderers"
+    }
+  ]
 }
 ```
 
@@ -430,39 +429,39 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "collapsed": true,
-    "links": [
+  "type": "nav",
+  "stacked": true,
+  "collapsed": true,
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "/docs/index",
+      "icon": "fa fa-user"
+    },
+    {
+      "label": "Nav 2",
+      "unfolded": true,
+      "children": [
         {
-            "label": "Nav 1",
-            "to": "/docs/index",
-            "icon": "fa fa-user"
+          "label": "Nav 2-1",
+          "children": [
+            {
+              "label": "Nav 2-1-1",
+              "to": "/docs/api-2-1-1"
+            }
+          ]
         },
         {
-            "label": "Nav 2",
-            "unfolded": true,
-            "children": [
-                {
-                    "label": "Nav 2-1",
-                    "children": [
-                        {
-                            "label": "Nav 2-1-1",
-                            "to": "/docs/api-2-1-1"
-                        }
-                    ]
-                },
-                {
-                    "label": "Nav 2-2",
-                    "to": "/docs/api-2-2"
-                }
-            ]
-        },
-        {
-            "label": "Nav 3",
-            "to": "/docs/renderers"
+          "label": "Nav 2-2",
+          "to": "/docs/api-2-2"
         }
-    ]
+      ]
+    },
+    {
+      "label": "Nav 3",
+      "to": "/docs/renderers"
+    }
+  ]
 }
 ```
 
@@ -472,46 +471,46 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "style": {
-        "width": "160px"
+  "type": "nav",
+  "stacked": true,
+  "style": {
+    "width": "160px"
+  },
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "/docs/index",
+      "icon": "fa fa-user"
     },
-    "links": [
+    {
+      mode: 'divider'
+    },
+    {
+      "label": "Nav 2",
+      "unfolded": true,
+      "children": [
         {
-            "label": "Nav 1",
-            "to": "/docs/index",
-            "icon": "fa fa-user"
+          "label": "Nav 2-1",
+          "children": [
+            {
+              "label": "Nav 2-1-1",
+              "to": "/docs/api-2-1-1"
+            }
+          ]
         },
         {
-            mode: 'divider'
-        },
-        {
-            "label": "Nav 2",
-            "unfolded": true,
-            "children": [
-                {
-                    "label": "Nav 2-1",
-                    "children": [
-                        {
-                            "label": "Nav 2-1-1",
-                            "to": "/docs/api-2-1-1"
-                        }
-                    ]
-                },
-                {
-                    "label": "Nav 2-2",
-                    "to": "/docs/api-2-2"
-                }
-            ]
-        },
-        {
-            "label": "Nav 3",
-            "to": "/docs/renderers",
-            "disabled": true,
-            "disabledTip": "导航项禁用"
+          "label": "Nav 2-2",
+          "to": "/docs/api-2-2"
         }
-    ]
+      ]
+    },
+    {
+      "label": "Nav 3",
+      "to": "/docs/renderers",
+      "disabled": true,
+      "disabledTip": "导航项禁用"
+    }
+  ]
 }
 ```
 
@@ -521,46 +520,46 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "links": [
+  "type": "nav",
+  "stacked": true,
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "/docs/index",
+      "icon": "fa fa-user"
+    },
+    {
+      "label": "Nav 2",
+      "unfolded": true,
+      "mode": "group",
+      "children": [
         {
-            "label": "Nav 1",
-            "to": "/docs/index",
-            "icon": "fa fa-user"
+          "label": "Nav 2-1",
+          "children": [
+            {
+              "label": "Nav 2-1-1",
+              "to": "/docs/api-2-1-1"
+            }
+          ]
         },
         {
-            "label": "Nav 2",
-            "unfolded": true,
-            "mode": "group",
-            "children": [
-                {
-                    "label": "Nav 2-1",
-                    "children": [
-                        {
-                            "label": "Nav 2-1-1",
-                            "to": "/docs/api-2-1-1"
-                        }
-                    ]
-                },
-                {
-                    "label": "Nav 2-2",
-                    "to": "/docs/api-2-2"
-                }
-            ]
-        },
-        {
-            "label": "Nav 3",
-            "to": "/docs/renderers",
-            "mode": "group",
-            "children": [
-                {
-                    "label": "Nav 3-1",
-                    "to": "/docs/api-2-1"
-                }
-            ]
+          "label": "Nav 2-2",
+          "to": "/docs/api-2-2"
         }
-    ]
+      ]
+    },
+    {
+      "label": "Nav 3",
+      "to": "/docs/renderers",
+      "mode": "group",
+      "children": [
+        {
+          "label": "Nav 3-1",
+          "to": "/docs/api-2-1"
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -570,51 +569,51 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "defaultOpenLevel": "2",
-    "links": [
+  "type": "nav",
+  "stacked": true,
+  "defaultOpenLevel": "2",
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "/docs/index",
+      "icon": "fa fa-user"
+    },
+    {
+      "label": "Nav 2",
+      "unfolded": true,
+      "children": [
         {
-            "label": "Nav 1",
-            "to": "/docs/index",
-            "icon": "fa fa-user"
+          "label": "Nav 2-1",
+          "children": [
+            {
+              "label": "Nav 2-1-1",
+              "to": "/docs/api-2-1-1",
+              "children": [
+                {
+                  "label": "Nav 2-1-1-1",
+                  "to": "/docs/api-2-1-1-1"
+                }
+              ]
+            }
+          ]
         },
         {
-            "label": "Nav 2",
-            "unfolded": true,
-            "children": [
-                {
-                    "label": "Nav 2-1",
-                    "children": [
-                        {
-                            "label": "Nav 2-1-1",
-                            "to": "/docs/api-2-1-1",
-                            "children": [
-                                {
-                                    "label": "Nav 2-1-1-1",
-                                    "to": "/docs/api-2-1-1-1"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "label": "Nav 2-2",
-                    "to": "/docs/api-2-2"
-                }
-            ]
-        },
-        {
-            "label": "Nav 3",
-            "to": "/docs/renderers",
-            "children": [
-                {
-                    "label": "Nav 3-1",
-                    "to": "/docs/api-2-1"
-                }
-            ]
+          "label": "Nav 2-2",
+          "to": "/docs/api-2-2"
         }
-    ]
+      ]
+    },
+    {
+      "label": "Nav 3",
+      "to": "/docs/renderers",
+      "children": [
+        {
+          "label": "Nav 3-1",
+          "to": "/docs/api-2-1"
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -624,45 +623,45 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "expandIcon": "close",
-    "links": [
+  "type": "nav",
+  "stacked": true,
+  "expandIcon": "close",
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "/docs/index",
+      "icon": "fa fa-user"
+    },
+    {
+      "label": "Nav 2",
+      "unfolded": true,
+      "children": [
         {
-            "label": "Nav 1",
-            "to": "/docs/index",
-            "icon": "fa fa-user"
+          "label": "Nav 2-1",
+          "children": [
+            {
+              "label": "Nav 2-1-1",
+              "to": "/docs/api-2-1-1"
+            }
+          ]
         },
         {
-            "label": "Nav 2",
-            "unfolded": true,
-            "children": [
-                {
-                    "label": "Nav 2-1",
-                    "children": [
-                        {
-                            "label": "Nav 2-1-1",
-                            "to": "/docs/api-2-1-1"
-                        }
-                    ]
-                },
-                {
-                    "label": "Nav 2-2",
-                    "to": "/docs/api-2-2"
-                }
-            ]
-        },
-        {
-            "label": "Nav 3",
-            "to": "/docs/renderers",
-            "children": [
-                {
-                    "label": "Nav 3-1",
-                    "to": "/docs/api-2-1"
-                }
-            ]
+          "label": "Nav 2-2",
+          "to": "/docs/api-2-2"
         }
-    ]
+      ]
+    },
+    {
+      "label": "Nav 3",
+      "to": "/docs/renderers",
+      "children": [
+        {
+          "label": "Nav 3-1",
+          "to": "/docs/api-2-1"
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -670,48 +669,48 @@ order: 58
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "expandIcon": {
-        "type": "icon",
-        "icon": "far fa-address-book"
+  "type": "nav",
+  "stacked": true,
+  "expandIcon": {
+    "type": "icon",
+    "icon": "far fa-address-book"
+  },
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "/docs/index",
+      "icon": "fa fa-user"
     },
-    "links": [
+    {
+      "label": "Nav 2",
+      "unfolded": true,
+      "children": [
         {
-            "label": "Nav 1",
-            "to": "/docs/index",
-            "icon": "fa fa-user"
+          "label": "Nav 2-1",
+          "children": [
+            {
+              "label": "Nav 2-1-1",
+              "to": "/docs/api-2-1-1"
+            }
+          ]
         },
         {
-            "label": "Nav 2",
-            "unfolded": true,
-            "children": [
-                {
-                    "label": "Nav 2-1",
-                    "children": [
-                        {
-                            "label": "Nav 2-1-1",
-                            "to": "/docs/api-2-1-1"
-                        }
-                    ]
-                },
-                {
-                    "label": "Nav 2-2",
-                    "to": "/docs/api-2-2"
-                }
-            ]
-        },
-        {
-            "label": "Nav 3",
-            "to": "/docs/renderers",
-            "children": [
-                {
-                    "label": "Nav 3-1",
-                    "to": "/docs/api-2-1"
-                }
-            ]
+          "label": "Nav 2-2",
+          "to": "/docs/api-2-2"
         }
-    ]
+      ]
+    },
+    {
+      "label": "Nav 3",
+      "to": "/docs/renderers",
+      "children": [
+        {
+          "label": "Nav 3-1",
+          "to": "/docs/api-2-1"
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -734,116 +733,114 @@ order: 58
         "matchFunc": "return link.searchKey === keyword;"
       },
       "links": [
-          {
-            "label": "Nav 1",
-            "to": "?to=nav1",
-            "searchKey": "1"
-          },
-          {
-            "label": "Nav 2",
-            "to": "?to=nav2",
-            "searchKey": "2",
-            "children": [
+        {
+          "label": "Nav 1",
+          "to": "?to=nav1",
+          "searchKey": "1"
+        },
+        {
+          "label": "Nav 2",
+          "to": "?to=nav2",
+          "searchKey": "2",
+          "children": [
+            {
+              "label": "Nav 2-1",
+              "to": "?to=nav2-1",
+              "searchKey": "2-1",
+              "children": [
                 {
-                  "label": "Nav 2-1",
-                  "to": "?to=nav2-1",
-                  "searchKey": "2-1",
-                  "children": [
-                      {
-                        "label": "Nav 2-1-1",
-                        "to": "?to=nav2-1-1",
-                        "searchKey": "2-1-1"
-                      }
-                  ]
+                  "label": "Nav 2-1-1",
+                  "to": "?to=nav2-1-1",
+                  "searchKey": "2-1-1"
                 }
-            ]
-          },
-          {
-            "label": "Nav 3",
-            "to": "?to=nav3",
-            "searchKey": "3",
-            "children": [
-                {
-                  "label": "Nav 3-1",
-                  "to": "?to=nav3-1",
-                  "searchKey": "3-1"
-                }
-            ]
-          },
-          {
-            "label": "Nav 4",
-            "to": "?to=nav4",
-            "searchKey": "4"
-          },
-          {
-            "label": "Nav 5",
-            "to": "?to=nav5",
-            "searchKey": "5"
-          }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Nav 3",
+          "to": "?to=nav3",
+          "searchKey": "3",
+          "children": [
+            {
+              "label": "Nav 3-1",
+              "to": "?to=nav3-1",
+              "searchKey": "3-1"
+            }
+          ]
+        },
+        {
+          "label": "Nav 4",
+          "to": "?to=nav4",
+          "searchKey": "4"
+        },
+        {
+          "label": "Nav 5",
+          "to": "?to=nav5",
+          "searchKey": "5"
+        }
       ]
     }
   ]
 }
 ```
 
-
 ## 属性表
 
-| 属性名                            | 类型                                      | 默认值             | 说明                                                                                     | 版本 |
-| --------------------------------- | ----------------------------------------- | ------------------ | ---------------------------------------------------------------------------------------- | --- |
-| type                              | `string`                                  | `"nav"`            | 指定为 Nav 渲染器                                                                        |
-| mode                              | `string`                                  | `"inline"`         | 导航模式，悬浮或者内联，默认内联模式                                                     |
-| collapsed                         | `boolean`                                 |                    | 控制导航是否缩起                                                                         |
-| indentSize                        | `number`                                  | `16`               | 层级缩进值，仅内联模式下生效                                                             |
-| level                             | `number`                                  |                    | 控制导航最大展示层级数                                                                   |
-| defaultOpenLevel                  | `number`                                  |                    | 控制导航最大默认展开层级                                                                 |
-| className                         | `string`                                  |                    | 外层 Dom 的类名                                                                          |
-| popupClassName                    | `string`                                  |                    | 当为悬浮模式时，可自定义悬浮层样式                                                       |
-| expandIcon                        | `string \| SchemaObject`                  |                    | 自定义展开按钮                                                                           |
-| expandPosition                    | `string`                                  |                    | 展开按钮位置，`"before"`或者`"after"`，不设置默认在前面                                  |
-| stacked                           | `boolean`                                 | `true`             | 设置成 false 可以以 tabs 的形式展示                                                      |
-| accordion                         | `boolean`                                 |                    | 是否开启手风琴模式                                                                       |
-| source                            | `string` 或 [API](../../docs/types/api)   |                    | 可以通过变量或 API 接口动态创建导航                                                      |
-| deferApi                          | [API](../../docs/types/api)               |                    | 用来延时加载选项详情的接口，可以不配置，不配置公用 source 接口。                         |
-| itemActions                       | [SchemaNode](../../docs/types/schemanode) |                    | 更多操作相关配置                                                                         |
-| draggable                         | `boolean`                                 |                    | 是否支持拖拽排序                                                                         |
-| dragOnSameLevel                   | `boolean`                                 |                    | 仅允许同层级内拖拽                                                                       |
-| saveOrderApi                      | `string` 或 [API](../../docs/types/api)   |                    | 保存排序的 api                                                                           |
-| itemBadge                         | [BadgeSchema](../../components/badge)     |                    | 角标                                                                                     |
-| links                             | `Array`                                   |                    | 链接集合                                                                                 |
-| links[x].label                    | `string`                                  |                    | 名称                                                                                     |
-| links[x].to                       | [模板](../../docs/concepts/template)      |                    | 链接地址                                                                                 |
-| links[x].target                   | `string`                                  | 链接关系           |                                                                                          |
-| links[x].icon                     | `string`                                  |                    | 图标                                                                                     |
-| links[x].children                 | `Array<link>`                             |                    | 子链接                                                                                   |
-| links[x].unfolded                 | `boolean`                                 |                    | 初始是否展开                                                                             |
-| links[x].active                   | `boolean`                                 |                    | 是否高亮                                                                                 |
-| links[x].activeOn                 | [表达式](../../docs/concepts/expression)  |                    | 是否高亮的条件，留空将自动分析链接地址                                                   |
-| links[x].defer                    | `boolean`                                 |                    | 标记是否为懒加载项                                                                       |
-| links[x].deferApi                 | [API](../../docs/types/api)               |                    | 可以不配置，如果配置优先级更高                                                           |
-| links[x].disabled                 | `boolean`                                 |                    | 是否禁用                                                                                 |
-| links[x].disabledTip              | `string`                                  |                    | 禁用提示信息                                                                             |
-| links[x].className                | `string`                                  |                    | 菜单项自定义样式                                                                         |
-| links[x].mode                     | `string`                                  |                    | 菜菜单项模式，分组模式：`"group"`、分割线：`"divider"`                                   |
-| links[x].overflow                 | `NavOverflow`                             |                    | 导航项响应式收纳配置                                                                     |
-| overflow                          | `NavOverflow`                             |                    | 响应式收纳配置                                                                           |
-| overflow.enable                   | `boolean`                                 | `false`            | 是否开启响应式收纳                                                                       |
-| overflow.overflowLabel            | `string \| SchemaObject`                  |                    | 菜单触发按钮的文字                                                                       |
-| overflow.overflowIndicator        | `SchemaIcon`                              | `"fa fa-ellipsis"` | 菜单触发按钮的图标                                                                       |
-| overflow.maxVisibleCount          | `number`                                  |                    | 开启响应式收纳后导航最大可显示数量，超出此数量的导航将被收纳到下拉菜单中，默认为自动计算 |
-| overflow.wrapperComponent         | `string`                                  |                    | 包裹导航的外层标签名，可以使用其他标签渲染                                               |
-| overflow.style                    | `React.CSSProperties`                     |                    | 自定义样式                                                                               |
-| overflow.overflowClassName        | `string`                                  | `""`               | 菜单按钮 CSS 类名                                                                        |
-| overflow.overflowPopoverClassName | `string`                                  | `""`               | Popover 浮层 CSS 类名                                                                    |
-| searchable | `boolean`                                  | `false`               | 是否开启搜索 | `3.5.0` |
-| searchConfig.matchFunc | `string`                                  |    [`NavMatchFunc`](#navmatchfunc)            | 自定义匹配函数, 默认模糊匹配导航对象中的`label`, `title` 和 `key` 字段 | `3.5.0` |
-| searchConfig.className | `string`                                  |   `""`             | 搜索框外层 CSS 类名 | `3.5.0` |
-| searchConfig.placeholder | `string`                                  | `false`               | 是否开启搜索 | `3.5.0` |
-| searchConfig.mini | `boolean`                                  | `false`               | 是否为 mini 模式 | `3.5.0` |
-| searchConfig.enhance | `boolean`                                  | `false`               | 是否为增强样式 | `3.5.0` |
-| searchConfig.clearable | `boolean`                                  | `false`               | 是否开启搜索 | `3.5.0` |
-| searchConfig.searchImediately | `boolean`                                  | `false`               | 是否立即搜索 | `3.5.0` |
-
+| 属性名                            | 类型                                      | 默认值                          | 说明                                                                                     | 版本    |
+| --------------------------------- | ----------------------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------- | ------- |
+| type                              | `string`                                  | `"nav"`                         | 指定为 Nav 渲染器                                                                        |
+| mode                              | `string`                                  | `"inline"`                      | 导航模式，悬浮或者内联，默认内联模式                                                     |
+| collapsed                         | `boolean`                                 |                                 | 控制导航是否缩起                                                                         |
+| indentSize                        | `number`                                  | `16`                            | 层级缩进值，仅内联模式下生效                                                             |
+| level                             | `number`                                  |                                 | 控制导航最大展示层级数                                                                   |
+| defaultOpenLevel                  | `number`                                  |                                 | 控制导航最大默认展开层级                                                                 |
+| className                         | `string`                                  |                                 | 外层 Dom 的类名                                                                          |
+| popupClassName                    | `string`                                  |                                 | 当为悬浮模式时，可自定义悬浮层样式                                                       |
+| expandIcon                        | `string \| SchemaObject`                  |                                 | 自定义展开按钮                                                                           |
+| expandPosition                    | `string`                                  |                                 | 展开按钮位置，`"before"`或者`"after"`，不设置默认在前面                                  |
+| stacked                           | `boolean`                                 | `true`                          | 设置成 false 可以以 tabs 的形式展示                                                      |
+| accordion                         | `boolean`                                 |                                 | 是否开启手风琴模式                                                                       |
+| source                            | `string` 或 [API](../../docs/types/api)   |                                 | 可以通过变量或 API 接口动态创建导航                                                      |
+| deferApi                          | [API](../../docs/types/api)               |                                 | 用来延时加载选项详情的接口，可以不配置，不配置公用 source 接口。                         |
+| itemActions                       | [SchemaNode](../../docs/types/schemanode) |                                 | 更多操作相关配置                                                                         |
+| draggable                         | `boolean`                                 |                                 | 是否支持拖拽排序                                                                         |
+| dragOnSameLevel                   | `boolean`                                 |                                 | 仅允许同层级内拖拽                                                                       |
+| saveOrderApi                      | `string` 或 [API](../../docs/types/api)   |                                 | 保存排序的 api                                                                           |
+| itemBadge                         | [BadgeSchema](../../components/badge)     |                                 | 角标                                                                                     |
+| links                             | `Array`                                   |                                 | 链接集合                                                                                 |
+| links[x].label                    | `string`                                  |                                 | 名称                                                                                     |
+| links[x].to                       | [模板](../../docs/concepts/template)      |                                 | 链接地址                                                                                 |
+| links[x].target                   | `string`                                  | 链接关系                        |                                                                                          |
+| links[x].icon                     | `string`                                  |                                 | 图标                                                                                     |
+| links[x].children                 | `Array<link>`                             |                                 | 子链接                                                                                   |
+| links[x].unfolded                 | `boolean`                                 |                                 | 初始是否展开                                                                             |
+| links[x].active                   | `boolean`                                 |                                 | 是否高亮                                                                                 |
+| links[x].activeOn                 | [表达式](../../docs/concepts/expression)  |                                 | 是否高亮的条件，留空将自动分析链接地址                                                   |
+| links[x].defer                    | `boolean`                                 |                                 | 标记是否为懒加载项                                                                       |
+| links[x].deferApi                 | [API](../../docs/types/api)               |                                 | 可以不配置，如果配置优先级更高                                                           |
+| links[x].disabled                 | `boolean`                                 |                                 | 是否禁用                                                                                 |
+| links[x].disabledTip              | `string`                                  |                                 | 禁用提示信息                                                                             |
+| links[x].className                | `string`                                  |                                 | 菜单项自定义样式                                                                         |
+| links[x].mode                     | `string`                                  |                                 | 菜菜单项模式，分组模式：`"group"`、分割线：`"divider"`                                   |
+| links[x].overflow                 | `NavOverflow`                             |                                 | 导航项响应式收纳配置                                                                     |
+| overflow                          | `NavOverflow`                             |                                 | 响应式收纳配置                                                                           |
+| overflow.enable                   | `boolean`                                 | `false`                         | 是否开启响应式收纳                                                                       |
+| overflow.overflowLabel            | `string \| SchemaObject`                  |                                 | 菜单触发按钮的文字                                                                       |
+| overflow.overflowIndicator        | `SchemaIcon`                              | `"fa fa-ellipsis"`              | 菜单触发按钮的图标                                                                       |
+| overflow.maxVisibleCount          | `number`                                  |                                 | 开启响应式收纳后导航最大可显示数量，超出此数量的导航将被收纳到下拉菜单中，默认为自动计算 |
+| overflow.wrapperComponent         | `string`                                  |                                 | 包裹导航的外层标签名，可以使用其他标签渲染                                               |
+| overflow.style                    | `React.CSSProperties`                     |                                 | 自定义样式                                                                               |
+| overflow.overflowClassName        | `string`                                  | `""`                            | 菜单按钮 CSS 类名                                                                        |
+| overflow.overflowPopoverClassName | `string`                                  | `""`                            | Popover 浮层 CSS 类名                                                                    |
+| searchable                        | `boolean`                                 | `false`                         | 是否开启搜索                                                                             | `3.5.0` |
+| searchConfig.matchFunc            | `string`                                  | [`NavMatchFunc`](#navmatchfunc) | 自定义匹配函数, 默认模糊匹配导航对象中的`label`, `title` 和 `key` 字段                   | `3.5.0` |
+| searchConfig.className            | `string`                                  | `""`                            | 搜索框外层 CSS 类名                                                                      | `3.5.0` |
+| searchConfig.placeholder          | `string`                                  | `false`                         | 是否开启搜索                                                                             | `3.5.0` |
+| searchConfig.mini                 | `boolean`                                 | `false`                         | 是否为 mini 模式                                                                         | `3.5.0` |
+| searchConfig.enhance              | `boolean`                                 | `false`                         | 是否为增强样式                                                                           | `3.5.0` |
+| searchConfig.clearable            | `boolean`                                 | `false`                         | 是否开启搜索                                                                             | `3.5.0` |
+| searchConfig.searchImediately     | `boolean`                                 | `false`                         | 是否立即搜索                                                                             | `3.5.0` |
 
 ### NavMatchFunc
 
@@ -851,13 +848,12 @@ order: 58
 interface NavMatchFunc {
   (
     /* 导航项对象 */
-    link: Link, /*
-    搜索关键字 */
+    link: Link,
+    /* 搜索关键字 */
     keyword: string
   ): boolean;
 }
 ```
-
 
 ## 事件表
 
@@ -877,24 +873,42 @@ interface NavMatchFunc {
 
 ```schema
 {
-    "type": "page",
-    "body": {
-        "type": "nav",
-        "stacked": true,
-        "source": "/api/options/nav?parentId=${value}",
-        "onEvent": {
-            "loaded": {
-                "actions": [
-                    {
-                        "actionType": "toast",
-                        "args": {
-                        "msg": "已加载${event.data.items.length}条记录"
-                        }
-                    }
-                ]
+  "type": "page",
+  "body": [
+    {
+      "type": "action",
+      "label": "刷新",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "reload",
+              "componentId": "test"
             }
+          ]
         }
+      }
+    },
+    {
+      "id": "test",
+      "type": "nav",
+      "stacked": true,
+      "valueField": "label",
+      "source": "/api/options/nav?parentId=${value}",
+      "onEvent": {
+        "loaded": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "已加载${event.data.items.length}条记录"
+              }
+            }
+          ]
+        }
+      }
     }
+  ]
 }
 ```
 
@@ -904,51 +918,51 @@ interface NavMatchFunc {
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "collapsed": true,
-    "links": [
+  "type": "nav",
+  "stacked": true,
+  "collapsed": true,
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "/docs/index",
+      "icon": "fa fa-user"
+    },
+    {
+      "label": "Nav 2",
+      "unfolded": true,
+      "children": [
         {
-            "label": "Nav 1",
-            "to": "/docs/index",
-            "icon": "fa fa-user"
+          "label": "Nav 2-1",
+          "children": [
+            {
+              "label": "Nav 2-1-1",
+              "to": "/docs/api-2-1-1"
+            }
+          ]
         },
         {
-            "label": "Nav 2",
-            "unfolded": true,
-            "children": [
-                {
-                    "label": "Nav 2-1",
-                    "children": [
-                        {
-                            "label": "Nav 2-1-1",
-                            "to": "/docs/api-2-1-1"
-                        }
-                    ]
-                },
-                {
-                    "label": "Nav 2-2",
-                    "to": "/docs/api-2-2"
-                }
-            ]
-        },
-        {
-            "label": "Nav 3",
-            "to": "/docs/renderers"
+          "label": "Nav 2-2",
+          "to": "/docs/api-2-2"
         }
-    ],
-    "onEvent": {
-        "collapsed": {
-            "actions": [
-                {
-                    "actionType": "toast",
-                    "args": {
-                    "msg": "${event.data.collapsed ? '导航缩起' : '导航展开'}"
-                    }
-                }
-            ]
-        }
+      ]
+    },
+    {
+      "label": "Nav 3",
+      "to": "/docs/renderers"
     }
+  ],
+  "onEvent": {
+    "collapsed": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msg": "${event.data.collapsed ? '导航缩起' : '导航展开'}"
+          }
+        }
+      ]
+    }
+  }
 }
 ```
 
@@ -958,50 +972,50 @@ interface NavMatchFunc {
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "links": [
+  "type": "nav",
+  "stacked": true,
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "/docs/index",
+      "icon": "fa fa-user"
+    },
+    {
+      "label": "Nav 2",
+      "unfolded": true,
+      "children": [
         {
-            "label": "Nav 1",
-            "to": "/docs/index",
-            "icon": "fa fa-user"
+          "label": "Nav 2-1",
+          "children": [
+            {
+              "label": "Nav 2-1-1",
+              "to": "/docs/api-2-1-1"
+            }
+          ]
         },
         {
-            "label": "Nav 2",
-            "unfolded": true,
-            "children": [
-                {
-                    "label": "Nav 2-1",
-                    "children": [
-                        {
-                            "label": "Nav 2-1-1",
-                            "to": "/docs/api-2-1-1"
-                        }
-                    ]
-                },
-                {
-                    "label": "Nav 2-2",
-                    "to": "/docs/api-2-2"
-                }
-            ]
-        },
-        {
-            "label": "Nav 3",
-            "to": "/docs/renderers"
+          "label": "Nav 2-2",
+          "to": "/docs/api-2-2"
         }
-    ],
-    "onEvent": {
-        "toggled": {
-            "actions": [
-                {
-                    "actionType": "toast",
-                    "args": {
-                    "msg": "${event.data.item.label}${event.data.open ? '展开' : '收起'}"
-                    }
-                }
-            ]
-        }
+      ]
+    },
+    {
+      "label": "Nav 3",
+      "to": "/docs/renderers"
     }
+  ],
+  "onEvent": {
+    "toggled": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msg": "${event.data.item.label}${event.data.open ? '展开' : '收起'}"
+          }
+        }
+      ]
+    }
+  }
 }
 ```
 
@@ -1011,50 +1025,50 @@ interface NavMatchFunc {
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "links": [
+  "type": "nav",
+  "stacked": true,
+  "links": [
+    {
+      "label": "Nav 1",
+      "to": "/docs/index",
+      "icon": "fa fa-user"
+    },
+    {
+      "label": "Nav 2",
+      "unfolded": true,
+      "children": [
         {
-            "label": "Nav 1",
-            "to": "/docs/index",
-            "icon": "fa fa-user"
+          "label": "Nav 2-1",
+          "children": [
+            {
+              "label": "Nav 2-1-1",
+              "to": "/docs/api-2-1-1"
+            }
+          ]
         },
         {
-            "label": "Nav 2",
-            "unfolded": true,
-            "children": [
-                {
-                    "label": "Nav 2-1",
-                    "children": [
-                        {
-                            "label": "Nav 2-1-1",
-                            "to": "/docs/api-2-1-1"
-                        }
-                    ]
-                },
-                {
-                    "label": "Nav 2-2",
-                    "to": "/docs/api-2-2"
-                }
-            ]
-        },
-        {
-            "label": "Nav 3",
-            "to": "/docs/renderers"
+          "label": "Nav 2-2",
+          "to": "/docs/api-2-2"
         }
-    ],
-    "onEvent": {
-        "change": {
-            "actions": [
-                {
-                    "actionType": "toast",
-                    "args": {
-                    "msg": "${event.data.value.length}项选中"
-                    }
-                }
-            ]
-        }
+      ]
+    },
+    {
+      "label": "Nav 3",
+      "to": "/docs/renderers"
     }
+  ],
+  "onEvent": {
+    "change": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msg": "${event.data.value.length}项选中"
+          }
+        }
+      ]
+    }
+  }
 }
 ```
 
@@ -1064,45 +1078,45 @@ interface NavMatchFunc {
 
 ```schema: scope="body"
 {
-    "type": "nav",
-    "stacked": true,
-    "links": [
+  "type": "nav",
+  "stacked": true,
+  "links": [
+    {
+      "label": "Nav 1",
+      "icon": "fa fa-user"
+    },
+    {
+      "label": "Nav 2",
+      "children": [
         {
-            "label": "Nav 1",
-            "icon": "fa fa-user"
+          "label": "Nav 2-1",
+          "children": [
+            {
+              "label": "Nav 2-1-1"
+            }
+          ]
         },
         {
-            "label": "Nav 2",
-            "children": [
-                {
-                    "label": "Nav 2-1",
-                    "children": [
-                        {
-                            "label": "Nav 2-1-1"
-                        }
-                    ]
-                },
-                {
-                    "label": "Nav 2-2"
-                }
-            ]
-        },
-        {
-            "label": "Nav 3"
+          "label": "Nav 2-2"
         }
-    ],
-    "onEvent": {
-        "click": {
-            "actions": [
-                {
-                    "actionType": "toast",
-                    "args": {
-                    "msg": "${event.data.item.label}被点击了，但不一定选中"
-                    }
-                }
-            ]
-        }
+      ]
+    },
+    {
+      "label": "Nav 3"
     }
+  ],
+  "onEvent": {
+    "click": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msg": "${event.data.item.label}被点击了，但不一定选中"
+          }
+        }
+      ]
+    }
+  }
 }
 ```
 
@@ -1119,87 +1133,87 @@ interface NavMatchFunc {
 
 ```schema: scope="body"
 {
-    "type": "page",
-    "data": {
-        "items": [
-            {
-                "label": "Nav 1",
-                "to": "/docs/index",
-                "icon": "fa fa-user"
-            },
-            {
-                "label": "Nav 2",
-                "unfolded": true,
-                "active": true,
-                "children": [
-                    {
-                        "label": "Nav 2-1",
-                        "children": [
-                            {
-                                "label": "Nav 2-1-1",
-                                "to": "/docs/api-2-1-1"
-                            }
-                        ]
-                    },
-                    {
-                        "label": "Nav 2-2",
-                        "to": "/docs/api-2-2"
-                    }
-                ]
-            },
-            {
-                "label": "Nav 3",
-                "to": "/docs/renderers"
-            }
+  "type": "page",
+  "data": {
+    "items": [
+      {
+        "label": "Nav 1",
+        "to": "/docs/index",
+        "icon": "fa fa-user"
+      },
+      {
+        "label": "Nav 2",
+        "unfolded": true,
+        "active": true,
+        "children": [
+          {
+            "label": "Nav 2-1",
+            "children": [
+              {
+                "label": "Nav 2-1-1",
+                "to": "/docs/api-2-1-1"
+              }
+            ]
+          },
+          {
+            "label": "Nav 2-2",
+            "to": "/docs/api-2-2"
+          }
         ]
-    },
-    "body": {
+      },
+      {
+        "label": "Nav 3",
+        "to": "/docs/renderers"
+      }
+    ]
+  },
+  "body": {
+    "type": "container",
+    "body": [
+      {
+        "type": "action",
+        "label": "设置数据源",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "updateItems",
+                "args": {
+                  "value": "Nav 2"
+                },
+                "componentId": "asideNav"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "action",
+        "label": "重置数据源",
+        "className": "mx-1",
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "reset",
+                "componentId": "asideNav"
+              }
+            ]
+          }
+        }
+      },
+      {
         "type": "container",
         "body": [
-            {
-                "type": "action",
-                "label": "设置数据源",
-                "onEvent": {
-                    "click": {
-                        "actions": [
-                            {
-                                "actionType": "updateItems",
-                                "args": {
-                                    "value": "Nav 2"
-                                },
-                                "componentId": "asideNav"
-                            }
-                        ]
-                    }
-                }
-            },
-            {
-                "type": "action",
-                "label": "重置数据源",
-                "className": "mx-1",
-                "onEvent": {
-                    "click": {
-                        "actions": [
-                            {
-                                "actionType": "reset",
-                                "componentId": "asideNav"
-                            }
-                        ]
-                    }
-                }
-            },
-            {
-                "type": "container",
-                "body": [
-                    {
-                        "type": "nav",
-                        "stacked": true,
-                        "source": "${items}",
-                        "id": "asideNav"
-                    }
-                ]
-            }
+          {
+            "type": "nav",
+            "stacked": true,
+            "source": "${items}",
+            "id": "asideNav"
+          }
         ]
-    }
+      }
+    ]
+  }
 }
 ```

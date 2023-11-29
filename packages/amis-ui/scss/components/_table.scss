@@ -273,8 +273,12 @@
       padding-top: 0;
     }
 
-    &--affixHeader > thead {
-      visibility: collapse;
+    &--affixHeader {
+      margin-top: calc(var(--Table-thead-height) * -1);
+
+      > thead {
+        visibility: hidden;
+      }
     }
 
     &--withCombine {
@@ -1106,5 +1110,15 @@
     &::before {
       @include hairline-bottom(var(--Table-borderColor));
     }
+  }
+}
+
+.#{$ns}AutoFilterToolbar {
+  display: block;
+  text-align: right;
+  white-space: nowrap;
+
+  > .#{$ns}Button {
+    margin-top: 0;
   }
 }

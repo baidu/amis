@@ -12,6 +12,10 @@
  * 9. href
  * 10. 作为表单项
  * 11. clickAction
+ * 12. click事件
+ * 13. mouseenter / mouseleave 事件
+ * 14. preview 预览动作
+ * 15. zoom & maxScale & minScale 调整图片比例动作
  *
  *  * 组件名称：Images 图片集
  * 内容说明：images 与 image 使用组件相同，相同属性不重复测试了
@@ -20,7 +24,7 @@
  * 2. enlargeAble & originalSrc & source & title & description
  */
 
-import {fireEvent, render} from '@testing-library/react';
+import {fireEvent, render, waitFor} from '@testing-library/react';
 import '../../src';
 import {render as amisRender} from '../../src';
 import {makeEnv, wait} from '../helper';
@@ -334,7 +338,228 @@ describe('Renderer:image', () => {
       })
     );
     fireEvent.click(container.querySelector('.cxd-Image-thumbWrap')!);
-    expect(getByText('这是一个弹框')!).toBeInTheDocument();
+    await waitFor(() => {
+      expect(getByText('这是一个弹框')!).toBeInTheDocument();
+    });
+  });
+
+  test('image:click', async () => {
+    const notify = jest.fn();
+    const {container, getByText} = render(
+      amisRender(
+        {
+          type: 'image',
+          src: 'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80',
+          class: 'cursor-pointer',
+          onEvent: {
+            click: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '派发点击事件'
+                  }
+                }
+              ]
+            },
+            mouseenter: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '派发鼠标移入事件'
+                  }
+                }
+              ]
+            },
+            mouseleave: {
+              actions: [
+                {
+                  actionType: 'toast',
+                  args: {
+                    msgType: 'info',
+                    msg: '派发鼠标移出事件'
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {},
+        makeEnv({
+          notify,
+          session: 'image-test-action-1'
+        })
+      )
+    );
+    fireEvent.click(container.querySelector('.cxd-Image-thumbWrap')!);
+    await waitFor(() => {
+      expect(notify).toHaveBeenCalledWith('info', '派发点击事件', {
+        msg: '派发点击事件',
+        msgType: 'info'
+      });
+    });
+    fireEvent.mouseEnter(container.querySelector('.cxd-Image-thumbWrap')!);
+    await waitFor(() => {
+      expect(notify).toHaveBeenCalledWith('info', '派发鼠标移入事件', {
+        msg: '派发鼠标移入事件',
+        msgType: 'info'
+      });
+    });
+    fireEvent.mouseLeave(container.querySelector('.cxd-Image-thumbWrap')!);
+    await waitFor(() => {
+      expect(notify).toHaveBeenCalledWith('info', '派发鼠标移出事件', {
+        msg: '派发鼠标移出事件',
+        msgType: 'info'
+      });
+    });
+  });
+
+  test('image:preview 预览动作', async () => {
+    const {container, getByText, baseElement} = render(
+      amisRender({
+        type: 'page',
+        body: [
+          {
+            type: 'image',
+            id: 'previewImage',
+            src: 'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80',
+            originalSrc:
+              'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg'
+          },
+          {
+            type: 'button',
+            label: '预览图片',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'preview',
+                    componentId: 'previewImage'
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      })
+    );
+    expect(container).toMatchSnapshot();
+    fireEvent.click(getByText('预览图片'));
+    expect(baseElement.querySelector('.cxd-ImageGallery')!).toBeInTheDocument();
+    expect(
+      baseElement.querySelector('.cxd-ImageGallery .cxd-ImageGallery-main img')!
+    ).toHaveAttribute(
+      'src',
+      'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg'
+    );
+  });
+
+  test('image:zoom & maxScale & minScale 调整图片比例动作', async () => {
+    const {container, getByText, baseElement} = render(
+      amisRender({
+        type: 'page',
+        body: [
+          {
+            type: 'image',
+            id: 'zoomImage',
+            src: 'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80',
+            originalSrc:
+              'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg',
+            maxScale: 200,
+            minScale: 20
+          },
+          {
+            type: 'button',
+            label: '放大图片',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'zoom',
+                    args: {
+                      scale: 50
+                    },
+                    componentId: 'zoomImage'
+                  }
+                ]
+              }
+            }
+          },
+          {
+            type: 'button',
+            label: '缩小图片',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'zoom',
+                    args: {
+                      scale: -50
+                    },
+                    componentId: 'zoomImage'
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      })
+    );
+    expect(container).toMatchSnapshot();
+
+    const imgIns = baseElement.querySelector('.cxd-ImageField--thumb')!;
+    expect(imgIns).toHaveStyle({
+      transform: 'scale(1)'
+    });
+
+    fireEvent.click(getByText('放大图片'));
+    await waitFor(() => {
+      expect(imgIns).toHaveStyle({
+        transform: 'scale(1.5)'
+      });
+    });
+
+    fireEvent.click(getByText('缩小图片'));
+    await waitFor(() => {
+      expect(imgIns).toHaveStyle({
+        transform: 'scale(1)'
+      });
+    });
+
+    fireEvent.click(getByText('放大图片'));
+    fireEvent.click(getByText('放大图片'));
+    await waitFor(() => {
+      expect(imgIns).toHaveStyle({
+        transform: 'scale(2)'
+      });
+    });
+
+    fireEvent.click(getByText('放大图片'));
+    await waitFor(() => {
+      expect(imgIns).toHaveStyle({
+        transform: 'scale(2)'
+      });
+    });
+
+    fireEvent.click(getByText('缩小图片'));
+    fireEvent.click(getByText('缩小图片'));
+    fireEvent.click(getByText('缩小图片'));
+    fireEvent.click(getByText('缩小图片'));
+    await waitFor(() => {
+      expect(imgIns).toHaveStyle({
+        transform: 'scale(0.2)'
+      });
+    });
+
+    fireEvent.click(getByText('缩小图片'));
+    await waitFor(() => {
+      expect(imgIns).toHaveStyle({
+        transform: 'scale(0.2)'
+      });
+    });
   });
 });
 

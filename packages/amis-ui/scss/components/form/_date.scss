@@ -200,11 +200,9 @@
 
 .#{$ns}DatePicker-popover {
   margin: px2rem(2px) 0 0;
-
-  &.#{$ns}PopOver--leftTopLeftBottom,
-  &.#{$ns}PopOver--rightTopRightBottom {
-    margin: px2rem(-2px) 0 0;
-  }
+  border: var(--Form-select-outer-borderWidth) solid
+    var(--Form-input-onFocused-borderColor);
+  box-shadow: var(--Form-select-outer-boxShadow);
 }
 
 // 移动端输入框样式

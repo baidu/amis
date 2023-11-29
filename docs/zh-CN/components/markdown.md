@@ -81,6 +81,30 @@ order: 58
 
 可以使用 `![text](video.mp4)` 语法来嵌入视频。
 
+## 支持 latex
+
+> 3.6.0 及以上版本
+
+公式渲染使用 KaTeX 实现，由于体积太大默认不提供，需要自己去[下载](https://github.com/KaTeX/KaTeX/releases)，在页面中引入以下三个文件：
+
+```
+<link rel="stylesheet" href="katex/katex.min.css">
+<script src="katex/katex.min.js"></script>
+<script src="katex/contrib/auto-render.min.js"></script>
+```
+
+markdown 中的 `$` 或 `$$` 包裹的内容就能以公式展现，比如 `$\sqrt{a^2 + b^2}$`，如果是在代码中 `\` 要转义为 `\\`
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "markdown",
+        "value": "$$\\hat{f} (\\xi)=\\int_{-\\infty}^{\\infty}f(x)e^{-2\\pi ix\\xi}dx$$"
+    }
+}
+```
+
 ## 高级配置
 
 > 1.8.1 及以上版本

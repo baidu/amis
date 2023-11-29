@@ -55,6 +55,7 @@ export class TableRow extends React.PureComponent<
     newIndex: number;
     isHover: boolean;
     checked: boolean;
+    partial?: boolean;
     modified: boolean;
     moved: boolean;
     depth: number;
@@ -91,8 +92,15 @@ export class TableRow extends React.PureComponent<
     e.preventDefault();
     e.stopPropagation();
 
-    const {itemAction, onAction, item, itemIndex, onCheck, onRowClick} =
-      this.props;
+    const {
+      itemAction,
+      onAction,
+      item,
+      itemIndex,
+      onCheck,
+      onRowClick,
+      checkOnItemClick
+    } = this.props;
 
     const rendererEvent = await onRowClick?.(item?.data, itemIndex);
 
@@ -104,7 +112,7 @@ export class TableRow extends React.PureComponent<
       onAction && onAction(e, itemAction, item?.locals);
       // item.toggle();
     } else {
-      if (item.checkable && item.isCheckAvaiableOnClick) {
+      if (item.checkable && item.isCheckAvaiableOnClick && checkOnItemClick) {
         onCheck?.(item, !item.checked, shiftKey);
       }
     }
@@ -358,6 +366,7 @@ export default observer((props: TableRowProps) => {
       id={item.id}
       newIndex={item.newIndex}
       isHover={item.isHover}
+      partial={item.partial}
       checked={item.checked}
       modified={item.modified}
       moved={item.moved}

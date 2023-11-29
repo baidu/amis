@@ -1,6 +1,6 @@
 {
   "name": "amis-core",
-  "version": "3.4.2",
+  "version": "3.5.3",
   "description": "amis-core",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -46,7 +46,7 @@
     "esm"
   ],
   "dependencies": {
-    "amis-formula": "^3.4.2",
+    "amis-formula": "^3.5.3",
     "classnames": "2.3.2",
     "file-saver": "^2.0.2",
     "hoist-non-react-statics": "^3.3.2",
@@ -57,12 +57,12 @@
     "mobx-state-tree": "^3.17.3",
     "moment": "^2.19.4",
     "papaparse": "^5.3.0",
+    "path-to-regexp": "6.2.0",
     "qs": "6.9.7",
     "react-intersection-observer": "9.5.2",
     "react-json-view": "1.21.3",
     "tslib": "^2.3.1",
-    "uncontrollable": "7.2.1",
-    "path-to-regexp": "6.2.0"
+    "uncontrollable": "7.2.1"
   },
   "peerDependencies": {
     "amis-formula": "*",

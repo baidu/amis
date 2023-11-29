@@ -108,6 +108,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
       loadingConfig,
       labelField = 'label',
       valueField = 'value',
+      deferField = 'defer',
       mobileUI,
       env,
       maxTagCount,
@@ -144,6 +145,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
           virtualThreshold={virtualThreshold}
           labelField={labelField}
           valueField={valueField}
+          deferField={deferField}
           mobileUI={mobileUI}
           popOverContainer={env?.getModalContainer}
           maxTagCount={maxTagCount}

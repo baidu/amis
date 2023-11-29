@@ -156,7 +156,8 @@ export function wrapControl<
                 minLength,
                 maxLength,
                 validateOnChange,
-                label
+                label,
+                pagination
               }
             } = this.props;
 
@@ -178,14 +179,6 @@ export function wrapControl<
             }
 
             if (!name) {
-              // 一般情况下这些表单项都是需要 name 的，提示一下
-              if (
-                typeof type === 'string' &&
-                getRendererByName(type)?.isFormItem
-              ) {
-                console.warn('name is required', this.props.$schema);
-              }
-
               return;
             }
 
@@ -230,7 +223,8 @@ export function wrapControl<
               validateOnChange,
               label,
               inputGroupControl,
-              extraName
+              extraName,
+              pagination
             });
 
             // issue 这个逻辑应该在 combo 里面自己实现。
@@ -380,7 +374,8 @@ export function wrapControl<
                 'minLength',
                 'maxLength',
                 'label',
-                'extraName'
+                'extraName',
+                'pagination'
               ],
               prevProps.$schema,
               props.$schema,

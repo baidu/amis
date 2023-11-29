@@ -18,6 +18,33 @@ import {normalizeApiResponseData} from '../utils/api';
 import {matchSorter} from 'match-sorter';
 import {filter} from '../utils/tpl';
 
+import type {MatchSorterOptions} from 'match-sorter';
+
+interface MatchFunc {
+  (
+    /* 当前列表的全量数据 */
+    items: any,
+    /* 最近一次接口返回的全量数据 */
+    itemsRaw: any,
+    /** 相关配置 */
+    options?: {
+      /* 查询参数 */
+      query: Record<string, any>;
+      /* 列配置 */
+      columns: any;
+      /**
+       * match-sorter 匹配函数
+       * @doc https://github.com/kentcdodds/match-sorter
+       */
+      matchSorter: (
+        items: any[],
+        value: string,
+        options?: MatchSorterOptions<any>
+      ) => any[];
+    }
+  ): any;
+}
+
 class ServerError extends Error {
   type = 'ServerError';
 }
@@ -125,7 +152,32 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             ...values
           };
 
-      if (isObjectShallowModified(originQuery, query, false)) {
+      /**
+       * 非严格模式下也需要严格比较的CASE
+       * @reference https://tc39.es/ecma262/#sec-islooselyequal
+       */
+      const exceptedLooselyRules: [any, any][] = [
+        [0, ''],
+        [false, ''],
+        [false, '0'],
+        [false, 0],
+        [true, 1],
+        [true, '1']
+      ];
+
+      if (
+        isObjectShallowModified(originQuery, query, (lhs: any, rhs: any) => {
+          if (
+            exceptedLooselyRules.some(
+              rule => rule.includes(lhs) && rule.includes(rhs)
+            )
+          ) {
+            return lhs !== rhs;
+          }
+
+          return lhs != rhs;
+        })
+      ) {
         if (query[pageField || 'page']) {
           self.page = parseInt(query[pageField || 'page'], 10);
         }
@@ -161,10 +213,12 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
         columns?: Array<any>;
+        matchFunc?: MatchFunc;
       } = {}
     ) {
       try {
         if (!options.forceReload && options.loadDataOnce && self.total) {
+          const matchFunc = options.matchFunc;
           let items = options.source
             ? resolveVariableAndFilter(
                 options.source,
@@ -176,41 +230,50 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               )
             : self.items.concat();
 
-          if (Array.isArray(options.columns)) {
-            options.columns.forEach((column: any) => {
-              let value: any =
-                typeof column.name === 'string'
-                  ? getVariable(self.query, column.name)
-                  : undefined;
-              const key = column.name;
-
-              if (value != null && key) {
-                // value可能为null、undefined、''、0
-                if (Array.isArray(value)) {
-                  if (value.length > 0) {
-                    const arr = [...items];
-                    let arrItems: Array<any> = [];
-                    value.forEach(item => {
-                      arrItems = [
-                        ...arrItems,
-                        ...matchSorter(arr, item, {
-                          keys: [key],
-                          threshold: matchSorter.rankings.CONTAINS
-                        })
-                      ];
-                    });
-                    items = items.filter((item: any) =>
-                      arrItems.find(a => a === item)
-                    );
-                  }
-                } else {
-                  items = matchSorter(items, value, {
-                    keys: [key],
-                    threshold: matchSorter.rankings.CONTAINS
-                  });
-                }
-              }
+          /** 字段的格式类型无法穷举，所以支持使用函数过滤 */
+          if (matchFunc && typeof matchFunc === 'function') {
+            items = matchFunc(items, self.data.itemsRaw, {
+              query: self.query,
+              columns: options.columns,
+              matchSorter: matchSorter
             });
+          } else {
+            if (Array.isArray(options.columns)) {
+              options.columns.forEach((column: any) => {
+                let value: any =
+                  typeof column.name === 'string'
+                    ? getVariable(self.query, column.name)
+                    : undefined;
+                const key = column.name;
+
+                if (value != null && key) {
+                  // value可能为null、undefined、''、0
+                  if (Array.isArray(value)) {
+                    if (value.length > 0) {
+                      const arr = [...items];
+                      let arrItems: Array<any> = [];
+                      value.forEach(item => {
+                        arrItems = [
+                          ...arrItems,
+                          ...matchSorter(arr, item, {
+                            keys: [key],
+                            threshold: matchSorter.rankings.CONTAINS
+                          })
+                        ];
+                      });
+                      items = items.filter((item: any) =>
+                        arrItems.find(a => a === item)
+                      );
+                    }
+                  } else {
+                    items = matchSorter(items, value, {
+                      keys: [key],
+                      threshold: matchSorter.rankings.CONTAINS
+                    });
+                  }
+                }
+              });
+            }
           }
 
           if (self.query.orderBy) {
@@ -344,8 +407,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           };
 
           if (options.loadDataOnce) {
-            // 记录原始集合，后续可能基于原始数据做排序查找。
-            data.itemsRaw = oItems || oRows;
+            /**
+             * 1. 记录原始集合，后续可能基于原始数据做排序查找。
+             * 2. 接口返回中没有 items 和 rows 字段，则直接用查到的数据。
+             */
+            data.itemsRaw = oItems || oRows || rowsData.concat();
             let filteredItems = rowsData.concat();
 
             if (Array.isArray(options.columns)) {
@@ -455,13 +521,18 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       }
     });
 
-    function changePage(page: number, perPage?: number | string) {
-      self.page = page;
+    function changePage(page: number | string, perPage?: number | string) {
+      const pageNum = typeof page !== 'number' ? parseInt(page, 10) : page;
+
+      self.page = isNaN(pageNum) ? 1 : pageNum;
       perPage && changePerPage(perPage);
     }
 
     function changePerPage(perPage: number | string) {
-      self.perPage = parseInt(perPage as string, 10);
+      const perPageNum =
+        typeof perPage !== 'number' ? parseInt(perPage, 10) : perPage;
+
+      self.perPage = isNaN(perPageNum) ? 10 : perPageNum;
     }
 
     function selectAction(action: ActionObject) {
@@ -589,8 +660,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       source: string,
       options: {
         columns?: Array<any>;
+        matchFunc?: MatchFunc | null;
       }
     ) {
+      const matchFunc = options.matchFunc;
       let items: Array<any> = resolveVariableAndFilter(source, scope, '| raw');
 
       if (!Array.isArray(items) && !self.items.length) {
@@ -599,41 +672,51 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
       items = Array.isArray(items) ? items : [];
 
-      if (Array.isArray(options.columns)) {
-        options.columns.forEach((column: any) => {
-          let value: any =
-            typeof column.name === 'string'
-              ? getVariable(self.query, column.name)
-              : undefined;
-          const key = column.name;
-
-          if (value != null && key) {
-            // value可能为null、undefined、''、0
-            if (Array.isArray(value)) {
-              if (value.length > 0) {
-                const arr = [...items];
-                let arrItems: Array<any> = [];
-                value.forEach(item => {
-                  arrItems = [
-                    ...arrItems,
-                    ...matchSorter(arr, item, {
-                      keys: [key],
-                      threshold: matchSorter.rankings.CONTAINS
-                    })
-                  ];
-                });
-                items = items.filter((item: any) =>
-                  arrItems.find(a => a === item)
-                );
-              }
-            } else {
-              items = matchSorter(items, value, {
-                keys: [key],
-                threshold: matchSorter.rankings.CONTAINS
-              });
-            }
-          }
+      /** 字段的格式类型无法穷举，所以支持使用函数过滤 */
+      if (matchFunc && typeof matchFunc === 'function') {
+        items = matchFunc(items, items.concat(), {
+          query: self.query,
+          columns: options.columns,
+          matchSorter: matchSorter
         });
+      } else {
+        if (Array.isArray(options.columns)) {
+          options.columns.forEach((column: any) => {
+            let value: any =
+              typeof column.name === 'string'
+                ? getVariable(self.query, column.name)
+                : undefined;
+            const key = column.name;
+
+            if (value != null && key) {
+              // value可能为null、undefined、''、0
+              if (Array.isArray(value)) {
+                if (value.length > 0) {
+                  const arr = [...items];
+                  let arrItems: Array<any> = [];
+                  /** 搜索 query 值为数组的情况 */
+                  value.forEach(item => {
+                    arrItems = [
+                      ...arrItems,
+                      ...matchSorter(arr, item, {
+                        keys: [key],
+                        threshold: matchSorter.rankings.CONTAINS
+                      })
+                    ];
+                  });
+                  items = items.filter((item: any) =>
+                    arrItems.find(a => a === item)
+                  );
+                }
+              } else {
+                items = matchSorter(items, value, {
+                  keys: [key],
+                  threshold: matchSorter.rankings.CONTAINS
+                });
+              }
+            }
+          });
+        }
       }
 
       if (self.query.orderBy) {
@@ -643,10 +726,13 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
       const data = {
         ...self.pristine,
-        items: items.slice(
-          (self.page - 1) * self.perPage,
-          self.page * self.perPage
-        ),
+        items:
+          items.length > self.perPage
+            ? items.slice(
+                (self.page - 1) * self.perPage,
+                self.page * self.perPage
+              )
+            : items,
         count: items.length,
         total: items.length
       };

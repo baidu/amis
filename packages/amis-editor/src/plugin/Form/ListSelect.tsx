@@ -59,6 +59,8 @@ export class ListControlPlugin extends BasePlugin {
 
   panelTitle = '列表选择';
 
+  panelJustify = true;
+
   // 事件定义
   events: RendererPluginEvent[] = [
     {
@@ -109,21 +111,26 @@ export class ListControlPlugin extends BasePlugin {
     }
   ];
 
-  subEditorVariable: Array<{label: string; children: any}> = [
-    {
-      label: '当前选项',
-      children: [
-        {
-          label: '选项名称',
-          value: 'label'
-        },
-        {
-          label: '选项值',
-          value: 'value'
-        }
-      ]
-    }
-  ];
+  getSubEditorVariable(schema: any): Array<{label: string; children: any}> {
+    let labelField = schema?.labelField || 'label';
+    let valueField = schema?.valueField || 'value';
+
+    return [
+      {
+        label: '当前选项',
+        children: [
+          {
+            label: '选项名称',
+            value: labelField
+          },
+          {
+            label: '选项值',
+            value: valueField
+          }
+        ]
+      }
+    ];
+  }
 
   panelBodyCreator = (context: BaseEventContext) => {
     return formItemControl(
@@ -144,7 +151,6 @@ export class ListControlPlugin extends BasePlugin {
                 ...(schema || {}),
                 itemSchema: null
               }),
-              mode: 'vertical',
               useSelectMode: true, // 改用 Select 设置模式
               visibleOn: 'this.options && this.options.length > 0'
             })
@@ -201,7 +207,7 @@ export class ListControlPlugin extends BasePlugin {
                     body: [
                       {
                         type: 'tpl',
-                        tpl: `\${${this.getDisplayField(value)}}`,
+                        tpl: `\${${this.getDisplayField(data)}}`,
                         wrapperComponent: '',
                         inline: true
                       }
@@ -275,16 +281,7 @@ export class ListControlPlugin extends BasePlugin {
   }
 
   getDisplayField(data: any) {
-    if (
-      data.source ||
-      (data.map &&
-        Array.isArray(data.map) &&
-        data.map[0] &&
-        Object.keys(data.map[0]).length > 1)
-    ) {
-      return data.labelField ?? 'label';
-    }
-    return 'label';
+    return data?.labelField ?? 'label';
   }
 
   editDetail(id: string, field: string) {

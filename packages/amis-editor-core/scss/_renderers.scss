@@ -244,7 +244,7 @@
 // 左侧组件面板/info提示弹窗
 .ae-RendererThumb {
   max-width: 328px;
-  min-height: 120px;
+  min-height: 70px;
   padding: 5px;
   font-size: 12px;
   color: #151b26;
@@ -271,7 +271,7 @@
   .ae-Renderer-preview {
     position: relative;
     max-height: 200px;
-    overflow: hidden;
+    // overflow: hidden;
   }
 }
 

@@ -75,42 +75,42 @@ order: 9
 
 ```schema
 {
-  type: 'page',
-  body: [
+  "type": "page",
+  "body": [
     {
-      type: 'button',
-      label: '尝试点击、鼠标移入/移出',
-      level: 'primary',
-      onEvent: {
-        click: {
-          actions: [
+      "type": "button",
+      "label": "尝试点击、鼠标移入/移出",
+      "level": "primary",
+      "onEvent": {
+        "click": {
+          "actions": [
             {
-              actionType: 'toast',
-              args: {
-                msgType: 'info',
-                msg: '派发点击事件'
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "派发点击事件"
               }
             }
           ]
         },
-        mouseenter: {
-          actions: [
+        "mouseenter": {
+          "actions": [
             {
-              actionType: 'toast',
-              args: {
-                msgType: 'info',
-                msg: '派发鼠标移入事件'
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "派发鼠标移入事件"
               }
             }
           ]
         },
-        mouseleave: {
-          actions: [
+        "mouseleave": {
+          "actions": [
             {
-              actionType: 'toast',
-              args: {
-                msgType: 'info',
-                msg: '派发鼠标移出事件'
+              "actionType": "toast",
+              "args": {
+                "msgType": "info",
+                "msg": "派发鼠标移出事件"
               }
             }
           ]
@@ -2281,7 +2281,7 @@ run action ajax
     },
     {
       type: 'form',
-      id: 'form_001_form_01',
+      id: 'form_001',
       title: '表单1（优先级低）',
       name: 'sub-form1',
       body: [
@@ -2298,6 +2298,7 @@ run action ajax
           actions: [
             {
               actionType: 'reload',
+              componentId: 'form_001',
               data: {
                 myname: '${myrole}', // 从事件数据中取
               }
@@ -2340,6 +2341,7 @@ run action ajax
           actions: [
             {
               actionType: 'reload',
+              componentId: 'form_002',
               data: {
                 myrole: '${myrole}',
                 age: '${age}'
@@ -2378,6 +2380,7 @@ run action ajax
           actions: [
             {
               actionType: 'reload',
+              componentId: 'form_003',
               data: {
                 job: '${myrole}'
               }

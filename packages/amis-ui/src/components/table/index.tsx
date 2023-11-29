@@ -5,10 +5,8 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import findLastIndex from 'lodash/findLastIndex';
 import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
-import filter from 'lodash/filter';
 import debounce from 'lodash/debounce';
 import intersection from 'lodash/intersection';
 import Sortable from 'sortablejs';
@@ -19,22 +17,28 @@ import {
   ThemeProps,
   localeable,
   LocaleProps,
+  autobind,
   isObject,
-  isBreakpoint,
-  guid,
-  autobind
+  offset,
+  getScrollParent,
+  position
 } from 'amis-core';
 import {resizeSensor} from 'amis-core';
-import {Icon} from '../icons';
-import CheckBox from '../Checkbox';
+import {getStyleNumber} from 'amis-core';
 import Spinner, {SpinnerExtraProps} from '../Spinner';
-
-import HeadCellSort from './HeadCellSort';
-import HeadCellFilter from './HeadCellFilter';
-import HeadCellSelect from './HeadCellSelect';
 import ItemActionsWrapper from './ItemActionsWrapper';
 import Cell from './Cell';
 import ColGroup from './ColGroup';
+import Row from './Row';
+import Head from './Head';
+import SummaryRows from './SummaryRow';
+import {
+  checkChildrenRow,
+  getDataChildrenKeys,
+  getBuildColumns,
+  getSelectedRows,
+  levelsSplit
+} from './util';
 
 export interface ColumnProps {
   title: string | React.ReactNode | Function;
@@ -60,14 +64,12 @@ export interface ColumnProps {
 export interface ThProps extends ColumnProps {
   rowSpan: number;
   colSpan: number;
-  groupId: string; // 随机生成表头分组的id
   depth: number; // 表头分组层级
 }
 
 export interface TdProps extends ColumnProps {
   rowSpan: number;
   colSpan: number;
-  groupId: string; // 随机生成表头分组的id
 }
 
 export interface RowSelectionOptionProps {
@@ -114,12 +116,15 @@ export interface OnRowProps {
   onRowMouseEnter?: Function;
   onRowMouseLeave?: Function;
   onRowClick?: Function;
+  onRowDbClick?: Function;
 }
 
 export interface SortProps {
   orderBy: string;
   orderDir: string;
 }
+
+export type AutoFillHeightObject = Record<'height' | 'maxHeight', number>;
 
 export interface TableProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   title: string | React.ReactNode | Function;
@@ -161,6 +166,10 @@ export interface TableProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
   onSelectAll?: Function;
   itemActions?: Function;
   onRef?: (ref: any) => void;
+  /**
+   * 表格自动计算高度
+   */
+  autoFillHeight?: boolean | AutoFillHeightObject;
 }
 
 export interface ScrollProps {
@@ -188,152 +197,7 @@ export interface TableState {
   sort?: SortProps;
 }
 
-function getMaxLevelThRowSpan(columns: Array<ColumnProps>) {
-  let maxLevel = 0;
-
-  Array.isArray(columns) &&
-    columns.forEach(c => {
-      const level = getThRowSpan(c);
-      if (maxLevel < level) {
-        maxLevel = level;
-      }
-    });
-
-  return maxLevel;
-}
-
-function getThRowSpan(column: ColumnProps) {
-  if (!column.children || (column.children && !column.children.length)) {
-    return 1;
-  }
-
-  return 1 + getMaxLevelThRowSpan(column.children);
-}
-
-function getThColSpan(column: ColumnProps) {
-  if (!column.children || (column.children && !column.children.length)) {
-    return 1;
-  }
-
-  let childrenLength = 0;
-  column.children.forEach(item => (childrenLength += getThColSpan(item)));
-
-  return childrenLength;
-}
-
-function buildColumns(
-  columns: Array<ColumnProps> = [],
-  thColumns: Array<Array<any>>,
-  tdColumns: Array<ColumnProps> = [],
-  maxLevel: number,
-  depth: number = 0,
-  id?: string,
-  fixed?: boolean | string
-) {
-  // 在处理表头时，如果父级column设置了fixed属性，那么所有children保持一致
-  Array.isArray(columns) &&
-    columns.forEach(column => {
-      const groupId = id || guid();
-      let childMaxLevel = 0;
-      if (column.children) {
-        childMaxLevel = getMaxLevelThRowSpan(column.children);
-      }
-      const newColumn = {
-        ...column,
-        rowSpan: childMaxLevel ? 1 : maxLevel - depth,
-        colSpan: getThColSpan(column),
-        groupId,
-        depth
-      };
-      const tdColumn = {
-        ...column,
-        groupId
-      };
-      if (fixed) {
-        newColumn.fixed = fixed;
-        tdColumn.fixed = fixed;
-      }
-
-      if (!thColumns[depth]) {
-        thColumns[depth] = [];
-      }
-      thColumns[depth].push(newColumn);
-      if (column.children && column.children.length > 0) {
-        buildColumns(
-          column.children,
-          thColumns,
-          tdColumns,
-          maxLevel,
-          depth + 1,
-          groupId,
-          column.fixed
-        );
-      } else {
-        const {children, ...rest} = tdColumn;
-        tdColumns.push(rest);
-      }
-    });
-}
-
-function isFixedLeftColumn(fixed: boolean | string | undefined) {
-  return fixed === true || fixed === 'left';
-}
-
-function isFixedRightColumn(fixed: boolean | string | undefined) {
-  return fixed === 'right';
-}
-
-function getPreviousLeftWidth(
-  doms: HTMLCollection,
-  index: number,
-  columns: Array<ColumnProps>
-) {
-  let width = 0;
-  for (let i = 0; i < index; i++) {
-    if (columns && columns[i] && isFixedLeftColumn(columns[i].fixed)) {
-      const dom = doms[i] as HTMLElement;
-      width += dom.offsetWidth;
-    }
-  }
-  return width;
-}
-
-function getAfterRightWidth(
-  doms: HTMLCollection,
-  index: number,
-  columns: Array<ColumnProps>
-) {
-  let width = 0;
-  for (let i = doms.length - 0; i > index; i--) {
-    if (columns && columns[i] && isFixedRightColumn(columns[i].fixed)) {
-      const dom = doms[i] as HTMLElement;
-      width += dom.offsetWidth;
-    }
-  }
-  return width;
-}
-
-function hasFixedColumn(columns: Array<ColumnProps>) {
-  return find(columns, column => column.fixed);
-}
-
-function getSummaryColumns(summary: Array<SummaryProps>) {
-  if (!summary) {
-    return [];
-  }
-  const last: Array<SummaryProps> = [];
-  const first: Array<SummaryProps> = [];
-  summary.forEach(item => {
-    if (isObject(item)) {
-      first.push(item);
-    } else if (Array.isArray(item)) {
-      last.push(item);
-    }
-  });
-  return [first, ...last];
-}
-
-const DefaultCellWidth = 40;
+export const DefaultCellWidth = 40;
 
 export class Table extends React.PureComponent<TableProps, TableState> {
   static defaultProps = {
@@ -349,16 +213,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
   constructor(props: TableProps) {
     super(props);
-
-    if (props.rowSelection) {
-      const selectedResult = this.getSelectedRows(
-        props.dataSource,
-        props.rowSelection?.selectedRowKeys
-      );
-
-      this.selectedRows = selectedResult.selectedRows;
-      this.unSelectedRows = selectedResult.unSelectedRows;
-    }
 
     this.state = {
       selectedRowKeys: props.rowSelection
@@ -398,71 +252,25 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   resizeIndex: number;
 
   tableDom: React.RefObject<HTMLDivElement> = React.createRef();
-  theadDom: React.RefObject<HTMLTableSectionElement> = React.createRef();
   tbodyDom: React.RefObject<HTMLTableSectionElement> = React.createRef();
   contentDom: React.RefObject<HTMLDivElement> = React.createRef();
   headerDom: React.RefObject<HTMLDivElement> = React.createRef();
-  tfootDom: React.RefObject<HTMLTableSectionElement> = React.createRef();
   footDom: React.RefObject<HTMLDivElement> = React.createRef();
+  containerDom: React.RefObject<HTMLDivElement> = React.createRef();
 
   toDispose: Array<() => void> = [];
   updateTableInfoLazy = debounce(this.updateTableInfo.bind(this), 250, {
     trailing: true,
     leading: false
   });
-
-  getSelectedRows(
-    dataSource: Array<any>,
-    selectedRowKeys: Array<string | number>
-  ) {
-    const selectedRows: Array<any> = [];
-    const unSelectedRows: Array<any> = [];
-    dataSource.forEach(data => {
-      if (
-        find(
-          selectedRowKeys,
-          key => key === data[this.getRowSelectionKeyField()]
-        )
-      ) {
-        selectedRows.push(data);
-      } else {
-        unSelectedRows.push(data);
-      }
-    });
-
-    return {selectedRows, unSelectedRows};
-  }
-
-  updateTableBodyFixed() {
-    const tbodyDom = this.tbodyDom && (this.tbodyDom.current as HTMLElement);
-    const tdColumns = [...this.tdColumns];
-    if (!tbodyDom) {
-      return;
+  updateAutoFillHeightLazy = debounce(
+    this.updateAutoFillHeight.bind(this),
+    250,
+    {
+      trailing: true,
+      leading: false
     }
-    this.updateTbodyFixedRow(tbodyDom, tdColumns);
-    this.updateHeadSummaryFixedRow(tbodyDom);
-  }
-
-  updateTableFixedRows() {
-    if (hasFixedColumn(this.props.columns)) {
-      const headerDom =
-        this.headerDom && (this.headerDom.current as HTMLElement);
-      if (headerDom) {
-        const headerBody = headerDom.getElementsByTagName('tbody');
-        headerBody &&
-          headerBody[0] &&
-          this.updateHeadSummaryFixedRow(headerBody[0]);
-      }
-
-      const tfootDom = this.tfootDom && (this.tfootDom.current as HTMLElement);
-      tfootDom && this.updateFootSummaryFixedRow(tfootDom);
-
-      const theadDom = this.theadDom && (this.theadDom.current as HTMLElement);
-      const thColumns = this.thColumns;
-      this.updateTheadFixedRow(theadDom, thColumns);
-      this.updateTableBodyFixed();
-    }
-  }
+  );
 
   componentDidMount() {
     this.props?.onRef?.(this);
@@ -471,9 +279,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       return;
     }
 
-    this.updateTableFixedRows();
-
-    let current = this.contentDom?.current;
     if (this.headerDom?.current) {
       // overflow设置为hidden的情况
       const hiddenDomRefs = [this.headerDom, this.footDom];
@@ -485,6 +290,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       );
     }
 
+    const current = this.contentDom?.current;
     current && this.updateTableDom(current);
 
     if (this.props.draggable && this.tbodyDom?.current) {
@@ -494,6 +300,17 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     this.updateStickyHeader();
 
     const currentNode = findDOMNode(this) as HTMLElement;
+    if (this.props.autoFillHeight) {
+      this.toDispose.push(
+        resizeSensor(
+          currentNode.parentElement!,
+          this.updateAutoFillHeightLazy,
+          false,
+          'height'
+        )
+      );
+      this.updateAutoFillHeight();
+    }
 
     this.toDispose.push(
       resizeSensor(currentNode, this.updateTableInfoLazy, false, 'width')
@@ -501,40 +318,39 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   }
 
   componentDidUpdate(prevProps: TableProps, prevState: TableState) {
-    // 数据源发生了变化
-    // 异步加载数据需求再更新一次
-    // 翻页
     if (!isEqual(prevProps.dataSource, this.props.dataSource)) {
-      this.setState(
-        {
-          dataSource: [...this.props.dataSource]
-        },
-        () => {
-          this.updateTableFixedRows();
-        }
-      );
+      this.setState({
+        dataSource: [...this.props.dataSource]
+      });
+    }
+
+    if (
+      prevProps.autoFillHeight !== this.props.autoFillHeight ||
+      ((!isEqual(prevState.dataSource, this.state.dataSource) ||
+        prevProps.loading !== this.props.loading) &&
+        this.props.autoFillHeight)
+    ) {
+      this.updateAutoFillHeight();
     }
 
     // 选择项发生了变化触发
     if (!isEqual(prevState.selectedRowKeys, this.state.selectedRowKeys)) {
+      const rowSelectionKeyField = this.getRowSelectionKeyField();
+      const childrenColumnName = this.getChildrenColumnName();
       // 更新保存的已选择行数据
-      const selectedResult = this.getSelectedRows(
+      const selectedResult = getSelectedRows(
         this.state.dataSource,
-        this.state.selectedRowKeys
+        this.state.selectedRowKeys,
+        rowSelectionKeyField,
+        childrenColumnName
       );
-      this.selectedRows = selectedResult.selectedRows;
-      this.unSelectedRows = selectedResult.unSelectedRows;
-
       const {rowSelection} = this.props;
       rowSelection &&
         rowSelection.onChange &&
-        rowSelection.onChange(this.state.selectedRowKeys, this.selectedRows);
-
-      this.setState({
-        selectedRowKeys: this.state.selectedRowKeys.filter(
-          (key, i, a) => a.indexOf(key) === i
-        )
-      });
+        rowSelection.onChange(
+          this.state.selectedRowKeys,
+          selectedResult.selectedRows
+        );
     }
 
     // 外部传入的选择项发生了变化
@@ -548,12 +364,6 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         this.setState({
           selectedRowKeys: this.props.rowSelection.selectedRowKeys
         });
-        const selectedResult = this.getSelectedRows(
-          this.state.dataSource,
-          this.state.selectedRowKeys
-        );
-        this.selectedRows = selectedResult.selectedRows;
-        this.unSelectedRows = selectedResult.unSelectedRows;
       }
     }
 
@@ -596,7 +406,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     }
 
     if (prevProps.columns !== this.props.columns) {
-      this.updateTableFixedRows();
+      this.syncTableWidth();
     }
   }
 
@@ -615,6 +425,86 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     this.toDispose = [];
 
     this.updateTableInfoLazy.cancel();
+    this.updateAutoFillHeightLazy.cancel();
+  }
+
+  /**
+   * 自动设置表格高度占满界面剩余区域
+   * 用 css 实现有点麻烦，要改很多结构，所以先用 dom hack 了，避免对之前的功能有影响
+   */
+  @autobind
+  updateAutoFillHeight() {
+    const tableContent = this.containerDom.current as HTMLElement;
+
+    if (!tableContent) {
+      return;
+    }
+
+    tableContent.removeAttribute('style');
+
+    const {autoFillHeight} = this.props;
+    if (!autoFillHeight) {
+      return;
+    }
+
+    // 计算 table-content 在 dom 中的位置
+    let viewportHeight = window.innerHeight;
+    let tableContentTop = offset(tableContent).top;
+
+    const parent = getScrollParent(tableContent.parentElement as HTMLElement);
+    if (parent && parent !== document.body) {
+      viewportHeight = parent.clientHeight - 1;
+      tableContentTop = position(tableContent, parent).top;
+    }
+
+    let tableContentBottom = 0;
+    let selfNode = tableContent;
+    let parentNode = selfNode.parentElement;
+    while (parentNode) {
+      const paddingBottom = getStyleNumber(parentNode, 'padding-bottom');
+      const borderBottom = getStyleNumber(parentNode, 'border-bottom-width');
+
+      let nextSiblingHeight = 0;
+      let nextSibling = selfNode.nextElementSibling as HTMLElement;
+      while (nextSibling) {
+        const positon = getComputedStyle(nextSibling).position;
+        if (positon !== 'absolute' && positon !== 'fixed') {
+          nextSiblingHeight +=
+            nextSibling.offsetHeight +
+            getStyleNumber(nextSibling, 'margin-bottom');
+        }
+
+        nextSibling = nextSibling.nextElementSibling as HTMLElement;
+      }
+
+      const marginBottom = getStyleNumber(selfNode, 'margin-bottom');
+      tableContentBottom +=
+        paddingBottom + borderBottom + marginBottom + nextSiblingHeight;
+
+      selfNode = parentNode;
+      parentNode = selfNode.parentElement;
+      if (parent && parent !== document.body && parent === selfNode) {
+        break;
+      }
+    }
+
+    const heightField =
+      autoFillHeight && (autoFillHeight as AutoFillHeightObject).maxHeight
+        ? 'maxHeight'
+        : 'height';
+
+    const heightValue = isObject(autoFillHeight)
+      ? (autoFillHeight as AutoFillHeightObject)[heightField]
+      : 0;
+
+    const tableContentHeight = heightValue
+      ? heightValue
+      : Math.round(viewportHeight - tableContentTop - tableContentBottom);
+
+    if (tableContentHeight > 0) {
+      tableContent.style[heightField] = `${tableContentHeight}px`;
+      tableContent.style['overflow'] = 'auto';
+    }
   }
 
   initDragging() {
@@ -653,10 +543,19 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           return;
         }
 
-        const rowLevels = e.item.getAttribute('row-levels');
+        let oldIndex = e.oldIndex;
+        let newIndex = e.newIndex;
+        const rowLevels = levelsSplit(e.item.getAttribute('row-levels'));
+        if (rowLevels.length) {
+          let i = 0;
+          while (i < rowLevels.length) {
+            oldIndex = oldIndex - rowLevels[i] - 1;
+            newIndex = newIndex - rowLevels[i] - 1;
+            i++;
+          }
+        }
 
-        onDrag &&
-          onDrag(e.oldIndex, e.newIndex, rowLevels ? rowLevels.split(',') : []);
+        onDrag && onDrag(oldIndex, newIndex, rowLevels);
       }
     });
   }
@@ -694,133 +593,25 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     }
   }
 
-  // 更新一个tr下的td的left和class
-  updateFixedRow(row: HTMLElement, columns: Array<ColumnProps>) {
-    const {classnames: cx} = this.props;
-
-    const children = row.children;
-    for (let i = 0; i < children.length; i++) {
-      const dom = children[i] as HTMLElement;
-
-      dom.style.removeProperty('left');
-
-      const fixed = columns[i] ? columns[i].fixed || '' : '';
-      if (isFixedLeftColumn(fixed)) {
-        dom.style.left =
-          i > 0 ? getPreviousLeftWidth(children, i, columns) + 'px' : '0';
-      } else if (isFixedRightColumn(fixed)) {
-        dom.style.right =
-          i < children.length - 1
-            ? getAfterRightWidth(children, i, columns) + 'px'
-            : '0';
-      }
-
-      dom.classList.remove(cx('Table-cell-fix-left-last'));
-      dom.classList.remove(cx('Table-cell-fix-right-first'));
-      dom.classList.remove(cx('Table-cell-fix-right-first-prev'));
-    }
-    // 最后一个左fixed的添加样式
-    let leftIndex = findLastIndex(columns, column =>
-      isFixedLeftColumn(column.fixed)
-    );
-
-    if (leftIndex > -1) {
-      children[leftIndex]?.classList.add(cx('Table-cell-fix-left-last'));
-    }
-    // 第一个右fixed的添加样式
-    let rightIndex = columns.findIndex(column =>
-      isFixedRightColumn(column.fixed)
-    );
-    if (rightIndex > -1) {
-      children[rightIndex]?.classList.add(cx('Table-cell-fix-right-first'));
-      if (rightIndex > 0) {
-        children[rightIndex - 1]?.classList.add(
-          cx('Table-cell-fix-right-first-prev')
-        );
-      }
-    }
-  }
-
-  // 在可选、可展开、可拖拽的情况下，补充column，方便fix处理
-  prependColumns(columns: Array<any>) {
-    const {rowSelection, expandable, draggable} = this.props;
-    if (draggable) {
-      columns.unshift({});
-    } else {
-      if (expandable) {
-        columns.unshift(expandable);
-      }
-      if (rowSelection) {
-        columns.unshift(rowSelection);
-      }
-    }
-  }
-
-  updateTheadFixedRow(thead: HTMLElement, columns: Array<any>) {
-    const children = thead.children;
-    for (let i = 0; i < children.length; i++) {
-      const cols = [...columns[i]];
-      if (i === 0) {
-        this.prependColumns(cols);
-      }
-
-      this.updateFixedRow(children[i] as HTMLElement, cols);
-    }
-  }
-
-  updateTbodyFixedRow(tbody: HTMLElement, columns: Array<any>) {
-    const {classnames: cx} = this.props;
-    const children = filter(
-      tbody.children,
-      child =>
-        !child.classList.contains(cx('Table-summary-row')) &&
-        !child.classList.contains(cx('Table-empty-row'))
-    );
-    this.prependColumns(columns);
-    for (let i = 0; i < children.length; i++) {
-      this.updateFixedRow(children[i] as HTMLElement, columns);
-    }
-  }
-
-  updateSummaryFixedRow(
-    children: HTMLCollection | Array<Element>,
-    columns: Array<any>
-  ) {
-    for (let i = 0; i < children.length; i++) {
-      this.updateFixedRow(children[i] as HTMLElement, columns[i]);
-    }
-  }
-
-  updateFootSummaryFixedRow(tfoot: HTMLElement) {
-    const {footSummary} = this.props;
-    if (Array.isArray(footSummary)) {
-      const columns = getSummaryColumns(footSummary as Array<SummaryProps>);
-      this.updateSummaryFixedRow(tfoot.children, columns);
-    }
-  }
-
-  updateHeadSummaryFixedRow(tbody: HTMLElement) {
-    const {headSummary, classnames: cx} = this.props;
-    if (Array.isArray(headSummary)) {
-      const columns = getSummaryColumns(headSummary as Array<SummaryProps>);
-      const children = filter(tbody.children, child =>
-        child.classList.contains(cx('Table-summary-row'))
-      );
-      this.updateSummaryFixedRow(children, columns);
-    }
-  }
-
   renderColGroup(showReal?: boolean) {
-    const {scroll, tableLayout} = this.props;
+    const {scroll, tableLayout, columns, rowSelection, expandable, draggable} =
+      this.props;
 
     const isFixed = !!((scroll && scroll.x) || tableLayout === 'fixed');
     return (
       <ColGroup
-        columns={this.tdColumns}
+        columns={columns}
         colWidths={this.state.colWidths}
         isFixed={isFixed}
         syncTableWidth={this.syncTableWidth}
         initTableWidth={this.initTableWidth}
+        selectable={!!rowSelection}
+        expandable={!!expandable}
+        draggable={!!draggable}
+        rowSelectionColumnWidth={rowSelection?.columnWidth || DefaultCellWidth}
+        expandableColumnWidth={expandable?.columnWidth || DefaultCellWidth}
+        isRightExpandable={this.isRightExpandable()}
+        isLeftExpandable={this.isLeftExpandable()}
         showReal={showReal}
       ></ColGroup>
     );
@@ -833,7 +624,10 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
     const column = this.tdColumns[index];
     this.resizeIndex = index;
-    this.resizeWidth = this.state.colWidths[column.name].width;
+
+    const colWidth = this.state.colWidths[column.name];
+    this.resizeWidth = colWidth.width || colWidth.realWidth;
+
     this.resizeTarget!.classList.add('is-resizing');
 
     document.addEventListener('mousemove', this.onResizeMouseMove);
@@ -860,6 +654,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           column.minWidth || 0
         );
       }
+
       const colWidths = this.state.colWidths;
       colWidths[column.name].width = newWidth;
       this.setState({colWidths: {...colWidths}});
@@ -879,30 +674,22 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     delete this.resizeTarget;
   }
 
-  renderTHead() {
+  renderHead() {
     const {
-      rowSelection,
-      dataSource,
+      columns,
       classnames: cx,
-      onSort,
+      classPrefix,
       expandable,
+      rowSelection,
       draggable,
       resizable,
+      dataSource,
+      onSort,
       onSelectAll,
       onFilter
     } = this.props;
 
-    const thColumns = this.thColumns;
-    const tdColumns = this.tdColumns;
-
-    // 获取一行最多th个数
-    let maxCount = 0;
-    thColumns.forEach(columns => {
-      if (columns.length > maxCount) {
-        maxCount = columns.length;
-      }
-    });
-    const keyField = this.getRowSelectionKeyField();
+    const rowSelectionKeyField = this.getRowSelectionKeyField();
     const dataList =
       rowSelection && rowSelection.getCheckboxProps
         ? this.state.dataSource.filter((data, index) => {
@@ -911,222 +698,83 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           })
         : this.state.dataSource;
 
-    const isExpandable = this.isExpandableTable();
-    const isLeftExpandable = this.isLeftExpandable();
-    const isRightExpandable = this.isRightExpandable();
-
-    const expandableCell =
-      !draggable && isExpandable ? (
-        <Cell
-          wrapperComponent="th"
-          rowSpan={thColumns.length}
-          fixed={expandable && expandable.fixed ? 'left' : ''}
-          className={cx('Table-row-expand-icon-cell')}
-          style={{width: (expandable?.columnWidth || DefaultCellWidth) + 'px'}}
-        ></Cell>
-      ) : null;
-
-    let allRowKeys: Array<string | number> = [];
-    let allRows: Array<any> = [];
-    dataList.forEach(data => {
-      allRowKeys.push(data[keyField]);
-      allRows.push(data);
-      if (!expandable && this.hasChildrenRow(data)) {
-        allRowKeys = [...allRowKeys, ...this.getDataChildrenKeys(data)];
-        data[this.getChildrenColumnName()].forEach((item: any) =>
-          allRows.push(item)
-        );
-      }
-    });
-
-    // 从renderers的table传来的数据 可能不在当前页 因此需要过滤一下
-    const selectedRowKeys = this.state.selectedRowKeys.filter(key =>
-      allRowKeys.includes(key)
-    );
-    const restSelectedRowKeys = this.state.selectedRowKeys.filter(
-      key => !allRowKeys.includes(key)
-    );
-
-    const maxSelectedLength = rowSelection?.maxSelectedLength;
-    if (maxSelectedLength && Number.isInteger(maxSelectedLength)) {
-      if (restSelectedRowKeys.length + allRowKeys.length > maxSelectedLength) {
-        const count = maxSelectedLength - restSelectedRowKeys.length;
-        allRowKeys = allRowKeys.slice(0, count);
-        allRows = allRows.slice(0, count);
-      }
-    }
-
     return (
-      <thead ref={this.theadDom} className={cx('Table-thead')}>
-        {thColumns.map((data, index) => {
-          return (
-            <tr key={'th-cell-' + index}>
-              {draggable && index === 0 ? (
-                <Cell
-                  wrapperComponent="th"
-                  rowSpan={thColumns.length}
-                  className={cx('Table-dragCell')}
-                  style={{width: DefaultCellWidth + 'px'}}
-                  col="drag"
-                ></Cell>
-              ) : null}
-              {!draggable && rowSelection && index === 0 ? (
-                <Cell
-                  wrapperComponent="th"
-                  rowSpan={thColumns.length}
-                  fixed={rowSelection.fixed ? 'left' : ''}
-                  className={cx('Table-checkCell')}
-                  style={{
-                    width: (rowSelection.columnWidth || DefaultCellWidth) + 'px'
-                  }}
-                  col="select"
-                >
-                  {rowSelection.type !== 'radio'
-                    ? [
-                        <CheckBox
-                          key="checkAll"
-                          partial={
-                            selectedRowKeys.length > 0 &&
-                            selectedRowKeys.length < allRowKeys.length
-                          }
-                          checked={selectedRowKeys.length > 0}
-                          onChange={async value => {
-                            const selectedRows = value ? allRows : [];
-                            const selectedRowKeys = value ? allRowKeys : [];
+      <Head
+        key="thead"
+        columns={columns}
+        draggable={!!draggable}
+        selectable={!!rowSelection}
+        rowSelectionFixed={!!rowSelection?.fixed}
+        rowSelectionType={rowSelection?.type}
+        selections={rowSelection?.selections}
+        rowSelectionKeyField={rowSelectionKeyField}
+        maxSelectedLength={rowSelection?.maxSelectedLength}
+        isExpandable={this.isExpandableTable()}
+        isRightExpandable={this.isRightExpandable()}
+        isLeftExpandable={this.isLeftExpandable()}
+        selectedRowKeys={this.state.selectedRowKeys}
+        dataSource={dataList}
+        resizable={resizable}
+        expandable={!!expandable}
+        expandableFixed={expandable?.fixed}
+        childrenColumnName={this.getChildrenColumnName()}
+        orderBy={this.state.sort?.orderBy}
+        popOverContainer={this.getPopOverContainer}
+        classnames={cx}
+        classPrefix={classPrefix}
+        onSort={(payload: SortProps, column: ColumnProps) => {
+          this.setState({
+            sort: payload
+          });
 
-                            if (onSelectAll) {
-                              const prevented = await onSelectAll(
-                                selectedRows,
-                                value ? selectedRowKeys : [],
-                                value ? [] : selectedRows
-                              );
-                              if (prevented) {
-                                return;
-                              }
-                            }
-                            this.setState({
-                              selectedRowKeys: [
-                                ...selectedRowKeys,
-                                ...restSelectedRowKeys // 更新数据要把非当前页的数据也加上
-                              ]
-                            });
-                          }}
-                        ></CheckBox>,
-                        rowSelection.selections &&
-                        rowSelection.selections.length > 0 ? (
-                          <HeadCellSelect
-                            key="checkSelection"
-                            keys={allRowKeys}
-                            selections={rowSelection.selections}
-                            popOverContainer={this.getPopOverContainer}
-                          ></HeadCellSelect>
-                        ) : null
-                      ]
-                    : null}
-                </Cell>
-              ) : null}
-              {isLeftExpandable && index === 0 ? expandableCell : null}
-              {data.map((item, i) => {
-                let sort = null;
-                if (item.sorter) {
-                  sort = (
-                    <HeadCellSort
-                      column={item}
-                      active={
-                        !!this.state.sort?.orderBy &&
-                        this.state.sort.orderBy === item?.name
-                      }
-                      onSort={(payload: SortProps) => {
-                        this.setState({
-                          sort: payload
-                        });
-
-                        if (onSort) {
-                          onSort(payload);
-                        } else {
-                          if (typeof item.sorter === 'function') {
-                            if (payload.orderBy) {
-                              const sortList = [...this.state.dataSource];
-                              this.setState({
-                                dataSource: sortList.sort(
-                                  item.sorter as (a: any, b: any) => number
-                                )
-                              });
-                            } else {
-                              this.setState({dataSource: [...dataSource]});
-                            }
-                          }
-                        }
-                      }}
-                    ></HeadCellSort>
-                  );
-                }
-
-                let filter = null;
-                if (item.filterDropdown) {
-                  filter = item.filterDropdown;
-                } else if (item.filters && item.filters.length > 0) {
-                  filter = (
-                    <HeadCellFilter
-                      column={item}
-                      popOverContainer={this.getPopOverContainer}
-                      onFilter={onFilter}
-                    ></HeadCellFilter>
-                  );
-                }
-
-                // th的最后一行才可调整列宽
-                // 分组情况下 最后一行才和列配置个数对应
-                // 就可以根据index找到col 不依赖name
-                const noChildren = !item.children?.length;
-                let cIndex = -1;
-                if (noChildren) {
-                  // 根据name去tdColumns匹配出index
-                  // 没设置name的 那一定不是要绑定数据的列 一般都是分组的上层 也不会出现调整列宽
-                  cIndex = tdColumns.findIndex(c => c.name === item.name);
-                }
-                const children = !item.children?.length ? (
-                  <>
-                    {sort}
-                    {filter}
-                    {resizable ? (
-                      <i
-                        className={cx('Table-thead-resizable')}
-                        onMouseDown={e => this.onResizeMouseDown(e, cIndex)}
-                      ></i>
-                    ) : null}
-                  </>
-                ) : null;
-
-                return (
-                  <Cell
-                    wrapperComponent="th"
-                    rowSpan={item.rowSpan}
-                    colSpan={item.colSpan}
-                    key={`cell-${i}`}
-                    fixed={item.fixed === true ? 'left' : item.fixed}
-                    className={cx({
-                      'Table-cell-last':
-                        i === maxCount - 1 && i === data.length - 1
-                    })}
-                    groupId={item.groupId}
-                    depth={item.depth}
-                    col={cIndex > -1 ? cIndex.toString() : undefined}
-                  >
-                    {typeof item.title === 'function'
-                      ? item.title(children)
-                      : item.title}
-                  </Cell>
-                );
-              })}
-              {isRightExpandable && index === 0 ? expandableCell : null}
-            </tr>
-          );
-        })}
-      </thead>
+          if (onSort) {
+            onSort(payload);
+          } else {
+            if (typeof column.sorter === 'function') {
+              if (payload.orderBy) {
+                const sortList = [...this.state.dataSource];
+                this.setState({
+                  dataSource: sortList.sort(
+                    column.sorter as (a: any, b: any) => number
+                  )
+                });
+              } else {
+                this.setState({dataSource: [...dataSource]});
+              }
+            }
+          }
+        }}
+        onSelectAll={async (
+          value: boolean,
+          selectedRowKeys: Array<string | number>,
+          selectedRows: Array<any>,
+          restSelectedKeys: Array<string | number>
+        ) => {
+          if (onSelectAll) {
+            const prevented = await onSelectAll(
+              selectedRows,
+              value ? selectedRowKeys : [],
+              value ? [] : selectedRows
+            );
+            if (prevented) {
+              return;
+            }
+          }
+          const keys = [
+            ...selectedRowKeys,
+            ...restSelectedKeys // 更新数据要把非当前页的数据也加上
+          ];
+          if (!isEqual(keys, this.state.selectedRowKeys)) {
+            this.setState({selectedRowKeys: keys});
+          }
+        }}
+        onFilter={onFilter}
+        onResizeMouseDown={this.onResizeMouseDown.bind(this)}
+      ></Head>
     );
   }
 
+  @autobind
   async onRowClick(
     event: React.ChangeEvent<any>,
     record?: any,
@@ -1153,6 +801,23 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     }
   }
 
+  @autobind
+  async onRowDbClick(
+    event: React.ChangeEvent<any>,
+    record?: any,
+    rowIndex?: number
+  ) {
+    const {onRow} = this.props;
+
+    if (onRow && onRow.onRowDbClick) {
+      const prevented = await onRow.onRowDbClick(event, record, rowIndex);
+      if (prevented === false) {
+        return;
+      }
+    }
+  }
+
+  @autobind
   async onRowMouseEnter(
     event: React.ChangeEvent<any>,
     record?: any,
@@ -1177,6 +842,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     }
   }
 
+  @autobind
   async onRowMouseLeave(
     event: React.ChangeEvent<any>,
     record?: any,
@@ -1189,11 +855,13 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       onRow.onRowMouseLeave(event, record, rowIndex);
   }
 
+  @autobind
   onMouseLeave() {
     const {itemActions} = this.props;
     itemActions && this.setState({hoverRow: null});
   }
 
+  @autobind
   onExpandRows(data: Array<any>) {
     const {expandedRowKeys} = this.state;
     const {expandable} = this.props;
@@ -1202,6 +870,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     expandable?.onExpand && expandable?.onExpand(true, data);
   }
 
+  @autobind
   onCollapseRows(data: Array<any>) {
     const {expandedRowKeys} = this.state;
     const {expandable} = this.props;
@@ -1232,9 +901,86 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     return expandable?.keyField || keyField || 'key';
   }
 
-  hasChildrenRow(data: any) {
-    const key = this.getChildrenColumnName();
-    return data[key] && Array.isArray(data[key]) && data[key].length > 0;
+  hasCheckedChildrenRows(data: any) {
+    const selectedRowKeys = this.state.selectedRowKeys;
+    const childrenColumnName = this.getChildrenColumnName();
+    const rowSelectionKeyField = this.getRowSelectionKeyField();
+    const childrenKeys = getDataChildrenKeys(
+      data,
+      childrenColumnName,
+      rowSelectionKeyField
+    );
+    const length = intersection(selectedRowKeys, childrenKeys).length;
+
+    return length > 0;
+  }
+
+  getSelectedRowKeys(isSelected: boolean, data: any) {
+    const {rowSelection} = this.props;
+
+    const rowSelectionKeyField = this.getRowSelectionKeyField();
+    const childrenColumnName = this.getChildrenColumnName();
+
+    const isRadio = rowSelection && rowSelection.type === 'radio';
+
+    let selected: any[] = [];
+    if (isSelected) {
+      if (isRadio) {
+        selected = [data[rowSelectionKeyField]];
+      } else {
+        selected = [
+          ...this.state.selectedRowKeys,
+          data[rowSelectionKeyField],
+          ...getDataChildrenKeys(data, childrenColumnName, rowSelectionKeyField)
+        ].filter((key, i, a) => a.indexOf(key) === i);
+      }
+    } else {
+      if (!isRadio) {
+        selected = this.state.selectedRowKeys.filter(
+          key =>
+            ![
+              data[rowSelectionKeyField],
+              ...getDataChildrenKeys(
+                data,
+                childrenColumnName,
+                rowSelectionKeyField
+              )
+            ].includes(key)
+        );
+      }
+    }
+
+    return selected;
+  }
+
+  async selectedSingleRow(value: boolean, data: any) {
+    const {onSelect} = this.props;
+
+    const selectedRowKeys = this.getSelectedRowKeys(value, data);
+
+    if (onSelect) {
+      const rowSelectionKeyField = this.getRowSelectionKeyField();
+      const childrenColumnName = this.getChildrenColumnName();
+
+      const selectedResult = getSelectedRows(
+        this.state.dataSource,
+        selectedRowKeys,
+        rowSelectionKeyField,
+        childrenColumnName
+      );
+      const prevented = await onSelect(
+        selectedResult.selectedRows,
+        selectedRowKeys,
+        selectedResult.unSelectedRows
+      );
+      if (prevented) {
+        return;
+      }
+    }
+
+    if (!isEqual(this.state.selectedRowKeys, selectedRowKeys)) {
+      this.setState({selectedRowKeys});
+    }
   }
 
   // 展开和嵌套不能共存
@@ -1248,216 +994,40 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     );
   }
 
-  // 获取当前行数据所有子行的key值
-  getDataChildrenKeys(data: any) {
-    let keys: Array<string> = [];
-
-    if (this.hasChildrenRow(data)) {
-      const key = this.getChildrenColumnName();
-      data[key].forEach(
-        (item: any) =>
-          (keys = [
-            ...keys,
-            ...this.getDataChildrenKeys(item),
-            item[this.getRowSelectionKeyField()]
-          ])
-      );
-    }
-
-    return keys;
-  }
-
-  hasCheckedRows(data: any) {
-    const selectedRowKeys = this.state.selectedRowKeys;
-    const childrenKeys = this.getDataChildrenKeys(data);
-
-    return (
-      intersection(selectedRowKeys, [
-        ...childrenKeys,
-        data[this.getRowSelectionKeyField()]
-      ]).length > 0
-    );
-  }
-
-  hasCheckedChildrenRows(data: any) {
-    const selectedRowKeys = this.state.selectedRowKeys;
-    const childrenKeys = this.getDataChildrenKeys(data);
-    const length = intersection(selectedRowKeys, childrenKeys).length;
-
-    return length > 0;
-  }
-
   isExpanded(record: any) {
+    const expandableKeyField = this.getExpandableKeyField();
     return !!find(
       this.state.expandedRowKeys,
-      key => key == record[this.getExpandableKeyField()]
+      key => key == record[expandableKeyField]
     ); // == 匹配 否则'3'、3匹配不上
-  }
-
-  getExpandedIcons(record: any) {
-    const {classnames: cx} = this.props;
-
-    return this.isExpanded(record) ? (
-      <i
-        className={cx('Table-expandBtn', 'is-active')}
-        onClick={this.onCollapseRows.bind(this, [record])}
-      >
-        <Icon icon="right-arrow-bold" className="icon" />
-      </i>
-    ) : (
-      <i
-        className={cx('Table-expandBtn')}
-        onClick={this.onExpandRows.bind(this, [record])}
-      >
-        <Icon icon="right-arrow-bold" className="icon" />
-      </i>
-    );
-  }
-
-  async selectedSingleRow(value: boolean, data: any) {
-    const {rowSelection, onSelect} = this.props;
-
-    const defaultKey = this.getRowSelectionKeyField();
-    const isRadio = rowSelection && rowSelection.type === 'radio';
-
-    let selectedRowKeys = [];
-    if (value) {
-      if (isRadio) {
-        selectedRowKeys = [data[defaultKey]];
-      } else {
-        selectedRowKeys = [
-          ...this.state.selectedRowKeys,
-          data[defaultKey],
-          ...this.getDataChildrenKeys(data)
-        ].filter((key, i, a) => a.indexOf(key) === i);
-      }
-    } else {
-      if (!isRadio) {
-        selectedRowKeys = this.state.selectedRowKeys.filter(
-          key =>
-            ![data[defaultKey], ...this.getDataChildrenKeys(data)].includes(key)
-        );
-      }
-    }
-
-    if (onSelect) {
-      const selectedResult = this.getSelectedRows(
-        this.state.dataSource,
-        selectedRowKeys
-      );
-      const prevented = await onSelect(
-        selectedResult.selectedRows,
-        selectedRowKeys,
-        selectedResult.unSelectedRows
-      );
-      if (prevented) {
-        return;
-      }
-    }
-
-    this.setState({selectedRowKeys});
   }
 
   renderRow(data: any, rowIndex: number, levels: Array<number>) {
     const {
-      classnames: cx,
       rowSelection,
       expandable,
-      draggable,
       indentSize,
+      lineHeight,
+      draggable,
       rowClassName,
       keyField,
-      lineHeight // 是否设置了固定行高
+      columns,
+      classPrefix,
+      classnames: cx
     } = this.props;
 
-    const tdColumns = this.tdColumns;
-    const isExpandable = this.isExpandableTable();
-    const defaultKey = this.getRowSelectionKeyField();
-    const colCount = this.getExtraColumnCount();
-    const isLeftExpandable = this.isLeftExpandable();
-    const isRightExpandable = this.isRightExpandable();
+    const rowSelectionKeyField = this.getRowSelectionKeyField();
+    const isChecked = !!find(
+      this.state.selectedRowKeys,
+      key => key === data[rowSelectionKeyField]
+    );
 
+    const childrenColumnName = this.getChildrenColumnName();
     // 当前行是否可展开
     const isExpandableRow = this.isExpandableRow(data, rowIndex);
-    // 当前行是否有children
-    const hasChildrenRow = this.hasChildrenRow(data);
-
-    const isExpanded = this.isExpanded(data);
-    // 设置缩进效果
-    const indentDom =
-      levels.length > 0 ? (
-        <span
-          className={cx('Table-row-indent', `indent-level-${levels.length}`)}
-          style={
-            levels.length > 0 ? {width: indentSize * levels.length + 'px'} : {}
-          }
-        ></span>
-      ) : null;
-
-    const cells = tdColumns.map((item, i) => {
-      // 为了支持灵活合并单元格，renderers层的Table2传递的render方法，返回{children: <ReactElement>, props: {rowSpan, colSpan}}
-      // 但直接使用amis-ui的table，render方法一般直接返回ReactElement
-      const render =
-        item.render && typeof item.render === 'function'
-          ? item.render(data[item.name], data, rowIndex, i, levels)
-          : null;
-      let props = {rowSpan: 1, colSpan: 1};
-      let children = render;
-      if (render && !React.isValidElement(render) && isObject(render)) {
-        if (render.props) {
-          props = render.props;
-        }
-        children = render.children;
-        // 如果合并行 且有展开行，那么合并行不生效
-        if (props.rowSpan > 1 && isExpandableRow && hasChildrenRow) {
-          props.rowSpan === 1;
-        }
-      }
-
-      const className =
-        typeof item.className === 'function'
-          ? item.className(data, rowIndex)
-          : '';
-      return props.rowSpan === 0 || props.colSpan === 0 ? null : (
-        <Cell
-          key={i}
-          {...props}
-          fixed={item.fixed === true ? 'left' : item.fixed}
-          column={item}
-          groupId={item.groupId}
-          className={cx({
-            [`${className}`]: !!className
-          })}
-          col={i > -1 ? i.toString() : undefined}
-        >
-          <div
-            className={cx('Table-cell-wrapper', {
-              [cx('Table-cell-wrapper-prefix')]:
-                i === 0 &&
-                (!!indentDom || (levels.length === 0 && hasChildrenRow)),
-              [cx(`Table-cell-height-${lineHeight}`)]: !!lineHeight
-            })}
-          >
-            {i === 0 && levels.length > 0 ? indentDom : null}
-            {i === 0 && hasChildrenRow ? this.getExpandedIcons(data) : null}
-            {render ? children : data[item.name]}
-          </div>
-        </Cell>
-      );
-    });
-
-    const rowClassNameClass =
-      rowClassName && typeof rowClassName === 'function'
-        ? rowClassName(data, rowIndex)
-        : '';
-
-    // 可展开和嵌套不能同时支持
-    // 设置了expandable 数据源里有children也就不生效了
-    // 拖拽排序 可选、可展开都先不支持了，可以支持嵌套展示
-    const checkboxProps =
-      rowSelection && rowSelection.getCheckboxProps
-        ? rowSelection.getCheckboxProps(data, rowIndex)
-        : {};
+    const hasChildrenRow = checkChildrenRow(data, childrenColumnName);
+    const hasChildrenChecked =
+      !!rowSelection && hasChildrenRow && this.hasCheckedChildrenRows(data);
 
     const expandedRowClassName =
       expandable &&
@@ -1465,106 +1035,73 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       typeof expandable.expandedRowClassName === 'function'
         ? expandable.expandedRowClassName(data, rowIndex)
         : '';
-    const dataKey = this.getChildrenColumnName();
+    const isExpanded = this.isExpanded(data);
+
+    const checkboxProps =
+      rowSelection && rowSelection.getCheckboxProps
+        ? rowSelection.getCheckboxProps(data, rowIndex)
+        : {};
 
     const children =
-      !draggable && isExpandableRow && isExpanded ? (
-        <tr
-          key="expanded"
-          className={cx('Table-expanded-row', expandedRowClassName)}
-        >
-          <Cell colSpan={tdColumns.length + colCount}>
-            {expandable &&
-            expandable.expandedRowRender &&
-            typeof expandable.expandedRowRender === 'function'
-              ? expandable.expandedRowRender(data, rowIndex)
-              : null}
-          </Cell>
-        </tr>
-      ) : this.hasChildrenRow(data) && isExpanded ? (
-        data[dataKey].map((item: any, index: number) => {
-          return this.renderRow(item, index, [...levels, rowIndex]);
-        })
-      ) : null;
-
-    const isChecked = !!find(
-      this.state.selectedRowKeys,
-      key => key === data[defaultKey]
-    );
-
-    const hasChildrenChecked = this.hasCheckedChildrenRows(data);
-    const isRadio = rowSelection && rowSelection.type === 'radio';
-
-    const expandableCell =
-      !draggable && isExpandable ? (
-        <Cell
-          fixed={
-            expandable && expandable.fixed
-              ? isRightExpandable
-                ? 'right'
-                : 'left'
-              : ''
-          }
-          className={cx('Table-cell-expand-icon-cell')}
-        >
-          {isExpandableRow || hasChildrenRow
-            ? this.getExpandedIcons(data)
-            : null}
-        </Cell>
-      ) : null;
+      !expandable && childrenColumnName && hasChildrenRow && isExpanded
+        ? data[childrenColumnName].map((item: any, index: number) =>
+            this.renderRow(item, index, [...levels, rowIndex])
+          )
+        : null;
 
     return [
-      <tr
-        key={`${data[keyField || 'key'] || rowIndex}`} // 可能会拖拽排序，就不能用rowIndex作为key了，否则显示会有问题
-        row-index={rowIndex}
-        row-levels={levels.join(',')}
-        className={cx(
-          'Table-row',
-          `Table-row-level-${levels.length}`,
-          rowClassNameClass,
-          {
-            'Table-row-disabled': !!checkboxProps.disabled
-          }
-        )}
-        onMouseEnter={e => this.onRowMouseEnter(e, data, rowIndex)}
-        onMouseLeave={e => this.onRowMouseLeave(e, data, rowIndex)}
-        onClick={e => this.onRowClick(e, data, rowIndex)}
-      >
-        {draggable ? (
-          <Cell className={cx('Table-dragCell')}>
-            <Icon icon="drag-bar" className="icon"></Icon>
-          </Cell>
-        ) : null}
-        {!draggable && rowSelection ? (
-          <Cell
-            fixed={rowSelection.fixed ? 'left' : ''}
-            className={cx('Table-checkCell')}
-          >
-            <CheckBox
-              name={'Table-checkbox'}
-              type={rowSelection.type || 'checkbox'}
-              partial={!isRadio && hasChildrenChecked && !isChecked}
-              checked={isRadio ? isChecked : hasChildrenChecked || isChecked}
-              onChange={(value: boolean) => {
-                if (!(rowSelection && rowSelection.rowClick)) {
-                  this.selectedSingleRow(value, data);
-                }
-
-                event && event.stopPropagation();
-              }}
-              {...checkboxProps}
-            ></CheckBox>
-          </Cell>
-        ) : null}
-        {isLeftExpandable ? expandableCell : null}
-        {cells}
-        {isRightExpandable ? expandableCell : null}
-      </tr>,
+      <Row
+        key={`row-${rowIndex}`}
+        data={data}
+        rowIndex={rowIndex}
+        levels={levels.join(',')}
+        columns={columns}
+        selectable={!!rowSelection}
+        rowSelectionFixed={!!rowSelection?.fixed}
+        rowSelectionType={rowSelection?.type || 'checkbox'}
+        expandable={!!expandable}
+        expandableFixed={expandable?.fixed}
+        expandedRowClassName={expandedRowClassName}
+        expandedRowRender={expandable?.expandedRowRender}
+        isExpanded={isExpanded}
+        hasChildrenRow={hasChildrenRow}
+        hasChildrenChecked={hasChildrenChecked}
+        indentSize={indentSize}
+        lineHeight={lineHeight}
+        draggable={!!draggable}
+        isExpandable={this.isExpandableTable()}
+        isExpandableRow={isExpandableRow}
+        colCount={this.getExtraColumnCount()}
+        isRightExpandable={this.isRightExpandable()}
+        isLeftExpandable={this.isLeftExpandable()}
+        isChecked={isChecked}
+        rowClassName={rowClassName}
+        onExpand={this.onExpandRows}
+        onCollapse={this.onCollapseRows}
+        onMouseEnter={this.onRowMouseEnter}
+        onMouseLeave={this.onRowMouseLeave}
+        onClick={this.onRowClick}
+        onDoubleClick={this.onRowDbClick}
+        onChange={this.onRowChange}
+        childrenColumnName={this.getChildrenColumnName()}
+        keyField={keyField}
+        classnames={cx}
+        classPrefix={classPrefix}
+        {...checkboxProps}
+      />,
       children
     ];
   }
 
-  renderTBody() {
+  @autobind
+  onRowChange(value: boolean, record: any) {
+    const {rowSelection} = this.props;
+    if (!(rowSelection && rowSelection.rowClick)) {
+      this.selectedSingleRow(value, record);
+    }
+  }
+
+  renderBody() {
     const {
       classnames: cx,
       headSummary,
@@ -1572,7 +1109,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       placeholder,
       sticky,
       loading,
-      loadingConfig
+      loadingConfig,
+      classPrefix
     } = this.props;
 
     const tdColumns = this.tdColumns;
@@ -1585,7 +1123,11 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           : null}
         {!!loading ? (
           <tr className={cx('Table-row', 'Table-loading-row')}>
-            <Cell colSpan={tdColumns.length + colCount}>
+            <Cell
+              classnames={cx}
+              classPrefix={classPrefix}
+              colSpan={tdColumns.length + colCount}
+            >
               <div className={cx('Table-loading')}>
                 {typeof loading === 'boolean' ? (
                   <Spinner
@@ -1601,7 +1143,11 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           </tr>
         ) : !this.state.dataSource.length ? (
           <tr className={cx('Table-row', 'Table-empty-row')}>
-            <Cell colSpan={tdColumns.length + colCount}>
+            <Cell
+              classnames={cx}
+              classPrefix={classPrefix}
+              colSpan={tdColumns.length + colCount}
+            >
               <div className={cx('Table-empty')}>
                 {typeof placeholder === 'function'
                   ? placeholder()
@@ -1632,17 +1178,12 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     return expandable && expandable.position === 'right';
   }
 
-  // 展开列放到左侧
+  // 展开列放到左侧 还有一种情况是position为none 无展开按钮
   isLeftExpandable() {
     const {expandable} = this.props;
     return (
       expandable && (!expandable.position || expandable.position === 'left')
     );
-  }
-
-  isNestedTable() {
-    const {dataSource} = this.props;
-    return !!find(dataSource, item => this.hasChildrenRow(item));
   }
 
   // 计算自动增加的列数
@@ -1666,87 +1207,32 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   }
 
   renderSummaryRow(summary: any) {
-    const {classnames: cx, dataSource} = this.props;
-    const cells: Array<React.ReactNode> = [];
-    const trs: Array<React.ReactNode> = [];
-    let colCount = this.getExtraColumnCount();
-    const isRightExpandable = this.isRightExpandable() ? 1 : 0;
+    const {classnames: cx, classPrefix} = this.props;
+    if (typeof summary === 'function') {
+      return summary(this.state.dataSource);
+    }
+    if (React.isValidElement(summary)) {
+      return summary;
+    }
 
-    Array.isArray(summary)
-      ? summary.forEach((s, index) => {
-          Array.isArray(s)
-            ? trs.push(
-                <tr
-                  onMouseEnter={e => this.onRowMouseEnter(e)}
-                  onMouseLeave={e => this.onRowMouseLeave(e)}
-                  key={'summary-tr-' + index}
-                  className={cx('Table-summary-row')}
-                >
-                  {s.map((d, i) => {
-                    // 将操作列自动添加到第一列，用户的colSpan只需要关心实际的列数
-                    const colSpan =
-                      i === 0
-                        ? (d.colSpan || 1) + colCount - isRightExpandable
-                        : i === s.length - 1
-                        ? (d.colSpan || 1) + isRightExpandable
-                        : d.colSpan;
-                    return (
-                      <Cell
-                        key={'summary-tr-cell-' + i}
-                        fixed={d.fixed}
-                        colSpan={colSpan}
-                      >
-                        {typeof d.render === 'function'
-                          ? d.render(dataSource)
-                          : d.render}
-                      </Cell>
-                    );
-                  })}
-                </tr>
-              )
-            : cells.push(
-                <Cell
-                  key={'summary-cell-' + index}
-                  fixed={s.fixed}
-                  colSpan={
-                    cells.length === 0
-                      ? (s.colSpan || 1) + colCount - isRightExpandable
-                      : index === summary.length - 1
-                      ? (s.colSpan || 1) + isRightExpandable
-                      : s.colSpan
-                  }
-                >
-                  {typeof s.render === 'function'
-                    ? s.render(dataSource)
-                    : s.render}
-                </Cell>
-              );
-        })
-      : null;
-
-    return summary
-      ? typeof summary === 'function'
-        ? summary(dataSource)
-        : [
-            cells.length > 0 ? (
-              <tr
-                onMouseEnter={e => this.onRowMouseEnter(e)}
-                onMouseLeave={e => this.onRowMouseLeave(e)}
-                key="summary-row"
-                className={cx('Table-summary-row')}
-              >
-                {cells}
-              </tr>
-            ) : null,
-            ...trs
-          ]
-      : null;
+    return (
+      <SummaryRows
+        summary={summary}
+        colCount={this.getExtraColumnCount()}
+        isRightExpandable={this.isRightExpandable()}
+        classnames={cx}
+        classPrefix={classPrefix}
+        dataSource={this.state.dataSource}
+        onMouseEnter={this.onRowMouseEnter}
+        onMouseLeave={this.onRowMouseLeave}
+      />
+    );
   }
 
-  renderTFoot() {
+  renderFoot() {
     const {classnames: cx, footSummary} = this.props;
     return (
-      <tfoot ref={this.tfootDom} className={cx('Table-summary')}>
+      <tfoot className={cx('Table-summary')}>
         {this.renderSummaryRow(footSummary)}
       </tfoot>
     );
@@ -1790,6 +1276,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     }
   }
 
+  @autobind
   onTableScroll(event: any) {
     const scrollDomRefs = [this.headerDom, this.contentDom, this.footDom];
 
@@ -1827,7 +1314,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         ref={this.contentDom}
         className={cx('Table-content')}
         style={hasScrollX ? {overflow: 'auto hidden'} : {}}
-        onMouseLeave={this.onMouseLeave.bind(this)}
+        onMouseLeave={this.onMouseLeave}
         onScroll={this.onTableContentScroll.bind(this)}
       >
         {itemActions && hoverRow ? (
@@ -1845,9 +1332,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           className={cx('Table-table')}
         >
           {this.renderColGroup()}
-          {showHeader ? this.renderTHead() : null}
-          {this.renderTBody()}
-          {footSummary ? this.renderTFoot() : null}
+          {showHeader ? this.renderHead() : null}
+          {this.renderBody()}
+          {footSummary ? this.renderFoot() : null}
         </table>
       </div>
     );
@@ -1887,7 +1374,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           style={{...tableStyle, tableLayout: 'fixed'}}
         >
           {this.renderColGroup(true)}
-          {showHeader ? this.renderTHead() : null}
+          {showHeader ? this.renderHead() : null}
           {headSummary ? (
             <tbody>{this.renderSummaryRow(headSummary)}</tbody>
           ) : null}
@@ -1919,8 +1406,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         ref={this.contentDom}
         className={cx('Table-body')}
         style={style}
-        onMouseLeave={this.onMouseLeave.bind(this)}
-        onScroll={this.onTableScroll.bind(this)}
+        onMouseLeave={this.onMouseLeave}
+        onScroll={this.onTableScroll}
       >
         {itemActions && hoverRow ? (
           <ItemActionsWrapper dom={hoverRow.target} classnames={cx}>
@@ -1934,7 +1421,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           style={{...tableStyle, tableLayout: 'fixed'}}
         >
           {this.renderColGroup()}
-          {this.renderTBody()}
+          {this.renderBody()}
         </table>
       </div>
     );
@@ -1953,7 +1440,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
           className={cx('Table-table')}
           style={{width: scroll?.x + 'px' || '100%', tableLayout: 'fixed'}}
         >
-          {this.renderTFoot()}
+          {this.renderFoot()}
         </table>
       </div>
     );
@@ -1963,7 +1450,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     const {footSummary, classnames: cx} = this.props;
 
     return (
-      <div className={cx('Table-container')}>
+      <div className={cx('Table-container')} ref={this.containerDom}>
         {this.renderScrollTableHeader()}
         {this.renderScrollTableBody()}
         {footSummary ? this.renderScrollTableFoot() : null}
@@ -2010,9 +1497,14 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     const {scroll, tableLayout} = this.props;
 
     const table = tableWrapperDom.querySelector('table');
+    let thead = tableWrapperDom.querySelector('thead');
+    if (!thead) {
+      if (this.headerDom.current) {
+        thead = this.headerDom.current.querySelector('thead');
+      }
+    }
     const tableWidth =
       scroll && scroll.x ? scroll.x : tableWrapperDom!.offsetWidth;
-    const thead = this.theadDom?.current;
     let tbody: HTMLElement | null = null;
     const htmls: Array<string> = [];
     const isFixed = tableLayout === 'fixed' || (scroll && scroll.x);
@@ -2124,6 +1616,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       return;
     }
 
+    this.syncTableWidth();
     this.initTableWidth();
   }
 
@@ -2141,19 +1634,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       classnames: cx
     } = this.props;
 
-    // 过滤掉设置了breakpoint属性的列
-    const filterColumns = columns.filter(
-      item => !item.breakpoint || !isBreakpoint(item.breakpoint)
-    );
-
-    this.thColumns = [];
-    this.tdColumns = [];
-    buildColumns(
-      filterColumns,
-      this.thColumns,
-      this.tdColumns,
-      getMaxLevelThRowSpan(filterColumns)
-    );
+    const {thColumns, tdColumns} = getBuildColumns(columns);
+    this.thColumns = thColumns;
+    this.tdColumns = tdColumns;
 
     // 是否设置了纵向滚动
     const hasScrollY = scroll && scroll.y;
@@ -2179,7 +1662,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         {hasScrollY || sticky ? (
           this.renderScrollTable()
         ) : (
-          <div className={cx('Table-container')}>{this.renderTable()}</div>
+          <div className={cx('Table-container')} ref={this.containerDom}>
+            {this.renderTable()}
+          </div>
         )}
 
         {footer ? (

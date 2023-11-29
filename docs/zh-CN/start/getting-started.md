@@ -230,6 +230,59 @@ let amisScoped = amis.embed(
 
 还可以通过 `amisScoped.getComponentByName('page1.form1').setValues({'name1': 'othername'})` 来修改表单中的值。
 
+### 调用 amis 动作
+
+可以通过`amisScoped.doAction(actions, ctx)`来调用 amis 中的通用动作和目标组件的动作。了解事件动作机制可以查看[事件动作](../../docs/concepts/event-action)。参数说明如下：
+
+- `actions`：动作列表，支持执行单个或多个动作
+- `ctx`：上下文，它可以为动作配置补充上下文数据，例如下面`toast`动作中`msg`配置中的`${myName}`就来自于补充上下文`ctx`
+
+下面的例子中依次执行了`toast提示`、`ajax请求`、`dialog弹窗`、`给目标组件赋值`动作。
+
+```js
+amisScoped.doAction(
+  [
+    {
+      actionType: 'toast',
+      args: {
+        msg: '${amisUser.name}, ${myName}'
+      }
+    },
+    {
+      actionType: 'ajax',
+      api: {
+        url: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm',
+        method: 'post'
+      }
+    },
+    {
+      actionType: 'dialog',
+      dialog: {
+        type: 'dialog',
+        title: '弹窗',
+        body: [
+          {
+            type: 'tpl',
+            tpl: '<p>对，你打开了弹窗</p>',
+            inline: false
+          }
+        ]
+      }
+    },
+    {
+      actionType: 'setValue',
+      componentId: 'name',
+      args: {
+        value: '${myName}'
+      }
+    }
+  ],
+  {
+    myName: 'amis'
+  }
+);
+```
+
 ### 更新属性
 
 可以通过 amisScoped 对象的 updateProps 方法来更新下发到 amis 的属性。

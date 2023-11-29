@@ -563,6 +563,18 @@ test('evalute:Math', () => {
   expect(evaluate('${POW(2, infinity)}', data)).toBe(data.infinity);
 });
 
+test('evalute:UUID', () => {
+  function isUUIDv4(value: string) {
+    return /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(
+      value
+    );
+  }
+
+  expect(isUUIDv4(evaluate('${UUID()}', {}))).toBe(true);
+  expect(evaluate('${UUID()}', {}).length).toBe(36);
+  expect(evaluate('${UUID(8)}', {}).length).toBe(8);
+});
+
 test('evalute:namespace', () => {
   localStorage.setItem('a', '1');
   localStorage.setItem('b', '2');

@@ -203,8 +203,43 @@ order: 61
     }
   ]
 }
-
 ```
+
+## 下载二维码
+
+> 3.6.0 及以上版本
+
+基于事件动作实现
+
+```schema: scope="body"
+[
+  {
+    "type": "action",
+    "label": "下载二维码",
+    "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "saveAs",
+              "componentId": "qr-code-download",
+              "args": {
+                "name": "download.svg"
+              }
+            }
+          ]
+        }
+      }
+  },
+  {
+    "type": "qr-code",
+    "id": "qr-code-download",
+    "codeSize": 128,
+    "value": "https://www.baidu.com"
+ }
+]
+```
+
+需要注意这种方式不支持嵌入图片，如果要嵌入图片建议直接截图
 
 ## 属性表
 
@@ -225,3 +260,11 @@ order: 61
 | imageSettings.x        | `number`                             | 默认水平居中              | 图片水平方向偏移量                                                                                                                    |
 | imageSettings.y        | `number`                             | 默认垂直居中              | 图片垂直方向偏移量                                                                                                                    |
 | imageSettings.excavate | `boolean`                            | `false`                   | 图片是否挖孔嵌入                                                                                                                      |
+
+## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置               | 说明     |
+| -------- | ---------------------- | -------- |
+| saveAs   | `name?: string` 文件名 | 下载文档 |

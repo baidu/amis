@@ -35,6 +35,23 @@ export interface LocationControlSchema extends FormBaseControlSchema {
    * 有的地图需要设置 ak 信息
    */
   ak?: string;
+
+  /**
+   * 是否自动选中当前地理位置
+   */
+  autoSelectCurrentLoc?: boolean;
+
+  /**
+   * 是否限制只能选中当前地理位置
+   * 备注：可用于充当定位组件，只允许选择当前位置
+   */
+  onlySelectCurrentLoc?: boolean;
+
+  /**
+   * 开启只读模式后的占位提示，默认为“点击获取位置信息”
+   * 备注：区分下现有的placeholder（“请选择位置”）
+   */
+  getLocationPlaceholder?: string;
 }
 
 export interface LocationControlProps
@@ -117,14 +134,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
   }
 
   renderStatic(displayValue = '-') {
-    const {
-      classnames: cx,
-      value,
-      vendor,
-      ak,
-      coordinatesType,
-      popOverContainer
-    } = this.props;
+    const {classnames: cx, value} = this.props;
     const __ = this.props.translate;
 
     if (!value) {
@@ -139,42 +149,14 @@ export class LocationControl extends React.Component<LocationControlProps> {
         ref={this.domRef}
       >
         <span>{value.address}</span>
-        <a
-          className={cx('LocationPicker-toggler', 'ml-1')}
-          onClick={this.handleClick}
-        >
-          <Icon icon="location" className="icon" />
-        </a>
-        <Overlay
-          target={this.getTarget}
-          container={popOverContainer || this.getParent}
-          rootClose={false}
-          show={this.state.isOpened}
-        >
-          <PopOver
-            className={cx('LocationPicker-popover')}
-            onHide={this.close}
-            overlay
-            style={{width: this.getTarget()?.offsetWidth}}
-          >
-            {vendor === 'baidu' ? (
-              <BaiduMapPicker
-                ak={ak}
-                value={value}
-                coordinatesType={coordinatesType}
-              />
-            ) : (
-              <Alert2>{__('{{vendor}} 地图控件不支持', {vendor})}</Alert2>
-            )}
-          </PopOver>
-        </Overlay>
       </div>
     );
   }
 
   @supportStatic()
   render() {
-    const {style} = this.props;
+    const {style, env} = this.props;
+    const ak = filter(this.props.ak, this.props.data) || env.locationPickerAK!;
     return (
       <div
         className={this.props.classnames('LocationControl', {

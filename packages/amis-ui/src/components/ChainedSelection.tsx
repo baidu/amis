@@ -44,7 +44,7 @@ export class ChainedSelection extends BaseSelection<
   }
 
   selectOption(option: Option, depth: number, id: string) {
-    const {onDeferLoad} = this.props;
+    const {onDeferLoad, deferField = 'defer'} = this.props;
 
     const selected = this.state.selected.concat();
     selected.splice(depth, selected.length - depth);
@@ -54,7 +54,7 @@ export class ChainedSelection extends BaseSelection<
       {
         selected
       },
-      option.defer && onDeferLoad ? () => onDeferLoad(option) : undefined
+      option[deferField] && onDeferLoad ? () => onDeferLoad(option) : undefined
     );
   }
 
@@ -129,11 +129,12 @@ export class ChainedSelection extends BaseSelection<
       itemRender,
       multiple,
       labelField,
+      deferField = 'defer',
       loadingConfig
     } = this.props;
     const valueArray = this.valueArray;
 
-    if (Array.isArray(option.children) || option.defer) {
+    if (Array.isArray(option.children) || option[deferField]) {
       return (
         <div
           style={styles}
@@ -159,7 +160,7 @@ export class ChainedSelection extends BaseSelection<
             })}
           </div>
 
-          {option.defer && option.loading ? (
+          {option[deferField] && option.loading ? (
             <Spinner loadingConfig={loadingConfig} size="sm" show />
           ) : null}
         </div>

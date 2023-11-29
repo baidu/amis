@@ -458,11 +458,6 @@ export class ComboControlPlugin extends BasePlugin {
                 getSchemaTpl('description')
               ]
             },
-            getSchemaTpl('status', {
-              isFormItem: true,
-              readonly: true
-            }),
-            getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect}),
             getSchemaTpl('collapseGroup', [
               {
                 className: 'p-none',
@@ -523,7 +518,12 @@ export class ComboControlPlugin extends BasePlugin {
                   })
                 ]
               }
-            ])
+            ]),
+            getSchemaTpl('status', {
+              isFormItem: true,
+              readonly: true
+            }),
+            getSchemaTpl('validation', {tag: ValidatorTag.MultiSelect})
           ])
         ]
       },
@@ -679,7 +679,7 @@ export class ComboControlPlugin extends BasePlugin {
     }`;
     let isColumnChild = false;
 
-    if (trigger) {
+    if (trigger && items) {
       isColumnChild = someTree(items.children, item => item.id === trigger?.id);
 
       if (isColumnChild) {
@@ -698,13 +698,12 @@ export class ComboControlPlugin extends BasePlugin {
       }
     }
 
-    const pool = items.children.concat();
+    const pool = items?.children?.concat() || [];
 
     while (pool.length) {
       const current = pool.shift() as EditorNodeType;
       const schema = current.schema;
-
-      if (schema.name) {
+      if (schema?.name) {
         itemsSchema.properties[schema.name] =
           await current.info.plugin.buildDataSchemas?.(
             current,

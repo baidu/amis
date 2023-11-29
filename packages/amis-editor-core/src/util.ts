@@ -73,13 +73,30 @@ let themeUselessPropKeys: Array<string> = [];
  * 给每个节点加个 $$id 这样方便编辑
  * @param obj
  */
-export function JSONPipeIn(obj: any, generateId = false): any {
-  if (!isObject(obj) || obj.$$typeof) {
-    return obj;
-  }
-
+export function JSONPipeIn(
+  obj: any,
+  reGenerateId = false,
+  idMap: any = {}
+): any {
   if (Array.isArray(obj)) {
-    return obj.map((item, index) => JSONPipeIn(item, generateId));
+    let flag = false; // 有必要时才去改变对象的引用
+    const ret = obj.map(item => {
+      const patched = JSONPipeIn(item, reGenerateId, idMap);
+      if (patched !== item) {
+        flag = true;
+      }
+      return patched;
+    });
+    return flag ? ret : obj;
+  } else if (!isObject(obj) || obj.constructor !== Object) {
+    if (typeof obj === 'string') {
+      Object.keys(idMap).forEach(oldId => {
+        const newId = idMap[oldId];
+        obj = obj.replaceAll(oldId, newId);
+      });
+    }
+
+    return obj;
   }
 
   let toUpdate: any = {};
@@ -118,45 +135,29 @@ export function JSONPipeIn(obj: any, generateId = false): any {
     obj = style2ThemeCss(obj);
 
     // 重新生成组件ID
-    if (generateId) {
+    if (reGenerateId) {
       flag = true;
 
       /** 脚手架构建的Schema提前构建好了组件 ID，此时无需生成 ID，避免破坏事件动作 */
-      if (!obj.__origin || obj.__origin !== 'scaffold') {
-        toUpdate.id = generateNodeId();
+      if (
+        (!obj.__origin || obj.__origin !== 'scaffold') &&
+        typeof obj.id === 'string' &&
+        obj.id.startsWith('u:')
+      ) {
+        const newId = generateNodeId();
+        obj.id && (idMap[obj.id] = newId);
+        toUpdate.id = newId;
       }
     }
   }
 
   Object.keys(obj).forEach(key => {
-    let prop = obj[key];
+    let item = obj[key];
+    let patched = JSONPipeIn(item, reGenerateId, idMap);
 
-    if (Array.isArray(prop)) {
-      // 如果没有修改过还是用原来的对象
-      // 为了方便上层diff。
-      let flag2 = false;
-
-      let patched = prop.map((item: any) => {
-        let patched = JSONPipeIn(item, generateId);
-
-        if (patched !== item) {
-          flag2 = true;
-        }
-
-        return patched;
-      });
-
-      if (flag2) {
-        flag = true;
-        toUpdate[key] = patched;
-      }
-    } else {
-      let patched = JSONPipeIn(prop, generateId);
-
-      if (patched !== prop) {
-        flag = true;
-        toUpdate[key] = patched;
-      }
+    if (patched !== item) {
+      flag = true;
+      toUpdate[key] = patched;
     }
   });
 
@@ -1205,15 +1206,50 @@ export function style2ThemeCss(data: any) {
 export async function resolveVariablesFromScope(node: any, manager: any) {
   await manager?.getContextSchemas(node);
   // 获取当前组件内相关变量，如表单、增删改查
-  const dataPropsAsOptions: VariableItem[] = updateComponentContext(
-    (await manager?.dataSchema?.getDataPropsAsOptions()) ?? []
-  );
 
+  let variableOptions =
+    (await manager?.dataSchema?.getDataPropsAsOptions()) ?? [];
   // 子编辑器内读取的host节点自定义变量，非数据域方式，如listSelect的选项值
   let hostNodeVaraibles = [];
   if (manager?.store?.isSubEditor) {
-    hostNodeVaraibles = manager.config?.hostNode?.info?.subEditorVariable || [];
+    hostNodeVaraibles =
+      manager.config?.hostNode?.info?.getSubEditorVariable?.(
+        manager.config?.hostNode.schema
+      ) || [];
+
+    // 获取父编辑器内组件上下文变量，与当前自编辑器进行拼接
+    const hostNodeDataSchema = await manager.config.getHostNodeDataSchema();
+    const hostContextVariables = (
+      hostNodeDataSchema?.getDataPropsAsOptions() || []
+    )
+      .filter((item: any) => item.label === '组件上下文')
+      .reduce((arr: any, item: any) => {
+        arr.push(...(item.children || []));
+        return arr;
+      }, []);
+    if (hostContextVariables?.length) {
+      let hasContextVariables = false;
+      variableOptions = variableOptions.map((item: any) => {
+        if (item.label === '组件上下文' && !hasContextVariables) {
+          hasContextVariables = true;
+          item.children = item.children.concat(hostContextVariables);
+        }
+        return item;
+      });
+
+      if (!hasContextVariables) {
+        variableOptions = [
+          {
+            label: '组件上下文',
+            children: hostContextVariables
+          },
+          ...variableOptions
+        ];
+      }
+    }
   }
+  const dataPropsAsOptions: VariableItem[] =
+    updateComponentContext(variableOptions);
 
   const variables: VariableItem[] =
     manager?.variableManager?.getVariableFormulaOptions() || [];

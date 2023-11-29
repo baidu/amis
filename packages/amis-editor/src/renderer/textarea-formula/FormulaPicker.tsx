@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
 import {Modal, Button} from 'amis';
+import {FormControlProps} from 'amis-core';
 import cx from 'classnames';
 import FormulaEditor from 'amis-ui/lib/components/formula/Editor';
 
-export interface FormulaPickerProps {
+export interface FormulaPickerProps extends FormControlProps {
   onConfirm: (data: string | undefined) => void;
   onClose: () => void;
   variables: any[];
@@ -43,6 +44,9 @@ const FormulaPicker: React.FC<FormulaPickerProps> = props => {
     props.onConfirm && props.onConfirm(formula);
   };
 
+  // 自身字段
+  const selfName = props?.data?.name;
+
   return (
     <Modal
       className={cx('FormulaPicker-Modal')}
@@ -60,6 +64,7 @@ const FormulaPicker: React.FC<FormulaPickerProps> = props => {
           value={formula}
           evalMode={evalMode}
           onChange={handleChange}
+          selfVariableName={selfName}
         />
       </Modal.Body>
       <Modal.Footer>

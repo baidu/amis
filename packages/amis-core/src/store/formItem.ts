@@ -7,11 +7,13 @@ import {
   Instance
 } from 'mobx-state-tree';
 import isEqualWith from 'lodash/isEqualWith';
+import uniqWith from 'lodash/uniqWith';
 import {FormStore, IFormStore} from './form';
 import {str2rules, validate as doValidate} from '../utils/validations';
 import {Api, Payload, fetchOptions, ApiObject} from '../types';
 import {ComboStore, IComboStore, IUniqueGroup} from './combo';
 import {evalExpression} from '../utils/tpl';
+import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {buildApi, isEffectiveApi} from '../utils/api';
 import findIndex from 'lodash/findIndex';
 import {
@@ -98,6 +100,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     joinValues: true,
     extractValue: false,
     options: types.optional(types.frozen<Array<any>>(), []),
+    optionsRaw: types.optional(types.frozen<Array<any>>(), []),
     expressionsInOptions: false,
     selectFirst: false,
     autoFill: types.frozen(),
@@ -113,7 +116,18 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     /** 当前表单项所属的InputGroup父元素, 用于收集InputGroup的子元素 */
     inputGroupControl: types.optional(types.frozen(), {}),
     colIndex: types.frozen(),
-    rowIndex: types.frozen()
+    rowIndex: types.frozen(),
+    /** Transfer组件分页模式 */
+    pagination: types.optional(types.frozen(), {
+      enable: false,
+      /** 当前页数 */
+      page: 1,
+      /** 每页显示条数 */
+      perPage: 10,
+      /** 总条数 */
+      total: 0
+    }),
+    accumulatedOptions: types.optional(types.frozen<Array<any>>(), [])
   })
   .views(self => {
     function getForm(): any {
@@ -173,6 +187,26 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       get lastSelectValue(): string {
         return getLastOptionValue();
+      },
+
+      /** 数据源接口数据是否开启分页 */
+      get enableSourcePagination(): boolean {
+        return !!self.pagination.enable;
+      },
+
+      /** 数据源接口开启分页时当前页码 */
+      get sourcePageNum(): number {
+        return self.pagination.page ?? 1;
+      },
+
+      /** 数据源接口开启分页时每页显示条数 */
+      get sourcePerPageNum(): number {
+        return self.pagination.perPage ?? 10;
+      },
+
+      /** 数据源接口开启分页时数据总条数 */
+      get sourceTotalNum(): number {
+        return self.pagination.total ?? 0;
       },
 
       getSelectedOptions: (
@@ -308,7 +342,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       minLength,
       validateOnChange,
       label,
-      inputGroupControl
+      inputGroupControl,
+      pagination
     }: {
       extraName?: string;
       required?: boolean;
@@ -337,6 +372,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         name: string;
         path: string;
         [propsName: string]: any;
+      };
+      pagination?: {
+        enable?: boolean;
+        page?: number;
+        perPage?: number;
       };
     }) {
       if (typeof rules === 'string') {
@@ -371,6 +411,15 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       isObject(inputGroupControl) &&
         inputGroupControl?.name != null &&
         (self.inputGroupControl = inputGroupControl);
+
+      if (pagination && isObject(pagination) && !!pagination.enable) {
+        self.pagination = {
+          enable: true,
+          page: pagination.page ? pagination.page || 1 : 1,
+          perPage: pagination.perPage ? pagination.perPage || 10 : 10,
+          total: 0
+        };
+      }
 
       if (
         typeof rules !== 'undefined' ||
@@ -451,23 +500,28 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           validateCancel = null;
         }
 
-        const json: Payload = yield getEnv(self).fetcher(
-          self.validateApi,
-          /** 如果配置validateApi，需要将用户最新输入同步到数据域内 */
-          createObject(data, {[self.name]: self.tmpValue}),
-          {
-            cancelExecutor: (executor: Function) => (validateCancel = executor)
-          }
-        );
-        validateCancel = null;
-
-        if (!json.ok && json.status === 422 && json.errors) {
-          addError(
-            String(
-              (self.validateApi as ApiObject)?.messages?.failed ??
-                (json.errors || json.msg || `表单项「${self.name}」校验失败`)
-            )
+        try {
+          const json: Payload = yield getEnv(self).fetcher(
+            self.validateApi,
+            /** 如果配置validateApi，需要将用户最新输入同步到数据域内 */
+            createObject(data, {[self.name]: self.tmpValue}),
+            {
+              cancelExecutor: (executor: Function) =>
+                (validateCancel = executor)
+            }
           );
+          validateCancel = null;
+
+          if (!json.ok && json.status === 422 && json.errors) {
+            addError(
+              String(
+                (self.validateApi as ApiObject)?.messages?.failed ??
+                  (json.errors || json.msg || `表单项「${self.name}」校验失败`)
+              )
+            );
+          }
+        } catch (err) {
+          addError(String(err));
         }
       }
 
@@ -556,6 +610,23 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
     }
 
+    function setPagination(params: {
+      page?: number;
+      perPage?: number;
+      total?: number;
+    }) {
+      const {page, perPage, total} = params || {};
+
+      if (self.enableSourcePagination) {
+        self.pagination = {
+          ...self.pagination,
+          ...(page != null && typeof page === 'number' ? {page} : {}),
+          ...(perPage != null && typeof perPage === 'number' ? {perPage} : {}),
+          ...(total != null && typeof total === 'number' ? {total} : {})
+        };
+      }
+    }
+
     function setOptions(
       options: Array<object>,
       onChange?: (value: any) => void,
@@ -567,6 +638,15 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       options = filterTree(options, item => item);
       const originOptions = self.options.concat();
       self.options = options;
+      /** 开启分页后当前选项内容需要累加 */
+      self.accumulatedOptions = self.enableSourcePagination
+        ? uniqWith(
+            [...originOptions, ...options],
+            (lhs, rhs) =>
+              lhs[self.valueField ?? 'value'] ===
+              rhs[self.valueField ?? 'value']
+          )
+        : options;
       syncOptions(originOptions, data);
       let selectedOptions;
 
@@ -722,6 +802,14 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       options = normalizeOptions(options as any, undefined, self.valueField);
 
+      if (self.enableSourcePagination) {
+        self.pagination = {
+          ...self.pagination,
+          page: parseInt(json.data?.page, 10) || 1,
+          total: parseInt(json.data?.total ?? json.data?.count, 10) || 0
+        };
+      }
+
       if (config?.extendsOptions && self.selectedOptions.length > 0) {
         self.selectedOptions.forEach((item: any) => {
           const exited = findTree(
@@ -751,6 +839,41 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       return json;
     });
+
+    /**
+     * 从数据域加载选项数据源，注意这里默认source变量解析后是全量的数据源
+     */
+    function loadOptionsFromDataScope(
+      source: string,
+      ctx: Record<string, any>,
+      onChange?: (value: any) => void
+    ) {
+      let options: any[] = resolveVariableAndFilter(source, ctx, '| raw');
+
+      if (!Array.isArray(options)) {
+        return [];
+      }
+
+      options = normalizeOptions(options, undefined, self.valueField);
+
+      if (self.enableSourcePagination) {
+        self.pagination = {
+          ...self.pagination,
+          ...(ctx?.page ? {page: ctx?.page} : {}),
+          ...(ctx?.perPage ? {perPage: ctx?.perPage} : {}),
+          total: options.length
+        };
+
+        options = options.slice(
+          (self.pagination.page - 1) * self.pagination.perPage,
+          self.pagination.page * self.pagination.perPage
+        );
+      }
+
+      setOptions(options, onChange, ctx);
+
+      return options;
+    }
 
     const loadAutoUpdateData: (
       api: Api,
@@ -1377,8 +1500,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       setError,
       addError,
       clearError,
+      setPagination,
       setOptions,
       loadOptions,
+      loadOptionsFromDataScope,
       deferLoadOptions,
       deferLoadLeftOptions,
       expandTreeOptions,

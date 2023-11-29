@@ -801,14 +801,6 @@
   }
 }
 
-.ae-Editor-renderer-error {
-  padding: 5px;
-  font-family: PingFangSC-Medium;
-  font-size: 14px;
-  color: #cf1322;
-  border: 1px dashed #cf1322;
-}
-
 .ae-Editor-tip {
   user-select: none;
   max-width: 100px;
@@ -1791,17 +1783,9 @@ div.ae-DragImage {
   width: px2rem(700px);
   @include panel-sm-content();
 
-  --Form-item-fontSize: #{$Editor-right-panel-font-size};
-  --select-base-default-fontSize: #{$Editor-right-panel-font-size};
-  --select-base-default-option-fontSize: #{$Editor-right-panel-font-size};
-  --Table-thead-fontSize: #{$Editor-right-panel-font-size};
-  --button-size-default-fontSize: #{$Editor-right-panel-font-size};
-  --checkbox-checkbox-default-fontSize: #{$Editor-right-panel-font-size};
-  --radio-default-default-fontSize: #{$Editor-right-panel-font-size};
-  --radio-default-default-lineHeight: #{$Editor-right-panel-radios-line-height};
-  --Tabs--vertical-fontSize: #{$Editor-right-panel-font-size};
-  --Tabs--vertical-active-fontSize: #{$Editor-right-panel-font-size};
-  --Tabs--vertical-hover-fontSize: #{$Editor-right-panel-font-size};
+  &-title {
+    font-size: px2rem(14px);
+  }
 
   &--CRUD {
     width: px2rem(800px);

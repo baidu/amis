@@ -163,7 +163,11 @@ export function formatStyle(
       const styles: string[] = [];
       const fn = (key: string, value: string) => {
         key = valueMap[key] || key;
-        styles.push(`${kebabCase(key)}: ${value};`);
+        styles.push(
+          `${kebabCase(key)}: ${
+            value + (weights?.important ? ' !important' : '')
+          };`
+        );
       };
       Object.keys(statusMap[status]).forEach(key => {
         if (key !== '$$id') {
@@ -193,15 +197,11 @@ export function formatStyle(
           } else {
             const value = style;
             if (key === 'iconSize') {
-              fn('width', value + (weights?.important ? ' !important' : ''));
-              fn('height', value + (weights?.important ? ' !important' : ''));
-              fn(
-                'font-size',
-                value + (weights?.important ? ' !important' : '')
-              );
+              fn('width', value);
+              fn('height', value);
+              fn('font-size', value);
             } else {
-              value &&
-                fn(key, value + (weights?.important ? ' !important' : ''));
+              value && fn(key, value);
             }
           }
         }
@@ -254,12 +254,8 @@ export function insertCustomStyle(
   }
 
   let {value} = formatStyle(themeCss, classNames, id, defaultData);
-  if (value) {
-    value = customStyleClassPrefix
-      ? `${customStyleClassPrefix} ${value}`
-      : value;
-    insertStyle(value, id.replace('u:', ''), doc);
-  }
+  value = customStyleClassPrefix ? `${customStyleClassPrefix} ${value}` : value;
+  insertStyle(value, id.replace('u:', ''), doc);
 }
 
 /**

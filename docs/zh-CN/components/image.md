@@ -433,31 +433,33 @@ List 的内容、Card 卡片的内容配置同上
 
 ## 属性表
 
-| 属性名             | 类型                                 | 默认值    | 说明                                                                                          | 版本    |
-| ------------------ | ------------------------------------ | --------- | --------------------------------------------------------------------------------------------- | ------- |
-| type               | `string`                             |           | 如果在 Table、Card 和 List 中，为`"image"`；在 Form 中用作静态展示，为`"static-image"`        |
-| className          | `string`                             |           | 外层 CSS 类名                                                                                 |
-| innerClassName     | `string`                             |           | 组件内层 CSS 类名                                                                             |
-| imageClassName     | `string`                             |           | 图片 CSS 类名                                                                                 |
-| thumbClassName     | `string`                             |           | 图片缩率图 CSS 类名                                                                           |
-| height             | `string`                             |           | 图片缩率高度                                                                                  |
-| width              | `string`                             |           | 图片缩率宽度                                                                                  |
-| title              | `string`                             |           | 标题                                                                                          |
-| imageCaption       | `string`                             |           | 描述                                                                                          |
-| placeholder        | `string`                             |           | 占位文本                                                                                      |
-| defaultImage       | `string`                             |           | 无数据时显示的图片                                                                            |
-| src                | `string`                             |           | 缩略图地址                                                                                    |
-| href               | [模板](../../docs/concepts/template) |           | 外部链接地址                                                                                  |
-| originalSrc        | `string`                             |           | 原图地址                                                                                      |
-| enlargeAble        | `boolean`                            |           | 支持放大预览                                                                                  |
-| enlargeTitle       | `string`                             |           | 放大预览的标题                                                                                |
-| enlargeCaption     | `string`                             |           | 放大预览的描述                                                                                |
-| enlargeWithGallary | `string`                             | `true`    | 在表格中，图片的放大功能会默认展示所有图片信息，设置为`false`将关闭放大模式下图片集列表的展示 |
-| thumbMode          | `string`                             | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                              |
-| thumbRatio         | `string`                             | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                                  |
-| imageMode          | `string`                             | `thumb`   | 图片展示模式，可选：`'thumb'`, `'original'` 即：缩略图模式 或者 原图模式                      |
-| showToolbar        | `boolean`                            | `false`   | 放大模式下是否展示图片的工具栏                                                                | `2.2.0` |
-| toolbarActions     | `ImageAction[]`                      |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                  | `2.2.0` |
+| 属性名             | 类型                                             | 默认值    | 说明                                                                                          | 版本    |
+| ------------------ | ------------------------------------------------ | --------- | --------------------------------------------------------------------------------------------- | ------- |
+| type               | `string`                                         |           | 如果在 Table、Card 和 List 中，为`"image"`；在 Form 中用作静态展示，为`"static-image"`        |
+| className          | `string`                                         |           | 外层 CSS 类名                                                                                 |
+| innerClassName     | `string`                                         |           | 组件内层 CSS 类名                                                                             |
+| imageClassName     | `string`                                         |           | 图片 CSS 类名                                                                                 |
+| thumbClassName     | `string`                                         |           | 图片缩率图 CSS 类名                                                                           |
+| height             | `string`                                         |           | 图片缩率高度                                                                                  |
+| width              | `string`                                         |           | 图片缩率宽度                                                                                  |
+| title              | `string`                                         |           | 标题                                                                                          |
+| imageCaption       | `string`                                         |           | 描述                                                                                          |
+| placeholder        | `string`                                         |           | 占位文本                                                                                      |
+| defaultImage       | `string`                                         |           | 无数据时显示的图片                                                                            |
+| src                | `string`                                         |           | 缩略图地址                                                                                    |
+| href               | [模板](../../docs/concepts/template)             |           | 外部链接地址                                                                                  |
+| originalSrc        | `string`                                         |           | 原图地址                                                                                      |
+| enlargeAble        | `boolean`                                        |           | 支持放大预览                                                                                  |
+| enlargeTitle       | `string`                                         |           | 放大预览的标题                                                                                |
+| enlargeCaption     | `string`                                         |           | 放大预览的描述                                                                                |
+| enlargeWithGallary | `string`                                         | `true`    | 在表格中，图片的放大功能会默认展示所有图片信息，设置为`false`将关闭放大模式下图片集列表的展示 |
+| thumbMode          | `string`                                         | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                              |
+| thumbRatio         | `string`                                         | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                                  |
+| imageMode          | `string`                                         | `thumb`   | 图片展示模式，可选：`'thumb'`, `'original'` 即：缩略图模式 或者 原图模式                      |
+| showToolbar        | `boolean`                                        | `false`   | 放大模式下是否展示图片的工具栏                                                                | `2.2.0` |
+| toolbarActions     | `ImageAction[]`                                  |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                  | `2.2.0` |
+| maxScale           | `number` 或 [模板](../../docs/concepts/template) |           | 执行调整图片比例动作时的最大百分比                                                            | `3.4.4` |
+| minScale           | `number` 或 [模板](../../docs/concepts/template) |           | 执行调整图片比例动作时的最小百分比                                                            | `3.4.4` |
 
 #### ImageAction
 
@@ -473,5 +475,172 @@ interface ImageAction {
   iconClassName?: string;
   /* 动作是否禁用 */
   disabled?: boolean;
+}
+```
+
+## 事件表
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称   | 事件参数   | 说明           |
+| ---------- | ---------- | -------------- |
+| click      | 上下文数据 | 点击图片时触发 |
+| mouseenter | 上下文数据 | 鼠标移入时触发 |
+| mouseleave | 上下文数据 | 鼠标移入时触发 |
+
+### click / mouseenter / mouseleave
+
+点击图片 / 鼠标移入图片 / 鼠标移出图片，可以尝试通过${event.context.nativeEvent}获取鼠标事件对象。
+
+```schema: scope="body"
+{
+    "type": "image",
+    "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+    "onEvent": {
+        "click": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                        "msg": "图片被点击了"
+                    }
+                }
+            ]
+        },
+        "mouseenter": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                        "msg": "鼠标移入图片"
+                    }
+                }
+            ]
+        },
+        "mouseleave": {
+            "actions": [
+                {
+                    "actionType": "toast",
+                    "args": {
+                        "msg": "鼠标移出图片"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置                                                                                                                              | 说明                                 |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| preview  | -                                                                                                                                     | 预览图片                             |
+| zoom     | `scale: number` 或 `scale: `[模板](../../docs/concepts/template)，定义每次放大或缩小图片的百分比大小，正值为放大，负值为缩小，默认 50 | 调整图片比例，将图片等比例放大或缩小 |
+
+### preview
+
+预览图片，可以通过配置`originalSrc`来指定预览的原图地址。
+
+```schema: scope="body"
+{
+    "type": "page",
+    "body": {
+        "type": "container",
+        "body": [
+            {
+                "type": "container",
+                "body": [
+                    {
+                        "type": "image",
+                        "className": "mb-1",
+                        "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                        "originalSrc": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
+                        "id": "previewImage"
+                    }
+                ]
+            },
+            {
+                "type": "action",
+                "label": "预览图片",
+                "onEvent": {
+                    "click": {
+                        "actions": [
+                            {
+                                "actionType": "preview",
+                                "componentId": "previewImage"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
+```
+
+### zoom
+
+调整图片比例，将图片等比例放大或缩小。可以通过配置图片的`maxScale`和`minScale`来限制调整的比例。
+
+```schema: scope="body"
+{
+    "type": "page",
+    "body": {
+        "type": "container",
+        "body": [
+            {
+                "type": "flex",
+                "items": [
+                    {
+                        "type": "image",
+                        "innerClassName": "no-border",
+                        "className": "mt-5 mb-5",
+                        "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                        "maxScale": 200,
+                        "minScale": 20,
+                        "id": "zoomImage"
+                    }
+                ]
+            },
+            {
+                "type": "action",
+                "label": "放大图片",
+                "onEvent": {
+                    "click": {
+                        "actions": [
+                            {
+                                "actionType": "zoom",
+                                "args": {
+                                    "scale": 50,
+                                },
+                                "componentId": "zoomImage"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "action",
+                "label": "缩小图片",
+                "className": "mx-1",
+                "onEvent": {
+                    "click": {
+                        "actions": [
+                            {
+                                "actionType": "zoom",
+                                "args": {
+                                    "scale": -50,
+                                },
+                                "componentId": "zoomImage"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
 }
 ```

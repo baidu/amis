@@ -36,13 +36,27 @@ export class CmptAction implements RendererAction {
      */
     const key = action.componentId || action.componentName;
     const dataMergeMode = action.dataMergeMode || 'merge';
+    const path = action.args?.path;
 
+    /** 如果args中携带path参数, 则认为是全局变量赋值, 否则认为是组件变量赋值 */
+    if (action.actionType === 'setValue' && path && typeof path === 'string') {
+      const beforeSetData = event?.context?.env?.beforeSetData;
+      if (beforeSetData && typeof beforeSetData === 'function') {
+        const res = await beforeSetData(renderer, action, event);
+
+        if (res === false) {
+          return;
+        }
+      }
+    }
+
+    // 如果key没指定，则默认是当前组件
     let component = key
       ? event.context.scoped?.[
           action.componentId ? 'getComponentById' : 'getComponentByName'
         ](key)
-      : null;
-
+      : renderer;
+    // 如果key指定了，但是没找到组件，则报错
     if (key && !component) {
       const msg =
         '尝试执行一个不存在的目标组件动作，请检查目标组件非隐藏状态，且正确指定了componentId或componentName';
@@ -54,23 +68,6 @@ export class CmptAction implements RendererAction {
     }
 
     if (action.actionType === 'setValue') {
-      const beforeSetData = renderer?.props?.env?.beforeSetData;
-      const path = action.args?.path;
-
-      /** 如果args中携带path参数, 则认为是全局变量赋值, 否则认为是组件变量赋值 */
-      if (
-        path &&
-        typeof path === 'string' &&
-        beforeSetData &&
-        typeof beforeSetData === 'function'
-      ) {
-        const res = await beforeSetData(renderer, action, event);
-
-        if (res === false) {
-          return;
-        }
-      }
-
       if (component?.setData) {
         return component?.setData(
           action.args?.value,

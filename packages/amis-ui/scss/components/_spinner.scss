@@ -77,6 +77,15 @@
       height: auto;
     }
 
+    &.#{$ns}Spinner-icon--disabled > svg.icon {
+      color: var(--Spinner-color--disabled);
+      fill: var(--Spinner-color--disabled);
+
+      & path {
+        fill: var(--Spinner-color--disabled);
+      }
+    }
+
     &--lg {
       width: var(--Spinner--lg-width);
       height: var(--Spinner--lg-height);
@@ -156,6 +165,9 @@
   background: var(--Spinner-overlay-bg);
   transition: ease-out opacity var(--animation-duration);
   opacity: 0;
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+  filter: blur(1px);
 
   &.in {
     opacity: 1;

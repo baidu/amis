@@ -1,14 +1,10 @@
-import {Renderer, RendererProps} from 'amis-core';
 import React from 'react';
+import {Renderer, RendererProps} from 'amis-core';
 import {Alert2 as Alert} from 'amis-ui';
-import {
-  BaseSchema,
-  SchemaObject,
-  SchemaCollection,
-  SchemaIcon
-} from '../Schema';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
+
 import type {AlertProps} from 'amis-ui/lib/components/Alert2';
+import type {BaseSchema, SchemaCollection, SchemaIcon} from '../Schema';
 
 /**
  * Alert 提示渲染器。
@@ -59,14 +55,21 @@ export interface AlertSchema extends BaseSchema {
    * 图标CSS类名
    */
   iconClassName?: string;
+
+  /**
+   * 操作区域
+   */
+  actions?: SchemaCollection;
 }
 
 @Renderer({
   type: 'alert'
 })
-export class TplRenderer extends React.Component<AlertProps & RendererProps> {
+export class AlertRenderer extends React.Component<
+  Omit<AlertProps, 'actions'> & RendererProps
+> {
   render() {
-    let {render, body, level, icon, showIcon, ...rest} = this.props;
+    let {render, body, level, icon, showIcon, actions, ...rest} = this.props;
     if (isPureVariable(level)) {
       level = resolveVariableAndFilter(level, this.props.data);
     }
@@ -77,8 +80,20 @@ export class TplRenderer extends React.Component<AlertProps & RendererProps> {
       showIcon = resolveVariableAndFilter(showIcon, this.props.data);
     }
 
+    const actionsDom: React.ReactNode = actions
+      ? React.isValidElement(actions)
+        ? actions
+        : render('alert-actions', actions)
+      : null;
+
     return (
-      <Alert {...rest} level={level} icon={icon} showIcon={showIcon}>
+      <Alert
+        {...rest}
+        level={level}
+        icon={icon}
+        showIcon={showIcon}
+        actions={actionsDom}
+      >
         {render('body', body)}
       </Alert>
     );

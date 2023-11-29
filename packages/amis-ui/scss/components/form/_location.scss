@@ -44,7 +44,7 @@
 
     .#{$ns}LocationPicker-toggler {
       svg {
-        top: 0.125rem;
+        top: px2rem(2px);
       }
     }
   }
@@ -132,6 +132,13 @@
   max-width: 100%;
   margin-top: -1px;
   border-color: var(--Form-input-onFocused-borderColor);
+
+  &.#{$ns}PopOver--v-top {
+    margin-top: px2rem(4px);
+  }
+  &.#{$ns}PopOver--v-bottom {
+    margin-bottom: px2rem(4px);
+  }
 }
 
 .#{$ns}MapPicker {

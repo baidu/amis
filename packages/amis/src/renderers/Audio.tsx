@@ -266,6 +266,9 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
   @autobind
   onSeekMouseUp(e: any) {
+    if (!this.state.src) {
+      return;
+    }
     if (!this.state.seeking) {
       return;
     }

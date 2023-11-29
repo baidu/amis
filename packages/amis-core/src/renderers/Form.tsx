@@ -50,6 +50,7 @@ import {isAlive} from 'mobx-state-tree';
 
 import type {LabelAlign} from './Item';
 import {injectObjectChain} from '../utils';
+import {reaction} from 'mobx';
 
 export interface FormHorizontal {
   left?: number;
@@ -371,6 +372,7 @@ export interface FormProps
   onFailed?: (reason: string, errors: any) => any;
   onFinished: (values: object, action: any) => any;
   onValidate: (values: object, form: any) => any;
+  onValidChange?: (valid: boolean, props: any) => void; // 表单数据合法性变更
   messages: {
     fetchSuccess?: string;
     fetchFailed?: string;
@@ -443,6 +445,8 @@ export default class Form extends React.Component<FormProps, object> {
     'onChange',
     'onFailed',
     'onFinished',
+    'onValidate',
+    'onValidChange',
     'onSaved',
     'canAccessSuperData',
     'lazyChange',
@@ -460,8 +464,7 @@ export default class Form extends React.Component<FormProps, object> {
     [propName: string]: Array<() => Promise<any>>;
   } = {};
   asyncCancel: () => void;
-  disposeOnValidate: () => void;
-  disposeRulesValidate: () => void;
+  toDispose: Array<() => void> = [];
   shouldLoadInitApi: boolean = false;
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
@@ -519,6 +522,18 @@ export default class Form extends React.Component<FormProps, object> {
         )
       );
     }
+
+    // withStore 里面与上层数据会做同步
+    // 这个时候变更的数据没有同步 onChange 出去，出现数据不一致的问题。
+    // https://github.com/baidu/amis/issues/8773
+    this.toDispose.push(
+      reaction(
+        () => store.initedAt,
+        () => {
+          store.inited && this.emitChange(!!this.props.submitOnChange, true);
+        }
+      )
+    );
   }
 
   componentDidMount() {
@@ -532,58 +547,72 @@ export default class Form extends React.Component<FormProps, object> {
       store,
       messages: {fetchSuccess, fetchFailed},
       onValidate,
+      onValidChange,
       promptPageLeave,
-      env,
-      rules
+      env
     } = this.props;
-
+    const rules = this.getNormalizedRules();
     this.mounted = true;
 
     if (onValidate) {
       const finalValidate = promisify(onValidate);
-      this.disposeOnValidate = this.addHook(async () => {
-        const result = await finalValidate(store.data, store);
+      this.toDispose.push(
+        this.addHook(async () => {
+          const result = await finalValidate(store.data, store);
 
-        if (result && isObject(result)) {
-          Object.keys(result).forEach(key => {
-            let msg = result[key];
-            const items = store.getItemsByPath(key);
+          if (result && isObject(result)) {
+            Object.keys(result).forEach(key => {
+              let msg = result[key];
+              const items = store.getItemsByPath(key);
 
-            // 没有找到
-            if (!Array.isArray(items) || !items.length) {
-              return;
-            }
+              // 没有找到
+              if (!Array.isArray(items) || !items.length) {
+                return;
+              }
 
-            // 在setError之前，提前把残留的error信息清除掉，否则每次onValidate后都会一直把报错 append 上去
-            items.forEach(item => item.clearError());
+              // 在setError之前，提前把残留的error信息清除掉，否则每次onValidate后都会一直把报错 append 上去
+              items.forEach(item => item.clearError());
 
-            if (msg) {
-              msg = Array.isArray(msg) ? msg : [msg];
-              items.forEach(item => item.addError(msg));
-            }
+              if (msg) {
+                msg = Array.isArray(msg) ? msg : [msg];
+                items.forEach(item => item.addError(msg));
+              }
 
-            delete result[key];
-          });
+              delete result[key];
+            });
 
-          isEmpty(result)
-            ? store.clearRestError()
-            : store.setRestError(Object.keys(result).map(key => result[key]));
-        }
-      });
+            isEmpty(result)
+              ? store.clearRestError()
+              : store.setRestError(Object.keys(result).map(key => result[key]));
+          }
+        })
+      );
     }
 
-    if (Array.isArray(rules) && rules.length) {
-      this.disposeRulesValidate = this.addHook(() => {
-        if (!store.valid) {
-          return;
-        }
+    // 表单校验结果发生变化时，触发 onValidChange
+    if (onValidChange) {
+      this.toDispose.push(
+        reaction(
+          () => store.valid,
+          valid => onValidChange(valid, this.props)
+        )
+      );
+    }
 
-        rules.forEach(
-          item =>
-            !evalExpression(item.rule, store.data) &&
-            store.addRestError(item.message, item.name)
-        );
-      });
+    if (rules.length) {
+      this.toDispose.push(
+        this.addHook(() => {
+          if (!store.valid) {
+            return;
+          }
+
+          rules.forEach(
+            item =>
+              !evalExpression(item.rule, store.data) &&
+              store.addRestError(item.message, item.name)
+          );
+        })
+      );
     }
 
     if (isEffectiveApi(initApi, store.data, initFetch, initFetchOn)) {
@@ -655,10 +684,28 @@ export default class Form extends React.Component<FormProps, object> {
     // this.lazyHandleChange.flush();
     this.lazyEmitChange.cancel();
     this.asyncCancel && this.asyncCancel();
-    this.disposeOnValidate && this.disposeOnValidate();
-    this.disposeRulesValidate && this.disposeRulesValidate();
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
     window.removeEventListener('beforeunload', this.beforePageUnload);
     this.unBlockRouting?.();
+  }
+
+  /** 获取表单联合校验的规则 */
+  getNormalizedRules() {
+    const {rules, translate: __} = this.props;
+
+    if (!Array.isArray(rules) || rules.length < 1) {
+      return [];
+    }
+
+    return rules
+      .map(item => ({
+        ...item,
+        ...(!item.message || typeof item.message !== 'string'
+          ? {message: __('Form.rules.message')}
+          : {})
+      }))
+      .filter(item => item.rule && typeof item.rule === 'string');
   }
 
   async dispatchInited(value: any) {
@@ -836,30 +883,27 @@ export default class Form extends React.Component<FormProps, object> {
     return this.props.store.validated;
   }
 
-  validate(
+  async validate(
     forceValidate?: boolean,
-    throwErrors: boolean = false
+    throwErrors: boolean = false,
+    toastErrors: boolean = true
   ): Promise<boolean> {
     const {store, dispatchEvent, data, messages, translate: __} = this.props;
 
     this.flush();
-    return store
-      .validate(
-        this.hooks['validate'] || [],
-        forceValidate,
-        throwErrors,
-        typeof messages?.validateFailed === 'string'
-          ? __(filter(messages.validateFailed, store.data))
-          : undefined
-      )
-      .then((result: boolean) => {
-        if (result) {
-          dispatchEvent('validateSucc', data);
-        } else {
-          dispatchEvent('validateError', data);
-        }
-        return result;
-      });
+    const result = await store.validate(
+      this.hooks['validate'] || [],
+      forceValidate,
+      throwErrors,
+      toastErrors === false
+        ? ''
+        : typeof messages?.validateFailed === 'string'
+        ? __(filter(messages.validateFailed, store.data))
+        : undefined
+    );
+
+    dispatchEvent(result ? 'validateSucc' : 'validateError', data);
+    return result;
   }
 
   setErrors(errors: {[propName: string]: string}, tag = 'remote') {
@@ -968,21 +1012,21 @@ export default class Form extends React.Component<FormProps, object> {
     return dispatchEvent(type, data);
   }
 
-  async emitChange(submit: boolean) {
+  async emitChange(submit: boolean, skipIfNothingChanges: boolean = false) {
     const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
 
     if (!isAlive(store)) {
       return;
     }
 
+    const diff = difference(store.data, store.pristine);
+    if (skipIfNothingChanges && !Object.keys(diff).length) {
+      return;
+    }
+
     // 提前准备好 onChange 的参数。
     // 因为 store.data 会在 await 期间被 WithStore.componentDidUpdate 中的 store.initData 改变。导致数据丢失
-    const changeProps = [
-      store.data,
-      difference(store.data, store.pristine),
-      this.props
-    ];
-
+    const changeProps = [store.data, diff, this.props];
     const dispatcher = await dispatchEvent(
       'change',
       createObject(data, store.data)

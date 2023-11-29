@@ -449,19 +449,29 @@ export class CRUDColumnControl extends React.Component<
             size="sm"
             className={cx('flex')}
           />
-        ) : Array.isArray(options) && options.length > 0 ? (
+        ) : (
           <>
             {this.renderHeader()}
-            <ul className={cx('ae-CRUDConfigControl-list')} ref={this.dragRef}>
-              {options.map((item, index) => {
-                return this.renderOption(item, index);
-              })}
-            </ul>
+            {Array.isArray(options) && options.length > 0 ? (
+              <ul
+                className={cx('ae-CRUDConfigControl-list')}
+                ref={this.dragRef}
+              >
+                {options.map((item, index) => {
+                  return this.renderOption(item, index);
+                })}
+              </ul>
+            ) : (
+              <ul
+                className={cx('ae-CRUDConfigControl-list')}
+                ref={this.dragRef}
+              >
+                <p className={cx(`ae-CRUDConfigControl-placeholder`)}>
+                  暂无数据
+                </p>
+              </ul>
+            )}
           </>
-        ) : (
-          <ul className={cx('ae-CRUDConfigControl-list')} ref={this.dragRef}>
-            <p className={cx(`ae-CRUDConfigControl-placeholder`)}>暂无数据</p>
-          </ul>
         )}
 
         {showAddModal ? (

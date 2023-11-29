@@ -23,7 +23,8 @@ import {
   JSONUpdate,
   getFixDialogType
 } from '../util';
-import {createObject, createObjectFromChain} from 'amis-core';
+import {createObjectFromChain} from 'amis-core';
+import {ErrorBoundary} from 'amis-core';
 import {CommonConfigWrapper} from './CommonConfigWrapper';
 import type {Schema} from 'amis';
 import type {DataScope} from 'amis-core';
@@ -40,14 +41,11 @@ export function makeWrapper(
   type Props = RendererProps & {
     $$id: string;
   };
-  type States = {
-    hasError: boolean;
-  };
   const store = manager.store;
   const renderer = rendererConfig.component;
 
   @observer
-  class Wrapper extends React.Component<Props, States> {
+  class Wrapper extends React.Component<Props> {
     static displayName = renderer.displayName;
     static propsList = ((renderer && renderer.propsList) || []).concat([
       '$$id'
@@ -56,11 +54,6 @@ export function makeWrapper(
     static contextType = EditorNodeContext;
     editorNode?: EditorNodeType;
     scopeId?: string;
-
-    constructor(props: Props) {
-      super(props);
-      this.state = {hasError: false};
-    }
 
     UNSAFE_componentWillMount() {
       const parent: EditorNodeType = (this.context as any) || store.root;
@@ -133,16 +126,6 @@ export function makeWrapper(
       }
     }
 
-    componentDidCatch(error: any, errorInfo: any) {
-      console.warn(`${info.name}(${info.id})渲染发生错误：`);
-      console.warn('当前渲染器信息：', info);
-      console.warn('错误对象：', error);
-      console.warn('错误信息：', errorInfo);
-      this.setState({
-        hasError: true
-      });
-    }
-
     componentWillUnmount() {
       if (this.editorNode && isAlive(this.editorNode)) {
         const parent: EditorNodeType = (this.context as any) || store.root;
@@ -186,14 +169,6 @@ export function makeWrapper(
     render() {
       const {$$id, ...rest} = this.props;
 
-      if (this.state.hasError) {
-        return (
-          <div className="ae-Editor-renderer-error">
-            {info.name}({info.id})渲染发生错误，详细错误信息请查看控制台输出。
-          </div>
-        );
-      }
-
       /*
        * 根据渲染器信息决定时 NodeWrapper 包裹还是 ContainerWrapper 包裹。
        * NodeWrapper 主要完成 dom 节点的标记（即：添加 data-editor-id 属性）。
@@ -207,18 +182,29 @@ export function makeWrapper(
         : info.regions
         ? ContainerWrapper
         : NodeWrapper; /*)*/
-
       return (
         <EditorNodeContext.Provider
           value={this.editorNode || (this.context as any)}
         >
-          <Wrapper
-            {...rest}
-            render={this.renderChild}
-            $$editor={info}
-            $$node={this.editorNode}
-            ref={this.wrapperRef}
-          />
+          <ErrorBoundary
+            customErrorMsg={`拦截到${info.type}渲染错误`}
+            fallback={() => {
+              return (
+                <div className="renderer-error-boundary">
+                  {info?.type}
+                  渲染发生错误，详细错误信息请查看控制台输出。
+                </div>
+              );
+            }}
+          >
+            <Wrapper
+              {...rest}
+              render={this.renderChild}
+              $$editor={info}
+              $$node={this.editorNode}
+              ref={this.wrapperRef}
+            />
+          </ErrorBoundary>
         </EditorNodeContext.Provider>
       );
     }
@@ -226,8 +212,6 @@ export function makeWrapper(
 
   return Wrapper as any;
 }
-
-// 将之前选择的弹窗和本次现有弹窗schema替换为$ref引用
 
 /**
  * 将之前选择的弹窗和本次现有弹窗schema替换为$ref引用
@@ -240,7 +224,7 @@ function replaceDialogtoRef(
   dialogId: string,
   dialogRefsName: string
 ) {
-  let replacedSchema = null;
+  let replacedSchema = schema;
   const dialog = JSONGetById(schema, dialogId);
   if (dialog) {
     replacedSchema = JSONUpdate(schema, dialogId, {$ref: dialogRefsName}, true);
@@ -512,7 +496,7 @@ function SchemaFrom({
         // 添加弹窗事件后自动选中弹窗
         if (store.activeDialogPath) {
           let activeId = store.getSchemaByPath(
-            store.activeDialogPath.split('/')
+            store.activeDialogPath.split('/').filter(item => item !== '')
           )?.$$id;
           activeId && store.setPreviewDialogId(activeId);
           store.setActiveDialogPath('');

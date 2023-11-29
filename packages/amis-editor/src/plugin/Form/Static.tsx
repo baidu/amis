@@ -1,10 +1,13 @@
 import React from 'react';
+import get from 'lodash/get';
+import {getVariable} from 'amis-core';
 import {Button} from 'amis';
 import {
   defaultValue,
   getSchemaTpl,
   setSchemaTpl,
-  tipedLabel
+  tipedLabel,
+  RendererPluginEvent
 } from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
@@ -21,6 +24,15 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
   hiddenOnDefault: true,
   formType: 'extend',
   pipeIn: (value: any) => !!value,
+  trueValue: {
+    mode: 'popOver',
+    type: 'container',
+    body: []
+  },
+  isChecked: (e: any) => {
+    const {data, name} = e;
+    return !!get(data, name);
+  },
   form: {
     body: [
       {
@@ -66,19 +78,34 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
         children: ({value, onChange, data}: any) => {
           if (value === true) {
             value = {};
+          } else if (typeof value === 'undefined') {
+            value = getVariable(data, 'quickEdit');
           }
-
-          const originMode = value.mode;
-
-          value = {
-            type: 'input-text',
-            name: data.name,
-            ...value
-          };
-          delete value.mode;
-
+          value = {...value};
+          const originMode = value.mode || 'popOver';
+          if (value.mode) {
+            delete value.mode;
+          }
+          value =
+            value.body && ['container', 'wrapper'].includes(value.type)
+              ? {
+                  // schema中存在容器，用自己的就行
+                  type: 'container',
+                  body: [],
+                  ...value
+                }
+              : {
+                  // schema中不存在容器，打开子编辑器时需要包裹一层
+                  type: 'container',
+                  body: [
+                    {
+                      type: 'input-text',
+                      name: data.name,
+                      ...value
+                    }
+                  ]
+                };
           // todo 多个快速编辑表单模式看来只能代码模式编辑了。
-
           return (
             <Button
               block
@@ -87,12 +114,6 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
                 manager.openSubEditor({
                   title: '配置快速编辑类型',
                   value: value,
-                  slot: {
-                    type: 'form',
-                    mode: 'normal',
-                    body: ['$$'],
-                    wrapWithPanel: false
-                  },
                   onChange: (value: any) =>
                     onChange(
                       {
@@ -263,7 +284,6 @@ export class StaticControlPlugin extends BasePlugin {
   // 组件名称
   name = '静态展示框';
   isBaseComponent = true;
-  disabledRendererPlugin = true;
   icon = 'fa fa-info';
   pluginIcon = 'static-plugin';
   description = '纯用来展示数据，可用来展示 json、date、image、progress 等数据';
@@ -299,13 +319,6 @@ export class StaticControlPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
-              {
-                type: 'alert',
-                inline: false,
-                level: 'warning',
-                className: 'text-sm',
-                body: '<p>当前组件已停止维护，建议您使用<a href="/amis/zh-CN/components/form/formitem#%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81%E5%B1%95%E7%A4%BA" target="_blank">静态展示</a>新特性实现表单项的静态展示。</p>'
-              },
               getSchemaTpl('formItemName', {
                 required: false
               }),
@@ -389,6 +402,76 @@ export class StaticControlPlugin extends BasePlugin {
     }
     return props;
   }
+
+  // 事件定义
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'click',
+      eventLabel: '点击',
+      description: '点击时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            context: {
+              type: 'object',
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseenter',
+      eventLabel: '鼠标移入',
+      description: '鼠标移入时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            context: {
+              type: 'object',
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseleave',
+      eventLabel: '鼠标移出',
+      description: '鼠标移出时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            context: {
+              type: 'object',
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ];
 
   /*exchangeRenderer(id: string) {
     this.manager.showReplacePanel(id, '展示');

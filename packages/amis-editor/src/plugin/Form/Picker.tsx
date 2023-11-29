@@ -59,7 +59,7 @@ export class PickerControlPlugin extends BasePlugin {
     overflowConfig: {
       maxTagCount: -1
     },
-    modalClassName: 'app-popover'
+    modalClassName: 'app-popover :AMISCSSWrapper'
   };
   previewSchema: any = {
     type: 'form',
@@ -410,11 +410,16 @@ export class PickerControlPlugin extends BasePlugin {
                 label: tipedLabel(
                   '默认值',
                   `当在fx中配置多选值时，需要适配值格式，示例：
-                  选项值为 <br/><code>[
-                    {label: '选项A', value: 'A'},
-                    {label: '选项B', value: 'B'}
-                  ]</code>
-                  <br/>选中选项A和选项B：
+                  选项值为
+                  <pre>${JSON.stringify(
+                    [
+                      {label: '选项A', value: 'A'},
+                      {label: '选项B', value: 'B'}
+                    ],
+                    null,
+                    2
+                  )}
+                  </pre>选中选项A和选项B：
                   <ul>
                     <li>开启拼接值且拼接符为 ‘,’ ：值示例 'A,B'</li>
                     <li>关闭拼接值，开启仅提取值，值示例：['A', 'B']</li>

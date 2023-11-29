@@ -485,6 +485,12 @@
       .#{$ns}Nav-Menu-overflowedIcon {
         margin-right: 0;
         line-height: inherit; // 到了saas中 会被fortawesome的样式影响 因此需要覆盖一下
+
+        i,
+        svg,
+        img {
+          float: none;
+        }
       }
     }
 
@@ -519,14 +525,13 @@
     .#{$ns}Nav-Menu-submenu-arrow {
       display: inline-block;
       font-size: px2rem(9px);
-      vertical-align: middle;
       text-transform: none;
       text-rendering: auto;
       line-height: px2rem(20px);
       margin-left: px2rem(5px);
 
       & > svg {
-        top: auto;
+        top: 0;
       }
     }
 

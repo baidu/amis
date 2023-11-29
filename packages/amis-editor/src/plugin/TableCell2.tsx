@@ -61,12 +61,12 @@ export class TableCell2Plugin extends BasePlugin {
         wrapperResolve: (dom: HTMLDivElement) => {
           // 固定这种结构 amis里改了 这里也得改
           const parent = dom.parentElement?.parentElement;
-          const groupId = parent?.getAttribute('data-group-id');
+          const col = parent?.getAttribute('data-col');
           const wrapper = dom.closest('table')!.parentElement?.parentElement;
           return [].slice.call(
             wrapper?.querySelectorAll(
-              `th[data-group-id="${groupId}"],
-              td[data-group-id="${groupId}"]`
+              `th[data-col="${col}"],
+              td[data-col="${col}"]`
             )
           );
         }
@@ -431,17 +431,14 @@ export class TableCell2Plugin extends BasePlugin {
         mode: 'normal',
         formType: 'extend',
         bulk: true,
-        defaultData: {
-          quickEdit: {
-            mode: 'popOver'
-          }
-        },
         trueValue: {
-          mode: 'popOver'
+          mode: 'popOver',
+          type: 'container',
+          body: []
         },
         isChecked: (e: any) => {
           const {data, name} = e;
-          return get(data, name);
+          return !!get(data, name);
         },
         form: {
           body: [
@@ -489,27 +486,31 @@ export class TableCell2Plugin extends BasePlugin {
                 } else if (typeof value === 'undefined') {
                   value = getVariable(data, 'quickEdit');
                 }
-
-                const originMode = value?.mode || 'popOver';
-
-                value = {
-                  ...value,
-                  type: 'form',
-                  mode: 'normal',
-                  wrapWithPanel: false,
-                  body: value?.body?.length
-                    ? value.body
-                    : [
-                        {
-                          type: 'input-text',
-                          name: data.key
-                        }
-                      ]
-                };
-
+                value = {...value};
+                const originMode = value.mode || 'popOver';
                 if (value.mode) {
                   delete value.mode;
                 }
+                value =
+                  value.body && ['container', 'wrapper'].includes(value.type)
+                    ? {
+                        // schema中存在容器，用自己的就行
+                        type: 'container',
+                        body: [],
+                        ...value
+                      }
+                    : {
+                        // schema中不存在容器，打开子编辑器时需要包裹一层
+                        type: 'container',
+                        body: [
+                          {
+                            type: 'input-text',
+                            name: data.name,
+                            ...value
+                          }
+                        ]
+                      };
+
                 // todo 多个快速编辑表单模式看来只能代码模式编辑了。
                 return (
                   <Button

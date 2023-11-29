@@ -21,7 +21,8 @@ import {
 } from './utils/helper';
 import {RendererData, ActionObject} from './types';
 import {isPureVariable} from './utils/isPureVariable';
-import {filter} from './utils';
+import {createObject, createRendererEvent, filter} from './utils';
+import {ListenerAction, runActions} from './actions';
 
 /**
  * target 里面可能包含 ?xxx=xxx，这种情况下，需要把 ?xxx=xxx 保留下来，然后对前面的部分进行 filter
@@ -75,6 +76,7 @@ export interface IScopedContext {
     session: string,
     path: string
   ) => ScopedComponentType[];
+  doAction: (actions: ListenerAction | ListenerAction[], ctx: any) => void;
 }
 type AliasIScopedContext = IScopedContext;
 
@@ -274,7 +276,8 @@ function createScopedTools(
             location.reload();
           }
         } else {
-          const component = scoped.getComponentByName(name);
+          const component =
+            scoped.getComponentByName(name) || scoped.getComponentById(name);
           component &&
             component.reload &&
             component.reload(subPath, query, ctx);
@@ -353,6 +356,22 @@ function createScopedTools(
       const component: any = scoped.getComponentById(id);
       if (component && component.props.show) {
         closeDialog(component);
+      }
+    },
+
+    async doAction(actions: ListenerAction | ListenerAction[], ctx: any) {
+      const renderer = this.getComponents()[0]; // 直接拿最顶层
+      const rendererEvent = createRendererEvent('embed', {
+        env,
+        nativeEvent: undefined,
+        data: createObject(renderer.props.data, ctx),
+        scoped: this
+      });
+
+      await runActions(actions, renderer, rendererEvent);
+
+      if (rendererEvent.prevented) {
+        return;
       }
     }
   };

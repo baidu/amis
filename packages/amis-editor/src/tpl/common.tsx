@@ -170,6 +170,7 @@ setSchemaTpl('formItemInline', {
   label: '表单项内联',
   name: 'inline',
   visibleOn: 'data.mode != "inline"',
+  inputClassName: 'is-inline',
   pipeIn: defaultValue(false)
   // onChange: (value:any, origin:any, item:any, form:any) => form.getValueByName('size') === "full" && form.setValueByName('')
 });
@@ -779,6 +780,19 @@ setSchemaTpl('combo-container', (config: SchemaObject) => {
 });
 
 /**
+ * Page组件静态数据
+ */
+setSchemaTpl(
+  'pageData',
+  getSchemaTpl('combo-container', {
+    type: 'input-kv',
+    mode: 'normal',
+    name: 'data',
+    label: '组件静态数据'
+  })
+);
+
+/**
  * 所有组件的状态
  */
 setSchemaTpl(
@@ -794,14 +808,12 @@ setSchemaTpl(
       body: [
         getSchemaTpl('visible'),
         getSchemaTpl('hidden'),
+        config?.isFormItem ? getSchemaTpl('clearValueOnHidden') : null,
         !config?.unsupportStatic && config?.isFormItem
           ? getSchemaTpl('static')
           : null,
         config?.readonly ? getSchemaTpl('readonly') : null,
-        config?.disabled || config?.isFormItem
-          ? getSchemaTpl('disabled')
-          : null,
-        config?.isFormItem ? getSchemaTpl('clearValueOnHidden') : null
+        config?.disabled || config?.isFormItem ? getSchemaTpl('disabled') : null
       ].filter(Boolean)
     };
   }
@@ -1725,4 +1737,17 @@ setSchemaTpl('primaryField', {
 
     return value;
   }
+});
+
+/**
+ * 是否为懒加载节点字段
+ */
+setSchemaTpl('deferField', {
+  label: tipedLabel(
+    '懒加载字段',
+    '是否为懒加载节点的字段名称，默认为defer，可以用该配置项自定义字段名称'
+  ),
+  name: 'deferField',
+  type: 'input-text',
+  placeholder: '自定义开启懒加载的字段'
 });

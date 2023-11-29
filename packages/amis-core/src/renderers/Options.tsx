@@ -37,6 +37,7 @@ import {
   FormBaseControl
 } from './Item';
 import {IFormItemStore} from '../store/formItem';
+import {isObject} from 'amis-core';
 
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
@@ -125,6 +126,11 @@ export interface FormOptionsControl extends FormBaseControl {
    * @default ''
    */
   resetValue?: string;
+
+  /**
+   * 懒加载字段
+   */
+  deferField?: string;
 
   /**
    * 延时加载的 API，当选项中有 defer: true 的选项时，点开会通过此接口扩充。
@@ -230,7 +236,11 @@ export interface OptionsControlProps
   selectedOptions: Array<Option>;
   setOptions: (value: Array<any>, skipNormalize?: boolean) => void;
   setLoading: (value: boolean) => void;
-  reloadOptions: (setError?: boolean) => void;
+  reloadOptions: (
+    setError?: boolean,
+    isInit?: boolean,
+    data?: Record<string, any>
+  ) => void;
   deferLoad: (option: Option) => void;
   leftDeferLoad: (option: Option, leftOptions: Option) => void;
   expandTreeOptions: (nodePathArr: any[]) => void;
@@ -443,15 +453,12 @@ export function registerOptionsControl(config: OptionsConfig) {
           );
 
           if (prevOptions !== options) {
-            formItem.setOptions(
-              normalizeOptions(
-                options || [],
-                undefined,
-                props.valueField || 'value'
-              ),
-              this.changeOptionValue,
-              props.data
+            formItem.loadOptionsFromDataScope(
+              props.source as string,
+              props.data,
+              this.changeOptionValue
             );
+
             this.normalizeValue();
           }
         } else if (
@@ -792,20 +799,16 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    reloadOptions(setError?: boolean, isInit = false) {
-      const {source, formItem, data, onChange, setPrinstineValue, valueField} =
+    reloadOptions(setError?: boolean, isInit = false, data = this.props.data) {
+      const {source, formItem, onChange, setPrinstineValue, valueField} =
         this.props;
 
       if (formItem && isPureVariable(source as string)) {
         isAlive(formItem) &&
-          formItem.setOptions(
-            normalizeOptions(
-              resolveVariableAndFilter(source as string, data, '| raw') || [],
-              undefined,
-              valueField
-            ),
-            this.changeOptionValue,
-            data
+          formItem.loadOptionsFromDataScope(
+            source as string,
+            data,
+            this.changeOptionValue
           );
         return;
       } else if (!formItem || !isEffectiveApi(source, data)) {
@@ -962,6 +965,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         source,
         data,
         valueField,
+        deferField,
         formItem: model,
         createBtnLabel,
         env,
@@ -1074,7 +1078,10 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       // 如果是懒加载的，只懒加载当前节点。
-      if (parent?.defer) {
+      if (
+        (parent?.hasOwnProperty(deferField) && parent[deferField]) ||
+        parent?.defer
+      ) {
         await this.deferLoad(parent);
       } else if (source && addApi) {
         // 如果配置了 source 且配置了 addApi 直接重新拉取接口就够了

@@ -64,6 +64,8 @@ order: 30
 | ak              | `string`           | 无                                   | 百度/高德地图的 ak                                                               |
 | clearable       | `boolean`          | false                                | 输入框是否可清空                                                                 |
 | placeholder     | `string`           | '请选择位置'                         | 默认提示                                                                         |
+| autoSelectCurrentLoc     | `boolean`  | false    | 是否自动选中当前地理位置                                 |
+| onlySelectCurrentLoc     | `boolean`  | false    | 是否限制只能选中当前地理位置，设置为true后，可用于充当定位组件 |
 | coordinatesType | 'bd09' \| 'gcj02'  | 'bd09'                               | 坐标系类型，默认百度坐标，使用高德地图时应设置为'gcj02'， 高德地图不支持坐标转换 |
 
 ### 坐标系说明

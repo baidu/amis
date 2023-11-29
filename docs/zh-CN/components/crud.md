@@ -614,6 +614,24 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 如果数据量比较大不适合一次性加载，可以配置 `deferApi` 接口，结合行数据中标记 `defer: true` 属性，实现懒加载。
 
+注意 `deferApi` 结果返回跟 `api` 返回不一样，`deferApi` 返回的是节点详情，而不是列表，列表应该是节点信息的 children 属性里面。也就是说 deferApi 还可以进一步完善节点信息。返回格式参考如下：
+
+```
+{
+ status: 0,
+ data: {
+   id: 1,
+   xxxProp: 'abc',
+   children: [
+     {
+       id: 11,
+       name: '子节点'
+     }
+   ]
+ }
+}
+```
+
 ```schema: scope="body"
 {
     "type": "crud",
@@ -940,11 +958,17 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 可以在列上配置`"sortable": true`，该列表头右侧会渲染一个可点击的排序图标，可以切换`正序`和`倒序`。
 
+> 如果想默认就基于某个字段排序，可以结合 `defaultParams` 一起配置。
+
 ```schema: scope="body"
 {
     "type": "crud",
     "syncLocation": false,
     "api": "/api/mock2/sample",
+    "defaultParams": {
+      "orderBy": "engine",
+      "orderDir": "desc"
+    },
     "columns": [
         {
             "name": "id",
@@ -1053,6 +1077,51 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 ```
 
 你可以通过[数据映射](../../docs/concepts/data-mapping)，在`api`中获取这些参数。
+
+#### 下拉数据源
+
+过滤器的数据域支持 API 接口和上下文数据(`3.6.0`及以上版本)
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "options": [
+      {"label": "4", "value": 3},
+      {"label": "5", "value": 5},
+      {"label": "5.5", "value": 5.5},
+      {"label": "6", "value": 6}
+    ]
+  },
+  "body": [
+    {
+      "type": "crud",
+      "syncLocation": false,
+      "api": "/api/mock2/sample",
+      "columns": [
+          {
+              "name": "id",
+              "label": "ID"
+          },
+          {
+              "name": "grade",
+              "label": "CSS grade",
+              "filterable": {
+                "source": "/api/mock2/crud/filterOptions"
+              }
+          },
+          {
+              "name": "version",
+              "label": "Version",
+              "filterable": {
+                "source": "${options}"
+              }
+          }
+      ]
+    }
+  ]
+}
+```
 
 ### 快速编辑
 
@@ -1537,7 +1606,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 分页有两种模式：
 
-##### 1. 知道数据总数
+**1. 知道数据总数**
 
 如果后端可以知道数据总数时，接口返回格式如下：
 
@@ -1561,7 +1630,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 该模式下，会自动计算总页码数，渲染出有页码的分页组件
 
-##### 2. 不知道数据总数
+**2. 不知道数据总数**
 
 如果后端无法知道数据总数，那么可以返回`hasNext`字段，来标识是否有下一页。
 
@@ -1586,6 +1655,261 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 这样 amis 会在配置分页组件的地方，渲染出一个简单的页面跳转控件。
 
 > 如果总数据只够展示一页，则默认不显示该分页组件
+
+#### 前端分页
+
+如果你的数据并不是很大，而且后端不方便做分页和条件过滤操作，那么通过配置`loadDataOnce`实现前端一次性加载并支持分页和条件过滤操作。
+
+<div class="p-4 text-base text-gray-800 rounded-lg bg-gray-50" role="alert">
+  <span class="font-medium text-gray-800 block">温馨提示</span>
+  <span class="block">开启<code>loadDataOnce</code>后，搜索和过滤将交给组件处理，默认对所有字段采用模糊匹配（比如：<code>mi</code>将会匹配<code>amis</code>）。如果首次加载数据时设置了预设条件，导致接口返回的数据集合未按照此规则过滤，则可能导致切换页码后分页错误。此时有2种方案处理：</span>
+  <span class="block" style="text-indent: 2em">1. 将接口返回的列表数据按照所有字段模糊匹配的规则处理</span>
+  <span class="block" style="text-indent: 2em">2. 配置<a href="#匹配函数"><code>matchFunc</code></a>，自定义处理过滤</span>
+</div>
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "loadDataOnce": true,
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade",
+            "sortable": true
+        }
+    ]
+}
+```
+
+配置一次性加载后，基本的分页、快速排序操作将会在前端进行完成。如果想实现前端检索(目前是模糊搜索)，可以在 table 的 `columns` 对应项配置 `searchable` 来实现。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "loadDataOnce": true,
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version",
+            "searchable": {
+                "type": "select",
+                "name": "version",
+                "label": "Engine version",
+                "clearable": true,
+                "multiple": true,
+                "searchable": true,
+                "checkAll": true,
+                "options": ["1.7", "3.3", "5.6"],
+                "maxTagCount": 10,
+                "extractValue": true,
+                "joinValues": false,
+                "delimiter": ',',
+                "defaultCheckAll": false,
+                "checkAllLabel": "全选"
+              }
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+> **注意：**如果你的数据量较大，请务必使用服务端分页的方案，过多的前端数据展示，会显著影响前端页面的性能
+
+另外前端一次性加载当有查寻条件的时候，默认还是会重新请求一次，如果配置 `loadDataOnceFetchOnFilter` 为 `false` 则为前端过滤。
+
+```schema: scope="body"
+{
+  "type": "crud",
+  "syncLocation": false,
+  "api": "/api/mock2/sample",
+  "loadDataOnce": true,
+  "loadDataOnceFetchOnFilter": false,
+  "autoGenerateFilter": true,
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "platform",
+      "label": "Platform(s)"
+    },
+    {
+      "name": "version",
+      "label": "Engine version",
+      "searchable": {
+        "type": "select",
+        "name": "version",
+        "label": "Engine version",
+        "clearable": true,
+        "multiple": true,
+        "searchable": true,
+        "checkAll": true,
+        "options": [
+          "1.7",
+          "3.3",
+          "5.6"
+        ],
+        "maxTagCount": 10,
+        "extractValue": true,
+        "joinValues": false,
+        "delimiter": ",",
+        "defaultCheckAll": false,
+        "checkAllLabel": "全选"
+      }
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    }
+  ]
+}
+```
+
+`loadDataOnceFetchOnFilter` 配置成 `true` 则会强制重新请求接口比如以下用法
+
+> 此时如果不配置或者配置为 `false` 是前端直接过滤，不过记得配置 name 为行数据中的属性，如果行数据中没有对应属性则不会起作用
+
+```schema: scope="body"
+{
+  "type": "crud",
+  "syncLocation": false,
+  "api": "/api/mock2/sample",
+  "loadDataOnce": true,
+  "loadDataOnceFetchOnFilter": true,
+  "headerToolbar": [
+    {
+      "type": "search-box",
+      "name": "keywords"
+    }
+  ],
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "platform",
+      "label": "Platform(s)"
+    },
+    {
+      "name": "version",
+      "label": "Engine version",
+      "searchable": {
+        "type": "select",
+        "name": "version",
+        "label": "Engine version",
+        "clearable": true,
+        "multiple": true,
+        "searchable": true,
+        "checkAll": true,
+        "options": [
+          "1.7",
+          "3.3",
+          "5.6"
+        ],
+        "maxTagCount": 10,
+        "extractValue": true,
+        "joinValues": false,
+        "delimiter": ",",
+        "defaultCheckAll": false,
+        "checkAllLabel": "全选"
+      }
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    }
+  ]
+}
+```
+
+##### 匹配函数
+
+> `3.5.0` 及以上版本
+
+支持自定义匹配函数`matchFunc`，当开启`loadDataOnce`时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景，函数签名如下：
+
+```typescript
+interface CRUDMatchFunc {
+  (
+    /* 当前列表的全量数据 */
+    items: any,
+    /* 最近一次接口返回的全量数据 */
+    itemsRaw: any,
+    /** 相关配置 */
+    options?: {
+      /* 查询参数 */
+      query: Record<string, any>;
+      /* 列配置 */
+      columns: any;
+      /** match-sorter 匹配函数 */
+      matchSorter: (items: any[], value: string, options?: MatchSorterOptions<any>) => any[]
+    }
+  ): boolean;
+}
+```
+
+具体效果请参考[示例](../../../examples/crud/match-func)，从`3.6.0`版本开始，`options`中支持使用`matchSorter`函数处理复杂的过滤场景，比如前缀匹配、模糊匹配等，更多详细内容推荐查看[match-sorter](https://github.com/kentcdodds/match-sorter)。
 
 ### 批量操作
 
@@ -2865,226 +3189,6 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 
 `syncLocation`开启后，数据域经过地址栏同步后，原始值被转化为字符串同步回数据域，但布尔值（boolean）同步后不符合预期数据结构，导致组件渲染出错。比如查询条件表单中包含[Checkbox](./form/checkbox)组件，此时可以设置`{"trueValue": "1", "falseValue": "0"}`，将真值和假值设置为字符串格式规避。从`3.5.0`版本开始，已经支持[`parsePrimitiveQuery`](#解析query原始类型)，该配置默认开启。
 
-## 前端一次性加载
-
-如果你的数据并不是很大，而且后端不方便做分页和条件过滤操作，那么通过配置`loadDataOnce`实现前端一次性加载并支持分页和条件过滤操作。
-
-```schema: scope="body"
-{
-    "type": "crud",
-    "syncLocation": false,
-    "api": "/api/mock2/sample",
-    "loadDataOnce": true,
-    "columns": [
-        {
-            "name": "id",
-            "label": "ID"
-        },
-        {
-            "name": "engine",
-            "label": "Rendering engine"
-        },
-        {
-            "name": "browser",
-            "label": "Browser"
-        },
-        {
-            "name": "platform",
-            "label": "Platform(s)"
-        },
-        {
-            "name": "version",
-            "label": "Engine version"
-        },
-        {
-            "name": "grade",
-            "label": "CSS grade",
-            "sortable": true
-        }
-    ]
-}
-```
-
-配置一次性加载后，基本的分页、快速排序操作将会在前端进行完成。如果想实现前端检索(目前是模糊搜索)，可以在 table 的 `columns` 对应项配置 `searchable` 来实现。
-
-```schema: scope="body"
-{
-    "type": "crud",
-    "syncLocation": false,
-    "api": "/api/mock2/sample",
-    "loadDataOnce": true,
-    "columns": [
-        {
-            "name": "id",
-            "label": "ID"
-        },
-        {
-            "name": "engine",
-            "label": "Rendering engine"
-        },
-        {
-            "name": "browser",
-            "label": "Browser"
-        },
-        {
-            "name": "platform",
-            "label": "Platform(s)"
-        },
-        {
-            "name": "version",
-            "label": "Engine version",
-            "searchable": {
-                "type": "select",
-                "name": "version",
-                "label": "Engine version",
-                "clearable": true,
-                "multiple": true,
-                "searchable": true,
-                "checkAll": true,
-                "options": ["1.7", "3.3", "5.6"],
-                "maxTagCount": 10,
-                "extractValue": true,
-                "joinValues": false,
-                "delimiter": ',',
-                "defaultCheckAll": false,
-                "checkAllLabel": "全选"
-              }
-        },
-        {
-            "name": "grade",
-            "label": "CSS grade"
-        }
-    ]
-}
-```
-
-> **注意：**如果你的数据量较大，请务必使用服务端分页的方案，过多的前端数据展示，会显著影响前端页面的性能
-
-另外前端一次性加载当有查寻条件的时候，默认还是会重新请求一次，如果配置 `loadDataOnceFetchOnFilter` 为 `false` 则为前端过滤。
-
-```schema: scope="body"
-{
-  "type": "crud",
-  "syncLocation": false,
-  "api": "/api/mock2/sample",
-  "loadDataOnce": true,
-  "loadDataOnceFetchOnFilter": false,
-  "autoGenerateFilter": true,
-  "columns": [
-    {
-      "name": "id",
-      "label": "ID"
-    },
-    {
-      "name": "engine",
-      "label": "Rendering engine"
-    },
-    {
-      "name": "browser",
-      "label": "Browser"
-    },
-    {
-      "name": "platform",
-      "label": "Platform(s)"
-    },
-    {
-      "name": "version",
-      "label": "Engine version",
-      "searchable": {
-        "type": "select",
-        "name": "version",
-        "label": "Engine version",
-        "clearable": true,
-        "multiple": true,
-        "searchable": true,
-        "checkAll": true,
-        "options": [
-          "1.7",
-          "3.3",
-          "5.6"
-        ],
-        "maxTagCount": 10,
-        "extractValue": true,
-        "joinValues": false,
-        "delimiter": ",",
-        "defaultCheckAll": false,
-        "checkAllLabel": "全选"
-      }
-    },
-    {
-      "name": "grade",
-      "label": "CSS grade"
-    }
-  ]
-}
-```
-
-`loadDataOnceFetchOnFilter` 配置成 `true` 则会强制重新请求接口比如以下用法
-
-> 此时如果不配置或者配置为 `false` 是前端直接过滤，不过记得配置 name 为行数据中的属性，如果行数据中没有对应属性则不会起作用
-
-```schema: scope="body"
-{
-  "type": "crud",
-  "syncLocation": false,
-  "api": "/api/mock2/sample",
-  "loadDataOnce": true,
-  "loadDataOnceFetchOnFilter": true,
-  "headerToolbar": [
-    {
-      "type": "search-box",
-      "name": "keywords"
-    }
-  ],
-  "columns": [
-    {
-      "name": "id",
-      "label": "ID"
-    },
-    {
-      "name": "engine",
-      "label": "Rendering engine"
-    },
-    {
-      "name": "browser",
-      "label": "Browser"
-    },
-    {
-      "name": "platform",
-      "label": "Platform(s)"
-    },
-    {
-      "name": "version",
-      "label": "Engine version",
-      "searchable": {
-        "type": "select",
-        "name": "version",
-        "label": "Engine version",
-        "clearable": true,
-        "multiple": true,
-        "searchable": true,
-        "checkAll": true,
-        "options": [
-          "1.7",
-          "3.3",
-          "5.6"
-        ],
-        "maxTagCount": 10,
-        "extractValue": true,
-        "joinValues": false,
-        "delimiter": ",",
-        "defaultCheckAll": false,
-        "checkAllLabel": "全选"
-      }
-    },
-    {
-      "name": "grade",
-      "label": "CSS grade"
-    }
-  ]
-}
-```
-
 ## 动态列
 
 > since 1.1.6
@@ -3220,62 +3324,63 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 ## 属性表
 
-| 属性名                                | 类型                                                                                    | 默认值                          | 说明                                                                                                                  |
-| ------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| type                                  | `string`                                                                                |                                 | `type` 指定为 CRUD 渲染器                                                                                             |
-| mode                                  | `string`                                                                                | `"table"`                       | `"table" 、 "cards" 或者 "list"`                                                                                      |
-| title                                 | `string`                                                                                | `""`                            | 可设置成空，当设置成空时，没有标题栏                                                                                  |
-| className                             | `string`                                                                                |                                 | 表格外层 Dom 的类名                                                                                                   |
-| api                                   | [API](../../docs/types/api)                                                             |                                 | CRUD 用来获取列表数据的 api。                                                                                         |
-| deferApi                              | [API](../../docs/types/api)                                                             |                                 | 当行数据中有 defer 属性时，用此接口进一步加载内容                                                                     |
-| loadDataOnce                          | `boolean`                                                                               |                                 | 是否一次性加载所有数据（前端分页）                                                                                    |
-| loadDataOnceFetchOnFilter             | `boolean`                                                                               | `true`                          | 在开启 loadDataOnce 时，filter 时是否去重新请求 api                                                                   |
-| source                                | `string`                                                                                |                                 | 数据映射接口返回某字段的值，不设置会默认使用接口返回的`${items}`或者`${rows}`，也可以设置成上层数据源的内容           |
-| filter                                | [Form](./form/index)                                                                    |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 `mode` 刷新列表。                                                        |
-| filterTogglable                       | `boolean` \| `{label: string; icon: string; activeLabel: string; activeIcon?: stirng;}` | `false`                         | 是否可显隐过滤器                                                                                                      |
-| filterDefaultVisible                  | `boolean`                                                                               | `true`                          | 设置过滤器默认是否可见。                                                                                              |
-| initFetch                             | `boolean`                                                                               | `true`                          | 是否初始化的时候拉取数据, 只针对有 filter 的情况, 没有 filter 初始都会拉取数据                                        |
-| interval                              | `number`                                                                                | `3000`                          | 刷新时间(最低 1000)                                                                                                   |
-| silentPolling                         | `boolean`                                                                               | `false`                         | 配置刷新时是否隐藏加载动画                                                                                            |
-| stopAutoRefreshWhen                   | `string`                                                                                | `""`                            | 通过[表达式](../../docs/concepts/expression)来配置停止刷新的条件                                                      |
-| stopAutoRefreshWhenModalIsOpen        | `boolean`                                                                               | `false`                         | 当有弹框时关闭自动刷新，关闭弹框又恢复                                                                                |
-| syncLocation                          | `boolean`                                                                               | `true`                          | 是否将过滤条件的参数同步到地址栏                                                                                      |
-| draggable                             | `boolean`                                                                               | `false`                         | 是否可通过拖拽排序                                                                                                    |
-| resizable                             | `boolean`                                                                               | `true`                          | 是否可以调整列宽度                                                                                                    |
-| itemDraggableOn                       | `boolean`                                                                               |                                 | 用[表达式](../../docs/concepts/expression)来配置是否可拖拽排序                                                        |
-| [saveOrderApi](#saveOrderApi)         | [API](../../docs/types/api)                                                             |                                 | 保存排序的 api。                                                                                                      |
-| [quickSaveApi](#quickSaveApi)         | [API](../../docs/types/api)                                                             |                                 | 快速编辑后用来批量保存的 API。                                                                                        |
-| [quickSaveItemApi](#quickSaveItemApi) | [API](../../docs/types/api)                                                             |                                 | 快速编辑配置成及时保存时使用的 API。                                                                                  |
-| bulkActions                           | Array<[Action](./action)>                                                               |                                 | 批量操作列表，配置后，表格可进行选中操作。                                                                            |
-| messages                              | `Object`                                                                                |                                 | 覆盖消息提示，如果不指定，将采用 api 返回的 message                                                                   |
-| messages.fetchFailed                  | `string`                                                                                |                                 | 获取失败时提示                                                                                                        |
-| messages.saveOrderFailed              | `string`                                                                                |                                 | 保存顺序失败提示                                                                                                      |
-| messages.saveOrderSuccess             | `string`                                                                                |                                 | 保存顺序成功提示                                                                                                      |
-| messages.quickSaveFailed              | `string`                                                                                |                                 | 快速保存失败提示                                                                                                      |
-| messages.quickSaveSuccess             | `string`                                                                                |                                 | 快速保存成功提示                                                                                                      |
-| primaryField                          | `string`                                                                                | `"id"`                          | 设置 ID 字段名。                                                                                                      |
-| perPage                               | `number`                                                                                | 10                              | 设置一页显示多少条数据。                                                                                              |
-| orderBy                               | `string`                                                                                |                                 | 默认排序字段，这个是传给后端，需要后端接口实现                                                                        |
-| orderDir                              | `asc` \| `desc`                                                                         |                                 | 排序方向                                                                                                              |
-| defaultParams                         | `Object`                                                                                |                                 | 设置默认 filter 默认参数，会在查询的时候一起发给后端                                                                  |
-| pageField                             | `string`                                                                                | `"page"`                        | 设置分页页码字段名。                                                                                                  |
-| perPageField                          | `string`                                                                                | `"perPage"`                     | 设置分页一页显示的多少条数据的字段名。注意：最好与 defaultParams 一起使用，请看下面例子。                             |
-| pageDirectionField                    | `string`                                                                                | `"pageDir"`                     | 分页方向字段名可能是 forward 或者 backward                                                                            |
-| perPageAvailable                      | `Array<number>`                                                                         | `[5, 10, 20, 50, 100]`          | 设置一页显示多少条数据下拉框可选条数。                                                                                |
-| orderField                            | `string`                                                                                |                                 | 设置用来确定位置的字段名，设置后新的顺序将被赋值到该字段中。                                                          |
-| hideQuickSaveBtn                      | `boolean`                                                                               | `false`                         | 隐藏顶部快速保存提示                                                                                                  |
-| autoJumpToTopOnPagerChange            | `boolean`                                                                               | `false`                         | 当切分页的时候，是否自动跳顶部。                                                                                      |
-| syncResponse2Query                    | `boolean`                                                                               | `true`                          | 将返回数据同步到过滤器上。                                                                                            |
-| keepItemSelectionOnPageChange         | `boolean`                                                                               | `true`                          | 保留条目选择，默认分页、搜素后，用户选择条目会被清空，开启此选项后会保留用户选择，可以实现跨页面批量操作。            |
-| labelTpl                              | `string`                                                                                |                                 | 单条描述模板，`keepItemSelectionOnPageChange`设置为`true`后会把所有已选择条目列出来，此选项可以用来定制条目展示文案。 |
-| headerToolbar                         | Array                                                                                   | `['bulkActions', 'pagination']` | 顶部工具栏配置                                                                                                        |
-| footerToolbar                         | Array                                                                                   | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                        |
-| alwaysShowPagination                  | `boolean`                                                                               | `false`                         | 是否总是显示分页                                                                                                      |
-| affixHeader                           | `boolean`                                                                               | `true`                          | 是否固定表头(table 下)                                                                                                |
-| autoGenerateFilter                    | `Object \| boolean`                                                                     |                                 | 是否开启查询区域，开启后会根据列元素的 `searchable` 属性值，自动生成查询条件表单                                      |
-| resetPageAfterAjaxItemAction          | `boolean`                                                                               | `false`                         | 单条数据 ajax 操作后是否重置页码为第一页                                                                              |
-| autoFillHeight                        | `boolean` 丨 `{height: number}`                                                         |                                 | 内容区域自适应高度                                                                                                    |
-| canAccessSuperData                    | `boolean`                                                                               | `true`                          | 指定是否可以自动获取上层的数据并映射到表格行数据上，如果列也配置了该属性，则列的优先级更高                            |
+| 属性名                                | 类型                                                                                    | 默认值                          | 说明                                                                                                                                           | 版本    |
+| ------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| type                                  | `string`                                                                                |                                 | `type` 指定为 CRUD 渲染器                                                                                                                      |
+| mode                                  | `string`                                                                                | `"table"`                       | `"table" 、 "cards" 或者 "list"`                                                                                                               |
+| title                                 | `string`                                                                                | `""`                            | 可设置成空，当设置成空时，没有标题栏                                                                                                           |
+| className                             | `string`                                                                                |                                 | 表格外层 Dom 的类名                                                                                                                            |
+| api                                   | [API](../../docs/types/api)                                                             |                                 | CRUD 用来获取列表数据的 api。                                                                                                                  |
+| deferApi                              | [API](../../docs/types/api)                                                             |                                 | 当行数据中有 defer 属性时，用此接口进一步加载内容                                                                                              |
+| loadDataOnce                          | `boolean`                                                                               |                                 | 是否一次性加载所有数据（前端分页）                                                                                                             |
+| loadDataOnceFetchOnFilter             | `boolean`                                                                               | `true`                          | 在开启 loadDataOnce 时，filter 时是否去重新请求 api                                                                                            |
+| source                                | `string`                                                                                |                                 | 数据映射接口返回某字段的值，不设置会默认使用接口返回的`${items}`或者`${rows}`，也可以设置成上层数据源的内容                                    |
+| filter                                | [Form](./form/index)                                                                    |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 `mode` 刷新列表。                                                                                 |
+| filterTogglable                       | `boolean` \| `{label: string; icon: string; activeLabel: string; activeIcon?: stirng;}` | `false`                         | 是否可显隐过滤器                                                                                                                               |
+| filterDefaultVisible                  | `boolean`                                                                               | `true`                          | 设置过滤器默认是否可见。                                                                                                                       |
+| initFetch                             | `boolean`                                                                               | `true`                          | 是否初始化的时候拉取数据, 只针对有 filter 的情况, 没有 filter 初始都会拉取数据                                                                 |
+| interval                              | `number`                                                                                | `3000`                          | 刷新时间(最低 1000)                                                                                                                            |
+| silentPolling                         | `boolean`                                                                               | `false`                         | 配置刷新时是否隐藏加载动画                                                                                                                     |
+| stopAutoRefreshWhen                   | `string`                                                                                | `""`                            | 通过[表达式](../../docs/concepts/expression)来配置停止刷新的条件                                                                               |
+| stopAutoRefreshWhenModalIsOpen        | `boolean`                                                                               | `false`                         | 当有弹框时关闭自动刷新，关闭弹框又恢复                                                                                                         |
+| syncLocation                          | `boolean`                                                                               | `true`                          | 是否将过滤条件的参数同步到地址栏                                                                                                               |
+| draggable                             | `boolean`                                                                               | `false`                         | 是否可通过拖拽排序                                                                                                                             |
+| resizable                             | `boolean`                                                                               | `true`                          | 是否可以调整列宽度                                                                                                                             |
+| itemDraggableOn                       | `boolean`                                                                               |                                 | 用[表达式](../../docs/concepts/expression)来配置是否可拖拽排序                                                                                 |
+| [saveOrderApi](#saveOrderApi)         | [API](../../docs/types/api)                                                             |                                 | 保存排序的 api。                                                                                                                               |
+| [quickSaveApi](#quickSaveApi)         | [API](../../docs/types/api)                                                             |                                 | 快速编辑后用来批量保存的 API。                                                                                                                 |
+| [quickSaveItemApi](#quickSaveItemApi) | [API](../../docs/types/api)                                                             |                                 | 快速编辑配置成及时保存时使用的 API。                                                                                                           |
+| bulkActions                           | Array<[Action](./action)>                                                               |                                 | 批量操作列表，配置后，表格可进行选中操作。                                                                                                     |
+| messages                              | `Object`                                                                                |                                 | 覆盖消息提示，如果不指定，将采用 api 返回的 message                                                                                            |
+| messages.fetchFailed                  | `string`                                                                                |                                 | 获取失败时提示                                                                                                                                 |
+| messages.saveOrderFailed              | `string`                                                                                |                                 | 保存顺序失败提示                                                                                                                               |
+| messages.saveOrderSuccess             | `string`                                                                                |                                 | 保存顺序成功提示                                                                                                                               |
+| messages.quickSaveFailed              | `string`                                                                                |                                 | 快速保存失败提示                                                                                                                               |
+| messages.quickSaveSuccess             | `string`                                                                                |                                 | 快速保存成功提示                                                                                                                               |
+| primaryField                          | `string`                                                                                | `"id"`                          | 设置 ID 字段名。                                                                                                                               |
+| perPage                               | `number`                                                                                | 10                              | 设置一页显示多少条数据。                                                                                                                       |
+| orderBy                               | `string`                                                                                |                                 | 默认排序字段，这个是传给后端，需要后端接口实现                                                                                                 |
+| orderDir                              | `asc` \| `desc`                                                                         |                                 | 排序方向                                                                                                                                       |
+| defaultParams                         | `Object`                                                                                |                                 | 设置默认 filter 默认参数，会在查询的时候一起发给后端                                                                                           |
+| pageField                             | `string`                                                                                | `"page"`                        | 设置分页页码字段名。                                                                                                                           |
+| perPageField                          | `string`                                                                                | `"perPage"`                     | 设置分页一页显示的多少条数据的字段名。注意：最好与 defaultParams 一起使用，请看下面例子。                                                      |
+| pageDirectionField                    | `string`                                                                                | `"pageDir"`                     | 分页方向字段名可能是 forward 或者 backward                                                                                                     |
+| perPageAvailable                      | `Array<number>`                                                                         | `[5, 10, 20, 50, 100]`          | 设置一页显示多少条数据下拉框可选条数。                                                                                                         |
+| orderField                            | `string`                                                                                |                                 | 设置用来确定位置的字段名，设置后新的顺序将被赋值到该字段中。                                                                                   |
+| hideQuickSaveBtn                      | `boolean`                                                                               | `false`                         | 隐藏顶部快速保存提示                                                                                                                           |
+| autoJumpToTopOnPagerChange            | `boolean`                                                                               | `false`                         | 当切分页的时候，是否自动跳顶部。                                                                                                               |
+| syncResponse2Query                    | `boolean`                                                                               | `true`                          | 将返回数据同步到过滤器上。                                                                                                                     |
+| keepItemSelectionOnPageChange         | `boolean`                                                                               | `true`                          | 保留条目选择，默认分页、搜素后，用户选择条目会被清空，开启此选项后会保留用户选择，可以实现跨页面批量操作。                                     |
+| labelTpl                              | `string`                                                                                |                                 | 单条描述模板，`keepItemSelectionOnPageChange`设置为`true`后会把所有已选择条目列出来，此选项可以用来定制条目展示文案。                          |
+| headerToolbar                         | Array                                                                                   | `['bulkActions', 'pagination']` | 顶部工具栏配置                                                                                                                                 |
+| footerToolbar                         | Array                                                                                   | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                                                 |
+| alwaysShowPagination                  | `boolean`                                                                               | `false`                         | 是否总是显示分页                                                                                                                               |
+| affixHeader                           | `boolean`                                                                               | `true`                          | 是否固定表头(table 下)                                                                                                                         |
+| autoGenerateFilter                    | `Object \| boolean`                                                                     |                                 | 是否开启查询区域，开启后会根据列元素的 `searchable` 属性值，自动生成查询条件表单                                                               |
+| resetPageAfterAjaxItemAction          | `boolean`                                                                               | `false`                         | 单条数据 ajax 操作后是否重置页码为第一页                                                                                                       |
+| autoFillHeight                        | `boolean` 丨 `{height: number}`                                                         |                                 | 内容区域自适应高度                                                                                                                             |
+| canAccessSuperData                    | `boolean`                                                                               | `true`                          | 指定是否可以自动获取上层的数据并映射到表格行数据上，如果列也配置了该属性，则列的优先级更高                                                     |
+| matchFunc                             | `string`                                                                                | [`CRUDMatchFunc`](#匹配函数)    | 自定义匹配函数, 当开启`loadDataOnce`时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景 | `3.5.0` |
 
 注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
 
@@ -3287,32 +3392,32 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 除了 Table 组件默认支持的列配置，CRUD 的列配置还额外支持以下属性：
 
-| 属性名     | 类型                                                            | 默认值  | 说明                                                                        |
-| ---------- | --------------------------------------------------------------- | ------- | --------------------------------------------------------------------------- |
-| sortable   | `boolean`                                                       | `false` | 是否可排序                                                                  |
-| searchable | `boolean` \| `Schema`                                           | `false` | 是否可快速搜索，开启`autoGenerateFilter`后，`searchable`支持配置`Schema`    |
-| filterable | `boolean` \| [`QuickFilterConfig`](./crud.md#quickfilterconfig) | `false` | 是否可快速搜索，`options`属性为静态选项，支持设置`source`属性从接口获取选项 |
-| quickEdit  | `boolean` \| [`QuickEditConfig`](./crud.md#quickeditconfig)     | -       | 快速编辑，一般需要配合`quickSaveApi`接口使用                                |
+| 属性名             | 类型                                                            | 默认值  | 说明                                                                        | 版本 |
+| ------------------ | --------------------------------------------------------------- | ------- | --------------------------------------------------------------------------- | ---- |
+| sortable           | `boolean`                                                       | `false` | 是否可排序                                                                  |
+| searchable         | `boolean` \| `Schema`                                           | `false` | 是否可快速搜索，开启`autoGenerateFilter`后，`searchable`支持配置`Schema`    |
+| filterable         | `boolean` \| [`QuickFilterConfig`](./crud.md#quickfilterconfig) | `false` | 是否可快速搜索，`options`属性为静态选项，支持设置`source`属性从接口获取选项 |
+| quickEdit          | `boolean` \| [`QuickEditConfig`](./crud.md#quickeditconfig)     | -       | 快速编辑，一般需要配合`quickSaveApi`接口使用                                |
+| quickEditEnabledOn | `SchemaExpression`                                              | -       | 开启快速编辑条件[表达式](../../docs/concepts/expression)                    |      |
 
 #### QuickFilterConfig
 
-| 属性名        | 类型                          | 默认值  | 说明                                                     | 版本    |
-| ------------- | ----------------------------- | ------- | -------------------------------------------------------- | ------- |
-| options       | `Array<any>`                  | -       | 静态选项                                                 |         |
-| multiple      | `boolean`                     | `false` | 是否支持多选                                             |         |
-| source        | [`Api`](../../docs/types/api) | -       | 选项 API 接口                                            |         |
-| refreshOnOpen | `boolean`                     | `false` | 配置 source 前提下，每次展开筛选浮层是否重新加载选项数据 | `2.9.0` |
-| strictMode    | `boolean`                     | `false` | 严格模式，开启严格模式后，会采用 JavaScript 严格相等比较 | `2.3.0` |
+| 属性名        | 类型                                      | 默认值  | 说明                                                     | 版本                        |
+| ------------- | ----------------------------------------- | ------- | -------------------------------------------------------- | --------------------------- |
+| options       | `Array<any>`                              | -       | 静态选项                                                 |                             |
+| multiple      | `boolean`                                 | `false` | 是否支持多选                                             |                             |
+| source        | [`Api`](../../docs/types/api) \| `string` | -       | 选项 API 接口                                            | `3.6.0`版本后支持上下文变量 |
+| refreshOnOpen | `boolean`                                 | `false` | 配置 source 前提下，每次展开筛选浮层是否重新加载选项数据 | `2.9.0`                     |
+| strictMode    | `boolean`                                 | `false` | 严格模式，开启严格模式后，会采用 JavaScript 严格相等比较 | `2.3.0`                     |
 
 #### QuickEditConfig
 
-| 属性名             | 类型                      | 默认值      | 说明                                                                                                    | 版本 |
-| ------------------ | ------------------------- | ----------- | ------------------------------------------------------------------------------------------------------- | ---- |
-| type               | `SchemaType`              | -           | 表单项组件类型                                                                                          |      |
-| body               | `SchemaCollection`        | -           | 组件容器，支持多个表单项组件                                                                            |      |
-| mode               | `'inline' \| 'popOver'`   | `'popOver'` | 编辑模式，inline 为行内编辑，popOver 为浮层编辑                                                         |      |
-| saveImmediately    | `boolean` 或 `{api: Api}` | `false`     | 是否修改后即时保存，一般需要配合`quickSaveItemApi`接口使用，也可以直接配置[`Api`](../../docs/types/api) |      |
-| quickEditEnabledOn | `SchemaExpression`        | -           | 开启快速编辑条件[表达式](../../docs/concepts/expression)                                                |      |
+| 属性名          | 类型                      | 默认值      | 说明                                                                                                    | 版本 |
+| --------------- | ------------------------- | ----------- | ------------------------------------------------------------------------------------------------------- | ---- |
+| type            | `SchemaType`              | -           | 表单项组件类型                                                                                          |      |
+| body            | `SchemaCollection`        | -           | 组件容器，支持多个表单项组件                                                                            |      |
+| mode            | `'inline' \| 'popOver'`   | `'popOver'` | 编辑模式，inline 为行内编辑，popOver 为浮层编辑                                                         |      |
+| saveImmediately | `boolean` 或 `{api: Api}` | `false`     | 是否修改后即时保存，一般需要配合`quickSaveItemApi`接口使用，也可以直接配置[`Api`](../../docs/types/api) |      |
 
 ### columns-toggler 属性表
 
@@ -4858,7 +4963,7 @@ value 结构说明：
 
 #### 行记录中字段赋值
 
-需要通过表达式配置动态`name`或`id`和`componentName`或`componentId`。例如修改`engine`选中状态的同时选中`version`，勾选`id`的同时去掉对`engine`的选中。
+需要通过表达式配置动态`id`和`componentId`。例如修改`engine`选中状态的同时选中`version`，勾选`id`的同时去掉对`engine`的选中。
 
 ```schema: scope="body"
 {
@@ -4870,13 +4975,12 @@ value 结构说明：
         {
             "name": "id",
             "label": "ID",
-            "id": "u:3db3f2b1b99e",
             "onEvent": {
                 "click": {
                     "actions": [
                     {
                         "actionType": "setValue",
-                        "componentId": "u:4868d7db0139_${index}",
+                        "componentId": "version_${index}",
                         "args": {
                             "value": false
                         }
@@ -4891,13 +4995,12 @@ value 结构说明：
             "label": "engine",
             "quickEdit": true,
             "quickEditEnabledOn": "this.id < 5",
-            "id": "u:0b9be99f3403",
             "onEvent": {
                 "change": {
                     "actions": [
                     {
                         "actionType": "setValue",
-                        "componentName": "version_${index}",
+                        "componentId": "version_${index}",
                         "args": {
                             "value": true
                         }
@@ -4907,12 +5010,12 @@ value 结构说明：
             }
         },
         {
-            "name": "version_${index}",
+            "name": "version",
             "type": "checkbox",
             "label": "version",
             "quickEdit": true,
             "quickEditEnabledOn": "this.id < 5",
-            "id": "u:4868d7db0139_${index}"
+            "id": "version_${index}"
         }
     ],
     "id": "u:f5bad706d7c5"

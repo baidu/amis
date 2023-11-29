@@ -162,6 +162,7 @@
 
       &.is-disabled {
         color: var(--text--muted-color);
+        cursor: not-allowed;
 
         &:hover {
           text-decoration: none;
@@ -238,7 +239,7 @@
     margin: 0 var(--gap-sm) !important;
   }
   &-secondary {
-    max-width: 12.5rem;
+    max-width: px2rem(200px);
     color: var(--Card-secondary-color);
     padding: 0 var(--gap-md);
     font-size: var(--fontSizeMd);

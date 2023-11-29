@@ -78,6 +78,12 @@ function initChildren(
   });
 }
 
+export enum SELECTED_STATUS {
+  ALL,
+  PARTIAL,
+  NONE
+}
+
 export const Column = types
   .model('Column', {
     label: types.optional(types.frozen(), undefined),
@@ -182,6 +188,14 @@ export const Row = types
     lazyRender: false
   })
   .views(self => ({
+    get parent() {
+      return getParent(self, 2);
+    },
+
+    get table() {
+      return getParent(self, self.depth * 2);
+    },
+
     get expandable(): boolean {
       let table: any;
       return !!(
@@ -191,6 +205,34 @@ export const Row = types
           table.footable &&
           table.footableColumns.length)
       );
+    },
+
+    childrenSelected() {
+      const {children, table} = self as IRow;
+
+      const selectedLength = children.filter((child: IRow) =>
+        (table as ITableStore).isSelected(child)
+      ).length;
+
+      if (!selectedLength) {
+        return SELECTED_STATUS.NONE;
+      }
+
+      if (selectedLength === children.length) {
+        return SELECTED_STATUS.ALL;
+      }
+
+      return SELECTED_STATUS.PARTIAL;
+    },
+
+    get partial(): boolean {
+      const childrenSelected =
+        this.childrenSelected() === SELECTED_STATUS.PARTIAL;
+      const childrenPartial = (self as IRow).children.some(
+        (child: IRow) => child.partial
+      );
+
+      return childrenSelected || childrenPartial;
     },
 
     get checked(): boolean {
@@ -334,10 +376,12 @@ export const Row = types
   }))
   .actions(self => ({
     toggle(checked: boolean) {
-      (getParent(self, self.depth * 2) as ITableStore).toggle(
-        self as IRow,
-        checked
-      );
+      const table = self.table as ITableStore;
+      const row = self as IRow;
+
+      table.toggle(row, checked);
+      table.toggleAncestors(row);
+      table.toggleDescendants(row, checked);
     },
 
     toggleExpanded() {
@@ -484,7 +528,8 @@ export const TableStore = iRendererStore
     exportExcelLoading: false,
     searchFormExpanded: false, // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
     lazyRenderAfter: 100,
-    tableLayout: 'auto'
+    tableLayout: 'auto',
+    theadHeight: 0
   })
   .views(self => {
     function getColumnsExceptBuiltinTypes() {
@@ -957,7 +1002,7 @@ export const TableStore = iRendererStore
       },
 
       buildStyles(style: any) {
-        style = {...style};
+        style = {...style, '--Table-thead-height': self.theadHeight + 'px'};
 
         getFilteredColumns().forEach(column => {
           style[`--Table-column-${column.index}-width`] =
@@ -1251,9 +1296,9 @@ export const TableStore = iRendererStore
       if (!table) {
         return;
       }
-      const cols = [].slice.call(
-        table.querySelectorAll(':scope>thead>tr>th[data-index]')
-      );
+      const thead = table.querySelector(':scope>thead') as HTMLElement;
+      const cols = [].slice.call(thead.querySelectorAll('tr>th[data-index]'));
+      self.theadHeight = thead.offsetHeight;
       cols.forEach((col: HTMLElement) => {
         const index = parseInt(col.getAttribute('data-index')!, 10);
         const column = self.columns[index];
@@ -1552,6 +1597,33 @@ export const TableStore = iRendererStore
       }
     }
 
+    function toggleAncestors(row: IRow) {
+      const parent = row.parent as IRow;
+
+      if (!parent.depth) {
+        return;
+      }
+
+      const selectedStatus = parent.childrenSelected();
+
+      toggle(parent, selectedStatus === SELECTED_STATUS.ALL);
+
+      toggleAncestors(parent);
+    }
+
+    function toggleDescendants(row: IRow, checked: boolean) {
+      const {children} = row;
+
+      if (!children?.length) {
+        return;
+      }
+
+      children.forEach((child: IRow) => {
+        toggle(child, checked);
+        toggleDescendants(child, checked);
+      });
+    }
+
     function getToggleShiftRows(row: IRow) {
       // 如果是同一个或非 multiple 模式下就和不用 shift 一样
       if (!lastCheckedRow || row === lastCheckedRow || !self.multiple) {
@@ -1816,6 +1888,8 @@ export const TableStore = iRendererStore
       toggleAll,
       getSelectedRows,
       toggle,
+      toggleAncestors,
+      toggleDescendants,
       toggleShift,
       getToggleShiftRows,
       toggleExpandAll,
