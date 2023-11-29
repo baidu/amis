@@ -258,7 +258,9 @@ export function Icon({
   iconContent,
   vendor,
   cx: iconCx,
-  onClick = () => {},
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
   style
 }: {
   icon: string;
@@ -283,7 +285,9 @@ export function Icon({
         (icon.props as any).className
       ),
       style,
-      onClick
+      onClick,
+      onMouseEnter,
+      onMouseLeave
     });
   }
 
@@ -310,6 +314,8 @@ export function Icon({
     return (
       <div
         onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         className={cx(iconContent, className, classNameProp)}
         ref={refFn}
         style={style}
@@ -323,6 +329,8 @@ export function Icon({
     return (
       <Component
         onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         className={cx(className, `icon-${icon}`, classNameProp)}
         // @ts-ignore
         icon={icon}
@@ -355,6 +363,8 @@ export function Icon({
       return (
         <svg
           onClick={onClick}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           className={cx('icon', 'icon-object', className, classNameProp)}
           style={style}
         >
@@ -369,6 +379,8 @@ export function Icon({
     const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
     const svgHTML = createElement('svg', {
       onClick,
+      onMouseEnter,
+      onMouseLeave,
       className: cx('icon', className, classNameProp),
       style,
       dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
@@ -383,6 +395,8 @@ export function Icon({
     return (
       <img
         onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         className={cx(`${classPrefix}Icon`, className, classNameProp)}
         src={icon}
         style={style}
@@ -408,6 +422,8 @@ export function Icon({
     return (
       <i
         onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         className={cx(icon, className, classNameProp, iconPrefix)}
         style={style}
       />
