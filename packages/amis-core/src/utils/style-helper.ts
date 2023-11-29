@@ -181,14 +181,16 @@ export function formatStyle(
                   style['top-left-border-radius'] || 0,
                   style['top-right-border-radius'] || 0,
                   style['bottom-right-border-radius'] || 0,
-                  style['bottom-left-border-radius'] || 0
+                  style['bottom-left-border-radius'] || 0,
+                  weights?.important ? ' !important' : ''
                 ].join(' ')
               );
             } else {
               Object.keys(style).forEach(k => {
                 if (k !== '$$id') {
                   const value = style[k];
-                  value && fn(k, value);
+                  value &&
+                    fn(k, value + (weights?.important ? ' !important' : ''));
                 }
               });
             }
