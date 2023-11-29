@@ -431,6 +431,8 @@ export type ExportExcelToolbar = SchemaNode & {
   exportColumns?: any[];
   rowSlice?: string;
   filename?: string;
+  pageField?: string;
+  perPageField?: string;
 };
 
 // 如果这里的事件调整，对应CRUD里的事件配置也需要同步修改
