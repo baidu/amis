@@ -1717,7 +1717,7 @@ run action ajax
 
 > 1.8.0 及以上版本
 
-通过配置`actionType: 'show'`或`'hidden'`或`'enabled'`或`'disabled'`或`'static'`或`'nostatic'`实现对指定组件的显示、隐藏、启用、禁用，仅支持实现了对应状态控制功能的数据`输入类`组件。
+通过配置`actionType: 'show'`或`'hidden'`或`'enabled'`或`'disabled'`或`'static'`或`'nonstatic'`实现对指定组件的显示、隐藏、启用、禁用，仅支持实现了对应状态控制功能的数据`输入类`组件。
 
 #### 显示与隐藏
 
