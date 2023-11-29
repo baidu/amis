@@ -244,8 +244,10 @@ class FroalaEditorComponent extends React.Component<FroalaEditorComponentProps> 
       modelContent = returnedHtml;
     }
 
-    this.oldModel = modelContent;
-    this.props.onModelChange(modelContent);
+    if (this.oldModel !== modelContent) {
+      this.oldModel = modelContent;
+      this.props.onModelChange(modelContent);
+    }
   }
 
   initListeners() {
