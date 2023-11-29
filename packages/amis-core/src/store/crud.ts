@@ -748,6 +748,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         api?: Api;
         data?: any;
         filename?: string;
+        pageField?: string;
+        perPageField?: string;
       } = {}
     ) => {
       let items = options.loadDataOnce ? self.data.itemsRaw : self.data.items;
@@ -756,8 +758,20 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         : 'data';
 
       if (options.api) {
+        const pageField = options.pageField || 'page';
+        const perPageField = options.perPageField || 'perPage';
         const env = getEnv(self);
-        const res = await env.fetcher(options.api, options.data);
+        const ctx: any = createObject(self.data, {
+          ...self.query,
+          ...options.data,
+          [pageField]: self.page || 1,
+          [perPageField]: self.perPage || 10
+        });
+        const res = await env.fetcher(options.api, ctx, {
+          autoAppend: true,
+          pageField,
+          perPageField
+        });
         if (!res.data) {
           return;
         }

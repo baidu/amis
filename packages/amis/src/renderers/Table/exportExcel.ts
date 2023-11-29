@@ -22,6 +22,7 @@ import moment from 'moment';
 import type {TableProps, ExportExcelToolbar} from './index';
 
 const loadDb = () => {
+  // @ts-ignore
   return import('amis-ui/lib/components/CityDB');
 };
 
@@ -226,7 +227,19 @@ export async function exportExcel(
   let filename = 'data';
   // 支持配置 api 远程获取
   if (typeof toolbar === 'object' && toolbar.api) {
-    const res = await env.fetcher(toolbar.api, data);
+    const pageField = toolbar.pageField || 'page';
+    const perPageField = toolbar.perPageField || 'perPage';
+    const ctx: any = createObject(data, {
+      ...props.query,
+      [pageField]: data.page || 1,
+      [perPageField]: data.perPage || 10
+    });
+
+    const res = await env.fetcher(toolbar.api, ctx, {
+      autoAppend: true,
+      pageField,
+      perPageField
+    });
     if (!res.data) {
       env.notify('warning', __('placeholder.noData'));
       return;

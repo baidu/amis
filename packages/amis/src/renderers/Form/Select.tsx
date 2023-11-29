@@ -1,29 +1,28 @@
 import React from 'react';
 import cx from 'classnames';
+import find from 'lodash/find';
+import debounce from 'lodash/debounce';
 import {
   OptionsControl,
   OptionsControlProps,
   Option,
-  FormOptionsControl,
   resolveEventData,
-  str2function
+  str2function,
+  Api,
+  ActionObject,
+  normalizeOptions,
+  isEffectiveApi,
+  isApiOutdated,
+  createObject,
+  autobind
 } from 'amis-core';
-import {normalizeOptions} from 'amis-core';
-import find from 'lodash/find';
-import debouce from 'lodash/debounce';
-import {Api, ActionObject} from 'amis-core';
-import {isEffectiveApi, isApiOutdated} from 'amis-core';
-import {isEmpty, createObject, autobind, isMobile} from 'amis-core';
-
+import {TransferDropDown, Spinner, Select, SpinnerExtraProps} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
-import {Spinner, Select, SpinnerExtraProps} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
-import {TransferDropDown} from 'amis-ui';
+import {supportStatic} from './StaticHoc';
 
 import type {SchemaClassName} from '../../Schema';
 import type {TooltipObject} from 'amis-ui/lib/components/TooltipWrapper';
-import type {PopOverOverlay} from 'amis-ui/lib/components/PopOverContainer';
-import {supportStatic} from './StaticHoc';
 
 /**
  * Select 下拉选择框。
@@ -191,7 +190,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     super(props);
 
     this.changeValue = this.changeValue.bind(this);
-    this.lazyloadRemote = debouce(this.loadRemote.bind(this), 250, {
+    this.lazyloadRemote = debounce(this.loadRemote.bind(this), 250, {
       trailing: true,
       leading: false
     });
@@ -216,6 +215,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
   componentWillUnmount() {
     this.unHook && this.unHook();
+    this.fetchCancel = null;
   }
 
   inputRef(ref: any) {
@@ -324,6 +324,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     onChange?.(newValue);
   }
 
+  fetchCancel: Function | null = null;
+
   async loadRemote(input: string) {
     const {
       autoComplete,
@@ -356,12 +358,22 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       });
     }
 
+    if (this.fetchCancel) {
+      this.fetchCancel?.('autoComplete request cancelled.');
+      this.fetchCancel = null;
+      setLoading(false);
+    }
+
     setLoading(true);
     try {
-      const ret = await env.fetcher(autoComplete, ctx);
+      const ret = await env.fetcher(autoComplete, ctx, {
+        cancelExecutor: (executor: Function) => (this.fetchCancel = executor)
+      });
+      this.fetchCancel = null;
 
-      let options = (ret.data && (ret.data as any).options) || ret.data || [];
-      let combinedOptions = this.mergeOptions(options);
+      const options = (ret.data && (ret.data as any).options) || ret.data || [];
+      const combinedOptions = this.mergeOptions(options);
+
       setOptions(combinedOptions);
 
       return {

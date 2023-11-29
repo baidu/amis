@@ -931,7 +931,6 @@ export default class NestedSelectControl extends React.Component<
       translate: __,
       inline,
       searchable,
-      autoComplete,
       selectedOptions,
       clearable,
       loading,
