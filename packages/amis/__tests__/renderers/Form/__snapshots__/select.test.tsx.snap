@@ -236,9 +236,7 @@ exports[`Renderer:select associated 1`] = `
 </div>
 `;
 
-exports[`Renderer:select associated mode with virtual 1`] = `<div />`;
-
-exports[`Renderer:select associated mode with virtual 2`] = `
+exports[`Renderer:select associated mode with virtual 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -617,111 +615,6 @@ exports[`Renderer:select associated mode with virtual 2`] = `
                                       </span>
                                     </td>
                                   </tr>
-                                  <tr
-                                    class=""
-                                    style="height: 32px;"
-                                  >
-                                    <td>
-                                      <span>
-                                        label-5
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <span>
-                                        value-5
-                                      </span>
-                                    </td>
-                                  </tr>
-                                  <tr
-                                    class=""
-                                    style="height: 32px;"
-                                  >
-                                    <td>
-                                      <span>
-                                        label-6
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <span>
-                                        value-6
-                                      </span>
-                                    </td>
-                                  </tr>
-                                  <tr
-                                    class=""
-                                    style="height: 32px;"
-                                  >
-                                    <td>
-                                      <span>
-                                        label-7
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <span>
-                                        value-7
-                                      </span>
-                                    </td>
-                                  </tr>
-                                  <tr
-                                    class=""
-                                    style="height: 32px;"
-                                  >
-                                    <td>
-                                      <span>
-                                        label-8
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <span>
-                                        value-8
-                                      </span>
-                                    </td>
-                                  </tr>
-                                  <tr
-                                    class=""
-                                    style="height: 32px;"
-                                  >
-                                    <td>
-                                      <span>
-                                        label-9
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <span>
-                                        value-9
-                                      </span>
-                                    </td>
-                                  </tr>
-                                  <tr
-                                    class=""
-                                    style="height: 32px;"
-                                  >
-                                    <td>
-                                      <span>
-                                        label-10
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <span>
-                                        value-10
-                                      </span>
-                                    </td>
-                                  </tr>
-                                  <tr
-                                    class=""
-                                    style="height: 32px;"
-                                  >
-                                    <td>
-                                      <span>
-                                        label-11
-                                      </span>
-                                    </td>
-                                    <td>
-                                      <span>
-                                        value-11
-                                      </span>
-                                    </td>
-                                  </tr>
                                 </tbody>
                               </table>
                               <div
@@ -1097,11 +990,11 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                         style="overflow: auto; will-change: transform; height: 0px; width: 100%;"
                       >
                         <div
-                          style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 3232px;"
+                          style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 3838px;"
                         >
                           <div
                             class="cxd-ChainedSelection-item is-active"
-                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1116,7 +1009,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 32px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 38px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1131,7 +1024,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 64px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 76px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1146,7 +1039,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 96px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 114px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1212,11 +1105,11 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                         style="overflow: auto; will-change: transform; height: 0px; width: 100%;"
                       >
                         <div
-                          style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 3232px;"
+                          style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 3838px;"
                         >
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1231,7 +1124,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 32px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 38px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1246,7 +1139,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 64px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 76px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1261,7 +1154,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 96px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 114px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
