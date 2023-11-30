@@ -32,6 +32,11 @@ export class ChainedSelection extends BaseSelection<
     selected: []
   };
 
+  static defaultProps = {
+    ...BaseSelection.defaultProps,
+    itemHeight: 38
+  };
+
   componentDidMount() {
     const defaultSelectedIndex = this.props.defaultSelectedIndex;
 
@@ -229,7 +234,7 @@ export class ChainedSelection extends BaseSelection<
       itemRender,
       translate: __,
       virtualThreshold = 1000,
-      itemHeight = 32,
+      itemHeight = 38,
       virtualListHeight
     } = this.props;
 
