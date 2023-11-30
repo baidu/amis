@@ -700,7 +700,13 @@ export default class Table extends React.Component<TableProps, object> {
       }
     }
 
-    updateRows && store.initRows(rows, props.getEntryId, props.reUseRow);
+    if (updateRows) {
+      store.initRows(rows, props.getEntryId, props.reUseRow);
+    } else if (props.reUseRow === false) {
+      updateRows = true;
+      store.initRows(value, props.getEntryId, props.reUseRow);
+    }
+
     Array.isArray(props.selected) &&
       store.updateSelected(props.selected, props.valueField);
     return updateRows;
