@@ -322,7 +322,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
           "actionType": "toast",
           "args": {
             "msgType": "info",
-            "msg": "${event.data.responseData|json}"
+            "msg": "data:${event.data.responseData|json}，status:${event.data.responseStatus}"
           }
         }
       ]
