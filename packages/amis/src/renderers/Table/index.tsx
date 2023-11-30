@@ -703,6 +703,10 @@ export default class Table extends React.Component<TableProps, object> {
     if (updateRows) {
       store.initRows(rows, props.getEntryId, props.reUseRow);
     } else if (props.reUseRow === false) {
+    /**
+     * 在reUseRow为false情况下，支持强制刷新表格行状态
+     * 适用的情况：用户每次刷新，调用接口，返回的数据都是一样的，导致updateRows为false，故针对每次返回数据一致的情况，需要强制表格更新
+     */
       updateRows = true;
       store.initRows(value, props.getEntryId, props.reUseRow);
     }
