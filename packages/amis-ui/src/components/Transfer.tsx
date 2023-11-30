@@ -173,6 +173,7 @@ export class Transfer<
     | 'virtualThreshold'
     | 'checkAllLabel'
     | 'valueField'
+    | 'itemHeight'
   > = {
     multiple: true,
     resultListModeFollowSelect: false,
@@ -180,7 +181,8 @@ export class Transfer<
     statistics: true,
     virtualThreshold: 100,
     checkAllLabel: 'Select.checkAll',
-    valueField: 'value'
+    valueField: 'value',
+    itemHeight: 38
   };
 
   state: TransferState = {
