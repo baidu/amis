@@ -165,7 +165,7 @@ export class LocationControlPlugin extends BasePlugin {
                   ),
                   size: 'lg',
                   mode: 'horizontal',
-                  required: true,
+                  // required: true, // 默认值不建议必填
                   placeholder: '请输入变量值'
                 }),
                 getSchemaTpl('switch', {
@@ -178,8 +178,8 @@ export class LocationControlPlugin extends BasePlugin {
                 getSchemaTpl('switch', {
                   name: 'onlySelectCurrentLoc',
                   label: tipedLabel(
-                    '只读模式',
-                    '开启后，只能使用当前地理位置，不可选择其他地理位置'
+                    '限制模式',
+                    '开启后，限制只能使用当前地理位置，不可选择其他地理位置'
                   )
                 }),
                 getSchemaTpl('clearable'),
