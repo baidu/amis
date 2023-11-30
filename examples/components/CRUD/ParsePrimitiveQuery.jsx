@@ -5,7 +5,7 @@ export default {
       "type": "alert",
       "body": {
         "type": "html",
-        "html": "<code>parsePrimitiveQuery</code>默认开启，开启后会对url中的Query进行转换，将原始类型的字符串格式的转化为同位类型，目前仅支持<strong>布尔类型</strong>"
+        "html": "<code>parsePrimitiveQuery</code>默认开启，开启后会对url中的Query进行转换，将原始类型的字符串格式的转化为同位类型"
       },
       "level": "info",
       "showCloseButton": true,
@@ -17,6 +17,10 @@ export default {
       "name": "crud",
       "syncLocation": true,
       "api": "/api/mock2/crud/table5",
+      "parsePrimitiveQuery": {
+        "enable": true,
+        "types": ["boolean", "number"]
+      },
       "filter": {
         "debug": true,
         "title": "条件搜索",
@@ -30,6 +34,16 @@ export default {
                 "label": "已核验",
                 "size": "sm",
                 "value": false
+              },
+              {
+                "type": "select",
+                "name": "version",
+                "label": "版本",
+                "options": [
+                  {"label": "5.5", value: 5.5},
+                  {"label": "6", value: 6},
+                  {"label": "7", value: 7}
+                ]
               }
             ]
           }
@@ -67,6 +81,10 @@ export default {
             ]
           }
         },
+        {
+          "name": "version",
+          "label": "版本"
+        }
       ]
     }
   ]

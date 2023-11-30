@@ -26,7 +26,7 @@ import {
 import {ScopedContext, IScopedContext} from 'amis-core';
 import {Button, SpinnerExtraProps, TooltipWrapper} from 'amis-ui';
 import {Select} from 'amis-ui';
-import {getExprProperties} from 'amis-core';
+import {getExprProperties, isObject} from 'amis-core';
 import pick from 'lodash/pick';
 import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from 'amis-core';
@@ -376,9 +376,14 @@ export interface CRUDCommonSchema extends BaseSchema, SpinnerExtraProps {
   autoFillHeight?: TableSchema['autoFillHeight'];
 
   /**
-   * 是否开启Query信息转换，开启后将会对url中的Query进行转换，将字符串格式的布尔值转化为同位类型
+   * 是否开启Query信息转换，开启后将会对url中的Query进行转换，默认开启，默认仅转化布尔值
    */
-  parsePrimitiveQuery?: boolean;
+  parsePrimitiveQuery?:
+    | {
+        enable: boolean;
+        types?: ('boolean' | 'number')[];
+      }
+    | boolean;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -545,22 +550,22 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pageField,
       perPageField,
       syncLocation,
-      loadDataOnce,
-      parsePrimitiveQuery
+      loadDataOnce
     } = props;
+    const parseQueryOptions = this.getParseQueryOptions(props);
 
     this.mounted = true;
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
-        parseQuery(location, {parsePrimitive: parsePrimitiveQuery}),
+        parseQuery(location, parseQueryOptions),
         undefined,
         pageField,
         perPageField
       );
     } else if (syncLocation && !location && window.location.search) {
       store.updateQuery(
-        parseQuery(window.location, {parsePrimitive: parsePrimitiveQuery}),
+        parseQuery(window.location, parseQueryOptions),
         undefined,
         pageField,
         perPageField
@@ -654,7 +659,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        parseQuery(props.location, {parsePrimitive: props.parsePrimitiveQuery}),
+        parseQuery(props.location, this.getParseQueryOptions(props)),
         undefined,
         props.pageField,
         props.perPageField
@@ -703,6 +708,22 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     this.mounted = false;
     clearTimeout(this.timer);
     this.filterOnEvent.cache.clear?.();
+  }
+
+  getParseQueryOptions(props: CRUDProps) {
+    const {parsePrimitiveQuery} = props;
+    type PrimitiveQueryObj = Exclude<CRUDProps['parsePrimitiveQuery'], boolean>;
+
+    const normalizedOptions = {
+      parsePrimitive: !!(isObject(parsePrimitiveQuery)
+        ? (parsePrimitiveQuery as PrimitiveQueryObj)?.enable
+        : parsePrimitiveQuery),
+      primitiveTypes: (parsePrimitiveQuery as PrimitiveQueryObj)?.types ?? [
+        'boolean'
+      ]
+    };
+
+    return normalizedOptions;
   }
 
   /** 查找CRUD最近层级的父窗口 */
@@ -996,6 +1017,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       loadDataOnceFetchOnFilter,
       parsePrimitiveQuery
     } = this.props;
+    const parseQueryOptions = this.getParseQueryOptions(this.props);
 
     /** 找出clearValueOnHidden的字段, 保证updateQuery时不会使用上次的保留值 */
     values = {
@@ -1008,7 +1030,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     /** 把布尔值反解出来 */
     if (parsePrimitiveQuery) {
-      values = parsePrimitiveQueryString(values);
+      values = parsePrimitiveQueryString(values, parseQueryOptions);
     }
 
     store.updateQuery(
