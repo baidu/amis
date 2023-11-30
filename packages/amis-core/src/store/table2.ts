@@ -214,7 +214,8 @@ export const TableStore2 = ServiceStore.named('TableStore2')
     pageSize: 10,
     dragging: false,
     rowSelectionKeyField: 'id',
-    formsRef: types.optional(types.array(types.frozen()), [])
+    formsRef: types.optional(types.array(types.frozen()), []),
+    canAccessSuperData: false
   })
   .views(self => {
     function getToggable() {
@@ -346,7 +347,9 @@ export const TableStore2 = ServiceStore.named('TableStore2')
       },
 
       get dataSource() {
-        return self.rows.map(item => item.data);
+        return self.rows.map(item =>
+          self.canAccessSuperData ? item.locals : item.data
+        );
       },
 
       get currentSelectedRowKeys() {
@@ -405,28 +408,52 @@ export const TableStore2 = ServiceStore.named('TableStore2')
     };
   })
   .actions(self => {
-    function updateColumns(columns: Array<SColumn2>) {
+    function updateColumns(
+      columns: Array<SColumn2>,
+      options?: {
+        resolveDefinitions?: (ref: string) => any;
+      }
+    ) {
       if (columns && Array.isArray(columns)) {
         let cols: Array<SColumn2> = columns.filter(column => column).concat();
 
-        cols = cols.map((item, index) => ({
-          ...item,
-          index,
-          type: item.type || 'plain',
-          pristine: item,
-          toggled: item.toggled !== false,
-          breakpoint: item.breakpoint,
-          children: item.children ? updateColumns(item.children) : []
-        }));
+        cols = cols.map((item, index) => {
+          if (
+            options?.resolveDefinitions &&
+            typeof (item as any)?.$ref == 'string' &&
+            (item as any).$ref
+          ) {
+            item = {
+              ...options.resolveDefinitions((item as any).$ref),
+              ...item
+            };
+          }
+          return {
+            ...item,
+            index,
+            type: item.type || 'plain',
+            pristine: item,
+            toggled: item.toggled !== false,
+            breakpoint: item.breakpoint,
+            children: item.children ? updateColumns(item.children, options) : []
+          };
+        });
 
         return cols;
       }
       return;
     }
 
-    function update(config: Partial<STableStore2>) {
+    function update(
+      config: Partial<STableStore2>,
+      options?: {
+        resolveDefinitions?: (ref: string) => any;
+      }
+    ) {
       config.columnsTogglable !== void 0 &&
         (self.columnsTogglable = config.columnsTogglable);
+      config.canAccessSuperData !== undefined &&
+        (self.canAccessSuperData = !!config.canAccessSuperData);
 
       if (typeof config.orderBy === 'string') {
         setOrderByInfo(
@@ -440,7 +467,7 @@ export const TableStore2 = ServiceStore.named('TableStore2')
       }
 
       if (config.columns && Array.isArray(config.columns)) {
-        self.columns.replace(updateColumns(config.columns) as any);
+        self.columns.replace(updateColumns(config.columns, options) as any);
       }
     }
 

@@ -16,68 +16,114 @@ order: 67
 
 ```schema: scope="body"
 {
-  "type": "service",
-  "api": "/api/sample?perPage=5",
+  "type": "page",
+  "id": "page_001",
+  "data": {
+    "flag": true
+  },
   "body": [
     {
-      "type": "table2",
-      "title": "表格标题 - ${rows.length}",
-      "source": "$rows",
-      "columns": [
-        {
-          "title": "Engine",
-          "name": "engine",
-          "width": 120
-        },
-        {
-          "title": "Version",
-          "name": "version",
-          "type": "property",
-          "items": [
+      "type": "button",
+      "label": "启用行删除",
+      "className": "m-r",
+      "onEvent": {
+        "click": {
+          "actions": [
             {
-              "label": "cpu",
-              "content": "1 core"
-            },
-            {
-              "label": "memory",
-              "content": "4G"
-            },
-            {
-              "label": "disk",
-              "content": "80G"
-            },
-            {
-              "label": "network",
-              "content": "4M",
-              "span": 2
-            },
-            {
-              "label": "IDC",
-              "content": "beijing"
-            },
-            {
-              "label": "Note",
-              "content": "其它说明",
-              "span": 3
+              "actionType": "setValue",
+              "componentId": "page_001",
+              "args": {
+                "value": {"flag": false}
+              }
             }
           ]
-        },
-        {
-          "title": "Browser",
-          "name": "browser"
-        },
-        {
-          "title": "Operation",
-          "name": "operation",
-          "type": "button",
-          "label": "删除",
-          "size": "sm"
         }
-      ],
-      "footer": {
-        "type": "tpl",
-        "tpl": "表格Footer"
       }
+    },
+    {
+      "type": "button",
+      "label": "禁用行删除",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "page_001",
+              "args": {
+                "value": {"flag": true}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "service",
+      "api": "/api/sample?perPage=5",
+      "body": [
+        {
+          "type": "table2",
+          "title": "表格标题 - ${rows.length}",
+          "source": "$rows",
+          "canAccessSuperData": true,
+          "columns": [
+            {
+              "title": "Engine",
+              "name": "engine",
+              "width": 120
+            },
+            {
+              "title": "Version",
+              "name": "version",
+              "type": "property",
+              "items": [
+                {
+                  "label": "cpu",
+                  "content": "1 core"
+                },
+                {
+                  "label": "memory",
+                  "content": "4G"
+                },
+                {
+                  "label": "disk",
+                  "content": "80G"
+                },
+                {
+                  "label": "network",
+                  "content": "4M",
+                  "span": 2
+                },
+                {
+                  "label": "IDC",
+                  "content": "beijing"
+                },
+                {
+                  "label": "Note",
+                  "content": "其它说明",
+                  "span": 3
+                }
+              ]
+            },
+            {
+              "title": "Browser",
+              "name": "browser"
+            },
+            {
+              "title": "Operation",
+              "name": "operation",
+              "type": "button",
+              "label": "删除",
+              "size": "sm",
+              "disabledOn": "${flag}"
+            }
+          ],
+          "footer": {
+            "type": "tpl",
+            "tpl": "表格Footer"
+          }
+        }
+      ]
     }
   ]
 }
