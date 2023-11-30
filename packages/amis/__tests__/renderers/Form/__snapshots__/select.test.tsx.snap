@@ -236,7 +236,9 @@ exports[`Renderer:select associated 1`] = `
 </div>
 `;
 
-exports[`Renderer:select associated mode with virtual 1`] = `
+exports[`Renderer:select associated mode with virtual 1`] = `<div />`;
+
+exports[`Renderer:select associated mode with virtual 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -612,6 +614,111 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                                     <td>
                                       <span>
                                         value-4
+                                      </span>
+                                    </td>
+                                  </tr>
+                                  <tr
+                                    class=""
+                                    style="height: 32px;"
+                                  >
+                                    <td>
+                                      <span>
+                                        label-5
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <span>
+                                        value-5
+                                      </span>
+                                    </td>
+                                  </tr>
+                                  <tr
+                                    class=""
+                                    style="height: 32px;"
+                                  >
+                                    <td>
+                                      <span>
+                                        label-6
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <span>
+                                        value-6
+                                      </span>
+                                    </td>
+                                  </tr>
+                                  <tr
+                                    class=""
+                                    style="height: 32px;"
+                                  >
+                                    <td>
+                                      <span>
+                                        label-7
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <span>
+                                        value-7
+                                      </span>
+                                    </td>
+                                  </tr>
+                                  <tr
+                                    class=""
+                                    style="height: 32px;"
+                                  >
+                                    <td>
+                                      <span>
+                                        label-8
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <span>
+                                        value-8
+                                      </span>
+                                    </td>
+                                  </tr>
+                                  <tr
+                                    class=""
+                                    style="height: 32px;"
+                                  >
+                                    <td>
+                                      <span>
+                                        label-9
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <span>
+                                        value-9
+                                      </span>
+                                    </td>
+                                  </tr>
+                                  <tr
+                                    class=""
+                                    style="height: 32px;"
+                                  >
+                                    <td>
+                                      <span>
+                                        label-10
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <span>
+                                        value-10
+                                      </span>
+                                    </td>
+                                  </tr>
+                                  <tr
+                                    class=""
+                                    style="height: 32px;"
+                                  >
+                                    <td>
+                                      <span>
+                                        label-11
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <span>
+                                        value-11
                                       </span>
                                     </td>
                                   </tr>
