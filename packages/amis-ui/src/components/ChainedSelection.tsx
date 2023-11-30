@@ -31,6 +31,10 @@ export class ChainedSelection extends BaseSelection<
   state: ChainedSelectionState = {
     selected: []
   };
+  static defaultProps = {
+    ...BaseSelection.defaultProps,
+    itemHeight: 38
+  };
 
   componentDidMount() {
     const defaultSelectedIndex = this.props.defaultSelectedIndex;
