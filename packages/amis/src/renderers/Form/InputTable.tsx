@@ -685,7 +685,20 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     this.setState(
       {
-        items
+        items,
+        // 需要一起修改，state 不能分批次 setState
+        // 因为第一步添加成员，单元格的表单项如果有默认值就会触发 onChange
+        // 然后 handleTableSave 里面就会执行，因为没有 editIndex 会以为是批量更新 state 后 emitValue
+        // 而 emitValue 又会干掉 __isPlaceholder 后 onChange 出去一个新数组，空数组
+        // 然后 didUpdate 里面检测到上层 value 变化了，又重置 state，导致新增无效
+        // 所以这里直接让 items 和 editIndex 一起调整，这样 handleTableSave 发现有 editIndex 会走不同逻辑，不会触发 emitValue
+        ...((needConfirm === false
+          ? {}
+          : {
+              editIndex: index,
+              isCreateMode: true,
+              columns: this.buildColumns(this.props, true, index)
+            }) as any)
       },
       async () => {
         if (isDispatch) {
@@ -696,8 +709,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         }
         if (needConfirm === false) {
           this.emitValue();
-        } else {
-          this.startEdit(index, true);
         }
       }
     );
