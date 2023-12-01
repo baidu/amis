@@ -369,8 +369,8 @@ export class FormPlugin extends BasePlugin {
   }> = [
     {label: '新增', value: DSFeatureEnum.Insert},
     {label: '编辑', value: DSFeatureEnum.Edit},
-    {label: '批量编辑', value: DSFeatureEnum.BulkEdit, disabled: true},
-    {label: '查看', value: DSFeatureEnum.View, disabled: true}
+    {label: '查看', value: DSFeatureEnum.View},
+    {label: '批量编辑', value: DSFeatureEnum.BulkEdit, disabled: true}
   ];
 
   dsManager: DSBuilderManager;
@@ -414,8 +414,8 @@ export class FormPlugin extends BasePlugin {
 
               Object.keys(data).forEach(key => {
                 if (
-                  /^(insert|edit|bulkEdit)Fields$/i.test(key) ||
-                  /^(insert|edit|bulkEdit)Api$/i.test(key)
+                  /^(insert|edit|bulkEdit|view)Fields$/i.test(key) ||
+                  /^(insert|edit|bulkEdit|view)Api$/i.test(key)
                 ) {
                   form.deleteValueByName(key);
                 }
@@ -446,8 +446,8 @@ export class FormPlugin extends BasePlugin {
 
               Object.keys(data).forEach(key => {
                 if (
-                  /^(insert|edit|bulkEdit)Fields$/i.test(key) ||
-                  /^(insert|edit|bulkEdit)Api$/i.test(key)
+                  /^(insert|edit|bulkEdit|view)Fields$/i.test(key) ||
+                  /^(insert|edit|bulkEdit|view)Api$/i.test(key)
                 ) {
                   form.deleteValueByName(key);
                 }
@@ -615,8 +615,6 @@ export class FormPlugin extends BasePlugin {
   }
 
   panelBodyCreator = (context: BaseEventContext) => {
-    const dc = this.dynamicControls;
-    const builder = this.dsManager.getBuilderBySchema(context.schema);
     /** 是否为CRUD的过滤器表单 */
     const isCRUDFilter: boolean =
       /\/crud\/filter\/form$/.test(context.path) ||
@@ -652,8 +650,8 @@ export class FormPlugin extends BasePlugin {
 
               Object.keys(data).forEach(key => {
                 if (
-                  /^(insert|edit|bulkEdit)Fields$/i.test(key) ||
-                  /^(insert|edit|bulkEdit)Api$/i.test(key)
+                  /^(insert|edit|bulkEdit|view)Fields$/i.test(key) ||
+                  /^(insert|edit|bulkEdit|view)Api$/i.test(key)
                 ) {
                   form.deleteValueByName(key);
                 }
@@ -707,7 +705,15 @@ export class FormPlugin extends BasePlugin {
                     inScaffold: false,
                     sourceSettings: {
                       renderLabel: true,
-                      userOrders: false
+                      userOrders: false,
+                      /**
+                       * name 默认是基于场景自动生成的
+                       * 1. 脚手架中，默认生成的是 viewApi
+                       * 2. 配置面板中要读取Schema 配置，所以使用 initApi
+                       */
+                      ...(feat.value === DSFeatureEnum.View
+                        ? {name: 'initApi'}
+                        : {})
                     }
                   })
                 ])
