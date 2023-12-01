@@ -387,7 +387,7 @@ exports[`Renderer:Pagination 2`] = `
         <span
           class="cxd-Pagination-inputGroup-right"
         >
-          GO
+          前往
         </span>
       </div>
     </div>
@@ -542,7 +542,7 @@ exports[`Renderer:Pagination with layout 1`] = `
         <span
           class="cxd-Pagination-inputGroup-right"
         >
-          GO
+          前往
         </span>
       </div>
       <div
