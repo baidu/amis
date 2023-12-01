@@ -18,6 +18,7 @@ import {
   normalizeApi
 } from 'amis-core';
 import {Button, toast} from 'amis-ui';
+import {DSFeatureEnum} from '../builder/constants';
 
 import type {IReactionDisposer} from 'mobx';
 import type {InputTableColumnProps} from 'amis-ui';
@@ -208,7 +209,12 @@ export class FieldSetting extends React.Component<
         ? scaffoldData?.listApi
         : '';
 
-    if (!api || (renderer === 'form' && feat !== 'Edit')) {
+    if (
+      !api ||
+      (renderer === 'form' &&
+        feat !== DSFeatureEnum.Edit &&
+        feat !== DSFeatureEnum.View)
+    ) {
       return;
     }
 
@@ -348,8 +354,9 @@ export class FieldSetting extends React.Component<
     const fieldApi = isForm ? initApi : isCRUD ? listApi : '';
     const isApiValid = isValidApi(normalizeApi(fieldApi)?.url);
     const showAutoGenBtn =
-      (isForm && feat === 'Edit') ||
-      (isCRUD && feat === 'List' && ctx?.__step === 0);
+      (isForm &&
+        (feat === DSFeatureEnum.Edit || feat === DSFeatureEnum.View)) ||
+      (isCRUD && feat === DSFeatureEnum.List && ctx?.__step === 0);
 
     return showAutoGenBtn ? (
       <div
