@@ -37,7 +37,6 @@ import {
   FormBaseControl
 } from './Item';
 import {IFormItemStore} from '../store/formItem';
-import {isObject} from 'amis-core';
 
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
