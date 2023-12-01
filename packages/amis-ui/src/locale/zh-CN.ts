@@ -1,4 +1,4 @@
-import {registerLocale as register} from 'amis-core';
+import { registerLocale as register } from 'amis-core';
 
 register('zh-CN', {
   'Action.countDown': '请等待 ${timeLeft} 秒',
@@ -50,7 +50,7 @@ register('zh-CN', {
   'PaginationWrapper.placeholder': '请配置内容',
   'Pagination.select': '{{count}}条/页',
   'Pagination.goto': '跳转至',
-  'Pagination.go': 'GO',
+  'Pagination.go': '前往',
   'Pagination.totalPage': '共 {{lastPage}} 页',
   'Pagination.totalCount': '共 {{total}} 条',
   'Date.titleYear': '选择年',
