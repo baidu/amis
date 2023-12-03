@@ -400,6 +400,7 @@ export default class TimelineItemControl extends React.Component<
   }
 
   renderOption(props: TimelineItem & {index: number}) {
+    const {theme} = this.props;
     const {time, title, index} = props;
     const delDisabled = !(this.state.items.length > 2);
     const i18nEnabled = getI18nEnabled();
@@ -418,15 +419,18 @@ export default class TimelineItemControl extends React.Component<
               this.handleEditLabel(index, value, 'time')
             }
           /> */}
-          {amisRender({
-            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-            className: 'ae-TimelineItemControlItem-input',
-            value: time,
-            placeholder: '请输入显示时间',
-            clearable: false,
-            onChange: (value: string) =>
-              this.handleEditLabel(index, value, 'time')
-          })}
+          {amisRender(
+            {
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+              className: 'ae-TimelineItemControlItem-input',
+              value: time,
+              placeholder: '请输入显示时间',
+              clearable: false,
+              onChange: (value: string) =>
+                this.handleEditLabel(index, value, 'time')
+            },
+            {theme}
+          )}
           {/* {amisRender(
             {
               type: "input-date",
@@ -494,6 +498,7 @@ export default class TimelineItemControl extends React.Component<
               ]
             },
             {
+              theme,
               popOverContainer: null // amis 渲染挂载节点会使用 this.target
             }
           )}
@@ -508,15 +513,18 @@ export default class TimelineItemControl extends React.Component<
               this.handleEditLabel(index, value, 'title')
             }
           /> */}
-          {amisRender({
-            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-            className: 'ae-TimelineItemControlItem-input-title',
-            value: title,
-            clearable: false,
-            placeholder: '请输入标题',
-            onChange: (value: string) =>
-              this.handleEditLabel(index, value, 'title')
-          })}
+          {amisRender(
+            {
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+              className: 'ae-TimelineItemControlItem-input-title',
+              value: title,
+              clearable: false,
+              placeholder: '请输入标题',
+              onChange: (value: string) =>
+                this.handleEditLabel(index, value, 'title')
+            },
+            {theme}
+          )}
         </div>
       </li>
     );
@@ -544,7 +552,7 @@ export default class TimelineItemControl extends React.Component<
 
   render() {
     const {source, items} = this.state;
-    const {render, className} = this.props;
+    const {render, className, theme} = this.props;
     return (
       <div className={cx('ae-TimelineItemControl', className)}>
         {this.renderHeader()}
@@ -562,12 +570,20 @@ export default class TimelineItemControl extends React.Component<
             )}
 
             <div className="ae-TimelineItemControl-footer">
-              {amisRender(this.buildAddSchema(), {
-                onSubmit: this.handleAdd
-              })}
-              {amisRender(this.buildBatchAddSchema(), {
-                onSubmit: this.handleBatchAdd
-              })}
+              {amisRender(
+                this.buildAddSchema(),
+                {
+                  onSubmit: this.handleAdd
+                },
+                {theme}
+              )}
+              {amisRender(
+                this.buildBatchAddSchema(),
+                {
+                  onSubmit: this.handleBatchAdd
+                },
+                {theme}
+              )}
             </div>
           </div>
         ) : null}

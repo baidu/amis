@@ -1345,7 +1345,8 @@ export class EventControl extends React.Component<
               },
               {
                 data: eventDialogData
-              }
+              },
+              {theme: this.props.theme}
             )
           : null}
         <ActionDialog

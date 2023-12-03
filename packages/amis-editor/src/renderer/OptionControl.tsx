@@ -713,16 +713,21 @@ export default class OptionControl extends React.Component<
             clearable={false}
             onChange={(value: string) => this.handleEditLabel(index, value)}
           /> */}
-          {amisRender({
-            type: i18nEnabled ? 'input-text-i18n' : 'input-text',
-            className: 'ae-OptionControlItem-input',
-            value: label,
-            placeholder: '请输入文本/值',
-            clearable: false,
-            onChange: (value: string) => {
-              this.handleEditLabel(index, value);
+          {amisRender(
+            {
+              type: i18nEnabled ? 'input-text-i18n' : 'input-text',
+              className: 'ae-OptionControlItem-input',
+              value: label,
+              placeholder: '请输入文本/值',
+              clearable: false,
+              onChange: (value: string) => {
+                this.handleEditLabel(index, value);
+              }
+            },
+            {
+              theme: this.props.theme
             }
-          })}
+          )}
           {render(
             'dropdown',
             {
