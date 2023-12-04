@@ -175,9 +175,9 @@ export interface TransferControlSchema
    */
   pagination?: {
     /** 是否左侧选项分页，默认不开启 */
-    enable: SchemaExpression;
+    enable: boolean;
     /** 分页组件CSS类名 */
-    className?: SchemaClassName;
+    className?: string;
     /** 是否开启前端分页 */
     loadDataOnce?: boolean;
   } & Pick<
