@@ -154,10 +154,7 @@ export class TableCell extends React.Component<TableCellProps> {
       <Component
         rowSpan={rowSpan > 1 ? rowSpan : undefined}
         style={style}
-        className={cx(
-          className,
-          column.classNameExpr ? filter(column.classNameExpr, data) : null
-        )}
+        className={cx(className)}
         tabIndex={tabIndex}
         onKeyUp={onKeyUp}
       >
