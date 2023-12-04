@@ -1782,7 +1782,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   unSelectItem(item: any, index: number) {
-    const {store} = this.props;
+    const {store, onSelect} = this.props;
     const selected = store.selectedItems.concat();
     const unSelected = store.unSelectedItems.concat();
 
@@ -1791,15 +1791,17 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     store.setSelectedItems(selected);
     store.setUnSelectedItems(unSelected);
+    onSelect?.(selected, unSelected);
   }
 
   clearSelection() {
-    const {store} = this.props;
+    const {store, onSelect} = this.props;
     const selected = store.selectedItems.concat();
     const unSelected = store.unSelectedItems.concat();
 
     store.setSelectedItems([]);
     store.setUnSelectedItems(unSelected.concat(selected));
+    onSelect?.([], unSelected.concat(selected));
   }
 
   hasBulkActionsToolbar() {
