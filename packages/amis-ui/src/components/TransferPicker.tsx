@@ -23,7 +23,17 @@ export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
   popOverContainer?: any;
 }
 
-export class TransferPicker extends React.Component<TransferPickerProps> {
+export interface TransferPickerState {
+  tempValue?: any;
+}
+
+export class TransferPicker extends React.Component<
+  TransferPickerProps,
+  TransferPickerState
+> {
+  state: TransferPickerState = {
+    tempValue: null
+  };
   optionModified = false;
   @autobind
   handleConfirm(value: any) {
@@ -59,6 +69,15 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
       ...rest
     } = this.props;
 
+    const tp = {
+      value: this.state.tempValue || value,
+      onChange: (value: any) => {
+        this.setState({
+          tempValue: value
+        });
+      }
+    };
+
     return (
       <PickerContainer
         title={__('Select.placeholder')}
@@ -84,13 +103,13 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
                   this.optionModified = true;
                   setState({options, value});
                 } else {
-                  onChange(value);
+                  tp.onChange(value);
                 }
               }}
             />
           );
         }}
-        value={value}
+        value={tp.value}
         onConfirm={this.handleConfirm}
         size={size}
       >
