@@ -176,9 +176,10 @@ export class OfficeViewerPlugin extends BasePlugin {
         },
         {
           title: '外观',
-          body: getSchemaTpl('collapseGroup', [
-            getSchemaTpl('style:classNames', {isFormItem: false})
-          ])
+          body: getSchemaTpl(
+            'collapseGroup',
+            getSchemaTpl('theme:common', {exclude: ['layout']})
+          )
         }
       ])
     ];

@@ -387,7 +387,7 @@ export class NavPlugin extends BasePlugin {
         title: '外观',
         body: getSchemaTpl(
           'collapseGroup',
-          getSchemaTpl('style:common', ['layout'])
+          getSchemaTpl('theme:common', {exclude: ['layout']})
         )
       },
       {

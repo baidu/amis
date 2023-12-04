@@ -127,46 +127,57 @@ export class CardPlugin extends BasePlugin {
         },
         {
           title: '外观',
-          body: [
+          body: getSchemaTpl('collapseGroup', [
             {
-              type: 'input-range',
-              name: 'actionsCount',
-              pipeIn: defaultValue(4),
-              min: 1,
-              max: 10,
-              step: 1,
-              label: '卡片一行最多能放按钮个数'
+              title: '基本',
+              body: [
+                {
+                  type: 'input-range',
+                  name: 'actionsCount',
+                  pipeIn: defaultValue(4),
+                  min: 1,
+                  max: 10,
+                  step: 1,
+                  label: '卡片一行最多能放按钮个数'
+                }
+              ]
             },
-            getSchemaTpl('className', {
-              name: 'titleClassName',
-              label: '标题 CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              name: 'highlightClassName',
-              label: '高亮 CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              name: 'subTitleClassName',
-              label: '副标题 CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              name: 'descClassName',
-              label: '描述 CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              name: 'avatarClassName',
-              label: '图片外层 CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              name: 'imageClassName',
-              label: '图片 CSS 类名'
-            }),
-            getSchemaTpl('className', {
-              name: 'bodyClassName',
-              label: '内容区 CSS 类名'
-            }),
-            getSchemaTpl('className')
-          ]
+            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+            {
+              title: '类名',
+              collapsed: true,
+              body: [
+                getSchemaTpl('className', {
+                  name: 'titleClassName',
+                  label: '标题 CSS 类名'
+                }),
+                getSchemaTpl('className', {
+                  name: 'highlightClassName',
+                  label: '高亮 CSS 类名'
+                }),
+                getSchemaTpl('className', {
+                  name: 'subTitleClassName',
+                  label: '副标题 CSS 类名'
+                }),
+                getSchemaTpl('className', {
+                  name: 'descClassName',
+                  label: '描述 CSS 类名'
+                }),
+                getSchemaTpl('className', {
+                  name: 'avatarClassName',
+                  label: '图片外层 CSS 类名'
+                }),
+                getSchemaTpl('className', {
+                  name: 'imageClassName',
+                  label: '图片 CSS 类名'
+                }),
+                getSchemaTpl('className', {
+                  name: 'bodyClassName',
+                  label: '内容区 CSS 类名'
+                })
+              ]
+            }
+          ])
         },
         {
           title: '显隐',

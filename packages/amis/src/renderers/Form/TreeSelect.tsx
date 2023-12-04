@@ -14,7 +14,9 @@ import {
   OptionsControlProps,
   Option,
   FormOptionsControl,
-  toNumber
+  toNumber,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 
 import {Tree as TreeSelector} from 'amis-ui';
@@ -760,7 +762,10 @@ export default class TreeSelectControl extends React.Component<
       overflowTagPopover,
       translate: __,
       env,
-      loadingConfig
+      loadingConfig,
+      wrapperCustomStyle,
+      id,
+      themeCss
     } = this.props;
     const {isOpened} = this.state;
     const resultValue = multiple
@@ -770,7 +775,14 @@ export default class TreeSelectControl extends React.Component<
       : '';
 
     return (
-      <div ref={this.container} className={cx(`TreeSelectControl`, className)}>
+      <div
+        ref={this.container}
+        className={cx(
+          `TreeSelectControl`,
+          className,
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         <ResultBox
           popOverContainer={popOverContainer || env.getModalContainer}
           maxTagCount={maxTagCount}
@@ -779,15 +791,19 @@ export default class TreeSelectControl extends React.Component<
           ref={this.targetRef}
           placeholder={__(placeholder ?? 'placeholder.empty')}
           inputPlaceholder={''}
-          className={cx(`TreeSelect`, {
-            'TreeSelect--inline': inline,
-            'TreeSelect--single': !multiple,
-            'TreeSelect--multi': multiple,
-            'TreeSelect--searchable':
-              searchable || isEffectiveApi(autoComplete),
-            'is-opened': this.state.isOpened,
-            'is-disabled': disabled
-          })}
+          className={cx(
+            `TreeSelect`,
+            {
+              'TreeSelect--inline': inline,
+              'TreeSelect--single': !multiple,
+              'TreeSelect--multi': multiple,
+              'TreeSelect--searchable':
+                searchable || isEffectiveApi(autoComplete),
+              'is-opened': this.state.isOpened,
+              'is-disabled': disabled
+            },
+            setThemeClassName('baseControlClassName', id, themeCss)
+          )}
           result={resultValue}
           onResultClick={this.handleOutClick}
           value={this.state.inputValue}
@@ -843,6 +859,19 @@ export default class TreeSelectControl extends React.Component<
             {this.renderOuter()}
           </PopUp>
         ) : null}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

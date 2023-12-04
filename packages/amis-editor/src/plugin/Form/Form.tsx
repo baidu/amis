@@ -1139,6 +1139,33 @@ export class FormPlugin extends BasePlugin {
                 })
               ]
             },
+            ...getSchemaTpl('theme:common', {
+              classname: 'formControlClassName',
+              baseTitle: 'form样式',
+              exclude: ['layout'],
+              extra: [
+                getSchemaTpl('theme:base', {
+                  classname: 'panelControlClassName',
+                  title: 'Panel样式',
+                  visibleOn: isWrapped
+                }),
+                getSchemaTpl('theme:base', {
+                  classname: 'headerControlClassName',
+                  title: '标题区样式',
+                  visibleOn: isWrapped
+                }),
+                getSchemaTpl('theme:base', {
+                  classname: 'bodyControlClassName',
+                  title: '内容区样式',
+                  visibleOn: isWrapped
+                }),
+                getSchemaTpl('theme:base', {
+                  classname: 'actionsControlClassName',
+                  title: '操作区样式',
+                  visibleOn: isWrapped
+                })
+              ]
+            }),
             /** */
             getSchemaTpl('style:classNames', {
               isFormItem: false,

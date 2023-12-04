@@ -2,7 +2,13 @@ import React from 'react';
 import {Renderer, RendererProps, filter} from 'amis-core';
 import cx from 'classnames';
 import {BaseSchema, SchemaClassName, SchemaTpl} from '../Schema';
-import {autobind, getPropValue, createObject} from 'amis-core';
+import {
+  autobind,
+  getPropValue,
+  createObject,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
 
 import {Progress} from 'amis-ui';
 import type {ColorMapType} from 'amis-ui/lib/components/Progress';
@@ -133,7 +139,11 @@ export class ProgressField extends React.Component<ProgressProps, object> {
       gapPosition,
       classnames: cx,
       threshold,
-      showThresholdText
+      showThresholdText,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     let value = getPropValue(this.props);
@@ -159,24 +169,43 @@ export class ProgressField extends React.Component<ProgressProps, object> {
     }
 
     return (
-      <Progress
-        value={value}
-        type={mode}
-        map={map}
-        stripe={stripe}
-        animate={animate}
-        showLabel={showLabel}
-        placeholder={placeholder}
-        format={this.format}
-        strokeWidth={strokeWidth}
-        gapDegree={gapDegree}
-        gapPosition={gapPosition}
-        className={className}
-        style={style}
-        progressClassName={progressClassName}
-        threshold={threshold}
-        showThresholdText={showThresholdText}
-      />
+      <>
+        <Progress
+          value={value}
+          type={mode}
+          map={map}
+          stripe={stripe}
+          animate={animate}
+          showLabel={showLabel}
+          placeholder={placeholder}
+          format={this.format}
+          strokeWidth={strokeWidth}
+          gapDegree={gapDegree}
+          gapPosition={gapPosition}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+          style={style}
+          progressClassName={progressClassName}
+          threshold={threshold}
+          showThresholdText={showThresholdText}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

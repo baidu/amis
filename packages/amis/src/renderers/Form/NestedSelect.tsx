@@ -27,7 +27,9 @@ import {
   OptionsControlProps,
   RootClose,
   ActionObject,
-  renderTextByKeyword
+  renderTextByKeyword,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {findDOMNode} from 'react-dom';
 import xor from 'lodash/xor';
@@ -940,7 +942,9 @@ export default class NestedSelectControl extends React.Component<
       env,
       loadingConfig,
       maxTagCount,
-      overflowTagPopover
+      overflowTagPopover,
+      id,
+      themeCss
     } = this.props;
 
     return (
@@ -956,15 +960,19 @@ export default class NestedSelectControl extends React.Component<
           ref={this.domRef}
           placeholder={__(placeholder ?? 'placeholder.empty')}
           inputPlaceholder={''}
-          className={cx(`NestedSelect`, {
-            'NestedSelect--inline': inline,
-            'NestedSelect--single': !multiple,
-            'NestedSelect--multi': multiple,
-            'NestedSelect--searchable': searchable,
-            'is-opened': this.state.isOpened,
-            'is-focused': this.state.isFocused,
-            [`NestedSelect--border${ucFirst(borderMode)}`]: borderMode
-          })}
+          className={cx(
+            `NestedSelect`,
+            {
+              'NestedSelect--inline': inline,
+              'NestedSelect--single': !multiple,
+              'NestedSelect--multi': multiple,
+              'NestedSelect--searchable': searchable,
+              'is-opened': this.state.isOpened,
+              'is-focused': this.state.isFocused,
+              [`NestedSelect--border${ucFirst(borderMode)}`]: borderMode
+            },
+            setThemeClassName('baseControlClassName', id, themeCss)
+          )}
           result={
             multiple
               ? selectedOptions
@@ -1010,6 +1018,18 @@ export default class NestedSelectControl extends React.Component<
         ) : this.state.isOpened ? (
           this.renderOuter()
         ) : null}
+        <CustomStyle
+          config={{
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

@@ -5,7 +5,9 @@ import {
   filter,
   isPureVariable,
   resolveVariableAndFilter,
-  createObject
+  createObject,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig, Timeline} from 'amis-ui';
 
@@ -129,6 +131,7 @@ export interface TimelineProps
 
 export function TimelineCmpt(props: TimelineProps) {
   const {
+    classnames: cx,
     items,
     mode,
     style,
@@ -140,7 +143,11 @@ export function TimelineCmpt(props: TimelineProps) {
     timeClassName,
     titleClassName,
     detailClassName,
-    render
+    render,
+    wrapperCustomStyle,
+    id,
+    themeCss,
+    env
   } = props;
 
   // 渲染内容
@@ -178,17 +185,54 @@ export function TimelineCmpt(props: TimelineProps) {
   );
 
   return (
-    <Timeline
-      items={resolveTimelineItems}
-      direction={direction}
-      reverse={reverse}
-      mode={mode}
-      style={style}
-      className={className}
-      timeClassName={timeClassName}
-      titleClassName={titleClassName}
-      detailClassName={detailClassName}
-    />
+    <>
+      <Timeline
+        items={resolveTimelineItems}
+        direction={direction}
+        reverse={reverse}
+        mode={mode}
+        style={style}
+        className={cx(
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+        timeClassName={cx(
+          timeClassName,
+          setThemeClassName('timeClassName', id, themeCss)
+        )}
+        titleClassName={cx(
+          titleClassName,
+          setThemeClassName('titleClassName', id, themeCss)
+        )}
+        detailClassName={cx(
+          detailClassName,
+          setThemeClassName('detailClassName', id, themeCss)
+        )}
+      />
+      <CustomStyle
+        config={{
+          wrapperCustomStyle,
+          id,
+          themeCss,
+          classNames: [
+            {
+              key: 'baseControlClassName'
+            },
+            {
+              key: 'timeClassName'
+            },
+            {
+              key: 'titleClassName'
+            },
+            {
+              key: 'detailClassName'
+            }
+          ]
+        }}
+        env={env}
+      />
+    </>
   );
 }
 

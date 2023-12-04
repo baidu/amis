@@ -194,16 +194,16 @@ export class CollapsePlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          getSchemaTpl('style:classNames', {
-            isFormItem: false,
-            schema: [
-              getSchemaTpl('className', {
-                name: 'headingClassName',
-                label: '标题类名'
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            extra: [
+              getSchemaTpl('theme:base', {
+                classname: 'headingClassName',
+                title: '标题区样式'
               }),
-              getSchemaTpl('className', {
-                name: 'bodyClassName',
-                label: '内容类名'
+              getSchemaTpl('theme:base', {
+                classname: 'bodyClassName',
+                title: '内容区样式'
               })
             ]
           })

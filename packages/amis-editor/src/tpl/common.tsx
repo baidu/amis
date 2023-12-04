@@ -375,6 +375,7 @@ setSchemaTpl(
       }));
     return {
       type: 'collapse-group',
+      enableFieldSetStyle: false,
       activeKey: collapseGroupBody
         .filter(item => item && !item.collapsed)
         .map(panel => panel.title),
@@ -746,14 +747,19 @@ setSchemaTpl('className', (schema: any) => {
   };
 });
 
-setSchemaTpl('onlyClassNameTab', (label = '外层') => {
+setSchemaTpl('onlyClassNameTab', () => {
   return {
     title: '外观',
     body: getSchemaTpl('collapseGroup', [
-      {
-        title: 'CSS类名',
-        body: [getSchemaTpl('className', {label})]
-      }
+      ...getSchemaTpl('theme:common', {
+        exclude: ['layout'],
+        baseExtra: [
+          getSchemaTpl('theme:font', {
+            label: '文字',
+            name: 'font'
+          })
+        ]
+      })
     ])
   };
 });

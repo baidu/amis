@@ -5,7 +5,9 @@ import {
   OptionsControlProps,
   Option,
   FormOptionsControl,
-  resolveEventData
+  resolveEventData,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {Select, Spinner} from 'amis-ui';
 import {Api, ApiObject} from 'amis-core';
@@ -319,6 +321,9 @@ export default class ChainedSelectControl extends React.Component<
       multiple,
       mobileUI,
       env,
+      id,
+      themeCss,
+      wrapperCustomStyle,
       ...rest
     } = this.props;
     const arr = Array.isArray(value)
@@ -333,6 +338,9 @@ export default class ChainedSelectControl extends React.Component<
       <div className={cx(`${ns}ChainedSelectControl`, className)}>
         <Select
           {...rest}
+          className={cx(
+            setThemeClassName('baseControlClassName', id, themeCss)
+          )}
           mobileUI={mobileUI}
           popOverContainer={
             mobileUI
@@ -375,6 +383,19 @@ export default class ChainedSelectControl extends React.Component<
             className={cx(`${ns}ChainedSelectControl-spinner`)}
           />
         )}
+        <CustomStyle
+          config={{
+            id,
+            themeCss,
+            wrapperCustomStyle,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

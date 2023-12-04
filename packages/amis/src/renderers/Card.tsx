@@ -28,6 +28,7 @@ import {Card} from 'amis-ui';
 import {findDOMNode} from 'react-dom';
 import {Icon} from 'amis-ui';
 import type {IItem} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 
 export type CardBodyField = SchemaObject & {
   /**
@@ -736,6 +737,11 @@ export class CardRenderer extends React.Component<CardProps> {
       footerClassName,
       mediaClassName,
       media,
+      classnames: cx,
+      themeCss,
+      wrapperCustomStyle,
+      id,
+      env,
       ...rest
     } = this.props;
     const ctx = this.props.data;
@@ -762,35 +768,54 @@ export class CardRenderer extends React.Component<CardProps> {
     const mediaPosition = media?.position;
 
     return (
-      <Card
-        {...rest}
-        title={this.rederTitle()}
-        subTitle={this.renderSubTitle()}
-        subTitlePlaceholder={this.renderSubTitlePlaceholder()}
-        description={this.renderDesc()}
-        descriptionPlaceholder={this.renderDescPlaceholder()}
-        children={this.renderBody()}
-        actions={this.renderActions()}
-        avatar={this.renderAvatar()}
-        avatarText={this.renderAvatarText()}
-        secondary={this.renderSecondary()}
-        toolbar={this.renderToolbar()}
-        avatarClassName={avatarCn}
-        avatarTextStyle={this.renderAvatarTextStyle()}
-        avatarTextClassName={avatarTextCn}
-        className={className}
-        titleClassName={titleCn}
-        media={this.renderMedia()}
-        subTitleClassName={subTitleCn}
-        mediaPosition={mediaPosition}
-        descriptionClassName={descriptionCn}
-        imageClassName={imageCn}
-        headerClassName={headerCn}
-        footerClassName={footerClassName}
-        secondaryClassName={secondaryClassName}
-        bodyClassName={bodyClassName}
-        onClick={this.isHaveLink() ? this.handleClick : this.handleCheck}
-      ></Card>
+      <>
+        <Card
+          {...rest}
+          title={this.rederTitle()}
+          subTitle={this.renderSubTitle()}
+          subTitlePlaceholder={this.renderSubTitlePlaceholder()}
+          description={this.renderDesc()}
+          descriptionPlaceholder={this.renderDescPlaceholder()}
+          children={this.renderBody()}
+          actions={this.renderActions()}
+          avatar={this.renderAvatar()}
+          avatarText={this.renderAvatarText()}
+          secondary={this.renderSecondary()}
+          toolbar={this.renderToolbar()}
+          avatarClassName={avatarCn}
+          avatarTextStyle={this.renderAvatarTextStyle()}
+          avatarTextClassName={avatarTextCn}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+          titleClassName={titleCn}
+          media={this.renderMedia()}
+          subTitleClassName={subTitleCn}
+          mediaPosition={mediaPosition}
+          descriptionClassName={descriptionCn}
+          imageClassName={imageCn}
+          headerClassName={headerCn}
+          footerClassName={footerClassName}
+          secondaryClassName={secondaryClassName}
+          bodyClassName={bodyClassName}
+          onClick={this.isHaveLink() ? this.handleClick : this.handleCheck}
+        ></Card>
+        <CustomStyle
+          config={{
+            themeCss,
+            wrapperCustomStyle,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ],
+            id
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

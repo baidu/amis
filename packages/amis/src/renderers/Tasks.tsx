@@ -10,6 +10,7 @@ import {ScopedContext, IScopedContext} from 'amis-core';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {BaseSchema, SchemaApi, SchemaClassName, SchemaName} from '../Schema';
 import {createObject} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 
 /**
  * Tasks 渲染器，格式说明
@@ -370,13 +371,25 @@ export default class Task extends React.Component<TaskProps, TaskState> {
       canRetryStatusCode,
       translate: __,
       render,
-      loadingConfig
+      loadingConfig,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
     const items = this.state.items;
     const error = this.state.error;
 
     return (
-      <div className={cx('Table-content', className)} style={style}>
+      <div
+        className={cx(
+          'Table-content',
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+        style={style}
+      >
         <table className={cx('Table-table', tableClassName)}>
           <thead>
             <tr>
@@ -454,6 +467,19 @@ export default class Task extends React.Component<TaskProps, TaskState> {
             )}
           </tbody>
         </table>
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

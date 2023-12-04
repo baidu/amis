@@ -138,7 +138,8 @@ export default class Each extends React.Component<EachProps> {
         className={cx(
           'Each',
           className,
-          setThemeClassName('baseControlClassName', id, themeCss)
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
         style={buildStyle(style, data)}
       >

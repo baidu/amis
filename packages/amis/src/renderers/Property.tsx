@@ -8,6 +8,7 @@ import {BaseSchema, SchemaExpression, SchemaObject, SchemaTpl} from '../Schema';
 import {resolveVariableAndFilter} from 'amis-core';
 import {visibilityFilter} from 'amis-core';
 import {buildStyle} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 
 export type PropertyItemProps = {
   /**
@@ -208,14 +209,24 @@ export default class Property extends React.Component<PropertyProps, object> {
       className,
       titleStyle,
       data,
-      mode = 'table'
+      mode = 'table',
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     const rows = this.prepareRows();
 
     return (
       <div
-        className={cx('Property', `Property--${mode}`, className)}
+        className={cx(
+          'Property',
+          `Property--${mode}`,
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
         style={buildStyle(style, data)}
       >
         <table>
@@ -233,6 +244,19 @@ export default class Property extends React.Component<PropertyProps, object> {
           ) : null}
           <tbody>{this.renderRow(rows)}</tbody>
         </table>
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

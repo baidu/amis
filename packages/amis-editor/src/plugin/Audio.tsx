@@ -131,15 +131,19 @@ export class AudioPlugin extends BasePlugin {
         },
         {
           title: '外观',
-          body: [
-            getSchemaTpl('className'),
-
-            getSchemaTpl('switch', {
-              name: 'inline',
-              label: '内联模式',
-              pipeIn: defaultValue(true)
-            })
-          ]
+          body: getSchemaTpl('collapseGroup', [
+            {
+              title: '基本',
+              body: [
+                getSchemaTpl('switch', {
+                  name: 'inline',
+                  label: '内联模式',
+                  pipeIn: defaultValue(true)
+                })
+              ]
+            },
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
+          ])
         },
         {
           title: '显隐',

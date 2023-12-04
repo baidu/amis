@@ -14,7 +14,9 @@ import {
   buildStyle,
   filter,
   evalExpression,
-  insertStyle
+  insertStyle,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {
   guid,
@@ -849,7 +851,9 @@ export class Navigation extends React.Component<
       render,
       popOverContainer,
       env,
-      searchable
+      searchable,
+      wrapperCustomStyle,
+      themeCss
     } = this.props;
     const {dropIndicator, filteredLinks} = this.state;
 
@@ -965,10 +969,16 @@ export class Navigation extends React.Component<
 
     return (
       <div
-        className={cx('Nav', className, {
-          ['Nav-horizontal']: !stacked,
-          ['Nav--searchable']: !!searchable
-        })}
+        className={cx(
+          'Nav',
+          className,
+          {
+            ['Nav-horizontal']: !stacked,
+            ['Nav--searchable']: !!searchable
+          },
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
         style={styleConfig}
       >
         {searchable ? (
@@ -982,6 +992,20 @@ export class Navigation extends React.Component<
         {dropIndicator ? (
           <div className={cx('Nav-dropIndicator')} style={dropIndicator} />
         ) : null}
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

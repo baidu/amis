@@ -5,7 +5,9 @@ import {
   buildApi,
   qsstringify,
   resolveEventData,
-  autobind
+  autobind,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import cx from 'classnames';
 import {LazyComponent} from 'amis-core';
@@ -331,7 +333,10 @@ export default class RichTextControl extends React.Component<
       env,
       locale,
       translate,
-      borderMode
+      borderMode,
+      wrapperCustomStyle,
+      id,
+      themeCss
     } = this.props;
 
     const finnalVendor = vendor || (env.richTextToken ? 'froala' : 'tinymce');
@@ -351,11 +356,17 @@ export default class RichTextControl extends React.Component<
 
     return (
       <div
-        className={cx(`${ns}RichTextControl`, className, {
-          'is-focused': this.state.focused,
-          'is-disabled': disabled,
-          [`${ns}RichTextControl--border${ucFirst(borderMode)}`]: borderMode
-        })}
+        className={cx(
+          `${ns}RichTextControl`,
+          className,
+          {
+            'is-focused': this.state.focused,
+            'is-disabled': disabled,
+            [`${ns}RichTextControl--border${ucFirst(borderMode)}`]: borderMode
+          },
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
       >
         <LazyComponent
           getComponent={loadRichText(finnalVendor)}
@@ -367,6 +378,20 @@ export default class RichTextControl extends React.Component<
           disabled={disabled}
           locale={locale}
           translate={translate}
+        />
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
         />
       </div>
     );

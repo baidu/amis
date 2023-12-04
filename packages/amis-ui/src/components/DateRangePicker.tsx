@@ -954,6 +954,11 @@ export class DateRangePicker extends React.Component<
         ? str2function(transform, 'value', 'config', 'props', 'data', 'moment')
         : transform;
 
+    /** 日期时间选择器组件支持用户选择时间，如果用户手动选择了时间，则不需要走默认处理 */
+    if (subControlViewMode && subControlViewMode === 'time') {
+      return value;
+    }
+
     // 没有初始值
     if (!originValue) {
       value = value[type === 'start' ? 'startOf' : 'endOf']('day');

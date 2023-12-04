@@ -204,50 +204,56 @@ export class TasksPlugin extends BasePlugin {
       },
       {
         title: '外观',
-        body: [
-          getSchemaTpl('className', {
-            pipeIn: defaultValue('b-a bg-white table-responsive')
-          }),
-
-          getSchemaTpl('className', {
-            name: 'tableClassName',
-            label: '表格 CSS 类名',
-            pipeIn: defaultValue('table table-striped m-b-none')
-          }),
-
-          getSchemaTpl('className', {
-            name: 'btnClassName',
-            label: '按钮 CSS 类名',
-            pipeIn: defaultValue('btn-sm btn-default')
-          }),
-
-          getSchemaTpl('className', {
-            name: 'retryBtnClassName',
-            label: '重试按钮 CSS 类名',
-            pipeIn: defaultValue('btn-sm btn-danger')
-          }),
-
+        body: getSchemaTpl('collapseGroup', [
           {
-            name: 'statusLabelMap',
-            pipeIn: defaultValue([
-              'label-warning',
-              'label-info',
-              'label-info',
-              'label-danger',
-              'label-success',
-              'label-danger'
-            ]),
-            type: 'input-array',
-            label: '状态标签 CSS 类名配置',
-            multiple: true,
-            addable: false,
-            removable: false,
-            items: {
-              type: 'input-text',
-              placeholder: 'CSS 类名'
-            }
-          }
-        ]
+            title: '类名',
+            body: [
+              getSchemaTpl('className', {
+                pipeIn: defaultValue('b-a bg-white table-responsive')
+              }),
+
+              getSchemaTpl('className', {
+                name: 'tableClassName',
+                label: '表格 CSS 类名',
+                pipeIn: defaultValue('table table-striped m-b-none')
+              }),
+
+              getSchemaTpl('className', {
+                name: 'btnClassName',
+                label: '按钮 CSS 类名',
+                pipeIn: defaultValue('btn-sm btn-default')
+              }),
+
+              getSchemaTpl('className', {
+                name: 'retryBtnClassName',
+                label: '重试按钮 CSS 类名',
+                pipeIn: defaultValue('btn-sm btn-danger')
+              }),
+
+              {
+                name: 'statusLabelMap',
+                pipeIn: defaultValue([
+                  'label-warning',
+                  'label-info',
+                  'label-info',
+                  'label-danger',
+                  'label-success',
+                  'label-danger'
+                ]),
+                type: 'input-array',
+                label: '状态标签 CSS 类名配置',
+                multiple: true,
+                addable: false,
+                removable: false,
+                items: {
+                  type: 'input-text',
+                  placeholder: 'CSS 类名'
+                }
+              }
+            ]
+          },
+          ...getSchemaTpl('theme:common', {exclude: ['layout']})
+        ])
       },
       {
         title: '显隐',

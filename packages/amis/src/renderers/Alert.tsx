@@ -1,10 +1,14 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
 import {Alert2 as Alert} from 'amis-ui';
-import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
-
+import {
+  isPureVariable,
+  resolveVariableAndFilter,
+  CustomStyle,
+  setThemeClassName
+} from 'amis-core';
 import type {AlertProps} from 'amis-ui/lib/components/Alert2';
-import type {BaseSchema, SchemaCollection, SchemaIcon} from '../Schema';
+import {BaseSchema, SchemaCollection, SchemaIcon} from '../Schema';
 
 /**
  * Alert 提示渲染器。
@@ -69,7 +73,21 @@ export class AlertRenderer extends React.Component<
   Omit<AlertProps, 'actions'> & RendererProps
 > {
   render() {
-    let {render, body, level, icon, showIcon, actions, ...rest} = this.props;
+    let {
+      classnames: cx,
+      classname,
+      render,
+      body,
+      level,
+      icon,
+      showIcon,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env,
+      actions,
+      ...rest
+    } = this.props;
     if (isPureVariable(level)) {
       level = resolveVariableAndFilter(level, this.props.data);
     }
@@ -93,8 +111,27 @@ export class AlertRenderer extends React.Component<
         icon={icon}
         showIcon={showIcon}
         actions={actionsDom}
+        className={cx(
+          classname,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
       >
         {render('body', body)}
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </Alert>
     );
   }

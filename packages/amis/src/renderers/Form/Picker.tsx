@@ -696,10 +696,18 @@ export default class PickerControl extends React.PureComponent<
       themeCss,
       css,
       id,
-      classPrefix: ns
+      classPrefix: ns,
+      wrapperCustomStyle
     } = this.props;
     return (
-      <div className={cx(`PickerControl`, {'is-mobile': mobileUI}, className)}>
+      <div
+        className={cx(
+          `PickerControl`,
+          {'is-mobile': mobileUI},
+          className,
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         {embed ? (
           <div className={cx('Picker')}>
             {this.renderBody({popOverContainer})}
@@ -722,7 +730,8 @@ export default class PickerControl extends React.PureComponent<
                   'pickControlDisabledClassName',
                   id,
                   themeCss || css
-                )
+                ),
+                setThemeClassName('baseControlClassName', id, themeCss)
               )}
             >
               {!selectedOptions.length && placeholder ? (
@@ -852,6 +861,19 @@ export default class PickerControl extends React.PureComponent<
               }
             ],
             id: id
+          }}
+          env={env}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
           }}
           env={env}
         />

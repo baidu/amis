@@ -74,9 +74,6 @@ export function addStyle(style: string, id: string) {
 
 // 继承数据处理
 function handleInheritData(statusMap: any, data: any) {
-  if (!data) {
-    return;
-  }
   // 检查是否存在inherit
   ['hover', 'active'].forEach(status => {
     Object.keys(statusMap[status]).forEach(key => {
@@ -86,7 +83,7 @@ function handleInheritData(statusMap: any, data: any) {
             // 值为inherit时设置为default的值或者主题中的default值
             if (statusMap['default'][key] && statusMap['default'][key][style]) {
               statusMap[status][key][style] = statusMap.default[key][style];
-            } else {
+            } else if (data) {
               const value = inheritValueMap[key] || key;
               statusMap[status][key][style] =
                 data['default'].body[value][style];
@@ -97,7 +94,7 @@ function handleInheritData(statusMap: any, data: any) {
         if (statusMap[status][key] === 'inherit') {
           if (statusMap['default'][key] && statusMap['default'][key]) {
             statusMap[status][key] = statusMap.default[key];
-          } else {
+          } else if (data) {
             const value = inheritValueMap[key] || key;
             statusMap[status][key] = data['default'].body[value];
           }

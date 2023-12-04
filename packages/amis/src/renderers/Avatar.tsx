@@ -7,6 +7,7 @@ import {Avatar} from 'amis-ui';
 import {BadgeObject, withBadge} from 'amis-ui';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
+import {CustomStyle, setThemeClassName} from 'amis-core';
 
 export interface AvatarSchema extends BaseSchema {
   // 指定类型
@@ -106,7 +107,11 @@ export class AvatarField extends React.Component<AvatarProps> {
       draggable,
       crossOrigin,
       onError,
-      data
+      data,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     let errHandler = () => false;
@@ -132,22 +137,41 @@ export class AvatarField extends React.Component<AvatarProps> {
     }
 
     return (
-      <Avatar
-        style={style}
-        className={className}
-        classnames={cx}
-        src={src}
-        icon={icon}
-        fit={fit}
-        shape={shape}
-        size={size}
-        text={text}
-        gap={gap}
-        alt={alt}
-        draggable={draggable}
-        crossOrigin={crossOrigin}
-        onError={errHandler}
-      />
+      <>
+        <Avatar
+          style={style}
+          className={cx(
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
+          classnames={cx}
+          src={src}
+          icon={icon}
+          fit={fit}
+          shape={shape}
+          size={size}
+          text={text}
+          gap={gap}
+          alt={alt}
+          draggable={draggable}
+          crossOrigin={crossOrigin}
+          onError={errHandler}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
+      </>
     );
   }
 }

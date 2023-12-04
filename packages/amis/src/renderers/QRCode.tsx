@@ -9,7 +9,9 @@ import {
   Renderer,
   RendererProps,
   resolveVariableAndFilter,
-  ScopedContext
+  ScopedContext,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {FormItem, FormControlProps} from 'amis-core';
 import {filter} from 'amis-core';
@@ -174,7 +176,11 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
       level,
       defaultValue,
       data,
-      classPrefix: ns
+      classPrefix: ns,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
     } = this.props;
 
     const finalValue = getPropValue(
@@ -184,7 +190,12 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
 
     return (
       <div
-        className={cx(`${ns}QrCode`, className)}
+        className={cx(
+          `${ns}QrCode`,
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
         style={style}
         ref={this.ref}
       >
@@ -207,6 +218,19 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
             imageSettings={this.getImageSettings()}
           />
         )}
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
+        />
       </div>
     );
   }

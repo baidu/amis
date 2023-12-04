@@ -59,92 +59,105 @@ export class FieldSetControlPlugin extends BasePlugin {
 
   panelTitle = '字段集';
   panelBodyCreator = (context: BaseEventContext) => {
-    return [
-      getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-
-      getSchemaTpl('title'),
-
-      getSchemaTpl('switch', {
-        name: 'collapsable',
-        label: '是否可折叠',
-        pipeIn: defaultValue(false)
-      }),
-
-      getSchemaTpl('switch', {
-        name: 'collapsed',
-        label: '默认是否折叠',
-        visibleOn: 'this.collapsable'
-      }),
-
+    return getSchemaTpl('tabs', [
       {
-        name: 'className',
-        type: 'button-group-select',
-        clearable: true,
-        size: 'sm',
-        label: '控件样式',
-        className: 'w-full',
-        pipeIn: defaultValue(''),
-        options: [
+        title: '属性',
+        body: [
+          getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+
+          getSchemaTpl('title'),
+
+          getSchemaTpl('switch', {
+            name: 'collapsable',
+            label: '是否可折叠',
+            pipeIn: defaultValue(false)
+          }),
+
+          getSchemaTpl('switch', {
+            name: 'collapsed',
+            label: '默认是否折叠',
+            visibleOn: 'this.collapsable'
+          }),
+
           {
-            label: '默认',
-            value: ''
+            name: 'className',
+            type: 'button-group-select',
+            clearable: true,
+            size: 'sm',
+            label: '控件样式',
+            className: 'w-full',
+            pipeIn: defaultValue(''),
+            options: [
+              {
+                label: '默认',
+                value: ''
+              },
+              {
+                value: 'Collapse--xs',
+                label: '极小'
+              },
+              {
+                value: 'Collapse--sm',
+                label: '小'
+              },
+              {
+                value: 'Collapse--base',
+                label: '正常'
+              },
+              {
+                value: 'Collapse--md',
+                label: '大'
+              },
+              {
+                value: 'Collapse--lg',
+                label: '超大'
+              }
+            ]
           },
           {
-            value: 'Collapse--xs',
-            label: '极小'
+            children: (
+              <Button
+                level="info"
+                size="sm"
+                className="m-b-sm"
+                block
+                onClick={() => {
+                  // this.manager.showInsertPanel('body', context.id);
+                  this.manager.showRendererPanel(
+                    '表单项',
+                    '请从左侧组件面板中点击添加子表单项'
+                  );
+                }}
+              >
+                添加子表单项
+              </Button>
+            )
           },
-          {
-            value: 'Collapse--sm',
-            label: '小'
-          },
-          {
-            value: 'Collapse--base',
-            label: '正常'
-          },
-          {
-            value: 'Collapse--md',
-            label: '大'
-          },
-          {
-            value: 'Collapse--lg',
-            label: '超大'
-          }
+
+          getSchemaTpl('subFormItemMode'),
+          getSchemaTpl('subFormHorizontalMode'),
+          getSchemaTpl('subFormHorizontal')
         ]
       },
-
-      getSchemaTpl('className', {
-        name: 'headingClassName',
-        label: '标题 CSS 类名'
-      }),
-      getSchemaTpl('className', {
-        name: 'bodyClassName',
-        label: '内容区域 CSS 类名'
-      }),
-
       {
-        children: (
-          <Button
-            level="info"
-            size="sm"
-            className="m-b-sm"
-            block
-            onClick={() => {
-              // this.manager.showInsertPanel('body', context.id);
-              this.manager.showRendererPanel(
-                '表单项',
-                '请从左侧组件面板中点击添加子表单项'
-              );
-            }}
-          >
-            添加子表单项
-          </Button>
-        )
-      },
-
-      getSchemaTpl('subFormItemMode'),
-      getSchemaTpl('subFormHorizontalMode'),
-      getSchemaTpl('subFormHorizontal')
-    ];
+        title: '外观',
+        body: getSchemaTpl('collapseGroup', [
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            extra: [
+              getSchemaTpl('theme:base', {
+                classname: 'headingClassName',
+                title: '标题区样式'
+              }),
+              getSchemaTpl('theme:base', {
+                classname: 'bodyClassName',
+                title: '内容区样式'
+              })
+            ]
+          })
+        ])
+      }
+    ]);
   };
 
   filterProps(props: any) {

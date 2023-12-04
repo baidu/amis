@@ -200,7 +200,9 @@ export class TextareaControlPlugin extends BasePlugin {
                 }
               ]
             }),
-            getSchemaTpl('style:classNames')
+            getSchemaTpl('theme:form-label'),
+            getSchemaTpl('theme:form-description'),
+            ...getSchemaTpl('theme:common', {exclude: ['layout']})
           ])
         ]
       },

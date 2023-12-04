@@ -17,7 +17,9 @@ import {
   isApiOutdated,
   isEffectiveApi,
   normalizeApi,
-  normalizeApiResponseData
+  normalizeApiResponseData,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 /**
  * Mapping 映射展示控件。
@@ -217,7 +219,17 @@ export const MappingField = withStore(props =>
     }
 
     renderSingleValue(key: any, reactKey?: number, needStyle?: boolean) {
-      const {className, style, placeholder, classnames: cx, store} = this.props;
+      const {
+        className,
+        style,
+        placeholder,
+        classnames: cx,
+        store,
+        wrapperCustomStyle,
+        id,
+        themeCss,
+        env
+      } = this.props;
       let viewValue: React.ReactNode = (
         <span className="text-muted">{placeholder}</span>
       );
@@ -244,10 +256,28 @@ export const MappingField = withStore(props =>
       return (
         <span
           key={`map-${reactKey}`}
-          className={cx('MappingField', className)}
+          className={cx(
+            'MappingField',
+            className,
+            setThemeClassName('baseControlClassName', id, themeCss),
+            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          )}
           style={curStyle}
         >
           {viewValue}
+          <CustomStyle
+            config={{
+              wrapperCustomStyle,
+              id,
+              themeCss,
+              classNames: [
+                {
+                  key: 'baseControlClassName'
+                }
+              ]
+            }}
+            env={env}
+          />
         </span>
       );
     }

@@ -8,7 +8,9 @@ import {
   FormBaseControl,
   FormControlProps,
   FormItem,
-  resolveEventData
+  resolveEventData,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {buildApi, isValidApi, isEffectiveApi} from 'amis-core';
 import {Checkbox, Spinner, SpinnerExtraProps} from 'amis-ui';
@@ -502,11 +504,28 @@ export default class MatrixCheckbox extends React.Component<
 
   @supportStatic()
   render() {
-    const {className, render, classnames: cx, loadingConfig} = this.props;
+    const {
+      className,
+      render,
+      classnames: cx,
+      loadingConfig,
+      wrapperCustomStyle,
+      id,
+      themeCss,
+      env
+    } = this.props;
     const {error, loading} = this.state;
 
     return (
-      <div key="input" className={cx('MatrixControl', className || '')}>
+      <div
+        key="input"
+        className={cx(
+          'MatrixControl',
+          className || '',
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+        )}
+      >
         {error ? (
           <div className={cx('MatrixControl-error Alert Alert--danger')}>
             {String(error)}
@@ -521,6 +540,20 @@ export default class MatrixCheckbox extends React.Component<
           key="info"
           show={loading}
           loadingConfig={loadingConfig}
+        />
+
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
         />
       </div>
     );

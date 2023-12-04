@@ -8,7 +8,9 @@ import {
   resolveVariableAndFilter,
   createObject,
   evalExpression,
-  ConditionRule
+  ConditionRule,
+  CustomStyle,
+  setThemeClassName
 } from 'amis-core';
 import {
   FormBaseControlSchema,
@@ -176,6 +178,9 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
       pickerIcon,
       env,
       popOverContainer,
+      wrapperCustomStyle,
+      id,
+      themeCss,
       ...rest
     } = this.props;
 
@@ -195,7 +200,9 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
         className={cx(
           `ConditionBuilderControl`,
           {'is-mobile': isMobile()},
-          className
+          className,
+          setThemeClassName('baseControlClassName', id, themeCss),
+          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
         )}
       >
         <ConditionBuilderWithRemoteOptions
@@ -206,6 +213,19 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
           popOverContainer={popOverContainer || env.getModalContainer}
           {...rest}
           formula={formula as any}
+        />
+        <CustomStyle
+          config={{
+            wrapperCustomStyle,
+            id,
+            themeCss,
+            classNames: [
+              {
+                key: 'baseControlClassName'
+              }
+            ]
+          }}
+          env={env}
         />
       </div>
     );
