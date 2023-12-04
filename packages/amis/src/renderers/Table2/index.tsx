@@ -993,16 +993,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
           });
         }
 
-        // 设置了单元格样式
-        if (column.classNameExpr) {
-          clone.className = (record: any, rowIndex: number) => {
-            const className = filter(column.classNameExpr, {record, rowIndex});
-            return `${className}${
-              column.className ? ` ${column.className}` : ''
-            }`;
-          };
-        }
-
         // 设置了列搜索
         if (column.searchable) {
           clone.filterDropdown = (
