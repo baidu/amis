@@ -614,6 +614,11 @@ setSchemaTpl(
           name: `themeCss.${classname}.radius:${state}`,
           state
         }),
+        getSchemaTpl('theme:paddingAndMargin', {
+          visibleOn: visibleOn,
+          name: `themeCss.${classname}.padding-and-margin:${state}`,
+          state
+        }),
         !curHidePaddingAndMargin
           ? getSchemaTpl('theme:paddingAndMargin', {
               visibleOn: visibleOn,
