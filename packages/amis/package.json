@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -37,8 +37,8 @@
     }
   ],
   "dependencies": {
-    "amis-core": "^3.6.1",
-    "amis-ui": "^3.6.1",
+    "amis-core": "^3.6.2",
+    "amis-ui": "^3.6.2",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
     "classnames": "2.3.2",
@@ -76,7 +76,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "5.15.4",
+    "@fortawesome/fontawesome-free": "^6.1.1",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^14.1.0",
