@@ -491,6 +491,10 @@ export class TableCell2Plugin extends BasePlugin {
                 if (value.mode) {
                   delete value.mode;
                 }
+                const originSaveImmediately = value.saveImmediately;
+                if (value.saveImmediately) {
+                  delete value.saveImmediately;
+                }
                 value =
                   value.body && ['container', 'wrapper'].includes(value.type)
                     ? {
@@ -523,7 +527,8 @@ export class TableCell2Plugin extends BasePlugin {
                           onBulkChange({
                             [name]: {
                               ...value,
-                              mode: originMode
+                              mode: originMode,
+                              saveImmediately: originSaveImmediately
                             }
                           })
                       });

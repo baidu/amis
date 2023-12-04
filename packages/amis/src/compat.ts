@@ -536,10 +536,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
     };
     delete newSchema.quickEdit.controls;
   } else if (schema?.quickEdit?.type) {
-    newSchema = {
-      ...schema,
-      quickEdit: controlToNormalRenderer(schema.quickEdit)
-    };
+    return schema;
   } else if (type === 'tabs' && Array.isArray(schema.tabs)) {
     newSchema = {
       ...schema,

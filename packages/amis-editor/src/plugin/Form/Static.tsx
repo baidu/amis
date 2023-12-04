@@ -86,6 +86,10 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
           if (value.mode) {
             delete value.mode;
           }
+          const originSaveImmediately = value.saveImmediately;
+          if (value.saveImmediately) {
+            delete value.saveImmediately;
+          }
           value =
             value.body && ['container', 'wrapper'].includes(value.type)
               ? {
@@ -118,7 +122,8 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
                     onChange(
                       {
                         ...value,
-                        mode: originMode
+                        mode: originMode,
+                        saveImmediately: originSaveImmediately
                       },
                       'quickEdit'
                     )

@@ -130,6 +130,10 @@ export class TableCellPlugin extends BasePlugin {
                 if (value.mode) {
                   delete value.mode;
                 }
+                const originSaveImmediately = value.saveImmediately;
+                if (value.saveImmediately) {
+                  delete value.saveImmediately;
+                }
                 value =
                   value.body && ['container', 'wrapper'].includes(value.type)
                     ? {
@@ -165,7 +169,8 @@ export class TableCellPlugin extends BasePlugin {
                           onChange(
                             {
                               ...value,
-                              mode: originMode
+                              mode: originMode,
+                              saveImmediately: originSaveImmediately
                             },
                             'quickEdit'
                           )
