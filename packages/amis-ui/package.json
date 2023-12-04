@@ -3,7 +3,7 @@
   "main": "lib/index.js",
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "description": "",
   "scripts": {
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
@@ -36,8 +36,8 @@
   },
   "dependencies": {
     "@rc-component/mini-decimal": "^1.0.1",
-    "amis-core": "^3.6.1",
-    "amis-formula": "^3.6.1",
+    "amis-core": "^3.6.2",
+    "amis-formula": "^3.6.2",
     "classnames": "2.3.2",
     "codemirror": "^5.63.0",
     "downshift": "6.1.12",
