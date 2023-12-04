@@ -592,15 +592,18 @@ setSchemaTpl(
       return [
         getSchemaTpl('theme:border', {
           visibleOn: visibleOn,
-          name: `themeCss.${classname}.border:${state}`
+          name: `themeCss.${classname}.border:${state}`,
+          state
         }),
         getSchemaTpl('theme:radius', {
           visibleOn: visibleOn,
-          name: `themeCss.${classname}.radius:${state}`
+          name: `themeCss.${classname}.radius:${state}`,
+          state
         }),
         getSchemaTpl('theme:paddingAndMargin', {
           visibleOn: visibleOn,
-          name: `themeCss.${classname}.padding-and-margin:${state}`
+          name: `themeCss.${classname}.padding-and-margin:${state}`,
+          state
         }),
         getSchemaTpl('theme:colorPicker', {
           visibleOn: visibleOn,
@@ -609,18 +612,21 @@ setSchemaTpl(
           needCustom: true,
           needGradient: true,
           needImage: true,
-          labelMode: 'input'
+          labelMode: 'input',
+          state
         }),
         getSchemaTpl('theme:shadow', {
           visibleOn: visibleOn,
-          name: `themeCss.${classname}.boxShadow:${state}`
+          name: `themeCss.${classname}.boxShadow:${state}`,
+          state
         })
       ].concat(
         extra.map(item => {
           return {
             ...item,
             visibleOn: visibleOn,
-            name: `${item.name}:${state}`
+            name: `${item.name}:${state}`,
+            state
           };
         })
       );
