@@ -95,9 +95,15 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
 
   @autobind
   renderLabel(option: Option, {labelField}: any) {
-    const {data} = this.props;
+    const {data, render} = this.props;
     const label = option[labelField || 'label'];
-    return <>{typeof label === 'string' ? filter(label, data) : `${label}`}</>;
+    return (
+      <>
+        {typeof label === 'string'
+          ? filter(label, data)
+          : render('label', label)}
+      </>
+    );
   }
 
   @supportStatic()

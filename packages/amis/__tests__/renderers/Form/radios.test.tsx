@@ -4,6 +4,8 @@ import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, wait} from '../../helper';
 import {clearStoresCache} from '../../../src';
+import * as amisCore from 'amis-core';
+import RadiosControl from '../../../src/renderers/Form/Radios';
 
 afterEach(() => {
   cleanup();
@@ -191,4 +193,33 @@ test('Renderer:radios with boolean value', async () => {
     expect(onSubmit).toBeCalledTimes(2);
   });
   expect(onSubmit.mock.calls[1][0].radios).toEqual(false);
+});
+
+describe('renderLabel', () => {
+  test('传入的字符串,使用filter函数处理,以支持数据解析', () => {
+    const spyFilter = jest.spyOn(amisCore, 'filter');
+
+    const radioComponent = new RadiosControl({data: {num: 1}} as any);
+
+    radioComponent.renderLabel(
+      {label: 'options${num}', value: 1},
+      {labelField: 'label'}
+    );
+
+    expect(spyFilter).toBeCalledTimes(1);
+    expect(spyFilter).toBeCalledWith('options${num}', {num: 1});
+  });
+
+  test('传入的对象,使用render函数处理,以支持schema渲染', () => {
+    const mockRender = jest.fn();
+    const radioComponent = new RadiosControl({render: mockRender} as any);
+
+    radioComponent.renderLabel(
+      {label: {type: 'tpl', tpl: 'option1'} as any, value: 1},
+      {labelField: 'label'}
+    );
+
+    expect(mockRender).toBeCalledTimes(1);
+    expect(mockRender).toBeCalledWith('label', {type: 'tpl', tpl: 'option1'});
+  });
 });
