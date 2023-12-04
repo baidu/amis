@@ -25,9 +25,7 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
   formType: 'extend',
   pipeIn: (value: any) => !!value,
   trueValue: {
-    mode: 'popOver',
-    type: 'container',
-    body: []
+    mode: 'popOver'
   },
   isChecked: (e: any) => {
     const {data, name} = e;
@@ -86,17 +84,23 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
           if (value.mode) {
             delete value.mode;
           }
+          const originSaveImmediately = value.saveImmediately;
+          if (value.saveImmediately) {
+            delete value.saveImmediately;
+          }
           value =
             value.body && ['container', 'wrapper'].includes(value.type)
               ? {
                   // schema中存在容器，用自己的就行
-                  type: 'container',
+                  type: 'wrapper',
+                  wrap: false,
                   body: [],
                   ...value
                 }
               : {
                   // schema中不存在容器，打开子编辑器时需要包裹一层
-                  type: 'container',
+                  type: 'wrapper',
+                  wrap: false,
                   body: [
                     {
                       type: 'input-text',
@@ -118,7 +122,8 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
                     onChange(
                       {
                         ...value,
-                        mode: originMode
+                        mode: originMode,
+                        saveImmediately: originSaveImmediately
                       },
                       'quickEdit'
                     )
