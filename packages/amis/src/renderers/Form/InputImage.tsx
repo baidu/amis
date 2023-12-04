@@ -10,7 +10,12 @@ import {
   PlainObject
 } from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
+
+import {SuperImageCropper} from 'super-image-cropper';
 const Cropper = React.lazy(() => import('react-cropper'));
+
+const imageCropper = new SuperImageCropper();
+
 import DropZone from 'react-dropzone';
 import {FileRejection, ErrorCode, DropEvent} from 'react-dropzone';
 import 'blueimp-canvastoblob';
@@ -1100,18 +1105,39 @@ export default class ImageControl extends React.Component<
 
   handleCrop() {
     const {cropFormat, cropQuality} = this.props;
-    this.cropper.getCroppedCanvas().toBlob(
-      (file: File) => {
-        this.addFiles([file]);
+
+    imageCropper
+      .crop({
+        cropperInstance: this.cropper,
+        // src: this.cropper.url,
+        gifJsOptions: {
+          quality: cropQuality || 1
+        },
+        outputType: 'blob' // optional, default blob url
+      })
+      .then(blob => {
+        this.addFiles([blob]);
         this.setState({
           cropFile: undefined,
           locked: false,
           lockedReason: ''
         });
-      },
-      cropFormat || 'image/png',
-      cropQuality || 1
-    );
+        cropFormat || 'image/png';
+        // cropQuality || 1
+      });
+
+    // this.cropper.getCroppedCanvas().toBlob(
+    //   (file: File) => {
+    //     this.addFiles([file]);
+    //     this.setState({
+    //       cropFile: undefined,
+    //       locked: false,
+    //       lockedReason: ''
+    //     });
+    //   },
+    //   cropFormat || 'image/png',
+    //   cropQuality || 1
+    // );
   }
 
   cancelCrop() {
