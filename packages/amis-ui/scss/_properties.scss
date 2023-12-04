@@ -595,7 +595,9 @@ $Table-strip-bg: transparent;
 
   --Pagination-fontSize: var(--fonts-size-8);
   --Pagination-height: #{px2rem(32px)};
+  --Pagination-height-sm: #{px2rem(24px)};
   --Pagination-minWidth: #{px2rem(32px)};
+  --Pagination-minWidth-sm: #{px2rem(24px)};
   --Pagination-onActive-backgroundColor: var(--colors-neutral-fill-11);
   --Pagination-onActive-border: var(--borders-width-2) var(--borders-style-2)
     var(--colors-brand-5);
@@ -603,6 +605,7 @@ $Table-strip-bg: transparent;
   --Pagination-onDisabled-color: var(--colors-neutral-text-6);
   --Pagination-onDisabled-backgroundColor: var(--colors-neutral-fill-10);
   --Pagination-padding: 0 #{px2rem(8px)};
+  --Pagination-padding-sm: 0 #{px2rem(4px)};
   --Pagination-light-color: #84868c;
 
   --Panel--default-badgeBg: var(--colors-neutral-fill-3);

@@ -9,7 +9,7 @@ exports[`Renderer:Pagination 1`] = `
       class="cxd-PaginationWrapper"
     >
       <div
-        class="cxd-Pagination-wrap cxd-PaginationWrapper-pager"
+        class="cxd-Pagination-wrap cxd-Pagination-wrap-size--default cxd-PaginationWrapper-pager"
       >
         <ul
           class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -261,7 +261,7 @@ exports[`Renderer:Pagination 2`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--default"
     >
       <div
         class="cxd-Pagination-total cxd-Pagination-item"
@@ -323,6 +323,14 @@ exports[`Renderer:Pagination 2`] = `
           >
             ...
           </a>
+          <span
+            class="icon"
+          >
+            <icon-mock
+              classname="icon icon-arrow-double-left"
+              icon="arrow-double-left"
+            />
+          </span>
         </li>
         <li
           class="cxd-Pagination-pager-item"
@@ -350,6 +358,14 @@ exports[`Renderer:Pagination 2`] = `
           >
             ...
           </a>
+          <span
+            class="icon"
+          >
+            <icon-mock
+              classname="icon icon-arrow-double-right"
+              icon="arrow-double-right"
+            />
+          </span>
         </li>
         <li
           class="cxd-Pagination-pager-item"
@@ -401,7 +417,7 @@ exports[`Renderer:Pagination with disabled 1`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap disabled"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--default disabled"
     >
       <ul
         class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -487,6 +503,14 @@ exports[`Renderer:Pagination with disabled 1`] = `
           >
             ...
           </a>
+          <span
+            class="icon"
+          >
+            <icon-mock
+              classname="icon icon-arrow-double-right"
+              icon="arrow-double-right"
+            />
+          </span>
         </li>
         <li
           class="cxd-Pagination-pager-item"
@@ -519,7 +543,7 @@ exports[`Renderer:Pagination with layout 1`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--default"
     >
       <div
         class="cxd-Pagination-total cxd-Pagination-item"
@@ -654,6 +678,14 @@ exports[`Renderer:Pagination with layout 1`] = `
           >
             ...
           </a>
+          <span
+            class="icon"
+          >
+            <icon-mock
+              classname="icon icon-arrow-double-right"
+              icon="arrow-double-right"
+            />
+          </span>
         </li>
         <li
           class="cxd-Pagination-pager-item"
@@ -686,7 +718,7 @@ exports[`Renderer:Pagination with maxButtons 1`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--default"
     >
       <ul
         class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -718,6 +750,14 @@ exports[`Renderer:Pagination with maxButtons 1`] = `
           >
             ...
           </a>
+          <span
+            class="icon"
+          >
+            <icon-mock
+              classname="icon icon-arrow-double-left"
+              icon="arrow-double-left"
+            />
+          </span>
         </li>
         <li
           class="cxd-Pagination-pager-item"
@@ -799,6 +839,14 @@ exports[`Renderer:Pagination with maxButtons 1`] = `
           >
             ...
           </a>
+          <span
+            class="icon"
+          >
+            <icon-mock
+              classname="icon icon-arrow-double-right"
+              icon="arrow-double-right"
+            />
+          </span>
         </li>
         <li
           class="cxd-Pagination-pager-item"
@@ -1030,6 +1078,21 @@ exports[`Renderer:Pagination with simple mode 1`] = `
               classname="icon icon-left-arrow"
               icon="left-arrow"
             />
+          </span>
+        </li>
+        <li
+          class="cxd-Pagination-inputSimple"
+        >
+          <input
+            class="cxd-Pagination-inputSimple-input"
+            type="text"
+            value="1"
+          />
+          /
+          <span
+            class="cxd-Pagination-inputSimple-right"
+          >
+            1
           </span>
         </li>
         <li

@@ -10,6 +10,8 @@
  6. total & perPage & activePage
  7. showPerPage & perPageAvailable & showPageInput
  8. disabled
+ 9. 组件尺寸 size
+ 10. 多页跳转参数 ellipsisPageGap
  */
 
 import {fireEvent, render, waitFor, within} from '@testing-library/react';
@@ -363,4 +365,58 @@ test('Renderer:Pagination with disabled', async () => {
 
   replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
+});
+
+// 9.组件尺寸
+test('pagination: Pagination with size', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'service',
+        body: [
+          {
+            type: 'pagination',
+            size: 'small'
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const paginationEl = container.querySelector('.cxd-Pagination-wrap');
+  expect(paginationEl).toHaveClass('cxd-Pagination-wrap-size--small');
+});
+
+// 10.多页跳转页数
+test('pagination: Pagination with ellipsisPageGap', async () => {
+  const pageChange = jest.fn();
+  const {container} = render(
+    amisRender(
+      {
+        type: 'service',
+        body: [
+          {
+            type: 'pagination',
+            layout: 'total,perPage,pager,go',
+            mode: 'normal',
+            activePage: 1,
+            lastPage: 99999,
+            total: 999,
+            perPage: 1,
+            ellipsisPageGap: 7,
+            onPageChange: pageChange
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const ellipsisEL = container.querySelector('.ellipsis');
+  fireEvent.click(ellipsisEL!);
+  await wait(200);
+  expect(pageChange).toBeCalled();
 });
