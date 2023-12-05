@@ -124,6 +124,7 @@ exports[`Renderer:PopOver with offset: show popover no offset 1`] = `
         </span>
         <div
           class="cxd-PopOver cxd-PopOverAble-popover cxd-PopOver--right"
+          role="popover"
           style="display: block; left: 0px; top: 0px; position: relative;"
           theme="cxd"
         >
@@ -268,6 +269,7 @@ exports[`Renderer:PopOver with offset: show popover with offset 1`] = `
         </span>
         <div
           class="cxd-PopOver cxd-PopOverAble-popover cxd-PopOver--right"
+          role="popover"
           style="display: block; left: 101px; top: 102px; position: relative;"
           theme="cxd"
         >
