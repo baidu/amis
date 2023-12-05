@@ -133,6 +133,8 @@ export function JSONPipeIn(
   if (obj.type) {
     // 处理下历史style数据，整理到themeCss
     obj = style2ThemeCss(obj);
+    // 处理下旧数据css被错误转成属性的问题
+    obj = clearDirtyCssKey(obj);
 
     // 重新生成组件ID
     if (reGenerateId) {
@@ -1195,6 +1197,19 @@ export function style2ThemeCss(data: any) {
     style,
     themeCss
   };
+}
+
+export function clearDirtyCssKey(data: any) {
+  if (!data?.type) {
+    return data;
+  }
+  const temp = {...data};
+  Object.keys(temp).forEach(key => {
+    if (key.startsWith('.') || key.startsWith('#')) {
+      delete temp[key];
+    }
+  });
+  return temp;
 }
 
 /**
