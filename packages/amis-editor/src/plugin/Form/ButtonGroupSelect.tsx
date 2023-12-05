@@ -181,7 +181,16 @@ export class ButtonGroupControlPlugin extends BasePlugin {
             },
             getSchemaTpl('theme:form-label'),
             getSchemaTpl('theme:form-description'),
-            ...getSchemaTpl('theme:common', {exclude: ['layout']})
+            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+            getSchemaTpl('style:classNames', {
+              isFormItem: true,
+              schema: [
+                getSchemaTpl('className', {
+                  label: '按钮',
+                  name: 'btnClassName'
+                })
+              ]
+            })
           ])
         ]
       },

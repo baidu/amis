@@ -21,9 +21,6 @@ import type {unitOfTime} from 'moment';
 /** 视图模式 */
 export type ViewMode = 'days' | 'months' | 'years' | 'time' | 'quarters';
 
-/** 视图模式 */
-export type ViewMode = 'days' | 'months' | 'years' | 'time' | 'quarters';
-
 export type DateType =
   | 'year'
   | 'month'

@@ -223,7 +223,8 @@ export class AvatarPlugin extends BasePlugin {
                 name: 'themeCss.baseControlClassName.font'
               })
             ]
-          })
+          }),
+          getSchemaTpl('style:classNames', {isFormItem: false})
         ])
       }
     ]);

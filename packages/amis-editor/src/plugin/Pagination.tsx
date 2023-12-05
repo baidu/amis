@@ -271,7 +271,8 @@ export class PaginationPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('theme:common', {exclude: ['layout']})
+          ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+          getSchemaTpl('style:classNames', {isFormItem: false})
         ])
       },
       {

@@ -362,7 +362,8 @@ export class SelectControlPlugin extends BasePlugin {
             getSchemaTpl('theme:form-description'),
             ...getSchemaTpl('theme:common', {
               exclude: ['layout']
-            })
+            }),
+            getSchemaTpl('style:classNames')
           ])
         ]
       },

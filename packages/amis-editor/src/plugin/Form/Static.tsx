@@ -370,6 +370,7 @@ export class StaticControlPlugin extends BasePlugin {
           },
           {
             title: 'CSS类名',
+            collapsed: true,
             body: [
               getSchemaTpl('className', {
                 label: '整体'

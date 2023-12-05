@@ -176,7 +176,15 @@ export class RadiosControlPlugin extends BasePlugin {
             getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
             getSchemaTpl('theme:form-label'),
             getSchemaTpl('theme:form-description'),
-            ...getSchemaTpl('theme:common', {exclude: ['layout']})
+            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+            getSchemaTpl('style:classNames', {
+              schema: [
+                getSchemaTpl('className', {
+                  label: '单个选项',
+                  name: 'itemClassName'
+                })
+              ]
+            })
           ])
         ]
       },

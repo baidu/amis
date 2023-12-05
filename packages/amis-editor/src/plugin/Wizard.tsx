@@ -616,13 +616,19 @@ export class WizardPlugin extends BasePlugin {
 
                 getSchemaTpl('actionNextSaveLabel'),
 
-                getSchemaTpl('actionFinishLabel')
+                getSchemaTpl('actionFinishLabel'),
 
                 // {
                 //   type: 'alert',
                 //   level: 'info',
                 //   body: `温馨提示：操作按钮每个步骤可以单独配置，请在右侧切换到需要单独配置的步骤后，点击下方的【自定义按钮】定制。`
                 // },
+
+                getSchemaTpl('className'),
+                getSchemaTpl('className', {
+                  name: 'actionClassName',
+                  label: '按钮 CSS 类名'
+                })
               ]
             },
             ...getSchemaTpl('theme:common', {

@@ -22,15 +22,18 @@ setSchemaTpl(
     schema: SchemaCollection;
     isFormItem: boolean;
     unsupportStatic?: boolean;
+    collapsed?: boolean;
   }) => {
     const {
       isFormItem = true,
       unsupportStatic = false,
-      schema = []
+      schema = [],
+      collapsed = true
     } = config || {};
 
     return {
       title: 'CSS 类名',
+      collapsed,
       body: (isFormItem
         ? [
             getSchemaTpl('className', {

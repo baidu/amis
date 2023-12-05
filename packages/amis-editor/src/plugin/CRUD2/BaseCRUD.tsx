@@ -933,6 +933,25 @@ export class BaseCRUDPlugin extends BasePlugin {
               title: '底部工具栏样式'
             })
           ]
+        }),
+        getSchemaTpl('style:classNames', {
+          isFormItem: false,
+          schema: [
+            getSchemaTpl('className', {
+              name: 'bodyClassName',
+              label: '表格区域'
+            }),
+
+            getSchemaTpl('className', {
+              name: 'headerToolbarClassName',
+              label: '顶部工具栏'
+            }),
+
+            getSchemaTpl('className', {
+              name: 'footerToolbarClassName',
+              label: '底部工具栏'
+            })
+          ]
         })
       ])
     };

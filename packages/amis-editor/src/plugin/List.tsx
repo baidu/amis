@@ -168,6 +168,7 @@ export class ListPlugin extends BasePlugin {
         body: getSchemaTpl('collapseGroup', [
           {
             title: 'CSS类名',
+            collapsed: true,
             body: [
               getSchemaTpl('className', {
                 label: '外层'

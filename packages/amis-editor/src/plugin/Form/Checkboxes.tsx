@@ -219,7 +219,8 @@ export class CheckboxesControlPlugin extends BasePlugin {
             getSchemaTpl('style:formItem', {renderer}),
             getSchemaTpl('theme:form-label'),
             getSchemaTpl('theme:form-description'),
-            ...getSchemaTpl('theme:common', {exclude: ['layout']})
+            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+            getSchemaTpl('style:classNames')
           ])
         ]
       },

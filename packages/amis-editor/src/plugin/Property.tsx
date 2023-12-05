@@ -118,10 +118,10 @@ export class PropertyPlugin extends BasePlugin {
       },
       {
         title: '外观',
-        body: getSchemaTpl(
-          'collapseGroup',
-          getSchemaTpl('theme:common', {exclude: ['layout']})
-        )
+        body: getSchemaTpl('collapseGroup', [
+          ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+          getSchemaTpl('style:classNames', {isFormItem: false})
+        ])
       },
       {
         title: '显隐',

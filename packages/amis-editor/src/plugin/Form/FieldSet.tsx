@@ -154,6 +154,18 @@ export class FieldSetControlPlugin extends BasePlugin {
                 title: '内容区样式'
               })
             ]
+          }),
+          getSchemaTpl('style:classNames', {
+            schema: [
+              getSchemaTpl('className', {
+                name: 'headingClassName',
+                label: '标题 CSS 类名'
+              }),
+              getSchemaTpl('className', {
+                name: 'bodyClassName',
+                label: '内容区域 CSS 类名'
+              })
+            ]
           })
         ])
       }

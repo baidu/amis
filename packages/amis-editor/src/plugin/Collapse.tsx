@@ -206,6 +206,19 @@ export class CollapsePlugin extends BasePlugin {
                 title: '内容区样式'
               })
             ]
+          }),
+          getSchemaTpl('style:classNames', {
+            isFormItem: false,
+            schema: [
+              getSchemaTpl('className', {
+                name: 'headingClassName',
+                label: '标题类名'
+              }),
+              getSchemaTpl('className', {
+                name: 'bodyClassName',
+                label: '内容类名'
+              })
+            ]
           })
         ])
       },

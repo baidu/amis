@@ -385,10 +385,10 @@ export class NavPlugin extends BasePlugin {
       },
       {
         title: '外观',
-        body: getSchemaTpl(
-          'collapseGroup',
-          getSchemaTpl('theme:common', {exclude: ['layout']})
-        )
+        body: getSchemaTpl('collapseGroup', [
+          ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+          getSchemaTpl('style:common', ['layout'])
+        ])
       },
       {
         title: '事件',
