@@ -1,4 +1,4 @@
-import { registerLocale as register } from 'amis-core';
+import {registerLocale as register} from 'amis-core';
 
 register('zh-CN', {
   'Action.countDown': '请等待 ${timeLeft} 秒',
