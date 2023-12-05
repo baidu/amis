@@ -365,7 +365,19 @@ export class TransferPlugin extends BasePlugin {
           getSchemaTpl('style:formItem', {renderer}),
           getSchemaTpl('theme:form-label'),
           getSchemaTpl('theme:form-description'),
-          ...getSchemaTpl('theme:common', {exclude: ['layout']})
+          ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+          getSchemaTpl('style:classNames', [
+            getSchemaTpl('className', {
+              label: '描述',
+              name: 'descriptionClassName',
+              visibleOn: 'this.description'
+            }),
+            getSchemaTpl('className', {
+              name: 'addOn.className',
+              label: 'AddOn',
+              visibleOn: 'this.addOn && this.addOn.type === "text"'
+            })
+          ])
         ])
       },
       {

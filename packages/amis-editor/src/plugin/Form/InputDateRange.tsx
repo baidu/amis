@@ -551,7 +551,19 @@ export class DateRangeControlPlugin extends BasePlugin {
             getSchemaTpl('theme:form-description'),
             ...getSchemaTpl('theme:common', {
               exclude: ['layout']
-            })
+            }),
+            getSchemaTpl('style:classNames', [
+              getSchemaTpl('className', {
+                label: '描述',
+                name: 'descriptionClassName',
+                visibleOn: 'this.description'
+              }),
+              getSchemaTpl('className', {
+                name: 'addOn.className',
+                label: 'AddOn',
+                visibleOn: 'this.addOn && this.addOn.type === "text"'
+              })
+            ])
           ],
           {...context?.schema, configTitle: 'style'}
         )

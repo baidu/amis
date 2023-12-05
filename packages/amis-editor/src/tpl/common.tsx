@@ -375,7 +375,6 @@ setSchemaTpl(
       }));
     return {
       type: 'collapse-group',
-      enableFieldSetStyle: false,
       activeKey: collapseGroupBody
         .filter(item => item && !item.collapsed)
         .map(panel => panel.title),

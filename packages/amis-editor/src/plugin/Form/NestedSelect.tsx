@@ -344,6 +344,15 @@ export class NestedSelectControlPlugin extends BasePlugin {
           getSchemaTpl('theme:form-description'),
           ...getSchemaTpl('theme:common', {
             exclude: ['layout']
+          }),
+          getSchemaTpl('style:classNames', {
+            schema: [
+              getSchemaTpl('className', {
+                label: '描述',
+                name: 'descriptionClassName',
+                visibleOn: 'this.description'
+              })
+            ]
           })
         ])
       },

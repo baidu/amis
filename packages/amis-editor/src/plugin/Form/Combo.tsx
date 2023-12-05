@@ -630,7 +630,8 @@ export class ComboControlPlugin extends BasePlugin {
           }),
           getSchemaTpl('theme:form-label'),
           getSchemaTpl('theme:form-description'),
-          ...getSchemaTpl('theme:common', {exclude: ['layout']})
+          ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+          getSchemaTpl('style:classNames')
         ])
       },
       {

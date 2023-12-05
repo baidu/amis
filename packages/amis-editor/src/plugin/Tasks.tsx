@@ -205,8 +205,10 @@ export class TasksPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
+          ...getSchemaTpl('theme:common', {exclude: ['layout']}),
           {
             title: '类名',
+            collapsed: true,
             body: [
               getSchemaTpl('className', {
                 pipeIn: defaultValue('b-a bg-white table-responsive')
@@ -251,8 +253,7 @@ export class TasksPlugin extends BasePlugin {
                 }
               }
             ]
-          },
-          ...getSchemaTpl('theme:common', {exclude: ['layout']})
+          }
         ])
       },
       {

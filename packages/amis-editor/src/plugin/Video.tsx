@@ -109,7 +109,9 @@ export class VideoPlugin extends BasePlugin {
               getSchemaTpl('switch', {
                 name: 'splitPoster',
                 label: '分开显示封面'
-              })
+              }),
+
+              getSchemaTpl('className')
             ]
           },
           ...getSchemaTpl('theme:common', {exclude: ['layout']})

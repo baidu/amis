@@ -1886,7 +1886,18 @@ export class CRUDPlugin extends BasePlugin {
                 title: '内容区样式'
               })
             ]
-          })
+          }),
+          {
+            title: '类名',
+            collapsed: true,
+            body: [
+              getSchemaTpl('className'),
+              getSchemaTpl('className', {
+                name: 'bodyClassName',
+                label: '内容 CSS 类名'
+              })
+            ]
+          }
         ])
       },
 

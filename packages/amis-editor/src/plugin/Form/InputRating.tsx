@@ -384,6 +384,19 @@ export class RateControlPlugin extends BasePlugin {
                   title: '评分描述样式'
                 })
               ]
+            }),
+            getSchemaTpl('style:classNames', {
+              schema: [
+                getSchemaTpl('className', {
+                  label: '图标',
+                  name: 'charClassName'
+                }),
+
+                getSchemaTpl('className', {
+                  label: '评分描述',
+                  name: 'textClassName'
+                })
+              ]
             })
           ])
         ]

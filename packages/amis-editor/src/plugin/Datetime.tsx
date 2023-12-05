@@ -170,6 +170,7 @@ export class DatetimePlugin extends DatePlugin {
             }),
             {
               title: 'CSS类名',
+              collapsed: true,
               body: [getSchemaTpl('className')]
             }
           ])

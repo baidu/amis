@@ -227,7 +227,38 @@ export class PanelPlugin extends BasePlugin {
                     title: '按钮外层样式'
                   })
                 ]
-              })
+              }),
+              {
+                title: 'CSS 类名',
+                collapsed: true,
+                body: [
+                  getSchemaTpl('className', {
+                    label: '外层',
+                    name: isForm ? 'panelClassName' : 'className',
+                    pipeIn: defaultValue('Panel--default')
+                  }),
+
+                  getSchemaTpl('className', {
+                    name: 'headerClassName',
+                    label: '头部区域'
+                  }),
+
+                  getSchemaTpl('className', {
+                    name: 'bodyClassName',
+                    label: '内容区域'
+                  }),
+
+                  getSchemaTpl('className', {
+                    name: 'footerClassName',
+                    label: '底部区域'
+                  }),
+
+                  getSchemaTpl('className', {
+                    name: 'actionsClassName',
+                    label: '按钮外层'
+                  })
+                ]
+              }
             ])
           ]
         }

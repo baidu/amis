@@ -180,6 +180,7 @@ export class WrapperPlugin extends LayoutBasePlugin {
             ...getSchemaTpl('style:common', ['layout']),
             {
               title: 'CSS 类名',
+              collapsed: true,
               body: [
                 getSchemaTpl('className', {
                   description: '设置样式后，大小设置将无效。',

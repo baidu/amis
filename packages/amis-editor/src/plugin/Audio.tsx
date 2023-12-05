@@ -139,7 +139,8 @@ export class AudioPlugin extends BasePlugin {
                   name: 'inline',
                   label: '内联模式',
                   pipeIn: defaultValue(true)
-                })
+                }),
+                getSchemaTpl('className')
               ]
             },
             ...getSchemaTpl('theme:common', {exclude: ['layout']})

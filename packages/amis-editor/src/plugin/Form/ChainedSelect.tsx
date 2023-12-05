@@ -209,6 +209,14 @@ export class ChainedSelectControlPlugin extends BasePlugin {
             getSchemaTpl('theme:form-description'),
             ...getSchemaTpl('theme:common', {
               exclude: ['layout']
+            }),
+            getSchemaTpl('style:classNames', {
+              schema: [
+                getSchemaTpl('className', {
+                  name: 'descriptionClassName',
+                  label: '描述'
+                })
+              ]
             })
           ])
         ]

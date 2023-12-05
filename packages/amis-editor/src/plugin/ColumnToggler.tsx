@@ -151,6 +151,7 @@ export class ColumnToggler extends BasePlugin {
           },
           {
             title: 'CSS 类名',
+            collapsed: true,
             body: [
               getSchemaTpl('className', {
                 name: 'className',

@@ -191,7 +191,8 @@ export class CityControlPlugin extends BasePlugin {
         body: [
           getSchemaTpl('collapseGroup', [
             getSchemaTpl('style:formItem', {renderer: context.info.renderer}),
-            ...getSchemaTpl('theme:common', {exclude: ['layout']})
+            ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+            getSchemaTpl('style:classNames')
           ])
         ]
       },
