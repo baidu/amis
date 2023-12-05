@@ -11,8 +11,9 @@ import {
 } from 'amis-core';
 // import 'cropperjs/dist/cropper.css';
 
+
+import Cropper from 'react-cropper';
 import {SuperImageCropper} from 'super-image-cropper';
-const Cropper = React.lazy(() => import('react-cropper'));
 
 const imageCropper = new SuperImageCropper();
 
