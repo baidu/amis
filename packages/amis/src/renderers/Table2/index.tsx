@@ -839,6 +839,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       render,
       store,
       popOverContainer,
+      canAccessSuperData,
       showBadge,
       itemBadge,
       classnames: cx
@@ -910,11 +911,17 @@ export default class Table2 extends React.Component<Table2Props, object> {
             ) => {
               const props: RenderProps = {};
 
+              const item =
+                store.getRowByIndex(rowIndex, [...(levels || [])]) || {};
+
               const obj = {
                 children: this.renderCellSchema(column, {
                   data: record,
                   value: column.name
-                    ? resolveVariable(column.name, record)
+                    ? resolveVariable(
+                        column.name,
+                        canAccessSuperData ? item.locals : item.data
+                      )
                     : column.name,
                   popOverContainer:
                     popOverContainer || this.getPopOverContainer,
@@ -929,14 +936,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
                     }
                   ) => {
                     this.handleQuickChange(
-                      record,
+                      item,
                       values,
                       saveImmediately,
                       savePristine,
                       options
                     );
                   },
-                  row: record,
+                  row: item,
                   showBadge,
                   itemBadge
                 }),
