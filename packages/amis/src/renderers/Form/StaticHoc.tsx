@@ -23,6 +23,7 @@ function renderCommonStatic(props: any, defaultValue: string) {
     case 'transfer-picker':
     case 'tabs-transfer':
     case 'tabs-transfer-picker':
+    case 'picker':
       return render('static-select', {type: 'words'}, staticProps);
 
     case 'input-date':

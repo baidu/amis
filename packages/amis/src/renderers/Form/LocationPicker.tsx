@@ -7,7 +7,13 @@ import {
   PopOver,
   autobind
 } from 'amis-core';
-import {FormItem, FormBaseControl, FormControlProps} from 'amis-core';
+import {
+  FormItem,
+  FormBaseControl,
+  FormControlProps,
+  resolveEventData
+} from 'amis-core';
+import {Api, ActionObject} from 'amis-core';
 import {LocationPicker, Alert2, BaiduMapPicker, Icon} from 'amis-ui';
 import {filter} from 'amis-core';
 import {FormBaseControlSchema} from '../../Schema';
@@ -68,10 +74,63 @@ export class LocationControl extends React.Component<LocationControlProps> {
     coordinatesType: 'bd09'
   };
   domRef: React.RefObject<HTMLDivElement> = React.createRef();
+  state = {
+    isOpened: false
+  };
+
+  @autobind
+  close() {
+    this.setState({
+      isOpened: false
+    });
+  }
+
+  @autobind
+  open() {
+    this.setState({
+      isOpened: true
+    });
+  }
+
+  @autobind
+  handleClick() {
+    this.state.isOpened ? this.close() : this.open();
+  }
+
+  @autobind
+  async handleChange(value: any) {
+    const {dispatchEvent, onChange} = this.props;
+    const dispatcher = await dispatchEvent(
+      'change',
+      resolveEventData(this.props, {value})
+    );
+    if (dispatcher?.prevented) {
+      return;
+    }
+    onChange(value);
+  }
+
+  @autobind
+  getParent() {
+    return this.domRef.current?.parentElement;
+  }
 
   @autobind
   getTarget() {
     return this.domRef.current;
+  }
+
+  doAction(action: ActionObject, data: object, throwErrors: boolean): any {
+    const {resetValue, onChange} = this.props;
+    const actionType = action?.actionType as string;
+    switch (actionType) {
+      case 'clear':
+        onChange('');
+        break;
+      case 'reset':
+        onChange?.(resetValue ?? {});
+        break;
+    }
   }
 
   renderStatic(displayValue = '-') {
@@ -104,7 +163,11 @@ export class LocationControl extends React.Component<LocationControlProps> {
           'is-mobile': isMobile()
         })}
       >
-        <LocationPicker {...this.props} ak={ak} />
+        <LocationPicker
+          {...this.props}
+          ak={filter(this.props.ak, this.props.data)}
+          onChange={this.handleChange}
+        />
       </div>
     );
   }

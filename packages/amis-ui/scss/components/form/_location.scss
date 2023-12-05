@@ -193,3 +193,14 @@
 .tangram-suggestion-main {
   display: none !important;
 }
+
+@media screen and (min-width: 768px) {
+  .#{$ns}LocationPicker {
+    &-value {
+      margin-right: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}

@@ -49,6 +49,8 @@ exports[`Renderer:Page 1`] = `
                     className="icon-question-mark"
                     icon="question-mark"
                     onClick={[Function]}
+                    onMouseEnter={[Function]}
+                    onMouseLeave={[Function]}
                   />
                 </span>
               </div>

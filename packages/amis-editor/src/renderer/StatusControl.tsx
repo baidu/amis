@@ -7,7 +7,6 @@ import cx from 'classnames';
 import {FormItem, Switch, Option} from 'amis';
 
 import {autobind, getSchemaTpl} from 'amis-editor-core';
-import {BaseLabelMark} from '../component/BaseControl';
 
 import type {FormControlProps} from 'amis-core';
 import type {SchemaCollection} from 'amis';

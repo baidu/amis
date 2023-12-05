@@ -80,7 +80,8 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       props.model !== prevProps.model &&
       props.model !== this.currentContent
     ) {
-      this.editorInitialized && this.editor?.setContent(props.model || '');
+      this.editorInitialized &&
+        this.editor?.setContent((this.currentContent = props.model || ''));
     }
 
     if (this.props.config !== prevProps.config) {
@@ -197,7 +198,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
     const {model, onModelChange, outputFormat, onFocus, onBlur} = this.props;
 
     const value = model || '';
-    editor.setContent(value);
+    editor.setContent((this.currentContent = value));
 
     if (onModelChange) {
       editor.on('change keyup setcontent', (e: any) => {

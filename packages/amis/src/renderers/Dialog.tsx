@@ -176,7 +176,7 @@ export default class Dialog extends React.Component<DialogProps> {
     title: 'Dialog.title',
     bodyClassName: '',
     confirm: true,
-    show: true,
+    show: false,
     lazyRender: false,
     showCloseButton: true,
     wrapperComponent: Modal,

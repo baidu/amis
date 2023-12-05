@@ -80,10 +80,13 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
 
   @autobind
   handleLeftChange(leftValue: any) {
+    const {fields, config} = this.props;
+    // 获取默认Op
+    const field: any = findTree(fields, (f: any) => f.name === leftValue.field);
     const value = {
       ...this.props.value,
       left: leftValue,
-      op: undefined,
+      op: field?.defaultOp || config.types[field?.type]?.defaultOp || undefined,
       right: undefined
     };
     const onChange = this.props.onChange;

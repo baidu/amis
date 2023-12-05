@@ -208,7 +208,7 @@ export const Table2RenderereEvent: RendererPluginEvent[] = [
       }
     ]
   },
-   {
+  {
     eventName: 'rowDbClick',
     eventLabel: '行双击',
     description: '双击整行事件',

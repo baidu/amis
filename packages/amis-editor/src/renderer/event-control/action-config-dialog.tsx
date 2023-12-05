@@ -7,14 +7,15 @@ import {
   RendererPluginAction,
   tipedLabel,
   getSchemaTpl,
-  defaultValue
+  defaultValue,
+  persistGet
 } from 'amis-editor-core';
 import React from 'react';
 import {ActionConfig, ComponentInfo} from './types';
 import ActionConfigPanel from './action-config-panel';
 import {BASE_ACTION_PROPS} from './comp-action-select';
 import {findActionNode} from './helper';
-import {PlainObject, SchemaNode} from 'amis-core';
+import {PlainObject, SchemaNode, Option} from 'amis-core';
 
 interface ActionDialogProp {
   show: boolean;
@@ -164,6 +165,41 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
     }
   }
 
+  // 获取常用动作列表schema
+  getCommonUseActionSchema() {
+    const commonUseActions = persistGet('common-use-actions', []).slice(0, 5);
+    return commonUseActions.map((action: Option) => {
+      return {
+        type: 'tag',
+        label: action.label,
+        displayMode: 'rounded',
+        color: 'active',
+        style: {
+          borderColor: '#2468f2',
+          cursor: 'pointer'
+        },
+        onEvent: {
+          click: {
+            actions: [
+              {
+                actionType: 'setValue',
+                componentName: 'actionType',
+                args: {
+                  value: action.value
+                }
+              },
+              {
+                actionType: 'custom',
+                script:
+                  "document.querySelector('.action-tree li .is-checked')?.scrollIntoView()"
+              }
+            ]
+          }
+        }
+      };
+    });
+  }
+
   render() {
     const {
       data,
@@ -176,6 +212,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
       onClose,
       render
     } = this.props;
+    const commonUseActionSchema = this.getCommonUseActionSchema();
 
     return render(
       'inner',
@@ -206,6 +243,20 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
             // debug: true,
             onSubmit: this.props.onSubmit?.bind(this, type),
             body: [
+              {
+                type: 'flex',
+                className: 'common-actions',
+                justify: 'flex-start',
+                visibleOn: `${commonUseActionSchema.length}`,
+                items: [
+                  {
+                    type: 'tpl',
+                    tpl: '常用动作：',
+                    className: 'common-actions-label'
+                  },
+                  ...commonUseActionSchema
+                ]
+              },
               {
                 type: 'grid',
                 className: 'h-full',
@@ -363,7 +414,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
             style: {
               borderStyle: 'solid'
             },
-            className: 'action-config-panel AMISCSSWrapper'
+            className: 'action-config-panel :AMISCSSWrapper'
           }
         ],
         onClose

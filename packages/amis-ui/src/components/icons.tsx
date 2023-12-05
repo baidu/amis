@@ -258,9 +258,9 @@ export function Icon({
   iconContent,
   vendor,
   cx: iconCx,
-  onClick,
-  onMouseEnter,
-  onMouseLeave,
+  onClick = () => {},
+  onMouseEnter = () => {},
+  onMouseLeave = () => {},
   style
 }: {
   icon: string;
