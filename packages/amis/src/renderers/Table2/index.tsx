@@ -1551,7 +1551,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
   @autobind
   async handleSearch(name: string, values: any) {
-    const {data, dispatchEvent, store} = this.props;
+    const {data, dispatchEvent, store, onSearch} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'columnSearch',
@@ -1566,6 +1566,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
     }
 
     store.updateQuery(values);
+
+    onSearch && onSearch({[name]: values[name]});
   }
 
   @autobind
