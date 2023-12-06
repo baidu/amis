@@ -502,7 +502,7 @@ export default class Service extends React.Component<ServiceProps> {
             return;
           }
         }
-        store.updateData(returndata, undefined, false);
+        store.updateData(returndata, undefined, false, wsApi.concatDataFields);
         store.setHasRemoteData();
 
         this.runDataProvider('onWsFetched');

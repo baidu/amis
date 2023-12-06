@@ -720,7 +720,8 @@ export const TableStore2 = ServiceStore.named('TableStore2')
             {
               __saved: Date.now()
             },
-            !!api && (api as ApiObject).replaceData
+            !!api && (api as ApiObject).replaceData,
+            (api as ApiObject)?.concatDataFields
           );
           self.updatedAt = Date.now();
         }

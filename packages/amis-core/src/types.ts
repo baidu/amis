@@ -154,6 +154,14 @@ export interface BaseApiObject {
   replaceData?: boolean;
 
   /**
+   * 是否将两次返回的数据字段，做一个合并。配置返回对象中的字段名，支持配置多个。
+   *
+   * 比如：同时返回 log 字段，第一次返回 {log: '1'}，第二次返回 {log: '2'}，合并后的结果是 {log: ['1', '2']]}
+   * 再比如：同时返回 items 字段，第一次返回 {items: [1, 2]}，第二次返回 {items: [3, 4]}，合并后的结果是 {items: [1, 2, 3, 4]}
+   */
+  concatDataFields?: string | Array<string>;
+
+  /**
    * 是否自动刷新，当 url 中的取值结果变化时，自动刷新数据。
    *
    * @default true
