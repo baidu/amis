@@ -95,6 +95,10 @@
     &.is-opened {
       color: var(--Form-select-menu-onActive-color);
       background: var(--Form-select-menu-onActive-bg);
+
+      &:hover {
+        background: var(--Form-select-menu-onHover-bg);
+      }
     }
 
     &.is-disabled {

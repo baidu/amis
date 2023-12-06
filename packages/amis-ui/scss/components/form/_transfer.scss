@@ -197,12 +197,19 @@
 
     &.#{$ns}Tree,
     &.#{$ns}AssociatedSelection {
+
       .#{$ns}Tree-itemLabel.is-checked:hover,
       .#{$ns}Tree-itemLabel:hover {
-        .#{$ns}Tree-itemLabel-item > .#{$ns}Tree-itemText {
-          background-color: unset;
-          &:active {
+        background: var(--Form-select-menu-onHover-bg);
+
+        .#{$ns}Tree-itemLabel-item {
+          background: var(--Form-select-menu-onHover-bg);
+
+          > .#{$ns}Tree-itemText {
             background-color: unset;
+            &:active {
+              background-color: unset;
+            }
           }
         }
       }
@@ -220,6 +227,10 @@
             color: var(--Form-selectValue-onInvalid-color);
           }
         }
+      }
+
+      .#{$ns}Tree-item:hover {
+        background: var(--Form-select-menu-onHover-bg);
       }
     }
   }
