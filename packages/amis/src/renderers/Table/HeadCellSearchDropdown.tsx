@@ -81,14 +81,20 @@ export function HeadCellSearchDropDown({
       }
     }
 
-    if (schema) {
+    function findFormItems(schema: any) {
       Array.isArray(schema.body) &&
         schema.body.forEach((item: any) => {
           item.name && formItems.push(item.name);
           item.extraName &&
             typeof item.extraName === 'string' &&
             formItems.push(item.extraName);
+          findFormItems(item);
         });
+    }
+
+    if (schema) {
+      // schema有可能配置为{type: 'form', body[]} 所以真正的formItem需要到form的body里去找
+      findFormItems(schema);
       schema = {
         ...schema,
         type: 'form',
