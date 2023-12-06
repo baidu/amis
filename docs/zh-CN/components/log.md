@@ -81,6 +81,40 @@ public class StreamingResponseBodyController {
 
 需要注意有些反向代理有 buffer 设置，比如 nginx 的 [proxy_buffer_size](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffer_size)，它会使得即便后端返回内容也需要等 buffer 满了才会真正返回前端，如果需要更实时的效果就需要关掉此功能。
 
+### 轮询方案
+
+如果后端无法提供流的方式，也可以通过轮询的方式获取数据，比如：
+
+```schema
+{
+  "type": "page",
+  "title": "轮询日志演示，当秒钟到 59 时会停止轮询",
+  "body": [
+    {
+      "type": "service",
+      "api": {
+        "method": "get",
+        "url": "/api/mock2/log/date?offset=${offset}",
+        "autoRefresh": false, // 因为设置了轮询，所以关闭自动刷新
+        "concatDataFields": "log"
+      },
+      "silentPolling": true,
+      "interval": 1000,
+      "stopAutoRefreshWhen": "${finished}",
+      "body": [
+        {
+          "type": "log",
+          "height": 300,
+          "source": "${log}"
+        }
+      ]
+    }
+  ]
+}
+```
+
+此示例利用了 Service 组件的轮询能力，并通过 `concatDataFields` 将多次返回的日志拼接起来，然后通过给 log 设置 `source` 属性来关联日志数据。
+
 ## 对于超长日志的优化
 
 > 1.10.0 及以上版本

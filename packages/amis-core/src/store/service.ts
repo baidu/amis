@@ -5,6 +5,7 @@ import {extendObject, isEmpty, isObject} from '../utils/helper';
 import {ServerError} from '../utils/errors';
 import {normalizeApiResponseData} from '../utils/api';
 import {replaceText} from '../utils/replaceText';
+import {concatData} from '../utils/concatData';
 
 export const ServiceStore = iRendererStore
   .named('ServiceStore')
@@ -40,7 +41,14 @@ export const ServiceStore = iRendererStore
       self.busying = busying;
     }
 
-    function reInitData(data: object | undefined, replace: boolean = false) {
+    function reInitData(
+      data: object | undefined,
+      replace: boolean = false,
+      concatFields?: string | string[]
+    ) {
+      if (concatFields) {
+        data = concatData(data, self.data, concatFields);
+      }
       const newData = extendObject(self.pristine, data, !replace);
       self.data = self.pristine = newData;
     }
@@ -106,7 +114,7 @@ export const ServiceStore = iRendererStore
             ...(replace ? {} : self.data),
             ...normalizeApiResponseData(json.data)
           };
-          reInitData(data, replace);
+          reInitData(data, replace, (api as ApiObject).concatDataFields);
           self.hasRemoteData = true;
           if (options && options.onSuccess) {
             const ret = options.onSuccess(json, data);
@@ -191,7 +199,8 @@ export const ServiceStore = iRendererStore
             self.updateData(
               normalizeApiResponseData(json.data),
               undefined,
-              !!(api as ApiObject).replaceData
+              !!(api as ApiObject).replaceData,
+              (api as ApiObject).concatDataFields
             );
 
           self.hasRemoteData = true;
@@ -289,7 +298,8 @@ export const ServiceStore = iRendererStore
             self.updateData(
               normalizeApiResponseData(json.data),
               undefined,
-              !!(api as ApiObject).replaceData
+              !!(api as ApiObject).replaceData,
+              (api as ApiObject).concatDataFields
             );
         }
 
@@ -457,7 +467,8 @@ export const ServiceStore = iRendererStore
               self.updateData(
                 json.data.data,
                 undefined,
-                !!(api as ApiObject).replaceData
+                !!(api as ApiObject).replaceData,
+                (api as ApiObject).concatDataFields
               );
           }
 
@@ -516,7 +527,8 @@ export const ServiceStore = iRendererStore
           self.updateData(
             json.data,
             undefined,
-            !!(api as ApiObject).replaceData
+            !!(api as ApiObject).replaceData,
+            (api as ApiObject).concatDataFields
           );
 
         if (!json.ok) {

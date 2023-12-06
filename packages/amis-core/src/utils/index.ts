@@ -3,6 +3,7 @@ export * from './attachmentAdpator';
 export * from './autobind';
 export * from './ColorScale';
 export * from './columnsSplit';
+export * from './concatData';
 export * from './dataMapping';
 export * from './DataSchema';
 export * from './DataScope';
