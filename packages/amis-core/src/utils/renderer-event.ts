@@ -72,31 +72,50 @@ export function createRendererEvent<T extends RendererEventContext>(
   type: string,
   context: T
 ): RendererEvent<T> {
-  const rendererEvent = {
-    context: extendObject({pristineData: context.data}, context),
-    type,
-    prevented: false,
-    stoped: false,
-    preventDefault() {
-      rendererEvent.prevented = true;
-    },
+  const rendererEvent: RendererEvent<T> = Object.defineProperties(
+    {
+      context: extendObject({pristineData: context.data}, context),
+      type,
+      prevented: false,
+      stoped: false,
+      preventDefault() {
+        rendererEvent.prevented = true;
+      },
 
-    stopPropagation() {
-      rendererEvent.stoped = true;
-    },
+      stopPropagation() {
+        rendererEvent.stoped = true;
+      },
 
-    get data() {
-      return rendererEvent.context.data;
-    },
+      get data() {
+        return rendererEvent.context.data;
+      },
 
-    get pristineData() {
-      return rendererEvent.context.pristineData;
-    },
+      get pristineData() {
+        return rendererEvent.context.pristineData;
+      },
 
-    setData(data: any) {
-      rendererEvent.context.data = data;
+      setData(data: any) {
+        rendererEvent.context.data = data;
+      }
+    },
+    {
+      context: {
+        enumerable: false
+      },
+      pristineData: {
+        enumerable: false
+      },
+      preventDefault: {
+        enumerable: false
+      },
+      stopPropagation: {
+        enumerable: false
+      },
+      setData: {
+        enumerable: false
+      }
     }
-  };
+  );
   return rendererEvent;
 }
 
