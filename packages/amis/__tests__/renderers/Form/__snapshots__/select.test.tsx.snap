@@ -355,6 +355,7 @@ exports[`Renderer:select associated mode with virtual 1`] = `
             </div>
             <div
               class="cxd-PopOver cxd-TransferDropDown-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+              role="popover"
               style="display: block; min-width: 100px; left: 0px; top: 0px; position: relative;"
               theme="cxd"
             >
@@ -968,6 +969,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
             </div>
             <div
               class="cxd-PopOver cxd-TransferDropDown-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+              role="popover"
               style="display: block; min-width: 100px; left: 0px; top: 0px; position: relative;"
               theme="cxd"
             >
@@ -1513,6 +1515,7 @@ exports[`Renderer:select group mode with virtual 1`] = `
             </div>
             <div
               class="cxd-PopOver cxd-TransferDropDown-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+              role="popover"
               style="display: block; min-width: 100px; left: 0px; top: 0px; position: relative;"
               theme="cxd"
             >
@@ -2080,6 +2083,7 @@ exports[`Renderer:select table mode with virtual 1`] = `
             </div>
             <div
               class="cxd-PopOver cxd-TransferDropDown-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+              role="popover"
               style="display: block; min-width: 100px; left: 0px; top: 0px; position: relative;"
               theme="cxd"
             >
@@ -2453,6 +2457,7 @@ exports[`Renderer:select table with labelField & valueField 1`] = `
             </div>
             <div
               class="cxd-PopOver cxd-TransferDropDown-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+              role="popover"
               style="display: block; min-width: 100px; left: 0px; top: 0px; position: relative;"
               theme="cxd"
             >
@@ -2950,6 +2955,7 @@ exports[`Renderer:select virtual 1`] = `
               </span>
               <div
                 class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                role="popover"
                 style="display: block; width: auto; left: 0px; top: 0px; position: relative;"
                 theme="cxd"
               >

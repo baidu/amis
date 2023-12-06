@@ -8,6 +8,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {ClassNamesFn, themeable} from '../theme';
 import {autobind, camel, preventDefault} from '../utils';
+import {SubPopoverDisplayedID} from './Overlay';
 
 export interface Offset {
   x: number;
@@ -124,6 +125,7 @@ export class PopOver extends React.PureComponent<PopOverProps, PopOverState> {
       closeOnOutside &&
       target &&
       this.wrapperRef.current &&
+      !this.wrapperRef.current.getAttribute(SubPopoverDisplayedID) &&
       ((!this.wrapperRef.current.contains(target) &&
         !target.closest('[role=dialog]')) ||
         (target.matches(`.${ns}Modal`) && target === this.wrapperRef.current))
@@ -212,6 +214,7 @@ export class PopOver extends React.PureComponent<PopOverProps, PopOverState> {
     return (
       <div
         ref={this.wrapperRef}
+        role="popover"
         className={cx(
           `PopOver`,
           className,

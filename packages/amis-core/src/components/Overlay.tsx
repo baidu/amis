@@ -20,6 +20,8 @@ import {
   RootClose
 } from '../utils';
 
+export const SubPopoverDisplayedID = 'data-sub-popover-displayed';
+
 function onScroll(elem: HTMLElement, callback: () => void) {
   const handler = () => {
     requestAnimationFrame(callback);
@@ -35,6 +37,7 @@ class Position extends React.Component<any, any> {
   _lastTarget: any;
   resizeDispose: Array<() => void>;
   watchedTarget: any;
+  parentPopover: any;
   // setState: (state: any) => void;
 
   static defaultProps = {
@@ -58,6 +61,16 @@ class Position extends React.Component<any, any> {
 
   updatePosition(target: any) {
     this._lastTarget = target;
+
+    /** 标记宿主元素的PopOver祖先，用于后续判断PopOver 是否可以 root close */
+    if (target) {
+      const parentPopover = target?.closest?.('[role=popover]');
+
+      if (!this.parentPopover && parentPopover) {
+        this.parentPopover = parentPopover;
+        this.parentPopover.setAttribute(SubPopoverDisplayedID, true);
+      }
+    }
 
     if (!target) {
       return this.setState({
@@ -139,6 +152,14 @@ class Position extends React.Component<any, any> {
   };
 
   componentWillUnmount() {
+    if (
+      this.parentPopover &&
+      this.parentPopover.getAttribute(SubPopoverDisplayedID)
+    ) {
+      this.parentPopover.removeAttribute(SubPopoverDisplayedID);
+      this.parentPopover = null;
+    }
+
     this.resizeDispose?.forEach(fn => fn());
   }
 
@@ -223,7 +244,7 @@ export default class Overlay extends React.Component<
     this.position?.maybeUpdatePosition(true);
   }
 
-  componentDidUpdate(prevProps: OverlayProps) {
+  componentDidUpdate(prevProps: OverlayProps, prevState: OverlayState) {
     const props = this.props;
     if (prevProps.show !== props.show && props.show) {
       this.setState({exited: false});
