@@ -1017,6 +1017,36 @@ amis 只负责生成排序组件，并将排序参数传递给接口，而不会
 }
 ```
 
+也可以通过`searchable`来自定义搜索表单
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine",
+            "searchable": {
+              "type": "form",
+              "wrapWithPanel": false,
+              "body": [
+                {
+                  "type": "input-text",
+                  "name": "engine"
+                }
+              ]
+            }
+        }
+    ]
+}
+```
+
 amis 只负责生成搜索组件，并将搜索参数传递给接口，而不会在前端对数据进行搜索处理。参数格式如下：
 
 ```json
@@ -1903,7 +1933,11 @@ interface CRUDMatchFunc {
       /* 列配置 */
       columns: any;
       /** match-sorter 匹配函数 */
-      matchSorter: (items: any[], value: string, options?: MatchSorterOptions<any>) => any[]
+      matchSorter: (
+        items: any[],
+        value: string,
+        options?: MatchSorterOptions<any>
+      ) => any[];
     }
   ): boolean;
 }
