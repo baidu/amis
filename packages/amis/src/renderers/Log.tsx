@@ -2,7 +2,13 @@
  * @file 用于显示日志的组件，比如显示命令行的输出结果
  */
 import React from 'react';
-import {buildApi, isApiOutdated, Renderer, RendererProps} from 'amis-core';
+import {
+  buildApi,
+  evalExpression,
+  isApiOutdated,
+  Renderer,
+  RendererProps
+} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {Icon, SearchBox, VirtualList} from 'amis-ui';
 
@@ -237,6 +243,12 @@ export class Log extends React.Component<LogProps, LogState> {
     if (!api.url) {
       return;
     }
+
+    // 让sendOn生效
+    if (api.sendOn && data && !evalExpression(api.sendOn as string, data)) {
+      return;
+    }
+
     const res = await fetch(api.url, {
       method: api.method?.toLocaleUpperCase() || 'GET',
       headers: (api.headers as Record<string, string>) || undefined,
