@@ -1,6 +1,7 @@
 export * from './api';
 export * from './attachmentAdpator';
 export * from './autobind';
+export * from './browser';
 export * from './ColorScale';
 export * from './columnsSplit';
 export * from './concatData';
