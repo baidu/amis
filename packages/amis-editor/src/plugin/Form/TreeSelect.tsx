@@ -395,12 +395,14 @@ export class TreeSelectControlPlugin extends BasePlugin {
                   {
                     type: 'input-number',
                     label: tipedLabel('节点最小数', '表单校验最少选中的节点数'),
-                    name: 'minLength'
+                    name: 'minLength',
+                    min: 0
                   },
                   {
                     type: 'input-number',
                     label: tipedLabel('节点最大数', '表单校验最多选中的节点数'),
-                    name: 'maxLength'
+                    name: 'maxLength',
+                    min: 0
                   }
                 ]
               }),
@@ -638,6 +640,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                       label: '设置层级',
                       name: 'unfoldedLevel',
                       value: 1,
+                      min: 0,
                       hiddenOn: 'data.initiallyOpen'
                     }
                   ]
