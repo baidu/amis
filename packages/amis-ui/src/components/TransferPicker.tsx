@@ -37,6 +37,9 @@ export class TransferPicker extends React.Component<
   optionModified = false;
   @autobind
   handleConfirm(value: any) {
+    this.setState({
+      tempValue: null
+    });
     this.props.onChange?.(value, this.optionModified);
     this.optionModified = false;
   }
@@ -48,6 +51,9 @@ export class TransferPicker extends React.Component<
 
   @autobind
   onBlur() {
+    this.setState({
+      tempValue: null
+    });
     this.props.onBlur?.();
   }
 
