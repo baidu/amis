@@ -614,6 +614,7 @@ export class NavSourceControl extends React.Component<
       modalParent,
       modalUrl,
       modalTarget,
+      showDialog,
       isEdit
     } = this.state;
     const treeData = cloneDeep(links);
@@ -739,6 +740,7 @@ export class NavSourceControl extends React.Component<
           modalUrl,
           modalTarget
         },
+        show: showDialog,
         onClose: this.closeModal,
         onConfirm: this.handleSubmit
       }
@@ -771,7 +773,7 @@ export class NavSourceControl extends React.Component<
           this.renderApiPanel()
         )}
 
-        {showDialog && this.renderDialog()}
+        {this.renderDialog()}
       </div>
     );
   }
