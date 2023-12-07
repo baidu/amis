@@ -79,8 +79,14 @@ export interface TransferProps
   onChange?: (value: Array<Option>, optionModified?: boolean) => void;
   onSearch?: (
     term: string,
-    setCancel: (cancel: () => void) => void
-  ) => Promise<Options | void>;
+    setCancel: (cancel: () => void) => void,
+    targePage?: {page: number; perPage?: number}
+  ) => Promise<{
+    items: Options;
+    page?: number;
+    perPage?: number;
+    total?: number;
+  } | void>;
 
   // 自定义选择框相关
   selectRender?: (
@@ -157,6 +163,7 @@ export interface TransferState {
   tempValue?: Array<Option> | Option;
   inputValue: string;
   searchResult: Options | null;
+  searchResultPage: {page?: number; perPage?: number; total?: number} | null;
   isTreeDeferLoad: boolean;
   resultSelectMode: 'list' | 'tree' | 'table';
 }
@@ -188,6 +195,7 @@ export class Transfer<
   state: TransferState = {
     inputValue: '',
     searchResult: null,
+    searchResultPage: null,
     isTreeDeferLoad: false,
     resultSelectMode: 'list'
   };
@@ -376,37 +384,50 @@ export class Transfer<
   handleSeachCancel() {
     this.setState({
       inputValue: '',
-      searchResult: null
+      searchResult: null,
+      searchResultPage: null
     });
   }
 
-  lazySearch = debounce(
-    async () => {
-      const {inputValue} = this.state;
-      if (!inputValue) {
-        return;
-      }
-      const onSearch = this.props.onSearch!;
-      let result = await onSearch(
-        inputValue,
-        (cancelExecutor: () => void) => (this.cancelSearch = cancelExecutor)
-      );
+  lazySearch = debounce(this.searchRequest, 250, {
+    trailing: true,
+    leading: false
+  });
 
-      if (this.unmounted) {
-        return;
-      }
+  @autobind
+  async searchRequest(page?: number, perPage?: number) {
+    const {pagination} = this.props;
+    const {inputValue} = this.state;
+    if (!inputValue) {
+      return;
+    }
 
-      if (!Array.isArray(result)) {
+    const onSearch = this.props.onSearch!;
+    let result = await onSearch(
+      inputValue,
+      (cancelExecutor: () => void) => (this.cancelSearch = cancelExecutor),
+      this.props.pagination?.enable
+        ? {page: page || 1, perPage: perPage || pagination?.perPage || 10}
+        : undefined
+    );
+
+    if (this.unmounted) {
+      return;
+    }
+
+    if (result) {
+      const {items, ...currentPage} = result;
+
+      if (!Array.isArray(items)) {
         throw new Error('onSearch 需要返回数组');
       }
 
       this.setState({
-        searchResult: result
+        searchResult: items,
+        searchResultPage: {...currentPage}
       });
-    },
-    250,
-    {trailing: true, leading: false}
-  );
+    }
+  }
 
   getFlattenArr(options: Array<Option>) {
     const {valueField = 'value'} = this.props;
@@ -476,6 +497,22 @@ export class Transfer<
           ...states,
           classnames
         });
+  }
+
+  @autobind
+  onPageChangeHandle(
+    page: number,
+    perPage?: number,
+    direction?: 'forward' | 'backward'
+  ) {
+    const {onPageChange, onSearch} = this.props;
+    const {searchResult, inputValue} = this.state;
+
+    if (searchResult) {
+      this.searchRequest(page, perPage);
+    } else if (onPageChange) {
+      onPageChange(page, perPage, direction);
+    }
   }
 
   renderSelect(
@@ -597,24 +634,42 @@ export class Transfer<
   }
 
   renderFooter() {
-    const {classnames: cx, pagination, onPageChange} = this.props;
+    const {classnames: cx, pagination} = this.props;
+    const {searchResult, searchResultPage} = this.state;
 
-    return pagination?.enable ? (
+    if (!pagination || !pagination?.enable) {
+      return null;
+    }
+
+    const currentPage =
+      searchResult && searchResultPage
+        ? {
+            page: searchResultPage.page,
+            perPage: searchResultPage.perPage,
+            total: searchResultPage.total
+          }
+        : {
+            page: pagination.page,
+            perPage: pagination.perPage,
+            total: pagination.total
+          };
+
+    return (
       <div className={cx('Transfer-footer')}>
         <Pagination
           className={cx('Transfer-footer-pagination', pagination.className)}
-          activePage={pagination.page}
-          perPage={pagination.perPage}
-          total={pagination.total}
+          activePage={currentPage.page}
+          perPage={currentPage.perPage}
+          total={currentPage.total}
           layout={pagination.layout}
           maxButtons={pagination.maxButtons}
           perPageAvailable={pagination.perPageAvailable}
           popOverContainer={pagination.popOverContainer}
           popOverContainerSelector={pagination.popOverContainerSelector}
-          onPageChange={onPageChange}
+          onPageChange={this.onPageChangeHandle}
         />
       </div>
-    ) : null;
+    );
   }
 
   renderSearchResult(props: TransferProps) {

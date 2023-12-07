@@ -352,7 +352,11 @@ export class BaseTransferRenderer<
   }
 
   @autobind
-  async handleSearch(term: string, cancelExecutor: Function) {
+  async handleSearch(
+    term: string,
+    cancelExecutor: Function,
+    targePage?: {page: number; perPage?: number}
+  ) {
     const {
       searchApi,
       options,
@@ -368,7 +372,7 @@ export class BaseTransferRenderer<
       try {
         const payload = await env.fetcher(
           searchApi,
-          createObject(data, {term}),
+          createObject(data, {term, ...(targePage ? targePage : {})}),
           {
             cancelExecutor
           }
@@ -384,29 +388,46 @@ export class BaseTransferRenderer<
           throw new Error(__('CRUD.invalidArray'));
         }
 
-        return mapTree(result, item => {
-          let resolved: any = null;
-          const value = item[valueField || 'value'];
+        let currentPage = {};
+        if (targePage) {
+          currentPage = {
+            page: payload.data.page,
+            perPage: targePage.perPage,
+            total: payload.data.count
+          };
+        }
+        return {
+          items: mapTree(result, item => {
+            let resolved: any = null;
+            const value = item[valueField || 'value'];
 
-          // 只有 value 值有意义的时候，再去找；否则直接返回
-          if (Array.isArray(options) && value !== null && value !== undefined) {
-            resolved = find(options, optionValueCompare(value, valueField));
-            if (item?.children) {
-              resolved = {
-                ...resolved,
-                children: item.children
-              };
+            // 只有 value 值有意义的时候，再去找；否则直接返回
+            if (
+              Array.isArray(options) &&
+              value !== null &&
+              value !== undefined
+            ) {
+              resolved = find(options, optionValueCompare(value, valueField));
+              if (item?.children) {
+                resolved = {
+                  ...resolved,
+                  children: item.children
+                };
+              }
             }
-          }
 
-          return resolved || item;
-        });
+            return resolved || item;
+          }),
+          ...currentPage
+        };
       } catch (e) {
         if (!env.isCancel(e) && !searchApi.silent) {
           env.notify('error', e.message);
         }
 
-        return [];
+        return {
+          items: []
+        };
       }
     } else if (term) {
       const labelKey = (labelField as string) || 'label';
@@ -416,29 +437,36 @@ export class BaseTransferRenderer<
       if (filterOption) {
         const customFilterOption = getCustomFilterOption(filterOption);
         if (customFilterOption) {
-          return customFilterOption(options, term, option);
+          return {items: customFilterOption(options, term, option)};
         } else {
           env.notify('error', '自定义检索函数不符合要求');
-          return [];
+          return {items: []};
         }
       }
 
-      return filterTree(
-        options,
-        (option: Option, key: number, level: number, paths: Array<Option>) => {
-          return !!(
-            (Array.isArray(option.children) && option.children.length) ||
-            !!matchSorter([option].concat(paths), term, {
-              keys: [labelField || 'label', valueField || 'value'],
-              threshold: matchSorter.rankings.CONTAINS
-            }).length
-          );
-        },
-        0,
-        true
-      );
+      return {
+        items: filterTree(
+          options,
+          (
+            option: Option,
+            key: number,
+            level: number,
+            paths: Array<Option>
+          ) => {
+            return !!(
+              (Array.isArray(option.children) && option.children.length) ||
+              !!matchSorter([option].concat(paths), term, {
+                keys: [labelField || 'label', valueField || 'value'],
+                threshold: matchSorter.rankings.CONTAINS
+              }).length
+            );
+          },
+          0,
+          true
+        )
+      };
     } else {
-      return options;
+      return {items: options};
     }
   }
 
