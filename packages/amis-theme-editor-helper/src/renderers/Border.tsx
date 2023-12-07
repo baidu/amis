@@ -104,7 +104,8 @@ function BoxBorder(props: BorderProps & FormControlProps) {
     label,
     needColorCustom,
     state,
-    editorThemePath
+    editorThemePath,
+    inheritValue
   } = props;
   const [borderWidthOptions, setBorderWidthOptions] = useState(
     cloneDeep(
@@ -271,7 +272,7 @@ function BoxBorder(props: BorderProps & FormControlProps) {
               borderType === 'all' ? 'top' : borderType
             }-border-width`}
             state={state}
-            inheritValue={'inherit'}
+            inheritValue={inheritValue}
             placeholder={editorDefaultValue?.[getKey('width')]}
           />
           <div className="Theme-Border-settings-style-color">

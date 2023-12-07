@@ -132,7 +132,8 @@ export class PickerControlPlugin extends BasePlugin {
         getSchemaTpl('theme:border', {
           name: `themeCss.pickControlClassName.border:${state}`,
           editorThemePath: `pick.status.body.${state}-border`,
-          visibleOn: visibleOn
+          visibleOn: visibleOn,
+          state
         }),
         getSchemaTpl('theme:colorPicker', {
           label: '背景',
@@ -141,7 +142,8 @@ export class PickerControlPlugin extends BasePlugin {
           needImage: true,
           name: `themeCss.pickControlClassName.background:${state}`,
           editorThemePath: `pick.status.body.${state}-bgColor`,
-          visibleOn: visibleOn
+          visibleOn: visibleOn,
+          state
         })
       ];
     };
@@ -150,7 +152,8 @@ export class PickerControlPlugin extends BasePlugin {
         getSchemaTpl('theme:border', {
           name: `themeCss.pickControlDisabledClassName.border`,
           editorThemePath: `pick.status.body.${state}-border`,
-          visibleOn: visibleOn
+          visibleOn: visibleOn,
+          state
         }),
         getSchemaTpl('theme:colorPicker', {
           label: '背景',
@@ -159,7 +162,8 @@ export class PickerControlPlugin extends BasePlugin {
           needImage: true,
           name: `themeCss.pickControlDisabledClassName.background`,
           editorThemePath: `pick.status.body.${state}-bgColor`,
-          visibleOn: visibleOn
+          visibleOn: visibleOn,
+          state
         })
       ];
     };
@@ -168,7 +172,8 @@ export class PickerControlPlugin extends BasePlugin {
         getSchemaTpl('theme:border', {
           name: `themeCss.pickControlClassName.border:${state}`,
           editorThemePath: `pick.base.body.border`,
-          visibleOn: visibleOn
+          visibleOn: visibleOn,
+          state
         }),
         getSchemaTpl('theme:colorPicker', {
           label: '背景',
@@ -177,7 +182,8 @@ export class PickerControlPlugin extends BasePlugin {
           needImage: true,
           name: `themeCss.pickControlClassName.background:${state}`,
           editorThemePath: `pick.base.body.bgColor`,
-          visibleOn: visibleOn
+          visibleOn: visibleOn,
+          state
         })
       ];
     };

@@ -48,7 +48,8 @@ function BoxRadius(props: RadiusProps & RendererProps) {
     label,
     borderRadiusOptions,
     state,
-    editorThemePath
+    editorThemePath,
+    inheritValue
   } = props;
 
   let options = cloneDeep(borderRadiusOptions || data.borderRadiusOptions);
@@ -195,7 +196,7 @@ function BoxRadius(props: RadiusProps & RendererProps) {
             disabled={radiusType === 'custom'}
             itemName={'all-border-radius'}
             state={state}
-            inheritValue={'inherit'}
+            inheritValue={inheritValue}
             placeholder={editorDefaultValue?.[getKey('all')]}
           />
         </div>
@@ -217,7 +218,7 @@ function BoxRadius(props: RadiusProps & RendererProps) {
                     extraUnit={['px']}
                     itemName={position + '-border-radius'}
                     state={state}
-                    inheritValue={'inherit'}
+                    inheritValue={inheritValue}
                     placeholder={editorDefaultValue?.[getKey(position)]}
                     menuTpl="realValue"
                   />

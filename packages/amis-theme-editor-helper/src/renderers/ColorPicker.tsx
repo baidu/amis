@@ -130,7 +130,7 @@ function ThemeColorList(props: ThemeColorProps) {
   const editorInheritValue =
     props.editorInheritValue || getInheritValue(editorThemePath, data);
   const defaultVar =
-    state && state !== 'default'
+    (state && state !== 'default') || !data?.default
       ? 'inherit'
       : `var(${data?.default?.token}${itemName})`;
 

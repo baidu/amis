@@ -31,7 +31,8 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
     hideMargin,
     hidePadding,
     state,
-    editorThemePath
+    editorThemePath,
+    inheritValue
   } = props;
   const [type, setType] = useState('all');
   const [customRef, setCustomRef] = useState<Element | null>(null);
@@ -230,7 +231,7 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
                   onChange={onSpaceChange('margin-all')}
                   itemName="margin-all"
                   state={state}
-                  inheritValue={'inherit'}
+                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.margin}
                 />
                 <div className="Theme-PaddingAndMargin-input-label">Margin</div>
@@ -249,7 +250,7 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
                   onChange={onSpaceChange('padding-all')}
                   itemName="padding-all"
                   state={state}
-                  inheritValue={'inherit'}
+                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.padding}
                 />
                 <div className="Theme-PaddingAndMargin-input-label">
@@ -300,7 +301,7 @@ function PaddingAndMarginDialog(props: PaddingAndMarginProps) {
                   onChange={onSpaceChange(customIndex)}
                   itemName={customKey}
                   state={state}
-                  inheritValue={'inherit'}
+                  inheritValue={inheritValue}
                   placeholder={editorDefaultValue?.[customKey]}
                 />
               </div>
