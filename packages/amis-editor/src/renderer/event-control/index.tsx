@@ -1255,99 +1255,98 @@ export class EventControl extends React.Component<
             </div>
           )}
         </ul>
-        {showEventDialog
-          ? amisRender(
+        {amisRender(
+          {
+            type: 'dialog',
+            title: `${eventDialogData?.eventLabel}-事件配置`,
+            showCloseButton: false,
+            body: [
               {
-                type: 'dialog',
-                title: `${eventDialogData?.eventLabel}-事件配置`,
-                showCloseButton: false,
+                type: 'form',
+                title: '表单',
+                data: {
+                  '&': '$$'
+                },
+                mode: 'horizontal',
+                horizontal: {
+                  left: 3,
+                  right: 9
+                },
                 body: [
                   {
-                    type: 'form',
-                    title: '表单',
-                    data: {
-                      '&': '$$'
-                    },
-                    mode: 'horizontal',
-                    horizontal: {
-                      left: 3,
-                      right: 9
-                    },
-                    body: [
-                      {
-                        label: '事件防重',
-                        type: 'switch',
-                        name: 'debounce.open',
-                        description:
-                          '开启事件防重后，防重时间内多次触发事件只会执行最后一次'
-                      },
-                      {
-                        label: '防重时间',
-                        required: true,
-                        hiddenOn: '!debounce.open',
-                        name: 'debounce.wait',
-                        suffix: 'ms',
-                        max: 10000,
-                        min: 0,
-                        type: 'input-number'
-                      },
-                      {
-                        label: '事件埋点',
-                        type: 'switch',
-                        name: 'track.open',
-                        description:
-                          '开启事件埋点后，每次事件触发都会发送埋点数据到后台'
-                      },
-                      {
-                        label: 'track-id',
-                        required: true,
-                        hiddenOn: '!track.open',
-                        name: 'track.id',
-                        type: 'input-text'
-                      },
-                      {
-                        label: 'track-name',
-                        required: true,
-                        hiddenOn: '!track.open',
-                        name: 'track.name',
-                        type: 'input-text'
-                      }
-                    ],
-                    onSubmit: this.eventDialogSubmit.bind(this)
-                  }
-                ],
-                actions: [
-                  {
-                    type: 'button',
-                    label: '取消',
-                    onEvent: {
-                      click: {
-                        actions: [
-                          {
-                            actionType: 'custom',
-                            script: () => {
-                              this.setState({
-                                showEventDialog: false
-                              });
-                            }
-                          }
-                        ]
-                      }
-                    }
+                    label: '事件防重',
+                    type: 'switch',
+                    name: 'debounce.open',
+                    description:
+                      '开启事件防重后，防重时间内多次触发事件只会执行最后一次'
                   },
                   {
-                    type: 'button',
-                    actionType: 'confirm',
-                    label: '确认',
-                    primary: true
+                    label: '防重时间',
+                    required: true,
+                    hiddenOn: '!debounce.open',
+                    name: 'debounce.wait',
+                    suffix: 'ms',
+                    max: 10000,
+                    min: 0,
+                    type: 'input-number'
+                  },
+                  {
+                    label: '事件埋点',
+                    type: 'switch',
+                    name: 'track.open',
+                    description:
+                      '开启事件埋点后，每次事件触发都会发送埋点数据到后台'
+                  },
+                  {
+                    label: 'track-id',
+                    required: true,
+                    hiddenOn: '!track.open',
+                    name: 'track.id',
+                    type: 'input-text'
+                  },
+                  {
+                    label: 'track-name',
+                    required: true,
+                    hiddenOn: '!track.open',
+                    name: 'track.name',
+                    type: 'input-text'
                   }
-                ]
+                ],
+                onSubmit: this.eventDialogSubmit.bind(this)
+              }
+            ],
+            actions: [
+              {
+                type: 'button',
+                label: '取消',
+                onEvent: {
+                  click: {
+                    actions: [
+                      {
+                        actionType: 'custom',
+                        script: () => {
+                          this.setState({
+                            showEventDialog: false
+                          });
+                        }
+                      }
+                    ]
+                  }
+                }
               },
               {
-                data: eventDialogData
+                type: 'button',
+                actionType: 'confirm',
+                label: '确认',
+                primary: true
               }
-            )
-          : null}
+            ]
+          },
+          {
+            data: eventDialogData,
+            show: showEventDialog
+          }
+        )}
         <ActionDialog
           show={showAcionDialog}
           type={type}
