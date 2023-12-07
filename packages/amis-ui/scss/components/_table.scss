@@ -238,6 +238,9 @@
         content: '';
         pointer-events: none;
       }
+      & .label {
+        font-size: 90%;
+      }
     }
 
     &.is-layout-fixed td {

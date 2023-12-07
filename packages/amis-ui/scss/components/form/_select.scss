@@ -70,6 +70,7 @@
     var(--select-base-default-paddingLeft);
   cursor: pointer;
   color: var(--Form-select-color);
+  transition: all var(--animation-duration) ease-in-out;
 
   &:hover {
     background: var(--Form-select-onHover-bg);

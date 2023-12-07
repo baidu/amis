@@ -839,6 +839,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
       render,
       store,
       popOverContainer,
+      canAccessSuperData,
       showBadge,
       itemBadge,
       classnames: cx
@@ -910,11 +911,17 @@ export default class Table2 extends React.Component<Table2Props, object> {
             ) => {
               const props: RenderProps = {};
 
+              const item =
+                store.getRowByIndex(rowIndex, [...(levels || [])]) || {};
+
               const obj = {
                 children: this.renderCellSchema(column, {
                   data: record,
                   value: column.name
-                    ? resolveVariable(column.name, record)
+                    ? resolveVariable(
+                        column.name,
+                        canAccessSuperData ? item.locals : item.data
+                      )
                     : column.name,
                   popOverContainer:
                     popOverContainer || this.getPopOverContainer,
@@ -929,14 +936,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
                     }
                   ) => {
                     this.handleQuickChange(
-                      record,
+                      item,
                       values,
                       saveImmediately,
                       savePristine,
                       options
                     );
                   },
-                  row: record,
+                  row: item,
                   showBadge,
                   itemBadge
                 }),
@@ -991,16 +998,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
               return obj;
             }
           });
-        }
-
-        // 设置了单元格样式
-        if (column.classNameExpr) {
-          clone.className = (record: any, rowIndex: number) => {
-            const className = filter(column.classNameExpr, {record, rowIndex});
-            return `${className}${
-              column.className ? ` ${column.className}` : ''
-            }`;
-          };
         }
 
         // 设置了列搜索
@@ -1568,7 +1565,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
   @autobind
   async handleSearch(name: string, values: any) {
-    const {data, dispatchEvent, store} = this.props;
+    const {data, dispatchEvent, store, onSearch} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'columnSearch',
@@ -1583,6 +1580,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
     }
 
     store.updateQuery(values);
+
+    onSearch && onSearch({[name]: values[name]});
   }
 
   @autobind

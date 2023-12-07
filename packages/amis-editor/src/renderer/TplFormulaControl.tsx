@@ -421,7 +421,7 @@ export class TplFormulaControl extends React.Component<
           size="sm"
           tooltip={{
             enterable: false,
-            content: '点击配置表达式',
+            content: '点击新增表达式',
             tooltipTheme: 'dark',
             placement: 'left',
             mouseLeaveDelay: 0

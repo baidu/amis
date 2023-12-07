@@ -2,7 +2,14 @@
  * @file 用于显示日志的组件，比如显示命令行的输出结果
  */
 import React from 'react';
-import {buildApi, isApiOutdated, Renderer, RendererProps} from 'amis-core';
+import {
+  buildApi,
+  isApiOutdated,
+  isEffectiveApi,
+  Renderer,
+  RendererProps,
+  resolveVariableAndFilter
+} from 'amis-core';
 import {BaseSchema} from '../Schema';
 import {Icon, SearchBox, VirtualList} from 'amis-ui';
 import {CustomStyle, setThemeClassName} from 'amis-core';
@@ -155,7 +162,20 @@ export class Log extends React.Component<LogProps, LogState> {
       );
     }
     if (this.props.source) {
-      this.loadLogs();
+      const ret = resolveVariableAndFilter(
+        this.props.source,
+        this.props.data,
+        '| raw'
+      );
+      if (ret && isEffectiveApi(ret)) {
+        this.loadLogs();
+      } else if (
+        typeof ret === 'string' ||
+        (Array.isArray(ret) && ret.every(item => typeof item === 'string'))
+      ) {
+        this.clear();
+        this.addLines(Array.isArray(ret) ? ret : [ret]);
+      }
     }
   }
 
@@ -163,15 +183,38 @@ export class Log extends React.Component<LogProps, LogState> {
     if (this.autoScroll && this.logRef && this.logRef.current) {
       this.logRef.current.scrollTop = this.logRef.current.scrollHeight;
     }
-    if (
+
+    if (!this.props.source) {
+      return;
+    }
+
+    const ret = resolveVariableAndFilter(
+      this.props.source,
+      this.props.data,
+      '| raw'
+    );
+
+    if (ret && isEffectiveApi(ret)) {
+      // todo 如果原来的请求还在，应该先取消
       isApiOutdated(
         prevProps.source,
         this.props.source,
         prevProps.data,
         this.props.data
-      )
+      ) && this.loadLogs();
+    } else if (
+      typeof ret === 'string' ||
+      (Array.isArray(ret) && ret.every(item => typeof item === 'string'))
     ) {
-      this.loadLogs();
+      const prevRet = resolveVariableAndFilter(
+        prevProps.source,
+        prevProps.data,
+        '| raw'
+      );
+      if (prevRet !== ret && ret) {
+        this.clear();
+        this.addLines(Array.isArray(ret) ? ret : [ret]);
+      }
     }
   }
 
@@ -195,16 +238,19 @@ export class Log extends React.Component<LogProps, LogState> {
     e.preventDefault();
   };
 
-  clear = (e: React.MouseEvent<HTMLElement>) => {
+  clear = (e?: React.MouseEvent<HTMLElement>) => {
     this.setState({
-      logs: [],
-      lastLine: '',
+      logs: (this.logs = []),
+      lastLine: (this.lastLine = ''),
       originLogs: [],
       originLastLine: ''
     });
-    e.preventDefault();
+    e?.preventDefault();
   };
 
+  // 因为 this.state 取不到最新的值，所以用了这个变量
+  lastLine: string;
+  logs: string[];
   filterWord = (logs: string[], lastLine: string, word: string) => {
     let originLogs = logs;
     let originLastLine = lastLine;
@@ -216,11 +262,37 @@ export class Log extends React.Component<LogProps, LogState> {
     }
     this.setState({
       filterWord: word,
-      lastLine: lastLine,
-      logs: logs,
+      lastLine: (this.lastLine = lastLine),
+      logs: (this.logs = logs),
       originLogs: originLogs,
       originLastLine: originLastLine
     });
+  };
+
+  addLines = (lines: string[]) => {
+    lines = lines.concat();
+    const {maxLength} = this.props;
+    let lastLine = this.lastLine || '';
+    let logs = (this.logs || []).concat();
+    // 如果没有换行符就只更新最后一行
+    if (lines.length === 1) {
+      lastLine += lines[0];
+      this.setState({
+        lastLine: (this.lastLine = lastLine)
+      });
+    } else {
+      // 将之前的数据补上
+      lines[0] = lastLine + (lines[0] || '');
+      // 最后一个要么是空，要么是下一行的数据
+      lastLine = lines.pop() || '';
+      if (maxLength) {
+        if (logs.length + lines.length > maxLength) {
+          logs.splice(0, logs.length + lines.length - maxLength);
+        }
+      }
+      logs = logs.concat(lines);
+      this.filterWord(logs, lastLine, this.state.filterWord);
+    }
   };
 
   async loadLogs() {
@@ -250,8 +322,6 @@ export class Log extends React.Component<LogProps, LogState> {
         return;
       }
       const reader = body.getReader();
-      let lastLine = '';
-      let logs: string[] = [];
       for (;;) {
         if (!this.state.refresh) {
           await reader.cancel('click cancel button').then(() => {
@@ -264,25 +334,7 @@ export class Log extends React.Component<LogProps, LogState> {
           let text = new TextDecoder(encoding).decode(value, {stream: true});
           // 不考虑只有 \r 换行符的情况，几乎没人用
           const lines = text.split('\n');
-          // 如果没有换行符就只更新最后一行
-          if (lines.length === 1) {
-            lastLine += lines[0];
-            this.setState({
-              lastLine: lastLine
-            });
-          } else {
-            // 将之前的数据补上
-            lines[0] = lastLine + lines[0];
-            // 最后一个要么是空，要么是下一行的数据
-            lastLine = lines.pop() || '';
-            if (maxLength) {
-              if (logs.length + lines.length > maxLength) {
-                logs.splice(0, logs.length + lines.length - maxLength);
-              }
-            }
-            logs = logs.concat(lines);
-            this.filterWord(logs, lastLine, this.state.filterWord);
-          }
+          this.addLines(lines);
         }
 
         if (done) {
