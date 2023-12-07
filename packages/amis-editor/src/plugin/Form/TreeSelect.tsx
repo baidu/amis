@@ -247,7 +247,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
 
   // 动作定义
   actions: RendererPluginAction[] = [
-    /** 新增、编辑、删除、刷新 */
+    /** 新增、编辑、删除 */
     ...TreeCommonAction,
     {
       actionType: 'clear',

@@ -113,11 +113,6 @@ export const TreeCommonAction: RendererPluginAction[] = [
         placeholder: '请输入删除项 valueField 的值'
       })
     ])
-  },
-  {
-    actionType: 'reload',
-    actionLabel: '刷新',
-    description: '刷新数据'
   }
 ];
 
@@ -345,7 +340,7 @@ export class TreeControlPlugin extends BasePlugin {
       actionLabel: '收起',
       description: '收起树节点'
     },
-    /** 新增、编辑、删除、刷新 */
+    /** 新增、编辑、删除 */
     ...TreeCommonAction,
     {
       actionType: 'clear',
