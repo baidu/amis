@@ -648,8 +648,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
             ]
           },
           getSchemaTpl('status', {
-            isFormItem: true,
-            readonly: true
+            isFormItem: true
           }),
           getSchemaTpl('validation', {tag: ValidatorTag.Tree})
         ])
