@@ -45,7 +45,8 @@ export const inputStateFunc = (
       label: '文字',
       name: `${className}.font:${state}`,
       visibleOn: visibleOn,
-      editorThemePath: `${path}.${state}.body.font`
+      editorThemePath: `${path}.${state}.body.font`,
+      state
     }),
     getSchemaTpl('theme:colorPicker', {
       label: '背景',
@@ -54,22 +55,26 @@ export const inputStateFunc = (
       needGradient: true,
       needImage: true,
       visibleOn: visibleOn,
-      editorThemePath: `${path}.${state}.body.bg-color`
+      editorThemePath: `${path}.${state}.body.bg-color`,
+      state
     }),
     getSchemaTpl('theme:border', {
       name: `${className}.border:${state}`,
       visibleOn: visibleOn,
-      editorThemePath: `${path}.${state}.body.border`
+      editorThemePath: `${path}.${state}.body.border`,
+      state
     }),
     getSchemaTpl('theme:paddingAndMargin', {
       name: `${className}.padding-and-margin:${state}`,
       visibleOn: visibleOn,
-      editorThemePath: `${path}.${state}.body.padding-and-margin`
+      editorThemePath: `${path}.${state}.body.padding-and-margin`,
+      state
     }),
     getSchemaTpl('theme:radius', {
       name: `${className}.radius:${state}`,
       visibleOn: visibleOn,
-      editorThemePath: `${path}.${state}.body.border`
+      editorThemePath: `${path}.${state}.body.border`,
+      state
     }),
     ...options
   ];

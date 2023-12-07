@@ -48,7 +48,8 @@ function BoxRadius(props: RadiusProps & RendererProps) {
     label,
     borderRadiusOptions,
     state,
-    editorThemePath
+    editorThemePath,
+    inheritValue
   } = props;
 
   let options = cloneDeep(borderRadiusOptions || data.borderRadiusOptions);
@@ -105,7 +106,7 @@ function BoxRadius(props: RadiusProps & RendererProps) {
             val?.includes('all-border-radius')
           ) {
             const defaultToken = (key: string) =>
-              `var(${data.default.token}${key})`;
+              `var(${data?.default?.token}${key})`;
             newValue[itemKey] = defaultToken(itemKey);
           } else {
             newValue[itemKey] = val;
@@ -187,7 +188,7 @@ function BoxRadius(props: RadiusProps & RendererProps) {
             options={options}
             value={
               isInherit
-                ? `var(${data.default.token}all-border-radius)`
+                ? `var(${data?.default?.token}all-border-radius)`
                 : borderData[getKey('all')]
             }
             onChange={changeItem('all')}
@@ -195,7 +196,7 @@ function BoxRadius(props: RadiusProps & RendererProps) {
             disabled={radiusType === 'custom'}
             itemName={'all-border-radius'}
             state={state}
-            inheritValue={editorThemePath ? 'inherit' : ''}
+            inheritValue={inheritValue}
             placeholder={editorDefaultValue?.[getKey('all')]}
           />
         </div>
@@ -217,7 +218,7 @@ function BoxRadius(props: RadiusProps & RendererProps) {
                     extraUnit={['px']}
                     itemName={position + '-border-radius'}
                     state={state}
-                    inheritValue={editorThemePath ? 'inherit' : ''}
+                    inheritValue={inheritValue}
                     placeholder={editorDefaultValue?.[getKey(position)]}
                     menuTpl="realValue"
                   />

@@ -79,7 +79,7 @@ function handleInheritData(statusMap: any, data: any) {
     Object.keys(statusMap[status]).forEach(key => {
       if (typeof statusMap[status][key] === 'object') {
         Object.keys(statusMap[status][key]).forEach(style => {
-          if (statusMap[status][key][style] === 'inherit') {
+          if (statusMap[status][key][style]?.includes('inherit')) {
             // 值为inherit时设置为default的值或者主题中的default值
             if (statusMap['default'][key] && statusMap['default'][key][style]) {
               statusMap[status][key][style] = statusMap.default[key][style];
@@ -91,7 +91,7 @@ function handleInheritData(statusMap: any, data: any) {
           }
         });
       } else {
-        if (statusMap[status][key] === 'inherit') {
+        if (statusMap[status][key]?.includes('inherit')) {
           if (statusMap['default'][key] && statusMap['default'][key]) {
             statusMap[status][key] = statusMap.default[key];
           } else if (data) {
@@ -123,7 +123,7 @@ export function formatStyle(
   };
 
   for (let item of classNames) {
-    const body = themeCss[item.key];
+    const body = cloneDeep(themeCss[item.key]);
 
     if (!body) {
       continue;
