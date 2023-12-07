@@ -467,6 +467,7 @@ export class TreeControlPlugin extends BasePlugin {
                   justify: true,
                   left: 8
                 },
+                value: false,
                 inputClassName: 'is-inline ',
                 visibleOn: 'data.type === "tree-select"'
               }),
