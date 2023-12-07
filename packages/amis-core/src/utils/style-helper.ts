@@ -123,7 +123,7 @@ export function formatStyle(
   };
 
   for (let item of classNames) {
-    const body = themeCss[item.key];
+    const body = cloneDeep(themeCss[item.key]);
 
     if (!body) {
       continue;
