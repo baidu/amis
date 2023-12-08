@@ -345,15 +345,26 @@ export default class SelectMobile extends React.Component<Props, SelectState> {
         >
           {renderMenu ? (
             multiple ? (
-              renderMenu(item, {
-                multiple,
-                checkAll,
-                checked,
-                onChange: () => this.handleChange(item),
-                inputValue: inputValue || '',
-                searchable,
-                index
-              })
+              <>
+                <div
+                  title={item[labelField]}
+                  className={cx('Select-option-item-check')}
+                  onClick={() => !item.disabled && this.handleChange([item])}
+                >
+                  {renderMenu(item, {
+                    multiple,
+                    checkAll,
+                    checked,
+                    onChange: () => this.handleChange(item),
+                    inputValue: inputValue || '',
+                    searchable,
+                    index
+                  })}
+                </div>
+                {checked ? (
+                  <Icon icon="check" className={cx('Select-option-mcheck')} />
+                ) : null}
+              </>
             ) : (
               renderMenu(item, {
                 multiple,
