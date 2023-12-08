@@ -74,7 +74,7 @@ export function ColGroup({
           th.style.cssText = style;
         });
       }
-    }, columns.map(column => column.width).concat(store.columnWidthReady as any));
+    }, [columns.map(column => column.width).join(','), store.columnWidthReady]);
   }
 
   return (
