@@ -158,12 +158,21 @@ export function supportStatic<T extends FormControlProps>() {
 }
 
 function renderStaticDateTypes(props: any) {
-  const {render, type, inputFormat, valueFormat, timeFormat, format, value} =
-    props;
+  const {
+    render,
+    type,
+    inputFormat,
+    valueFormat,
+    timeFormat,
+    displayFormat,
+    format,
+    value
+  } = props;
   return render('static-input-date', {
     type: 'date',
     value,
-    format: type === 'time' && timeFormat ? timeFormat : inputFormat,
+    format:
+      type === 'time' && timeFormat ? timeFormat : displayFormat ?? inputFormat,
     valueFormat: valueFormat || format
   });
 }
