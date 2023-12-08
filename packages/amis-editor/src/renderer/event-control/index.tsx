@@ -285,7 +285,20 @@ export class EventControl extends React.Component<
     if (config.actionType) {
       onEventConfig[event] = {
         ...onEventConfig[event],
-        actions: (onEventConfig[event].actions || []).concat(config)
+        actions: (onEventConfig[event].actions || []).concat(
+          // 临时处理，后面干掉这么多交互属性
+          Object.defineProperties(config, {
+            __cmptTreeSource: {
+              enumerable: false
+            },
+            __nodeSchema: {
+              enumerable: false
+            },
+            __subActions: {
+              enumerable: false
+            }
+          })
+        )
       };
     }
 
