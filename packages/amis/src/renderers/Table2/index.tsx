@@ -1038,6 +1038,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
           result.push({
             colSpan: s.colSpan,
             fixed: s.fixed,
+            cellClassName: s.cellClassName,
             render: (dataSouce: Array<any>) =>
               this.renderSchema(key, s, {
                 data: dataSouce
@@ -1051,6 +1052,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
             result[index].push({
               colSpan: d.colSpan,
               fixed: d.fixed,
+              cellClassName: d.cellClassName,
               render: (dataSouce: Array<any>) =>
                 this.renderSchema(key, d, {
                   data: dataSouce

@@ -4,6 +4,7 @@ import {isAlive} from 'mobx-state-tree';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import merge from 'lodash/merge';
+import omit from 'lodash/omit';
 import {RendererInfo} from '../plugin';
 import {EditorNodeType} from '../store/node';
 import {autobind, isEmpty} from '../util';
@@ -15,6 +16,9 @@ export interface NodeWrapperProps extends RendererProps {
 
 @observer
 export class NodeWrapper extends React.Component<NodeWrapperProps> {
+  /** 合并 Mock 配置时应该忽略的属性 */
+  omitMockProps = ['id', '$$id', 'enable', 'maxDisplayRows'];
+
   componentDidMount() {
     this.markDom(this.props.$$editor.id);
 
@@ -72,12 +76,11 @@ export class NodeWrapper extends React.Component<NodeWrapperProps> {
       rest = $$editor.filterProps.call($$editor.plugin, rest, $$node);
     }
 
+    const mockProps = omit(rest?.editorSetting?.mock, this.omitMockProps);
+
     // 自动合并假数据
-    if (
-      isObject(rest.editorSetting?.mock) &&
-      !isEmpty(rest.editorSetting.mock)
-    ) {
-      rest = merge({}, rest, rest.editorSetting.mock);
+    if (isObject(mockProps) && !isEmpty(mockProps)) {
+      rest = merge({}, rest, mockProps);
     }
 
     if ($$editor.renderRenderer) {

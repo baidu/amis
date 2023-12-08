@@ -34,7 +34,12 @@ import {
 } from '../../renderer/event-control/helper';
 import {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
 import {deepRemove, findObj, findSchema} from './utils';
-import {ToolsConfig, FiltersConfig, OperatorsConfig} from './constants';
+import {
+  ToolsConfig,
+  FiltersConfig,
+  OperatorsConfig,
+  DefaultMaxDisplayRows
+} from './constants';
 import {FieldSetting} from '../../renderer/FieldSetting';
 
 import type {IFormItemStore, IFormStore} from 'amis-core';
@@ -507,7 +512,8 @@ export class BaseCRUDPlugin extends BasePlugin {
             {
               title: '状态',
               body: [getSchemaTpl('hidden'), getSchemaTpl('visible')]
-            }
+            },
+            this.renderMockPropsCollapse(context)
           ].filter(Boolean)
         )
       ]
@@ -907,6 +913,36 @@ export class BaseCRUDPlugin extends BasePlugin {
           label: tipedLabel('静默拉取', '刷新时是否隐藏加载动画'),
           pipeIn: defaultValue(false)
         })
+      ]
+    };
+  }
+
+  renderMockPropsCollapse(context: BuildPanelEventContext) {
+    return {
+      title: 'Mock配置',
+      order: 35,
+      body: [
+        {
+          type: 'switch',
+          label: tipedLabel(
+            '数据Mock',
+            '开启后，当数据源为空时，会使用 Mock 数据'
+          ),
+          name: 'editorSetting.mock.enable',
+          value: true
+        },
+        {
+          type: 'input-number',
+          label: tipedLabel(
+            '最大展示行数',
+            '设置后，会按照设置数量展示数据，可以提高设计态渲染速度，降低表格高度，便于布局设置。设置为<code>-1</code>则不限制'
+          ),
+          name: 'editorSetting.mock.maxDisplayRows',
+          step: 1,
+          min: -1,
+          resetValue: -1,
+          value: DefaultMaxDisplayRows
+        }
       ]
     };
   }

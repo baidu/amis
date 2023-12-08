@@ -113,6 +113,8 @@ export interface SummaryProps {
   colSpan: number; // 手动控制列合并 先不支持列合并
   fixed: string | boolean; // 手动设置左固定还是右固定
   render: Function | React.ReactNode;
+  /** 单元格样式，会应用于组件外层的td */
+  cellClassName?: string;
 }
 
 export interface OnRowProps {
