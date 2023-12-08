@@ -268,12 +268,17 @@ export class ApiDSBuilder extends DSBuilder<
       }
     };
 
-    const shouldRenderApiControl = feat !== DSFeatureEnum.View;
-    const shouldRenderInitApiControl =
-      (feat === DSFeatureEnum.Edit || feat === DSFeatureEnum.View) &&
-      (renderer === 'form' || sourceKey === 'initApi');
-    const shouldRenderQuickApiControl =
-      feat === DSFeatureEnum.List && renderer === 'crud' && !inScaffold;
+    const isServiceCmpt = renderer === 'service';
+    const shouldRenderApiControl = isServiceCmpt
+      ? true
+      : feat !== DSFeatureEnum.View;
+    const shouldRenderInitApiControl = isServiceCmpt
+      ? false
+      : (feat === DSFeatureEnum.Edit || feat === DSFeatureEnum.View) &&
+        (renderer === 'form' || sourceKey === 'initApi');
+    const shouldRenderQuickApiControl = isServiceCmpt
+      ? false
+      : feat === DSFeatureEnum.List && renderer === 'crud' && !inScaffold;
 
     return [
       /** 提交接口 */
