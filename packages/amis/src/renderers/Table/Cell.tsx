@@ -10,6 +10,7 @@ import {
   evalTrackExpression
 } from 'amis-core';
 import {BadgeObject, Checkbox, Icon} from 'amis-ui';
+import {observer} from 'mobx-react';
 import React from 'react';
 
 export interface CellProps extends ThemeProps {
@@ -34,7 +35,7 @@ export interface CellProps extends ThemeProps {
   onImageEnlarge?: any;
 }
 
-export default function Cell({
+export function Cell({
   region,
   column,
   item,
@@ -234,3 +235,5 @@ export default function Cell({
     subProps
   );
 }
+
+export default Cell;
