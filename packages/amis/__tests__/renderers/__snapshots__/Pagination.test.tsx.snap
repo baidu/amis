@@ -387,7 +387,7 @@ exports[`Renderer:Pagination 2`] = `
         <span
           class="cxd-Pagination-inputGroup-right"
         >
-          GO
+          前往
         </span>
       </div>
     </div>
@@ -542,7 +542,7 @@ exports[`Renderer:Pagination with layout 1`] = `
         <span
           class="cxd-Pagination-inputGroup-right"
         >
-          GO
+          前往
         </span>
       </div>
       <div
@@ -854,6 +854,7 @@ exports[`Renderer:Pagination with showPerPage & perPageAvailable & showPageInput
   </span>
   <div
     class="cxd-PopOver cxd-Select-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+    role="popover"
     style="display: block; width: auto; left: 0px; top: 0px; position: relative;"
     theme="cxd"
   >

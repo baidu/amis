@@ -21,6 +21,7 @@
  * 18. CRUD 事件
  * 19. fetchInitData silent 静默请求
  * 20. CRUD表头查询字段更新后严格比较场景
+ * 21. 通过reUseRow为false强制清空表格状态
  */
 
 import {
@@ -1315,3 +1316,83 @@ test('20. CRUD filters contain fields that modification inspection should use st
   await wait(200);
   expect(keyword).toEqual('0');
 }, 7000);
+
+ /**
+ * 在reUseRow为false情况下，强制刷新表格行状态
+ * case：用户每次刷新，调用接口，返回的数据都是一样的，导致updateRows为false，故针对每次返回数据一致的情况，需要强制表格更新
+ */
+test('21. CRUD reUseRow set false to reset crud state when api return same data', async () => {
+  const mockFetcher = jest.fn().mockImplementation(() => {
+    return new Promise(resolve =>
+      resolve({
+        data: {
+          status: 0,
+          msg: 'ok',
+          data: {
+            count: 0,
+            items: [
+              {
+                "name": "name1",
+                "switch": false
+              },
+              {
+                "name": "name2",
+                "switch": false
+              }
+            ]
+          }
+        }
+      })
+    );
+  });
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'crud',
+            api: '/api/mock/sample',
+            headerToolbar: [
+              'reload'
+            ],
+            reUseRow: false,
+            columns: [
+              {
+                name: 'name',
+                label: 'name'
+              },
+              {
+                name: 'switch',
+                label: 'switch',
+                type: 'switch'
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({fetcher: mockFetcher})
+    )
+  );
+
+  await waitFor(() => {
+    expect(container.querySelectorAll('tbody>tr').length >= 2).toBeTruthy();
+  });
+
+  // 切换switch
+  const switchBtn = container.querySelectorAll('.cxd-Switch');
+  fireEvent.click(switchBtn[0]);
+  await wait(200);
+
+  const checks1 = container.querySelectorAll('.is-checked');
+  expect(checks1.length).toEqual(1);
+
+  // 刷新
+  const btn = container.querySelectorAll('.cxd-Button')!;
+  fireEvent.click(btn[0]);
+  await wait(300);
+  
+  const checks2 = container.querySelectorAll('.is-checked');
+  expect(checks2.length).toEqual(0);
+});

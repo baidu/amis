@@ -117,14 +117,16 @@ export class HeadCellSearchDropDown extends React.Component<
     }
 
     if (schema) {
+      // 如果schema是直接配置的{type: 'form', body: []}
       const formItems: Array<string> = [];
-      schema.controls?.forEach(
+      (schema.controls || schema.body || []).forEach(
         (item: any) =>
           item.name &&
           item.name !== 'orderBy' &&
           item.name !== 'order' &&
           formItems.push(item.name)
       );
+
       this.formItems = formItems;
       schema = {
         ...schema,
@@ -291,6 +293,7 @@ export class HeadCellSearchDropDown extends React.Component<
 
 export default observer((props: HeadCellSearchProps) => {
   const store = props.store;
+
   return (
     <HeadCellSearchDropDown
       {...props}

@@ -229,14 +229,17 @@ done
 [0K
 
 Done. Your build exited with 0.
-`
+`;
 
 const http = require('http');
 
 let app = http.createServer((req, res) => {
   res.writeHead(200, {
     'Content-Type': 'text/plain',
-    'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': 'http://localhost:8888',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Credentials': 'true',
+    'Access-Control-Allow-Headers': '*'
   });
 
   let index = 0;
@@ -246,7 +249,7 @@ let app = http.createServer((req, res) => {
     if (index + random < logLength - 1) {
       res.write(logs.substring(index, index + random));
     } else {
-      res.end(logs.substring(index, logLength - 1))
+      res.end(logs.substring(index, logLength - 1));
       clearInterval(timer);
     }
     index = index + random;

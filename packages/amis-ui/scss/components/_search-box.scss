@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: flex-end;
 
-  height: 30px;
+  height: var(--input-size-default-height);
   width: 30px;
   padding-left: 8px;
 
@@ -114,8 +114,6 @@
       color: var(--Form-input-clearBtn-color-onHover);
     }
   }
-
-  height: 30px;
 
   &--enhance.is-active &-searchBtn {
     height: 100%;

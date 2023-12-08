@@ -623,7 +623,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                           <span
                             class="cxd-Pagination-inputGroup-right"
                           >
-                            GO
+                            前往
                           </span>
                         </div>
                       </div>
@@ -771,7 +771,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                           <span
                             class="cxd-Pagination-inputGroup-right"
                           >
-                            GO
+                            前往
                           </span>
                         </div>
                       </div>
@@ -1218,7 +1218,7 @@ exports[`4. Renderer:crud list 1`] = `
                           <span
                             class="cxd-Pagination-inputGroup-right"
                           >
-                            GO
+                            前往
                           </span>
                         </div>
                       </div>
@@ -2109,7 +2109,7 @@ exports[`5. Renderer:crud cards 1`] = `
                           <span
                             class="cxd-Pagination-inputGroup-right"
                           >
-                            GO
+                            前往
                           </span>
                         </div>
                       </div>
@@ -3642,7 +3642,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           <span
                             class="cxd-Pagination-inputGroup-right"
                           >
-                            GO
+                            前往
                           </span>
                         </div>
                       </div>

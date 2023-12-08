@@ -28,7 +28,8 @@ import {
   IRow2,
   ClassNamesFn,
   isArrayChildrenModified,
-  filterTarget
+  filterTarget,
+  changedEffect
 } from 'amis-core';
 import {Icon, Table, BadgeObject, SpinnerExtraProps} from 'amis-ui';
 import type {
@@ -158,6 +159,11 @@ export interface ColumnSchema {
   quickEdit?: SchemaQuickEdit;
 
   width?: string | number;
+
+  /**
+   * 表格列单元格是否可以获取父级数据域值，默认为true，该配置对当前列内单元格生效
+   */
+  canAccessSuperData?: boolean;
 }
 
 export interface RowSelectionOptionsSchema {
@@ -398,6 +404,11 @@ export interface TableSchema2 extends BaseSchema {
    * 表格自动计算高度
    */
   autoFillHeight?: boolean | AutoFillHeightObject;
+
+  /**
+   * 表格是否可以获取父级数据域值，默认为false
+   */
+  canAccessSuperData?: boolean;
 }
 
 // 事件调整 对应CRUD2里的事件配置也需要同步修改
@@ -443,6 +454,7 @@ export interface Table2Props extends RendererProps, SpinnerExtraProps {
   headingClassName?: string;
   keepItemSelectionOnPageChange?: boolean;
   maxKeepItemSelectionLength?: number;
+  canAccessSuperData?: boolean;
 }
 
 export default class Table2 extends React.Component<Table2Props, object> {
@@ -489,7 +501,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
   reactions: Array<any> = [];
 
   static defaultProps: Partial<Table2Props> = {
-    keyField: 'id'
+    keyField: 'id',
+    canAccessSuperData: false
   };
 
   constructor(props: Table2Props, context: IScopedContext) {
@@ -504,12 +517,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
       columns,
       rowSelection,
       keyField,
-      primaryField
+      primaryField,
+      canAccessSuperData
     } = props;
 
     store.update({
       columnsTogglable,
       columns,
+      canAccessSuperData,
       rowSelectionKeyField: primaryField || rowSelection?.keyField || keyField
     });
     Table2.syncRows(store, props, undefined) && this.syncSelected();
@@ -657,11 +672,19 @@ export default class Table2 extends React.Component<Table2Props, object> {
     const props = this.props;
     const store = props.store;
 
-    if (anyChanged(['columnsTogglable'], prevProps, props)) {
-      store.update({
-        columnsTogglable: props.columnsTogglable
-      });
-    }
+    changedEffect(
+      ['orderBy', 'columnsTogglable', 'canAccessSuperData'],
+      prevProps,
+      props,
+      changes => {
+        if (changes.orderBy && !props.onQuery) {
+          delete changes.orderBy;
+        }
+        store.update(changes as any, {
+          resolveDefinitions: props.resolveDefinitions
+        });
+      }
+    );
 
     if (
       anyChanged(['source', 'value', 'items'], prevProps, props) ||
@@ -887,6 +910,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
               levels?: Array<number>
             ) => {
               const props: RenderProps = {};
+
               const item =
                 store.getRowByIndex(rowIndex, [...(levels || [])]) || {};
 
@@ -974,16 +998,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
               return obj;
             }
           });
-        }
-
-        // 设置了单元格样式
-        if (column.classNameExpr) {
-          clone.className = (record: any, rowIndex: number) => {
-            const className = filter(column.classNameExpr, {record, rowIndex});
-            return `${className}${
-              column.className ? ` ${column.className}` : ''
-            }`;
-          };
         }
 
         // 设置了列搜索
@@ -1551,7 +1565,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
   @autobind
   async handleSearch(name: string, values: any) {
-    const {data, dispatchEvent, store} = this.props;
+    const {data, dispatchEvent, store, onSearch} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'columnSearch',
@@ -1566,6 +1580,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
     }
 
     store.updateQuery(values);
+
+    onSearch && onSearch({[name]: values[name]});
   }
 
   @autobind
