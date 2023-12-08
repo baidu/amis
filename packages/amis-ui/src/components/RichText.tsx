@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import {isEqual} from 'lodash';
 
 // @ts-ignore
 import FroalaEditor from 'froala-editor';
@@ -93,11 +94,10 @@ class FroalaEditorComponent extends React.Component<FroalaEditorComponentProps> 
   }
 
   componentDidUpdate(prevProps: Readonly<FroalaEditorComponentProps>) {
-    if (this.props.config !== prevProps.config) {
-      this.editor?.destroy();
-      this.config = this.clone(this.props.config || this.config);
-      this.config = {...this.config};
-      this.editor = new FroalaEditor(this.element, this.config);
+    if (!isEqual(this.props.config, prevProps.config)) {
+      this.destroyEditor();
+      this.createEditor();
+      return;
     }
 
     if (JSON.stringify(this.oldModel) == JSON.stringify(this.props.model)) {
