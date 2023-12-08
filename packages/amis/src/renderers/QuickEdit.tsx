@@ -339,15 +339,16 @@ export const HocQuickEdit =
         onQuickChange(values, false, true);
       }
 
-      handleChange(values: object) {
+      handleChange(values: object, diff?: any) {
         const {onQuickChange, quickEdit} = this.props;
 
-        onQuickChange(
-          values,
-          (quickEdit as QuickEditConfig).saveImmediately,
-          false,
-          quickEdit as QuickEditConfig
-        );
+        Object.keys(diff).length &&
+          onQuickChange(
+            diff,
+            (quickEdit as QuickEditConfig).saveImmediately,
+            false,
+            quickEdit as QuickEditConfig
+          );
       }
 
       handleFormItemChange(value: any) {
