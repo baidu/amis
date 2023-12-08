@@ -130,6 +130,7 @@ interface BaseDatePickerProps {
 interface BaseDatePickerState {
   displayForamt?: boolean | string;
   currentView: string;
+  initView: string;
   viewDate: moment.Moment;
   selectedDate: moment.Moment;
   inputValue?: string;
@@ -364,6 +365,7 @@ class BaseDatePicker extends React.Component<
     state.currentView = this.props.dateFormat
       ? this.props.viewMode || state.updateOn || 'days'
       : this.props.viewMode || 'time';
+    state.initView = state.currentView;
 
     this.state = state;
     this.onClick = this.onClick.bind(this);
@@ -430,7 +432,6 @@ class BaseDatePicker extends React.Component<
       'inputFormat',
       'displayForamt',
       'onChange',
-      'onClose',
       'requiredConfirm',
       'classPrefix',
       'prevIcon',
@@ -687,6 +688,11 @@ class BaseDatePicker extends React.Component<
       });
     }
     this.props.onChange && this.props.onChange(date);
+    this.onClose();
+  };
+
+  onClose = () => {
+    this.setState({currentView: this.state.initView});
     this.props.onClose && this.props.onClose();
   };
 
@@ -723,6 +729,7 @@ class BaseDatePicker extends React.Component<
     }
 
     viewProps.onConfirm = this.onConfirm;
+    viewProps.onClose = this.onClose;
     viewProps.getDateBoundary = this.getDateBoundary;
     viewProps.getColumns = this.getColumns;
     viewProps.timeCell = this.timeCell;
