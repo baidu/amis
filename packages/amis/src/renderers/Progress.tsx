@@ -8,6 +8,8 @@ import {
   IScopedContext,
   ScopedComponentType
 } from 'amis-core';
+import isEqual from 'lodash/isEqual';
+import pick from 'lodash/pick';
 import cx from 'classnames';
 import {BaseSchema, SchemaClassName, SchemaTpl} from '../Schema';
 import {autobind, getPropValue, createObject} from 'amis-core';
@@ -129,6 +131,17 @@ export class ProgressField extends React.Component<
     this.state = {
       value: this.getValue()
     };
+  }
+
+  componentDidUpdate(prevProps: Readonly<ProgressProps>): void {
+    if (
+      !isEqual(
+        pick(prevProps, ['name', 'value', 'data', 'defaultValue']),
+        pick(this.props, ['name', 'value', 'data', 'defaultValue'])
+      )
+    ) {
+      this.setState({value: this.getValue()});
+    }
   }
 
   getValue() {
