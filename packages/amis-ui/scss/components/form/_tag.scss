@@ -123,6 +123,9 @@
 
   .#{$ns}ListMenu {
     padding: px2rem(4px) 0;
+    max-height: var(--inputTag-popover-maxHeight);
+    overflow: auto;
+    user-select: none;
   }
 
   .#{$ns}ListMenu-item {
