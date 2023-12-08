@@ -110,6 +110,8 @@ interface ProgressState {
   value: number;
 }
 
+const COMPARE_KEYS = ['name', 'value', 'data', 'defaultValue'];
+
 export class ProgressField extends React.Component<
   ProgressProps,
   ProgressState
@@ -135,10 +137,7 @@ export class ProgressField extends React.Component<
 
   componentDidUpdate(prevProps: Readonly<ProgressProps>): void {
     if (
-      !isEqual(
-        pick(prevProps, ['name', 'value', 'data', 'defaultValue']),
-        pick(this.props, ['name', 'value', 'data', 'defaultValue'])
-      )
+      !isEqual(pick(prevProps, COMPARE_KEYS), pick(this.props, COMPARE_KEYS))
     ) {
       this.setState({value: this.getValue()});
     }
