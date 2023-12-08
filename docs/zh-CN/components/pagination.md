@@ -8,7 +8,7 @@ icon:
 order: 73
 ---
 
-### 基本用法
+## 基本用法
 
 ```schema: scope="body"
 {
@@ -28,15 +28,17 @@ order: 73
             "perPageAvailable": [10, 20, 50, 100],
             "showPageInput": true,
             "disabled": false
-
         }
     ]
 }
 ```
 
-### 微型模式
+## 微型模式
 
-配置`"size": "small"`可实现微型模式
+> `3.6.0`及以上版本
+
+配置`"size": "sm"`可实现微型模式
+
 
 ```schema: scope="body"
 {
@@ -49,7 +51,7 @@ order: 73
             "mode": "normal",
             "activePage": 1,
             "lastPage": 99999,
-            "size": "small",
+            "size": "sm",
             "total": 999,
             "perPage": 10,
             "maxButtons": 7,
@@ -63,7 +65,7 @@ order: 73
 }
 ```
 
-### 简洁模式
+## 简洁模式
 
 配置`"mode": "simple"`可实现简洁模式
 
@@ -94,7 +96,7 @@ order: 73
 | activePage       | `number` \| `string`       | `1`                                      | 当前页数                                                  |
 | perPage          | `number` \| `string`       | `10`                                     | 每页显示多条数据                                          |
 | showPerPage      | `boolean`                  | false                                    | 是否展示 perPage 切换器 layout 和 showPerPage 都可以控制  |
-| size      | `'default' \| 'small'`               | default                                    | 组件尺寸，支持`default`、`small`设置  |
+| size      | `'sm' \| 'md'`               | `md`                                    | 组件尺寸，支持`md`、`sm`设置  |
 | ellipsisPageGap      | `number` \| `string`                 | 5                                    | 多页跳转页数，页数较多出现`...`时点击省略号时每次前进/后退的页数，默认为5  |
 | perPageAvailable | `number[]`                 | `[10, 20, 50, 100]`                      | 指定每页可以显示多少条                                    |
 | showPageInput    | `boolean`                  | false                                    | 是否显示快速跳转输入框 layout 和 showPageInput 都可以控制 |

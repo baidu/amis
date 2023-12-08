@@ -21,9 +21,9 @@ export const enum PaginationWidget {
 }
 
 export const enum KeyCode {
-  ENTER = 13,
-  UP = 38,
-  DOWN = 40
+  ENTER = 'Enter',
+  UP = 'ArrowUp',
+  DOWN = 'ArrowDown'
 }
 
 export interface BasicPaginationProps {
@@ -104,12 +104,12 @@ export interface BasicPaginationProps {
    *
    * @default 5
    */
-  ellipsisPageGap?: number | string;
+  ellipsisPageGap?: number;
 
   /**
    * 组件尺寸
    *
-   * @default 'default'
+   * @default 'md'
    */
   size?: string;
 
@@ -138,7 +138,7 @@ export class Pagination extends React.Component<
     perPage: 10,
     perPageAvailable: [10, 20, 50, 100],
     ellipsisPageGap: 5,
-    size: 'default'
+    size: 'md'
   };
 
   state = {
@@ -232,7 +232,7 @@ export class Pagination extends React.Component<
     return (
       <li
         key={key}
-        className={cx('ellipsis')}
+        className={cx('Pagination-ellipsis')}
         onClick={(e: any) => {
           return this.handlePageNumChange(
             jumpPage,
@@ -330,7 +330,7 @@ export class Pagination extends React.Component<
     const lastPage = this.getLastPage();
     let v: number = parseInt(e.currentTarget.value, 10);
     // handle keyboard up and down events value
-    switch ((e as React.KeyboardEvent<HTMLInputElement>).keyCode) {
+    switch ((e as React.KeyboardEvent<HTMLInputElement>).key) {
       case KeyCode.UP:
         v = isNaN(v) || v < 2 ? 1 : v - 1;
         break;
@@ -351,8 +351,8 @@ export class Pagination extends React.Component<
       return;
     }
     if (
-      [KeyCode.UP, KeyCode.DOWN, KeyCode.ENTER].includes(
-        (e as React.KeyboardEvent<HTMLInputElement>).keyCode
+      ([KeyCode.UP, KeyCode.DOWN, KeyCode.ENTER] as string[]).includes(
+        (e as React.KeyboardEvent<HTMLInputElement>).key
       )
     ) {
       this.handlePageNumChange(v, this.props.perPage);
@@ -395,9 +395,9 @@ export class Pagination extends React.Component<
     // 简洁模式
     if (mode === 'simple') {
       simplePager = (
-        <li className={cx('Pagination-inputSimple')} key="simple-go">
+        <li className={cx('Pagination-simplego')} key="simple-go">
           <input
-            className={cx('Pagination-inputSimple-input')}
+            className={cx('Pagination-simplego-input')}
             key="simple-input"
             type="text"
             disabled={disabled}
@@ -407,7 +407,7 @@ export class Pagination extends React.Component<
             value={internalPageNum}
           />
           /
-          <span className={cx('Pagination-inputSimple-right')} key="go-right">
+          <span className={cx('Pagination-simplego-right')} key="go-right">
             {lastPage}
           </span>
         </li>

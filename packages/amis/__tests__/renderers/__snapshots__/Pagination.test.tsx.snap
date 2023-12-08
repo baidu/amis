@@ -9,7 +9,7 @@ exports[`Renderer:Pagination 1`] = `
       class="cxd-PaginationWrapper"
     >
       <div
-        class="cxd-Pagination-wrap cxd-Pagination-wrap-size--default cxd-PaginationWrapper-pager"
+        class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md cxd-PaginationWrapper-pager"
       >
         <ul
           class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -261,7 +261,7 @@ exports[`Renderer:Pagination 2`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--default"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
     >
       <div
         class="cxd-Pagination-total cxd-Pagination-item"
@@ -316,7 +316,7 @@ exports[`Renderer:Pagination 2`] = `
           </a>
         </li>
         <li
-          class="ellipsis"
+          class="cxd-Pagination-ellipsis"
         >
           <a
             role="button"
@@ -351,7 +351,7 @@ exports[`Renderer:Pagination 2`] = `
           </a>
         </li>
         <li
-          class="ellipsis"
+          class="cxd-Pagination-ellipsis"
         >
           <a
             role="button"
@@ -417,7 +417,7 @@ exports[`Renderer:Pagination with disabled 1`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--default disabled"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md disabled"
     >
       <ul
         class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -496,7 +496,7 @@ exports[`Renderer:Pagination with disabled 1`] = `
           </a>
         </li>
         <li
-          class="ellipsis"
+          class="cxd-Pagination-ellipsis"
         >
           <a
             role="button"
@@ -543,7 +543,7 @@ exports[`Renderer:Pagination with layout 1`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--default"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
     >
       <div
         class="cxd-Pagination-total cxd-Pagination-item"
@@ -671,7 +671,7 @@ exports[`Renderer:Pagination with layout 1`] = `
           </a>
         </li>
         <li
-          class="ellipsis"
+          class="cxd-Pagination-ellipsis"
         >
           <a
             role="button"
@@ -718,7 +718,7 @@ exports[`Renderer:Pagination with maxButtons 1`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--default"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
     >
       <ul
         class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -743,7 +743,7 @@ exports[`Renderer:Pagination with maxButtons 1`] = `
           </a>
         </li>
         <li
-          class="ellipsis"
+          class="cxd-Pagination-ellipsis"
         >
           <a
             role="button"
@@ -832,7 +832,7 @@ exports[`Renderer:Pagination with maxButtons 1`] = `
           </a>
         </li>
         <li
-          class="ellipsis"
+          class="cxd-Pagination-ellipsis"
         >
           <a
             role="button"
@@ -1081,16 +1081,16 @@ exports[`Renderer:Pagination with simple mode 1`] = `
           </span>
         </li>
         <li
-          class="cxd-Pagination-inputSimple"
+          class="cxd-Pagination-simplego"
         >
           <input
-            class="cxd-Pagination-inputSimple-input"
+            class="cxd-Pagination-simplego-input"
             type="text"
             value="1"
           />
           /
           <span
-            class="cxd-Pagination-inputSimple-right"
+            class="cxd-Pagination-simplego-right"
           >
             1
           </span>

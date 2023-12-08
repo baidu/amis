@@ -35,32 +35,6 @@
       color: var(--primary);
     }
   }
-  .ellipsis {
-    cursor: unset;
-    position: relative;
-    > a {
-      cursor: unset;
-      position: absolute;
-      top: px2rem(-4px);
-      opacity: 1;
-      transition: all 0.2s;
-    }
-    > span {
-      opacity: 0;  
-      transition: all 0.2s;
-    }
-  }
-  .ellipsis:hover {
-    cursor: pointer;
-    > a {
-      opacity: 0;
-      transition: all 0.2s;
-    }
-    > span {
-      opacity: 1;  
-      transition: all 0.2s;
-    }
-  }
 
   > li.is-disabled {
     > span,
@@ -172,7 +146,7 @@
     }
   }
 
-  &-inputSimple {
+  &-simplego {
     display: inline-flex;
     flex-wrap: nowrap;
     align-items: center;
@@ -207,6 +181,35 @@
         color: #666666 !important;
         cursor: default;
       }
+    }
+  }
+
+  &-ellipsis {
+    cursor: unset;
+    position: relative;
+
+    &:hover {
+      cursor: pointer;
+      > a {
+        opacity: 0;
+        transition: all 0.2s;
+      }
+      > span {
+        opacity: 1;  
+        transition: all 0.2s;
+      }
+    }
+
+    > a {
+      cursor: unset;
+      position: absolute !important;
+      top: px2rem(-4px);
+      opacity: 1;
+      transition: all 0.2s;
+    }
+    > span {
+      opacity: 0;  
+      transition: all 0.2s;
     }
   }
 }
@@ -253,7 +256,7 @@
   text-align: right;
 }
 
-.#{$ns}Pagination-wrap-size--small {
+.#{$ns}Pagination-wrap-size--sm {
   line-height: px2rem(24px);
 
   .#{$ns}Pagination-item {

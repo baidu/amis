@@ -376,7 +376,7 @@ test('pagination: Pagination with size', async () => {
         body: [
           {
             type: 'pagination',
-            size: 'small'
+            size: 'sm'
           }
         ]
       },
@@ -386,7 +386,7 @@ test('pagination: Pagination with size', async () => {
   );
 
   const paginationEl = container.querySelector('.cxd-Pagination-wrap');
-  expect(paginationEl).toHaveClass('cxd-Pagination-wrap-size--small');
+  expect(paginationEl).toHaveClass('cxd-Pagination-wrap-size--sm');
 });
 
 // 10.多页跳转页数
@@ -415,7 +415,7 @@ test('pagination: Pagination with ellipsisPageGap', async () => {
     )
   );
 
-  const ellipsisEL = container.querySelector('.ellipsis');
+  const ellipsisEL = container.querySelector('.cxd-Pagination-ellipsis');
   fireEvent.click(ellipsisEL!);
   await wait(200);
   expect(pageChange).toBeCalled();
