@@ -85,8 +85,8 @@ class CollapseGroup extends React.Component<
 
   collapseChange(collapseId: string, collapsed: boolean) {
     let activeKeys = this.state.activeKeys.concat();
-    if (!collapsed) {
-      // 开启状态
+    if (collapsed) {
+      // 设置成折叠状态
       if (this.props.accordion) {
         activeKeys = [];
       } else {
@@ -98,6 +98,7 @@ class CollapseGroup extends React.Component<
         }
       }
     } else {
+      // 展开折叠器
       if (this.props.accordion) {
         activeKeys = [collapseId as string];
       } else {
@@ -133,7 +134,8 @@ class CollapseGroup extends React.Component<
         collapsed,
         expandIcon: this.props.expandIcon,
         propsUpdate: true,
-        onCollapse: () => this.collapseChange(collapseId, collapsed)
+        onCollapse: (item: CollapseItem, collapsed: boolean) =>
+          this.collapseChange(collapseId, collapsed)
       });
     });
   };
