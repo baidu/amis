@@ -57,7 +57,7 @@ function attachResizeEvent(
     document.createElement('div'));
   resizeSensor.className = 'resize-sensor';
   let style =
-    'position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;';
+    'position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;';
   let styleChild = 'position: absolute; left: 0; top: 0;';
 
   resizeSensor.style.cssText = style;

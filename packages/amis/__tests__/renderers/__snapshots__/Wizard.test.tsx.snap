@@ -152,13 +152,13 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
     </div>
     <div
       class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
   
       <div
         class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -172,7 +172,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
   
       <div
         class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -186,7 +186,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
   
       <div
         class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
   </div>
@@ -397,13 +397,13 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
     </div>
     <div
       class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
   
       <div
         class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -417,7 +417,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
   
       <div
         class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -431,7 +431,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
   
       <div
         class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
   </div>
@@ -548,13 +548,13 @@ exports[`Renderer:Wizard default 1`] = `
     </div>
     <div
       class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
   
       <div
         class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -568,7 +568,7 @@ exports[`Renderer:Wizard default 1`] = `
   
       <div
         class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -582,7 +582,7 @@ exports[`Renderer:Wizard default 1`] = `
   
       <div
         class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
   </div>
@@ -819,13 +819,13 @@ exports[`Renderer:Wizard dialog 1`] = `
             </div>
             <div
               class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
             >
               
   
               <div
                 class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -839,7 +839,7 @@ exports[`Renderer:Wizard dialog 1`] = `
   
               <div
                 class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -853,7 +853,7 @@ exports[`Renderer:Wizard dialog 1`] = `
   
               <div
                 class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
               />
             </div>
           </div>
@@ -1198,13 +1198,13 @@ exports[`Renderer:Wizard dialog 2`] = `
             </div>
             <div
               class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
             >
               
   
               <div
                 class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -1218,7 +1218,7 @@ exports[`Renderer:Wizard dialog 2`] = `
   
               <div
                 class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -1232,7 +1232,7 @@ exports[`Renderer:Wizard dialog 2`] = `
   
               <div
                 class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
               />
             </div>
           </div>
@@ -1500,13 +1500,13 @@ exports[`Renderer:Wizard initApi default 1`] = `
     </div>
     <div
       class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
   
       <div
         class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -1520,7 +1520,7 @@ exports[`Renderer:Wizard initApi default 1`] = `
   
       <div
         class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -1534,7 +1534,7 @@ exports[`Renderer:Wizard initApi default 1`] = `
   
       <div
         class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
     <div
@@ -1769,13 +1769,13 @@ exports[`Renderer:Wizard initApi reload 1`] = `
             </div>
             <div
               class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
             >
               
   
               <div
                 class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -1789,7 +1789,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
   
               <div
                 class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -1803,7 +1803,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
   
               <div
                 class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
               />
             </div>
           </div>
@@ -1979,13 +1979,13 @@ exports[`Renderer:Wizard initApi reload 2`] = `
             </div>
             <div
               class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
             >
               
   
               <div
                 class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -1999,7 +1999,7 @@ exports[`Renderer:Wizard initApi reload 2`] = `
   
               <div
                 class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -2013,7 +2013,7 @@ exports[`Renderer:Wizard initApi reload 2`] = `
   
               <div
                 class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
               />
             </div>
           </div>
@@ -2189,13 +2189,13 @@ exports[`Renderer:Wizard initApi reload 3`] = `
             </div>
             <div
               class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
             >
               
   
               <div
                 class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -2209,7 +2209,7 @@ exports[`Renderer:Wizard initApi reload 3`] = `
   
               <div
                 class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -2223,7 +2223,7 @@ exports[`Renderer:Wizard initApi reload 3`] = `
   
               <div
                 class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
               />
             </div>
           </div>
@@ -2256,13 +2256,13 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
     </div>
     <div
       class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
   
       <div
         class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -2276,7 +2276,7 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
   
       <div
         class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -2290,7 +2290,7 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
   
       <div
         class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
     <div
@@ -2565,13 +2565,13 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
     </div>
     <div
       class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
   
       <div
         class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -2585,7 +2585,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
   
       <div
         class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -2599,7 +2599,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
   
       <div
         class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
   </div>
@@ -2707,13 +2707,13 @@ exports[`Renderer:Wizard readOnly 1`] = `
     </div>
     <div
       class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
   
       <div
         class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -2727,7 +2727,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
   
       <div
         class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -2741,7 +2741,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
   
       <div
         class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
   </div>
@@ -2900,13 +2900,13 @@ exports[`Renderer:Wizard send data 1`] = `
     </div>
     <div
       class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
   
       <div
         class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -2920,7 +2920,7 @@ exports[`Renderer:Wizard send data 1`] = `
   
       <div
         class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -2934,7 +2934,7 @@ exports[`Renderer:Wizard send data 1`] = `
   
       <div
         class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
   </div>
@@ -3169,13 +3169,13 @@ exports[`Renderer:Wizard step initApi 1`] = `
     </div>
     <div
       class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
   
       <div
         class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -3189,7 +3189,7 @@ exports[`Renderer:Wizard step initApi 1`] = `
   
       <div
         class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -3203,7 +3203,7 @@ exports[`Renderer:Wizard step initApi 1`] = `
   
       <div
         class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
   </div>
@@ -3236,13 +3236,13 @@ exports[`Renderer:Wizard steps not array 1`] = `
     </div>
     <div
       class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
   
       <div
         class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -3256,7 +3256,7 @@ exports[`Renderer:Wizard steps not array 1`] = `
   
       <div
         class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -3270,7 +3270,7 @@ exports[`Renderer:Wizard steps not array 1`] = `
   
       <div
         class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
   </div>
@@ -3442,13 +3442,13 @@ exports[`Renderer:Wizard target 1`] = `
             </div>
             <div
               class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
             >
               
   
               <div
                 class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -3462,7 +3462,7 @@ exports[`Renderer:Wizard target 1`] = `
   
               <div
                 class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -3476,7 +3476,7 @@ exports[`Renderer:Wizard target 1`] = `
   
               <div
                 class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
               />
             </div>
           </div>
@@ -3876,13 +3876,13 @@ exports[`Renderer:Wizard validate 1`] = `
     </div>
     <div
       class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
   
       <div
         class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -3896,7 +3896,7 @@ exports[`Renderer:Wizard validate 1`] = `
   
       <div
         class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -3910,7 +3910,7 @@ exports[`Renderer:Wizard validate 1`] = `
   
       <div
         class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
   </div>

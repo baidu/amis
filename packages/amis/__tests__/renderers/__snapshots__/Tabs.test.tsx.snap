@@ -71,13 +71,13 @@ exports[`Renderer:tabs as form item 1`] = `
             </div>
             <div
               class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
             >
               
   
               <div
                 class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -91,7 +91,7 @@ exports[`Renderer:tabs as form item 1`] = `
   
               <div
                 class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
     
@@ -105,7 +105,7 @@ exports[`Renderer:tabs as form item 1`] = `
   
               <div
                 class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
               />
             </div>
           </div>
@@ -216,13 +216,13 @@ exports[`Renderer:tabs change active tab 1`] = `
       </div>
       <div
         class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
   
         <div
           class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -236,7 +236,7 @@ exports[`Renderer:tabs change active tab 1`] = `
   
         <div
           class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -250,7 +250,7 @@ exports[`Renderer:tabs change active tab 1`] = `
   
         <div
           class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
         />
       </div>
     </div>
@@ -333,13 +333,13 @@ exports[`Renderer:tabs change active tab 2`] = `
       </div>
       <div
         class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
   
         <div
           class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -353,7 +353,7 @@ exports[`Renderer:tabs change active tab 2`] = `
   
         <div
           class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -367,7 +367,7 @@ exports[`Renderer:tabs change active tab 2`] = `
   
         <div
           class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
         />
       </div>
     </div>
@@ -508,13 +508,13 @@ exports[`Renderer:tabs tabsMode 1`] = `
       </div>
       <div
         class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
   
         <div
           class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -528,7 +528,7 @@ exports[`Renderer:tabs tabsMode 1`] = `
   
         <div
           class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -542,7 +542,7 @@ exports[`Renderer:tabs tabsMode 1`] = `
   
         <div
           class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
         />
       </div>
     </div>
@@ -609,13 +609,13 @@ exports[`Renderer:tabs tabsMode 2`] = `
       </div>
       <div
         class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
   
         <div
           class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -629,7 +629,7 @@ exports[`Renderer:tabs tabsMode 2`] = `
   
         <div
           class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -643,7 +643,7 @@ exports[`Renderer:tabs tabsMode 2`] = `
   
         <div
           class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
         />
       </div>
     </div>
@@ -679,13 +679,13 @@ exports[`Renderer:tabs tabsMode 3`] = `
     >
       <div
         class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
   
         <div
           class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -699,7 +699,7 @@ exports[`Renderer:tabs tabsMode 3`] = `
   
         <div
           class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -713,7 +713,7 @@ exports[`Renderer:tabs tabsMode 3`] = `
   
         <div
           class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
         />
       </div>
       <ul
@@ -772,13 +772,13 @@ exports[`Renderer:tabs tabsMode 4`] = `
     >
       <div
         class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
   
         <div
           class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -792,7 +792,7 @@ exports[`Renderer:tabs tabsMode 4`] = `
   
         <div
           class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -806,7 +806,7 @@ exports[`Renderer:tabs tabsMode 4`] = `
   
         <div
           class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
         />
       </div>
       <ul
@@ -905,13 +905,13 @@ exports[`Renderer:tabs tabsMode 5`] = `
     >
       <div
         class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
   
         <div
           class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -925,7 +925,7 @@ exports[`Renderer:tabs tabsMode 5`] = `
   
         <div
           class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -939,7 +939,7 @@ exports[`Renderer:tabs tabsMode 5`] = `
   
         <div
           class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
         />
       </div>
       <div
@@ -1006,13 +1006,13 @@ exports[`Renderer:tabs tabsMode 6`] = `
     >
       <div
         class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
   
         <div
           class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -1026,7 +1026,7 @@ exports[`Renderer:tabs tabsMode 6`] = `
   
         <div
           class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -1040,7 +1040,7 @@ exports[`Renderer:tabs tabsMode 6`] = `
   
         <div
           class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
         />
       </div>
       <div
@@ -1107,13 +1107,13 @@ exports[`Renderer:tabs tabsMode 7`] = `
     >
       <div
         class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
   
         <div
           class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -1127,7 +1127,7 @@ exports[`Renderer:tabs tabsMode 7`] = `
   
         <div
           class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -1141,7 +1141,7 @@ exports[`Renderer:tabs tabsMode 7`] = `
   
         <div
           class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
         />
       </div>
       <div
@@ -1208,13 +1208,13 @@ exports[`Renderer:tabs tabsMode 8`] = `
     >
       <div
         class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
   
         <div
           class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -1228,7 +1228,7 @@ exports[`Renderer:tabs tabsMode 8`] = `
   
         <div
           class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -1242,7 +1242,7 @@ exports[`Renderer:tabs tabsMode 8`] = `
   
         <div
           class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
         />
       </div>
       <ul
@@ -1344,13 +1344,13 @@ exports[`Renderer:tabs toolbar 1`] = `
       </div>
       <div
         class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
   
         <div
           class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -1364,7 +1364,7 @@ exports[`Renderer:tabs toolbar 1`] = `
   
         <div
           class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -1378,7 +1378,7 @@ exports[`Renderer:tabs toolbar 1`] = `
   
         <div
           class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
         />
       </div>
     </div>
@@ -1461,13 +1461,13 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
               </a>
               <div
                 class="resize-sensor"
-                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
               >
                 
   
                 <div
                   class="resize-sensor-expand"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
                 >
                   
     
@@ -1481,7 +1481,7 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
   
                 <div
                   class="resize-sensor-shrink"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
                 >
                   
     
@@ -1495,7 +1495,7 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
   
                 <div
                   class="resize-sensor-appear"
-                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
                 />
               </div>
             </li>
@@ -1504,13 +1504,13 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
       </div>
       <div
         class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
   
         <div
           class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -1524,7 +1524,7 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
   
         <div
           class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -1538,7 +1538,7 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
   
         <div
           class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
         />
       </div>
     </div>
@@ -1599,13 +1599,13 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
       </ul>
       <div
         class="resize-sensor"
-        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
   
         <div
           class="resize-sensor-expand"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -1619,7 +1619,7 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
   
         <div
           class="resize-sensor-shrink"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
     
@@ -1633,7 +1633,7 @@ exports[`Renderer:tabs with collapseOnExceed: popover show 1`] = `
   
         <div
           class="resize-sensor-appear"
-          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
         />
       </div>
     </div>

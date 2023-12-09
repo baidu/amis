@@ -212,13 +212,13 @@ exports[`Renderer:Pagination 1`] = `
         </div>
         <div
           class="resize-sensor"
-          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
         >
           
   
           <div
             class="resize-sensor-expand"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
           >
             
     
@@ -232,7 +232,7 @@ exports[`Renderer:Pagination 1`] = `
   
           <div
             class="resize-sensor-shrink"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
           >
             
     
@@ -246,7 +246,7 @@ exports[`Renderer:Pagination 1`] = `
   
           <div
             class="resize-sensor-appear"
-            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
           />
         </div>
       </div>
@@ -932,13 +932,13 @@ exports[`Renderer:Pagination with showPerPage & perPageAvailable & showPageInput
     </div>
     <div
       class="resize-sensor"
-      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
   
       <div
         class="resize-sensor-expand"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -952,7 +952,7 @@ exports[`Renderer:Pagination with showPerPage & perPageAvailable & showPageInput
   
       <div
         class="resize-sensor-shrink"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
       >
         
     
@@ -966,19 +966,19 @@ exports[`Renderer:Pagination with showPerPage & perPageAvailable & showPageInput
   
       <div
         class="resize-sensor-appear"
-        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
   </div>
   <div
     class="resize-sensor"
-    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
   >
     
   
     <div
       class="resize-sensor-expand"
-      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
     
@@ -992,7 +992,7 @@ exports[`Renderer:Pagination with showPerPage & perPageAvailable & showPageInput
   
     <div
       class="resize-sensor-shrink"
-      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;"
     >
       
     
@@ -1006,7 +1006,7 @@ exports[`Renderer:Pagination with showPerPage & perPageAvailable & showPageInput
   
     <div
       class="resize-sensor-appear"
-      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden; pointer-events: none;animation-name: apearSensor; animation-duration: 0.2s;"
     />
   </div>
 </div>
