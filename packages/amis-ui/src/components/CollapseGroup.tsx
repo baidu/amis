@@ -90,18 +90,16 @@ class CollapseGroup extends React.Component<
       if (this.props.accordion) {
         activeKeys = [];
       } else {
-        for (let i = 0; i < activeKeys.length; i++) {
-          if (activeKeys[i] === collapseId) {
-            activeKeys.splice(i, 1); // 剔除开启状态
-            break;
-          }
+        const activeKeyIndex = activeKeys.indexOf(collapseId);
+        if (activeKeyIndex !== -1) {
+          activeKeys.splice(activeKeyIndex, 1); // 剔除开启状态
         }
       }
     } else {
       // 展开折叠器
       if (this.props.accordion) {
         activeKeys = [collapseId as string];
-      } else {
+      } else if (activeKeys.indexOf(collapseId) === -1) {
         activeKeys.push(collapseId as string);
       }
     }
@@ -134,7 +132,7 @@ class CollapseGroup extends React.Component<
         collapsed,
         expandIcon: this.props.expandIcon,
         propsUpdate: true,
-        onCollapse: (item: CollapseItem, collapsed: boolean) =>
+        onCollapse: (collapsed: boolean) =>
           this.collapseChange(collapseId, collapsed)
       });
     });

@@ -45,7 +45,7 @@ export interface CollapseProps extends ThemeProps {
   headingClassName?: string;
   collapseHeader?: React.ReactElement | null;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'base';
-  onCollapse?: (item: any, collapsed: boolean) => void;
+  onCollapse?: (collapsed: boolean) => void;
   wrapperComponent?: any;
   headingComponent?: any;
   translate?: TranslateFn;
@@ -110,7 +110,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       return;
     }
     const newCollapsed = !this.state.collapsed;
-    props.onCollapse?.(props, newCollapsed);
+    props.onCollapse?.(newCollapsed);
     this.setState({
       collapsed: newCollapsed
     });
@@ -131,7 +131,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
         collapsed: targetState
       },
       () => {
-        this.props.onCollapse?.(this.props, targetState);
+        this.props.onCollapse?.(targetState);
       }
     );
   }
