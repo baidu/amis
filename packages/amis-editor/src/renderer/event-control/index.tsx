@@ -445,7 +445,17 @@ export class EventControl extends React.Component<
                 ...item,
                 actionType: config
               }
-            : config
+            : Object.defineProperties(config, {
+                __cmptTreeSource: {
+                  enumerable: false
+                },
+                __nodeSchema: {
+                  enumerable: false
+                },
+                __subActions: {
+                  enumerable: false
+                }
+              })
           : item;
       })
     };
