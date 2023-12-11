@@ -552,6 +552,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 ),
                 value: false,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
@@ -572,6 +573,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 trueValue: false,
                 falseValue: true,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
@@ -634,6 +636,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 trueValue: false,
                 falseValue: true,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {

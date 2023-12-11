@@ -642,6 +642,7 @@ export class TreeControlPlugin extends BasePlugin {
                 ),
                 value: false,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
@@ -662,6 +663,7 @@ export class TreeControlPlugin extends BasePlugin {
                 trueValue: false,
                 falseValue: true,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
@@ -724,6 +726,7 @@ export class TreeControlPlugin extends BasePlugin {
                 trueValue: false,
                 falseValue: true,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
