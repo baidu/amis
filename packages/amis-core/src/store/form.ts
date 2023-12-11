@@ -548,7 +548,7 @@ export const FormStore = ServiceStore.named('FormStore')
       self.submiting = true;
 
       try {
-        yield validate(hooks, undefined, true, failedMessage, validateErrCb);
+        yield validate(hooks, true, true, failedMessage, validateErrCb);
 
         if (fn) {
           const diff = difference(self.data, self.pristine);
