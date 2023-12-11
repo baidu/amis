@@ -4,16 +4,16 @@
  */
 
 import React from 'react';
-import cx from 'classnames';
+import DeepDiff from 'deep-diff';
 import isFunction from 'lodash/isFunction';
 import flattenDeep from 'lodash/flattenDeep';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import uniqBy from 'lodash/uniqBy';
-import get from 'lodash/get';
 import uniq from 'lodash/uniq';
 import sortBy from 'lodash/sortBy';
-import {toast, autobind, isObject, Icon} from 'amis';
+import pick from 'lodash/pick';
+import {toast, autobind, isObject} from 'amis';
 import {
   BasePlugin,
   EditorManager,
@@ -991,7 +991,7 @@ export class BaseCRUDPlugin extends BasePlugin {
   }
 
   /** 重新构建 API */
-  panelFormPipeOut = async (schema: any) => {
+  panelFormPipeOut = async (schema: any, oldSchema: any) => {
     const entity = schema?.api?.entity;
 
     if (!entity || schema?.dsType !== ModelDSBuilderKey) {
@@ -999,12 +999,38 @@ export class BaseCRUDPlugin extends BasePlugin {
     }
 
     const builder = this.dsManager.getBuilderBySchema(schema);
+    const observedFields = [
+      'api',
+      'quickSaveApi',
+      'quickSaveItemApi',
+      'columns',
+      'dsType',
+      'primaryField',
+      'filter',
+      'headerToolbar',
+      'footerToolbar',
+      'columns'
+    ];
+    const diff = DeepDiff.diff(
+      pick(oldSchema, observedFields),
+      pick(schema, observedFields)
+    );
+
+    if (!diff) {
+      return schema;
+    }
 
     try {
       const updatedSchema = await builder.buildApiSchema({
         schema,
         renderer: 'crud',
-        sourceKey: 'api'
+        sourceKey: 'api',
+        apiSettings: {
+          diffConfig: {
+            enable: true,
+            schemaDiff: diff
+          }
+        }
       });
       return updatedSchema;
     } catch (e) {
