@@ -4575,5 +4575,30 @@ extendLocale('en-US', {
   '00e44cfe38bdcdefa40ad63dec4e9bd4': 'Label template',
   'b2f3c4387bcabafaf39a7be9c624b584': 'Label display content for selected data',
   '988d7b545c09108379a54a1e6060f563': 'Icon Color',
-  '7278e97a3360f7b31768b86b8d22173d': 'Icon hover color'
+  '7278e97a3360f7b31768b86b8d22173d': 'Icon hover color',
+  '9df3213a5f8211cf2626f4c5c646d71d': 'Add data item',
+  'a6354302d04750ab5e28fac72be054b1': 'data item',
+  '1a873cce402693b4c3b4bf16a4a04523': 'The Key of the attribute in Option',
+  '75208f0b7fa9dd1633fa2dded76a6e8d': 'The value of the parent data item',
+  'dcc957ddbe7fd921ea03d008f7ddae4c':
+    'Please enter the value of the parent data item valueField',
+  'cd407112daa4d933aead47835bedafb2': 'Edit Data Item',
+  'a3b6fcf7cfabfc83543bb00375235915': 'Value of data editing item',
+  '0f2dd97ecc370524fd8ff0a9ffb880a5':
+    'Please enter the value of the value Field before editing the data item',
+  'e70edec390d0e602208f6951e1b5f01f': 'Delete data item',
+  'd16814fa14c14dbeca8d7e8600852255': 'Value of data deletion item',
+  '6a2e7e69d5bcf2e2ab0c3e288d7fd2ab':
+    'Please enter the value for the deletion item valueField',
+  '6e065eee612393b1d6a16e7696e4c911': 'Tree component',
+  '555fbc1714ad0d899939b12b95dabe09': 'Tree Component - Embedded Mode',
+  '5c52d3e283d197588e29ca31bc613ffe': 'Option search interface',
+  'dd52923c45686a6f507854e438d4880e': 'Lazy loading interface',
+  'a386f65cf2c47acabfab13781dbdd89f': 'Tree Component - Floating Layer Mode',
+  'b5d9da39175bc5bdcd2cc7dddeaa232a': 'Lazy loading field',
+  '31ff316f7b6aa169b2575a50e0342be0':
+    'Is it the field name of the lazy loading node? The default is defer, and this configuration item can be used to customize the field name',
+  '37a3bfd0cf20cc17c53396a1077c0852': 'Customize fields to enable lazy loading',
+  '6c1f091d6ee0780a6f836d212b8afa82': 'New form configured',
+  '9de4041a80c32ada7fb8b3f212da62d2': 'Edited form configured'
 });

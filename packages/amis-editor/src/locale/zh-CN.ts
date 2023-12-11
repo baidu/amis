@@ -4142,5 +4142,27 @@ extendLocale('zh-CN', {
   '00e44cfe38bdcdefa40ad63dec4e9bd4': '标签模板',
   'b2f3c4387bcabafaf39a7be9c624b584': '已选定数据的label展示内容',
   '988d7b545c09108379a54a1e6060f563': '图标颜色',
-  '7278e97a3360f7b31768b86b8d22173d': '图标hover颜色'
+  '7278e97a3360f7b31768b86b8d22173d': '图标hover颜色',
+  '9df3213a5f8211cf2626f4c5c646d71d': '新增数据项',
+  'a6354302d04750ab5e28fac72be054b1': '数据项',
+  '1a873cce402693b4c3b4bf16a4a04523': 'Option中属性的Key',
+  '75208f0b7fa9dd1633fa2dded76a6e8d': '父级数据项的值',
+  'dcc957ddbe7fd921ea03d008f7ddae4c': '请输入父级数据项 valueField 的值',
+  'cd407112daa4d933aead47835bedafb2': '编辑数据项',
+  'a3b6fcf7cfabfc83543bb00375235915': '数据编辑项的值',
+  '0f2dd97ecc370524fd8ff0a9ffb880a5': '请输入数据项编辑前 valueField 的值',
+  'e70edec390d0e602208f6951e1b5f01f': '删除数据项',
+  'd16814fa14c14dbeca8d7e8600852255': '数据删除项的值',
+  '6a2e7e69d5bcf2e2ab0c3e288d7fd2ab': '请输入删除项 valueField 的值',
+  '6e065eee612393b1d6a16e7696e4c911': '树组件',
+  '555fbc1714ad0d899939b12b95dabe09': '树组件 - 内嵌模式',
+  '5c52d3e283d197588e29ca31bc613ffe': '选项搜索接口',
+  'dd52923c45686a6f507854e438d4880e': '懒加载接口',
+  'a386f65cf2c47acabfab13781dbdd89f': '树组件 - 浮层模式',
+  'b5d9da39175bc5bdcd2cc7dddeaa232a': '懒加载字段',
+  '31ff316f7b6aa169b2575a50e0342be0':
+    '是否为懒加载节点的字段名称，默认为defer，可以用该配置项自定义字段名称',
+  '37a3bfd0cf20cc17c53396a1077c0852': '自定义开启懒加载的字段',
+  '6c1f091d6ee0780a6f836d212b8afa82': '已配置新增表单',
+  '9de4041a80c32ada7fb8b3f212da62d2': '已配置编辑表单'
 });
