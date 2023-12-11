@@ -2269,6 +2269,8 @@ interface CRUDMatchFunc {
 
 在`headerToolbar`或者`footerToolbar`数组中添加`export-csv`字符串，可以实现点击下载 CSV 的功能，注意这里只包括当前分页的数据，要下载全部数据需要通过后端 API 实现。
 
+> 注意：导出 CSV 时，默认使用 CRUD 的接口数据，不导出「操作」列
+
 ```schema: scope="body"
 {
     "type": "crud",
@@ -2421,6 +2423,8 @@ interface CRUDMatchFunc {
 1. 导出 CSV 是将 api 返回数据导出，表头是数据里的 key，而 Excel 的表头使用的是 label。
 2. 导出 Excel 更重视展现一致，支持合并单元格、链接、mapping 映射、图片（需要加[跨域 Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)）。
 3. 导出 Excel 只在 `mode` 为 `table` 时能用。
+
+> 注意：导出 Excel 时，默认不导出「操作」列
 
 ```schema: scope="body"
 {
