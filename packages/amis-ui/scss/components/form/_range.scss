@@ -296,6 +296,10 @@
     border-radius: var(--InputRange-label-border-radius);
     visibility: hidden;
 
+    span {
+      word-break: keep-all;
+    }
+
     &-visible {
       visibility: visible;
     }
