@@ -36,7 +36,7 @@ import {SchemaApi, SchemaCollection, SchemaClassName} from '../../Schema';
 import find from 'lodash/find';
 import moment from 'moment';
 import merge from 'lodash/merge';
-import mergeWith from 'lodash/mergeWith';
+import assignWith from 'lodash/assignWith';
 
 import type {SchemaTokenizeableString} from '../../Schema';
 
@@ -1428,14 +1428,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
           const origin = getTree(items, indexes);
 
-          const comboNames: Array<string> = [];
-          (props.$schema.columns ?? []).forEach((e: any) => {
-            if (e.type === 'combo' && !Array.isArray(diff)) {
-              comboNames.push(e.name);
-            }
-          });
-
-          const data = mergeWith(
+          const data = assignWith(
             {},
             origin,
             diff,
@@ -1444,14 +1437,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               srcValue: any,
               key: string,
               object: any,
-              source: any,
-              stack: any
+              source: any
             ) => {
-              if (Array.isArray(objValue) && Array.isArray(srcValue)) {
-                // 处理combo
-                return srcValue;
+              // 若变更前后都是对象，则进行递归合并
+              if (isObject(objValue) && isObject(srcValue)) {
+                return merge({}, objValue, srcValue);
               }
-              // 直接return，默认走的mergeWith自身的merge
+              // 直接return，默认走的assignWith自身的merge
               return;
             }
           );
