@@ -283,7 +283,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       const value = hasAbility(item, valueAbility) ? item[valueAbility] : '';
       return value === originValue;
     });
-    onEdit && editItem && onEdit(item, editItem, true);
+    onEdit && editItem && onEdit({...item, originValue}, editItem, true);
   }
 
   @autobind
