@@ -85,9 +85,11 @@ setSchemaTpl(
   'formItemExtraName',
   getSchemaTpl('formItemName', {
     required: false,
-    label: '结尾字段名',
-    name: 'extraName',
-    description: '配置了结尾字段名，该组件将开始和结尾存成两个字段'
+    label: tipedLabel(
+      '结尾字段名',
+      '配置了结尾字段名，该组件将开始和结尾存成两个字段'
+    ),
+    name: 'extraName'
   })
 );
 
