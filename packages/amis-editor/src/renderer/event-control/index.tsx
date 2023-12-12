@@ -11,7 +11,13 @@ import {
   render as amisRender
 } from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
-import {FormControlProps, Schema, autobind, findTree} from 'amis-core';
+import {
+  FormControlProps,
+  Schema,
+  autobind,
+  findTree,
+  getRendererByName
+} from 'amis-core';
 import ActionDialog from './action-config-dialog';
 import {
   findActionNode,
@@ -22,7 +28,8 @@ import {
   getEventLabel,
   getPropOfAcion,
   SELECT_PROPS_CONTAINER,
-  updateCommonUseActions
+  updateCommonUseActions,
+  FORMITEM_CMPTS
 } from './helper';
 import {
   ActionConfig,
@@ -1065,7 +1072,7 @@ export class EventControl extends React.Component<
     } = this.props;
     const {
       onEvent,
-      events,
+      events: itemEvents,
       eventPanelActive,
       showAcionDialog,
       showEventDialog,
@@ -1076,6 +1083,47 @@ export class EventControl extends React.Component<
     const eventSnapshot = {...onEvent};
     const {showOldEntry} = this.props;
     const eventKeys = Object.keys(eventSnapshot);
+
+    let commonEvents: RendererPluginEvent[] = [];
+    if (getRendererByName(this.props?.data?.type)?.isFormItem) {
+      commonEvents = [
+        {
+          eventName: 'formItemValidateSucc',
+          eventLabel: '校验成功',
+          description: '表单项校验成功后触发',
+          dataSchema: [
+            {
+              type: 'object',
+              properties: {
+                data: {
+                  type: 'object',
+                  title: '数据',
+                  description: '当前表单数据，可以通过.字段名读取对应的值'
+                }
+              }
+            }
+          ]
+        },
+        {
+          eventName: 'formItemValidateError',
+          eventLabel: '校验失败',
+          description: '表单项校验失败后触发',
+          dataSchema: [
+            {
+              type: 'object',
+              properties: {
+                data: {
+                  type: 'object',
+                  title: '数据',
+                  description: '当前表单数据，可以通过.字段名读取对应的值'
+                }
+              }
+            }
+          ]
+        }
+      ];
+    }
+    const events = [...itemEvents, ...commonEvents];
     return (
       <div className="ae-event-control">
         <header

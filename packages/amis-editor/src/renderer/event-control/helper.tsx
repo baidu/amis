@@ -1746,6 +1746,55 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
           ]
         },
         {
+          actionLabel: '校验表单项',
+          actionType: 'validateFormItem',
+          description: '校验单个表单项数据',
+          descDetail: (info: any) => {
+            return (
+              <div>
+                校验
+                <span className="variable-left variable-right">
+                  {info?.rendererLabel || info.componentId || '-'}
+                </span>
+                的数据
+              </div>
+            );
+          },
+          supportComponents: [...FORMITEM_CMPTS],
+          schema: [
+            ...renderCmptSelect('目标组件', true),
+            renderCmptIdInput(),
+            {
+              name: 'outputVar',
+              type: 'input-text',
+              label: '校验结果',
+              placeholder: '请输入存储校验结果的变量名称',
+              description:
+                '如需执行多次表单校验，可以修改此变量名用于区分不同的校验结果',
+              mode: 'horizontal',
+              size: 'lg',
+              value: 'validateResult',
+              required: true
+            }
+          ],
+          outputVarDataSchema: [
+            {
+              type: 'object',
+              title: 'validateResult',
+              properties: {
+                error: {
+                  type: 'string',
+                  title: '错误信息'
+                },
+                value: {
+                  type: 'object',
+                  title: '校验的表单项的值'
+                }
+              }
+            }
+          ]
+        },
+        {
           actionLabel: '组件特性动作',
           actionType: 'component',
           description: '触发所选组件的特性动作',

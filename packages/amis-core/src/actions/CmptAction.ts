@@ -92,6 +92,45 @@ export class CmptAction implements RendererAction {
       );
     }
 
+    // 校验表单项
+    if (action.actionType === 'validateFormItem') {
+      const {dispatchEvent, data} = component?.props || {};
+      try {
+        const valid = await component?.props.onValidate?.();
+        if (valid) {
+          event.setData(
+            createObject(event.data, {
+              [action.outputVar || `${action.actionType}Result`]: {
+                error: '',
+                value: component?.props?.formItem?.value
+              }
+            })
+          );
+          dispatchEvent && dispatchEvent('formItemValidateSucc', data);
+        } else {
+          event.setData(
+            createObject(event.data, {
+              [action.outputVar || `${action.actionType}Result`]: {
+                error: (component?.props?.formItem?.errors || []).join(','),
+                value: component?.props?.formItem?.value
+              }
+            })
+          );
+          dispatchEvent && dispatchEvent('formItemValidateError', data);
+        }
+      } catch (e) {
+        event.setData(
+          createObject(event.data, {
+            [action.outputVar || `${action.actionType}Result`]: {
+              error: e.message,
+              value: component?.props?.formItem?.value
+            }
+          })
+        );
+        dispatchEvent && dispatchEvent('formItemValidateError', data);
+      }
+    }
+
     // 执行组件动作
     try {
       const result = await component?.doAction?.(action, action.args, true);
