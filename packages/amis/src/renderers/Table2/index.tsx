@@ -409,6 +409,12 @@ export interface TableSchema2 extends BaseSchema {
    * 表格是否可以获取父级数据域值，默认为false
    */
   canAccessSuperData?: boolean;
+
+  /**
+   * 当一次性渲染太多列上有用，默认为 100，可以用来提升表格渲染性能
+   * @default 100
+   */
+  lazyRenderAfter?: number;
 }
 
 // 事件调整 对应CRUD2里的事件配置也需要同步修改
@@ -502,7 +508,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
   static defaultProps: Partial<Table2Props> = {
     keyField: 'id',
-    canAccessSuperData: false
+    canAccessSuperData: false,
+    lazyRenderAfter: 100
   };
 
   constructor(props: Table2Props, context: IScopedContext) {
@@ -727,6 +734,16 @@ export default class Table2 extends React.Component<Table2Props, object> {
       )
     ) {
       this.rowSelection = this.buildRowSelection();
+    }
+
+    if (anyChanged(['query', 'pageField', 'perPageField'], prevProps, props)) {
+      store.updateQuery(
+        props.query,
+        undefined,
+        props.pageField,
+        props.perPageField,
+        true
+      );
     }
 
     if (
@@ -1008,9 +1025,6 @@ export default class Table2 extends React.Component<Table2Props, object> {
               popOverContainer={this.getPopOverContainer}
               name={column.name}
               searchable={column.searchable}
-              orderBy={store.orderBy}
-              order={store.order}
-              data={store.query}
               onSearch={this.handleSearch}
               key={'th-search-' + col}
             />

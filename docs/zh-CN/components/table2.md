@@ -4095,6 +4095,7 @@ order: 67
 | affixRow         | `Array`                                                  |                           | 底部总结行                                                                |
 | itemBadge        | [`BadgeSchema`](./badge)                                 |                           | 行角标配置                                                                |
 | autoFillHeight   | `boolean` 丨 `{height: number}` 丨 `{maxHeight: number}` |                           | 内容区域自适应高度，可选择自适应、固定高度和最大高度                      |
+| lazyRenderAfter  | `number`                                                 | 100                       | 默认数据超过 100 条启动懒加载提升渲染性能，也可通过自定义该属性调整数值   |
 
 ## 行配置属性表
 
