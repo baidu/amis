@@ -684,6 +684,7 @@ class BaseDatePicker extends React.Component<
     if (!this.props.value) {
       this.setState({
         selectedDate: date,
+        viewDate: date,
         inputValue: date!.format(this.state.displayForamt as string)
       });
     }
