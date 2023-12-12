@@ -2023,62 +2023,6 @@ run action ajax
 
 > 备注：componentId 是全局定位指定的组件，而 componentName 是就近按照层级向上查找。
 
-### 校验表单项
-
-> 3.6.4 及以上版本
-
-对单个表单项进行校验，通过配置`actionType: 'validateFormItem'`实现表单项的校验
-
-**注意事项**
-
-- 目标组件支持范围：`formItem` 类型组件
-
-```schema
-{
-  type: 'page',
-  title: '更新表单数据',
-  body: [
-    {
-      type: 'form',
-      title: '表单',
-      wrapWithPanel: false,
-      body: [
-        {
-          type: 'input-text',
-          label: '必填项',
-          name: 'required',
-          id: 'required',
-          required: true
-        }
-      ]
-    },
-    {
-      type: 'button',
-      label: '校验',
-      level: 'primary',
-      className: 'mt-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'validateFormItem',
-              componentId: 'required'
-            }
-          ]
-        }
-      }
-    }
-  ]
-}
-```
-
-**属性**
-
-| 属性名                       | 类型               | 默认值 | 说明                          |
-| ---------------------------- | ------------------ | ------ | ----------------------------- |
-| actionType                   | `validateFormItem` | -      | -                             |
-| componentId 或 componentName | `string`           | -      | 指定赋值的目标组件 id 或 name |
-
 ### 自定义 JS
 
 通过配置`actionType: 'custom'`实现自定义 JS。JS 中可以访问以下对象和方法：

@@ -6,6 +6,7 @@ import {
   ListenerContext,
   registerAction
 } from './Action';
+import {getRendererByName} from '../factory';
 
 export interface ICmptAction extends ListenerAction {
   actionType: string;
@@ -93,7 +94,10 @@ export class CmptAction implements RendererAction {
     }
 
     // 校验表单项
-    if (action.actionType === 'validateFormItem') {
+    if (
+      action.actionType === 'validateFormItem' &&
+      getRendererByName(component?.props?.type)?.isFormItem
+    ) {
       const {dispatchEvent, data} = component?.props || {};
       try {
         const valid = await component?.props.onValidate?.();
@@ -122,13 +126,14 @@ export class CmptAction implements RendererAction {
         event.setData(
           createObject(event.data, {
             [action.outputVar || `${action.actionType}Result`]: {
-              error: e.message,
+              error: e.message || '未知错误',
               value: component?.props?.formItem?.value
             }
           })
         );
         dispatchEvent && dispatchEvent('formItemValidateError', data);
       }
+      return;
     }
 
     // 执行组件动作

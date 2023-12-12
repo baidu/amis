@@ -1773,14 +1773,14 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 '如需执行多次表单校验，可以修改此变量名用于区分不同的校验结果',
               mode: 'horizontal',
               size: 'lg',
-              value: 'validateResult',
+              value: 'validateFormItemResult',
               required: true
             }
           ],
           outputVarDataSchema: [
             {
               type: 'object',
-              title: 'validateResult',
+              title: 'validateFormItemResult',
               properties: {
                 error: {
                   type: 'string',
