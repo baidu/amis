@@ -27,8 +27,6 @@ export interface HeadCellSearchProps extends RendererProps {
   onAction?: Function;
   sortable?: boolean;
   label?: string;
-  orderBy: string;
-  order: string;
   popOverContainer?: any;
   classnames: ClassNamesFn;
   classPrefix: string;

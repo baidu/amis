@@ -39,6 +39,7 @@ class ServerError extends Error {
 export const Column = types
   .model('Column', {
     title: types.optional(types.frozen(), undefined),
+    label: types.optional(types.frozen(), undefined),
     name: '',
     toggled: false,
     breakpoint: types.optional(types.frozen(), undefined),
@@ -220,7 +221,7 @@ export const TableStore2 = ServiceStore.named('TableStore2')
   .views(self => {
     function getToggable() {
       if (self.columnsTogglable === 'auto') {
-        return self.columns.filter.length > 10;
+        return self.columns.filter(item => !/^__/.test(item.type)).length > 5;
       }
 
       return !!self.columnsTogglable;

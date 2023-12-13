@@ -175,6 +175,7 @@ export interface TableProps extends ThemeProps, LocaleProps, SpinnerExtraProps {
    * 表格自动计算高度
    */
   autoFillHeight?: boolean | AutoFillHeightObject;
+  lazyRenderAfter?: boolean;
 }
 
 export interface ScrollProps {
@@ -992,6 +993,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       rowClassName,
       keyField,
       columns,
+      lazyRenderAfter,
       classPrefix,
       classnames: cx
     } = this.props;
@@ -1065,6 +1067,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         onChange={this.onRowChange}
         childrenColumnName={this.getChildrenColumnName()}
         keyField={keyField}
+        lazyRenderAfter={lazyRenderAfter}
         classnames={cx}
         classPrefix={classPrefix}
         {...checkboxProps}
