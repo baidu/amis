@@ -32,6 +32,8 @@ export type DateType =
 /** 底层View组件修改的值类型：time时间、days日期 */
 export type ChangeEventViewMode = Extract<ViewMode, 'time' | 'days'>;
 
+export type ChangeEventViewStatus = 'start' | 'end';
+
 /** 可改变的时间单位 */
 export type MutableUnitOfTime = Extract<
   unitOfTime.All,
@@ -81,7 +83,11 @@ interface BaseDatePickerProps {
   onMouseEnter?: (date: moment.Moment) => any;
   onMouseLeave?: (date: moment.Moment) => any;
   onClose?: () => void;
-  onChange?: (value: any, viewMode?: ChangeEventViewMode) => void;
+  onChange?: (
+    value: any,
+    viewMode?: ChangeEventViewMode,
+    status?: ChangeEventViewStatus
+  ) => void;
   isEndDate?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
@@ -125,6 +131,7 @@ interface BaseDatePickerProps {
   displayTimeZone?: string;
   timeConstraints?: any;
   timeRangeHeader?: string;
+  status?: ChangeEventViewStatus;
 }
 
 interface BaseDatePickerState {
@@ -582,11 +589,12 @@ class BaseDatePicker extends React.Component<
 
   updateSelectedDate = (e: React.MouseEvent, close?: boolean) => {
     const that: any = this;
+    const {embed, status} = that.props;
     const date = that.getTargetDate(e);
 
     if (!this.props.value) {
       var open = !(this.props.closeOnSelect && close);
-      if (!open) {
+      if (!open && !embed) {
         that.props.onBlur(date);
       }
 
@@ -607,7 +615,7 @@ class BaseDatePicker extends React.Component<
       }
     }
 
-    that.props.onChange(date, 'days');
+    that.props.onChange(date, 'days', status);
   };
 
   getDateBoundary = (currentDate: moment.Moment) => {
