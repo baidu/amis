@@ -6,7 +6,7 @@
 import React from 'react';
 import {InView} from 'react-intersection-observer';
 
-import {ThemeProps, isObject, autobind} from 'amis-core';
+import {ThemeProps, isObject, autobind, isClickOnInput} from 'amis-core';
 
 import CheckBox from '../Checkbox';
 import {Icon} from '../icons';
@@ -83,9 +83,20 @@ class BodyRow extends React.PureComponent<Props> {
     onMouseLeave && onMouseLeave(event, record, rowIndex);
   }
 
-  onClick(event: React.ChangeEvent<any>, record?: any, rowIndex?: number) {
+  onClick(
+    e: React.MouseEvent<HTMLTableRowElement>,
+    record?: any,
+    rowIndex?: number
+  ) {
+    if (isClickOnInput(e)) {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
     const {onClick} = this.props;
-    onClick && onClick(event, record, rowIndex);
+    onClick && onClick(e, record, rowIndex);
   }
 
   onDoubleClick(

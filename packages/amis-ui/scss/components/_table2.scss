@@ -228,6 +228,7 @@
 
         .#{$ns}Table-head-cell-wrapper {
           display: flex;
+          align-items: center;
         }
       }
     }
@@ -694,7 +695,7 @@
   .#{$ns}TableCell-sortBtn {
     cursor: pointer;
     width: var(--TableCell-sortBtn-width);
-    height: 100%;
+    height: 14px;
     vertical-align: middle;
     position: static;
     display: inline-block;
@@ -746,6 +747,7 @@
     cursor: pointer;
     color: var(--table-icon-color);
     margin-left: var(--TableCell-icon-gap);
+    height: 18px;
 
     svg {
       width: 12px;
@@ -773,7 +775,7 @@
   .#{$ns}TableCell-filterBtn {
     cursor: pointer;
     width: var(--TableCell-filterBtn-width);
-    height: 100%;
+    height: 14px;
     vertical-align: middle;
     position: static;
     display: inline-block;

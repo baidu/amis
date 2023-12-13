@@ -2344,7 +2344,7 @@ popOver 的其它配置请参考 [popover](./popover)
                             "actionType": "toast",
                             "args": {
                                 "msgType": "info",
-                                "msg": "行单击数据：${event.data.item|json}；行索引：${event.data.index}"
+                                "msg": "行双击数据：${event.data.item|json}；行索引：${event.data.index}"
                             }
                         }
                     ]
