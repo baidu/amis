@@ -301,7 +301,11 @@ export const runAction = async (
       ajax: ['adaptor', 'responseAdaptor', 'requestAdaptor', 'responseData']
     };
     const cmptIgnoreMap: MappingIgnoreMap = {
-      'input-table': ['condition']
+      'input-table': ['condition'],
+      'table': ['condition'],
+      'table2': ['condition'],
+      'crud': ['condition'],
+      'combo': ['condition']
     };
     const curCmptType: string = targetComponent?.props?.type;
     const curActionType: string = action.actionType;
