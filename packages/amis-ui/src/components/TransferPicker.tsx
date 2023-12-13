@@ -72,6 +72,7 @@ export class TransferPicker extends React.Component<
       popOverContainer,
       maxTagCount,
       overflowTagPopover,
+      placeholder,
       ...rest
     } = this.props;
 
@@ -130,7 +131,7 @@ export class TransferPicker extends React.Component<
             result={value}
             onResultChange={onChange}
             onResultClick={onClick}
-            placeholder={__('Select.placeholder')}
+            placeholder={placeholder ?? __('Select.placeholder')}
             disabled={disabled}
             borderMode={borderMode}
             itemRender={option => (
