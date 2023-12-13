@@ -36,6 +36,7 @@ import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
 import pick from 'lodash/pick';
+import isString from 'lodash/isString';
 import {ApiObject} from 'amis-core';
 
 const DEFAULT_EVENT_PARAMS = [
@@ -144,7 +145,7 @@ export interface ChartSchema extends BaseSchema {
   /**
    * 获取 geo json 文件的地址
    */
-  mapURL?: string;
+  mapURL?: SchemaApi;
 
   /**
    * 地图名称
@@ -236,6 +237,7 @@ export class Chart extends React.Component<ChartProps> {
     this.reloadEcharts = debounce(this.reloadEcharts.bind(this), 300); //过于频繁更新 ECharts 会报错
     this.handleClick = this.handleClick.bind(this);
     this.dispatchEvent = this.dispatchEvent.bind(this);
+    this.loadChartMapData = this.loadChartMapData.bind(this);
     this.mounted = true;
 
     props.config && this.renderChart(props.config);
@@ -281,6 +283,20 @@ export class Chart extends React.Component<ChartProps> {
         filter(prevProps.trackExpression, prevProps.data)
     ) {
       this.renderChart(props.config || {});
+    } else if (
+      isApiOutdated(prevProps.mapURL, props.mapURL, prevProps.data, props.data)
+    ) {
+      const {source, data, api, config} = props;
+      this.loadChartMapData(() => {
+        if (source && isPureVariable(source)) {
+          const ret = resolveVariableAndFilter(source, data, '| raw');
+          ret && this.renderChart(ret);
+        } else if (api) {
+          this.reload();
+        } else if (config) {
+          this.renderChart(config || {});
+        }
+      });
     }
   }
 
@@ -288,6 +304,24 @@ export class Chart extends React.Component<ChartProps> {
     this.mounted = false;
     (this.reloadEcharts as any).cancel();
     clearTimeout(this.timer);
+  }
+
+  async loadChartMapData(callBackFn?: () => void) {
+    const {env, data} = this.props;
+    let {mapName, mapURL} = this.props;
+    if (mapURL && mapName && (window as any).echarts) {
+      if (isPureVariable(mapName)) {
+        mapName = resolveVariableAndFilter(mapName, data);
+      }
+      const mapGeoResult = await env.fetcher(mapURL as Api, data);
+      if (!mapGeoResult.ok) {
+        console.warn('fetch map geo error ' + mapURL);
+      }
+      (window as any).echarts.registerMap(mapName!, mapGeoResult.data);
+    }
+    if (callBackFn) {
+      callBackFn();
+    }
   }
 
   async handleClick(ctx: object) {
@@ -354,18 +388,7 @@ export class Chart extends React.Component<ChartProps> {
         (window as any).ecStat = ecStat?.default || ecStat;
 
         if (mapURL && mapName) {
-          if (isPureVariable(mapURL)) {
-            mapURL = resolveVariableAndFilter(mapURL, data);
-          }
-          if (isPureVariable(mapName)) {
-            mapName = resolveVariableAndFilter(mapName, data);
-          }
-          const mapGeoResult = await env.fetcher(mapURL as Api, data);
-          if (!mapGeoResult.ok) {
-            console.warn('fetch map geo error ' + mapURL);
-          }
-
-          echarts.registerMap(mapName!, mapGeoResult.data);
+          await this.loadChartMapData();
         }
 
         if (loadBaiduMap) {
@@ -451,7 +474,7 @@ export class Chart extends React.Component<ChartProps> {
     silent?: boolean,
     replace?: boolean
   ) {
-    const {api, env, store, interval, translate: __} = this.props;
+    const {api, env, store, translate: __} = this.props;
 
     if (query) {
       return this.receive(query, undefined, replace);
@@ -503,9 +526,15 @@ export class Chart extends React.Component<ChartProps> {
 
         this.echarts?.hideLoading();
 
-        interval &&
+        let curInterval = this.props.interval;
+
+        if (curInterval && isString(curInterval)) {
+          curInterval = Number.parseInt(curInterval);
+        }
+
+        curInterval &&
           this.mounted &&
-          (this.timer = setTimeout(this.reload, Math.max(interval, 1000)));
+          (this.timer = setTimeout(this.reload, Math.max(curInterval, 1000)));
       })
       .catch(reason => {
         if (env.isCancel(reason)) {
