@@ -112,7 +112,8 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
       mobileUI,
       env,
       maxTagCount,
-      overflowTagPopover
+      overflowTagPopover,
+      placeholder
     } = this.props;
 
     return (
@@ -120,6 +121,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
         <TabsTransferPicker
           activeKey={this.state.activeKey}
           onTabChange={this.onTabChange}
+          placeholder={placeholder}
           value={selectedOptions}
           disabled={disabled}
           options={options}

@@ -97,7 +97,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       overflowTagPopover,
       pagination,
       formItem,
-      popOverContainer
+      popOverContainer,
+      placeholder
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -119,6 +120,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
     return (
       <div className={cx('TransferControl', className)}>
         <TransferPicker
+          placeholder={placeholder}
           borderMode={borderMode}
           selectMode={selectMode}
           value={selectedOptions}
