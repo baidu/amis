@@ -240,6 +240,8 @@
     }
 
     &.is-edting {
+      --animation-duration: 0; // 编辑态 弹窗取消动画效果，防止组件选中框定位不准
+
       input,
       textarea,
       select,
@@ -398,6 +400,8 @@
   }
 
   &.is-edting {
+    --animation-duration: 0;
+
     input,
     textarea,
     select,
