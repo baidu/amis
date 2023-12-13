@@ -36,6 +36,7 @@ import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
 import pick from 'lodash/pick';
+import isString from 'lodash/isString';
 import {ApiObject} from 'amis-core';
 
 const DEFAULT_EVENT_PARAMS = [
@@ -106,7 +107,7 @@ export interface ChartSchema extends BaseSchema {
   /**
    * 刷新时间
    */
-  interval?: number;
+  interval?: number | string;
 
   name?: SchemaName;
 
@@ -451,7 +452,7 @@ export class Chart extends React.Component<ChartProps> {
     silent?: boolean,
     replace?: boolean
   ) {
-    const {api, env, store, interval, translate: __} = this.props;
+    const {api, env, store, translate: __} = this.props;
 
     if (query) {
       return this.receive(query, undefined, replace);
@@ -503,9 +504,15 @@ export class Chart extends React.Component<ChartProps> {
 
         this.echarts?.hideLoading();
 
-        interval &&
+        let curInterval = this.props.interval;
+
+        if (curInterval && isString(curInterval)) {
+          curInterval = Number.parseInt(curInterval);
+        }
+
+        curInterval &&
           this.mounted &&
-          (this.timer = setTimeout(this.reload, Math.max(interval, 1000)));
+          (this.timer = setTimeout(this.reload, Math.max(curInterval, 1000)));
       })
       .catch(reason => {
         if (env.isCancel(reason)) {
