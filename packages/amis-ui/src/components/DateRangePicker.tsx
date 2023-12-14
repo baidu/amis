@@ -1046,6 +1046,7 @@ export class DateRangePicker extends React.Component<
     ) {
       newState.editState = 'end';
     }
+
     this.setState(newState);
   }
 
