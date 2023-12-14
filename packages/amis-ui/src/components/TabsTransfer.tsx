@@ -127,7 +127,6 @@ export class TabsTransfer extends React.Component<
         if (!Array.isArray(result)) {
           throw new Error('onSearch 需要返回数组');
         }
-
         this.setState({
           searchResult: result
         });
@@ -171,12 +170,15 @@ export class TabsTransfer extends React.Component<
       onlyChildren,
       selectMode,
       loadingConfig,
+      activeKey,
+      options: optionsConfig,
       valueField = 'value',
       labelField = 'label'
     } = this.props;
     const options = searchResult || [];
     const mode = searchResultMode || selectMode; // 没有配置时默认和左侧选项展示形式一致
 
+    const activeTab = optionsConfig[activeKey];
     return mode === 'table' ? (
       <TableCheckboxes
         placeholder={noResultsText}
@@ -204,6 +206,7 @@ export class TabsTransfer extends React.Component<
         showIcon={false}
         multiple={true}
         cascade={true}
+        autoCheckChildren={activeTab.autoCheckChildren}
         itemRender={
           optionItemRender
             ? (item: Option, states: ItemRenderStates) =>
