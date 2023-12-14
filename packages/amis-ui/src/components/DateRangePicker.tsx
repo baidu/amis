@@ -35,7 +35,8 @@ import type {PlainObject, ThemeProps, LocaleProps} from 'amis-core';
 import type {
   ViewMode,
   ChangeEventViewMode,
-  MutableUnitOfTime
+  MutableUnitOfTime,
+  ChangeEventViewStatus
 } from './calendar/Calendar';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
@@ -982,8 +983,16 @@ export class DateRangePicker extends React.Component<
     return value;
   }
 
-  handleDateChange(newValue: moment.Moment) {
-    let {editState} = this.state;
+  handleDateChange(
+    newValue: moment.Moment,
+    viewMode?: ChangeEventViewMode,
+    status?: ChangeEventViewStatus
+  ) {
+    const {embed} = this.props;
+    const editState = embed
+      ? this.state.editState || status
+      : this.state.editState;
+
     if (editState === 'start') {
       this.handleStartDateChange(newValue);
     } else if (editState === 'end') {
@@ -1727,6 +1736,7 @@ export class DateRangePicker extends React.Component<
               locale={locale}
               timeRangeHeader="开始时间"
               embed={embed}
+              status="start"
             />
           )}
           {(!isTimeRange ||
@@ -1759,6 +1769,7 @@ export class DateRangePicker extends React.Component<
               locale={locale}
               timeRangeHeader="结束时间"
               embed={embed}
+              status="end"
             />
           )}
         </div>
