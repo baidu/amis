@@ -461,15 +461,15 @@ export class TableCell2Plugin extends BasePlugin {
               name: 'quickEdit.saveImmediately',
               label: tipedLabel(
                 '修改立即保存',
-                '开启后修改即提交，而不是批量提交。'
+                '开启后修改即提交，而不是批量提交，需要配置快速保存接口用于提交数据'
               ),
               pipeIn: (value: any) => !!value
             }),
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               label: '立即保存接口',
               description:
-                '是否单独给立即保存配置接口，如果不配置，则默认使用quickSaveItemApi。',
+                '默认使用表格的「快速保存单条」接口，若单独给立即保存配置接口，则优先使用局部配置。',
               name: 'quickEdit.saveImmediately.api',
               visibleOn: 'this.quickEdit && this.quickEdit.saveImmediately'
             }),
