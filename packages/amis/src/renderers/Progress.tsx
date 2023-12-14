@@ -249,8 +249,6 @@ export class ProgressFieldRenderer extends ProgressField {
   setData(value: number) {
     if (typeof value === 'number' || typeof +value === 'number') {
       this.setState({value: +value});
-    } else {
-      this.setState({value: 100});
     }
   }
 }
