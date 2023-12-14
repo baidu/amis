@@ -297,23 +297,26 @@ export async function exportExcel(
   }
 
   // 自定义导出列配置
-  if (toolbar.exportColumns && Array.isArray(toolbar.exportColumns)) {
-    columns = toolbar.exportColumns;
+  const hasCustomExportColumns =
+    toolbar.exportColumns && Array.isArray(toolbar.exportColumns);
+  if (hasCustomExportColumns) {
+    columns = toolbar.exportColumns as any[];
     // 因为后面列 props 都是从 pristine 里获取，所以这里归一一下
     for (const column of columns) {
       column.pristine = column;
     }
   }
 
+  /** 如果非自定义导出列配置，则默认不导出操作列 */
   const filteredColumns = exportColumnNames
     ? columns.filter(column => {
         const filterColumnsNames = exportColumnNames!;
         if (column.name && filterColumnsNames.indexOf(column.name) !== -1) {
-          return true;
+          return hasCustomExportColumns ? true : column?.type !== 'operation';
         }
         return false;
       })
-    : columns;
+    : columns.filter(column => column?.type !== 'operation');
 
   const firstRowLabels = filteredColumns.map(column => {
     return filter(column.label, data);
