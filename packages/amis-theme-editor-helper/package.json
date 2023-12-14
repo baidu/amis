@@ -1,6 +1,6 @@
 {
   "name": "amis-theme-editor-helper",
-  "version": "2.0.22-beta.13",
+  "version": "2.0.26",
   "description": "amis主题编辑器通用方法",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -29,9 +29,9 @@
     ]
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-color": "^2.19.3",
-    "react-dom": "^18.2.0"
+    "amis": "*",
+    "amis-core": "*",
+    "amis-ui": "*"
   },
   "devDependencies": {
     "@rollup/plugin-url": "^7.0.0",
@@ -58,12 +58,17 @@
     "typescript": "^4.6.4",
     "sass": "^1.49.7",
     "sass-loader": "^12.5.0",
-    "style-loader": "^3.2.1"
+    "style-loader": "^3.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-color": "^2.19.3"
   },
   "peerDependencies": {
     "amis": "*",
     "amis-core": "*",
     "amis-ui": "*",
-    "i18n-runtime": "*"
+    "i18n-runtime": "*",
+    "react": ">=16.8.6",
+    "react-dom": ">=16.8.6"
   }
 }
