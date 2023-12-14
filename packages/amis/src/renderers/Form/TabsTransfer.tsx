@@ -121,7 +121,7 @@ export class BaseTabsTransferRenderer<
       }
     } else if (term) {
       return filterTree(
-        options,
+        option.children || options,
         (option: Option, key: number, level: number, paths: Array<Option>) => {
           return !!(
             (Array.isArray(option.children) && option.children.length) ||
