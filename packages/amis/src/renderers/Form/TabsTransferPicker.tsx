@@ -113,7 +113,8 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
       env,
       maxTagCount,
       overflowTagPopover,
-      placeholder
+      placeholder,
+      initiallyOpen = true
     } = this.props;
 
     return (
@@ -152,6 +153,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
           popOverContainer={env?.getModalContainer}
           maxTagCount={maxTagCount}
           overflowTagPopover={overflowTagPopover}
+          initiallyOpen={initiallyOpen}
         />
 
         <Spinner

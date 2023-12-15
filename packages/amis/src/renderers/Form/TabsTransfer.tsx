@@ -307,7 +307,8 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
       valueTpl,
       menuTpl,
       data,
-      mobileUI
+      mobileUI,
+      initiallyOpen = true
     } = this.props;
 
     return (
@@ -341,6 +342,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
           valueField={valueField}
           ctx={data}
           mobileUI={mobileUI}
+          initiallyOpen={initiallyOpen}
         />
 
         <Spinner
