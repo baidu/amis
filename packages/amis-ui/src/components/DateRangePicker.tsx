@@ -1129,7 +1129,7 @@ export class DateRangePicker extends React.Component<
 
   // 根据 duration 修复结束时间
   getEndDateByDuration(newValue: moment.Moment) {
-    const {minDuration, maxDuration, type} = this.props;
+    const {minDuration, maxDuration, type, maxDate} = this.props;
     let {startDate, endDate, editState} = this.state;
     if (!startDate) {
       return newValue;
@@ -1150,6 +1150,10 @@ export class DateRangePicker extends React.Component<
 
     if (maxDuration && newValue.isAfter(startDate.clone().add(maxDuration))) {
       newValue = startDate.clone().add(maxDuration);
+    }
+
+    if (maxDate && newValue && newValue.isAfter(maxDate, 'second')) {
+      newValue = maxDate;
     }
 
     return newValue;
