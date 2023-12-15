@@ -54,6 +54,10 @@ export interface TabsTransferProps
   ctx?: Record<string, any>;
   selectMode?: 'table' | 'list' | 'tree' | 'chained' | 'associated';
   searchable?: boolean;
+  /**
+   * 是否默认都展开
+   */
+  initiallyOpen?: boolean;
 }
 
 export interface TabsTransferState {
@@ -352,6 +356,7 @@ export class TabsTransfer extends React.Component<
       virtualThreshold,
       onlyChildren,
       loadingConfig,
+      initiallyOpen = true,
       valueField = 'value',
       labelField = 'label',
       deferField = 'defer'
@@ -403,6 +408,7 @@ export class TabsTransfer extends React.Component<
         virtualThreshold={virtualThreshold}
         valueField={valueField}
         labelField={labelField}
+        initiallyOpen={initiallyOpen}
       />
     ) : selectMode === 'chained' ? (
       <ChainedCheckboxes

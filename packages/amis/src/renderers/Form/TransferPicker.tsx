@@ -98,7 +98,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       pagination,
       formItem,
       popOverContainer,
-      placeholder
+      placeholder,
+      initiallyOpen = true
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -176,6 +177,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
             popOverContainer: popOverContainer ?? env?.getModalContainer
           }}
           onPageChange={this.handlePageChange}
+          initiallyOpen={initiallyOpen}
         />
 
         <Spinner

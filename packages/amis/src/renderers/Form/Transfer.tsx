@@ -170,6 +170,11 @@ export interface TransferControlSchema
   onlyChildren?: boolean;
 
   /**
+   * 是否默认都展开
+   */
+  initiallyOpen?: boolean;
+
+  /**
    * 分页配置，selectMode为默认和table才会生效
    * @since 3.6.0
    */
@@ -624,7 +629,8 @@ export class BaseTransferRenderer<
       pagination,
       formItem,
       env,
-      popOverContainer
+      popOverContainer,
+      initiallyOpen = true
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -710,6 +716,7 @@ export class BaseTransferRenderer<
             popOverContainer: popOverContainer ?? env?.getModalContainer
           }}
           onPageChange={this.handlePageChange}
+          initiallyOpen={initiallyOpen}
         />
 
         <Spinner
