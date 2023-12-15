@@ -328,13 +328,14 @@ export class Pagination extends React.Component<
       | React.ChangeEvent<HTMLInputElement>
   ) {
     const lastPage = this.getLastPage();
+    const key = (e as React.KeyboardEvent<HTMLInputElement>).key;
     let v: number = parseInt(e.currentTarget.value, 10);
     // handle keyboard up and down events value
-    switch ((e as React.KeyboardEvent<HTMLInputElement>).key) {
-      case KeyCode.UP:
+    switch (key) {
+      case KeyCode.DOWN:
         v = isNaN(v) || v < 2 ? 1 : v - 1;
         break;
-      case KeyCode.DOWN:
+      case KeyCode.UP:
         v = v + 1;
         break;
       default:
@@ -350,11 +351,7 @@ export class Pagination extends React.Component<
       this.setState({internalPageNum: ''});
       return;
     }
-    if (
-      ([KeyCode.UP, KeyCode.DOWN, KeyCode.ENTER] as string[]).includes(
-        (e as React.KeyboardEvent<HTMLInputElement>).key
-      )
-    ) {
+    if (([KeyCode.UP, KeyCode.DOWN, KeyCode.ENTER] as string[]).includes(key)) {
       this.handlePageNumChange(v, this.props.perPage);
     }
   }
@@ -416,6 +413,7 @@ export class Pagination extends React.Component<
         <div
           className={cx(
             'Pagination-wrap',
+            `Pagination-wrap-size--${size}`,
             'Pagination-simple',
             {disabled: disabled},
             className

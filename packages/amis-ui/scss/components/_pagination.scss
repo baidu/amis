@@ -218,6 +218,9 @@
   line-height: px2rem(30px);
 
   .#{$ns}Pagination-item {
+    &.#{$ns}Pagination-perpage {
+      margin-left: px2rem(8px);
+    }
     &:nth-child(1) {
       margin-left: 0;
     }
@@ -272,7 +275,7 @@
       }
     }
   
-    .#{$ns}Pagination-inputGroup {
+    .#{$ns}Pagination-inputGroup, .#{$ns}Pagination-simplego {
       height: var(--Pagination-height-sm);
       &-input {
         min-width: px2rem(40px);
@@ -287,9 +290,17 @@
         line-height: var(--Pagination-height-sm);
       }
     }
+
+    .#{$ns}Pagination-simplego {
+      &-input {
+        min-width: px2rem(32px);
+        width: px2rem(32px);
+      }
+    }
   }
 
   .#{$ns}Pagination-perpage {
+    margin-left: px2rem(4px);
     padding: 0 px2rem(6px);
     min-height: px2rem(24px);
     vertical-align: baseline;

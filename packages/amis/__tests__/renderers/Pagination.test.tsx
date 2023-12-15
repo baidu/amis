@@ -126,6 +126,19 @@ test('Renderer:Pagination with simple mode', async () => {
   await wait(200);
   expect(pageChange.mock.calls[0]).toEqual([3, 10, 'forward']);
 
+  // keyboard up & down
+  const simplego = container.querySelector('.cxd-Pagination-simplego-input')! as HTMLInputElement;
+  fireEvent.focus(simplego);
+  await wait(500);
+
+  fireEvent.keyUp(simplego, {key: "ArrowUp", code: 38});
+  expect(simplego.value).toBe('2');
+  expect(pageChange).toBeCalled();
+
+  fireEvent.keyUp(simplego, {key: "ArrowDown", code: 40});
+  expect(simplego.value).toBe('1');
+  await wait(500);
+
   rerender(
     amisRender(
       {
@@ -396,17 +409,38 @@ test('pagination: Pagination with ellipsisPageGap', async () => {
     amisRender(
       {
         type: 'service',
+        id: 'service_01',
+        data: {
+          page: 1
+        },
+        api: '/api/mock2/crud/table',
         body: [
           {
             type: 'pagination',
-            layout: 'total,perPage,pager,go',
+            layout: 'pager',
             mode: 'normal',
-            activePage: 1,
-            lastPage: 99999,
-            total: 999,
+            activePage: "${page}",
+            lastPage: 10,
+            total: 10,
             perPage: 1,
+            maxButtons: 7,
             ellipsisPageGap: 7,
-            onPageChange: pageChange
+            onPageChange: pageChange,
+            onEvent: {
+              change: {
+                actions: [
+                  {
+                    actionType: 'setValue',
+                    componentId: 'service_01',
+                    args: {
+                      value: {
+                        page: '${event.data.page}'
+                      }
+                    }
+                  }
+                ]
+              }
+            }
           }
         ]
       },
@@ -419,4 +453,6 @@ test('pagination: Pagination with ellipsisPageGap', async () => {
   fireEvent.click(ellipsisEL!);
   await wait(200);
   expect(pageChange).toBeCalled();
+  const active = container.querySelector('.is-active a');
+  expect(active).toHaveTextContent('8');
 });

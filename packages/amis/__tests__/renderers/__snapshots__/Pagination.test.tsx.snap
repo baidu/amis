@@ -1065,7 +1065,7 @@ exports[`Renderer:Pagination with simple mode 1`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap cxd-Pagination-simple"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md cxd-Pagination-simple"
     >
       <ul
         class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-pager-items cxd-Pagination-item"

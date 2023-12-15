@@ -289,19 +289,18 @@ export class PaginationPlugin extends BasePlugin {
                 name: 'size',
                 label: '尺寸',
                 value: '',
-                pipeIn: defaultValue('default'),
+                pipeIn: defaultValue('md'),
                 options: [
                   {
                     label: '正常',
-                    value: 'default'
+                    value: 'md'
                   },
 
                   {
                     label: '微型',
-                    value: 'small'
+                    value: 'sm'
                   }
-                ],
-                visibleOn: 'data.mode === "normal"'
+                ]
               }
             ]
           },
