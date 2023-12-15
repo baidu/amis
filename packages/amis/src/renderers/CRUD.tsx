@@ -739,6 +739,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       stopAutoRefreshWhenModalIsOpen
     } = this.props;
 
+    if (store.loading) {
+      //由于curd的loading样式未遮罩按钮部分，如果处于加载中时不处理操作
+      return;
+    }
+
     if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       const idx: number = (ctx as any).index;
