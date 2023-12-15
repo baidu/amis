@@ -157,6 +157,10 @@ export interface TransferProps
     perPage?: number,
     direction?: 'forward' | 'backward'
   ) => void;
+  /**
+   * 是否默认都展开
+   */
+  initiallyOpen?: boolean;
 }
 
 export interface TransferState {
@@ -816,7 +820,8 @@ export class Transfer<
       loadingConfig,
       checkAll,
       checkAllLabel,
-      onlyChildren
+      onlyChildren,
+      initiallyOpen = true
     } = props;
 
     return selectMode === 'table' ? (
@@ -859,6 +864,7 @@ export class Transfer<
         loadingConfig={loadingConfig}
         checkAllLabel={checkAllLabel}
         checkAll={checkAll}
+        initiallyOpen={initiallyOpen}
       />
     ) : selectMode === 'chained' ? (
       <ChainedSelection
