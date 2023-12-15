@@ -127,7 +127,7 @@
   }
 
   &-menuItem,
-  &-menu:not(.is-mobile) > li {
+  &-menu:not(.is-mobile) > li:not(.is-disabled) {
     &:hover {
       background: var(--DropDown-menuItem-onHover-bg);
       color: var(--DropDown-menuItem-onHover-color);
