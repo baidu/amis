@@ -294,6 +294,14 @@ export const defaultOptions: RenderOptions = {
       action.blank === false ? (window.location.href = to) : window.open(to);
       return;
     }
+    if (
+      action &&
+      action.actionType === 'link' &&
+      action.redirectType === 'url'
+    ) {
+      action.blank === false ? (window.location.href = to) : window.open(to);
+      return;
+    }
     if (/^https?:\/\//.test(to)) {
       window.location.replace(to);
     } else {

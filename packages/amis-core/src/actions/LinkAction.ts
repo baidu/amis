@@ -38,16 +38,23 @@ export class LinkAction implements RendererAction {
       throw new Error('env.jumpTo is required!');
     }
 
+    let apiParams = {
+      ...(action.args?.params ?? {}),
+      ...(action.data ?? {})
+    };
+
+    if (action.actionType === 'link') {
+      // link动作新增redirectType打开方式，buildApi不需要该参数
+      delete apiParams.redirectType;
+    }
+
     // 通过buildApi兼容较复杂的url情况
     let urlObj = buildApi(
       {
         url: (action.args?.url || action.args?.link) as string,
         method: 'get'
       },
-      {
-        ...(action.args?.params ?? {}),
-        ...(action.data ?? {})
-      },
+      apiParams,
       {
         autoAppend: true
       }
