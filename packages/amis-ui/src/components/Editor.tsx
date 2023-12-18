@@ -201,6 +201,9 @@ export class Editor extends React.Component<EditorProps, EditorState> {
   }
 
   loadMonaco() {
+    // 由于 require.config({'vs/nls': { availableLanguages: { '*': 'xxxx' }}}) 只能在初始化之前设置有用，所以这里只能用全局变量的方式来设置。
+    // 另外此方式只是针对 jssdk 和平台有效，对于其他方式还需要再想想。
+    (window as any).__amis_monaco_editor_locale = this.props.locale;
     import('monaco-editor').then(monaco => this.initMonaco(monaco));
   }
 
