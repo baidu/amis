@@ -21,6 +21,7 @@ import {
   tipedLabel
 } from 'amis-editor-core';
 import {diff} from 'amis-editor-core';
+import {isPureVariable} from 'amis-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {resolveOptionType} from '../../util';
 import {ValidatorTag} from '../../validator';
@@ -365,7 +366,9 @@ export class PickerControlPlugin extends BasePlugin {
               {
                 type: 'ae-switch-more',
                 formType: 'dialog',
+                name: 'overflowConfigSwitch',
                 className: 'ae-switch-more-flex',
+                pipeIn: (value: any) => !!value,
                 label: tipedLabel(
                   '标签收纳',
                   '当值数量超出一定数量时，可进行收纳显示'
@@ -406,7 +409,10 @@ export class PickerControlPlugin extends BasePlugin {
               getSchemaTpl('optionControlV2'),
               getSchemaTpl('valueFormula', {
                 mode: 'vertical',
-                rendererSchema: context?.schema,
+                rendererSchema: () => {
+                  return context?.schema;
+                },
+                useSelectMode: true,
                 label: tipedLabel(
                   '默认值',
                   `当在fx中配置多选值时，需要适配值格式，示例：
@@ -441,6 +447,15 @@ export class PickerControlPlugin extends BasePlugin {
                 label: '配置选框详情',
                 block: true,
                 level: 'primary',
+                visibleOn: '!this.pickerSchema',
+                onClick: this.editDetail.bind(this, context.id)
+              },
+              {
+                type: 'button',
+                label: '已配置选框详情',
+                block: true,
+                level: 'primary',
+                visibleOn: 'this.pickerSchema',
                 onClick: this.editDetail.bind(this, context.id)
               }
             ]
@@ -626,13 +641,16 @@ export class PickerControlPlugin extends BasePlugin {
       mode: 'list',
       ...(value.pickerSchema || {
         listItem: {
-          title: '${label}'
+          title: value.labelField ? '${' + value.labelField + '}' : '${label}'
         }
       }),
-      api: value.source,
       pickerMode: true,
       multiple: value.multiple
     };
+    // 不支持上下文变量构建crud
+    if (!isPureVariable(value.source)) {
+      schema.api = value.source;
+    }
 
     this.manager.openSubEditor({
       title: '配置选框详情',
