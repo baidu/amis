@@ -479,7 +479,7 @@ app.listen(8080, function () {});
       "className": "mb-1",
       "items": {
         "type": "tpl",
-        "tpl": "<span class='label label-info m-l-sm inline-block mb-1'><%= data.item %></span>"
+        "tpl": "<span class='label label-info m-l-sm inline-block mb-1'>${item}</span>"
       }
     },
     {

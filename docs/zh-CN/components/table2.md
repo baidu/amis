@@ -591,7 +591,7 @@ order: 67
       "expandable": {
         "expandableOn": "this.record && (this.record.id === 1 || this.record.id === 3)",
         "keyField": "id",
-        "expandedRowClassNameExpr": "<%= data.rowIndex === 2 ? 'bg-success' : '' %>",
+        "expandedRowClassNameExpr": "${ rowIndex === 2 ? 'bg-success' : '' }",
         "expandedRowKeys": ["3"],
         "type": "container",
         "body": [
@@ -642,7 +642,7 @@ order: 67
       "expandable": {
         "expandableOn": "this.record && (this.record.id === 1 || this.record.id === 3)",
         "keyField": "id",
-        "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
+        "expandedRowClassNameExpr": "${ rowIndex % 2 ? 'bg-success' : '' }",
         "expandedRowKeysExpr": "data.record.id == '3'",
         "type": "container",
         "body": [
@@ -693,7 +693,7 @@ order: 67
       "expandable": {
         "expandableOn": "this.record && (this.record.id === 1 || this.record.id === 3)",
         "keyField": "id",
-        "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
+        "expandedRowClassNameExpr": "${ rowIndex % 2 ? 'bg-success' : '' }",
         "expandedRowKeys": ["3"],
         "type": "container",
         "position": "right",
@@ -774,7 +774,7 @@ order: 67
       ],
       "expandable": {
         "keyField": "id",
-        "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
+        "expandedRowClassNameExpr": "${ rowIndex % 2 ? 'bg-success' : '' }",
         "type": "container",
         "position": "none",
         "body": [
@@ -843,7 +843,7 @@ order: 67
       ],
       "expandable": {
         "keyField": "id",
-        "expandedRowClassNameExpr": "<%= data.rowIndex % 2 ? 'bg-success' : '' %>",
+        "expandedRowClassNameExpr": "${ rowIndex % 2 ? 'bg-success' : '' }",
         "type": "container",
         "position": "none",
         "body": [
@@ -878,7 +878,7 @@ order: 67
         {
           "title": "Version",
           "name": "version",
-          "rowSpanExpr": "<%= data.rowIndex === 2 ? 2 : 0 %>"
+          "rowSpanExpr": "${ rowIndex === 2 ? 2 : 0 }"
         },
         {
           "title": "Browser",
@@ -887,7 +887,7 @@ order: 67
         {
           "title": "Badge",
           "name": "badgeText",
-          "colSpanExpr": "<%= data.rowIndex === 6 ? 3 : 0 %>"
+          "colSpanExpr": "${ rowIndex === 6 ? 3 : 0 }"
         },
         {
           "title": "Grade",
@@ -1247,7 +1247,7 @@ order: 67
         {
           "title": "Grade",
           "name": "grade",
-          "colSpanExpr": "<%= data.rowIndex === 1 ? 3 : 0 %>"
+          "colSpanExpr": "${ rowIndex === 1 ? 3 : 0 }"
         },
         {
           "title": "Grade1",
@@ -3955,7 +3955,7 @@ order: 67
         {
           "title": "Version",
           "name": "version",
-          "classNameExpr": "<%= data.version > 5 ? 'text-danger' : '' %>"
+          "classNameExpr": "${ version > 5 ? 'text-danger' : '' }"
         },
         {
           "title": "Browser",

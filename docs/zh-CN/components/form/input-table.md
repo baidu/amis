@@ -790,7 +790,7 @@ order: 54
         "name": "table",
         "addable": true,
         "editable": true,
-        "rowClassNameExpr": "<%= data.a === 'a' ? 'bg-success' : '' %>",
+        "rowClassNameExpr": "${ a === 'a' ? 'bg-success' : '' }",
         "columns": [
           {
             "name": "a",
