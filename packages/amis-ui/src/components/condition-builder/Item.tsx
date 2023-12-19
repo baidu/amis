@@ -218,6 +218,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       return (
         <PopOverContainer
           mobileUI={mobileUI}
+          disabled={operators.length < 2}
           popOverContainer={popOverContainer || (() => findDOMNode(this))}
           popOverRender={({onClose}) => (
             <GroupedSelection
@@ -230,7 +231,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             />
           )}
         >
-          {({onClick, isOpened, ref}) => (
+          {({onClick, isOpened, ref, disabled: popOverDisabled}) => (
             <div className={cx('CBGroup-operator')}>
               <ResultBox
                 className={cx(

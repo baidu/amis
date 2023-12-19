@@ -13,10 +13,12 @@ export interface PopOverOverlay {
 
 export interface PopOverContainerProps {
   children: (props: {
+    disabled?: boolean;
     onClick: (e: React.MouseEvent) => void;
     isOpened: boolean;
     ref: any;
   }) => JSX.Element;
+  disabled?: boolean;
   popOverRender: (props: {onClose: () => void}) => JSX.Element;
   popOverContainer?: any;
   popOverClassName?: string;
@@ -61,9 +63,10 @@ export class PopOverContainer extends React.Component<
 
   @autobind
   handleClick() {
-    this.setState({
-      isOpened: true
-    });
+    this.props.disabled ||
+      this.setState({
+        isOpened: true
+      });
   }
 
   @autobind
@@ -152,7 +155,8 @@ export class PopOverContainer extends React.Component<
       placement,
       align,
       showConfirm,
-      onConfirm
+      onConfirm,
+      disabled
     } = this.props;
 
     return (
@@ -160,7 +164,8 @@ export class PopOverContainer extends React.Component<
         {children({
           isOpened: this.state.isOpened,
           onClick: this.handleClick,
-          ref: this.targetRef
+          ref: this.targetRef,
+          disabled
         })}
         {mobileUI ? (
           <PopUp
