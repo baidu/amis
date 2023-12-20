@@ -22,6 +22,7 @@ import {
 } from 'amis-editor-core';
 import {diff} from 'amis-editor-core';
 import {isPureVariable} from 'amis-core';
+import type {Schema} from 'amis';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {resolveOptionType} from '../../util';
 import {ValidatorTag} from '../../validator';
@@ -409,9 +410,7 @@ export class PickerControlPlugin extends BasePlugin {
               getSchemaTpl('optionControlV2'),
               getSchemaTpl('valueFormula', {
                 mode: 'vertical',
-                rendererSchema: () => {
-                  return context?.schema;
-                },
+                rendererSchema: (schema: Schema) => schema,
                 useSelectMode: true,
                 label: tipedLabel(
                   '默认值',
