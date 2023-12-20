@@ -283,6 +283,78 @@ test('doAction:form submit', async () => {
   expect(container).toMatchSnapshot();
 });
 
+test('doAction:form force validate before submit', async () => {
+  const notify = jest.fn();
+  const {container, getByText, queryByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'form',
+            body: [
+              {
+                type: 'input-text',
+                name: 'value1',
+                validations: {
+                  equalsField: 'value2'
+                },
+                value: 1
+              },
+              {
+                name: 'value2',
+                type: 'input-text',
+                validations: {
+                  equalsField: 'value1'
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        notify
+      })
+    )
+  );
+
+  await waitFor(() => {
+    expect(getByText('提交')).toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText(/提交/));
+
+  await wait(300);
+
+  await waitFor(() => {
+    expect(queryByText('输入的数据与 value2 值不一致')).toBeInTheDocument();
+    expect(queryByText('输入的数据与 value1 值不一致')).toBeInTheDocument();
+  });
+
+  expect(container).toMatchSnapshot();
+
+  fireEvent.change(container.querySelector('[name="value2"]')!, {
+    target: {value: '1'}
+  });
+
+  await wait(300);
+
+  await waitFor(() => {
+    expect(queryByText('输入的数据与 value1 值不一致')).not.toBeInTheDocument();
+  });
+
+  fireEvent.click(getByText(/提交/));
+
+  await wait(300);
+
+  await waitFor(() => {
+    expect(queryByText('输入的数据与 value2 值不一致')).not.toBeInTheDocument();
+  });
+
+  expect(container).toMatchSnapshot();
+});
+
 test('doAction:form setValue', async () => {
   const notify = jest.fn();
   const fetcher = jest.fn().mockImplementation(() =>

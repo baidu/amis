@@ -70,7 +70,8 @@
     "sortablejs": "1.15.0",
     "tinymce": "^6.1.2",
     "tslib": "^2.3.1",
-    "uncontrollable": "7.2.1"
+    "uncontrollable": "7.2.1",
+    "react-intersection-observer": "9.5.2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^22.0.2",

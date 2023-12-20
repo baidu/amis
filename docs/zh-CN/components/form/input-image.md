@@ -8,7 +8,7 @@ icon:
 order: 27
 ---
 
-图片格式输入，需要实现接收器，提交时将以 url 的方式提交，如果需要以表单方式提交请使用 [InputFile](input-file#手动上传)。
+图片格式输入，需要实现接收器，提交时将以 url 的方式提交，如果需要以表单方式提交请使用 [InputFile](input-file#作为表单项上传)。
 
 ## 基本用法
 
@@ -199,6 +199,194 @@ app.listen(8080, function () {});
 }
 ```
 
+## 手动上传
+
+默认`"autoUpload": true`，即添加文件后自动上传。可以设置`"autoUpload": false`关闭自动上传，此时通过点击底部上传按钮上传。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "data": {
+      "file": {
+        "id":"2ba48d02d348",
+        "value":"https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+        "url":"https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+        "filename":"file(single).md",
+        "name":"file(single).md",
+        "state":"uploaded"
+      },
+      "files": [
+        {
+          "id":"2ba48d02d349",
+          "value":"https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          "url":"https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          "preview": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          "filename":"file1.md",
+          "name":"file1.md",
+          "state":"uploaded"
+        },
+        {
+          "id": "14723e0bc640",
+          "value": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          "url": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          "preview": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          "filename":"file2.md",
+          "name":"file2.md",
+          "state":"uploaded"
+        }
+      ]
+    },
+    "body": [
+      {
+        "type": "input-image",
+        "name": "files",
+        "label": "File(多选)",
+        "mode": "horizontal",
+        "labelAlign": "left",
+        "accept": "image/jpeg, image/jpg, image/png, image/gif",
+        "receiver": "/api/upload/file",
+        "multiple": true,
+        "autoUpload": false,
+        "joinValues": false,
+        "onEvent": {
+          "success": {
+            "actions": [
+              {
+                "actionType": "toast",
+                "args": {
+                  "msgType": "info",
+                  "msg": "「${event.data.path}」上传成功"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "input-image",
+        "name": "file",
+        "label": "File(单选)",
+        "mode": "horizontal",
+        "labelAlign": "left",
+        "accept": "image/jpeg, image/jpg, image/png, image/gif",
+        "receiver": "/api/upload/file",
+        "multiple": false,
+        "autoUpload": false,
+        "joinValues": false,
+        "onEvent": {
+          "success": {
+            "actions": [
+              {
+                "actionType": "toast",
+                "args": {
+                  "msgType": "info",
+                  "msg": "「${event.data.path}」上传成功"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+}
+```
+
+### 隐藏上传按钮
+
+设置 `"hideUploadButton": true` 隐藏手动上传的按钮。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "data": {
+      "file": {
+        "id":"2ba48d02d348",
+        "value":"https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+        "url":"https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+        "filename":"file(single).md",
+        "name":"file(single).md",
+        "state":"uploaded"
+      },
+      "files": [
+        {
+          "id":"2ba48d02d349",
+          "value":"https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          "url":"https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          "preview": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          "filename":"file1.md",
+          "name":"file1.md",
+          "state":"uploaded"
+        },
+        {
+          "id": "14723e0bc640",
+          "value": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          "url": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          "preview": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+          "filename":"file2.md",
+          "name":"file2.md",
+          "state":"uploaded"
+        }
+      ]
+    },
+    "body": [
+      {
+        "type": "input-image",
+        "name": "files",
+        "label": "File(多选)",
+        "mode": "horizontal",
+        "labelAlign": "left",
+        "accept": "image/jpeg, image/jpg, image/png, image/gif",
+        "receiver": "/api/upload/file",
+        "multiple": true,
+        "autoUpload": false,
+        "joinValues": false,
+        "hideUploadButton": true,
+        "onEvent": {
+          "success": {
+            "actions": [
+              {
+                "actionType": "toast",
+                "args": {
+                  "msgType": "info",
+                  "msg": "「${event.data.path}」上传成功"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "input-image",
+        "name": "file",
+        "label": "File(单选)",
+        "mode": "horizontal",
+        "labelAlign": "left",
+        "accept": "image/jpeg, image/jpg, image/png, image/gif",
+        "receiver": "/api/upload/file",
+        "multiple": false,
+        "autoUpload": false,
+        "joinValues": false,
+        "hideUploadButton": true,
+        "onEvent": {
+          "success": {
+            "actions": [
+              {
+                "actionType": "toast",
+                "args": {
+                  "msgType": "info",
+                  "msg": "「${event.data.path}」上传成功"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+}
+```
+
 如果浏览器支持，还能设置为 `image/webp`
 
 ## 自动填充
@@ -291,7 +479,7 @@ app.listen(8080, function () {});
       "className": "mb-1",
       "items": {
         "type": "tpl",
-        "tpl": "<span class='label label-info m-l-sm inline-block mb-1'><%= data.item %></span>"
+        "tpl": "<span class='label label-info m-l-sm inline-block mb-1'>${item}</span>"
       }
     },
     {

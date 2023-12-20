@@ -474,7 +474,7 @@ order: 67
 
 `classNameExpr` 可以根据数据动态添加 CSS 类，支持 [模板](../../docs/concepts/template) 语法。
 
-例如下例，`"<%= data.version > 5 ? "text-danger" : "" %>"` 表示当行数据的 `version` 数据大于 5 的时候添加 `text-danger` CSS 类名，使得文字颜色变红
+例如下例，`"${ version > 5 ? 'text-danger' : '' }"` 表示当行数据的 `version` 数据大于 5 的时候添加 `text-danger` CSS 类名，使得文字颜色变红
 
 ```schema: scope="body"
 {
@@ -493,7 +493,7 @@ order: 67
                 {
                     "name": "version",
                     "label": "Version",
-                    "classNameExpr": "<%= data.version > 5 ? 'text-danger' : '' %>",
+                    "classNameExpr": "${ version > 5 ? 'text-danger' : '' }",
                 },
                 {
                     "name": "grade",
@@ -1414,7 +1414,7 @@ popOver 的其它配置请参考 [popover](./popover)
 
 可以通过配置`rowClassNameExpr`来为行添加 CSS 类，支持 [模板](../../docs/concepts/template) 语法。
 
-例如下例，`"<%= data.id % 2 ? "bg-success" : "" %>"` 表示当行数据的 `id` 变量为 不能被 `2` 整除时，给当前行添加`bg-success` CSS 类名，即绿色背景色
+例如下例，`"${id % 2 ? "bg-success" : ""}"` 表示当行数据的 `id` 变量为 不能被 `2` 整除时，给当前行添加`bg-success` CSS 类名，即绿色背景色
 
 ```schema: scope="body"
 {
@@ -1424,7 +1424,7 @@ popOver 的其它配置请参考 [popover](./popover)
         {
             "type": "table",
             "source": "$rows",
-            "rowClassNameExpr": "<%= data.id % 2 ? 'bg-success' : 'bg-blue-50' %>",
+            "rowClassNameExpr": "${id % 2 ? 'bg-success' : 'bg-blue-50'}",
             "columns": [
                 {
                     "name": "engine",
@@ -2344,7 +2344,7 @@ popOver 的其它配置请参考 [popover](./popover)
                             "actionType": "toast",
                             "args": {
                                 "msgType": "info",
-                                "msg": "行单击数据：${event.data.item|json}；行索引：${event.data.index}"
+                                "msg": "行双击数据：${event.data.item|json}；行索引：${event.data.index}"
                             }
                         }
                     ]

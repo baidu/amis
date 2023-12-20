@@ -2,7 +2,7 @@ import findLastIndex from 'lodash/findLastIndex';
 import find from 'lodash/find';
 import {isBreakpoint} from 'amis-core';
 
-import {ColumnProps, SummaryProps, ThProps, TdProps} from './index';
+import {ColumnProps, SummaryProps, ThProps, TdProps, SortProps} from './index';
 
 // 当前行包含子数据
 export function checkChildrenRow(data: any, childrenColumnName: string) {
@@ -74,29 +74,29 @@ export function getAllSelectableRows(
   return {rows: allRows, rowKeys: allRowKeys, restSelectedKeys};
 }
 
-export function getSelectedRows(
+export function getRowsByKeys(
   dataSource: Array<any>,
-  selectedRowKeys: Array<string | number>,
-  rowSelectionKeyField: string,
+  keys: Array<string | number>,
+  keyField: string,
   childrenColumnName: string
 ) {
   let selectedRows: Array<any> = [];
   let unSelectedRows: Array<any> = [];
   dataSource.forEach(data => {
-    if (selectedRowKeys.find(key => key === data[rowSelectionKeyField])) {
+    if (keys.find(key => key === data[keyField])) {
       selectedRows.push(data);
     } else {
       unSelectedRows.push(data);
     }
     if (checkChildrenRow(data, childrenColumnName)) {
-      const childrenSelected = getSelectedRows(
+      const childrenResult = getRowsByKeys(
         data[childrenColumnName],
-        selectedRowKeys,
-        rowSelectionKeyField,
+        keys,
+        keyField,
         childrenColumnName
       );
-      selectedRows = [...selectedRows, ...childrenSelected.selectedRows];
-      unSelectedRows = [...unSelectedRows, ...childrenSelected.unSelectedRows];
+      selectedRows = [...selectedRows, ...childrenResult.selectedRows];
+      unSelectedRows = [...unSelectedRows, ...childrenResult.unSelectedRows];
     }
   });
 
@@ -298,4 +298,50 @@ export function levelsSplit(level: string) {
     return [];
   }
   return level.split(',').map((l: string) => +l);
+}
+
+export function getSortData(
+  data: Array<any>,
+  columns: Array<ColumnProps>,
+  childrenColumnName: string,
+  sort?: SortProps
+): Array<any> {
+  const cloneData = data.slice();
+  if (!sort?.orderBy) {
+    return cloneData;
+  }
+  const column = columns.find(column => column.name === sort.orderBy);
+  if (!column) {
+    return cloneData;
+  }
+  if (typeof column.sorter !== 'function') {
+    return cloneData;
+  }
+  const sortOrder = sort.orderDir;
+  return cloneData
+    .sort((record1, record2) => {
+      const compareResult =
+        typeof column.sorter === 'function'
+          ? column.sorter(record1, record2, sortOrder)
+          : 0;
+      if (compareResult !== 0) {
+        return sortOrder === 'asc' ? compareResult : -compareResult;
+      }
+      return 0;
+    })
+    .map(record => {
+      const subRecords = (record as any)[childrenColumnName];
+      if (subRecords) {
+        return {
+          ...record,
+          [childrenColumnName]: getSortData(
+            data,
+            columns,
+            childrenColumnName,
+            sort
+          )
+        };
+      }
+      return record;
+    });
 }

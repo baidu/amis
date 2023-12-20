@@ -176,7 +176,7 @@ export default class Dialog extends React.Component<DialogProps> {
     title: 'Dialog.title',
     bodyClassName: '',
     confirm: true,
-    show: true,
+    show: false,
     lazyRender: false,
     showCloseButton: true,
     wrapperComponent: Modal,
@@ -932,8 +932,10 @@ export class DialogRenderer extends Dialog {
     const {onAction, store, onConfirm, env, dispatchEvent, onClose} =
       this.props;
     if (action.from === this.$$id) {
-      // 可能是孩子又派送回来到自己了，这时候就不要处理了。
-      return;
+      // 如果是从 children 里面委托过来的，那就直接向上冒泡。
+      return onAction
+        ? onAction(e, action, data, throwErrors, delegate || this.context)
+        : false;
     }
 
     const scoped = this.context as IScopedContext;
@@ -1021,7 +1023,8 @@ export class DialogRenderer extends Dialog {
           typeof action.close === 'string' &&
           this.closeTarget(action.close);
       }
-    } else if (this.tryChildrenToHandle(action, data)) {
+    } else if (!action.from && this.tryChildrenToHandle(action, data)) {
+      // 如果有 from 了，说明是从子节点冒泡上来的，那就不再走让子节点处理的逻辑。
       // do nothing
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);

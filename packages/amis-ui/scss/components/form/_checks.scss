@@ -37,7 +37,6 @@
       cursor: pointer;
       display: inline-block;
       vertical-align: top;
-      line-height: var(--checkbox-checkbox-default-lineHeight);
 
       > a {
         // float: right;
@@ -137,12 +136,12 @@
       }
 
       &[disabled] + i {
-        border-color: var(--Checkbox-onDisabled-color);
+        border-color: var(--Checkbox-color) !important;
         cursor: not-allowed;
-
+        background-color: var(--checkbox-checkbox-disabled-bg-color);
         &:before {
-          width: var(--Checkbox-inner-size);
-          height: calc(var(--Checkbox-inner-size) / 2);
+          background-color: var(--Checkbox-onDisabled-color);
+          border-width: 0;
         }
       }
 
@@ -285,6 +284,7 @@
         &:before {
           border-color: var(--Checkbox-onDisabled-color);
           background: var(--Checkbox-onDisabled-bg);
+          border-width: 0 0 px2rem(1px) px2rem(1px);
         }
       }
 

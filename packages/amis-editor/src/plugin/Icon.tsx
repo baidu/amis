@@ -1,4 +1,8 @@
-import {registerEditorPlugin, RendererPluginEvent} from 'amis-editor-core';
+import {
+  registerEditorPlugin,
+  RendererPluginAction,
+  RendererPluginEvent
+} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {getEventControlConfig} from '../renderer/event-control';
@@ -143,18 +147,17 @@ export class IconPlugin extends BasePlugin {
               ]
             }
           ])
+        },
+        {
+          title: '事件',
+          className: 'p-none',
+          body: [
+            getSchemaTpl('eventControl', {
+              name: 'onEvent',
+              ...getEventControlConfig(this.manager, context)
+            })
+          ]
         }
-
-        // {
-        //   title: '事件',
-        //   className: 'p-none',
-        //   body: [
-        //     getSchemaTpl('eventControl', {
-        //       name: 'onEvent',
-        //       ...getEventControlConfig(this.manager, context)
-        //     })
-        //   ]
-        // }
       ])
     ];
   };

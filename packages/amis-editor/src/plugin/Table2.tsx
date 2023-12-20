@@ -23,6 +23,7 @@ import {
   BuildPanelEventContext
 } from 'amis-editor-core';
 import {DSBuilderManager} from '../builder/DSBuilderManager';
+import {DefaultMaxDisplayRows} from './CRUD2/constants';
 import {
   getEventControlConfig,
   getArgsWrapper
@@ -512,25 +513,76 @@ export class Table2Plugin extends BasePlugin {
 
   filterProps(props: any) {
     const arr = resolveArrayDatasource(props);
+    const getFooterSummary = (text: string) => ({
+      type: 'alert',
+      level: 'info',
+      showIcon: true,
+      cellClassName: 'p-none',
+      style: {
+        'marginBottom': 0,
+        'fontWeight': 500,
+        'text-align': 'left'
+      },
+      colSpan: Array.isArray(props.columns) ? props.columns.length : 1,
+      body: text
+    });
+    const {enable: enableMock, maxDisplayRows = DefaultMaxDisplayRows} =
+      props?.editorSetting?.mock || {};
+    const mock = {
+      enable: enableMock !== false,
+      maxDisplayRows: Number.isInteger(maxDisplayRows)
+        ? maxDisplayRows
+        : DefaultMaxDisplayRows
+    };
 
     if (!Array.isArray(arr) || !arr.length) {
-      const mockedData: any = {};
+      if (mock?.enable) {
+        const mockedData: any = {};
 
-      if (Array.isArray(props.columns)) {
-        props.columns.forEach((column: any) => {
-          if (column.name) {
-            setVariable(mockedData, column.name, mockValue(column));
-          }
-        });
+        if (Array.isArray(props.columns)) {
+          props.columns.forEach((column: any) => {
+            if (column.name) {
+              setVariable(mockedData, column.name, mockValue(column));
+            }
+          });
+        }
+
+        props.value = repeatArray(
+          mockedData,
+          maxDisplayRows < 0 ? 0 : mock.maxDisplayRows
+        ).map((item, index) => ({
+          ...item,
+          id: index + 1
+        }));
+
+        const mockTip = getFooterSummary(
+          `当前表格无数据，使用Mock数据用于效果预览，组件面板Mock配置中可修改相关配置`
+        );
+
+        if (props.footSummary && Array.isArray(props.footSummary)) {
+          props.footSummary = [...props.footSummary, mockTip];
+        } else {
+          props.footSummary = [mockTip];
+        }
+      } else {
+        props.value = undefined;
       }
-
-      props.value = repeatArray(mockedData, 10).map((item, index) => ({
-        ...item,
-        id: index + 1
-      }));
     } else {
-      // 只取10条预览，否则太多卡顿
-      props.value = arr.slice(0, 10);
+      /** 开启最大行数且不为-1时，截断数据 */
+      if (arr.length > mock.maxDisplayRows && mock.maxDisplayRows !== -1) {
+        props.value = arr.slice(0, mock.maxDisplayRows);
+        const mockTip = getFooterSummary(
+          `当前表格仅展示${mock.maxDisplayRows}条数据用于效果预览，点击顶部「预览」查看真实场景数据，组件面板Mock配置中可修改相关配置`
+        );
+
+        if (props.footSummary && Array.isArray(props.footSummary)) {
+          props.footSummary = [...props.footSummary, mockTip];
+        } else {
+          props.footSummary = [mockTip];
+        }
+      } else {
+        props.value = arr;
+      }
     }
 
     // 如果设置了可展开 默认把第一行展开
@@ -775,430 +827,464 @@ export class Table2Plugin extends BasePlugin {
       {
         title: '属性',
         body: [
-          getSchemaTpl('collapseGroup', [
-            {
-              title: '基本',
-              body: [
-                getSchemaTpl('layout:originPosition', {value: 'left-top'}),
-                getSchemaTpl('formulaControl', {
-                  label: tipedLabel('数据源', '绑定当前上下文变量'),
-                  hidden: isCRUDContext,
-                  name: 'source',
-                  pipeIn: defaultValue('${items}')
-                }),
-                isCRUDContext ? null : dc?.primaryField?.(context),
-                isCRUDContext ? null : dc?.quickSaveApi?.(context),
-                isCRUDContext ? null : dc?.quickSaveItemApi?.(context),
-                getSchemaTpl('switch', {
-                  name: 'title',
-                  label: '显示标题',
-                  pipeIn: (value: any) => !!value,
-                  pipeOut: (value: any) => {
-                    if (value) {
-                      return {
-                        type: 'container',
-                        body: [
-                          {
-                            type: 'tpl',
-                            wrapperComponent: '',
-                            tpl: '表格标题',
-                            inline: false,
-                            style: {
-                              fontSize: 14
+          getSchemaTpl(
+            'collapseGroup',
+            [
+              {
+                title: '基本',
+                body: [
+                  getSchemaTpl('layout:originPosition', {value: 'left-top'}),
+                  getSchemaTpl('formulaControl', {
+                    label: tipedLabel('数据源', '绑定当前上下文变量'),
+                    hidden: isCRUDContext,
+                    name: 'source',
+                    pipeIn: defaultValue('${items}')
+                  }),
+                  isCRUDContext ? null : dc?.primaryField?.(context),
+                  isCRUDContext ? null : dc?.quickSaveApi?.(context),
+                  isCRUDContext ? null : dc?.quickSaveItemApi?.(context),
+                  getSchemaTpl('switch', {
+                    name: 'title',
+                    label: '显示标题',
+                    pipeIn: (value: any) => !!value,
+                    pipeOut: (value: any) => {
+                      if (value) {
+                        return {
+                          type: 'container',
+                          body: [
+                            {
+                              type: 'tpl',
+                              wrapperComponent: '',
+                              tpl: '表格标题',
+                              inline: false,
+                              style: {
+                                fontSize: 14
+                              }
                             }
-                          }
-                        ]
-                      };
-                    }
-                    return null;
-                  }
-                }),
-                getSchemaTpl('switch', {
-                  name: 'showHeader',
-                  label: '显示表头',
-                  value: true,
-                  pipeIn: (value: any) => !!value,
-                  pipeOut: (value: any) => !!value
-                }),
-                getSchemaTpl('switch', {
-                  visibleOn: 'this.showHeader !== false',
-                  name: 'sticky',
-                  label: '冻结表头',
-                  pipeIn: defaultValue(false)
-                }),
-                getSchemaTpl('switch', {
-                  name: 'footer',
-                  label: '显示表尾',
-                  pipeIn: (value: any) => !!value,
-                  pipeOut: (value: any) => {
-                    if (value) {
-                      return {
-                        type: 'container',
-                        body: [
-                          {
-                            type: 'tpl',
-                            tpl: '表格尾部',
-                            wrapperComponent: '',
-                            inline: false,
-                            style: {
-                              fontSize: 14
-                            }
-                          }
-                        ]
-                      };
-                    }
-                    return null;
-                  }
-                }),
-                getSchemaTpl('tablePlaceholder', {
-                  hidden: isCRUDContext
-                })
-                // TODD: 组件功能没有支持，暂时隐藏
-                // {
-                //   type: 'input-number',
-                //   name: 'combineNum',
-                //   label: '合并单元格'
-                // }
-              ].filter(Boolean)
-            },
-            {
-              title: '列设置',
-              body: [
-                dc?.columnTogglable?.(context),
-                getSchemaTpl('switch', {
-                  name: 'resizable',
-                  label: tipedLabel('可调整列宽', '用户可通过拖拽调整列宽度'),
-                  pipeIn: (value: any) => !!value,
-                  pipeOut: (value: any) => value
-                }),
-                isCRUDContext
-                  ? null
-                  : {
-                      type: 'ae-Switch-More',
-                      mode: 'normal',
-                      name: 'columnsTogglable',
-                      hiddenOnDefault: true,
-                      formType: 'extend',
-                      label: tipedLabel(
-                        '自定义显示列',
-                        '自动即列数量大于10自动开启。'
-                      ),
-                      pipeOut: (value: any) => {
-                        if (value && value.columnsTogglable) {
-                          return {columnsTogglable: {type: 'column-toggler'}};
-                        }
-                        return value;
-                      },
-                      form: {
-                        body: [
-                          {
-                            mode: 'normal',
-                            type: 'ae-columnControl'
-                          }
-                        ]
+                          ]
+                        };
                       }
+                      return null;
                     }
-              ].filter(Boolean)
-            },
-            {
-              title: '行设置',
-              body: [
-                {
-                  name: 'lineHeight',
-                  label: '行高度',
-                  type: 'select',
-                  placeholder: '请选择高度',
-                  options: [
-                    {label: '跟随内容', value: ''},
-                    {label: '高', value: 'large'},
-                    {label: '中', value: 'middle'}
-                  ],
-                  clearable: false,
-                  value: ''
-                },
-                {
-                  type: 'ae-Switch-More',
-                  mode: 'normal',
-                  name: 'rowSelection',
-                  label: '可选择',
-                  hiddenOnDefault: true,
-                  formType: 'extend',
-                  form: {
-                    body: [
-                      /** 如果为 CRUD 背景下，主键配置、选择类型在 CRUD 面板中，此处应该隐藏 */
-                      isCRUDContext
-                        ? null
-                        : dc?.rowSelectionKeyField?.(context),
-                      isCRUDContext
-                        ? null
-                        : {
-                            name: 'rowSelection.type',
-                            label: '选择类型',
-                            type: 'button-group-select',
-                            options: [
-                              {
-                                label: '多选',
-                                value: 'checkbox'
-                              },
-                              {
-                                label: '单选',
-                                value: 'radio'
+                  }),
+                  getSchemaTpl('switch', {
+                    name: 'showHeader',
+                    label: '显示表头',
+                    value: true,
+                    pipeIn: (value: any) => !!value,
+                    pipeOut: (value: any) => !!value
+                  }),
+                  getSchemaTpl('switch', {
+                    visibleOn: 'this.showHeader !== false',
+                    name: 'sticky',
+                    label: '冻结表头',
+                    pipeIn: defaultValue(false)
+                  }),
+                  getSchemaTpl('switch', {
+                    name: 'footer',
+                    label: '显示表尾',
+                    pipeIn: (value: any) => !!value,
+                    pipeOut: (value: any) => {
+                      if (value) {
+                        return {
+                          type: 'container',
+                          body: [
+                            {
+                              type: 'tpl',
+                              tpl: '表格尾部',
+                              wrapperComponent: '',
+                              inline: false,
+                              style: {
+                                fontSize: 14
                               }
-                            ],
-                            pipeIn: (value: any, formStore: IFormStore) => {
-                              if (value != null && typeof value === 'string') {
-                                return value;
-                              }
-
-                              const schema = formStore?.data;
-
-                              return schema?.selectable === true
-                                ? schema.multiple
-                                  ? 'checkbox'
-                                  : 'radio'
-                                : 'checkbox';
                             }
+                          ]
+                        };
+                      }
+                      return null;
+                    }
+                  }),
+                  getSchemaTpl('tablePlaceholder', {
+                    hidden: isCRUDContext
+                  })
+                  // TODD: 组件功能没有支持，暂时隐藏
+                  // {
+                  //   type: 'input-number',
+                  //   name: 'combineNum',
+                  //   label: '合并单元格'
+                  // }
+                ].filter(Boolean)
+              },
+              {
+                title: '列设置',
+                body: [
+                  dc?.columnTogglable?.(context),
+                  getSchemaTpl('switch', {
+                    name: 'resizable',
+                    label: tipedLabel('可调整列宽', '用户可通过拖拽调整列宽度'),
+                    pipeIn: (value: any) => !!value,
+                    pipeOut: (value: any) => value
+                  }),
+                  isCRUDContext
+                    ? null
+                    : {
+                        type: 'ae-Switch-More',
+                        mode: 'normal',
+                        name: 'columnsTogglable',
+                        hiddenOnDefault: true,
+                        formType: 'extend',
+                        label: tipedLabel(
+                          '自定义显示列',
+                          '自动即列数量大于10自动开启。'
+                        ),
+                        pipeOut: (value: any) => {
+                          if (value && value.columnsTogglable) {
+                            return {columnsTogglable: {type: 'column-toggler'}};
+                          }
+                          return value;
+                        },
+                        form: {
+                          body: [
+                            {
+                              mode: 'normal',
+                              type: 'ae-columnControl'
+                            }
+                          ]
+                        }
+                      }
+                ].filter(Boolean)
+              },
+              {
+                title: '行设置',
+                body: [
+                  {
+                    name: 'lineHeight',
+                    label: '行高度',
+                    type: 'select',
+                    placeholder: '请选择高度',
+                    options: [
+                      {label: '跟随内容', value: ''},
+                      {label: '高', value: 'large'},
+                      {label: '中', value: 'middle'}
+                    ],
+                    clearable: false,
+                    value: ''
+                  },
+                  {
+                    type: 'ae-Switch-More',
+                    mode: 'normal',
+                    name: 'rowSelection',
+                    label: '可选择',
+                    hiddenOnDefault: true,
+                    formType: 'extend',
+                    form: {
+                      body: [
+                        /** 如果为 CRUD 背景下，主键配置、选择类型在 CRUD 面板中，此处应该隐藏 */
+                        isCRUDContext
+                          ? null
+                          : dc?.rowSelectionKeyField?.(context),
+                        isCRUDContext
+                          ? null
+                          : {
+                              name: 'rowSelection.type',
+                              label: '选择类型',
+                              type: 'button-group-select',
+                              options: [
+                                {
+                                  label: '多选',
+                                  value: 'checkbox'
+                                },
+                                {
+                                  label: '单选',
+                                  value: 'radio'
+                                }
+                              ],
+                              pipeIn: (value: any, formStore: IFormStore) => {
+                                if (
+                                  value != null &&
+                                  typeof value === 'string'
+                                ) {
+                                  return value;
+                                }
+
+                                const schema = formStore?.data;
+
+                                return schema?.selectable === true
+                                  ? schema.multiple
+                                    ? 'checkbox'
+                                    : 'radio'
+                                  : 'checkbox';
+                              }
+                            },
+                        getSchemaTpl('switch', {
+                          name: 'rowSelection.fixed',
+                          label: '固定选择列'
+                        }),
+                        {
+                          type: 'input-number',
+                          name: 'rowSelection.columnWidth',
+                          label: '选择列列宽',
+                          min: 0,
+                          pipeOut: (data: number) => data || undefined
+                        },
+                        {
+                          label: '可选区域',
+                          name: 'rowSelection.rowClick',
+                          type: 'button-group-select',
+                          value: false,
+                          options: [
+                            {
+                              label: '整行',
+                              value: true
+                            },
+                            {
+                              label: '勾选框',
+                              value: false
+                            }
+                          ]
+                        },
+                        getSchemaTpl('formulaControl', {
+                          name: 'rowSelection.disableOn',
+                          label: '行禁用条件'
+                        }),
+                        {
+                          name: 'rowSelection.selections',
+                          label: '选择菜单项',
+                          type: 'checkboxes',
+                          joinValues: false,
+                          inline: false,
+                          itemClassName: 'text-sm',
+                          options: [
+                            {label: '全选所有', value: 'all'},
+                            {label: '反选当页', value: 'invert'},
+                            {label: '清空所有', value: 'none'},
+                            {label: '选择奇数行', value: 'odd'},
+                            {label: '选择偶数行', value: 'even'}
+                          ],
+                          pipeIn(v: any) {
+                            if (!v) {
+                              return;
+                            }
+                            return v.map((item: any) => ({
+                              label: item.text,
+                              value: item.key
+                            }));
                           },
-                      getSchemaTpl('switch', {
-                        name: 'rowSelection.fixed',
-                        label: '固定选择列'
-                      }),
+                          pipeOut(v: any) {
+                            if (!v) {
+                              return;
+                            }
+                            return v.map((item: any) => ({
+                              key: item.value,
+                              text: item.label
+                            }));
+                          }
+                        }
+                      ].filter(Boolean)
+                    }
+                  },
+                  getSchemaTpl('formulaControl', {
+                    label: '行可勾选条件',
+                    name: 'itemCheckableOn'
+                  }),
+                  {
+                    type: 'input-number',
+                    name: 'maxKeepItemSelectionLength',
+                    label: '最大选择条数'
+                  },
+                  {
+                    type: 'ae-Switch-More',
+                    mode: 'normal',
+                    name: 'expandable',
+                    label: '可展开',
+                    hiddenOnDefault: true,
+                    formType: 'extend',
+                    form: {
+                      body: [
+                        dc?.expandableKeyField?.(context),
+                        {
+                          type: 'select',
+                          label: '展开按钮位置',
+                          name: 'expandable.position',
+                          options: [
+                            {
+                              label: '默认',
+                              value: ''
+                            },
+                            {
+                              label: '左侧',
+                              value: 'left'
+                            },
+                            {
+                              label: '右侧',
+                              value: 'right'
+                            },
+                            {
+                              label: '隐藏',
+                              value: 'none'
+                            }
+                          ]
+                        },
+                        getSchemaTpl('formulaControl', {
+                          name: 'expandable.expandableOn',
+                          visibleOn: 'data.expandable',
+                          label: '可展开条件'
+                        }),
+                        {
+                          name: 'expandable',
+                          asFormItem: true,
+                          label: false,
+                          children: ({
+                            value,
+                            onBulkChange,
+                            onChange,
+                            name,
+                            data,
+                            form
+                          }: any) => {
+                            const newValue = {
+                              ...value,
+                              ...(value && value.type
+                                ? {}
+                                : {
+                                    type: 'container',
+                                    body: [
+                                      {
+                                        type: 'tpl',
+                                        tpl: '展开行内容',
+                                        inline: false
+                                      }
+                                    ]
+                                  })
+                            };
+                            return (
+                              <Button
+                                className="w-full flex flex-col items-center"
+                                onClick={() => {
+                                  this.manager.openSubEditor({
+                                    title: '配置展开区域',
+                                    value: newValue,
+                                    onChange: value => {
+                                      onBulkChange({
+                                        [name]: value
+                                      });
+                                    },
+                                    data: {
+                                      ...this.manager.store.ctx
+                                    } //默认数据
+                                  });
+                                }}
+                              >
+                                <span className="inline-flex items-center">
+                                  <Icon icon="edit" className="mr-1 w-3" />
+                                  配置展开区域
+                                </span>
+                              </Button>
+                            );
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    type: 'input-text',
+                    label: tipedLabel(
+                      '嵌套字段',
+                      '声明数据结构中作为子节点的字段名称，默认是<code>children</code>'
+                    ),
+                    name: 'childrenColumnName',
+                    pipeIn: defaultValue('children')
+                  },
+                  dc?.draggable?.(context),
+                  dc?.itemDraggableOn?.(context),
+                  dc?.saveOrderApi?.(context),
+                  {
+                    name: 'showBadge',
+                    label: '行角标',
+                    type: 'ae-switch-more',
+                    mode: 'normal',
+                    formType: 'extend',
+                    bulk: true,
+                    defaultData: {
+                      itemBadge: {
+                        mode: 'dot'
+                      }
+                    },
+                    isChecked: (e: any) => {
+                      const {data, name} = e;
+                      return data[name];
+                    },
+                    form: {
+                      body: [
+                        {
+                          type: 'ae-badge',
+                          label: false,
+                          name: 'itemBadge',
+                          contentsOnly: true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                title: '分页设置',
+                body: [
+                  getSchemaTpl('switch', {
+                    name: 'keepItemSelectionOnPageChange',
+                    label: tipedLabel(
+                      '保留选择项',
+                      '默认切换页面、搜索后，用户选择项会被清空，开启此功能后会保留用户选择，可以实现跨页面批量操作。'
+                    ),
+                    /** 目前仅支持2种类型，默认是 pagination */
+                    visibleOn: '!data.loadType || data.loadType !== "more"'
+                  }),
+                  {
+                    name: 'maxKeepItemSelectionLength',
+                    type: 'input-number',
+                    label: '最大选择条数',
+                    visibleOn: 'data.keepItemSelectionOnPageChange'
+                  }
+                ]
+              },
+              {
+                title: '状态',
+                body: [
+                  getSchemaTpl('hidden', {
+                    label: '隐藏'
+                  })
+                ]
+              },
+              isCRUDContext
+                ? null
+                : {
+                    title: 'Mock配置',
+                    body: [
+                      {
+                        type: 'switch',
+                        label: tipedLabel(
+                          '数据Mock',
+                          '开启后，当数据源为空时，会使用 Mock 数据'
+                        ),
+                        name: 'editorSetting.mock.enable',
+                        value: true
+                      },
                       {
                         type: 'input-number',
-                        name: 'rowSelection.columnWidth',
-                        label: '选择列列宽',
-                        min: 0,
-                        pipeOut: (data: number) => data || undefined
-                      },
-                      {
-                        label: '可选区域',
-                        name: 'rowSelection.rowClick',
-                        type: 'button-group-select',
-                        value: false,
-                        options: [
-                          {
-                            label: '整行',
-                            value: true
-                          },
-                          {
-                            label: '勾选框',
-                            value: false
-                          }
-                        ]
-                      },
-                      getSchemaTpl('formulaControl', {
-                        name: 'rowSelection.disableOn',
-                        label: '行禁用条件'
-                      }),
-                      {
-                        name: 'rowSelection.selections',
-                        label: '选择菜单项',
-                        type: 'checkboxes',
-                        joinValues: false,
-                        inline: false,
-                        itemClassName: 'text-sm',
-                        options: [
-                          {label: '全选所有', value: 'all'},
-                          {label: '反选当页', value: 'invert'},
-                          {label: '清空所有', value: 'none'},
-                          {label: '选择奇数行', value: 'odd'},
-                          {label: '选择偶数行', value: 'even'}
-                        ],
-                        pipeIn(v: any) {
-                          if (!v) {
-                            return;
-                          }
-                          return v.map((item: any) => ({
-                            label: item.text,
-                            value: item.key
-                          }));
-                        },
-                        pipeOut(v: any) {
-                          if (!v) {
-                            return;
-                          }
-                          return v.map((item: any) => ({
-                            key: item.value,
-                            text: item.label
-                          }));
-                        }
-                      }
-                    ].filter(Boolean)
-                  }
-                },
-                getSchemaTpl('formulaControl', {
-                  label: '行可勾选条件',
-                  name: 'itemCheckableOn'
-                }),
-                {
-                  type: 'input-number',
-                  name: 'maxKeepItemSelectionLength',
-                  label: '最大选择条数'
-                },
-                {
-                  type: 'ae-Switch-More',
-                  mode: 'normal',
-                  name: 'expandable',
-                  label: '可展开',
-                  hiddenOnDefault: true,
-                  formType: 'extend',
-                  form: {
-                    body: [
-                      dc?.expandableKeyField?.(context),
-                      {
-                        type: 'select',
-                        label: '展开按钮位置',
-                        name: 'expandable.position',
-                        options: [
-                          {
-                            label: '默认',
-                            value: ''
-                          },
-                          {
-                            label: '左侧',
-                            value: 'left'
-                          },
-                          {
-                            label: '右侧',
-                            value: 'right'
-                          },
-                          {
-                            label: '隐藏',
-                            value: 'none'
-                          }
-                        ]
-                      },
-                      getSchemaTpl('formulaControl', {
-                        name: 'expandable.expandableOn',
-                        visibleOn: 'data.expandable',
-                        label: '可展开条件'
-                      }),
-                      {
-                        name: 'expandable',
-                        asFormItem: true,
-                        label: false,
-                        children: ({
-                          value,
-                          onBulkChange,
-                          onChange,
-                          name,
-                          data,
-                          form
-                        }: any) => {
-                          const newValue = {
-                            ...value,
-                            ...(value && value.type
-                              ? {}
-                              : {
-                                  type: 'container',
-                                  body: [
-                                    {
-                                      type: 'tpl',
-                                      tpl: '展开行内容',
-                                      inline: false
-                                    }
-                                  ]
-                                })
-                          };
-                          return (
-                            <Button
-                              className="w-full flex flex-col items-center"
-                              onClick={() => {
-                                this.manager.openSubEditor({
-                                  title: '配置展开区域',
-                                  value: newValue,
-                                  onChange: value => {
-                                    onBulkChange({
-                                      [name]: value
-                                    });
-                                  },
-                                  data: {
-                                    ...this.manager.store.ctx
-                                  } //默认数据
-                                });
-                              }}
-                            >
-                              <span className="inline-flex items-center">
-                                <Icon icon="edit" className="mr-1 w-3" />
-                                配置展开区域
-                              </span>
-                            </Button>
-                          );
-                        }
+                        label: tipedLabel(
+                          '最大展示行数',
+                          '设置后，会按照设置数量展示数据，可以提高设计态渲染速度，降低表格高度，便于布局设置。设置为<code>-1</code>则不限制'
+                        ),
+                        name: 'editorSetting.mock.maxDisplayRows',
+                        step: 1,
+                        min: -1,
+                        resetValue: -1,
+                        value: DefaultMaxDisplayRows
                       }
                     ]
                   }
-                },
-                {
-                  type: 'input-text',
-                  label: tipedLabel(
-                    '嵌套字段',
-                    '声明数据结构中作为子节点的字段名称，默认是<code>children</code>'
-                  ),
-                  name: 'childrenColumnName',
-                  pipeIn: defaultValue('children')
-                },
-                dc?.draggable?.(context),
-                dc?.itemDraggableOn?.(context),
-                dc?.saveOrderApi?.(context),
-                {
-                  name: 'showBadge',
-                  label: '行角标',
-                  type: 'ae-switch-more',
-                  mode: 'normal',
-                  formType: 'extend',
-                  bulk: true,
-                  defaultData: {
-                    itemBadge: {
-                      mode: 'dot'
-                    }
-                  },
-                  isChecked: (e: any) => {
-                    const {data, name} = e;
-                    return data[name];
-                  },
-                  form: {
-                    body: [
-                      {
-                        type: 'ae-badge',
-                        label: false,
-                        name: 'itemBadge',
-                        contentsOnly: true
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            {
-              title: '分页设置',
-              body: [
-                getSchemaTpl('switch', {
-                  name: 'keepItemSelectionOnPageChange',
-                  label: tipedLabel(
-                    '保留选择项',
-                    '默认切换页面、搜索后，用户选择项会被清空，开启此功能后会保留用户选择，可以实现跨页面批量操作。'
-                  ),
-                  /** 目前仅支持2种类型，默认是 pagination */
-                  visibleOn: '!data.loadType || data.loadType !== "more"'
-                }),
-                {
-                  name: 'maxKeepItemSelectionLength',
-                  type: 'input-number',
-                  label: '最大选择条数',
-                  visibleOn: 'data.keepItemSelectionOnPageChange'
-                }
-              ]
-            },
-            {
-              title: '状态',
-              body: [
-                getSchemaTpl('hidden', {
-                  label: '隐藏'
-                })
-              ]
-            }
-          ])
+            ].filter(Boolean)
+          )
         ]
       },
       {

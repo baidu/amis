@@ -294,7 +294,7 @@ export default class Editor extends Component<EditorProps> {
       (e.key === 'c' || e.key === 'C') &&
       (e.metaKey || e.ctrlKey)
     ) {
-      e.preventDefault();
+      // e.preventDefault(); // 注释掉阻止默认行为的方法，允许用户copy设计器中的文字
       this.copy(); // 复制
       return;
     } else if (

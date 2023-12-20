@@ -5,13 +5,15 @@ import {
   LocaleProps,
   localeable,
   ClassNamesFn,
-  utils,
-  getRange
+  getRange,
+  isObject
 } from 'amis-core';
 import {Icon} from '../icons';
 import Picker from '../Picker';
 import {PickerColumnItem} from '../PickerColumn';
 import Downshift from 'downshift';
+
+import type {Moment} from 'moment';
 
 interface CustomTimeViewProps extends LocaleProps {
   viewDate: moment.Moment;
@@ -101,6 +103,8 @@ export class CustomTimeView extends React.Component<
 
   timer?: any;
   increaseTimer?: any;
+  /** 基于 timeConstraints 计算出的时间列表 */
+  timeList: string[] = [];
 
   constructor(props: any) {
     super(props);
@@ -142,7 +146,58 @@ export class CustomTimeView extends React.Component<
         );
       }
     });
+
+    /** 如果设置了step或者min、max限制，则计算出时间列表提供给后续使用 */
+    if (this.shoudExtractTimeConstraintsList()) {
+      const hours = this.computedTimeOptions('hours').map(item => item.value);
+      const minutes = timeFormat.split(':').some(f => /^(mm|m)$/.test(f))
+        ? this.computedTimeOptions('minutes').map(item => item.value)
+        : ['00'];
+      const seconds = timeFormat.split(':').some(f => /^(ss|s)$/.test(f))
+        ? this.computedTimeOptions('seconds').map(item => item.value)
+        : ['00'];
+      const result = [];
+
+      for (let h of hours) {
+        for (let m of minutes) {
+          for (let s of seconds) {
+            result.push(`${h}:${m}:${s}`);
+          }
+        }
+      }
+
+      this.timeList = result;
+    }
   }
+
+  shoudExtractTimeConstraintsList = (): boolean => {
+    const timeConstraints = this.timeConstraints;
+    let result = false;
+
+    if (!timeConstraints || !isObject(timeConstraints)) {
+      return result;
+    }
+
+    ['hours', 'minutes', 'seconds'].forEach(
+      (timeScale: 'hours' | 'minutes' | 'seconds') => {
+        const {min, max, step} = timeConstraints[timeScale];
+
+        if (result !== false) {
+          return;
+        }
+
+        if (timeScale === 'hours') {
+          result = min > 0 || max < 23 || step > 1;
+        } else if (timeScale === 'minutes') {
+          result = min > 0 || max < 59 || step > 1;
+        } else if (timeScale === 'seconds') {
+          result = min > 0 || max < 59 || step > 1;
+        }
+      }
+    );
+
+    return result;
+  };
 
   updateSelectedDate = (event: React.MouseEvent<any>) => {
     // need confirm
@@ -560,16 +615,39 @@ export class CustomTimeView extends React.Component<
     });
   };
 
+  /**
+   * 选择当前时间，如果设置了timeConstraints，则选择最接近的时间
+   */
   selectNowTime = () => {
-    this.props.setDateTimeState(
-      {
-        viewDate: moment().clone(),
-        selectedDate: moment().clone()
-      },
-      () => {
-        this.confirm();
-      }
-    );
+    const {setDateTimeState, timeFormat} = this.props;
+    const useClosetDate = this.shoudExtractTimeConstraintsList();
+
+    if (useClosetDate) {
+      const timeList = this.timeList;
+      const now: Moment = moment().clone();
+      let closetDate: Moment = now.clone();
+      let minDiff = Infinity;
+
+      /** 遍历时间列表，找出最接近此刻的时间 */
+      timeList.forEach((item, index) => {
+        const date = moment(item, timeFormat);
+        const diff = Math.abs(now.diff(date));
+
+        if (diff < minDiff) {
+          minDiff = diff;
+          closetDate = date;
+        }
+      });
+
+      setDateTimeState({viewDate: closetDate, selectedDate: closetDate}, () =>
+        this.confirm()
+      );
+    } else {
+      setDateTimeState(
+        {viewDate: moment().clone(), selectedDate: moment().clone()},
+        () => this.confirm()
+      );
+    }
   };
 
   confirm = () => {

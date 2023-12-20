@@ -105,33 +105,6 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
     ['onChange']
   );
 
-  const FormulaCmpt = ({value}: {value: string}) => {
-    return (
-      <ResultBox
-        className={cx(`FormulaPicker-input-variable`)}
-        allowInput={false}
-        value={pipInValue(value)}
-        result={
-          value == null
-            ? void 0
-            : FormulaEditor.highlightValue(value, variables!, evalMode)
-        }
-        itemRender={(item: any) => {
-          return (
-            <div
-              className={cx('FormulaPicker-ResultBox')}
-              dangerouslySetInnerHTML={{__html: item.html}}
-            />
-          );
-        }}
-        onResultChange={noop}
-        onChange={pipOutValue}
-        onClear={() => pipOutValue(undefined)}
-        clearable={true}
-      />
-    );
-  };
-
   let cmptValue = pipInValue(value ?? inputSettings.defaultValue);
 
   /** 数据来源可能是从 query中下发的（CRUD查询表头），导致数字或者布尔值被转为 string 格式，这里预处理一下 */
@@ -177,7 +150,7 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
     return (
       <ResultBox
         className={cx(`FormulaPicker-input-variable`)}
-        allowInput={false}
+        allowInput={allowInput}
         value={resultValue}
         result={
           resultValue == null

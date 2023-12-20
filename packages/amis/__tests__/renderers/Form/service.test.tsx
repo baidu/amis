@@ -8,6 +8,7 @@ import {clearStoresCache} from '../../../src';
 afterEach(() => {
   cleanup();
   clearStoresCache();
+  jest.useRealTimers();
 });
 
 test('Renderer:service', async () => {
@@ -333,4 +334,68 @@ test('form:service:super-remoteData', async () => {
 
   replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
+});
+
+test('service init api with interval and concatDataFields', async () => {
+  jest.useFakeTimers();
+  let times = 0;
+  const fetcher = jest.fn().mockImplementation(() => {
+    times++;
+    return Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          log: `${times}th log`,
+          finished: times > 2
+        }
+      }
+    });
+  });
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'service',
+        api: {
+          method: 'get',
+          url: '/api/initData',
+          concatDataFields: 'log'
+        },
+        interval: 3000,
+        stopAutoRefreshWhen: '${finished}',
+        body: [
+          {
+            type: 'tpl',
+            tpl: '${log|json}'
+          }
+        ]
+      },
+      {},
+      makeEnv({
+        fetcher: fetcher
+      })
+    )
+  );
+
+  await wait(10, false);
+  jest.advanceTimersByTime(3000);
+
+  await wait(10, false);
+  jest.advanceTimersByTime(3000);
+
+  await wait(10, false);
+  jest.advanceTimersByTime(3000);
+
+  await wait(10, false);
+  jest.advanceTimersByTime(3000);
+
+  expect(fetcher).toHaveBeenCalledTimes(3);
+  await wait(200, false);
+  const span = container.querySelector('.cxd-TplField>span');
+  expect(span).toBeTruthy();
+  expect(JSON.parse(span?.innerHTML!)).toMatchObject([
+    '1th log',
+    '2th log',
+    '3th log'
+  ]);
 });

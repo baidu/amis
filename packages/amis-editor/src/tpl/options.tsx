@@ -545,40 +545,52 @@ setSchemaTpl('optionAddControl', (params: OptionControlParams) => {
             };
 
             return (
-              <Button
-                className="w-full flex flex-col items-center"
-                level="enhance"
-                size="sm"
-                onClick={() => {
-                  manager.openSubEditor({
-                    title: '配置新增表单',
-                    value: scaffold,
-                    onChange: (value, diff: any) => {
-                      const pureSchema = JSONPipeOut(
-                        value,
-                        (key, propValue) =>
-                          key.substring(0, 2) === '__' || key === 'id'
-                      );
-                      const addDialog = omit(pureSchema, [
-                        'type',
-                        'body',
-                        'id'
-                      ]);
-                      const targetForm = findObjectsWithKey(
-                        pureSchema,
-                        'amis-select-addControls'
-                      );
-                      const addApi = targetForm?.[0]?.api;
-                      const addControls =
-                        targetForm?.[0]?.controls ?? targetForm?.[0]?.body;
+              <div className="flex">
+                <Button
+                  className="w-full flex flex-col items-center"
+                  level="enhance"
+                  size="sm"
+                  onClick={() => {
+                    manager.openSubEditor({
+                      title: '配置新增表单',
+                      value: scaffold,
+                      onChange: (value, diff: any) => {
+                        const pureSchema = JSONPipeOut(
+                          value,
+                          (key, propValue) =>
+                            key.substring(0, 2) === '__' || key === 'id'
+                        );
+                        const addDialog = omit(pureSchema, [
+                          'type',
+                          'body',
+                          'id'
+                        ]);
+                        const targetForm = findObjectsWithKey(
+                          pureSchema,
+                          'amis-select-addControls'
+                        );
+                        const addApi = targetForm?.[0]?.api;
+                        const addControls =
+                          targetForm?.[0]?.controls ?? targetForm?.[0]?.body;
 
-                      onBulkChange({addApi, addDialog, addControls});
-                    }
-                  });
-                }}
-              >
-                配置新增表单
-              </Button>
+                        onBulkChange({addApi, addDialog, addControls});
+                      }
+                    });
+                  }}
+                >
+                  {value ? '已配置新增表单' : '配置新增表单'}
+                </Button>
+                {value && (
+                  <Button
+                    iconOnly
+                    className="ml-3"
+                    size="sm"
+                    onClick={() => onBulkChange({addControls: undefined})}
+                  >
+                    <Icon icon="remove" className="icon" />
+                  </Button>
+                )}
+              </div>
             );
           }
         }
@@ -669,46 +681,58 @@ setSchemaTpl('optionEditControl', (params: OptionControlParams) => {
             };
 
             return (
-              <Button
-                className="w-full flex flex-col items-center"
-                level="enhance"
-                size="sm"
-                onClick={() => {
-                  manager.openSubEditor({
-                    title: '配置编辑表单',
-                    value: scaffold,
-                    onChange: (value, diff: any) => {
-                      const pureSchema = JSONPipeOut(
-                        value,
-                        (key, propValue) =>
-                          key.substring(0, 2) === '__' || key === 'id'
-                      );
-                      const editDialog = omit(pureSchema, [
-                        'type',
-                        'body',
-                        'id'
-                      ]);
-                      const targetForm = findObjectsWithKey(
-                        pureSchema,
-                        'amis-select-editControls'
-                      );
-                      const editApi = targetForm?.[0]?.api;
-                      const editInitApi = targetForm?.[0]?.initApi;
-                      const editControls =
-                        targetForm?.[0]?.controls ?? targetForm?.[0]?.body;
+              <div className="flex">
+                <Button
+                  className="w-full flex flex-col items-center"
+                  level="enhance"
+                  size="sm"
+                  onClick={() => {
+                    manager.openSubEditor({
+                      title: '配置编辑表单',
+                      value: scaffold,
+                      onChange: (value, diff: any) => {
+                        const pureSchema = JSONPipeOut(
+                          value,
+                          (key, propValue) =>
+                            key.substring(0, 2) === '__' || key === 'id'
+                        );
+                        const editDialog = omit(pureSchema, [
+                          'type',
+                          'body',
+                          'id'
+                        ]);
+                        const targetForm = findObjectsWithKey(
+                          pureSchema,
+                          'amis-select-editControls'
+                        );
+                        const editApi = targetForm?.[0]?.api;
+                        const editInitApi = targetForm?.[0]?.initApi;
+                        const editControls =
+                          targetForm?.[0]?.controls ?? targetForm?.[0]?.body;
 
-                      onBulkChange({
-                        editApi,
-                        editInitApi,
-                        editDialog,
-                        editControls
-                      });
-                    }
-                  });
-                }}
-              >
-                配置编辑表单
-              </Button>
+                        onBulkChange({
+                          editApi,
+                          editInitApi,
+                          editDialog,
+                          editControls
+                        });
+                      }
+                    });
+                  }}
+                >
+                  {value ? '已配置编辑表单' : '配置编辑表单'}
+                </Button>
+                {value && (
+                  <Button
+                    iconOnly
+                    className="ml-3"
+                    size="sm"
+                    onClick={() => onBulkChange({editControls: undefined})}
+                  >
+                    <Icon icon="remove" className="icon" />
+                  </Button>
+                )}
+              </div>
             );
           }
         }

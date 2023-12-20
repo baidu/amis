@@ -432,9 +432,7 @@ export class TableCell2Plugin extends BasePlugin {
         formType: 'extend',
         bulk: true,
         trueValue: {
-          mode: 'popOver',
-          type: 'container',
-          body: []
+          mode: 'popOver'
         },
         isChecked: (e: any) => {
           const {data, name} = e;
@@ -463,15 +461,15 @@ export class TableCell2Plugin extends BasePlugin {
               name: 'quickEdit.saveImmediately',
               label: tipedLabel(
                 '修改立即保存',
-                '开启后修改即提交，而不是批量提交。'
+                '开启后修改即提交，而不是批量提交，需要配置快速保存接口用于提交数据'
               ),
               pipeIn: (value: any) => !!value
             }),
 
-            getSchemaTpl('api', {
+            getSchemaTpl('apiControl', {
               label: '立即保存接口',
               description:
-                '是否单独给立即保存配置接口，如果不配置，则默认使用quickSaveItemApi。',
+                '默认使用表格的「快速保存单条」接口，若单独给立即保存配置接口，则优先使用局部配置。',
               name: 'quickEdit.saveImmediately.api',
               visibleOn: 'this.quickEdit && this.quickEdit.saveImmediately'
             }),
@@ -491,17 +489,23 @@ export class TableCell2Plugin extends BasePlugin {
                 if (value.mode) {
                   delete value.mode;
                 }
+                const originSaveImmediately = value.saveImmediately;
+                if (value.saveImmediately) {
+                  delete value.saveImmediately;
+                }
                 value =
                   value.body && ['container', 'wrapper'].includes(value.type)
                     ? {
                         // schema中存在容器，用自己的就行
-                        type: 'container',
+                        type: 'wrapper',
+                        wrap: false,
                         body: [],
                         ...value
                       }
                     : {
                         // schema中不存在容器，打开子编辑器时需要包裹一层
-                        type: 'container',
+                        type: 'wrapper',
+                        wrap: false,
                         body: [
                           {
                             type: 'input-text',
@@ -523,7 +527,8 @@ export class TableCell2Plugin extends BasePlugin {
                           onBulkChange({
                             [name]: {
                               ...value,
-                              mode: originMode
+                              mode: originMode,
+                              saveImmediately: originSaveImmediately
                             }
                           })
                       });

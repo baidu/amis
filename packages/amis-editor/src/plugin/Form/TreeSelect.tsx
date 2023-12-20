@@ -247,7 +247,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
 
   // 动作定义
   actions: RendererPluginAction[] = [
-    /** 新增、编辑、删除、刷新 */
+    /** 新增、编辑、删除 */
     ...TreeCommonAction,
     {
       actionType: 'clear',
@@ -377,6 +377,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                   justify: true,
                   left: 8
                 },
+                value: false,
                 inputClassName: 'is-inline ',
                 visibleOn: 'data.type === "tree-select"'
               }),
@@ -395,12 +396,14 @@ export class TreeSelectControlPlugin extends BasePlugin {
                   {
                     type: 'input-number',
                     label: tipedLabel('节点最小数', '表单校验最少选中的节点数'),
-                    name: 'minLength'
+                    name: 'minLength',
+                    min: 0
                   },
                   {
                     type: 'input-number',
                     label: tipedLabel('节点最大数', '表单校验最多选中的节点数'),
-                    name: 'maxLength'
+                    name: 'maxLength',
+                    min: 0
                   }
                 ]
               }),
@@ -549,6 +552,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 ),
                 value: false,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
@@ -569,6 +573,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 trueValue: false,
                 falseValue: true,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
@@ -631,6 +636,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 trueValue: false,
                 falseValue: true,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
@@ -638,6 +644,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
                       label: '设置层级',
                       name: 'unfoldedLevel',
                       value: 1,
+                      min: 0,
                       hiddenOn: 'data.initiallyOpen'
                     }
                   ]
@@ -648,8 +655,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
             ]
           },
           getSchemaTpl('status', {
-            isFormItem: true,
-            readonly: true
+            isFormItem: true
           }),
           getSchemaTpl('validation', {tag: ValidatorTag.Tree})
         ])

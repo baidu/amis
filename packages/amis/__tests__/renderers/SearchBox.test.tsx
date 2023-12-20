@@ -249,3 +249,82 @@ test('6. Renderer: Searchbox is not supposed to be triggered with composition in
     keywords: 'test'
   });
 });
+
+
+test('Renderer:Searchbox with searchImediately & className', async () => {
+  const onQuery = jest.fn();
+  const {container} = render(
+    amisRender({
+      type: 'search-box',
+      name: 'keywords',
+      mini: true,
+      searchImediately: true,
+      className: 'testClass',
+      onQuery
+    })
+  );
+
+  expect(container.querySelector('.cxd-SearchBox')).toHaveClass('testClass');
+
+  const input = container.querySelector('.cxd-SearchBox input')!;
+  fireEvent.change(input, {
+    target: {value: 'aa'}
+  });
+
+  await wait(400);
+  expect(onQuery).toBeCalledTimes(1);
+  expect(onQuery.mock.calls[0][0]).toEqual({
+    keywords: 'aa'
+  });
+
+  fireEvent.change(input, {
+    target: {value: 'aabb'}
+  });
+
+  await wait(400);
+  expect(onQuery).toBeCalledTimes(2);
+  expect(onQuery.mock.calls[1][0]).toEqual({
+    keywords: 'aabb'
+  });
+});
+
+test('Renderer: Searchbox with disbaled', async () => {
+  const onQuery = jest.fn();
+  const {container} = render(
+    amisRender(
+      {
+        type: 'search-box',
+        name: 'keywords',
+        disabled: true
+      },
+      {
+        onQuery
+      }
+    )
+  );
+
+  const inputEl = container.querySelector('.cxd-SearchBox input')!;
+  expect(inputEl).toBeInTheDocument();
+  /** Input元素上存在disabled attribute */
+  expect((inputEl.attributes as any).disabled).not.toEqual(undefined);
+  expect(inputEl.getAttribute('disabled')).toEqual('');
+});
+
+test('Renderer: Searchbox with loading', async () => {
+  const onQuery = jest.fn();
+  const {container} = render(
+    amisRender(
+      {
+        type: 'search-box',
+        name: 'keywords',
+        loading: true
+      },
+      {
+        onQuery
+      }
+    )
+  );
+
+  const spinner = container.querySelector('.cxd-SearchBox .cxd-SearchBox-spinner');
+  expect(spinner).toBeInTheDocument();
+});

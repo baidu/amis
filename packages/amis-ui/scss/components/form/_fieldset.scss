@@ -18,11 +18,9 @@
     top: 0;
     left: 0;
     display: inline-block;
-    border: 0;
     width: auto;
     z-index: 1;
     background: var(--Fieldset-legend-bgColor);
-    border-left: 0 !important;
   }
 
   > legend.#{$ns}Collapse-header.is-mobile {

@@ -46,6 +46,7 @@
     background: var(--input-default-default-bg-color);
     height: var(--input-size-default-height);
     align-items: center;
+    transition: all var(--animation-duration) ease-in-out;
 
     input {
       color: var(--input-default-default-color);

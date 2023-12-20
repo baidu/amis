@@ -129,6 +129,7 @@ import Menu from './menu';
 import InputBoxWithSuggestion from './InputBoxWithSuggestion';
 import {CodeMirrorEditor} from './CodeMirror';
 import type CodeMirror from 'codemirror';
+import OverflowTpl from './OverflowTpl';
 
 export {
   NotFound,
@@ -261,5 +262,6 @@ export {
   DndContainer,
   Menu,
   CodeMirror,
-  CodeMirrorEditor
+  CodeMirrorEditor,
+  OverflowTpl
 };
