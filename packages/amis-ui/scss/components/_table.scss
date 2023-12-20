@@ -184,6 +184,10 @@
     opacity: 0.5;
     z-index: 15;
 
+    &--disabled {
+      cursor: not-allowed;
+    }
+
     &:hover,
     &.is-resizing {
       background: var(--primary);
