@@ -425,7 +425,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       const props = this.props;
       const formItem = props.formItem as IFormItemStore;
 
-      if (prevProps.options !== props.options && formItem) {
+      if (!props.source && prevProps.options !== props.options && formItem) {
         formItem.setOptions(
           normalizeOptions(props.options || [], undefined, props.valueField),
           this.changeOptionValue,
