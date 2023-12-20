@@ -1528,19 +1528,28 @@ export const TableStore = iRendererStore
     function updateSelected(selected: Array<any>, valueField?: string) {
       self.selectedRows.clear();
 
-      eachTree(self.rows, item => {
-        if (~selected.indexOf(item.pristine)) {
-          self.selectedRows.push(item.id);
-        } else if (
-          find(
-            selected,
-            a =>
-              a[valueField || 'value'] &&
-              a[valueField || 'value'] == item.pristine[valueField || 'value']
-          )
-        ) {
-          self.selectedRows.push(item.id);
+      selected.forEach(item => {
+        let resolved = self.rows.find(a => a.pristine === item);
+
+        // 先严格比较，
+        if (!resolved) {
+          resolved = self.rows.find(a => {
+            const selectValue = item[valueField || 'value'];
+            const itemValue = a.pristine[valueField || 'value'];
+            return selectValue === itemValue;
+          });
         }
+
+        // 再宽松比较
+        if (!resolved) {
+          resolved = self.rows.find(a => {
+            const selectValue = item[valueField || 'value'];
+            const itemValue = a.pristine[valueField || 'value'];
+            return selectValue == itemValue;
+          });
+        }
+
+        resolved && self.selectedRows.push(resolved);
       });
 
       updateCheckDisable();
