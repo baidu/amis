@@ -228,7 +228,7 @@ $Table-strip-bg: transparent;
   --Carousel--light-control: white;
   --Carousel-arrowControl-height: var(--gap-lg);
   --Carousel-arrowControl-width: var(--gap-lg);
-  --Carousel-bg: #f6f8f8;
+  --Carousel-bg: var(--colors-neutral-fill-10);
   --Carousel-dot-borderRadius: #{px2rem(4px)};
   --Carousel-dot-height: #{px2rem(8px)};
   --Carousel-dot-margin: #{px2rem(7px)} var(--gap-xs);
@@ -281,7 +281,7 @@ $Table-strip-bg: transparent;
   --DropDown-menu-paddingY: var(--gap-xs);
   --DropDown-menuItem-onHover-bg: var(--Form-select-menu-onHover-bg);
   --DropDown-group-color: #848b99;
-  --DropDown-menuItem-color: #151a26;
+  --DropDown-menuItem-color: var(--colors-neutral-text-2);
   --DropDown-menuItem-onHover-color: var(--Form-select-menu-onHover-color);
   --DropDown-menuItem-onActive-color: var(--colors-brand-5);
   --DropDown-menuItem-onDisabled-color: #b4b6ba;
@@ -626,7 +626,7 @@ $Table-strip-bg: transparent;
   --PickerColumns-loadingIcon-color: var(--icon-color);
   --PickerColumns-loadingMask-Color: rgba(255, 255, 255, 0.9);
 
-  --PopOver-bg: white;
+  --PopOver-bg: var(--colors-neutral-fill-11);
   --PopOverAble-iconColor: inherit;
   --PopOverAble-onHover-iconColor: inherit;
 
