@@ -1159,14 +1159,24 @@ export const TableStore = iRendererStore
         });
 
         const originColumns = self.columns.concat();
+        const ids: Array<any> = [];
         columns = columns.map((item, index) => {
           const origin = item.id
             ? originColumns.find(column => column.pristine.id === item.id)
             : originColumns[index];
 
+          let id = origin?.id || guid();
+
+          // 还不知道为何会出现这个，先用这种方式避免 id 重复
+          if (ids.includes(id)) {
+            id = guid();
+          }
+
+          ids.push(id);
+
           return {
             ...item,
-            id: origin?.id || guid(),
+            id: id,
             index,
             width: origin?.width || 0,
             minWidth: origin?.minWidth || 0,
