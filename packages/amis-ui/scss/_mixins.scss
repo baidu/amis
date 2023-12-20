@@ -675,6 +675,10 @@
     margin-right: var(--gap-xs);
     margin-bottom: var(--gap-xs);
     margin-top: var(--gap-xs);
+    max-width: px2rem(150px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     &:hover {
       background: var(--Form-selectValue-onHover-bg);
