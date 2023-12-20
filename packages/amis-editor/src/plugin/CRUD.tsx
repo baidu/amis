@@ -1551,6 +1551,10 @@ export class CRUDPlugin extends BasePlugin {
                 type: 'select',
                 name: 'type',
                 columnClassName: 'w-ssm',
+                overlay: {
+                  align: 'left',
+                  width: 150
+                },
                 options: [
                   {
                     value: 'bulk-actions',
@@ -1733,6 +1737,10 @@ export class CRUDPlugin extends BasePlugin {
                 type: 'select',
                 name: 'type',
                 columnClassName: 'w-ssm',
+                overlay: {
+                  align: 'left',
+                  width: 150
+                },
                 options: [
                   {
                     value: 'bulk-actions',
