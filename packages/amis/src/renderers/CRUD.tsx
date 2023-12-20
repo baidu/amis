@@ -1240,7 +1240,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       silentPolling,
       syncLocation,
       syncResponse2Query,
-      keepItemSelectionOnPageChange,
       pickerMode,
       env,
       loadDataOnce,
@@ -1249,10 +1248,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       dispatchEvent
     } = this.props;
 
-    // reload 需要清空用户选择。
-    if (keepItemSelectionOnPageChange && clearSelection && !pickerMode) {
-      store.setSelectedItems([]);
-      store.setUnSelectedItems([]);
+    // reload 需要清空用户选择，无论是否开启keepItemSelectionOnPageChange
+    if (clearSelection && !pickerMode) {
+      store.resetSelection();
     }
 
     let loadDataMode = '';
@@ -1736,7 +1734,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     values: object,
     forceReload?: boolean,
     replace?: boolean,
-    resetPage?: boolean
+    resetPage?: boolean,
+    clearSelection?: boolean
   ) {
     const {
       store,
@@ -1746,6 +1745,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       loadDataOnceFetchOnFilter
     } = this.props;
+
     store.updateQuery(
       resetPage
         ? {
@@ -1764,7 +1764,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     this.search(
       undefined,
       undefined,
-      replace,
+      clearSelection ?? replace,
       forceReload ?? loadDataOnceFetchOnFilter === true
     );
   }
@@ -1776,7 +1776,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     resetPage?: boolean
   ) {
     if (query) {
-      return this.receive(query, undefined, replace, resetPage);
+      return this.receive(query, undefined, replace, resetPage, true);
     } else {
       this.search(undefined, undefined, true, true);
     }
@@ -1786,9 +1786,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     values: object,
     subPath?: string,
     replace?: boolean,
-    resetPage?: boolean
+    resetPage?: boolean,
+    clearSelection?: boolean
   ) {
-    this.handleQuery(values, true, replace, resetPage);
+    this.handleQuery(values, true, replace, resetPage, clearSelection);
   }
 
   reloadTarget(target: string, data: any) {
@@ -1950,7 +1951,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             }
           )
         )}
-
         {itemBtns.map((btn, index) =>
           render(
             `bulk-action/${index}`,
@@ -2674,14 +2674,15 @@ export class CRUDRenderer extends CRUD {
     values: any,
     subPath?: string,
     replace?: boolean,
-    resetPage?: boolean
+    resetPage?: boolean,
+    clearSelection?: boolean
   ) {
     const scoped = this.context as IScopedContext;
     if (subPath) {
       return scoped.send(subPath, values);
     }
 
-    return super.receive(values, undefined, replace, resetPage);
+    return super.receive(values, undefined, replace, resetPage, clearSelection);
   }
 
   reloadTarget(target: string, data: any) {

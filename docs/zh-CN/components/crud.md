@@ -2921,36 +2921,234 @@ interface CRUDMatchFunc {
 }
 ```
 
-它其实是个简化的 `button` 组件，可以参考 `button` 组件的文档做调整。`reload`支持两种触发方式：
+它其实是个简化的 `button` 组件，可以参考 `button` 组件的文档做调整。
 
-- `"type": "reload"`，CRUD 内置的方法
-- `{"actionType": "reload", "target": "targetName"}`，动作触发
+#### 刷新CRUD触发方式
+
+触发CRUD刷新的方式有3种：
+1. **reload类型按钮**：使用`{"type": "reload", ...}`，CRUD内部会对点击事件做处理
+2. **reload动作按钮**：使用`{"type": "action", "actionType": "reload", "target": "targetName", ...}`，指定`target`为要刷新的CRUD组件的`name`
+3. **reload事件动作**：使用[事件动作](../../docs/concepts/event-action)，指定`id`为要刷新的CRUD组件的`id`
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "button",
+      "icon": "iconfont icon-refresh",
+      "tooltip": "",
+      "label": "CRUD外层按钮",
+      "level": "enhance",
+      "onEvent": {
+        "click": {
+          "weight": 0,
+          "actions": [
+            {
+              "componentId": "crudId",
+              "ignoreError": false,
+              "actionType": "reload",
+              "dataMergeMode": "override",
+              "data": {
+              },
+              "args": {
+                "resetPage": true
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "crud",
+      "name": "crudName",
+      "id": "crudId",
+      "syncLocation": false,
+      "api": "/api/mock2/crud/table",
+      "headerToolbar": [
+        "bulkActions",
+        {
+          "type": "reload",
+          "align": "right",
+          "icon": "iconfont icon-refresh",
+          "label": "刷新(type)",
+          "tooltip": "",
+          "level": "primary"
+        },
+        {
+          "type": "action",
+          "align": "right",
+          "icon": "iconfont icon-refresh",
+          "label": "刷新(actionType)",
+          "tooltip": "",
+          "level": "primary",
+          "actionType": "reload",
+          "target": "crudName"
+        },
+        {
+          "type": "button",
+          "align": "right",
+          "icon": "iconfont icon-refresh",
+          "tooltip": "",
+          "label": "事件动作(onEvent)",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "weight": 0,
+              "actions": [
+                {
+                  "componentId": "crudId",
+                  "groupType": "component",
+                  "actionType": "reload",
+                  "dataMergeMode": "override"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "bulkActions": [
+        {
+          "label": "批量删除",
+          "actionType": "ajax",
+          "api": "delete:/api/mock2/sample/${ids|raw}",
+          "confirmText": "确定要批量删除?"
+        },
+        {
+          "label": "批量修改",
+          "actionType": "dialog",
+          "dialog": {
+            "title": "批量编辑",
+            "body": {
+              "type": "form",
+              "api": "/api/mock2/sample/bulkUpdate2",
+              "body": [
+                {
+                  "type": "hidden",
+                  "name": "ids"
+                },
+                {
+                  "type": "input-text",
+                  "name": "engine",
+                  "label": "Engine"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "columns": [
+          {
+              "name": "id",
+              "label": "ID"
+          },
+          {
+              "name": "engine",
+              "label": "Rendering engine"
+          },
+          {
+              "name": "browser",
+              "label": "Browser"
+          },
+          {
+              "name": "platform",
+              "label": "Platform(s)"
+          },
+          {
+              "name": "version",
+              "label": "Engine version"
+          },
+          {
+              "name": "grade",
+              "label": "CSS grade"
+          }
+      ]
+  }
+  ]
+}
+```
+
+刷新后默认会重置当前已选行数据，即使设置了 `keepItemSelectionOnPageChange` 为 `true`，也会重置。
 
 ```schema: scope="body"
 {
     "type": "crud",
-    "name": "crud",
+    "name": "crudName",
+    "id": "crudId",
     "syncLocation": false,
-    "api": "/api/mock2/sample",
+    "api": "/api/mock2/crud/table",
+    "keepItemSelectionOnPageChange": true,
     "headerToolbar": [
-        {
-            "type": "action",
-            "align": "right",
-            "icon": "iconfont icon-refresh",
-            "label": "刷新(actionType)",
-            "tooltip": "",
-            "level": "primary",
-            "actionType": 'reload',
-            "target": 'crud'
-        },
-        {
-            "type": "reload",
-            "align": "right",
-            "icon": "iconfont icon-refresh",
-            "label": "刷新(type)",
-            "tooltip": "",
-            "level": "primary"
+      "bulkActions",
+      {
+        "type": "reload",
+        "align": "right",
+        "icon": "iconfont icon-refresh",
+        "label": "刷新(type)",
+        "tooltip": "",
+        "level": "primary"
+      },
+      {
+        "type": "action",
+        "align": "right",
+        "icon": "iconfont icon-refresh",
+        "label": "刷新(actionType)",
+        "tooltip": "",
+        "level": "primary",
+        "actionType": "reload",
+        "target": "crudName"
+      },
+      {
+        "type": "button",
+        "align": "right",
+        "icon": "iconfont icon-refresh",
+        "tooltip": "",
+        "label": "事件动作(onEvent)",
+        "level": "primary",
+        "onEvent": {
+          "click": {
+            "weight": 0,
+            "actions": [
+              {
+                "componentId": "crudId",
+                "groupType": "component",
+                "actionType": "reload",
+                "dataMergeMode": "override"
+              }
+            ]
+          }
         }
+      }
+    ],
+    "bulkActions": [
+      {
+        "label": "批量删除",
+        "actionType": "ajax",
+        "api": "delete:/api/mock2/sample/${ids|raw}",
+        "confirmText": "确定要批量删除?"
+      },
+      {
+        "label": "批量修改",
+        "actionType": "dialog",
+        "dialog": {
+          "title": "批量编辑",
+          "body": {
+            "type": "form",
+            "api": "/api/mock2/sample/bulkUpdate2",
+            "body": [
+              {
+                "type": "hidden",
+                "name": "ids"
+              },
+              {
+                "type": "input-text",
+                "name": "engine",
+                "label": "Engine"
+              }
+            ]
+          }
+        }
+      }
     ],
     "columns": [
         {
