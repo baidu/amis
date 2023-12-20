@@ -362,7 +362,10 @@ export class ApiDSBuilder extends DSBuilder<
     return result;
   }
 
-  /** 基于接口生成字段 */
+  /**
+   * 基于接口生成字段
+   * 注意CRUD的接口返回格式，目前兼容items、rows、options字段，否则取data下的首个数组元素（和CRUD加载逻辑对齐）
+   */
   async autoGenerateFields({
     api,
     props,
@@ -391,12 +394,33 @@ export class ApiDSBuilder extends DSBuilder<
     }
 
     const fields: ScaffoldField[] = [];
+    const responseData = result.data;
     let sampleRow: Record<string, any>;
     if (feat === 'List') {
-      const items = result.data?.rows || result.data?.items || result.data;
+      let items =
+        responseData?.rows ||
+        responseData?.items ||
+        responseData?.options ||
+        responseData;
+
+      // 取data下的首个数组元素
+      if (!Array.isArray(items)) {
+        for (const key of Object.keys(responseData)) {
+          if (
+            responseData.hasOwnProperty(key) &&
+            Array.isArray(responseData[key])
+          ) {
+            items = responseData[key];
+            break;
+          }
+        }
+      } else if (items == null) {
+        items = [];
+      }
+
       sampleRow = items?.[0];
     } else {
-      sampleRow = result.data;
+      sampleRow = responseData;
     }
 
     if (sampleRow) {
