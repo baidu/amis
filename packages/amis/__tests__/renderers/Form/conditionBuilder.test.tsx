@@ -14,10 +14,17 @@
  */
 
 import React from 'react';
-import {fireEvent, render, screen, waitFor} from '@testing-library/react';
+import {fireEvent, render, screen, cleanup, waitFor} from '@testing-library/react';
 import '../../../src';
-import {render as amisRender} from '../../../src';
+import {render as amisRender, clearStoresCache} from '../../../src';
 import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
+import { Select } from 'packages/amis-ui/lib/components/Select';
+
+afterEach(() => {
+  cleanup();
+  clearStoresCache();
+  jest.useRealTimers();
+});
 
 const testSchema = {
   type: 'page',
@@ -801,3 +808,341 @@ test('Renderer:condition-builder with not embed', async () => {
     baseElement.querySelector('.cxd-Modal .cxd-CBGroup')
   ).toBeInTheDocument();
 });
+
+/**
+ * 组合条件使用公式编辑器
+ * 1. 7种类型的公式编辑器正常渲染
+ * 2. 选项类型（select）字段，切换操作符（包含 -> 等于），字段值清空且正常渲染（等于和包含对应的multiple不一样，所以值格式不一样）
+ * 3. 先使用其他类型字段，再切换到select类型，条件选择包含，值正常渲染
+ */
+describe.only('Renderer: condition-builder with formula', () => {
+  const onSubmit = jest.fn();
+  test('condition-builder with different fields', async () => {
+    const {container} = render(amisRender({
+      "type": "form",
+      "data": {
+        "conditions": {
+          "id": "68bddc1495e9",
+          "conjunction": "and",
+          "children": [
+            {
+              "id": "b9cc34dae93a",
+              "left": {
+                "type": "field",
+                "field": "text"
+              },
+              "op": "equal"
+            },
+            {
+              "id": "4c718986c321",
+              "left": {
+                "type": "field",
+                "field": "number"
+              },
+              "op": "equal"
+            },
+            {
+              "id": "7ee79c416422",
+              "left": {
+                "type": "field",
+                "field": "boolean"
+              },
+              "op": "equal"
+            },
+            {
+              "id": "9cd76d8a6522",
+              "left": {
+                "type": "field",
+                "field": "select"
+              },
+              "op": "select_equals"
+            },
+            {
+              "id": "20a65e9df546",
+              "left": {
+                "type": "field",
+                "field": "date"
+              },
+              "op": "equal"
+            },
+            {
+              "id": "e729b32ea9e8",
+              "left": {
+                "type": "field",
+                "field": "time"
+              },
+              "op": "equal"
+            },
+            {
+              "id": "a5f48e000557",
+              "left": {
+                "type": "field",
+                "field": "datetime"
+              },
+              "op": "equal"
+            }
+          ]
+        }
+      },
+      "body": [
+        {
+          "type": "condition-builder",
+          "label": "条件组件",
+          "name": "conditions",
+          "searchable": true,
+          "formula": {
+            "mode": "input-group",
+            "inputSettings": {},
+            "allowInput": true,
+            "mixedMode": true,
+            "variables": []
+          },
+          "fields": [
+            {
+              "label": "文本",
+              "type": "text",
+              "name": "text"
+            },
+            {
+              "label": "数字",
+              "type": "number",
+              "name": "number"
+            },
+            {
+              "label": "布尔",
+              "type": "boolean",
+              "name": "boolean"
+            },
+            {
+              "label": "选项",
+              "type": "select",
+              "name": "select",
+              "options": [
+                {
+                  "label": "A",
+                  "value": "a"
+                },
+                {
+                  "label": "B",
+                  "value": "b"
+                },
+                {
+                  "label": "C",
+                  "value": "c"
+                }
+              ]
+            },
+            {
+              "label": "日期",
+              "children": [
+                {
+                  "label": "日期",
+                  "type": "date",
+                  "name": "date"
+                },
+                {
+                  "label": "时间",
+                  "type": "time",
+                  "name": "time"
+                },
+                {
+                  "label": "日期时间",
+                  "type": "datetime",
+                  "name": "datetime"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }, {onSubmit}, makeEnv({})));
+
+    replaceReactAriaIds(container);
+    // 7种类型都存在
+    expect(container.querySelectorAll('.cxd-FormulaPicker-input')?.length).toEqual(7);
+    expect(container.querySelector('.cxd-FormulaPicker--text')).toBeInTheDocument();
+    expect(container.querySelector('.cxd-FormulaPicker-input-number')).toBeInTheDocument();
+    expect(container.querySelector('.cxd-FormulaPicker-input-boolean')).toBeInTheDocument();
+    expect(container.querySelector('.cxd-FormulaPicker-input-select')).toBeInTheDocument();
+    expect(container.querySelector('.cxd-FormulaPicker-input-date')).toBeInTheDocument();
+    expect(container.querySelector('.cxd-FormulaPicker-input-time')).toBeInTheDocument();
+    expect(container.querySelector('.cxd-FormulaPicker-input-datetime')).toBeInTheDocument();
+  });
+
+  test('condition-builder with select field and change operator', async () => {
+    const {container, findByText} = render(amisRender({
+      "type": "form",
+      "data": {
+        "conditions": {
+          "id": "68bddc1495e9",
+          "conjunction": "and",
+          "children": [
+            {
+              "id": "9cd76d8a6522",
+              "left": {
+                "type": "field",
+                "field": "select"
+              },
+              "op": "select_equals"
+            }
+          ]
+        }
+      },
+      "body": [
+        {
+          "type": "condition-builder",
+          "label": "条件组件",
+          "name": "conditions",
+          "searchable": true,
+          "formula": {
+            "mode": "input-group",
+            "inputSettings": {},
+            "allowInput": true,
+            "mixedMode": true,
+            "variables": []
+          },
+          "fields": [
+            {
+              "label": "选项",
+              "type": "select",
+              "name": "select",
+              "options": [
+                {
+                  "label": "A",
+                  "value": "a"
+                },
+                {
+                  "label": "B",
+                  "value": "b"
+                },
+                {
+                  "label": "C",
+                  "value": "c"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }, {}, makeEnv({})));
+
+    replaceReactAriaIds(container);
+
+    // 选中第一个选项（Form中默认值是等于操作）
+    let fieldValueControl = container.querySelector('.cxd-FormulaPicker-input-select')!;
+    fireEvent.click(fieldValueControl);
+    await wait(100);
+    fireEvent.click(await findByText('A'));
+    expect(container.querySelector('.cxd-Tag-text')?.innerHTML).toEqual('A');
+
+    // 切换操作符，字段值清空，需要重新选择，且下拉选项变成多选
+    const opControl = container.querySelector('.cxd-CBGroup-operatorInput')!;
+    fireEvent.click(opControl);
+    await wait(100);
+    fireEvent.click(await findByText('包含'));
+    await wait(100);
+    expect(container.querySelector('.cxd-Select-placeholder')).toBeInTheDocument();
+    fieldValueControl = container.querySelector('.cxd-FormulaPicker-input-select')!;
+    fireEvent.click(fieldValueControl);
+    await wait(100);
+    expect(container.querySelectorAll('.cxd-Select-option-checkbox').length).toEqual(3);
+  });
+
+  test('condition-builder with field type change', async () => {
+    const onSubmit = jest.fn();
+    const {container, findByText, findByPlaceholderText} = render(amisRender({
+      "type": "form",
+      "data": {
+        "conditions": {
+          "id": "68bddc1495e9",
+          "conjunction": "and",
+          "children": [
+            {
+              "id": "b9cc34dae93a",
+              "left": {
+                "type": "field",
+                "field": "text"
+              },
+              "op": "equal"
+            }
+          ]
+        }
+      },
+      "body": [
+        {
+          "type": "condition-builder",
+          "label": "条件组件",
+          "name": "conditions",
+          "searchable": true,
+          "formula": {
+            "mode": "input-group",
+            "inputSettings": {},
+            "allowInput": true,
+            "mixedMode": true,
+            "variables": []
+          },
+          "fields": [
+            {
+              "label": "文本",
+              "type": "text",
+              "name": "text"
+            },
+            {
+              "label": "选项",
+              "type": "select",
+              "name": "select",
+              "options": [
+                {
+                  "label": "A",
+                  "value": "a"
+                },
+                {
+                  "label": "B",
+                  "value": "b"
+                },
+                {
+                  "label": "C",
+                  "value": "c"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }, {onSubmit}, makeEnv({})));
+
+    replaceReactAriaIds(container);
+
+    // 切换字段类型，对应字段值控件更新
+    const fieldControl = container.querySelector('.cxd-DropDownSelection-input')!;
+    fireEvent.click(fieldControl);
+    await wait(100);
+    fireEvent.click(await findByText('选项'));
+    await wait(100);
+    let selectValueControl = container.querySelector('.cxd-FormulaPicker-input-select')!;
+    expect(selectValueControl).toBeInTheDocument();
+
+    // 切换操作符，下拉选项变成多选
+    const opControl = container.querySelector('.cxd-CBGroup-operatorInput')!;
+    fireEvent.click(opControl);
+    await wait(100);
+    fireEvent.click(await findByText('包含'));
+    await wait(100);
+    expect(container.querySelector('.cxd-Select-placeholder')).toBeInTheDocument();
+    selectValueControl = container.querySelector('.cxd-FormulaPicker-input-select')!;
+    fireEvent.click(selectValueControl);
+    await wait(100);
+    expect(container.querySelectorAll('.cxd-Select-option-checkbox').length).toEqual(3);
+
+    // 选择2个选项，绑定值变化
+    fireEvent.click(await findByText('A'));
+    fireEvent.click(await findByText('C'));
+    const selectedValues = [];
+    const nodes = container.querySelectorAll('.cxd-Select-valueLabel');
+    for (const el of nodes.values()) {
+      selectedValues.push(el?.innerHTML);
+    }
+    expect(selectedValues.length).toEqual(2);
+    expect(selectedValues.join(',')).toEqual('A,C');
+  });
+})
