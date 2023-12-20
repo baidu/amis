@@ -229,8 +229,12 @@
           z-index: 0;
         }
 
-        > .cxd-Page > .cxd-Page-content {
-          height: auto;
+        > .cxd-Page {
+          // 这里主要是为了确保能撑开画布区
+          display: flex;
+          > .cxd-Page-content {
+            height: auto;
+          }
         }
       }
     }
