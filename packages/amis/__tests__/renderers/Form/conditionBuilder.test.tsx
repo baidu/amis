@@ -815,7 +815,7 @@ test('Renderer:condition-builder with not embed', async () => {
  * 2. 选项类型（select）字段，切换操作符（包含 -> 等于），字段值清空且正常渲染（等于和包含对应的multiple不一样，所以值格式不一样）
  * 3. 先使用其他类型字段，再切换到select类型，条件选择包含，值正常渲染
  */
-describe.only('Renderer: condition-builder with formula', () => {
+describe('Renderer: condition-builder with formula', () => {
   const onSubmit = jest.fn();
   test('condition-builder with different fields', async () => {
     const {container} = render(amisRender({

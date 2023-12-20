@@ -22,6 +22,7 @@
  * 19. fetchInitData silent 静默请求
  * 20. CRUD表头查询字段更新后严格比较场景
  * 21. 通过reUseRow为false强制清空表格状态
+ * 22. reload 后清空选项
  */
 
 import {
@@ -1392,7 +1393,277 @@ test('21. CRUD reUseRow set false to reset crud state when api return same data'
   const btn = container.querySelectorAll('.cxd-Button')!;
   fireEvent.click(btn[0]);
   await wait(300);
-  
+
   const checks2 = container.querySelectorAll('.is-checked');
   expect(checks2.length).toEqual(0);
+});
+
+describe('22. CRUD reload and reset selcted rows', () => {
+  test('CRUD reload with selection', async () => {
+    const mockFetcher = jest.fn().mockImplementation(() => {
+      return new Promise(resolve =>
+        resolve({
+          data: {
+            status: 0,
+            msg: 'ok',
+            data: {
+              count: 2,
+              items: [
+                {
+                  "engine": "Trident",
+                  "browser": "Internet Explorer 4.0",
+                  "platform": "Win 95+",
+                  "version": "4",
+                  "grade": "X",
+                  "id": 1
+                },
+                {
+                  "engine": "Trident",
+                  "browser": "Internet Explorer 5.0",
+                  "platform": "Win 95+",
+                  "version": "5",
+                  "grade": "C",
+                  "id": 2
+                }
+              ]
+            }
+          }
+        })
+      );
+    });
+    const {container} = render(
+      amisRender(
+        {
+          "type": "page",
+          "body": [
+            {
+              "type": "button",
+              "icon": "iconfont icon-refresh",
+              "tooltip": "",
+              "label": "CRUD外层按钮",
+              "level": "enhance",
+              "className": "reload-btn",
+              "onEvent": {
+                "click": {
+                  "weight": 0,
+                  "actions": [
+                    {
+                      "componentId": "crudId",
+                      "ignoreError": false,
+                      "actionType": "reload",
+                      "dataMergeMode": "override",
+                      "data": {
+                      },
+                      "args": {
+                        "resetPage": true
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "crud",
+              "name": "crudName",
+              "id": "crudId",
+              "syncLocation": false,
+              "api": "/api/mock2/crud/table",
+              "bulkActions": [
+                {
+                  "label": "批量删除",
+                  "actionType": "ajax",
+                  "api": "delete:/api/mock2/sample/${ids|raw}",
+                  "confirmText": "确定要批量删除?"
+                },
+                {
+                  "label": "批量修改",
+                  "actionType": "dialog",
+                  "dialog": {
+                    "title": "批量编辑",
+                    "body": {
+                      "type": "form",
+                      "api": "/api/mock2/sample/bulkUpdate2",
+                      "body": [
+                        {
+                          "type": "hidden",
+                          "name": "ids"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "engine",
+                          "label": "Engine"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "columns": [
+                  {
+                      "name": "id",
+                      "label": "ID"
+                  },
+                  {
+                      "name": "engine",
+                      "label": "Rendering engine"
+                  }
+              ]
+          }
+          ]
+        },
+        {},
+        makeEnv({fetcher: mockFetcher})
+      )
+    );
+
+    await wait(300);
+
+    // 全选数据, 选中2条数据
+    const checkbox = container.querySelector('.cxd-Table-checkCell input[type="checkbox"]')!;
+    fireEvent.click(checkbox);
+    expect(container.querySelectorAll('.cxd-Table-table-tr.is-checked')?.length).toEqual(2);
+
+    // 刷新数据，选中数据清空
+    const reloadBtn = container.querySelector('[type=button].reload-btn')!;
+    expect(reloadBtn).toBeInTheDocument();
+    fireEvent.click(reloadBtn);
+    await wait(200);
+
+    expect(container.querySelectorAll('.cxd-Table-table-tr.is-checked')?.length).toEqual(0);
+  });
+
+  test('CRUD reload with selection and keepItemSelectionOnPageChange is enabled', async () => {
+    const mockFetcher = jest.fn().mockImplementation(() => {
+      return new Promise(resolve =>
+        resolve({
+          data: {
+            status: 0,
+            msg: 'ok',
+            data: {
+              count: 2,
+              items: [
+                {
+                  "engine": "Trident",
+                  "browser": "Internet Explorer 4.0",
+                  "platform": "Win 95+",
+                  "version": "4",
+                  "grade": "X",
+                  "id": 1
+                },
+                {
+                  "engine": "Trident",
+                  "browser": "Internet Explorer 5.0",
+                  "platform": "Win 95+",
+                  "version": "5",
+                  "grade": "C",
+                  "id": 2
+                }
+              ]
+            }
+          }
+        })
+      );
+    });
+    const {container} = render(
+      amisRender(
+        {
+          "type": "page",
+          "body": [
+            {
+              "type": "button",
+              "icon": "iconfont icon-refresh",
+              "tooltip": "",
+              "label": "CRUD外层按钮",
+              "level": "enhance",
+              "className": "reload-btn",
+              "onEvent": {
+                "click": {
+                  "weight": 0,
+                  "actions": [
+                    {
+                      "componentId": "crudId",
+                      "ignoreError": false,
+                      "actionType": "reload",
+                      "dataMergeMode": "override",
+                      "data": {
+                      },
+                      "args": {
+                        "resetPage": true
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "crud",
+              "name": "crudName",
+              "id": "crudId",
+              "syncLocation": false,
+              "api": "/api/mock2/crud/table",
+              "keepItemSelectionOnPageChange": true,
+              "bulkActions": [
+                {
+                  "label": "批量删除",
+                  "actionType": "ajax",
+                  "api": "delete:/api/mock2/sample/${ids|raw}",
+                  "confirmText": "确定要批量删除?"
+                },
+                {
+                  "label": "批量修改",
+                  "actionType": "dialog",
+                  "dialog": {
+                    "title": "批量编辑",
+                    "body": {
+                      "type": "form",
+                      "api": "/api/mock2/sample/bulkUpdate2",
+                      "body": [
+                        {
+                          "type": "hidden",
+                          "name": "ids"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "engine",
+                          "label": "Engine"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "columns": [
+                  {
+                      "name": "id",
+                      "label": "ID"
+                  },
+                  {
+                      "name": "engine",
+                      "label": "Rendering engine"
+                  }
+              ]
+          }
+          ]
+        },
+        {},
+        makeEnv({fetcher: mockFetcher})
+      )
+    );
+
+    await wait(300);
+
+    // 全选数据, 选中2条数据
+    const checkbox = container.querySelector('.cxd-Table-checkCell input[type="checkbox"]')!;
+    fireEvent.click(checkbox);
+    expect(container.querySelectorAll('.cxd-Table-table-tr.is-checked')?.length).toEqual(2);
+
+    // 刷新数据，选中数据清空
+    const reloadBtn = container.querySelector('[type=button].reload-btn')!;
+    expect(reloadBtn).toBeInTheDocument();
+    fireEvent.click(reloadBtn);
+    await wait(200);
+
+    expect(container.querySelectorAll('.cxd-Table-table-tr.is-checked')?.length).toEqual(0);
+  });
+
 });
