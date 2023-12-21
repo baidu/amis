@@ -93,14 +93,12 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
               ? {
                   // schema中存在容器，用自己的就行
                   type: 'wrapper',
-                  wrap: false,
                   body: [],
                   ...value
                 }
               : {
                   // schema中不存在容器，打开子编辑器时需要包裹一层
                   type: 'wrapper',
-                  wrap: false,
                   body: [
                     {
                       type: 'input-text',
