@@ -222,7 +222,7 @@ export const runAction = async (
   action.args = {...actionConfig.args};
 
   // __rendererData默认为renderer.props.data，兼容表单项值变化时的data读取
-  if (!event.data.__rendererData) {
+  if (!event.data?.__rendererData) {
     additional = {
       event,
       __rendererData: renderer.props.data // 部分组件交互后会有更新，如果想要获取那部分数据，可以通过事件数据获取
