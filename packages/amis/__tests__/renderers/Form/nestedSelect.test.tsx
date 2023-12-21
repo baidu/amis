@@ -219,7 +219,7 @@ describe.only('Renderer:NestedSelect with onlyLeaf', () => {
   });
 });
 
-test('single selection', async () => {
+test('test onlyChildren&onlyleaf', async () => {
   const {container} = await setupNestedSelect({
     "onlyLeaf": true,
     "multiple": true,
