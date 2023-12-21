@@ -185,6 +185,25 @@ test('Renderer:number with unitOptions', async () => {
   expect(container).toMatchSnapshot();
 });
 
+test('Renderer:number with unitOptions and default value', async () => {
+  const {container} = await setup(
+    {
+      unitOptions: ['px', '%', 'em'],
+      value: 12
+    },
+    {},
+    [
+      {
+        type: 'static',
+        name: 'number'
+      }
+    ]
+  );
+
+  const staticDom = container.querySelector('.cxd-PlainField') as Element;
+  expect(staticDom.innerHTML).toBe('12px');
+});
+
 test('Renderer:number with precision and default value', async () => {
   const {input, wrap, container, getByText} = await setup({
     precision: 2,

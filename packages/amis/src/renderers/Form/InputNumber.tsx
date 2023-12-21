@@ -211,6 +211,10 @@ export default class NumberControl extends React.Component<
     }
 
     this.state = {unit, unitOptions};
+
+    if (unit && value != null) {
+      setPrinstineValue(this.getValue(value));
+    }
   }
 
   /**
