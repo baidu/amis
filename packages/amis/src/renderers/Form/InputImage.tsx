@@ -1501,6 +1501,11 @@ export default class ImageControl extends React.Component<
       this.files = [];
       onChange('');
     }
+
+    // @ts-ignore
+    if (action.actionType === 'select') {
+      this.handleSelect();
+    }
   }
 
   // 重新上传
