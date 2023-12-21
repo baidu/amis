@@ -348,10 +348,19 @@ export default class NumberControl extends React.Component<
   }
 
   componentDidUpdate(prevProps: NumberProps) {
+    const unit = this.getUnit();
+    const value = this.props.value;
+    if (
+      value != null &&
+      (typeof value === 'string' || typeof value === 'number') &&
+      unit &&
+      !String(value).endsWith(unit)
+    ) {
+      this.props.setPrinstineValue(this.getValue(value));
+    }
     // 匹配 数字 + ?字符
     const reg = /^([-+]?(([1-9]\d*\.?\d*)|(0\.\d*[1-9]))[^\d\.]*)$/;
     if (reg.test(this.props.value) && this.props.value !== prevProps.value) {
-      const unit = this.getUnit();
       this.setState({unit: unit});
     }
 
