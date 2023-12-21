@@ -1154,7 +1154,7 @@ test('19. fetchInitData silent true', async () => {
 
 test('20. CRUD filters contain fields that modification inspection should use strict mode', async () => {
   let keyword;
-  const mockFetcher = jest.fn().mockImplementation((req) => {
+  const mockFetcher = jest.fn().mockImplementation(req => {
     /** mock.calls[0][0]拿不到filter里的参数，先用闭包测试吧 */
     keyword = req.data.version;
     return Promise.resolve({
@@ -1166,7 +1166,7 @@ test('20. CRUD filters contain fields that modification inspection should use st
           items: []
         }
       }
-    })
+    });
   });
   const {container} = render(
     amisRender(
@@ -1174,49 +1174,49 @@ test('20. CRUD filters contain fields that modification inspection should use st
         type: 'page',
         body: [
           {
-            "type": "crud",
-            "name": "crud",
-            "syncLocation": false,
-            "api": {
-              "method": "post",
-              "url": "/api/mock/crud"
+            type: 'crud',
+            name: 'crud',
+            syncLocation: false,
+            api: {
+              method: 'post',
+              url: '/api/mock/crud'
             },
-            "filter": {
-              "body": [
+            filter: {
+              body: [
                 {
-                  "type": "select",
-                  "name": "version",
-                  "label": "version",
-                  "clearable": true,
-                  "options": [
-                    {"label": "0", "value": 0},
-                    {"label": "1", "value": 1},
-                    {"label": "true", "value": true},
-                    {"label": "false", "value": false},
-                    {"label": "emptyString", "value": ''},
-                    {"label": "stringZero", "value": '0'},
-                    {"label": "stringOne", "value": '1'}
+                  type: 'select',
+                  name: 'version',
+                  label: 'version',
+                  clearable: true,
+                  options: [
+                    {label: '0', value: 0},
+                    {label: '1', value: 1},
+                    {label: 'true', value: true},
+                    {label: 'false', value: false},
+                    {label: 'emptyString', value: ''},
+                    {label: 'stringZero', value: '0'},
+                    {label: 'stringOne', value: '1'}
                   ]
                 }
               ],
-              "actions": [
+              actions: [
                 {
-                  "type": "submit",
-                  "label": "SubmitBtn",
-                  "primary": true
+                  type: 'submit',
+                  label: 'SubmitBtn',
+                  primary: true
                 }
               ]
             },
-            "columns": [
+            columns: [
               {
-                "name": "id",
-                "label": "ID"
+                name: 'id',
+                label: 'ID'
               },
               {
-                "name": "version",
-                "label": "Engine version engine"
+                name: 'version',
+                label: 'Engine version engine'
               }
-            ],
+            ]
           }
         ]
       },
@@ -1318,7 +1318,7 @@ test('20. CRUD filters contain fields that modification inspection should use st
   expect(keyword).toEqual('0');
 }, 7000);
 
- /**
+/**
  * 在reUseRow为false情况下，强制刷新表格行状态
  * case：用户每次刷新，调用接口，返回的数据都是一样的，导致updateRows为false，故针对每次返回数据一致的情况，需要强制表格更新
  */
@@ -1333,12 +1333,12 @@ test('21. CRUD reUseRow set false to reset crud state when api return same data'
             count: 0,
             items: [
               {
-                "name": "name1",
-                "switch": false
+                name: 'name1',
+                switch: false
               },
               {
-                "name": "name2",
-                "switch": false
+                name: 'name2',
+                switch: false
               }
             ]
           }
@@ -1354,9 +1354,7 @@ test('21. CRUD reUseRow set false to reset crud state when api return same data'
           {
             type: 'crud',
             api: '/api/mock/sample',
-            headerToolbar: [
-              'reload'
-            ],
+            headerToolbar: ['reload'],
             reUseRow: false,
             columns: [
               {
@@ -1410,20 +1408,20 @@ describe('22. CRUD reload and reset selcted rows', () => {
               count: 2,
               items: [
                 {
-                  "engine": "Trident",
-                  "browser": "Internet Explorer 4.0",
-                  "platform": "Win 95+",
-                  "version": "4",
-                  "grade": "X",
-                  "id": 1
+                  engine: 'Trident',
+                  browser: 'Internet Explorer 4.0',
+                  platform: 'Win 95+',
+                  version: '4',
+                  grade: 'X',
+                  id: 1
                 },
                 {
-                  "engine": "Trident",
-                  "browser": "Internet Explorer 5.0",
-                  "platform": "Win 95+",
-                  "version": "5",
-                  "grade": "C",
-                  "id": 2
+                  engine: 'Trident',
+                  browser: 'Internet Explorer 5.0',
+                  platform: 'Win 95+',
+                  version: '5',
+                  grade: 'C',
+                  id: 2
                 }
               ]
             }
@@ -1434,28 +1432,27 @@ describe('22. CRUD reload and reset selcted rows', () => {
     const {container} = render(
       amisRender(
         {
-          "type": "page",
-          "body": [
+          type: 'page',
+          body: [
             {
-              "type": "button",
-              "icon": "iconfont icon-refresh",
-              "tooltip": "",
-              "label": "CRUD外层按钮",
-              "level": "enhance",
-              "className": "reload-btn",
-              "onEvent": {
-                "click": {
-                  "weight": 0,
-                  "actions": [
+              type: 'button',
+              icon: 'iconfont icon-refresh',
+              tooltip: '',
+              label: 'CRUD外层按钮',
+              level: 'enhance',
+              className: 'reload-btn',
+              onEvent: {
+                click: {
+                  weight: 0,
+                  actions: [
                     {
-                      "componentId": "crudId",
-                      "ignoreError": false,
-                      "actionType": "reload",
-                      "dataMergeMode": "override",
-                      "data": {
-                      },
-                      "args": {
-                        "resetPage": true
+                      componentId: 'crudId',
+                      ignoreError: false,
+                      actionType: 'reload',
+                      dataMergeMode: 'override',
+                      data: {},
+                      args: {
+                        resetPage: true
                       }
                     }
                   ]
@@ -1463,52 +1460,52 @@ describe('22. CRUD reload and reset selcted rows', () => {
               }
             },
             {
-              "type": "crud",
-              "name": "crudName",
-              "id": "crudId",
-              "syncLocation": false,
-              "api": "/api/mock2/crud/table",
-              "bulkActions": [
+              type: 'crud',
+              name: 'crudName',
+              id: 'crudId',
+              syncLocation: false,
+              api: '/api/mock2/crud/table',
+              bulkActions: [
                 {
-                  "label": "批量删除",
-                  "actionType": "ajax",
-                  "api": "delete:/api/mock2/sample/${ids|raw}",
-                  "confirmText": "确定要批量删除?"
+                  label: '批量删除',
+                  actionType: 'ajax',
+                  api: 'delete:/api/mock2/sample/${ids|raw}',
+                  confirmText: '确定要批量删除?'
                 },
                 {
-                  "label": "批量修改",
-                  "actionType": "dialog",
-                  "dialog": {
-                    "title": "批量编辑",
-                    "body": {
-                      "type": "form",
-                      "api": "/api/mock2/sample/bulkUpdate2",
-                      "body": [
+                  label: '批量修改',
+                  actionType: 'dialog',
+                  dialog: {
+                    title: '批量编辑',
+                    body: {
+                      type: 'form',
+                      api: '/api/mock2/sample/bulkUpdate2',
+                      body: [
                         {
-                          "type": "hidden",
-                          "name": "ids"
+                          type: 'hidden',
+                          name: 'ids'
                         },
                         {
-                          "type": "input-text",
-                          "name": "engine",
-                          "label": "Engine"
+                          type: 'input-text',
+                          name: 'engine',
+                          label: 'Engine'
                         }
                       ]
                     }
                   }
                 }
               ],
-              "columns": [
-                  {
-                      "name": "id",
-                      "label": "ID"
-                  },
-                  {
-                      "name": "engine",
-                      "label": "Rendering engine"
-                  }
+              columns: [
+                {
+                  name: 'id',
+                  label: 'ID'
+                },
+                {
+                  name: 'engine',
+                  label: 'Rendering engine'
+                }
               ]
-          }
+            }
           ]
         },
         {},
@@ -1519,9 +1516,13 @@ describe('22. CRUD reload and reset selcted rows', () => {
     await wait(300);
 
     // 全选数据, 选中2条数据
-    const checkbox = container.querySelector('.cxd-Table-checkCell input[type="checkbox"]')!;
+    const checkbox = container.querySelector(
+      '.cxd-Table-checkCell input[type="checkbox"]'
+    )!;
     fireEvent.click(checkbox);
-    expect(container.querySelectorAll('.cxd-Table-table-tr.is-checked')?.length).toEqual(2);
+    expect(
+      container.querySelectorAll('.cxd-Table-table-tr.is-checked')?.length
+    ).toEqual(2);
 
     // 刷新数据，选中数据清空
     const reloadBtn = container.querySelector('[type=button].reload-btn')!;
@@ -1529,7 +1530,9 @@ describe('22. CRUD reload and reset selcted rows', () => {
     fireEvent.click(reloadBtn);
     await wait(200);
 
-    expect(container.querySelectorAll('.cxd-Table-table-tr.is-checked')?.length).toEqual(0);
+    expect(
+      container.querySelectorAll('.cxd-Table-table-tr.is-checked')?.length
+    ).toEqual(0);
   });
 
   test('CRUD reload with selection and keepItemSelectionOnPageChange is enabled', async () => {
@@ -1543,20 +1546,20 @@ describe('22. CRUD reload and reset selcted rows', () => {
               count: 2,
               items: [
                 {
-                  "engine": "Trident",
-                  "browser": "Internet Explorer 4.0",
-                  "platform": "Win 95+",
-                  "version": "4",
-                  "grade": "X",
-                  "id": 1
+                  engine: 'Trident',
+                  browser: 'Internet Explorer 4.0',
+                  platform: 'Win 95+',
+                  version: '4',
+                  grade: 'X',
+                  id: 1
                 },
                 {
-                  "engine": "Trident",
-                  "browser": "Internet Explorer 5.0",
-                  "platform": "Win 95+",
-                  "version": "5",
-                  "grade": "C",
-                  "id": 2
+                  engine: 'Trident',
+                  browser: 'Internet Explorer 5.0',
+                  platform: 'Win 95+',
+                  version: '5',
+                  grade: 'C',
+                  id: 2
                 }
               ]
             }
@@ -1567,28 +1570,27 @@ describe('22. CRUD reload and reset selcted rows', () => {
     const {container} = render(
       amisRender(
         {
-          "type": "page",
-          "body": [
+          type: 'page',
+          body: [
             {
-              "type": "button",
-              "icon": "iconfont icon-refresh",
-              "tooltip": "",
-              "label": "CRUD外层按钮",
-              "level": "enhance",
-              "className": "reload-btn",
-              "onEvent": {
-                "click": {
-                  "weight": 0,
-                  "actions": [
+              type: 'button',
+              icon: 'iconfont icon-refresh',
+              tooltip: '',
+              label: 'CRUD外层按钮',
+              level: 'enhance',
+              className: 'reload-btn',
+              onEvent: {
+                click: {
+                  weight: 0,
+                  actions: [
                     {
-                      "componentId": "crudId",
-                      "ignoreError": false,
-                      "actionType": "reload",
-                      "dataMergeMode": "override",
-                      "data": {
-                      },
-                      "args": {
-                        "resetPage": true
+                      componentId: 'crudId',
+                      ignoreError: false,
+                      actionType: 'reload',
+                      dataMergeMode: 'override',
+                      data: {},
+                      args: {
+                        resetPage: true
                       }
                     }
                   ]
@@ -1596,53 +1598,53 @@ describe('22. CRUD reload and reset selcted rows', () => {
               }
             },
             {
-              "type": "crud",
-              "name": "crudName",
-              "id": "crudId",
-              "syncLocation": false,
-              "api": "/api/mock2/crud/table",
-              "keepItemSelectionOnPageChange": true,
-              "bulkActions": [
+              type: 'crud',
+              name: 'crudName',
+              id: 'crudId',
+              syncLocation: false,
+              api: '/api/mock2/crud/table',
+              keepItemSelectionOnPageChange: true,
+              bulkActions: [
                 {
-                  "label": "批量删除",
-                  "actionType": "ajax",
-                  "api": "delete:/api/mock2/sample/${ids|raw}",
-                  "confirmText": "确定要批量删除?"
+                  label: '批量删除',
+                  actionType: 'ajax',
+                  api: 'delete:/api/mock2/sample/${ids|raw}',
+                  confirmText: '确定要批量删除?'
                 },
                 {
-                  "label": "批量修改",
-                  "actionType": "dialog",
-                  "dialog": {
-                    "title": "批量编辑",
-                    "body": {
-                      "type": "form",
-                      "api": "/api/mock2/sample/bulkUpdate2",
-                      "body": [
+                  label: '批量修改',
+                  actionType: 'dialog',
+                  dialog: {
+                    title: '批量编辑',
+                    body: {
+                      type: 'form',
+                      api: '/api/mock2/sample/bulkUpdate2',
+                      body: [
                         {
-                          "type": "hidden",
-                          "name": "ids"
+                          type: 'hidden',
+                          name: 'ids'
                         },
                         {
-                          "type": "input-text",
-                          "name": "engine",
-                          "label": "Engine"
+                          type: 'input-text',
+                          name: 'engine',
+                          label: 'Engine'
                         }
                       ]
                     }
                   }
                 }
               ],
-              "columns": [
-                  {
-                      "name": "id",
-                      "label": "ID"
-                  },
-                  {
-                      "name": "engine",
-                      "label": "Rendering engine"
-                  }
+              columns: [
+                {
+                  name: 'id',
+                  label: 'ID'
+                },
+                {
+                  name: 'engine',
+                  label: 'Rendering engine'
+                }
               ]
-          }
+            }
           ]
         },
         {},
@@ -1653,9 +1655,13 @@ describe('22. CRUD reload and reset selcted rows', () => {
     await wait(300);
 
     // 全选数据, 选中2条数据
-    const checkbox = container.querySelector('.cxd-Table-checkCell input[type="checkbox"]')!;
+    const checkbox = container.querySelector(
+      '.cxd-Table-checkCell input[type="checkbox"]'
+    )!;
     fireEvent.click(checkbox);
-    expect(container.querySelectorAll('.cxd-Table-table-tr.is-checked')?.length).toEqual(2);
+    expect(
+      container.querySelectorAll('.cxd-Table-table-tr.is-checked')?.length
+    ).toEqual(2);
 
     // 刷新数据，选中数据清空
     const reloadBtn = container.querySelector('[type=button].reload-btn')!;
@@ -1663,7 +1669,116 @@ describe('22. CRUD reload and reset selcted rows', () => {
     fireEvent.click(reloadBtn);
     await wait(200);
 
-    expect(container.querySelectorAll('.cxd-Table-table-tr.is-checked')?.length).toEqual(0);
+    expect(
+      container.querySelectorAll('.cxd-Table-table-tr.is-checked')?.length
+    ).toEqual(0);
   });
+});
 
+test('23. Nested CRUD change to normal CRUD', async () => {
+  const {container} = render(
+    amisRender({
+      type: 'page',
+      id: 'page',
+      data: {
+        source: [
+          {
+            engine: 'Trident',
+            browser: 'Internet Explorer 4.0',
+            platform: 'Win 95+',
+            version: '4',
+            grade: 'X',
+            id: '1',
+            children: [
+              {
+                engine: 'Trident',
+                browser: 'Internet Explorer 5.0',
+                platform: 'Win 95+',
+                version: '5',
+                grade: 'C',
+                id: '1-1'
+              }
+            ]
+          },
+          {
+            engine: 'Trident',
+            browser: 'Internet Explorer 5.0',
+            platform: 'Win 95+',
+            version: '5',
+            grade: 'C',
+            id: '5'
+          }
+        ]
+      },
+      body: [
+        {
+          type: 'button',
+          label: '切换数据源',
+          onEvent: {
+            click: {
+              actions: [
+                {
+                  actionType: 'setValue',
+                  componentId: 'page',
+                  args: {
+                    value: {
+                      source: [
+                        {
+                          engine: 'Trident',
+                          browser: 'Internet Explorer 4.0',
+                          platform: 'Win 95+',
+                          version: '4',
+                          grade: 'X',
+                          id: '3'
+                        },
+                        {
+                          engine: 'Trident',
+                          browser: 'Internet Explorer 4.0',
+                          platform: 'Win 95+',
+                          version: '4',
+                          grade: 'X',
+                          id: '4'
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          type: 'crud',
+          name: 'crud',
+          syncLocation: false,
+          source: '${source}',
+          draggable: true,
+          columns: [
+            {
+              name: 'id',
+              label: 'ID'
+            },
+            {
+              name: 'engine',
+              label: 'Rendering engine'
+            },
+            {
+              name: 'browser',
+              label: 'Browser'
+            }
+          ]
+        }
+      ]
+    })
+  );
+
+  const space = container.querySelectorAll('.cxd-Table-expandSpace');
+  const button = container.querySelectorAll('.cxd-Button')[0];
+  expect(space.length).toEqual(1);
+
+  fireEvent.click(button);
+  await wait(100);
+
+  const newSpace = container.querySelectorAll('.cxd-Table-expandSpace');
+  expect(newSpace.length).toEqual(0);
 });
