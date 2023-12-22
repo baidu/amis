@@ -1,4 +1,8 @@
-import {EditorNodeType, registerEditorPlugin} from 'amis-editor-core';
+import {
+  EditorManager,
+  EditorNodeType,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {
@@ -9,7 +13,7 @@ import {
 import {getSchemaTpl, defaultValue} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
-import {resolveOptionType} from '../../util';
+import {resolveOptionEventDataSchame, resolveOptionType} from '../../util';
 import type {Schema} from 'amis';
 
 export class ButtonGroupControlPlugin extends BasePlugin {
@@ -65,23 +69,24 @@ export class ButtonGroupControlPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '选中值变化时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '选中的值'
+      dataSchema: (manager: EditorManager) => {
+        const {value} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     }
   ];
 
@@ -205,7 +210,7 @@ export class ButtonGroupControlPlugin extends BasePlugin {
   };
 
   buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
-    const type = resolveOptionType(node.schema?.options);
+    const type = resolveOptionType(node.schema);
     // todo:异步数据case
     let dataSchema: any = {
       type,

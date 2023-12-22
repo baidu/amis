@@ -277,28 +277,28 @@ order: 38
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名           | 类型                                                                                                                                      | 默认值  | 说明                                                                                                                                     | 版本              |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| className        | `string`                                                                                                                                  |         | css 类名                                                                                                                                 |
-| value            | `number` or `string` or `{min: number, max: number}` or `[number, number]`                                                                |         |                                                                                                                                          |
-| min              | `number \| string`                                                                                                                        | `0`     | 最小值，支持变量                                                                                                                         | `3.3.0`后支持变量 |
-| max              | `number \| string`                                                                                                                        | `100`   | 最大， 支持变量值                                                                                                                        | `3.3.0`后支持变量 |
-| disabled         | `boolean`                                                                                                                                 | `false` | 是否禁用                                                                                                                                 |
-| step             | `number \| string`                                                                                                                        | `1`     | 步长，支持变量                                                                                                                           | `3.3.0`后支持变量 |
-| showSteps        | `boolean`                                                                                                                                 | `false` | 是否显示步长                                                                                                                             |
-| parts            | `number` or `number[]`                                                                                                                    | `1`     | 分割的块数<br/>主持数组传入分块的节点                                                                                                    |
+| 属性名           | 类型                                                                                                                                                                  | 默认值  | 说明                                                                                                                                     | 版本              |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| className        | `string`                                                                                                                                                              |         | css 类名                                                                                                                                 |
+| value            | `number` or `string` or `{min: number, max: number}` or `[number, number]`                                                                                            |         |                                                                                                                                          |
+| min              | `number \| string`                                                                                                                                                    | `0`     | 最小值，支持变量                                                                                                                         | `3.3.0`后支持变量 |
+| max              | `number \| string`                                                                                                                                                    | `100`   | 最大， 支持变量值                                                                                                                        | `3.3.0`后支持变量 |
+| disabled         | `boolean`                                                                                                                                                             | `false` | 是否禁用                                                                                                                                 |
+| step             | `number \| string`                                                                                                                                                    | `1`     | 步长，支持变量                                                                                                                           | `3.3.0`后支持变量 |
+| showSteps        | `boolean`                                                                                                                                                             | `false` | 是否显示步长                                                                                                                             |
+| parts            | `number` or `number[]`                                                                                                                                                | `1`     | 分割的块数<br/>主持数组传入分块的节点                                                                                                    |
 | marks            | <code>{ [number &#124; string]: string &#124; number &#124; SchemaObject }</code> or <code>{ [number &#124; string]: { style: CSSProperties, label: string } }</code> |         | 刻度标记<br/>- 支持自定义样式<br/>- 设置百分比                                                                                           |
-| tooltipVisible   | `boolean`                                                                                                                                 | `false` | 是否显示滑块标签                                                                                                                         |
-| tooltipPlacement | `auto` or `bottom` or `left` or `right`                                                                                                   | `top`   | 滑块标签的位置，默认`auto`，方向自适应<br/>前置条件：tooltipVisible 不为 false 时有效                                                    |
-| tipFormatter     | `function`                                                                                                                                |         | 控制滑块标签显隐函数<br/>前置条件：tooltipVisible 不为 false 时有效                                                                      |
-| multiple         | `boolean`                                                                                                                                 | `false` | 支持选择范围                                                                                                                             |
-| joinValues       | `boolean`                                                                                                                                 | `true`  | 默认为 `true`，选择的 `value` 会通过 `delimiter` 连接起来，否则直接将以`{min: 1, max: 100}`的形式提交<br/>前置条件：开启`multiple`时有效 |
-| delimiter        | `string`                                                                                                                                  | `,`     | 分隔符                                                                                                                                   |
-| unit             | `string`                                                                                                                                  |         | 单位                                                                                                                                     |
-| clearable        | `boolean`                                                                                                                                 | `false` | 是否可清除<br/>前置条件：开启`showInput`时有效                                                                                           |
-| showInput        | `boolean`                                                                                                                                 | `false` | 是否显示输入框                                                                                                                           |
-| onChange         | `function`                                                                                                                                |         | 当 组件 的值发生改变时，会触发 onChange 事件，并把改变后的值作为参数传入                                                                 |
-| onAfterChange    | `function`                                                                                                                                |         | 与 `onmouseup` 触发时机一致，把当前值作为参数传入                                                                                        |
+| tooltipVisible   | `boolean`                                                                                                                                                             | `false` | 是否显示滑块标签                                                                                                                         |
+| tooltipPlacement | `auto` or `bottom` or `left` or `right`                                                                                                                               | `top`   | 滑块标签的位置，默认`auto`，方向自适应<br/>前置条件：tooltipVisible 不为 false 时有效                                                    |
+| tipFormatter     | `function`                                                                                                                                                            |         | 控制滑块标签显隐函数<br/>前置条件：tooltipVisible 不为 false 时有效                                                                      |
+| multiple         | `boolean`                                                                                                                                                             | `false` | 支持选择范围                                                                                                                             |
+| joinValues       | `boolean`                                                                                                                                                             | `true`  | 默认为 `true`，选择的 `value` 会通过 `delimiter` 连接起来，否则直接将以`{min: 1, max: 100}`的形式提交<br/>前置条件：开启`multiple`时有效 |
+| delimiter        | `string`                                                                                                                                                              | `,`     | 分隔符                                                                                                                                   |
+| unit             | `string`                                                                                                                                                              |         | 单位                                                                                                                                     |
+| clearable        | `boolean`                                                                                                                                                             | `false` | 是否可清除<br/>前置条件：开启`showInput`时有效                                                                                           |
+| showInput        | `boolean`                                                                                                                                                             | `false` | 是否显示输入框                                                                                                                           |
+| onChange         | `function`                                                                                                                                                            |         | 当 组件 的值发生改变时，会触发 onChange 事件，并把改变后的值作为参数传入                                                                 |
+| onAfterChange    | `function`                                                                                                                                                            |         | 与 `onmouseup` 触发时机一致，把当前值作为参数传入                                                                                        |
 
 ## 事件表
 
@@ -311,6 +311,99 @@ order: 38
 | change   | `[name]: number \| string \|{min: number, max: number}` 组件的值 | 当值变化时触发的事件                              |
 | blur     | `[name]: number \| string \|{min: number, max: number}` 组件的值 | 当设置 showInput 为 true 时，输入框失去焦点时触发 |
 | focus    | `[name]: number \| string \|{min: number, max: number}` 组件的值 | 当设置 showInput 为 true 时，输入框获取焦点时触发 |
+
+### change
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "input-range",
+        "label": "滑块",
+        "name": "range",
+        "value": 20,
+        "onEvent": {
+            "change": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
+### blur
+
+当设置 `showInput` 为 true 时，输入框失去焦点时触发。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "input-range",
+        "label": "滑块",
+        "name": "range",
+        "value": 20,
+        "showInput": true,
+        "onEvent": {
+            "blur": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
+### focus
+
+当设置 `showInput` 为 true 时，输入框获取焦点时触发。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "input-range",
+        "label": "滑块",
+        "name": "range",
+        "value": 20,
+        "showInput": true,
+        "onEvent": {
+            "focus": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
 
 ## 动作表
 
