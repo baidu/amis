@@ -4600,5 +4600,73 @@ extendLocale('en-US', {
     'Is it the field name of the lazy loading node? The default is defer, and this configuration item can be used to customize the field name',
   '37a3bfd0cf20cc17c53396a1077c0852': 'Customize fields to enable lazy loading',
   '6c1f091d6ee0780a6f836d212b8afa82': 'New form configured',
-  '9de4041a80c32ada7fb8b3f212da62d2': 'Edited form configured'
+  '9de4041a80c32ada7fb8b3f212da62d2': 'Edited form configured',
+  '7eca7159d5a09db3a0008280faae395c': 'Search matching function',
+  'e95903f4c15aab31ea66ecd51b76e1a3':
+    'Custom search matching function, when<code>loadDataOnce</code>is enabled, will filter based on the matching results calculated by this function. It is mainly used to handle scenarios where column field types are complex or field value formats and backend returns are inconsistent<code>matchSorter</code>function is used to handle complex filtering scenarios, such as fuzzy matching. For more detailed content, it is recommended to check<a href="https://github.com/kentcdodds/match-sorter" target="_blank">match-sorter</a>.',
+  '4f54012c824bfcd8f9ca9ded82051d94': 'Mock configuration',
+  '3566441483da64f6bb1dd44cfd6b0184': 'Data Mock',
+  'fb677689a875ed3078e386ad88273e73':
+    'After activation, when the data source is empty, Mock data will be used',
+  'af192f42759b02f6fd256776b12a238f':
+    'After setting, the data will be displayed according to the set quantity, which can improve the rendering speed of the design state, reduce the height of the table, and facilitate layout settings. If set to<code>-1</code>, there is no restriction',
+  'a15e0eac4fe49346a744fa7943c46890': 'Calendar schedule',
+  'b13bf2bdf8a7abbd8cdf85683214be45': 'Display the calendar and schedule.',
+  '0c6482892e9df6505c8de1eabca68266': 'time stamp',
+  '398e51caf9e8fabbeb075833f0c1e701': 'Date Format',
+  '2ca9949e2a05e63f735b713260307c45': 'Time format',
+  'e63e4cf37bf0af962b6ad66243dbe0f4': 'Date Time Format',
+  '69a79a0e5083305255d191f708a41860': 'Is it possible to drag and drop',
+  'bc48a7871960f7a395fa3ff20774f81c':
+    '{\\ n "status": 0, \\ n "msg": "", \\ n//can not be returned. If data is returned, it will be merged in. \\ n data: {} \\ n}',
+  '1385df54facf9564658f05d0e9e2c3c7': 'Double click on row',
+  '1c00d9cceec92084b116a382f2714ebb': 'Double click on the entire row event',
+  '4f0a3e65cf67ca5a117a3f28745ae930': 'Display the new button at the bottom',
+  '2424c96966b9c38c7d094a2d40f23a5f': 'Display operation column add button',
+  '2e2c57b664358061f9f20aeda43b53af': 'Automatic selection',
+  '3fd78aa49302ff2634badc2ef49828f7':
+    "After activation, automatically select the user's current geographic location",
+  '1acee853829433de3ece301ee365bc99': 'Restriction mode',
+  'ce8b1e6f3819ea068921a4fa9ead6968':
+    'After activation, only the current geographical location can be used and no other geographical locations can be selected',
+  'fb58b1b692e6cc562764f6969269f802': 'Box details configured',
+  '645dbc5504e722a30896486085a06b32': 'preview',
+  '9aa70276e6d364abdc0543deccea2dac': 'preview pictures',
+  '893a9d45e4df161d0b0c57340631bd2f': 'Adjusting Image Scale',
+  'e8aaab64292d8b17db25a1ab44bcd8e0':
+    'Enlarge or shrink the image proportionally',
+  '28a7e3af290b229c490da0ad4e9b700e': 'Adjusting the proportion',
+  '7f2081cebf9bd4b10b953b4008c4b568':
+    'Define the percentage size of the image to be enlarged or reduced each time, with positive values indicating enlargement and negative values indicating reduction. The default value is 50',
+  'cb90ac33f6b3bf684635d4f57cb290a0': 'Amplification limit',
+  '7ab252f7aab256f1785c793049d01e13':
+    'Define the maximum percentage of action to adjust image size, default to 200',
+  '7d645933c48d5061c2a13dd5f8b9b4fa': 'Reduce limits',
+  '164f3e6ced78578c534477da66e0b008':
+    'Define the minimum percentage of action to adjust image size, default to 50',
+  '8e9f5f321ac9b39dbcf0f603190815ce':
+    'Suspended container: a special layout container based on CSS Fixed implementation.',
+  'ace080d5d9684a05aa5ec0ca38ec2831': 'Number of records displayed per page',
+  'e52664b945c685d43d6ea81953a33a4a': 'Trigger QR code download',
+  'a605077feb2a94f1f72627703ff48e39':
+    'There is no data in the current table. Use Mock data for effect preview. Relevant configurations can be modified in the Mock configuration of the component panel',
+  '014b4de0dd3108fc912547e4a1ed19fd':
+    'The current table only displays 1 piece of data for effect preview. Click "Preview" at the top to view the real scene data. The relevant configuration can be modified in the Mock configuration of the component panel',
+  '8bb1910d5bc3b1b32c1e037978ba9d3b':
+    'Modify and submit after activation, instead of batch submission. It is necessary to configure a quick save interface for submitting data',
+  'df23e8db7baa38e0d9db41384788a40c':
+    'By default, the "Quick Save Single Entry" interface of the table is used. If a separate interface for immediate save configuration is provided, local configuration will be prioritized.',
+  'bf4bc760ad07eccb701c8be8579005fc':
+    'The number of list items cannot be less than {{@1}}',
+  '0e69a56857c65181f96cd272d20455d6': 'Click to add an expression',
+  'd846706b91f99cd12545a78212fa5984': 'Common actions:',
+  '1889907dcbe32f9e8ac2c9df6603f12e': 'Verify individual form items',
+  '1a04578671f6c3bfa2d35a8cbd9d1a9e': 'Verify form items',
+  'e4092e07c4613278048c91064f4bfdf7': 'Verify individual form item data',
+  'dd39bd1bf78f1b2aec6ed8a05ced6884': 'The value of the verified form item',
+  '0a2680def3df6912d7c96d95a047b680': 'Verification successful',
+  '136b339ae7f40edc05251da87dd8a233': 'Verification failed',
+  '14a265b60d169e9d9c11b9a286de199d': 'Event burial point',
+  '5c1024a792dfc345b4d8a3b34255691b':
+    'After enabling event burying, every time an event is triggered, burying data will be sent to the background'
 });

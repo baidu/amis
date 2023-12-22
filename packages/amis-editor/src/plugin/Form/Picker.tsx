@@ -644,7 +644,9 @@ export class PickerControlPlugin extends BasePlugin {
         }
       }),
       pickerMode: true,
-      multiple: value.multiple
+      multiple: value.multiple,
+      labelField: value.labelField || 'label',
+      valueField: value.valueField || 'value'
     };
     // 不支持上下文变量构建crud
     if (!isPureVariable(value.source)) {

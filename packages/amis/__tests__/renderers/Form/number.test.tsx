@@ -21,6 +21,17 @@ const setup = async (
   formOptions: any = {},
   formItems: any[] = [{}]
 ) => {
+  const fetcher = jest.fn().mockImplementation(() =>
+    Promise.resolve({
+      data: {
+        status: 0,
+        msg: 'ok',
+        data: {
+          id: '12'
+        }
+      }
+    })
+  );
   const utils = render(
     amisRender(
       {
@@ -39,7 +50,9 @@ const setup = async (
         ...formOptions
       },
       {},
-      makeEnv()
+      makeEnv({
+        fetcher
+      })
     )
   );
 
@@ -183,6 +196,47 @@ test('Renderer:number with unitOptions', async () => {
 
   replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
+});
+
+test('Renderer:number with unitOptions and default value', async () => {
+  const {container} = await setup(
+    {
+      unitOptions: ['px', '%', 'em'],
+      value: 12
+    },
+    {},
+    [
+      {
+        type: 'static',
+        name: 'number'
+      }
+    ]
+  );
+
+  const staticDom = container.querySelector('.cxd-PlainField') as Element;
+  expect(staticDom.innerHTML).toBe('12px');
+});
+
+test('Renderer:number with unitOptions and initApi', async () => {
+  const {container} = await setup(
+    {
+      name: 'id',
+      unitOptions: ['px', '%', 'em']
+    },
+    {
+      initApi: '/amis/api/mock2/sample/12'
+    },
+    [
+      {
+        type: 'static',
+        name: 'id'
+      }
+    ]
+  );
+  await wait(500); // 等待 initApi 加载完
+
+  const staticDom = container.querySelector('.cxd-PlainField') as Element;
+  expect(staticDom.innerHTML).toBe('12px');
 });
 
 test('Renderer:number with precision and default value', async () => {

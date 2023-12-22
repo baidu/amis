@@ -2324,16 +2324,20 @@ export class CRUDPlugin extends BasePlugin {
 
     // 保底
     fields.length ||
-      fields.concat([
-        {
-          name: 'a',
-          label: 'A'
-        },
-        {
-          name: 'b',
-          label: 'B'
-        }
-      ]);
+      fields.push(
+        ...[
+          {
+            type: 'text',
+            name: schema.labelField || 'label',
+            label: 'label'
+          },
+          {
+            type: 'text',
+            name: schema.valueField || 'value',
+            label: 'value'
+          }
+        ]
+      );
 
     if (to === 'table') {
       return fields.concat({
