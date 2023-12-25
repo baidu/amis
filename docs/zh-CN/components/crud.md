@@ -207,12 +207,13 @@ CRUD 组件对数据源接口的数据结构要求如下：
 `syncLocation`开启后，CRUD 在初始化数据域时，将会对 url 中的 Query 进行转换，将原始类型的字符串格式的转化为同位类型。`3.6.0`版本后支持对象格式，该配置默认开启，且默认仅转化布尔值。
 
 #### ParsePrimitiveQueryOptions
+
 ```typescript
 interface ParsePrimitiveQueryOptions {
   parsePrimitiveQuery: {
     enable: boolean;
-    types?: ('boolean' | 'number')[]
-  }
+    types?: ('boolean' | 'number')[];
+  };
 }
 ```
 
@@ -225,7 +226,7 @@ interface ParsePrimitiveQueryOptions {
 "123.4"  ==> 123.4
 ```
 
-如果只想保持字符串格式，可以设置`"parsePrimitiveQuery": false` 或者 `"parsePrimitiveQuery": {"enable": false}` 关闭该特性，具体效果参考[示例](../../../examples/crud/parse-primitive-query)。如果想实现字段定制化转化类型，可以使用[配置API请求数据](../../docs/types/api#配置请求数据)，通过表达式控制接口传递的参数类型。
+如果只想保持字符串格式，可以设置`"parsePrimitiveQuery": false` 或者 `"parsePrimitiveQuery": {"enable": false}` 关闭该特性，具体效果参考[示例](../../../examples/crud/parse-primitive-query)。如果想实现字段定制化转化类型，可以使用[配置 API 请求数据](../../docs/types/api#配置请求数据)，通过表达式控制接口传递的参数类型。
 
 ## 功能
 
@@ -1121,6 +1122,42 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 ```
 
 你可以通过[数据映射](../../docs/concepts/data-mapping)，在`api`中获取这些参数。
+
+#### 快速过滤支持检索
+
+> 3.7.0 及以上版本
+
+通过配置 `searchable` 支持选项检索
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade",
+            "filterable": {
+                "searchable": true,
+                "options": [
+                    "A",
+                    "B",
+                    "C",
+                    "D",
+                    "X"
+                ]
+            }
+        }
+    ]
+}
+```
+
+如果需要更细节的配置，可以使用 `searchConfig`，详细配置项参考 search-box 组件
 
 #### 下拉数据源
 
@@ -2923,12 +2960,13 @@ interface CRUDMatchFunc {
 
 它其实是个简化的 `button` 组件，可以参考 `button` 组件的文档做调整。
 
-#### 刷新CRUD触发方式
+#### 刷新 CRUD 触发方式
 
-触发CRUD刷新的方式有3种：
-1. **reload类型按钮**：使用`{"type": "reload", ...}`，CRUD内部会对点击事件做处理
-2. **reload动作按钮**：使用`{"type": "action", "actionType": "reload", "target": "targetName", ...}`，指定`target`为要刷新的CRUD组件的`name`
-3. **reload事件动作**：使用[事件动作](../../docs/concepts/event-action)，指定`id`为要刷新的CRUD组件的`id`
+触发 CRUD 刷新的方式有 3 种：
+
+1. **reload 类型按钮**：使用`{"type": "reload", ...}`，CRUD 内部会对点击事件做处理
+2. **reload 动作按钮**：使用`{"type": "action", "actionType": "reload", "target": "targetName", ...}`，指定`target`为要刷新的 CRUD 组件的`name`
+3. **reload 事件动作**：使用[事件动作](../../docs/concepts/event-action)，指定`id`为要刷新的 CRUD 组件的`id`
 
 ```schema
 {
@@ -3631,8 +3669,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | autoFillHeight                        | `boolean` 丨 `{height: number}`                                                         |                                 | 内容区域自适应高度                                                                                                                             |
 | canAccessSuperData                    | `boolean`                                                                               | `true`                          | 指定是否可以自动获取上层的数据并映射到表格行数据上，如果列也配置了该属性，则列的优先级更高                                                     |
 | matchFunc                             | `string`                                                                                | [`CRUDMatchFunc`](#匹配函数)    | 自定义匹配函数, 当开启`loadDataOnce`时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景 | `3.5.0` |
-| parsePrimitiveQuery                         | [`ParsePrimitiveQueryOptions`](#ParsePrimitiveQueryOptions)                                                                                | `true`    | 是否开启Query信息转换，开启后将会对url中的Query进行转换，默认开启，默认仅转化布尔值 | `3.6.0` |
-
+| parsePrimitiveQuery                   | [`ParsePrimitiveQueryOptions`](#ParsePrimitiveQueryOptions)                             | `true`                          | 是否开启 Query 信息转换，开启后将会对 url 中的 Query 进行转换，默认开启，默认仅转化布尔值                                                      | `3.6.0` |
 
 注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
 
