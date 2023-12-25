@@ -108,6 +108,10 @@ npm run release
 
 <a href="https://github.com/baidu/amis/graphs/contributors"><img src="https://opencollective.com/amis/contributors.svg?width=890" /></a>
 
+## 提交统计
+
+![Alt](https://repobeats.axiom.co/api/embed/380a927b9d0815190a496092f0f0d5591b49e8f3.svg "Repobeats analytics image")
+
 ## 低代码平台
 
 amis 只能实现前端低代码，如果需要完整的低代码平台推荐使用[爱速搭](https://aisuda.bce.baidu.com/aisuda-docs/)。
