@@ -33,6 +33,7 @@ register('en-US', {
   'Copyable.tip': 'Copy',
   'CRUD.exportCSV': 'Export CSV',
   'CRUD.exportExcel': 'Export Excel',
+  'CRUD.exportExcelTemplate': 'Export Excel Template',
   'CRUD.fetchFailed': 'Fetch failed',
   'CRUD.filter': 'Filter',
   'CRUD.selected': 'selected {{total}} items: ',
