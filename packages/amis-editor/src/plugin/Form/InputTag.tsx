@@ -180,11 +180,7 @@ export class TagControlPlugin extends BasePlugin {
             getSchemaTpl('joinValues'),
             getSchemaTpl('delimiter'),
             getSchemaTpl('extractValue'),
-            {
-              type: 'input-number',
-              name: 'max',
-              label: tipedLabel('标签的最大选择数量', '标签的最大选择数量')
-            },
+            getSchemaTpl('max'),
             getSchemaTpl('autoFillApi', {
               visibleOn:
                 '!this.autoFill || this.autoFill.scene && this.autoFill.action'
