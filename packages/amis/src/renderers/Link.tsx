@@ -1,6 +1,10 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
+import TooltipWrapper, {
+  TooltipObject,
+  Trigger
+} from 'amis-ui/lib/components/TooltipWrapper';
 import {autobind, createObject, getPropValue} from 'amis-core';
 import {filter} from 'amis-core';
 import {BadgeObject, withBadge} from 'amis-ui';
@@ -50,6 +54,20 @@ export interface LinkSchema extends BaseSchema {
    * 右侧图标
    */
   rightIcon?: string;
+
+  /**
+   * 最大显示行数
+   */
+  maxLine?: number;
+
+  /**
+   * tooltip配置
+   */
+  tooltip?: string | TooltipObject;
+  tooltipPlacement: 'top' | 'right' | 'bottom' | 'left';
+  tooltipContainer?: any;
+  tooltipTrigger: Trigger | Array<Trigger>;
+  tooltipRootClose: boolean;
 }
 
 export interface LinkProps
@@ -94,7 +112,14 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       translate: __,
       title,
       icon,
-      rightIcon
+      rightIcon,
+      maxLine,
+      tooltip,
+      tooltipPlacement,
+      tooltipContainer,
+      tooltipTrigger,
+      tooltipRootClose,
+      disabledTip
     } = this.props;
 
     let value =
@@ -102,20 +127,36 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
         ? filter(href, data, '| raw')
         : undefined) || getPropValue(this.props);
 
+    // 显示行数处理
+    let customStyles: React.CSSProperties = {};
+    let cln = '';
+    if (maxLine && maxLine > 0) {
+      cln = 'max-line';
+      customStyles.WebkitLineClamp = +maxLine;
+    }
+
     return (
-      <Link
-        className={className}
-        style={style}
-        href={value}
-        disabled={disabled}
-        title={title}
-        htmlTarget={htmlTarget || (blank ? '_blank' : '_self')}
-        icon={icon}
-        rightIcon={rightIcon}
-        onClick={this.handleClick}
+      <TooltipWrapper
+        placement={tooltipPlacement}
+        tooltip={disabled ? disabledTip : tooltip}
+        container={tooltipContainer}
+        trigger={tooltipTrigger}
+        rootClose={tooltipRootClose}
       >
-        {body ? render('body', body) : value || __('link')}
-      </Link>
+        <Link
+          className={cx(className, cln)}
+          style={Object.assign({}, style, customStyles)}
+          href={value}
+          disabled={disabled}
+          title={title}
+          htmlTarget={htmlTarget || (blank ? '_blank' : '_self')}
+          icon={icon}
+          rightIcon={rightIcon}
+          onClick={this.handleClick}
+        >
+          {body ? render('body', body) : value || __('link')}
+        </Link>
+      </TooltipWrapper>
     );
   }
 }
