@@ -1199,7 +1199,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
             "name": "select1",
             "type": "select",
             "label": "选项自动补全（单选）",
-            "autoComplete": "/api/mock2/options/autoComplete3?delay=true&term=${term}",
+            "autoComplete": "/api/mock2/options/autoComplete3?delay=true&term=${term}&waitSeconds=2",
             "placeholder": "请输入",
             "clearable": true
         },
