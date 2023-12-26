@@ -923,7 +923,13 @@ export class EditorManager {
       !isSpecialLayout
     ) {
       // 布局能力提升: 点击插入新元素，当wrapper为空插入布局容器时，自动改为置换，避免过多层级
-      this.replaceChild(curActiveId, curElemSchema);
+      this.replaceChild(
+        curActiveId,
+        curElemSchema,
+        subRenderer,
+        store.insertRegion,
+        reGenerateId
+      );
       setTimeout(() => {
         this.updateConfigPanel();
       }, 0);
@@ -1009,7 +1015,7 @@ export class EditorManager {
       regionNodeRegion,
       value,
       nextId,
-      subRenderer,
+      subRenderer || node.info,
       {
         id: store.dragId,
         type: store.dragType,
@@ -1055,7 +1061,8 @@ export class EditorManager {
   async appendSiblingSchema(
     rendererSchema: Object,
     beforeInsert?: boolean,
-    disabledAutoSelectInsertElem?: boolean
+    disabledAutoSelectInsertElem?: boolean,
+    reGenerateId?: boolean
   ) {
     if (!rendererSchema) {
       return;
@@ -1113,7 +1120,14 @@ export class EditorManager {
         regionNodeId,
         regionNodeRegion,
         rendererSchema,
-        nextId
+        nextId,
+        node.info,
+        {
+          id: store.dragId,
+          type: store.dragType,
+          data: store.dragSchema
+        },
+        reGenerateId
       );
       if (child && !disabledAutoSelectInsertElem) {
         // mobx 修改数据是异步的
@@ -1542,7 +1556,7 @@ export class EditorManager {
     region: string,
     json: any,
     beforeId?: string,
-    subRenderer?: SubRendererInfo,
+    subRenderer?: SubRendererInfo | RendererInfo,
     dragInfo?: {
       id: string;
       type: string;
@@ -1625,7 +1639,7 @@ export class EditorManager {
   replaceChild(
     id: string,
     json: any,
-    subRenderer?: SubRendererInfo,
+    subRenderer?: SubRendererInfo | RendererInfo,
     region?: string,
     reGenerateId?: boolean
   ): boolean {

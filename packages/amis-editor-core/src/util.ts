@@ -586,14 +586,14 @@ export function reGenerateID(
   JSONTraverse(json, (value: any, key: string, host: any) => {
     const isNodeIdFormat =
       typeof value === 'string' && value.indexOf('u:') === 0;
-    if (key === 'id' && isNodeIdFormat && host) {
-      const newID = generateNodeId();
-      reIds[host.id] = newID;
-      host.id = newID;
-    }
-    // 组件ID，给新的id内容
-    else if (key === 'componentId' && isNodeIdFormat) {
-      host.componentId = reIds[value] ?? value;
+    if ((key === 'id' || key === 'componentId') && isNodeIdFormat && host) {
+      if (reIds[value]) {
+        host[key] = reIds[value];
+      } else {
+        const newID = generateNodeId();
+        reIds[value] = newID;
+        host[key] = newID;
+      }
     }
 
     return value;
