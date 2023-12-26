@@ -371,6 +371,7 @@ export interface TableProps extends RendererProps, SpinnerExtraProps {
   selectable?: boolean;
   selected?: Array<any>;
   maxKeepItemSelectionLength?: number;
+  maxItemSelectionLength?: number;
   valueField?: string;
   draggable?: boolean;
   columnsTogglable?: boolean | 'auto';
@@ -503,6 +504,7 @@ export default class Table extends React.Component<TableProps, object> {
     'onSelect',
     'keepItemSelectionOnPageChange',
     'maxKeepItemSelectionLength',
+    'maxItemSelectionLength',
     'autoGenerateFilter'
   ];
   static defaultProps: Partial<TableProps> = {
@@ -600,6 +602,7 @@ export default class Table extends React.Component<TableProps, object> {
       formItem,
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength,
+      maxItemSelectionLength,
       onQuery,
       autoGenerateFilter,
       loading,
@@ -636,6 +639,7 @@ export default class Table extends React.Component<TableProps, object> {
         combineFromIndex,
         keepItemSelectionOnPageChange,
         maxKeepItemSelectionLength,
+        maxItemSelectionLength,
         loading,
         canAccessSuperData,
         lazyRenderAfter,
@@ -1833,7 +1837,7 @@ export default class Table extends React.Component<TableProps, object> {
               classPrefix={ns}
               partial={store.someChecked && !store.allChecked}
               checked={store.someChecked}
-              disabled={store.isSelectionThresholdReached}
+              disabled={store.isSelectionThresholdReached && !store.someChecked}
               onChange={this.handleCheckAll}
             />
           ) : (
