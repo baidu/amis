@@ -187,7 +187,7 @@ export default class NumberControl extends React.Component<
     this.handleChangeUnit = this.handleChangeUnit.bind(this);
     const unit = this.getUnit();
     const unitOptions = normalizeOptions(props.unitOptions);
-    const {formItem, setPrinstineValue, precision, step, value} = props;
+    const {formItem, setPrinstineValue, precision, step, value, big} = props;
     const normalizedPrecision = NumberInput.normalizePrecision(
       this.filterNum(precision),
       this.filterNum(step)
@@ -201,7 +201,9 @@ export default class NumberControl extends React.Component<
       formItem &&
       value != null &&
       normalizedPrecision != null &&
-      (!unit || unitOptions.length === 0)
+      (!unit || unitOptions.length === 0) &&
+      // 大数下不需要进行精度处理，因为输入输出都是字符串
+      big !== true
     ) {
       const normalizedValue = parseFloat(
         toFixed(value.toString(), '.', normalizedPrecision)
