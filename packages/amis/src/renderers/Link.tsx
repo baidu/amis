@@ -1,10 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
-import TooltipWrapper, {
-  TooltipObject,
-  Trigger
-} from 'amis-ui/lib/components/TooltipWrapper';
+import TooltipWrapper from 'amis-ui/lib/components/TooltipWrapper';
 import {autobind, createObject, getPropValue} from 'amis-core';
 import {filter} from 'amis-core';
 import {BadgeObject, withBadge} from 'amis-ui';
@@ -63,11 +60,7 @@ export interface LinkSchema extends BaseSchema {
   /**
    * tooltip配置
    */
-  tooltip?: string | TooltipObject;
-  tooltipPlacement: 'top' | 'right' | 'bottom' | 'left';
-  tooltipContainer?: any;
-  tooltipTrigger: Trigger | Array<Trigger>;
-  tooltipRootClose: boolean;
+  tooltip?: string;
 }
 
 export interface LinkProps
@@ -114,12 +107,7 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       icon,
       rightIcon,
       maxLine,
-      tooltip,
-      tooltipPlacement,
-      tooltipContainer,
-      tooltipTrigger,
-      tooltipRootClose,
-      disabledTip
+      tooltip
     } = this.props;
 
     let value =
@@ -136,13 +124,7 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
     }
 
     return (
-      <TooltipWrapper
-        placement={tooltipPlacement}
-        tooltip={disabled ? disabledTip : tooltip}
-        container={tooltipContainer}
-        trigger={tooltipTrigger}
-        rootClose={tooltipRootClose}
-      >
+      <TooltipWrapper tooltip={tooltip}>
         <Link
           className={cx(className, cln)}
           style={Object.assign({}, style, customStyles)}
