@@ -873,7 +873,7 @@ export class EditorManager {
    * @param rendererIdOrSchema
    * 备注：可以根据渲染器ID添加新元素，也可以根据现有schema片段添加新元素
    */
-  async addElem(rendererIdOrSchema: string | any) {
+  async addElem(rendererIdOrSchema: string | any, reGenerateId?: boolean) {
     if (!rendererIdOrSchema) {
       return;
     }
@@ -1009,7 +1009,13 @@ export class EditorManager {
       regionNodeRegion,
       value,
       nextId,
-      subRenderer
+      subRenderer,
+      {
+        id: store.dragId,
+        type: store.dragType,
+        data: store.dragSchema
+      },
+      reGenerateId
     );
     if (child) {
       // mobx 修改数据是异步的
@@ -1541,14 +1547,15 @@ export class EditorManager {
       id: string;
       type: string;
       data: any;
-    }
+    },
+    reGenerateId?: boolean
   ): any | null {
     const store = this.store;
     let index: number = -1;
     const commonContext = this.buildEventContext(id);
 
     // 填充id，有些脚手架生成了复杂的布局等，自动填充一下id
-    let curChildJson = JSONPipeIn(json, true);
+    let curChildJson = JSONPipeIn(json, reGenerateId ?? true); // 默认重新生成id
 
     if (beforeId) {
       const arr = commonContext.schema[region];
