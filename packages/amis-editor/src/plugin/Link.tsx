@@ -2,7 +2,8 @@ import {
   registerEditorPlugin,
   BasePlugin,
   getSchemaTpl,
-  tipedLabel
+  tipedLabel,
+  defaultValue
 } from 'amis-editor-core';
 
 export class LinkPlugin extends BasePlugin {
@@ -49,6 +50,82 @@ export class LinkPlugin extends BasePlugin {
                   type: 'input-text'
                 }
               }),
+              {
+                type: 'input-number',
+                label: '最大显示行数',
+                name: 'maxLine',
+                min: 0
+              },
+              {
+                type: 'ae-switch-more',
+                formType: 'extend',
+                mode: 'normal',
+                label: '气泡提示',
+                form: {
+                  body: [
+                    getSchemaTpl('textareaFormulaControl', {
+                      name: 'tooltip',
+                      mode: 'normal',
+                      label: tipedLabel(
+                        '正常提示',
+                        '正常状态下的提示内容，不填则不弹出提示。可从数据域变量中取值。'
+                      )
+                    }),
+                    getSchemaTpl('textareaFormulaControl', {
+                      name: 'disabledTip',
+                      mode: 'normal',
+                      label: tipedLabel(
+                        '禁用提示',
+                        '禁用状态下的提示内容，不填则弹出正常提示。可从数据域变量中取值。'
+                      ),
+                      clearValueOnHidden: true,
+                      visibleOn: 'data.tooltipTrigger !== "focus"'
+                    }),
+                    {
+                      type: 'button-group-select',
+                      name: 'tooltipTrigger',
+                      label: '触发方式',
+                      size: 'sm',
+                      options: [
+                        {
+                          label: '鼠标悬浮',
+                          value: 'hover'
+                        },
+                        {
+                          label: '聚焦',
+                          value: 'focus'
+                        }
+                      ],
+                      pipeIn: defaultValue('hover')
+                    },
+                    {
+                      type: 'button-group-select',
+                      name: 'tooltipPlacement',
+                      label: '提示位置',
+                      size: 'sm',
+                      options: [
+                        {
+                          label: '上',
+                          value: 'top'
+                        },
+                        {
+                          label: '右',
+                          value: 'right'
+                        },
+                        {
+                          label: '下',
+                          value: 'bottom'
+                        },
+                        {
+                          label: '左',
+                          value: 'left'
+                        }
+                      ],
+                      pipeIn: defaultValue('bottom')
+                    }
+                  ]
+                }
+              },
               {
                 label: tipedLabel('内容', '不填写时，自动使用目标地址值'),
                 type: 'ae-textareaFormulaControl',
