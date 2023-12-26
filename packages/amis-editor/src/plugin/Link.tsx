@@ -121,7 +121,7 @@ export class LinkPlugin extends BasePlugin {
                           value: 'left'
                         }
                       ],
-                      pipeIn: defaultValue('bottom')
+                      pipeIn: defaultValue('top')
                     }
                   ]
                 }
