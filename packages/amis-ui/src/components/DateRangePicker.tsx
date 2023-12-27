@@ -1029,8 +1029,7 @@ export class DateRangePicker extends React.Component<
       originValue: startDate || minDate,
       timeFormat,
       subControlViewMode,
-      autoInitDefaultValue:
-        !!timeFormat && newValue && (!oldStartDate || !startDate)
+      autoInitDefaultValue: !!timeFormat && newValue && !startDate
     });
     const newState = {
       startDate: date,
@@ -1079,8 +1078,7 @@ export class DateRangePicker extends React.Component<
       originValue: endDate,
       timeFormat,
       subControlViewMode,
-      autoInitDefaultValue:
-        !!timeFormat && newValue && (!oldEndDate || !endDate)
+      autoInitDefaultValue: !!timeFormat && newValue && !endDate
     });
 
     this.setState(
