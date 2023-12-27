@@ -1,4 +1,4 @@
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, RendererPluginAction} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
@@ -31,6 +31,20 @@ export class ProgressPlugin extends BasePlugin {
   previewSchema = {
     ...this.scaffold
   };
+
+  // 动作定义
+  actions: RendererPluginAction[] = [
+    {
+      actionType: 'reset',
+      actionLabel: '重置',
+      description: '重置为默认值'
+    },
+    {
+      actionType: 'setValue',
+      actionLabel: '赋值',
+      description: '触发组件数据更新'
+    }
+  ];
 
   panelTitle = '进度';
 
