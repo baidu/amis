@@ -23,7 +23,7 @@ order: 45
         "name": "arr",
         "items": {
             "type": "tpl",
-            "tpl": "<span class='label label-default m-l-sm'><%= data.item %></span> "
+            "tpl": "<span class='label label-default m-l-sm'>${item}</span> "
         }
     }
 }
@@ -127,7 +127,7 @@ order: 45
             "placeholder": "暂无内容",
             "items": {
                 "type": "tpl",
-                "tpl": "<span class='label label-info m-l-sm'><%= this.item %></span>"
+                "tpl": "<span class='label label-info m-l-sm'>${item}</span>"
             }
         }
     ]
@@ -151,7 +151,7 @@ List 的内容、Card 卡片的内容配置同上
             "name": "each",
             "items": {
                 "type": "tpl",
-                "tpl": "<span class='label label-info m-l-sm'><%= this.item %></span>"
+                "tpl": "<span class='label label-info m-l-sm'>${item}</span>"
             }
         }
     ]
@@ -171,7 +171,7 @@ List 的内容、Card 卡片的内容配置同上
         "source": "${arr}",
         "items": {
             "type": "tpl",
-            "tpl": "<span class='label label-default m-l-sm'><%= data.item %></span> "
+            "tpl": "<span class='label label-default m-l-sm'>${item}</span> "
         }
     }
 }

@@ -268,11 +268,25 @@ export class ApiDSBuilder extends DSBuilder<
       }
     };
 
+    const isServiceCmpt = renderer === 'service';
+    const shouldRenderApiControl = isServiceCmpt
+      ? true
+      : feat !== DSFeatureEnum.View;
+    const shouldRenderInitApiControl = isServiceCmpt
+      ? false
+      : (feat === DSFeatureEnum.Edit || feat === DSFeatureEnum.View) &&
+        (renderer === 'form' || sourceKey === 'initApi');
+    const shouldRenderQuickApiControl = isServiceCmpt
+      ? false
+      : feat === DSFeatureEnum.List && renderer === 'crud' && !inScaffold;
+
     return [
       /** 提交接口 */
-      getSchemaTpl('apiControl', baseApiSchemaConfig),
+      shouldRenderApiControl
+        ? getSchemaTpl('apiControl', baseApiSchemaConfig)
+        : null,
       /** 表单初始化接口 */
-      feat === 'Edit' && (renderer === 'form' || sourceKey === 'initApi')
+      shouldRenderInitApiControl
         ? getSchemaTpl('apiControl', {
             ...baseApiSchemaConfig,
             name: 'initApi',
@@ -288,7 +302,7 @@ export class ApiDSBuilder extends DSBuilder<
           })
         : null,
       /** CRUD的快速编辑接口 */
-      ...(feat === 'List' && renderer === 'crud' && !inScaffold
+      ...(shouldRenderQuickApiControl
         ? [
             getSchemaTpl('apiControl', {
               ...baseApiSchemaConfig,
@@ -327,7 +341,7 @@ export class ApiDSBuilder extends DSBuilder<
         fieldKeys: this.features.map(f => this.getFieldsKey({feat: f})),
         config: {
           showInputType:
-            renderer === 'form' ||
+            (renderer === 'form' && feat !== DSFeatureEnum.View) ||
             (renderer === 'crud' &&
               [
                 'Edit',
@@ -337,7 +351,9 @@ export class ApiDSBuilder extends DSBuilder<
                 'SimpleQuery',
                 'List'
               ].includes(feat)),
-          showDisplayType: renderer === 'crud' && ['List'].includes(feat)
+          showDisplayType:
+            (renderer === 'form' && feat === DSFeatureEnum.View) ||
+            (renderer === 'crud' && ['List'].includes(feat))
         },
         onAutoGenerateFields: this.autoGenerateFields.bind(this)
       }
@@ -346,7 +362,10 @@ export class ApiDSBuilder extends DSBuilder<
     return result;
   }
 
-  /** 基于接口生成字段 */
+  /**
+   * 基于接口生成字段
+   * 注意CRUD的接口返回格式，目前兼容items、rows、options字段，否则取data下的首个数组元素（和CRUD加载逻辑对齐）
+   */
   async autoGenerateFields({
     api,
     props,
@@ -375,12 +394,33 @@ export class ApiDSBuilder extends DSBuilder<
     }
 
     const fields: ScaffoldField[] = [];
+    const responseData = result.data;
     let sampleRow: Record<string, any>;
     if (feat === 'List') {
-      const items = result.data?.rows || result.data?.items || result.data;
+      let items =
+        responseData?.rows ||
+        responseData?.items ||
+        responseData?.options ||
+        responseData;
+
+      // 取data下的首个数组元素
+      if (!Array.isArray(items)) {
+        for (const key of Object.keys(responseData)) {
+          if (
+            responseData.hasOwnProperty(key) &&
+            Array.isArray(responseData[key])
+          ) {
+            items = responseData[key];
+            break;
+          }
+        }
+      } else if (items == null) {
+        items = [];
+      }
+
       sampleRow = items?.[0];
     } else {
-      sampleRow = result.data;
+      sampleRow = responseData;
     }
 
     if (sampleRow) {
@@ -603,7 +643,8 @@ export class ApiDSBuilder extends DSBuilder<
       schema.resetAfterSubmit = true;
     }
 
-    if (feat === 'View') {
+    if (feat === DSFeatureEnum.View) {
+      delete schema.api;
       schema.static = true;
     }
 
@@ -665,12 +706,18 @@ export class ApiDSBuilder extends DSBuilder<
     };
   }
 
-  async buildViewSchema(
-    options: ApiDSBuilderOptions<'crud'>,
+  async buildViewSchema<T extends DSRendererType>(
+    options: ApiDSBuilderOptions<T>,
     componentId?: string
   ) {
-    const {renderer, scaffoldConfig} = options || {};
-    const {viewApi} = (scaffoldConfig as CRUDScaffoldConfig) || {};
+    const {renderer} = options || {};
+    const scaffoldConfig = options.scaffoldConfig || {};
+    const isForm = renderer === 'form';
+    const viewApi =
+      renderer === 'form'
+        ? (scaffoldConfig as CRUDScaffoldConfig)?.initApi
+        : (scaffoldConfig as CRUDScaffoldConfig)?.viewApi;
+
     const formActions = [
       {
         type: 'button',
@@ -681,11 +728,14 @@ export class ApiDSBuilder extends DSBuilder<
     const title = '查看数据';
     const formSchema = this.buildBaseFormSchema(
       {...options, feat: DSFeatureEnum.View},
-      {
-        title: title,
-        initApi: viewApi,
-        actions: formActions
-      }
+      /** Form要基于脚手架配置构建，CRUD中则是内部逻辑 */
+      isForm
+        ? {initApi: viewApi}
+        : {
+            title: title,
+            initApi: viewApi,
+            actions: formActions
+          }
     );
 
     if (renderer === 'crud') {
@@ -1406,10 +1456,12 @@ export class ApiDSBuilder extends DSBuilder<
     let formSchema: GenericSchema;
     const id = __pristineSchema?.id ?? generateNodeId();
 
-    if (feat === 'Insert') {
+    if (feat === DSFeatureEnum.Insert) {
       formSchema = await this.buildInsertSchema<'form'>(options, id);
-    } else if (feat === 'Edit') {
+    } else if (feat === DSFeatureEnum.Edit) {
       formSchema = await this.buildEditSchema(options, id);
+    } else if (feat === DSFeatureEnum.View) {
+      formSchema = await this.buildViewSchema(options, id);
     } else {
       formSchema = await this.buildBulkEditSchema(options, id);
     }

@@ -97,7 +97,7 @@ order: 33
 ```
 itemSchema: {
     type: 'tpl',
-    tpl: '<div style="background-image: url('<%= data.image %>'); background-size: cover; background-repeat: no-repeat; background-position: center center;" class="image <%= data.imageClassName %>"></div>'
+    tpl: '<div style="background-image: url("${image}"); background-size: cover; background-repeat: no-repeat; background-position: center center;" class="image ${imageClassName}"></div>'
 }
 ```
 

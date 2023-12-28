@@ -204,14 +204,28 @@ CRUD 组件对数据源接口的数据结构要求如下：
 
 > `3.5.0`及以上版本
 
-`syncLocation`开启后，CRUD 在初始化数据域时，将会对 url 中的 Query 进行转换，将原始类型的字符串格式的转化为同位类型，目前仅支持**布尔类型**
+`syncLocation`开启后，CRUD 在初始化数据域时，将会对 url 中的 Query 进行转换，将原始类型的字符串格式的转化为同位类型。`3.6.0`版本后支持对象格式，该配置默认开启，且默认仅转化布尔值。
+
+#### ParsePrimitiveQueryOptions
+```typescript
+interface ParsePrimitiveQueryOptions {
+  parsePrimitiveQuery: {
+    enable: boolean;
+    types?: ('boolean' | 'number')[]
+  }
+}
+```
+
+比如开启设置 `{"parsePrimitiveQuery": {"enable": true, "types": ["boolean", "number"]}}` 后：
 
 ```
-"true"  ==> true
-"false" ==> false
+"true"   ==> true
+"false"  ==> false
+"123"    ==> 123
+"123.4"  ==> 123.4
 ```
 
-如果只想保持字符串格式，可以设置`"parsePrimitiveQuery": false`关闭该特性，具体效果参考[示例](../../../examples/crud/parse-primitive-query)。
+如果只想保持字符串格式，可以设置`"parsePrimitiveQuery": false` 或者 `"parsePrimitiveQuery": {"enable": false}` 关闭该特性，具体效果参考[示例](../../../examples/crud/parse-primitive-query)。如果想实现字段定制化转化类型，可以使用[配置API请求数据](../../docs/types/api#配置请求数据)，通过表达式控制接口传递的参数类型。
 
 ## 功能
 
@@ -1012,6 +1026,36 @@ amis 只负责生成排序组件，并将排序参数传递给接口，而不会
             "name": "engine",
             "label": "Rendering engine",
             "searchable": true
+        }
+    ]
+}
+```
+
+也可以通过`searchable`来自定义搜索表单
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine",
+            "searchable": {
+              "type": "form",
+              "wrapWithPanel": false,
+              "body": [
+                {
+                  "type": "input-text",
+                  "name": "engine"
+                }
+              ]
+            }
         }
     ]
 }
@@ -1903,7 +1947,11 @@ interface CRUDMatchFunc {
       /* 列配置 */
       columns: any;
       /** match-sorter 匹配函数 */
-      matchSorter: (items: any[], value: string, options?: MatchSorterOptions<any>) => any[]
+      matchSorter: (
+        items: any[],
+        value: string,
+        options?: MatchSorterOptions<any>
+      ) => any[];
     }
   ): boolean;
 }
@@ -2235,6 +2283,8 @@ interface CRUDMatchFunc {
 
 在`headerToolbar`或者`footerToolbar`数组中添加`export-csv`字符串，可以实现点击下载 CSV 的功能，注意这里只包括当前分页的数据，要下载全部数据需要通过后端 API 实现。
 
+> 注意：导出 CSV 时，默认使用 CRUD 的接口数据，不导出「操作」列
+
 ```schema: scope="body"
 {
     "type": "crud",
@@ -2387,6 +2437,8 @@ interface CRUDMatchFunc {
 1. 导出 CSV 是将 api 返回数据导出，表头是数据里的 key，而 Excel 的表头使用的是 label。
 2. 导出 Excel 更重视展现一致，支持合并单元格、链接、mapping 映射、图片（需要加[跨域 Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)）。
 3. 导出 Excel 只在 `mode` 为 `table` 时能用。
+
+> 注意：导出 Excel 时，默认不导出「操作」列
 
 ```schema: scope="body"
 {
@@ -2869,36 +2921,234 @@ interface CRUDMatchFunc {
 }
 ```
 
-它其实是个简化的 `button` 组件，可以参考 `button` 组件的文档做调整。`reload`支持两种触发方式：
+它其实是个简化的 `button` 组件，可以参考 `button` 组件的文档做调整。
 
-- `"type": "reload"`，CRUD 内置的方法
-- `{"actionType": "reload", "target": "targetName"}`，动作触发
+#### 刷新CRUD触发方式
+
+触发CRUD刷新的方式有3种：
+1. **reload类型按钮**：使用`{"type": "reload", ...}`，CRUD内部会对点击事件做处理
+2. **reload动作按钮**：使用`{"type": "action", "actionType": "reload", "target": "targetName", ...}`，指定`target`为要刷新的CRUD组件的`name`
+3. **reload事件动作**：使用[事件动作](../../docs/concepts/event-action)，指定`id`为要刷新的CRUD组件的`id`
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "button",
+      "icon": "iconfont icon-refresh",
+      "tooltip": "",
+      "label": "CRUD外层按钮",
+      "level": "enhance",
+      "onEvent": {
+        "click": {
+          "weight": 0,
+          "actions": [
+            {
+              "componentId": "crudId",
+              "ignoreError": false,
+              "actionType": "reload",
+              "dataMergeMode": "override",
+              "data": {
+              },
+              "args": {
+                "resetPage": true
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "crud",
+      "name": "crudName",
+      "id": "crudId",
+      "syncLocation": false,
+      "api": "/api/mock2/crud/table",
+      "headerToolbar": [
+        "bulkActions",
+        {
+          "type": "reload",
+          "align": "right",
+          "icon": "iconfont icon-refresh",
+          "label": "刷新(type)",
+          "tooltip": "",
+          "level": "primary"
+        },
+        {
+          "type": "action",
+          "align": "right",
+          "icon": "iconfont icon-refresh",
+          "label": "刷新(actionType)",
+          "tooltip": "",
+          "level": "primary",
+          "actionType": "reload",
+          "target": "crudName"
+        },
+        {
+          "type": "button",
+          "align": "right",
+          "icon": "iconfont icon-refresh",
+          "tooltip": "",
+          "label": "事件动作(onEvent)",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "weight": 0,
+              "actions": [
+                {
+                  "componentId": "crudId",
+                  "groupType": "component",
+                  "actionType": "reload",
+                  "dataMergeMode": "override"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "bulkActions": [
+        {
+          "label": "批量删除",
+          "actionType": "ajax",
+          "api": "delete:/api/mock2/sample/${ids|raw}",
+          "confirmText": "确定要批量删除?"
+        },
+        {
+          "label": "批量修改",
+          "actionType": "dialog",
+          "dialog": {
+            "title": "批量编辑",
+            "body": {
+              "type": "form",
+              "api": "/api/mock2/sample/bulkUpdate2",
+              "body": [
+                {
+                  "type": "hidden",
+                  "name": "ids"
+                },
+                {
+                  "type": "input-text",
+                  "name": "engine",
+                  "label": "Engine"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "columns": [
+          {
+              "name": "id",
+              "label": "ID"
+          },
+          {
+              "name": "engine",
+              "label": "Rendering engine"
+          },
+          {
+              "name": "browser",
+              "label": "Browser"
+          },
+          {
+              "name": "platform",
+              "label": "Platform(s)"
+          },
+          {
+              "name": "version",
+              "label": "Engine version"
+          },
+          {
+              "name": "grade",
+              "label": "CSS grade"
+          }
+      ]
+  }
+  ]
+}
+```
+
+刷新后默认会重置当前已选行数据，即使设置了 `keepItemSelectionOnPageChange` 为 `true`，也会重置。
 
 ```schema: scope="body"
 {
     "type": "crud",
-    "name": "crud",
+    "name": "crudName",
+    "id": "crudId",
     "syncLocation": false,
-    "api": "/api/mock2/sample",
+    "api": "/api/mock2/crud/table",
+    "keepItemSelectionOnPageChange": true,
     "headerToolbar": [
-        {
-            "type": "action",
-            "align": "right",
-            "icon": "iconfont icon-refresh",
-            "label": "刷新(actionType)",
-            "tooltip": "",
-            "level": "primary",
-            "actionType": 'reload',
-            "target": 'crud'
-        },
-        {
-            "type": "reload",
-            "align": "right",
-            "icon": "iconfont icon-refresh",
-            "label": "刷新(type)",
-            "tooltip": "",
-            "level": "primary"
+      "bulkActions",
+      {
+        "type": "reload",
+        "align": "right",
+        "icon": "iconfont icon-refresh",
+        "label": "刷新(type)",
+        "tooltip": "",
+        "level": "primary"
+      },
+      {
+        "type": "action",
+        "align": "right",
+        "icon": "iconfont icon-refresh",
+        "label": "刷新(actionType)",
+        "tooltip": "",
+        "level": "primary",
+        "actionType": "reload",
+        "target": "crudName"
+      },
+      {
+        "type": "button",
+        "align": "right",
+        "icon": "iconfont icon-refresh",
+        "tooltip": "",
+        "label": "事件动作(onEvent)",
+        "level": "primary",
+        "onEvent": {
+          "click": {
+            "weight": 0,
+            "actions": [
+              {
+                "componentId": "crudId",
+                "groupType": "component",
+                "actionType": "reload",
+                "dataMergeMode": "override"
+              }
+            ]
+          }
         }
+      }
+    ],
+    "bulkActions": [
+      {
+        "label": "批量删除",
+        "actionType": "ajax",
+        "api": "delete:/api/mock2/sample/${ids|raw}",
+        "confirmText": "确定要批量删除?"
+      },
+      {
+        "label": "批量修改",
+        "actionType": "dialog",
+        "dialog": {
+          "title": "批量编辑",
+          "body": {
+            "type": "form",
+            "api": "/api/mock2/sample/bulkUpdate2",
+            "body": [
+              {
+                "type": "hidden",
+                "name": "ids"
+              },
+              {
+                "type": "input-text",
+                "name": "engine",
+                "label": "Engine"
+              }
+            ]
+          }
+        }
+      }
     ],
     "columns": [
         {
@@ -3381,6 +3631,8 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | autoFillHeight                        | `boolean` 丨 `{height: number}`                                                         |                                 | 内容区域自适应高度                                                                                                                             |
 | canAccessSuperData                    | `boolean`                                                                               | `true`                          | 指定是否可以自动获取上层的数据并映射到表格行数据上，如果列也配置了该属性，则列的优先级更高                                                     |
 | matchFunc                             | `string`                                                                                | [`CRUDMatchFunc`](#匹配函数)    | 自定义匹配函数, 当开启`loadDataOnce`时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景 | `3.5.0` |
+| parsePrimitiveQuery                         | [`ParsePrimitiveQueryOptions`](#ParsePrimitiveQueryOptions)                                                                                | `true`    | 是否开启Query信息转换，开启后将会对url中的Query进行转换，默认开启，默认仅转化布尔值 | `3.6.0` |
+
 
 注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
 

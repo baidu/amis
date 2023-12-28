@@ -49,3 +49,6 @@ export const OperatorsConfig = {
     {label: '删除记录', value: 'Delete', icon: 'fa fa-database', order: 30}
   ]
 };
+
+/** 表格数据展示的默认最大行数 */
+export const DefaultMaxDisplayRows = 5;

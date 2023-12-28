@@ -272,17 +272,17 @@ export class ColorControlPlugin extends BasePlugin {
           ],
           {...context?.schema, configTitle: 'style'}
         )
-      },
-      {
-        title: '事件',
-        className: 'p-none',
-        body: [
-          getSchemaTpl('eventControl', {
-            name: 'onEvent',
-            ...getEventControlConfig(this.manager, context)
-          })
-        ]
       }
+      // {
+      //   title: '事件',
+      //   className: 'p-none',
+      //   body: [
+      //     getSchemaTpl('eventControl', {
+      //       name: 'onEvent',
+      //       ...getEventControlConfig(this.manager, context)
+      //     })
+      //   ]
+      // }
     ]);
   };
 }

@@ -6,6 +6,7 @@ import {
   ListenerContext,
   registerAction
 } from './Action';
+import {getRendererByName} from '../factory';
 
 export interface ICmptAction extends ListenerAction {
   actionType: string;
@@ -56,8 +57,7 @@ export class CmptAction implements RendererAction {
           action.componentId ? 'getComponentById' : 'getComponentByName'
         ](key)
       : renderer;
-
-    // 如果key指定来，但是没找到组件，则报错
+    // 如果key指定了，但是没找到组件，则报错
     if (key && !component) {
       const msg =
         '尝试执行一个不存在的目标组件动作，请检查目标组件非隐藏状态，且正确指定了componentId或componentName';
@@ -91,6 +91,49 @@ export class CmptAction implements RendererAction {
         dataMergeMode === 'override',
         action.args
       );
+    }
+
+    // 校验表单项
+    if (
+      action.actionType === 'validateFormItem' &&
+      getRendererByName(component?.props?.type)?.isFormItem
+    ) {
+      const {dispatchEvent, data} = component?.props || {};
+      try {
+        const valid = await component?.props.onValidate?.();
+        if (valid) {
+          event.setData(
+            createObject(event.data, {
+              [action.outputVar || `${action.actionType}Result`]: {
+                error: '',
+                value: component?.props?.formItem?.value
+              }
+            })
+          );
+          dispatchEvent && dispatchEvent('formItemValidateSucc', data);
+        } else {
+          event.setData(
+            createObject(event.data, {
+              [action.outputVar || `${action.actionType}Result`]: {
+                error: (component?.props?.formItem?.errors || []).join(','),
+                value: component?.props?.formItem?.value
+              }
+            })
+          );
+          dispatchEvent && dispatchEvent('formItemValidateError', data);
+        }
+      } catch (e) {
+        event.setData(
+          createObject(event.data, {
+            [action.outputVar || `${action.actionType}Result`]: {
+              error: e.message || '未知错误',
+              value: component?.props?.formItem?.value
+            }
+          })
+        );
+        dispatchEvent && dispatchEvent('formItemValidateError', data);
+      }
+      return;
     }
 
     // 执行组件动作

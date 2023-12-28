@@ -210,20 +210,28 @@ export const ListStore = iRendererStore
 
     function updateSelected(selected: Array<any>, valueField?: string) {
       self.selectedItems.clear();
-      self.items.forEach(item => {
-        if (~selected.indexOf(item.pristine)) {
-          self.selectedItems.push(item);
-        } else if (
-          find(selected, a => {
-            const selectValue = a[valueField || 'value'];
-            const itemValue = item.pristine[valueField || 'value'];
-            return self.strictMode
-              ? selectValue === itemValue
-              : selectValue == itemValue;
-          })
-        ) {
-          self.selectedItems.push(item);
+      selected.forEach(item => {
+        let resolved = self.items.find(a => a.pristine === item);
+
+        // 先严格比较，
+        if (!resolved) {
+          resolved = self.items.find(a => {
+            const selectValue = item[valueField || 'value'];
+            const itemValue = a.pristine[valueField || 'value'];
+            return selectValue === itemValue;
+          });
         }
+
+        // 再宽松比较
+        if (!resolved) {
+          resolved = self.items.find(a => {
+            const selectValue = item[valueField || 'value'];
+            const itemValue = a.pristine[valueField || 'value'];
+            return selectValue == itemValue;
+          });
+        }
+
+        resolved && self.selectedItems.push(resolved);
       });
     }
 

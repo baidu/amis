@@ -124,7 +124,7 @@
   --Menu-Submenu-item-paddingX: var(--Nav-Item-Badge-paddingRight);
 
   --Menu-light-backgroundColor: var(--Layout-light-backgroundColor);
-  --Menu-light-active-backgroundColor: var(--colors-neutral-fill-12);
+  --Menu-light-active-backgroundColor: var(--colors-neutral-fill-8);
   --Menu-light-backgroundColor-onHover: var(--Layout-light-bgColor-onHover);
   --Menu-light-fontColor: var(--Layout-light-fontColor);
   --Menu-light-fontColor-onHover: var(--Layout-fontColor--onHover);
@@ -192,7 +192,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: inherit;
+    color: var(--colors-neutral-text-2);
     font-size: inherit;
     flex: 1;
     cursor: inherit;

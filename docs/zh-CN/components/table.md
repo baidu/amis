@@ -334,7 +334,8 @@ order: 67
 
 可以配置数字，用于设置列宽像素，例如下面例子我们给`Rendering engine`列宽设置为`100px`。
 
-> 如果希望精准的控制列宽，请设置表格的 `tableLayout` 为 `fixed` 模式，同时为了让表格标题不换行，标题文字的长短会影响列的最小宽度
+> - 如果希望精准的控制列宽，请设置表格的 `tableLayout` 为 `fixed` 模式，同时为了让表格标题不换行，标题文字的长短会影响列的最小宽度
+> - 注意：`resizable`开启后，固定宽度的列则无法拖动调整列宽
 
 ```schema: scope="body"
 {
@@ -350,6 +351,10 @@ order: 67
             "name": "engine",
             "label": "Rendering engine",
             "width": 150
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
         }
     ]
 }
@@ -474,7 +479,7 @@ order: 67
 
 `classNameExpr` 可以根据数据动态添加 CSS 类，支持 [模板](../../docs/concepts/template) 语法。
 
-例如下例，`"<%= data.version > 5 ? "text-danger" : "" %>"` 表示当行数据的 `version` 数据大于 5 的时候添加 `text-danger` CSS 类名，使得文字颜色变红
+例如下例，`"${ version > 5 ? 'text-danger' : '' }"` 表示当行数据的 `version` 数据大于 5 的时候添加 `text-danger` CSS 类名，使得文字颜色变红
 
 ```schema: scope="body"
 {
@@ -493,7 +498,7 @@ order: 67
                 {
                     "name": "version",
                     "label": "Version",
-                    "classNameExpr": "<%= data.version > 5 ? 'text-danger' : '' %>",
+                    "classNameExpr": "${ version > 5 ? 'text-danger' : '' }",
                 },
                 {
                     "name": "grade",
@@ -1414,7 +1419,7 @@ popOver 的其它配置请参考 [popover](./popover)
 
 可以通过配置`rowClassNameExpr`来为行添加 CSS 类，支持 [模板](../../docs/concepts/template) 语法。
 
-例如下例，`"<%= data.id % 2 ? "bg-success" : "" %>"` 表示当行数据的 `id` 变量为 不能被 `2` 整除时，给当前行添加`bg-success` CSS 类名，即绿色背景色
+例如下例，`"${id % 2 ? "bg-success" : ""}"` 表示当行数据的 `id` 变量为 不能被 `2` 整除时，给当前行添加`bg-success` CSS 类名，即绿色背景色
 
 ```schema: scope="body"
 {
@@ -1424,7 +1429,7 @@ popOver 的其它配置请参考 [popover](./popover)
         {
             "type": "table",
             "source": "$rows",
-            "rowClassNameExpr": "<%= data.id % 2 ? 'bg-success' : 'bg-blue-50' %>",
+            "rowClassNameExpr": "${id % 2 ? 'bg-success' : 'bg-blue-50'}",
             "columns": [
                 {
                     "name": "engine",
@@ -2344,7 +2349,7 @@ popOver 的其它配置请参考 [popover](./popover)
                             "actionType": "toast",
                             "args": {
                                 "msgType": "info",
-                                "msg": "行单击数据：${event.data.item|json}；行索引：${event.data.index}"
+                                "msg": "行双击数据：${event.data.item|json}；行索引：${event.data.index}"
                             }
                         }
                     ]

@@ -1,4 +1,6 @@
 import React from 'react';
+import DeepDiff from 'deep-diff';
+import pick from 'lodash/pick';
 import {render as amisRender} from 'amis';
 import flattenDeep from 'lodash/flattenDeep';
 import {
@@ -16,6 +18,7 @@ import {DSBuilderManager} from '../builder/DSBuilderManager';
 import {DSFeatureEnum, ModelDSBuilderKey, ApiDSBuilderKey} from '../builder';
 import {getEventControlConfig} from '../renderer/event-control/helper';
 
+import type {Schema} from 'amis-core';
 import type {
   EditorManager,
   RendererPluginAction,
@@ -338,7 +341,7 @@ export class ServicePlugin extends BasePlugin {
     ]);
   };
 
-  panelFormPipeOut = async (schema: any) => {
+  panelFormPipeOut = async (schema: any, oldSchema: any) => {
     const entity = schema?.api?.entity;
 
     if (!entity || schema?.dsType !== ModelDSBuilderKey) {
@@ -346,12 +349,27 @@ export class ServicePlugin extends BasePlugin {
     }
 
     const builder = this.dsManager.getBuilderBySchema(schema);
+    const observedFields = ['api'];
+    const diff = DeepDiff.diff(
+      pick(oldSchema, observedFields),
+      pick(schema, observedFields)
+    );
+
+    if (!diff) {
+      return schema;
+    }
 
     try {
       const updatedSchema = await builder.buildApiSchema({
         schema,
         renderer: 'service',
-        sourceKey: 'api'
+        sourceKey: 'api',
+        apiSettings: {
+          diffConfig: {
+            enable: true,
+            schemaDiff: diff
+          }
+        }
       });
       return updatedSchema;
     } catch (e) {
@@ -360,6 +378,14 @@ export class ServicePlugin extends BasePlugin {
 
     return schema;
   };
+
+  patchSchema(schema: Schema) {
+    return schema.hasOwnProperty('dsType') &&
+      schema.dsType != null &&
+      typeof schema.dsType === 'string'
+      ? schema
+      : {...schema, dsType: ApiDSBuilderKey};
+  }
 
   async buildDataSchemas(
     node: EditorNodeType,

@@ -316,3 +316,75 @@ List 的内容、Card 卡片的内容配置同上
 | strokeWidth       | `number`                                                                                                                                                                                      | line 类型为`10`，circle、dashboard 类型为`6`                         | 进度条线宽度                                      |
 | gapDegree         | `number`                                                                                                                                                                                      | `75`                                                                 | 仪表盘缺角角度，可取值 0 ~ 295                    |
 | gapPosition       | `string`                                                                                                                                                                                      | `bottom`                                                             | 仪表盘进度条缺口位置，可选`top bottom left right` |
+
+## 动作表
+
+当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
+
+| 动作名称 | 动作配置                             | 说明         |
+| -------- | ------------------------------------ | ------------ |
+| reset    | -                                    | 将值重置为 0 |
+| setValue | `value: string` \| `number` 更新的值 | 更新数据     |
+
+### reset
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "progress",
+      "name": "progress",
+      "id": "progress",
+      "value": 67
+    },
+    {
+      "type": "button",
+      "label": "重置值",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "reset",
+              "componentId": "progress"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### setValue
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "progress",
+      "name": "progress",
+      "id": "progress",
+      "value": 67
+    },
+    {
+      "type": "button",
+      "label": "设置值",
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "setValue",
+              "componentId": "progress",
+              "args": {
+                "value": 20
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```

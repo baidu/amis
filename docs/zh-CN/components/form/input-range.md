@@ -230,6 +230,29 @@ order: 38
 }
 ```
 
+## 显示单位
+
+在打开`showInput`输入框且设置了`unit`单位的前提下，开启`showInputUnit`可在input框中显示已配置的单位。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-range",
+            "name": "range",
+            "label": "range",
+            "value": 20,
+            "unit": "个",
+            "showInput": true,
+            "showInputUnit": true
+        }
+    ]
+}
+```
+
 ## 显示标签
 
 标签默认在 hover 和拖拽过程中展示，通过`tooltipVisible`或者`tipFormatter`可指定标签是否展示。标签默认展示在滑块上方，通过`tooltipPlacement`可指定标签展示的位置。
@@ -297,6 +320,7 @@ order: 38
 | unit             | `string`                                                                                                                                  |         | 单位                                                                                                                                     |
 | clearable        | `boolean`                                                                                                                                 | `false` | 是否可清除<br/>前置条件：开启`showInput`时有效                                                                                           |
 | showInput        | `boolean`                                                                                                                                 | `false` | 是否显示输入框                                                                                                                           |
+| showInputUnit    | `boolean`                                                                                                                                 | `false` | 是否显示输入框单位<br/>前置条件：开启`showInput`且配置了`unit`单位时有效                |`6.0.0`后支持变量
 | onChange         | `function`                                                                                                                                |         | 当 组件 的值发生改变时，会触发 onChange 事件，并把改变后的值作为参数传入                                                                 |
 | onAfterChange    | `function`                                                                                                                                |         | 与 `onmouseup` 触发时机一致，把当前值作为参数传入                                                                                        |
 

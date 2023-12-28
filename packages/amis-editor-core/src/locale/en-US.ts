@@ -284,5 +284,8 @@ extendLocale('en-US', {
   '21efd88b67a39834582ad99aabb9dc60': 'There is currently no data available',
   '451d71974652fdd1840a73c980f80fe8': 'Skip Wizard',
   'bc63dada3cdf28357dd4fe56ff5c567f': 'Current layer {{@1}}',
-  '0383d6f467ed0dd89860a7b8cc793ce9': 'Upper {{@1}} layer {{@2}}'
+  '0383d6f467ed0dd89860a7b8cc793ce9': 'Upper {{@1}} layer {{@2}}',
+  'b818d2fd22f70de2d912f19048e2cde2': 'Intercepted {{@1}} rendering error',
+  'e9a11b908a9b4f3d9dc947d9a64c0dab':
+    'A rendering error occurred. Please refer to the console output for detailed error information.'
 });

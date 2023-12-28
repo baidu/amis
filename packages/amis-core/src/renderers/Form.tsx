@@ -530,7 +530,8 @@ export default class Form extends React.Component<FormProps, object> {
       reaction(
         () => store.initedAt,
         () => {
-          store.inited && this.emitChange(!!this.props.submitOnChange, true);
+          store.inited &&
+            this.lazyEmitChange(!!this.props.submitOnChange, true);
         }
       )
     );

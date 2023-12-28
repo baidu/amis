@@ -833,7 +833,7 @@ export interface PluginInterface
   ) => Promise<SchemaCollection | void>;
 
   /** 配置面板表单的 pipeOut function */
-  panelFormPipeOut?: (value: any) => any;
+  panelFormPipeOut?: (value: any, oldValue: any) => any;
 
   /**
    * @deprecated 用 panelBodyCreator

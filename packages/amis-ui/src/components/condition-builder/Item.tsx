@@ -96,7 +96,9 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
 
   @autobind
   handleOperatorChange(op: OperatorType) {
-    const {fields, value, index, onChange} = this.props;
+    const {fields, value, index, onChange, formula} = this.props;
+    const useFormulaInput =
+      formula?.mode === 'input-group' && formula?.inputSettings;
     const leftFieldSchema: FieldSimple = findTree(
       fields,
       (i: FieldSimple) => i.name === (value?.left as ExpressionField)?.field
@@ -104,7 +106,10 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
     const result = {
       ...value,
       op: op,
-      right: value.right ?? leftFieldSchema?.defaultValue
+      /** 使用公式编辑器模式时，因为不同条件下值格式不一致（比如select类型下包含和等于对应的multiple会变化），所以变化条件时需要清空right值 */
+      right: useFormulaInput
+        ? leftFieldSchema?.defaultValue
+        : value.right ?? leftFieldSchema?.defaultValue
     };
 
     onChange(result, index);
@@ -218,6 +223,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       return (
         <PopOverContainer
           mobileUI={mobileUI}
+          disabled={operators.length < 2}
           popOverContainer={popOverContainer || (() => findDOMNode(this))}
           popOverRender={({onClose}) => (
             <GroupedSelection
@@ -230,7 +236,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             />
           )}
         >
-          {({onClick, isOpened, ref}) => (
+          {({onClick, isOpened, ref, disabled: popOverDisabled}) => (
             <div className={cx('CBGroup-operator')}>
               <ResultBox
                 className={cx(

@@ -1236,7 +1236,7 @@ exports[`Renderer:range with multiple & clearable & delimiter 1`] = `
 </div>
 `;
 
-exports[`Renderer:range with showInput 1`] = `
+exports[`Renderer:range with showInput & showInputUnit 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1301,7 +1301,7 @@ exports[`Renderer:range with showInput 1`] = `
                     style="position: relative;"
                   >
                     <span>
-                      7
+                      7个
                     </span>
                     <div
                       class="resize-sensor"
@@ -1386,7 +1386,7 @@ exports[`Renderer:range with showInput 1`] = `
               </div>
             </div>
             <div
-              class="cxd-InputRange-input"
+              class="cxd-InputRange-input cxd-InputRange-input-with-unit"
             >
               <div
                 class="cxd-Number cxd-Number--borderFull"
@@ -1433,6 +1433,11 @@ exports[`Renderer:range with showInput 1`] = `
                     value="7"
                   />
                 </div>
+              </div>
+              <div
+                class="cxd-InputRange-unit cxd-Select"
+              >
+                个
               </div>
             </div>
             <a

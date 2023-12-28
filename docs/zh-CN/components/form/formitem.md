@@ -1740,6 +1740,31 @@ fillMapping 配置 支持变量取值和表达式；
 }
 ```
 
+## 及时获取其他表单项的值
+
+默认为了提高性能，给表单项下发的数据不是最新，只有自己的值变化才是最新的，如果想及时的获取其他表单项的值，比如描述中想获取其他表单项值来展示不同的描述。需要配置 `strictMode` 为 false。
+
+```schema:scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "select",
+      "label": "类型",
+      "options": "A,B,C",
+      "name": "type"
+    },
+    {
+        type: 'textarea',
+        name: 'version',
+        strictMode: false,
+        disabled: true,
+        description: 'Type is ${type}'
+    }
+  ]
+}
+```
+
 ## 属性表
 
 | 属性名                  | 类型                                               | 默认值    | 说明                                                                                                |
@@ -1756,6 +1781,7 @@ fillMapping 配置 支持变量取值和表达式；
 | description             | [模板](../../../docs/concepts/template)            |           | 表单项描述                                                                                          |
 | placeholder             | `string`                                           |           | 表单项描述                                                                                          |
 | inline                  | `boolean`                                          |           | 是否为 内联 模式                                                                                    |
+| strictMode                  | `boolean`                                          |           | 通过配置 false 可以及时获取所有表单里面的数据，否则可能会有不同步                                                                           |
 | submitOnChange          | `boolean`                                          |           | 是否该表单项值发生变化时就提交当前表单。                                                            |
 | disabled                | `boolean`                                          |           | 当前表单项是否是禁用状态                                                                            |
 | disabledOn              | [表达式](../../../docs/concepts/expression)        |           | 当前表单项是否禁用的条件                                                                            |

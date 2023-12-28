@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: flex-end;
 
-  height: 30px;
+  height: var(--input-size-default-height);
   width: 30px;
   padding-left: 8px;
 
@@ -41,6 +41,11 @@
   &-searchBtn {
     display: inline-block;
     padding: #{px2rem(5px)} #{px2rem(10px)};
+
+    &--loading {
+      display: inline-flex;
+      align-items: center;
+    }
   }
 
   &-activeBtn,
@@ -65,7 +70,7 @@
   &.is-disabled &-activeBtn,
   &.is-disabled &-searchBtn,
   &.is-disabled &-cancelBtn {
-    color: var(--icon-onDisabled-color);
+    color: var(--SearchBox-search-btn-color--disabled);
     pointer-events: none;
   }
 
@@ -114,8 +119,6 @@
       color: var(--Form-input-clearBtn-color-onHover);
     }
   }
-
-  height: 30px;
 
   &--enhance.is-active &-searchBtn {
     height: 100%;

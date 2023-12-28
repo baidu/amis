@@ -10,6 +10,8 @@ import {
   getSchemaTpl,
   JsonGenerateID,
   JSONGetById,
+  persistGet,
+  persistSet,
   PluginActions,
   RendererPluginAction,
   RendererPluginEvent,
@@ -24,7 +26,8 @@ import {
   mapTree,
   normalizeApi,
   PlainObject,
-  Schema
+  Schema,
+  Option
 } from 'amis-core';
 import {Button} from 'amis';
 import {i18n as _i18n} from 'i18n-runtime';
@@ -1737,6 +1740,55 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 payload: {
                   type: 'object',
                   title: '提交的表单数据'
+                }
+              }
+            }
+          ]
+        },
+        {
+          actionLabel: '校验表单项',
+          actionType: 'validateFormItem',
+          description: '校验单个表单项数据',
+          descDetail: (info: any) => {
+            return (
+              <div>
+                校验
+                <span className="variable-left variable-right">
+                  {info?.rendererLabel || info.componentId || '-'}
+                </span>
+                的数据
+              </div>
+            );
+          },
+          supportComponents: [...FORMITEM_CMPTS],
+          schema: [
+            ...renderCmptSelect('目标组件', true),
+            renderCmptIdInput(),
+            {
+              name: 'outputVar',
+              type: 'input-text',
+              label: '校验结果',
+              placeholder: '请输入存储校验结果的变量名称',
+              description:
+                '如需执行多次表单校验，可以修改此变量名用于区分不同的校验结果',
+              mode: 'horizontal',
+              size: 'lg',
+              value: 'validateFormItemResult',
+              required: true
+            }
+          ],
+          outputVarDataSchema: [
+            {
+              type: 'object',
+              title: 'validateFormItemResult',
+              properties: {
+                error: {
+                  type: 'string',
+                  title: '错误信息'
+                },
+                value: {
+                  type: 'object',
+                  title: '校验的表单项的值'
                 }
               }
             }
@@ -3496,4 +3548,23 @@ export const getEventControlConfig = (
       return action;
     }
   };
+};
+
+/**
+ * 更新localStorage存储的常用动作
+ */
+export const updateCommonUseActions = (action: Option) => {
+  const commonUseActions = persistGet('common-use-actions', []);
+  const index = commonUseActions.findIndex(
+    (item: Option) => item.value === action.value
+  );
+  if (index >= 0) {
+    commonUseActions[index].use += 1;
+  } else {
+    commonUseActions.unshift(action);
+  }
+  commonUseActions.sort(
+    (before: Option, next: Option) => next.use - before.use
+  );
+  persistSet('common-use-actions', commonUseActions);
 };

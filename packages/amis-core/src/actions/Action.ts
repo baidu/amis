@@ -52,6 +52,10 @@ export interface ListenerContext extends React.Component<RendererProps> {
   [propName: string]: any;
 }
 
+interface MappingIgnoreMap {
+  [propName: string]: string[];
+}
+
 // Action 基础接口
 export interface RendererAction {
   // 运行这个 Action，每个类型的 Action 都只有一个实例，run 函数是个可重入的函数
@@ -218,7 +222,7 @@ export const runAction = async (
   action.args = {...actionConfig.args};
 
   // __rendererData默认为renderer.props.data，兼容表单项值变化时的data读取
-  if (!event.data.__rendererData) {
+  if (!event.data?.__rendererData) {
     additional = {
       event,
       __rendererData: renderer.props.data // 部分组件交互后会有更新，如果想要获取那部分数据，可以通过事件数据获取
@@ -285,17 +289,32 @@ export const runAction = async (
     delete action.args?.options;
     delete action.args?.messages;
   }
-
+  const cmptFlag = key.componentId || key.componentName;
+  let targetComponent = cmptFlag
+    ? event.context.scoped?.[
+        action.componentId ? 'getComponentById' : 'getComponentByName'
+      ](cmptFlag)
+    : renderer;
   // 动作配置
-  const args = dataMapping(action.args, mergeData, key =>
-    [
-      'adaptor',
-      'responseAdaptor',
-      'requestAdaptor',
-      'responseData',
-      'condition'
-    ].includes(key)
-  );
+  const args = dataMapping(action.args, mergeData, (key: string) => {
+    const actionIgnoreKey: MappingIgnoreMap = {
+      ajax: ['adaptor', 'responseAdaptor', 'requestAdaptor', 'responseData']
+    };
+    const cmptIgnoreMap: MappingIgnoreMap = {
+      'input-table': ['condition'],
+      'table': ['condition'],
+      'table2': ['condition'],
+      'crud': ['condition'],
+      'combo': ['condition']
+    };
+    const curCmptType: string = targetComponent?.props?.type;
+    const curActionType: string = action.actionType;
+    const ignoreKey = [
+      ...(actionIgnoreKey[curActionType] || []),
+      ...(cmptIgnoreMap[curCmptType] || [])
+    ];
+    return ignoreKey.includes(key);
+  });
   const afterMappingData = dataMapping(action.data, mergeData);
 
   // 动作数据
