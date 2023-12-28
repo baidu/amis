@@ -225,7 +225,7 @@
   margin: 0;
   padding-left: px2rem(10px);
   list-style: none;
-  background: #f7f7f9;
+  background: var(--colors-neutral-fill-10);
   line-height: px2rem(32px);
   overflow-x: auto;
 }

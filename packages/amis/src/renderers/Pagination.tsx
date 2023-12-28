@@ -103,7 +103,7 @@ export default class Pagination extends React.Component<PaginationProps> {
     } else if (typeof num === 'number') {
       result = num;
     }
-    return result ?? defaultValue;
+    return typeof result === 'number' && !isNaN(result) ? result : defaultValue;
   }
 
   @autobind

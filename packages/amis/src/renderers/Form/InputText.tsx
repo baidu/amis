@@ -1,28 +1,27 @@
 import React from 'react';
+import Downshift, {StateChangeOptions} from 'downshift';
+import {matchSorter} from 'match-sorter';
+import debouce from 'lodash/debounce';
+import find from 'lodash/find';
 import {
   OptionsControl,
   OptionsControlProps,
   highlight,
-  FormOptionsControl,
   resolveEventData,
   CustomStyle,
-  getValueByPath,
   PopOver,
   Overlay,
   formatInputThemeCss,
-  setThemeClassName
+  setThemeClassName,
+  ActionObject,
+  filter,
+  autobind,
+  createObject,
+  setVariable,
+  ucFirst,
+  isEffectiveApi
 } from 'amis-core';
-import {ActionObject} from 'amis-core';
-import Downshift, {StateChangeOptions} from 'downshift';
-import {matchSorter} from 'match-sorter';
-import debouce from 'lodash/debounce';
-import {filter} from 'amis-core';
-import find from 'lodash/find';
-import {Icon, SpinnerExtraProps} from 'amis-ui';
-import {Input} from 'amis-ui';
-import {autobind, createObject, setVariable, ucFirst} from 'amis-core';
-import {isEffectiveApi} from 'amis-core';
-import {Spinner} from 'amis-ui';
+import {Icon, SpinnerExtraProps, Input, Spinner, OverflowTpl} from 'amis-ui';
 import {ActionSchema} from '../Action';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
 import {supportStatic} from './StaticHoc';
@@ -800,9 +799,12 @@ export default class TextControl extends React.PureComponent<
                 {selectedOptions.map((item, index) =>
                   multiple ? (
                     <div className={cx('TextControl-value')} key={index}>
-                      <span className={cx('TextControl-valueLabel')}>
+                      <OverflowTpl
+                        className={cx('TextControl-valueLabel')}
+                        tooltip={`${item[labelField || 'label']}`}
+                      >
                         {`${item[labelField || 'label']}`}
-                      </span>
+                      </OverflowTpl>
                       <Icon
                         icon="close"
                         className={cx('TextControl-valueIcon', 'icon')}

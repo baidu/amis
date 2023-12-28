@@ -218,3 +218,33 @@ describe.only('Renderer:NestedSelect with onlyLeaf', () => {
     expect(queryByText(optionWithChild)).toBeNull();
   });
 });
+
+test('test onlyChildren&onlyleaf', async () => {
+  const {container} = await setupNestedSelect({
+    "onlyLeaf": true,
+    "multiple": true,
+    "options": [
+      {"label":"选项A","value":"A"},
+      {"label":"选项B","value":"B",
+        "children":[
+          {"label":"选项b1","value":"b1"},
+          {"label":"选项b2","value":"b2"}
+        ]
+      },
+      {"label":"选项C-children为null","value":"C","children":[]},
+      {"label":"选项d","value":"d",
+        "children":[
+          {"label":"选项D1-CHILDREN为null","value":"D1","children":[]}
+        ]}
+      ]
+  });
+
+  const trigger = container.querySelector('.cxd-ResultBox');
+  expect(trigger).toBeInTheDocument();
+
+  fireEvent.click(trigger!);
+  await wait(200);
+
+  const hasActive = container.querySelector('.is-active');
+  expect(hasActive).toBeNull();
+});

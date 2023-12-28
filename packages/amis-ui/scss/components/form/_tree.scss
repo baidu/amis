@@ -360,7 +360,7 @@
 
   &-itemText {
     cursor: pointer;
-    display: inline-block;
+    display: inline-flex;
     color: var(--inputTree-base-default-color);
     font-size: var(--select-tree-fontSize);
     max-width: 100%;

@@ -143,6 +143,7 @@
     width: var(--Pick-base-icon-size);
     height: var(--Pick-base-icon-size);
     content: var(--Pick-base-icon);
+    display: flex;
   }
 
   &-clear {

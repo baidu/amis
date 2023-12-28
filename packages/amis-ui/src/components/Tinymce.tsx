@@ -42,6 +42,7 @@ import 'tinymce/plugins/help/js/i18n/keynav/en';
 import 'tinymce/plugins/help/js/i18n/keynav/de';
 
 import {LocaleProps, autobind} from 'amis-core';
+import isEqual from 'lodash/isEqual';
 
 interface TinymceEditorProps extends LocaleProps {
   model: string;
@@ -80,10 +81,11 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       props.model !== prevProps.model &&
       props.model !== this.currentContent
     ) {
-      this.editorInitialized && this.editor?.setContent(props.model || '');
+      this.editorInitialized &&
+        this.editor?.setContent((this.currentContent = props.model || ''));
     }
 
-    if (this.props.config !== prevProps.config) {
+    if (!isEqual(this.props.config, prevProps.config)) {
       tinymce.remove(this.editor);
       this.initTiny();
     }
@@ -197,7 +199,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
     const {model, onModelChange, outputFormat, onFocus, onBlur} = this.props;
 
     const value = model || '';
-    editor.setContent(value);
+    editor.setContent((this.currentContent = value));
 
     if (onModelChange) {
       editor.on('change keyup setcontent', (e: any) => {

@@ -32,6 +32,7 @@ export const Store = types
   })
   .actions(self => {
     let component: any = undefined;
+    let fetchCancel: Function | null = null;
 
     const load = flow(function* (
       env: RendererEnv,
@@ -40,8 +41,22 @@ export const Store = types
       config: WithRemoteConfigSettings = {}
     ): any {
       try {
+        if (fetchCancel) {
+          fetchCancel?.('remote load request cancelled.');
+          fetchCancel = null;
+          self.fetching = false;
+        }
+
+        if (self.fetching) {
+          return;
+        }
+
         self.fetching = true;
-        const ret: Payload = yield env.fetcher(api, ctx);
+        const ret: Payload = yield env.fetcher(api, ctx, {
+          cancelExecutor: (executor: Function) => (fetchCancel = executor)
+        });
+        fetchCancel = null;
+
         if (!isAlive(self)) {
           return;
         }
@@ -202,7 +217,6 @@ export function withRemoteConfig<P = any>(
             ComposedComponent as React.ComponentType<T>;
           static contextType = EnvContext;
           toDispose: Array<() => void> = [];
-
           loadOptions = debounce(this.loadAutoComplete.bind(this), 250, {
             trailing: true,
             leading: false

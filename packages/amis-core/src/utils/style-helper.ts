@@ -164,7 +164,7 @@ export function formatStyle(
       const fn = (key: string, value: string) => {
         key = valueMap[key] || key;
         styles.push(
-          `${kebabCase(key)}: ${
+          `${key.startsWith('--') ? key : kebabCase(key)}: ${
             value + (weights?.important ? ' !important' : '')
           };`
         );

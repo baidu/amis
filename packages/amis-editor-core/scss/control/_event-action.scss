@@ -253,6 +253,22 @@
 }
 
 .action-config-dialog {
+  *:not(svg) {
+    font-size: 12px;
+  }
+
+  .common-actions {
+    position: absolute;
+    width: 80%;
+    top: #{px2rem(-41px)};
+    left: #{px2rem(128px)};
+
+    .common-actions-label {
+      line-height: #{px2rem(24px)};
+      margin-right: 4px;
+    }
+  }
+
   .action-config-panel {
     background: #ffffff;
     border: 1px solid #e8e9eb;

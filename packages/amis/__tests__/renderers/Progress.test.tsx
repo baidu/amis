@@ -9,10 +9,12 @@
  * 6. 环形模式和仪表盘样式
  * 7. 线条宽度 strokeWidth
  * 8. 自定义 value 显示 valueTpl
+ * 9. 事件动作
  */
 
 import React from 'react';
-import {render} from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
+import {act} from 'react-test-renderer';
 import '../../src';
 import {render as amisRender} from '../../src';
 import {makeEnv, wait} from '../helper';
@@ -248,4 +250,62 @@ test('Renderer:Progress with valueTpl', async () => {
 
   expect(container).toHaveTextContent('67个');
   expect(container).toMatchSnapshot();
+});
+
+test('9.Renderer:Process reset and setValue actions', async () => {
+  const {container, getByText, rerender} = render(
+    amisRender({
+      type: 'page',
+      body: [
+        {
+          type: 'progress',
+          name: 'progress',
+          id: 'progress',
+          value: 67
+        },
+        {
+          type: 'button',
+          label: '重置值',
+          onEvent: {
+            click: {
+              actions: [
+                {
+                  actionType: 'reset',
+                  componentId: 'progress'
+                }
+              ]
+            }
+          }
+        },
+        {
+          type: 'button',
+          label: '设置值',
+          onEvent: {
+            click: {
+              actions: [
+                {
+                  actionType: 'setValue',
+                  componentId: 'progress',
+                  args: {
+                    value: 20
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    })
+  );
+
+  fireEvent.click(getByText('重置值'));
+  expect(container.querySelector('.cxd-Progress-line-bar')).toHaveStyle({
+    width: '0%'
+  });
+
+  await wait(200);
+  fireEvent.click(getByText('设置值'));
+  expect(container.querySelector('.cxd-Progress-line-bar')).toHaveStyle({
+    width: '20%'
+  });
 });

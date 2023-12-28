@@ -4494,5 +4494,179 @@ extendLocale('en-US', {
   'bbbeba31bfc391bd0741ac62ade78c5a': 'Edit initialization interface',
   'ba62070c3a350918d542e990d3278b07': 'Add {{@1}}',
   '06e2f88f428b7e26f7da3cd4d40ec2ed': 'Please enter a name',
-  'c630aa278a251b72bebf09284095112a': 'Configure New Forms'
+  'c630aa278a251b72bebf09284095112a': 'Configure New Forms',
+  '52830af276fb186ff93f16a562acb2f6': 'Card deck',
+  'f27f10e4660cba730189cc73bcbec0dc': 'Line length',
+  '35633d4bcf019258d4a5b927e8644bed': 'Title Style',
+  '3ec2bba02a859a90b023ee793a2381d5': 'distance',
+  '12ae2cd5a178cdaed37967ec4226c4d3':
+    'The distance between the title and the nearest left and right borders, with a default value of 5%',
+  '7eac9d196c43693b0820c7bc0ab504c7': 'Loop Renderer',
+  '21157967162b6206ec88d66789bb1eb4': 'Comparison Editor',
+  '6d36d88078b28530bd4a236b1033c1db': 'Form Item Collection',
+  'b400e476d7cc8a1b42744661f57525f2': 'Hide Fields',
+  'a0e6ecd1eba5673e16218e559f549112': 'Color selector',
+  'bb712c16299683ab1af22258740a537a':
+    'Date box, input date time, date time box, input time, time box, input month, month box, input quarter, quarter box, input year, year box, year box, year box, year selection',
+  '0bbad229b14369f667abae7fa8453d69':
+    'Date range box, input date time range, date time range, input time range, time range, input month range, month range, input quarter range, quarter range, input year range, year range, year range',
+  '912e3cf5ce8720c39e7a778e916898b5': 'Input box combination',
+  '9462f8cc8d65d991be1593493039b85b': 'Repetition frequency selector',
+  '224c9f857217e09f7c244093d4f08cd0': 'Changes in input content',
+  'ce369362c3ae69c27d717d3210303e27': 'Value of Rich Text',
+  'de0302f6f891653ac2d8417a46249ebf': 'Column display switch',
+  '142184926b0ae6169a9b7bdefb9b42ff':
+    'Whether to display explicit and implicit controls for table columns, "automatic" means to automatically turn on when the number of columns is greater than 5',
+  'a0d2d27fe320721bd5b0157fd5466b9d': 'tag chooser ',
+  '997a27d508152023fd04b7227b531681':
+    'Text box, email box, input email, URL box, input url, password box, input password, password input box',
+  '98cb62edf3436738df2561d01ee19ab0':
+    'Tree, tree dropdown, tree dropdown box, tree select, tree selection box, tree selector',
+  '010b98c12fe130496016ea515b70ec32': 'Current options',
+  'd8bab42dd5fad3f25760e190b552fac0': 'Configure default state templates',
+  '70864b156cd3a9c8d982074feb01f587': 'Configure Active Template',
+  '369f7b53301a54c2240a618827ee2f83': 'Option Name',
+  '70aefc6ad8dffc85d083aaa38aad9d28': 'manufacturer',
+  'ab7c4bf8e1f3d2779d62d0e5e038e2de': 'List selector',
+  '828476b63e65ac62976920fc753a3071': 'Multiline text input box',
+  '895013340b5cba65de69aefc9f4f0dff': 'Uuid field',
+  '993844afdf1cd0bd368cda41fe2d39d7': 'Horizontal Column',
+  'a94180c2142df3122cffcf1900c507f9': 'Real time logs',
+  '319c7a1a88910df53d6cd1b408f5894d': 'Current page number value',
+  '52f3b7dd57c2cc44b645afe6d944d07c': 'Functional container',
+  '7c39d9e0d516e260fc3513eb8e5243a5': 'Status container',
+  '39282fd22802ac1d9f99cdd0ffff253e':
+    'Container for component conditional rendering based on state, facilitating the design of multi-state components',
+  'f449bcac0f09a349882e74800f20d724': 'Status One',
+  '3b5a5cee1bd8775463be15d96eac23a1': 'Status 1 Content',
+  'f7361c5ad849477766b12e970bbd71f0': 'State Two',
+  '0880f36708cd0408167f318936cc6df1': 'Status 2 Content',
+  'c887c83f280bd63012d32179ff5273ed': 'Status Name',
+  'a30fd0a2a17e3dcf701b3334341aa39c': 'State conditions',
+  '7829a5f84414f02562a5b17b1c301046': 'Status {{@1}}',
+  'ca035ede21ad993ba8f29a2e615b61e0': 'Next state',
+  'b7349a87c4d838d1a6047c2844b1744a': 'Previous Status',
+  'df7f223af52c3261a3b23a152bffe26c': 'Status List',
+  '8256d18231287d07406fbf019e81bb01': 'New component status',
+  'bd863f35feb02c40cf14493b1dc1b198': 'Display conditions',
+  '93553f4588b0f0c782f58182db0490d7': 'Status Content',
+  '7cb7a4480adf1c3e13378201684dbd5f': 'Table presentation',
+  '22efa960b935516b3016b4a5bd7f1160': 'Task Action Collection',
+  'bab9f8592e1b8e286ee17ddf5dbea4b3': 'Display Text',
+  '97d43b5b163c9299f70b76d12541828c': 'New Status',
+  '01ceb3edde98440157f199c292011dfc': 'No data',
+  '8191e975f70edd63fe65476dd8bc0ddc': 'Component ID',
+  '7c80a8d7f7af4e8eeef653c0af82010d': 'Input component ID',
+  'c619838a5e3c9641a80fc5f1a9001a9e': 'Persistent Key',
+  '78979b40f53cb6510c6bc1e1a2473fc1':
+    'Use static data or variables:<code>" ${id}"</code>to specify a unique Key for the Form',
+  '72f4712f23226b5e01442ab9b6ae90bd': 'Preserve Field Collection',
+  'bee8b35158dc5ddd44ebbbd9f29de422':
+    'If you only need to save some of the field values in the Form, please configure the set of field names that need to be saved. If left blank, all fields will be retained',
+  '5755fa70717929d1cabc4f4d9778d08e': 'Please enter a field name',
+  '8ea6d154a7c25f8802406719c2ec3c02':
+    'Embedded: displayed in a tiled manner on the page, while the other two are displayed in pop-up or drawer form',
+  '361f434f3b82973d6526efefbb538118': 'Label storage',
+  'deab2747ddf5310781cad655c4f7a50f':
+    'When the number of values exceeds a certain amount, it can be stored and displayed',
+  '8c019e522d7bfbf02d6600f91f3b4edf': 'Maximum number of labels',
+  '5404c803438f1027131cb6fe35037075': 'Selector storage unit',
+  '5d16dd78f1b9194d063322d117c75162': 'CRUD storage unit',
+  '00e44cfe38bdcdefa40ad63dec4e9bd4': 'Label template',
+  'b2f3c4387bcabafaf39a7be9c624b584': 'Label display content for selected data',
+  '988d7b545c09108379a54a1e6060f563': 'Icon Color',
+  '7278e97a3360f7b31768b86b8d22173d': 'Icon hover color',
+  '9df3213a5f8211cf2626f4c5c646d71d': 'Add data item',
+  'a6354302d04750ab5e28fac72be054b1': 'data item',
+  '1a873cce402693b4c3b4bf16a4a04523': 'The Key of the attribute in Option',
+  '75208f0b7fa9dd1633fa2dded76a6e8d': 'The value of the parent data item',
+  'dcc957ddbe7fd921ea03d008f7ddae4c':
+    'Please enter the value of the parent data item valueField',
+  'cd407112daa4d933aead47835bedafb2': 'Edit Data Item',
+  'a3b6fcf7cfabfc83543bb00375235915': 'Value of data editing item',
+  '0f2dd97ecc370524fd8ff0a9ffb880a5':
+    'Please enter the value of the value Field before editing the data item',
+  'e70edec390d0e602208f6951e1b5f01f': 'Delete data item',
+  'd16814fa14c14dbeca8d7e8600852255': 'Value of data deletion item',
+  '6a2e7e69d5bcf2e2ab0c3e288d7fd2ab':
+    'Please enter the value for the deletion item valueField',
+  '6e065eee612393b1d6a16e7696e4c911': 'Tree component',
+  '555fbc1714ad0d899939b12b95dabe09': 'Tree Component - Embedded Mode',
+  '5c52d3e283d197588e29ca31bc613ffe': 'Option search interface',
+  'dd52923c45686a6f507854e438d4880e': 'Lazy loading interface',
+  'a386f65cf2c47acabfab13781dbdd89f': 'Tree Component - Floating Layer Mode',
+  'b5d9da39175bc5bdcd2cc7dddeaa232a': 'Lazy loading field',
+  '31ff316f7b6aa169b2575a50e0342be0':
+    'Is it the field name of the lazy loading node? The default is defer, and this configuration item can be used to customize the field name',
+  '37a3bfd0cf20cc17c53396a1077c0852': 'Customize fields to enable lazy loading',
+  '6c1f091d6ee0780a6f836d212b8afa82': 'New form configured',
+  '9de4041a80c32ada7fb8b3f212da62d2': 'Edited form configured',
+  '7eca7159d5a09db3a0008280faae395c': 'Search matching function',
+  'e95903f4c15aab31ea66ecd51b76e1a3':
+    'Custom search matching function, when<code>loadDataOnce</code>is enabled, will filter based on the matching results calculated by this function. It is mainly used to handle scenarios where column field types are complex or field value formats and backend returns are inconsistent<code>matchSorter</code>function is used to handle complex filtering scenarios, such as fuzzy matching. For more detailed content, it is recommended to check<a href="https://github.com/kentcdodds/match-sorter" target="_blank">match-sorter</a>.',
+  '4f54012c824bfcd8f9ca9ded82051d94': 'Mock configuration',
+  '3566441483da64f6bb1dd44cfd6b0184': 'Data Mock',
+  'fb677689a875ed3078e386ad88273e73':
+    'After activation, when the data source is empty, Mock data will be used',
+  'af192f42759b02f6fd256776b12a238f':
+    'After setting, the data will be displayed according to the set quantity, which can improve the rendering speed of the design state, reduce the height of the table, and facilitate layout settings. If set to<code>-1</code>, there is no restriction',
+  'a15e0eac4fe49346a744fa7943c46890': 'Calendar schedule',
+  'b13bf2bdf8a7abbd8cdf85683214be45': 'Display the calendar and schedule.',
+  '0c6482892e9df6505c8de1eabca68266': 'time stamp',
+  '398e51caf9e8fabbeb075833f0c1e701': 'Date Format',
+  '2ca9949e2a05e63f735b713260307c45': 'Time format',
+  'e63e4cf37bf0af962b6ad66243dbe0f4': 'Date Time Format',
+  '69a79a0e5083305255d191f708a41860': 'Is it possible to drag and drop',
+  'bc48a7871960f7a395fa3ff20774f81c':
+    '{\\ n "status": 0, \\ n "msg": "", \\ n//can not be returned. If data is returned, it will be merged in. \\ n data: {} \\ n}',
+  '1385df54facf9564658f05d0e9e2c3c7': 'Double click on row',
+  '1c00d9cceec92084b116a382f2714ebb': 'Double click on the entire row event',
+  '4f0a3e65cf67ca5a117a3f28745ae930': 'Display the new button at the bottom',
+  '2424c96966b9c38c7d094a2d40f23a5f': 'Display operation column add button',
+  '2e2c57b664358061f9f20aeda43b53af': 'Automatic selection',
+  '3fd78aa49302ff2634badc2ef49828f7':
+    "After activation, automatically select the user's current geographic location",
+  '1acee853829433de3ece301ee365bc99': 'Restriction mode',
+  'ce8b1e6f3819ea068921a4fa9ead6968':
+    'After activation, only the current geographical location can be used and no other geographical locations can be selected',
+  'fb58b1b692e6cc562764f6969269f802': 'Box details configured',
+  '645dbc5504e722a30896486085a06b32': 'preview',
+  '9aa70276e6d364abdc0543deccea2dac': 'preview pictures',
+  '893a9d45e4df161d0b0c57340631bd2f': 'Adjusting Image Scale',
+  'e8aaab64292d8b17db25a1ab44bcd8e0':
+    'Enlarge or shrink the image proportionally',
+  '28a7e3af290b229c490da0ad4e9b700e': 'Adjusting the proportion',
+  '7f2081cebf9bd4b10b953b4008c4b568':
+    'Define the percentage size of the image to be enlarged or reduced each time, with positive values indicating enlargement and negative values indicating reduction. The default value is 50',
+  'cb90ac33f6b3bf684635d4f57cb290a0': 'Amplification limit',
+  '7ab252f7aab256f1785c793049d01e13':
+    'Define the maximum percentage of action to adjust image size, default to 200',
+  '7d645933c48d5061c2a13dd5f8b9b4fa': 'Reduce limits',
+  '164f3e6ced78578c534477da66e0b008':
+    'Define the minimum percentage of action to adjust image size, default to 50',
+  '8e9f5f321ac9b39dbcf0f603190815ce':
+    'Suspended container: a special layout container based on CSS Fixed implementation.',
+  'ace080d5d9684a05aa5ec0ca38ec2831': 'Number of records displayed per page',
+  'e52664b945c685d43d6ea81953a33a4a': 'Trigger QR code download',
+  'a605077feb2a94f1f72627703ff48e39':
+    'There is no data in the current table. Use Mock data for effect preview. Relevant configurations can be modified in the Mock configuration of the component panel',
+  '014b4de0dd3108fc912547e4a1ed19fd':
+    'The current table only displays 1 piece of data for effect preview. Click "Preview" at the top to view the real scene data. The relevant configuration can be modified in the Mock configuration of the component panel',
+  '8bb1910d5bc3b1b32c1e037978ba9d3b':
+    'Modify and submit after activation, instead of batch submission. It is necessary to configure a quick save interface for submitting data',
+  'df23e8db7baa38e0d9db41384788a40c':
+    'By default, the "Quick Save Single Entry" interface of the table is used. If a separate interface for immediate save configuration is provided, local configuration will be prioritized.',
+  'bf4bc760ad07eccb701c8be8579005fc':
+    'The number of list items cannot be less than {{@1}}',
+  '0e69a56857c65181f96cd272d20455d6': 'Click to add an expression',
+  'd846706b91f99cd12545a78212fa5984': 'Common actions:',
+  '1889907dcbe32f9e8ac2c9df6603f12e': 'Verify individual form items',
+  '1a04578671f6c3bfa2d35a8cbd9d1a9e': 'Verify form items',
+  'e4092e07c4613278048c91064f4bfdf7': 'Verify individual form item data',
+  'dd39bd1bf78f1b2aec6ed8a05ced6884': 'The value of the verified form item',
+  '0a2680def3df6912d7c96d95a047b680': 'Verification successful',
+  '136b339ae7f40edc05251da87dd8a233': 'Verification failed',
+  '14a265b60d169e9d9c11b9a286de199d': 'Event burial point',
+  '5c1024a792dfc345b4d8a3b34255691b':
+    'After enabling event burying, every time an event is triggered, burying data will be sent to the background'
 });

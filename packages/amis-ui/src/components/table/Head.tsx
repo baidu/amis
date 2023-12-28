@@ -4,8 +4,7 @@
  */
 
 import React from 'react';
-import {ThemeProps} from 'amis-core';
-
+import {ThemeProps, noop} from 'amis-core';
 import {
   getBuildColumns,
   getAllSelectableRows,
@@ -225,7 +224,7 @@ export default class Head extends React.PureComponent<Props> {
                 </Cell>
               ) : null}
               {isLeftExpandable && index === 0 ? expandableCell : null}
-              {data.map((item: any, i: number) => {
+              {data.map((item: any, colIndex: number) => {
                 let sort = null;
                 if (item.sorter) {
                   sort = (
@@ -262,24 +261,33 @@ export default class Head extends React.PureComponent<Props> {
                   // 没设置name的 那一定不是要绑定数据的列 一般都是分组的上层 也不会出现调整列宽
                   cIndex = this.tdColumns.findIndex(c => c.name === item.name);
                 }
+
+                /** 如果当前列定宽，则不能操作drag bar */
+                const pristineWidth = item.width;
+                const disableColDrag =
+                  typeof pristineWidth === 'number' && pristineWidth > 0;
                 const children = !item.children?.length ? (
                   <>
                     {sort}
                     {filter}
                     {resizable ? (
                       <i
-                        className={cx('Table-thead-resizable')}
+                        className={cx('Table-thead-resizable', {
+                          'Table-thead-resizable--disabled': disableColDrag
+                        })}
                         onMouseDown={e => {
-                          onResizeMouseDown && onResizeMouseDown(e, cIndex);
+                          disableColDrag
+                            ? noop
+                            : onResizeMouseDown?.(e, cIndex);
                         }}
-                      ></i>
+                      />
                     ) : null}
                   </>
                 ) : null;
 
                 return (
                   <Cell
-                    key={`cell-${i}`}
+                    key={`cell-${colIndex}`}
                     wrapperComponent="th"
                     rowSpan={item.rowSpan}
                     colSpan={item.colSpan}
@@ -288,7 +296,8 @@ export default class Head extends React.PureComponent<Props> {
                     fixed={item.fixed === true ? 'left' : item.fixed}
                     className={cx({
                       'Table-cell-last':
-                        i === maxCount - 1 && i === data.length - 1
+                        colIndex === maxCount - 1 &&
+                        colIndex === data.length - 1
                     })}
                     depth={item.depth}
                     col={cIndex > -1 ? cIndex.toString() : undefined}

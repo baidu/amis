@@ -113,11 +113,6 @@ export const TreeCommonAction: RendererPluginAction[] = [
         placeholder: '请输入删除项 valueField 的值'
       })
     ])
-  },
-  {
-    actionType: 'reload',
-    actionLabel: '刷新',
-    description: '刷新数据'
   }
 ];
 
@@ -130,7 +125,6 @@ export class TreeControlPlugin extends BasePlugin {
   // 组件名称
   name = '树组件';
   isBaseComponent = true;
-  disabledRendererPlugin = true;
   icon = 'fa fa-list-alt';
   pluginIcon = 'input-tree-plugin';
   description = '树型结构选择，支持 [内嵌模式] 与 [浮层模式] 的外观切换';
@@ -346,7 +340,7 @@ export class TreeControlPlugin extends BasePlugin {
       actionLabel: '收起',
       description: '收起树节点'
     },
-    /** 新增、编辑、删除、刷新 */
+    /** 新增、编辑、删除 */
     ...TreeCommonAction,
     {
       actionType: 'clear',
@@ -473,6 +467,7 @@ export class TreeControlPlugin extends BasePlugin {
                   justify: true,
                   left: 8
                 },
+                value: false,
                 inputClassName: 'is-inline ',
                 visibleOn: 'data.type === "tree-select"'
               }),
@@ -491,12 +486,14 @@ export class TreeControlPlugin extends BasePlugin {
                   {
                     type: 'input-number',
                     label: tipedLabel('节点最小数', '表单校验最少选中的节点数'),
-                    name: 'minLength'
+                    name: 'minLength',
+                    min: 0
                   },
                   {
                     type: 'input-number',
                     label: tipedLabel('节点最大数', '表单校验最多选中的节点数'),
-                    name: 'maxLength'
+                    name: 'maxLength',
+                    min: 0
                   }
                 ]
               }),
@@ -645,6 +642,7 @@ export class TreeControlPlugin extends BasePlugin {
                 ),
                 value: false,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
@@ -665,6 +663,7 @@ export class TreeControlPlugin extends BasePlugin {
                 trueValue: false,
                 falseValue: true,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
@@ -727,6 +726,7 @@ export class TreeControlPlugin extends BasePlugin {
                 trueValue: false,
                 falseValue: true,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
@@ -734,6 +734,7 @@ export class TreeControlPlugin extends BasePlugin {
                       label: '设置层级',
                       name: 'unfoldedLevel',
                       value: 1,
+                      min: 0,
                       hiddenOn: 'data.initiallyOpen'
                     }
                   ]
@@ -744,8 +745,7 @@ export class TreeControlPlugin extends BasePlugin {
             ]
           },
           getSchemaTpl('status', {
-            isFormItem: true,
-            readonly: true
+            isFormItem: true
           }),
           getSchemaTpl('validation', {tag: ValidatorTag.Tree})
         ])

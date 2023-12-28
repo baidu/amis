@@ -18,6 +18,11 @@ const pages: TreeArray = [
         label: '按钮',
         path: '/basic/button',
         component: React.lazy(() => import('./basic/Button'))
+      },
+      {
+        label: '文字提示',
+        path: '/basic/overflow-tpl',
+        component: React.lazy(() => import('./basic/OverflowTpl'))
       }
     ]
   },

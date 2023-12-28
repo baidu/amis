@@ -96,14 +96,14 @@ amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [loda
     "body": [
         {
             "type": "tpl",
-            "tpl": "User: <%= data.user %>"
+            "tpl": "User: <%- data.user %>"
         },
         {
             "type": "divider"
         },
         {
             "type": "tpl",
-            "tpl": "<% if (data.items && data.items.length) { %>Array: <% data.items.forEach(function(item) { %> <span class='label label-default'><%= item %></span> <% });} %>"
+            "tpl": "<% if (data.items && data.items.length) { %>Array: <% data.items.forEach(function(item) { %> <span class='label label-default'><%- item %></span> <% });} %>"
         }
     ]
 }
@@ -122,7 +122,7 @@ amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [loda
 - `formatNumber(number)` 格式化数字格式，加上千分位。
 - `countDown(value)` 倒计时，显示离指定时间还剩下多少天，只支持时间戳。
 
-下面 filters 中的方法也可以使用如： `<%= date(data.xxx, 'YYYY-MM-DD') %>`
+下面 filters 中的方法也可以使用如： `<%- date(data.xxx, 'YYYY-MM-DD') %>`
 
 ## 注意事项
 

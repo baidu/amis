@@ -19,10 +19,21 @@ function filterUrl(url: string) {
 }
 
 function onLoad(req: any, callback: (result: any) => void) {
+  const locale =
+    ((window as any).__amis_monaco_editor_locale &&
+      (
+        {
+          'zh-CN': 'zh-cn',
+          'en-US': '',
+          'de-DE': 'de'
+        } as any
+      )[(window as any).__amis_monaco_editor_locale]) ||
+    '';
+
   const config = {
     'vs/nls': {
       availableLanguages: {
-        '*': 'zh-cn'
+        '*': locale
       }
     },
     'paths': {

@@ -1493,7 +1493,7 @@ exports[`Renderer:text with options 1`] = `
 </div>
 `;
 
-exports[`Renderer:text with options and multiple and delimiter: first option selected 1`] = `
+exports[`Renderer:text with options and multiple Renderer:text with options and multiple and delimiter: first option selected 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1556,7 +1556,7 @@ exports[`Renderer:text with options and multiple and delimiter: first option sel
                 class="cxd-TextControl-value"
               >
                 <span
-                  class="cxd-TextControl-valueLabel"
+                  class="cxd-OverflowTpl cxd-TextControl-valueLabel"
                 >
                   OptionA
                 </span>
@@ -1578,6 +1578,7 @@ exports[`Renderer:text with options and multiple and delimiter: first option sel
               />
               <div
                 class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                role="popover"
                 style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                 theme="cxd"
               >
@@ -1737,7 +1738,7 @@ exports[`Renderer:text with options and multiple and delimiter: first option sel
 </div>
 `;
 
-exports[`Renderer:text with options and multiple and delimiter: options is opened 1`] = `
+exports[`Renderer:text with options and multiple Renderer:text with options and multiple and delimiter: options is opened 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -1809,6 +1810,7 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
               />
               <div
                 class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                role="popover"
                 style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                 theme="cxd"
               >
@@ -1982,7 +1984,7 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
 </div>
 `;
 
-exports[`Renderer:text with options and multiple and delimiter: options is opened again, and first option already selected 1`] = `
+exports[`Renderer:text with options and multiple Renderer:text with options and multiple and delimiter: options is opened again, and first option already selected 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -2045,7 +2047,7 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
                 class="cxd-TextControl-value"
               >
                 <span
-                  class="cxd-TextControl-valueLabel"
+                  class="cxd-OverflowTpl cxd-TextControl-valueLabel"
                 >
                   OptionA
                 </span>
@@ -2067,6 +2069,7 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
               />
               <div
                 class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                role="popover"
                 style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                 theme="cxd"
               >
@@ -2226,7 +2229,7 @@ exports[`Renderer:text with options and multiple and delimiter: options is opene
 </div>
 `;
 
-exports[`Renderer:text with options and multiple and delimiter: second option selected 1`] = `
+exports[`Renderer:text with options and multiple Renderer:text with options and multiple and delimiter: second option selected 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -2289,7 +2292,7 @@ exports[`Renderer:text with options and multiple and delimiter: second option se
                 class="cxd-TextControl-value"
               >
                 <span
-                  class="cxd-TextControl-valueLabel"
+                  class="cxd-OverflowTpl cxd-TextControl-valueLabel"
                 >
                   OptionA
                 </span>
@@ -2302,7 +2305,7 @@ exports[`Renderer:text with options and multiple and delimiter: second option se
                 class="cxd-TextControl-value"
               >
                 <span
-                  class="cxd-TextControl-valueLabel"
+                  class="cxd-OverflowTpl cxd-TextControl-valueLabel"
                 >
                   OptionB
                 </span>
@@ -2324,6 +2327,7 @@ exports[`Renderer:text with options and multiple and delimiter: second option se
               />
               <div
                 class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                role="popover"
                 style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                 theme="cxd"
               >
@@ -2473,7 +2477,7 @@ exports[`Renderer:text with options and multiple and delimiter: second option se
 </div>
 `;
 
-exports[`Renderer:text with options and multiple and delimiter: thrid option create 1`] = `
+exports[`Renderer:text with options and multiple Renderer:text with options and multiple and delimiter: thrid option create 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -2534,7 +2538,7 @@ exports[`Renderer:text with options and multiple and delimiter: thrid option cre
                 class="cxd-TextControl-value"
               >
                 <span
-                  class="cxd-TextControl-valueLabel"
+                  class="cxd-OverflowTpl cxd-TextControl-valueLabel"
                 >
                   OptionA
                 </span>
@@ -2547,7 +2551,7 @@ exports[`Renderer:text with options and multiple and delimiter: thrid option cre
                 class="cxd-TextControl-value"
               >
                 <span
-                  class="cxd-TextControl-valueLabel"
+                  class="cxd-OverflowTpl cxd-TextControl-valueLabel"
                 >
                   OptionB
                 </span>
@@ -2560,7 +2564,7 @@ exports[`Renderer:text with options and multiple and delimiter: thrid option cre
                 class="cxd-TextControl-value"
               >
                 <span
-                  class="cxd-TextControl-valueLabel"
+                  class="cxd-OverflowTpl cxd-TextControl-valueLabel"
                 >
                   AbCd
                 </span>
@@ -2694,6 +2698,7 @@ exports[`Renderer:text with options: options is open 1`] = `
               />
               <div
                 class="cxd-PopOver cxd-TextControl-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+                role="popover"
                 style="display: block; width: 0px; left: 0px; top: 0px; position: relative;"
                 theme="cxd"
               >

@@ -2050,21 +2050,52 @@ export function isNumeric(value: any): boolean {
   return /^[-+]?(?:\d*[.])?\d+$/.test(value);
 }
 
+export type PrimitiveTypes = 'boolean' | 'number';
+
 /**
  * 解析Query字符串中的原始类型，目前仅支持转化布尔类型
  *
  * @param query 查询字符串
+ * @param options 配置参数
  * @returns 解析后的查询字符串
  */
-export function parsePrimitiveQueryString(rawQuery: Record<string, any>) {
+export function parsePrimitiveQueryString(
+  rawQuery: Record<string, any>,
+  options?: {
+    primitiveTypes: PrimitiveTypes[];
+  }
+) {
   if (!isPlainObject(rawQuery)) {
     return rawQuery;
   }
 
+  options = options || {primitiveTypes: ['boolean']};
+
+  if (
+    !Array.isArray(options.primitiveTypes) ||
+    options.primitiveTypes.length === 0
+  ) {
+    options.primitiveTypes = ['boolean'];
+  }
+
   const query = JSONValueMap(rawQuery, value => {
-    /** 解析布尔类型，后续有需要在这里扩充 */
-    if (value === 'true' || value === 'false') {
+    if (
+      (options?.primitiveTypes?.includes('boolean') && value === 'true') ||
+      value === 'false'
+    ) {
+      /** 解析布尔类型 */
       return value === 'true';
+    } else if (
+      options?.primitiveTypes?.includes('number') &&
+      isNumeric(value) &&
+      isFinite(value) &&
+      value >= -Number.MAX_SAFE_INTEGER &&
+      value <= Number.MAX_SAFE_INTEGER
+    ) {
+      /** 解析数字类型 */
+      const result = Number(value);
+
+      return !isNaN(result) ? result : value;
     }
 
     return value;
@@ -2082,16 +2113,19 @@ export function parsePrimitiveQueryString(rawQuery: Record<string, any>) {
  */
 export function parseQuery(
   location?: Location | {query?: any; search?: any; [propName: string]: any},
-  options?: {parsePrimitive?: boolean}
+  options?: {
+    parsePrimitive?: boolean;
+    primitiveTypes?: PrimitiveTypes[];
+  }
 ): Record<string, any> {
-  const {parsePrimitive = false} = options || {};
+  const {parsePrimitive = false, primitiveTypes = ['boolean']} = options || {};
   const query =
     (location && !(location instanceof Location) && location?.query) ||
     (location && location?.search && qsparse(location.search.substring(1))) ||
     (window.location.search && qsparse(window.location.search.substring(1)));
   const normalizedQuery = isPlainObject(query)
     ? parsePrimitive
-      ? parsePrimitiveQueryString(query)
+      ? parsePrimitiveQueryString(query, {primitiveTypes})
       : query
     : {};
   /* 处理hash中的query */

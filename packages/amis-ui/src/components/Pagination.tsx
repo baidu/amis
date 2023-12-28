@@ -20,6 +20,12 @@ export const enum PaginationWidget {
   Go = 'go'
 }
 
+export const enum KeyCode {
+  ENTER = 'Enter',
+  UP = 'ArrowUp',
+  DOWN = 'ArrowDown'
+}
+
 export interface BasicPaginationProps {
   /**
    * 通过控制layout属性的顺序，调整分页结构 total,perPage,pager,go
@@ -93,6 +99,20 @@ export interface BasicPaginationProps {
    */
   popOverContainerSelector?: string;
 
+  /**
+   * 多页跳转页数
+   *
+   * @default 5
+   */
+  ellipsisPageGap?: number;
+
+  /**
+   * 组件尺寸
+   *
+   * @default 'md'
+   */
+  size?: string;
+
   onPageChange?: (page: number, perPage?: number, dir?: string) => void;
 }
 export interface PaginationProps
@@ -103,6 +123,7 @@ export interface PaginationProps
 }
 export interface PaginationState {
   pageNum: string;
+  internalPageNum: string;
   perPage: number;
 }
 export class Pagination extends React.Component<
@@ -115,11 +136,14 @@ export class Pagination extends React.Component<
     mode: 'normal' as MODE_TYPE,
     activePage: 1,
     perPage: 10,
-    perPageAvailable: [10, 20, 50, 100]
+    perPageAvailable: [10, 20, 50, 100],
+    ellipsisPageGap: 5,
+    size: 'md'
   };
 
   state = {
     pageNum: '',
+    internalPageNum: '1',
     perPage: Number(this.props.perPage)
   };
 
@@ -136,6 +160,15 @@ export class Pagination extends React.Component<
     if (prevProps.perPage !== this.props.perPage) {
       const perPage = Number(this.props.perPage);
       this.setState({perPage: isInteger(perPage) ? perPage : 10});
+    }
+  }
+
+  componentWillReceiveProps(nextProps: PaginationProps) {
+    if (
+      this.props.mode === 'simple' &&
+      nextProps.activePage !== Number(this.state.internalPageNum)
+    ) {
+      this.setState({internalPageNum: String(nextProps.activePage)});
     }
   }
 
@@ -179,10 +212,37 @@ export class Pagination extends React.Component<
    * @param page 页码
    */
   renderEllipsis(key: string) {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, activePage, ellipsisPageGap} = this.props;
+    const {perPage} = this.state;
+    const lastPage = this.getLastPage();
+    const gap: number =
+      isNaN(Number(ellipsisPageGap)) || Number(ellipsisPageGap) < 1
+        ? 5
+        : Number(ellipsisPageGap);
+    const isPrevEllipsis = key === 'prev-ellipsis';
+    const jumpContent = isPrevEllipsis ? (
+      <Icon icon="arrow-double-left" className="icon" />
+    ) : (
+      <Icon icon="arrow-double-right" className="icon" />
+    );
+    const jumpPage = isPrevEllipsis
+      ? Math.max(1, activePage - gap)
+      : Math.min(lastPage, activePage + gap);
+
     return (
-      <li key={key} className={cx('ellipsis')}>
+      <li
+        key={key}
+        className={cx('Pagination-ellipsis')}
+        onClick={(e: any) => {
+          return this.handlePageNumChange(
+            jumpPage,
+            perPage,
+            isPrevEllipsis ? 'backward' : 'forward'
+          );
+        }}
+      >
         <a role="button">...</a>
+        <span className="icon">{jumpContent}</span>
       </li>
     );
   }
@@ -256,6 +316,54 @@ export class Pagination extends React.Component<
     this.setState({pageNum: value});
   }
 
+  /**
+   * 简洁模式input onChange/onKeyUp事件
+   *
+   * @param event
+   */
+  @autobind
+  handleSimpleKeyUp(
+    e:
+      | React.KeyboardEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLInputElement>
+  ) {
+    const lastPage = this.getLastPage();
+    const key = (e as React.KeyboardEvent<HTMLInputElement>).key;
+    let v: number = parseInt(e.currentTarget.value, 10);
+    // handle keyboard up and down events value
+    switch (key) {
+      case KeyCode.DOWN:
+        v = isNaN(v) || v < 2 ? 1 : v - 1;
+        break;
+      case KeyCode.UP:
+        v = v + 1;
+        break;
+      default:
+        break;
+    }
+    // validate inputvalue
+    if (/^\d+$/.test(String(v)) && v >= lastPage) {
+      v = lastPage;
+    }
+    this.setState({internalPageNum: String(v)});
+    // handle empty val
+    if (!v) {
+      this.setState({internalPageNum: ''});
+      return;
+    }
+    if (([KeyCode.UP, KeyCode.DOWN, KeyCode.ENTER] as string[]).includes(key)) {
+      this.handlePageNumChange(v, this.props.perPage);
+    }
+  }
+
+  /**
+   * 简洁模式input onBlur事件
+   */
+  @autobind
+  handleSimpleBlur() {
+    this.setState({internalPageNum: String(this.props.activePage)});
+  }
+
   render() {
     const {
       layout,
@@ -273,18 +381,39 @@ export class Pagination extends React.Component<
       popOverContainer,
       popOverContainerSelector,
       mobileUI,
+      size,
       translate: __
     } = this.props;
     let maxButtons = this.props.maxButtons;
-    const {pageNum, perPage} = this.state;
+    const {pageNum, perPage, internalPageNum} = this.state;
     const lastPage = this.getLastPage();
 
-    // 简易模式
+    let simplePager: React.ReactNode = null;
+    // 简洁模式
     if (mode === 'simple') {
+      simplePager = (
+        <li className={cx('Pagination-simplego')} key="simple-go">
+          <input
+            className={cx('Pagination-simplego-input')}
+            key="simple-input"
+            type="text"
+            disabled={disabled}
+            onChange={this.handleSimpleKeyUp}
+            onKeyUp={this.handleSimpleKeyUp}
+            onBlur={this.handleSimpleBlur}
+            value={internalPageNum}
+          />
+          /
+          <span className={cx('Pagination-simplego-right')} key="go-right">
+            {lastPage}
+          </span>
+        </li>
+      );
       return (
         <div
           className={cx(
             'Pagination-wrap',
+            `Pagination-wrap-size--${size}`,
             'Pagination-simple',
             {disabled: disabled},
             className
@@ -320,6 +449,7 @@ export class Pagination extends React.Component<
                 <Icon icon="left-arrow" className="icon" />
               </span>
             </li>
+            {simplePager}
             <li
               className={cx('Pagination-next', {
                 'is-disabled': !hasNext
@@ -530,7 +660,14 @@ export class Pagination extends React.Component<
       </div>
     );
     return (
-      <div className={cx('Pagination-wrap', {disabled: disabled}, className)}>
+      <div
+        className={cx(
+          'Pagination-wrap',
+          `Pagination-wrap-size--${size}`,
+          {disabled: disabled},
+          className
+        )}
+      >
         {layoutList.map(layoutItem => {
           if (layoutItem === PaginationWidget.Pager) {
             return (

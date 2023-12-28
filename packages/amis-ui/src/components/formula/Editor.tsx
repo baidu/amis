@@ -197,6 +197,15 @@ export class FormulaEditor extends React.Component<
       return;
     }
 
+    if (typeof value !== 'string') {
+      try {
+        value = JSON.stringify(value);
+      } catch (error) {
+        console.error('[amis][formula] given value is not a string');
+        value = '';
+      }
+    }
+
     const varMap: {
       [propname: string]: string;
     } = {};

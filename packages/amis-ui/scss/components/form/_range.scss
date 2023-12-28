@@ -40,6 +40,68 @@
     }
   }
 
+  &-input-with-unit {
+    display: flex;
+    width: auto;
+
+    &:hover {
+      .#{$ns}Number,
+      .#{$ns}InputRange-unit {
+        border-width: var(--inputNumber-base-hover-top-border-width)
+          var(--inputNumber-base-hover-right-border-width)
+          var(--inputNumber-base-hover-bottom-border-width)
+          var(--inputNumber-base-hover-left-border-width);
+        border-style: var(--inputNumber-base-hover-top-border-style)
+          var(--inputNumber-base-hover-right-border-style)
+          var(--inputNumber-base-hover-bottom-border-style)
+          var(--inputNumber-base-hover-left-border-style);
+        border-color: var(--inputNumber-base-hover-top-border-color)
+          var(--inputNumber-base-hover-right-border-color)
+          var(--inputNumber-base-hover-bottom-border-color)
+          var(--inputNumber-base-hover-left-border-color);
+        border-radius: var(--inputNumber-base-hover-top-left-border-radius)
+          var(--inputNumber-base-hover-top-right-border-radius)
+          var(--inputNumber-base-hover-bottom-right-border-radius)
+          var(--inputNumber-base-hover-bottom-left-border-radius);
+      }
+    }
+
+    .#{$ns}Number-focused + .#{$ns}InputRange-unit {
+      border-width: var(--inputNumber-base-active-top-border-width)
+        var(--inputNumber-base-active-right-border-width)
+        var(--inputNumber-base-active-bottom-border-width)
+        var(--inputNumber-base-active-left-border-width);
+      border-style: var(--inputNumber-base-active-top-border-style)
+        var(--inputNumber-base-active-right-border-style)
+        var(--inputNumber-base-active-bottom-border-style)
+        var(--inputNumber-base-active-left-border-style);
+      border-color: var(--inputNumber-base-active-top-border-color)
+        var(--inputNumber-base-active-right-border-color)
+        var(--inputNumber-base-active-bottom-border-color)
+        var(--inputNumber-base-active-left-border-color);
+      border-radius: var(--inputNumber-base-active-top-left-border-radius)
+        var(--inputNumber-base-active-top-right-border-radius)
+        var(--inputNumber-base-active-bottom-right-border-radius)
+        var(--inputNumber-base-active-bottom-left-border-radius);
+    }
+    
+    .#{$ns}Number {
+      width: px2rem(80px);
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+      border-right: none !important;
+    }
+
+    .#{$ns}InputRange-unit {
+      cursor: default;
+      text-align: center;
+      min-width: unset;
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+      background-color: var(--inputNumber-base-unit-bg-color);
+    }
+  }
+
   &.is-mobile {
     .#{$ns}InputRange-input {
       width: var(--InputRange-input-mobile-width);
@@ -234,6 +296,10 @@
     border-radius: var(--InputRange-label-border-radius);
     visibility: hidden;
 
+    span {
+      word-break: keep-all;
+    }
+
     &-visible {
       visibility: visible;
     }
@@ -329,6 +395,22 @@
       position: absolute;
       top: 0;
       transform: translateX(-50%);
+
+      &:first-child {
+        transform: translateX(-10%);
+        span {
+          left: 0;
+          transform: translateX(0%);
+        }
+      }
+
+      &:last-child {
+        transform: translateX(-90%);
+        span {
+          left: 100%;
+          transform: translateX(-100%);
+        }
+      }
 
       span {
         position: absolute;

@@ -192,21 +192,15 @@ export class HeadCellFilter extends React.PureComponent<Props, State> {
     selectedKeys?: Array<string>
   ) {
     const {onFilter, column} = this.props;
-    const payload = {[column.name]: selectedKeys};
-
-    if (onFilter) {
-      const prevented = await onFilter({
-        filterName: column.name,
-        filterValue: selectedKeys?.join(',')
-      });
-      if (prevented) {
-        return;
-      }
-    }
 
     setSelectedKeys && setSelectedKeys(selectedKeys);
 
-    onFilter && onFilter(payload);
+    onFilter &&
+      onFilter({
+        filterName: column.name,
+        filterValue: selectedKeys?.join(',')
+      });
+
     confirm();
   }
 

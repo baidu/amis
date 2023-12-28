@@ -62,6 +62,7 @@ export class SummaryRow extends React.PureComponent<RowProps> {
         <Cell
           classnames={cx}
           classPrefix={classPrefix}
+          className={s.cellClassName}
           key={'summary-cell-' + index}
           fixed={s.fixed}
           colSpan={

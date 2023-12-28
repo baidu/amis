@@ -42,7 +42,8 @@ export class PaginationPlugin extends BasePlugin {
     disabled: false,
     perPageAvailable: [10, 20, 50, 100],
     perPage: 10,
-    maxButtons: 7
+    maxButtons: 7,
+    ellipsisPageGap: 5
   };
   previewSchema = {
     ...this.scaffold
@@ -255,6 +256,15 @@ export class PaginationPlugin extends BasePlugin {
                 max: 20,
                 pipeOut: (value: any) => value || 5,
                 visibleOn: '!data.mode || data.mode === "normal"'
+              },
+              {
+                name: 'ellipsisPageGap',
+                label: '多页跳转页数',
+                type: 'input-number',
+                min: 1,
+                pipeIn: (value: any) => value || 5,
+                pipeOut: (value: any) => value || 5,
+                visibleOn: 'data.mode && data.mode === "normal"'
               }
             ]
           },
@@ -271,6 +281,29 @@ export class PaginationPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
+          {
+            title: '基本',
+            body: [
+              {
+                type: 'select',
+                name: 'size',
+                label: '尺寸',
+                value: '',
+                pipeIn: defaultValue('md'),
+                options: [
+                  {
+                    label: '正常',
+                    value: 'md'
+                  },
+
+                  {
+                    label: '微型',
+                    value: 'sm'
+                  }
+                ]
+              }
+            ]
+          },
           getSchemaTpl('style:classNames', {isFormItem: false})
         ])
       },

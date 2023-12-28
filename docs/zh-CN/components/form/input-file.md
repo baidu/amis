@@ -94,7 +94,98 @@ order: 21
 
 ## 手动上传
 
-如果不希望 File 组件上传，可以配置 `asBlob` 或者 `asBase64`，采用这种方式后，组件不再自己上传了，而是直接把文件数据作为表单项的值，文件内容会在 Form 表单提交的接口里面一起带上。
+默认`"autoUpload": true`，即添加文件后自动上传。可以设置`"autoUpload": false`关闭自动上传，此时通过点击上传按钮上传。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "data": {
+      "file": {
+        "id":"2ba48d02d348",
+        "value":"http://amis.bj.bcebos.com/amis/2017-11/1510713111265/fis3-react.md",
+        "url":"http://amis.bj.bcebos.com/amis/2017-11/1510713111265/fis3-react.md",
+        "filename":"file(single).md",
+        "name":"file(single).md",
+        "state":"uploaded"
+      },
+      "files": [
+        {
+          "id":"2ba48d02d349",
+          "value":"http://amis.bj.bcebos.com/amis/2017-11/1510713111265/fis3-react.md",
+          "url":"http://amis.bj.bcebos.com/amis/2017-11/1510713111265/fis3-react.md",
+          "filename":"file1.md",
+          "name":"file1.md",
+          "state":"uploaded"
+        },
+        {
+          "id":"14723e0bc640",
+          "value":"http://amis.bj.bcebos.com/amis/2017-11/1510713111265/fis3-react.md",
+          "url":"http://amis.bj.bcebos.com/amis/2017-11/1510713111265/fis3-react.md",
+          "filename":"file2.md",
+          "name":"file2.md",
+          "state":"uploaded"
+        }
+      ]
+    },
+    "body": [
+      {
+        "type": "input-file",
+        "name": "files",
+        "label": "File(多选)",
+        "mode": "horizontal",
+        "labelAlign": "left",
+        "accept": "*",
+        "receiver": "/api/upload/file",
+        "multiple": true,
+        "autoUpload": false,
+        "joinValues": false,
+        "onEvent": {
+          "success": {
+            "actions": [
+              {
+                "actionType": "toast",
+                "args": {
+                  "msgType": "info",
+                  "msg": "「${event.data.path}」上传成功"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "input-file",
+        "name": "file",
+        "label": "File(单选)",
+        "mode": "horizontal",
+        "labelAlign": "left",
+        "accept": "*",
+        "receiver": "/api/upload/file",
+        "multiple": false,
+        "autoUpload": false,
+        "joinValues": false,
+        "onEvent": {
+          "success": {
+            "actions": [
+              {
+                "actionType": "toast",
+                "args": {
+                  "msgType": "info",
+                  "msg": "「${event.data.path}」上传成功"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+}
+```
+
+## 作为表单项上传
+
+如果不希望 InputFile 组件在提交Form之前上传，可以配置 `asBlob` 或者 `asBase64`，采用这种方式后，组件不再自己上传了，而是直接把文件数据作为表单项的值，文件内容会在 Form 表单提交的接口里面一起带上。
 
 ```schema: scope="body"
 {
@@ -343,6 +434,7 @@ order: 21
     ]
 }
 ```
+
 
 ## 属性表
 

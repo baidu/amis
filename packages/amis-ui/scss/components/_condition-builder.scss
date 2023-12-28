@@ -302,7 +302,7 @@
         padding: 10px;
         margin: -10px 0px;
         background: $white;
-        z-index: 2;
+        z-index: $zindex-dropdown;
       }
       > .#{$ns}CBGroupOrItem-dragbar {
         left: px2rem(-5px);
