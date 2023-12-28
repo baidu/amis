@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, cleanup, fireEvent, waitFor} from '@testing-library/react';
+import {render, cleanup, fireEvent, waitFor, screen} from '@testing-library/react';
 import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, replaceReactAriaIds, wait} from '../../helper';
@@ -248,106 +248,153 @@ test('Renderer:text with options', async () => {
   expect(container).toMatchSnapshot('select first option');
 });
 
-/**
- * 选择器模式，多选、分隔符、提取值
- */
-test('Renderer:text with options and multiple and delimiter', async () => {
-  const {container, input} = await setup(
-    {
-      multiple: true,
-      options: [
-        {
-          label: 'OptionA',
-          value: 'a'
-        },
-        {
-          label: 'OptionB',
-          value: 'b'
-        },
-        {
-          label: 'OptionC',
-          value: 'c'
-        },
-        {
-          label: 'OptionD',
-          value: 'd'
-        }
-      ],
-      delimiter: '-',
-      joinValues: true,
-      creatable: true
-    },
-    {},
-    [
+describe('Renderer:text with options and multiple', () => {
+  /**
+   * 选择器模式，多选、分隔符、提取值
+   */
+  test('Renderer:text with options and multiple and delimiter', async () => {
+    const {container, input} = await setup(
       {
-        type: 'static',
-        name: 'text'
-      }
-    ]
-  );
+        multiple: true,
+        options: [
+          {
+            label: 'OptionA',
+            value: 'a'
+          },
+          {
+            label: 'OptionB',
+            value: 'b'
+          },
+          {
+            label: 'OptionC',
+            value: 'c'
+          },
+          {
+            label: 'OptionD',
+            value: 'd'
+          }
+        ],
+        delimiter: '-',
+        joinValues: true,
+        creatable: true
+      },
+      {},
+      [
+        {
+          type: 'static',
+          name: 'text'
+        }
+      ]
+    );
 
-  const textControl = container.querySelector(
-    '.cxd-TextControl-input'
-  ) as HTMLElement;
+    const textControl = container.querySelector(
+      '.cxd-TextControl-input'
+    ) as HTMLElement;
 
-  // 展开 options
-  fireEvent.click(textControl);
-  await wait(300);
+    // 展开 options
+    fireEvent.click(textControl);
+    await wait(300);
 
-  replaceReactAriaIds(container);
-  expect(container).toMatchSnapshot('options is opened');
+    replaceReactAriaIds(container);
+    expect(container).toMatchSnapshot('options is opened');
 
-  // 选中第一项
-  fireEvent.click(
-    container.querySelector(
-      '.cxd-TextControl-sugs .cxd-TextControl-sugItem'
-    ) as HTMLElement
-  );
-  await wait(300);
-  // expect(input.value).toBe('a');
+    // 选中第一项
+    fireEvent.click(
+      container.querySelector(
+        '.cxd-TextControl-sugs .cxd-TextControl-sugItem'
+      ) as HTMLElement
+    );
+    await wait(300);
+    // expect(input.value).toBe('a');
 
-  replaceReactAriaIds(container);
-  expect(container).toMatchSnapshot('first option selected');
+    replaceReactAriaIds(container);
+    expect(container).toMatchSnapshot('first option selected');
 
-  // 再次打开 options
-  fireEvent.click(textControl);
-  await wait(300);
+    // 再次打开 options
+    fireEvent.click(textControl);
+    await wait(300);
 
-  replaceReactAriaIds(container);
-  expect(container).toMatchSnapshot(
-    'options is opened again, and first option already selected'
-  );
+    replaceReactAriaIds(container);
+    expect(container).toMatchSnapshot(
+      'options is opened again, and first option already selected'
+    );
 
-  // 选中 options 中的第一项
-  fireEvent.click(
-    container.querySelector(
-      '.cxd-TextControl-sugs .cxd-TextControl-sugItem'
-    ) as HTMLElement
-  );
-  await wait(300);
+    // 选中 options 中的第一项
+    fireEvent.click(
+      container.querySelector(
+        '.cxd-TextControl-sugs .cxd-TextControl-sugItem'
+      ) as HTMLElement
+    );
+    await wait(300);
 
-  // 分隔符
-  expect(
-    (container.querySelector('.cxd-PlainField') as Element).innerHTML
-  ).toBe('a-b');
+    // 分隔符
+    expect(
+      (container.querySelector('.cxd-PlainField') as Element).innerHTML
+    ).toBe('a-b');
 
-  replaceReactAriaIds(container);
-  expect(container).toMatchSnapshot('second option selected');
+    replaceReactAriaIds(container);
+    expect(container).toMatchSnapshot('second option selected');
 
-  // 可创建
-  fireEvent.click(textControl);
-  await wait(300);
-  fireEvent.change(input, {target: {value: 'AbCd'}});
-  await wait(500);
-  fireEvent.keyDown(input, {key: 'Enter', code: 13});
-  await wait(500);
+    // 可创建
+    fireEvent.click(textControl);
+    await wait(300);
+    fireEvent.change(input, {target: {value: 'AbCd'}});
+    await wait(500);
+    fireEvent.keyDown(input, {key: 'Enter', code: 13});
+    await wait(500);
 
-  expect(
-    (container.querySelector('.cxd-PlainField') as Element).innerHTML
-  ).toBe('a-b-AbCd');
+    expect(
+      (container.querySelector('.cxd-PlainField') as Element).innerHTML
+    ).toBe('a-b-AbCd');
 
-  replaceReactAriaIds(container);
-  expect(container).toMatchSnapshot('thrid option create');
+    replaceReactAriaIds(container);
+    expect(container).toMatchSnapshot('thrid option create');
+  });
+
+  test('Renderer:text with options auto ellipsis', async () => {
+    const longText = 'OptionB (with long suffix for testing ellipsis)';
+    const {container} = await setup({
+      "name": "text",
+      "type": "input-text",
+      "label": "text",
+      "multiple": true,
+      "options": [
+        {
+          "label": "OptionA",
+          "value": "a"
+        },
+        {
+          "label": longText,
+          "value": "b"
+        },
+        {
+          "label": "OptionC",
+          "value": "c"
+        },
+        {
+          "label": "OptionD",
+          "value": "d"
+        }
+      ]
+    });
+
+    const textControl = container.querySelector('.cxd-TextControl-input') as HTMLElement;
+
+    fireEvent.click(textControl);
+    await wait(300);
+    replaceReactAriaIds(container);
+    const listItems = container.querySelectorAll('.cxd-TextControl-sugs .cxd-TextControl-sugItem');
+    expect(listItems.length).toBe(4);
+
+    // 选中长文本项
+    fireEvent.click(listItems[1]);
+    await wait(300);
+
+    const valueLabel = screen.getByText(longText);
+    // FIXME: ResizeObserver的 polyfill 在 jest 环境中不好使，先这样测吧
+    expect(valueLabel).toBeInTheDocument();
+    expect(valueLabel.classList).toContain('cxd-OverflowTpl');
+  });
 });
 
 /**

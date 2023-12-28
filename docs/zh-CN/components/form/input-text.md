@@ -230,7 +230,7 @@ order: 56
                     "value": "a"
                 },
                 {
-                    "label": "OptionB",
+                    "label": "OptionB (with long suffix for testing ellipsis)",
                     "value": "b"
                 },
                 {

@@ -1,6 +1,8 @@
 import cx from 'classnames';
+import DeepDiff from 'deep-diff';
 import flatten from 'lodash/flatten';
 import cloneDeep from 'lodash/cloneDeep';
+import pick from 'lodash/pick';
 import {isObject, getRendererByName, setVariable} from 'amis-core';
 import {
   BasePlugin,
@@ -369,8 +371,8 @@ export class FormPlugin extends BasePlugin {
   }> = [
     {label: '新增', value: DSFeatureEnum.Insert},
     {label: '编辑', value: DSFeatureEnum.Edit},
-    {label: '批量编辑', value: DSFeatureEnum.BulkEdit, disabled: true},
-    {label: '查看', value: DSFeatureEnum.View, disabled: true}
+    {label: '查看', value: DSFeatureEnum.View},
+    {label: '批量编辑', value: DSFeatureEnum.BulkEdit, disabled: true}
   ];
 
   dsManager: DSBuilderManager;
@@ -414,8 +416,8 @@ export class FormPlugin extends BasePlugin {
 
               Object.keys(data).forEach(key => {
                 if (
-                  /^(insert|edit|bulkEdit)Fields$/i.test(key) ||
-                  /^(insert|edit|bulkEdit)Api$/i.test(key)
+                  /^(insert|edit|bulkEdit|view)Fields$/i.test(key) ||
+                  /^(insert|edit|bulkEdit|view)Api$/i.test(key)
                 ) {
                   form.deleteValueByName(key);
                 }
@@ -446,8 +448,8 @@ export class FormPlugin extends BasePlugin {
 
               Object.keys(data).forEach(key => {
                 if (
-                  /^(insert|edit|bulkEdit)Fields$/i.test(key) ||
-                  /^(insert|edit|bulkEdit)Api$/i.test(key)
+                  /^(insert|edit|bulkEdit|view)Fields$/i.test(key) ||
+                  /^(insert|edit|bulkEdit|view)Api$/i.test(key)
                 ) {
                   form.deleteValueByName(key);
                 }
@@ -615,8 +617,6 @@ export class FormPlugin extends BasePlugin {
   }
 
   panelBodyCreator = (context: BaseEventContext) => {
-    const dc = this.dynamicControls;
-    const builder = this.dsManager.getBuilderBySchema(context.schema);
     /** 是否为CRUD的过滤器表单 */
     const isCRUDFilter: boolean =
       /\/crud\/filter\/form$/.test(context.path) ||
@@ -652,8 +652,8 @@ export class FormPlugin extends BasePlugin {
 
               Object.keys(data).forEach(key => {
                 if (
-                  /^(insert|edit|bulkEdit)Fields$/i.test(key) ||
-                  /^(insert|edit|bulkEdit)Api$/i.test(key)
+                  /^(insert|edit|bulkEdit|view)Fields$/i.test(key) ||
+                  /^(insert|edit|bulkEdit|view)Api$/i.test(key)
                 ) {
                   form.deleteValueByName(key);
                 }
@@ -707,7 +707,15 @@ export class FormPlugin extends BasePlugin {
                     inScaffold: false,
                     sourceSettings: {
                       renderLabel: true,
-                      userOrders: false
+                      userOrders: false,
+                      /**
+                       * name 默认是基于场景自动生成的
+                       * 1. 脚手架中，默认生成的是 viewApi
+                       * 2. 配置面板中要读取Schema 配置，所以使用 initApi
+                       */
+                      ...(feat.value === DSFeatureEnum.View
+                        ? {name: 'initApi'}
+                        : {})
                     }
                   })
                 ])
@@ -1186,7 +1194,7 @@ export class FormPlugin extends BasePlugin {
   }
 
   /** 重新构建 API */
-  panelFormPipeOut = async (schema: any) => {
+  panelFormPipeOut = async (schema: any, oldSchema: any) => {
     const entity = schema?.api?.entity;
 
     if (!entity || schema?.dsType !== ModelDSBuilderKey) {
@@ -1194,13 +1202,28 @@ export class FormPlugin extends BasePlugin {
     }
 
     const builder = this.dsManager.getBuilderBySchema(schema);
+    const observedFields = ['api', 'initApi', 'body', 'feat'];
+    const diff = DeepDiff.diff(
+      pick(oldSchema, observedFields),
+      pick(schema, observedFields)
+    );
+
+    if (!diff) {
+      return schema;
+    }
 
     try {
       const updatedSchema = await builder.buildApiSchema({
         schema,
         renderer: 'form',
         sourceKey: 'api',
-        feat: schema.feat ?? 'Insert'
+        feat: schema.feat ?? 'Insert',
+        apiSettings: {
+          diffConfig: {
+            enable: true,
+            schemaDiff: diff
+          }
+        }
       });
       return updatedSchema;
     } catch (e) {

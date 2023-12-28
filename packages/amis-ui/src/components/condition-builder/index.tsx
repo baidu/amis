@@ -336,6 +336,17 @@ export class QueryBuilder extends React.Component<
       return this.renderBody(onFinalChange, value, popOverContainer);
     }
 
+    /** 因为 ConditionBuilder特殊的数据结构，提供给 ResultBox 的需要处理一下 */
+    const resultBoxValue =
+      embed === false
+        ? !value ||
+          !value?.hasOwnProperty('children') ||
+          !Array.isArray(value.children) ||
+          value.children.length < 1
+          ? undefined
+          : value
+        : value;
+
     return (
       <PickerContainer
         classnames={cx}
@@ -361,7 +372,7 @@ export class QueryBuilder extends React.Component<
             className={cx('CBGroup-result', {'is-active': isOpened})}
             allowInput={false}
             clearable={true}
-            result={value}
+            result={resultBoxValue}
             itemRender={this.highlightValue}
             onResultChange={noop}
             onClear={this.handleClear}

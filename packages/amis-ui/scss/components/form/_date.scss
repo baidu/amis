@@ -633,10 +633,15 @@
   width: var(--gap-md);
   padding: 0;
   color: var(--DatePicker-arrow-color);
-  font-size: var(--fontSizeXl);
+  font-size: var(--fontSizeXl) !important;
   text-decoration: none;
   font-family: auto;
   font-weight: normal;
+  .icon-right-arrow {
+    width: #{px2rem(12px)};
+    height: #{px2rem(12px)};
+    top: 0;
+  }
 
   &:hover {
     text-decoration: none;
@@ -688,6 +693,13 @@
   .date-icon-arrow-left {
     transform: rotate(180deg);
     transform-origin: 50% 50%;
+  }
+  .icon-right-double-arrow {
+    top: -1px;
+  }
+  .icon-right-arrow {
+    width: #{px2rem(12px)};
+    height: #{px2rem(12px)};
   }
 }
 

@@ -17,7 +17,9 @@ import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {normalizeApiResponseData} from '../utils/api';
 import {matchSorter} from 'match-sorter';
 import {filter} from '../utils/tpl';
+import {TableStore} from './table';
 
+import type {ITableStore} from './table';
 import type {MatchSorterOptions} from 'match-sorter';
 
 interface MatchFunc {
@@ -468,7 +470,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           self.items.replace(rowsData);
-          self.reInitData(data, !!(api as ApiObject).replaceData);
+          self.reInitData(
+            data,
+            !!(api as ApiObject).replaceData,
+            (api as ApiObject).concatDataFields
+          );
           options.syncResponse2Query !== false &&
             updateQuery(
               pick(rest, Object.keys(self.query)),
@@ -564,7 +570,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             {
               __saved: Date.now()
             },
-            !!api && (api as ApiObject).replaceData
+            !!api && (api as ApiObject).replaceData,
+            (api as ApiObject)?.concatDataFields
           );
           self.updatedAt = Date.now();
         }
@@ -748,6 +755,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         api?: Api;
         data?: any;
         filename?: string;
+        pageField?: string;
+        perPageField?: string;
       } = {}
     ) => {
       let items = options.loadDataOnce ? self.data.itemsRaw : self.data.items;
@@ -756,8 +765,20 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         : 'data';
 
       if (options.api) {
+        const pageField = options.pageField || 'page';
+        const perPageField = options.perPageField || 'perPage';
         const env = getEnv(self);
-        const res = await env.fetcher(options.api, options.data);
+        const ctx: any = createObject(self.data, {
+          ...self.query,
+          ...options.data,
+          [pageField]: self.page || 1,
+          [perPageField]: self.perPage || 10
+        });
+        const res = await env.fetcher(options.api, ctx, {
+          autoAppend: true,
+          pageField,
+          perPageField
+        });
         if (!res.data) {
           return;
         }
@@ -816,6 +837,22 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       self.total = total || 0;
     };
 
+    /** 非Picker模式下，重置当前CRUD的所有的已选择项目 */
+    const resetSelection = (): void => {
+      // 初始化CRUD记录的已选择项目和未选择项目
+      setSelectedItems([]);
+      setUnSelectedItems([]);
+
+      const tableStore = self?.children?.find?.(
+        (s: any) => s.storeType === TableStore.name
+      );
+
+      if (tableStore) {
+        // 清空Table记录的已选择项目
+        (tableStore as ITableStore).clear?.();
+      }
+    };
+
     return {
       getData,
       updateSelectData,
@@ -834,7 +871,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       initFromScope,
       exportAsCSV,
       updateColumns,
-      updateTotal
+      updateTotal,
+      resetSelection
     };
   });
 

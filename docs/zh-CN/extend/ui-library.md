@@ -95,7 +95,7 @@ let amisJSON = {
 渲染 amis 的时候通过 `onBroadcast` 监听内部广播。
 
 ```tsx
-import {render as renderAmis} 'amis';
+import {render as renderAmis} from 'amis';
 
 function DemoComponent() {
   function handleBroadcast(type: string, rawEvent: any, data: any) {

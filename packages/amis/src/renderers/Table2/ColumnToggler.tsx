@@ -1,6 +1,7 @@
 import React from 'react';
-import {Renderer, createObject, isVisible, ClassNamesFn} from 'amis-core';
+import {Renderer, isVisible, ClassNamesFn} from 'amis-core';
 import {Checkbox} from 'amis-ui';
+
 import ColumnToggler, {ColumnTogglerProps} from '../Table/ColumnToggler';
 import {BaseSchema} from '../../Schema';
 
@@ -79,26 +80,8 @@ export class ColumnTogglerRenderer extends React.Component<ColumnTogglerRenderer
           <li
             className={cx('ColumnToggler-menuItem')}
             key={'selectAll'}
-            onClick={async () => {
-              const {data, dispatchEvent} = this.props;
-
-              const allToggled = !(
-                activeToggaleColumns?.length === toggableColumns?.length
-              );
-              const rendererEvent = await dispatchEvent(
-                'columnToggled',
-                createObject(data, {
-                  columns: allToggled
-                    ? toggableColumns?.map((column: any) => column)
-                    : []
-                })
-              );
-
-              if (rendererEvent?.prevented) {
-                return;
-              }
-
-              toggleAllColumns && toggleAllColumns(allToggled);
+            onClick={() => {
+              toggleAllColumns && toggleAllColumns();
             }}
           >
             <Checkbox
@@ -122,25 +105,8 @@ export class ColumnTogglerRenderer extends React.Component<ColumnTogglerRenderer
           <li
             className={cx('ColumnToggler-menuItem')}
             key={'item' + (column.index || index)}
-            onClick={async () => {
-              const {data, dispatchEvent} = this.props;
-              let columns = activeToggaleColumns.map((item: any) => item);
-              if (column.toggled !== false) {
-                columns.push(column);
-              } else {
-                columns = columns.filter((c: any) => c.name !== column.name);
-              }
-              const rendererEvent = await dispatchEvent(
-                'columnToggled',
-                createObject(data, {
-                  columns
-                })
-              );
-
-              if (rendererEvent?.prevented) {
-                return;
-              }
-              toggleToggle && toggleToggle(!(column.toggled !== false), index);
+            onClick={() => {
+              toggleToggle && toggleToggle(index);
             }}
           >
             <Checkbox
@@ -148,7 +114,9 @@ export class ColumnTogglerRenderer extends React.Component<ColumnTogglerRenderer
               classPrefix={ns}
               checked={column.toggled !== false}
             >
-              {column.title ? render('tpl', column.title) : null}
+              {column.title
+                ? render('tpl', column.title)
+                : column.label || null}
             </Checkbox>
           </li>
         ))}

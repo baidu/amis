@@ -112,7 +112,7 @@ function VariableList(props: VariableListProps) {
       ? props.itemRender
       : (option: Option, states: ItemRenderStates): JSX.Element => {
           return (
-            <div>
+            <div key={states.index}>
               <div className={cx(`${classPrefix}-item`, itemClassName)}>
                 {option.label &&
                   selfVariableName &&
@@ -152,6 +152,7 @@ function VariableList(props: VariableListProps) {
                           {memberOpers.map((item, i) => {
                             return (
                               <TooltipWrapper
+                                key={i}
                                 tooltip={item.description}
                                 tooltipTheme="dark"
                               >

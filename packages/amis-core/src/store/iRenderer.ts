@@ -12,7 +12,7 @@ import {SimpleMap} from '../utils/SimpleMap';
 import {StoreNode} from './node';
 import {IScopedContext} from '../Scoped';
 import {IRootStore} from './root';
-import {createObjectFromChain, extractObjectChain} from '../utils';
+import {concatData, createObjectFromChain, extractObjectChain} from '../utils';
 
 export const iRendererStore = StoreNode.named('iRendererStore')
   .props({
@@ -58,7 +58,16 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         self.data = self.pristine;
       },
 
-      updateData(data: object = {}, tag?: object, replace?: boolean) {
+      updateData(
+        data: object = {},
+        tag?: object,
+        replace?: boolean,
+        concatFields?: string | string[]
+      ) {
+        if (concatFields) {
+          data = concatData(data, self.data, concatFields);
+        }
+
         const prev = self.data;
         let newData;
         if (tag) {

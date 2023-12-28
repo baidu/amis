@@ -9,7 +9,8 @@ import {
   LocaleProps,
   uncontrollable,
   findTree,
-  isExpression
+  isExpression,
+  isObject
 } from 'amis-core';
 
 import {FormulaEditor, VariableItem} from './Editor';
@@ -96,41 +97,40 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
       if (schemaType === 'boolean') {
         result = origin.value;
       } else if (schemaType === 'select') {
-        result = Array.isArray(origin)
-          ? origin.map(item => item.value)
-          : origin.value;
+        const {
+          joinValues,
+          extractValue,
+          delimiter,
+          multiple,
+          valueField = 'value'
+        } = inputSettings;
+
+        if (joinValues) {
+          if (multiple) {
+            result = Array.isArray(origin)
+              ? (origin.map(item => item[valueField]).join(delimiter) as string)
+              : origin
+              ? origin[valueField]
+              : '';
+          } else {
+            result = origin ? origin[valueField] : '';
+          }
+        } else if (extractValue) {
+          if (multiple) {
+            result = Array.isArray(origin)
+              ? origin.map(item => item[valueField])
+              : origin
+              ? [origin[valueField || 'value']]
+              : [];
+          } else {
+            result = origin ? origin[valueField] : '';
+          }
+        }
       }
       onChange?.(result);
     },
     ['onChange']
   );
-
-  const FormulaCmpt = ({value}: {value: string}) => {
-    return (
-      <ResultBox
-        className={cx(`FormulaPicker-input-variable`)}
-        allowInput={false}
-        value={pipInValue(value)}
-        result={
-          value == null
-            ? void 0
-            : FormulaEditor.highlightValue(value, variables!, evalMode)
-        }
-        itemRender={(item: any) => {
-          return (
-            <div
-              className={cx('FormulaPicker-ResultBox')}
-              dangerouslySetInnerHTML={{__html: item.html}}
-            />
-          );
-        }}
-        onResultChange={noop}
-        onChange={pipOutValue}
-        onClear={() => pipOutValue(undefined)}
-        clearable={true}
-      />
-    );
-  };
 
   let cmptValue = pipInValue(value ?? inputSettings.defaultValue);
 
@@ -150,26 +150,58 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
             : cmptValue === item?.value;
         })
       : null;
+  let useVariable = !!(isExpression(cmptValue) || targetVariable);
 
-  if (
-    isExpression(cmptValue) ||
-    targetVariable ||
-    (schemaType === 'number' &&
-      cmptValue != null &&
-      typeof cmptValue !== 'number') ||
-    (['date', 'time', 'datetime'].includes(schemaType) &&
-      !moment(cmptValue).isValid()) ||
-    (schemaType === 'select' &&
-      cmptValue != null &&
-      !(inputSettings?.options ?? []).some(
-        (item: any) => item?.value === cmptValue
-      )) ||
-    (schemaType === 'boolean' &&
-      cmptValue != null &&
-      typeof cmptValue !== 'boolean')
-  ) {
+  /** 判断value是否为变量，如果是变量，使用ResultBox渲染 */
+  if (!useVariable) {
+    if (schemaType === 'number') {
+      useVariable = cmptValue != null && typeof cmptValue !== 'number';
+    } else if (['date', 'time', 'datetime'].includes(schemaType)) {
+      useVariable = !moment(cmptValue).isValid();
+    } else if (schemaType === 'select') {
+      const {
+        options,
+        joinValues,
+        extractValue,
+        delimiter,
+        multiple,
+        valueField = 'value'
+      } = inputSettings;
+      let selctedValue: any[] = [];
+
+      if (multiple) {
+        if (joinValues) {
+          selctedValue =
+            typeof cmptValue === 'string' ? cmptValue.split(delimiter) : [];
+        } else {
+          selctedValue = Array.isArray(cmptValue)
+            ? extractValue
+              ? cmptValue
+              : cmptValue.map(i => i?.[valueField])
+            : [];
+        }
+      } else {
+        if (joinValues) {
+          selctedValue = typeof cmptValue === 'string' ? [cmptValue] : [];
+        } else {
+          selctedValue = isObject(cmptValue) ? [cmptValue?.[valueField]] : [];
+        }
+      }
+
+      /** 选项类型清空后是空字符串， */
+      useVariable =
+        cmptValue &&
+        !(options ?? []).some((item: any) =>
+          selctedValue.includes(item?.value)
+        );
+    } else if (schemaType === 'boolean') {
+      useVariable = cmptValue != null && typeof cmptValue !== 'boolean';
+    }
+  }
+
+  if (useVariable) {
     const varName =
-      cmptValue && mixedMode
+      typeof cmptValue === 'string' && cmptValue && mixedMode
         ? cmptValue.replace(/^\$\{/, '').replace(/\}$/, '')
         : cmptValue;
     const resultValue = targetVariable?.value ?? varName;
@@ -177,7 +209,7 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
     return (
       <ResultBox
         className={cx(`FormulaPicker-input-variable`)}
-        allowInput={false}
+        allowInput={allowInput}
         value={resultValue}
         result={
           resultValue == null

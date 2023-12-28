@@ -228,7 +228,7 @@ $Table-strip-bg: transparent;
   --Carousel--light-control: white;
   --Carousel-arrowControl-height: var(--gap-lg);
   --Carousel-arrowControl-width: var(--gap-lg);
-  --Carousel-bg: #f6f8f8;
+  --Carousel-bg: var(--colors-neutral-fill-10);
   --Carousel-dot-borderRadius: #{px2rem(4px)};
   --Carousel-dot-height: #{px2rem(8px)};
   --Carousel-dot-margin: #{px2rem(7px)} var(--gap-xs);
@@ -281,7 +281,7 @@ $Table-strip-bg: transparent;
   --DropDown-menu-paddingY: var(--gap-xs);
   --DropDown-menuItem-onHover-bg: var(--Form-select-menu-onHover-bg);
   --DropDown-group-color: #848b99;
-  --DropDown-menuItem-color: #151a26;
+  --DropDown-menuItem-color: var(--colors-neutral-text-2);
   --DropDown-menuItem-onHover-color: var(--Form-select-menu-onHover-color);
   --DropDown-menuItem-onActive-color: var(--colors-brand-5);
   --DropDown-menuItem-onDisabled-color: #b4b6ba;
@@ -595,7 +595,9 @@ $Table-strip-bg: transparent;
 
   --Pagination-fontSize: var(--fonts-size-8);
   --Pagination-height: #{px2rem(32px)};
+  --Pagination-height-sm: #{px2rem(24px)};
   --Pagination-minWidth: #{px2rem(32px)};
+  --Pagination-minWidth-sm: #{px2rem(24px)};
   --Pagination-onActive-backgroundColor: var(--colors-neutral-fill-11);
   --Pagination-onActive-border: var(--borders-width-2) var(--borders-style-2)
     var(--colors-brand-5);
@@ -603,6 +605,7 @@ $Table-strip-bg: transparent;
   --Pagination-onDisabled-color: var(--colors-neutral-text-6);
   --Pagination-onDisabled-backgroundColor: var(--colors-neutral-fill-10);
   --Pagination-padding: 0 #{px2rem(8px)};
+  --Pagination-padding-sm: 0 #{px2rem(4px)};
   --Pagination-light-color: #84868c;
 
   --Panel--default-badgeBg: var(--colors-neutral-fill-3);
@@ -626,7 +629,7 @@ $Table-strip-bg: transparent;
   --PickerColumns-loadingIcon-color: var(--icon-color);
   --PickerColumns-loadingMask-Color: rgba(255, 255, 255, 0.9);
 
-  --PopOver-bg: white;
+  --PopOver-bg: var(--colors-neutral-fill-11);
   --PopOverAble-iconColor: inherit;
   --PopOverAble-onHover-iconColor: inherit;
 
@@ -826,6 +829,7 @@ $Table-strip-bg: transparent;
   --SearchBox-enhonce-disabled-color: var(--colors-neutral-text-9);
   --SearchBox-enhonce-disabled-search-color: var(--colors-neutral-text-6);
   --SearchBox-enhonce-clearable-gap: var(--borders-radius-4);
+  --SearchBox-search-btn-color--disabled: var(--colors-neutral-fill-6);
 
   --IconSelect-searchBox-width: #{px2rem(246px)};
   --IconSelect-type-item-height: #{px2rem(48px)};

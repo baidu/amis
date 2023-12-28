@@ -164,8 +164,13 @@ export const FormStore = ServiceStore.named('FormStore')
     };
   })
   .actions(self => {
-    function setValues(values: object, tag?: object, replace?: boolean) {
-      self.updateData(values, tag, replace);
+    function setValues(
+      values: object,
+      tag?: object,
+      replace?: boolean,
+      concatFields?: string | string[]
+    ) {
+      self.updateData(values, tag, replace, concatFields);
 
       // 如果数据域中有数据变化，就都reset一下，去掉之前残留的验证消息
       self.items.forEach(item => {
@@ -368,7 +373,8 @@ export const FormStore = ServiceStore.named('FormStore')
                   __saved: Date.now()
                 }
               : undefined,
-            !!(api as ApiObject).replaceData
+            !!(api as ApiObject).replaceData,
+            (api as ApiObject).concatDataFields
           );
         }
 
@@ -542,7 +548,7 @@ export const FormStore = ServiceStore.named('FormStore')
       self.submiting = true;
 
       try {
-        yield validate(hooks, undefined, true, failedMessage, validateErrCb);
+        yield validate(hooks, true, true, failedMessage, validateErrCb);
 
         if (fn) {
           const diff = difference(self.data, self.pristine);

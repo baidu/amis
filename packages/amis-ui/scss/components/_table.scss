@@ -184,6 +184,10 @@
     opacity: 0.5;
     z-index: 15;
 
+    &--disabled {
+      cursor: not-allowed;
+    }
+
     &:hover,
     &.is-resizing {
       background: var(--primary);
@@ -237,6 +241,9 @@
         transition: box-shadow 0.3s;
         content: '';
         pointer-events: none;
+      }
+      & .label {
+        font-size: 90%;
       }
     }
 
