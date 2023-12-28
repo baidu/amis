@@ -315,8 +315,38 @@ export default class NumberControl extends React.Component<
     }
 
     onChange(resultValue);
+
+    setTimeout(() => {
+      this.changeCursorPos(+resultValue);
+    }, 0);
   }
 
+  // 取真实用户输入的值去改变光标的位置
+  @autobind
+  changeCursorPos(value: number) {
+    if (isNaN(value)) {
+      return;
+    }
+    const {kilobitSeparator, prefix} = this.props;
+    const integer = value > 0 ? Math.floor(value) : Math.ceil(value);
+    let pos = `${value}`.length;
+
+    if (prefix) {
+      pos += prefix.length;
+    }
+
+    if (kilobitSeparator) {
+      // 处理有千分符的情况 123,456,789
+      const ksLen = Math.floor((`${Math.abs(integer)}`.length - 1) / 3);
+      if (ksLen > 0) {
+        pos += ksLen;
+      }
+    }
+
+    if (this.input && (kilobitSeparator || prefix)) {
+      this.input.setSelectionRange?.(pos, pos);
+    }
+  }
   filterNum(value: number | string | undefined): number | undefined;
   filterNum(
     value: number | string | undefined,
