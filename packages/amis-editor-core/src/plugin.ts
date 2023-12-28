@@ -529,7 +529,7 @@ export interface InsertEventContext extends BaseEventContext {
   beforeId?: string;
   index: number;
   data: any;
-  subRenderer?: SubRendererInfo;
+  subRenderer?: SubRendererInfo | RendererInfo;
   dragInfo?: {
     id: string;
     type: string;
@@ -539,7 +539,7 @@ export interface InsertEventContext extends BaseEventContext {
 
 export interface ReplaceEventContext extends BaseEventContext {
   data: any;
-  subRenderer?: SubRendererInfo;
+  subRenderer?: SubRendererInfo | RendererInfo;
   region?: string;
 }
 

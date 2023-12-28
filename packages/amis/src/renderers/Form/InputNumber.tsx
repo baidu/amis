@@ -187,7 +187,7 @@ export default class NumberControl extends React.Component<
     this.handleChangeUnit = this.handleChangeUnit.bind(this);
     const unit = this.getUnit();
     const unitOptions = normalizeOptions(props.unitOptions);
-    const {formItem, setPrinstineValue, precision, step, value} = props;
+    const {formItem, setPrinstineValue, precision, step, value, big} = props;
     const normalizedPrecision = NumberInput.normalizePrecision(
       this.filterNum(precision),
       this.filterNum(step)
@@ -201,7 +201,9 @@ export default class NumberControl extends React.Component<
       formItem &&
       value != null &&
       normalizedPrecision != null &&
-      (!unit || unitOptions.length === 0)
+      (!unit || unitOptions.length === 0) &&
+      // 大数下不需要进行精度处理，因为输入输出都是字符串
+      big !== true
     ) {
       const normalizedValue = parseFloat(
         toFixed(value.toString(), '.', normalizedPrecision)
@@ -381,14 +383,17 @@ export default class NumberControl extends React.Component<
 
   componentDidUpdate(prevProps: NumberProps) {
     const unit = this.getUnit();
-    const value = this.props.value;
+    const {value, formInited, onChange, setPrinstineValue} = this.props;
     if (
       value != null &&
       (typeof value === 'string' || typeof value === 'number') &&
       unit &&
       !String(value).endsWith(unit)
     ) {
-      this.props.setPrinstineValue(this.getValue(value));
+      const finalValue = this.getValue(value);
+      formInited === false
+        ? setPrinstineValue?.(finalValue)
+        : onChange?.(finalValue);
     }
     // 匹配 数字 + ?字符
     const reg = /^([-+]?(([1-9]\d*\.?\d*)|(0\.\d*[1-9]))[^\d\.]*)$/;
