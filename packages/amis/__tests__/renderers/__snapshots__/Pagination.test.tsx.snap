@@ -9,7 +9,7 @@ exports[`Renderer:Pagination 1`] = `
       class="cxd-PaginationWrapper"
     >
       <div
-        class="cxd-Pagination-wrap cxd-PaginationWrapper-pager"
+        class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md cxd-PaginationWrapper-pager"
       >
         <ul
           class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -261,7 +261,7 @@ exports[`Renderer:Pagination 2`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
     >
       <div
         class="cxd-Pagination-total cxd-Pagination-item"
@@ -316,13 +316,21 @@ exports[`Renderer:Pagination 2`] = `
           </a>
         </li>
         <li
-          class="ellipsis"
+          class="cxd-Pagination-ellipsis"
         >
           <a
             role="button"
           >
             ...
           </a>
+          <span
+            class="icon"
+          >
+            <icon-mock
+              classname="icon icon-arrow-double-left"
+              icon="arrow-double-left"
+            />
+          </span>
         </li>
         <li
           class="cxd-Pagination-pager-item"
@@ -343,13 +351,21 @@ exports[`Renderer:Pagination 2`] = `
           </a>
         </li>
         <li
-          class="ellipsis"
+          class="cxd-Pagination-ellipsis"
         >
           <a
             role="button"
           >
             ...
           </a>
+          <span
+            class="icon"
+          >
+            <icon-mock
+              classname="icon icon-arrow-double-right"
+              icon="arrow-double-right"
+            />
+          </span>
         </li>
         <li
           class="cxd-Pagination-pager-item"
@@ -401,7 +417,7 @@ exports[`Renderer:Pagination with disabled 1`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap disabled"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md disabled"
     >
       <ul
         class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -480,13 +496,21 @@ exports[`Renderer:Pagination with disabled 1`] = `
           </a>
         </li>
         <li
-          class="ellipsis"
+          class="cxd-Pagination-ellipsis"
         >
           <a
             role="button"
           >
             ...
           </a>
+          <span
+            class="icon"
+          >
+            <icon-mock
+              classname="icon icon-arrow-double-right"
+              icon="arrow-double-right"
+            />
+          </span>
         </li>
         <li
           class="cxd-Pagination-pager-item"
@@ -519,7 +543,7 @@ exports[`Renderer:Pagination with layout 1`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
     >
       <div
         class="cxd-Pagination-total cxd-Pagination-item"
@@ -647,13 +671,21 @@ exports[`Renderer:Pagination with layout 1`] = `
           </a>
         </li>
         <li
-          class="ellipsis"
+          class="cxd-Pagination-ellipsis"
         >
           <a
             role="button"
           >
             ...
           </a>
+          <span
+            class="icon"
+          >
+            <icon-mock
+              classname="icon icon-arrow-double-right"
+              icon="arrow-double-right"
+            />
+          </span>
         </li>
         <li
           class="cxd-Pagination-pager-item"
@@ -686,7 +718,7 @@ exports[`Renderer:Pagination with maxButtons 1`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
     >
       <ul
         class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -711,13 +743,21 @@ exports[`Renderer:Pagination with maxButtons 1`] = `
           </a>
         </li>
         <li
-          class="ellipsis"
+          class="cxd-Pagination-ellipsis"
         >
           <a
             role="button"
           >
             ...
           </a>
+          <span
+            class="icon"
+          >
+            <icon-mock
+              classname="icon icon-arrow-double-left"
+              icon="arrow-double-left"
+            />
+          </span>
         </li>
         <li
           class="cxd-Pagination-pager-item"
@@ -792,13 +832,21 @@ exports[`Renderer:Pagination with maxButtons 1`] = `
           </a>
         </li>
         <li
-          class="ellipsis"
+          class="cxd-Pagination-ellipsis"
         >
           <a
             role="button"
           >
             ...
           </a>
+          <span
+            class="icon"
+          >
+            <icon-mock
+              classname="icon icon-arrow-double-right"
+              icon="arrow-double-right"
+            />
+          </span>
         </li>
         <li
           class="cxd-Pagination-pager-item"
@@ -1018,7 +1066,7 @@ exports[`Renderer:Pagination with simple mode 1`] = `
     class="cxd-Service"
   >
     <div
-      class="cxd-Pagination-wrap cxd-Pagination-simple"
+      class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md cxd-Pagination-simple"
     >
       <ul
         class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-pager-items cxd-Pagination-item"
@@ -1031,6 +1079,21 @@ exports[`Renderer:Pagination with simple mode 1`] = `
               classname="icon icon-left-arrow"
               icon="left-arrow"
             />
+          </span>
+        </li>
+        <li
+          class="cxd-Pagination-simplego"
+        >
+          <input
+            class="cxd-Pagination-simplego-input"
+            type="text"
+            value="1"
+          />
+          /
+          <span
+            class="cxd-Pagination-simplego-right"
+          >
+            1
           </span>
         </li>
         <li
