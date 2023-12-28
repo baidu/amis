@@ -227,7 +227,8 @@ export class TransferPlugin extends BasePlugin {
                     options: undefined,
                     columns: undefined,
                     value: '',
-                    valueTpl: ''
+                    valueTpl: '',
+                    source: undefined
                   });
                   // 主要解决直接设置value、valueTpl为undefined配置面板不生效问题，所以先设置''，后使用setTimout设置为undefined
                   setTimeout(() => {
