@@ -43,9 +43,9 @@ export class LinkAction implements RendererAction {
       ...(action.data ?? {})
     };
 
-    if (action.actionType === 'link') {
-      // link动作新增redirectType打开方式，buildApi不需要该参数
-      delete apiParams.redirectType;
+    if (action?.actionType === 'link' && apiParams?.linkType) {
+      // link动作新增打开方式linkType，buildApi不需要该参数
+      delete apiParams.linkType;
     }
 
     // 通过buildApi兼容较复杂的url情况
