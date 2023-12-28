@@ -29,6 +29,7 @@ import {FormHorizontal} from 'amis-core';
 import {str2AsyncFunction} from 'amis-core';
 import {ScopedContext, IScopedContext} from 'amis-core';
 import type {TabsMode} from 'amis-ui/lib/components/Tabs';
+import isNaN from 'lodash/isNaN';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -620,6 +621,15 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     const {dispatchEvent, data, env, onSelect, id} = this.props;
     const {localTabs} = this.state;
 
+    // 获取激活元素项
+    const tab = localTabs?.find(
+      (item, index) => key === (item.hash ? item.hash : index)
+    );
+
+    if (!tab) {
+      return;
+    }
+
     env.tracker?.({
       eventType: 'tabChange',
       eventData: {
@@ -627,10 +637,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         key
       }
     });
-    // 获取激活元素项
-    const tab = localTabs?.find(
-      (item, index) => key === (item.hash ? item.hash : index)
-    );
 
     const rendererEvent = await dispatchEvent(
       'change',
@@ -667,13 +673,13 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
    */
   doAction(action: ActionObject, args: any) {
     const actionType = action?.actionType as string;
-    let activeKey = args?.activeKey as number;
-    // 处理非用户自定义key
-    if (typeof args?.activeKey !== 'string') {
-      activeKey--;
-    }
+    const tmpKey = Number(args?.activeKey);
+    let activeKey = isNaN(tmpKey) ? args?.activeKey : tmpKey;
+
     if (actionType === 'changeActiveKey') {
-      this.handleSelect(activeKey);
+      this.handleSelect(
+        typeof activeKey === 'number' ? activeKey - 1 : activeKey
+      );
     }
   }
 
