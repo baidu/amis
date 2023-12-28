@@ -144,6 +144,111 @@ order: 55
 | blur     | `[name]: string` 组件的值<br/>`selectedItems: Option[]` 选中的项<br/>`items: Option[]` 所有选项                   | 输入框失去焦点时触发 |
 | focus    | `[name]: string` 组件的值<br/>`selectedItems: Option[]` 选中的项<br/>`items: Option[]` 所有选项                   | 输入框获取焦点时触发 |
 
+### change
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "input-tag",
+        "name": "tag",
+        "label": "标签",
+        "placeholder": "请选择标签",
+        "options": [
+          "Aaron Rodgers",
+          "Tom Brady",
+          "Charlse Woodson",
+          "Aaron Jones"
+        ],
+        "onEvent": {
+            "change": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
+### blur
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "input-tag",
+        "name": "tag",
+        "label": "标签",
+        "placeholder": "请选择标签",
+        "options": [
+          "Aaron Rodgers",
+          "Tom Brady",
+          "Charlse Woodson",
+          "Aaron Jones"
+        ],
+        "onEvent": {
+            "blur": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
+### focus
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "input-tag",
+        "name": "tag",
+        "label": "标签",
+        "placeholder": "请选择标签",
+        "options": [
+          "Aaron Rodgers",
+          "Tom Brady",
+          "Charlse Woodson",
+          "Aaron Jones"
+        ],
+        "onEvent": {
+            "focus": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
 ## 动作表
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。

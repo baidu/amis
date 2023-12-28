@@ -12,14 +12,20 @@ import {
 
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {resolveOptionType} from '../../util';
+import {
+  OPTION_EDIT_EVENTS,
+  OPTION_EDIT_EVENTS_OLD,
+  resolveOptionEventDataSchame,
+  resolveOptionType
+} from '../../util';
 
 import type {Schema} from 'amis';
 import type {
   EditorNodeType,
   RendererPluginAction,
   RendererPluginEvent,
-  BaseEventContext
+  BaseEventContext,
+  EditorManager
 } from 'amis-editor-core';
 
 export class SelectControlPlugin extends BasePlugin {
@@ -83,162 +89,78 @@ export class SelectControlPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '选中值变化时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '选中的值'
-                },
-                selectedItems: {
-                  type: 'object',
-                  title: '选中的项'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项列表'
+      dataSchema: (manager: EditorManager) => {
+        const {value, selectedItems, items} =
+          resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value,
+                  selectedItems,
+                  items
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'focus',
       eventLabel: '获取焦点',
       description: '输入框获取焦点时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '选中的值'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项列表'
+      dataSchema: (manager: EditorManager) => {
+        const {value, items} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value,
+                  items
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'blur',
       eventLabel: '失去焦点',
       description: '输入框失去焦点时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '选中的值'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项列表'
+      dataSchema: (manager: EditorManager) => {
+        const {value, items} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value,
+                  items
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
-    {
-      eventName: 'add',
-      eventLabel: '新增选项',
-      description: '新增选项',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'object',
-                  title: '新增的选项'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项列表'
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'edit',
-      eventLabel: '编辑选项',
-      description: '编辑选项',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'object',
-                  title: '编辑的选项'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项列表'
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'delete',
-      eventLabel: '删除选项',
-      description: '删除选项',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'object',
-                  title: '删除的选项'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项列表'
-                }
-              }
-            }
-          }
-        }
-      ]
-    }
+    ...OPTION_EDIT_EVENTS,
+    ...OPTION_EDIT_EVENTS_OLD
   ];
 
   // 动作定义
@@ -376,7 +298,7 @@ export class SelectControlPlugin extends BasePlugin {
   };
 
   buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
-    const type = resolveOptionType(node.schema?.options);
+    const type = resolveOptionType(node.schema);
     // todo:异步数据case
     let dataSchema: any = {
       type,

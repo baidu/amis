@@ -57,16 +57,16 @@ order: 30
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名          | 类型               | 默认值                               | 说明                                                                             |
-| --------------- | ------------------ | ------------------------------------ | -------------------------------------------------------------------------------- |
-| value           | `LocationData`     | 参考 [`LocationData`](#LocationData) |                                                                                  |
-| vendor          | 'baidu' \| 'gaode' | 'baidu'                              | 地图厂商，目前只实现了百度地图和高德地图                                         |
-| ak              | `string`           | 无                                   | 百度/高德地图的 ak                                                               |
-| clearable       | `boolean`          | false                                | 输入框是否可清空                                                                 |
-| placeholder     | `string`           | '请选择位置'                         | 默认提示                                                                         |
-| autoSelectCurrentLoc     | `boolean`  | false    | 是否自动选中当前地理位置                                 |
-| onlySelectCurrentLoc     | `boolean`  | false    | 是否限制只能选中当前地理位置，设置为true后，可用于充当定位组件 |
-| coordinatesType | 'bd09' \| 'gcj02'  | 'bd09'                               | 坐标系类型，默认百度坐标，使用高德地图时应设置为'gcj02'， 高德地图不支持坐标转换 |
+| 属性名               | 类型               | 默认值                               | 说明                                                                             |
+| -------------------- | ------------------ | ------------------------------------ | -------------------------------------------------------------------------------- |
+| value                | `LocationData`     | 参考 [`LocationData`](#LocationData) |                                                                                  |
+| vendor               | 'baidu' \| 'gaode' | 'baidu'                              | 地图厂商，目前只实现了百度地图和高德地图                                         |
+| ak                   | `string`           | 无                                   | 百度/高德地图的 ak                                                               |
+| clearable            | `boolean`          | false                                | 输入框是否可清空                                                                 |
+| placeholder          | `string`           | '请选择位置'                         | 默认提示                                                                         |
+| autoSelectCurrentLoc | `boolean`          | false                                | 是否自动选中当前地理位置                                                         |
+| onlySelectCurrentLoc | `boolean`          | false                                | 是否限制只能选中当前地理位置，设置为 true 后，可用于充当定位组件                 |
+| coordinatesType      | 'bd09' \| 'gcj02'  | 'bd09'                               | 坐标系类型，默认百度坐标，使用高德地图时应设置为'gcj02'， 高德地图不支持坐标转换 |
 
 ### 坐标系说明
 
@@ -89,6 +89,35 @@ order: 30
 | 事件名称 | 事件参数                        | 说明             |
 | -------- | ------------------------------- | ---------------- |
 | change   | `[name]: LocationData` 组件的值 | 选中值变化时触发 |
+
+### change
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "location-picker",
+        "name": "location",
+        "ak": "LiZT5dVbGTsPI91tFGcOlSpe5FDehpf7",
+        "label": "地址",
+        "onEvent": {
+            "change": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
 
 ## 动作表
 

@@ -6,7 +6,8 @@ import {
   RendererPluginEvent,
   tipedLabel,
   defaultValue,
-  getSchemaTpl
+  getSchemaTpl,
+  EditorNodeType
 } from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
@@ -78,7 +79,7 @@ export class MatrixControlPlugin extends BasePlugin {
               title: '数据',
               properties: {
                 value: {
-                  type: 'string',
+                  type: 'array',
                   title: '选中的值'
                 }
               }
@@ -255,6 +256,15 @@ export class MatrixControlPlugin extends BasePlugin {
       }
     ]);
   };
+
+  buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
+    // 先简单处理了
+    return {
+      type: 'array',
+      title: node.schema?.label || node.schema?.name,
+      riginalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+  }
 }
 
 registerEditorPlugin(MatrixControlPlugin);

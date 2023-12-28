@@ -971,7 +971,7 @@ export interface RendererPluginEvent {
   defaultShow?: boolean; // 是否默认展示
   isBroadcast?: boolean; // 广播事件
   owner?: string; // 标记来源，主要用于广播
-  dataSchema?: any[]; // 上下文schema
+  dataSchema?: any[] | ((manager: EditorManager) => any[]); // 上下文schema
   strongDesc?: string;
 }
 
