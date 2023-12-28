@@ -6,7 +6,7 @@ import {Renderer, RendererProps} from 'amis-core';
 import {Avatar} from 'amis-ui';
 import {BadgeObject, withBadge} from 'amis-ui';
 import {BaseSchema, SchemaClassName} from '../Schema';
-import {isPureVariable, resolveVariableAndFilter} from 'amis-core';
+import {isPureVariable, resolveVariableAndFilter, autobind} from 'amis-core';
 
 export interface AvatarSchema extends BaseSchema {
   // 指定类型
@@ -90,6 +90,23 @@ export interface AvatarProps
     Omit<AvatarSchema, 'type' | 'className'> {}
 
 export class AvatarField extends React.Component<AvatarProps> {
+  @autobind
+  handleClick(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(e, data);
+  }
+
+  @autobind
+  handleMouseEnter(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(e, data);
+  }
+
+  @autobind
+  handleMouseLeave(e: React.MouseEvent<any>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(e, data);
+  }
   render() {
     let {
       style = {},
@@ -147,6 +164,9 @@ export class AvatarField extends React.Component<AvatarProps> {
         draggable={draggable}
         crossOrigin={crossOrigin}
         onError={errHandler}
+        onClick={this.handleClick}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
       />
     );
   }
