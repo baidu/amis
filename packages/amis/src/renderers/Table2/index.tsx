@@ -932,6 +932,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
         });
 
         const isGroupColumn = !!column.children?.length;
+        const finalCanAccessSuperData =
+          column.canAccessSuperData ?? canAccessSuperData;
         // 设置了type值 就完全按渲染器处理了
         if (column.type) {
           Object.assign(clone, {
@@ -949,11 +951,11 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
               const obj = {
                 children: this.renderCellSchema(column, {
-                  data: record,
+                  data: item.locals,
                   value: column.name
                     ? resolveVariable(
                         column.name,
-                        canAccessSuperData ? item.locals : item.data
+                        finalCanAccessSuperData ? item.locals : item.data
                       )
                     : column.name,
                   popOverContainer:
