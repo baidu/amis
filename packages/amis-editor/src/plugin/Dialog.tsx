@@ -332,7 +332,7 @@ export class DialogPlugin extends BasePlugin {
       const hostNodeDataSchema =
         await this.manager.config.getHostNodeDataSchema?.();
       hostNodeDataSchema
-        .filter(
+        .filter?.(
           (item: any) => !['system-variable', 'page-global'].includes(item.$id)
         )
         ?.forEach((item: any) => {
