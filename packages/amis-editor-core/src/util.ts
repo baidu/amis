@@ -618,21 +618,25 @@ export function reGenerateID(
   });
 
   const resetComptIds: {[propKey: string]: string} = {};
+  let needSecondTraverse = false;
   Object.keys(reComptIds).forEach((uidKey: string) => {
     if (!reIds[uidKey]) {
       resetComptIds[reComptIds[uidKey]] = uidKey; // 以新id为key
+      needSecondTraverse = true;
     }
   });
 
   // 恢复resetComptIds中的componentId，避免事件动作失效
-  JSONTraverse(json, (value: any, key: string, host: any) => {
-    const isNodeIdFormat =
-      typeof value === 'string' && value.indexOf('u:') === 0;
-    if (key === 'componentId' && isNodeIdFormat && resetComptIds[value]) {
-      host.componentId = resetComptIds[value];
-    }
-    return value;
-  });
+  if (needSecondTraverse) {
+    JSONTraverse(json, (value: any, key: string, host: any) => {
+      const isNodeIdFormat =
+        typeof value === 'string' && value.indexOf('u:') === 0;
+      if (key === 'componentId' && isNodeIdFormat && resetComptIds[value]) {
+        host.componentId = resetComptIds[value];
+      }
+      return value;
+    });
+  }
   return json;
 }
 
