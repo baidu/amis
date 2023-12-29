@@ -212,12 +212,6 @@ setSchemaTpl('joinValues', (schemaPatches: Record<string, any> = {}) =>
   })
 );
 
-setSchemaTpl('max', {
-  type: 'input-number',
-  name: 'max',
-  label: tipedLabel('最大标签数量', '最多选择的标签数量')
-});
-
 setSchemaTpl('delimiter', {
   type: 'input-text',
   name: 'delimiter',
