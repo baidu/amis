@@ -957,6 +957,155 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 | delete     | `key: number` 移除项的索引<br />`item: object` 移除项<br />`[name]: object \| object[]` 组件的值 | 删除组合项时触发                             |
 | tabsChange | `key: number` 选项卡索引<br />`item: object` 激活项<br />`[name]: object \| object[]` 组件的值   | 当设置 tabsMode 为 true 时，切换选项卡时触发 |
 
+### add
+
+```schema: scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "combo",
+      "name": "combo",
+      "label": "Combo",
+      "multiple": true,
+      "items": [
+        {
+          "name": "text",
+          "label": "文本",
+          "type": "input-text"
+        },
+        {
+          "name": "select",
+          "label": "选项",
+          "type": "select",
+          "options": ["a", "b", "c"]
+        }
+      ],
+      "onEvent": {
+        "add": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${event.data.value|json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### delete
+
+```schema: scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "combo",
+      "name": "combo",
+      "label": "Combo",
+      "multiple": true,
+      "items": [
+        {
+          "name": "text",
+          "label": "文本",
+          "type": "input-text"
+        },
+        {
+          "name": "select",
+          "label": "选项",
+          "type": "select",
+          "options": ["a", "b", "c"]
+        }
+      ],
+      "onEvent": {
+        "delete": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${event.data.item|json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### tabsChange
+
+监听 tab 切换，获取被激活的索引。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "combo",
+      "name": "combo101",
+      "label": "组合多条多行",
+      "multiple": true,
+      "multiLine": true,
+      "value": [
+        {}
+      ],
+      "tabsMode": true,
+      "tabsStyle": "card",
+      "maxLength": 3,
+      "items": [
+        {
+          "name": "a",
+          "label": "文本",
+          "type": "input-text",
+          "placeholder": "文本",
+          "value": "",
+          "size": "full"
+        },
+        {
+          "name": "b",
+          "label": "选项",
+          "type": "select",
+          "options": [
+            "a",
+            "b",
+            "c"
+          ],
+          "size": "full"
+        }
+      ],
+      "onEvent": {
+        "tabsChange": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${event.data.key|json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
 ## 动作表
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。

@@ -1,4 +1,8 @@
-import {EditorNodeType, registerEditorPlugin} from 'amis-editor-core';
+import {
+  EditorManager,
+  EditorNodeType,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {
   BasePlugin,
   BaseEventContext,
@@ -14,6 +18,7 @@ import {
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import type {Schema} from 'amis';
+import {resolveOptionEventDataSchame} from '../../util';
 
 export class ChainedSelectControlPlugin extends BasePlugin {
   static id = 'ChainedSelectControlPlugin';
@@ -52,23 +57,24 @@ export class ChainedSelectControlPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '选中值变化时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '选中的值'
+      dataSchema: (manager: EditorManager) => {
+        const {value} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     }
   ];
 

@@ -204,6 +204,11 @@ export interface RangeProps extends FormControlProps {
   showInput: boolean;
 
   /**
+   * 输入框是否显示单位
+   */
+  showInputUnit?: boolean;
+
+  /**
    * 是否禁用
    */
   disabled: boolean;
@@ -238,6 +243,7 @@ export interface DefaultProps {
   clearable: boolean;
   disabled: boolean;
   showInput: boolean;
+  showInputUnit: boolean;
   multiple: boolean;
   joinValues: boolean;
   delimiter: string;
@@ -472,7 +478,9 @@ export class Input extends React.Component<RangeItemProps, any> {
       disabled,
       max,
       min,
-      mobileUI
+      mobileUI,
+      unit,
+      showInputUnit
     } = this.props;
     const _value = multiple
       ? type === 'min'
@@ -480,7 +488,11 @@ export class Input extends React.Component<RangeItemProps, any> {
         : Math.max((value as MultipleValue).min, (value as MultipleValue).max)
       : value;
     return (
-      <div className={cx(`${ns}InputRange-input`)}>
+      <div
+        className={cx(`${ns}InputRange-input`, {
+          [`${ns}InputRange-input-with-unit`]: unit && showInputUnit
+        })}
+      >
         <NumberInput
           value={+_value}
           step={step}
@@ -492,6 +504,11 @@ export class Input extends React.Component<RangeItemProps, any> {
           onFocus={this.onFocus}
           mobileUI={mobileUI}
         />
+        {unit && showInputUnit && (
+          <div className={cx(`${ns}InputRange-unit`, `${ns}Select`)}>
+            {unit}
+          </div>
+        )}
       </div>
     );
   }
@@ -512,6 +529,7 @@ export default class RangeControl extends React.PureComponent<
     clearable: true,
     disabled: false,
     showInput: false,
+    showInputUnit: false,
     multiple: false,
     joinValues: true,
     delimiter: ',',

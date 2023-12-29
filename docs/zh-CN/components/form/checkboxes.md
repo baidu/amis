@@ -473,9 +473,207 @@ order: 9
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
 
-| 事件名称 | 事件参数                | 说明             |
-| -------- | ----------------------- | ---------------- |
-| change   | `[name]: string` 选中值 | 选中值变化时触发 |
+| 事件名称                         | 事件参数                                                                                  | 说明               |
+| -------------------------------- | ----------------------------------------------------------------------------------------- | ------------------ |
+| change                           | `[name]: string` 选中值                                                                   | 选中值变化时触发   |
+| addConfirm (3.6.4 及以上版本)    | `[name]: string` 组件的值<br/>`item: object` 新增的节点信息<br/>`items: object[]`选项集合 | 新增节点提交时触发 |
+| editConfirm (3.6.4 及以上版本)   | `[name]: object` 组件的值<br/>`item: object` 编辑的节点信息<br/>`items: object[]`选项集合 | 编辑节点提交时触发 |
+| deleteConfirm (3.6.4 及以上版本) | `[name]: string` 组件的值<br/>`item: object` 删除的节点信息<br/>`items: object[]`选项集合 | 删除节点提交时触发 |
+
+### change
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "name": "checkboxes",
+        "type": "checkboxes",
+        "label": "复选框",
+        "options": [
+          {
+            "label": "OptionA",
+            "value": "a"
+          },
+          {
+            "label": "OptionB",
+            "value": "b"
+          },
+          {
+            "label": "OptionC",
+            "value": "c"
+          },
+          {
+            "label": "OptionD",
+            "value": "d"
+          }
+        ],
+        "onEvent": {
+            "change": {
+                "actions": [
+                    {
+                    "actionType": "toast",
+                    "args": {
+                        "msg": "${event.data.value}"
+                    }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
+### addConfirm
+
+配置 `creatable`后，可监听确认新增操作。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "name": "checkboxes",
+        "type": "checkboxes",
+        "label": "复选框",
+        "creatable": true,
+        "options": [
+          {
+            "label": "OptionA",
+            "value": "a"
+          },
+          {
+            "label": "OptionB",
+            "value": "b"
+          },
+          {
+            "label": "OptionC",
+            "value": "c"
+          },
+          {
+            "label": "OptionD",
+            "value": "d"
+          }
+        ],
+        "onEvent": {
+            "addConfirm": {
+                "actions": [
+                    {
+                    "actionType": "toast",
+                        "args": {
+                            "msg": "${event.data.item|json}"
+                        }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
+### editConfirm
+
+配置 `editable`后，可监听确认编辑操作。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "name": "checkboxes",
+        "type": "checkboxes",
+        "label": "复选框",
+        "editable": true,
+        "options": [
+          {
+            "label": "OptionA",
+            "value": "a"
+          },
+          {
+            "label": "OptionB",
+            "value": "b"
+          },
+          {
+            "label": "OptionC",
+            "value": "c"
+          },
+          {
+            "label": "OptionD",
+            "value": "d"
+          }
+        ],
+        "onEvent": {
+            "editConfirm": {
+                "actions": [
+                    {
+                    "actionType": "toast",
+                        "args": {
+                            "msg": "${event.data.item|json}"
+                        }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
+### deleteConfirm
+
+配置 `removable`后，可监听确认删除操作。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "name": "checkboxes",
+        "type": "checkboxes",
+        "label": "复选框",
+        "removable": true,
+        "labelField": "label2",
+        "valueField": "value2",
+        "options": [
+          {
+            "label2": "OptionA",
+            "value2": "a"
+          },
+          {
+            "label2": "OptionB",
+            "value2": "b"
+          },
+          {
+            "label2": "OptionC",
+            "value2": "c"
+          },
+          {
+            "label2": "OptionD",
+            "value2": "d"
+          }
+        ],
+        "onEvent": {
+            "deleteConfirm": {
+            "actions": [
+                {
+                "actionType": "toast",
+                    "args": {
+                        "msg": "${event.data.item|json}"
+                    }
+                }
+            ]
+            }
+        }
+      }
+    ]
+  }
+```
 
 ## 动作表
 

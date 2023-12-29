@@ -223,6 +223,11 @@ export interface TableSchema extends BaseSchema {
   affixHeader?: boolean;
 
   /**
+   * 是否固底
+   */
+  affixFooter?: boolean;
+
+  /**
    * 表格的列信息
    */
   columns?: Array<TableColumn>;
@@ -2544,7 +2549,8 @@ export default class Table extends React.Component<TableProps, object> {
       showFooter,
       store,
       data,
-      classnames: cx
+      classnames: cx,
+      affixFooter
     } = this.props;
 
     if (showFooter === false) {
@@ -2564,26 +2570,35 @@ export default class Table extends React.Component<TableProps, object> {
       : null;
     const actions = this.renderActions('footer');
 
+    const footerNode =
+      footer && (!Array.isArray(footer) || footer.length) ? (
+        <div
+          className={cx(
+            'Table-footer',
+            footerClassName,
+            affixFooter ? 'Table-footer--affix' : ''
+          )}
+          key="footer"
+        >
+          {render('footer', footer, {
+            data: store.getData(data)
+          })}
+        </div>
+      ) : null;
+
     const toolbarNode =
       actions || child ? (
         <div
           className={cx(
             'Table-toolbar Table-footToolbar',
             toolbarClassName,
-            footerToolbarClassName
+            footerToolbarClassName,
+            !footerNode && affixFooter ? 'Table-footToolbar--affix' : ''
           )}
           key="footer-toolbar"
         >
           {actions}
           {child}
-        </div>
-      ) : null;
-    const footerNode =
-      footer && (!Array.isArray(footer) || footer.length) ? (
-        <div className={cx('Table-footer', footerClassName)} key="footer">
-          {render('footer', footer, {
-            data: store.getData(data)
-          })}
         </div>
       ) : null;
     return footerNode && toolbarNode

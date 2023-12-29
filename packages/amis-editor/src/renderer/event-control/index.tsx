@@ -591,7 +591,14 @@ export class EventControl extends React.Component<
       );
     }
 
-    let jsonSchema = {...(eventConfig?.dataSchema?.[0] ?? {})};
+    let jsonSchema: any = {};
+
+    // 动态构建事件参数
+    if (typeof eventConfig?.dataSchema === 'function') {
+      jsonSchema = eventConfig.dataSchema(manager)?.[0];
+    } else {
+      jsonSchema = {...(eventConfig?.dataSchema?.[0] ?? {})};
+    }
 
     actions
       ?.filter(item => item.outputVar)

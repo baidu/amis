@@ -1,7 +1,7 @@
 /**
  * 组件名称：InputRange 滑块
  * 单测内容：
- * 01. showInput
+ * 01. showInput & showInputUnit
  * 02. multiple & clearable & delimiter
  * 03. showSteps
  * 04. marks
@@ -16,7 +16,7 @@ import '../../../src';
 import {render as amisRender} from '../../../src';
 import {makeEnv, wait} from '../../helper';
 
-test('Renderer:range with showInput', async () => {
+test('Renderer:range with showInput & showInputUnit', async () => {
   const {container} = render(
     amisRender(
       {
@@ -27,7 +27,9 @@ test('Renderer:range with showInput', async () => {
             type: 'input-range',
             name: 'range',
             value: 10,
-            showInput: true
+            showInput: true,
+            showInputUnit: true,
+            unit: '个'
           }
         ],
         title: 'The form',
@@ -50,6 +52,7 @@ test('Renderer:range with showInput', async () => {
     container.querySelector('.cxd-InputRange-input') as Element
   ).toBeInTheDocument();
 
+  const inputWrapper = container.querySelector('.cxd-InputRange-input');
   const input = container.querySelector('.cxd-InputRange-input input');
   fireEvent.change(input!, {
     target: {
@@ -64,6 +67,7 @@ test('Renderer:range with showInput', async () => {
     ).getAttribute('style')
   ).toContain('width: 7%');
 
+  expect(inputWrapper).toHaveClass('cxd-InputRange-input-with-unit');
   expect(container).toMatchSnapshot();
 });
 

@@ -331,6 +331,51 @@ row 模式，每行只能单选某个单元格
 | -------- | ------------------------ | ---------------- |
 | change   | `[name]: Array` 组件的值 | 选中值变化时触发 |
 
+### change
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "matrix-checkboxes",
+        "name": "matrix",
+        "label": "Matrix",
+        "rowLabel": "行标题说明",
+        "columns": [
+          {
+            "label": "列1"
+          },
+          {
+            "label": "列2"
+          }
+        ],
+        "rows": [
+          {
+            "label": "行1"
+          },
+          {
+            "label": "行2"
+          }
+        ],
+        "onEvent": {
+          "change": {
+            "actions": [
+              {
+                "actionType": "toast",
+                "args": {
+                  "msg": "${event.data.value|json}"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+```
+
 ## 动作表
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
