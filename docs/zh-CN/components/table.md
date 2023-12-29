@@ -1690,7 +1690,7 @@ popOver 的其它配置请参考 [popover](./popover)
   "body": [{
     "type": "table",
     "source": "$rows",
-    autoFillHeight: {height: 300},
+    "autoFillHeight": {height: 300},
     "itemActions": [{
       "label": "编辑",
       "type": "button",
