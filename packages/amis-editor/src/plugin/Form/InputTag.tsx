@@ -1,4 +1,9 @@
-import {EditorNodeType, getSchemaTpl, tipedLabel} from 'amis-editor-core';
+import {
+  EditorManager,
+  EditorNodeType,
+  getSchemaTpl,
+  tipedLabel
+} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
   BasePlugin,
