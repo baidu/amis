@@ -1651,7 +1651,7 @@ test('Renderer:Transfer with pagination', async () => {
     expect((checkboxes2[4] as HTMLInputElement)?.checked).toEqual(true);
 })
 
-test.only('Renderer:Transfer with pagination and data source from data scope', async () => {
+test('Renderer:Transfer with pagination and data source from data scope', async () => {
   const mockData = [
     {
       "label": "Laura Lewis",
