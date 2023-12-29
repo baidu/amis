@@ -175,5 +175,6 @@ export class AvatarField extends React.Component<AvatarProps> {
 @Renderer({
   type: 'avatar'
 })
+// @ts-ignore
 @withBadge
 export class AvatarFieldRenderer extends AvatarField {}
