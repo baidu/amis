@@ -65,6 +65,12 @@
       }
     }
 
+    .#{$ns}Badge-Button {
+      width: auto;
+      height: auto;
+      border: none;
+    }
+
     ul li.active {
       color: var(--info);
     }
