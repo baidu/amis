@@ -3101,12 +3101,12 @@ export const getEventControlConfig = (
         if (
           (config.data && typeof config.data === 'object') ||
           (config.args &&
-            !Object.keys(config.args).length &&
+            Object.keys(config.args).length &&
             config.data === undefined)
         ) {
           config.__addParam = true;
           config.__containerType = 'appoint';
-          config.dataMergeMode = 'override';
+          config.dataMergeMode = config.dataMergeMode || 'merge';
         }
 
         if (config.__addParam && config.data) {
@@ -3119,7 +3119,7 @@ export const getEventControlConfig = (
           }
         } else if (
           config.args &&
-          !Object.keys(config.args).length &&
+          Object.keys(config.args).length &&
           config.data === undefined
         ) {
           config.__reloadParams = objectToComboArray(config.args);
