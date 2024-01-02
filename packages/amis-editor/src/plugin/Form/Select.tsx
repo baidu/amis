@@ -84,84 +84,86 @@ export class SelectControlPlugin extends BasePlugin {
   };
 
   // 事件定义
-  events: RendererPluginEvent[] = [
-    {
-      eventName: 'change',
-      eventLabel: '值变化',
-      description: '选中值变化时触发',
-      dataSchema: (manager: EditorManager) => {
-        const {value, selectedItems, items} =
-          resolveOptionEventDataSchame(manager);
+  events: (schema: any) => RendererPluginEvent[] = (schema: any) => {
+    return [
+      {
+        eventName: 'change',
+        eventLabel: '值变化',
+        description: '选中值变化时触发',
+        dataSchema: (manager: EditorManager) => {
+          const {value, selectedItems, items} =
+            resolveOptionEventDataSchame(manager);
 
-        return [
-          {
-            type: 'object',
-            properties: {
-              data: {
-                type: 'object',
-                title: '数据',
-                properties: {
-                  value,
-                  selectedItems,
-                  items
+          return [
+            {
+              type: 'object',
+              properties: {
+                data: {
+                  type: 'object',
+                  title: '数据',
+                  properties: {
+                    value,
+                    selectedItems,
+                    items
+                  }
                 }
               }
             }
-          }
-        ];
-      }
-    },
-    {
-      eventName: 'focus',
-      eventLabel: '获取焦点',
-      description: '输入框获取焦点时触发',
-      dataSchema: (manager: EditorManager) => {
-        const {value, items} = resolveOptionEventDataSchame(manager);
+          ];
+        }
+      },
+      {
+        eventName: 'focus',
+        eventLabel: '获取焦点',
+        description: '输入框获取焦点时触发',
+        dataSchema: (manager: EditorManager) => {
+          const {value, items} = resolveOptionEventDataSchame(manager);
 
-        return [
-          {
-            type: 'object',
-            properties: {
-              data: {
-                type: 'object',
-                title: '数据',
-                properties: {
-                  value,
-                  items
+          return [
+            {
+              type: 'object',
+              properties: {
+                data: {
+                  type: 'object',
+                  title: '数据',
+                  properties: {
+                    value,
+                    items
+                  }
                 }
               }
             }
-          }
-        ];
-      }
-    },
-    {
-      eventName: 'blur',
-      eventLabel: '失去焦点',
-      description: '输入框失去焦点时触发',
-      dataSchema: (manager: EditorManager) => {
-        const {value, items} = resolveOptionEventDataSchame(manager);
+          ];
+        }
+      },
+      {
+        eventName: 'blur',
+        eventLabel: '失去焦点',
+        description: '输入框失去焦点时触发',
+        dataSchema: (manager: EditorManager) => {
+          const {value, items} = resolveOptionEventDataSchame(manager);
 
-        return [
-          {
-            type: 'object',
-            properties: {
-              data: {
-                type: 'object',
-                title: '数据',
-                properties: {
-                  value,
-                  items
+          return [
+            {
+              type: 'object',
+              properties: {
+                data: {
+                  type: 'object',
+                  title: '数据',
+                  properties: {
+                    value,
+                    items
+                  }
                 }
               }
             }
-          }
-        ];
-      }
-    },
-    ...OPTION_EDIT_EVENTS,
-    ...OPTION_EDIT_EVENTS_OLD
-  ];
+          ];
+        }
+      },
+      ...OPTION_EDIT_EVENTS,
+      ...OPTION_EDIT_EVENTS_OLD(schema)
+    ];
+  };
 
   // 动作定义
   actions: RendererPluginAction[] = [
