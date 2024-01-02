@@ -177,7 +177,8 @@ export class TreeControlPlugin extends BasePlugin {
   panelTitle = '树选择';
 
   // 事件定义
-  events: RendererPluginEvent[] = TREE_BASE_EVENTS;
+  events: (schema: any) => RendererPluginEvent[] = (schema: any) =>
+    TREE_BASE_EVENTS(schema);
 
   // 动作定义
   actions: RendererPluginAction[] = [
@@ -294,35 +295,6 @@ export class TreeControlPlugin extends BasePlugin {
                 name: 'type',
                 label: '模式',
                 pipeIn: defaultValue('input-tree'),
-                onChange: (
-                  value: any,
-                  oldValue: any,
-                  model: any,
-                  form: any
-                ) => {
-                  const activeEvent = cloneDeep(
-                    form.getValueByName('onEvent') || {}
-                  );
-
-                  let eventList = this.events;
-                  if (value === 'tree-select') {
-                    const treeSelectPlugin = this.manager.plugins.find(
-                      item => item.rendererName === 'tree-select'
-                    );
-
-                    eventList = treeSelectPlugin?.events || [];
-                  }
-
-                  for (let key in activeEvent) {
-                    const hasEventKey = eventList.find(
-                      event => event.eventName === key
-                    );
-                    if (!hasEventKey) {
-                      delete activeEvent[key];
-                    }
-                  }
-                  form.setValueByName('onEvent', activeEvent);
-                },
                 options: [
                   {
                     label: '内嵌',

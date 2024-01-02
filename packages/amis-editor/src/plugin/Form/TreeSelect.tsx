@@ -83,8 +83,8 @@ export class TreeSelectControlPlugin extends BasePlugin {
   panelTitle = '树选择';
 
   // 事件定义
-  events: RendererPluginEvent[] = [
-    ...TREE_BASE_EVENTS,
+  events: (schema: any) => RendererPluginEvent[] = (schema: any) => [
+    ...TREE_BASE_EVENTS(schema),
     {
       eventName: 'focus',
       eventLabel: '获取焦点',
@@ -221,35 +221,6 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 name: 'type',
                 label: '模式',
                 pipeIn: defaultValue('tree-select'),
-                onChange: (
-                  value: any,
-                  oldValue: any,
-                  model: any,
-                  form: any
-                ) => {
-                  const activeEvent = cloneDeep(
-                    form.getValueByName('onEvent') || {}
-                  );
-
-                  let eventList = this.events;
-                  if (value === 'input-tree') {
-                    const inputTreePlugin = this.manager.plugins.find(
-                      item => item.rendererName === 'input-tree'
-                    );
-
-                    eventList = inputTreePlugin?.events || [];
-                  }
-
-                  for (let key in activeEvent) {
-                    const hasEventKey = eventList.find(
-                      event => event.eventName === key
-                    );
-                    if (!hasEventKey) {
-                      delete activeEvent[key];
-                    }
-                  }
-                  form.setValueByName('onEvent', activeEvent);
-                },
                 options: [
                   {
                     label: '内嵌',

@@ -242,96 +242,14 @@ export const OPTION_EDIT_EVENTS = [
   }
 ];
 
-export const OPTION_EDIT_EVENTS_OLD = [
-  {
-    eventName: 'add',
-    eventLabel: '确认新增(不推荐)',
-    description: '新增提交时触发',
-    dataSchema: [
-      {
-        type: 'object',
-        properties: {
-          data: {
-            type: 'object',
-            title: '数据',
-            properties: {
-              value: {
-                type: 'object',
-                title: '新增的节点信息'
-              },
-              items: {
-                type: 'array',
-                title: '选项集合'
-              }
-            }
-          }
-        }
-      }
-    ]
-  },
-  {
-    eventName: 'edit',
-    eventLabel: '确认编辑(不推荐)',
-    description: '编辑提交时触发',
-    dataSchema: [
-      {
-        type: 'object',
-        properties: {
-          data: {
-            type: 'object',
-            title: '数据',
-            properties: {
-              value: {
-                type: 'object',
-                title: '编辑的节点信息'
-              },
-              items: {
-                type: 'array',
-                title: '选项集合'
-              }
-            }
-          }
-        }
-      }
-    ]
-  },
-  {
-    eventName: 'delete',
-    eventLabel: '确认删除(不推荐)',
-    description: '删除提交时触发',
-    dataSchema: [
-      {
-        type: 'object',
-        properties: {
-          data: {
-            type: 'object',
-            title: '数据',
-            properties: {
-              value: {
-                type: 'object',
-                title: '删除的节点信息'
-              },
-              items: {
-                type: 'array',
-                title: '选项集合'
-              }
-            }
-          }
-        }
-      }
-    ]
-  }
-];
-
-export const TREE_BASE_EVENTS = [
-  {
-    eventName: 'change',
-    eventLabel: '值变化',
-    description: '选中值变化时触发',
-    dataSchema: (manager: EditorManager) => {
-      const {value, items} = resolveOptionEventDataSchame(manager);
-
-      return [
+export const OPTION_EDIT_EVENTS_OLD = (schema: any) => {
+  let events = [];
+  if (schema?.onEvent?.add) {
+    events.push({
+      eventName: 'add',
+      eventLabel: '确认新增(不推荐)',
+      description: '新增提交时触发',
+      dataSchema: [
         {
           type: 'object',
           properties: {
@@ -339,68 +257,168 @@ export const TREE_BASE_EVENTS = [
               type: 'object',
               title: '数据',
               properties: {
-                value,
-                items
-              }
-            }
-          }
-        }
-      ];
-    }
-  },
-  ...OPTION_EDIT_EVENTS,
-  {
-    eventName: 'deferLoadFinished',
-    eventLabel: '懒加载完成',
-    description: '懒加载接口远程请求成功时触发',
-    dataSchema: (manager: EditorManager) => {
-      const {value, items} = resolveOptionEventDataSchame(manager);
-
-      return [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                result: {
+                value: {
                   type: 'object',
-                  title: 'deferApi 懒加载远程请求成功后返回的结果'
+                  title: '新增的节点信息'
                 },
-                value,
-                items
+                items: {
+                  type: 'array',
+                  title: '选项集合'
+                }
               }
             }
           }
         }
-      ];
-    }
-  },
-  ...OPTION_EDIT_EVENTS_OLD,
-  {
-    eventName: 'loadFinished',
-    eventLabel: '懒加载完成(不推荐)',
-    description: '懒加载接口远程请求成功时触发',
-    dataSchema: [
-      {
-        type: 'object',
-        properties: {
-          data: {
-            type: 'object',
-            title: '数据',
-            properties: {
-              value: {
-                type: 'object',
-                title: 'deferApi 懒加载远程请求成功后返回的数据'
-              }
-            }
-          }
-        }
-      }
-    ]
+      ]
+    });
   }
-];
+
+  if (schema?.onEvent?.edit) {
+    events.push({
+      eventName: 'edit',
+      eventLabel: '确认编辑(不推荐)',
+      description: '编辑提交时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '编辑的节点信息'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项集合'
+                }
+              }
+            }
+          }
+        }
+      ]
+    });
+  }
+
+  if (schema?.onEvent?.delete) {
+    events.push({
+      eventName: 'delete',
+      eventLabel: '确认删除(不推荐)',
+      description: '删除提交时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '删除的节点信息'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项集合'
+                }
+              }
+            }
+          }
+        }
+      ]
+    });
+  }
+
+  return events;
+};
+
+export const TREE_BASE_EVENTS = (schema: any) => {
+  let events = [
+    {
+      eventName: 'change',
+      eventLabel: '值变化',
+      description: '选中值变化时触发',
+      dataSchema: (manager: EditorManager) => {
+        const {value, items} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value,
+                  items
+                }
+              }
+            }
+          }
+        ];
+      }
+    },
+    ...OPTION_EDIT_EVENTS,
+    {
+      eventName: 'deferLoadFinished',
+      eventLabel: '懒加载完成',
+      description: '懒加载接口远程请求成功时触发',
+      dataSchema: (manager: EditorManager) => {
+        const {value, items} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  result: {
+                    type: 'object',
+                    title: 'deferApi 懒加载远程请求成功后返回的结果'
+                  },
+                  value,
+                  items
+                }
+              }
+            }
+          }
+        ];
+      }
+    },
+    ...OPTION_EDIT_EVENTS_OLD(schema)
+  ];
+
+  if (schema?.onEvent?.loadFinished) {
+    events.push({
+      eventName: 'loadFinished',
+      eventLabel: '懒加载完成(不推荐)',
+      description: '懒加载接口远程请求成功时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: 'deferApi 懒加载远程请求成功后返回的数据'
+                }
+              } as any
+            }
+          }
+        }
+      ]
+    });
+  }
+
+  return events;
+};
 
 /**
  * 将组件配置里面的公式进行转义，一般是文本组件编辑器里直接显示公式所用

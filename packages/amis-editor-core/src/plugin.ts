@@ -802,7 +802,7 @@ export interface PluginInterface
    *
    * 事件定义集合
    */
-  events?: RendererPluginEvent[];
+  events?: RendererPluginEvent[] | ((schema: any) => RendererPluginEvent[]);
 
   /**
    *
@@ -997,7 +997,9 @@ export interface SubRendererPluginAction
   > {}
 
 export interface PluginEvents {
-  [propName: string]: RendererPluginEvent[];
+  [propName: string]:
+    | RendererPluginEvent[]
+    | ((schema: any) => RendererPluginEvent[]);
 }
 
 export interface PluginActions {

@@ -150,10 +150,12 @@ export class EventControl extends React.Component<
       [prop: string]: boolean;
     } = {};
 
-    const pluginEvents =
+    const tmpEvents =
       events[
         rawType || (!data.type || data.type === 'text' ? 'plain' : data.type)
       ] || [];
+    const pluginEvents =
+      typeof tmpEvents === 'function' ? tmpEvents(data) : [...tmpEvents];
 
     pluginEvents.forEach((event: RendererPluginEvent) => {
       eventPanelActive[event.eventName] = true;
@@ -191,10 +193,34 @@ export class EventControl extends React.Component<
     prevProps: EventControlProps,
     prevState: EventControlState
   ) {
-    const {value} = this.props;
+    const {value, data, events, rawType} = this.props;
 
     if (value !== prevProps.value) {
       this.setState({onEvent: value});
+    }
+
+    if (
+      data?.type !== prevProps.data?.type ||
+      data?.onEvent !== prevProps.data?.onEvent
+    ) {
+      const eventPanelActive: {
+        [prop: string]: boolean;
+      } = {};
+      const tmpEvents =
+        events[
+          rawType || (!data.type || data.type === 'text' ? 'plain' : data.type)
+        ] || [];
+      const pluginEvents =
+        typeof tmpEvents === 'function' ? tmpEvents(data) : [...tmpEvents];
+
+      pluginEvents.forEach((event: RendererPluginEvent) => {
+        eventPanelActive[event.eventName] = true;
+      });
+
+      this.setState({
+        events: pluginEvents,
+        eventPanelActive
+      });
     }
   }
 
