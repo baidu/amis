@@ -328,7 +328,13 @@ export class StaticControlPlugin extends BasePlugin {
               getSchemaTpl('label'),
               // getSchemaTpl('value'),
               getSchemaTpl('valueFormula', {
-                name: 'tpl'
+                name: 'tpl',
+                onChange: (value: any, oldValue: any, item: any, form: any) => {
+                  value === '' &&
+                    form.setValues({
+                      value: undefined
+                    });
+                }
                 // rendererSchema: {
                 //   ...context?.schema,
                 //   type: 'textarea', // 改用多行文本编辑
