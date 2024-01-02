@@ -102,8 +102,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       return extendObject(self.data, {
         ...self.query,
         ...self.data,
-        selectedItems: self.selectedItems,
-        unSelectedItems: self.unSelectedItems
+        selectedItems: self.selectedItems.concat(),
+        unSelectedItems: self.unSelectedItems.concat()
       });
     },
 

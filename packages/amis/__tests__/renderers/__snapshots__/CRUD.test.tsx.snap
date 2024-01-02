@@ -3194,7 +3194,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             data-role="checkbox"
                           >
                             <input
-                              disabled=""
                               type="checkbox"
                             />
                             <i />
@@ -3245,7 +3244,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             data-role="checkbox"
                           >
                             <input
-                              disabled=""
                               type="checkbox"
                             />
                             <i />
@@ -3296,7 +3294,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             data-role="checkbox"
                           >
                             <input
-                              disabled=""
                               type="checkbox"
                             />
                             <i />
@@ -3347,7 +3344,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             data-role="checkbox"
                           >
                             <input
-                              disabled=""
                               type="checkbox"
                             />
                             <i />
@@ -3398,7 +3394,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             data-role="checkbox"
                           >
                             <input
-                              disabled=""
                               type="checkbox"
                             />
                             <i />
@@ -3449,7 +3444,6 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             data-role="checkbox"
                           >
                             <input
-                              disabled=""
                               type="checkbox"
                             />
                             <i />
