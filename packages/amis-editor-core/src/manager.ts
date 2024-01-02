@@ -2021,24 +2021,32 @@ export class EditorManager {
       if (!nearestScope && scopeNode && !scopeNode.isSecondFactor) {
         nearestScope = scope;
       }
+      if (scopeNode) {
+        const tmpSchema = await scopeNode?.info?.plugin?.buildDataSchemas?.(
+          scopeNode,
+          region,
+          trigger
+        );
 
-      const jsonschema = await scopeNode?.info?.plugin?.buildDataSchemas?.(
-        scopeNode,
-        region,
-        trigger
-      );
-      if (jsonschema) {
-        scope.removeSchema(jsonschema.$id);
-        scope.addSchema(jsonschema);
-      }
+        if (tmpSchema) {
+          const jsonschema = {
+            ...tmpSchema,
+            ...(tmpSchema?.$id
+              ? {}
+              : {$id: `${scopeNode!.id}-${scopeNode!.type}`})
+          };
+          scope.removeSchema(jsonschema.$id);
+          scope.addSchema(jsonschema);
+        }
 
-      // 记录each列表等组件顺序
-      if (scopeNode?.info?.isListComponent) {
-        listScope.unshift(scope);
+        // 记录each列表等组件顺序
+        if (scopeNode?.info?.isListComponent) {
+          listScope.unshift(scope);
 
-        // 如果当前节点是list类型节点，当前scope从父节点上取
-        if (nodeId === id) {
-          nearestScope = scope.parent;
+          // 如果当前节点是list类型节点，当前scope从父节点上取
+          if (nodeId === id) {
+            nearestScope = scope.parent;
+          }
         }
       }
 
@@ -2050,14 +2058,20 @@ export class EditorManager {
       for (let scope of listScope) {
         const [id, type] = scope.id.split('-');
         const node = this.store.getNodeById(id, type);
-        const jsonschema = await node?.info?.plugin?.buildDataSchemas?.(
-          node,
-          region,
-          trigger
-        );
-        if (jsonschema) {
-          scope.removeSchema(jsonschema.$id);
-          scope.addSchema(jsonschema);
+        if (node) {
+          const tmpSchema = await node?.info?.plugin?.buildDataSchemas?.(
+            node,
+            region,
+            trigger
+          );
+          if (tmpSchema) {
+            const jsonschema = {
+              ...tmpSchema,
+              ...(tmpSchema?.$id ? {} : {$id: `${node!.id}-${node!.type}`})
+            };
+            scope.removeSchema(jsonschema.$id);
+            scope.addSchema(jsonschema);
+          }
         }
       }
     }

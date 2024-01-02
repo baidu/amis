@@ -1440,13 +1440,16 @@ export class TableControlPlugin extends BasePlugin {
         const schema = current.schema;
 
         if (schema.name) {
-          itemsSchema.properties[schema.name] =
-            await current.info.plugin.buildDataSchemas?.(
-              current,
-              region,
-              trigger,
-              node
-            );
+          const tmpSchema = await current.info.plugin.buildDataSchemas?.(
+            current,
+            region,
+            trigger,
+            node
+          );
+          itemsSchema.properties[schema.name] = {
+            ...tmpSchema,
+            ...(tmpSchema?.$id ? {} : {$id: `${current!.id}-${current!.type}`})
+          };
         }
       }
     }
