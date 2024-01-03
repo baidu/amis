@@ -296,9 +296,8 @@ export const defaultOptions: RenderOptions = {
     }
     // link动作新增了linkType属性，默认是内容区打开(page),在新窗口打开(blank);在当前页签打开(self)
     if (
-      action &&
-      action.actionType === 'link' &&
-      ['blank', 'self'].includes(action.linkType)
+      action?.actionType === 'link' &&
+      ['blank', 'self'].includes(action?.linkType)
     ) {
       if (action.linkType === 'self') {
         // 当前页签打开，需要刷新页面
