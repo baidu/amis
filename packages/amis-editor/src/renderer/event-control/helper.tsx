@@ -3423,13 +3423,6 @@ export const getEventControlConfig = (
         }
       }
 
-      // link新增打开方式 link：单页跳转；url:浏览器跳转
-      if (config.actionType === 'link') {
-        if (config.args?.redirectType !== 'url') {
-          delete action.args?.blank;
-        }
-      }
-
       if (action.actionType === 'toast') {
         // 配置一个toast组件默认class
         action.args = {
