@@ -1502,7 +1502,7 @@ test('Renderer:transfer tree search', async () => {
   });
 });
 
-test.only('Renderer:transfer table follow left mode close', async () => {
+test('Renderer:transfer table follow left mode close', async () => {
   const {container} = render(
     amisRender(
       {
