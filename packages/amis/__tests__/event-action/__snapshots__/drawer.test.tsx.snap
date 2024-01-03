@@ -64,10 +64,10 @@ exports[`EventAction:drawer 1`] = `
         class="cxd-Drawer-body"
       >
         <div
-          class="cxd-Spinner-overlay in"
+          class="cxd-Spinner-overlay ing"
         />
         <div
-          class="cxd-Spinner cxd-Spinner--overlay in"
+          class="cxd-Spinner cxd-Spinner--overlay ing"
           data-testid="spinner"
         >
           <div
@@ -344,10 +344,10 @@ exports[`EventAction:drawer args 1`] = `
         class="cxd-Drawer-body"
       >
         <div
-          class="cxd-Spinner-overlay in"
+          class="cxd-Spinner-overlay ing"
         />
         <div
-          class="cxd-Spinner cxd-Spinner--overlay in"
+          class="cxd-Spinner cxd-Spinner--overlay ing"
           data-testid="spinner"
         >
           <div
@@ -530,32 +530,4 @@ exports[`EventAction:drawer args 6`] = `
 </div>
 `;
 
-exports[`EventAction:drawer args 7`] = `
-<div>
-  <div
-    class="cxd-Page"
-  >
-    <div
-      class="cxd-Page-content"
-    >
-      <div
-        class="cxd-Page-main"
-      >
-        <div
-          class="cxd-Page-body"
-          role="page-body"
-        >
-          <button
-            class="cxd-Button cxd-Button--default cxd-Button--size-default"
-            type="button"
-          >
-            <span>
-              打开抽屉
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
+exports[`EventAction:drawer args 7`] = `<div />`;

@@ -631,10 +631,10 @@ exports[`doAction:form reset 1`] = `
                   type="submit"
                 />
                 <div
-                  class="cxd-Spinner-overlay in"
+                  class="cxd-Spinner-overlay ing"
                 />
                 <div
-                  class="cxd-Spinner cxd-Spinner--overlay in"
+                  class="cxd-Spinner cxd-Spinner--overlay ing"
                   data-testid="spinner"
                 >
                   <div

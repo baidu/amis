@@ -284,7 +284,7 @@ exports[`Renderer:chained-select 1`] = `
               </span>
             </div>
             <div
-              class="cxd-Spinner in cxd-ChainedSelectControl-spinner"
+              class="cxd-Spinner ing cxd-ChainedSelectControl-spinner"
               data-testid="spinner"
             >
               <div

@@ -746,10 +746,10 @@ exports[`Renderer:Nav with itemActions 1`] = `
               />
             </div>
             <div
-              class="cxd-Spinner-overlay in"
+              class="cxd-Spinner-overlay ing"
             />
             <div
-              class="cxd-Spinner cxd-Spinner--overlay in"
+              class="cxd-Spinner cxd-Spinner--overlay ing"
               data-testid="spinner"
             >
               <div

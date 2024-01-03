@@ -702,10 +702,10 @@ exports[`Renderer:Page handleAction actionType=drawer default 1`] = `
         class="cxd-Drawer-body"
       >
         <div
-          class="cxd-Spinner-overlay in"
+          class="cxd-Spinner-overlay ing"
         />
         <div
-          class="cxd-Spinner cxd-Spinner--overlay in"
+          class="cxd-Spinner cxd-Spinner--overlay ing"
           data-testid="spinner"
         >
           <div
@@ -1834,10 +1834,10 @@ exports[`Renderer:Page initApi show loading 1`] = `
           role="page-body"
         >
           <div
-            class="cxd-Spinner-overlay in"
+            class="cxd-Spinner-overlay ing"
           />
           <div
-            class="cxd-Spinner cxd-Spinner--overlay in"
+            class="cxd-Spinner cxd-Spinner--overlay ing"
             data-testid="spinner"
           >
             <div
