@@ -17,7 +17,7 @@ const fadeStyles: {
   [propName: string]: string;
 } = {
   [ENTERED]: 'in',
-  [ENTERING]: 'in'
+  [ENTERING]: 'ing'
 };
 
 // Spinner Props
@@ -199,7 +199,11 @@ export class Spinner extends React.Component<
     // 定义了挂载位置时只能使用默认icon
     const icon = loadingConfig?.root ? undefined : iconConfig;
     const isCustomIcon = icon && React.isValidElement(icon);
-    const timeout = {enter: delay, exit: 0};
+    const timeout = {
+      appear: delay,
+      enter: delay,
+      exit: 0
+    };
 
     const showOverlay = loadingConfig?.root || overlay;
 
@@ -213,6 +217,7 @@ export class Spinner extends React.Component<
           unmountOnExit
           in={this.state.spinning}
           timeout={timeout}
+          appear={this.state.spinning}
         >
           {(status: string) => {
             return (
