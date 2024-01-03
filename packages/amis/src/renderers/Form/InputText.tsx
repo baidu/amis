@@ -503,15 +503,25 @@ export default class TextControl extends React.PureComponent<
     }
   }
 
-  handleChange(value: any) {
+  async handleChange(value: any) {
     const {
       onChange,
       multiple,
       options,
       selectedOptions,
       creatable,
-      valueField
+      valueField,
+      dispatchEvent
     } = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      resolveEventData(this.props, {value})
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     // Downshift传入的selectedItem是valueField字段，需要取回选项
     const toggledOption = options.find(
       item => item[valueField || 'value'] === value
