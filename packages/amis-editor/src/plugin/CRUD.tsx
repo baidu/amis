@@ -494,10 +494,10 @@ export class CRUDPlugin extends BasePlugin {
               {
                 status: 0,
                 msg: '',
-                data: [
-                  {id: 1, name: 'Jack'},
-                  {id: 2, name: 'Rose'}
-                ]
+                data: {
+                  items: [{id: 1, engine: 'Webkit'}],
+                  total: 1
+                }
               },
               null,
               2
