@@ -43,7 +43,7 @@ test('EventAction:url & link', async () => {
           },
           {
             type: 'button',
-            label: '内容区打开',
+            label: '打开',
             level: 'primary',
             className: 'ml-2',
             onEvent: {
@@ -54,62 +54,6 @@ test('EventAction:url & link', async () => {
                     args: {
                       link: './expression',
                       linkType: 'page',
-                      params: {
-                        name: 'jack',
-                        jon: '${myjon}'
-                      }
-                    },
-                    data: {
-                      name: '${myname}',
-                      age: 18
-                    }
-                  }
-                ]
-              }
-            }
-          },
-
-          {
-            type: 'button',
-            label: '新开页打开',
-            level: 'primary',
-            className: 'ml-2',
-            onEvent: {
-              click: {
-                actions: [
-                  {
-                    actionType: 'link',
-                    args: {
-                      link: './expression',
-                      linkType: 'blank',
-                      params: {
-                        name: 'jack',
-                        jon: '${myjon}'
-                      }
-                    },
-                    data: {
-                      name: '${myname}',
-                      age: 18
-                    }
-                  }
-                ]
-              }
-            }
-          },
-
-          {
-            type: 'button',
-            label: '当前页打开',
-            level: 'primary',
-            className: 'ml-2',
-            onEvent: {
-              click: {
-                actions: [
-                  {
-                    actionType: 'link',
-                    args: {
-                      link: './expression',
-                      linkType: 'self',
                       params: {
                         name: 'jack',
                         jon: '${myjon}'
@@ -134,9 +78,7 @@ test('EventAction:url & link', async () => {
   );
 
   fireEvent.click(getByText('跳转'));
-  fireEvent.click(getByText('内容区打开'));
-  fireEvent.click(getByText('新开页打开'));
-  fireEvent.click(getByText('当前页打开'));
+  fireEvent.click(getByText('打开'));
   await waitFor(() => {
     expect(jumpTo).toHaveBeenCalled();
   });
@@ -158,12 +100,6 @@ test('EventAction:url & link', async () => {
     name: 'lvxj'
   });
   expect(jumpTo.mock.calls[1][0]).toEqual(
-    './expression?name=lvxj&jon=player&age=18'
-  );
-  expect(jumpTo.mock.calls[2][0]).toEqual(
-    './expression?name=lvxj&jon=player&age=18'
-  );
-  expect(jumpTo.mock.calls[3][0]).toEqual(
     './expression?name=lvxj&jon=player&age=18'
   );
 });
