@@ -58,18 +58,13 @@ export interface LinkSchema extends BaseSchema {
    * 最大显示行数
    */
   maxLine?: number;
-
-  /**
-   * tooltip配置
-   */
-  tooltip?:
-    | string
-    | Omit<TooltipObject, 'children' | 'container' | 'filterHtml'>;
 }
 
 export interface LinkProps
   extends RendererProps,
-    Omit<LinkSchema, 'type' | 'className'> {}
+    Omit<LinkSchema, 'type' | 'className'> {
+  tooltip?: string | TooltipObject;
+}
 
 export class LinkCmpt extends React.Component<LinkProps, object> {
   static defaultProps = {
