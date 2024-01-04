@@ -915,26 +915,28 @@ export class EditorManager {
 
     const curElemSchema = schemaData || subRenderer?.scaffold;
     const isSpecialLayout = this.isSpecialLayout(curElemSchema);
-    if (
-      (node.type === 'wrapper' || node.type === 'container') &&
-      node.schema?.body?.length === 0 &&
-      curElemSchema?.type === 'flex' &&
-      !node.schema?.isFreeContainer &&
-      !isSpecialLayout
-    ) {
-      // 布局能力提升: 点击插入新元素，当wrapper为空插入布局容器时，自动改为置换，避免过多层级
-      this.replaceChild(
-        curActiveId,
-        curElemSchema,
-        subRenderer,
-        store.insertRegion,
-        reGenerateId
-      );
-      setTimeout(() => {
-        this.updateConfigPanel();
-      }, 0);
-      return;
-    }
+
+    // 不直接替换容器
+    // if (
+    //   (node.type === 'wrapper' || node.type === 'container') &&
+    //   node.schema?.body?.length === 0 &&
+    //   curElemSchema?.type === 'flex' &&
+    //   !node.schema?.isFreeContainer &&
+    //   !isSpecialLayout
+    // ) {
+    //   // 布局能力提升: 点击插入新元素，当wrapper为空插入布局容器时，自动改为置换，避免过多层级
+    //   this.replaceChild(
+    //     curActiveId,
+    //     curElemSchema,
+    //     subRenderer,
+    //     store.insertRegion,
+    //     reGenerateId
+    //   );
+    //   setTimeout(() => {
+    //     this.updateConfigPanel();
+    //   }, 0);
+    //   return;
+    // }
 
     const parentNode = node.parent as EditorNodeType; // 父级节点
 
