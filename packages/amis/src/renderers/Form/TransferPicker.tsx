@@ -99,6 +99,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       formItem,
       popOverContainer,
       placeholder,
+      autoCheckChildren = true,
       initiallyOpen = true
     } = this.props;
 
@@ -177,6 +178,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
             popOverContainer: popOverContainer ?? env?.getModalContainer
           }}
           onPageChange={this.handlePageChange}
+          autoCheckChildren={autoCheckChildren}
           initiallyOpen={initiallyOpen}
         />
 
