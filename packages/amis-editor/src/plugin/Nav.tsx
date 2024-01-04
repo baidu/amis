@@ -386,7 +386,15 @@ export class NavPlugin extends BasePlugin {
       {
         title: '外观',
         body: getSchemaTpl('collapseGroup', [
-          ...getSchemaTpl('theme:common', {exclude: ['layout']}),
+          ...getSchemaTpl('theme:common', {
+            exclude: ['layout'],
+            baseExtra: [
+              getSchemaTpl('theme:font', {
+                label: '文字',
+                name: 'themeCss.baseControlClassName.font'
+              })
+            ]
+          }),
           getSchemaTpl('style:common', ['layout'])
         ])
       },
