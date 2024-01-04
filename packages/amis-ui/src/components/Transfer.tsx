@@ -161,6 +161,10 @@ export interface TransferProps
    * 是否默认都展开
    */
   initiallyOpen?: boolean;
+  /**
+   * ui级联关系，true代表级联选中，false代表不级联，默认为true
+   */
+  autoCheckChildren?: boolean;
 }
 
 export interface TransferState {
@@ -821,6 +825,7 @@ export class Transfer<
       checkAll,
       checkAllLabel,
       onlyChildren,
+      autoCheckChildren = true,
       initiallyOpen = true
     } = props;
 
@@ -865,6 +870,7 @@ export class Transfer<
         checkAllLabel={checkAllLabel}
         checkAll={checkAll}
         initiallyOpen={initiallyOpen}
+        autoCheckChildren={autoCheckChildren}
       />
     ) : selectMode === 'chained' ? (
       <ChainedSelection

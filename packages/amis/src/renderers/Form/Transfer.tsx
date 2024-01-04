@@ -173,6 +173,10 @@ export interface TransferControlSchema
    * 是否默认都展开
    */
   initiallyOpen?: boolean;
+  /**
+   * ui级联关系，true代表级联选中，false代表不级联，默认为true
+   */
+  autoCheckChildren?: boolean;
 
   /**
    * 分页配置，selectMode为默认和table才会生效
@@ -630,6 +634,7 @@ export class BaseTransferRenderer<
       formItem,
       env,
       popOverContainer,
+      autoCheckChildren = true,
       initiallyOpen = true
     } = this.props;
 
@@ -717,8 +722,8 @@ export class BaseTransferRenderer<
           }}
           onPageChange={this.handlePageChange}
           initiallyOpen={initiallyOpen}
+          autoCheckChildren={autoCheckChildren}
         />
-
         <Spinner
           overlay
           key="info"
