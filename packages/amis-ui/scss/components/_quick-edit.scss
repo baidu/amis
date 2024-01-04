@@ -1,21 +1,18 @@
 .#{$ns}Field-quickEditBtn {
-  color: var(--QuickEdit-iconColor);
   margin-left: var(--gap-xs);
-  display: inline-block;
+  height: auto;
+  padding: 0;
   vertical-align: text-bottom;
-  cursor: pointer;
-  opacity: 0.6;
-  font-size: 0;
 
-  &:hover {
-    color: var(--QuickEdit-onHover-iconColor);
-    opacity: 1;
+  .fa {
+    font-size: var(--QuickEdit-iconSize);
   }
 
   > svg {
     width: var(--QuickEdit-iconSize);
     height: var(--QuickEdit-iconSize);
-    top: 0;
+    color: currentColor;
+    fill: currentColor;
   }
 }
 
