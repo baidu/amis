@@ -1,7 +1,9 @@
 import React from 'react';
 import {Renderer, RendererProps} from 'amis-core';
 import {BaseSchema, SchemaTpl} from '../Schema';
-import TooltipWrapper from 'amis-ui/lib/components/TooltipWrapper';
+import TooltipWrapper, {
+  TooltipObject
+} from 'amis-ui/lib/components/TooltipWrapper';
 import {autobind, createObject, getPropValue} from 'amis-core';
 import {filter} from 'amis-core';
 import {BadgeObject, withBadge} from 'amis-ui';
@@ -60,7 +62,9 @@ export interface LinkSchema extends BaseSchema {
   /**
    * tooltip配置
    */
-  tooltip?: string;
+  tooltip?:
+    | string
+    | Omit<TooltipObject, 'children' | 'container' | 'filterHtml'>;
 }
 
 export interface LinkProps

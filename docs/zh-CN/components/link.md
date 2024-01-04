@@ -97,18 +97,16 @@ order: 55
 
 ## 属性表
 
-| 属性名           | 类型                                                           | 默认值 | 说明                                                                                 |
-| ---------------- | -------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------ |
-| type             | `string`                                                       |        | 如果在 Table、Card 和 List 中，为`"link"`；在 Form 中用作静态展示，为`"static-link"` |
-| body             | `string`                                                       |        | 标签内文本                                                                           |
-| href             | `string`                                                       |        | 链接地址                                                                             |
-| blank            | `boolean`                                                      |        | 是否在新标签页打开                                                                   |
-| htmlTarget       | `string`                                                       |        | a 标签的 target，优先于 blank 属性                                                   |
-| title            | `string`                                                       |        | a 标签的 title                                                                       |
-| disabled         | `boolean`                                                      |        | 禁用超链接                                                                           |
-| icon             | `string`                                                       |        | 超链接图标，以加强显示                                                               |
-| rightIcon        | `string`                                                       |        | 右侧图标                                                                             |
-| maxLine          | `number`                                                       |        | 最大显示行数                                                                         |
-| tooltip          | `'string'                                  \| 'TooltipObject'` |        | 气泡提示内容                                                                         |
-| tooltipPlacement | `'top' \| 'right' \| 'bottom' \| 'left' `                      | top    | 气泡框位置器                                                                         |
-| tooltipTrigger   | `'hover' \| 'focus'`                                           |        | 触发 tootip                                                                          |
+| 属性名     | 类型                                                           | 默认值 | 说明                                                                                 |
+| ---------- | -------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------ |
+| type       | `string`                                                       |        | 如果在 Table、Card 和 List 中，为`"link"`；在 Form 中用作静态展示，为`"static-link"` |
+| body       | `string`                                                       |        | 标签内文本                                                                           |
+| href       | `string`                                                       |        | 链接地址                                                                             |
+| blank      | `boolean`                                                      |        | 是否在新标签页打开                                                                   |
+| htmlTarget | `string`                                                       |        | a 标签的 target，优先于 blank 属性                                                   |
+| title      | `string`                                                       |        | a 标签的 title                                                                       |
+| disabled   | `boolean`                                                      |        | 禁用超链接                                                                           |
+| icon       | `string`                                                       |        | 超链接图标，以加强显示                                                               |
+| rightIcon  | `string`                                                       |        | 右侧图标                                                                             |
+| maxLine    | `number`                                                       |        | 最大显示行数                                                                         |
+| tooltip    | `'string'                                  \| 'TooltipObject'` |        | 气泡提示内容                                                                         |
