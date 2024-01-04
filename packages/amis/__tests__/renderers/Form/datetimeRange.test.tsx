@@ -170,7 +170,7 @@ test('Renderer:datetimeRange with shortcuts', async () => {
  * CASE: 日期时间选择器首次选择日期或时间后，时间自动设置为当前时间
  * 预期：后续选择日期或者时间，不会改变点选值
  */
-test.only('InputDateTimeRange Picker selects date or time for the first time', async () => {
+test('InputDateTimeRange Picker selects date or time for the first time', async () => {
   const {container} = render(
     amisRender({
       type: 'form',

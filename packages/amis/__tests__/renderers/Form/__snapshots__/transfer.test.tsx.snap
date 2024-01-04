@@ -612,11 +612,11 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                           style="overflow: auto; will-change: transform; height: 0px; width: 100%;"
                         >
                           <div
-                            style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 6400px;"
+                            style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 7600px;"
                           >
                             <div
                               class="cxd-GroupedSelection-item"
-                              style="position: absolute; top: 0px; left: 0px; width: 100%; height: 32px;"
+                              style="position: absolute; top: 0px; left: 0px; width: 100%; height: 38px;"
                             >
                               <label
                                 class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
@@ -643,7 +643,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                             </div>
                             <div
                               class="cxd-GroupedSelection-item"
-                              style="position: absolute; top: 32px; left: 0px; width: 100%; height: 32px;"
+                              style="position: absolute; top: 38px; left: 0px; width: 100%; height: 38px;"
                             >
                               <label
                                 class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
@@ -670,7 +670,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                             </div>
                             <div
                               class="cxd-GroupedSelection-item"
-                              style="position: absolute; top: 64px; left: 0px; width: 100%; height: 32px;"
+                              style="position: absolute; top: 76px; left: 0px; width: 100%; height: 38px;"
                             >
                               <label
                                 class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
@@ -697,7 +697,7 @@ exports[`Renderer:transfer associated mode with virtual 1`] = `
                             </div>
                             <div
                               class="cxd-GroupedSelection-item"
-                              style="position: absolute; top: 96px; left: 0px; width: 100%; height: 32px;"
+                              style="position: absolute; top: 114px; left: 0px; width: 100%; height: 38px;"
                             >
                               <label
                                 class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
@@ -1287,11 +1287,11 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                         style="overflow: auto; will-change: transform; height: 0px; width: 100%;"
                       >
                         <div
-                          style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 6400px;"
+                          style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 7600px;"
                         >
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 38px;"
                           >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
@@ -1318,7 +1318,7 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 32px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 38px; left: 0px; width: 100%; height: 38px;"
                           >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
@@ -1345,7 +1345,7 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 64px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 76px; left: 0px; width: 100%; height: 38px;"
                           >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
@@ -1372,7 +1372,7 @@ exports[`Renderer:transfer chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 96px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 114px; left: 0px; width: 100%; height: 38px;"
                           >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
@@ -4016,6 +4016,1396 @@ exports[`Renderer:transfer table 1`] = `
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:transfer table mode with virtual: result not virtual 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  分组
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-TransferControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Transfer"
+            >
+              <div
+                class="cxd-Transfer-select"
+              >
+                <div
+                  class="cxd-Transfer-title cxd-Transfer-title--light"
+                >
+                  <span>
+                    可选项
+                    <span>
+                      （
+                      190
+                      /
+                      200
+                      ）
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="cxd-TableSelection cxd-Transfer-selection"
+                >
+                  <div
+                    class="cxd-Table-content is-virtual"
+                  >
+                    <table
+                      class="cxd-Table-table"
+                    >
+                      <thead>
+                        <tr>
+                          <th
+                            class="cxd-Table-checkCell"
+                          >
+                            <label
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                              data-role="checkbox"
+                            >
+                              <input
+                                checked=""
+                                type="checkbox"
+                              />
+                              <i />
+                              <span
+                                class=""
+                              />
+                            </label>
+                          </th>
+                          <th>
+                            名称
+                          </th>
+                          <th>
+                            值
+                          </th>
+                        </tr>
+                      </thead>
+                    </table>
+                    <div
+                      class="cxd-Table-content-virtual"
+                    >
+                      <div
+                        style="display: block; position: relative; width: 100%; height: 100%;"
+                      >
+                        <div
+                          style="overflow: auto; will-change: transform; height: 0px; width: 100%;"
+                        >
+                          <table
+                            class="cxd-Table-table"
+                            style="margin-top: 0px;"
+                          >
+                            <colgroup>
+                              <col
+                                style="width: 0px;"
+                              />
+                              <col
+                                style="width: 0px;"
+                              />
+                              <col
+                                style="width: 0px;"
+                              />
+                            </colgroup>
+                            <tbody>
+                              <tr
+                                class="is-active"
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      checked=""
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-1
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    1
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class=""
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-2
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    2
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class="is-active"
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      checked=""
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-3
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    3
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class=""
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-4
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    4
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class="is-active"
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      checked=""
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-5
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    5
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class=""
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-6
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    6
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class="is-active"
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      checked=""
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-7
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    7
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class=""
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-8
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    8
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class="is-active"
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      checked=""
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-9
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    9
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class=""
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-10
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    10
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class="is-active"
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      checked=""
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-11
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    11
+                                  </span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <div
+                            style="position: absolute; width: 1px; white-space: nowrap; min-height: 100%; height: 7600px; top: 0px; visibility: hidden;"
+                          />
+                        </div>
+                        <div
+                          class="resize-sensor"
+                          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+  
+                          <div
+                            class="resize-sensor-expand"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-shrink"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-appear"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="cxd-Transfer-mid"
+              />
+              <div
+                class="cxd-Transfer-result"
+              >
+                <div
+                  class="cxd-Transfer-title cxd-Transfer-title--light"
+                >
+                  <span>
+                    已选项
+                    <span>
+                      （
+                      10
+                      ）
+                    </span>
+                  </span>
+                  <a
+                    class="cxd-Transfer-clearAll"
+                  >
+                    清空
+                  </a>
+                </div>
+                <div
+                  class="cxd-Selections cxd-Transfer-value"
+                >
+                  <div
+                    class="cxd-Selections-items"
+                  >
+                    <div
+                      class="cxd-Selections-item"
+                    >
+                      <label
+                        class="cxd-Selections-label"
+                      >
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-1"
+                        >
+                          label-1
+                        </span>
+                      </label>
+                      <a
+                        class="cxd-Selections-delBtn"
+                        data-index="0"
+                      >
+                        <icon-mock
+                          classname="icon icon-close"
+                          icon="close"
+                        />
+                      </a>
+                    </div>
+                    <div
+                      class="cxd-Selections-item"
+                    >
+                      <label
+                        class="cxd-Selections-label"
+                      >
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-3"
+                        >
+                          label-3
+                        </span>
+                      </label>
+                      <a
+                        class="cxd-Selections-delBtn"
+                        data-index="1"
+                      >
+                        <icon-mock
+                          classname="icon icon-close"
+                          icon="close"
+                        />
+                      </a>
+                    </div>
+                    <div
+                      class="cxd-Selections-item"
+                    >
+                      <label
+                        class="cxd-Selections-label"
+                      >
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-5"
+                        >
+                          label-5
+                        </span>
+                      </label>
+                      <a
+                        class="cxd-Selections-delBtn"
+                        data-index="2"
+                      >
+                        <icon-mock
+                          classname="icon icon-close"
+                          icon="close"
+                        />
+                      </a>
+                    </div>
+                    <div
+                      class="cxd-Selections-item"
+                    >
+                      <label
+                        class="cxd-Selections-label"
+                      >
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-7"
+                        >
+                          label-7
+                        </span>
+                      </label>
+                      <a
+                        class="cxd-Selections-delBtn"
+                        data-index="3"
+                      >
+                        <icon-mock
+                          classname="icon icon-close"
+                          icon="close"
+                        />
+                      </a>
+                    </div>
+                    <div
+                      class="cxd-Selections-item"
+                    >
+                      <label
+                        class="cxd-Selections-label"
+                      >
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-9"
+                        >
+                          label-9
+                        </span>
+                      </label>
+                      <a
+                        class="cxd-Selections-delBtn"
+                        data-index="4"
+                      >
+                        <icon-mock
+                          classname="icon icon-close"
+                          icon="close"
+                        />
+                      </a>
+                    </div>
+                    <div
+                      class="cxd-Selections-item"
+                    >
+                      <label
+                        class="cxd-Selections-label"
+                      >
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-11"
+                        >
+                          label-11
+                        </span>
+                      </label>
+                      <a
+                        class="cxd-Selections-delBtn"
+                        data-index="5"
+                      >
+                        <icon-mock
+                          classname="icon icon-close"
+                          icon="close"
+                        />
+                      </a>
+                    </div>
+                    <div
+                      class="cxd-Selections-item"
+                    >
+                      <label
+                        class="cxd-Selections-label"
+                      >
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-13"
+                        >
+                          label-13
+                        </span>
+                      </label>
+                      <a
+                        class="cxd-Selections-delBtn"
+                        data-index="6"
+                      >
+                        <icon-mock
+                          classname="icon icon-close"
+                          icon="close"
+                        />
+                      </a>
+                    </div>
+                    <div
+                      class="cxd-Selections-item"
+                    >
+                      <label
+                        class="cxd-Selections-label"
+                      >
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-15"
+                        >
+                          label-15
+                        </span>
+                      </label>
+                      <a
+                        class="cxd-Selections-delBtn"
+                        data-index="7"
+                      >
+                        <icon-mock
+                          classname="icon icon-close"
+                          icon="close"
+                        />
+                      </a>
+                    </div>
+                    <div
+                      class="cxd-Selections-item"
+                    >
+                      <label
+                        class="cxd-Selections-label"
+                      >
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-17"
+                        >
+                          label-17
+                        </span>
+                      </label>
+                      <a
+                        class="cxd-Selections-delBtn"
+                        data-index="8"
+                      >
+                        <icon-mock
+                          classname="icon icon-close"
+                          icon="close"
+                        />
+                      </a>
+                    </div>
+                    <div
+                      class="cxd-Selections-item"
+                    >
+                      <label
+                        class="cxd-Selections-label"
+                      >
+                        <span
+                          class="cxd-Selection-ellipsis-line"
+                          title="label-19"
+                        >
+                          label-19
+                        </span>
+                      </label>
+                      <a
+                        class="cxd-Selections-delBtn"
+                        data-index="9"
+                      >
+                        <icon-mock
+                          classname="icon icon-close"
+                          icon="close"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:transfer table mode with virtual: result virtual 1`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  分组
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-TransferControl cxd-Form-control"
+          >
+            <div
+              class="cxd-Transfer"
+            >
+              <div
+                class="cxd-Transfer-select"
+              >
+                <div
+                  class="cxd-Transfer-title cxd-Transfer-title--light"
+                >
+                  <span>
+                    可选项
+                    <span>
+                      （
+                      189
+                      /
+                      200
+                      ）
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="cxd-TableSelection cxd-Transfer-selection"
+                >
+                  <div
+                    class="cxd-Table-content is-virtual"
+                  >
+                    <table
+                      class="cxd-Table-table"
+                    >
+                      <thead>
+                        <tr>
+                          <th
+                            class="cxd-Table-checkCell"
+                          >
+                            <label
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                              data-role="checkbox"
+                            >
+                              <input
+                                checked=""
+                                type="checkbox"
+                              />
+                              <i />
+                              <span
+                                class=""
+                              />
+                            </label>
+                          </th>
+                          <th>
+                            名称
+                          </th>
+                          <th>
+                            值
+                          </th>
+                        </tr>
+                      </thead>
+                    </table>
+                    <div
+                      class="cxd-Table-content-virtual"
+                    >
+                      <div
+                        style="display: block; position: relative; width: 100%; height: 100%;"
+                      >
+                        <div
+                          style="overflow: auto; will-change: transform; height: 0px; width: 100%;"
+                        >
+                          <table
+                            class="cxd-Table-table"
+                            style="margin-top: 0px;"
+                          >
+                            <colgroup>
+                              <col
+                                style="width: 0px;"
+                              />
+                              <col
+                                style="width: 0px;"
+                              />
+                              <col
+                                style="width: 0px;"
+                              />
+                            </colgroup>
+                            <tbody>
+                              <tr
+                                class="is-active"
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      checked=""
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-1
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    1
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class="is-active"
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-2
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    2
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class="is-active"
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      checked=""
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-3
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    3
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr
+                                class=""
+                                style="height: 38px;"
+                              >
+                                <td
+                                  class="cxd-Table-checkCell"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    data-role="checkbox"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    label-4
+                                  </span>
+                                </td>
+                                <td>
+                                  <span
+                                    class="cxd-PlainField"
+                                  >
+                                    4
+                                  </span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <div
+                            style="position: absolute; width: 1px; white-space: nowrap; min-height: 100%; height: 7600px; top: 0px; visibility: hidden;"
+                          />
+                        </div>
+                        <div
+                          class="resize-sensor"
+                          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+  
+                          <div
+                            class="resize-sensor-expand"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-shrink"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-appear"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="cxd-Transfer-mid"
+              />
+              <div
+                class="cxd-Transfer-result"
+              >
+                <div
+                  class="cxd-Transfer-title cxd-Transfer-title--light"
+                >
+                  <span>
+                    已选项
+                    <span>
+                      （
+                      11
+                      ）
+                    </span>
+                  </span>
+                  <a
+                    class="cxd-Transfer-clearAll"
+                  >
+                    清空
+                  </a>
+                </div>
+                <div
+                  class="cxd-Selections cxd-Transfer-value"
+                >
+                  <div
+                    class="cxd-Selections-items"
+                  >
+                    <div
+                      style="display: block; position: relative; width: 100%; height: 100%;"
+                    >
+                      <div
+                        style="overflow: auto; will-change: transform; height: 0px; width: 100%;"
+                      >
+                        <div
+                          style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 418px;"
+                        >
+                          <div
+                            class="cxd-Selections-item"
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 38px;"
+                          >
+                            <label
+                              class="cxd-Selections-label"
+                            >
+                              <span
+                                class="cxd-Selection-ellipsis-line"
+                                title="label-1"
+                              >
+                                label-1
+                              </span>
+                            </label>
+                            <a
+                              class="cxd-Selections-delBtn"
+                              data-index="0"
+                            >
+                              <icon-mock
+                                classname="icon icon-close"
+                                icon="close"
+                              />
+                            </a>
+                          </div>
+                          <div
+                            class="cxd-Selections-item"
+                            style="position: absolute; top: 38px; left: 0px; width: 100%; height: 38px;"
+                          >
+                            <label
+                              class="cxd-Selections-label"
+                            >
+                              <span
+                                class="cxd-Selection-ellipsis-line"
+                                title="label-3"
+                              >
+                                label-3
+                              </span>
+                            </label>
+                            <a
+                              class="cxd-Selections-delBtn"
+                              data-index="1"
+                            >
+                              <icon-mock
+                                classname="icon icon-close"
+                                icon="close"
+                              />
+                            </a>
+                          </div>
+                          <div
+                            class="cxd-Selections-item"
+                            style="position: absolute; top: 76px; left: 0px; width: 100%; height: 38px;"
+                          >
+                            <label
+                              class="cxd-Selections-label"
+                            >
+                              <span
+                                class="cxd-Selection-ellipsis-line"
+                                title="label-5"
+                              >
+                                label-5
+                              </span>
+                            </label>
+                            <a
+                              class="cxd-Selections-delBtn"
+                              data-index="2"
+                            >
+                              <icon-mock
+                                classname="icon icon-close"
+                                icon="close"
+                              />
+                            </a>
+                          </div>
+                          <div
+                            class="cxd-Selections-item"
+                            style="position: absolute; top: 114px; left: 0px; width: 100%; height: 38px;"
+                          >
+                            <label
+                              class="cxd-Selections-label"
+                            >
+                              <span
+                                class="cxd-Selection-ellipsis-line"
+                                title="label-7"
+                              >
+                                label-7
+                              </span>
+                            </label>
+                            <a
+                              class="cxd-Selections-delBtn"
+                              data-index="3"
+                            >
+                              <icon-mock
+                                classname="icon icon-close"
+                                icon="close"
+                              />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="resize-sensor"
+                        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+  
+                        <div
+                          class="resize-sensor-expand"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+    
+                          <div
+                            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                          />
+                          
+  
+                        </div>
+                        
+  
+                        <div
+                          class="resize-sensor-shrink"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+    
+                          <div
+                            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                          />
+                          
+  
+                        </div>
+                        
+  
+                        <div
+                          class="resize-sensor-appear"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
       </div>
     </div>
   </div>
