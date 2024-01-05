@@ -49,7 +49,7 @@ export const schemaArrayFormat = (value: any) => {
  * @param options
  * @returns
  */
-export const resolveOptionType = (schema: any) => {
+export const resolveOptionType = (schema: any = {}) => {
   const {options, valueField} = schema;
   if (!options) {
     return 'string';
