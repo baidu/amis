@@ -1120,10 +1120,15 @@ export const MainStore = types
             const host = path.reduce((schema, key) => {
               return schema[key];
             }, schema);
-            host[last] = host[last].map((item: any) => ({
-              ...item,
-              $$id: guid()
-            }));
+            host[last] = host[last].map((item: any) => {
+              if (isPlainObject(host[last])) {
+                return {
+                  ...item,
+                  $$id: guid()
+                };
+              }
+              return item;
+            });
           }
 
           self.schema = schema;
