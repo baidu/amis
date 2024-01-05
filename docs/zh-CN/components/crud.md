@@ -2774,7 +2774,7 @@ interface CRUDMatchFunc {
 
 ### 导出 Excel 模板
 
-> 3.7 及以上版本
+> 6.1 及以上版本
 
 配置是 `export-excel-template` 和前面 `export-excel` 不同，这个功能只导出表头，主要用于线下填数据，可以配合 input-excel 组件来上传填好的内容。
 
