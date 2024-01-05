@@ -294,12 +294,12 @@ export const defaultOptions: RenderOptions = {
       action.blank === false ? (window.location.href = to) : window.open(to);
       return;
     }
-    // link动作新增了linkType属性，默认是内容区打开(page),在新窗口打开(blank);在当前页签打开(self)
+    // link动作新增了targetType属性，默认是内容区打开(page),在新窗口打开(blank);在当前页签打开(self)
     if (
       action?.actionType === 'link' &&
-      ['blank', 'self'].includes(action?.linkType)
+      ['blank', 'self'].includes(action?.targetType)
     ) {
-      if (action.linkType === 'self') {
+      if (action.targetType === 'self') {
         // 当前页签打开，需要刷新页面
         window.history.pushState(null, '', to);
         location.reload();

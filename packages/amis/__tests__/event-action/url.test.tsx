@@ -53,7 +53,7 @@ test('EventAction:url & link', async () => {
                     actionType: 'link',
                     args: {
                       link: './expression',
-                      linkType: 'page',
+                      targetType: 'page',
                       params: {
                         name: 'jack',
                         jon: '${myjon}'
