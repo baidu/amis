@@ -225,3 +225,22 @@ test('Renderer:staticInColumn', async () => {
   expect(container.querySelector('input[name="a"]')).toBeInTheDocument();
   expect((container.querySelector('input[name="a"]') as any).value).toBe('1');
 });
+
+test('Renderer:static-quickEdit-icon', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'static',
+        name: 'static',
+        label: 'label',
+        quickEdit: {
+          icon: 'fa fa-search'
+        },
+        value: 'static'
+      },
+      {},
+      makeEnv()
+    )
+  );
+  expect(container).toMatchSnapshot();
+});

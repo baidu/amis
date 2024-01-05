@@ -119,6 +119,51 @@ exports[`Renderer:static 1`] = `
 </div>
 `;
 
+exports[`Renderer:static-quickEdit-icon 1`] = `
+<div>
+  <div
+    class="cxd-Form-item cxd-Form-item--normal"
+    data-role="form-item"
+  >
+    <label
+      class="cxd-Form-label"
+    >
+      <span>
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            label
+          </span>
+        </span>
+      </span>
+    </label>
+    <div
+      class="cxd-Form-static"
+    >
+      <div
+        class="cxd-Field--quickEditable cxd-Form-control"
+        tabindex="0"
+      >
+        <span
+          class="cxd-PlainField"
+        >
+          static
+        </span>
+        <button
+          class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+          type="button"
+        >
+          <i
+            class="fa fa-search cxd-Button-icon fa fa-search"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer:static2 1`] = `
 <div>
   <div

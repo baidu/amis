@@ -51,6 +51,9 @@ setSchemaTpl('quickEdit', (patch: any, manager: any) => ({
           }
         ]
       },
+      getSchemaTpl('icon', {
+        name: 'quickEdit.icon'
+      }),
       getSchemaTpl('switch', {
         name: 'quickEdit.saveImmediately',
         label: tipedLabel(
