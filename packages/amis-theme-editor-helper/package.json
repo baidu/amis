@@ -1,6 +1,6 @@
 {
   "name": "amis-theme-editor-helper",
-  "version": "2.0.22-beta.13",
+  "version": "2.0.26",
   "description": "amis主题编辑器通用方法",
   "main": "lib/index.js",
   "module": "esm/index.js",

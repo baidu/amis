@@ -230,7 +230,7 @@ order: 56
                     "value": "a"
                 },
                 {
-                    "label": "OptionB",
+                    "label": "OptionB (with long suffix for testing ellipsis)",
                     "value": "b"
                 },
                 {
@@ -455,6 +455,165 @@ order: 56
 | blur     | `[name]: string` 组件的值 | 输入框失去焦点时触发                           |
 | change   | `[name]: string` 组件的值 | 值变化时触发                                   |
 | clear    | `[name]: string` 组件的值 | 点击清除按钮时触发                             |
+
+### enter
+
+选择器模式下，回车时触发。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "name": "text",
+        "type": "input-text",
+        "label": "text",
+        "options": [
+          {
+            "label": "aa",
+            "value": "aa"
+          },
+          {
+            "label": "bb",
+            "value": "bb"
+          }
+        ],
+        "onEvent": {
+            "enter": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
+### focus
+
+当设置 `showInput` 为 true 时，输入框获取焦点时触发。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "name": "text",
+        "type": "input-text",
+        "label": "text",
+        "onEvent": {
+            "focus": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
+### blur
+
+当设置 `showInput` 为 true 时，输入框失去焦点时触发。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "name": "text",
+        "type": "input-text",
+        "label": "text",
+        "onEvent": {
+            "blur": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
+### change
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "name": "text",
+        "type": "input-text",
+        "label": "text",
+        "onEvent": {
+            "change": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
+### clear
+
+配置`clearable`为 true，点击清除按钮时触发。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "name": "text",
+        "type": "input-text",
+        "label": "text",
+        "clearable": true,
+        "onEvent": {
+            "clear": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
 
 ## 动作表
 

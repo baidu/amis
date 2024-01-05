@@ -107,7 +107,7 @@
     top: 0;
     left: 0;
     bottom: 0;
-    border-right: 3px solid $themeColor;
+    border-right: px2rem(3px) solid $themeColor;
     transform: scaleY(1);
     opacity: 1;
     transition: transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1),
@@ -124,7 +124,7 @@
   --Menu-Submenu-item-paddingX: var(--Nav-Item-Badge-paddingRight);
 
   --Menu-light-backgroundColor: var(--Layout-light-backgroundColor);
-  --Menu-light-active-backgroundColor: var(--colors-neutral-fill-12);
+  --Menu-light-active-backgroundColor: var(--colors-neutral-fill-8);
   --Menu-light-backgroundColor-onHover: var(--Layout-light-bgColor-onHover);
   --Menu-light-fontColor: var(--Layout-light-fontColor);
   --Menu-light-fontColor-onHover: var(--Layout-fontColor--onHover);
@@ -205,10 +205,10 @@
   }
 
   &-item-divider {
-    border-bottom: 1px solid #e6e6e8;
+    border-bottom: px2rem(1px) solid #e6e6e8;
 
     &-dark {
-      border-bottom: 1px solid #3a3e47;
+      border-bottom: px2rem(1px) solid #3a3e47;
     }
   }
 
@@ -327,7 +327,7 @@
   }
 
   &-vertical.#{$ns}Nav-Menu-sub {
-    min-width: 160px;
+    min-width: px2rem(160px);
   }
 
   &-item,
@@ -419,8 +419,8 @@
   }
 
   & > &-item-divider {
-    height: 1px;
-    margin: 0 16px 4px 16px;
+    height: px2rem(1px);
+    margin: 0 px2rem(16px) px2rem(4px) px2rem(16px);
     overflow: hidden;
     padding: 0;
     background-color: #ebebeb;
@@ -433,12 +433,12 @@
       background-color: var(--Layout-light-backgroundColor);
       line-height: var(--Nav-Item-height);
       cursor: pointer;
-      border-radius: 2px;
-      max-height: 400px;
+      border-radius: px2rem(2px);
+      max-height: px2rem(400px);
       overflow-y: auto;
-      box-shadow: 0 4px 5px 0 rgba(21, 26, 38, 0.06),
-        0 1px 10px 0 rgba(21, 26, 38, 0.05),
-        0 2px 4px -1px rgba(21, 26, 38, 0.04);
+      box-shadow: 0 px2rem(4px) px2rem(5px) 0 rgba(21, 26, 38, 0.06),
+        0 px2rem(1px) px2rem(10px) 0 rgba(21, 26, 38, 0.05),
+        0 px2rem(2px) px2rem(4px) px2rem(-1px) rgba(21, 26, 38, 0.04);
 
       // 横向收纳模式且有子菜单项的情况下 会显示2个展开箭头
       // 用css隐藏1个 自适应收纳的情况下 判断不出是子菜单项还是收纳项
@@ -499,7 +499,7 @@
       &:after {
         content: ' ';
         width: 100%;
-        height: 2px;
+        height: px2rem(2px);
         background: var(--Menu-light-fontColor-onHover);
         position: absolute;
         left: 0;
@@ -643,7 +643,7 @@
 
     .#{$ns}Nav-Menu-item-group-list {
       .#{$ns}Nav-Menu-item-divider {
-        height: 1px;
+        height: px2rem(1px);
         width: 60%;
         margin: 0 auto;
       }
@@ -696,8 +696,9 @@
   background: var(--Layout-light-backgroundColor);
   border: none;
   border-radius: var(--Tooltip--attr-borderRadius);
-  box-shadow: 0px 4px 6px 0px rgb(8 14 26 / 6%),
-    0px 1px 10px 0px rgb(8 14 26 / 5%), 0px 2px 4px -1px rgb(8 14 26 / 4%);
+  box-shadow: 0 px2rem(4px) px2rem(6px) 0 rgb(8 14 26 / 6%),
+    0 px2rem(1px) px2rem(10px) 0 rgb(8 14 26 / 5%),
+    0 px2rem(2px) px2rem(4px) px2rem(-1px) rgb(8 14 26 / 4%);
 
   .#{$ns}Tooltip-arrow {
     &:before {

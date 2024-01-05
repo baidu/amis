@@ -41,6 +41,11 @@
   &-searchBtn {
     display: inline-block;
     padding: #{px2rem(5px)} #{px2rem(10px)};
+
+    &--loading {
+      display: inline-flex;
+      align-items: center;
+    }
   }
 
   &-activeBtn,
@@ -65,7 +70,7 @@
   &.is-disabled &-activeBtn,
   &.is-disabled &-searchBtn,
   &.is-disabled &-cancelBtn {
-    color: var(--icon-onDisabled-color);
+    color: var(--SearchBox-search-btn-color--disabled);
     pointer-events: none;
   }
 

@@ -260,6 +260,7 @@ export class ChartPlugin extends BasePlugin {
                     ),
                     type: 'input-number',
                     step: 500,
+                    min: 1000,
                     // visibleOn: 'chartDataType === "dataApi" && data.api',
                     visibleOn: 'data.api.url',
                     unitOptions: ['ms']

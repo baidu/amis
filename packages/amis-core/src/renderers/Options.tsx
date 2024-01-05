@@ -37,7 +37,6 @@ import {
   FormBaseControl
 } from './Item';
 import {IFormItemStore} from '../store/formItem';
-import {isObject} from 'amis-core';
 
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
@@ -426,7 +425,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       const props = this.props;
       const formItem = props.formItem as IFormItemStore;
 
-      if (prevProps.options !== props.options && formItem) {
+      if (!props.source && prevProps.options !== props.options && formItem) {
         formItem.setOptions(
           normalizeOptions(props.options || [], undefined, props.valueField),
           this.changeOptionValue,
@@ -493,13 +492,27 @@ export function registerOptionsControl(config: OptionsConfig) {
       this.toDispose = [];
     }
 
-    async dispatchOptionEvent(eventName: string, eventData: any = '') {
+    // 不推荐使用，缺少组件值
+    async oldDispatchOptionEvent(eventName: string, eventData: any = '') {
       const {dispatchEvent, options} = this.props;
       const rendererEvent = await dispatchEvent(
         eventName,
         resolveEventData(
           this.props,
           {value: eventData, options, items: options} // 为了保持名字统一
+        )
+      );
+      // 返回阻塞标识
+      return !!rendererEvent?.prevented;
+    }
+
+    async dispatchOptionEvent(eventName: string, eventData: any = '') {
+      const {dispatchEvent, options, value} = this.props;
+      const rendererEvent = await dispatchEvent(
+        eventName,
+        resolveEventData(
+          this.props,
+          {value, options, items: options, ...eventData} // 为了保持名字统一
         )
       );
       // 返回阻塞标识
@@ -654,7 +667,9 @@ export function registerOptionsControl(config: OptionsConfig) {
         value
       );
 
-      const isPrevented = await this.dispatchOptionEvent('change', newValue);
+      const isPrevented = await this.dispatchOptionEvent('change', {
+        value: newValue
+      });
       isPrevented ||
         (onChange && onChange(newValue, submitOnChange, changeImmediately));
     }
@@ -730,7 +745,9 @@ export function registerOptionsControl(config: OptionsConfig) {
           ? []
           : formItem.filteredOptions.concat();
       const newValue = this.formatValueArray(valueArray);
-      const isPrevented = await this.dispatchOptionEvent('change', newValue);
+      const isPrevented = await this.dispatchOptionEvent('change', {
+        value: newValue
+      });
       isPrevented || (onChange && onChange(newValue));
     }
 
@@ -845,8 +862,13 @@ export function registerOptionsControl(config: OptionsConfig) {
         api,
         createObject(data, option)
       );
+
       // 触发事件通知,加载完成
-      this.dispatchOptionEvent('loadFinished', json);
+      // 废弃，不推荐使用
+      this.oldDispatchOptionEvent('loadFinished', json);
+
+      // 避免产生breakchange，增加新事件名，用来更正之前的设计问题
+      this.dispatchOptionEvent('deferLoadFinished', {result: json});
     }
 
     @autobind
@@ -1003,6 +1025,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           : value
       );
 
+      let customAddPrevent = false;
       let result: any = skipForm
         ? ctx
         : await onOpenDialog(
@@ -1025,11 +1048,41 @@ export function registerOptionsControl(config: OptionsConfig) {
                     value: parent
                   },
                   ...(addControls || [])
-                ]
+                ],
+                onSubmit: async (payload: any) => {
+                  const labelKey = labelField || 'label';
+                  const valueKey = valueField || 'value';
+                  // 派发确认添加事件
+                  customAddPrevent = await this.dispatchOptionEvent(
+                    'addConfirm',
+                    {
+                      item: {
+                        [labelKey]: payload[labelKey],
+                        [valueKey]: payload[valueKey] ?? payload[labelKey]
+                      }
+                    }
+                  );
+
+                  return !customAddPrevent;
+                }
               }
             },
             ctx
           );
+
+      // 派发确认添加事件
+      if (skipForm) {
+        // 避免产生breakchange，增加新事件名，用来更正之前的设计问题
+        const prevent = await this.dispatchOptionEvent('addConfirm', {
+          item: result
+        });
+
+        if (prevent) {
+          return;
+        }
+      } else if (customAddPrevent) {
+        return;
+      }
 
       // 单独发请求
       if (skipForm && addApi) {
@@ -1069,10 +1122,12 @@ export function registerOptionsControl(config: OptionsConfig) {
         };
       }
       // 触发事件通知
-      const isPrevented = await this.dispatchOptionEvent('add', {
+      // 废弃，不推荐使用
+      const isPrevented = await this.oldDispatchOptionEvent('add', {
         ...result,
         idx
       });
+
       if (isPrevented) {
         return;
       }
@@ -1112,6 +1167,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         editDialog,
         disabled,
         labelField,
+        valueField,
         onOpenDialog,
         editApi,
         editInitApi,
@@ -1138,6 +1194,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         ];
       }
 
+      let customEditPrevent = false;
       let result = skipForm
         ? value
         : await onOpenDialog(
@@ -1151,11 +1208,40 @@ export function registerOptionsControl(config: OptionsConfig) {
                 type: 'form',
                 initApi: editInitApi,
                 api: editApi,
-                controls: editControls
+                controls: editControls,
+                onSubmit: async (payload: any) => {
+                  const labelKey = labelField || 'label';
+                  const valueKey = valueField || 'value';
+                  // 避免产生breakchange，增加新事件名，用来更正之前的设计问题
+                  customEditPrevent = await this.dispatchOptionEvent(
+                    'editConfirm',
+                    {
+                      item: {
+                        [labelKey]: payload[labelKey],
+                        [valueKey]: payload[valueKey] ?? payload[labelKey]
+                      }
+                    }
+                  );
+
+                  return !customEditPrevent;
+                }
               }
             },
             createObject(data, value)
           );
+
+      if (skipForm) {
+        // 避免产生breakchange，增加新事件名，用来更正之前的设计问题
+        const prevent = await this.dispatchOptionEvent('editConfirm', {
+          item: result
+        });
+
+        if (prevent) {
+          return;
+        }
+      } else if (customEditPrevent) {
+        return;
+      }
 
       // 单独发请求
       if (skipForm && editApi) {
@@ -1190,9 +1276,10 @@ export function registerOptionsControl(config: OptionsConfig) {
       if (!result) {
         return;
       }
-
       // 触发事件通知
-      const isPrevented = await this.dispatchOptionEvent('edit', result);
+      // 废弃，不推荐使用
+      const isPrevented = await this.oldDispatchOptionEvent('edit', result);
+
       if (isPrevented) {
         return;
       }
@@ -1245,8 +1332,20 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       // 触发事件通知
-      const isPrevented = await this.dispatchOptionEvent('delete', ctx);
+      // 废弃，不推荐使用
+      const isPrevented = await this.oldDispatchOptionEvent('delete', ctx);
       if (isPrevented) {
+        return;
+      }
+
+      // 避免产生breakchange，增加新事件名，用来更正之前的设计问题
+      const delConfirmPrevent = await this.dispatchOptionEvent(
+        'deleteConfirm',
+        {
+          item: value
+        }
+      );
+      if (delConfirmPrevent) {
         return;
       }
 

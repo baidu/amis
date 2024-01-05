@@ -276,18 +276,15 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
   async dispatchEvent(eventName: SelectRendererEvent, eventData: any = {}) {
     const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
-    const {dispatchEvent, options, data, multiple, selectedOptions} =
+    const {dispatchEvent, options, value, multiple, selectedOptions} =
       this.props;
-
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       eventName,
       resolveEventData(this.props, {
         options,
         items: options, // 为了保持名字统一
-        value: ['onEdit', 'onDelete'].includes(event)
-          ? eventData
-          : eventData && eventData.value,
+        value,
         selectedItems: multiple ? selectedOptions : selectedOptions[0]
       })
     );
@@ -527,9 +524,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             onChange={this.changeValue}
             onBlur={(e: any) => this.dispatchEvent('blur', e)}
             onFocus={(e: any) => this.dispatchEvent('focus', e)}
-            onAdd={() => this.dispatchEvent('add')}
-            onEdit={(item: any) => this.dispatchEvent('edit', item)}
-            onDelete={(item: any) => this.dispatchEvent('delete', item)}
             loading={loading}
             noResultsText={noResultsText}
             renderMenu={menuTpl ? this.renderMenu : undefined}

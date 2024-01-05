@@ -1,6 +1,6 @@
 {
   "name": "amis-core",
-  "version": "3.5.3",
+  "version": "6.0.0",
   "description": "amis-core",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -25,6 +25,7 @@
     "moment-timezone": "^0.5.34",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.79.1",
     "rollup-plugin-auto-external": "^2.0.0",
@@ -46,7 +47,7 @@
     "esm"
   ],
   "dependencies": {
-    "amis-formula": "^3.5.3",
+    "amis-formula": "^6.0.0",
     "classnames": "2.3.2",
     "file-saver": "^2.0.2",
     "hoist-non-react-statics": "^3.3.2",

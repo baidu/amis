@@ -1,6 +1,8 @@
 import cx from 'classnames';
+import DeepDiff from 'deep-diff';
 import flatten from 'lodash/flatten';
 import cloneDeep from 'lodash/cloneDeep';
+import pick from 'lodash/pick';
 import {isObject, getRendererByName, setVariable} from 'amis-core';
 import {
   BasePlugin,
@@ -1219,7 +1221,7 @@ export class FormPlugin extends BasePlugin {
   }
 
   /** 重新构建 API */
-  panelFormPipeOut = async (schema: any) => {
+  panelFormPipeOut = async (schema: any, oldSchema: any) => {
     const entity = schema?.api?.entity;
 
     if (!entity || schema?.dsType !== ModelDSBuilderKey) {
@@ -1227,13 +1229,28 @@ export class FormPlugin extends BasePlugin {
     }
 
     const builder = this.dsManager.getBuilderBySchema(schema);
+    const observedFields = ['api', 'initApi', 'body', 'feat'];
+    const diff = DeepDiff.diff(
+      pick(oldSchema, observedFields),
+      pick(schema, observedFields)
+    );
+
+    if (!diff) {
+      return schema;
+    }
 
     try {
       const updatedSchema = await builder.buildApiSchema({
         schema,
         renderer: 'form',
         sourceKey: 'api',
-        feat: schema.feat ?? 'Insert'
+        feat: schema.feat ?? 'Insert',
+        apiSettings: {
+          diffConfig: {
+            enable: true,
+            schemaDiff: diff
+          }
+        }
       });
       return updatedSchema;
     } catch (e) {
@@ -1269,13 +1286,16 @@ export class FormPlugin extends BasePlugin {
       const schema = current.schema;
 
       if (current.rendererConfig?.isFormItem && schema.name) {
-        jsonschema.properties[schema.name] =
-          await current.info.plugin.buildDataSchemas?.(
-            current,
-            region,
-            trigger,
-            node
-          );
+        const tmpSchema = await current.info.plugin.buildDataSchemas?.(
+          current,
+          region,
+          trigger,
+          node
+        );
+        jsonschema.properties[schema.name] = {
+          ...tmpSchema,
+          ...(tmpSchema?.$id ? {} : {$id: `${current.id}-${current.type}`})
+        };
       } else {
         pool.push(...current.children);
       }

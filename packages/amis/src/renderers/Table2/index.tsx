@@ -29,7 +29,9 @@ import {
   ClassNamesFn,
   isArrayChildrenModified,
   filterTarget,
-  changedEffect
+  changedEffect,
+  evalExpressionWithConditionBuilder,
+  normalizeApi
 } from 'amis-core';
 import {Icon, Table, BadgeObject, SpinnerExtraProps} from 'amis-ui';
 import type {
@@ -52,7 +54,6 @@ import {ActionSchema} from '../Action';
 import HeadCellSearchDropDown from './HeadCellSearchDropdown';
 import './TableCell';
 import './ColumnToggler';
-import {Action} from '../../types';
 import {SchemaQuickEdit} from '../QuickEdit';
 
 /**
@@ -122,6 +123,19 @@ export interface ColumnSchema {
    * 快速排序
    */
   sorter?: boolean;
+
+  /**
+   * 兼容table快速排序
+   */
+  sortable?: boolean;
+
+  /**
+   * 兼容table列筛选
+   */
+  filterable?: {
+    source?: string;
+    options?: Array<any>;
+  };
 
   /**
    * 内容居左、居中、居右
@@ -409,6 +423,12 @@ export interface TableSchema2 extends BaseSchema {
    * 表格是否可以获取父级数据域值，默认为false
    */
   canAccessSuperData?: boolean;
+
+  /**
+   * 当一次性渲染太多列上有用，默认为 100，可以用来提升表格渲染性能
+   * @default 100
+   */
+  lazyRenderAfter?: number;
 }
 
 // 事件调整 对应CRUD2里的事件配置也需要同步修改
@@ -502,7 +522,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
   static defaultProps: Partial<Table2Props> = {
     keyField: 'id',
-    canAccessSuperData: false
+    canAccessSuperData: false,
+    lazyRenderAfter: 100
   };
 
   constructor(props: Table2Props, context: IScopedContext) {
@@ -729,6 +750,16 @@ export default class Table2 extends React.Component<Table2Props, object> {
       this.rowSelection = this.buildRowSelection();
     }
 
+    if (anyChanged(['query', 'pageField', 'perPageField'], prevProps, props)) {
+      store.updateQuery(
+        props.query,
+        undefined,
+        props.pageField,
+        props.perPageField,
+        true
+      );
+    }
+
     if (
       !isEqual(
         prevProps?.rowSelection?.keyField,
@@ -842,7 +873,9 @@ export default class Table2 extends React.Component<Table2Props, object> {
       canAccessSuperData,
       showBadge,
       itemBadge,
-      classnames: cx
+      data,
+      classnames: cx,
+      env
     } = this.props;
 
     const cols: Array<any> = [];
@@ -850,7 +883,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
     colSpans = colSpans;
 
     Array.isArray(columns) &&
-      columns.forEach((column, col) => {
+      columns.forEach(async (column, col) => {
         const clone = {...column} as any;
 
         let titleSchema: any = null;
@@ -899,6 +932,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
         });
 
         const isGroupColumn = !!column.children?.length;
+        const finalCanAccessSuperData =
+          column.canAccessSuperData ?? canAccessSuperData;
         // 设置了type值 就完全按渲染器处理了
         if (column.type) {
           Object.assign(clone, {
@@ -916,11 +951,11 @@ export default class Table2 extends React.Component<Table2Props, object> {
 
               const obj = {
                 children: this.renderCellSchema(column, {
-                  data: record,
+                  data: item.locals,
                   value: column.name
                     ? resolveVariable(
                         column.name,
-                        canAccessSuperData ? item.locals : item.data
+                        finalCanAccessSuperData ? item.locals : item.data
                       )
                     : column.name,
                   popOverContainer:
@@ -1008,13 +1043,52 @@ export default class Table2 extends React.Component<Table2Props, object> {
               popOverContainer={this.getPopOverContainer}
               name={column.name}
               searchable={column.searchable}
-              orderBy={store.orderBy}
-              order={store.order}
-              data={store.query}
               onSearch={this.handleSearch}
               key={'th-search-' + col}
             />
           );
+        }
+
+        // 设置了列排序
+        if (column.sortable) {
+          clone.sorter = true;
+        }
+
+        // 设置了列筛选
+        if (column.filterable) {
+          if (column.filterable.options) {
+            clone.filters = column.filterable.options.map(
+              (option: {label: string; value: string | number} | string) => {
+                if (typeof option === 'string') {
+                  return {
+                    text: option,
+                    value: option
+                  };
+                }
+                return {
+                  text: option.label,
+                  value: option.value
+                };
+              }
+            );
+          } else if (column.filterable.source) {
+            const source = column.filterable.source;
+            if (isPureVariable(source)) {
+              const datasource = resolveVariableAndFilter(
+                source,
+                data,
+                '| raw'
+              );
+              clone.filters = datasource;
+            } else if (isEffectiveApi(source, data)) {
+              const api = normalizeApi(source);
+              api.cache = 3000; // 开启 3s 缓存，因为固顶位置渲染1次会额外多次请求。
+
+              const ret = await env.fetcher(api, data);
+              const options = (ret.data && ret.data.options) || [];
+              clone.filters = options;
+            }
+          }
         }
 
         if (isGroupColumn) {
@@ -1038,6 +1112,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
           result.push({
             colSpan: s.colSpan,
             fixed: s.fixed,
+            cellClassName: s.cellClassName,
             render: (dataSouce: Array<any>) =>
               this.renderSchema(key, s, {
                 data: dataSouce
@@ -1051,6 +1126,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
             result[index].push({
               colSpan: d.colSpan,
               fixed: d.fixed,
+              cellClassName: d.cellClassName,
               render: (dataSouce: Array<any>) =>
                 this.renderSchema(key, d, {
                   data: dataSouce
@@ -1438,7 +1514,11 @@ export default class Table2 extends React.Component<Table2Props, object> {
   }
 
   @autobind
-  handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
+  handleAction(
+    e: React.UIEvent<any> | undefined,
+    action: ActionObject,
+    ctx: object
+  ) {
     const {onAction} = this.props;
 
     // todo
@@ -1452,7 +1532,8 @@ export default class Table2 extends React.Component<Table2Props, object> {
       store,
       classnames: cx,
       data,
-      columnsTogglable
+      columnsTogglable,
+      dispatchEvent
     } = this.props;
     actions = Array.isArray(actions) ? actions.concat() : [];
     const config = isObject(columnsTogglable) ? columnsTogglable : {};
@@ -1476,10 +1557,25 @@ export default class Table2 extends React.Component<Table2Props, object> {
           },
           {
             cols: store.columnsData,
-            toggleAllColumns: () => store.toggleAllColumns(),
-            toggleToggle: (toggled: boolean, index: number) => {
+            toggleAllColumns: () => {
+              store.toggleAllColumns();
+              dispatchEvent(
+                'columnToggled',
+                createObject(data, {
+                  columns: store.columnsData.filter(column => column.toggled)
+                })
+              );
+            },
+            toggleToggle: (index: number) => {
               const column = store.columnsData[index];
               column.toggleToggle();
+
+              dispatchEvent(
+                'columnToggled',
+                createObject(data, {
+                  columns: store.columnsData.filter(column => column.toggled)
+                })
+              );
             }
           }
         )
@@ -1551,6 +1647,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
   @autobind
   async handleFilter(payload: {filterName: string; filterValue: string}) {
     const {dispatchEvent, data, onSearch} = this.props;
+
     const rendererEvent = await dispatchEvent(
       'columnFilter',
       createObject(data, payload)
@@ -1729,10 +1826,13 @@ export default class Table2 extends React.Component<Table2Props, object> {
       case 'select':
         const selected: Array<any> = [];
         dataSource.forEach((item: any, rowIndex: number) => {
-          const flag = evalExpression(args?.selectedRowKeysExpr, {
-            record: item,
-            rowIndex
-          });
+          const flag = evalExpression(
+            args?.selected || args?.selectedRowKeysExpr,
+            {
+              record: item,
+              rowIndex
+            }
+          );
           if (flag) {
             selected.push(item[keyField]);
           }
@@ -1783,6 +1883,7 @@ export default class Table2 extends React.Component<Table2Props, object> {
         }
         break;
       default:
+        this.handleAction(undefined, action, data);
         break;
     }
   }
@@ -2028,5 +2129,69 @@ export class TableRenderer extends Table2 {
     if (subPath) {
       return scoped.send(subPath, values);
     }
+  }
+
+  reload(subPath?: string, query?: any, ctx?: any) {
+    const scoped = this.context as IScopedContext;
+    const parents = scoped?.parent?.getComponents();
+
+    if (Array.isArray(parents) && parents.length) {
+      // CRUD的name会透传给Table，这样可以保证找到CRUD
+      const crud = parents.find(cmpt => cmpt?.props?.name === this.props?.name);
+
+      return crud?.reload?.(subPath, query, ctx);
+    }
+
+    if (subPath) {
+      return scoped.reload(subPath, ctx);
+    }
+  }
+
+  async setData(
+    values: any,
+    replace?: boolean,
+    index?: number | string,
+    condition?: any
+  ) {
+    const {store} = this.props;
+    const len = store.data.rows.length;
+
+    if (index !== undefined) {
+      let items = [...store.data.rows];
+      const indexs = String(index).split(',');
+      indexs.forEach(i => {
+        const intIndex = Number(i);
+        items.splice(intIndex, 1, values);
+      });
+      // 更新指定行记录，只需要提供行记录即可
+      return store.updateData({rows: items}, undefined, replace);
+    } else if (condition !== undefined) {
+      let items = [...store.data.rows];
+      for (let i = 0; i < len; i++) {
+        const item = items[i];
+        const isUpdate = await evalExpressionWithConditionBuilder(
+          condition,
+          item
+        );
+
+        if (isUpdate) {
+          items.splice(i, 1, values);
+        }
+      }
+
+      // 更新指定行记录，只需要提供行记录即可
+      return store.updateData({rows: items}, undefined, replace);
+    } else {
+      const data = {
+        ...values,
+        rows: values.rows ?? values.items // 做个兼容
+      };
+      return store.updateData(data, undefined, replace);
+    }
+  }
+
+  getData() {
+    const {store, data} = this.props;
+    return store.getData(data);
   }
 }

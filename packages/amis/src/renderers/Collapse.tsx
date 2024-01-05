@@ -133,7 +133,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
   basicCollapse = React.createRef<any>();
 
   @autobind
-  async handleCollapseChange(props: any, collapsed: boolean) {
+  async handleCollapseChange(collapsed: boolean) {
     const {dispatchEvent, onCollapse} = this.props;
     const eventData = resolveEventData(this.props, {
       collapsed
@@ -152,7 +152,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
       return;
     }
 
-    onCollapse?.(props, collapsed);
+    onCollapse?.(collapsed);
   }
 
   doAction(action: ActionObject, args: object, throwErrors: boolean): any {
@@ -161,7 +161,11 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
     }
     if (['expand', 'collapse'].includes(action.actionType!)) {
       const targetState = action.actionType === 'collapse';
-      this.handleCollapseChange(this.props, targetState);
+      /**
+       * 说明：changeCollapsedState 会执行 onCollapse 方法（间接执行handleCollapseChange），
+       * 所以这里不需要再重复调用。
+       */
+      // this.handleCollapseChange(targetState);
       const collapseInstance = (
         this.basicCollapse?.current as any
       )?.getWrappedInstance?.();

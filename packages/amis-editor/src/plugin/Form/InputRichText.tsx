@@ -44,6 +44,7 @@ const tinymceToolbars = [
   'italic',
   'backcolor',
   'alignleft',
+  'formatselect',
   'aligncenter',
   'alignright',
   'alignjustify',

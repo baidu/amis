@@ -1448,16 +1448,17 @@ Form 支持轮询初始化接口，步骤如下：
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。
 
-| 动作名称  | 动作配置                                            | 说明                       |
-| --------- | --------------------------------------------------- | -------------------------- |
-| validate  | `outputVar: string` 校验结果，默认为 validateResult | 校验表单                   |
-| submit    | `outputVar: string` 提交结果，默认为 submitResult   | 提交表单                   |
-| setValue  | `value: object` 更新的表单数据                      | 更新数据，对数据进行 merge |
-| reload    | -                                                   | 刷新（重新加载）           |
-| reset     | -                                                   | 重置表单                   |
-| clear     | -                                                   | 清空表单                   |
-| static    | -                                                   | 表单切换为静态展示         |
-| nonstatic | -                                                   | 表单切换为普通输入态       |
+| 动作名称         | 动作配置                                                                                                  | 说明                       |
+| ---------------- | --------------------------------------------------------------------------------------------------------- | -------------------------- |
+| validate         | `outputVar: string` 校验结果，默认为 validateResult                                                       | 校验表单                   |
+| submit           | `outputVar: string` 提交结果，默认为 submitResult                                                         | 提交表单                   |
+| setValue         | `value: object` 更新的表单数据                                                                            | 更新数据，对数据进行 merge |
+| reload           | -                                                                                                         | 刷新（重新加载）           |
+| reset            | -                                                                                                         | 重置表单                   |
+| clear            | -                                                                                                         | 清空表单                   |
+| static           | -                                                                                                         | 表单切换为静态展示         |
+| nonstatic        | -                                                                                                         | 表单切换为普通输入态       |
+| validateFormItem | `componentId: string` 要校验的表单项的 id;<br>`outputVar: string` 校验结果，默认为 validateFormItemResult | 校验表单项                 |
 
 ### validate
 
@@ -1956,4 +1957,75 @@ Form 支持轮询初始化接口，步骤如下：
     ]
   }
 ]
+```
+
+### validateFormItem
+
+> 3.6.4 及以上版本
+
+对单个表单项进行校验，通过配置`actionType: 'validateFormItem'`实现表单项的校验  
+校验结果默认缓存在`${event.data.validateFormItemResult}`中，可以通过添加`outputVar`配置来修改缓存的变量
+
+校验结果的结构如下：
+
+```json
+{
+  // 校验结果，非空表示失败
+  "error": "错误信息",
+  // 校验的表单项的值
+  "value": ""
+}
+```
+
+```schema
+{
+  type: 'page',
+  title: '更新表单数据',
+  body: [
+    {
+      type: 'form',
+      title: '表单',
+      wrapWithPanel: false,
+      body: [
+        {
+          type: 'input-text',
+          label: '必填项',
+          name: 'required',
+          id: 'required',
+          required: true
+        }
+      ]
+    },
+    {
+      "type": "input-text",
+      "name": "validate_info",
+      "id": "validate_info",
+      "label": "校验结果：",
+      "static": true
+    },
+    {
+      type: 'button',
+      label: '校验',
+      level: 'primary',
+      className: 'mt-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'validateFormItem',
+              componentId: 'required'
+            },
+            {
+              "actionType": "setValue",
+              "componentId": "validate_info",
+              "args": {
+                "value": "${event.data.validateFormItemResult|json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
 ```

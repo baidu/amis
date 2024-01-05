@@ -140,12 +140,6 @@ export class MappingPlugin extends BasePlugin {
     return 'item';
   }
 
-  filterProps(props: any) {
-    // 禁止选中子节点
-    props = JSONPipeOut(props);
-    return props;
-  }
-
   buildEditorToolbar(
     {id, info, schema}: BaseEventContext,
     toolbars: Array<BasicToolbarItem>

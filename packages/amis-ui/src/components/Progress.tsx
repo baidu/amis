@@ -209,7 +209,11 @@ export class Progress extends React.Component<ProgressProps, Object> {
       ];
     }
 
-    return <div className={cx('Progress', className)} style={style}>{viewValue}</div>;
+    return (
+      <div className={cx('Progress', className)} style={style}>
+        {viewValue}
+      </div>
+    );
   }
 }
 

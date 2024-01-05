@@ -408,13 +408,16 @@ export class PagePlugin extends BasePlugin {
       const schema = current.schema;
 
       if (current.rendererConfig?.isFormItem && schema?.name) {
-        jsonschema.properties[schema.name] =
-          await current.info.plugin.buildDataSchemas?.(
-            current,
-            undefined,
-            trigger,
-            node
-          );
+        const tmpSchema = await current.info.plugin.buildDataSchemas?.(
+          current,
+          undefined,
+          trigger,
+          node
+        );
+        jsonschema.properties[schema.name] = {
+          ...tmpSchema,
+          ...(tmpSchema?.$id ? {} : {$id: `${current.id}-${current.type}`})
+        };
       } else if (!current.rendererConfig?.storeType) {
         pool.push(...current.children);
       }

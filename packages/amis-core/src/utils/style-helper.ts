@@ -161,7 +161,7 @@ export function formatStyle(
       const fn = (key: string, value: string) => {
         key = valueMap[key] || key;
         styles.push(
-          `${kebabCase(key)}: ${
+          `${key.startsWith('--') ? key : kebabCase(key)}: ${
             value + (weights?.important ? ' !important' : '')
           };`
         );
@@ -178,16 +178,14 @@ export function formatStyle(
                   style['top-left-border-radius'] || 0,
                   style['top-right-border-radius'] || 0,
                   style['bottom-right-border-radius'] || 0,
-                  style['bottom-left-border-radius'] || 0,
-                  weights?.important ? ' !important' : ''
+                  style['bottom-left-border-radius'] || 0
                 ].join(' ')
               );
             } else {
               Object.keys(style).forEach(k => {
                 if (k !== '$$id') {
                   const value = style[k];
-                  value &&
-                    fn(k, value + (weights?.important ? ' !important' : ''));
+                  value && fn(k, value);
                 }
               });
             }

@@ -9,6 +9,7 @@ import {
   CustomStyle,
   setThemeClassName
 } from 'amis-core';
+import isEqual from 'lodash/isEqual';
 import cx from 'classnames';
 import {LazyComponent} from 'amis-core';
 import {normalizeApi} from 'amis-core';
@@ -126,18 +127,20 @@ export default class RichTextControl extends React.Component<
 
     if (finnalVendor === 'froala') {
       if (
-        anyChanged(
-          ['options', 'editorClass', 'placeholder', 'buttons'],
-          prevProps,
-          props
-        )
+        !isEqual(prevProps.options, props.options) ||
+        !isEqual(prevProps.editorClass, props.editorClass) ||
+        !isEqual(prevProps.placeholder, props.placeholder) ||
+        !isEqual(prevProps.buttons, props.buttons)
       ) {
         this.setState({
           config: this.getConfig(props)
         });
       }
     } else if (finnalVendor === 'tinymce') {
-      if (anyChanged(['options', 'fileField'], prevProps, props)) {
+      if (
+        !isEqual(prevProps.options, props.options) ||
+        !isEqual(prevProps.fileField, props.fileField)
+      ) {
         this.setState({
           config: this.getConfig(props)
         });

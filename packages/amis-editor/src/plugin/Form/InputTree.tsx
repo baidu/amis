@@ -15,7 +15,7 @@ import {
 } from '../../renderer/event-control/helper';
 import {tipedLabel} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
-import {resolveOptionType} from '../../util';
+import {resolveOptionType, TREE_BASE_EVENTS} from '../../util';
 import type {Schema} from 'amis';
 
 // 树组件公共动作
@@ -113,11 +113,6 @@ export const TreeCommonAction: RendererPluginAction[] = [
         placeholder: '请输入删除项 valueField 的值'
       })
     ])
-  },
-  {
-    actionType: 'reload',
-    actionLabel: '刷新',
-    description: '刷新数据'
   }
 ];
 
@@ -182,134 +177,8 @@ export class TreeControlPlugin extends BasePlugin {
   panelTitle = '树选择';
 
   // 事件定义
-  events: RendererPluginEvent[] = [
-    {
-      eventName: 'change',
-      eventLabel: '值变化',
-      description: '选中值变化时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '变化的节点值'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项集合'
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'add',
-      eventLabel: '新增选项',
-      description: '新增节点提交时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'object',
-                  title: '新增的节点信息'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项集合'
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'edit',
-      eventLabel: '编辑选项',
-      description: '编辑选项',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'object',
-                  title: '编辑的节点信息'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项集合'
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'delete',
-      eventLabel: '删除选项',
-      description: '删除选项',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'object',
-                  title: '删除的节点信息'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项集合'
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'loadFinished',
-      eventLabel: '懒加载完成',
-      description: '懒加载接口远程请求成功时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'object',
-                  title: 'deferApi 懒加载远程请求成功后返回的数据'
-                }
-              }
-            }
-          }
-        }
-      ]
-    }
-  ];
+  events: (schema: any) => RendererPluginEvent[] = (schema: any) =>
+    TREE_BASE_EVENTS(schema);
 
   // 动作定义
   actions: RendererPluginAction[] = [
@@ -345,7 +214,7 @@ export class TreeControlPlugin extends BasePlugin {
       actionLabel: '收起',
       description: '收起树节点'
     },
-    /** 新增、编辑、删除、刷新 */
+    /** 新增、编辑、删除 */
     ...TreeCommonAction,
     {
       actionType: 'clear',
@@ -426,35 +295,6 @@ export class TreeControlPlugin extends BasePlugin {
                 name: 'type',
                 label: '模式',
                 pipeIn: defaultValue('input-tree'),
-                onChange: (
-                  value: any,
-                  oldValue: any,
-                  model: any,
-                  form: any
-                ) => {
-                  const activeEvent = cloneDeep(
-                    form.getValueByName('onEvent') || {}
-                  );
-
-                  let eventList = this.events;
-                  if (value === 'tree-select') {
-                    const treeSelectPlugin = this.manager.plugins.find(
-                      item => item.rendererName === 'tree-select'
-                    );
-
-                    eventList = treeSelectPlugin?.events || [];
-                  }
-
-                  for (let key in activeEvent) {
-                    const hasEventKey = eventList.find(
-                      event => event.eventName === key
-                    );
-                    if (!hasEventKey) {
-                      delete activeEvent[key];
-                    }
-                  }
-                  form.setValueByName('onEvent', activeEvent);
-                },
                 options: [
                   {
                     label: '内嵌',
@@ -472,6 +312,7 @@ export class TreeControlPlugin extends BasePlugin {
                   justify: true,
                   left: 8
                 },
+                value: false,
                 inputClassName: 'is-inline ',
                 visibleOn: 'data.type === "tree-select"'
               }),
@@ -490,12 +331,14 @@ export class TreeControlPlugin extends BasePlugin {
                   {
                     type: 'input-number',
                     label: tipedLabel('节点最小数', '表单校验最少选中的节点数'),
-                    name: 'minLength'
+                    name: 'minLength',
+                    min: 0
                   },
                   {
                     type: 'input-number',
                     label: tipedLabel('节点最大数', '表单校验最多选中的节点数'),
-                    name: 'maxLength'
+                    name: 'maxLength',
+                    min: 0
                   }
                 ]
               }),
@@ -644,6 +487,7 @@ export class TreeControlPlugin extends BasePlugin {
                 ),
                 value: false,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
@@ -664,6 +508,7 @@ export class TreeControlPlugin extends BasePlugin {
                 trueValue: false,
                 falseValue: true,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
@@ -726,6 +571,7 @@ export class TreeControlPlugin extends BasePlugin {
                 trueValue: false,
                 falseValue: true,
                 formType: 'extend',
+                autoFocus: false,
                 form: {
                   body: [
                     {
@@ -733,6 +579,7 @@ export class TreeControlPlugin extends BasePlugin {
                       label: '设置层级',
                       name: 'unfoldedLevel',
                       value: 1,
+                      min: 0,
                       hiddenOn: 'data.initiallyOpen'
                     }
                   ]
@@ -743,8 +590,7 @@ export class TreeControlPlugin extends BasePlugin {
             ]
           },
           getSchemaTpl('status', {
-            isFormItem: true,
-            readonly: true
+            isFormItem: true
           }),
           getSchemaTpl('validation', {tag: ValidatorTag.Tree})
         ])
@@ -780,7 +626,7 @@ export class TreeControlPlugin extends BasePlugin {
   };
 
   buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
-    const type = resolveOptionType(node.schema?.options);
+    const type = resolveOptionType(node.schema);
     // todo:异步数据case
     let dataSchema: any = {
       type,

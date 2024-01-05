@@ -43,7 +43,7 @@ export class KVControlPlugin extends BasePlugin {
     ]
   };
 
-  // 事件定义
+  // 事件定义，定义了而已，配置面板还没升级，未暴露入口
   events: RendererPluginEvent[] = [
     {
       eventName: 'add',

@@ -93,7 +93,6 @@
     border-color: var(--Pick-base-top-border-color)
       var(--Pick-base-right-border-color) var(--Pick-base-bottom-border-color)
       var(--Pick-base-left-border-color);
-    overflow: auto;
   }
 
   .#{$ns}Picker-values {

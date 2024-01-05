@@ -17,6 +17,9 @@ Object.defineProperty(window, 'DragEvent', {
   value: class DragEvent {}
 });
 
+// Mock ResizeObserver in jest env
+global.ResizeObserver = require('resize-observer-polyfill');
+
 global.__buildVersion = '';
 
 global.beforeAll(() => {

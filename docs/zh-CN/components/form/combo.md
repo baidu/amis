@@ -774,7 +774,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
         "items": [
             {
                 "type": "tpl",
-                "tpl": "<%= this.index + 1%>",
+                "tpl": "${ index + 1 }",
                 "className": "p-t-xs",
                 "mode": "inline"
             },
@@ -956,6 +956,155 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 | add        | `[name]: object \| object[]` 组件的值                                                            | 添加组合项时触发                             |
 | delete     | `key: number` 移除项的索引<br />`item: object` 移除项<br />`[name]: object \| object[]` 组件的值 | 删除组合项时触发                             |
 | tabsChange | `key: number` 选项卡索引<br />`item: object` 激活项<br />`[name]: object \| object[]` 组件的值   | 当设置 tabsMode 为 true 时，切换选项卡时触发 |
+
+### add
+
+```schema: scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "combo",
+      "name": "combo",
+      "label": "Combo",
+      "multiple": true,
+      "items": [
+        {
+          "name": "text",
+          "label": "文本",
+          "type": "input-text"
+        },
+        {
+          "name": "select",
+          "label": "选项",
+          "type": "select",
+          "options": ["a", "b", "c"]
+        }
+      ],
+      "onEvent": {
+        "add": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${event.data.value|json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### delete
+
+```schema: scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "combo",
+      "name": "combo",
+      "label": "Combo",
+      "multiple": true,
+      "items": [
+        {
+          "name": "text",
+          "label": "文本",
+          "type": "input-text"
+        },
+        {
+          "name": "select",
+          "label": "选项",
+          "type": "select",
+          "options": ["a", "b", "c"]
+        }
+      ],
+      "onEvent": {
+        "delete": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${event.data.item|json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+### tabsChange
+
+监听 tab 切换，获取被激活的索引。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "combo",
+      "name": "combo101",
+      "label": "组合多条多行",
+      "multiple": true,
+      "multiLine": true,
+      "value": [
+        {}
+      ],
+      "tabsMode": true,
+      "tabsStyle": "card",
+      "maxLength": 3,
+      "items": [
+        {
+          "name": "a",
+          "label": "文本",
+          "type": "input-text",
+          "placeholder": "文本",
+          "value": "",
+          "size": "full"
+        },
+        {
+          "name": "b",
+          "label": "选项",
+          "type": "select",
+          "options": [
+            "a",
+            "b",
+            "c"
+          ],
+          "size": "full"
+        }
+      ],
+      "onEvent": {
+        "tabsChange": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${event.data.key|json}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
 
 ## 动作表
 

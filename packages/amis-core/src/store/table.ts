@@ -1159,14 +1159,24 @@ export const TableStore = iRendererStore
         });
 
         const originColumns = self.columns.concat();
+        const ids: Array<any> = [];
         columns = columns.map((item, index) => {
           const origin = item.id
             ? originColumns.find(column => column.pristine.id === item.id)
             : originColumns[index];
 
+          let id = origin?.id || guid();
+
+          // 还不知道为何会出现这个，先用这种方式避免 id 重复
+          if (ids.includes(id)) {
+            id = guid();
+          }
+
+          ids.push(id);
+
           return {
             ...item,
-            id: origin?.id || guid(),
+            id: id,
             index,
             width: origin?.width || 0,
             minWidth: origin?.minWidth || 0,
@@ -1518,19 +1528,28 @@ export const TableStore = iRendererStore
     function updateSelected(selected: Array<any>, valueField?: string) {
       self.selectedRows.clear();
 
-      eachTree(self.rows, item => {
-        if (~selected.indexOf(item.pristine)) {
-          self.selectedRows.push(item.id);
-        } else if (
-          find(
-            selected,
-            a =>
-              a[valueField || 'value'] &&
-              a[valueField || 'value'] == item.pristine[valueField || 'value']
-          )
-        ) {
-          self.selectedRows.push(item.id);
+      selected.forEach(item => {
+        let resolved = self.rows.find(a => a.pristine === item);
+
+        // 先严格比较，
+        if (!resolved) {
+          resolved = self.rows.find(a => {
+            const selectValue = item[valueField || 'value'];
+            const itemValue = a.pristine[valueField || 'value'];
+            return selectValue === itemValue;
+          });
         }
+
+        // 再宽松比较
+        if (!resolved) {
+          resolved = self.rows.find(a => {
+            const selectValue = item[valueField || 'value'];
+            const itemValue = a.pristine[valueField || 'value'];
+            return selectValue == itemValue;
+          });
+        }
+
+        resolved && self.selectedRows.push(resolved);
       });
 
       updateCheckDisable();

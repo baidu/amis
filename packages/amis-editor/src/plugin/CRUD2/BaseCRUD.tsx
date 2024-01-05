@@ -4,16 +4,16 @@
  */
 
 import React from 'react';
-import cx from 'classnames';
+import DeepDiff from 'deep-diff';
 import isFunction from 'lodash/isFunction';
 import flattenDeep from 'lodash/flattenDeep';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import uniqBy from 'lodash/uniqBy';
-import get from 'lodash/get';
 import uniq from 'lodash/uniq';
 import sortBy from 'lodash/sortBy';
-import {toast, autobind, isObject, Icon} from 'amis';
+import pick from 'lodash/pick';
+import {toast, autobind, isObject} from 'amis';
 import {
   BasePlugin,
   EditorManager,
@@ -34,7 +34,12 @@ import {
 } from '../../renderer/event-control/helper';
 import {CRUD2Schema} from 'amis/lib/renderers/CRUD2';
 import {deepRemove, findObj, findSchema} from './utils';
-import {ToolsConfig, FiltersConfig, OperatorsConfig} from './constants';
+import {
+  ToolsConfig,
+  FiltersConfig,
+  OperatorsConfig,
+  DefaultMaxDisplayRows
+} from './constants';
 import {FieldSetting} from '../../renderer/FieldSetting';
 
 import type {IFormItemStore, IFormStore} from 'amis-core';
@@ -507,7 +512,8 @@ export class BaseCRUDPlugin extends BasePlugin {
             {
               title: '状态',
               body: [getSchemaTpl('hidden'), getSchemaTpl('visible')]
-            }
+            },
+            this.renderMockPropsCollapse(context)
           ].filter(Boolean)
         )
       ]
@@ -911,6 +917,36 @@ export class BaseCRUDPlugin extends BasePlugin {
     };
   }
 
+  renderMockPropsCollapse(context: BuildPanelEventContext) {
+    return {
+      title: 'Mock配置',
+      order: 35,
+      body: [
+        {
+          type: 'switch',
+          label: tipedLabel(
+            '数据Mock',
+            '开启后，当数据源为空时，会使用 Mock 数据'
+          ),
+          name: 'editorSetting.mock.enable',
+          value: true
+        },
+        {
+          type: 'input-number',
+          label: tipedLabel(
+            '最大展示行数',
+            '设置后，会按照设置数量展示数据，可以提高设计态渲染速度，降低表格高度，便于布局设置。设置为<code>-1</code>则不限制'
+          ),
+          name: 'editorSetting.mock.maxDisplayRows',
+          step: 1,
+          min: -1,
+          resetValue: -1,
+          value: DefaultMaxDisplayRows
+        }
+      ]
+    };
+  }
+
   /** 外观面板 */
   renderStylesTab(context: BuildPanelEventContext) {
     return {
@@ -972,7 +1008,7 @@ export class BaseCRUDPlugin extends BasePlugin {
   }
 
   /** 重新构建 API */
-  panelFormPipeOut = async (schema: any) => {
+  panelFormPipeOut = async (schema: any, oldSchema: any) => {
     const entity = schema?.api?.entity;
 
     if (!entity || schema?.dsType !== ModelDSBuilderKey) {
@@ -980,12 +1016,38 @@ export class BaseCRUDPlugin extends BasePlugin {
     }
 
     const builder = this.dsManager.getBuilderBySchema(schema);
+    const observedFields = [
+      'api',
+      'quickSaveApi',
+      'quickSaveItemApi',
+      'columns',
+      'dsType',
+      'primaryField',
+      'filter',
+      'headerToolbar',
+      'footerToolbar',
+      'columns'
+    ];
+    const diff = DeepDiff.diff(
+      pick(oldSchema, observedFields),
+      pick(schema, observedFields)
+    );
+
+    if (!diff) {
+      return schema;
+    }
 
     try {
       const updatedSchema = await builder.buildApiSchema({
         schema,
         renderer: 'crud',
-        sourceKey: 'api'
+        sourceKey: 'api',
+        apiSettings: {
+          diffConfig: {
+            enable: true,
+            schemaDiff: diff
+          }
+        }
       });
       return updatedSchema;
     } catch (e) {
@@ -1084,10 +1146,13 @@ export class BaseCRUDPlugin extends BasePlugin {
       return;
     }
 
-    const childDataSchema = await child.info.plugin.buildDataSchemas(
-      child,
-      region
-    );
+    const tmpSchema = await child.info.plugin.buildDataSchemas?.(child, region);
+
+    const childDataSchema = {
+      ...tmpSchema,
+      ...(tmpSchema?.$id ? {} : {$id: `${child.id}-${child.type}`})
+    };
+
     const items =
       childDataSchema?.properties?.rows ?? childDataSchema?.properties?.items;
     const schema: any = {

@@ -691,6 +691,7 @@ export default class NestedSelectControl extends React.Component<
               if (
                 !selfChecked &&
                 onlyChildren &&
+                multiple &&
                 this.isParentNode(option) &&
                 this.allChecked(option.children!)
               ) {

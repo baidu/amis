@@ -2,7 +2,7 @@
  * 导出 Excel 功能
  */
 
-import {filter, isEffectiveApi, arraySlice} from 'amis-core';
+import {filter, isEffectiveApi, arraySlice, isObject} from 'amis-core';
 import './ColumnToggler';
 import {TableStore} from 'amis-core';
 import {saveAs} from 'file-saver';
@@ -297,23 +297,26 @@ export async function exportExcel(
   }
 
   // 自定义导出列配置
-  if (toolbar.exportColumns && Array.isArray(toolbar.exportColumns)) {
-    columns = toolbar.exportColumns;
+  const hasCustomExportColumns =
+    toolbar.exportColumns && Array.isArray(toolbar.exportColumns);
+  if (hasCustomExportColumns) {
+    columns = toolbar.exportColumns as any[];
     // 因为后面列 props 都是从 pristine 里获取，所以这里归一一下
     for (const column of columns) {
       column.pristine = column;
     }
   }
 
+  /** 如果非自定义导出列配置，则默认不导出操作列 */
   const filteredColumns = exportColumnNames
     ? columns.filter(column => {
         const filterColumnsNames = exportColumnNames!;
         if (column.name && filterColumnsNames.indexOf(column.name) !== -1) {
-          return true;
+          return hasCustomExportColumns ? true : column?.type !== 'operation';
         }
         return false;
       })
-    : columns;
+    : columns.filter(column => column?.type !== 'operation');
 
   const firstRowLabels = filteredColumns.map(column => {
     return filter(column.label, data);
@@ -422,6 +425,7 @@ export async function exportExcel(
         }
       } else if (type == 'link' || (type as any) === 'static-link') {
         const href = column.pristine.href;
+
         const linkURL =
           (typeof href === 'string' && href
             ? filter(href, rowData, '| raw')
@@ -440,6 +444,8 @@ export async function exportExcel(
         };
       } else if (type === 'mapping' || (type as any) === 'static-mapping') {
         let map = column.pristine.map;
+        const valueField = column.pristine.valueField || 'value';
+        const labelField = column.pristine.labelField || 'label';
         const source = column.pristine.source;
         if (source) {
           let sourceValue = source;
@@ -459,6 +465,29 @@ export async function exportExcel(
           }
         }
 
+        if (Array.isArray(map)) {
+          map = map.reduce((res, now) => {
+            if (now == null) {
+              return res;
+            } else if (isObject(now)) {
+              let keys = Object.keys(now);
+              if (
+                keys.length === 1 ||
+                (keys.length == 2 && keys.includes('$$id'))
+              ) {
+                // 针对amis-editor的特殊处理
+                keys = keys.filter(key => key !== '$$id');
+                // 单key 数组对象
+                res[keys[0]] = now[keys[0]];
+              } else if (keys.length > 1) {
+                // 多key 数组对象
+                res[now[valueField]] = now;
+              }
+            }
+            return res;
+          }, {});
+        }
+
         if (typeof value !== 'undefined' && map && (map[value] ?? map['*'])) {
           const viewValue =
             map[value] ??
@@ -467,7 +496,23 @@ export async function exportExcel(
               : value === false && map['0']
               ? map['0']
               : map['*']); // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
-          let text = removeHTMLTag(viewValue);
+
+          let label = viewValue;
+          if (isObject(viewValue)) {
+            if (labelField === undefined || labelField === '') {
+              if (!viewValue.hasOwnProperty('type')) {
+                // 映射值是object
+                // 没配置labelField
+                // object 也没有 type，不能作为schema渲染
+                // 默认取 label 字段
+                label = viewValue['label'];
+              }
+            } else {
+              label = viewValue[labelField || 'label'];
+            }
+          }
+
+          let text = removeHTMLTag(label);
 
           /** map可能会使用比较复杂的html结构，富文本也无法完全支持，直接把里面的变量解析出来即可 */
           if (isPureVariable(text)) {

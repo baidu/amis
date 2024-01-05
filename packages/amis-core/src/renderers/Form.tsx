@@ -1192,10 +1192,14 @@ export default class Form extends React.Component<FormProps, object> {
         store.clear(this.handleReset(action));
       }
 
-      return this.submit((values): any => {
-        if (onSubmit && onSubmit(values, action) === false) {
-          return Promise.resolve(false);
+      return this.submit(async values => {
+        if (onSubmit) {
+          const result = await onSubmit(values, action);
+          if (result === false) {
+            return Promise.resolve(false);
+          }
         }
+
         // 走到这里代表校验成功了
         dispatchEvent('validateSucc', this.props.data);
 

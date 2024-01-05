@@ -198,9 +198,14 @@ export interface CRUD2CommonSchema extends BaseSchema, SpinnerExtraProps {
   primaryField?: string;
 
   /**
-   * 是否开启Query信息转换，开启后将会对url中的Query进行转换，将字符串格式的布尔值转化为同位类型
+   * 是否开启Query信息转换，开启后将会对url中的Query进行转换，默认开启，默认仅转化布尔值
    */
-  parsePrimitiveQuery?: boolean;
+  parsePrimitiveQuery?:
+    | {
+        enable: boolean;
+        types?: ('boolean' | 'number')[];
+      }
+    | boolean;
 }
 
 export type CRUD2CardsSchema = CRUD2CommonSchema & {
@@ -307,19 +312,20 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       perPageField,
       parsePrimitiveQuery
     } = props;
+    const parseQueryOptions = this.getParseQueryOptions(props);
 
     this.mounted = true;
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
-        parseQuery(location, {parsePrimitive: parsePrimitiveQuery}),
+        parseQuery(location, parseQueryOptions),
         undefined,
         pageField,
         perPageField
       );
     } else if (syncLocation && !location && window.location.search) {
       store.updateQuery(
-        parseQuery(window.location, {parsePrimitive: parsePrimitiveQuery}),
+        parseQuery(window.location, parseQueryOptions),
         undefined,
         pageField,
         perPageField
@@ -391,7 +397,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        parseQuery(props.location, {parsePrimitive: parsePrimitiveQuery}),
+        parseQuery(props.location, this.getParseQueryOptions(props)),
         undefined,
         props.pageField,
         props.perPageField
@@ -439,6 +445,25 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
   componentWillUnmount() {
     this.mounted = false;
     clearTimeout(this.timer);
+  }
+
+  getParseQueryOptions(props: CRUD2Props) {
+    const {parsePrimitiveQuery} = props;
+    type PrimitiveQueryObj = Exclude<
+      CRUD2Props['parsePrimitiveQuery'],
+      boolean
+    >;
+
+    const normalizedOptions = {
+      parsePrimitive: !!(isObject(parsePrimitiveQuery)
+        ? (parsePrimitiveQuery as PrimitiveQueryObj)?.enable
+        : parsePrimitiveQuery),
+      primitiveTypes: (parsePrimitiveQuery as PrimitiveQueryObj)?.types ?? [
+        'boolean'
+      ]
+    };
+
+    return normalizedOptions;
   }
 
   @autobind
@@ -504,6 +529,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
       perPageField,
       parsePrimitiveQuery
     } = this.props;
+    const parseQueryOptions = this.getParseQueryOptions(this.props);
     let {query, resetQuery, replaceQuery, loadMore, resetPage} = data || {};
 
     query =
@@ -513,7 +539,7 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
 
     /** 把布尔值反解出来 */
     if (parsePrimitiveQuery) {
-      query = parsePrimitiveQueryString(query);
+      query = parsePrimitiveQueryString(query, parseQueryOptions);
     }
 
     store.updateQuery(

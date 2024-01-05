@@ -11,7 +11,13 @@ import {
   render as amisRender
 } from 'amis';
 import cloneDeep from 'lodash/cloneDeep';
-import {FormControlProps, Schema, autobind, findTree} from 'amis-core';
+import {
+  FormControlProps,
+  Schema,
+  autobind,
+  findTree,
+  getRendererByName
+} from 'amis-core';
 import ActionDialog from './action-config-dialog';
 import {
   findActionNode,
@@ -22,7 +28,8 @@ import {
   getEventLabel,
   getPropOfAcion,
   SELECT_PROPS_CONTAINER,
-  updateCommonUseActions
+  updateCommonUseActions,
+  FORMITEM_CMPTS
 } from './helper';
 import {
   ActionConfig,
@@ -143,10 +150,12 @@ export class EventControl extends React.Component<
       [prop: string]: boolean;
     } = {};
 
-    const pluginEvents =
+    const tmpEvents =
       events[
         rawType || (!data.type || data.type === 'text' ? 'plain' : data.type)
       ] || [];
+    const pluginEvents =
+      typeof tmpEvents === 'function' ? tmpEvents(data) : [...tmpEvents];
 
     pluginEvents.forEach((event: RendererPluginEvent) => {
       eventPanelActive[event.eventName] = true;
@@ -184,10 +193,34 @@ export class EventControl extends React.Component<
     prevProps: EventControlProps,
     prevState: EventControlState
   ) {
-    const {value} = this.props;
+    const {value, data, events, rawType} = this.props;
 
     if (value !== prevProps.value) {
       this.setState({onEvent: value});
+    }
+
+    if (
+      data?.type !== prevProps.data?.type ||
+      data?.onEvent !== prevProps.data?.onEvent
+    ) {
+      const eventPanelActive: {
+        [prop: string]: boolean;
+      } = {};
+      const tmpEvents =
+        events[
+          rawType || (!data.type || data.type === 'text' ? 'plain' : data.type)
+        ] || [];
+      const pluginEvents =
+        typeof tmpEvents === 'function' ? tmpEvents(data) : [...tmpEvents];
+
+      pluginEvents.forEach((event: RendererPluginEvent) => {
+        eventPanelActive[event.eventName] = true;
+      });
+
+      this.setState({
+        events: pluginEvents,
+        eventPanelActive
+      });
     }
   }
 
@@ -329,7 +362,20 @@ export class EventControl extends React.Component<
     if (config.actionType) {
       onEventConfig[event] = {
         ...onEventConfig[event],
-        actions: (onEventConfig[event].actions || []).concat(config)
+        actions: (onEventConfig[event].actions || []).concat(
+          // 临时处理，后面干掉这么多交互属性
+          Object.defineProperties(config, {
+            __cmptTreeSource: {
+              enumerable: false
+            },
+            __nodeSchema: {
+              enumerable: false
+            },
+            __subActions: {
+              enumerable: false
+            }
+          })
+        )
       };
     }
 
@@ -432,7 +478,17 @@ export class EventControl extends React.Component<
                 ...item,
                 actionType: config
               }
-            : config
+            : Object.defineProperties(config, {
+                __cmptTreeSource: {
+                  enumerable: false
+                },
+                __nodeSchema: {
+                  enumerable: false
+                },
+                __subActions: {
+                  enumerable: false
+                }
+              })
           : item;
       })
     };
@@ -561,7 +617,14 @@ export class EventControl extends React.Component<
       );
     }
 
-    let jsonSchema = {...(eventConfig?.dataSchema?.[0] ?? {})};
+    let jsonSchema: any = {};
+
+    // 动态构建事件参数
+    if (typeof eventConfig?.dataSchema === 'function') {
+      jsonSchema = eventConfig.dataSchema(manager)?.[0];
+    } else {
+      jsonSchema = {...(eventConfig?.dataSchema?.[0] ?? {})};
+    }
 
     actions
       ?.filter(item => item.outputVar)
@@ -1042,7 +1105,7 @@ export class EventControl extends React.Component<
     } = this.props;
     const {
       onEvent,
-      events,
+      events: itemEvents,
       eventPanelActive,
       showAcionDialog,
       showEventDialog,
@@ -1053,6 +1116,47 @@ export class EventControl extends React.Component<
     const eventSnapshot = {...onEvent};
     const {showOldEntry} = this.props;
     const eventKeys = Object.keys(eventSnapshot);
+
+    let commonEvents: RendererPluginEvent[] = [];
+    if (getRendererByName(this.props?.data?.type)?.isFormItem) {
+      commonEvents = [
+        {
+          eventName: 'formItemValidateSucc',
+          eventLabel: '校验成功',
+          description: '表单项校验成功后触发',
+          dataSchema: [
+            {
+              type: 'object',
+              properties: {
+                data: {
+                  type: 'object',
+                  title: '数据',
+                  description: '当前表单数据，可以通过.字段名读取对应的值'
+                }
+              }
+            }
+          ]
+        },
+        {
+          eventName: 'formItemValidateError',
+          eventLabel: '校验失败',
+          description: '表单项校验失败后触发',
+          dataSchema: [
+            {
+              type: 'object',
+              properties: {
+                data: {
+                  type: 'object',
+                  title: '数据',
+                  description: '当前表单数据，可以通过.字段名读取对应的值'
+                }
+              }
+            }
+          ]
+        }
+      ];
+    }
+    const events = [...itemEvents, ...commonEvents];
     return (
       <div className="ae-event-control">
         <header
@@ -1255,99 +1359,98 @@ export class EventControl extends React.Component<
             </div>
           )}
         </ul>
-        {showEventDialog
-          ? amisRender(
+        {amisRender(
+          {
+            type: 'dialog',
+            title: `${eventDialogData?.eventLabel}-事件配置`,
+            showCloseButton: false,
+            body: [
               {
-                type: 'dialog',
-                title: `${eventDialogData?.eventLabel}-事件配置`,
-                showCloseButton: false,
+                type: 'form',
+                title: '表单',
+                data: {
+                  '&': '$$'
+                },
+                mode: 'horizontal',
+                horizontal: {
+                  left: 3,
+                  right: 9
+                },
                 body: [
                   {
-                    type: 'form',
-                    title: '表单',
-                    data: {
-                      '&': '$$'
-                    },
-                    mode: 'horizontal',
-                    horizontal: {
-                      left: 3,
-                      right: 9
-                    },
-                    body: [
-                      {
-                        label: '事件防重',
-                        type: 'switch',
-                        name: 'debounce.open',
-                        description:
-                          '开启事件防重后，防重时间内多次触发事件只会执行最后一次'
-                      },
-                      {
-                        label: '防重时间',
-                        required: true,
-                        hiddenOn: '!debounce.open',
-                        name: 'debounce.wait',
-                        suffix: 'ms',
-                        max: 10000,
-                        min: 0,
-                        type: 'input-number'
-                      },
-                      {
-                        label: '事件埋点',
-                        type: 'switch',
-                        name: 'track.open',
-                        description:
-                          '开启事件埋点后，每次事件触发都会发送埋点数据到后台'
-                      },
-                      {
-                        label: 'track-id',
-                        required: true,
-                        hiddenOn: '!track.open',
-                        name: 'track.id',
-                        type: 'input-text'
-                      },
-                      {
-                        label: 'track-name',
-                        required: true,
-                        hiddenOn: '!track.open',
-                        name: 'track.name',
-                        type: 'input-text'
-                      }
-                    ],
-                    onSubmit: this.eventDialogSubmit.bind(this)
-                  }
-                ],
-                actions: [
-                  {
-                    type: 'button',
-                    label: '取消',
-                    onEvent: {
-                      click: {
-                        actions: [
-                          {
-                            actionType: 'custom',
-                            script: () => {
-                              this.setState({
-                                showEventDialog: false
-                              });
-                            }
-                          }
-                        ]
-                      }
-                    }
+                    label: '事件防重',
+                    type: 'switch',
+                    name: 'debounce.open',
+                    description:
+                      '开启事件防重后，防重时间内多次触发事件只会执行最后一次'
                   },
                   {
-                    type: 'button',
-                    actionType: 'confirm',
-                    label: '确认',
-                    primary: true
+                    label: '防重时间',
+                    required: true,
+                    hiddenOn: '!debounce.open',
+                    name: 'debounce.wait',
+                    suffix: 'ms',
+                    max: 10000,
+                    min: 0,
+                    type: 'input-number'
+                  },
+                  {
+                    label: '事件埋点',
+                    type: 'switch',
+                    name: 'track.open',
+                    description:
+                      '开启事件埋点后，每次事件触发都会发送埋点数据到后台'
+                  },
+                  {
+                    label: 'track-id',
+                    required: true,
+                    hiddenOn: '!track.open',
+                    name: 'track.id',
+                    type: 'input-text'
+                  },
+                  {
+                    label: 'track-name',
+                    required: true,
+                    hiddenOn: '!track.open',
+                    name: 'track.name',
+                    type: 'input-text'
                   }
-                ]
+                ],
+                onSubmit: this.eventDialogSubmit.bind(this)
+              }
+            ],
+            actions: [
+              {
+                type: 'button',
+                label: '取消',
+                onEvent: {
+                  click: {
+                    actions: [
+                      {
+                        actionType: 'custom',
+                        script: () => {
+                          this.setState({
+                            showEventDialog: false
+                          });
+                        }
+                      }
+                    ]
+                  }
+                }
               },
               {
-                data: eventDialogData
+                type: 'button',
+                actionType: 'confirm',
+                label: '确认',
+                primary: true
               }
-            )
-          : null}
+            ]
+          },
+          {
+            data: eventDialogData,
+            show: showEventDialog
+          }
+        )}
         <ActionDialog
           show={showAcionDialog}
           type={type}

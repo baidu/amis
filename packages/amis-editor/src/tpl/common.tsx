@@ -85,9 +85,11 @@ setSchemaTpl(
   'formItemExtraName',
   getSchemaTpl('formItemName', {
     required: false,
-    label: '结尾字段名',
-    name: 'extraName',
-    description: '配置了结尾字段名，该组件将开始和结尾存成两个字段'
+    label: tipedLabel(
+      '结尾字段名',
+      '配置了结尾字段名，该组件将开始和结尾存成两个字段'
+    ),
+    name: 'extraName'
   })
 );
 
@@ -248,7 +250,7 @@ setSchemaTpl('labelHide', () =>
     pipeIn: (value: any) => value === false,
     pipeOut: (value: any) => (value === true ? false : ''),
     visibleOn:
-      'this.__props__ && this.__props__.formMode === "horizontal" || data.mode === "horizontal" || data.label === false'
+      'this.__props__ && this.__props__.formMode === "horizontal" || data.mode === "horizontal"'
   })
 );
 
