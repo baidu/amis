@@ -75,7 +75,7 @@ export interface OptionProps {
   extractValue?: boolean;
   delimiter?: string;
   clearable?: boolean;
-  resetValue: any;
+  resetValue?: any;
   placeholder?: string;
   disabled?: boolean;
   creatable?: boolean;
@@ -425,7 +425,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
     placeholder: 'Select.placeholder',
     valueField: 'value',
     labelField: 'label',
-    resetValue: '',
     inline: false,
     disabled: false,
     checkAll: false,

@@ -255,7 +255,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
           ? (value as Option)[valueField || 'value']
           : '';
       } else {
-        newValue = newValue ? (newValue as Option)[valueField || 'value'] : '';
+        newValue = newValue
+          ? (newValue as Option)[valueField || 'value']
+          : undefined;
       }
     } else if (extractValue) {
       if (multiple) {
@@ -265,7 +267,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
           ? [(value as Option)[valueField || 'value']]
           : [];
       } else {
-        newValue = newValue ? (newValue as Option)[valueField || 'value'] : '';
+        newValue = newValue
+          ? (newValue as Option)[valueField || 'value']
+          : undefined;
       }
     }
 
@@ -440,9 +444,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     const actionType = action?.actionType as string;
 
     if (actionType === 'clear') {
-      onChange?.('');
+      onChange?.(undefined);
     } else if (actionType === 'reset') {
-      const value = this.getValue(resetValue ?? '');
+      const value = this.getValue(resetValue ?? undefined);
       onChange?.(value);
     }
   }

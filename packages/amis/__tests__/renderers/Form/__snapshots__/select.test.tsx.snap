@@ -2930,7 +2930,7 @@ exports[`Renderer:select virtual 1`] = `
             <div
               aria-expanded="true"
               aria-haspopup="listbox"
-              aria-owns="downshift-1-menu"
+              aria-owns="downshift-2-menu"
               class="cxd-Select is-opened has-popover"
               role="combobox"
               style="position: relative;"
@@ -2974,7 +2974,7 @@ exports[`Renderer:select virtual 1`] = `
                       <div
                         aria-selected="false"
                         class="cxd-Select-option"
-                        id="downshift-1-item-0"
+                        id="downshift-2-item-0"
                         role="option"
                         style="position: absolute; top: 0px; left: 0px; width: 100%; height: 32px;"
                       >
@@ -2988,7 +2988,7 @@ exports[`Renderer:select virtual 1`] = `
                       <div
                         aria-selected="false"
                         class="cxd-Select-option"
-                        id="downshift-1-item-1"
+                        id="downshift-2-item-1"
                         role="option"
                         style="position: absolute; top: 32px; left: 0px; width: 100%; height: 32px;"
                       >
@@ -3002,7 +3002,7 @@ exports[`Renderer:select virtual 1`] = `
                       <div
                         aria-selected="false"
                         class="cxd-Select-option"
-                        id="downshift-1-item-2"
+                        id="downshift-2-item-2"
                         role="option"
                         style="position: absolute; top: 64px; left: 0px; width: 100%; height: 32px;"
                       >
@@ -3016,7 +3016,7 @@ exports[`Renderer:select virtual 1`] = `
                       <div
                         aria-selected="false"
                         class="cxd-Select-option"
-                        id="downshift-1-item-3"
+                        id="downshift-2-item-3"
                         role="option"
                         style="position: absolute; top: 96px; left: 0px; width: 100%; height: 32px;"
                       >
@@ -3030,7 +3030,7 @@ exports[`Renderer:select virtual 1`] = `
                       <div
                         aria-selected="false"
                         class="cxd-Select-option"
-                        id="downshift-1-item-4"
+                        id="downshift-2-item-4"
                         role="option"
                         style="position: absolute; top: 128px; left: 0px; width: 100%; height: 32px;"
                       >
@@ -3044,7 +3044,7 @@ exports[`Renderer:select virtual 1`] = `
                       <div
                         aria-selected="false"
                         class="cxd-Select-option"
-                        id="downshift-1-item-5"
+                        id="downshift-2-item-5"
                         role="option"
                         style="position: absolute; top: 160px; left: 0px; width: 100%; height: 32px;"
                       >
@@ -3058,7 +3058,7 @@ exports[`Renderer:select virtual 1`] = `
                       <div
                         aria-selected="false"
                         class="cxd-Select-option"
-                        id="downshift-1-item-6"
+                        id="downshift-2-item-6"
                         role="option"
                         style="position: absolute; top: 192px; left: 0px; width: 100%; height: 32px;"
                       >
@@ -3072,7 +3072,7 @@ exports[`Renderer:select virtual 1`] = `
                       <div
                         aria-selected="false"
                         class="cxd-Select-option"
-                        id="downshift-1-item-7"
+                        id="downshift-2-item-7"
                         role="option"
                         style="position: absolute; top: 224px; left: 0px; width: 100%; height: 32px;"
                       >
@@ -3086,7 +3086,7 @@ exports[`Renderer:select virtual 1`] = `
                       <div
                         aria-selected="false"
                         class="cxd-Select-option"
-                        id="downshift-1-item-8"
+                        id="downshift-2-item-8"
                         role="option"
                         style="position: absolute; top: 256px; left: 0px; width: 100%; height: 32px;"
                       >
@@ -3100,7 +3100,7 @@ exports[`Renderer:select virtual 1`] = `
                       <div
                         aria-selected="false"
                         class="cxd-Select-option"
-                        id="downshift-1-item-9"
+                        id="downshift-2-item-9"
                         role="option"
                         style="position: absolute; top: 288px; left: 0px; width: 100%; height: 32px;"
                       >
@@ -3114,7 +3114,7 @@ exports[`Renderer:select virtual 1`] = `
                       <div
                         aria-selected="false"
                         class="cxd-Select-option"
-                        id="downshift-1-item-10"
+                        id="downshift-2-item-10"
                         role="option"
                         style="position: absolute; top: 320px; left: 0px; width: 100%; height: 32px;"
                       >
@@ -3128,7 +3128,7 @@ exports[`Renderer:select virtual 1`] = `
                       <div
                         aria-selected="false"
                         class="cxd-Select-option"
-                        id="downshift-1-item-11"
+                        id="downshift-2-item-11"
                         role="option"
                         style="position: absolute; top: 352px; left: 0px; width: 100%; height: 32px;"
                       >

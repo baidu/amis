@@ -314,6 +314,73 @@ test('Renderer:select table with labelField & valueField', async () => {
   expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
 });
 
+test('Renderer:selectClearable', async () => {
+  const onSubmit = jest.fn();
+  const {debug, container, findByText, getByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        debug: true,
+        body: [
+          {
+            label: '表格形式',
+            type: 'select',
+            name: 'selectValue',
+            clearable: true,
+            options: [
+              {
+                label: 'Aaa',
+                value: 'a'
+              },
+              {
+                label: 'Bbb',
+                value: 'b'
+              },
+              {
+                label: 'Ccc',
+                value: 'c'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        onSubmit
+      },
+      makeEnv({})
+    )
+  );
+
+  fireEvent.click(await findByText('请选择'));
+
+  await waitFor(() => {
+    expect(container.querySelector('.cxd-Select-popover')).toBeInTheDocument();
+  });
+
+  fireEvent.click(await findByText('Aaa'));
+
+  // selectValue 将显示在 debug 里
+  await waitFor(async () => {
+    expect(await findByText('selectValue')).toBeInTheDocument();
+  });
+
+  // 点击 clearable 按钮
+  await waitFor(() => {
+    expect(container.querySelector('.cxd-Select-clear')).toBeInTheDocument();
+  });
+
+  fireEvent.click(container.querySelector('.cxd-Select-clear')!);
+
+  await waitFor(async () => {
+    expect(await findByText('请选择')).toBeInTheDocument();
+  });
+
+  // 应该被清除
+  await waitFor(async () => {
+    expect(await findByText('0 items')).toBeInTheDocument();
+  });
+});
+
 test('Renderer:select tree', () => {
   const {container} = render(
     amisRender(

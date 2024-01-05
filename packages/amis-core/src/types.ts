@@ -507,7 +507,7 @@ export interface OptionProps {
   extractValue?: boolean;
   delimiter?: string;
   clearable?: boolean;
-  resetValue: any;
+  resetValue?: any;
   placeholder?: string;
   disabled?: boolean;
   creatable?: boolean;

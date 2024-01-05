@@ -301,7 +301,6 @@ export function registerOptionsControl(config: OptionsConfig) {
       extractValue: false,
       multiple: false,
       placeholder: 'Select.placeholder',
-      resetValue: '',
       deleteConfirmText: 'deleteConfirm',
       ...Control.defaultProps
     };
