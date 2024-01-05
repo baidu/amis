@@ -36,6 +36,7 @@ register('zh-CN', {
   'Copyable.tip': '点击复制',
   'CRUD.exportCSV': '导出 CSV',
   'CRUD.exportExcel': '导出 Excel',
+  'CRUD.exportExcelTemplate': '导出 Excel 模板',
   'CRUD.fetchFailed': '获取失败',
   'CRUD.filter': '筛选',
   'CRUD.selected': '已选{{total}}条：',

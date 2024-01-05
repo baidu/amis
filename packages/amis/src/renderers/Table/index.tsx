@@ -2215,6 +2215,9 @@ export default class Table extends React.Component<TableProps, object> {
     } else if (type === 'export-excel') {
       this.renderedToolbars.push(type);
       return this.renderExportExcel(toolbar);
+    } else if (type === 'export-excel-template') {
+      this.renderedToolbars.push(type);
+      return this.renderExportExcelTemplate(toolbar);
     }
 
     return void 0;
@@ -2377,15 +2380,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderExportExcel(toolbar: ExportExcelToolbar) {
-    const {
-      store,
-      env,
-      classPrefix: ns,
-      classnames: cx,
-      translate: __,
-      data,
-      render
-    } = this.props;
+    const {store, translate: __, render} = this.props;
     let columns = store.filteredColumns || [];
 
     if (!columns) {
@@ -2411,6 +2406,38 @@ export default class Table extends React.Component<TableProps, object> {
               console.error(error);
             } finally {
               store.update({exportExcelLoading: false});
+            }
+          });
+        }
+      }
+    );
+  }
+
+  /**
+   * 导出 Excel 模板
+   */
+  renderExportExcelTemplate(toolbar: ExportExcelToolbar) {
+    const {store, translate: __, render} = this.props;
+    let columns = store.filteredColumns || [];
+
+    if (!columns) {
+      return null;
+    }
+
+    return render(
+      'exportExcelTemplate',
+      {
+        label: __('CRUD.exportExcelTemplate'),
+        ...(toolbar as any),
+        type: 'button'
+      },
+      {
+        onAction: () => {
+          import('exceljs').then(async (ExcelJS: any) => {
+            try {
+              await exportExcel(ExcelJS, this.props, toolbar, true);
+            } catch (error) {
+              console.error(error);
             }
           });
         }
