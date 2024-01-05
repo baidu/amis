@@ -98,6 +98,10 @@ export class TableCellPlugin extends BasePlugin {
               ]
             },
 
+            getSchemaTpl('icon', {
+              name: 'quickEdit.icon'
+            }),
+
             getSchemaTpl('switch', {
               name: 'quickEdit.saveImmediately',
               label: '是否立即保存',

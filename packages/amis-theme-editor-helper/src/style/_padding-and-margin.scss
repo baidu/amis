@@ -126,8 +126,8 @@ $bg: url('data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjI1NnB4IiBoZWlnaHQ9IjEzMnB4
     position: relative;
     &::before,
     &::after {
-      font-size: 10px;
-      color: #b8babf;
+      font-size: 12px;
+      color: #151b26;
       font-weight: 400;
       position: absolute;
       transform: scale(0.8);
@@ -209,14 +209,14 @@ $bg: url('data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjI1NnB4IiBoZWlnaHQ9IjEzMnB4
   }
   &-custom--padding {
     &::after {
-      content: 'Padding';
+      content: '内边距';
       top: px2rem(28px);
       left: px2rem(56px);
     }
   }
   &-custom--margin {
     &::before {
-      content: 'Margin';
+      content: '外边距';
       top: 0;
       left: px2rem(2px);
     }

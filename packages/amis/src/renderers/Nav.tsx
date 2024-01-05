@@ -722,7 +722,10 @@ export class Navigation extends React.Component<
           ) : null,
           icon: beforeIcon.length ? <i>{beforeIcon}</i> : null,
           children: children
-            ? this.normalizeNavigations(children, depth + 1)
+            ? this.normalizeNavigations(
+                children,
+                link.mode === 'group' ? depth : depth + 1
+              )
             : [],
           path: link.to,
           open: link.unfolded,
@@ -1232,10 +1235,14 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
 
     getCurrentLink(key: string) {
       let link = null;
-      const {config, data} = this.props;
+      const {config, data, valueField} = this.props;
       const id = resolveVariableAndFilter(key, data, '| raw');
       if (key) {
-        link = findTree(config, item => item.label == id || item.key == id);
+        link = findTree(config, item =>
+          valueField
+            ? item[valueField] === id
+            : item.label == id || item.key == id
+        );
       }
       return link;
     }
@@ -1511,6 +1518,7 @@ export class NavigationRenderer extends React.Component<RendererProps> {
     const actionType = action?.actionType as any;
     const value = args?.value || action?.data?.value;
     if (actionType === 'updateItems') {
+      const {valueField} = this.props;
       let children: Array<Link> = [];
       if (value) {
         if (Array.isArray(value)) {
@@ -1521,20 +1529,26 @@ export class NavigationRenderer extends React.Component<RendererProps> {
               item => item.children && item.children.length
             );
             if (item) {
-              const key = item?.key || item?.label;
+              const key = valueField
+                ? item[valueField]
+                : item?.key || item?.label;
+
               if (this.navRef.state.currentKey !== key) {
-                this.navRef.setState({currentKey: item?.key || item?.label});
+                this.navRef.setState({currentKey: key});
                 children = item.children;
               }
+            } else {
+              this.navRef.setState({currentKey: ''});
             }
           }
         } else if (typeof value === 'string') {
-          const currentLink = this.navRef.getCurrentLink(value);
-          this.navRef.setState({
-            currentKey: currentLink.key || currentLink.label
-          });
-
-          children = currentLink?.children;
+          if (this.navRef.state.currentKey !== value) {
+            this.navRef.setState({
+              currentKey: value
+            });
+            const currentLink = this.navRef.getCurrentLink(value);
+            children = currentLink?.children;
+          }
         }
       }
       if (children.length > 0) {

@@ -2768,6 +2768,49 @@ interface CRUDMatchFunc {
             "name": "grade",
             "label": "CSS grade"
         }
+    ]`
+}
+```
+
+### 导出 Excel 模板
+
+> 6.1 及以上版本
+
+配置是 `export-excel-template` 和前面 `export-excel` 不同，这个功能只导出表头，主要用于线下填数据，可以配合 input-excel 组件来上传填好的内容。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "headerToolbar": [{
+        "type": "export-excel-template",
+        "label": "导出 Excel 模板",
+    }],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
     ]
 }
 ```
@@ -3646,13 +3689,13 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 除了 Table 组件默认支持的列配置，CRUD 的列配置还额外支持以下属性：
 
-| 属性名             | 类型                                                            | 默认值  | 说明                                                                        | 版本 |
-| ------------------ | --------------------------------------------------------------- | ------- | --------------------------------------------------------------------------- | ---- |
-| sortable           | `boolean`                                                       | `false` | 是否可排序                                                                  |
-| searchable         | `boolean` \| `Schema`                                           | `false` | 是否可快速搜索，开启`autoGenerateFilter`后，`searchable`支持配置`Schema`    |
-| filterable         | `boolean` \| [`QuickFilterConfig`](./crud.md#quickfilterconfig) | `false` | 是否可快速搜索，`options`属性为静态选项，支持设置`source`属性从接口获取选项 |
-| quickEdit          | `boolean` \| [`QuickEditConfig`](./crud.md#quickeditconfig)     | -       | 快速编辑，一般需要配合`quickSaveApi`接口使用                                |
-| quickEditEnabledOn | `SchemaExpression`                                              | -       | 开启快速编辑条件[表达式](../../docs/concepts/expression)                    |      |
+| 属性名             | 类型                                                         | 默认值  | 说明                                                                        | 版本 |
+| ------------------ | ------------------------------------------------------------ | ------- | --------------------------------------------------------------------------- | ---- |
+| sortable           | `boolean`                                                    | `false` | 是否可排序                                                                  |
+| searchable         | `boolean` \| `Schema`                                        | `false` | 是否可快速搜索，开启`autoGenerateFilter`后，`searchable`支持配置`Schema`    |
+| filterable         | `boolean` \| [`QuickFilterConfig`](./crud#quickfilterconfig) | `false` | 是否可快速搜索，`options`属性为静态选项，支持设置`source`属性从接口获取选项 |
+| quickEdit          | `boolean` \| [`QuickEditConfig`](./crud#quickeditconfig)     | -       | 快速编辑，一般需要配合`quickSaveApi`接口使用                                |
+| quickEditEnabledOn | `SchemaExpression`                                           | -       | 开启快速编辑条件[表达式](../../docs/concepts/expression)                    |      |
 
 #### QuickFilterConfig
 
@@ -3666,12 +3709,13 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 
 #### QuickEditConfig
 
-| 属性名          | 类型                      | 默认值      | 说明                                                                                                    | 版本 |
-| --------------- | ------------------------- | ----------- | ------------------------------------------------------------------------------------------------------- | ---- |
-| type            | `SchemaType`              | -           | 表单项组件类型                                                                                          |      |
-| body            | `SchemaCollection`        | -           | 组件容器，支持多个表单项组件                                                                            |      |
-| mode            | `'inline' \| 'popOver'`   | `'popOver'` | 编辑模式，inline 为行内编辑，popOver 为浮层编辑                                                         |      |
-| saveImmediately | `boolean` 或 `{api: Api}` | `false`     | 是否修改后即时保存，一般需要配合`quickSaveItemApi`接口使用，也可以直接配置[`Api`](../../docs/types/api) |      |
+| 属性名          | 类型                      | 默认值      | 说明                                                                                                    | 版本    |
+| --------------- | ------------------------- | ----------- | ------------------------------------------------------------------------------------------------------- | ------- |
+| type            | `SchemaType`              | -           | 表单项组件类型                                                                                          |         |
+| body            | `SchemaCollection`        | -           | 组件容器，支持多个表单项组件                                                                            |         |
+| mode            | `'inline' \| 'popOver'`   | `'popOver'` | 编辑模式，inline 为行内编辑，popOver 为浮层编辑                                                         |         |
+| icon            | `string`                  | -           | 自定义快速编辑按钮的图标                                                                                | `6.1.0` |
+| saveImmediately | `boolean` 或 `{api: Api}` | `false`     | 是否修改后即时保存，一般需要配合`quickSaveItemApi`接口使用，也可以直接配置[`Api`](../../docs/types/api) |         |
 
 ### columns-toggler 属性表
 

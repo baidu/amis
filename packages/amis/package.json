@@ -46,7 +46,7 @@
     "echarts": "5.4.0",
     "echarts-stat": "^1.2.0",
     "echarts-wordcloud": "^2.1.0",
-    "exceljs": "^4.3.0",
+    "exceljs": "^4.4.0",
     "file-saver": "^2.0.2",
     "hls.js": "1.1.3",
     "hoist-non-react-statics": "^3.3.2",
