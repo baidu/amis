@@ -8,21 +8,21 @@
     padding: 0;
 
     .#{$ns}Badge {
-      display: inline-block;
-      width: var(--Wizard-badge-size);
-      height: var(--Wizard-badge-size);
-      font-size: var(--Wizard-badge-fontSize);
-      line-height: var(--Wizard-badge-size);
-      color: var(--Wizard-badge-color);
-      text-align: center;
-      white-space: nowrap;
-      vertical-align: middle;
-      background: var(--Wizard-badge-bg);
-      border-radius: var(--Wizard-badge-borderRadius); // font-weight: 700;
-      text-shadow: 0 px2rem(1px) 0 rgba(0, 0, 0, 0.2);
+      // display: inline-block;
+      // width: var(--Wizard-badge-size);
+      // height: var(--Wizard-badge-size);
+      // font-size: var(--Wizard-badge-fontSize);
+      // line-height: var(--Wizard-badge-size);
+      // color: var(--Wizard-badge-color);
+      // text-align: center;
+      // white-space: nowrap;
+      // vertical-align: middle;
+      // background: var(--Wizard-badge-bg);
+      // border-radius: var(--Wizard-badge-borderRadius); // font-weight: 700;
+      // text-shadow: 0 px2rem(1px) 0 rgba(0, 0, 0, 0.2);
       margin-right: var(--Wizard-badge-marginRight);
-      border: var(--Wizard-badge-border);
-      box-sizing: content-box;
+      // border: var(--Wizard-badge-border);
+      // box-sizing: content-box;
 
       // &--primary {
       //     background: var(--primary);
@@ -63,12 +63,6 @@
         color: var(--Wizard-badge-onComplete-color);
         background: var(--Wizard-badge-onComplete-backgroundColor);
       }
-    }
-
-    .#{$ns}Badge-Button {
-      width: auto;
-      height: auto;
-      border: none;
     }
 
     ul li.active {

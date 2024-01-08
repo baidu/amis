@@ -261,18 +261,8 @@ export class Badge extends React.Component<BadgeProps, object> {
       ></div>
     ) : null;
 
-    const {children: badgeChildren} = this.props as any;
-    const isChildrenTypeButton: boolean =
-      badgeChildren?.props?.type === 'button';
-
     return (
-      <div
-        className={cx(
-          !isChildrenTypeButton || 'Badge-Button',
-          'Badge',
-          className
-        )}
-      >
+      <div className={cx('Badge', className)}>
         {children}
         {isDisplay
           ? this.renderBadge(
