@@ -1293,7 +1293,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                   mode: 'horizontal',
                   options: [
                     {label: '组件变量', value: 'cmpt'},
-                    {label: '页面变量', value: 'page'},
+                    {label: '页面参数', value: 'page'},
                     {label: '内存变量', value: 'app'}
                   ],
                   value: /^appVariables/.test(path) // 只需要初始化时更新value
@@ -1541,7 +1541,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 })
               ]
             },
-            // 页面变量
+            // 页面参数
             {
               type: 'container',
               visibleOn: '__actionSubType === "page"',
@@ -1552,8 +1552,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     className: 'p-none',
                     body: [
                       getCustomNodeTreeSelectSchema({
-                        label: '页面变量',
-                        rootLabel: '页面变量',
+                        label: '页面参数',
+                        rootLabel: '页面参数',
                         options: pageVariableOptions
                       }),
                       getSchemaTpl('formulaControl', {
