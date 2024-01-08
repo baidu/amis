@@ -2493,6 +2493,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       classnames: cx,
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength,
+      maxItemSelectionLength,
       onAction,
       popOverContainer,
       translate: __,
@@ -2580,12 +2581,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                   : false
                 : multiple,
             selected:
-              pickerMode || keepItemSelectionOnPageChange
+              pickerMode ||
+              keepItemSelectionOnPageChange ||
+              maxItemSelectionLength
                 ? store.selectedItemsAsArray
                 : undefined,
             strictMode,
             keepItemSelectionOnPageChange,
             maxKeepItemSelectionLength,
+            maxItemSelectionLength,
             valueField: valueField || primaryField,
             primaryField: primaryField,
             hideQuickSaveBtn,

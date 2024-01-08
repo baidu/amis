@@ -2891,11 +2891,10 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
                             data-role="checkbox"
                           >
                             <input
-                              disabled=""
                               type="checkbox"
                             />
                             <i />
