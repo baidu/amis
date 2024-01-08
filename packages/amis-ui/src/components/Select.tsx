@@ -1364,7 +1364,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
               !disabled &&
               (Array.isArray(value)
                 ? value.length
-                : value != null && value !== resetValue) ? (
+                : value != null &&
+                  value !== resetValue &&
+                  typeof value !== 'undefined' &&
+                  value !== '') ? (
                 <a onClick={this.clearValue} className={cx('Select-clear')}>
                   <Icon icon="input-clear" className="icon" />
                 </a>
