@@ -1123,6 +1123,42 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 
 你可以通过[数据映射](../../docs/concepts/data-mapping)，在`api`中获取这些参数。
 
+#### 快速过滤支持检索
+
+> 3.7.0 及以上版本
+
+通过配置 `searchable` 支持选项检索
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade",
+            "filterable": {
+                "searchable": true,
+                "options": [
+                    "A",
+                    "B",
+                    "C",
+                    "D",
+                    "X"
+                ]
+            }
+        }
+    ]
+}
+```
+
+如果需要更细节的配置，可以使用 `searchConfig`，详细配置项参考 search-box 组件
+
 #### 下拉数据源
 
 过滤器的数据域支持 API 接口和上下文数据(`3.6.0`及以上版本)
