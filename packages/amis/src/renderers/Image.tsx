@@ -570,14 +570,6 @@ export class ImageField extends React.Component<
     }
   }
 
-  stringParse(str: string, type: 'title' | 'caption') {
-    const {render, data} = this.props;
-
-    return render(type, str, {
-      data: createObject(data)
-    });
-  }
-
   render() {
     const {
       className,
@@ -603,11 +595,7 @@ export class ImageField extends React.Component<
       wrapperCustomStyle,
       id,
       themeCss,
-      env,
-      embed,
-      showToolbar,
-      enlargeWithGallary,
-      position
+      env
     } = this.props;
 
     const finnalSrc = src ? filter(src, data, '| raw') : '';
@@ -617,32 +605,6 @@ export class ImageField extends React.Component<
       defaultImage && !value
         ? filter(defaultImage, data, '| raw')
         : imagePlaceholder;
-
-    const filterSrc = value ? value : defaultValue;
-
-    if (embed) {
-      const filterOriginalSrc = filter(originalSrc, data, '| raw') ?? value;
-      const items = [
-        {
-          src: filterSrc,
-          originalSrc: filterOriginalSrc || src,
-          title: title ? this.stringParse(title, 'title') : '',
-          caption: imageCaption ? this.stringParse(imageCaption, 'caption') : ''
-        }
-      ];
-
-      return (
-        <ImageGallery
-          embed
-          items={items}
-          showToolbar={showToolbar}
-          position={position}
-          enlargeWithGallary={enlargeWithGallary}
-        >
-          <></>
-        </ImageGallery>
-      );
-    }
 
     return (
       <div
@@ -666,7 +628,7 @@ export class ImageField extends React.Component<
             thumbClassName={thumbClassName}
             height={height}
             width={width}
-            src={filterSrc}
+            src={value ? value : defaultValue}
             href={finnalHref}
             title={filter(title, data)}
             caption={filter(imageCaption, data)}

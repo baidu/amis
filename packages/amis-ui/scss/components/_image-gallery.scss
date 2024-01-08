@@ -442,19 +442,18 @@
     }
   }
 
+  &-range {
+    width: px2rem(200px);
+  }
+
   &-pagination {
     flex: 1;
     text-align: right;
 
     > ul {
-      width: px2rem(102px);
 
       li {
         color: var(--white);
-        
-        span {
-          min-width: unset;
-        }
 
         svg {
           color: var(--white);

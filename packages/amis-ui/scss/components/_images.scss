@@ -2,9 +2,9 @@
 
 .#{$ns}Images {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 120px);
-  grid-row-gap: 8px;
-  grid-column-gap: 8px;
+  grid-template-columns: repeat(auto-fill, px2rem(120px));
+  grid-row-gap: px2rem(8px);
+  grid-column-gap: px2rem(8px);
   margin: calc(var(--gap-xs) * -1);
 
   &-item {

@@ -5,6 +5,7 @@ import {autobind} from 'amis-core';
 import Modal from './Modal';
 import {Icon} from './icons';
 import {LocaleProps, localeable} from 'amis-core';
+import Range from './Range';
 import Spinner, {SpinnerExtraProps} from './Spinner';
 import DragProgress from './DragProgress';
 import Sliding from './Sliding';
@@ -135,7 +136,7 @@ export class ImageGallery extends React.Component<
       },
       {
         key: ImageActionKey.DOWNLOAD,
-        icon: 'download-new',
+        icon: 'image-download',
         label: 'download'
       },
       {
@@ -356,7 +357,6 @@ export class ImageGallery extends React.Component<
   setIndex(cIndex: number) {
     const {items, index} = this.state;
     const bool = items[index].originalSrc === items[cIndex].originalSrc;
-    console.log(bool);
     this.setState({
       index: cIndex,
       imageLoading: !bool,
@@ -488,7 +488,7 @@ export class ImageGallery extends React.Component<
   }
 
   renderToolbar(actions: ImageAction[]) {
-    const {classnames: cx, translate: __, className, embed} = this.props;
+    const {classnames: cx, translate: __, className} = this.props;
     const {scale, index, items} = this.state;
 
     return (
@@ -497,12 +497,15 @@ export class ImageGallery extends React.Component<
           {actions.map(action => {
             if (action.key === ImageActionKey.DRAG) {
               return (
-                <DragProgress
-                  value={scale}
-                  onChange={this.handleDragProgress}
-                  skin={embed ? 'light' : 'dark'}
-                  max={2}
-                />
+                <div className={cx('ImageGallery-toolbar-range')}>
+                  <Range
+                    onChange={this.handleDragProgress}
+                    value={scale * 100}
+                    step={1}
+                    min={0}
+                    max={200}
+                  />
+                </div>
               );
             }
 

@@ -28,7 +28,7 @@ import RemoveIcon from '../icons/remove.svg';
 import RetryIcon from '../icons/retry.svg';
 import UploadIcon from '../icons/upload.svg';
 import DownloadIcon from '../icons/download.svg';
-import DownloadNewIcon from '../icons/download-new.svg';
+import ImageDownload from '../icons/image-download.svg';
 import FileIcon from '../icons/file.svg';
 import SuccessIcon from '../icons/success.svg';
 import FailIcon from '../icons/fail.svg';
@@ -165,7 +165,7 @@ registerIcon('remove', RemoveIcon);
 registerIcon('retry', RetryIcon);
 registerIcon('upload', UploadIcon);
 registerIcon('download', DownloadIcon);
-registerIcon('download-new', DownloadNewIcon);
+registerIcon('image-download', ImageDownload);
 
 registerIcon('file', FileIcon);
 registerIcon('success', SuccessIcon);

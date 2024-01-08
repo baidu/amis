@@ -420,6 +420,8 @@ Array<{
 
 ## 内嵌模式
 
+> 6.0.1 及以上版本
+
 在 **images 组件** 上，配置`embed`为`true`，支持放大预览
 
 ```schema
@@ -730,7 +732,7 @@ List 的内容、Card 卡片的内容配置同上。
 | thumbRatio         | `string`                                   | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                                                                            |
 | showToolbar        | `boolean`                                  | `false`   | 放大模式下是否展示图片的工具栏                                                                                                          | `2.2.0` |
 | toolbarActions     | `ImageAction[]`                            |           | 图片工具栏，支持旋转，缩放，默认操作全部开启                                                                                            | `2.2.0` |
-| embed     | `boolean`                                  |     `false`      | 内嵌模式，当是 `true` 开启内嵌显示                                                  | `3.5.3` |
-| imageStyle     | `object`                                  |           | 设置图片列表每一项的style                                                  | `3.5.3` |
-| position.toolbar     | `top' \| 'bottom'`                                  |      `'bottom'`     | 设置图片放大时，工具栏位置                                             | `3.5.3` |
-| position.description     | `'left' \| 'right'`                                  |     `'right'`     | 设置图片放大时，描述对应显示框位置                                                  | `3.5.3` |
+| embed     | `boolean`                                  |     `false`      | 内嵌模式，当是 `true` 开启内嵌显示                                                  | `6.0.1` |
+| imageStyle     | `object`                                  |           | 设置图片列表每一项的style                                                  | `6.0.1` |
+| position.toolbar     | `top' \| 'bottom'`                                  |      `'bottom'`     | 设置图片放大时，工具栏位置                                             | `6.0.1` |
+| position.description     | `'left' \| 'right'`                                  |     `'right'`     | 设置图片放大时，描述对应显示框位置                                                  | `6.0.1` |
