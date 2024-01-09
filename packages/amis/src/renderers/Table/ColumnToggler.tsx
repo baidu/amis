@@ -176,7 +176,7 @@ export default class ColumnToggler extends React.Component<
 
   componentDidUpdate(prevProps: ColumnTogglerProps) {
     if (anyChanged('activeToggaleColumns', prevProps, this.props)) {
-      this.setState({tempColumns: this.props.columns});
+      this.setState({tempColumns: cloneDeep(this.props.columns)});
     }
   }
 
