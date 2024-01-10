@@ -1,4 +1,5 @@
 import React from 'react';
+import {string2regExp} from './string2regExp';
 
 export function highlight(
   text: string,
@@ -10,7 +11,7 @@ export function highlight(
   }
 
   text = String(text);
-  const reg = new RegExp(input.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&'), 'ig');
+  const reg = string2regExp(input, false, true);
   if (!reg.test(text)) {
     return text;
   }
