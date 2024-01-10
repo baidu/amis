@@ -143,6 +143,14 @@
     }
   }
 
+  &-footerToolbar--affix,
+  &-footer--affix {
+    position: sticky;
+    bottom: var(--affix-offset-bottom);
+    background: var(--Table-bg);
+    z-index: $zindex-sticky;
+  }
+
   &.is-mobile {
     .#{$ns}Table-toolbar {
       .#{$ns}Form-item {
@@ -791,6 +799,11 @@
           margin: 0;
         }
       }
+    }
+
+    .#{$ns}SearchBox {
+      margin-left: var(--gap-xs);
+      margin-top: var(--gap-xs);
     }
   }
 

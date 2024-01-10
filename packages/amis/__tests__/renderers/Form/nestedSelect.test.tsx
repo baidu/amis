@@ -116,7 +116,7 @@ describe('Renderer:NestedSelect', () => {
 });
 
 
-describe.only('Renderer:NestedSelect with onlyLeaf', () => {
+describe('Renderer:NestedSelect with onlyLeaf', () => {
   test('single selection', async () => {
     const optionWithNoChild = 'OptionWithNoChild';
     const optionWithChild = 'OptionWithChild';

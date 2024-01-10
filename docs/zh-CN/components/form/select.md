@@ -43,6 +43,7 @@ order: 48
 ```
 
 ## 展示模式
+
 ### 分组展示模式
 
 _单选_
@@ -687,7 +688,6 @@ _多选_
 
 适用于需选择的数据/信息源较多时，用户可直观的知道自己所选择的数据/信息的场景，一般左侧框为数据/信息源，右侧为已选数据/信息，被选中信息同时存在于 2 个框内。
 
-
 ## 延时加载
 
 选型设置 defer: true，结合配置组件层的 `deferApi` 来实现。
@@ -1274,14 +1274,290 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 
 > `[name]`表示当前组件绑定的名称，即`name`属性，如果没有配置`name`属性，则通过`value`取值。
 
-| 事件名称 | 事件参数                                                                                                                                    | 说明                 |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| change   | `[name]: string` 组件的值<br/>`selectedItems: Option \| Option[]` 选中的项<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`） | 选中值变化时触发     |
-| blur     | `[name]: string` 组件的值<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`）                                                  | 输入框失去焦点时触发 |
-| focus    | `[name]: string` 组件的值<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`）                                                  | 输入框获取焦点时触发 |
-| add      | `[name]: Option` 新增的选项<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`）                                                | 新增选项提交时触发   |
-| edit     | `[name]: Option` 编辑的选项<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`）                                                | 编辑选项提交时触发   |
-| delete   | `[name]: Option` 删除的选项<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`）                                                | 删除选项提交时触发   |
+| 事件名称                         | 事件参数                                                                                                                                    | 说明                 |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| change                           | `[name]: string` 组件的值<br/>`selectedItems: Option \| Option[]` 选中的项<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`） | 选中值变化时触发     |
+| blur                             | `[name]: string` 组件的值<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`）                                                  | 输入框失去焦点时触发 |
+| focus                            | `[name]: string` 组件的值<br/>`items: Option[]` 选项集合（< 2.3.2 及以下版本 为`options`）                                                  | 输入框获取焦点时触发 |
+| addConfirm (3.6.4 及以上版本)    | `[name]: string` 组件的值<br/>`item: object` 新增的节点信息<br/>`items: object[]`选项集合                                                   | 新增节点提交时触发   |
+| editConfirm (3.6.4 及以上版本)   | `[name]: object` 组件的值<br/>`item: object` 编辑的节点信息<br/>`items: object[]`选项集合                                                   | 编辑节点提交时触发   |
+| deleteConfirm (3.6.4 及以上版本) | `[name]: string` 组件的值<br/>`item: object` 删除的节点信息<br/>`items: object[]`选项集合                                                   | 删除节点提交时触发   |
+| add（不推荐）                    | `[name]: object` 新增的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                             | 新增节点提交时触发   |
+| edit（不推荐）                   | `[name]: object` 编辑的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                             | 编辑节点提交时触发   |
+| delete（不推荐）                 | `[name]: object` 删除的节点信息<br/>`items: object[]`选项集合（< 2.3.2 及以下版本 为`options`）                                             | 删除节点提交时触发   |
+
+### change
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "select",
+      "name": "tree",
+      "label": "Tree",
+      "onEvent": {
+        "change": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${event.data.tree|json}"
+              }
+            }
+          ]
+        }
+      },
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b"
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### focus
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "select",
+      "name": "tree",
+      "label": "Tree",
+      "onEvent": {
+        "focus": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${event.data.tree|json}"
+              }
+            }
+          ]
+        }
+      },
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b"
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### blur
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "select",
+      "name": "tree",
+      "label": "Tree",
+      "onEvent": {
+        "blur": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${event.data.tree|json}"
+              }
+            }
+          ]
+        }
+      },
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b"
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### addConfirm
+
+配置 `creatable`后，可监听确认新增操作。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "select",
+      "name": "tree",
+      "label": "Tree",
+      "creatable": true,
+      "removable": true,
+      "editable": true,
+      "onEvent": {
+        "addConfirm": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${event.data.item|json}"
+              }
+            }
+          ]
+        }
+      },
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b"
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### editConfirm
+
+配置 `editable`后，可监听确认编辑操作。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "select",
+      "name": "tree",
+      "label": "Tree",
+      "creatable": true,
+      "removable": true,
+      "editable": true,
+      "onEvent": {
+        "editConfirm": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${event.data.item|json}"
+              }
+            }
+          ]
+        }
+      },
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b"
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### deleteConfirm
+
+配置 `removable`后，可监听确认删除操作。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "select",
+      "name": "tree",
+      "label": "Tree",
+      "creatable": true,
+      "removable": true,
+      "editable": true,
+      "onEvent": {
+        "deleteConfirm": {
+          "actions": [
+            {
+              "actionType": "toast",
+              "args": {
+                "msg": "${event.data.item|json}"
+              }
+            }
+          ]
+        }
+      },
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b"
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    }
+  ]
+}
+```
 
 ## 动作表
 
@@ -1293,7 +1569,6 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | reset    | -                                      | 将值重置为`resetValue`，若没有配置`resetValue`，则清空                                  |
 | reload   | -                                      | 重新加载，调用 `source`，刷新数据域数据刷新（重新加载）                                 |
 | setValue | `value: string` \| `string[]` 更新的值 | 更新数据，开启`multiple`支持设置多项，开启`joinValues`时，多值用`,`分隔，否则多值用数组 |
-
 
 ### 刷新数据源 reload
 

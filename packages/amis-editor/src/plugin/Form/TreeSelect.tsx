@@ -1,4 +1,5 @@
 import {
+  EditorManager,
   EditorNodeType,
   getI18nEnabled,
   RendererPluginAction,
@@ -14,7 +15,11 @@ import {
 } from '../../renderer/event-control/helper';
 import {ValidatorTag} from '../../validator';
 import {tipedLabel} from 'amis-editor-core';
-import {resolveOptionType} from '../../util';
+import {
+  resolveOptionEventDataSchame,
+  resolveOptionType,
+  TREE_BASE_EVENTS
+} from '../../util';
 import {TreeCommonAction} from './InputTree';
 
 export class TreeSelectControlPlugin extends BasePlugin {
@@ -78,170 +83,55 @@ export class TreeSelectControlPlugin extends BasePlugin {
   panelTitle = '树选择';
 
   // 事件定义
-  events: RendererPluginEvent[] = [
-    {
-      eventName: 'change',
-      eventLabel: '值变化',
-      description: '选中值变化时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '选中的节点值'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项列表'
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'add',
-      eventLabel: '新增选项',
-      description: '新增选项提交时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'object',
-                  title: '新增的选项'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项列表'
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'edit',
-      eventLabel: '编辑选项',
-      description: '编辑选项提交时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'object',
-                  title: '编辑的选项'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项列表'
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'delete',
-      eventLabel: '删除节点',
-      description: '删除选项提交时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'object',
-                  title: '删除的选项'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项列表'
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      eventName: 'loadFinished',
-      eventLabel: '懒加载完成',
-      description: '懒加载接口远程请求成功时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            'event.data.value': {
-              type: 'string',
-              title: 'deferApi 懒加载远程请求成功后返回的数据'
-            }
-          }
-        }
-      ]
-    },
+  events: (schema: any) => RendererPluginEvent[] = (schema: any) => [
+    ...TREE_BASE_EVENTS(schema),
     {
       eventName: 'focus',
       eventLabel: '获取焦点',
       description: '输入框获取焦点时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '当前选中的值'
+      dataSchema: (manager: EditorManager) => {
+        const {value, items} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value,
+                  items
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'blur',
       eventLabel: '失去焦点',
       description: '输入框失去焦点时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '当前选中的值'
+      dataSchema: (manager: EditorManager) => {
+        const {value, items} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value,
+                  items
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     }
   ];
 
@@ -331,35 +221,6 @@ export class TreeSelectControlPlugin extends BasePlugin {
                 name: 'type',
                 label: '模式',
                 pipeIn: defaultValue('tree-select'),
-                onChange: (
-                  value: any,
-                  oldValue: any,
-                  model: any,
-                  form: any
-                ) => {
-                  const activeEvent = cloneDeep(
-                    form.getValueByName('onEvent') || {}
-                  );
-
-                  let eventList = this.events;
-                  if (value === 'input-tree') {
-                    const inputTreePlugin = this.manager.plugins.find(
-                      item => item.rendererName === 'input-tree'
-                    );
-
-                    eventList = inputTreePlugin?.events || [];
-                  }
-
-                  for (let key in activeEvent) {
-                    const hasEventKey = eventList.find(
-                      event => event.eventName === key
-                    );
-                    if (!hasEventKey) {
-                      delete activeEvent[key];
-                    }
-                  }
-                  form.setValueByName('onEvent', activeEvent);
-                },
                 options: [
                   {
                     label: '内嵌',
@@ -688,7 +549,7 @@ export class TreeSelectControlPlugin extends BasePlugin {
   };
 
   buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
-    const type = resolveOptionType(node.schema?.options);
+    const type = resolveOptionType(node.schema);
     // todo:异步数据case
     let dataSchema: any = {
       type,

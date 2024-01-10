@@ -541,7 +541,7 @@ test('CRUD reload drawer2', async () => {
   expect(listApiCalledCount).toBe(1);
 });
 
-test.only('reload event triggered and clear selectedItems & unselectedItems', async () => {
+test('reload event triggered and clear selectedItems & unselectedItems', async () => {
   const mockFetcher = jest.fn(async function fetcher(config: any) {
     return {
       status: 200,

@@ -529,7 +529,7 @@ export interface InsertEventContext extends BaseEventContext {
   beforeId?: string;
   index: number;
   data: any;
-  subRenderer?: SubRendererInfo;
+  subRenderer?: SubRendererInfo | RendererInfo;
   dragInfo?: {
     id: string;
     type: string;
@@ -539,7 +539,7 @@ export interface InsertEventContext extends BaseEventContext {
 
 export interface ReplaceEventContext extends BaseEventContext {
   data: any;
-  subRenderer?: SubRendererInfo;
+  subRenderer?: SubRendererInfo | RendererInfo;
   region?: string;
 }
 
@@ -802,7 +802,7 @@ export interface PluginInterface
    *
    * 事件定义集合
    */
-  events?: RendererPluginEvent[];
+  events?: RendererPluginEvent[] | ((schema: any) => RendererPluginEvent[]);
 
   /**
    *
@@ -971,7 +971,7 @@ export interface RendererPluginEvent {
   defaultShow?: boolean; // 是否默认展示
   isBroadcast?: boolean; // 广播事件
   owner?: string; // 标记来源，主要用于广播
-  dataSchema?: any[]; // 上下文schema
+  dataSchema?: any[] | ((manager: EditorManager) => any[]); // 上下文schema
   strongDesc?: string;
 }
 
@@ -997,7 +997,9 @@ export interface SubRendererPluginAction
   > {}
 
 export interface PluginEvents {
-  [propName: string]: RendererPluginEvent[];
+  [propName: string]:
+    | RendererPluginEvent[]
+    | ((schema: any) => RendererPluginEvent[]);
 }
 
 export interface PluginActions {

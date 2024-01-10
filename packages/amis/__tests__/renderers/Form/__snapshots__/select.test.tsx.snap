@@ -381,11 +381,11 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                           style="overflow: auto; will-change: transform; height: 0px; width: 100%;"
                         >
                           <div
-                            style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 32640px;"
+                            style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 38760px;"
                           >
                             <div
                               class="cxd-GroupedSelection-group"
-                              style="position: absolute; top: 0px; left: 0px; width: 100%; height: 32px;"
+                              style="position: absolute; top: 0px; left: 0px; width: 100%; height: 38px;"
                             >
                               <div
                                 class="cxd-GroupedSelection-itemLabel"
@@ -400,7 +400,7 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                             </div>
                             <div
                               class="cxd-GroupedSelection-group"
-                              style="position: absolute; top: 32px; left: 0px; width: 100%; height: 32px;"
+                              style="position: absolute; top: 38px; left: 0px; width: 100%; height: 38px;"
                             >
                               <div
                                 class="cxd-GroupedSelection-items"
@@ -423,7 +423,7 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                             </div>
                             <div
                               class="cxd-GroupedSelection-group"
-                              style="position: absolute; top: 64px; left: 0px; width: 100%; height: 32px;"
+                              style="position: absolute; top: 76px; left: 0px; width: 100%; height: 38px;"
                             >
                               <div
                                 class="cxd-GroupedSelection-items"
@@ -446,7 +446,7 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                             </div>
                             <div
                               class="cxd-GroupedSelection-group"
-                              style="position: absolute; top: 96px; left: 0px; width: 100%; height: 32px;"
+                              style="position: absolute; top: 114px; left: 0px; width: 100%; height: 38px;"
                             >
                               <div
                                 class="cxd-GroupedSelection-items"
@@ -558,7 +558,7 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                                 <tbody>
                                   <tr
                                     class=""
-                                    style="height: 32px;"
+                                    style="height: 38px;"
                                   >
                                     <td>
                                       <span>
@@ -573,7 +573,7 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                                   </tr>
                                   <tr
                                     class=""
-                                    style="height: 32px;"
+                                    style="height: 38px;"
                                   >
                                     <td>
                                       <span>
@@ -588,7 +588,7 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                                   </tr>
                                   <tr
                                     class=""
-                                    style="height: 32px;"
+                                    style="height: 38px;"
                                   >
                                     <td>
                                       <span>
@@ -603,7 +603,7 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                                   </tr>
                                   <tr
                                     class=""
-                                    style="height: 32px;"
+                                    style="height: 38px;"
                                   >
                                     <td>
                                       <span>
@@ -619,7 +619,7 @@ exports[`Renderer:select associated mode with virtual 1`] = `
                                 </tbody>
                               </table>
                               <div
-                                style="position: absolute; width: 1px; white-space: nowrap; min-height: 100%; height: 3232px; top: 0px; visibility: hidden;"
+                                style="position: absolute; width: 1px; white-space: nowrap; min-height: 100%; height: 3838px; top: 0px; visibility: hidden;"
                               />
                             </div>
                             <div
@@ -992,11 +992,11 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                         style="overflow: auto; will-change: transform; height: 0px; width: 100%;"
                       >
                         <div
-                          style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 3232px;"
+                          style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 3838px;"
                         >
                           <div
                             class="cxd-ChainedSelection-item is-active"
-                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1011,7 +1011,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 32px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 38px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1026,7 +1026,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 64px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 76px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1041,7 +1041,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 96px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 114px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1107,11 +1107,11 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                         style="overflow: auto; will-change: transform; height: 0px; width: 100%;"
                       >
                         <div
-                          style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 3232px;"
+                          style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 3838px;"
                         >
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1126,7 +1126,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 32px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 38px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1141,7 +1141,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 64px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 76px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1156,7 +1156,7 @@ exports[`Renderer:select chained mode with virtual 1`] = `
                           </div>
                           <div
                             class="cxd-ChainedSelection-item"
-                            style="position: absolute; top: 96px; left: 0px; width: 100%; height: 32px;"
+                            style="position: absolute; top: 114px; left: 0px; width: 100%; height: 38px;"
                           >
                             <div
                               class="cxd-ChainedSelection-itemLabel"
@@ -1535,11 +1535,11 @@ exports[`Renderer:select group mode with virtual 1`] = `
                       style="overflow: auto; will-change: transform; height: 0px; width: 100%;"
                     >
                       <div
-                        style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 7040px;"
+                        style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 8360px;"
                       >
                         <div
                           class="cxd-GroupedSelection-group"
-                          style="position: absolute; top: 0px; left: 0px; width: 100%; height: 32px;"
+                          style="position: absolute; top: 0px; left: 0px; width: 100%; height: 38px;"
                         >
                           <div
                             class="cxd-GroupedSelection-itemLabel"
@@ -1554,7 +1554,7 @@ exports[`Renderer:select group mode with virtual 1`] = `
                         </div>
                         <div
                           class="cxd-GroupedSelection-group"
-                          style="position: absolute; top: 32px; left: 0px; width: 100%; height: 32px;"
+                          style="position: absolute; top: 38px; left: 0px; width: 100%; height: 38px;"
                         >
                           <div
                             class="cxd-GroupedSelection-items"
@@ -1577,7 +1577,7 @@ exports[`Renderer:select group mode with virtual 1`] = `
                         </div>
                         <div
                           class="cxd-GroupedSelection-group"
-                          style="position: absolute; top: 64px; left: 0px; width: 100%; height: 32px;"
+                          style="position: absolute; top: 76px; left: 0px; width: 100%; height: 38px;"
                         >
                           <div
                             class="cxd-GroupedSelection-items"
@@ -1600,7 +1600,7 @@ exports[`Renderer:select group mode with virtual 1`] = `
                         </div>
                         <div
                           class="cxd-GroupedSelection-group"
-                          style="position: absolute; top: 96px; left: 0px; width: 100%; height: 32px;"
+                          style="position: absolute; top: 114px; left: 0px; width: 100%; height: 38px;"
                         >
                           <div
                             class="cxd-GroupedSelection-items"
@@ -2137,7 +2137,7 @@ exports[`Renderer:select table mode with virtual 1`] = `
                             <tbody>
                               <tr
                                 class=""
-                                style="height: 32px;"
+                                style="height: 38px;"
                               >
                                 <td>
                                   <span>
@@ -2152,7 +2152,7 @@ exports[`Renderer:select table mode with virtual 1`] = `
                               </tr>
                               <tr
                                 class=""
-                                style="height: 32px;"
+                                style="height: 38px;"
                               >
                                 <td>
                                   <span>
@@ -2167,7 +2167,7 @@ exports[`Renderer:select table mode with virtual 1`] = `
                               </tr>
                               <tr
                                 class=""
-                                style="height: 32px;"
+                                style="height: 38px;"
                               >
                                 <td>
                                   <span>
@@ -2182,7 +2182,7 @@ exports[`Renderer:select table mode with virtual 1`] = `
                               </tr>
                               <tr
                                 class=""
-                                style="height: 32px;"
+                                style="height: 38px;"
                               >
                                 <td>
                                   <span>
@@ -2198,7 +2198,7 @@ exports[`Renderer:select table mode with virtual 1`] = `
                             </tbody>
                           </table>
                           <div
-                            style="position: absolute; width: 1px; white-space: nowrap; min-height: 100%; height: 6400px; top: 0px; visibility: hidden;"
+                            style="position: absolute; width: 1px; white-space: nowrap; min-height: 100%; height: 7600px; top: 0px; visibility: hidden;"
                           />
                         </div>
                         <div

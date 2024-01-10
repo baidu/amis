@@ -3,7 +3,6 @@ import {Renderer, RendererProps} from 'amis-core';
 import {AnchorNav as CAnchorNav, AnchorNavSection} from 'amis-ui';
 import {isVisible, autobind} from 'amis-core';
 import {filter} from 'amis-core';
-import find from 'lodash/find';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 
 /**
@@ -26,6 +25,11 @@ export type AnchorNavSectionSchema = {
    * 内容
    */
   body?: SchemaCollection;
+
+  /**
+   * 子节点
+   */
+  children?: Array<AnchorNavSectionSchema>;
 } & Omit<BaseSchema, 'type'>;
 
 /**
@@ -73,7 +77,7 @@ export interface AnchorNavProps
   sectionRender?: (
     section: AnchorNavSectionSchema,
     props: AnchorNavProps,
-    index: number
+    index: number | string
   ) => JSX.Element;
 }
 
@@ -94,7 +98,7 @@ export default class AnchorNav extends React.Component<
   renderSection?: (
     section: AnchorNavSectionSchema,
     props: AnchorNavProps,
-    index: number
+    index: number | string
   ) => JSX.Element;
 
   constructor(props: AnchorNavProps) {
@@ -107,19 +111,41 @@ export default class AnchorNav extends React.Component<
     if (typeof props.active !== 'undefined') {
       active = props.active;
     } else {
-      const section: AnchorNavSectionSchema = find(
+      let section: AnchorNavSectionSchema | null = this.getActiveSection(
         links,
-        section => section.href === props.active
-      ) as AnchorNavSectionSchema;
+        props.active,
+        null
+      );
+
       active =
         section && section.href
           ? section.href
           : (links[0] && links[0].href) || 0;
     }
-
     this.state = {
       active
     };
+  }
+
+  // 获取激活的内容区
+  getActiveSection(
+    links: Array<AnchorNavSectionSchema>,
+    active: string | number | undefined,
+    section: AnchorNavSectionSchema | null
+  ) {
+    if (section) {
+      return section;
+    }
+    links.forEach(link => {
+      if (link.href === active) {
+        section = link;
+      } else {
+        if (link.children) {
+          this.getActiveSection(link.children, active, section);
+        }
+      }
+    });
+    return section;
   }
 
   @autobind
@@ -132,12 +158,51 @@ export default class AnchorNav extends React.Component<
   @autobind
   locateTo(index: number) {
     const {links} = this.props;
-
     Array.isArray(links) &&
       links[index] &&
       this.setState({
         active: links[index].href || index
       });
+  }
+
+  renderSections(links: AnchorNavSectionSchema[], parentIdx?: string | number) {
+    const {
+      classnames: cx,
+      classPrefix: ns,
+      sectionRender,
+      render,
+      data
+    } = this.props;
+
+    links = Array.isArray(links) ? links : [links];
+    let children: Array<JSX.Element | null> = [];
+
+    links.forEach((section, index) => {
+      if (isVisible(section, data)) {
+        // 若有子节点，key为parentIdx-index
+        let curIdx = (parentIdx ? parentIdx + '-' : '') + index;
+
+        children.push(
+          /** 内容区 */
+          <AnchorNavSection
+            {...(section as any)}
+            title={filter(section.title, data)}
+            key={curIdx}
+            name={section.href || curIdx}
+          >
+            {this.renderSection
+              ? this.renderSection(section, this.props, curIdx)
+              : sectionRender
+              ? sectionRender(section, this.props, curIdx)
+              : render(`section/${curIdx}`, section.body || '')}
+          </AnchorNavSection>
+        );
+        if (section.children) {
+          children.push(...this.renderSections(section.children, curIdx));
+        }
+      }
+    });
+    return children.filter(item => !!item);
   }
 
   render() {
@@ -159,27 +224,7 @@ export default class AnchorNav extends React.Component<
       return null;
     }
 
-    links = Array.isArray(links) ? links : [links];
-    let children: Array<JSX.Element | null> = [];
-
-    children = links
-      .map((section, index) =>
-        isVisible(section, data) ? (
-          <AnchorNavSection
-            {...(section as any)}
-            title={filter(section.title, data)}
-            key={index}
-            name={section.href || index}
-          >
-            {this.renderSection
-              ? this.renderSection(section, this.props, index)
-              : sectionRender
-              ? sectionRender(section, this.props, index)
-              : render(`section/${index}`, section.body || '')}
-          </AnchorNavSection>
-        ) : null
-      )
-      .filter(item => !!item);
+    let children = this.renderSections(links);
 
     return (
       <CAnchorNav

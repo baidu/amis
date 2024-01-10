@@ -3,7 +3,8 @@ import {
   setSchemaTpl,
   getSchemaTpl,
   valuePipeOut,
-  EditorNodeType
+  EditorNodeType,
+  EditorManager
 } from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
@@ -18,7 +19,11 @@ import {ValidatorTag} from '../../validator';
 import type {Schema} from 'amis';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {resolveOptionType} from '../../util';
+import {
+  OPTION_EDIT_EVENTS,
+  resolveOptionEventDataSchame,
+  resolveOptionType
+} from '../../util';
 
 export class CheckboxesControlPlugin extends BasePlugin {
   static id = 'CheckboxesControlPlugin';
@@ -75,24 +80,26 @@ export class CheckboxesControlPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '选中值变化时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '选中的值'
+      dataSchema: (manager: EditorManager) => {
+        const {value} = resolveOptionEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value
                 }
               }
             }
           }
-        }
-      ]
-    }
+        ];
+      }
+    },
+    ...OPTION_EDIT_EVENTS
   ];
 
   // 动作定义
@@ -235,7 +242,7 @@ export class CheckboxesControlPlugin extends BasePlugin {
   };
 
   buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
-    const type = resolveOptionType(node.schema?.options);
+    const type = resolveOptionType(node.schema);
     // todo:异步数据case
     let dataSchema: any = {
       type,

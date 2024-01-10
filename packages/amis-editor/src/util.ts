@@ -1,4 +1,5 @@
 import {JSONValueMap, findTree, resolveVariableAndFilter} from 'amis';
+import {EditorManager} from 'amis-editor-core';
 import isString from 'lodash/isString';
 
 /**
@@ -48,7 +49,8 @@ export const schemaArrayFormat = (value: any) => {
  * @param options
  * @returns
  */
-export const resolveOptionType = (options: any) => {
+export const resolveOptionType = (schema: any = {}) => {
+  const {options, valueField} = schema;
   if (!options) {
     return 'string';
   }
@@ -57,12 +59,365 @@ export const resolveOptionType = (options: any) => {
   let option = options[0];
 
   if (typeof option === 'object') {
-    option = findTree(options, item => item.value !== undefined);
+    option = findTree(
+      options,
+      item => item[valueField || 'value'] !== undefined
+    );
   }
 
-  const value = option?.value ?? option;
+  const value = option?.[valueField || 'value'] ?? option;
 
   return value !== undefined ? typeof value : 'string';
+};
+
+/**
+ * 构建选择器事件参数
+ * @param manager
+ * @returns
+ */
+export const resolveOptionEventDataSchame = (
+  manager: EditorManager,
+  multiple?: boolean
+) => {
+  const schemas = manager.dataSchema.current.schemas;
+  const node = manager.store.getNodeById(manager.store.activeId);
+  const dataSchema = schemas.find(item => item.properties?.[node!.schema.name]);
+
+  const itemSchema = {
+    [node!.schema?.labelField || 'label']: {
+      type: 'string',
+      title: '文本'
+    },
+    [node!.schema?.valueField || 'value']: {
+      type: resolveOptionType(node!.schema?.options),
+      title: '值'
+    }
+  };
+
+  const isMultiple = multiple ?? node!.schema?.multiple;
+
+  return {
+    value: {
+      type: 'string',
+      ...((dataSchema?.properties?.[node!.schema.name] as any) ?? {}),
+      title: '选中的值'
+    },
+    selectedItems: isMultiple
+      ? {
+          type: 'array',
+          title: '选中的项',
+          items: {
+            type: 'object',
+            title: '成员',
+            properties: itemSchema
+          }
+        }
+      : {
+          type: 'object',
+          title: '选中的项',
+          properties: itemSchema
+        },
+    items: {
+      type: 'array',
+      title: '选项列表',
+      items: {
+        type: 'object',
+        title: '成员',
+        properties: itemSchema
+      }
+    },
+    itemSchema
+  };
+};
+
+/**
+ * 构建输入列表事件参数
+ * @param manager
+ * @param multiple
+ * @returns
+ */
+export const resolveInputTableEventDataSchame = (
+  manager: EditorManager,
+  multiple?: boolean
+) => {
+  const schemas = manager.dataSchema.current.schemas;
+  const node = manager.store.getNodeById(manager.store.activeId);
+  const dataSchema = schemas.find(item => item.properties?.[node!.schema.name]);
+  const valDataSchema = dataSchema?.properties?.[node!.schema.name] as any;
+  const isMultiple = multiple ?? node!.schema?.multiple;
+
+  return {
+    value: valDataSchema ?? {},
+    item: isMultiple ? valDataSchema.items : valDataSchema ?? {}
+  };
+};
+
+export const OPTION_EDIT_EVENTS = [
+  {
+    eventName: 'addConfirm',
+    eventLabel: '确认新增',
+    description: '新增提交时触发',
+    dataSchema: (manager: EditorManager) => {
+      const {value, items, itemSchema} = resolveOptionEventDataSchame(manager);
+
+      return [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '新增的选项',
+                  properties: itemSchema
+                },
+                value,
+                items
+              }
+            }
+          }
+        }
+      ];
+    }
+  },
+  {
+    eventName: 'editConfirm',
+    eventLabel: '确认编辑',
+    description: '编辑提交时触发',
+    dataSchema: (manager: EditorManager) => {
+      const {value, items, itemSchema} = resolveOptionEventDataSchame(manager);
+
+      return [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '编辑的选项',
+                  properties: itemSchema
+                },
+                value,
+                items
+              }
+            }
+          }
+        }
+      ];
+    }
+  },
+  {
+    eventName: 'deleteConfirm',
+    eventLabel: '确认删除',
+    description: '删除提交时触发',
+    dataSchema: (manager: EditorManager) => {
+      const {value, items, itemSchema} = resolveOptionEventDataSchame(manager);
+
+      return [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                item: {
+                  type: 'object',
+                  title: '删除的选项',
+                  properties: itemSchema
+                },
+                value,
+                items
+              }
+            }
+          }
+        }
+      ];
+    }
+  }
+];
+
+export const OPTION_EDIT_EVENTS_OLD = (schema: any) => {
+  let events = [];
+  if (schema?.onEvent?.add) {
+    events.push({
+      eventName: 'add',
+      eventLabel: '确认新增(不推荐)',
+      description: '新增提交时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '新增的节点信息'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项集合'
+                }
+              }
+            }
+          }
+        }
+      ]
+    });
+  }
+
+  if (schema?.onEvent?.edit) {
+    events.push({
+      eventName: 'edit',
+      eventLabel: '确认编辑(不推荐)',
+      description: '编辑提交时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '编辑的节点信息'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项集合'
+                }
+              }
+            }
+          }
+        }
+      ]
+    });
+  }
+
+  if (schema?.onEvent?.delete) {
+    events.push({
+      eventName: 'delete',
+      eventLabel: '确认删除(不推荐)',
+      description: '删除提交时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: '删除的节点信息'
+                },
+                items: {
+                  type: 'array',
+                  title: '选项集合'
+                }
+              }
+            }
+          }
+        }
+      ]
+    });
+  }
+
+  return events;
+};
+
+export const TREE_BASE_EVENTS = (schema: any) => {
+  let events = [
+    {
+      eventName: 'change',
+      eventLabel: '值变化',
+      description: '选中值变化时触发',
+      dataSchema: (manager: EditorManager) => {
+        const {value, items} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value,
+                  items
+                }
+              }
+            }
+          }
+        ];
+      }
+    },
+    ...OPTION_EDIT_EVENTS,
+    {
+      eventName: 'deferLoadFinished',
+      eventLabel: '懒加载完成',
+      description: '懒加载接口远程请求成功时触发',
+      dataSchema: (manager: EditorManager) => {
+        const {value, items} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  result: {
+                    type: 'object',
+                    title: 'deferApi 懒加载远程请求成功后返回的结果'
+                  },
+                  value,
+                  items
+                }
+              }
+            }
+          }
+        ];
+      }
+    },
+    ...OPTION_EDIT_EVENTS_OLD(schema)
+  ];
+
+  if (schema?.onEvent?.loadFinished) {
+    events.push({
+      eventName: 'loadFinished',
+      eventLabel: '懒加载完成(不推荐)',
+      description: '懒加载接口远程请求成功时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              title: '数据',
+              properties: {
+                value: {
+                  type: 'object',
+                  title: 'deferApi 懒加载远程请求成功后返回的数据'
+                }
+              } as any
+            }
+          }
+        }
+      ]
+    });
+  }
+
+  return events;
 };
 
 /**

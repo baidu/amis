@@ -397,20 +397,20 @@ body {
       }
 
       .#{$ns}Layout-asideInner {
-        width: calc(100% + 17px);
-
         position: relative;
+        width: 100%;
         height: 100%;
         overflow-x: hidden;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
 
+        scrollbar-width: none; /* Firfox */
         &::-webkit-scrollbar {
           -webkit-appearance: none;
         }
 
         &::-webkit-scrollbar:vertical {
-          width: 17px;
+          width: 0; /* chrome */
         }
       }
     }

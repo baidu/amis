@@ -223,6 +223,11 @@ export interface TableSchema extends BaseSchema {
   affixHeader?: boolean;
 
   /**
+   * 是否固底
+   */
+  affixFooter?: boolean;
+
+  /**
    * 表格的列信息
    */
   columns?: Array<TableColumn>;
@@ -371,6 +376,7 @@ export interface TableProps extends RendererProps, SpinnerExtraProps {
   selectable?: boolean;
   selected?: Array<any>;
   maxKeepItemSelectionLength?: number;
+  maxItemSelectionLength?: number;
   valueField?: string;
   draggable?: boolean;
   columnsTogglable?: boolean | 'auto';
@@ -503,6 +509,7 @@ export default class Table extends React.Component<TableProps, object> {
     'onSelect',
     'keepItemSelectionOnPageChange',
     'maxKeepItemSelectionLength',
+    'maxItemSelectionLength',
     'autoGenerateFilter'
   ];
   static defaultProps: Partial<TableProps> = {
@@ -600,6 +607,7 @@ export default class Table extends React.Component<TableProps, object> {
       formItem,
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength,
+      maxItemSelectionLength,
       onQuery,
       autoGenerateFilter,
       loading,
@@ -636,6 +644,7 @@ export default class Table extends React.Component<TableProps, object> {
         combineFromIndex,
         keepItemSelectionOnPageChange,
         maxKeepItemSelectionLength,
+        maxItemSelectionLength,
         loading,
         canAccessSuperData,
         lazyRenderAfter,
@@ -1833,7 +1842,7 @@ export default class Table extends React.Component<TableProps, object> {
               classPrefix={ns}
               partial={store.someChecked && !store.allChecked}
               checked={store.someChecked}
-              disabled={store.isSelectionThresholdReached}
+              disabled={store.isSelectionThresholdReached && !store.someChecked}
               onChange={this.handleCheckAll}
             />
           ) : (
@@ -2210,6 +2219,9 @@ export default class Table extends React.Component<TableProps, object> {
     } else if (type === 'export-excel') {
       this.renderedToolbars.push(type);
       return this.renderExportExcel(toolbar);
+    } else if (type === 'export-excel-template') {
+      this.renderedToolbars.push(type);
+      return this.renderExportExcelTemplate(toolbar);
     }
 
     return void 0;
@@ -2372,15 +2384,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderExportExcel(toolbar: ExportExcelToolbar) {
-    const {
-      store,
-      env,
-      classPrefix: ns,
-      classnames: cx,
-      translate: __,
-      data,
-      render
-    } = this.props;
+    const {store, translate: __, render} = this.props;
     let columns = store.filteredColumns || [];
 
     if (!columns) {
@@ -2406,6 +2410,38 @@ export default class Table extends React.Component<TableProps, object> {
               console.error(error);
             } finally {
               store.update({exportExcelLoading: false});
+            }
+          });
+        }
+      }
+    );
+  }
+
+  /**
+   * 导出 Excel 模板
+   */
+  renderExportExcelTemplate(toolbar: ExportExcelToolbar) {
+    const {store, translate: __, render} = this.props;
+    let columns = store.filteredColumns || [];
+
+    if (!columns) {
+      return null;
+    }
+
+    return render(
+      'exportExcelTemplate',
+      {
+        label: __('CRUD.exportExcelTemplate'),
+        ...(toolbar as any),
+        type: 'button'
+      },
+      {
+        onAction: () => {
+          import('exceljs').then(async (ExcelJS: any) => {
+            try {
+              await exportExcel(ExcelJS, this.props, toolbar, true);
+            } catch (error) {
+              console.error(error);
             }
           });
         }
@@ -2544,7 +2580,8 @@ export default class Table extends React.Component<TableProps, object> {
       showFooter,
       store,
       data,
-      classnames: cx
+      classnames: cx,
+      affixFooter
     } = this.props;
 
     if (showFooter === false) {
@@ -2564,26 +2601,35 @@ export default class Table extends React.Component<TableProps, object> {
       : null;
     const actions = this.renderActions('footer');
 
+    const footerNode =
+      footer && (!Array.isArray(footer) || footer.length) ? (
+        <div
+          className={cx(
+            'Table-footer',
+            footerClassName,
+            affixFooter ? 'Table-footer--affix' : ''
+          )}
+          key="footer"
+        >
+          {render('footer', footer, {
+            data: store.getData(data)
+          })}
+        </div>
+      ) : null;
+
     const toolbarNode =
       actions || child ? (
         <div
           className={cx(
             'Table-toolbar Table-footToolbar',
             toolbarClassName,
-            footerToolbarClassName
+            footerToolbarClassName,
+            !footerNode && affixFooter ? 'Table-footToolbar--affix' : ''
           )}
           key="footer-toolbar"
         >
           {actions}
           {child}
-        </div>
-      ) : null;
-    const footerNode =
-      footer && (!Array.isArray(footer) || footer.length) ? (
-        <div className={cx('Table-footer', footerClassName)} key="footer">
-          {render('footer', footer, {
-            data: store.getData(data)
-          })}
         </div>
       ) : null;
     return footerNode && toolbarNode

@@ -249,14 +249,30 @@ export default class TreeSelectControl extends React.Component<
     );
   }
 
+  resolveOptions() {
+    const {options, searchable, autoComplete} = this.props;
+
+    return !isEffectiveApi(autoComplete) && searchable && this.state.inputValue
+      ? this.filterOptions(options, this.state.inputValue)
+      : options;
+  }
+
   handleFocus(e: any) {
     const {dispatchEvent, value} = this.props;
-    dispatchEvent('focus', resolveEventData(this.props, {value}));
+
+    dispatchEvent(
+      'focus',
+      resolveEventData(this.props, {value, items: this.resolveOptions()})
+    );
   }
 
   handleBlur(e: any) {
-    const {dispatchEvent, value, data} = this.props;
-    dispatchEvent('blur', resolveEventData(this.props, {value}));
+    const {dispatchEvent, value} = this.props;
+
+    dispatchEvent(
+      'blur',
+      resolveEventData(this.props, {value, items: this.resolveOptions()})
+    );
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
@@ -557,19 +573,13 @@ export default class TreeSelectControl extends React.Component<
 
   @autobind
   async resultChangeEvent(value: any) {
-    const {onChange, options, dispatchEvent, searchable, autoComplete} =
-      this.props;
-
-    const filteredOptions =
-      !isEffectiveApi(autoComplete) && searchable && this.state.inputValue
-        ? this.filterOptions(options, this.state.inputValue)
-        : options;
+    const {onChange, dispatchEvent} = this.props;
 
     const rendererEvent = await dispatchEvent(
       'change',
       resolveEventData(this.props, {
         value,
-        items: filteredOptions
+        items: this.resolveOptions()
       })
     );
 
