@@ -14,7 +14,8 @@ import type {
   EditorNodeType,
   RendererPluginAction,
   RendererPluginEvent,
-  BaseEventContext
+  BaseEventContext,
+  EditorManager
 } from 'amis-editor-core';
 
 export class RangeControlPlugin extends BasePlugin {
@@ -55,67 +56,97 @@ export class RangeControlPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '滑块值变化时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'number',
-                  title: '当前滑块值'
+      dataSchema: (manager: EditorManager) => {
+        const node = manager.store.getNodeById(manager.store.activeId);
+        const schemas = manager.dataSchema.current.schemas;
+        const dataSchema = schemas.find(
+          item => item.properties?.[node!.schema.name]
+        );
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'number',
+                    ...((dataSchema?.properties?.[node!.schema.name] as any) ??
+                      {}),
+                    title: '当前滑块值'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'focus',
       eventLabel: '获取焦点',
       description: '当设置 showInput 为 true 时，输入框获取焦点时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'number',
-                  title: '当前数值'
+      dataSchema: (manager: EditorManager) => {
+        const node = manager.store.getNodeById(manager.store.activeId);
+        const schemas = manager.dataSchema.current.schemas;
+        const dataSchema = schemas.find(
+          item => item.properties?.[node!.schema.name]
+        );
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'number',
+                    ...((dataSchema?.properties?.[node!.schema.name] as any) ??
+                      {}),
+                    title: '当前数值'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'blur',
       eventLabel: '失去焦点',
       description: '当设置 showInput 为 true 时，输入框失去焦点时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'number',
-                  title: '当前数值'
+      dataSchema: (manager: EditorManager) => {
+        const node = manager.store.getNodeById(manager.store.activeId);
+        const schemas = manager.dataSchema.current.schemas;
+        const dataSchema = schemas.find(
+          item => item.properties?.[node!.schema.name]
+        );
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'number',
+                    ...((dataSchema?.properties?.[node!.schema.name] as any) ??
+                      {}),
+                    title: '当前数值'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     }
   ];
 
@@ -340,7 +371,7 @@ export class RangeControlPlugin extends BasePlugin {
   };
 
   buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
-    if (node.schema?.multiple) {
+    if (node.schema?.multiple && node.schema?.joinValues === false) {
       return {
         type: 'object',
         title: node.schema?.label || node.schema?.name,

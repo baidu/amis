@@ -1,4 +1,5 @@
 import {
+  EditorManager,
   EditorNodeType,
   defaultValue,
   getSchemaTpl,
@@ -66,23 +67,33 @@ export class CityControlPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '选中值变化',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '当前城市'
+      dataSchema: (manager: EditorManager) => {
+        const node = manager.store.getNodeById(manager.store.activeId);
+        const schemas = manager.dataSchema.current.schemas;
+        const dataSchema = schemas.find(
+          item => item.properties?.[node!.schema.name]
+        );
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'string',
+                    ...((dataSchema?.properties?.[node!.schema.name] as any) ??
+                      {}),
+                    title: '当前城市'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     }
   ];
 

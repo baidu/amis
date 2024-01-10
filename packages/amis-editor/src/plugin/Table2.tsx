@@ -643,13 +643,16 @@ export class Table2Plugin extends BasePlugin {
       for (let current of columns.children) {
         const schema = current.schema;
         if (schema?.name) {
-          itemsSchema.properties[schema.name] = current.info?.plugin
-            ?.buildDataSchemas
-            ? await current.info.plugin.buildDataSchemas(current, region)
+          const tmpSchema = current.info?.plugin?.buildDataSchemas
+            ? await current.info.plugin.buildDataSchemas?.(current, region)
             : {
                 type: 'string',
                 title: schema.label || schema.title
               };
+          itemsSchema.properties[schema.name] = {
+            ...tmpSchema,
+            ...(tmpSchema?.$id ? {} : {$id: `${current!.id}-${current!.type}`})
+          };
         }
       }
     }

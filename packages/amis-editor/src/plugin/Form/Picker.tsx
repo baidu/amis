@@ -5,6 +5,7 @@ import uniq from 'lodash/uniq';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import {
+  EditorManager,
   EditorNodeType,
   getSchemaTpl,
   RendererPluginAction,
@@ -24,7 +25,7 @@ import {diff} from 'amis-editor-core';
 import {isPureVariable} from 'amis-core';
 import type {Schema} from 'amis';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {resolveOptionType} from '../../util';
+import {resolveOptionEventDataSchame, resolveOptionType} from '../../util';
 import {ValidatorTag} from '../../validator';
 
 export class PickerControlPlugin extends BasePlugin {
@@ -81,49 +82,52 @@ export class PickerControlPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '选中状态变化时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '选中的值'
-                },
-                selectedItems: {
-                  type: 'string',
-                  title: '选中的行记录'
+      dataSchema: (manager: EditorManager) => {
+        const {value, selectedItems} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value,
+                  selectedItems
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'itemClick',
       eventLabel: '点击选项',
       description: '选项被点击时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                item: {
-                  type: 'object',
-                  title: '所点击的选项'
+      dataSchema: (manager: EditorManager) => {
+        const {itemSchema} = resolveOptionEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  item: {
+                    type: 'object',
+                    title: '所点击的选项',
+                    properties: itemSchema
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     }
   ];
   panelJustify = true;
@@ -675,7 +679,7 @@ export class PickerControlPlugin extends BasePlugin {
   }
 
   buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
-    const type = resolveOptionType(node.schema?.options);
+    const type = resolveOptionType(node.schema);
     // todo:异步数据case
     let dataSchema: any = {
       type,

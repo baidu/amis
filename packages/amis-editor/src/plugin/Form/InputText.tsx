@@ -1,4 +1,8 @@
-import {EditorNodeType, registerEditorPlugin} from 'amis-editor-core';
+import {
+  EditorManager,
+  EditorNodeType,
+  registerEditorPlugin
+} from 'amis-editor-core';
 import {
   BasePlugin,
   BasicSubRenderInfo,
@@ -77,67 +81,97 @@ export class TextControlPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '输入框内容变化',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '当前文本内容'
+      dataSchema: (manager: EditorManager) => {
+        const node = manager.store.getNodeById(manager.store.activeId);
+        const schemas = manager.dataSchema.current.schemas;
+        const dataSchema = schemas.find(
+          item => item.properties?.[node!.schema.name]
+        );
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'string',
+                    ...((dataSchema?.properties?.[node!.schema.name] as any) ??
+                      {}),
+                    title: '当前文本内容'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'focus',
       eventLabel: '获取焦点',
       description: '输入框获取焦点',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '当前文本内容'
+      dataSchema: (manager: EditorManager) => {
+        const node = manager.store.getNodeById(manager.store.activeId);
+        const schemas = manager.dataSchema.current.schemas;
+        const dataSchema = schemas.find(
+          item => item.properties?.[node!.schema.name]
+        );
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'string',
+                    ...((dataSchema?.properties?.[node!.schema.name] as any) ??
+                      {}),
+                    title: '当前文本内容'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'blur',
       eventLabel: '失去焦点',
       description: '输入框失去焦点',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '当前文本内容'
+      dataSchema: (manager: EditorManager) => {
+        const node = manager.store.getNodeById(manager.store.activeId);
+        const schemas = manager.dataSchema.current.schemas;
+        const dataSchema = schemas.find(
+          item => item.properties?.[node!.schema.name]
+        );
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'string',
+                    ...((dataSchema?.properties?.[node!.schema.name] as any) ??
+                      {}),
+                    title: '当前文本内容'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     }
     // 貌似无效，先下掉
     // {
@@ -441,7 +475,7 @@ export class TextControlPlugin extends BasePlugin {
   };
 
   buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
-    const type = resolveOptionType(node.schema?.options);
+    const type = resolveOptionType(node.schema);
     // todo:异步数据case
     let dataSchema: any = {
       type,

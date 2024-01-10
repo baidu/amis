@@ -137,7 +137,12 @@ export default class OfficeViewer extends React.Component<
    */
   evalVar(text: string, data: any) {
     const localData = this.props.data;
-    return resolveVariable(text, createObject(localData, data));
+
+    return resolveVariableAndFilter(
+      '${' + text + '}',
+      createObject(data, localData),
+      '| raw'
+    );
   }
 
   async renderWord() {

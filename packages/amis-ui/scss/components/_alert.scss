@@ -48,6 +48,7 @@
     }
 
     .#{$ns}Alert-desc {
+      min-height: #{px2rem(24px)};
       line-height: #{px2rem(24px)};
     }
   }

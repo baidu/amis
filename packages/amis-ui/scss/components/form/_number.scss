@@ -313,7 +313,7 @@
 }
 
 .#{$ns}NumberControl--withUnit {
-  display: flex;
+  display: flex !important;
 
   &:hover {
     .#{$ns}Number,
@@ -366,11 +366,14 @@
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
     background-color: var(--inputNumber-base-unit-bg-color);
-    min-width: var(--inputNumber-base-default-unit-width);
+    min-width: var(--inputNumber-base-default-unit-width) !important;
     padding: var(--inputNumber-base-default-unit-paddingTop)
       var(--inputNumber-base-default-unit-paddingRight)
       var(--inputNumber-base-default-unit-paddingBottom)
       var(--inputNumber-base-default-unit-paddingLeft);
+    .#{$ns}Select-valueWrap {
+      width: auto !important;
+    }
   }
   .#{$ns}NumberControl-single-unit {
     cursor: default;

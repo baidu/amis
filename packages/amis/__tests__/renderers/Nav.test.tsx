@@ -405,31 +405,33 @@ test('Renderer:Nav with defer', async () => {
   const menu = container.querySelector('.cxd-Nav-Menu');
   expect(menu?.children.length).toBe(3);
 
-  // const navThreeHeader = getByTitle('Nav 3');
-  // expect(navThreeHeader).toBeInTheDocument();
+  const navThreeHeader = getByTitle('Nav 3');
+  expect(navThreeHeader).toBeInTheDocument();
 
-  // fireEvent.click(
-  //   navThreeHeader?.querySelector('.cxd-Nav-Menu-submenu-arrow')!
-  // );
+  fireEvent.click(
+    navThreeHeader
+      ?.closest('div[role="menuitem"]')
+      ?.querySelector('.cxd-Nav-Menu-submenu-arrow')!
+  );
 
-  // await wait(200);
-  // expect(fetcher).toBeCalledTimes(1);
-  // expect(fetcher.mock.calls[0][0]).toEqual({
-  //   config: {},
-  //   method: 'get',
-  //   query: {parentId: '3'},
-  //   url: '/api/options/nav?parentId=3'
-  // });
+  await wait(200);
+  expect(fetcher).toBeCalledTimes(2);
+  const param = fetcher.mock.calls[1][0];
+  expect(param.query).toEqual({
+    parentId: '3'
+  });
+  expect(param.url).toEqual('/api/options/nav?parentId=3');
+  expect(param.method).toEqual('get');
+  expect(param.config).toEqual({});
 
-  // await wait(200);
-  // const navThree = container.querySelector(
-  //   '.cxd-Menu > .cxd-Menu-submenu:last-of-type'
-  // );
+  await wait(200);
+  const navThree = container.querySelector(
+    '.cxd-Nav > .cxd-Nav-Menu > .cxd-Nav-Menu-submenu:last-of-type'
+  );
+  expect(navThree!.querySelector('.cxd-Nav-Menu-sub')?.children.length).toBe(2);
+  expect(getByText('Nav 3-2')).not.toBeNull();
 
-  // expect(navThree!.querySelector('.cxd-Menu-sub')?.children.length).toBe(2);
-  // expect(getByText('Nav 3-2')).not.toBeNull();
-
-  // expect(container).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 // 7. 更多操作
@@ -860,63 +862,70 @@ test('Renderer:Nav with reload2', async () => {
   expect(fetcher).toBeCalled();
 });
 
+// 12.Nav支持搜索
 test('Renderer:Nav with searchable', async () => {
-  const {container} = render(amisRender({
-    "type": "nav",
-    "stacked": true,
-    "searchable": true,
-    "searchConfig": {
-      "matchFunc": "return link.searchKey === keyword;"
-    },
-    "links": [
-        {
-          "label": "Nav 1",
-          "to": "?to=nav1",
-          "searchKey": "1"
+  const {container} = render(
+    amisRender(
+      {
+        type: 'nav',
+        stacked: true,
+        searchable: true,
+        searchConfig: {
+          matchFunc: 'return link.searchKey === keyword;'
         },
-        {
-          "label": "Nav 2",
-          "to": "?to=nav2",
-          "searchKey": "2",
-          "children": [
+        links: [
+          {
+            label: 'Nav 1',
+            to: '?to=nav1',
+            searchKey: '1'
+          },
+          {
+            label: 'Nav 2',
+            to: '?to=nav2',
+            searchKey: '2',
+            children: [
               {
-                "label": "Nav 2-1",
-                "to": "?to=nav2-1",
-                "searchKey": "2-1",
-                "children": [
-                    {
-                      "label": "Nav 2-1-1",
-                      "to": "?to=nav2-1-1",
-                      "searchKey": "2-1-1"
-                    }
+                label: 'Nav 2-1',
+                to: '?to=nav2-1',
+                searchKey: '2-1',
+                children: [
+                  {
+                    label: 'Nav 2-1-1',
+                    to: '?to=nav2-1-1',
+                    searchKey: '2-1-1'
+                  }
                 ]
               }
-          ]
-        },
-        {
-          "label": "Nav 3",
-          "to": "?to=nav3",
-          "searchKey": "3",
-          "children": [
+            ]
+          },
+          {
+            label: 'Nav 3',
+            to: '?to=nav3',
+            searchKey: '3',
+            children: [
               {
-                "label": "Nav 3-1",
-                "to": "?to=nav3-1",
-                "searchKey": "3-1"
+                label: 'Nav 3-1',
+                to: '?to=nav3-1',
+                searchKey: '3-1'
               }
-          ]
-        },
-        {
-          "label": "Nav 4",
-          "to": "?to=nav4",
-          "searchKey": "4"
-        },
-        {
-          "label": "Nav 5",
-          "to": "?to=nav5",
-          "searchKey": "5"
-        }
-    ]
-  }, {}, makeEnv({})));
+            ]
+          },
+          {
+            label: 'Nav 4',
+            to: '?to=nav4',
+            searchKey: '4'
+          },
+          {
+            label: 'Nav 5',
+            to: '?to=nav5',
+            searchKey: '5'
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
 
   const nav = container.querySelector('.cxd-Nav')!;
   const searchbox = container.querySelector('.cxd-Nav-SearchBox input')!;
@@ -935,4 +944,207 @@ test('Renderer:Nav with searchable', async () => {
   fireEvent.click(searchboxBtn);
   await wait(200);
   expect(document.querySelectorAll('[role=menuitem]')?.length).toEqual(2);
+});
+
+// 13.Nav执行updateItems动作
+test('Renderer:Nav with updateItems', async () => {
+  const links = [
+    {
+      label: 'Nav3',
+      to: '#/test5'
+    },
+    {
+      label: 'Nav1',
+      customText: 'HOT',
+      customLevel: 'danger',
+      children: [
+        {
+          label: {
+            type: 'tpl',
+            tpl: 'Nav1-1'
+          },
+          to: '#/',
+          icon: [
+            {
+              icon: 'fa fa-user',
+              position: 'before'
+            },
+            {
+              icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
+              position: 'before'
+            },
+            {
+              icon: 'search',
+              position: 'after'
+            },
+            {
+              icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
+              position: 'after'
+            }
+          ]
+        },
+        {
+          label: 'Nav 1-2',
+          to: '#/test1',
+          customText: 'HOT',
+          customLevel: 'danger',
+          children: [
+            {
+              label: 'Nav 1-2-1',
+              to: '#/test4',
+              children: [
+                {
+                  label: 'Nav 1-2-1-1Nav 1-2-1-1Nav 1-2-1-1Nav 1-2-1-1',
+                  to: '#/test5',
+                  children: [
+                    {
+                      label: 'Nav 1-2-1-1',
+                      to: '#/test5'
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          label: 'Nav 1-3',
+          to: '#/test1'
+        },
+        {
+          label: 'Nav 1-4',
+          to: '#/test1'
+        },
+        {
+          label: 'Nav 1-5',
+          to: '#/test1'
+        },
+        {
+          label: 'Nav 1-6',
+          to: '#/test1'
+        },
+        {
+          label: 'Nav 1-7',
+          to: '#/test1'
+        },
+        {
+          label: 'Nav 1-8',
+          to: '#/test1'
+        },
+        {
+          label: 'Nav 1-9',
+          to: '#/test1'
+        },
+        {
+          label: 'Nav 1-10',
+          to: '#/test1'
+        },
+        {
+          label: 'Nav 1-11',
+          to: '#/test1'
+        },
+        {
+          label: 'Nav 1-12',
+          to: '#/test1'
+        },
+        {
+          label: 'Nav 1-13',
+          to: '#/test1'
+        },
+        {
+          label: 'Nav 1-14',
+          to: '#/test1'
+        },
+        {
+          label: 'Nav 1-15',
+          to: '#/test1'
+        },
+        {
+          label: 'Nav 1-16',
+          to: '#/test1'
+        }
+      ]
+    },
+    {
+      label: 'Nav4',
+      to: '#/test6'
+    },
+    {
+      label: 'Nav2',
+      children: [
+        {
+          label: 'Nav 2-1',
+          to: '#/test2',
+          children: [
+            {
+              label: 'Nav 2-1-1',
+              to: '#/test3'
+            }
+          ]
+        },
+        {
+          label: 'Nav 2-2',
+          disabled: true,
+          to: '#/test3'
+        }
+      ]
+    }
+  ];
+  const {container, getByTitle} = render(
+    amisRender(
+      {
+        type: 'container',
+        body: [
+          {
+            type: 'nav',
+            level: 1,
+            links,
+            onEvent: {
+              change: {
+                actions: [
+                  {
+                    actionType: 'updateItems',
+                    componentId: 'asideNav'
+                  }
+                ]
+              }
+            }
+          },
+          {
+            type: 'nav',
+            valueField: 'label',
+            showKey: 'Nav1',
+            id: 'asideNav',
+            links
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  const navs = container.querySelectorAll('.cxd-Nav');
+  expect(navs.length).toEqual(2);
+  const children = navs[0].querySelectorAll(
+    '.cxd-Nav-Menu-root > .cxd-Nav-Menu-item-tooltip-wrap'
+  );
+  expect(children.length).toEqual(4);
+  expect(
+    navs[1].querySelectorAll(
+      '.cxd-Nav-Menu-root > .cxd-Nav-Menu-item-tooltip-wrap'
+    ).length
+  ).toEqual(15);
+
+  fireEvent.click(children[3].querySelector('.cxd-Nav-Menu-item-link')!);
+  await wait(200);
+  expect(getByTitle('Nav 2-1')).toBeInTheDocument();
+
+  fireEvent.click(children[0].querySelector('.cxd-Nav-Menu-item-link')!);
+  await wait(200);
+  expect(
+    navs[1].querySelectorAll(
+      '.cxd-Nav-Menu-root > .cxd-Nav-Menu-item-tooltip-wrap'
+    ).length
+  ).toEqual(2);
 });

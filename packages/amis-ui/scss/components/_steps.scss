@@ -8,7 +8,7 @@
     overflow: hidden;
     padding: 0 px2rem(8px);
     height: auto;
-    line-height: px2rem(32px);
+    line-height: px2rem(22px);
     &-container {
       position: relative;
       &Icon {
@@ -16,7 +16,7 @@
         display: inline-flex;
         align-items: center;
         padding-right: var(--steps-base-icon-paddingRight);
-        height: px2rem(32px);
+        height: px2rem(24px);
         .#{$ns}StepsItem-icon {
           display: inline-flex;
           align-items: center;
@@ -43,7 +43,7 @@
             font-weight: var(--steps-base-fontWeight);
             padding-right: var(--steps-base-title-paddingRight);
             position: relative;
-            display: inline-block;
+            display: inline-flex;
             > span {
               display: inline-block;
             }
@@ -51,11 +51,11 @@
               content: '';
               position: absolute;
               right: 0;
-              top: px2rem(16px);
+              top: px2rem(11px);
               height: 1px;
               left: 100%;
               width: 9999px;
-              padding-right: px2rem(10px);
+              padding-right: var(--steps-base-title-paddingRight);
               background-color: var(--Steps-line-bg);
             }
           }
@@ -80,7 +80,8 @@
             max-width: px2rem(140px);
             white-space: nowrap;
             position: relative;
-            bottom: px2rem(20px);
+            line-height: px2rem(20px);
+            // bottom: px2rem(20px);
             > span {
               color: var(--Steps-description-title-color);
               font-size: var(--Steps-description-title-fontsize);
@@ -112,10 +113,10 @@
           &:after {
             content: '';
             position: absolute;
-            left: 50%;
+            left: 36%;
             transform: translateX(-50%);
             right: 0;
-            top: px2rem(36px);
+            top: px2rem(28px);
             height: 9999px;
             width: 1px;
             background-color: var(--Steps-line-bg);
@@ -208,7 +209,7 @@
           content: '';
           position: absolute;
           display: inline-block;
-          top: px2rem(16px);
+          top: px2rem(12px);
           height: 1px;
           left: px2rem(130px);
           width: calc(100% - 55px);
@@ -216,6 +217,7 @@
         }
         &Icon {
           margin-left: px2rem(90px);
+          left: px2rem(12px);
         }
         &Wrapper {
           width: px2rem(200px);
@@ -223,7 +225,7 @@
             text-align: center;
             .#{$ns}StepsItem-title {
               padding: 0 px2rem(10px);
-              bottom: px2rem(9px);
+              flex-direction: column;
               width: 100%;
               > span {
                 display: block;
@@ -235,7 +237,6 @@
                 padding: 0 px2rem(10px);
                 position: relative;
                 left: px2rem(10px);
-                bottom: px2rem(12px);
               }
             }
             .#{$ns}StepsItem-title:after {
@@ -245,7 +246,6 @@
               min-width: px2rem(200px);
               word-break: break-all;
               padding: 0 px2rem(20px);
-              bottom: px2rem(44px);
             }
             .#{$ns}StepsItem-title.is-success {
               &:after {
@@ -280,7 +280,7 @@
           width: calc(100% - 20px);
         }
         &ProgressDot {
-          margin-top: px2rem(13px);
+          margin-top: px2rem(9px);
           margin-bottom: px2rem(5px);
           width: var(--steps-dot-icon-size);
           height: var(--steps-dot-icon-size);
@@ -340,21 +340,18 @@
     .#{$ns}StepsItem-icon {
       background-color: var(--Steps-status-error);
       color: var(--steps-status-error-color);
-      border: 1px solid var(--Steps-status-error);
     }
   }
   .#{$ns}StepsItem.is-finish {
     .#{$ns}StepsItem-icon {
       background-color: var(--Steps-status-success);
       color: var(--steps-status-finish-color);
-      border: 1px solid var(--Steps-status-success);
     }
   }
   .#{$ns}StepsItem.is-process {
     .#{$ns}StepsItem-icon {
       background-color: var(--steps-status-process-bg-color);
       color: var(--steps-status-process-color);
-      border: 1px solid var(--steps-status-process-bg-color);
     }
   }
 

@@ -40,6 +40,33 @@ test('EventAction:url & link', async () => {
                 ]
               }
             }
+          },
+          {
+            type: 'button',
+            label: '打开',
+            level: 'primary',
+            className: 'ml-2',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'link',
+                    args: {
+                      link: './expression',
+                      targetType: 'page',
+                      params: {
+                        name: 'jack',
+                        jon: '${myjon}'
+                      }
+                    },
+                    data: {
+                      name: '${myname}',
+                      age: 18
+                    }
+                  }
+                ]
+              }
+            }
           }
         ]
       },
@@ -51,6 +78,7 @@ test('EventAction:url & link', async () => {
   );
 
   fireEvent.click(getByText('跳转'));
+  fireEvent.click(getByText('打开'));
   await waitFor(() => {
     expect(jumpTo).toHaveBeenCalled();
   });
@@ -71,4 +99,7 @@ test('EventAction:url & link', async () => {
     age: 18,
     name: 'lvxj'
   });
+  expect(jumpTo.mock.calls[1][0]).toEqual(
+    './expression?name=lvxj&jon=player&age=18'
+  );
 });

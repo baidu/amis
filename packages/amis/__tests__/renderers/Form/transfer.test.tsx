@@ -1502,6 +1502,187 @@ test('Renderer:transfer tree search', async () => {
   });
 });
 
+test('Renderer:transfer table follow left mode close', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        "label": "表格形式",
+        "type": "transfer",
+        "name": "transfer",
+        "selectMode": "table",
+        "resultListModeFollowSelect": true,
+        "columns": [
+          {
+            "name": "label",
+            "label": "英雄"
+          },
+          {
+            "name": "position",
+            "label": "位置"
+          }
+        ],
+        "options": [
+          {
+            "label": "诸葛亮",
+            "value": "zhugeliang",
+            "position": "中单"
+          },
+          {
+            "label": "曹操",
+            "value": "caocao",
+            "position": "上单"
+          },
+          {
+            "label": "钟无艳",
+            "value": "zhongwuyan",
+            "position": "上单"
+          },
+          {
+            "label": "李白",
+            "value": "libai",
+            "position": "打野"
+          },
+          {
+            "label": "韩信",
+            "value": "hanxin",
+            "position": "打野"
+          },
+          {
+            "label": "云中君",
+            "value": "yunzhongjun",
+            "position": "打野"
+          }
+        ]
+      },
+      {}
+    )
+  );
+
+  await wait(500);
+
+  const checkboxes = container.querySelectorAll('.cxd-Checkbox')!;
+
+  const zhugeliang = checkboxes[1];
+  const caocao = checkboxes[2];
+  expect(zhugeliang).not.toBeNull();
+  expect(caocao).not.toBeNull();
+  fireEvent.click(zhugeliang);
+  await wait(300);
+
+  fireEvent.click(caocao);
+  
+  await wait(300);
+
+  const zhugeliangClose = container.querySelectorAll('.cxd-ResultTableList-close-btn')[0];
+  expect(zhugeliangClose).not.toBeNaN();
+  fireEvent.click(zhugeliangClose);
+
+  await wait(500);
+
+  const results = container.querySelectorAll('.cxd-ResultTableList .is-active');
+  expect(results.length).toEqual(1);
+});
+
+test('Renderer:transfer tree follow left mode resultSearchable', async () => {
+  const onSubmit = jest.fn();
+  const {container, getByText} = render(
+    amisRender(
+      {
+        "type": "form",
+        "api": "/api/mock2/form/saveForm",
+        "body": [
+          {
+            "label": "默认",
+            "type": "transfer",
+            "name": "transfer",
+            "selectMode": "tree",
+            "searchable": true,
+            "resultSearchable": true,
+            "options": [
+              {
+                "label": "法师",
+                "children": [
+                  {
+                    "label": "诸葛亮",
+                    "value": "zhugeliang"
+                  }
+                ]
+              },
+              {
+                "label": "战士",
+                "children": [
+                  {
+                    "label": "曹操",
+                    "value": "caocao"
+                  },
+                  {
+                    "label": "钟无艳",
+                    "value": "zhongwuyan"
+                  }
+                ]
+              },
+              {
+                "label": "打野",
+                "children": [
+                  {
+                    "label": "李白",
+                    "value": "libai"
+                  },
+                  {
+                    "label": "韩信",
+                    "value": "hanxin"
+                  },
+                  {
+                    "label": "云中君",
+                    "value": "yunzhongjun"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {onSubmit},
+      makeEnv({})
+    )
+  )
+
+  await wait(500);
+
+  const caocao = getByText('曹操');
+  console.log(caocao.innerHTML)
+  expect(caocao).not.toBeNull();
+  fireEvent.click(caocao);
+
+  await wait(300);
+
+  const zhugeliang = getByText('诸葛亮');
+  console.log(zhugeliang.innerHTML)
+  expect(zhugeliang).not.toBeNull();
+  fireEvent.click(zhugeliang);
+
+  await wait(300);
+
+  const input = container.querySelectorAll('input[type=text]')[1];
+
+  expect(input).not.toBeNull();
+
+  fireEvent.change(input, {
+    target: {
+      value: '曹操'
+    }
+  });
+
+  await wait(300);
+
+  const caocaoResult = container.querySelectorAll('.cxd-Transfer-result span[title=曹操]');
+  console.log(caocaoResult[0]?.innerHTML);
+  expect(caocaoResult.length).toEqual(1);
+
+  const zhugeliangeResult = container.querySelectorAll('.cxd-Transfer-result span[title=诸葛亮]');
+  expect(zhugeliangeResult.length).toEqual(0);
+});
+
 test('Renderer:Transfer with pagination', async () => {
   const mockData = [
     {
@@ -1651,7 +1832,7 @@ test('Renderer:Transfer with pagination', async () => {
     expect((checkboxes2[4] as HTMLInputElement)?.checked).toEqual(true);
 })
 
-test.only('Renderer:Transfer with pagination and data source from data scope', async () => {
+test('Renderer:Transfer with pagination and data source from data scope', async () => {
   const mockData = [
     {
       "label": "Laura Lewis",

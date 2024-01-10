@@ -20,6 +20,7 @@ import {
   getArgsWrapper,
   getEventControlConfig
 } from '../../renderer/event-control/helper';
+import {resolveInputTableEventDataSchame} from '../../util';
 
 export class ComboControlPlugin extends BasePlugin {
   static id = 'ComboControlPlugin';
@@ -52,7 +53,7 @@ export class ComboControlPlugin extends BasePlugin {
     items: [
       {
         type: 'input-text',
-        name: 'input-text',
+        name: 'text',
         placeholder: '文本'
       },
       {
@@ -101,83 +102,100 @@ export class ComboControlPlugin extends BasePlugin {
       eventName: 'add',
       eventLabel: '添加',
       description: '添加组合项时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '组合项的值'
+      dataSchema: (manager: EditorManager) => {
+        const {value} = resolveInputTableEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'string',
+                    ...value,
+                    title: '组合项的值'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'delete',
       eventLabel: '删除',
       description: '删除组合项',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                key: {
-                  type: 'string',
-                  title: '被删除的索引'
-                },
-                value: {
-                  type: 'string',
-                  title: '组合项的值'
-                },
-                item: {
-                  type: 'object',
-                  title: '被删除的项'
+      dataSchema: (manager: EditorManager) => {
+        const {value, item} = resolveInputTableEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  key: {
+                    type: 'number',
+                    title: '被删除的索引'
+                  },
+                  value: {
+                    type: 'string',
+                    ...value,
+                    title: '组合项的值'
+                  },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '被删除的项'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'tabsChange',
       eventLabel: '切换tab',
       description: '当设置 tabsMode 为 true 时，切换选项卡时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                key: {
-                  type: 'string',
-                  title: '选项卡索引'
-                },
-                value: {
-                  type: 'string',
-                  title: '组合项的值'
-                },
-                item: {
-                  type: 'object',
-                  title: '被激活的项'
+      dataSchema: (manager: EditorManager) => {
+        const {value, item} = resolveInputTableEventDataSchame(manager);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  key: {
+                    type: 'number',
+                    title: '选项卡索引'
+                  },
+                  value: {
+                    type: 'string',
+                    ...value,
+                    title: '组合项的值'
+                  },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '被激活的项'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     }
   ];
 
@@ -704,13 +722,16 @@ export class ComboControlPlugin extends BasePlugin {
       const current = pool.shift() as EditorNodeType;
       const schema = current.schema;
       if (schema?.name) {
-        itemsSchema.properties[schema.name] =
-          await current.info.plugin.buildDataSchemas?.(
-            current,
-            region,
-            trigger,
-            node
-          );
+        const tmpSchema = await current.info.plugin.buildDataSchemas?.(
+          current,
+          region,
+          trigger,
+          node
+        );
+        itemsSchema.properties[schema.name] = {
+          tmpSchema,
+          ...(tmpSchema?.$id ? {} : {$id: `${current!.id}-${current!.type}`})
+        };
       }
     }
 

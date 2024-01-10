@@ -84,7 +84,6 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
 
     const sectionRootDom =
       this.contentDom && (this.contentDom.current as HTMLElement);
-
     this.updateSectionOffset(sectionRootDom, false);
     this.observer = new MutationObserver(() =>
       // TODO: 牺牲性能
@@ -185,7 +184,6 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
     this.setState({fromSelect: true});
     // 滚动到对应段落
     this.scrollToSection(key);
-
     const sectionRootDom =
       this.contentDom && (this.contentDom.current as HTMLElement);
 
@@ -215,11 +213,17 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
     const {classnames: cx, active: activeProp} = this.props;
     const {title, name} = link.props;
     const active = activeProp === undefined && index === 0 ? name : activeProp;
+    // 判断是否为子节点，子节点key为 <父节点索引>-<子节点索引>
+    const isChild = link.key?.split('-').length >= 2;
 
     return (
       <li
-        className={cx('AnchorNav-link', active === name ? 'is-active' : '')}
-        key={index}
+        className={cx(
+          'AnchorNav-link',
+          isChild ? 'AnchorNav-link-child' : '',
+          String(active) === String(name) ? 'is-active' : ''
+        )}
+        key={link.key}
         onClick={() => this.handleSelect(name)}
       >
         <a title={title}>{title}</a>
@@ -234,11 +238,11 @@ export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
 
     const {active: activeProp, classnames} = this.props;
     const name = section.props.name;
+    const key = section.key;
     const active = activeProp === undefined && index === 0 ? name : activeProp;
-
     return React.cloneElement(section, {
       ...section.props,
-      key: index,
+      key,
       classnames,
       active
     });

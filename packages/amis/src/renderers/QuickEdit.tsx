@@ -40,6 +40,10 @@ export type SchemaQuickEditObject =
        * 是否直接内嵌
        */
       mode?: 'inline';
+      /**
+       * 配置按钮图标
+       */
+      icon?: string;
     } & SchemaObject)
 
   /**
@@ -66,6 +70,10 @@ export type SchemaQuickEditObject =
        * 是否直接内嵌
        */
       mode?: 'inline';
+      /**
+       * 配置按钮图标
+       */
+      icon?: string;
 
       body: SchemaCollection;
     };
@@ -82,6 +90,7 @@ export interface QuickEditConfig {
   focusable?: boolean;
   popOverClassName?: string;
   isFormMode?: boolean;
+  icon?: string;
   [propName: string]: any;
 }
 
@@ -647,15 +656,15 @@ export const HocQuickEdit =
               onKeyUp={disabled ? noop : this.handleKeyUp}
             >
               <Component {...this.props} contentsOnly noHoc />
-              {disabled ? null : (
-                <span
-                  key="edit-btn"
-                  className={cx('Field-quickEditBtn')}
-                  onClick={this.openQuickEdit}
-                >
-                  <Icon icon="edit" className="icon" />
-                </span>
-              )}
+              {disabled
+                ? null
+                : render('quick-edit-button', {
+                    type: 'button',
+                    onClick: this.openQuickEdit,
+                    className: 'Field-quickEditBtn',
+                    icon: (quickEdit as QuickEditConfig).icon || 'edit',
+                    level: 'link'
+                  })}
               {this.state.isOpened ? this.renderPopOver() : null}
             </Component>
           );
