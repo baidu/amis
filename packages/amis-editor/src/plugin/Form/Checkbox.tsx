@@ -3,7 +3,8 @@ import {
   setSchemaTpl,
   getSchemaTpl,
   valuePipeOut,
-  EditorNodeType
+  EditorNodeType,
+  EditorManager
 } from 'amis-editor-core';
 import {isPureVariable} from 'amis';
 import {registerEditorPlugin} from 'amis-editor-core';
@@ -67,23 +68,33 @@ export class CheckboxControlPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '选中状态变化时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '状态值'
+      dataSchema: (manager: EditorManager) => {
+        const node = manager.store.getNodeById(manager.store.activeId);
+        const schemas = manager.dataSchema.current.schemas;
+        const dataSchema = schemas.find(
+          item => item.properties?.[node!.schema.name]
+        );
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'string',
+                    ...((dataSchema?.properties?.[node!.schema.name] as any) ??
+                      {}),
+                    title: '状态值'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     }
   ];
   // 动作定义

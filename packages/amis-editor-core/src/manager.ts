@@ -873,7 +873,7 @@ export class EditorManager {
    * @param rendererIdOrSchema
    * 备注：可以根据渲染器ID添加新元素，也可以根据现有schema片段添加新元素
    */
-  async addElem(rendererIdOrSchema: string | any) {
+  async addElem(rendererIdOrSchema: string | any, reGenerateId?: boolean) {
     if (!rendererIdOrSchema) {
       return;
     }
@@ -923,7 +923,13 @@ export class EditorManager {
       !isSpecialLayout
     ) {
       // 布局能力提升: 点击插入新元素，当wrapper为空插入布局容器时，自动改为置换，避免过多层级
-      this.replaceChild(curActiveId, curElemSchema);
+      this.replaceChild(
+        curActiveId,
+        curElemSchema,
+        subRenderer,
+        store.insertRegion,
+        reGenerateId
+      );
       setTimeout(() => {
         this.updateConfigPanel();
       }, 0);
@@ -1009,7 +1015,13 @@ export class EditorManager {
       regionNodeRegion,
       value,
       nextId,
-      subRenderer
+      subRenderer || node.info,
+      {
+        id: store.dragId,
+        type: store.dragType,
+        data: store.dragSchema
+      },
+      reGenerateId
     );
     if (child) {
       // mobx 修改数据是异步的
@@ -1049,7 +1061,8 @@ export class EditorManager {
   async appendSiblingSchema(
     rendererSchema: Object,
     beforeInsert?: boolean,
-    disabledAutoSelectInsertElem?: boolean
+    disabledAutoSelectInsertElem?: boolean,
+    reGenerateId?: boolean
   ) {
     if (!rendererSchema) {
       return;
@@ -1107,7 +1120,14 @@ export class EditorManager {
         regionNodeId,
         regionNodeRegion,
         rendererSchema,
-        nextId
+        nextId,
+        node.info,
+        {
+          id: store.dragId,
+          type: store.dragType,
+          data: store.dragSchema
+        },
+        reGenerateId
       );
       if (child && !disabledAutoSelectInsertElem) {
         // mobx 修改数据是异步的
@@ -1361,7 +1381,7 @@ export class EditorManager {
         y: info.y
       },
       menus,
-      () => this.store.setContextId('')
+      ctx => ctx.state.isOpened && this.store.setContextId('')
     );
   }
 
@@ -1536,19 +1556,20 @@ export class EditorManager {
     region: string,
     json: any,
     beforeId?: string,
-    subRenderer?: SubRendererInfo,
+    subRenderer?: SubRendererInfo | RendererInfo,
     dragInfo?: {
       id: string;
       type: string;
       data: any;
-    }
+    },
+    reGenerateId?: boolean
   ): any | null {
     const store = this.store;
     let index: number = -1;
     const commonContext = this.buildEventContext(id);
 
     // 填充id，有些脚手架生成了复杂的布局等，自动填充一下id
-    let curChildJson = JSONPipeIn(json, true);
+    let curChildJson = JSONPipeIn(json, reGenerateId ?? true);
 
     if (beforeId) {
       const arr = commonContext.schema[region];
@@ -1618,11 +1639,12 @@ export class EditorManager {
   replaceChild(
     id: string,
     json: any,
-    subRenderer?: SubRendererInfo,
-    region?: string
+    subRenderer?: SubRendererInfo | RendererInfo,
+    region?: string,
+    reGenerateId?: boolean
   ): boolean {
     // 转成普通json并添加node id
-    let curJson = JSONPipeIn(json, true);
+    let curJson = JSONPipeIn(json, reGenerateId ?? true);
 
     const context: ReplaceEventContext = {
       ...this.buildEventContext(id),
@@ -1999,24 +2021,32 @@ export class EditorManager {
       if (!nearestScope && scopeNode && !scopeNode.isSecondFactor) {
         nearestScope = scope;
       }
+      if (scopeNode) {
+        const tmpSchema = await scopeNode?.info?.plugin?.buildDataSchemas?.(
+          scopeNode,
+          region,
+          trigger
+        );
 
-      const jsonschema = await scopeNode?.info?.plugin?.buildDataSchemas?.(
-        scopeNode,
-        region,
-        trigger
-      );
-      if (jsonschema) {
-        scope.removeSchema(jsonschema.$id);
-        scope.addSchema(jsonschema);
-      }
+        if (tmpSchema) {
+          const jsonschema = {
+            ...tmpSchema,
+            ...(tmpSchema?.$id
+              ? {}
+              : {$id: `${scopeNode!.id}-${scopeNode!.type}`})
+          };
+          scope.removeSchema(jsonschema.$id);
+          scope.addSchema(jsonschema);
+        }
 
-      // 记录each列表等组件顺序
-      if (scopeNode?.info?.isListComponent) {
-        listScope.unshift(scope);
+        // 记录each列表等组件顺序
+        if (scopeNode?.info?.isListComponent) {
+          listScope.unshift(scope);
 
-        // 如果当前节点是list类型节点，当前scope从父节点上取
-        if (nodeId === id) {
-          nearestScope = scope.parent;
+          // 如果当前节点是list类型节点，当前scope从父节点上取
+          if (nodeId === id) {
+            nearestScope = scope.parent;
+          }
         }
       }
 
@@ -2028,14 +2058,20 @@ export class EditorManager {
       for (let scope of listScope) {
         const [id, type] = scope.id.split('-');
         const node = this.store.getNodeById(id, type);
-        const jsonschema = await node?.info?.plugin?.buildDataSchemas?.(
-          node,
-          region,
-          trigger
-        );
-        if (jsonschema) {
-          scope.removeSchema(jsonschema.$id);
-          scope.addSchema(jsonschema);
+        if (node) {
+          const tmpSchema = await node?.info?.plugin?.buildDataSchemas?.(
+            node,
+            region,
+            trigger
+          );
+          if (tmpSchema) {
+            const jsonschema = {
+              ...tmpSchema,
+              ...(tmpSchema?.$id ? {} : {$id: `${node!.id}-${node!.type}`})
+            };
+            scope.removeSchema(jsonschema.$id);
+            scope.addSchema(jsonschema);
+          }
         }
       }
     }

@@ -25,7 +25,10 @@ import {
   getArgsWrapper
 } from '../../renderer/event-control/helper';
 import cloneDeep from 'lodash/cloneDeep';
-import {resolveArrayDatasource} from '../../util';
+import {
+  resolveArrayDatasource,
+  resolveInputTableEventDataSchame
+} from '../../util';
 
 export class TableControlPlugin extends BasePlugin {
   static id = 'TableControlPlugin';
@@ -292,493 +295,588 @@ export class TableControlPlugin extends BasePlugin {
       eventName: 'add',
       eventLabel: '添加行',
       description: '点击左下角添加按钮 或 某一行右侧操作栏添加按钮时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'array',
-                  title: '列表记录'
-                },
-                index: {
-                  type: 'array',
-                  title: '新增索引'
+      dataSchema: (manager: EditorManager) => {
+        const {value} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'array',
+                    ...value,
+                    title: '列表记录'
+                  },
+                  index: {
+                    type: 'number',
+                    title: '新增索引'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'addConfirm',
       eventLabel: '确认添加',
       description:
         '开启”确认模式“，点击添加按钮，填入数据后点击“保存”按钮后触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'array',
-                  title: '列表记录'
-                },
-                item: {
-                  type: 'object',
-                  title: '新增行记录'
-                },
-                index: {
-                  type: 'number',
-                  title: '新增索引'
+      dataSchema: (manager: EditorManager) => {
+        const {value, item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'array',
+                    ...value,
+                    title: '列表记录'
+                  },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '新增行记录'
+                  },
+                  index: {
+                    type: 'number',
+                    title: '新增索引'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'addSuccess',
       eventLabel: '添加成功',
       description:
         '开启”确认模式“并且配置”新增接口“，点击“保存”后成功添加时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'array',
-                  title: '列表记录'
-                },
-                item: {
-                  type: 'object',
-                  title: '新增行记录'
-                },
-                index: {
-                  type: 'number',
-                  title: '新增索引'
+      dataSchema: (manager: EditorManager) => {
+        const {value, item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'array',
+                    ...value,
+                    title: '列表记录'
+                  },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '新增行记录'
+                  },
+                  index: {
+                    type: 'number',
+                    title: '新增索引'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'addFail',
       eventLabel: '添加失败',
       description:
         '开启”确认模式“并且配置”新增接口“，点击“保存”后调用接口失败时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'array',
-                  title: '列表记录'
-                },
-                item: {
-                  type: 'object',
-                  title: '新增行记录'
-                },
-                index: {
-                  type: 'number',
-                  title: '新增索引'
-                },
-                error: {
-                  type: 'object',
-                  title: '请求失败后接口返回的错误信息'
+      dataSchema: (manager: EditorManager) => {
+        const {value, item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'array',
+                    ...value,
+                    title: '列表记录'
+                  },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '新增行记录'
+                  },
+                  index: {
+                    type: 'number',
+                    title: '新增索引'
+                  },
+                  error: {
+                    type: 'object',
+                    title: '请求失败后接口返回的错误信息'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'edit',
       eventLabel: '编辑行',
       description: '点击某一行右侧操作栏“编辑”按钮时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'array',
-                  title: '列表记录'
-                },
-                item: {
-                  type: 'object',
-                  title: '所在行记录'
-                },
-                index: {
-                  type: 'number',
-                  title: '所在行记录索引'
+      dataSchema: (manager: EditorManager) => {
+        const {value, item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'array',
+                    ...value,
+                    title: '列表记录'
+                  },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '所在行记录'
+                  },
+                  index: {
+                    type: 'number',
+                    title: '所在行记录索引'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'editConfirm',
       eventLabel: '确认编辑',
       description:
         '开启”确认模式“，点击“编辑”按钮，填入数据后点击“保存”按钮后触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'array',
-                  title: '列表记录'
-                },
-                item: {
-                  type: 'object',
-                  title: '所在行记录'
-                },
-                index: {
-                  type: 'number',
-                  title: '所在行记录索引'
+      dataSchema: (manager: EditorManager) => {
+        const {value, item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'array',
+                    ...value,
+                    title: '列表记录'
+                  },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '所在行记录'
+                  },
+                  index: {
+                    type: 'number',
+                    title: '所在行记录索引'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'editSuccess',
       eventLabel: '编辑成功',
       description:
         '开启”确认模式“并且配置”编辑接口“，点击“保存”后成功编辑时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'array',
-                  title: '列表记录'
-                },
-                item: {
-                  type: 'object',
-                  title: '所在行记录'
-                },
-                index: {
-                  type: 'number',
-                  title: '所在行记录索引'
+      dataSchema: (manager: EditorManager) => {
+        const {value, item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'array',
+                    ...value,
+                    title: '列表记录'
+                  },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '所在行记录'
+                  },
+                  index: {
+                    type: 'number',
+                    title: '所在行记录索引'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'editFail',
       eventLabel: '编辑失败',
       description:
         '开启”确认模式“并且配置”编辑接口“，点击“保存”后调用接口失败时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'array',
-                  title: '列表记录'
-                },
-                item: {
-                  type: 'object',
-                  title: '所在行记录'
-                },
-                index: {
-                  type: 'number',
-                  title: '所在行记录索引'
-                },
-                error: {
-                  type: 'object',
-                  title: '请求错误后返回的错误信息'
+      dataSchema: (manager: EditorManager) => {
+        const {value, item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'array',
+                    ...value,
+                    title: '列表记录'
+                  },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '所在行记录'
+                  },
+                  index: {
+                    type: 'number',
+                    title: '所在行记录索引'
+                  },
+                  error: {
+                    type: 'object',
+                    title: '请求错误后返回的错误信息'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'delete',
       eventLabel: '删除行',
       description: '点击某一行右侧操作栏“删除”按钮时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'array',
-                  title: '列表记录'
-                },
-                item: {
-                  type: 'object',
-                  title: '所在行记录'
-                },
-                index: {
-                  type: 'object',
-                  title: '所在行记录索引'
+      dataSchema: (manager: EditorManager) => {
+        const {value, item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'array',
+                    ...value,
+                    title: '列表记录'
+                  },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '所在行记录'
+                  },
+                  index: {
+                    type: 'object',
+                    title: '所在行记录索引'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'deleteSuccess',
       eventLabel: '删除成功',
       description: '配置了“删除接口”，调用接口成功时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'array',
-                  title: '列表记录'
-                },
-                item: {
-                  type: 'object',
-                  title: '所在行记录'
-                },
-                index: {
-                  type: 'object',
-                  title: '所在行记录索引'
+      dataSchema: (manager: EditorManager) => {
+        const {value, item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'array',
+                    ...value,
+                    title: '列表记录'
+                  },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '所在行记录'
+                  },
+                  index: {
+                    type: 'object',
+                    title: '所在行记录索引'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'deleteFail',
       eventLabel: '删除失败',
       description: '配置了“删除接口”，调用接口失败时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'array',
-                  title: '列表记录'
-                },
-                item: {
-                  type: 'object',
-                  title: '所在行记录'
-                },
-                index: {
-                  type: 'object',
-                  title: '所在行记录索引'
-                },
-                error: {
-                  type: 'object',
-                  title: '请求失败后接口返回的错误信息'
+      dataSchema: (manager: EditorManager) => {
+        const {value, item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'array',
+                    ...value,
+                    title: '列表记录'
+                  },
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '所在行记录'
+                  },
+                  index: {
+                    type: 'number',
+                    title: '所在行记录索引'
+                  },
+                  error: {
+                    type: 'object',
+                    title: '请求失败后接口返回的错误信息'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'change',
       eventLabel: '值变化',
       description: '表格数据发生改变时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'array',
-                  title: '列表记录'
+      dataSchema: (manager: EditorManager) => {
+        const {value} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'array',
+                    ...value,
+                    title: '列表记录'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'orderChange',
       eventLabel: '行排序',
       description: '手动拖拽行排序事件',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                movedItems: {
-                  type: 'array',
-                  title: '已排序记录'
+      dataSchema: (manager: EditorManager) => {
+        const {item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  movedItems: {
+                    type: 'array',
+                    items: item,
+                    title: '已排序记录'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'rowClick',
       eventLabel: '行单击',
       description: '点击整行事件',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                item: {
-                  type: 'object',
-                  title: '当前行记录'
-                },
-                index: {
-                  type: 'number',
-                  title: '当前行索引'
+      dataSchema: (manager: EditorManager) => {
+        const {item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '当前行记录'
+                  },
+                  index: {
+                    type: 'number',
+                    title: '当前行索引'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'rowDbClick',
       eventLabel: '行双击',
       description: '双击整行事件',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                item: {
-                  type: 'object',
-                  title: '当前行记录'
-                },
-                index: {
-                  type: 'number',
-                  title: '当前行索引'
+      dataSchema: (manager: EditorManager) => {
+        const {item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '当前行记录'
+                  },
+                  index: {
+                    type: 'number',
+                    title: '当前行索引'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'rowMouseEnter',
       eventLabel: '鼠标移入行事件',
       description: '移入整行时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                item: {
-                  type: 'object',
-                  title: '当前行记录'
-                },
-                index: {
-                  type: 'number',
-                  title: '当前行索引'
+      dataSchema: (manager: EditorManager) => {
+        const {item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '当前行记录'
+                  },
+                  index: {
+                    type: 'number',
+                    title: '当前行索引'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'rowMouseLeave',
       eventLabel: '鼠标移出行事件',
       description: '移出整行时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                item: {
-                  type: 'object',
-                  title: '当前行记录'
-                },
-                index: {
-                  type: 'number',
-                  title: '当前行索引'
+      dataSchema: (manager: EditorManager) => {
+        const {item} = resolveInputTableEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  item: {
+                    type: 'object',
+                    ...item,
+                    title: '当前行记录'
+                  },
+                  index: {
+                    type: 'number',
+                    title: '当前行索引'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     }
   ];
 
@@ -1342,13 +1440,16 @@ export class TableControlPlugin extends BasePlugin {
         const schema = current.schema;
 
         if (schema.name) {
-          itemsSchema.properties[schema.name] =
-            await current.info.plugin.buildDataSchemas?.(
-              current,
-              region,
-              trigger,
-              node
-            );
+          const tmpSchema = await current.info.plugin.buildDataSchemas?.(
+            current,
+            region,
+            trigger,
+            node
+          );
+          itemsSchema.properties[schema.name] = {
+            ...tmpSchema,
+            ...(tmpSchema?.$id ? {} : {$id: `${current!.id}-${current!.type}`})
+          };
         }
       }
     }

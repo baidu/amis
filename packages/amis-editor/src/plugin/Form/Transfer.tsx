@@ -1,4 +1,4 @@
-import {EditorNodeType, getSchemaTpl} from 'amis-editor-core';
+import {EditorManager, EditorNodeType, getSchemaTpl} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
@@ -6,7 +6,7 @@ import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
 import {tipedLabel} from 'amis-editor-core';
-import {resolveOptionType} from '../../util';
+import {resolveOptionEventDataSchame, resolveOptionType} from '../../util';
 import type {Schema} from 'amis';
 
 export class TransferPlugin extends BasePlugin {
@@ -59,49 +59,48 @@ export class TransferPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '输入框失去焦点时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '选中的值'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项列表'
+      dataSchema: (manager: EditorManager) => {
+        const {value, items} = resolveOptionEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value,
+                  items
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'selectAll',
       eventLabel: '全选',
       description: '选中所有选项',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                items: {
-                  type: 'array',
-                  title: '选项列表'
+      dataSchema: (manager: EditorManager) => {
+        const {items} = resolveOptionEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  items
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     }
   ];
 
@@ -391,7 +390,7 @@ export class TransferPlugin extends BasePlugin {
   };
 
   buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
-    const type = resolveOptionType(node.schema?.options);
+    const type = resolveOptionType(node.schema);
     // todo:异步数据case
     let dataSchema: any = {
       type,

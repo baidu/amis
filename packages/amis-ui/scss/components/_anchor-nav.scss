@@ -13,6 +13,9 @@
       > .#{$ns}AnchorNav-link {
         position: relative;
         display: block;
+        &.#{$ns}AnchorNav-link-child {
+          margin-left: px2rem(16px);
+        }
 
         > a {
           display: block;

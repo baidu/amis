@@ -34,7 +34,7 @@ export interface ColorProps
 export class ColorField extends React.Component<ColorProps, object> {
   static defaultProps = {
     className: '',
-    defaultColor: '#ccc',
+    defaultColor: '',
     showValue: true
   };
 
@@ -46,18 +46,16 @@ export class ColorField extends React.Component<ColorProps, object> {
       defaultColor,
       showValue
     } = this.props;
-    const color = getPropValue(this.props);
+    const color = getPropValue(this.props) || defaultColor;
 
     return (
       <div className={cx('ColorField', className)} style={style}>
         <i
           className={cx('ColorField-previewIcon')}
-          style={{backgroundColor: color || defaultColor}}
+          style={{backgroundColor: color}}
         />
-        {showValue ? (
-          <span className={cx('ColorField-value')}>
-            {color || defaultColor}
-          </span>
+        {showValue && color ? (
+          <span className={cx('ColorField-value')}>{color}</span>
         ) : null}
       </div>
     );

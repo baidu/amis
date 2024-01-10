@@ -12,7 +12,8 @@
     @include clearfix();
     display: flex;
     flex-wrap: wrap;
-    margin: 0 var(--List-toolbar-marginX) var(--List-toolbar-marginY);
+    padding: var(--List-toolbar-marginY) var(--List-toolbar-marginX)
+      var(--List-toolbar-marginY);
   }
 
   &-actions {
@@ -77,6 +78,14 @@
     text-align: center;
     min-height: var(--List-placeholder-height);
     line-height: var(--List-placeholder-height);
+  }
+
+  &-footToolbar--affix,
+  &-footer--affix {
+    position: sticky;
+    bottom: var(--affix-offset-bottom);
+    background: var(--Table-bg);
+    z-index: $zindex-sticky;
   }
 }
 

@@ -110,6 +110,35 @@ order: 8
 | -------- | -------------------------- | ------------------ |
 | change   | `[name]: boolean` 组件的值 | 选中状态变化时触发 |
 
+### change
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "name": "checkbox",
+        "type": "checkbox",
+        "label": "勾选框",
+        "option": "选项说明",
+        "onEvent": {
+            "change": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
 ## 动作表
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。

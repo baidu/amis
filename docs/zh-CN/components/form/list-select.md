@@ -101,6 +101,45 @@ ListSelect 一般用来实现选择，可以单选也可以多选，和 Radio/Ch
 | -------- | ------------------------- | ---------------- |
 | change   | `[name]: string` 组件的值 | 选中值变化时触发 |
 
+### change
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+      {
+        "type": "list-select",
+        "name": "select",
+        "label": "单选",
+        "clearable": true,
+        "options": [
+          {
+            "label": "Option A",
+            "value": "a"
+          },
+          {
+            "label": "Option B",
+            "value": "b"
+          }
+        ],
+        "onEvent": {
+            "change": {
+                "actions": [
+                    {
+                      "actionType": "toast",
+                      "args": {
+                          "msg": "${event.data.value|json}"
+                      }
+                    }
+                ]
+            }
+        }
+      }
+    ]
+  }
+```
+
 ## 动作表
 
 当前组件对外暴露以下特性动作，其他组件可以通过指定`actionType: 动作名称`、`componentId: 该组件id`来触发这些动作，动作配置可以通过`args: {动作配置项名称: xxx}`来配置具体的参数，详细请查看[事件动作](../../docs/concepts/event-action#触发其他组件的动作)。

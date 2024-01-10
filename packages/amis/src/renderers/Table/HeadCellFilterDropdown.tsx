@@ -12,11 +12,14 @@ import {
   createObject,
   isNumeric,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  noop,
+  autobind
 } from 'amis-core';
-import {Checkbox, Icon} from 'amis-ui';
+import {Checkbox, Icon, SearchBox} from 'amis-ui';
 
 import type {RendererProps, Option} from 'amis-core';
+import {matchSorter} from 'match-sorter';
 
 export interface QuickFilterConfig {
   options: Array<any>;
@@ -50,6 +53,7 @@ export class HeadCellFilterDropDown extends React.Component<
 > {
   state = {
     isOpened: false,
+    keyword: '',
     filterOptions: []
   };
 
@@ -161,11 +165,21 @@ export class HeadCellFilterDropDown extends React.Component<
     });
   }
 
-  alterOptions(options: Array<any>) {
+  alterOptions(options: Array<any>, keyword: string = '') {
     const {data, filterable, name} = this.props;
+    const {labelField, valueField} = filterable;
     const filterValue =
       data && typeof data[name] !== 'undefined' ? data[name] : '';
     options = normalizeOptions(options);
+
+    //增加搜索功能
+    options = options.map((option: any) => {
+      option.visible = !!matchSorter([option], keyword, {
+        keys: [labelField || 'label', valueField || 'value'],
+        threshold: matchSorter.rankings.CONTAINS
+      }).length;
+      return option;
+    });
 
     if (filterable.multiple) {
       options = options.map(option => ({
@@ -310,6 +324,16 @@ export class HeadCellFilterDropDown extends React.Component<
     this.close();
   }
 
+  @autobind
+  handleSearch(keyword: string) {
+    const {filterOptions} = this.state;
+
+    this.setState({
+      keyword,
+      filterOptions: this.alterOptions(filterOptions, keyword)
+    });
+  }
+
   render() {
     const {isOpened, filterOptions} = this.state;
     const {
@@ -321,6 +345,8 @@ export class HeadCellFilterDropDown extends React.Component<
       classnames: cx,
       translate: __
     } = this.props;
+
+    const searchConfig = filterable?.searchConfig || {};
 
     return (
       <span
@@ -351,39 +377,70 @@ export class HeadCellFilterDropDown extends React.Component<
               overlay
             >
               {filterOptions && filterOptions.length > 0 ? (
-                <ul className={cx('DropDown-menu')}>
-                  {!filterable.multiple
-                    ? filterOptions.map((option: any, index) => (
-                        <li
-                          key={index}
-                          className={cx({
-                            'is-active': option.selected
-                          })}
-                          onClick={this.handleClick.bind(this, option.value)}
-                        >
-                          {option.label}
-                        </li>
-                      ))
-                    : filterOptions.map((option: any, index) => (
-                        <li key={index}>
-                          <Checkbox
-                            classPrefix={ns}
-                            onChange={this.handleCheck.bind(this, option.value)}
-                            checked={option.selected}
-                          >
-                            {option.label}
-                          </Checkbox>
-                        </li>
-                      ))}
-                  {filterOptions.some((item: any) => item.selected) ? (
-                    <li
-                      key="DropDown-menu-reset"
-                      onClick={this.handleReset.bind(this)}
-                    >
-                      {__('reset')}
-                    </li>
+                <>
+                  {filterable?.searchable ? (
+                    <SearchBox
+                      className={cx(
+                        'TableCell-filterPopOver-SearchBox',
+                        searchConfig?.className
+                      )}
+                      mini={searchConfig.mini ?? false}
+                      enhance={searchConfig.enhance ?? false}
+                      clearable={searchConfig.clearable ?? true}
+                      searchImediately={searchConfig.searchImediately}
+                      placeholder={searchConfig.placeholder}
+                      defaultValue={''}
+                      value={this.state.keyword ?? ''}
+                      onSearch={this.handleSearch}
+                      onChange={/** 为了消除react报错 */ noop}
+                    />
                   ) : null}
-                </ul>
+                  <ul className={cx('DropDown-menu')}>
+                    {!filterable.multiple
+                      ? filterOptions.map(
+                          (option: any, index) =>
+                            option.visible && (
+                              <li
+                                key={index}
+                                className={cx({
+                                  'is-active': option.selected
+                                })}
+                                onClick={this.handleClick.bind(
+                                  this,
+                                  option.value
+                                )}
+                              >
+                                {option.label}
+                              </li>
+                            )
+                        )
+                      : filterOptions.map(
+                          (option: any, index) =>
+                            option.visible && (
+                              <li key={index}>
+                                <Checkbox
+                                  classPrefix={ns}
+                                  onChange={this.handleCheck.bind(
+                                    this,
+                                    option.value
+                                  )}
+                                  checked={option.selected}
+                                >
+                                  {option.label}
+                                </Checkbox>
+                              </li>
+                            )
+                        )}
+                    {filterOptions.some((item: any) => item.selected) ? (
+                      <li
+                        key="DropDown-menu-reset"
+                        onClick={this.handleReset.bind(this)}
+                      >
+                        {__('reset')}
+                      </li>
+                    ) : null}
+                  </ul>
+                </>
               ) : null}
             </PopOver>
           </Overlay>

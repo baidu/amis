@@ -2891,11 +2891,10 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
                             data-role="checkbox"
                           >
                             <input
-                              disabled=""
                               type="checkbox"
                             />
                             <i />
@@ -3020,14 +3019,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Trident
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3070,14 +3070,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Trident
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3120,14 +3121,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Trident
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3170,14 +3172,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Trident
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3221,14 +3224,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Trident
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3272,14 +3276,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Gecko
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3323,14 +3328,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Gecko
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3374,14 +3380,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Gecko
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3425,14 +3432,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Gecko
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3476,14 +3484,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Gecko
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                     </tbody>

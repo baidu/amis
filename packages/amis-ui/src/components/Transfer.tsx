@@ -172,6 +172,7 @@ export class Transfer<
     | 'statistics'
     | 'virtualThreshold'
     | 'checkAllLabel'
+    | 'itemHeight'
     | 'valueField'
   > = {
     multiple: true,
@@ -179,6 +180,7 @@ export class Transfer<
     selectMode: 'list',
     statistics: true,
     virtualThreshold: 100,
+    itemHeight: 38,
     checkAllLabel: 'Select.checkAll',
     valueField: 'value'
   };

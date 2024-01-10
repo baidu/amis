@@ -36,3 +36,38 @@ test('Renderer:color', async () => {
   //   expect(input?.value).toEqual('#1a1438');
   //   expect(container).toMatchSnapshot();
 });
+
+test('Renderer: no color value', async () => {
+  const {container} = render(
+    amisRender({
+      type: 'color',
+    })
+  );
+
+  const colorValue = container.querySelector('.cxd-ColorField-value');
+  expect(colorValue).not.toBeInTheDocument();
+});
+
+test('Renderer: defalut color value', async () => {
+  const {container} = render(
+    amisRender({
+      type: 'color',
+      defaultColor: '#ccc'
+    })
+  );
+
+  const colorValue = container.querySelector('.cxd-ColorField-value');
+  expect(colorValue).toBeInTheDocument();
+});
+
+test('Renderer: color value', async () => {
+  const {container} = render(
+    amisRender({
+      type: 'color',
+      value: '#ccc'
+    })
+  );
+
+  const colorValue = container.querySelector('.cxd-ColorField-value');
+  expect(colorValue).toBeInTheDocument();
+});

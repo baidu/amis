@@ -1,11 +1,16 @@
 import React from 'react';
-import {EditorNodeType, getSchemaTpl, tipedLabel} from 'amis-editor-core';
+import {
+  EditorManager,
+  EditorNodeType,
+  getSchemaTpl,
+  tipedLabel
+} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {resolveOptionType} from '../../util';
+import {resolveOptionEventDataSchame, resolveOptionType} from '../../util';
 
 export class TabsTransferPlugin extends BasePlugin {
   static id = 'TabsTransferPlugin';
@@ -142,27 +147,25 @@ export class TabsTransferPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '选中值变化时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '选中的值'
-                },
-                items: {
-                  type: 'array',
-                  title: '选项列表'
+      dataSchema: (manager: EditorManager) => {
+        const {value, items} = resolveOptionEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value,
+                  items
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     },
     {
       eventName: 'tab-change',
@@ -391,7 +394,7 @@ export class TabsTransferPlugin extends BasePlugin {
   };
 
   buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
-    const type = resolveOptionType(node.schema?.options);
+    const type = resolveOptionType(node.schema);
     // todo:异步数据case
     let dataSchema: any = {
       type,

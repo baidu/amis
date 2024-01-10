@@ -644,11 +644,9 @@ $Table-strip-bg: transparent;
   --Portlet-borderWidth: var(--borderWidth);
   --Portlet-borderRadius: var(--borderRadius);
 
-  --QuickEdit-iconColor: inherit;
-  --QuickEdit-iconSize: #{px2rem(13px)};
+  --QuickEdit-iconSize: #{px2rem(14px)};
   --QuickEdit-onFocus-borderColor: var(--info);
   --QuickEdit-onFocus-borderWidth: var(--borderWidth);
-  --QuickEdit-onHover-iconColor: inherit;
 
   --Remark-bg: var(--colors-neutral-text-11);
   --Remark-borderColor: var(--colors-neutral-line-8);

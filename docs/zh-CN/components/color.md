@@ -90,5 +90,5 @@ List 的内容、Card 卡片的内容配置同上
 | className    | `string`  |        | 外层 CSS 类名                                                                          |
 | value        | `string`  |        | 显示的颜色值                                                                           |
 | name         | `string`  |        | 在其他组件中，时，用作变量映射                                                         |
-| defaultColor | `string`  | `#ccc` | 默认颜色值                                                                             |
+| defaultColor | `string`  |        | 默认颜色值                                                                             |
 | showValue    | `boolean` | `true` | 是否显示右边的颜色值                                                                   |

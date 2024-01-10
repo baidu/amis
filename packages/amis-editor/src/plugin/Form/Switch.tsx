@@ -4,6 +4,7 @@ import {BasePlugin, BaseEventContext} from 'amis-editor-core';
 import {ValidatorTag} from '../../validator';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
 import type {
+  EditorManager,
   EditorNodeType,
   RendererPluginAction,
   RendererPluginEvent
@@ -54,23 +55,33 @@ export class SwitchControlPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '开关值变化时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '开关值'
+      dataSchema: (manager: EditorManager) => {
+        const node = manager.store.getNodeById(manager.store.activeId);
+        const schemas = manager.dataSchema.current.schemas;
+        const dataSchema = schemas.find(
+          item => item.properties?.[node!.schema.name]
+        );
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'string',
+                    ...((dataSchema?.properties?.[node!.schema.name] as any) ??
+                      {}),
+                    title: '开关值'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     }
   ];
 
@@ -191,11 +202,12 @@ export class SwitchControlPlugin extends BasePlugin {
                     : value;
                 },
                 pipeOut: (value: any, origin: any, data: any) => {
-                  return value && value === (data.trueValue || true)
-                    ? data.trueValue || true
-                    : value && value !== (data.falseValue || false)
+                  const {trueValue = true, falseValue = false} = data || {};
+                  return value && value === trueValue
+                    ? trueValue
+                    : value && value !== falseValue
                     ? value
-                    : data.falseValue || false;
+                    : falseValue;
                 }
               }),
               getSchemaTpl('labelRemark'),
