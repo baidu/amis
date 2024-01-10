@@ -1381,7 +1381,7 @@ export class EditorManager {
         y: info.y
       },
       menus,
-      () => this.store.setContextId('')
+      ctx => ctx.state.isOpened && this.store.setContextId('')
     );
   }
 

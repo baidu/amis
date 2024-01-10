@@ -1123,6 +1123,42 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 
 你可以通过[数据映射](../../docs/concepts/data-mapping)，在`api`中获取这些参数。
 
+#### 快速过滤支持检索
+
+> 3.7.0 及以上版本
+
+通过配置 `searchable` 支持选项检索
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade",
+            "filterable": {
+                "searchable": true,
+                "options": [
+                    "A",
+                    "B",
+                    "C",
+                    "D",
+                    "X"
+                ]
+            }
+        }
+    ]
+}
+```
+
+如果需要更细节的配置，可以使用 `searchConfig`，详细配置项参考 search-box 组件
+
 #### 下拉数据源
 
 过滤器的数据域支持 API 接口和上下文数据(`3.6.0`及以上版本)
@@ -2060,75 +2096,220 @@ interface CRUDMatchFunc {
 
 **保留条目选择**
 
-默认分页、搜素后，用户选择条目会被清空，配置`keepItemSelectionOnPageChange`属性后会保留用户选择，可以实现跨页面批量操作。
+默认分页、搜索后，用户选择条目会被清空，配置`keepItemSelectionOnPageChange`属性后会保留用户选择，可以实现跨页面批量操作。
 同时可以通过配置`maxKeepItemSelectionLength`属性限制最大勾选数
 
 ```schema: scope="body"
 {
-    "type": "crud",
-    "syncLocation": false,
-    "api": "/api/mock2/sample",
-    "headerToolbar": [
-        "bulkActions"
-    ],
-    "keepItemSelectionOnPageChange": true,
-    "maxKeepItemSelectionLength": 4,
-    "bulkActions": [
-        {
-            "label": "批量删除",
-            "actionType": "ajax",
-            "api": "delete:/api/mock2/sample/${ids|raw}",
-            "confirmText": "确定要批量删除?"
-        },
-        {
-            "label": "批量修改",
-            "actionType": "dialog",
-            "dialog": {
-                "title": "批量编辑",
-                "body": {
-                    "type": "form",
-                    "api": "/api/mock2/sample/bulkUpdate2",
-                    "body": [
-                        {
-                            "type": "hidden",
-                            "name": "ids"
-                        },
-                        {
-                            "type": "input-text",
-                            "name": "engine",
-                            "label": "Engine"
-                        }
-                    ]
-                }
+  "type": "crud",
+  "syncLocation": false,
+  "api": "/api/mock2/sample",
+  "headerToolbar": [
+    "bulkActions"
+  ],
+  "keepItemSelectionOnPageChange": true,
+  "maxKeepItemSelectionLength": 4,
+  "bulkActions": [
+    {
+      "label": "批量删除",
+      "actionType": "ajax",
+      "api": "delete:/api/mock2/sample/${ids|raw}",
+      "confirmText": "确定要批量删除?"
+    },
+    {
+      "label": "批量修改",
+      "actionType": "dialog",
+      "dialog": {
+        "title": "批量编辑",
+        "body": {
+          "type": "form",
+          "api": "/api/mock2/sample/bulkUpdate2",
+          "body": [
+            {
+              "type": "hidden",
+              "name": "ids"
+            },
+            {
+              "type": "input-text",
+              "name": "engine",
+              "label": "Engine"
             }
+          ]
         }
-    ],
-    "columns": [
-        {
-            "name": "id",
-            "label": "ID"
-        },
-        {
-            "name": "engine",
-            "label": "Rendering engine"
-        },
-        {
-            "name": "browser",
-            "label": "Browser"
-        },
-        {
-            "name": "platform",
-            "label": "Platform(s)"
-        },
-        {
-            "name": "version",
-            "label": "Engine version"
-        },
-        {
-            "name": "grade",
-            "label": "CSS grade"
+      }
+    }
+  ],
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "platform",
+      "label": "Platform(s)"
+    },
+    {
+      "name": "version",
+      "label": "Engine version"
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    }
+  ]
+}
+```
+
+**当前页最大勾选数**
+
+如果不需要在分页、搜索后，保留用户选择，即不需要配置`keepItemSelectionOnPageChange`，可以通过配置`maxItemSelectionLength`属性限制当前页条目的最大勾选数
+
+```schema: scope="body"
+{
+  "type": "crud",
+  "syncLocation": false,
+  "api": "/api/mock2/sample",
+  "headerToolbar": [
+    "bulkActions"
+  ],
+  "maxItemSelectionLength": 4,
+  "bulkActions": [
+    {
+      "label": "批量删除",
+      "actionType": "ajax",
+      "api": "delete:/api/mock2/sample/${ids|raw}",
+      "confirmText": "确定要批量删除?"
+    },
+    {
+      "label": "批量修改",
+      "actionType": "dialog",
+      "dialog": {
+        "title": "批量编辑",
+        "body": {
+          "type": "form",
+          "api": "/api/mock2/sample/bulkUpdate2",
+          "body": [
+            {
+              "type": "hidden",
+              "name": "ids"
+            },
+            {
+              "type": "input-text",
+              "name": "engine",
+              "label": "Engine"
+            }
+          ]
         }
-    ]
+      }
+    }
+  ],
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "platform",
+      "label": "Platform(s)"
+    },
+    {
+      "name": "version",
+      "label": "Engine version"
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    }
+  ],
+  "itemCheckableOn": "this.index !== 2"
+}
+```
+
+`maxItemSelectionLength`也可以和`keepItemSelectionOnPageChange`搭配使用，起到和`maxKeepItemSelectionLength`一样的效果
+
+```schema: scope="body"
+{
+  "type": "crud",
+  "syncLocation": false,
+  "api": "/api/mock2/sample",
+  "headerToolbar": [
+    "bulkActions"
+  ],
+  "keepItemSelectionOnPageChange": true,
+  "maxItemSelectionLength": 4,
+  "bulkActions": [
+    {
+      "label": "批量删除",
+      "actionType": "ajax",
+      "api": "delete:/api/mock2/sample/${ids|raw}",
+      "confirmText": "确定要批量删除?"
+    },
+    {
+      "label": "批量修改",
+      "actionType": "dialog",
+      "dialog": {
+        "title": "批量编辑",
+        "body": {
+          "type": "form",
+          "api": "/api/mock2/sample/bulkUpdate2",
+          "body": [
+            {
+              "type": "hidden",
+              "name": "ids"
+            },
+            {
+              "type": "input-text",
+              "name": "engine",
+              "label": "Engine"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "platform",
+      "label": "Platform(s)"
+    },
+    {
+      "name": "version",
+      "label": "Engine version"
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    }
+  ],
+  "itemCheckableOn": "this.index !== 2 && this.index !== 5"
 }
 ```
 
@@ -3665,8 +3846,10 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | hideQuickSaveBtn                      | `boolean`                                                                               | `false`                         | 隐藏顶部快速保存提示                                                                                                                           |
 | autoJumpToTopOnPagerChange            | `boolean`                                                                               | `false`                         | 当切分页的时候，是否自动跳顶部。                                                                                                               |
 | syncResponse2Query                    | `boolean`                                                                               | `true`                          | 将返回数据同步到过滤器上。                                                                                                                     |
-| keepItemSelectionOnPageChange         | `boolean`                                                                               | `true`                          | 保留条目选择，默认分页、搜素后，用户选择条目会被清空，开启此选项后会保留用户选择，可以实现跨页面批量操作。                                     |
+| keepItemSelectionOnPageChange         | `boolean`                                                                               | `true`                          | 保留条目选择，默认分页、搜索后，用户选择条目会被清空，开启此选项后会保留用户选择，可以实现跨页面批量操作。                                     |
 | labelTpl                              | `string`                                                                                |                                 | 单条描述模板，`keepItemSelectionOnPageChange`设置为`true`后会把所有已选择条目列出来，此选项可以用来定制条目展示文案。                          |
+| maxKeepItemSelectionLength            | `number`                                                                                | `true`                          | 和`keepItemSelectionOnPageChange`搭配使用，限制最大勾选数。                                                                                    |
+| maxItemSelectionLength                | `number`                                                                                | `true`                          | 可单独使用限制当前页的最大勾选数，也可以和`keepItemSelectionOnPageChange`搭配使用达到和 maxKeepItemSelectionLength 一样的效果。                |
 | headerToolbar                         | Array                                                                                   | `['bulkActions', 'pagination']` | 顶部工具栏配置                                                                                                                                 |
 | footerToolbar                         | Array                                                                                   | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                                                 |
 | alwaysShowPagination                  | `boolean`                                                                               | `false`                         | 是否总是显示分页                                                                                                                               |
