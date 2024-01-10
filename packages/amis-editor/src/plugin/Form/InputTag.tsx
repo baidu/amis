@@ -1,4 +1,9 @@
-import {EditorManager, EditorNodeType, getSchemaTpl} from 'amis-editor-core';
+import {
+  EditorManager,
+  EditorNodeType,
+  getSchemaTpl,
+  tipedLabel
+} from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
   BasePlugin,
@@ -182,6 +187,12 @@ export class TagControlPlugin extends BasePlugin {
             getSchemaTpl('joinValues'),
             getSchemaTpl('delimiter'),
             getSchemaTpl('extractValue'),
+            {
+              type: 'input-number',
+              name: 'max',
+              label: tipedLabel('最大标签数量', '最多选择的标签数量'),
+              min: 1
+            },
             getSchemaTpl('autoFillApi', {
               visibleOn:
                 '!this.autoFill || this.autoFill.scene && this.autoFill.action'

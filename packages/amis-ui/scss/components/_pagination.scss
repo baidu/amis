@@ -195,7 +195,7 @@
         transition: all 0.2s;
       }
       > span {
-        opacity: 1;  
+        opacity: 1;
         transition: all 0.2s;
       }
     }
@@ -208,18 +208,17 @@
       transition: all 0.2s;
     }
     > span {
-      opacity: 0;  
+      opacity: 0;
       transition: all 0.2s;
     }
   }
 }
 
 .#{$ns}Pagination-wrap {
-  line-height: px2rem(30px);
-
   .#{$ns}Pagination-item {
     &.#{$ns}Pagination-perpage {
       margin-left: px2rem(8px);
+      vertical-align: baseline;
     }
     &:nth-child(1) {
       margin-left: 0;
@@ -264,8 +263,8 @@
 
   .#{$ns}Pagination-item {
     margin-left: px2rem(4px);
-  
-    > li {  
+
+    > li {
       > a,
       > span {
         min-width: var(--Pagination-minWidth-sm);
@@ -274,8 +273,9 @@
         padding: var(--Pagination-padding-sm);
       }
     }
-  
-    .#{$ns}Pagination-inputGroup, .#{$ns}Pagination-simplego {
+
+    .#{$ns}Pagination-inputGroup,
+    .#{$ns}Pagination-simplego {
       height: var(--Pagination-height-sm);
       &-input {
         min-width: px2rem(40px);

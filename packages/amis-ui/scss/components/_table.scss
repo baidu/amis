@@ -800,6 +800,11 @@
         }
       }
     }
+
+    .#{$ns}SearchBox {
+      margin-left: var(--gap-xs);
+      margin-top: var(--gap-xs);
+    }
   }
 
   &-itemActions-wrap {
