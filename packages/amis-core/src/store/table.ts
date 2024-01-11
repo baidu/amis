@@ -1522,6 +1522,12 @@ export const TableStore = iRendererStore
       }
 
       const pool = arr.concat();
+
+      // 把多的删了先
+      if (self.rows.length > arr.length) {
+        self.rows.splice(arr.length, self.rows.length - arr.length);
+      }
+
       let index = 0;
       const len = self.rows.length;
       while (pool.length) {
