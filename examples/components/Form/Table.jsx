@@ -2,6 +2,7 @@ export default {
   title: '表格编辑',
   body: {
     type: 'form',
+    debug: true,
     mode: 'horizontal',
     api: '/api/mock2/form/saveForm?waitSeconds=2',
     actions: [
@@ -40,7 +41,30 @@ export default {
           }
         ]
       },
+      {
+        type: 'input-table',
+        name: 'tabletree',
+        label: '树',
+        expand: 'all',
+        isExpanded: true,
+        affixHeader: true,
+        expandable: {
+          expandAll: true
+        },
 
+        columns: [
+          {
+            name: 'label',
+            label: 'AA'
+          },
+          {
+            name: 'value',
+            label: 'BB',
+            type: 'input-text',
+            reload: 'none'
+          }
+        ]
+      },
       {
         type: 'combo',
         name: 'colors',
@@ -201,6 +225,34 @@ export default {
       }
     ],
     data: {
+      tabletree: [
+        {
+          label: 'a',
+          value: 'aa',
+          children: [
+            {
+              label: 'a1',
+              value: 'bb',
+              children: [
+                {
+                  label: 'a11',
+                  value: 'aa',
+                  children: [
+                    {
+                      label: 'a111',
+                      value: 'bb'
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          label: 'b',
+          value: 'b'
+        }
+      ],
       table5: Array.from({length: 20}, (_, index) => ({
         aa: index % 2 == 0 ? 'hello' : 'hi',
         cc: index % 2 == 0 ? 'aa' : 'cc'
