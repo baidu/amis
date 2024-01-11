@@ -2,7 +2,7 @@ export default {
   title: '表格编辑',
   body: {
     type: 'form',
-    debug: true,
+    debug: false,
     mode: 'horizontal',
     api: '/api/mock2/form/saveForm?waitSeconds=2',
     actions: [
