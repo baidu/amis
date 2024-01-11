@@ -614,11 +614,17 @@ export const EditorNode = types
         });
         const node = self.children[self.children.length - 1];
         node.setInfo(props.info);
+        (getRoot(self) as any).setNode(node);
         return node;
       },
 
       removeChild(child: any) {
         const idx = self.children.findIndex(item => item === child);
+        const node = self.children[idx];
+        if (!node) {
+          return;
+        }
+        (getRoot(self) as any).unsetNode(node);
         self.children.splice(idx, 1);
       },
 
