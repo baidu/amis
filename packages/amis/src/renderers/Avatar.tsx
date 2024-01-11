@@ -35,6 +35,11 @@ export interface AvatarSchema extends BaseSchema {
   src?: string;
 
   /**
+   * 默认头像
+   */
+  defaultAvatar?: string;
+
+  /**
    * 图标
    */
   icon?: string;
@@ -113,6 +118,7 @@ export class AvatarField extends React.Component<AvatarProps> {
       className,
       classnames: cx,
       src,
+      defaultAvatar,
       icon = 'fa fa-user',
       fit,
       shape,
@@ -153,7 +159,7 @@ export class AvatarField extends React.Component<AvatarProps> {
         style={style}
         className={className}
         classnames={cx}
-        src={src}
+        src={src || defaultAvatar}
         icon={icon}
         fit={fit}
         shape={shape}

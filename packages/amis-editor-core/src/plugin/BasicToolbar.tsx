@@ -518,6 +518,13 @@ export class BasicToolbarPlugin extends BasePlugin {
           });
         }
       }
+      if (node.type === 'container') {
+        menus.push({
+          label: '清空容器',
+          disabled: !node.schema.body?.length,
+          onSelect: () => manager.emptyRegion(id, 'body')
+        });
+      }
 
       menus.push({
         label: '替换组件',
