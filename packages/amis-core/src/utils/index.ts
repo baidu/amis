@@ -27,6 +27,7 @@ export * from './image';
 export * from './isPureVariable';
 export * from './json-schema-2-amis-schema';
 export * from './keyToPath';
+export * from './labelToString';
 export * from './makeSorter';
 export * from './normalizeLink';
 export * from './normalizeOptions';

@@ -513,6 +513,7 @@ export class TablePlugin extends BasePlugin {
                 formType: 'extend',
                 label: '头部',
                 name: 'showHeader',
+                pipeIn: (value: any) => value ?? true,
                 form: {
                   body: [
                     {
@@ -536,6 +537,7 @@ export class TablePlugin extends BasePlugin {
                 formType: 'extend',
                 label: '底部',
                 name: 'showFooter',
+                pipeIn: (value: any) => value ?? true,
                 form: {
                   body: [
                     {

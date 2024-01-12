@@ -81,6 +81,14 @@
     background-color: #f7f7f9;
   }
 
+  fieldset {
+    margin-bottom: var(--Form-item-gap);
+
+    .cxd-Collapse-content {
+      background-color: transparent;
+    }
+  }
+
   &.right::after {
     right: 12px;
     left: auto;
