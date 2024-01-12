@@ -159,6 +159,7 @@ export class AvatarPlugin extends BasePlugin {
                   onChange: (value: any, origin: any, item: any, form: any) => {
                     form.setValues({
                       src: undefined,
+                      defaultAvatar: undefined,
                       fit: 'cover',
                       text: undefined,
                       gap: 4,
@@ -182,7 +183,13 @@ export class AvatarPlugin extends BasePlugin {
                         type: 'input-url'
                       },
                       name: 'src',
-                      label: '链接',
+                      label: '头像地址',
+                      visibleOn: 'data.showtype === "image"'
+                    }),
+                    // 占位图片
+                    getSchemaTpl('imageUrl', {
+                      name: 'defaultAvatar',
+                      label: '默认头像',
                       visibleOn: 'data.showtype === "image"'
                     }),
                     {

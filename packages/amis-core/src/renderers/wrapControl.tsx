@@ -251,16 +251,14 @@ export function wrapControl<
               } else {
                 let initialValue = model.extraName
                   ? [
-                      store?.getValueByName(
-                        model.name,
-                        form?.canAccessSuperData
-                      ),
-                      store?.getValueByName(
+                      getVariable(data, model.name, form?.canAccessSuperData),
+                      getVariable(
+                        data,
                         model.extraName,
                         form?.canAccessSuperData
                       )
                     ]
-                  : store?.getValueByName(model.name, form?.canAccessSuperData);
+                  : getVariable(data, model.name, form?.canAccessSuperData);
 
                 if (
                   model.extraName &&

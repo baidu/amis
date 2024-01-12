@@ -17,13 +17,13 @@ export const defaultFlexColumnSchema = (title?: string) => {
   return {
     type: 'container',
     body: [],
-    size: 'xs',
+    size: 'none',
     style: {
       position: 'static',
       display: 'block',
       flex: '1 1 auto',
       flexGrow: 1,
-      flexBasis: 'auto'
+      flexBasis: 0
     },
     wrapperBody: false,
     isFixedHeight: false,
@@ -40,7 +40,7 @@ const defaultFlexPreviewSchema = (title?: string) => {
     style: {
       display: 'block',
       flex: '1 1 auto',
-      flexBasis: 'auto',
+      flexBasis: 0,
       textAlign: 'center',
       marginRight: 10
     },
@@ -53,14 +53,15 @@ const defaultFlexContainerSchema = (
   flexItemSchema: (title?: string) => any = defaultFlexColumnSchema
 ) => ({
   type: 'flex',
-  className: 'p-1',
   items: [
     flexItemSchema('第一列'),
     flexItemSchema('第二列'),
     flexItemSchema('第三列')
   ],
   style: {
-    position: 'relative'
+    position: 'relative',
+    rowGap: '10px',
+    columnGap: '10px'
   }
 });
 
@@ -130,6 +131,15 @@ export class FlexPluginBase extends LayoutBasePlugin {
                   }),
 
                   getSchemaTpl('layout:flex-wrap'),
+
+                  getSchemaTpl('layout:flex-basis', {
+                    label: '行间隔',
+                    name: 'style.rowGap'
+                  }),
+                  getSchemaTpl('layout:flex-basis', {
+                    label: '列间隔',
+                    name: 'style.columnGap'
+                  }),
 
                   ...(isFlexItem
                     ? [
