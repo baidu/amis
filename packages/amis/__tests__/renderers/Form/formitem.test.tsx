@@ -376,3 +376,36 @@ test('Renderer:FormItem:disabledInTabs', async () => {
   expect(container.querySelector('input[name=a]')).toBeDisabled();
   expect(container.querySelector('input[name=b]')).toBeDisabled();
 });
+
+test('Renderer:Formitem initial value in table', async () => {
+  const {container, getByText} = render(
+    amisRender(
+      {
+        type: 'table',
+        source: '${items}',
+        columns: [
+          {
+            type: 'property',
+            items: [
+              {
+                label: 'A',
+                content: {
+                  type: 'input-tag',
+                  name: 'a',
+                  static: true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        data: {
+          items: [{a: '123'}]
+        }
+      },
+      makeEnv({})
+    )
+  );
+  expect(container.innerHTML).toContain('123');
+});
