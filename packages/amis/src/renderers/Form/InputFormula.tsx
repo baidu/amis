@@ -56,6 +56,11 @@ export interface InputFormulaControlSchema extends FormBaseControlSchema {
   clearDefaultFormula: boolean;
 
   /**
+   * 用于"inputMode": "input-group" 模式下是否展开tree,默认否
+   */
+  isOpenExpandTree: boolean;
+
+  /**
    * 编辑器标题
    */
   title?: string;
@@ -147,12 +152,17 @@ export interface InputFormulaProps
 export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
   static defaultProps: Pick<
     InputFormulaControlSchema,
-    'inputMode' | 'borderMode' | 'evalMode' | 'clearDefaultFormula'
+    | 'inputMode'
+    | 'borderMode'
+    | 'evalMode'
+    | 'clearDefaultFormula'
+    | 'isOpenExpandTree'
   > = {
     inputMode: 'input-button',
     borderMode: 'full',
     evalMode: true,
-    clearDefaultFormula: false
+    clearDefaultFormula: false,
+    isOpenExpandTree: false
   };
 
   ref: any;
@@ -188,6 +198,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       evalMode,
       mixedMode,
       clearDefaultFormula,
+      isOpenExpandTree,
       variableMode,
       header,
       label,
@@ -242,6 +253,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         variableMode={variableMode}
         functions={functions}
         clearDefaultFormula={clearDefaultFormula}
+        isOpenExpandTree={isOpenExpandTree}
         header={header || label || ''}
         borderMode={borderMode}
         placeholder={placeholder}

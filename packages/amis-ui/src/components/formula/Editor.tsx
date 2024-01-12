@@ -80,6 +80,11 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
   clearDefaultFormula: boolean;
 
   /**
+   * 用于"inputMode": "input-group" 模式下是否展开tree,默认否
+   */
+  isOpenExpandTree?: boolean;
+
+  /**
    * 顶部标题，默认为表达式
    */
   header: string;
@@ -126,10 +131,13 @@ export class FormulaEditor extends React.Component<
   state: FormulaState = {
     focused: false,
     isCodeMode: false,
-    expandTree: false,
+    expandTree: this.props.isOpenExpandTree
+      ? this.props.isOpenExpandTree
+      : false,
     normalizeVariables: [],
     functions: []
   };
+
   editorPlugin?: FormulaPlugin;
   unmounted: boolean = false;
 
@@ -165,9 +173,13 @@ export class FormulaEditor extends React.Component<
     }));
   }
 
-  static defaultProps: Pick<FormulaEditorProps, 'variables' | 'evalMode'> = {
+  static defaultProps: Pick<
+    FormulaEditorProps,
+    'variables' | 'evalMode' | 'isOpenExpandTree'
+  > = {
     variables: [],
-    evalMode: true
+    evalMode: true,
+    isOpenExpandTree: false
   };
 
   static replaceStrByIndex(
@@ -196,7 +208,6 @@ export class FormulaEditor extends React.Component<
     if (!Array.isArray(variables) || !variables.length || !value) {
       return;
     }
-
     if (typeof value !== 'string') {
       try {
         value = JSON.stringify(value);

@@ -128,6 +128,11 @@ export interface FormulaPickerProps
   clearDefaultFormula: boolean;
 
   /**
+   * 用于"inputMode": "input-group" 模式下是否展开tree,默认否
+   */
+  isOpenExpandTree: boolean;
+
+  /**
    * 支持通过上下文变量配置value
    */
   source?: string;
@@ -452,6 +457,7 @@ export class FormulaPicker extends React.Component<
       clearable,
       functions,
       clearDefaultFormula,
+      isOpenExpandTree,
       children,
       variableMode,
       mixedMode,
@@ -463,7 +469,6 @@ export class FormulaPicker extends React.Component<
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
     const iconElement = <Icon cx={cx} icon={icon} className="Icon" />;
-
     return (
       <>
         {children ? (
@@ -634,6 +639,7 @@ export class FormulaPicker extends React.Component<
                 variables={this.state.variables}
                 functions={this.state.functions ?? functions}
                 clearDefaultFormula={clearDefaultFormula}
+                isOpenExpandTree={isOpenExpandTree}
                 variableMode={this.state.variableMode ?? variableMode}
                 value={editorValue}
                 onChange={this.handleEditorChange}
