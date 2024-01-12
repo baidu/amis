@@ -79,16 +79,12 @@ npm run update-snapshot --workspace amis <spec-name>
 ### 发布版本
 
 ```bash
-# 先通过一下命令设置版本号
-npm run version
-
-# 如果是 beta 版本使用如下命令
-# npm run version -- 2.0.1-beta.0 --no-git-tag-version
-
 # 发布内部 registry
-npm run publish-to-internal
+npm run publish
 
 # 发布外网环境
+# 先通过一下命令设置版本号
+npm run version
 npm run release
 ```
 
