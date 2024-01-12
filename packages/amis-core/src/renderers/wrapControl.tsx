@@ -794,15 +794,16 @@ export function wrapControl<
           }
 
           getValue() {
-            const {formStore: data, $schema: control} = this.props;
+            const {formStore, data, $schema: control} = this.props;
             let value: any = this.model ? this.model.tmpValue : control.value;
 
             if (control.pipeIn) {
               value = callStrFunction.call(
                 this,
                 control.pipeIn,
-                ['value', 'data'],
+                ['value', 'store', 'data'],
                 value,
+                formStore,
                 data
               );
             }
