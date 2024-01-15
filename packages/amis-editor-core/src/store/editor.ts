@@ -1064,7 +1064,10 @@ export const MainStore = types
         if (node.region) {
           map[node.id + '-' + node.region] = node;
         } else {
-          map[node.id] = node;
+          // 同名类型不同的节点，优先使用上层的
+          // 因为原来的 getNodeById 是这种查找策略
+          // 所以孩子节点在父级写入了的情况下不写入
+          map[node.id] = map[node.id] || node;
           map[node.id + '-' + node.type] = node;
         }
 
