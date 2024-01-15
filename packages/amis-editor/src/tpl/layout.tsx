@@ -1132,7 +1132,7 @@ setSchemaTpl(
   }
 );
 
-// 居中显示
+// 对齐方式
 setSchemaTpl(
   'layout:margin-center',
   (config?: {
@@ -1172,6 +1172,16 @@ setSchemaTpl(
           value: 'auto 0px auto auto'
         }
       ],
+      pipeIn: config?.pipeIn
+        ? config?.pipeIn
+        : (value: any, data: any) => {
+            let themeCssValue =
+              data.data?.themeCss?.baseControlClassName?.[
+                'padding-and-margin:default'
+              ]?.margin;
+            return value || themeCssValue;
+          },
+      pipeOut: config?.pipeOut,
       onChange: (value: string, oldValue: string, model: any, form: any) => {
         if (
           form?.data?.style?.position === 'fixed' ||
