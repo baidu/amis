@@ -624,7 +624,25 @@ export const EditorNode = types
         if (!node) {
           return;
         }
-        (getRoot(self) as any).unsetNode(node);
+
+        // 因为 react 的钩子是 父级先执行 willUnmout，所以顶级的节点先删除
+        // 节点删除了，再去读取 mst 又会报错
+        // 所以在节点删除之前，先把所有孩子节点从 root.map 中删除
+        // 否则 root.map 里面会残存很多已经销毁的节点
+        const pool = [node];
+        const list = [];
+
+        while (pool.length) {
+          const item = pool.shift();
+          list.push(item);
+          pool.push(...item.children);
+        }
+
+        const root = getRoot(self) as any;
+        list.forEach((item: any) => {
+          root.unsetNode(item);
+        });
+
         self.children.splice(idx, 1);
       },
 
