@@ -100,13 +100,14 @@ export class ContainerWrapper extends React.Component<ContainerWrapperProps> {
           ];
         }
 
-        const region = Array.isArray(rest[key])
-          ? rest[key].concat()
+        let region = Array.isArray(rest[key])
+          ? rest[key]
           : rest[key]
           ? [rest[key]]
           : defaultRegion;
 
         if (!region.length) {
+          region = region.concat();
           region.push({children: () => null});
         }
 
