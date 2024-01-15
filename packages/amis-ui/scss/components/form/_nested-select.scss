@@ -65,7 +65,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     border: var(--Form-select-outer-borderWidth) solid
-      var(--Form-input-onFocused-borderColor);
+      var(--Form-select-outer-borderColor);
     &:not(:first-child) {
       border-left: 0;
       margin-left: px2rem(4px);
