@@ -1153,7 +1153,7 @@ setSchemaTpl(
           '通过 margin 数值来设置对齐方式，其中 margin: 0 auto 用于设置居中对齐'
         ),
       name: config?.name || 'style.margin',
-      value: config?.value || '0',
+      value: config?.value,
       inputClassName: 'inline-flex justify-between',
       visibleOn:
         config?.visibleOn ??
