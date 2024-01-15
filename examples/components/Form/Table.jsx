@@ -44,26 +44,7 @@ export default {
       {
         type: 'crud',
         name: 'table',
-        data: {
-          table: [
-            {
-              a: [
-                {
-                  aa: true,
-                  bb: false
-                }
-              ]
-            },
-            {
-              a: [
-                {
-                  aa: true,
-                  bb: true
-                }
-              ]
-            }
-          ]
-        },
+        source: '${crud}',
         label: '头部固定',
         affixHeader: true,
         columns: [

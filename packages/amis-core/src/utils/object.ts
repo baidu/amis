@@ -131,8 +131,6 @@ export function setVariable(
     host: Record<string, any>;
     key: string;
   }> = [];
-  console.log('wwwwww', key);
-  let newKey = key;
   while (parts.length) {
     let host = data;
     let key = parts.shift() as string;
@@ -150,7 +148,6 @@ export function setVariable(
       data = data[key];
     } else {
       // 如果是数字，那么就是数组
-      console.log('11111111111', stack);
       if (/^\d+$/.test(key) && stack.length) {
         const prev = stack[stack.length - 1];
         if (
@@ -163,7 +160,6 @@ export function setVariable(
 
       data[key] = {};
       data = data[key];
-      console.log('data=======', data);
     }
 
     stack.push({
@@ -173,8 +169,6 @@ export function setVariable(
   }
 
   data[last] = value;
-
-  console.log('data======last=', data);
 }
 
 export function deleteVariable(data: {[propName: string]: any}, key: string) {

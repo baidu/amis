@@ -349,7 +349,6 @@ export const HocQuickEdit =
       }
 
       handleChange(values: object, diff?: any) {
-        console.log('==========111', object);
         const {onQuickChange, quickEdit} = this.props;
 
         Object.keys(diff).length &&
@@ -362,7 +361,6 @@ export const HocQuickEdit =
       }
 
       handleFormItemChange(value: any) {
-        console.log('==========222', value);
         const {onQuickChange, quickEdit, name} = this.props;
 
         const data = {};
