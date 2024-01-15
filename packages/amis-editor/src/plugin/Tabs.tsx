@@ -42,11 +42,11 @@ export class TabsPlugin extends BasePlugin {
     tabs: [
       {
         title: '选项卡1',
-        body: '内容1'
+        body: []
       },
       {
         title: '选项卡2',
-        body: '内容2'
+        body: []
       }
     ]
   };
