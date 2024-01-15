@@ -77,7 +77,7 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
    * 是否清除默认公式
    * 默认为 false
    */
-  clearDefaultFormula: boolean;
+  clearDefaultFormula?: boolean;
 
   /**
    * 用于"inputMode": "input-group" 模式下是否展开tree,默认否

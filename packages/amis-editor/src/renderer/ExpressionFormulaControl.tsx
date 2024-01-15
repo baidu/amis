@@ -163,6 +163,8 @@ export default class ExpressionFormulaControl extends React.Component<
                 value={formulaPickerValue}
                 onChange={onChange}
                 selfVariableName={selfName}
+                clearDefaultFormula={false}
+                isOpenExpandTree={false}
               />
             );
           }}

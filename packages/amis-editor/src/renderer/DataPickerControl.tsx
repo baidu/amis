@@ -47,6 +47,8 @@ class DataPickerControl extends React.Component<FormControlProps> {
         value={value}
         onChange={() => {}}
         header={''}
+        clearDefaultFormula={false}
+        isOpenExpandTree={false}
       >
         {({onClick}: {onClick: (e: React.MouseEvent) => void}) => {
           return (

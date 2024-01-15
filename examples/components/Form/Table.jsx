@@ -2,7 +2,7 @@ export default {
   title: '表格编辑',
   body: {
     type: 'form',
-    debug: false,
+    debug: true,
     mode: 'horizontal',
     api: '/api/mock2/form/saveForm?waitSeconds=2',
     actions: [
@@ -38,6 +38,62 @@ export default {
                 value: 'cc'
               }
             ]
+          }
+        ]
+      },
+      {
+        type: 'crud',
+        name: 'table',
+        data: {
+          table: [
+            {
+              a: [
+                {
+                  aa: true,
+                  bb: false
+                }
+              ]
+            },
+            {
+              a: [
+                {
+                  aa: true,
+                  bb: true
+                }
+              ]
+            }
+          ]
+        },
+        label: '头部固定',
+        affixHeader: true,
+        columns: [
+          {
+            name: 'a[0].aa',
+            label: 'AA',
+            quickEdit: {
+              mode: 'inline',
+              type: 'switch',
+              onText: '开启',
+              reload: 'none',
+              offText: '关闭',
+              id: 'u:56a387805c4c',
+              falseValue: 0,
+              trueValue: 1
+            }
+          },
+          {
+            name: 'a[0].bb',
+            label: 'AA',
+            quickEdit: {
+              mode: 'inline',
+              type: 'switch',
+              onText: '开启',
+              reload: 'none',
+              offText: '关闭',
+              id: 'u:56a387805c4c',
+              falseValue: 0,
+              trueValue: 1
+            }
           }
         ]
       },
@@ -225,6 +281,24 @@ export default {
       }
     ],
     data: {
+      crud: [
+        {
+          a: [
+            {
+              aa: true,
+              bb: false
+            }
+          ]
+        },
+        {
+          a: [
+            {
+              aa: true,
+              bb: true
+            }
+          ]
+        }
+      ],
       tabletree: [
         {
           label: 'a',
