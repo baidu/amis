@@ -753,7 +753,7 @@ setSchemaTpl(
       name: config?.name || 'style.width',
       value: config?.value || '300px',
       visibleOn: config?.visibleOn
-        ? `${config?.visibleOn} && data.isFixedWidth`
+        ? `(${config?.visibleOn}) && data.isFixedWidth`
         : 'data.isFixedWidth',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
@@ -826,7 +826,7 @@ setSchemaTpl(
       value: config?.value,
       min: '${style.minWidth | toInt}',
       visibleOn: config?.visibleOn
-        ? `${config?.visibleOn} && !data.isFixedWidth`
+        ? `(${config?.visibleOn}) && !data.isFixedWidth`
         : '!data.isFixedWidth',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
@@ -865,7 +865,7 @@ setSchemaTpl(
       value: config?.value,
       max: '${style.maxWidth | toInt}',
       visibleOn: config?.visibleOn
-        ? `${config?.visibleOn} && !data.isFixedWidth`
+        ? `(${config?.visibleOn}) && !data.isFixedWidth`
         : '!data.isFixedWidth',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
@@ -993,7 +993,7 @@ setSchemaTpl(
       name: config?.name || 'style.height',
       value: config?.value || '300px',
       visibleOn: config?.visibleOn
-        ? `${config?.visibleOn} && data.isFixedHeight`
+        ? `(${config?.visibleOn}) && data.isFixedHeight`
         : 'data.isFixedHeight',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
@@ -1032,7 +1032,7 @@ setSchemaTpl(
       value: config?.value,
       min: '${style.minHeight | toInt}',
       visibleOn: config?.visibleOn
-        ? `${config?.visibleOn} && !data.isFixedHeight`
+        ? `(${config?.visibleOn}) && !data.isFixedHeight`
         : '!data.isFixedHeight',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
@@ -1071,7 +1071,7 @@ setSchemaTpl(
       value: config?.value,
       max: '${style.maxHeight | toInt}',
       visibleOn: config?.visibleOn
-        ? `${config?.visibleOn} && !data.isFixedHeight`
+        ? `(${config?.visibleOn}) && !data.isFixedHeight`
         : '!data.isFixedHeight',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
