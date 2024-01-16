@@ -201,7 +201,7 @@
 .#{$ns}DatePicker-popover {
   margin: px2rem(2px) 0 0;
   border: var(--Form-select-outer-borderWidth) solid
-    var(--Form-input-onFocused-borderColor);
+    var(--Form-select-outer-borderColor);
   box-shadow: var(--Form-select-outer-boxShadow);
 }
 

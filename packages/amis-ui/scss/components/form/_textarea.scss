@@ -43,7 +43,7 @@
     bottom: 1px;
     right: var(--scrollbar-width);
     padding-bottom: var(--Form-input-paddingY);
-    background-color: #fff;
+    background-color: var(--Form-input-bg);
     text-align: right;
     border-radius: 3px;
     color: var(--input-count-multi-color);

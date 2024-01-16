@@ -265,8 +265,8 @@
         text-align: center;
         padding: 0 #{px2rem(8px)};
         border-radius: var(--borderRadius);
-        background: #f5f5f5;
-        color: var(--black);
+        background: var(--colors-neutral-fill-10);
+        color: var(--colors-neutral-text-2);
         font-size: var(--fontSizeSm);
         line-height: #{px2rem(24px)};
         height: #{px2rem(24px)};
@@ -479,9 +479,6 @@
     }
 
     &.is-filled {
-      fill: var(--InputFormula-icon-color-onActive);
-      color: var(--InputFormula-icon-color-onActive);
-
       &.icon-function.icon {
         font-size: var(--InputFormula-icon-size) !important;
       }
@@ -514,7 +511,7 @@
   border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
   padding: 0 var(--Form-input-paddingX) 0 0;
   border-radius: var(--borderRadius);
-  background-color: #fff;
+  background-color: var(--colors-neutral-fill-11);
   height: var(--Form-input-height);
 
   &.#{$ns}FormulaPicker--text {
@@ -563,6 +560,7 @@
   }
 
   .#{$ns}FormulaPicker-toggler {
+    color: var(--colors-neutral-text-2);
     .icon-function {
       transform: scale(1.3);
     }
@@ -573,6 +571,7 @@
 
     &:hover {
       cursor: pointer;
+      color: var(--colors-brand-5);
     }
   }
 }

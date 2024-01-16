@@ -1459,7 +1459,7 @@
   --Checkbox-borderRadius: #{px2rem(2px)};
   --Checkbox-color: var(--borderColor);
   --Checkbox-gap: var(--gap-xs);
-  --Checkbox-gb: #fff;
+  --Checkbox-gb: var(--colors-neutral-fill-11);
   --Checkbox-inner-size: var(--sizes-size-5);
   --Checkbox-onDisabled-color: var(--colors-neutral-text-6);
   --Checkbox-inner-onDisabled-bg: #d4d6d9;
@@ -1788,9 +1788,9 @@
   --Modal-body-paddingY: var(--sizes-base-12);
   --Modal-close-color: var(--text--muted-color);
   --Modal-close-width: #{px2rem(16px)};
-  --Modal-content-borderColor: var(--borderColor);
+  --Modal-content-borderColor: var(--colors-neutral-fill-9);
   --Modal-content-borderRadius: var(--borders-radius-4);
-  --Modal-content-borderWidth: var(--borders-width-1);
+  --Modal-content-borderWidth: var(--borders-width-2);
   --Modal-content-minHeight: #{px2rem(193px)};
   --Modal-content-startMarginTop: #{px2rem(60px)};
   --Modal-content-stepMarginTop: #{px2rem(30px)};
@@ -2049,7 +2049,7 @@
   --Tabs-borderWidth: var(--borderWidth);
   --Tabs-borderColor: var(--colors-neutral-line-8);
   --Tabs-color: var(--text-color);
-  --Tabs-content-bg: var(--background);
+  --Tabs-content-bg: var(--colors-neutral-fill-11);
   --Tabs-linkFontSize: var(--fonts-size-7);
   --Tabs-linkMargin: 0 #{px2rem(3px)} 0 0;
   --Tabs-linkPadding: var(--gap-sm) var(--gap-base);
@@ -2874,7 +2874,8 @@
   --Form-select-onFocused-color: var(--Form-select-color);
   --Form-select-onHover-bg: var(--select-base-hover-bg-color);
   --Form-select-onHover-borderColor: var(--colors-brand-5);
-  --Form-select-outer-borderWidth: var(--borders-width-1);
+  --Form-select-outer-borderWidth: var(--borders-width-2);
+  --Form-select-outer-borderColor: var(--colors-neutral-fill-9);
   --Form-select-outer-top: var(--sizes-base-16);
   --Form-select-outer-boxShadow: var(--shadows-shadow-normal);
   --Form-select-paddingX: var(--Form-input-paddingX);
@@ -3303,7 +3304,7 @@
   // 修改自 https://github.com/SamHerbert/SVG-Loaders/blob/master/svg-loaders/tail-spin.svg
   --Spinner-bg: url('data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjY0cHgiIGhlaWdodD0iNjRweCIgdmlld0JveD0iMCAwIDY0IDY0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPGcgaWQ9Iumhtemdoi0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0ibG9hZGluZyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC41MDAwMDAsIDAuNTAwMDAwKSI+CiAgICAgICAgICAgIDxyZWN0IGlkPSLnn6nlvaIiIHN0cm9rZT0iIzk3OTc5NyIgZmlsbD0iI0Q4RDhEOCIgZmlsbC1ydWxlPSJub256ZXJvIiBvcGFjaXR5PSIwIiB4PSIwIiB5PSIwIiB3aWR0aD0iNjMiIGhlaWdodD0iNjMiPjwvcmVjdD4KICAgICAgICAgICAgPGcgaWQ9Iue8lue7hOWkh+S7vS02IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzLjk4MDAwMCwgMC43ODAwMDApIj4KICAgICAgICAgICAgICAgIDxwb2x5Z29uIGlkPSJmcmFtZSIgc3Ryb2tlPSIjMjQ2OEYyIiBzdHJva2Utd2lkdGg9IjMuMiIgcG9pbnRzPSIyNy41MiA1LjEyIDQ5LjY5MDI1MDMgMTcuOTIgNDkuNjkwMjUwMyA0My41MiAyNy41MiA1Ni4zMiA1LjM0OTc0OTY2IDQzLjUyIDUuMzQ5NzQ5NjYgMTcuOTIiIHN0cm9rZS1kYXNoYXJyYXk9IjE2MCAxNjAiIHN0cm9rZS1kYXNob2Zmc2V0PSIxNjAiPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlIGlkPSJmcmFtZTEiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iLjQ1cztmcmFtZTIuZW5kIiBkdXI9Ii45cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIxNjAiIHRvPSItMTYwIiBmaWxsPSJmcmVlemUiICBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlIGlkPSJmcmFtZTIiIGF0dHJpYnV0ZU5hbWU9InN0cm9rZS1kYXNob2Zmc2V0IiBiZWdpbj0iZnJhbWUxLmVuZCIgZHVyPSIuOXMiIHR5cGU9InRyYW5zbGF0ZSIgZnJvbT0iMTYwIiB0bz0iMTYwIiBmaWxsPSJmcmVlemUiIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiAga2V5U3BsaW5lcz0iLjUgMCAuNSAxIi8+CiAgICAgICAgICAgICAgICA8L3BvbHlnb24+CiAgICAgICAgICAgICAgICA8Y2lyY2xlIGlkPSJjaXJjbGUxIiBmaWxsPSIjMjQ2OEYyIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGN4PSIyNy41MiIgY3k9IjQuOCIgcj0iNC44Ij4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlMW9uZSIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iMHM7Y2lyY2xlMXR3by5lbmQiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDI2IiB0bz0iMCAwIiBmaWxsPSJmcmVlemUiIGNhbGNNb2RlPSJzcGxpbmUiIGtleVRpbWVzPSIwOyAxIiAga2V5U3BsaW5lcz0iLjUgMCAuNSAxIi8+CiAgICAgICAgICAgICAgICAgICAgPGFuaW1hdGVUcmFuc2Zvcm0gaWQ9ImNpcmNsZTF0d28iIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgYmVnaW49ImNpcmNsZTFvbmUuZW5kICsgLjcycyIgZHVyPSIuNTRzIiB0eXBlPSJ0cmFuc2xhdGUiIGZyb209IjAgMCIgdG89IjAgMjYiIGZpbGw9ImZyZWV6ZSIgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiICBrZXlTcGxpbmVzPSIuNSAwIC41IDEiLz4KICAgICAgICAgICAgICAgIDwvY2lyY2xlPgogICAgICAgICAgICAgICAgPGNpcmNsZSBpZD0iY2lyY2xlMiIgZmlsbD0iIzI0NjhGMiIgZmlsbC1ydWxlPSJub256ZXJvIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1MC4yNDAwMDAsIDE3LjI4MDAwMCkgcm90YXRlKC0xODAuMDAwMDAwKSB0cmFuc2xhdGUoLTUwLjI0MDAwMCwgLTE3LjI4MDAwMCkgIiBjeD0iNTAuMjQiIGN5PSIxNy4yOCIgcj0iNC44Ij4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlMm9uZSIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iMHM7Y2lyY2xlMnR3by5lbmQiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSItMjIuNSAxMyIgdG89IjAgMCIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGUydHdvIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSJjaXJjbGUyb25lLmVuZCArIC43MnMiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDAiIHRvPSItMjIuNSAxMyIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgPC9jaXJjbGU+CiAgICAgICAgICAgICAgICA8Y2lyY2xlIGlkPSJjaXJjbGUzIiBmaWxsPSIjMjQ2OEYyIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUwLjI0MDAwMCwgNDMuMjAwMDAwKSByb3RhdGUoOTAuMDAwMDAwKSB0cmFuc2xhdGUoLTUwLjI0MDAwMCwgLTQzLjIwMDAwMCkgIiBjeD0iNTAuMjQiIGN5PSI0My4yIiByPSI0LjgiPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGUzb25lIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSIwcztjaXJjbGUzdHdvLmVuZCIgZHVyPSIuNTRzIiB0eXBlPSJ0cmFuc2xhdGUiIGZyb209Ii0yMi41IC0xMyIgdG89IjAgMCIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGUzdHdvIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSJjaXJjbGUzb25lLmVuZCArIC43MnMiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDAiIHRvPSItMjIuNSAtMTMiIGZpbGw9ImZyZWV6ZSIgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiICBrZXlTcGxpbmVzPSIuNSAwIC41IDEiLz4KICAgICAgICAgICAgICAgIDwvY2lyY2xlPgogICAgICAgICAgICAgICAgPGNpcmNsZSBpZD0iY2lyY2xlNCIgZmlsbD0iIzI0NjhGMiIgZmlsbC1ydWxlPSJub256ZXJvIiBjeD0iMjcuNTIiIGN5PSI1Ni42NCIgcj0iNC44Ij4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlMW9uZSIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iMHM7Y2lyY2xlMXR3by5lbmQiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIC0yNiIgdG89IjAgMCIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGUxdHdvIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSJjaXJjbGUxb25lLmVuZCArIC43MnMiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDAiIHRvPSIwIC0yNiIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgPC9jaXJjbGU+CiAgICAgICAgICAgICAgICA8Y2lyY2xlIGlkPSJjaXJjbGU1IiBmaWxsPSIjMjQ2OEYyIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQuODAwMDAwLCA0My4yMDAwMDApIHJvdGF0ZSgtMTgwLjAwMDAwMCkgdHJhbnNsYXRlKC00LjgwMDAwMCwgLTQzLjIwMDAwMCkgIiBjeD0iNC44IiBjeT0iNDMuMiIgcj0iNC44Ij4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlNW9uZSIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iMHM7Y2lyY2xlNXR3by5lbmQiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIyMi41IC0xMyIgdG89IjAgMCIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGU1dHdvIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSJjaXJjbGU1b25lLmVuZCArIC43MnMiIGR1cj0iLjU0cyIgdHlwZT0idHJhbnNsYXRlIiBmcm9tPSIwIDAiIHRvPSIyMi41IC0xMyIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgPC9jaXJjbGU+CiAgICAgICAgICAgICAgICA8Y2lyY2xlIGlkPSJjaXJjbGU2IiBmaWxsPSIjMjQ2OEYyIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQuODAwMDAwLCAxNy4yODAwMDApIHJvdGF0ZSg5MC4wMDAwMDApIHRyYW5zbGF0ZSgtNC44MDAwMDAsIC0xNy4yODAwMDApICIgY3g9IjQuOCIgY3k9IjE3LjI4IiByPSI0LjgiPgogICAgICAgICAgICAgICAgICAgIDxhbmltYXRlVHJhbnNmb3JtIGlkPSJjaXJjbGU2b25lIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIGJlZ2luPSIwcztjaXJjbGU2dHdvLmVuZCIgZHVyPSIuNTRzIiB0eXBlPSJ0cmFuc2xhdGUiIGZyb209IjIyLjUgMTMiIHRvPSIwIDAiIGZpbGw9ImZyZWV6ZSIgY2FsY01vZGU9InNwbGluZSIga2V5VGltZXM9IjA7IDEiICBrZXlTcGxpbmVzPSIuNSAwIC41IDEiLz4KICAgICAgICAgICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBpZD0iY2lyY2xlNnR3byIgYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiBiZWdpbj0iY2lyY2xlNm9uZS5lbmQgKyAuNzJzIiBkdXI9Ii41NHMiIHR5cGU9InRyYW5zbGF0ZSIgZnJvbT0iMCAwIiB0bz0iMjIuNSAxMyIgZmlsbD0iZnJlZXplIiBjYWxjTW9kZT0ic3BsaW5lIiBrZXlUaW1lcz0iMDsgMSIgIGtleVNwbGluZXM9Ii41IDAgLjUgMSIvPgogICAgICAgICAgICAgICAgPC9jaXJjbGU+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==');
   --Spinner-height: var(--spinner-size-size);
-  --Spinner-overlay-bg: rgba(255, 255, 255, 0.4);
+  --Spinner-overlay-bg: rgba(255, 255, 255, 0.1);
   --Spinner-width: var(--spinner-size-size);
   --Spinner-color: var(--spinner-base-color);
   --Spinner-color--disabled: rgba(0, 0, 0, 0.65);
@@ -3425,7 +3426,7 @@
     var(--Tag-model-normal-top-right-border-radius)
     var(--Tag-model-normal-bottom-right-border-radius)
     var(--Tag-model-normal-bottom-left-border-radius);
-  --Tag-fontColor: var(--Tag-base-color);
+  --Tag-fontColor: var(--colors-neutral-text-2);
 
   --Tag-rounded-borderRadius: var(--Tag-model-rounded-top-left-border-radius)
     var(--Tag-model-rounded-top-right-border-radius)
@@ -3980,8 +3981,8 @@
   --table-size-small-paddingBottom: var(--sizes-size-4);
   --table-size-small-paddingLeft: var(--sizes-size-3);
 
-  --Table--unsaved-heading-bg: #e8f0fe;
-  --Table--unsaved-heading-color: #4285f4;
+  --Table--unsaved-heading-bg: var(--colors-neutral-fill-9);
+  --Table--unsaved-heading-color: var(--colors-brand-5);
   --Table-bg: var(--colors-neutral-fill-11);
   --Table-borderColor: var(--table-border-color);
   --Table-borderRadius: var(--borderRadius);
@@ -4026,7 +4027,7 @@
   --Table-toolbar-marginY: var(--gap-base);
   --Table-tree-borderColor: var(--colors-neutral-line-8);
   --Table-tree-indent: var(--gap-lg);
-  --Table-searchableForm-backgroundColor: #f6f7f8;
+  --Table-searchableForm-backgroundColor: var(--colors-neutral-fill-10);
   --Table-searchableForm-borderRadius: #{px2rem(4px)};
   --Table-empty-icon-size: #{px2rem(74px)};
   --TableRow-onDisabled-bg: var(--table-body-disabled-bg-color);
@@ -4110,7 +4111,7 @@
   --combo-vertical-paddingRight: var(--sizes-size-6);
   --combo-vertical-paddingBottom: var(--sizes-size-6);
   --combo-vertical-paddingLeft: var(--sizes-size-6);
-  --combo-multi-addBtn-color: var(--colors-neutral-text-11);
+  --combo-multi-addBtn-color: var(--button-primary-default-font-color);
   --combo-multi-addBtn-fontSize: var(--fonts-size-8);
   --combo-multi-addBtn-fontWeight: var(--fonts-weight-6);
   --combo-multi-addBtn-lineHeight: var(--fonts-lineHeight-2);
@@ -4124,9 +4125,9 @@
   --combo-multi-addBtn-paddingRight: var(--sizes-size-5);
   --combo-multi-addBtn-paddingBottom: var(--sizes-size-3);
   --combo-multi-addBtn-paddingLeft: var(--sizes-size-5);
-  --combo-multi-addBtn-hover-color: var(--colors-neutral-text-11);
+  --combo-multi-addBtn-hover-color: var(--button-primary-hover-font-color);
   --combo-multi-addBtn-hover-bg-color: var(--colors-brand-6);
-  --combo-multi-addBtn-active-color: var(--colors-neutral-text-11);
+  --combo-multi-addBtn-active-color: var(--button-primary-active-font-color);
   --combo-multi-addBtn-active-bg-color: var(--colors-brand-4);
   --combo-multi-delBtn-color: var(--colors-neutral-text-5);
   --combo-multi-delBtn-hover-color: var(--colors-neutral-text-2);
@@ -4162,7 +4163,7 @@
   --Combo--vertical-item-paddingX: #{px2rem(10px)};
   --Combo--vertical-item-paddingY: #{px2rem(10px)};
   --Combo-addBtn-bg: var(--combo-multi-addBtn-bg-color);
-  --Combo-addBtn-border: var(--colors-neutral-line-11);
+  --Combo-addBtn-border: var(--combo-multi-addBtn-bg-color);
   --Combo-addBtn-borderRadius: var(--borders-radius-3);
   --Combo-addBtn-color: var(--combo-multi-addBtn-color);
   --Combo-addBtn-fontSize: var(--combo-multi-addBtn-fontSize);
@@ -4248,4 +4249,7 @@
     var(--Wizard-stepContent-paddingRight)
     var(--Wizard-stepContent-paddingBottom)
     var(--Wizard-stepContent-paddingLeft);
+
+  --common-popover-border: var(--borders-width-2) solid
+    var(--colors-neutral-fill-9);
 }
