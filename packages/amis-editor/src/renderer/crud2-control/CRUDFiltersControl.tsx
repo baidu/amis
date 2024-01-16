@@ -28,7 +28,7 @@ import type {
   CRUDScaffoldConfig
 } from '../../builder';
 import type {EditorNodeType} from 'amis-editor-core';
-import type {FormControlProps} from 'amis';
+import type {FormControlProps, PlainObject} from 'amis';
 
 interface Option {
   label: string;
@@ -235,6 +235,12 @@ export class CRUDFiltersControl extends React.Component<
     this.setState({loading: false});
   }
 
+  setFilterVisible(schema: PlainObject) {
+    if (!('visibleOn' in schema) && schema.type) {
+      schema.visible = schema.body?.length > 0;
+    }
+  }
+
   async updateSimpleQuery(enable: boolean) {
     const {manager, nodeId, builder} = this.props;
     const store = manager.store;
@@ -269,7 +275,7 @@ export class CRUDFiltersControl extends React.Component<
             }
           })) ?? [];
 
-        const newFilterSchema = traverseSchemaDeep(
+        let newFilterSchema = traverseSchemaDeep(
           filterSchema,
           (key: string, value: any, host: any) => {
             /** 更新标识符 */
@@ -292,6 +298,7 @@ export class CRUDFiltersControl extends React.Component<
             return [key, value];
           }
         );
+        this.setFilterVisible(newFilterSchema);
 
         const targetNode = manager.store.getNodeById(filterSchema.$$id);
 
@@ -299,7 +306,7 @@ export class CRUDFiltersControl extends React.Component<
           targetNode.updateSchema(newFilterSchema);
         }
       } else {
-        const newFilterSchema = traverseSchemaDeep(
+        let newFilterSchema = traverseSchemaDeep(
           filterSchema,
           (key: string, value: any, host: any) => {
             /** 更新标识符 */
@@ -330,6 +337,7 @@ export class CRUDFiltersControl extends React.Component<
           }
         );
 
+        this.setFilterVisible(newFilterSchema);
         const targetNode = manager.store.getNodeById(filterSchema.$$id);
 
         if (targetNode) {
@@ -402,7 +410,7 @@ export class CRUDFiltersControl extends React.Component<
           }
         });
 
-        const newFilterSchema = traverseSchemaDeep(
+        let newFilterSchema = traverseSchemaDeep(
           filterSchema,
           (key: string, value: any, host: any) => {
             /** 更新标识符 */
@@ -425,6 +433,7 @@ export class CRUDFiltersControl extends React.Component<
             return [key, value];
           }
         );
+        this.setFilterVisible(newFilterSchema);
 
         const targetNode = manager.store.getNodeById(filterSchema.$$id);
 
@@ -432,7 +441,7 @@ export class CRUDFiltersControl extends React.Component<
           targetNode.updateSchema(newFilterSchema);
         }
       } else {
-        const newFilterSchema = traverseSchemaDeep(
+        let newFilterSchema = traverseSchemaDeep(
           filterSchema,
           (key: string, value: any, host: any) => {
             /** 更新标识符 */
@@ -464,6 +473,7 @@ export class CRUDFiltersControl extends React.Component<
             return [key, value];
           }
         );
+        this.setFilterVisible(newFilterSchema);
 
         const targetNode = manager.store.getNodeById(filterSchema.$$id);
 
