@@ -1529,11 +1529,11 @@ export const TableStore = iRendererStore
       self.selectedRows.clear();
 
       selected.forEach(item => {
-        let resolved = self.rows.find(a => a.pristine === item);
+        let resolved = findTree(self.rows, a => a.pristine === item);
 
         // 先严格比较，
         if (!resolved) {
-          resolved = self.rows.find(a => {
+          resolved = findTree(self.rows, a => {
             const selectValue = item[valueField || 'value'];
             const itemValue = a.pristine[valueField || 'value'];
             return selectValue === itemValue;
@@ -1542,14 +1542,14 @@ export const TableStore = iRendererStore
 
         // 再宽松比较
         if (!resolved) {
-          resolved = self.rows.find(a => {
+          resolved = findTree(self.rows, a => {
             const selectValue = item[valueField || 'value'];
             const itemValue = a.pristine[valueField || 'value'];
             return selectValue == itemValue;
           });
         }
 
-        resolved && self.selectedRows.push(resolved);
+        resolved && self.selectedRows.push(resolved as any);
       });
 
       updateCheckDisable();

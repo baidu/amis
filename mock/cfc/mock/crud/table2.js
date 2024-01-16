@@ -471,9 +471,9 @@ const data = [
                   version: '1',
                   grade: 'A'
                 }
-              ].map(function (child, i) {
+              ].map(function (child, j) {
                 return Object.assign({}, child, {
-                  id: (i + 1) * 100 + (index + 1) * 1000 + i + 1
+                  id: (index + 1) * 10000 + (i + 1) * 100 + 1 + j
                 });
               })
             });
