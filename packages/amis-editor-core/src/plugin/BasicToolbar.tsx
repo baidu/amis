@@ -213,8 +213,18 @@ export class BasicToolbarPlugin extends BasePlugin {
           const info = (
             e.target as HTMLElement
           ).parentElement!.getBoundingClientRect();
+
+          // 150 是 contextMenu 的宽度
+          // 默认右对齐
+          let x = window.scrollX + info.left + info.width - 150;
+
+          // 显示不全是改成左对齐
+          if (x < 0) {
+            x = window.scrollX + info.left;
+          }
+
           this.manager.openContextMenu(id, '', {
-            x: window.scrollX + info.left + info.width - 155,
+            x: x,
             y: window.scrollY + info.top + info.height + 8
           });
         }
