@@ -3,6 +3,7 @@ import {
   getVariable,
   mapObject,
   mapTree,
+  eachTree,
   extendObject,
   createObject
 } from 'amis-core';
@@ -231,44 +232,7 @@ export const MainStore = types
     appLocaleState: types.optional(types.number, 0)
   })
   .views(self => {
-    // 用于快速通过 id 获取节点
-    // 不需要 observerable
-    let map: any = {};
     return {
-      get map() {
-        return map;
-      },
-
-      // 不是修改 props，所以可以写在 views 里面
-      // 修改对象map 里面的值，是个局部变量，只能放这
-      setNode(node: EditorNodeType) {
-        const map = this.map;
-
-        if (node.region) {
-          map[node.id + '-' + node.region] =
-            map[node.id + '-' + node.region] || node;
-        } else {
-          // 同名类型不同的节点，优先使用上层的
-          // 因为原来的 getNodeById 是这种查找策略
-          // 所以孩子节点在父级写入了的情况下不写入
-          map[node.id] = map[node.id] || node;
-          map[node.id + '-' + node.type] =
-            map[node.id + '-' + node.type] || node;
-        }
-      },
-      unsetNode(node: EditorNodeType) {
-        const map = this.map;
-
-        if (node.region) {
-          map[node.id + '-' + node.region] === node &&
-            delete map[node.id + '-' + node.region];
-        } else {
-          map[node.id] === node && delete map[node.id];
-          map[node.id + '-' + node.type] === node &&
-            delete map[node.id + '-' + node.type];
-        }
-      },
-
       // 给编辑状态时的
       get filteredSchema() {
         let schema = self.schema;
@@ -425,42 +389,7 @@ export const MainStore = types
         id: string,
         regionOrType?: string
       ): EditorNodeType | undefined {
-        const map = this.map;
-        const key = id + (regionOrType ? '-' + regionOrType : '');
-
-        // 先从 map 中找
-        if (map[key]) {
-          return map[key];
-        }
-
-        // 找不到，再从 root.children 递归找
-        let pool = self.root.children.concat();
-        let resolved: any = undefined;
-
-        while (pool.length) {
-          const item = pool.shift();
-          if (
-            item.id === id &&
-            (!regionOrType ||
-              item.region === regionOrType ||
-              item.type === regionOrType)
-          ) {
-            resolved = item;
-            break;
-          }
-
-          // 将当前节点的子节点全部放置到 pool中
-          if (item.children.length) {
-            pool.push.apply(pool, item.children);
-          }
-        }
-
-        // 找到了缓存上，下次找更快
-        if (resolved) {
-          this.setNode(resolved);
-        }
-
-        return resolved;
+        return self.root.getNodeById(id, regionOrType);
       },
 
       get activeNodeInfo(): RendererInfo | null | undefined {

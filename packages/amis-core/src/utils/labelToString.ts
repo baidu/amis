@@ -1,8 +1,11 @@
 import isPlainObject from 'lodash/isPlainObject';
 
 export function labelToString(label: any): string {
-  if (typeof label === 'string') {
+  const type = typeof label;
+  if (type === 'string') {
     return label;
+  } else if (type === 'number') {
+    return `${label}`;
   }
 
   if (isPlainObject(label)) {

@@ -615,7 +615,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
 
   if (
     newSchema !== schema &&
-    isObjectShallowModified(newSchema, schema, false)
+    isObjectShallowModified(newSchema, schema, false, false, [], 10)
   ) {
     return newSchema;
   }
