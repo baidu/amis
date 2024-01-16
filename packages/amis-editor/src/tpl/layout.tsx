@@ -753,7 +753,7 @@ setSchemaTpl(
       name: config?.name || 'style.width',
       value: config?.value || '300px',
       visibleOn: config?.visibleOn
-        ? `${config?.visibleOn} && data.isFixedWidth`
+        ? `(${config?.visibleOn}) && data.isFixedWidth`
         : 'data.isFixedWidth',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
@@ -826,7 +826,7 @@ setSchemaTpl(
       value: config?.value,
       min: '${style.minWidth | toInt}',
       visibleOn: config?.visibleOn
-        ? `${config?.visibleOn} && !data.isFixedWidth`
+        ? `(${config?.visibleOn}) && !data.isFixedWidth`
         : '!data.isFixedWidth',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
@@ -865,7 +865,7 @@ setSchemaTpl(
       value: config?.value,
       max: '${style.maxWidth | toInt}',
       visibleOn: config?.visibleOn
-        ? `${config?.visibleOn} && !data.isFixedWidth`
+        ? `(${config?.visibleOn}) && !data.isFixedWidth`
         : '!data.isFixedWidth',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
@@ -993,7 +993,7 @@ setSchemaTpl(
       name: config?.name || 'style.height',
       value: config?.value || '300px',
       visibleOn: config?.visibleOn
-        ? `${config?.visibleOn} && data.isFixedHeight`
+        ? `(${config?.visibleOn}) && data.isFixedHeight`
         : 'data.isFixedHeight',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
@@ -1032,7 +1032,7 @@ setSchemaTpl(
       value: config?.value,
       min: '${style.minHeight | toInt}',
       visibleOn: config?.visibleOn
-        ? `${config?.visibleOn} && !data.isFixedHeight`
+        ? `(${config?.visibleOn}) && !data.isFixedHeight`
         : '!data.isFixedHeight',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
@@ -1071,7 +1071,7 @@ setSchemaTpl(
       value: config?.value,
       max: '${style.maxHeight | toInt}',
       visibleOn: config?.visibleOn
-        ? `${config?.visibleOn} && !data.isFixedHeight`
+        ? `(${config?.visibleOn}) && !data.isFixedHeight`
         : '!data.isFixedHeight',
       clearable: true,
       unitOptions: config?.unitOptions ?? LayoutUnitOptions,
@@ -1132,7 +1132,7 @@ setSchemaTpl(
   }
 );
 
-// 居中显示
+// 对齐方式
 setSchemaTpl(
   'layout:margin-center',
   (config?: {
@@ -1153,7 +1153,7 @@ setSchemaTpl(
           '通过 margin 数值来设置对齐方式，其中 margin: 0 auto 用于设置居中对齐'
         ),
       name: config?.name || 'style.margin',
-      value: config?.value || '0',
+      value: config?.value,
       inputClassName: 'inline-flex justify-between',
       visibleOn:
         config?.visibleOn ??
@@ -1172,6 +1172,16 @@ setSchemaTpl(
           value: 'auto 0px auto auto'
         }
       ],
+      pipeIn: config?.pipeIn
+        ? config?.pipeIn
+        : (value: any, data: any) => {
+            let themeCssValue =
+              data.data?.themeCss?.baseControlClassName?.[
+                'padding-and-margin:default'
+              ]?.margin;
+            return value || themeCssValue;
+          },
+      pipeOut: config?.pipeOut,
       onChange: (value: string, oldValue: string, model: any, form: any) => {
         if (
           form?.data?.style?.position === 'fixed' ||
