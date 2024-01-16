@@ -215,18 +215,7 @@ describe('Renderer:image', () => {
       '.cxd-ImageGallery-toolbar .cxd-ImageGallery-toolbar-action'
     );
 
-    expect(actions!.length).toBe(5);
-
-    const imgIns = baseElement.querySelector('.cxd-ImageGallery-main img')!;
-
-    expect(imgIns).toHaveStyle({
-      transform: 'translate(0px, 0px) scale(1) rotate(0deg)'
-    });
-
-    fireEvent.click(actions[1].firstElementChild!);
-    expect(imgIns).toHaveStyle({
-      transform: 'translate(0px, 0px) scale(1) rotate(90deg)'
-    });
+    expect(actions!.length).toBe(4);
   });
 
   test('image:width & height', async () => {
@@ -653,7 +642,7 @@ describe('Renderer:images', () => {
 
     expect(
       baseElement.querySelectorAll(
-        '.cxd-ImageGallery-footer .cxd-ImageGallery-itemsWrap .cxd-ImageGallery-item'
+        '.cxd-Sliding-content-lists .cxd-Sliding-content-lists-item'
       )!.length
     ).toBe(3);
   });

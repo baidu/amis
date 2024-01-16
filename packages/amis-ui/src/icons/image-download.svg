@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="color: #000;">
+  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+    <g>
+      <line x1="13.5" y1="13.5" x2="2.5" y2="13.5" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="butt" stroke-linejoin="round"/>
+      <polyline transform="translate(8.000000, 9.500000) scale(1, -1) rotate(90.000000) translate(-8.000000, -9.500000) " points="10 5.50000488 6 9.48734028 10 13.5" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="butt" stroke-linejoin="round"/>
+      <line x1="8" y1="2.5" x2="7.99702411" y2="10.5025124" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="butt" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

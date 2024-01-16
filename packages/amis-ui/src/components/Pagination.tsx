@@ -113,6 +113,11 @@ export interface BasicPaginationProps {
    */
   size?: string;
 
+  /**
+   * 简单模式不显示输入框
+   */
+  hasInputNumber?: boolean;
+
   onPageChange?: (page: number, perPage?: number, dir?: string) => void;
 }
 export interface PaginationProps

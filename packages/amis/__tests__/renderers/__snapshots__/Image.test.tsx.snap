@@ -704,15 +704,27 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                 >
                   <div
                     class="cxd-Image-title"
-                    title="图片1"
+                    title="[object Object]"
                   >
-                    图片1
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        图片1
+                      </span>
+                    </span>
                   </div>
                   <div
                     class="cxd-Image-caption"
-                    title="图片1的描述"
+                    title="[object Object]"
                   >
-                    图片1的描述
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        图片1的描述
+                      </span>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -751,15 +763,27 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                 >
                   <div
                     class="cxd-Image-title"
-                    title="图片2"
+                    title="[object Object]"
                   >
-                    图片2
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        图片2
+                      </span>
+                    </span>
                   </div>
                   <div
                     class="cxd-Image-caption"
-                    title="图片2的描述"
+                    title="[object Object]"
                   >
-                    图片2的描述
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        图片2的描述
+                      </span>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -798,15 +822,27 @@ exports[`Renderer:images images:enlargeAble & originalSrc & source & title & des
                 >
                   <div
                     class="cxd-Image-title"
-                    title="图片3"
+                    title="[object Object]"
                   >
-                    图片3
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        图片3
+                      </span>
+                    </span>
                   </div>
                   <div
                     class="cxd-Image-caption"
-                    title="图片3的描述"
+                    title="[object Object]"
                   >
-                    图片3的描述
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        图片3的描述
+                      </span>
+                    </span>
                   </div>
                 </div>
               </div>

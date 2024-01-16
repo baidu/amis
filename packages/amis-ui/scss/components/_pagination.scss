@@ -66,6 +66,7 @@
     }
   }
   &-simple {
+    font-size: var(--Pagination-fontSize);
     > ul > li {
       &:hover,
       &:focus {

@@ -9,12 +9,14 @@ import {filter} from 'amis-core';
 import {
   resolveVariable,
   isPureVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  createObject
 } from 'amis-core';
 import Image, {ImageThumbProps, imagePlaceholder} from './Image';
 import {autobind, getPropValue} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
 import type {ImageToolbarAction} from './Image';
+import {ImageGallery} from 'amis-ui';
 
 /**
  * 图片集展示控件。
@@ -112,6 +114,19 @@ export interface ImagesSchema extends BaseSchema {
    * 工具栏配置
    */
   toolbarActions?: ImageToolbarAction[];
+
+  /**
+   * 内嵌模式
+   */
+  embed?: boolean;
+
+  /** 位置 */
+  position?: {
+    toolbar: 'top' | 'bottom';
+    description: 'left' | 'right';
+  };
+
+  imageStyle?: React.CSSProperties;
 }
 
 export interface ImagesProps
@@ -152,7 +167,7 @@ export class ImagesField extends React.Component<ImagesProps> {
 
   @autobind
   handleEnlarge(info: ImageThumbProps) {
-    const {onImageEnlarge, src, originalSrc} = this.props;
+    const {onImageEnlarge} = this.props;
 
     onImageEnlarge &&
       onImageEnlarge(
@@ -160,19 +175,22 @@ export class ImagesField extends React.Component<ImagesProps> {
           ...info,
           originalSrc: info.originalSrc || info.src,
           list: this.list.map(item => ({
-            src: src
-              ? filter(src, item, '| raw')
-              : (item && item.image) || item,
-            originalSrc: originalSrc
-              ? filter(originalSrc, item, '| raw')
-              : item?.src || filter(src, item, '| raw') || item?.image || item,
-            title: item && (item.enlargeTitle || item.title),
-            caption:
-              item && (item.enlargeCaption || item.description || item.caption)
+            src: item.src,
+            originalSrc: item.originalSrc,
+            title: item.enlargeTitle || item.title,
+            caption: item.enlargeCaption || item.caption
           }))
         },
         this.props
       );
+  }
+
+  stringParse(str: string, type: 'title' | 'caption') {
+    const {render, data} = this.props;
+
+    return render(type, str, {
+      data: createObject(data)
+    });
   }
 
   render() {
@@ -197,12 +215,13 @@ export class ImagesField extends React.Component<ImagesProps> {
       showToolbar,
       toolbarActions,
       imageGallaryClassName,
-      galleryControlClassName,
       id,
       wrapperCustomStyle,
       env,
       themeCss,
-      imagesControlClassName
+      embed,
+      position,
+      imageStyle
     } = this.props;
 
     let value: any;
@@ -225,6 +244,19 @@ export class ImagesField extends React.Component<ImagesProps> {
       list = [list];
     }
 
+    list = list.map((item: Record<string, string>) => {
+      const title = item && item.title;
+      const description = item && (item.description || item.caption);
+      return {
+        src: src ? filter(src, item, '| raw') : (item && item.image) || item,
+        originalSrc: originalSrc
+          ? filter(originalSrc, item, '| raw')
+          : item?.src || filter(src, item, '| raw') || item?.image || item,
+        title: title ? this.stringParse(title, 'title') : '',
+        caption: description ? this.stringParse(description, 'caption') : ''
+      };
+    });
+
     this.list = list;
 
     return (
@@ -237,31 +269,37 @@ export class ImagesField extends React.Component<ImagesProps> {
         )}
         style={style}
       >
-        {Array.isArray(list) ? (
+        {embed ? (
+          <ImageGallery
+            items={list}
+            showToolbar={showToolbar}
+            position={position}
+            embed
+          >
+            <></>
+          </ImageGallery>
+        ) : Array.isArray(list) ? (
           <div className={cx('Images', listClassName)}>
             {list.map((item: any, index: number) => (
               <Image
                 index={index}
+                style={imageStyle}
                 className={cx('Images-item')}
                 key={index}
-                src={
-                  (src ? filter(src, item, '| raw') : item && item.image) ||
-                  item
-                }
-                originalSrc={
-                  (originalSrc
-                    ? filter(originalSrc, item, '| raw')
-                    : item && item.src) || item
-                }
-                title={item && item.title}
-                caption={item && (item.description || item.caption)}
+                src={item.src}
+                originalSrc={item.originalSrc}
+                title={item.title}
+                caption={item.caption}
                 thumbMode={thumbMode}
                 thumbRatio={thumbRatio}
                 enlargeAble={enlargeAble!}
                 enlargeWithGallary={enlargeWithGallary}
                 onEnlarge={this.handleEnlarge}
+                position={position}
                 showToolbar={showToolbar}
-                imageGallaryClassName={`${imageGallaryClassName} ${setThemeClassName(
+                imageGallaryClassName={`${
+                  imageGallaryClassName ?? ''
+                } ${setThemeClassName(
                   'imageGallaryClassName',
                   id,
                   themeCss

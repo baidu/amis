@@ -1,0 +1,88 @@
+.#{$ns}Sliding {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: px2rem(76px);
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+
+  &-light {
+    border: 1px solid #e8e9eb;
+  }
+
+  &-dark {
+    background: rgba(21, 27, 38, 0.5);
+  }
+
+  &-prev {
+    flex: 0 0 px2rem(28px);
+    width: px2rem(28px);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-icon {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+  }
+
+  &-next {
+    flex: 0 0 px2rem(28px);
+    width: px2rem(28px);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-icon {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+  }
+
+  &-content {
+    flex: 0 0 100%;
+    width: 100%;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    
+    &-lists {
+      min-width: 100%;
+      float: left;
+      white-space: nowrap;
+      position: relative;
+      display: flex;
+      align-items: center;  
+  
+      &-item {
+        display: inline-block;
+        width: px2rem(82px);
+        height: px2rem(62px);
+        margin: 0 px2rem(4px) 0;
+        cursor: pointer;
+
+        &.is-active {
+          border: 1px solid var(--primary);
+        }
+      }
+    }
+
+    &.scroll {
+      flex: 0 0 calc(100% - px2rem(56px));
+      width: calc(100% - px2rem(56px));
+    }
+
+    &.not-scroll {
+
+      .#{$ns}Sliding-content-lists {
+        justify-content: center;
+      }
+    }
+  }
+}

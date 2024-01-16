@@ -1,15 +1,14 @@
 @use 'sass:math';
 
 .#{$ns}Images {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, px2rem(120px));
+  grid-row-gap: px2rem(8px);
+  grid-column-gap: px2rem(8px);
   margin: calc(var(--gap-xs) * -1);
 
   &-item {
     display: flex;
-    margin: var(--image-images-item-marginTop)
-      var(--image-images-item-marginRight) var(--image-images-item-marginBottom)
-      var(--image-images-item-marginLeft);
   }
 }
 
@@ -62,6 +61,7 @@
 
   &-info {
     padding: 5px 10px;
+    text-align: center;
   }
 
   &--thumb &-info {

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="color: #000;">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <rect stroke="currentColor" x="4.5" y="4.5" width="7" height="7" stroke-width="1" fill="none" stroke-linecap="butt" stroke-linejoin="round"/>
+        <polyline stroke="currentColor" stroke-linecap="butt" points="2 6 2 2 6 2" stroke-width="1" fill="none" stroke-linejoin="round"/>
+        <polyline stroke="currentColor" stroke-linecap="butt" transform="translate(12.000000, 4.000000) scale(-1, 1) translate(-12.000000, -4.000000) " points="10 6 10 2 14 2" stroke-width="1" fill="none" stroke-linejoin="round"/>
+        <polyline stroke="currentColor" stroke-linecap="butt" transform="translate(4.000000, 12.000000) scale(-1, 1) rotate(-180.000000) translate(-4.000000, -12.000000) " points="2 14 2 10 6 10" stroke-width="1" fill="none" stroke-linejoin="round"/>
+        <polyline stroke="currentColor" stroke-linecap="butt" transform="translate(12.000000, 12.000000) rotate(180.000000) translate(-12.000000, -12.000000) " points="10 14 10 10 14 10" stroke-width="1" fill="none" stroke-linejoin="round"/>
+    </g>
+</svg>

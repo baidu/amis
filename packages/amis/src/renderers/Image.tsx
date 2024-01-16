@@ -14,7 +14,7 @@ import {
 import {filter} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import {autobind, getPropValue} from 'amis-core';
-import {Icon} from 'amis-ui';
+import {Icon, ImageGallery} from 'amis-ui';
 import {LocaleProps, localeable} from 'amis-core';
 import {BaseSchema, SchemaClassName, SchemaTpl, SchemaUrlPath} from '../Schema';
 import {handleAction} from 'amis-core';
@@ -166,6 +166,17 @@ export interface ImageSchema extends BaseSchema {
    * 工具栏配置
    */
   toolbarActions?: ImageToolbarAction[];
+
+  /**
+   * 内嵌模式
+   */
+  embed?: boolean;
+
+  /** 位置 */
+  position?: {
+    toolbar: 'top' | 'bottom';
+    description: 'left' | 'right';
+  };
 }
 
 export interface ImageThumbProps
