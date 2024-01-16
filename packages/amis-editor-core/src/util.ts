@@ -14,6 +14,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import isEqual from 'lodash/isEqual';
 import isNumber from 'lodash/isNumber';
 import debounce from 'lodash/debounce';
+import merge from 'lodash/merge';
 
 const {
   guid,
@@ -1224,10 +1225,10 @@ export function style2ThemeCss(data: any) {
       baseControlClassName
     };
   } else {
-    themeCss.baseControlClassName = {
-      ...data.themeCss.baseControlClassName,
-      ...baseControlClassName
-    };
+    themeCss.baseControlClassName = merge(
+      data.themeCss.baseControlClassName,
+      baseControlClassName
+    );
   }
   return {
     ...data,
