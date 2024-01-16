@@ -40,6 +40,7 @@ export function valuePipeOut(value: any) {
       return undefined;
     }
 
+    // 文本1会被转为数字1，值格式慎用
     return JSON.parse(value);
   } catch (e) {
     return value;

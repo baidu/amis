@@ -7,7 +7,8 @@ import {
   getSchemaTpl,
   BasePlugin,
   tipedLabel,
-  JSONPipeOut
+  JSONPipeOut,
+  undefinedPipeOut
 } from 'amis-editor-core';
 
 import {ValidatorTag} from '../../validator';
@@ -221,9 +222,6 @@ export class SelectControlPlugin extends BasePlugin {
                 ]
               }),
               getSchemaTpl('checkAll'),
-              getSchemaTpl('valueFormula', {
-                rendererSchema: (schema: Schema) => schema
-              }),
               getSchemaTpl('labelRemark'),
               getSchemaTpl('remark'),
               getSchemaTpl('placeholder'),
@@ -234,7 +232,28 @@ export class SelectControlPlugin extends BasePlugin {
             title: '选项',
             body: [
               getSchemaTpl('optionControlV2'),
-              getSchemaTpl('selectFirst'),
+              getSchemaTpl('selectFirst', {
+                onChange: (
+                  value: any,
+                  oldValue: any,
+                  model: any,
+                  form: any
+                ) => {
+                  if (value) {
+                    form.deleteValueByName('value');
+                  }
+                }
+              }),
+              getSchemaTpl('valueFormula', {
+                rendererSchema: (schema: Schema) => ({
+                  ...schema,
+                  type: 'input-text'
+                }),
+                pipeOut: undefinedPipeOut,
+                // 默认值组件设计有些问题，自动发起了请求，接口数据作为了默认值选项，接口形式应该是设置静态值或者FX
+                needDeleteProps: ['source'],
+                hiddenOn: 'this.selectFirst === true'
+              }),
               getSchemaTpl(
                 'loadingConfig',
                 {
