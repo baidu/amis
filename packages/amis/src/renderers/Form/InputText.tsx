@@ -296,12 +296,21 @@ export default class TextControl extends React.PureComponent<
   async clearValue() {
     const {onChange, resetValue, dispatchEvent} = this.props;
 
-    const rendererEvent = await dispatchEvent(
+    const clearEvent = await dispatchEvent(
       'clear',
       resolveEventData(this.props, {value: resetValue})
     );
 
-    if (rendererEvent?.prevented) {
+    if (clearEvent?.prevented) {
+      return;
+    }
+
+    const changeEvent = await dispatchEvent(
+      'change',
+      resolveEventData(this.props, {resetValue})
+    );
+
+    if (changeEvent?.prevented) {
       return;
     }
 
