@@ -9,7 +9,8 @@ import {
   getOptionValue,
   getOptionValueBindField,
   labelToString,
-  uncontrollable
+  uncontrollable,
+  buildTestId
 } from 'amis-core';
 import React from 'react';
 import isInteger from 'lodash/isInteger';
@@ -322,6 +323,7 @@ export interface SelectProps
     LocaleProps,
     SpinnerExtraProps {
   className?: string;
+  testid?: string;
   popoverClassName?: string;
   showInvalidMatch?: boolean;
   creatable: boolean;
@@ -1311,6 +1313,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       borderMode,
       mobileUI,
       hasError,
+      testid,
       loadingConfig
     } = this.props;
 
@@ -1342,6 +1345,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               onClick={this.toggle}
               onFocus={this.onFocus}
               onBlur={this.onBlur}
+              {...buildTestId(testid)}
               className={cx(
                 `Select`,
                 {

@@ -6,7 +6,8 @@ import {
   isPureVariable,
   resolveVariableAndFilter,
   setThemeClassName,
-  ValidateError
+  ValidateError,
+  getTestId
 } from 'amis-core';
 import {Renderer, RendererProps} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
@@ -142,6 +143,8 @@ export interface DrawerSchema extends BaseSchema {
    * 是否显示错误信息
    */
   showErrorMsg?: boolean;
+
+  testid?: string;
 }
 
 export type DrawerSchemaBase = Omit<DrawerSchema, 'type'>;
@@ -257,7 +260,7 @@ export default class Drawer extends React.Component<DrawerProps> {
   }
 
   buildActions(): Array<ActionSchema> {
-    const {actions, confirm, translate: __} = this.props;
+    const {actions, confirm, testid, translate: __} = this.props;
 
     if (typeof actions !== 'undefined') {
       return actions;
@@ -266,6 +269,7 @@ export default class Drawer extends React.Component<DrawerProps> {
     let ret: Array<ActionSchema> = [];
     ret.push({
       type: 'button',
+      testid: getTestId(testid && `${testid}-cancel`),
       actionType: 'close',
       label: __('cancel')
     });
@@ -274,6 +278,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       ret.push({
         type: 'button',
         actionType: 'confirm',
+        testid: getTestId(testid && `${testid}-confirm`),
         label: __('confirm'),
         primary: true
       });

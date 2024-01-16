@@ -14,7 +14,7 @@ import {compile} from 'path-to-regexp';
 
 import type {Schema, PlainObject, FunctionPropertyNames} from '../types';
 
-import {evalExpression} from './tpl';
+import {evalExpression, filter} from './tpl';
 import {IIRendererStore} from '../store';
 import {IFormStore} from '../store/form';
 import {autobindMethod} from './autobind';
@@ -2280,4 +2280,22 @@ export function replaceUrlParams(path: string, params: Record<string, any>) {
   }
 
   return path;
+}
+
+const TEST_ID_KEY: 'data-testid' = 'data-testid';
+
+export function buildTestId(testid?: string, data?: PlainObject) {
+  if (!testid) {
+    return {};
+  }
+  return {
+    [TEST_ID_KEY]: filter(testid, data)
+  };
+}
+
+export function getTestId(testid?: string, data?: PlainObject) {
+  if (!testid) {
+    return undefined;
+  }
+  return buildTestId(testid, data)[TEST_ID_KEY];
 }
