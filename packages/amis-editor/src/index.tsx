@@ -6,6 +6,7 @@ import './tpl/index';
 export * from './plugin';
 
 import './renderer/OptionControl';
+import './renderer/ValueFormatControl';
 import './renderer/NavSourceControl';
 import './renderer/KeyValueMapControl';
 import './renderer/NavBadgeControl';
