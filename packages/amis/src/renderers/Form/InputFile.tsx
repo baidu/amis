@@ -3,7 +3,8 @@ import {
   FormItem,
   FormControlProps,
   prettyBytes,
-  resolveEventData
+  resolveEventData,
+  buildTestId
 } from 'amis-core';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
@@ -246,6 +247,8 @@ export interface FileControlSchema extends FormBaseControlSchema {
    * 是否为拖拽上传
    */
   drag?: boolean;
+
+  testid?: string;
 }
 
 export interface FileProps
@@ -1355,6 +1358,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       data,
       documentation,
       documentLink,
+      testid,
       env,
       container
     } = this.props;
@@ -1415,6 +1419,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 disabled={disabled}
                 {...getInputProps()}
                 capture={capture as any}
+                {...buildTestId(testid && `${testid}-input`)}
               />
 
               {drag || isDragActive ? (
@@ -1453,6 +1458,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                       'is-disabled':
                         multiple && !!maxLength && files.length >= maxLength
                     })}
+                    testid={testid}
                     tooltip={
                       multiple && maxLength && files.length >= maxLength
                         ? __('File.maxLength', {maxLength})

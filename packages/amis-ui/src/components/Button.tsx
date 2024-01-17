@@ -6,7 +6,7 @@
 import React from 'react';
 import TooltipWrapper, {TooltipObject, Trigger} from './TooltipWrapper';
 import {pickEventsProps} from 'amis-core';
-import {ClassNamesFn, themeable} from 'amis-core';
+import {ClassNamesFn, themeable, buildTestId} from 'amis-core';
 import Spinner, {SpinnerExtraProps} from './Spinner';
 
 export interface ButtonProps
@@ -14,6 +14,7 @@ export interface ButtonProps
     SpinnerExtraProps {
   id?: string;
   className?: string;
+  testid?: string;
   style?: any;
   href?: string;
   title?: string;
@@ -77,6 +78,7 @@ export class Button extends React.Component<ButtonProps> {
       loadingClassName,
       overrideClassName,
       loadingConfig,
+      testid,
       ...rest
     } = this.props;
 
@@ -92,6 +94,7 @@ export class Button extends React.Component<ButtonProps> {
         {...pickEventsProps(rest)}
         onClick={rest.onClick && disabled ? () => {} : rest.onClick}
         href={href}
+        {...buildTestId(testid)}
         className={cx(
           overrideClassName
             ? ''
