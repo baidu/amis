@@ -2,6 +2,7 @@ import {register as registerBulitin, getFilters} from './tpl-builtin';
 import {register as registerLodash} from './tpl-lodash';
 import {parse, evaluate} from 'amis-formula';
 import {resolveCondition} from './resolveCondition';
+import {memoParse} from './tokenize';
 
 export interface Enginer {
   test: (tpl: string) => boolean;
@@ -145,14 +146,10 @@ export async function evalExpressionWithConditionBuilder(
   return evalExpression(String(expression), data);
 }
 
-const AST_CACHE: {[key: string]: any} = {};
 function evalFormula(expression: string, data: any) {
-  const ast =
-    AST_CACHE[expression] ||
-    parse(expression, {
-      evalMode: false
-    });
-  AST_CACHE[expression] = ast;
+  const ast = memoParse(expression, {
+    evalMode: false
+  });
 
   return evaluate(ast, data, {
     defaultFilter: 'raw'

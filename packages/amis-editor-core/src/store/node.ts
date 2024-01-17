@@ -77,6 +77,32 @@ export const EditorNode = types
         return info;
       },
 
+      getNodeById(id: string, regionOrType?: string) {
+        // 找不到，再从 root.children 递归找
+        let pool = self.children.concat();
+        let resolved: any = undefined;
+
+        while (pool.length) {
+          const item = pool.shift();
+          if (
+            item.id === id &&
+            (!regionOrType ||
+              item.region === regionOrType ||
+              item.type === regionOrType)
+          ) {
+            resolved = item;
+            break;
+          }
+
+          // 将当前节点的子节点全部放置到 pool中
+          if (item.children.length) {
+            pool.push.apply(pool, item.uniqueChildren);
+          }
+        }
+
+        return resolved;
+      },
+
       setInfo(value: RendererInfo) {
         info = value;
       },
@@ -617,7 +643,6 @@ export const EditorNode = types
         });
         const node = self.children[self.children.length - 1];
         node.setInfo(props.info);
-        (getRoot(self) as any).setNode(node);
         return node;
       },
 
@@ -627,24 +652,6 @@ export const EditorNode = types
         if (!node) {
           return;
         }
-
-        // 因为 react 的钩子是 父级先执行 willUnmout，所以顶级的节点先删除
-        // 节点删除了，再去读取 mst 又会报错
-        // 所以在节点删除之前，先把所有孩子节点从 root.map 中删除
-        // 否则 root.map 里面会残存很多已经销毁的节点
-        const pool = [node];
-        const list = [];
-
-        while (pool.length) {
-          const item = pool.shift();
-          list.push(item);
-          pool.push(...item.children);
-        }
-
-        const root = getRoot(self) as any;
-        list.forEach((item: any) => {
-          root.unsetNode(item);
-        });
 
         self.children.splice(idx, 1);
       },
