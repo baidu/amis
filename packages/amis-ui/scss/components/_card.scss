@@ -46,7 +46,6 @@
   &-heading {
     display: flex;
     padding: var(--gap-md);
-    flex: 1 0 auto;
   }
 
   &-avtar {
@@ -115,15 +114,23 @@
   &-fieldValue {
     position: relative;
     flex-basis: 0;
-    flex-grow: 1;
-    width: 0;
+    flex-grow: 2;
+    min-width: 0;
     text-overflow: ellipsis;
     overflow: hidden;
   }
 
   &-fieldLabel {
-    width: px2rem(60px);
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 40%;
     color: var(--text--muted-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    word-wrap: break-word;
   }
 
   &-actions {
