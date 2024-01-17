@@ -212,7 +212,7 @@ export class TplFormulaControl extends React.Component<
   }
 
   // 检测用户输入'${}'自动打开表达式弹窗
-  checkOpenFormulaPicker(value: string) {
+  async checkOpenFormulaPicker(value: string) {
     const preLength = this.props.value?.length || 0;
     // 删除了文本，无需检测
     if (value.length < preLength || value === this.props.value) {
@@ -250,6 +250,10 @@ export class TplFormulaControl extends React.Component<
           inputText.replace('${}', '') +
           value.slice(end);
         this.props.onChange(newValue);
+
+        try {
+          await this.beforeFormulaEditorOpen();
+        } catch (error) {}
 
         const corsur = this.editorPlugin.getCorsur();
         this.setState({
