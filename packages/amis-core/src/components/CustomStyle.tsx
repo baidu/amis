@@ -12,13 +12,13 @@ interface CustomStyleProps {
     wrapperCustomStyle?: any;
     componentId?: string;
   } & InsertCustomStyle;
-  env: RendererEnv;
+  [propName: string]: any;
 }
 
 export const styleIdCount = new Map();
 
 export default function (props: CustomStyleProps) {
-  const {config, env} = props;
+  const {config, env, data} = props;
   const {themeCss, classNames, id, defaultData, wrapperCustomStyle} = config;
   if (!themeCss && !wrapperCustomStyle) {
     return null;
@@ -42,19 +42,25 @@ export default function (props: CustomStyleProps) {
 
   useEffect(() => {
     if (themeCss && id) {
-      insertCustomStyle(
+      insertCustomStyle({
         themeCss,
         classNames,
         id,
         defaultData,
-        env?.customStyleClassPrefix,
-        env.getModalContainer?.()?.ownerDocument
-      );
+        customStyleClassPrefix: env?.customStyleClassPrefix,
+        doc: env?.getModalContainer?.()?.ownerDocument,
+        data
+      });
     }
 
     return () => {
       if (id && !styleIdCount.get(id)) {
-        removeCustomStyle('', id, env.getModalContainer?.()?.ownerDocument);
+        removeCustomStyle(
+          '',
+          id,
+          env?.getModalContainer?.()?.ownerDocument,
+          data
+        );
       }
     };
   }, [themeCss, id]);
@@ -64,7 +70,7 @@ export default function (props: CustomStyleProps) {
       insertEditCustomStyle(
         wrapperCustomStyle,
         id,
-        env.getModalContainer?.()?.ownerDocument
+        env?.getModalContainer?.()?.ownerDocument
       );
     }
 
@@ -73,7 +79,8 @@ export default function (props: CustomStyleProps) {
         removeCustomStyle(
           'wrapperCustomStyle',
           id,
-          env.getModalContainer?.()?.ownerDocument
+          env?.getModalContainer?.()?.ownerDocument,
+          data
         );
       }
     };

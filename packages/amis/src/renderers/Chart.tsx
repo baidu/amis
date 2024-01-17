@@ -643,8 +643,18 @@ export class Chart extends React.Component<ChartProps> {
         className={cx(
           `${ns}Chart`,
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={styleVar}
       >
@@ -656,6 +666,7 @@ export class Chart extends React.Component<ChartProps> {
           )}
         />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

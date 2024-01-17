@@ -284,8 +284,18 @@ export default class TableView extends React.Component<TableViewProps, object> {
         className={cx(
           'TableView',
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={{width: width, borderCollapse: 'collapse'}}
       >
@@ -293,6 +303,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
         {this.renderCols()}
         <tbody>{this.renderTrs(trs)}</tbody>
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

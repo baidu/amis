@@ -5,6 +5,7 @@ import isObject from 'lodash/isObject';
 import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
 import kebabCase from 'lodash/kebabCase';
+import {resolveVariableAndFilter} from './resolveVariableAndFilter';
 
 export const valueMap: PlainObject = {
   'marginTop': 'margin-top',
@@ -111,7 +112,8 @@ export function formatStyle(
   themeCss: any,
   classNames?: CustomStyleClassName[],
   id?: string,
-  defaultData?: any
+  defaultData?: any,
+  data?: any
 ) {
   // 没有具体的样式，或者没有对应的classname
   if (!themeCss || !classNames) {
@@ -132,8 +134,12 @@ export function formatStyle(
       continue;
     }
 
-    const className = item.key + '-' + id?.replace('u:', '');
+    let className = item.key + '-' + id?.replace('u:', '');
     const weightsList: PlainObject = item.weights || {};
+
+    if (typeof data?.index === 'number') {
+      className += `-${data.index}`;
+    }
 
     const statusMap: PlainObject = {
       default: {},
@@ -163,6 +169,7 @@ export function formatStyle(
       const styles: string[] = [];
       const fn = (key: string, value: string) => {
         key = valueMap[key] || key;
+        value = resolveVariableAndFilter(value, data, '| raw') || value;
         styles.push(
           `${key.startsWith('--') ? key : kebabCase(key)}: ${
             value + (weights?.important ? ' !important' : '')
@@ -239,21 +246,35 @@ export interface CustomStyleClassName {
   };
 }
 
-export function insertCustomStyle(
-  themeCss: any,
-  classNames: CustomStyleClassName[],
-  id: string,
-  defaultData?: any,
-  customStyleClassPrefix?: string,
-  doc?: Document
-) {
+export function insertCustomStyle(prams: {
+  themeCss: any;
+  classNames: CustomStyleClassName[];
+  id: string;
+  defaultData?: any;
+  customStyleClassPrefix?: string;
+  doc?: Document;
+  [propName: string]: any;
+}) {
+  const {
+    themeCss,
+    classNames,
+    id,
+    defaultData,
+    customStyleClassPrefix,
+    doc,
+    data
+  } = prams;
   if (!themeCss) {
     return;
   }
 
-  let {value} = formatStyle(themeCss, classNames, id, defaultData);
+  let {value} = formatStyle(themeCss, classNames, id, defaultData, data);
   value = customStyleClassPrefix ? `${customStyleClassPrefix} ${value}` : value;
-  insertStyle(value, id.replace('u:', ''), doc);
+  let classId = id.replace('u:', '');
+  if (typeof data?.index === 'number') {
+    classId += `-${data.index}`;
+  }
+  insertStyle(value, classId, doc);
 }
 
 /**
@@ -342,10 +363,17 @@ export interface InsertCustomStyle {
 /**
  * 移除自定义样式
  */
-export function removeCustomStyle(type: string, id: string, doc?: Document) {
-  const style = (doc || document).getElementById(
-    'amis-' + (type ? type + '-' : '') + id.replace('u:', '')
-  );
+export function removeCustomStyle(
+  type: string,
+  id: string,
+  doc?: Document,
+  data?: any
+) {
+  let styleId = 'amis-' + (type ? type + '-' : '') + id.replace('u:', '');
+  if (typeof data?.index === 'number') {
+    styleId += `-${data.index}`;
+  }
+  const style = (doc || document).getElementById(styleId);
   if (style) {
     style.remove();
   }
@@ -366,12 +394,14 @@ export function formatInputThemeCss(themeCss: any) {
   return inputFontThemeCss;
 }
 
-export function setThemeClassName(
-  name: string,
-  id?: string,
-  themeCss?: any,
-  extra?: string
-) {
+export function setThemeClassName(params: {
+  name: string;
+  id?: string;
+  themeCss: any;
+  extra?: string;
+  [propName: string]: any;
+}) {
+  const {name, id, themeCss, extra, data} = params;
   if (!id || !themeCss) {
     return '';
   }
@@ -379,6 +409,10 @@ export function setThemeClassName(
   if (name !== 'wrapperCustomStyle' && !themeCss[name]) {
     return '';
   }
+  let index = '';
+  if (typeof data?.index === 'number') {
+    index = `-${data.index}`;
+  }
 
-  return `${name}-${id.replace('u:', '')}` + (extra ? `-${extra}` : '');
+  return `${name}-${id.replace('u:', '')}` + (extra ? `-${extra}` : '') + index;
 }

@@ -787,7 +787,12 @@ export class Action extends React.Component<ActionProps, ActionState> {
         className="Button-icon"
         classNameProp={cx(
           iconClassName,
-          setThemeClassName('iconClassName', id, themeCss || css)
+          setThemeClassName({
+            ...this.props,
+            name: 'iconClassName',
+            id,
+            themeCss: themeCss || css
+          })
         )}
       />
     );
@@ -798,7 +803,12 @@ export class Action extends React.Component<ActionProps, ActionState> {
         className="Button-icon"
         classNameProp={cx(
           rightIconClassName,
-          setThemeClassName('iconClassName', id, themeCss || css)
+          setThemeClassName({
+            ...this.props,
+            name: 'iconClassName',
+            id,
+            themeCss: themeCss || css
+          })
         )}
       />
     );
@@ -809,8 +819,18 @@ export class Action extends React.Component<ActionProps, ActionState> {
           loadingConfig={loadingConfig}
           className={cx(
             className,
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle),
-            setThemeClassName('className', id, themeCss || css),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'className',
+              id,
+              themeCss: themeCss || css
+            }),
             {
               [activeClassName || 'is-active']: isActive
             }
@@ -846,6 +866,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
         </Button>
         {/* button自定义样式 */}
         <CustomStyle
+          {...this.props}
           config={{
             themeCss: themeCss || css,
             classNames: [

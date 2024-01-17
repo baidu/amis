@@ -778,13 +778,19 @@ export default class TextControl extends React.PureComponent<
               className={cx(
                 `TextControl-input TextControl-input--withAC`,
                 inputControlClassName,
-                setThemeClassName('inputControlClassName', id, themeCss || css),
-                setThemeClassName(
-                  'inputControlClassName',
+                setThemeClassName({
+                  ...this.props,
+                  name: 'inputControlClassName',
                   id,
-                  themeCss || css,
-                  'inner'
-                ),
+                  themeCss: themeCss || css
+                }),
+                setThemeClassName({
+                  ...this.props,
+                  name: 'inputControlClassName',
+                  id,
+                  themeCss: themeCss || css,
+                  extra: 'inner'
+                }),
                 inputOnly ? className : '',
                 {
                   'is-opened': isOpen,
@@ -983,13 +989,19 @@ export default class TextControl extends React.PureComponent<
           {
             [`TextControl-input--border${ucFirst(borderMode)}`]: borderMode
           },
-          setThemeClassName('inputControlClassName', id, themeCss || css),
-          setThemeClassName(
-            'inputControlClassName',
+          setThemeClassName({
+            ...this.props,
+            name: 'inputControlClassName',
             id,
-            themeCss || css,
-            'inner'
-          ),
+            themeCss: themeCss || css
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'inputControlClassName',
+            id,
+            themeCss: themeCss || css,
+            extra: 'inner'
+          }),
           inputControlClassName,
           inputOnly ? className : ''
         )}
@@ -1105,7 +1117,13 @@ export default class TextControl extends React.PureComponent<
             className={cx(
               `${ns}TextControl-button`,
               addOnClassName,
-              setThemeClassName('addOnClassName', id, themeCss || css, 'addOn')
+              setThemeClassName({
+                ...this.props,
+                name: 'addOnClassName',
+                id,
+                themeCss: themeCss || css,
+                extra: 'addOn'
+              })
             )}
           >
             {render('addOn', addOn, {
@@ -1117,7 +1135,13 @@ export default class TextControl extends React.PureComponent<
             className={cx(
               `${ns}TextControl-addOn`,
               addOnClassName,
-              setThemeClassName('addOnClassName', id, themeCss || css, 'addOn')
+              setThemeClassName({
+                ...this.props,
+                name: 'addOnClassName',
+                id,
+                themeCss: themeCss || css,
+                extra: 'addOn'
+              })
             )}
           >
             {iconElement}
@@ -1174,6 +1198,7 @@ export default class TextControl extends React.PureComponent<
       <>
         {this.renderBody(input)}
         <CustomStyle
+          {...this.props}
           config={{
             themeCss: themeCss || css,
             classNames: [
@@ -1194,6 +1219,7 @@ export default class TextControl extends React.PureComponent<
           env={env}
         />
         <CustomStyle
+          {...this.props}
           config={{
             themeCss: formatInputThemeCss(themeCss || css),
             classNames: [
@@ -1222,6 +1248,7 @@ export default class TextControl extends React.PureComponent<
         />
 
         <CustomStyle
+          {...this.props}
           config={{
             themeCss: themeCss || css,
             classNames: [
