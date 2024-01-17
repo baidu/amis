@@ -150,15 +150,18 @@ export class Evaluator {
 
     // 只给简单的变量取值用法自动补fitler
     if (defaultFilter && ~['getter', 'variable'].indexOf(ast.body?.type)) {
-      ast.body = {
-        type: 'filter',
-        input: ast.body,
-        filters: [
-          {
-            name: defaultFilter.replace(/^\s*\|\s*/, ''),
-            args: []
-          }
-        ]
+      ast = {
+        ...ast,
+        body: {
+          type: 'filter',
+          input: ast.body,
+          filters: [
+            {
+              name: defaultFilter.replace(/^\s*\|\s*/, ''),
+              args: []
+            }
+          ]
+        }
       };
     }
 
