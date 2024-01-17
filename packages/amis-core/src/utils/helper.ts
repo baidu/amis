@@ -1901,7 +1901,7 @@ export function isClickOnInput(e: React.MouseEvent<HTMLElement>) {
     !e.currentTarget.contains(target) ||
     ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
     ((formItem = target.closest(
-      `button, a, [data-role="form-item"], label[data-role="checkbox"]`
+      `button, a, [data-role="form-item"], label[data-role="checkbox"], label[data-role="switch"]`
     )) &&
       e.currentTarget.contains(formItem))
   );

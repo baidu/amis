@@ -7171,6 +7171,7 @@ exports[`Renderer:table list 1`] = `
                 >
                   <label
                     class="cxd-Switch is-checked"
+                    data-role="switch"
                   >
                     <input
                       checked=""
@@ -7413,6 +7414,7 @@ exports[`Renderer:table list 1`] = `
                 >
                   <label
                     class="cxd-Switch is-checked"
+                    data-role="switch"
                   >
                     <input
                       checked=""
@@ -7775,6 +7777,7 @@ exports[`Renderer:table list 1`] = `
                 >
                   <label
                     class="cxd-Switch"
+                    data-role="switch"
                   >
                     <input
                       theme="cxd"

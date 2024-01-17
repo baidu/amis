@@ -109,6 +109,7 @@ export class Switch extends React.PureComponent<SwitchProps, any> {
           'is-checked': isChecked,
           'is-disabled': isDisabled
         })}
+        data-role="switch"
       >
         <input
           type="checkbox"

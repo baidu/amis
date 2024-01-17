@@ -92,9 +92,6 @@ class BodyRow extends React.PureComponent<Props> {
       return;
     }
 
-    e.preventDefault();
-    e.stopPropagation();
-
     const {onClick} = this.props;
     onClick && onClick(e, record, rowIndex);
   }
