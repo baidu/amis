@@ -3,6 +3,7 @@ import {
   getVariable,
   mapObject,
   mapTree,
+  eachTree,
   extendObject,
   createObject
 } from 'amis-core';
@@ -133,7 +134,6 @@ export const MainStore = types
       id: 'root',
       label: 'Root'
     }),
-    map: types.optional(types.frozen(), {}),
     theme: 'cxd', // 主题，默认cxd主题
     hoverId: '',
     hoverRegion: '',
@@ -389,29 +389,7 @@ export const MainStore = types
         id: string,
         regionOrType?: string
       ): EditorNodeType | undefined {
-        const key = id + (regionOrType ? '-' + regionOrType : '');
-        return self.map[key];
-
-        // let pool = self.root.children.concat();
-
-        // while (pool.length) {
-        //   const item = pool.shift();
-        //   if (
-        //     item.id === id &&
-        //     (!regionOrType ||
-        //       item.region === regionOrType ||
-        //       item.type === regionOrType)
-        //   ) {
-        //     return item;
-        //   }
-
-        //   // 将当前节点的子节点全部放置到 pool中
-        //   if (item.children.length) {
-        //     pool.push.apply(pool, item.children);
-        //   }
-        // }
-
-        // return undefined;
+        return self.root.getNodeById(id, regionOrType);
       },
 
       get activeNodeInfo(): RendererInfo | null | undefined {
@@ -1058,36 +1036,6 @@ export const MainStore = types
     );
 
     return {
-      setNode(node: EditorNodeType) {
-        const map = {...self.map};
-
-        if (node.region) {
-          map[node.id + '-' + node.region] = node;
-        } else {
-          // 同名类型不同的节点，优先使用上层的
-          // 因为原来的 getNodeById 是这种查找策略
-          // 所以孩子节点在父级写入了的情况下不写入
-          map[node.id] = map[node.id] || node;
-          map[node.id + '-' + node.type] = node;
-        }
-
-        self.map = map;
-      },
-      unsetNode(node: EditorNodeType) {
-        const map = {...self.map};
-
-        if (node.region) {
-          map[node.id + '-' + node.region] === node &&
-            delete map[node.id + '-' + node.region];
-        } else {
-          map[node.id] === node && delete map[node.id];
-          map[node.id + '-' + node.type] === node &&
-            delete map[node.id + '-' + node.type];
-        }
-
-        self.map = map;
-      },
-
       setLayer(value: any) {
         layer = value;
       },
@@ -1987,7 +1935,6 @@ export const MainStore = types
       },
 
       beforeDestroy() {
-        self.map = {};
         lazyUpdateTargetName.cancel();
       }
     };

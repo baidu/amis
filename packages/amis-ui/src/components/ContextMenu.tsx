@@ -24,6 +24,7 @@ interface ContextMenuProps {
 }
 
 export type MenuItem = {
+  id?: string;
   label: string;
   icon?: string;
   disabled?: boolean;

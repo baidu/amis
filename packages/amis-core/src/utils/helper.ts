@@ -253,7 +253,8 @@ export function isObjectShallowModified(
   next: any,
   strictModeOrFunc: boolean | ((lhs: any, rhs: any) => boolean) = true,
   ignoreUndefined: boolean = false,
-  stack: Array<any> = []
+  stack: Array<any> = [],
+  maxDepth: number = -1
 ): boolean {
   if (Array.isArray(prev) && Array.isArray(next)) {
     return prev.length !== next.length
@@ -310,6 +311,9 @@ export function isObjectShallowModified(
   }
 
   stack.push(prev);
+  if (maxDepth > 0 && stack.length > maxDepth) {
+    return true;
+  }
 
   for (let i: number = keys.length - 1; i >= 0; i--) {
     const key = keys[i];
