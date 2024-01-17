@@ -687,10 +687,11 @@ order: 35
 ## 限制标签最大展示数量
 
 设置`overflowConfig`后可以限制标签的最大展示数量，该属性仅在多选模式开启后生效，包含以下几个配置项：
-- `maxTagCount`：最大展示数量，是范围为0 - 选项总数量的整数，超出数量的部分会收纳到 Popover 中。
+
+- `maxTagCount`：最大展示数量，是范围为 0 - 选项总数量的整数，超出数量的部分会收纳到 Popover 中。
 - `displayPosition`：收纳标签生效的位置，类型为字符串数组，未开启内嵌模式默认为**选择器**, 开启后默认为**选择器**和**CRUD 顶部**，可选值为`'select'`(选择器)、`'crud'`(增删改查)。
 - `overflowTagPopover`配置收纳标签 Popover 相关[属性](../tooltip#属性表)。
-- `overflowTagPopoverInCRUD`可以配置**CRUD 顶部**收纳标签的 Popover相关[属性](../tooltip#属性表)。
+- `overflowTagPopoverInCRUD`可以配置**CRUD 顶部**收纳标签的 Popover 相关[属性](../tooltip#属性表)。
 
 > `3.4.0` 及以上版本
 
@@ -1190,38 +1191,35 @@ order: 35
 }
 ```
 
-
-
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名       | 类型                                                                                         | 默认值                                          | 说明                                                                                        | 版本 |
-| ------------ | -------------------------------------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------- | --- |
-| options      | `Array<object>`或`Array<string>`                                                             |                                                 | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)                   |
-| source       | `string`或 [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |                                                 | [动态选项组](./options#%E5%8A%A8%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-source)                |
-| multiple     | `boolean`                                                                                    |                                                 | 是否为多选。                                                                                |
-| delimiter    | `boolean`                                                                                    | `false`                                         | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                   |
-| labelField   | `boolean`                                                                                    | `"label"`                                       | [选项标签字段](./options#%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE%E5%AD%97%E6%AE%B5-labelfield) |
-| valueField   | `boolean`                                                                                    | `"value"`                                       | [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)            |
-| joinValues   | `boolean`                                                                                    | `true`                                          | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                  |
-| extractValue | `boolean`                                                                                    | `false`                                         | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)              |
-| autoFill     | `object`                                                                                     |                                                 | [自动填充](./options#%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85-autofill)                         |
-| modalTitle   | `string`                                                                                     | `"请选择"`                                      | 设置模态框的标题                                                                            |
-| modalMode    | `string`                                                                                     | `"dialog"`                                      | 设置 `dialog` 或者 `drawer`，用来配置弹出方式。                                             |
-| pickerSchema | `string`                                                                                     | `{mode: 'list', listItem: {title: '${label}'}}` | 即用 List 类型的渲染，来展示列表信息。更多配置参考 [CRUD](../crud)                          |
-| embed        | `boolean`                                                                                    | `false`                                         | 是否使用内嵌模式                                                                            |
-| overflowConfig        | `OverflowConfig`                                  |                         参考[OverflowConfig](./#overflowconfig)                                                           | 开启最大标签展示数量的相关配置                  | `3.4.0` |
+| 属性名         | 类型                                                                                         | 默认值                                          | 说明                                                                                        | 版本 |
+| -------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------- | ---- |
+| options        | `Array<object>`或`Array<string>`                                                             |                                                 | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)                   |
+| source         | `string`或 [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |                                                 | [动态选项组](./options#%E5%8A%A8%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-source)                |
+| multiple       | `boolean`                                                                                    |                                                 | 是否为多选。                                                                                |
+| delimiter      | `boolean`                                                                                    | `false`                                         | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                   |
+| labelField     | `boolean`                                                                                    | `"label"`                                       | [选项标签字段](./options#%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE%E5%AD%97%E6%AE%B5-labelfield) |
+| valueField     | `boolean`                                                                                    | `"value"`                                       | [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)            |
+| joinValues     | `boolean`                                                                                    | `true`                                          | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                  |
+| extractValue   | `boolean`                                                                                    | `false`                                         | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)              |
+| autoFill       | `object`                                                                                     |                                                 | [自动填充](./options#%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85-autofill)                         |
+| modalTitle     | `string`                                                                                     | `"请选择"`                                      | 设置模态框的标题                                                                            |
+| modalMode      | `string`                                                                                     | `"dialog"`                                      | 设置 `dialog` 或者 `drawer`，用来配置弹出方式。                                             |
+| pickerSchema   | `string`                                                                                     | `{mode: 'list', listItem: {title: '${label}'}}` | 即用 List 类型的渲染，来展示列表信息。更多配置参考 [CRUD](../crud)                          |
+| embed          | `boolean`                                                                                    | `false`                                         | 是否使用内嵌模式                                                                            |
+| overflowConfig | `OverflowConfig`                                                                             | 参考[OverflowConfig](./#overflowconfig)         | 开启最大标签展示数量的相关配置 `3.4.0`                                                      |
 
 ### OverflowConfig
 
-| 属性名       | 类型                                                                                         | 默认值                                          | 说明                                                                                        |
-| ------------ | -------------------------------------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| maxTagCount        | `number`                                  |                                `-1`                                                    | 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效，默认为`-1` 不开启                  | `3.4.0` |
-| displayPosition        | `('select' \| 'crud')[]`                                  |           `['select', 'crud']`                                                                         | 收纳标签生效的位置，未开启内嵌模式默认为选择器, 开启后默认为选择器和CRUD 顶部，可选值为`'select'`(选择器)、`'crud'`(增删改查)                  | `3.4.0` |
-| overflowTagPopover | `TooltipObject`                           | `{"placement": "top", "trigger": "hover", "showArrow": false, "offset": [0, -10]}` | 选择器内收纳标签的Popover配置，详细配置参考[Tooltip](../tooltip#属性表)                                | `3.4.0` |
-| overflowTagPopoverInCRUD | `TooltipObject`                           | `{"placement": "bottom", "trigger": "hover", "showArrow": false, "offset": [0, 10]}` | CRUD顶部内收纳标签的Popover配置，详细配置参考[Tooltip](../tooltip#属性表)                                | `3.4.0` |
-
+| 属性名                   | 类型                     | 默认值                                                                               | 说明                                                                                                                                   |
+| ------------------------ | ------------------------ | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| maxTagCount              | `number`                 | `-1`                                                                                 | 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效，默认为`-1` 不开启 `3.4.0`                                  |
+| displayPosition          | `('select' \| 'crud')[]` | `['select', 'crud']`                                                                 | 收纳标签生效的位置，未开启内嵌模式默认为选择器, 开启后默认为选择器和 CRUD 顶部，可选值为`'select'`(选择器)、`'crud'`(增删改查) `3.4.0` |
+| overflowTagPopover       | `TooltipObject`          | `{"placement": "top", "trigger": "hover", "showArrow": false, "offset": [0, -10]}`   | 选择器内收纳标签的 Popover 配置，详细配置参考[Tooltip](../tooltip#属性表) `3.4.0`                                                      |
+| overflowTagPopoverInCRUD | `TooltipObject`          | `{"placement": "bottom", "trigger": "hover", "showArrow": false, "offset": [0, 10]}` | CRUD 顶部内收纳标签的 Popover 配置，详细配置参考[Tooltip](../tooltip#属性表) `3.4.0`                                                   |
 
 ## 事件表
 
@@ -1233,3 +1231,89 @@ order: 35
 | --------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------- |
 | change    | `[name]: string` 组件的值（多个以逗号分隔)<br/>`selectedItems: object` \| `object[]`选中项（< 2.3.2 及以下版本 为`option`） | 选中值变化时触发 |
 | itemClick | `item: Option` 所点击的选项                                                                                                 | 选项被点击时触发 |
+
+### change
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "picker",
+        "name": "picker",
+        "label": "picker",
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ],
+        "onEvent": {
+          "change": {
+            "actions": [
+              {
+                "actionType": "toast",
+                "args": {
+                  "msg": "${event.data.value}"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+```
+
+### itemClick
+
+输入框内已被选中的选项被点击时触发。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "picker",
+        "name": "picker",
+        "label": "picker",
+        "options": [
+          {
+            "label": "A",
+            "value": "a"
+          },
+          {
+            "label": "B",
+            "value": "b"
+          },
+          {
+            "label": "C",
+            "value": "c"
+          }
+        ],
+        "onEvent": {
+          "itemClick": {
+            "actions": [
+              {
+                "actionType": "toast",
+                "args": {
+                  "msg": "${event.data.item|json}"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+```

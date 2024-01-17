@@ -188,7 +188,8 @@ export default function Cell({
     item.expanded,
     item.error,
     item.loading,
-    column.isPrimary
+    column.isPrimary,
+    store.isNested
   ]);
 
   // 根据条件缓存 data，避免孩子重复渲染

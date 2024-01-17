@@ -12,6 +12,8 @@ order: 68
 
 ## 基本用法
 
+`6.1.0`及以上版本垂直方向支持配置子节点
+
 ```schema: scope="body"
 {
     "type": "anchor-nav",
@@ -39,6 +41,24 @@ order: 68
         },
         {
             "title": "工作信息",
+            "children": [
+                {
+                    "title": "工作信息-1",
+                    "type": "form",
+                    "body": [
+                        {
+                            "type": "input-text",
+                            "name": "workInfo1-1",
+                            "label": "工作信息1-1："
+                        },
+                        {
+                            "name": "workInfo1-2",
+                            "type": "input-text",
+                            "label": "工作信息1-2"
+                        }
+                    ]
+                }
+            ],
             "body": [
                 {
                     "type": "form",
@@ -60,6 +80,29 @@ order: 68
         },
         {
             "title": "兴趣爱好",
+            "children": [
+                {
+                  "title": "兴趣爱好1-1",
+                  "body": [
+                    {
+                      "type": "form",
+                      "title": "兴趣爱好1-1",
+                      "body": [
+                        {
+                          "type": "input-text",
+                          "name": "interest1-1",
+                          "label": "interest1-1"
+                        },
+                        {
+                          "name": "interest1-2",
+                          "type": "input-text",
+                          "label": "interest1-2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+            ],
             "body": [
                 {
                     "type": "form",
@@ -235,6 +278,25 @@ order: 68
         {
             "title": "工作信息",
             "href": "work",
+            "children": [
+                {
+                    "title": "工作信息-1",
+                    "href": "work-1",
+                    "type": "form",
+                    "body": [
+                        {
+                            "type": "input-text",
+                            "name": "workInfo1-1",
+                            "label": "工作信息1-1："
+                        },
+                        {
+                            "name": "workInfo1-2",
+                            "type": "input-text",
+                            "label": "工作信息1-2"
+                        }
+                    ]
+                }
+            ],
             "body": [
                 {
                     "type": "form",
@@ -332,6 +394,24 @@ order: 68
         },
         {
             "title": "工作信息",
+            "children": [
+                {
+                    "title": "工作信息-1",
+                    "type": "form",
+                    "body": [
+                        {
+                            "type": "input-text",
+                            "name": "workInfo1-1",
+                            "label": "工作信息1-1："
+                        },
+                        {
+                            "name": "workInfo1-2",
+                            "type": "input-text",
+                            "label": "工作信息1-2"
+                        }
+                    ]
+                }
+            ],
             "body": [
                 {
                     "type": "form",
@@ -409,5 +489,5 @@ order: 68
 | active             | `string`                          |                                     | 需要定位的区域                                                             |
 | links[x].title     | `string`                          |                                     | 区域 标题                                                                  |
 | links[x].href      | `string`                          |                                     | 区域 标识                                                                  |
-| links[x].body      | [SchemaNode](../types/schemanode) |                                     | 区域 内容区                                                                |
+| links[x].body      | [SchemaNode](../types/schemanode) |                                     | 区域 内容区，`6.1.0`及以上版本垂直方向支持配置子节点                       |
 | links[x].className | `string`                          | `"bg-white b-l b-r b-b wrapper-md"` | 区域成员 样式                                                              |

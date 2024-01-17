@@ -243,18 +243,100 @@ src、text 都支持变量，可以从上下文中动态获取图片或文字，
 
 ## 属性表
 
-| 属性名      | 类型                                                               | 默认值         | 说明                                                                                                                                                                                                                                                                                                                                 |
-| ----------- | ------------------------------------------------------------------ | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| className   | `string`                                                           |                | 外层 dom 的类名                                                                                                                                                                                                                                                                                                                      |
-| style       | `object`                                                           |                | 外层 dom 的样式                                                                                                                                                                                                                                                                                                                      |
-| fit         | `'contain'` \| `'cover'` \| `'fill'` \| `'none'` \| `'scale-down'` | `'cover'`      | 具体细节可以参考 MDN [文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-fit)                                                                                                                                                                                                                                             |
-| src         | `string`                                                           |                | 图片地址                                                                                                                                                                                                                                                                                                                             |
-| text        | `string`                                                           |                | 文字                                                                                                                                                                                                                                                                                                                                 |
-| icon        | `string`                                                           | `'fa fa-user'` | 图标                                                                                                                                                                                                                                                                                                                                 |
-| shape       | `'circle'` \| `'square'` \| `'rounded'`                            | `'circle'`     | 形状，有三种 `'circle'` （圆形）、`'square'`（正方形）、`'rounded'`（圆角）                                                                                                                                                                                                                                                          |
-| size        | `number` \| `'default'` \| `'normal'` \| `'small'`                 | `'default'`    | `'default' \| 'normal' \| 'small'`三种字符串类型代表不同大小（分别是 48、40、32），也可以直接数字表示                                                                                                                                                                                                                                |
-| gap         | `number`                                                           | 4              | 控制字符类型距离左右两侧边界单位像素                                                                                                                                                                                                                                                                                                 |
-| alt         | `number`                                                           |                | 图像无法显示时的替代文本                                                                                                                                                                                                                                                                                                             |
-| draggable   | `boolean`                                                          |                | 图片是否允许拖动                                                                                                                                                                                                                                                                                                                     |
-| crossOrigin | `'anonymous'` \| `'use-credentials'` \| `''`                       |                | 图片的 `CORS` 属性设置                                                                                                                                                                                                                                                                                                               |
-| onError     | `string`                                                           |                | 图片加载失败的字符串，这个字符串是一个 New Function 内部执行的字符串，参数是 event（使用 event.nativeEvent 获取原生 dom 事件），这个字符串需要返回 boolean 值。设置 `"return ture;"` 会在图片加载失败后，使用 `text` 或者 `icon` 代表的信息来进行替换。目前图片加载失败默认是不进行置换。注意：图片加载失败，不包括$获取数据为空情况 |
+| 属性名        | 类型                                                               | 默认值         | 说明                                                                                                                                                                                                                                                                                                                                 |
+| ------------- | ------------------------------------------------------------------ | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| className     | `string`                                                           |                | 外层 dom 的类名                                                                                                                                                                                                                                                                                                                      |
+| style         | `object`                                                           |                | 外层 dom 的样式                                                                                                                                                                                                                                                                                                                      |
+| fit           | `'contain'` \| `'cover'` \| `'fill'` \| `'none'` \| `'scale-down'` | `'cover'`      | 具体细节可以参考 MDN [文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-fit)                                                                                                                                                                                                                                             |
+| src           | `string`                                                           |                | 图片地址                                                                                                                                                                                                                                                                                                                             |
+| defaultAvatar | `string`                                                           |                | 占位图                                                                                                                                                                                                                                                                                                                               |
+| text          | `string`                                                           |                | 文字                                                                                                                                                                                                                                                                                                                                 |
+| icon          | `string`                                                           | `'fa fa-user'` | 图标                                                                                                                                                                                                                                                                                                                                 |
+| shape         | `'circle'` \| `'square'` \| `'rounded'`                            | `'circle'`     | 形状，有三种 `'circle'` （圆形）、`'square'`（正方形）、`'rounded'`（圆角）                                                                                                                                                                                                                                                          |
+| size          | `number` \| `'default'` \| `'normal'` \| `'small'`                 | `'default'`    | `'default' \| 'normal' \| 'small'`三种字符串类型代表不同大小（分别是 48、40、32），也可以直接数字表示                                                                                                                                                                                                                                |
+| gap           | `number`                                                           | 4              | 控制字符类型距离左右两侧边界单位像素                                                                                                                                                                                                                                                                                                 |
+| alt           | `number`                                                           |                | 图像无法显示时的替代文本                                                                                                                                                                                                                                                                                                             |
+| draggable     | `boolean`                                                          |                | 图片是否允许拖动                                                                                                                                                                                                                                                                                                                     |
+| crossOrigin   | `'anonymous'` \| `'use-credentials'` \| `''`                       |                | 图片的 `CORS` 属性设置                                                                                                                                                                                                                                                                                                               |
+| onError       | `string`                                                           |                | 图片加载失败的字符串，这个字符串是一个 New Function 内部执行的字符串，参数是 event（使用 event.nativeEvent 获取原生 dom 事件），这个字符串需要返回 boolean 值。设置 `"return ture;"` 会在图片加载失败后，使用 `text` 或者 `icon` 代表的信息来进行替换。目前图片加载失败默认是不进行置换。注意：图片加载失败，不包括$获取数据为空情况 |
+
+## 事件表
+
+> 6.1.0 及以上版本
+
+当前组件会对外派发以下事件，可以通过`onEvent`来监听这些事件，并通过`actions`来配置执行的动作，在`actions`中可以通过`${事件参数名}`或`${event.data.[事件参数名]}`来获取事件产生的数据，详细查看[事件动作](../../docs/concepts/event-action)。
+
+| 事件名称   | 事件参数 | 说明           |
+| ---------- | -------- | -------------- |
+| click      | -        | 点击时触发     |
+| mouseenter | -        | 鼠标移入时触发 |
+| mouseleave | -        | 鼠标移出时触发 |
+
+### click
+
+鼠标点击。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+  "type": "avatar",
+  "onEvent": {
+    "click": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.context.nativeEvent.type}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### mouseenter
+
+鼠标移入。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+  "type": "avatar",
+  "onEvent": {
+    "mouseenter": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.context.nativeEvent.type}"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### mouseleave
+
+鼠标移出。可以尝试通过`${event.context.nativeEvent}`获取鼠标事件对象。
+
+```schema: scope="body"
+{
+  "type": "avatar",
+  "onEvent": {
+    "mouseleave": {
+      "actions": [
+        {
+          "actionType": "toast",
+          "args": {
+            "msgType": "info",
+            "msg": "${event.context.nativeEvent.type}"
+          }
+        }
+      ]
+    }
+  }
+}
+```

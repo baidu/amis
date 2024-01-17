@@ -222,20 +222,23 @@ export const EditorNode = types
       },
 
       get uniqueChildren() {
-        let children = self.children.filter(
-          (child, index, list) =>
-            list.findIndex(a =>
-              child.isRegion
-                ? a.id === child.id && a.region === child.region
-                : a.id === child.id
-            ) === index
-        );
+        let children: Array<any> = [];
+        let map: Record<string, any> = {};
+        self.children.forEach(child => {
+          const key = child.isRegion ? `${child.region}-${child.id}` : child.id;
+          if (map[key]) {
+            return;
+          }
+
+          map[key] = true;
+          children.push(child);
+        });
 
         if (Array.isArray(this.schema)) {
-          const arr = this.schema;
+          const arr = this.schema.map(item => item?.$$id).filter(item => item);
           children = children.sort((a, b) => {
-            const idxa = findIndex(arr, item => item?.$$id === a.id);
-            const idxb = findIndex(arr, item => item?.$$id === b.id);
+            const idxa = arr.indexOf(a.id);
+            const idxb = arr.indexOf(b.id);
             return idxa - idxb;
           });
         }
@@ -614,11 +617,35 @@ export const EditorNode = types
         });
         const node = self.children[self.children.length - 1];
         node.setInfo(props.info);
+        (getRoot(self) as any).setNode(node);
         return node;
       },
 
       removeChild(child: any) {
         const idx = self.children.findIndex(item => item === child);
+        const node = self.children[idx];
+        if (!node) {
+          return;
+        }
+
+        // 因为 react 的钩子是 父级先执行 willUnmout，所以顶级的节点先删除
+        // 节点删除了，再去读取 mst 又会报错
+        // 所以在节点删除之前，先把所有孩子节点从 root.map 中删除
+        // 否则 root.map 里面会残存很多已经销毁的节点
+        const pool = [node];
+        const list = [];
+
+        while (pool.length) {
+          const item = pool.shift();
+          list.push(item);
+          pool.push(...item.children);
+        }
+
+        const root = getRoot(self) as any;
+        list.forEach((item: any) => {
+          root.unsetNode(item);
+        });
+
         self.children.splice(idx, 1);
       },
 

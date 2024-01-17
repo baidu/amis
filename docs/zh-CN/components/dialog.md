@@ -782,7 +782,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 
 #### 取消 feedback 弹框时，不同时关闭上层弹框
 
-改场景只适用于**不请求接口关闭弹框**的场景，需要在 feedback 层添加`"skipRestOnCancel": true`
+该场景只适用于**不请求接口关闭弹框**的场景，需要在 feedback 层添加`"skipRestOnCancel": true`
 
 ```schema: scope="body"
 {

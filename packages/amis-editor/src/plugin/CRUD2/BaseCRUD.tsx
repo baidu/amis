@@ -1129,10 +1129,13 @@ export class BaseCRUDPlugin extends BasePlugin {
       return;
     }
 
-    const childDataSchema = await child.info.plugin.buildDataSchemas(
-      child,
-      region
-    );
+    const tmpSchema = await child.info.plugin.buildDataSchemas?.(child, region);
+
+    const childDataSchema = {
+      ...tmpSchema,
+      ...(tmpSchema?.$id ? {} : {$id: `${child.id}-${child.type}`})
+    };
+
     const items =
       childDataSchema?.properties?.rows ?? childDataSchema?.properties?.items;
     const schema: any = {

@@ -500,7 +500,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                       class="cxd-Crud-pager"
                     >
                       <div
-                        class="cxd-Pagination-wrap"
+                        class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
                       >
                         <ul
                           class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -579,13 +579,21 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                             </a>
                           </li>
                           <li
-                            class="ellipsis"
+                            class="cxd-Pagination-ellipsis"
                           >
                             <a
                               role="button"
                             >
                               ...
                             </a>
+                            <span
+                              class="icon"
+                            >
+                              <icon-mock
+                                classname="icon icon-arrow-double-right"
+                                icon="arrow-double-right"
+                              />
+                            </span>
                           </li>
                           <li
                             class="cxd-Pagination-pager-item"
@@ -636,7 +644,7 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                       class="cxd-Crud-pager"
                     >
                       <div
-                        class="cxd-Pagination-wrap"
+                        class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
                       >
                         <div
                           class="cxd-Pagination-total cxd-Pagination-item"
@@ -727,13 +735,21 @@ exports[`1. Renderer:crud basic interval headerToolbar footerToolbar 1`] = `
                             </a>
                           </li>
                           <li
-                            class="ellipsis"
+                            class="cxd-Pagination-ellipsis"
                           >
                             <a
                               role="button"
                             >
                               ...
                             </a>
+                            <span
+                              class="icon"
+                            >
+                              <icon-mock
+                                classname="icon icon-arrow-double-right"
+                                icon="arrow-double-right"
+                              />
+                            </span>
                           </li>
                           <li
                             class="cxd-Pagination-pager-item"
@@ -1095,7 +1111,7 @@ exports[`4. Renderer:crud list 1`] = `
                       class="cxd-Crud-pager"
                     >
                       <div
-                        class="cxd-Pagination-wrap"
+                        class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
                       >
                         <ul
                           class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -1174,13 +1190,21 @@ exports[`4. Renderer:crud list 1`] = `
                             </a>
                           </li>
                           <li
-                            class="ellipsis"
+                            class="cxd-Pagination-ellipsis"
                           >
                             <a
                               role="button"
                             >
                               ...
                             </a>
+                            <span
+                              class="icon"
+                            >
+                              <icon-mock
+                                classname="icon icon-arrow-double-right"
+                                icon="arrow-double-right"
+                              />
+                            </span>
                           </li>
                           <li
                             class="cxd-Pagination-pager-item"
@@ -1986,7 +2010,7 @@ exports[`5. Renderer:crud cards 1`] = `
                       class="cxd-Crud-pager"
                     >
                       <div
-                        class="cxd-Pagination-wrap"
+                        class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
                       >
                         <ul
                           class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -2065,13 +2089,21 @@ exports[`5. Renderer:crud cards 1`] = `
                             </a>
                           </li>
                           <li
-                            class="ellipsis"
+                            class="cxd-Pagination-ellipsis"
                           >
                             <a
                               role="button"
                             >
                               ...
                             </a>
+                            <span
+                              class="icon"
+                            >
+                              <icon-mock
+                                classname="icon icon-arrow-double-right"
+                                icon="arrow-double-right"
+                              />
+                            </span>
                           </li>
                           <li
                             class="cxd-Pagination-pager-item"
@@ -2605,7 +2637,7 @@ exports[`6. Renderer:crud source & alwaysShowPagination 1`] = `
                       class="cxd-Crud-pager"
                     >
                       <div
-                        class="cxd-Pagination-wrap"
+                        class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
                       >
                         <ul
                           class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -2859,11 +2891,10 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           style="left: 0px;"
                         >
                           <label
-                            class="cxd-Checkbox cxd-Checkbox--checkbox"
+                            class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
                             data-role="checkbox"
                           >
                             <input
-                              disabled=""
                               type="checkbox"
                             />
                             <i />
@@ -2988,14 +3019,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Trident
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3038,14 +3070,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Trident
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3088,14 +3121,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Trident
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3138,14 +3172,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Trident
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3189,14 +3224,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Trident
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3240,14 +3276,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Gecko
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3291,14 +3328,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Gecko
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3342,14 +3380,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Gecko
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3393,14 +3432,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Gecko
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                       <tr
@@ -3444,14 +3484,15 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                           >
                             Gecko
                           </span>
-                          <span
-                            class="cxd-Field-quickEditBtn"
+                          <button
+                            class="cxd-Button cxd-Button--link cxd-Button--size-default cxd-Field-quickEditBtn"
+                            type="button"
                           >
                             <icon-mock
-                              classname="icon icon-edit"
+                              classname="cxd-Button-icon icon-edit"
                               icon="edit"
                             />
-                          </span>
+                          </button>
                         </td>
                       </tr>
                     </tbody>
@@ -3519,7 +3560,7 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                       class="cxd-Crud-pager"
                     >
                       <div
-                        class="cxd-Pagination-wrap"
+                        class="cxd-Pagination-wrap cxd-Pagination-wrap-size--md"
                       >
                         <ul
                           class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
@@ -3598,13 +3639,21 @@ exports[`13. enderer: crud keepItemSelectionOnPageChange & maxKeepItemSelectionL
                             </a>
                           </li>
                           <li
-                            class="ellipsis"
+                            class="cxd-Pagination-ellipsis"
                           >
                             <a
                               role="button"
                             >
                               ...
                             </a>
+                            <span
+                              class="icon"
+                            >
+                              <icon-mock
+                                classname="icon icon-arrow-double-right"
+                                icon="arrow-double-right"
+                              />
+                            </span>
                           </li>
                           <li
                             class="cxd-Pagination-pager-item"

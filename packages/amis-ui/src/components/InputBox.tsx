@@ -104,7 +104,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
 
         <Input
           {...rest}
-          value={value || ''}
+          value={value ?? ''}
           onChange={this.handleChange}
           placeholder={placeholder}
           onFocus={this.handleFocus}

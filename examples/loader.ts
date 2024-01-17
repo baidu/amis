@@ -35,7 +35,11 @@
     '@fex/amis': __moduleId('amis'),
     '@fex/amis-ui': __moduleId('amis-ui'),
     '@fex/amis-core': __moduleId('amis-core'),
-    '@fex/amis-formula': __moduleId('amis-formula')
+    '@fex/amis-formula': __moduleId('amis-formula'),
+    'amis-ui': __moduleId('amis-ui'),
+    'amis-core': __moduleId('amis-core'),
+    'amis-formula': __moduleId('amis-formula'),
+    'copy-to-clipboard': __moduleId('copy-to-clipboard')
   };
 
   Object.keys(mapping).forEach(key => {

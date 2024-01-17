@@ -334,7 +334,8 @@ order: 67
 
 可以配置数字，用于设置列宽像素，例如下面例子我们给`Rendering engine`列宽设置为`100px`。
 
-> 如果希望精准的控制列宽，请设置表格的 `tableLayout` 为 `fixed` 模式，同时为了让表格标题不换行，标题文字的长短会影响列的最小宽度
+> - 如果希望精准的控制列宽，请设置表格的 `tableLayout` 为 `fixed` 模式，同时为了让表格标题不换行，标题文字的长短会影响列的最小宽度
+> - 注意：`resizable`开启后，固定宽度的列则无法拖动调整列宽
 
 ```schema: scope="body"
 {
@@ -350,6 +351,10 @@ order: 67
             "name": "engine",
             "label": "Rendering engine",
             "width": 150
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
         }
     ]
 }
@@ -1827,6 +1832,7 @@ popOver 的其它配置请参考 [popover](./popover)
 | source           | `string`                                                 | `${items}`                | 数据源, 绑定当前环境变量                                                  |                                   |
 | deferApi         | [API](../../docs/types/api)                              |                           | 当行数据中有 defer 属性时，用此接口进一步加载内容                         |
 | affixHeader      | `boolean`                                                | `true`                    | 是否固定表头                                                              |                                   |
+| affixFooter      | `boolean`                                                | `false`                   | 是否固定表格底部工具栏                                                    |                                   |
 | columnsTogglable | `auto` 或者 `boolean`                                    | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启                   |                                   |
 | placeholder      | `string` 或者 `SchemaTpl`                                | `暂无数据`                | 当没数据的时候的文字提示                                                  |                                   |
 | className        | `string`                                                 | `panel-default`           | 外层 CSS 类名                                                             |                                   |

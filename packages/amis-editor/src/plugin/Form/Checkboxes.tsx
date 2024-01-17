@@ -3,7 +3,9 @@ import {
   setSchemaTpl,
   getSchemaTpl,
   valuePipeOut,
-  EditorNodeType
+  EditorNodeType,
+  EditorManager,
+  undefinedPipeOut
 } from 'amis-editor-core';
 import {registerEditorPlugin} from 'amis-editor-core';
 import {
@@ -18,7 +20,11 @@ import {ValidatorTag} from '../../validator';
 import type {Schema} from 'amis';
 import {RendererPluginAction, RendererPluginEvent} from 'amis-editor-core';
 import {getEventControlConfig} from '../../renderer/event-control/helper';
-import {resolveOptionType} from '../../util';
+import {
+  OPTION_EDIT_EVENTS,
+  resolveOptionEventDataSchame,
+  resolveOptionType
+} from '../../util';
 
 export class CheckboxesControlPlugin extends BasePlugin {
   static id = 'CheckboxesControlPlugin';
@@ -75,24 +81,26 @@ export class CheckboxesControlPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '选中值变化时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '选中的值'
+      dataSchema: (manager: EditorManager) => {
+        const {value} = resolveOptionEventDataSchame(manager, true);
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value
                 }
               }
             }
           }
-        }
-      ]
-    }
+        ];
+      }
+    },
+    ...OPTION_EDIT_EVENTS
   ];
 
   // 动作定义
@@ -166,11 +174,6 @@ export class CheckboxesControlPlugin extends BasePlugin {
                   ]
                 }
               ],
-              getSchemaTpl('valueFormula', {
-                rendererSchema: (schema: Schema) => schema,
-                useSelectMode: true, // 改用 Select 设置模式
-                visibleOn: 'this.options && this.options.length > 0'
-              }),
               getSchemaTpl('joinValues', {
                 visibleOn: true
               }),
@@ -191,6 +194,17 @@ export class CheckboxesControlPlugin extends BasePlugin {
             body: [
               getSchemaTpl('optionControlV2', {
                 multiple: true
+              }),
+              getSchemaTpl('valueFormula', {
+                rendererSchema: (schema: Schema) => ({
+                  ...schema,
+                  type: 'input-text'
+                }),
+                pipeOut: undefinedPipeOut,
+                // 默认值组件设计有些问题，自动发起了请求，接口数据作为了默认值选项，接口形式应该是设置静态值或者FX
+                needDeleteProps: ['source'],
+                // 当数据源是自定义静态选项时，不额外配置默认值，在选项上直接勾选即可，放开会有个bug：当去掉勾选时，默认值配置组件不清空，只是schema清空了value
+                visibleOn: 'this.selectFirst !== true && this.source != null'
               }),
               // 自定义选项模板
               getSchemaTpl('optionsMenuTpl', {
@@ -235,7 +249,7 @@ export class CheckboxesControlPlugin extends BasePlugin {
   };
 
   buildDataSchemas(node: EditorNodeType, region: EditorNodeType) {
-    const type = resolveOptionType(node.schema?.options);
+    const type = resolveOptionType(node.schema);
     // todo:异步数据case
     let dataSchema: any = {
       type,

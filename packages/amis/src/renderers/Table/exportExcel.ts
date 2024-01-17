@@ -2,7 +2,7 @@
  * 导出 Excel 功能
  */
 
-import {filter, isEffectiveApi, arraySlice} from 'amis-core';
+import {filter, isEffectiveApi, arraySlice, isObject} from 'amis-core';
 import './ColumnToggler';
 import {TableStore} from 'amis-core';
 import {saveAs} from 'file-saver';
@@ -206,10 +206,56 @@ const renderSummary = (
   return rowIndex;
 };
 
+/**
+ * 获取 map 的映射数据
+ * @param remoteMappingCache 缓存
+ * @param env mobx env
+ * @param column 列配置
+ * @param data 上下文数据
+ * @param rowData 当前行数据
+ * @returns
+ */
+async function getMap(
+  remoteMappingCache: any,
+  env: any,
+  column: any,
+  data: any,
+  rowData: any
+) {
+  let map = column.pristine.map as Record<string, any>;
+  const source = column.pristine.source;
+  if (source) {
+    let sourceValue = source;
+    if (isPureVariable(source)) {
+      map = resolveVariableAndFilter(source as string, rowData, '| raw');
+    } else if (isEffectiveApi(source, data)) {
+      const mapKey = JSON.stringify(source);
+      if (mapKey in remoteMappingCache) {
+        map = remoteMappingCache[mapKey];
+      } else {
+        const res = await env.fetcher(sourceValue, rowData);
+        if (res.data) {
+          remoteMappingCache[mapKey] = res.data;
+          map = res.data;
+        }
+      }
+    }
+  }
+  return map;
+}
+
+/**
+ * 导出 Excel
+ * @param ExcelJS ExcelJS 对象
+ * @param props Table 组件的 props
+ * @param toolbar 导出 Excel 的 toolbar 配置
+ * @param withoutData 如果为 true 就不导出数据，只导出表头
+ */
 export async function exportExcel(
   ExcelJS: any,
   props: TableProps,
-  toolbar: ExportExcelToolbar
+  toolbar: ExportExcelToolbar,
+  withoutData: boolean = false
 ) {
   const {
     store,
@@ -333,6 +379,17 @@ export async function exportExcel(
       column: firstRowLabels.length
     }
   };
+
+  if (withoutData) {
+    return exportExcelWithoutData(
+      workbook,
+      worksheet,
+      filteredColumns,
+      filename,
+      env,
+      data
+    );
+  }
   // 用于 mapping source 的情况
   const remoteMappingCache: any = {};
   // 数据从第二行开始
@@ -425,6 +482,7 @@ export async function exportExcel(
         }
       } else if (type == 'link' || (type as any) === 'static-link') {
         const href = column.pristine.href;
+
         const linkURL =
           (typeof href === 'string' && href
             ? filter(href, rowData, '| raw')
@@ -442,24 +500,32 @@ export async function exportExcel(
           hyperlink: absoluteURL
         };
       } else if (type === 'mapping' || (type as any) === 'static-mapping') {
-        let map = column.pristine.map;
-        const source = column.pristine.source;
-        if (source) {
-          let sourceValue = source;
-          if (isPureVariable(source)) {
-            map = resolveVariableAndFilter(source as string, rowData, '| raw');
-          } else if (isEffectiveApi(source, data)) {
-            const mapKey = JSON.stringify(source);
-            if (mapKey in remoteMappingCache) {
-              map = remoteMappingCache[mapKey];
-            } else {
-              const res = await env.fetcher(sourceValue, rowData);
-              if (res.data) {
-                remoteMappingCache[mapKey] = res.data;
-                map = res.data;
+        let map = await getMap(remoteMappingCache, env, column, data, rowData);
+
+        const valueField = column.pristine.valueField || 'value';
+        const labelField = column.pristine.labelField || 'label';
+
+        if (Array.isArray(map)) {
+          map = map.reduce((res, now) => {
+            if (now == null) {
+              return res;
+            } else if (isObject(now)) {
+              let keys = Object.keys(now);
+              if (
+                keys.length === 1 ||
+                (keys.length == 2 && keys.includes('$$id'))
+              ) {
+                // 针对amis-editor的特殊处理
+                keys = keys.filter(key => key !== '$$id');
+                // 单key 数组对象
+                res[keys[0]] = now[keys[0]];
+              } else if (keys.length > 1) {
+                // 多key 数组对象
+                res[now[valueField]] = now;
               }
             }
-          }
+            return res;
+          }, {});
         }
 
         if (typeof value !== 'undefined' && map && (map[value] ?? map['*'])) {
@@ -470,7 +536,23 @@ export async function exportExcel(
               : value === false && map['0']
               ? map['0']
               : map['*']); // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
-          let text = removeHTMLTag(viewValue);
+
+          let label = viewValue;
+          if (isObject(viewValue)) {
+            if (labelField === undefined || labelField === '') {
+              if (!viewValue.hasOwnProperty('type')) {
+                // 映射值是object
+                // 没配置labelField
+                // object 也没有 type，不能作为schema渲染
+                // 默认取 label 字段
+                label = viewValue['label'];
+              }
+            } else {
+              label = viewValue[labelField || 'label'];
+            }
+          }
+
+          let text = removeHTMLTag(label);
 
           /** map可能会使用比较复杂的html结构，富文本也无法完全支持，直接把里面的变量解析出来即可 */
           if (isPureVariable(text)) {
@@ -533,6 +615,10 @@ export async function exportExcel(
   // 后置总结行
   renderSummary(worksheet, data, affixRow, rowIndex);
 
+  downloadFile(workbook, filename);
+}
+
+async function downloadFile(workbook: any, filename: string) {
   const buffer = await workbook.xlsx.writeBuffer();
 
   if (buffer) {
@@ -541,4 +627,48 @@ export async function exportExcel(
     });
     saveAs(blob, filename + '.xlsx');
   }
+}
+
+function numberToLetters(num: number) {
+  let letters = '';
+  while (num >= 0) {
+    letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[num % 26] + letters;
+    num = Math.floor(num / 26) - 1;
+  }
+  return letters;
+}
+
+/**
+ * 只导出表头
+ */
+async function exportExcelWithoutData(
+  workbook: any,
+  worksheet: any,
+  filteredColumns: any[],
+  filename: string,
+  env: any,
+  data: any
+) {
+  let index = 0;
+  const rowNumber = 100;
+  const mapCache: any = {};
+  for (const column of filteredColumns) {
+    index += 1;
+    if (column.pristine?.type === 'mapping') {
+      const map = await getMap(mapCache, env, column, data, {});
+      if (map && isObject(map)) {
+        const keys = Object.keys(map);
+        for (let rowIndex = 1; rowIndex < rowNumber; rowIndex++) {
+          worksheet.getCell(numberToLetters(index) + rowIndex).dataValidation =
+            {
+              type: 'list',
+              allowBlank: true,
+              formulae: [`"${keys.join(',')}"`]
+            };
+        }
+      }
+    }
+  }
+
+  downloadFile(workbook, filename);
 }

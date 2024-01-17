@@ -1,23 +1,31 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import {isAlive} from 'mobx-state-tree';
+import {reaction} from 'mobx';
+import Sortable from 'sortablejs';
 import isEqual from 'lodash/isEqual';
+import find from 'lodash/find';
+import debounce from 'lodash/debounce';
+import intersection from 'lodash/intersection';
+import isPlainObject from 'lodash/isPlainObject';
 import {
+  TableStore,
+  ITableStore,
   ScopedContext,
   IScopedContext,
   SchemaExpression,
   position,
   animation,
   evalExpressionWithConditionBuilder,
-  isEffectiveApi
-} from 'amis-core';
-import {Renderer, RendererProps} from 'amis-core';
-import {SchemaNode, ActionObject, Schema} from 'amis-core';
-import forEach from 'lodash/forEach';
-import {evalExpression, filter} from 'amis-core';
-import {BadgeObject, Checkbox, Spinner, SpinnerExtraProps} from 'amis-ui';
-import {Button} from 'amis-ui';
-import {TableStore, ITableStore, padArr} from 'amis-core';
-import {
+  isEffectiveApi,
+  Renderer,
+  RendererProps,
+  SchemaNode,
+  ActionObject,
+  Schema,
+  evalExpression,
+  filter,
+  noop,
   anyChanged,
   changedEffect,
   getScrollParent,
@@ -26,17 +34,22 @@ import {
   isArrayChildrenModified,
   eachTree,
   isObject,
-  createObject
-} from 'amis-core';
-import {
+  createObject,
   isPureVariable,
   resolveVariable,
-  resolveVariableAndFilter
+  resolveVariableAndFilter,
+  resizeSensor,
+  offset,
+  getStyleNumber
 } from 'amis-core';
-import Sortable from 'sortablejs';
-import {resizeSensor} from 'amis-core';
-import find from 'lodash/find';
-import {Icon} from 'amis-ui';
+import {
+  Button,
+  Icon,
+  BadgeObject,
+  Checkbox,
+  Spinner,
+  SpinnerExtraProps
+} from 'amis-ui';
 import {TableCell} from './TableCell';
 import type {AutoGenerateFilterObject} from '../CRUD';
 import {HeadCellFilterDropDown} from './HeadCellFilterDropdown';
@@ -48,31 +61,18 @@ import {
   SchemaClassName,
   SchemaObject,
   SchemaTokenizeableString,
-  SchemaType,
-  SchemaTpl,
-  SchemaIcon
+  SchemaTpl
 } from '../../Schema';
 import {SchemaPopOver} from '../PopOver';
 import {SchemaQuickEdit} from '../QuickEdit';
 import {SchemaCopyable} from '../Copyable';
 import {SchemaRemark} from '../Remark';
-import {TableBody} from './TableBody';
-import {isAlive} from 'mobx-state-tree';
 import ColumnToggler from './ColumnToggler';
-
-import {offset} from 'amis-core';
-import {getStyleNumber} from 'amis-core';
 import {exportExcel} from './exportExcel';
-import type {IColumn, IRow} from 'amis-core';
-import intersection from 'lodash/intersection';
-import {isMobile} from 'amis-core';
-import isPlainObject from 'lodash/isPlainObject';
-import omit from 'lodash/omit';
-import ColGroup from './ColGroup';
-import debounce from 'lodash/debounce';
 import AutoFilterForm from './AutoFilterForm';
 import Cell from './Cell';
-import {reaction} from 'mobx';
+
+import type {IColumn, IRow} from 'amis-core';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -223,6 +223,11 @@ export interface TableSchema extends BaseSchema {
   affixHeader?: boolean;
 
   /**
+   * 是否固底
+   */
+  affixFooter?: boolean;
+
+  /**
    * 表格的列信息
    */
   columns?: Array<TableColumn>;
@@ -371,6 +376,7 @@ export interface TableProps extends RendererProps, SpinnerExtraProps {
   selectable?: boolean;
   selected?: Array<any>;
   maxKeepItemSelectionLength?: number;
+  maxItemSelectionLength?: number;
   valueField?: string;
   draggable?: boolean;
   columnsTogglable?: boolean | 'auto';
@@ -503,6 +509,7 @@ export default class Table extends React.Component<TableProps, object> {
     'onSelect',
     'keepItemSelectionOnPageChange',
     'maxKeepItemSelectionLength',
+    'maxItemSelectionLength',
     'autoGenerateFilter'
   ];
   static defaultProps: Partial<TableProps> = {
@@ -600,6 +607,7 @@ export default class Table extends React.Component<TableProps, object> {
       formItem,
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength,
+      maxItemSelectionLength,
       onQuery,
       autoGenerateFilter,
       loading,
@@ -636,6 +644,7 @@ export default class Table extends React.Component<TableProps, object> {
         combineFromIndex,
         keepItemSelectionOnPageChange,
         maxKeepItemSelectionLength,
+        maxItemSelectionLength,
         loading,
         canAccessSuperData,
         lazyRenderAfter,
@@ -1795,13 +1804,22 @@ export default class Table extends React.Component<TableProps, object> {
     );
     Object.assign(style, stickyStyle);
 
+    /** 如果当前列定宽，则不能操作drag bar */
+    const pristineWidth = store.columns?.[column.index]?.pristine?.width;
+    const disableColDrag =
+      '__' !== column.type.substring(0, 2) &&
+      typeof pristineWidth === 'number' &&
+      pristineWidth > 0;
+
     const resizeLine = (
       <div
-        className={cx('Table-content-colDragLine')}
+        className={cx('Table-content-colDragLine', {
+          'Table-content-colDragLine--disabled': disableColDrag
+        })}
         key={`resize-${column.id}`}
         data-index={column.index}
-        onMouseDown={this.handleColResizeMouseDown}
-      ></div>
+        onMouseDown={disableColDrag ? noop : this.handleColResizeMouseDown}
+      />
     );
 
     // th 里面不应该设置
@@ -1824,7 +1842,7 @@ export default class Table extends React.Component<TableProps, object> {
               classPrefix={ns}
               partial={store.someChecked && !store.allChecked}
               checked={store.someChecked}
-              disabled={store.isSelectionThresholdReached}
+              disabled={store.isSelectionThresholdReached && !store.someChecked}
               onChange={this.handleCheckAll}
             />
           ) : (
@@ -2201,6 +2219,9 @@ export default class Table extends React.Component<TableProps, object> {
     } else if (type === 'export-excel') {
       this.renderedToolbars.push(type);
       return this.renderExportExcel(toolbar);
+    } else if (type === 'export-excel-template') {
+      this.renderedToolbars.push(type);
+      return this.renderExportExcelTemplate(toolbar);
     }
 
     return void 0;
@@ -2363,15 +2384,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderExportExcel(toolbar: ExportExcelToolbar) {
-    const {
-      store,
-      env,
-      classPrefix: ns,
-      classnames: cx,
-      translate: __,
-      data,
-      render
-    } = this.props;
+    const {store, translate: __, render} = this.props;
     let columns = store.filteredColumns || [];
 
     if (!columns) {
@@ -2397,6 +2410,38 @@ export default class Table extends React.Component<TableProps, object> {
               console.error(error);
             } finally {
               store.update({exportExcelLoading: false});
+            }
+          });
+        }
+      }
+    );
+  }
+
+  /**
+   * 导出 Excel 模板
+   */
+  renderExportExcelTemplate(toolbar: ExportExcelToolbar) {
+    const {store, translate: __, render} = this.props;
+    let columns = store.filteredColumns || [];
+
+    if (!columns) {
+      return null;
+    }
+
+    return render(
+      'exportExcelTemplate',
+      {
+        label: __('CRUD.exportExcelTemplate'),
+        ...(toolbar as any),
+        type: 'button'
+      },
+      {
+        onAction: () => {
+          import('exceljs').then(async (ExcelJS: any) => {
+            try {
+              await exportExcel(ExcelJS, this.props, toolbar, true);
+            } catch (error) {
+              console.error(error);
             }
           });
         }
@@ -2535,7 +2580,8 @@ export default class Table extends React.Component<TableProps, object> {
       showFooter,
       store,
       data,
-      classnames: cx
+      classnames: cx,
+      affixFooter
     } = this.props;
 
     if (showFooter === false) {
@@ -2555,26 +2601,35 @@ export default class Table extends React.Component<TableProps, object> {
       : null;
     const actions = this.renderActions('footer');
 
+    const footerNode =
+      footer && (!Array.isArray(footer) || footer.length) ? (
+        <div
+          className={cx(
+            'Table-footer',
+            footerClassName,
+            affixFooter ? 'Table-footer--affix' : ''
+          )}
+          key="footer"
+        >
+          {render('footer', footer, {
+            data: store.getData(data)
+          })}
+        </div>
+      ) : null;
+
     const toolbarNode =
       actions || child ? (
         <div
           className={cx(
             'Table-toolbar Table-footToolbar',
             toolbarClassName,
-            footerToolbarClassName
+            footerToolbarClassName,
+            !footerNode && affixFooter ? 'Table-footToolbar--affix' : ''
           )}
           key="footer-toolbar"
         >
           {actions}
           {child}
-        </div>
-      ) : null;
-    const footerNode =
-      footer && (!Array.isArray(footer) || footer.length) ? (
-        <div className={cx('Table-footer', footerClassName)} key="footer">
-          {render('footer', footer, {
-            data: store.getData(data)
-          })}
         </div>
       ) : null;
     return footerNode && toolbarNode

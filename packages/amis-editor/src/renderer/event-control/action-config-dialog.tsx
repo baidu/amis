@@ -16,6 +16,7 @@ import ActionConfigPanel from './action-config-panel';
 import {BASE_ACTION_PROPS} from './comp-action-select';
 import {findActionNode} from './helper';
 import {PlainObject, SchemaNode, Option} from 'amis-core';
+import {i18n as _i18n} from 'i18n-runtime';
 
 interface ActionDialogProp {
   show: boolean;
@@ -99,7 +100,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
           [key: string]: any;
         } = {};
         let groupType = '';
-
+        let __statusType = '';
         Object.keys(form.data).forEach((key: string) => {
           if (!BASE_ACTION_PROPS.includes(key)) {
             removeKeys[key] = undefined;
@@ -123,14 +124,17 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
           value === 'visibility' &&
           !['show', 'hidden', 'visibility'].includes(groupType)
         ) {
-          groupType = 'show';
+          groupType = 'static';
+          // 多个动作共用字段需要处理一下默认值，否则设为undefined会导致视觉上勾选，但是value实际为空
+          __statusType = 'show';
         }
 
         if (
           value === 'usability' &&
           !['enabled', 'disabled', 'usability'].includes(groupType)
         ) {
-          groupType = 'enabled';
+          groupType = 'static';
+          __statusType = 'enabled';
         }
 
         const actionNode = findActionNode(actionTree, value);
@@ -141,6 +145,7 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
           componentId: form.data.componentId ? '' : undefined,
           ...(form.data.args ? {args: {}} : {}), // 切换动作时清空args
           groupType,
+          __statusType,
           __actionDesc: actionNode?.description,
           __actionSchema: actionNode?.schema,
           __subActions: actionNode?.actions,
@@ -171,12 +176,13 @@ export default class ActionDialog extends React.Component<ActionDialogProp> {
     return commonUseActions.map((action: Option) => {
       return {
         type: 'tag',
-        label: action.label,
+        label: _i18n(action.label as string),
         displayMode: 'rounded',
         color: 'active',
         style: {
           borderColor: '#2468f2',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          maxWidth: '16%'
         },
         onEvent: {
           click: {

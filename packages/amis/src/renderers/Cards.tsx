@@ -105,6 +105,11 @@ export interface CardsSchema extends BaseSchema, SpinnerExtraProps {
   affixHeader?: boolean;
 
   /**
+   * 是否固底
+   */
+  affixFooter?: boolean;
+
+  /**
    * 顶部区域
    */
   header?: SchemaCollection;
@@ -735,7 +740,8 @@ export default class Cards extends React.Component<GridProps, object> {
       render,
       showFooter,
       store,
-      classnames: cx
+      classnames: cx,
+      affixFooter
     } = this.props;
 
     if (showFooter === false) {
@@ -755,18 +761,33 @@ export default class Cards extends React.Component<GridProps, object> {
       : null;
     const actions = this.renderActions('footer');
 
+    const footerNode = footer ? (
+      <div
+        className={cx(
+          'Cards-footer',
+          footerClassName,
+          affixFooter ? 'Cards-footer--affix' : ''
+        )}
+        key="footer"
+      >
+        {render('footer', footer)}
+      </div>
+    ) : null;
+
     const toolbarNode =
       actions || child ? (
-        <div className={cx('Cards-toolbar')} key="footer-toolbar">
+        <div
+          className={cx(
+            'Cards-toolbar',
+            !footerNode && affixFooter ? 'Cards-footToolbar--affix' : ''
+          )}
+          key="footer-toolbar"
+        >
           {actions}
           {child}
         </div>
       ) : null;
-    const footerNode = footer ? (
-      <div className={cx('Cards-footer', footerClassName)} key="footer">
-        {render('footer', footer)}
-      </div>
-    ) : null;
+
     return footerNode && toolbarNode
       ? [toolbarNode, footerNode]
       : footerNode || toolbarNode || null;

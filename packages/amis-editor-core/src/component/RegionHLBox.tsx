@@ -54,7 +54,7 @@ export default class RegionHighlightBox extends React.Component<HighlightBoxProp
           'ae-Editor-rhlbox',
           isDragEnter ? 'is-dragenter' : '',
           !isOnlyChildRegion && isHiglightHover ? 'region-hover' : '',
-          isHiglight ? 'is-highlight' : '',
+          isOnlyChildRegion || isHiglight ? 'is-highlight' : '',
           dx < 87 && dy < 21 && node.x < 190 ? 'region-label-within' : ''
         )}
         style={{

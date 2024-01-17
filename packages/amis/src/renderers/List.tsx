@@ -203,6 +203,11 @@ export interface ListSchema extends BaseSchema {
   affixHeader?: boolean;
 
   /**
+   * 是否固底
+   */
+  affixFooter?: boolean;
+
+  /**
    * 配置某项是否可以点选
    */
   itemCheckableOn?: SchemaExpression;
@@ -810,7 +815,8 @@ export default class List extends React.Component<ListProps, object> {
       render,
       showFooter,
       store,
-      classnames: cx
+      classnames: cx,
+      affixFooter
     } = this.props;
 
     if (showFooter === false) {
@@ -830,22 +836,35 @@ export default class List extends React.Component<ListProps, object> {
       : null;
     const actions = this.renderActions('footer');
 
+    const footerNode =
+      footer && (!Array.isArray(footer) || footer.length) ? (
+        <div
+          className={cx(
+            'List-footer',
+            footerClassName,
+            affixFooter ? 'List-footer--affix' : ''
+          )}
+          key="footer"
+        >
+          {render('footer', footer)}
+        </div>
+      ) : null;
+
     const toolbarNode =
       actions || child ? (
         <div
-          className={cx('List-toolbar', footerClassName)}
+          className={cx(
+            'List-toolbar',
+            footerClassName,
+            !footerNode && affixFooter ? 'List-footToolbar--affix' : ''
+          )}
           key="footer-toolbar"
         >
           {actions}
           {child}
         </div>
       ) : null;
-    const footerNode =
-      footer && (!Array.isArray(footer) || footer.length) ? (
-        <div className={cx('List-footer', footerClassName)} key="footer">
-          {render('footer', footer)}
-        </div>
-      ) : null;
+
     return footerNode && toolbarNode
       ? [toolbarNode, footerNode]
       : footerNode || toolbarNode || null;

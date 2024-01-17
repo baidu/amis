@@ -251,16 +251,14 @@ export function wrapControl<
               } else {
                 let initialValue = model.extraName
                   ? [
-                      store?.getValueByName(
-                        model.name,
-                        form?.canAccessSuperData
-                      ),
-                      store?.getValueByName(
+                      getVariable(data, model.name, form?.canAccessSuperData),
+                      getVariable(
+                        data,
                         model.extraName,
                         form?.canAccessSuperData
                       )
                     ]
-                  : store?.getValueByName(model.name, form?.canAccessSuperData);
+                  : getVariable(data, model.name, form?.canAccessSuperData);
 
                 if (
                   model.extraName &&
@@ -794,15 +792,16 @@ export function wrapControl<
           }
 
           getValue() {
-            const {formStore: data, $schema: control} = this.props;
+            const {formStore, data, $schema: control} = this.props;
             let value: any = this.model ? this.model.tmpValue : control.value;
 
             if (control.pipeIn) {
               value = callStrFunction.call(
                 this,
                 control.pipeIn,
-                ['value', 'data'],
+                ['value', 'store', 'data'],
                 value,
+                formStore,
                 data
               );
             }

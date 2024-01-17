@@ -672,6 +672,10 @@
           z-index: 15;
           opacity: 0.5;
 
+          &--disabled {
+            cursor: not-allowed;
+          }
+
           &:hover,
           &.is-resizing {
             background: var(--primary);

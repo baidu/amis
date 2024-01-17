@@ -3,8 +3,10 @@
     "packages/amis-formula",
     "packages/amis-core",
     "packages/amis-ui",
-    "packages/amis"
+    "packages/amis",
+    "packages/amis-editor-core",
+    "packages/amis-editor"
   ],
   "useWorkspaces": false,
-  "version": "3.6.1"
+  "version": "6.0.0"
 }

@@ -494,10 +494,10 @@ export class CRUDPlugin extends BasePlugin {
               {
                 status: 0,
                 msg: '',
-                data: [
-                  {id: 1, name: 'Jack'},
-                  {id: 2, name: 'Rose'}
-                ]
+                data: {
+                  items: [{id: 1, engine: 'Webkit'}],
+                  total: 1
+                }
               },
               null,
               2
@@ -1551,6 +1551,10 @@ export class CRUDPlugin extends BasePlugin {
                 type: 'select',
                 name: 'type',
                 columnClassName: 'w-ssm',
+                overlay: {
+                  align: 'left',
+                  width: 150
+                },
                 options: [
                   {
                     value: 'bulk-actions',
@@ -1733,6 +1737,10 @@ export class CRUDPlugin extends BasePlugin {
                 type: 'select',
                 name: 'type',
                 columnClassName: 'w-ssm',
+                overlay: {
+                  align: 'left',
+                  width: 150
+                },
                 options: [
                   {
                     value: 'bulk-actions',
@@ -2170,12 +2178,17 @@ export class CRUDPlugin extends BasePlugin {
       return;
     }
 
-    let childSchame = await child.info.plugin.buildDataSchemas(
+    const tmpSchema = await child.info.plugin.buildDataSchemas?.(
       child,
       undefined,
       trigger,
       node
     );
+
+    let childSchema = {
+      ...tmpSchema,
+      ...(tmpSchema?.$id ? {} : {$id: `${child.id}-${child.type}`})
+    };
 
     // 兼容table的rows，并自行merged异步数据
     if (child.type === 'table') {
@@ -2183,7 +2196,7 @@ export class CRUDPlugin extends BasePlugin {
       const columns: EditorNodeType = child.children.find(
         item => item.isRegion && item.region === 'columns'
       );
-      const rowsSchema = childSchame.properties.rows?.items;
+      const rowsSchema = childSchema.properties.rows?.items;
 
       if (trigger) {
         const isColumnChild = someTree(
@@ -2205,13 +2218,13 @@ export class CRUDPlugin extends BasePlugin {
           ...rowsSchema?.properties
         };
 
-        if (isColumnChild) {
-          Object.keys(tmpProperties).map(key => {
-            itemsSchema[key] = {
-              ...tmpProperties[key]
-            };
-          });
+        Object.keys(tmpProperties).map(key => {
+          itemsSchema[key] = {
+            ...tmpProperties[key]
+          };
+        });
 
+        if (isColumnChild) {
           const childScope = this.manager.dataSchema.getScope(
             `${child.id}-${child.type}-currentRow`
           );
@@ -2228,23 +2241,22 @@ export class CRUDPlugin extends BasePlugin {
           }
         }
       }
-
-      childSchame = {
-        $id: childSchame.$id,
-        type: childSchame.type,
+      childSchema = {
+        $id: childSchema.$id,
+        type: childSchema.type,
         properties: {
-          items: childSchame.properties.rows,
+          items: childSchema.properties.rows,
           selectedItems: {
-            ...childSchame.properties.selectedItems,
+            ...childSchema.properties.selectedItems,
             items: {
-              ...childSchame.properties.selectedItems.items,
+              ...childSchema.properties.selectedItems.items,
               properties: itemsSchema
             }
           },
           unSelectedItems: {
-            ...childSchame.properties.unSelectedItems,
+            ...childSchema.properties.unSelectedItems,
             items: {
-              ...childSchame.properties.unSelectedItems.items,
+              ...childSchema.properties.unSelectedItems.items,
               properties: itemsSchema
             }
           },
@@ -2260,7 +2272,7 @@ export class CRUDPlugin extends BasePlugin {
       };
     }
 
-    return childSchame;
+    return childSchema;
   }
 
   rendererBeforeDispatchEvent(node: EditorNodeType, e: any, data: any) {
@@ -2316,16 +2328,20 @@ export class CRUDPlugin extends BasePlugin {
 
     // 保底
     fields.length ||
-      fields.concat([
-        {
-          name: 'a',
-          label: 'A'
-        },
-        {
-          name: 'b',
-          label: 'B'
-        }
-      ]);
+      fields.push(
+        ...[
+          {
+            type: 'text',
+            name: schema.labelField || 'label',
+            label: 'label'
+          },
+          {
+            type: 'text',
+            name: schema.valueField || 'value',
+            label: 'value'
+          }
+        ]
+      );
 
     if (to === 'table') {
       return fields.concat({

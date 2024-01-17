@@ -38,6 +38,7 @@ register('de-DE', {
   'Copyable.tip': 'Kopieren',
   'CRUD.exportCSV': 'In CSV exportieren',
   'CRUD.exportExcel': 'In Excel exportieren',
+  'CRUD.exportExcelTemplate': 'In Excel-Vorlage exportieren',
   'CRUD.fetchFailed': 'Fehler beim Abrufen',
   'CRUD.filter': 'Filtern',
   'CRUD.selected': 'Ausgewählte {{total}} Elemente: ',

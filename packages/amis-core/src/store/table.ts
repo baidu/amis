@@ -339,13 +339,10 @@ export const Row = types
      */
     get isCheckAvaiableOnClick(): boolean {
       const table = getParent(self, self.depth * 2) as ITableStore;
-      const keepItemSelectionOnPageChange =
-        table?.keepItemSelectionOnPageChange;
-      const selectionUpperLimit = table?.maxKeepItemSelectionLength;
+      const selectionUpperLimit = table.getSelectionUpperLimit();
 
       // 如果未做配置，或者配置不合法直接通过检查
       if (
-        !keepItemSelectionOnPageChange ||
         !Number.isInteger(selectionUpperLimit) ||
         selectionUpperLimit === Infinity
       ) {
@@ -524,6 +521,7 @@ export const TableStore = iRendererStore
     formsRef: types.optional(types.array(types.frozen()), []),
     maxKeepItemSelectionLength: Infinity,
     keepItemSelectionOnPageChange: false,
+    maxItemSelectionLength: Infinity,
     // 导出 Excel 按钮的 loading 状态
     exportExcelLoading: false,
     searchFormExpanded: false, // 用来控制搜索框是否展开了，那个自动根据 searchable 生成的表单 autoGenerateFilter
@@ -776,7 +774,19 @@ export const TableStore = iRendererStore
       return self.columns.filter(column => column.searchable);
     }
 
+    function getSelectionUpperLimit() {
+      const keep = self.keepItemSelectionOnPageChange;
+      const selectionUpperLimit = keep
+        ? self.maxKeepItemSelectionLength !== Infinity
+          ? self.maxKeepItemSelectionLength
+          : self.maxItemSelectionLength
+        : self.maxItemSelectionLength;
+
+      return selectionUpperLimit;
+    }
+
     return {
+      getSelectionUpperLimit,
       get columnsData() {
         return getColumnsExceptBuiltinTypes();
       },
@@ -819,6 +829,11 @@ export const TableStore = iRendererStore
       },
 
       get allChecked(): boolean {
+        const selectionUpperLimit = getSelectionUpperLimit();
+
+        if (selectionUpperLimit !== Infinity) {
+          return (self as ITableStore).isSelectionThresholdReached;
+        }
         // 只要selectedRows中包含checkableRows中的全部数据，就认为是全选
         return (self as ITableStore).checkableRows.every(item =>
           self.selectedRows.includes(item)
@@ -879,9 +894,9 @@ export const TableStore = iRendererStore
       /** 已选择item是否达到数量上限 */
       get isSelectionThresholdReached() {
         const selectedLength = self.data?.selectedItems?.length;
-        const maxLength = self.maxKeepItemSelectionLength;
+        const maxLength = getSelectionUpperLimit();
 
-        if (!self.data || !self.keepItemSelectionOnPageChange || !maxLength) {
+        if (!self.data || maxLength === Infinity) {
           return false;
         }
 
@@ -1073,6 +1088,8 @@ export const TableStore = iRendererStore
       config.keepItemSelectionOnPageChange !== undefined &&
         (self.keepItemSelectionOnPageChange =
           config.keepItemSelectionOnPageChange);
+      config.maxItemSelectionLength !== undefined &&
+        (self.maxItemSelectionLength = config.maxItemSelectionLength);
 
       config.exportExcelLoading !== undefined &&
         (self.exportExcelLoading = config.exportExcelLoading);
@@ -1159,14 +1176,24 @@ export const TableStore = iRendererStore
         });
 
         const originColumns = self.columns.concat();
+        const ids: Array<any> = [];
         columns = columns.map((item, index) => {
           const origin = item.id
             ? originColumns.find(column => column.pristine.id === item.id)
             : originColumns[index];
 
+          let id = origin?.id || guid();
+
+          // 还不知道为何会出现这个，先用这种方式避免 id 重复
+          if (ids.includes(id)) {
+            id = guid();
+          }
+
+          ids.push(id);
+
           return {
             ...item,
-            id: origin?.id || guid(),
+            id: id,
             index,
             width: origin?.width || 0,
             minWidth: origin?.minWidth || 0,
@@ -1518,33 +1545,39 @@ export const TableStore = iRendererStore
     function updateSelected(selected: Array<any>, valueField?: string) {
       self.selectedRows.clear();
 
-      eachTree(self.rows, item => {
-        if (~selected.indexOf(item.pristine)) {
-          self.selectedRows.push(item.id);
-        } else if (
-          find(
-            selected,
-            a =>
-              a[valueField || 'value'] &&
-              a[valueField || 'value'] == item.pristine[valueField || 'value']
-          )
-        ) {
-          self.selectedRows.push(item.id);
+      selected.forEach(item => {
+        let resolved = findTree(self.rows, a => a.pristine === item);
+
+        // 先严格比较，
+        if (!resolved) {
+          resolved = findTree(self.rows, a => {
+            const selectValue = item[valueField || 'value'];
+            const itemValue = a.pristine[valueField || 'value'];
+            return selectValue === itemValue;
+          });
         }
+
+        // 再宽松比较
+        if (!resolved) {
+          resolved = findTree(self.rows, a => {
+            const selectValue = item[valueField || 'value'];
+            const itemValue = a.pristine[valueField || 'value'];
+            return selectValue == itemValue;
+          });
+        }
+
+        resolved && self.selectedRows.push(resolved as any);
       });
 
       updateCheckDisable();
     }
 
     function getSelectedRows() {
-      const maxLength = self.maxKeepItemSelectionLength;
-      const keep = self.keepItemSelectionOnPageChange;
-
+      const maxLength = self.getSelectionUpperLimit();
       const selectedItems = self.data?.selectedItems;
 
       if (
-        keep &&
-        maxLength &&
+        maxLength !== Infinity &&
         selectedItems &&
         maxLength >= selectedItems.length
       ) {
@@ -1685,11 +1718,11 @@ export const TableStore = iRendererStore
       if (!self.data) {
         return;
       }
-      const maxLength = self.maxKeepItemSelectionLength;
+      const maxLength = self.getSelectionUpperLimit();
       const selectedItems = self.data.selectedItems;
 
       self.selectedRows.map(item => item.setCheckdisable(false));
-      if (maxLength && maxLength <= selectedItems.length) {
+      if (maxLength !== Infinity && maxLength <= selectedItems.length) {
         self.unSelectedRows.map(
           item => !item.checked && item.setCheckdisable(true)
         );

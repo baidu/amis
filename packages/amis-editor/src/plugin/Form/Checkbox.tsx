@@ -3,7 +3,9 @@ import {
   setSchemaTpl,
   getSchemaTpl,
   valuePipeOut,
-  EditorNodeType
+  undefinedPipeOut,
+  EditorNodeType,
+  EditorManager
 } from 'amis-editor-core';
 import {isPureVariable} from 'amis';
 import {registerEditorPlugin} from 'amis-editor-core';
@@ -67,23 +69,33 @@ export class CheckboxControlPlugin extends BasePlugin {
       eventName: 'change',
       eventLabel: '值变化',
       description: '选中状态变化时触发',
-      dataSchema: [
-        {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'object',
-              title: '数据',
-              properties: {
-                value: {
-                  type: 'string',
-                  title: '状态值'
+      dataSchema: (manager: EditorManager) => {
+        const node = manager.store.getNodeById(manager.store.activeId);
+        const schemas = manager.dataSchema.current.schemas;
+        const dataSchema = schemas.find(
+          item => item.properties?.[node!.schema.name]
+        );
+
+        return [
+          {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'object',
+                title: '数据',
+                properties: {
+                  value: {
+                    type: 'string',
+                    ...((dataSchema?.properties?.[node!.schema.name] as any) ??
+                      {}),
+                    title: '状态值'
+                  }
                 }
               }
             }
           }
-        }
-      ]
+        ];
+      }
     }
   ];
   // 动作定义
@@ -127,32 +139,11 @@ export class CheckboxControlPlugin extends BasePlugin {
                 form: {
                   body: [
                     {
-                      type: 'input-text',
-                      label: '勾选值',
+                      type: 'ae-valueFormat',
                       name: 'trueValue',
+                      label: '勾选值',
                       pipeIn: defaultValue(true),
-                      pipeOut: valuePipeOut,
-                      onChange: (
-                        value: any,
-                        oldValue: any,
-                        model: any,
-                        form: any
-                      ) => {
-                        const defaultValue = form?.data?.value;
-                        if (isPureVariable(defaultValue)) {
-                          return;
-                        }
-                        if (oldValue === defaultValue) {
-                          form.setValues({value});
-                        }
-                      }
-                    },
-                    {
-                      type: 'input-text',
-                      label: '未勾选值',
-                      name: 'falseValue',
-                      pipeIn: defaultValue(false),
-                      pipeOut: valuePipeOut,
+                      pipeOut: undefinedPipeOut,
                       onChange: (
                         value: any,
                         oldValue: any,
@@ -164,7 +155,32 @@ export class CheckboxControlPlugin extends BasePlugin {
                         if (isPureVariable(defaultValue)) {
                           return;
                         }
-                        if (trueValue !== defaultValue) {
+                        if (trueValue === defaultValue && trueValue !== value) {
+                          form.setValues({value});
+                        }
+                      }
+                    },
+                    {
+                      type: 'ae-valueFormat',
+                      name: 'falseValue',
+                      label: '未勾选值',
+                      pipeIn: defaultValue(false),
+                      pipeOut: undefinedPipeOut,
+                      onChange: (
+                        value: any,
+                        oldValue: any,
+                        model: any,
+                        form: any
+                      ) => {
+                        const {value: defaultValue, falseValue} =
+                          form?.data || {};
+                        if (isPureVariable(defaultValue)) {
+                          return;
+                        }
+                        if (
+                          falseValue === defaultValue &&
+                          falseValue !== value
+                        ) {
                           form.setValues({value});
                         }
                       }

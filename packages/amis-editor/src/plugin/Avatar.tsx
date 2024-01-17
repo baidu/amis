@@ -1,10 +1,11 @@
 /**
  * @file 头像
  */
-import {registerEditorPlugin} from 'amis-editor-core';
+import {registerEditorPlugin, RendererPluginEvent} from 'amis-editor-core';
 import {BaseEventContext, BasePlugin} from 'amis-editor-core';
 import {getSchemaTpl, defaultValue} from 'amis-editor-core';
 import {tipedLabel} from 'amis-editor-core';
+import {getEventControlConfig} from '../renderer/event-control';
 
 const DefaultSize = 40;
 const DefaultBorderRadius = 20;
@@ -38,6 +39,77 @@ export class AvatarPlugin extends BasePlugin {
       borderRadius: DefaultBorderRadius
     }
   };
+
+  // 事件定义
+  events: RendererPluginEvent[] = [
+    {
+      eventName: 'click',
+      eventLabel: '点击',
+      description: '点击时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            context: {
+              type: 'object',
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseenter',
+      eventLabel: '鼠标移入',
+      description: '鼠标移入时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            context: {
+              type: 'object',
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      eventName: 'mouseleave',
+      eventLabel: '鼠标移出',
+      description: '鼠标移出时触发',
+      dataSchema: [
+        {
+          type: 'object',
+          properties: {
+            context: {
+              type: 'object',
+              title: '上下文',
+              properties: {
+                nativeEvent: {
+                  type: 'object',
+                  title: '鼠标事件对象'
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ];
+
   previewSchema: any = {
     ...this.scaffold
   };
@@ -87,6 +159,7 @@ export class AvatarPlugin extends BasePlugin {
                   onChange: (value: any, origin: any, item: any, form: any) => {
                     form.setValues({
                       src: undefined,
+                      defaultAvatar: undefined,
                       fit: 'cover',
                       text: undefined,
                       gap: 4,
@@ -110,7 +183,13 @@ export class AvatarPlugin extends BasePlugin {
                         type: 'input-url'
                       },
                       name: 'src',
-                      label: '链接',
+                      label: '头像地址',
+                      visibleOn: 'data.showtype === "image"'
+                    }),
+                    // 占位图片
+                    getSchemaTpl('imageUrl', {
+                      name: 'defaultAvatar',
+                      label: '默认头像',
                       visibleOn: 'data.showtype === "image"'
                     }),
                     {
@@ -294,6 +373,16 @@ export class AvatarPlugin extends BasePlugin {
           },
           getSchemaTpl('style:classNames', {isFormItem: false})
         ])
+      },
+      {
+        title: '事件',
+        className: 'p-none',
+        body: [
+          getSchemaTpl('eventControl', {
+            name: 'onEvent',
+            ...getEventControlConfig(this.manager, context)
+          })
+        ]
       }
     ]);
   };

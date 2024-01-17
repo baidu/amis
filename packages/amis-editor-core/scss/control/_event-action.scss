@@ -259,8 +259,9 @@
 
   .common-actions {
     position: absolute;
+    width: 80%;
     top: #{px2rem(-41px)};
-    left: #{px2rem(80px)};
+    left: #{px2rem(128px)};
 
     .common-actions-label {
       line-height: #{px2rem(24px)};

@@ -77,6 +77,7 @@ export class PaginationWrapper extends React.Component<PaginationWrapProps> {
     props.store.syncProps(props, undefined, [
       'perPage',
       'mode',
+      'ellipsisPageGap',
       'inputName',
       'outputName'
     ]);
@@ -87,6 +88,7 @@ export class PaginationWrapper extends React.Component<PaginationWrapProps> {
     store.syncProps(this.props, prevProps, [
       'perPage',
       'mode',
+      'ellipsisPageGap',
       'inputName',
       'outputName'
     ]);
@@ -114,6 +116,7 @@ export class PaginationWrapper extends React.Component<PaginationWrapProps> {
               activePage: store.page,
               lastPage: store.lastPage,
               mode: store.mode,
+              ellipsisPageGap: store.ellipsisPageGap,
               onPageChange: store.switchTo,
               perPage: store.perPage,
               className: 'PaginationWrapper-pager'
