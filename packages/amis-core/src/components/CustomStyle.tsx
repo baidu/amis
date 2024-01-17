@@ -67,11 +67,12 @@ export default function (props: CustomStyleProps) {
 
   useEffect(() => {
     if (wrapperCustomStyle && id) {
-      insertEditCustomStyle(
-        wrapperCustomStyle,
+      insertEditCustomStyle({
+        customStyle: wrapperCustomStyle,
         id,
-        env?.getModalContainer?.()?.ownerDocument
-      );
+        doc: env?.getModalContainer?.()?.ownerDocument,
+        data
+      });
     }
 
     return () => {

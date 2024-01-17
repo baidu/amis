@@ -317,36 +317,79 @@ function traverseStyle(style: any, path: string, result: any) {
 /**
  * 设置源码编辑自定义样式
  */
-export function insertEditCustomStyle(
-  customStyle: any,
-  id?: string,
-  doc?: Document
-) {
+export function insertEditCustomStyle(params: {
+  customStyle: any;
+  id?: string;
+  doc?: Document;
+  [propName: string]: any;
+}) {
+  const {customStyle, id, doc, data} = params;
   let styles: any = {};
   traverseStyle(customStyle, '', styles);
 
   let content = '';
+  let index = '';
+  if (typeof data?.index === 'number') {
+    index = `-${data.index}`;
+  }
   if (!isEmpty(styles)) {
-    const className = `wrapperCustomStyle-${id?.replace('u:', '')}`;
+    const className = `wrapperCustomStyle-${id?.replace('u:', '')}${index}`;
     Object.keys(styles).forEach((key: string) => {
       if (!isObject(styles[key])) {
-        content += `\n.${className} {\n  ${key}: ${styles[key]}\n}`;
+        content += `\n.${className} {\n  ${key}: ${
+          resolveVariableAndFilter(
+            styles[key].replace(/['|"]/g, ''),
+            data,
+            '| raw'
+          ) || styles[key]
+        }\n}`;
       } else if (key === 'root') {
-        const res = map(styles[key], (value, key) => `${key}: ${value};`);
+        const res = map(
+          styles[key],
+          (value, key) =>
+            `${key}: ${
+              resolveVariableAndFilter(
+                value.replace(/['|"]/g, ''),
+                data,
+                '| raw'
+              ) || value
+            };`
+        );
         content += `\n.${className} {\n  ${res.join('\n  ')}\n}`;
       } else if (/^root:/.test(key)) {
-        const res = map(styles[key], (value, key) => `${key}: ${value};`);
+        const res = map(
+          styles[key],
+          (value, key) =>
+            `${key}: ${
+              resolveVariableAndFilter(
+                value.replace(/['|"]/g, ''),
+                data,
+                '| raw'
+              ) || value
+            };`
+        );
         const nowKey = key.replace('root', '');
         content += `\n.${className} ${nowKey} {\n  ${res.join('\n  ')}\n}`;
       } else {
-        const res = map(styles[key], (value, key) => `${key}: ${value};`);
+        const res = map(
+          styles[key],
+          (value, key) =>
+            `${key}: ${
+              resolveVariableAndFilter(
+                value.replace(/['|"]/g, ''),
+                data,
+                '| raw'
+              ) || value
+            };`
+        );
         content += `\n.${className} ${key} {\n  ${res.join('\n  ')}\n}`;
       }
     });
   }
+
   insertStyle(
     content,
-    'wrapperCustomStyle-' + (id?.replace('u:', '') || uuid()),
+    'wrapperCustomStyle-' + (id?.replace('u:', '') || uuid()) + index,
     doc
   );
 }
