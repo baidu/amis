@@ -157,6 +157,8 @@ export const iRendererStore = StoreNode.named('iRendererStore')
 
       setCurrentAction(action: object) {
         self.action = action;
+        self.dialogData = false;
+        self.drawerOpen = false;
       },
 
       openDialog(

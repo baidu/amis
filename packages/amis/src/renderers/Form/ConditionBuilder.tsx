@@ -110,11 +110,15 @@ export interface ConditionBuilderProps
 
 export default class ConditionBuilderControl extends React.PureComponent<ConditionBuilderProps> {
   @autobind
-  renderEtrValue(schema: Schema, data: any) {
+  renderEtrValue(schema: Schema, props: any) {
     return this.props.render(
       'inline',
-      Object.assign(schema, {label: false, inputOnly: true}),
-      data
+      Object.assign({}, schema, {
+        label: false,
+        inputOnly: true,
+        changeImmediately: true
+      }),
+      props
     );
   }
 
