@@ -1715,6 +1715,10 @@ export const MainStore = types
         subEditor = ref;
       },
 
+      getSubEditorRef() {
+        return subEditor;
+      },
+
       openScaffoldForm(context: ScaffoldFormContext) {
         self.scaffoldForm = context;
         /** 打开前重置状态 */
