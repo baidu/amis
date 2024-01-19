@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Sortable from 'sortablejs';
 import omit from 'lodash/omit';
-import {filterClassNameObject} from 'amis-core';
+import {filterClassNameObject, getPropValue} from 'amis-core';
 import {Button, Spinner, Checkbox, Icon, SpinnerExtraProps} from 'amis-ui';
 import {
   ListStore,
@@ -351,13 +351,14 @@ export default class List extends React.Component<ListProps, object> {
 
   static syncItems(store: IListStore, props: ListProps, prevProps?: ListProps) {
     const source = props.source;
-    const value = props.value || props.items;
+    const value = getPropValue(props, (props: ListProps) => props.items);
     let items: Array<object> = [];
     let updateItems = false;
 
     if (
       Array.isArray(value) &&
-      (!prevProps || (prevProps.value || prevProps.items) !== value)
+      (!prevProps ||
+        getPropValue(prevProps, (props: ListProps) => props.items) !== value)
     ) {
       items = value;
       updateItems = true;
@@ -1305,7 +1306,8 @@ export class ListItem extends React.Component<ListItemProps> {
                 'ListItem-fieldValue',
                 filterClassNameObject(field.className, data)
               ),
-              value: field.name ? resolveVariable(field.name, data) : undefined,
+              // 同 Cell 一样， 这里不要下发 value
+              // value: field.name ? resolveVariable(field.name, data) : undefined,
               onAction: this.handleAction,
               onQuickChange: this.handleQuickChange
             }
