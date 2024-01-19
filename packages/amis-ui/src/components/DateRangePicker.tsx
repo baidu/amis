@@ -525,7 +525,8 @@ export class DateRangePicker extends React.Component<
     value: any,
     format: string,
     joinValues: boolean,
-    delimiter: string
+    delimiter: string,
+    data: any
   ) {
     if (!value) {
       return {
@@ -538,8 +539,8 @@ export class DateRangePicker extends React.Component<
       value = value.split(delimiter);
     }
 
-    const startDate = moment(value?.[0], format);
-    const endDate = moment(value?.[1], format);
+    const startDate = filterDate(value?.[0], data, format);
+    const endDate = filterDate(value?.[1], data, format);
 
     /**
      * 不合法的value输入都丢弃
@@ -604,13 +605,15 @@ export class DateRangePicker extends React.Component<
       inputFormat,
       displayFormat,
       dateFormat,
-      timeFormat
+      timeFormat,
+      data
     } = this.props;
     const {startDate, endDate} = DateRangePicker.unFormatValue(
       value,
       valueFormat || (format as string),
       joinValues,
-      delimiter
+      delimiter,
+      data
     );
 
     let curDateFormat = dateFormat ?? '';
@@ -684,7 +687,8 @@ export class DateRangePicker extends React.Component<
       displayFormat,
       dateFormat,
       timeFormat,
-      delimiter
+      delimiter,
+      data
     } = props;
     if (
       prevProps.displayFormat != displayFormat ||
@@ -719,7 +723,8 @@ export class DateRangePicker extends React.Component<
         value,
         valueFormat || (format as string),
         joinValues,
-        delimiter
+        delimiter,
+        data
       );
       this.setState({
         startDate,
@@ -809,13 +814,15 @@ export class DateRangePicker extends React.Component<
         joinValues,
         delimiter,
         inputFormat,
-        displayFormat
+        displayFormat,
+        data
       } = this.props;
       const {startDate, endDate} = DateRangePicker.unFormatValue(
         value,
         valueFormat || (format as string),
         joinValues,
-        delimiter
+        delimiter,
+        data
       );
       this.setState({
         startDate,
@@ -1436,7 +1443,8 @@ export class DateRangePicker extends React.Component<
       joinValues,
       delimiter,
       inputFormat,
-      displayFormat
+      displayFormat,
+      data
     } = this.props;
     if (!resetValue) {
       return;
@@ -1445,7 +1453,8 @@ export class DateRangePicker extends React.Component<
       resetValue,
       valueFormat || (format as string),
       joinValues,
-      delimiter
+      delimiter,
+      data
     );
     onChange(resetValue);
     this.setState({
@@ -1535,6 +1544,11 @@ export class DateRangePicker extends React.Component<
       currentDate.isBetween(startDate, endDate, 'day', '[]')
     ) {
       props.className += ' rdtBetween';
+    }
+
+    // 如果已经选择了开始时间和结束时间，那么中间的时间都不应该高亮
+    if (startDate && endDate && props.className.includes('rdtActive')) {
+      props.className = props.className.replace('rdtActive', '');
     }
 
     if (startDate && currentDate.isSame(startDate, 'day')) {
