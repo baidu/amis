@@ -137,8 +137,27 @@ export interface InputFormulaControlSchema extends FormBaseControlSchema {
    * 输入框的类型
    */
   inputSettings?: FormulaPickerInputSettings;
+
+  /**
+   * 建议用 labelTpl
+   * 选中一个字段名用来作为值的描述文字
+   */
+  labelField?: string;
+
+  /**
+   * 选一个可以用来作为值的字段。
+   */
+  valueField?: string;
+
+  /**
+   * 是否同步父级数据
+   */
+  syncSuperData?: boolean;
 }
 
+interface InputFormulaState {
+  variableRaw: string;
+}
 export interface InputFormulaProps
   extends FormControlProps,
     Omit<
@@ -149,7 +168,10 @@ export interface InputFormulaProps
 @FormItem({
   type: 'input-formula'
 })
-export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
+export class InputFormulaRenderer extends React.Component<
+  InputFormulaProps,
+  InputFormulaState
+> {
   static defaultProps: Pick<
     InputFormulaControlSchema,
     | 'inputMode'
@@ -157,12 +179,21 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
     | 'evalMode'
     | 'clearDefaultFormula'
     | 'isOpenExpandTree'
+    | 'syncSuperData'
   > = {
     inputMode: 'input-button',
     borderMode: 'full',
     evalMode: true,
     clearDefaultFormula: false,
-    isOpenExpandTree: false
+    isOpenExpandTree: false,
+    syncSuperData: false
+  };
+
+  state: InputFormulaState = {
+    //记录原始变量
+    variableRaw: isPureVariable(this.props.variables)
+      ? this.props.variables
+      : ''
   };
 
   ref: any;
@@ -225,12 +256,21 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       popOverContainer,
       env,
       inputSettings,
-      mobileUI
+      mobileUI,
+      labelField,
+      valueField,
+      syncSuperData
     } = this.props;
-    let {variables, functions} = this.props;
+
+    let {variables, functions, options} = this.props;
+
+    if (options && !variables) {
+      variables = options;
+    }
 
     if (isPureVariable(variables)) {
       // 如果 variables 是 ${xxx} 这种形式，将其处理成实际的值
+      //需要监听this.props.data
       variables = resolveVariableAndFilter(variables, this.props.data, '| raw');
     }
 
@@ -245,11 +285,14 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         ref={this.formulaRef}
         className={className}
         value={value}
+        store={this.props.store}
         disabled={disabled}
         allowInput={allowInput}
         onChange={onChange}
         evalMode={evalMode}
         variables={variables}
+        labelField={labelField}
+        valueField={valueField}
         variableMode={variableMode}
         functions={functions}
         clearDefaultFormula={clearDefaultFormula}
@@ -272,6 +315,8 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         selfVariableName={selfVariableName}
         mixedMode={mixedMode}
         mobileUI={mobileUI}
+        syncSuperData={syncSuperData}
+        variableRaw={this.state.variableRaw}
       />
     );
   }

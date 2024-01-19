@@ -33,11 +33,12 @@ export class FormulaPlugin {
   }
 
   autoMarkText() {
-    const {functions, variables, value} = this.getProps();
+    const {functions, variables, value, labelField, valueField} =
+      this.getProps();
 
     if (value) {
       // todo functions 也需要自动替换
-      this.autoMark(variables!);
+      this.autoMark(variables!, labelField, valueField);
       this.focus(value);
     }
   }
@@ -120,7 +121,6 @@ export class FormulaPlugin {
     if (type === 'variable') {
       this.editor.replaceSelection(value.key);
       const to = this.editor.getCursor();
-
       if (toMark) {
         // 路径中每个变量分别进行标记
         let markFrom = from.ch;
@@ -196,7 +196,11 @@ export class FormulaPlugin {
     });
   }
 
-  autoMark(variables: Array<VariableItem>) {
+  autoMark(
+    variables: Array<VariableItem>,
+    labelField: string = 'label',
+    valueField: string = 'value'
+  ) {
     if (!Array.isArray(variables) || !variables.length) {
       return;
     }
@@ -206,8 +210,8 @@ export class FormulaPlugin {
     } = {};
 
     eachTree(variables, item => {
-      if (item.value) {
-        varMap[item.value] = item.path ?? item.label;
+      if (item[valueField]) {
+        varMap[item[valueField]] = item.path ?? item[labelField];
       }
     });
 

@@ -24,6 +24,8 @@ import {toast} from '../Toast';
 import Switch from '../Switch';
 
 export interface VariableItem {
+  labelField?: string;
+  valueField?: string;
   label: string;
   value?: string;
   path?: string; // 路径（label）
@@ -32,7 +34,7 @@ export interface VariableItem {
   tag?: string;
   selectMode?: 'tree' | 'tabs';
   isMember?: boolean; // 是否是数组成员
-  // chunks?: string[]; // 内容块，作为一个整体进行高亮标记
+  [propName: string]: any;
 }
 
 export interface FuncGroup {
@@ -94,12 +96,24 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
   functionClassName?: string;
 
   /**
+   * 建议用 labelTpl
+   * 选中一个字段名用来作为值的描述文字
+   */
+  labelField?: string;
+
+  /**
+   * 选一个可以用来作为值的字段。
+   */
+  valueField?: string;
+
+  /**
    * 当前输入项字段 name: 用于避免循环绑定自身导致无限渲染
    */
   selfVariableName?: string;
 
   /**
    * 编辑器配置
+   *
    */
   editorOptions?: any;
 }
@@ -222,6 +236,7 @@ export class FormulaEditor extends React.Component<
     } = {};
 
     eachTree(variables, item => {
+      console.log('item======1222=', item);
       if (item.value) {
         const key = item.value;
         varMap[key] = item.path ?? item.label;
@@ -324,19 +339,22 @@ export class FormulaEditor extends React.Component<
     if (!variables) {
       return;
     }
+    const {valueField, labelField} = this.props;
     // 追加path，用于分级高亮
     const list = mapTree(
       variables,
       (item: any, key: number, level: number, paths: any[]) => {
         const path = paths?.reduce((prev, next) => {
-          return !next.value
+          return !next[valueField || 'value']
             ? prev
-            : `${prev}${prev ? '.' : ''}${next.label ?? next.value}`;
+            : `${prev}${prev ? '.' : ''}${
+                next[labelField || 'label'] ?? next[valueField || 'value']
+              }`;
         }, '');
 
         return {
           ...item,
-          path: `${path}${path ? '.' : ''}${item.label}`,
+          path: `${path}${path ? '.' : ''}${item[labelField || 'label']}`,
           // 自己是数组成员或者父级有数组成员
           ...(item.isMember || paths.some(item => item.isMember)
             ? {
@@ -402,28 +420,26 @@ export class FormulaEditor extends React.Component<
 
   @autobind
   handleVariableSelect(item: VariableItem) {
-    const {evalMode, selfVariableName} = this.props;
-
+    const {evalMode, selfVariableName, valueField, labelField} = this.props;
     if (
       item &&
-      item.value &&
+      item[valueField || 'value'] &&
       selfVariableName &&
-      selfVariableName === item.value
+      selfVariableName === item[valueField || 'value']
     ) {
       toast.warning('不能使用当前变量[self]，避免循环引用。');
       return;
     }
-
-    if (!item.value) {
+    if (!item[valueField || 'value']) {
       return;
     }
 
     this.editorPlugin?.insertContent(
       item.isMember
-        ? item.value
+        ? item[valueField || 'value']
         : {
-            key: item.value,
-            name: item.label,
+            key: item[valueField || 'value'],
+            name: item[labelField || 'label'],
             path: item.path
             // chunks: item.chunks
           },
@@ -472,7 +488,9 @@ export class FormulaEditor extends React.Component<
       variableClassName,
       functionClassName,
       classPrefix,
-      selfVariableName
+      selfVariableName,
+      labelField,
+      valueField
     } = this.props;
     const {
       focused,
@@ -551,6 +569,8 @@ export class FormulaEditor extends React.Component<
                 data={normalizeVariables!}
                 onSelect={this.handleVariableSelect}
                 selfVariableName={selfVariableName}
+                labelField={labelField}
+                valueField={valueField}
               />
             </div>
           </div>

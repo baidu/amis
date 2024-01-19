@@ -310,10 +310,6 @@ export const HocQuickEdit =
         }
       }
 
-      // handleClickOutside() {
-      //     this.closeQuickEdit();
-      // }
-
       overlayRef(ref: any) {
         this.overlay = ref;
       }

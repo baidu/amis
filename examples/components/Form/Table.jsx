@@ -20,12 +20,12 @@ export default {
         affixHeader: true,
         columns: [
           {
-            name: 'aa',
+            name: 'labels',
             label: 'AA',
             type: 'input-text'
           },
           {
-            name: 'cc',
+            name: 'values',
             label: 'CC',
             type: 'select',
             options: [
@@ -57,7 +57,7 @@ export default {
               onText: '开启',
               reload: 'none',
               offText: '关闭',
-              id: 'u:56a387805c4c',
+              id: 'u:56a3878ww05c4c',
               falseValue: 0,
               trueValue: 1
             }
@@ -71,7 +71,7 @@ export default {
               onText: '开启',
               reload: 'none',
               offText: '关闭',
-              id: 'u:56a387805c4c',
+              id: 'u:56a38780115c4c',
               falseValue: 0,
               trueValue: 1
             }
@@ -102,6 +102,19 @@ export default {
           }
         ]
       },
+      {
+        type: 'input-formula',
+        name: 'formula',
+        labelField: 'label',
+        valueField: 'label',
+        syncSuperData: true,
+        // onPickerOpen: '${tableAffixHeader}',
+        label: '公式',
+        evalMode: true,
+        value: 'SUM(1 , 2)',
+        variables: '${tabletree}'
+      },
+
       {
         type: 'combo',
         name: 'colors',
@@ -266,16 +279,16 @@ export default {
         {
           a: [
             {
-              aa: true,
-              bb: false
+              aa: 1,
+              bb: 0
             }
           ]
         },
         {
           a: [
             {
-              aa: true,
-              bb: true
+              aa: 1,
+              bb: 0
             }
           ]
         }
@@ -313,8 +326,8 @@ export default {
         cc: index % 2 == 0 ? 'aa' : 'cc'
       })),
       tableAffixHeader: Array.from({length: 5}, (_, index) => ({
-        aa: index % 2 == 0 ? 'hello' : 'hi',
-        cc: index % 2 == 0 ? 'aa' : 'cc'
+        labels: index % 2 == 0 ? 'hello' : 'hi',
+        values: index % 2 == 0 ? 'aa' : 'cc'
       }))
     }
   }

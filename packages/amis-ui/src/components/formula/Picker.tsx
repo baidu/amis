@@ -83,6 +83,7 @@ export interface FormulaPickerProps
    */
   btnLabel?: string;
 
+  store: any;
   /**
    * 按钮样式
    */
@@ -148,6 +149,27 @@ export interface FormulaPickerProps
   inputSettings?: FormulaPickerInputSettings;
 
   /**
+   * 建议用 labelTpl
+   * 选中一个字段名用来作为值的描述文字
+   */
+  labelField?: string;
+
+  /**
+   * 选一个可以用来作为值的字段。
+   */
+  valueField?: string;
+
+  /**
+   * 是否同步父级数据
+   */
+  syncSuperData?: boolean;
+
+  /**
+   * 数据源是变量情况下
+   */
+  variableRaw?: string;
+
+  /**
    * 公式弹出的时候，可以外部设置 variables 和 functions
    */
   onPickerOpen?: (props: FormulaPickerProps) => any;
@@ -203,8 +225,7 @@ export class FormulaPicker extends React.Component<
   }
 
   componentDidUpdate(prevProps: FormulaPickerProps) {
-    const {value} = this.props;
-
+    const {value, variables} = this.props;
     if (value !== prevProps.value) {
       this.setState({
         value: typeof value === 'string' || !this.isTextInput() ? value : '',
@@ -347,7 +368,18 @@ export class FormulaPicker extends React.Component<
 
   @autobind
   async handleClick() {
-    const {variables, data} = this.props;
+    const {variables, data, syncSuperData, variableRaw, store} = this.props;
+
+    if (syncSuperData && variableRaw) {
+      const variableRawData = variableRaw.replace(/\$\{|\}$/g, '');
+      if (variableRawData) {
+        const formVariable = store.data[variableRawData];
+        if (formVariable) {
+          this.setState({variables: formVariable});
+        }
+      }
+    }
+
     if (typeof variables === 'function') {
       const list = await variables(this.props);
       this.setState({variables: list});
@@ -465,6 +497,8 @@ export class FormulaPicker extends React.Component<
       popOverContainer,
       mobileUI,
       inputSettings,
+      labelField,
+      valueField,
       ...rest
     } = this.props;
     const {isOpened, value, editorValue, isError} = this.state;
@@ -607,6 +641,8 @@ export class FormulaPicker extends React.Component<
                 variables={this.state.variables}
                 functions={this.state.functions ?? functions}
                 clearDefaultFormula={clearDefaultFormula}
+                labelField={labelField}
+                valueField={valueField}
                 variableMode={this.state.variableMode ?? variableMode}
                 value={editorValue}
                 onChange={this.handleEditorChange}
@@ -639,6 +675,8 @@ export class FormulaPicker extends React.Component<
                 variables={this.state.variables}
                 functions={this.state.functions ?? functions}
                 clearDefaultFormula={clearDefaultFormula}
+                labelField={labelField}
+                valueField={valueField}
                 isOpenExpandTree={isOpenExpandTree}
                 variableMode={this.state.variableMode ?? variableMode}
                 value={editorValue}
