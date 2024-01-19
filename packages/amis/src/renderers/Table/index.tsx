@@ -940,8 +940,18 @@ export default class Table extends React.Component<TableProps, object> {
         .join(',');
 
       store.updateSelected(props.selected || [], props.valueField);
-      const selectedRows = store.selectedRows.map(item => item.id).join(',');
-      prevSelectedRows !== selectedRows && this.syncSelected();
+
+      if (
+        Array.isArray(props.selected) &&
+        Array.isArray(prevProps.selected) &&
+        props.selected.length === prevProps.selected.length
+      ) {
+        // 只有长度一样才检测具体的值是否变了
+        const selectedRows = store.selectedRows.map(item => item.id).join(',');
+        prevSelectedRows !== selectedRows && this.syncSelected();
+      } else {
+        this.syncSelected();
+      }
     }
   }
 
