@@ -50,7 +50,8 @@
       top: 100%;
       left: 0;
       margin: px2rem(1px) 0 0;
-      border: none;
+      border: var(--Form-select-outer-borderWidth) solid
+        var(--Form-select-outer-borderColor);
       border-radius: var(--DropDown-menu-borderRadius);
       box-shadow: var(--DropDown-menu-boxShadow);
       min-width: var(--DropDown-menu-minWidth);

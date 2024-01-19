@@ -63,6 +63,8 @@ export interface MenuProps extends Omit<RcMenuProps, 'mode'> {
    */
   navigations: Array<NavigationItem>;
 
+  testid?: string;
+
   /**
    * 导航排列方式 stacked为true垂直 默认为false
    */
@@ -577,7 +579,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       collapsed,
       overflowedIndicator,
       overflowMaxCount,
-      popupClassName
+      popupClassName,
+      testid
     } = this.props;
 
     return list.map((item: NavigationItem, index: number) => {
@@ -613,6 +616,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
             badge={badge}
             renderLink={renderLink}
             depth={level || 1}
+            testid={testid}
             popupClassName={popupClassName}
           >
             {this.renderMenuContent(item.children || [], item.depth + 1)}
@@ -634,6 +638,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           renderLink={renderLink}
           badge={badge}
           data={data}
+          testid={testid}
           depth={level || 1}
           order={index}
           overflowedIndicator={overflowedIndicator}

@@ -19,7 +19,9 @@ import {
   createObject,
   setVariable,
   ucFirst,
-  isEffectiveApi
+  isEffectiveApi,
+  getTestId,
+  buildTestId
 } from 'amis-core';
 import {Icon, SpinnerExtraProps, Input, Spinner, OverflowTpl} from 'amis-ui';
 import {ActionSchema} from '../Action';
@@ -117,6 +119,8 @@ export interface TextControlSchema extends FormOptionsSchema {
 
   /** 在内容为空的时候清除值 */
   clearValueOnEmpty?: boolean;
+
+  testid?: string;
 }
 
 export type InputTextRendererEvent =
@@ -296,12 +300,21 @@ export default class TextControl extends React.PureComponent<
   async clearValue() {
     const {onChange, resetValue, dispatchEvent} = this.props;
 
-    const rendererEvent = await dispatchEvent(
+    const clearEvent = await dispatchEvent(
       'clear',
       resolveEventData(this.props, {value: resetValue})
     );
 
-    if (rendererEvent?.prevented) {
+    if (clearEvent?.prevented) {
+      return;
+    }
+
+    const changeEvent = await dispatchEvent(
+      'change',
+      resolveEventData(this.props, {resetValue})
+    );
+
+    if (changeEvent?.prevented) {
       return;
     }
 
@@ -712,6 +725,7 @@ export default class TextControl extends React.PureComponent<
       themeCss,
       css,
       id,
+      testid,
       nativeAutoComplete
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -785,6 +799,7 @@ export default class TextControl extends React.PureComponent<
                 }
               )}
               onClick={this.handleClick}
+              {...buildTestId(testid, data)}
             >
               <>
                 {filteredPlaceholder &&
@@ -962,6 +977,7 @@ export default class TextControl extends React.PureComponent<
       themeCss,
       css,
       id,
+      testid,
       nativeAutoComplete
     } = this.props;
 
@@ -984,6 +1000,7 @@ export default class TextControl extends React.PureComponent<
           inputControlClassName,
           inputOnly ? className : ''
         )}
+        {...buildTestId(testid, data)}
       >
         {prefix ? (
           <span className={cx('TextControl-inputPrefix')}>
@@ -1011,6 +1028,7 @@ export default class TextControl extends React.PureComponent<
           className={cx(nativeInputClassName, {
             'TextControl-input-password': type === 'password' && revealPassword
           })}
+          {...buildTestId(testid && `${testid}-input`)}
         />
         {clearable && !disabled && !readOnly && value ? (
           <a onClick={this.clearValue} className={cx('TextControl-clear')}>

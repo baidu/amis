@@ -413,7 +413,7 @@
 .#{$ns}Form--debug {
   padding: var(--gap-sm);
   margin-bottom: var(--gap-sm);
-  background-color: rgb(250, 250, 250);
+  background-color: var(--colors-neutral-fill-11);
   border-radius: var(--borderRadius);
   position: relative;
   word-wrap: break-word;

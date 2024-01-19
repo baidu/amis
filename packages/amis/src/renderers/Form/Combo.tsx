@@ -55,6 +55,7 @@ import {
 import {ListenerAction} from 'amis-core';
 import type {SchemaTokenizeableString} from '../../Schema';
 import isPlainObject from 'lodash/isPlainObject';
+import isEqual from 'lodash/isEqual';
 
 export type ComboCondition = {
   test: string;
@@ -798,6 +799,11 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   handleSingleFormChange(values: object) {
+    if (this.props.value === null && isEqual(this.defaultValue, values)) {
+      // 由清空触发，忽略
+      return;
+    }
+
     this.props.onChange(
       {
         ...values
@@ -986,8 +992,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
   }
 
-  flush() {
-    this.subForms.forEach(form => form.flush());
+  async flush() {
+    await Promise.all(this.subForms.map(form => form.flush()));
   }
 
   dragTipRef(ref: any) {
@@ -1713,7 +1719,9 @@ export default class ComboControl extends React.Component<ComboProps> {
     } = this.props;
 
     let items = this.props.items;
-    const data = isObject(value) ? this.formatValue(value) : this.defaultValue;
+    const data = isObject(value)
+      ? this.formatValue(value)
+      : this.formatValue(this.defaultValue);
     let condition: ComboCondition | null = null;
 
     if (Array.isArray(conditions) && conditions.length) {

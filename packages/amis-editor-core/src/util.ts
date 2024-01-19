@@ -14,6 +14,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import isEqual from 'lodash/isEqual';
 import isNumber from 'lodash/isNumber';
 import debounce from 'lodash/debounce';
+import merge from 'lodash/merge';
 
 const {
   guid,
@@ -133,6 +134,8 @@ export function JSONPipeIn(
   if (obj.type) {
     // 处理下历史style数据，整理到themeCss
     obj = style2ThemeCss(obj);
+    // 处理下旧数据css被错误转成属性的问题
+    obj = clearDirtyCssKey(obj);
 
     // 重新生成组件ID
     if (reGenerateId) {
@@ -1224,16 +1227,29 @@ export function style2ThemeCss(data: any) {
       baseControlClassName
     };
   } else {
-    themeCss.baseControlClassName = {
-      ...data.themeCss.baseControlClassName,
-      ...baseControlClassName
-    };
+    themeCss.baseControlClassName = merge(
+      data.themeCss.baseControlClassName,
+      baseControlClassName
+    );
   }
   return {
     ...data,
     style,
     themeCss
   };
+}
+
+export function clearDirtyCssKey(data: any) {
+  if (!data?.type) {
+    return data;
+  }
+  const temp = {...data};
+  Object.keys(temp).forEach(key => {
+    if (key.startsWith('.') || key.startsWith('#')) {
+      delete temp[key];
+    }
+  });
+  return temp;
 }
 
 /**

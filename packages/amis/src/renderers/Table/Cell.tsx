@@ -76,7 +76,6 @@ export default function Cell({
     return (
       <td
         style={style}
-        key={props.key}
         className={cx(column.pristine.className, stickyClassName)}
       >
         <Checkbox
@@ -93,7 +92,6 @@ export default function Cell({
     return (
       <td
         style={style}
-        key={props.key}
         className={cx(column.pristine.className, stickyClassName, {
           'is-dragDisabled': !item.draggable
         })}
@@ -105,7 +103,6 @@ export default function Cell({
     return (
       <td
         style={style}
-        key={props.key}
         className={cx(column.pristine.className, stickyClassName)}
       >
         {item.expandable ? (

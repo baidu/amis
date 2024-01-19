@@ -471,11 +471,7 @@
 }
 
 .markdown-body table:not(.table) tr:nth-child(2n) {
-  background-color: #f8f8f8;
-}
-
-body.dark .markdown-body table:not(.table) tr:nth-child(2n) {
-  background: none;
+  background-color: var(--colors-neutral-fill-9);
 }
 
 .markdown-body table td:first-child,
@@ -483,7 +479,7 @@ body.dark .markdown-body table:not(.table) tr:nth-child(2n) {
   position: sticky;
   left: 0;
   z-index: 10;
-  background-color: #fff;
+  background-color: var(--colors-neutral-fill-11);
   border-left: 0px !important;
 }
 
@@ -502,7 +498,7 @@ body.dark .markdown-body table:not(.table) tr:nth-child(2n) {
 }
 
 .markdown-body table tr:nth-child(2n) td:first-child {
-  background-color: #f8f8f8;
+  background-color: var(--colors-neutral-fill-9);
 }
 
 /* modified by zhangjun08

@@ -266,6 +266,7 @@
     transform: translate3d(0, -100%, 0);
     box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
     min-height: 120px;
+    border-bottom: var(--common-popover-border);
   }
 
   .#{$ns}Drawer-resizeCtrl {
@@ -294,6 +295,7 @@
     transform: translate3d(100%, 0, 0);
     box-shadow: -10px 0 10px -10px rgba(0, 0, 0, 0.2);
     min-width: 120px;
+    border-left: var(--common-popover-border);
   }
 
   .#{$ns}Drawer-footer {
@@ -343,6 +345,7 @@
     transform: translate3d(0, 100%, 0);
     box-shadow: 0 -10px 10px -10px rgba(0, 0, 0, 0.2);
     min-height: 120px;
+    border-top: var(--common-popover-border);
   }
 
   .#{$ns}Drawer-resizeCtrl {
@@ -372,6 +375,7 @@
     box-shadow: 10px 0 10px -10px rgba(0, 0, 0, 0.2);
     border-width: 0 var(--Drawer-content-borderWidth) 0 0;
     min-width: 120px;
+    border-right: var(--common-popover-border);
   }
 
   .#{$ns}Drawer-resizeCtrl {

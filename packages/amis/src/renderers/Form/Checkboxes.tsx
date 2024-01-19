@@ -9,7 +9,7 @@ import {
   flattenTreeWithLeafNodes
 } from 'amis-core';
 import type {ActionObject, Api, OptionsControlProps, Option} from 'amis-core';
-import {Checkbox, Icon} from 'amis-ui';
+import {Checkbox, Icon, Spinner} from 'amis-ui';
 import {FormOptionsSchema} from '../../Schema';
 import {supportStatic} from './StaticHoc';
 
@@ -349,7 +349,9 @@ export default class CheckboxesControl extends React.Component<
       addApi,
       createBtnLabel,
       translate: __,
-      optionType
+      optionType,
+      loading,
+      loadingConfig
     } = this.props;
 
     let body: Array<React.ReactNode> = [];
@@ -385,9 +387,19 @@ export default class CheckboxesControl extends React.Component<
       <div className={cx(`CheckboxesControl`, className)} ref="checkboxRef">
         {body && body.length ? (
           body
-        ) : (
+        ) : loading ? null : (
           <span className={`Form-placeholder`}>{__(placeholder)}</span>
         )}
+
+        {loading ? (
+          <Spinner
+            show
+            icon="reload"
+            size="sm"
+            spinnerClassName={cx('Checkboxes-spinner')}
+            loadingConfig={loadingConfig}
+          />
+        ) : null}
 
         {(creatable || addApi) && !disabled ? (
           <a className={cx('Checkboxes-addBtn')} onClick={this.handleAddClick}>

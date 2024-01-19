@@ -310,9 +310,12 @@ function AMISRenderer({
   }
 
   // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations
-  schema = envOverwrite(schema, locale);
-  // todo 和 envOverwrite 一起处理，减少循环次数
-  schema = replaceText(schema, options.replaceText, env.replaceTextIgnoreKeys);
+  schema = React.useMemo(() => {
+    schema = envOverwrite(schema, locale);
+    // todo 和 envOverwrite 一起处理，减少循环次数
+    schema = replaceText(schema, options.replaceText, env.replaceTextIgnoreKeys)
+    return schema;
+  }, [schema, locale]);
 
   return (
     <EnvContext.Provider value={env}>

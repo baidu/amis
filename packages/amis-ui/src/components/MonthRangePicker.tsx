@@ -113,17 +113,29 @@ export class MonthRangePicker extends React.Component<
     this.state = {
       isOpened: false,
       isFocused: false,
-      ...DateRangePicker.unFormatValue(value, format, joinValues, delimiter)
+      ...DateRangePicker.unFormatValue(
+        value,
+        format,
+        joinValues,
+        delimiter,
+        this.props.data
+      )
     };
   }
 
   componentDidUpdate(prevProps: MonthRangePickerProps) {
     const props = this.props;
-    const {value, format, joinValues, delimiter} = props;
+    const {value, format, joinValues, delimiter, data} = props;
 
     if (prevProps.value !== value) {
       this.setState({
-        ...DateRangePicker.unFormatValue(value, format, joinValues, delimiter)
+        ...DateRangePicker.unFormatValue(
+          value,
+          format,
+          joinValues,
+          delimiter,
+          data
+        )
       });
     }
   }
@@ -577,14 +589,16 @@ export class MonthRangePicker extends React.Component<
       ranges,
       shortcuts,
       label,
-      translate: __
+      translate: __,
+      data
     } = this.props;
     const {isOpened, isFocused, startDate, endDate} = this.state;
     const selectedDate = DateRangePicker.unFormatValue(
       value,
       format,
       joinValues,
-      delimiter
+      delimiter,
+      data
     );
     const startViewValue = selectedDate.startDate
       ? selectedDate.startDate.format(inputFormat)

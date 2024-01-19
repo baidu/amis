@@ -3,6 +3,7 @@ import {
   getVariable,
   mapObject,
   mapTree,
+  eachTree,
   extendObject,
   createObject
 } from 'amis-core';
@@ -388,26 +389,7 @@ export const MainStore = types
         id: string,
         regionOrType?: string
       ): EditorNodeType | undefined {
-        let pool = self.root.children.concat();
-
-        while (pool.length) {
-          const item = pool.shift();
-          if (
-            item.id === id &&
-            (!regionOrType ||
-              item.region === regionOrType ||
-              item.type === regionOrType)
-          ) {
-            return item;
-          }
-
-          // 将当前节点的子节点全部放置到 pool中
-          if (item.children.length) {
-            pool.push.apply(pool, item.children);
-          }
-        }
-
-        return undefined;
+        return self.root.getNodeById(id, regionOrType);
       },
 
       get activeNodeInfo(): RendererInfo | null | undefined {
@@ -1731,6 +1713,10 @@ export const MainStore = types
 
       subEditorRef(ref: any) {
         subEditor = ref;
+      },
+
+      getSubEditorRef() {
+        return subEditor;
       },
 
       openScaffoldForm(context: ScaffoldFormContext) {

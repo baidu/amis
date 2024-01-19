@@ -5,8 +5,7 @@
 body {
   background-color: #fff !important;
   &.dark {
-    background-color: #333538 !important;
-
+    background-color: var(--colors-neutral-fill-11) !important;
     pre {
       color: #fff;
     }
@@ -140,10 +139,10 @@ body {
         right: 20px;
         top: 15px;
         font-size: 22px;
-        color: #333;
+        color: var(--colors-neutral-text-3);
 
         &:hover {
-          color: #333;
+          color: var(--colors-neutral-text-3);
         }
       }
     }
@@ -210,7 +209,7 @@ body {
         display: inline-block;
         padding: 20px;
         cursor: pointer;
-        color: #666;
+        color: var(--colors-neutral-text-3);
 
         > svg {
           width: 14px;
@@ -282,7 +281,7 @@ body {
 
   > a {
     display: inline-block;
-    color: #333;
+    color: var(--colors-neutral-text-3);
     padding: 0px 5px;
     margin: 0 5px;
     font-weight: 500;

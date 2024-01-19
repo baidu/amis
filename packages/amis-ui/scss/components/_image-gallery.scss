@@ -17,6 +17,7 @@
   border: none;
   border-radius: 0;
   max-width: 1010px !important;
+  padding-top: 0;
 
   &-close {
     position: absolute;
@@ -36,12 +37,13 @@
   }
 
   &-title {
-    height: px2rem(30px);
+    height: px2rem(18px);
     vertical-align: top;
-    line-height: px2rem(30px);
+    line-height: px2rem(18px);
     font-size: px2rem(12px);
     color: var(--white);
     text-align: center;
+    margin-bottom: 18px;
   }
 
   &-main {

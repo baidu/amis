@@ -318,9 +318,7 @@ export function wrapControl<
             } = this.props;
 
             // 提交前先把之前的 lazyEmit 执行一下。
-            this.hook3 = () => {
-              this.lazyEmitChange.flush();
-            };
+            this.hook3 = () => this.lazyEmitChange.flush();
             addHook?.(this.hook3, 'flush');
 
             const formItem = this.model as IFormItemStore;
@@ -691,6 +689,7 @@ export function wrapControl<
             if (!this.model) {
               return;
             }
+
             const model = this.model;
             const value = this.model.tmpValue;
             const oldValue = model.extraName
@@ -792,15 +791,16 @@ export function wrapControl<
           }
 
           getValue() {
-            const {formStore: data, $schema: control} = this.props;
+            const {formStore, data, $schema: control} = this.props;
             let value: any = this.model ? this.model.tmpValue : control.value;
 
             if (control.pipeIn) {
               value = callStrFunction.call(
                 this,
                 control.pipeIn,
-                ['value', 'data'],
+                ['value', 'store', 'data'],
                 value,
+                formStore,
                 data
               );
             }

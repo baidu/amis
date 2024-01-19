@@ -1321,8 +1321,8 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
               body: [
                 {
                   type: 'wrapper',
-                  size: 'sm',
                   visibleOn: 'data.componentId === "customCmptId"',
+                  className: 'p-none mb-6',
                   body: [
                     ...renderCmptActionSelect(
                       '目标组件',
@@ -1338,7 +1338,7 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                 {
                   type: 'wrapper',
                   visibleOn: 'data.componentId !== "customCmptId"',
-                  size: 'sm',
+                  className: 'p-none mb-6',
                   body: [
                     ...renderCmptActionSelect(
                       '目标组件',
@@ -1554,7 +1554,10 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                       getCustomNodeTreeSelectSchema({
                         label: '页面参数',
                         rootLabel: '页面参数',
-                        options: pageVariableOptions
+                        options: pageVariableOptions,
+                        horizontal: {
+                          leftFixed: true
+                        }
                       }),
                       getSchemaTpl('formulaControl', {
                         name: 'value',
@@ -1563,7 +1566,10 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                         size: 'lg',
                         mode: 'horizontal',
                         required: true,
-                        placeholder: '请输入变量值'
+                        placeholder: '请输入变量值',
+                        horizontal: {
+                          leftFixed: true
+                        }
                       })
                     ]
                   }
@@ -1581,7 +1587,10 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                     className: 'p-none',
                     body: [
                       getCustomNodeTreeSelectSchema({
-                        options: variableOptions
+                        options: variableOptions,
+                        horizontal: {
+                          leftFixed: true
+                        }
                       }),
                       getSchemaTpl('formulaControl', {
                         name: 'value',
@@ -1590,7 +1599,10 @@ export const ACTION_TYPE_TREE = (manager: any): RendererPluginAction[] => {
                         size: 'lg',
                         mode: 'horizontal',
                         required: true,
-                        placeholder: '请输入变量值'
+                        placeholder: '请输入变量值',
+                        horizontal: {
+                          leftFixed: true
+                        }
                       })
                     ]
                   }
@@ -2264,7 +2276,10 @@ export const COMMON_ACTION_SCHEMA_MAP: {
           size: 'lg',
           mode: 'horizontal',
           visibleOn: `data.__rendererName && !data.__isScopeContainer && data.__rendererName !== 'combo' && data.__rendererName !== 'input-table'`,
-          required: true
+          required: true,
+          horizontal: {
+            leftFixed: true
+          }
         })
       ]
     })

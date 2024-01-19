@@ -14,7 +14,7 @@ import {compile} from 'path-to-regexp';
 
 import type {Schema, PlainObject, FunctionPropertyNames} from '../types';
 
-import {evalExpression} from './tpl';
+import {evalExpression, filter} from './tpl';
 import {IIRendererStore} from '../store';
 import {IFormStore} from '../store/form';
 import {autobindMethod} from './autobind';
@@ -253,7 +253,8 @@ export function isObjectShallowModified(
   next: any,
   strictModeOrFunc: boolean | ((lhs: any, rhs: any) => boolean) = true,
   ignoreUndefined: boolean = false,
-  stack: Array<any> = []
+  stack: Array<any> = [],
+  maxDepth: number = -1
 ): boolean {
   if (Array.isArray(prev) && Array.isArray(next)) {
     return prev.length !== next.length
@@ -310,6 +311,9 @@ export function isObjectShallowModified(
   }
 
   stack.push(prev);
+  if (maxDepth > 0 && stack.length > maxDepth) {
+    return true;
+  }
 
   for (let i: number = keys.length - 1; i >= 0; i--) {
     const key = keys[i];
@@ -1901,7 +1905,7 @@ export function isClickOnInput(e: React.MouseEvent<HTMLElement>) {
     !e.currentTarget.contains(target) ||
     ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
     ((formItem = target.closest(
-      `button, a, [data-role="form-item"], label[data-role="checkbox"]`
+      `button, a, [data-role="form-item"], label[data-role="checkbox"], label[data-role="switch"]`
     )) &&
       e.currentTarget.contains(formItem))
   );
@@ -2280,4 +2284,22 @@ export function replaceUrlParams(path: string, params: Record<string, any>) {
   }
 
   return path;
+}
+
+const TEST_ID_KEY: 'data-testid' = 'data-testid';
+
+export function buildTestId(testid?: string, data?: PlainObject) {
+  if (!testid) {
+    return {};
+  }
+  return {
+    [TEST_ID_KEY]: filter(testid, data)
+  };
+}
+
+export function getTestId(testid?: string, data?: PlainObject) {
+  if (!testid) {
+    return undefined;
+  }
+  return buildTestId(testid, data)[TEST_ID_KEY];
 }

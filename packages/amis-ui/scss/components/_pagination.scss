@@ -21,7 +21,7 @@
       line-height: var(--Pagination-height);
       padding: var(--Pagination-padding);
       text-align: center;
-      color: #666666;
+      color: var(--Pagination-light-color);
       border-radius: 0;
       margin-left: 0;
       font-size: var(--Pagination-fontSize);
@@ -116,6 +116,8 @@
       border: var(--borderWidth) solid var(--borderColor);
       border-radius: var(--borderRadius) 0 0 var(--borderRadius);
       padding: var(--Pagination-padding);
+      background-color: var(--colors-neutral-fill-11);
+      color: var(--Pagination-light-color);
       margin-left: px2rem(8px);
       text-align: center;
 
@@ -137,11 +139,11 @@
       border-left: none;
       border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
       font-size: var(--fontSizeSm);
+      margin-left: -1px;
       &:hover {
         color: var(--primary);
         border-color: var(--primary);
         border-left: var(--borderWidth) solid var(--primary);
-        margin-left: -1px;
       }
     }
   }
@@ -161,6 +163,8 @@
       border: var(--borderWidth) solid var(--borderColor);
       border-radius: var(--borderRadius);
       padding: var(--Pagination-padding);
+      background-color: var(--colors-neutral-fill-11);
+      color: var(--Pagination-light-color);
       margin-right: px2rem(8px);
       text-align: center;
 

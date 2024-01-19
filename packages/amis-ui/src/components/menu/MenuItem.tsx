@@ -7,7 +7,7 @@
 import React from 'react';
 import pick from 'lodash/pick';
 import {Item as RcItem, MenuItemProps as RcMenuItemProps} from 'rc-menu';
-import {ClassNamesFn, themeable, createObject} from 'amis-core';
+import {ClassNamesFn, themeable, createObject, buildTestId} from 'amis-core';
 
 import {Badge} from '../Badge';
 import {getIcon} from '../icons';
@@ -29,6 +29,7 @@ export interface MenuItemProps
   tooltipContainer?: HTMLElement | (() => HTMLElement);
   tooltipTrigger?: Trigger | Array<Trigger>;
   renderLink: Function;
+  testid?: string;
   extra?: React.ReactNode;
 }
 
@@ -90,6 +91,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       renderLink,
       extra,
       disabled,
+      testid,
       id,
       data: defaultData
     } = this.props;
@@ -166,6 +168,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
             data-id={link?.__id || id}
             data-depth={depth}
             onDragStart={onDragStart?.(link)}
+            {...buildTestId(testid, link)}
           >
             {isCollapsedNode ? (
               <>{iconNode || labelNode}</>

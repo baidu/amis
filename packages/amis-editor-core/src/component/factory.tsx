@@ -21,7 +21,8 @@ import {
   JSONPipeIn,
   JSONPipeOut,
   JSONUpdate,
-  getFixDialogType
+  getFixDialogType,
+  appTranslate
 } from '../util';
 import {createObjectFromChain} from 'amis-core';
 import {ErrorBoundary} from 'amis-core';
@@ -106,7 +107,7 @@ export function makeWrapper(
         manager.dataSchema.addScope([], this.scopeId);
         if (info.name) {
           const nodeSchema = manager.store.getNodeById(info.id)?.schema;
-          const tag = nodeSchema?.title ?? nodeSchema?.name;
+          const tag = appTranslate(nodeSchema?.title ?? nodeSchema?.name);
           manager.dataSchema.current.tag = `${info.name}${
             tag ? ` : ${tag}` : ''
           }`;

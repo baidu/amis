@@ -149,8 +149,12 @@
   display: flex;
 
   .#{$ns}Button,
-  .#{$ns}ButtonGroup {
+  .#{$ns}ButtonGroup,
+  .#{$ns}Badge {
     flex-grow: 1;
     text-align: center;
+    .#{$ns}Button {
+      width: 100%;
+    }
   }
 }

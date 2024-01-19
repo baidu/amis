@@ -53,6 +53,7 @@ exports[`Renderer:Switch Switch basic props 1`] = `
           >
             <label
               class="cxd-Switch is-checked"
+              data-role="switch"
             >
               <input
                 checked=""
@@ -134,6 +135,7 @@ exports[`Renderer:Switch Switch size 1`] = `
           >
             <label
               class="cxd-Switch  cxd-Switch--sm"
+              data-role="switch"
             >
               <input
                 theme="cxd"
