@@ -133,8 +133,7 @@ export class ButtonGroupControlPlugin extends BasePlugin {
                 getSchemaTpl('multiple'),
                 getSchemaTpl('valueFormula', {
                   rendererSchema: (schema: Schema) => schema,
-                  useSelectMode: true, // 改用 Select 设置模式
-                  visibleOn: 'this.options && this.options.length > 0'
+                  useSelectMode: true
                 }),
                 getSchemaTpl('description')
               ]

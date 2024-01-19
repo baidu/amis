@@ -175,6 +175,8 @@ export interface NavSchema extends BaseSchema {
    */
   source?: SchemaApi;
 
+  testid?: string;
+
   /**
    * 懒加载 api，如果不配置复用 source 接口。
    */
@@ -852,6 +854,7 @@ export class Navigation extends React.Component<
       render,
       popOverContainer,
       env,
+      testid,
       searchable
     } = this.props;
     const {dropIndicator, filteredLinks} = this.state;
@@ -916,6 +919,7 @@ export class Navigation extends React.Component<
             isOpen={(item: NavigationItem) => !!item.open}
             stacked={!!stacked}
             mode={mode}
+            testid={testid}
             themeColor={themeColor}
             onSelect={this.handleClick}
             onToggle={this.toggleLink}

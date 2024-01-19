@@ -12,6 +12,7 @@
   word-wrap: break-word;
   background: var(--Tooltip-bg);
   box-shadow: var(--Tooltip-boxShadow);
+  border: var(--common-popover-border);
 
   &-arrow {
     position: absolute;
@@ -178,7 +179,7 @@
 
   &--dark {
     background: var(--Tooltip-bg--dark);
-    border: none;
+    border: var(--common-popover-border);
     box-shadow: var(--Tooltip-boxShadow--dark);
 
     .#{$ns}Tooltip-title {

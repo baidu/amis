@@ -4,8 +4,10 @@ export class ColorGenerator {
   color = '';
   //十六进制颜色值的正则表达式
   reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
-  constructor(color: string) {
+  isDark = false;
+  constructor(color: string, isDark: boolean = false) {
     this.setPrimaryColor(color);
+    this.isDark = isDark;
   }
   /**
    * 生成衍生色
@@ -29,14 +31,26 @@ export class ColorGenerator {
       let sh, ss, sv;
       if (h > 60 && h < 300) {
         // 冷色
-        sh = h + index * 2;
-        ss = s + index * 5;
-        sv = v - index * 15;
+        if (this.isDark) {
+          sh = h - index * 2;
+          ss = s - index * 5;
+          sv = v;
+        } else {
+          sh = h + index * 2;
+          ss = s + index * 5;
+          sv = v - index * 15;
+        }
       } else {
         // 暖色
-        sh = h - index * 2;
-        ss = s + index * 5;
-        sv = v - index * 15;
+        if (this.isDark) {
+          sh = h + index * 2;
+          ss = s - index * 5;
+          sv = v + index * 15;
+        } else {
+          sh = h - index * 2;
+          ss = s + index * 5;
+          sv = v - index * 15;
+        }
       }
       const shsv = hsvCorrection([sh, ss, sv]);
       const srgb = ColorGenerator.hsvToRgb(shsv);
@@ -49,14 +63,26 @@ export class ColorGenerator {
       let wh, ws, wv;
       if (h > 60 && h < 300) {
         // 冷色
-        wh = h - index * 1;
-        ws = s - index * (s / 5);
-        wv = v + index * 5;
+        if (this.isDark) {
+          wh = h + index * 1;
+          ws = s + index * (s / 5);
+          wv = v - index * 5;
+        } else {
+          wh = h - index * 1;
+          ws = s - index * (s / 5);
+          wv = v + index * 5;
+        }
       } else {
         // 暖色
-        wh = h + index * 1;
-        ws = s - index * (s / 5);
-        wv = v + index * (100 - v) * 5;
+        if (this.isDark) {
+          wh = h - index * 1;
+          ws = s + index * (s / 5);
+          wv = v - index * (100 - v) * 2;
+        } else {
+          wh = h + index * 1;
+          ws = s - index * (s / 5);
+          wv = v + index * (100 - v) * 5;
+        }
       }
       const whsv = hsvCorrection([wh, ws, wv]);
       const wrgb = ColorGenerator.hsvToRgb(whsv);
@@ -76,8 +102,12 @@ export class ColorGenerator {
   getNeutralColor() {
     const rgb = ColorGenerator.hexToRgb(this.color);
     const [h, ,] = ColorGenerator.rgbToHsv(rgb);
-    const S = [65, 45, 25, 10, 6, 4, 2, 1, 1, 1, 0];
-    const V = [8, 15, 25, 40, 55, 75, 85, 92, 96, 98, 100];
+    let S = [65, 45, 25, 10, 6, 4, 2, 1, 1, 1, 0];
+    let V = [8, 15, 25, 40, 55, 75, 85, 92, 96, 98, 100];
+    if (this.isDark) {
+      S = S.reverse();
+      V = V.reverse();
+    }
     const colors: ResColor = [];
     for (let i = 0; i < 11; i++) {
       const newHsv = ColorGenerator.hsvCorrection([h, S[i], V[i]]);

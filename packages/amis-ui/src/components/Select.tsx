@@ -9,7 +9,8 @@ import {
   getOptionValue,
   getOptionValueBindField,
   labelToString,
-  uncontrollable
+  uncontrollable,
+  buildTestId
 } from 'amis-core';
 import React from 'react';
 import isInteger from 'lodash/isInteger';
@@ -322,6 +323,7 @@ export interface SelectProps
     LocaleProps,
     SpinnerExtraProps {
   className?: string;
+  testid?: string;
   popoverClassName?: string;
   showInvalidMatch?: boolean;
   creatable: boolean;
@@ -1012,7 +1014,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       virtualThreshold = 100,
       mobileUI,
       filterOption = defaultFilterOption,
-      overlay
+      overlay,
+      loading
     } = this.props;
     const {selection} = this.state;
 
@@ -1198,50 +1201,57 @@ export class Select extends React.Component<SelectProps, SelectState> {
             ) : null}
           </div>
         ) : null}
-        {multiple && valuesNoWrap ? (
-          <div className={cx('Select-option')}>
-            {__('Select.selected')}({selectionValues.length})
-          </div>
-        ) : null}
-        {multiple && checkAll && filtedOptions.length ? (
-          <div className={cx('Select-option')}>
-            <Checkbox
-              checked={checkedPartial}
-              partial={checkedPartial && !checkedAll}
-              onChange={this.toggleCheckAll}
-              size="sm"
-            >
-              {__(checkAllLabel)}
-            </Checkbox>
-          </div>
-        ) : null}
 
-        {creatable && !disabled ? (
-          <a className={cx('Select-addBtn')} onClick={this.handleAddClick}>
-            <Icon icon="plus" className="icon" />
-            {__(createBtnLabel)}
-          </a>
-        ) : null}
-
-        {filtedOptions.length ? (
-          filtedOptions.length > virtualThreshold ? ( // 较多数据时才启用 virtuallist，避免滚动条问题
-            <VirtualList
-              height={
-                filtedOptions.length > 8
-                  ? 266
-                  : filtedOptions.length * virtualItemHeight
-              }
-              itemCount={filtedOptions.length}
-              itemSize={virtualItemHeight}
-              renderItem={renderItem}
-            />
-          ) : (
-            filtedOptions.map((item, index) => {
-              return renderItem({index});
-            })
-          )
+        {loading ? (
+          <div className={cx('Select-noResult')}>{__('loading')}</div>
         ) : (
-          <div className={cx('Select-noResult')}>{__(noResultsText)}</div>
+          <>
+            {multiple && valuesNoWrap ? (
+              <div className={cx('Select-option')}>
+                {__('Select.selected')}({selectionValues.length})
+              </div>
+            ) : null}
+            {multiple && checkAll && filtedOptions.length ? (
+              <div className={cx('Select-option')}>
+                <Checkbox
+                  checked={checkedPartial}
+                  partial={checkedPartial && !checkedAll}
+                  onChange={this.toggleCheckAll}
+                  size="sm"
+                >
+                  {__(checkAllLabel)}
+                </Checkbox>
+              </div>
+            ) : null}
+
+            {creatable && !disabled ? (
+              <a className={cx('Select-addBtn')} onClick={this.handleAddClick}>
+                <Icon icon="plus" className="icon" />
+                {__(createBtnLabel)}
+              </a>
+            ) : null}
+
+            {filtedOptions.length ? (
+              filtedOptions.length > virtualThreshold ? ( // 较多数据时才启用 virtuallist，避免滚动条问题
+                <VirtualList
+                  height={
+                    filtedOptions.length > 8
+                      ? 266
+                      : filtedOptions.length * virtualItemHeight
+                  }
+                  itemCount={filtedOptions.length}
+                  itemSize={virtualItemHeight}
+                  renderItem={renderItem}
+                />
+              ) : (
+                filtedOptions.map((item, index) => {
+                  return renderItem({index});
+                })
+              )
+            ) : (
+              <div className={cx('Select-noResult')}>{__(noResultsText)}</div>
+            )}
+          </>
         )}
       </div>
     );
@@ -1311,6 +1321,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       borderMode,
       mobileUI,
       hasError,
+      testid,
       loadingConfig
     } = this.props;
 
@@ -1342,6 +1353,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               onClick={this.toggle}
               onFocus={this.onFocus}
               onBlur={this.onBlur}
+              {...buildTestId(testid)}
               className={cx(
                 `Select`,
                 {

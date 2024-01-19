@@ -7,7 +7,14 @@
 import React from 'react';
 import pick from 'lodash/pick';
 import {SubMenu as RcSubMenu, SubMenuProps as RcSubMenuProps} from 'rc-menu';
-import {ClassNamesFn, themeable, autobind, createObject} from 'amis-core';
+import {
+  ClassNamesFn,
+  themeable,
+  autobind,
+  createObject,
+  filter,
+  buildTestId
+} from 'amis-core';
 
 import {getIcon, Icon} from '../icons';
 import {Badge} from '../Badge';
@@ -104,6 +111,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
       disabled,
       data: defaultData,
       extra,
+      testid,
       renderLink
     } = this.props;
     const isCollapsedNode = collapsed && depth === 1;
@@ -197,6 +205,7 @@ export class SubMenu extends React.Component<SubMenuProps> {
             data-id={link?.__id || id}
             data-depth={depth}
             onDragStart={onDragStart?.(link)}
+            {...buildTestId(testid, link)}
           >
             {renderContent()}
           </a>

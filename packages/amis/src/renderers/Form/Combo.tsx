@@ -992,8 +992,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
   }
 
-  flush() {
-    this.subForms.forEach(form => form.flush());
+  async flush() {
+    await Promise.all(this.subForms.map(form => form.flush()));
   }
 
   dragTipRef(ref: any) {

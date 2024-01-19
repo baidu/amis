@@ -113,8 +113,8 @@ $Table-strip-bg: transparent;
   --label--warning-bg: var(--warning);
   --label--danger-bg: var(--danger);
 
-  --label-color: var(--colors-neutral-text-11);
-  --label-link--hover-color: var(--colors-neutral-text-11);
+  --label-color: #fff;
+  --label-link--hover-color: #fff;
 
   --scrollbar-width: #{px2rem(17px)};
 
@@ -161,7 +161,7 @@ $Table-strip-bg: transparent;
   --Avatar-icon-size-small: #{px2rem(12px)};
 
   --Badge-size: var(--gap-md);
-  --Badge-color: var(--colors-neutral-fill-11);
+  --Badge-color: #fff;
   --Badge--success-bg: var(--success);
   --Badge--info-bg: var(--info);
   --Badge--warning-bg: var(--warning);
@@ -183,7 +183,7 @@ $Table-strip-bg: transparent;
   --Breadcrumb-item-default-color: var(--colors-neutral-text-5);
   --Breadcrumb-item-hover-color: var(--colors-brand-5);
   --Breadcrumb-item-active-color: var(--colors-brand-4);
-  --Breadcrumb-item-last-color: #151a26;
+  --Breadcrumb-item-last-color: var(--colors-neutral-text-2);
   --BreadcrumbDropdown-item-default-color: var(--colors-neutral-text-2);
   --BreadcrumbDropdown-item-default-bg: var(--colors-neutral-text-11);
   --BreadcrumbDropdown-item-hover-bg: var(--colors-brand-10);
@@ -472,7 +472,7 @@ $Table-strip-bg: transparent;
   --ListControl-item-borderWidth: var(--borders-width-2);
   --ListControl-item-borderRadius: var(--borders-radius-3);
   --ListControl-item-color: var(--colors-neutral-text-2);
-  --ListControl-item-onActive-after-borderColor: var(--colors-neutral-line-11);
+  --ListControl-item-onActive-after-borderColor: #fff;
   --ListControl-item-onActive-before-bg: var(--colors-brand-5);
   --ListControl-item-onActive-bg: var(--colors-neutral-fill-11);
   --ListControl-item-onActive-borderColor: var(--colors-brand-4);
@@ -606,7 +606,7 @@ $Table-strip-bg: transparent;
   --Pagination-onDisabled-backgroundColor: var(--colors-neutral-fill-10);
   --Pagination-padding: 0 #{px2rem(8px)};
   --Pagination-padding-sm: 0 #{px2rem(4px)};
-  --Pagination-light-color: #84868c;
+  --Pagination-light-color: var(--colors-neutral-text-4);
 
   --Panel--default-badgeBg: var(--colors-neutral-fill-3);
   --Panel--default-badgeColor: var(--colors-neutral-fill-10);
@@ -636,8 +636,8 @@ $Table-strip-bg: transparent;
   --PopUp-cancelAction-color: #666;
   --PopUp-confirmAction-color: var(--primary);
 
-  --Property-title-bg: #f2f2f2;
-  --Property-label-bg: #f7f7f7;
+  --Property-title-bg: var(--colors-neutral-fill-10);
+  --Property-label-bg: var(--colors-neutral-fill-10);
 
   --Portlet-borderColor: var(--borderColor);
   --Portlet-borderStyle: solid;
@@ -696,7 +696,7 @@ $Table-strip-bg: transparent;
   --Tooltip--attr-borderRadius: var(--borderRadius);
   --Tooltip--attr-borderWidth: 0;
   --Tooltip--attr-boxShadow: var(--shadows-shadow-normal);
-  --Tooltip--attr-color: var(--background);
+  --Tooltip--attr-color: #fff;
   --Tooltip--attr-fontSize: var(--fontSizeSm);
   --Tooltip--attr-gap: var(--gap-sm);
   --Tooltip--attr-lineHeigt: var(--lineHeightBase);
@@ -711,7 +711,7 @@ $Table-strip-bg: transparent;
   --Tooltip-bg: var(--background);
   --Tooltip-bg--dark: rgba(7, 12, 20, 0.85);
   --Tooltip-body-color: var(--text-color);
-  --Tooltip-body-color--dark: var(--colors-neutral-fill-11);
+  --Tooltip-body-color--dark: #fff;
   --Tooltip-body-paddingX: var(--gap-base);
   --Tooltip-body-paddingY: var(--gap-sm);
   --Tooltip-borderColor: var(--borderColor);
@@ -727,7 +727,7 @@ $Table-strip-bg: transparent;
   --Tooltip-title-bg: #{darken($white, 3%)};
   --Tooltip-title-borderBottom-color: #{darken(darken($white, 3%), 5%)};
   --Tooltip-title-color: var(--text--loud-color);
-  --Tooltip-title-color--dark: var(--colors-neutral-fill-11);
+  --Tooltip-title-color--dark: #fff;
   --Tooltip-title-paddingX: var(--gap-base);
   --Tooltip-title-paddingY: var(--gap-sm);
 
@@ -737,8 +737,8 @@ $Table-strip-bg: transparent;
   --TransferSelect--normal-heading-bg: var(--colors-neutral-fill-10);
   --TransferSelect-heading-borderBottom: var(--borders-width-1);
 
-  --TabsTransfer-title-bg: #f7f7f9;
-  --TabsTransfer-border-color: #e8e9eb;
+  --TabsTransfer-title-bg: var(--colors-neutral-fill-10);
+  --TabsTransfer-border-color: var(--colors-neutral-fill-8);
 
   --AnchorNav-links-container-borderRight: #{px2rem(2px)} solid #d3dae0;
   --AnchorNav-onActive-borderWidth: 0 0 0 #{px2rem(2px)};
@@ -755,7 +755,7 @@ $Table-strip-bg: transparent;
   --ColumnToggler-item-margin: #{px2rem(4px)};
   --ColumnToggler-item-dragBar-color: #d8d8d8;
 
-  --InputFormula-header-bgColor: #fafafa;
+  --InputFormula-header-bgColor: var(--colors-neutral-fill-10);
   --InputFormula-icon-size: #{px2rem(18px)};
   --InputFormula-icon-color-onActive: var(--colors-brand-5);
   --InputFormula-code-bgColor: var(--colors-neutral-fill-10);
@@ -819,7 +819,7 @@ $Table-strip-bg: transparent;
   --SearchBox-hover-color: var(--colors-brand-5);
   --SearchBox-focus-color: var(--colors-brand-4);
   --SearchBox-search-icon-color: var(--colors-neutral-text-5);
-  --SearchBox-enhonce-icon-color: var(--colors-neutral-text-11);
+  --SearchBox-enhonce-icon-color: var(--button-default-default-font-color);
   --SearchBox-clearable-icon-color: var(--colors-neutral-text-7);
   --SearchBox-clearable-icon-size: var(--sizes-size-9);
   --SearchBox-height: var(--sizes-base-15);

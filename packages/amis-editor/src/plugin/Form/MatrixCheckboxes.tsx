@@ -129,7 +129,8 @@ export class MatrixControlPlugin extends BasePlugin {
               getSchemaTpl('label'),
               getSchemaTpl('switch', {
                 name: 'multiple',
-                label: '可多选'
+                label: '可多选',
+                pipeIn: defaultValue(true)
               }),
               {
                 label: tipedLabel('模式', '行级、列级或者单个单元单选'),
