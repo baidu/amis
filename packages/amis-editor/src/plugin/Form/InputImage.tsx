@@ -372,7 +372,19 @@ export class ImageControlPlugin extends BasePlugin {
               getSchemaTpl('switch', {
                 name: 'limit',
                 label: '图片限制',
-                pipeIn: (value: any) => !!value
+                pipeIn: (value: any) => !!value,
+                onChange: (
+                  value: any,
+                  oldValue: boolean,
+                  model: any,
+                  form: any
+                ) => {
+                  if (!value) {
+                    form.setValues({
+                      maxSize: undefined
+                    });
+                  }
+                }
               }),
 
               {

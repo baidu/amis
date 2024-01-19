@@ -1671,7 +1671,6 @@ export default class ImageControl extends React.Component<
             accept={accept}
             multiple={dropMultiple}
             disabled={disabled}
-            maxSize={crop ? undefined : maxSize}
           >
             {({
               getRootProps,

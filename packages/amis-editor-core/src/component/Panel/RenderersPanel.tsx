@@ -1,4 +1,4 @@
-import {Html, render, TooltipWrapper, hasIcon} from 'amis';
+import {Html, render, TooltipWrapper, buildTestId} from 'amis';
 import {observer} from 'mobx-react';
 import React from 'react';
 import cx from 'classnames';
@@ -173,6 +173,7 @@ export default class RenderersPanel extends React.Component<
                     {items.map((item: any) => {
                       const key = `${index}_${item.id}`;
                       const usePluginIcon = isHasPluginIcon(item);
+                      const testid = `editor-renderer-${item.plugin.rendererName}`;
 
                       return (
                         <div
@@ -188,6 +189,7 @@ export default class RenderersPanel extends React.Component<
                           onDragStart={(e: React.DragEvent) =>
                             this.handleDragStart(e, item.name)
                           }
+                          {...buildTestId(testid)}
                         >
                           <div
                             className="icon-box"

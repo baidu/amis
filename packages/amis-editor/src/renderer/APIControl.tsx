@@ -307,9 +307,9 @@ export default class APIControl extends React.Component<
     );
   }
 
-  handleSimpleInputChange = debounce((value: string) => {
-    this.handleSubmit(value, 'input');
-  }, 1000);
+  handleSimpleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.handleSubmit(e.currentTarget.value, 'input');
+  };
 
   @autobind
   handleSubmit(values: SchemaApi, action?: 'input' | 'picker-submit') {
@@ -1034,9 +1034,7 @@ export default class APIControl extends React.Component<
                       type="text"
                       disabled={disabled}
                       placeholder="http://"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        this.handleSimpleInputChange(e.currentTarget.value)
-                      }
+                      onChange={this.handleSimpleInputChange}
                     />
                   )}
                   {enablePickerMode ? this.renderPickerSchema() : null}

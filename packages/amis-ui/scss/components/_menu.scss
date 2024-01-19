@@ -433,6 +433,8 @@
       background-color: var(--Layout-light-backgroundColor);
       line-height: var(--Nav-Item-height);
       cursor: pointer;
+      border: var(--Form-select-outer-borderWidth) solid
+        var(--Form-select-outer-borderColor);
       border-radius: px2rem(2px);
       max-height: px2rem(400px);
       overflow-y: auto;
@@ -614,6 +616,7 @@
       svg {
         transition: transform 0.3s;
         transform: rotate(90deg);
+        color: var(--colors-neutral-text-2);
       }
     }
 
@@ -694,7 +697,7 @@
   font-size: var(--Layout-tooltip-fontSize);
   color: var(--Layout-light-fontColor);
   background: var(--Layout-light-backgroundColor);
-  border: none;
+  border: var(--common-popover-border);
   border-radius: var(--Tooltip--attr-borderRadius);
   box-shadow: 0 px2rem(4px) px2rem(6px) 0 rgb(8 14 26 / 6%),
     0 px2rem(1px) px2rem(10px) 0 rgb(8 14 26 / 5%),

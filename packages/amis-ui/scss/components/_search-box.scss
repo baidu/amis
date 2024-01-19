@@ -59,7 +59,7 @@
     cursor: pointer;
     color: var(--SearchBox-search-icon-color);
     svg {
-      top: 1px;
+      top: px2rem(2px);
     }
 
     &:hover {
@@ -125,7 +125,7 @@
     color: var(--SearchBox-enhonce-icon-color);
     background: var(--SearchBox-hover-color);
     svg {
-      top: 0;
+      top: px2rem(2px);
     }
 
     &:hover {

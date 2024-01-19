@@ -426,9 +426,6 @@
       var(--inputNumber-enhance-hover-top-right-border-radius)
       var(--inputNumber-enhance-hover-bottom-right-border-radius)
       var(--inputNumber-enhance-hover-bottom-left-border-radius);
-    .#{$ns}Number-input {
-      padding-right: var(--inputNumber-base-default-paddingRight);
-    }
     .#{$ns}Number--enhance-input {
       background: var(--inputNumber-enhance-hover-bg-color);
     }

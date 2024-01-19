@@ -258,7 +258,7 @@
 
 .#{$ns}DateRangePicker-popover {
   border: var(--Form-select-outer-borderWidth) solid
-    var(--Form-input-onFocused-borderColor);
+    var(--Form-select-outer-borderColor);
   box-shadow: var(--Form-select-outer-boxShadow);
 }
 

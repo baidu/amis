@@ -191,7 +191,6 @@
 @include media-breakpoint-up(sm) {
   .#{$ns}Modal-content:not(.#{$ns}Modal-content-custom) {
     max-width: var(--dialog-size-normal-width);
-    border-width: var(--dialog-default-border-width);
   }
 
   .#{$ns}Modal--sm .#{$ns}Modal-content {

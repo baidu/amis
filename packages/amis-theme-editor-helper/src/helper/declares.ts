@@ -57,6 +57,7 @@ export interface ThemeDefinition {
     name: string;
     key: string;
     description: string;
+    isDark?: boolean;
   };
   global: {
     colors: {

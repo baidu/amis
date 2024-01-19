@@ -223,7 +223,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       return (
         <PopOverContainer
           mobileUI={mobileUI}
-          disabled={operators.length < 2}
+          disabled={!!(value?.op && operators.length < 2)}
           popOverContainer={popOverContainer || (() => findDOMNode(this))}
           popOverRender={({onClose}) => (
             <GroupedSelection
