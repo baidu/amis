@@ -221,7 +221,7 @@ test('Renderer:dateRange with minDuration & maxDuration', async () => {
 
   expect(
     container.querySelector(
-      '.cxd-DateRangePicker-picker-wrap .rdtDay.rdtActive.rdtEndDay.rdtDisabled'
+      '.cxd-DateRangePicker-picker-wrap .rdtDay.rdtActive.rdtEnd.rdtDisabled'
     )!
   ).toBeInTheDocument();
 
@@ -238,7 +238,7 @@ test('Renderer:dateRange with minDuration & maxDuration', async () => {
 
   expect(
     container.querySelector(
-      '.cxd-DateRangePicker-picker-wrap .rdtDay.rdtActive.rdtEndDay.rdtDisabled'
+      '.cxd-DateRangePicker-picker-wrap .rdtDay.rdtActive.rdtEnd.rdtDisabled'
     )!
   ).toBeInTheDocument();
 });
