@@ -171,7 +171,7 @@ export interface TransferState {
   tempValue?: Array<Option> | Option;
   inputValue: string;
   searchResult: Options | null;
-  searchResultPage: {page?: number; perPage?: number; total?: number} | null;
+  searchResultPage?: {page?: number; perPage?: number; total?: number} | null;
   isTreeDeferLoad: boolean;
   resultSelectMode: 'list' | 'tree' | 'table';
 }
