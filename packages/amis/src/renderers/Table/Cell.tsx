@@ -170,7 +170,7 @@ export function Cell({
       );
     }
     return [prefix, affix, addtionalClassName];
-  }, [item.expandable, item.expanded, column.isPrimary]);
+  }, [item.expandable, item.expanded, column.isPrimary, store.isNested]);
 
   // 根据条件缓存 data，避免孩子重复渲染
   const hasCustomTrackExpression =
