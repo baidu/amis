@@ -141,13 +141,13 @@ export default class ListItemControl extends React.Component<
 
           // 换回来
           const parent = e.to as HTMLElement;
-          if (
-            e.newIndex < e.oldIndex &&
-            e.oldIndex < parent.childNodes.length - 1
-          ) {
-            parent.insertBefore(e.item, parent.childNodes[e.oldIndex + 1]);
-          } else if (e.oldIndex < parent.childNodes.length - 1) {
-            parent.insertBefore(e.item, parent.childNodes[e.oldIndex]);
+          if (e.oldIndex < parent.childNodes.length - 1) {
+            parent.insertBefore(
+              e.item,
+              parent.childNodes[
+                e.oldIndex > e.newIndex ? e.oldIndex + 1 : e.oldIndex
+              ]
+            );
           } else {
             parent.appendChild(e.item);
           }
