@@ -1271,15 +1271,7 @@ export class TreeSelector extends React.Component<
                     : this.handleSelect(item))
                 }
               >
-                {iconValue ? (
-                  getIcon(iconValue) ? (
-                    <Icon icon={iconValue} className="icon" />
-                  ) : React.isValidElement(iconValue) ? (
-                    iconValue
-                  ) : (
-                    <i className={iconValue}></i>
-                  )
-                ) : null}
+                {iconValue ? <Icon icon={iconValue} className="icon" /> : null}
               </i>
             ) : null}
 
