@@ -54,6 +54,8 @@ export interface SwitchControlSchema extends FormBaseControlSchema {
 
   /** 是否处于加载状态 */
   loading?: boolean;
+
+  testid?: string;
 }
 
 export interface SwitchProps extends FormControlProps, SpinnerExtraProps {
@@ -144,7 +146,8 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
       onChange,
       disabled,
       loading,
-      loadingConfig
+      loadingConfig,
+      testid
     } = this.props;
 
     const {on, off} = this.getResult();
@@ -164,6 +167,7 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
             size={size as any}
             loading={loading}
             loadingConfig={loadingConfig}
+            testid={testid}
           />
         )}
       </div>
