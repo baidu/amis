@@ -125,7 +125,9 @@ export class PopOver extends React.PureComponent<PopOverProps, PopOverState> {
       closeOnOutside &&
       target &&
       this.wrapperRef.current &&
-      !this.wrapperRef.current.getAttribute(SubPopoverDisplayedID) &&
+      !this.wrapperRef.current
+        .getAttributeNames()
+        .find(n => n.startsWith(SubPopoverDisplayedID)) &&
       ((!this.wrapperRef.current.contains(target) &&
         !target.closest('[role=dialog]')) ||
         (target.matches(`.${ns}Modal`) && target === this.wrapperRef.current))
@@ -198,6 +200,7 @@ export class PopOver extends React.PureComponent<PopOverProps, PopOverState> {
       classPrefix: ns,
       classnames: cx,
       className,
+      componentId,
       ...rest
     } = this.props;
 
