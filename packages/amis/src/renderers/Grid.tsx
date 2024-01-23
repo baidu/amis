@@ -225,14 +225,25 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
             [`Grid--h${ucFirst(hAlign)}`]: hAlign
           },
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={styleVar}
       >
         {this.renderColumns(this.props.columns)}
         <Spinner loadingConfig={loadingConfig} overlay show={loading} />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

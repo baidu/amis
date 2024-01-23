@@ -218,8 +218,18 @@ export class Tpl extends React.Component<TplProps, TplState> {
         className={cx(
           'TplField',
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={buildStyle(style, data)}
         {...(showNativeTitle ? {title: this.getTitle(content)} : {})}
@@ -233,6 +243,7 @@ export class Tpl extends React.Component<TplProps, TplState> {
           dangerouslySetInnerHTML={{__html: env.filterHtml(content)}}
         ></span>
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,
