@@ -1,7 +1,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import BaseTextArea from 'react-textarea-autosize';
-import {localeable, LocaleProps} from 'amis-core';
+import {buildTestId, localeable, LocaleProps} from 'amis-core';
 import {themeable, ThemeProps} from 'amis-core';
 import {autobind, ucFirst} from 'amis-core';
 import {Icon} from './icons';
@@ -58,6 +58,7 @@ export interface TextAreaProps extends ThemeProps, LocaleProps {
   placeholder?: string;
   name?: string;
   disabled?: boolean;
+  testid?: string;
 
   forwardRef?: {current: HTMLTextAreaElement | null};
 }
@@ -183,7 +184,8 @@ export class Textarea extends React.Component<TextAreaProps, TextAreaState> {
       classnames: cx,
       maxLength,
       showCounter,
-      clearable
+      clearable,
+      testid
     } = this.props;
     const counter = showCounter ? this.valueToString(value).length : 0;
 
@@ -218,6 +220,7 @@ export class Textarea extends React.Component<TextAreaProps, TextAreaState> {
           onChange={this.handleChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
+          {...buildTestId(testid)}
         />
 
         {clearable && !disabled && value ? (

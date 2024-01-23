@@ -471,6 +471,7 @@ export interface FormItemProps extends RendererProps {
   // error string
   error?: string;
   showErrorMsg?: boolean;
+  testid?: string;
 }
 
 // 下发下去的属性
