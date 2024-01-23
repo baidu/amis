@@ -595,6 +595,11 @@
   // PopOver 上已经配置了，这个要是配置就会覆盖，所以先干掉好了
   // z-index: 10;
 }
+.#{$ns}InputGroup:hover {
+  .#{$ns}Select-popover {
+    border-color: var(--Form-select-outer-borderColor) !important;
+  }
+}
 
 .#{$ns}SelectControl {
   &:not(.is-inline) > .#{$ns}Select {
@@ -607,8 +612,6 @@
   }
 
   .#{$ns}TransferDropDown-popover {
-    border: none;
-
     .#{$ns}Tree-list {
       .#{$ns}Tree-item {
         .#{$ns}Tree-itemLabel,

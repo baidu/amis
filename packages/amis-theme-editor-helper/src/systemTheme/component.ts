@@ -4428,7 +4428,7 @@ const component: ThemeDefinition['component'] = {
           paddingLeft: 'var(--sizes-size-3)',
           paddingRight: 'var(--sizes-size-3)',
           marginTop: 'var(--sizes-size-0)',
-          marginBottom: 'var(--sizes-size-2)',
+          marginBottom: 'var(--sizes-size-0)',
           marginLeft: 'var(--sizes-size-0)',
           marginRight: 'var(--sizes-size-3)'
         },
@@ -5701,7 +5701,7 @@ const component: ThemeDefinition['component'] = {
           paddingRight: 'var(--sizes-size-6)'
         },
         'bg-color': 'var(--colors-neutral-fill-11)',
-        'hover-color': 'var(--colors-brand-5)',
+        'hover-color': 'var(--colors-neutral-text-2)',
         'hover-bg-color': 'var(--colors-brand-10)'
       }
     }

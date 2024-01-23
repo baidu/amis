@@ -2805,7 +2805,7 @@
   --select-multiple-paddingLeft: var(--sizes-size-3);
   --select-multiple-paddingRight: var(--sizes-size-3);
   --select-multiple-marginTop: var(--sizes-size-0);
-  --select-multiple-marginBottom: var(--sizes-size-2);
+  --select-multiple-marginBottom: var(--sizes-size-0);
   --select-multiple-marginLeft: var(--sizes-size-0);
   --select-multiple-marginRight: var(--sizes-size-3);
   --select-multiple-color: var(--colors-neutral-text-2);
@@ -2910,7 +2910,7 @@
   --Form-selectValue-onInvalid-color: var(--danger);
   --Form-valueLabel-maxWidth: #{px2rem(120px)};
   --Form-select-onFocus-boxShadow: none;
-  --ResultBox-tag-height: #{px2rem(24px)};
+  --ResultBox-tag-height: #{px2rem(22px)};
   --ResultBox-tag-marginBottom: var(--select-multiple-marginBottom);
   --ResultBox-icon--onDisabled-color: #ebebeb;
   --ResultBox-icon--onHover-color: var(--select-multiple-icon-hover-color);
@@ -3797,7 +3797,7 @@
   --inputTag-option-paddingLeft: var(--sizes-size-6);
   --inputTag-option-paddingRight: var(--sizes-size-6);
   --inputTag-option-bg-color: var(--colors-neutral-fill-11);
-  --inputTag-option-hover-color: var(--colors-brand-5);
+  --inputTag-option-hover-color: var(--colors-neutral-text-2);
   --inputTag-option-hover-bg-color: var(--colors-brand-10);
   --inputTag-popover-maxHeight: 300px;
 
