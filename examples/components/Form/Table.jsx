@@ -17,6 +17,8 @@ export default {
         type: 'input-table',
         name: 'tableAffixHeader',
         label: '头部固定',
+        multiple: true,
+        addable: true,
         affixHeader: true,
         columns: [
           {
@@ -28,14 +30,19 @@ export default {
             name: 'values',
             label: 'CC',
             type: 'select',
+            autoFill: {
+              id: '${id}'
+            },
             options: [
               {
                 label: 'AA',
-                value: 'aa'
+                value: 'aa',
+                id: 111
               },
               {
                 label: 'CC',
-                value: 'cc'
+                value: 'cc',
+                id: 1222
               }
             ]
           }

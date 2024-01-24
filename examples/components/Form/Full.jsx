@@ -8,6 +8,7 @@ export default {
       type: 'form',
       api: '/api/mock2/saveForm?waitSeconds=2',
       title: '表单项',
+      debug: true,
       mode: 'horizontal',
       // debug: true,
       autoFocus: true,
@@ -23,6 +24,44 @@ export default {
           type: 'input-text',
           name: 'var1',
           label: '文本'
+        },
+        {
+          type: 'select',
+          name: 'select',
+          label: '选择',
+          autoFill: {
+            label: '${label}'
+          },
+          options: [
+            {
+              label: 'a',
+              value: 'a'
+            },
+            {
+              label: 'b',
+              value: 'b'
+            }
+          ]
+        },
+        {
+          type: 'service',
+          id: 'u:84843ea77d62',
+          body: [],
+          messages: {},
+          schemaApi: {
+            url: 'https://api-test-dev-internal.gaojihealth.cn/nyuwa/api/intranet/mdd/89/insu_config_tmp/list?page=1&perPage=100&config_level=1&config_oper_level=${config_oper_level || 1}&include[0]=insu_config_preselected_item',
+            method: 'get',
+            messages: {},
+            requestAdaptor: '',
+            adaptor:
+              "const { data: { rows } } = payload;\nlet newObj = {\n    body: []\n};\nconst mappingType = {\n    1: 'radios',\n    2: 'checkboxes',\n    3: 'input-text',\n    4: 'textarea'\n};\nrows.map(item => {\n    const { config_item_type, config_item_name, config_item_code, insu_config_preselected_item, config_item_required } = item;\n    const isChecked = mappingType[config_item_type] !== 'textarea' && mappingType[config_item_type] !== 'input-text';\n    (insu_config_preselected_item || []).map(val => {\n        val.value = val.config_code;\n        val.label = val.config_name;\n    });\n    newObj['body'].push({\n        type: mappingType[config_item_type],\n        name: config_item_code + '&type',\n        label: config_item_name,\n        value: config_item_type,\n        hidden: true,\n    })\n    newObj['body'].push({\n        type: mappingType[config_item_type],\n        name: config_item_code,\n        label: config_item_name,\n        required: config_item_required === '1' ? true : false,\n        ...isChecked ? {\n            options: insu_config_preselected_item\n        } : {},\n        size: \"lg\",\n        mode: \"horizontal\",\n        joinValues: false,\n        staticClassName: \"m-b-lg p-b-lg\",\n    })\n})\nreturn {\n    ...payload,\n    data: newObj\n}",
+            data: {
+              '&biz_identity_sub': "${label || 'NULL'}",
+              '&config_level': '${config_level || 1}',
+              '&config_oper_level': '${config_oper_level || 1}'
+            }
+          },
+          initFetchSchema: false
         },
         {
           type: 'divider'
