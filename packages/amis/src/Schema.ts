@@ -722,6 +722,8 @@ export type SchemaFunction = string | Function;
 
 export interface BaseSchema extends BaseSchemaWithoutType {
   type: SchemaType;
+
+  testid?: string;
 }
 
 export interface Option {

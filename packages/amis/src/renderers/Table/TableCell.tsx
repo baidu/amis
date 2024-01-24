@@ -64,6 +64,7 @@ export class TableCell extends React.Component<TableCellProps> {
       row,
       showBadge,
       itemBadge,
+      testIdBuilder,
       ...rest
     } = this.props;
 
@@ -157,6 +158,7 @@ export class TableCell extends React.Component<TableCellProps> {
         className={cx(className)}
         tabIndex={tabIndex}
         onKeyUp={onKeyUp}
+        {...testIdBuilder.getTestId()}
       >
         {showBadge ? (
           <Badge
