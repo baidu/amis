@@ -16,6 +16,7 @@ import {defaultValue, getSchemaTpl} from 'amis-editor-core';
 import find from 'lodash/find';
 import {JSONDelete, JSONPipeIn, JSONUpdate} from 'amis-editor-core';
 import {SUPPORT_STATIC_FORMITEM_CMPTS} from '../../renderer/event-control/helper';
+import {isExpression, resolveVariableAndFilter} from 'amis-core';
 
 export class ItemPlugin extends BasePlugin {
   static id = 'ItemPlugin';
@@ -229,7 +230,13 @@ export class ItemPlugin extends BasePlugin {
         .getNodeById(context.id)
         ?.getComponent();
 
-      component?.props.onChange(change?.rhs);
+      let value = change?.rhs;
+
+      if (typeof value === 'string' && isExpression(value)) {
+        const data = event.context.node?.getComponent()?.props.data || {};
+        value = resolveVariableAndFilter(value, data, '| raw');
+      }
+      component?.props.onChange(value);
     }
   }
 
