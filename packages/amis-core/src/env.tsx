@@ -136,6 +136,11 @@ export interface RendererEnv {
   enableAMISDebug?: boolean;
 
   /**
+   * 是否开启 testid 定位
+   */
+  enableTestid?: boolean;
+
+  /**
    * 替换文本，用于实现 URL 替换、语言替换等
    */
   replaceText?: {[propName: string]: any};

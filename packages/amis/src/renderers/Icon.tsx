@@ -90,11 +90,17 @@ export class Icon extends React.Component<IconProps, object> {
           onMouseLeave={this.handleMouseLeave}
           className={cx(
             className,
-            setThemeClassName('className', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({...this.props, name: 'className', id, themeCss}),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
         />
         <CustomStyle
+          {...this.props}
           config={{
             themeCss: themeCss,
             classNames: [

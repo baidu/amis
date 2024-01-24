@@ -265,7 +265,8 @@ export function Icon({
   onClick = () => {},
   onMouseEnter = () => {},
   onMouseLeave = () => {},
-  style
+  style,
+  ...rest
 }: {
   icon: string;
   iconContent?: string;
@@ -279,6 +280,14 @@ export function Icon({
   if (!icon) {
     return null;
   }
+
+  // 获取全部事件
+  let events: any = {};
+  Object.keys(rest).forEach(key => {
+    if (key.startsWith('on') && key.length > 2) {
+      events[key] = rest[key];
+    }
+  });
 
   // 直接的icon dom
   if (React.isValidElement(icon)) {
@@ -317,6 +326,7 @@ export function Icon({
 
     return (
       <div
+        {...events}
         onClick={onClick}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
@@ -332,6 +342,7 @@ export function Icon({
   if (Component) {
     return (
       <Component
+        {...events}
         onClick={onClick}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
@@ -366,6 +377,7 @@ export function Icon({
     } else {
       return (
         <svg
+          {...events}
           onClick={onClick}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
@@ -382,6 +394,7 @@ export function Icon({
   if (typeof icon === 'string' && icon.startsWith('<svg')) {
     const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
     const svgHTML = createElement('svg', {
+      ...events,
       onClick,
       onMouseEnter,
       onMouseLeave,
@@ -398,6 +411,7 @@ export function Icon({
   if (isURLIcon) {
     return (
       <img
+        {...events}
         onClick={onClick}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
@@ -425,6 +439,7 @@ export function Icon({
   if (isIconfont) {
     return (
       <i
+        {...events}
         onClick={onClick}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}

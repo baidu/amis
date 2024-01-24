@@ -15,7 +15,6 @@
   transition: all var(--animation-duration) ease-in-out;
   border: var(--Form-input-borderWidth) solid transparent;
   border-radius: var(--Form-input-borderRadius);
-  overflow: hidden;
 
   &:hover {
     background: var(--Form-input-onHover-bg);
@@ -25,6 +24,7 @@
     background: var(--Form-input-bg);
     border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
     width: var(--SearchBox-width);
+    position: relative;
     > input {
       flex-grow: 1;
     }
@@ -121,9 +121,13 @@
   }
 
   &--enhance.is-active &-searchBtn {
-    height: 100%;
     color: var(--SearchBox-enhonce-icon-color);
     background: var(--SearchBox-hover-color);
+    position: absolute;
+    top: px2rem(-1px);
+    bottom: px2rem(-1px);
+    right: px2rem(-1px);
+    border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
     svg {
       top: px2rem(2px);
     }

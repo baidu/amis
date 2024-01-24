@@ -481,11 +481,17 @@ export class ImageField extends React.Component<
           thumbRatio,
           showToolbar,
           toolbarActions,
-          imageGallaryClassName: `${imageGallaryClassName} ${setThemeClassName(
-            'imageGallaryClassName',
+          imageGallaryClassName: `${imageGallaryClassName} ${setThemeClassName({
+            ...this.props,
+            name: 'imageGallaryClassName',
             id,
             themeCss
-          )} ${setThemeClassName('galleryControlClassName', id, themeCss)}`
+          })} ${setThemeClassName({
+            ...this.props,
+            name: 'galleryControlClassName',
+            id,
+            themeCss
+          })}`
         },
         this.props
       );
@@ -603,7 +609,12 @@ export class ImageField extends React.Component<
             ? 'ImageField--original'
             : 'ImageField--thumb',
           className,
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={{...style, transform: `scale(${this.state.scale})`}}
         onClick={this.handleClick}
@@ -627,31 +638,36 @@ export class ImageField extends React.Component<
             enlargeAble={enlargeAble && value && value !== defaultValue}
             onEnlarge={this.handleEnlarge}
             imageMode={imageMode}
-            imageControlClassName={setThemeClassName(
-              'imageControlClassName',
+            imageControlClassName={setThemeClassName({
+              ...this.props,
+              name: 'imageControlClassName',
               id,
               themeCss
-            )}
-            titleControlClassName={setThemeClassName(
-              'titleControlClassName',
+            })}
+            titleControlClassName={setThemeClassName({
+              ...this.props,
+              name: 'titleControlClassName',
               id,
               themeCss
-            )}
-            desControlClassName={setThemeClassName(
-              'desControlClassName',
+            })}
+            desControlClassName={setThemeClassName({
+              ...this.props,
+              name: 'desControlClassName',
               id,
               themeCss
-            )}
-            iconControlClassName={setThemeClassName(
-              'iconControlClassName',
+            })}
+            iconControlClassName={setThemeClassName({
+              ...this.props,
+              name: 'iconControlClassName',
               id,
               themeCss
-            )}
+            })}
           />
         ) : (
           <span className="text-muted">{placeholder}</span>
         )}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

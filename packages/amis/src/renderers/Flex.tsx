@@ -137,8 +137,18 @@ export default class Flex extends React.Component<FlexProps, object> {
         className={cx(
           'Flex',
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         {(Array.isArray(items) ? items : items ? [items] : []).map(
@@ -149,6 +159,7 @@ export default class Flex extends React.Component<FlexProps, object> {
             })
         )}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

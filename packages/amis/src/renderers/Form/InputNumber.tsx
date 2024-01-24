@@ -488,13 +488,19 @@ export default class NumberControl extends React.Component<
         <NumberInput
           inputControlClassName={cx(
             inputControlClassName,
-            setThemeClassName('inputControlClassName', id, themeCss || css),
-            setThemeClassName(
-              'inputControlClassName',
+            setThemeClassName({
+              ...this.props,
+              name: 'inputControlClassName',
               id,
-              themeCss || css,
-              'inner'
-            )
+              themeCss: themeCss || css
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'inputControlClassName',
+              id,
+              themeCss: themeCss || css,
+              extra: 'inner'
+            })
           )}
           inputRef={this.inputRef}
           value={finalValue}
@@ -543,6 +549,7 @@ export default class NumberControl extends React.Component<
           )
         ) : null}
         <CustomStyle
+          {...this.props}
           config={{
             themeCss: themeCss || css,
             classNames: [
@@ -563,6 +570,7 @@ export default class NumberControl extends React.Component<
           env={env}
         />
         <CustomStyle
+          {...this.props}
           config={{
             themeCss: formatInputThemeCss(themeCss || css),
             classNames: [

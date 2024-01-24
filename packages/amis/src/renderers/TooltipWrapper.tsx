@@ -212,8 +212,18 @@ export default class TooltipWrapper extends React.Component<
           {
             'TooltipWrapper--inline': inline
           },
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={buildStyle(style, data)}
       >
@@ -264,7 +274,12 @@ export default class TooltipWrapper extends React.Component<
       tooltipTheme,
       tooltipClassName: cx(
         tooltipClassName,
-        setThemeClassName('tooltipControlClassName', id, themeCss)
+        setThemeClassName({
+          ...this.props,
+          name: 'tooltipControlClassName',
+          id,
+          themeCss
+        })
       ),
       mouseEnterDelay,
       mouseLeaveDelay,
@@ -285,6 +300,7 @@ export default class TooltipWrapper extends React.Component<
           {this.renderBody()}
         </TooltipWrapperComp>
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,
