@@ -259,13 +259,24 @@ export const MappingField = withStore(props =>
           className={cx(
             'MappingField',
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
           style={curStyle}
         >
           {viewValue}
           <CustomStyle
+            {...this.props}
             config={{
               wrapperCustomStyle,
               id,

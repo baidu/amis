@@ -554,8 +554,18 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
             'is-sticky': searchable && searchConfig?.sticky,
             'h-auto': heightAuto
           },
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         <Spinner
@@ -584,6 +594,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
           TreeCmpt
         )}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

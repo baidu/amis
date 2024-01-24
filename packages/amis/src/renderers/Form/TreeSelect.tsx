@@ -790,7 +790,12 @@ export default class TreeSelectControl extends React.Component<
         className={cx(
           `TreeSelectControl`,
           className,
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         <ResultBox
@@ -812,7 +817,12 @@ export default class TreeSelectControl extends React.Component<
               'is-opened': this.state.isOpened,
               'is-disabled': disabled
             },
-            setThemeClassName('baseControlClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            })
           )}
           result={resultValue}
           onResultClick={this.handleOutClick}
@@ -870,6 +880,7 @@ export default class TreeSelectControl extends React.Component<
           </PopUp>
         ) : null}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

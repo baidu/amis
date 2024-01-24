@@ -593,8 +593,18 @@ export default class SubFormControl extends React.PureComponent<
         className={cx(
           `${ns}SubFormControl`,
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         {multiple ? this.renderMultipe() : this.renderSingle()}
@@ -631,6 +641,7 @@ export default class SubFormControl extends React.PureComponent<
           </PopUp>
         )}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

@@ -367,8 +367,18 @@ export default class RichTextControl extends React.Component<
             'is-disabled': disabled,
             [`${ns}RichTextControl--border${ucFirst(borderMode)}`]: borderMode
           },
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         <LazyComponent
@@ -384,6 +394,7 @@ export default class RichTextControl extends React.Component<
         />
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

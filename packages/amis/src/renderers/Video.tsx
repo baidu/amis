@@ -789,8 +789,18 @@ export default class Video extends React.Component<VideoProps, VideoState> {
         className={cx(
           `Video`,
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         onClick={this.onClick as any}
         style={style}
@@ -798,6 +808,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
         {this.renderFrames()}
         {splitPoster ? this.renderPosterAndPlayer() : this.renderPlayer()}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

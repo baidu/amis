@@ -350,9 +350,15 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
           onChange={this.handleChange}
           onFocus={() => this.dispatchEvent('focus')}
           onBlur={() => this.dispatchEvent('blur')}
-          className={setThemeClassName('baseControlClassName', id, themeCss)}
+          className={setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          })}
         />
         <CustomStyle
+          {...this.props}
           config={{
             id,
             themeCss,

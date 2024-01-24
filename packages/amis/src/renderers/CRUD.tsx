@@ -2529,8 +2529,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             'is-loading': store.loading,
             'is-mobile': isMobile()
           },
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={style}
       >
@@ -2580,7 +2590,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             className: cx(
               'Crud-body',
               bodyClassName,
-              setThemeClassName('bodyControlClassName', id, themeCss)
+              setThemeClassName({
+                ...this.props,
+                name: 'bodyControlClassName',
+                id,
+                themeCss
+              })
             ),
             ref: this.controlRef,
             autoGenerateFilter: !filter && autoGenerateFilter,
@@ -2646,6 +2661,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           }
         )}
         <CustomStyle
+          {...this.props}
           config={{
             id,
             themeCss,

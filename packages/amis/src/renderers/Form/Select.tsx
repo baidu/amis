@@ -498,7 +498,12 @@ export default class SelectControl extends React.Component<SelectProps, any> {
           <Select
             {...rest}
             className={cx(
-              setThemeClassName('baseControlClassName', id, themeCss)
+              setThemeClassName({
+                ...this.props,
+                name: 'baseControlClassName',
+                id,
+                themeCss
+              })
             )}
             mobileUI={mobileUI}
             popOverContainer={
@@ -533,6 +538,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
           />
         )}
         <CustomStyle
+          {...this.props}
           config={{
             id,
             themeCss,

@@ -972,7 +972,12 @@ export default class NestedSelectControl extends React.Component<
               'is-focused': this.state.isFocused,
               [`NestedSelect--border${ucFirst(borderMode)}`]: borderMode
             },
-            setThemeClassName('baseControlClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            })
           )}
           result={
             multiple
@@ -1020,6 +1025,7 @@ export default class NestedSelectControl extends React.Component<
           this.renderOuter()
         ) : null}
         <CustomStyle
+          {...this.props}
           config={{
             id,
             themeCss,

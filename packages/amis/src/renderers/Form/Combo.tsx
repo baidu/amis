@@ -1913,12 +1913,23 @@ export default class ComboControl extends React.Component<ComboProps> {
         className={cx(
           `ComboControl`,
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         {multiple ? this.renderMultipe() : this.renderSingle()}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

@@ -110,8 +110,18 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       <Link
         className={cx(
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={style}
         href={value}
@@ -124,6 +134,7 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       >
         {body ? render('body', body) : value || __('link')}
         <CustomStyle
+          {...this.props}
           config={{
             id,
             themeCss,

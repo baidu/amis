@@ -324,8 +324,18 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
           {
             'is-focused': this.state.focused
           },
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         <LazyComponent
@@ -345,6 +355,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
         />
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

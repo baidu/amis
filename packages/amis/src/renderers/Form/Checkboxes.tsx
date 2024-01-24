@@ -394,8 +394,18 @@ export default class CheckboxesControl extends React.Component<
         className={cx(
           `CheckboxesControl`,
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         ref="checkboxRef"
       >
@@ -423,6 +433,7 @@ export default class CheckboxesControl extends React.Component<
         ) : null}
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

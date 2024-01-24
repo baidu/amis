@@ -447,7 +447,12 @@ export default class DropDownButton extends React.Component<
             'is-mobile': isMobile()
           },
           className,
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={style}
         {...buildTestId(testid, data)}
@@ -479,7 +484,12 @@ export default class DropDownButton extends React.Component<
                 'Button--iconOnly': iconOnly
               },
               `Button--size-${size}`,
-              setThemeClassName('buttonControlClassName', id, themeCss)
+              setThemeClassName({
+                ...this.props,
+                name: 'buttonControlClassName',
+                id,
+                themeCss
+              })
             )}
           >
             <Icon c={cx} icon={icon} className="icon m-r-xs" />
@@ -496,6 +506,7 @@ export default class DropDownButton extends React.Component<
         </TooltipWrapper>
         {this.state.isOpened ? this.renderOuter() : null}
         <CustomStyle
+          {...this.props}
           config={{
             id,
             themeCss,

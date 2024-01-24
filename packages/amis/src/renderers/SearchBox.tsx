@@ -233,8 +233,18 @@ export class SearchBoxRenderer extends React.Component<
           loadingConfig={loadingConfig}
           className={cx(
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
           disabled={!onQuery}
           defaultActive={!!value}
@@ -254,6 +264,7 @@ export class SearchBoxRenderer extends React.Component<
           mobileUI={mobileUI}
         />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

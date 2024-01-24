@@ -141,8 +141,18 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
           className={cx(
             `${ns}RadiosControl`,
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
           value={typeof value === 'undefined' || value === null ? '' : value}
           disabled={disabled}
@@ -164,6 +174,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
           level={level}
         />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

@@ -743,8 +743,18 @@ export default class RangeControl extends React.PureComponent<
           {'is-disabled': disabled},
           {'is-mobile': mobileUI},
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         {showInput && multiple && <Input {...props} type="min" />}
@@ -764,6 +774,7 @@ export default class RangeControl extends React.PureComponent<
         ) : null}
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

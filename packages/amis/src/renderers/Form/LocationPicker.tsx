@@ -178,13 +178,24 @@ export class LocationControl extends React.Component<LocationControlProps> {
           {...this.props}
           className={cx(
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
           ak={filter(this.props.ak, this.props.data)}
           onChange={this.handleChange}
         />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,
@@ -198,6 +209,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
           env={env}
         />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

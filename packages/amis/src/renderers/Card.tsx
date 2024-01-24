@@ -787,8 +787,18 @@ export class CardRenderer extends React.Component<CardProps> {
           avatarTextClassName={avatarTextCn}
           className={cx(
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
           titleClassName={titleCn}
           media={this.renderMedia()}
@@ -803,6 +813,7 @@ export class CardRenderer extends React.Component<CardProps> {
           onClick={this.isHaveLink() ? this.handleClick : this.handleCheck}
         ></Card>
         <CustomStyle
+          {...this.props}
           config={{
             themeCss,
             wrapperCustomStyle,

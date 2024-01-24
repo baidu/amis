@@ -476,8 +476,18 @@ export class Log extends React.Component<LogProps, LogState> {
         className={cx(
           'Log',
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={style}
       >
@@ -551,6 +561,7 @@ export class Log extends React.Component<LogProps, LogState> {
           {useVirtualRender ? lines : lines.length ? lines : loading}
         </div>
         <CustomStyle
+          {...this.props}
           config={{
             themeCss,
             wrapperCustomStyle,

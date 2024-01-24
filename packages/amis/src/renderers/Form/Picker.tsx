@@ -721,7 +721,12 @@ export default class PickerControl extends React.PureComponent<
           `PickerControl`,
           {'is-mobile': mobileUI},
           className,
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         {embed ? (
@@ -894,6 +899,7 @@ export default class PickerControl extends React.PureComponent<
         />
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

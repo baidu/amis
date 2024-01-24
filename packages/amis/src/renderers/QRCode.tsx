@@ -194,8 +194,18 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
         className={cx(
           `${ns}QrCode`,
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={style}
         ref={this.ref}
@@ -220,6 +230,7 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
           />
         )}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

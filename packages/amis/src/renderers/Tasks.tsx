@@ -385,8 +385,18 @@ export default class Task extends React.Component<TaskProps, TaskState> {
         className={cx(
           'Table-content',
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={style}
       >
@@ -468,6 +478,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
           </tbody>
         </table>
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

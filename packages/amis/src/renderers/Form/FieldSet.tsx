@@ -162,16 +162,36 @@ export default class FieldSetControl extends React.Component<
           body={body!}
           className={cx(
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
           headingClassName={cx(
             headingClassName,
-            setThemeClassName('headingClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'headingClassName',
+              id,
+              themeCss
+            })
           )}
           bodyClassName={cx(
             bodyClassName,
-            setThemeClassName('bodyClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'bodyClassName',
+              id,
+              themeCss
+            })
           )}
           children={this.renderBody}
           wrapperComponent="fieldset"
@@ -180,6 +200,7 @@ export default class FieldSetControl extends React.Component<
           classnames={cx}
         />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

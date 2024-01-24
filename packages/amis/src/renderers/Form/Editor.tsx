@@ -319,8 +319,18 @@ export default class EditorControl extends React.Component<EditorProps, any> {
             [`EditorControl--${size}`]: size
           },
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         <LazyComponent
@@ -345,6 +355,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
         />
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

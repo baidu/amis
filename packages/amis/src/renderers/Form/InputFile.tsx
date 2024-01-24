@@ -1391,8 +1391,18 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         className={cx(
           'FileControl',
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         {templateUrl ? (
@@ -1469,7 +1479,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     className={cx(
                       'FileControl-selectBtn',
                       btnClassName,
-                      setThemeClassName('btnClassName', id, themeCss),
+                      setThemeClassName({
+                        ...this.props,
+                        name: 'btnClassName',
+                        id,
+                        themeCss
+                      }),
                       {
                         'is-disabled':
                           multiple && !!maxLength && files.length >= maxLength
@@ -1614,7 +1629,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             className={cx(
               'FileControl-uploadBtn',
               btnUploadClassName,
-              setThemeClassName('btnUploadClassName', id, themeCss)
+              setThemeClassName({
+                ...this.props,
+                name: 'btnUploadClassName',
+                id,
+                themeCss
+              })
             )}
             onClick={this.toggleUpload}
           >
@@ -1623,6 +1643,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         ) : null}
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

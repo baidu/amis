@@ -170,8 +170,18 @@ export class AvatarField extends React.Component<AvatarProps> {
           style={style}
           className={cx(
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
           classnames={cx}
           src={src}
@@ -190,6 +200,7 @@ export class AvatarField extends React.Component<AvatarProps> {
           onMouseLeave={this.handleMouseLeave}
         />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

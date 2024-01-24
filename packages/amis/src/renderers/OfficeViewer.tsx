@@ -301,8 +301,18 @@ export default class OfficeViewer extends React.Component<
           className={cx(
             'office-viewer',
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
         ></div>
 
@@ -314,6 +324,7 @@ export default class OfficeViewer extends React.Component<
         />
 
         <CustomStyle
+          {...this.props}
           config={{
             themeCss,
             wrapperCustomStyle,

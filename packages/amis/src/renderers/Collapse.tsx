@@ -226,17 +226,37 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
           headingComponent={headingComponent}
           className={cx(
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
           style={style}
           headingClassName={cx(
             headingClassName,
-            setThemeClassName('headingClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'headingClassName',
+              id,
+              themeCss
+            })
           )}
           bodyClassName={cx(
             bodyClassName,
-            setThemeClassName('bodyClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'bodyClassName',
+              id,
+              themeCss
+            })
           )}
           headerPosition={titlePosition || headerPosition}
           collapsable={collapsable}
@@ -280,6 +300,7 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
           enableFieldSetStyle={enableFieldSetStyle}
         ></BasicCollapse>
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

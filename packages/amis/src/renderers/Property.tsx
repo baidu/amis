@@ -224,8 +224,18 @@ export default class Property extends React.Component<PropertyProps, object> {
           'Property',
           `Property--${mode}`,
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={buildStyle(style, data)}
       >
@@ -245,6 +255,7 @@ export default class Property extends React.Component<PropertyProps, object> {
           <tbody>{this.renderRow(rows)}</tbody>
         </table>
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

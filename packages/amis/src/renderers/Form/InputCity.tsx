@@ -600,8 +600,18 @@ export class LocationControl extends React.Component<LocationControlProps> {
           <CityArea
             className={cx(
               className,
-              setThemeClassName('baseControlClassName', id, themeCss),
-              setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+              setThemeClassName({
+                ...this.props,
+                name: 'baseControlClassName',
+                id,
+                themeCss
+              }),
+              setThemeClassName({
+                ...this.props,
+                name: 'wrapperCustomStyle',
+                id,
+                themeCss: wrapperCustomStyle
+              })
             )}
             value={value}
             popOverContainer={env?.getModalContainer}
@@ -618,8 +628,18 @@ export class LocationControl extends React.Component<LocationControlProps> {
           <ThemedCity
             className={cx(
               className,
-              setThemeClassName('baseControlClassName', id, themeCss),
-              setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+              setThemeClassName({
+                ...this.props,
+                name: 'baseControlClassName',
+                id,
+                themeCss
+              }),
+              setThemeClassName({
+                ...this.props,
+                name: 'wrapperCustomStyle',
+                id,
+                themeCss: wrapperCustomStyle
+              })
             )}
             itemClassName={itemClassName}
             popOverContainer={popOverContainer || env?.getModalContainer}
@@ -635,6 +655,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
           />
         )}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

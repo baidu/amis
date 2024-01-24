@@ -194,23 +194,34 @@ export function TimelineCmpt(props: TimelineProps) {
         style={style}
         className={cx(
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         timeClassName={cx(
           timeClassName,
-          setThemeClassName('timeClassName', id, themeCss)
+          setThemeClassName({...props, name: 'timeClassName', id, themeCss})
         )}
         titleClassName={cx(
           titleClassName,
-          setThemeClassName('titleClassName', id, themeCss)
+          setThemeClassName({...props, name: 'titleClassName', id, themeCss})
         )}
         detailClassName={cx(
           detailClassName,
-          setThemeClassName('detailClassName', id, themeCss)
+          setThemeClassName({...props, name: 'detailClassName', id, themeCss})
         )}
       />
       <CustomStyle
+        {...props}
         config={{
           wrapperCustomStyle,
           id,

@@ -1270,8 +1270,18 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           wrapWithPanel ? `${ns}Panel ${ns}Panel--default` : '',
           `${ns}Wizard ${ns}Wizard--${mode}`,
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={style}
       >
@@ -1339,6 +1349,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           show={store.loading}
         />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

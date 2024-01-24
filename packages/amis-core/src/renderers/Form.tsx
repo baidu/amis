@@ -1845,9 +1845,19 @@ export default class Form extends React.Component<FormProps, object> {
           columnCount ? `Form--column Form--column-${columnCount}` : null,
           staticClassName && isStatic ? staticClassName : className,
           isStatic ? 'Form--isStatic' : null,
-          setThemeClassName('formControlClassName', id, themeCss),
+          setThemeClassName({
+            ...this.props,
+            name: 'formControlClassName',
+            id,
+            themeCss
+          }),
           !wrapWithPanel &&
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
         )}
         onSubmit={this.handleFormSubmit}
         noValidate
@@ -1923,6 +1933,7 @@ export default class Form extends React.Component<FormProps, object> {
         )}
 
         <CustomStyle
+          {...this.props}
           config={{
             themeCss: themeCss || css,
             classNames: [
@@ -1954,7 +1965,7 @@ export default class Form extends React.Component<FormProps, object> {
               }
             ],
             wrapperCustomStyle,
-            id: id && id + '-item'
+            id
           }}
           env={env}
         />
@@ -2003,8 +2014,18 @@ export default class Form extends React.Component<FormProps, object> {
           className: cx(
             panelClassName,
             'Panel--form',
-            setThemeClassName('panelControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'panelControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           ),
           style: style,
           formStore: this.props.store,
@@ -2021,21 +2042,24 @@ export default class Form extends React.Component<FormProps, object> {
           actionsClassName,
           bodyClassName,
           affixFooter,
-          headerControlClassName: setThemeClassName(
-            'headerControlClassName',
+          headerControlClassName: setThemeClassName({
+            ...this.props,
+            name: 'headerControlClassName',
             id,
             themeCss
-          ),
-          bodyControlClassName: setThemeClassName(
-            'bodyControlClassName',
+          }),
+          bodyControlClassName: setThemeClassName({
+            ...this.props,
+            name: 'bodyControlClassName',
             id,
             themeCss
-          ),
-          actionsControlClassName: setThemeClassName(
-            'actionsControlClassName',
+          }),
+          actionsControlClassName: setThemeClassName({
+            ...this.props,
+            name: 'actionsControlClassName',
             id,
             themeCss
-          )
+          })
         }
       ) as JSX.Element;
     }

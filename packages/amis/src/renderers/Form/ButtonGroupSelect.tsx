@@ -186,8 +186,18 @@ export default class ButtonGroupControl extends React.Component<
             [`ButtonGroup--${size}`]: size
           },
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         {body.length ? (
@@ -199,6 +209,7 @@ export default class ButtonGroupControl extends React.Component<
         )}
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

@@ -172,6 +172,7 @@ export default class SwitchContainer extends React.Component<
         {activeItem && this.renderBody(activeItem)}
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

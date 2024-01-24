@@ -415,7 +415,12 @@ export default class ExcelControl extends React.PureComponent<
         className={cx(
           'ExcelControl',
           className,
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         <Dropzone
@@ -431,7 +436,12 @@ export default class ExcelControl extends React.PureComponent<
                 {...getRootProps({
                   className: cx(
                     'ExcelControl-dropzone',
-                    setThemeClassName('baseControlClassName', id, themeCss)
+                    setThemeClassName({
+                      ...this.props,
+                      name: 'baseControlClassName',
+                      id,
+                      themeCss
+                    })
                   )
                 })}
               >
@@ -448,6 +458,7 @@ export default class ExcelControl extends React.PureComponent<
           )}
         </Dropzone>
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

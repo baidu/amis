@@ -242,8 +242,18 @@ export class InputGroup extends React.Component<
           {
             'is-mobile': mobileUI
           },
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         {inputs.map((control, index) => {
@@ -290,6 +300,7 @@ export class InputGroup extends React.Component<
         })}
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

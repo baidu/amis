@@ -712,9 +712,15 @@ export default class DateControl extends React.PureComponent<
           onClick={this.handleClick}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
-          className={setThemeClassName('baseControlClassName', id, themeCss)}
+          className={setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          })}
         />
         <CustomStyle
+          {...this.props}
           config={{
             id,
             themeCss,

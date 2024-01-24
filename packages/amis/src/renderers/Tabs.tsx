@@ -740,7 +740,12 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         className={cx(
           `Tabs-toolbar`,
           toolbarClassName,
-          setThemeClassName('toolbarClassName', id, themeCss)
+          setThemeClassName({
+            ...this.props,
+            name: 'toolbarClassName',
+            id,
+            themeCss
+          })
         )}
       >
         {render('toolbar', toolbar)}
@@ -833,12 +838,18 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
             onSelect={this.handleSelect}
             className={cx(
               tab.className,
-              setThemeClassName('baseControlClassName', tab.id, tab.themeCss),
-              setThemeClassName(
-                'wrapperCustomStyle',
-                tab.id,
-                tab.wrapperCustomStyle
-              )
+              setThemeClassName({
+                ...this.props,
+                name: 'baseControlClassName',
+                id: tab.id,
+                themeCss: tab.themeCss
+              }),
+              setThemeClassName({
+                ...this.props,
+                name: 'wrapperCustomStyle',
+                id: tab.id,
+                themeCss: tab.wrapperCustomStyle
+              })
             )}
           >
             {render(
@@ -853,6 +864,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               }
             )}
             <CustomStyle
+              {...this.props}
               config={{
                 wrapperCustomStyle: tab.wrapperCustomStyle,
                 id: tab.id,
@@ -896,12 +908,18 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
             onSelect={this.handleSelect}
             className={cx(
               tab.className,
-              setThemeClassName('baseControlClassName', tab.id, tab.themeCss),
-              setThemeClassName(
-                'wrapperCustomStyle',
-                tab.id,
-                tab.wrapperCustomStyle
-              )
+              setThemeClassName({
+                ...this.props,
+                name: 'baseControlClassName',
+                id: tab.id,
+                themeCss: tab.themeCss
+              }),
+              setThemeClassName({
+                ...this.props,
+                name: 'wrapperCustomStyle',
+                id: tab.id,
+                themeCss: tab.wrapperCustomStyle
+              })
             )}
           >
             {this.renderTab
@@ -919,6 +937,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                   }
                 )}
             <CustomStyle
+              {...this.props}
               config={{
                 wrapperCustomStyle: tab.wrapperCustomStyle,
                 id: tab.id,
@@ -946,17 +965,37 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
           closable={closable}
           className={cx(
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
           style={style}
           contentClassName={cx(
             contentClassName,
-            setThemeClassName('contentClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'contentClassName',
+              id,
+              themeCss
+            })
           )}
           linksClassName={cx(
             linksClassName,
-            setThemeClassName('linksClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'linksClassName',
+              id,
+              themeCss
+            })
           )}
           onSelect={this.handleSelect}
           activeKey={this.state.activeKey}
@@ -969,7 +1008,12 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
           showTip={showTip}
           showTipClassName={cx(
             showTipClassName,
-            setThemeClassName('showTipClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'showTipClassName',
+              id,
+              themeCss
+            })
           )}
           editable={editable}
           onEdit={this.handleEdit}
@@ -981,6 +1025,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
           {children}
         </CTabs>
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

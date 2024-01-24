@@ -113,13 +113,24 @@ export class AlertRenderer extends React.Component<
         actions={actionsDom}
         className={cx(
           classname,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         {render('body', body)}
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

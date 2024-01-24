@@ -165,8 +165,18 @@ export class TagField extends React.Component<TagProps, object> {
       <Tag
         className={cx(
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         displayMode={displayMode}
         color={color}
@@ -180,6 +190,7 @@ export class TagField extends React.Component<TagProps, object> {
       >
         {label}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

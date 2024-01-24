@@ -1638,8 +1638,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         className={cx(
           'InputTable',
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         {render(
@@ -1723,6 +1733,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           </div>
         ) : null}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

@@ -628,8 +628,18 @@ export class BaseTransferRenderer<
         className={cx(
           'TransferControl',
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         <Transfer
@@ -706,6 +716,7 @@ export class BaseTransferRenderer<
         />
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

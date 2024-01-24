@@ -339,7 +339,12 @@ export default class ChainedSelectControl extends React.Component<
         <Select
           {...rest}
           className={cx(
-            setThemeClassName('baseControlClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            })
           )}
           mobileUI={mobileUI}
           popOverContainer={
@@ -384,6 +389,7 @@ export default class ChainedSelectControl extends React.Component<
           />
         )}
         <CustomStyle
+          {...this.props}
           config={{
             id,
             themeCss,

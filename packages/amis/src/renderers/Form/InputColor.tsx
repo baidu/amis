@@ -93,7 +93,12 @@ export default class ColorControl extends React.PureComponent<
         className={cx(
           `${ns}ColorControl`,
           className,
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         <Suspense fallback={<div>...</div>}>
@@ -102,7 +107,12 @@ export default class ColorControl extends React.PureComponent<
             {...rest}
             className={cx(
               className,
-              setThemeClassName('baseControlClassName', id, themeCss)
+              setThemeClassName({
+                ...this.props,
+                name: 'baseControlClassName',
+                id,
+                themeCss
+              })
             )}
             mobileUI={mobileUI}
             popOverContainer={
@@ -114,6 +124,7 @@ export default class ColorControl extends React.PureComponent<
           />
         </Suspense>
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

@@ -2823,8 +2823,18 @@ export default class Table extends React.Component<TableProps, object> {
             'Table--unsaved': !!store.modified || !!store.moved,
             'Table--autoFillHeight': autoFillHeight
           },
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={store.buildStyles(style)}
       >
@@ -2842,6 +2852,7 @@ export default class Table extends React.Component<TableProps, object> {
         {footer}
 
         <CustomStyle
+          {...this.props}
           config={{
             themeCss,
             wrapperCustomStyle,

@@ -238,17 +238,37 @@ export default class AnchorNav extends React.Component<
           classnames={cx}
           className={cx(
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
           style={style}
           linkClassName={cx(
             linkClassName,
-            setThemeClassName('linkClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'linkClassName',
+              id,
+              themeCss
+            })
           )}
           sectionClassName={cx(
             sectionClassName,
-            setThemeClassName('sectionClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'sectionClassName',
+              id,
+              themeCss
+            })
           )}
           onSelect={this.handleSelect}
           active={this.state.active}
@@ -257,6 +277,7 @@ export default class AnchorNav extends React.Component<
           {children}
         </CAnchorNav>
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

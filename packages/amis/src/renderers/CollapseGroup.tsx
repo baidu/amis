@@ -129,8 +129,18 @@ export class CollapseGroupRender extends React.Component<
           expandIconPosition={expandIconPosition}
           className={cx(
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
           style={style}
           mobileUI={mobileUI}
@@ -139,6 +149,7 @@ export class CollapseGroupRender extends React.Component<
           {render('body', body || '', {enableFieldSetStyle})}
         </CollapseGroup>
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

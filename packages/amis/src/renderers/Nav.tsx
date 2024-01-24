@@ -983,8 +983,18 @@ export class Navigation extends React.Component<
             ['Nav-horizontal']: !stacked,
             ['Nav--searchable']: !!searchable
           },
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={styleConfig}
       >
@@ -1001,6 +1011,7 @@ export class Navigation extends React.Component<
         ) : null}
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

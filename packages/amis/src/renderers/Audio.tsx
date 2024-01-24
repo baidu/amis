@@ -475,8 +475,18 @@ export class Audio extends React.Component<AudioProps, AudioState> {
           'Audio',
           className,
           inline ? 'Audio--inline' : '',
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={style}
       >
@@ -508,6 +518,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
             })}
         </div>
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

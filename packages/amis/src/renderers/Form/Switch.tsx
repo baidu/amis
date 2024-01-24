@@ -163,8 +163,18 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
         className={cx(
           `SwitchControl`,
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         {this.renderBody(
@@ -184,6 +194,7 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
           />
         )}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

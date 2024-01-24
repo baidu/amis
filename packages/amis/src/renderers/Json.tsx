@@ -180,8 +180,18 @@ export class JSONField extends React.Component<JSONProps, object> {
         className={cx(
           'JsonField',
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={style}
       >
@@ -207,6 +217,7 @@ export class JSONField extends React.Component<JSONProps, object> {
           </React.Suspense>
         )}
         <CustomStyle
+          {...this.props}
           config={{
             id,
             themeCss,

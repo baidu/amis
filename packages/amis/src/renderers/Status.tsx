@@ -222,8 +222,18 @@ export class StatusField extends React.Component<StatusProps, object> {
           classNameProp,
           className,
           status.className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={{
           ...style,
@@ -233,6 +243,7 @@ export class StatusField extends React.Component<StatusProps, object> {
         {iconElement}
         {labelElement}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

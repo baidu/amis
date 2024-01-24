@@ -205,8 +205,18 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
           `ConditionBuilderControl`,
           {'is-mobile': isMobile()},
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         <ConditionBuilderWithRemoteOptions
@@ -219,6 +229,7 @@ export default class ConditionBuilderControl extends React.PureComponent<Conditi
           formula={formula as any}
         />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

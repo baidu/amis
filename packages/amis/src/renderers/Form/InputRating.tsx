@@ -194,8 +194,18 @@ export default class RatingControl extends React.Component<RatingProps, any> {
         className={cx(
           'RatingControl',
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         <Rating
@@ -212,11 +222,21 @@ export default class RatingControl extends React.Component<RatingProps, any> {
           texts={texts}
           charClassName={cx(
             charClassName,
-            setThemeClassName('charClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'charClassName',
+              id,
+              themeCss
+            })
           )}
           textClassName={cx(
             textClassName,
-            setThemeClassName('textClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'textClassName',
+              id,
+              themeCss
+            })
           )}
           textPosition={textPosition}
           onChange={this.handleChange}
@@ -225,6 +245,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
           }}
         />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

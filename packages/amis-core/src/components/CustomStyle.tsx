@@ -12,6 +12,7 @@ interface CustomStyleProps {
     wrapperCustomStyle?: any;
     componentId?: string;
   } & InsertCustomStyle;
+  data: any;
   [propName: string]: any;
 }
 

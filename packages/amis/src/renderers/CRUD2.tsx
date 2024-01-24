@@ -1324,8 +1324,18 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           {
             'is-loading': store.loading
           },
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={style}
       >
@@ -1337,7 +1347,12 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           className={cx(
             'Crud2-toolbar',
             headerToolbarClassName,
-            setThemeClassName('headerToolbarControlClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'headerToolbarControlClassName',
+              id,
+              themeCss
+            })
           )}
         >
           {this.renderToolbar('headerToolbar', headerToolbar)}
@@ -1367,7 +1382,12 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
             className: cx(
               'Crud2-body',
               bodyClassName,
-              setThemeClassName('bodyControlClassName', id, themeCss)
+              setThemeClassName({
+                ...this.props,
+                name: 'bodyControlClassName',
+                id,
+                themeCss
+              })
             ),
             ref: this.controlRef,
             autoGenerateFilter: !filterSchema && autoGenerateFilter,
@@ -1407,12 +1427,18 @@ export default class CRUD2 extends React.Component<CRUD2Props, any> {
           className={cx(
             'Crud2-toolbar',
             footerToolbarClassName,
-            setThemeClassName('footerToolbarControlClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'footerToolbarControlClassName',
+              id,
+              themeCss
+            })
           )}
         >
           {this.renderToolbar('footerToolbar', footerToolbar)}
         </div>
         <CustomStyle
+          {...this.props}
           config={{
             id,
             themeCss,

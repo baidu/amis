@@ -365,14 +365,25 @@ export default class Code extends React.Component<CodeProps> {
             'word-break': wordWrap
           },
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={style}
         data-lang={language}
       >
         {sourceCode}
         <CustomStyle
+          {...this.props}
           config={{
             themeCss,
             wrapperCustomStyle,

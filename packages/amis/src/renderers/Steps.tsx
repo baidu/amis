@@ -168,8 +168,18 @@ export function StepsCmpt(props: StepsProps) {
         steps={resolveSteps}
         className={cx(
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={style}
         status={statusValue}
@@ -179,6 +189,7 @@ export function StepsCmpt(props: StepsProps) {
         mobileUI={mobileUI}
       ></Steps>
       <CustomStyle
+        {...props}
         config={{
           wrapperCustomStyle,
           id,

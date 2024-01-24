@@ -200,8 +200,18 @@ export default class TextAreaControl extends React.Component<
           {...rest}
           className={cx(
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
           forwardRef={this.inputRef}
           onFocus={this.handleFocus}
@@ -209,6 +219,7 @@ export default class TextAreaControl extends React.Component<
           onChange={this.handleChange}
         />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

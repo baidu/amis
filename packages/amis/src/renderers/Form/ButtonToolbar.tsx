@@ -60,12 +60,23 @@ export default class ButtonToolbar extends React.Component<
         className={cx(
           'ButtonToolbar',
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         {this.renderButtons()}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

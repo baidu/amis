@@ -249,12 +249,23 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
         className={cx(
           `${ns}RepeatControl`,
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
       >
         {this.renderInput()}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

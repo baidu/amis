@@ -616,7 +616,12 @@ export default class TagControl extends React.PureComponent<
               className={cx(
                 className,
                 `TagControl`,
-                setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+                setThemeClassName({
+                  ...this.props,
+                  name: 'wrapperCustomStyle',
+                  id,
+                  themeCss: wrapperCustomStyle
+                })
               )}
             >
               {/* @ts-ignore 怪了为啥类型不对，后续看 */}
@@ -636,7 +641,12 @@ export default class TagControl extends React.PureComponent<
                 onChange={this.handleInputChange}
                 className={cx(
                   'TagControl-input',
-                  setThemeClassName('baseControlClassName', id, themeCss)
+                  setThemeClassName({
+                    ...this.props,
+                    name: 'baseControlClassName',
+                    id,
+                    themeCss
+                  })
                 )}
                 result={selectedOptions}
                 onResultChange={this.handleChange}
@@ -770,6 +780,7 @@ export default class TagControl extends React.PureComponent<
                 </div>
               )}
               <CustomStyle
+                {...this.props}
                 config={{
                   wrapperCustomStyle,
                   id,
