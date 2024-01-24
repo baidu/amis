@@ -5,8 +5,8 @@
  */
 
 import React from 'react';
-import {mapTree} from 'amis-core';
-import {ClassNamesFn, themeable, buildTestId} from 'amis-core';
+import {TestIdBuilder, mapTree} from 'amis-core';
+import {ClassNamesFn, themeable} from 'amis-core';
 
 export type LinkItem = LinkItemProps;
 interface LinkItemProps {
@@ -19,8 +19,8 @@ interface LinkItemProps {
   children?: Array<LinkItem>;
   path?: string;
   icon?: string;
-  testid?: string;
   component?: React.ElementType;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface Navigation {
@@ -56,7 +56,7 @@ interface AsideNavState {
 export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
   static defaultProps = {
     renderLink: (item: LinkItemProps) => (
-      <a {...buildTestId(item.testid, item)}>{item.label}</a>
+      <a {...item.testIdBuilder?.getTestId()}>{item.label}</a>
     ),
     renderSubLinks: (
       link: LinkItemProps,

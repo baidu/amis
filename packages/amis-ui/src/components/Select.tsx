@@ -9,8 +9,7 @@ import {
   getOptionValue,
   getOptionValueBindField,
   labelToString,
-  uncontrollable,
-  buildTestId
+  uncontrollable
 } from 'amis-core';
 import React from 'react';
 import isInteger from 'lodash/isInteger';
@@ -41,7 +40,7 @@ import Checkbox from './Checkbox';
 import Input from './Input';
 import {LocaleProps, localeable} from 'amis-core';
 import Spinner, {SpinnerExtraProps} from './Spinner';
-import type {Option, Options} from 'amis-core';
+import type {Option, Options, TestIdBuilder} from 'amis-core';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import Picker from './Picker';
 import PopUp from './PopUp';
@@ -95,6 +94,7 @@ export interface OptionProps {
   onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
   removable?: boolean;
   onDelete?: (value: Option) => void;
+  testIdBuilder?: TestIdBuilder;
 }
 
 export type OptionValue = string | number | null | undefined | Option;
@@ -323,7 +323,6 @@ export interface SelectProps
     LocaleProps,
     SpinnerExtraProps {
   className?: string;
-  testid?: string;
   popoverClassName?: string;
   showInvalidMatch?: boolean;
   creatable: boolean;
@@ -1015,7 +1014,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       mobileUI,
       filterOption = defaultFilterOption,
       overlay,
-      loading
+      loading,
+      testIdBuilder
     } = this.props;
     const {selection} = this.state;
 
@@ -1060,6 +1060,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       }
 
       let label = labelToString(item[labelField]);
+      let optTestIdBudr = testIdBuilder?.getChild('option');
 
       return (
         <div
@@ -1078,6 +1079,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             'is-highlight': highlightedIndex === index,
             'is-active': checked
           })}
+          {...optTestIdBudr?.getTestId()}
         >
           {renderMenu ? (
             multiple ? (
@@ -1088,6 +1090,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                   this.handleChange(item);
                 }}
                 disabled={item.disabled}
+                testIdBuilder={optTestIdBudr?.getChild('chekbx')}
               >
                 {renderMenu(item, {
                   multiple,
@@ -1321,7 +1324,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       borderMode,
       mobileUI,
       hasError,
-      testid,
+      testIdBuilder,
       loadingConfig
     } = this.props;
 
@@ -1353,7 +1356,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               onClick={this.toggle}
               onFocus={this.onFocus}
               onBlur={this.onBlur}
-              {...buildTestId(testid)}
+              {...testIdBuilder?.getTestId()}
               className={cx(
                 `Select`,
                 {
@@ -1383,7 +1386,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
               (Array.isArray(value)
                 ? value.length
                 : value != null && value !== resetValue) ? (
-                <a onClick={this.clearValue} className={cx('Select-clear')}>
+                <a
+                  onClick={this.clearValue}
+                  className={cx('Select-clear')}
+                  {...testIdBuilder?.getChild('clear').getTestId()}
+                >
                   <Icon icon="input-clear" className="icon" />
                 </a>
               ) : null}
