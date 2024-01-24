@@ -719,7 +719,7 @@ td.rdtQuarter {
   > span {
     display: inline-block;
     color: var(--inputDate-other-color);
-    background: var(--inputDate-other-bg-color);
+    // background: var(--inputDate-other-bg-color);
     border-radius: var(--inputDate-other-top-left-border-radius)
       var(--inputDate-other-top-right-border-radius)
       var(--inputDate-other-bottom-right-border-radius)
@@ -760,13 +760,23 @@ td.rdtQuarter {
   }
 }
 
-.rdtPicker .rdtActive.rdtBetween.rdtStartDay {
+.rdtPicker .rdtActive.rdtBetween.rdtStart {
   background: linear-gradient(
     to right,
     transparent 0%,
     transparent 50%,
     var(--Calendar-cell-onBetween-bg) 51%,
     var(--Calendar-cell-onBetween-bg) 100%
+  );
+}
+
+.rdtPicker .rdtActive.rdtBetween.rdtEnd {
+  background: linear-gradient(
+    to right,
+    var(--Calendar-cell-onBetween-bg) 0%,
+    var(--Calendar-cell-onBetween-bg) 50%,
+    transparent 51%,
+    transparent 100%
   );
 }
 
@@ -783,16 +793,6 @@ td.rdtQuarter {
       color: inherit !important;
     }
   }
-}
-
-.rdtPicker .rdtActive.rdtBetween.rdtEndDay {
-  background: linear-gradient(
-    to right,
-    var(--Calendar-cell-onBetween-bg) 0%,
-    var(--Calendar-cell-onBetween-bg) 50%,
-    transparent 51%,
-    transparent 100%
-  );
 }
 
 .#{$ns}DateCalendar {

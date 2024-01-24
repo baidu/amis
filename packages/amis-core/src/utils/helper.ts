@@ -2286,7 +2286,7 @@ export function replaceUrlParams(path: string, params: Record<string, any>) {
   return path;
 }
 
-const TEST_ID_KEY: 'data-testid' = 'data-testid';
+export const TEST_ID_KEY: 'data-testid' = 'data-testid';
 
 export function buildTestId(testid?: string, data?: PlainObject) {
   if (!testid) {

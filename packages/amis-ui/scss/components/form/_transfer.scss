@@ -251,10 +251,6 @@
         var(--transfer-search-bottom-right-border-radius)
         var(--transfer-search-bottom-left-border-radius);
       box-shadow: var(--transfer-search-shadow);
-      padding: var(--transfer-search-input-paddingTop)
-        var(--transfer-search-input-paddingRight)
-        var(--transfer-search-input-paddingBottom)
-        var(--transfer-search-input-paddingLeft);
 
       &:hover {
         border-color: var(--transfer-search-border-hover-color);

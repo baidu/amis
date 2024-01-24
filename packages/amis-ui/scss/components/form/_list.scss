@@ -161,14 +161,14 @@
       &:after {
         content: '';
         position: absolute;
-        width: px2rem(10px);
-        height: var(--gap-xs);
-        border-color: var(--ListControl-item-onActive-after-borderColor);
         border-style: solid;
-        border-width: 0 0 px2rem(2px) px2rem(2px);
-        right: px2rem(1px);
+        border-width: 0 0 px2rem(1px) px2rem(1px);
+        right: px2rem(2px);
         bottom: px2rem(6px);
         transform: rotate(-40deg);
+        width: var(--Checkbox--full-inner-size);
+        height: calc(var(--Checkbox--full-inner-size) / 2);
+        border-color: #fff;
       }
     }
 

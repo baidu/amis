@@ -232,8 +232,18 @@ export class ImagesField extends React.Component<ImagesProps> {
         className={cx(
           'ImagesField',
           className,
-          setThemeClassName('imagesControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'imagesControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={style}
       >
@@ -262,14 +272,13 @@ export class ImagesField extends React.Component<ImagesProps> {
                 onEnlarge={this.handleEnlarge}
                 showToolbar={showToolbar}
                 imageGallaryClassName={`${imageGallaryClassName} ${setThemeClassName(
-                  'imageGallaryClassName',
+                  {...this.props, name: 'imageGallaryClassName', id, themeCss}
+                )} ${setThemeClassName({
+                  ...this.props,
+                  name: 'galleryControlClassName',
                   id,
                   themeCss
-                )} ${setThemeClassName(
-                  'galleryControlClassName',
-                  id,
-                  themeCss
-                )}`}
+                })}`}
                 toolbarActions={toolbarActions}
               />
             ))}
@@ -287,6 +296,7 @@ export class ImagesField extends React.Component<ImagesProps> {
           placeholder
         )}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

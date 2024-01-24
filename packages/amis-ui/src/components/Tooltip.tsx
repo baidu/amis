@@ -49,6 +49,7 @@ export class Tooltip extends React.Component<TooltipProps> {
       onMouseEnter,
       onMouseLeave,
       bodyClassName,
+      componentId,
       ...rest
     } = this.props;
 

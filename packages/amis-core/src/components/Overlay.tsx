@@ -17,7 +17,8 @@ import {
   noop,
   ownerDocument,
   resizeSensor,
-  RootClose
+  RootClose,
+  uuid
 } from '../utils';
 
 export const SubPopoverDisplayedID = 'data-sub-popover-displayed';
@@ -39,6 +40,7 @@ class Position extends React.Component<any, any> {
   watchedTarget: any;
   parentPopover: any;
   // setState: (state: any) => void;
+  componentId: string;
 
   static defaultProps = {
     containerPadding: 0,
@@ -57,6 +59,7 @@ class Position extends React.Component<any, any> {
     };
 
     this._lastTarget = null;
+    this.componentId = uuid();
   }
 
   updatePosition(target: any) {
@@ -68,7 +71,10 @@ class Position extends React.Component<any, any> {
 
       if (!this.parentPopover && parentPopover) {
         this.parentPopover = parentPopover;
-        this.parentPopover.setAttribute(SubPopoverDisplayedID, true);
+        this.parentPopover.setAttribute(
+          SubPopoverDisplayedID + '-' + this.componentId,
+          true
+        );
       }
     }
 
@@ -152,11 +158,17 @@ class Position extends React.Component<any, any> {
   };
 
   componentWillUnmount() {
+    // 一个 PopOver 关闭时，需把挂载父 PopOver 的标记去掉
+    // 这里可能会存在多个子 PopOver 的情况，所以需要加上 componentId
     if (
       this.parentPopover &&
-      this.parentPopover.getAttribute(SubPopoverDisplayedID)
+      this.parentPopover.getAttribute(
+        SubPopoverDisplayedID + '-' + this.componentId
+      )
     ) {
-      this.parentPopover.removeAttribute(SubPopoverDisplayedID);
+      this.parentPopover.removeAttribute(
+        SubPopoverDisplayedID + '-' + this.componentId
+      );
       this.parentPopover = null;
     }
 
@@ -188,7 +200,8 @@ class Position extends React.Component<any, any> {
         ...child.props.style,
         left: positionLeft,
         top: positionTop
-      }
+      },
+      componentId: this.componentId
     });
   }
 }

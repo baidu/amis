@@ -1,5 +1,5 @@
 import React from 'react';
-import {ThemeProps, themeable} from 'amis-core';
+import {ThemeProps, buildTestId, themeable} from 'amis-core';
 import Input from './Input';
 import {autobind, ucFirst} from 'amis-core';
 import {Icon} from './icons';
@@ -18,6 +18,7 @@ export interface InputBoxProps
   prefix?: JSX.Element;
   children?: React.ReactNode | Array<React.ReactNode>;
   borderMode?: 'full' | 'half' | 'none';
+  testid?: string;
 }
 
 export interface InputBoxState {
@@ -84,6 +85,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
       borderMode,
       onClick,
       mobileUI,
+      testid,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
@@ -111,6 +113,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
           onBlur={this.handleBlur}
           size={12}
           disabled={disabled}
+          {...buildTestId(testid)}
         />
 
         {children}

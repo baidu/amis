@@ -470,7 +470,12 @@ export default class PickerControl extends React.PureComponent<
         key={index}
         className={cx(
           `${ns}Picker-value`,
-          setThemeClassName('pickValueWrapClassName', id, themeCss || css),
+          setThemeClassName({
+            ...this.props,
+            name: 'pickValueWrapClassName',
+            id,
+            themeCss: themeCss || css
+          }),
           {
             'is-disabled': disabled
           }
@@ -479,7 +484,12 @@ export default class PickerControl extends React.PureComponent<
         <span
           className={cx(
             `${ns}Picker-valueIcon`,
-            setThemeClassName('pickValueIconClassName', id, themeCss || css)
+            setThemeClassName({
+              ...this.props,
+              name: 'pickValueIconClassName',
+              id,
+              themeCss: themeCss || css
+            })
           )}
           onClick={e => {
             e.stopPropagation();
@@ -491,7 +501,12 @@ export default class PickerControl extends React.PureComponent<
         <span
           className={cx(
             `${ns}Picker-valueLabel`,
-            setThemeClassName('pickFontClassName', id, themeCss || css)
+            setThemeClassName({
+              ...this.props,
+              name: 'pickFontClassName',
+              id,
+              themeCss: themeCss || css
+            })
           )}
           onClick={e => {
             e.stopPropagation();
@@ -584,11 +599,12 @@ export default class PickerControl extends React.PureComponent<
                   })}
                 >
                   <span
-                    className={`${ns}Picker-valueLabel ${setThemeClassName(
-                      'pickFontClassName',
+                    className={`${ns}Picker-valueLabel ${setThemeClassName({
+                      ...this.props,
+                      name: 'pickFontClassName',
                       id,
-                      themeCss || css
-                    )}`}
+                      themeCss: themeCss || css
+                    })}`}
                   >
                     {item.label}
                   </span>
@@ -717,12 +733,18 @@ export default class PickerControl extends React.PureComponent<
               onClick={this.handleClick}
               className={cx(
                 'Picker-input',
-                setThemeClassName('pickControlClassName', id, themeCss || css),
-                setThemeClassName(
-                  'pickControlDisabledClassName',
+                setThemeClassName({
+                  ...this.props,
+                  name: 'pickControlClassName',
                   id,
-                  themeCss || css
-                )
+                  themeCss: themeCss || css
+                }),
+                setThemeClassName({
+                  ...this.props,
+                  name: 'pickControlDisabledClassName',
+                  id,
+                  themeCss: themeCss || css
+                })
               )}
             >
               {!selectedOptions.length && placeholder ? (
@@ -756,7 +778,12 @@ export default class PickerControl extends React.PureComponent<
                   icon="window-restore"
                   className={cx(
                     'icon',
-                    setThemeClassName('pickIconClassName', id, themeCss || css)
+                    setThemeClassName({
+                      ...this.props,
+                      name: 'pickIconClassName',
+                      id,
+                      themeCss: themeCss || css
+                    })
                   )}
                   iconContent="Picker-icon"
                 />
@@ -788,6 +815,7 @@ export default class PickerControl extends React.PureComponent<
           </div>
         )}
         <CustomStyle
+          {...this.props}
           config={{
             themeCss: themeCss || css,
             classNames: [
@@ -812,11 +840,12 @@ export default class PickerControl extends React.PureComponent<
                 key: 'pickControlDisabledClassName',
                 weights: {
                   default: {
-                    pre: `${ns}Picker.is-disabled> .${setThemeClassName(
-                      'pickControlDisabledClassName',
+                    pre: `${ns}Picker.is-disabled> .${setThemeClassName({
+                      ...this.props,
+                      name: 'pickControlDisabledClassName',
                       id,
-                      themeCss || css
-                    )}, `
+                      themeCss: themeCss || css
+                    })}, `
                   }
                 }
               },
