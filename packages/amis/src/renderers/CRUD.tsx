@@ -2511,6 +2511,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onSearchableFromInit,
       headerToolbarRender,
       footerToolbarRender,
+      testIdBuilder,
       ...rest
     } = this.props;
 
@@ -2521,6 +2522,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'is-mobile': isMobile()
         })}
         style={style}
+        {...testIdBuilder.getTestId()}
       >
         {filter && (!store.filterTogggable || store.filterVisible)
           ? render(
@@ -2531,7 +2533,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 submitText: __('search'),
                 ...filter,
                 type: 'form',
-                api: null
+                api: null,
+                testIdBuilder: testIdBuilder.getChild('filter')
               },
               {
                 key: 'filter',
@@ -2557,6 +2560,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'body',
           {
             ...rest,
+            testIdBuilder: testIdBuilder.getChild('body'),
             // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
             // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
             onEvent: this.filterOnEvent(onEvent),

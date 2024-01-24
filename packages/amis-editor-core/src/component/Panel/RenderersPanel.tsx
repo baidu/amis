@@ -1,4 +1,4 @@
-import {Html, render, TooltipWrapper, buildTestId} from 'amis';
+import {Html, render, TestIdBuilder, TooltipWrapper} from 'amis';
 import {observer} from 'mobx-react';
 import React from 'react';
 import cx from 'classnames';
@@ -18,6 +18,7 @@ type PanelProps = {
   };
   searchRendererType: string;
   className?: string;
+  testIdBuilder?: TestIdBuilder;
 };
 
 type PanelStates = {
@@ -98,7 +99,7 @@ export default class RenderersPanel extends React.Component<
   }
 
   render() {
-    const {store, searchRendererType, className} = this.props;
+    const {store, searchRendererType, className, testIdBuilder} = this.props;
     const grouped = this.props.groupedRenderers || {};
     const keys = Object.keys(grouped);
 
@@ -189,7 +190,7 @@ export default class RenderersPanel extends React.Component<
                           onDragStart={(e: React.DragEvent) =>
                             this.handleDragStart(e, item.name)
                           }
-                          {...buildTestId(testid)}
+                          {...testIdBuilder?.getChild(testid).getTestId()}
                         >
                           <div
                             className="icon-box"
