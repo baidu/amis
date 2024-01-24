@@ -533,7 +533,6 @@ export function registerOptionsControl(config: OptionsConfig) {
     syncAutoFill(selectedOptions: Array<any>) {
       const {autoFill, multiple, onBulkChange, data} = this.props;
       const formItem = this.props.formItem as IFormItemStore;
-      console.log('autoFill=======', autoFill);
       // 参照录入｜自动填充
       if (autoFill?.hasOwnProperty('api')) {
         return;
@@ -577,24 +576,18 @@ export function registerOptionsControl(config: OptionsConfig) {
         );
         const tmpData = {...data};
         const result = {...toSync};
-
         Object.keys(autoFill).forEach(key => {
-          console.log('key===========', key);
-
           const keys = keyToPath(key);
-          console.log('key===========', keys, tmpData);
           // 如果左边的 key 是一个路径
           // 这里不希望直接把原始对象都给覆盖没了
           // 而是保留原始的对象，只修改指定的属性
           if (keys.length > 1 && isPlainObject(tmpData[keys[0]])) {
             const value = getVariable(toSync, key);
-            console.log('tmpData,========', tmpData);
             // 存在情况：依次更新同一子路径的多个key，eg: a.b.c1 和 a.b.c2，所以需要同步更新data
             setVariable(tmpData, key, value);
             result[keys[0]] = tmpData[keys[0]];
           }
         });
-
         onBulkChange(result);
       }
     }
