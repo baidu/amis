@@ -530,7 +530,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       return;
     }
 
-    // 当前 tab 可能不可见，所以需要自动切到一个可见的 tab, 向前找，找一圈
+    // 当前 tab 可能不可见，所以需要自动切到一个可见的 tab, 左右左右找， 直到找到一个可见的 tab
     const tabIndex = findIndex(localTabs, (tab: TabSource, index) =>
       tab.hash ? tab.hash === key : index === key
     );
@@ -539,14 +539,20 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       localTabs[tabIndex] &&
       !isVisible(localTabs[tabIndex], this.props.data)
     ) {
-      let len = localTabs.length;
-      let i = tabIndex - 1 + len;
-      let tries = len - 1;
+      const len = localTabs.length;
+      let left = tabIndex;
+      let right = tabIndex;
 
-      while (tries--) {
-        const index = i-- % len;
-        if (isVisible(localTabs[index], data)) {
-          let activeKey = localTabs[index].hash || index;
+      while (left-- >= 0 || right++ < len) {
+        let activeKey = null;
+
+        if (left >= 0 && isVisible(localTabs[left], data)) {
+          activeKey = localTabs[left].hash || left;
+        } else if (right < len && isVisible(localTabs[right], data)) {
+          activeKey = localTabs[right].hash || right;
+        }
+
+        if (activeKey !== null) {
           this.setState({
             activeKey: (this.activeKey = activeKey)
           });
