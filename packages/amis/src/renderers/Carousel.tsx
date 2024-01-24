@@ -614,8 +614,18 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
           `Carousel Carousel--${controlsTheme}`,
           {['Carousel-arrow--always']: !!alwaysShowArrow},
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={carouselStyles}
       >
@@ -626,7 +636,12 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
           <div
             className={cx(
               'Carousel-leftArrow',
-              setThemeClassName('galleryControlClassName', id, themeCss)
+              setThemeClassName({
+                ...this.props,
+                name: 'galleryControlClassName',
+                id,
+                themeCss
+              })
             )}
             onClick={this.prev}
           >
@@ -649,7 +664,12 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
           <div
             className={cx(
               'Carousel-rightArrow',
-              setThemeClassName('galleryControlClassName', id, themeCss)
+              setThemeClassName({
+                ...this.props,
+                name: 'galleryControlClassName',
+                id,
+                themeCss
+              })
             )}
             onClick={this.next}
           >
@@ -669,6 +689,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
           </div>
         ) : null}
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

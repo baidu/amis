@@ -202,6 +202,7 @@ $bg: url('data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjI1NnB4IiBoZWlnaHQ9IjEzMnB4
     }
     &-popover {
       padding: px2rem(16px) px2rem(12px);
+      width: px2rem(200px);
       .cxd-Form-item {
         margin-bottom: 0;
       }

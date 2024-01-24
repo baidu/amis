@@ -166,7 +166,7 @@ exports[`Renderer:inputYearRange with embed 1`] = `
                             </tr>
                             <tr>
                               <td
-                                class="rdtYear rdtActive rdtBetween"
+                                class="rdtYear  rdtBetween rdtActive rdtStart"
                                 data-value="1995"
                               >
                                 <span>
@@ -317,7 +317,7 @@ exports[`Renderer:inputYearRange with embed 1`] = `
                                 </span>
                               </td>
                               <td
-                                class="rdtYear rdtActive rdtBetween"
+                                class="rdtYear  rdtBetween rdtActive rdtEnd"
                                 data-value="2076"
                               >
                                 <span>

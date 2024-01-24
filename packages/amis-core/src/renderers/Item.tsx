@@ -471,6 +471,7 @@ export interface FormItemProps extends RendererProps {
   // error string
   error?: string;
   showErrorMsg?: boolean;
+  testid?: string;
 }
 
 // 下发下去的属性
@@ -506,7 +507,13 @@ const getItemLabelClassName = (props: FormItemProps) => {
     ? staticLabelClassName
     : classNames(
         labelClassName,
-        setThemeClassName('labelClassName', id, themeCss, 'item')
+        setThemeClassName({
+          ...props,
+          name: 'labelClassName',
+          id,
+          themeCss,
+          extra: 'item'
+        })
       );
 };
 
@@ -915,12 +922,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               controlSize !== 'full'
           },
           model?.errClassNames,
-          setThemeClassName(
-            'wrapperCustomStyle',
-            rest.id,
-            rest.wrapperCustomStyle,
-            'item'
-          ),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id: rest.id,
+            themeCss: rest.wrapperCustomStyle,
+            extra: 'item'
+          }),
           getItemInputClassName(this.props)
         )
       });
@@ -993,12 +1001,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               [`is-required`]: required
             },
             model?.errClassNames,
-            setThemeClassName(
-              'wrapperCustomStyle',
+            setThemeClassName({
+              ...props,
+              name: 'wrapperCustomStyle',
               id,
-              wrapperCustomStyle,
-              'item'
-            )
+              themeCss: wrapperCustomStyle,
+              extra: 'item'
+            })
           )}
           style={style}
         >
@@ -1087,12 +1096,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                   className: cx(
                     `Form-description`,
                     descriptionClassName,
-                    setThemeClassName(
-                      'descriptionClassName',
+                    setThemeClassName({
+                      ...props,
+                      name: 'descriptionClassName',
                       id,
                       themeCss,
-                      'item'
-                    )
+                      extra: 'item'
+                    })
                   )
                 })
               : null}
@@ -1145,12 +1155,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               [`is-required`]: required
             },
             model?.errClassNames,
-            setThemeClassName(
-              'wrapperCustomStyle',
+            setThemeClassName({
+              ...props,
+              name: 'wrapperCustomStyle',
               id,
-              wrapperCustomStyle,
-              'item'
-            )
+              themeCss: wrapperCustomStyle,
+              extra: 'item'
+            })
           )}
           style={style}
         >
@@ -1218,12 +1229,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                     className: cx(
                       `Form-description`,
                       descriptionClassName,
-                      setThemeClassName(
-                        'descriptionClassName',
+                      setThemeClassName({
+                        ...props,
+                        name: 'descriptionClassName',
                         id,
                         themeCss,
-                        'item'
-                      )
+                        extra: 'item'
+                      })
                     )
                   })
                 : null}
@@ -1270,12 +1282,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                     className: cx(
                       `Form-description`,
                       descriptionClassName,
-                      setThemeClassName(
-                        'descriptionClassName',
+                      setThemeClassName({
+                        ...props,
+                        name: 'descriptionClassName',
                         id,
                         themeCss,
-                        'item'
-                      )
+                        extra: 'item'
+                      })
                     )
                   })
                 : null}
@@ -1329,12 +1342,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               [`is-required`]: required
             },
             model?.errClassNames,
-            setThemeClassName(
-              'wrapperCustomStyle',
+            setThemeClassName({
+              ...props,
+              name: 'wrapperCustomStyle',
               id,
-              wrapperCustomStyle,
-              'item'
-            )
+              themeCss: wrapperCustomStyle,
+              extra: 'item'
+            })
           )}
           style={style}
         >
@@ -1404,12 +1418,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                   className: cx(
                     `Form-description`,
                     descriptionClassName,
-                    setThemeClassName(
-                      'descriptionClassName',
+                    setThemeClassName({
+                      ...props,
+                      name: 'descriptionClassName',
                       id,
                       themeCss,
-                      'item'
-                    )
+                      extra: 'item'
+                    })
                   )
                 })
               : null}
@@ -1462,12 +1477,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               [`is-required`]: required
             },
             model?.errClassNames,
-            setThemeClassName(
-              'wrapperCustomStyle',
+            setThemeClassName({
+              ...props,
+              name: 'wrapperCustomStyle',
               id,
-              wrapperCustomStyle,
-              'item'
-            )
+              themeCss: wrapperCustomStyle,
+              extra: 'item'
+            })
           )}
           style={style}
         >
@@ -1538,12 +1554,13 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 className: cx(
                   `Form-description`,
                   descriptionClassName,
-                  setThemeClassName(
-                    'descriptionClassName',
+                  setThemeClassName({
+                    ...props,
+                    name: 'descriptionClassName',
                     id,
                     themeCss,
-                    'item'
-                  )
+                    extra: 'item'
+                  })
                 )
               })
             : null}
@@ -1596,6 +1613,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             )
           : null}
         <CustomStyle
+          {...this.props}
           config={{
             themeCss: themeCss || css,
             classNames: [

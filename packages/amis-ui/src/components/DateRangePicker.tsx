@@ -1552,11 +1552,11 @@ export class DateRangePicker extends React.Component<
     }
 
     if (startDate && currentDate.isSame(startDate, 'day')) {
-      props.className += ' rdtActive rdtStartDay';
+      props.className += ' rdtActive rdtStart';
     }
 
     if (endDate && currentDate.isSame(endDate, 'day')) {
-      props.className += ' rdtActive rdtEndDay';
+      props.className += ' rdtActive rdtEnd';
     }
 
     const {className, ...others} = this.getDisabledElementProps(
@@ -1591,6 +1591,19 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
+    // 如果已经选择了开始时间和结束时间，那么中间的时间都不应该高亮
+    if (startDate && endDate && props.className.includes('rdtActive')) {
+      props.className = props.className.replace('rdtActive', '');
+    }
+
+    if (startDate && currentDate.isSame(startDate, 'month')) {
+      props.className += ' rdtActive rdtStart';
+    }
+
+    if (endDate && currentDate.isSame(endDate, 'month')) {
+      props.className += ' rdtActive rdtEnd';
+    }
+
     const {className, ...others} = this.getDisabledElementProps(
       currentDate,
       'month'
@@ -1616,6 +1629,19 @@ export class DateRangePicker extends React.Component<
       props.className += ' rdtBetween';
     }
 
+    // 如果已经选择了开始时间和结束时间，那么中间的时间都不应该高亮
+    if (startDate && endDate && props.className.includes('rdtActive')) {
+      props.className = props.className.replace('rdtActive', '');
+    }
+
+    if (startDate && currentDate.isSame(startDate, 'quarter')) {
+      props.className += ' rdtActive rdtStart';
+    }
+
+    if (endDate && currentDate.isSame(endDate, 'quarter')) {
+      props.className += ' rdtActive rdtEnd';
+    }
+
     const {className, ...others} = this.getDisabledElementProps(
       currentDate,
       'quarter'
@@ -1638,6 +1664,19 @@ export class DateRangePicker extends React.Component<
       currentDate.isBetween(startDate, endDate, 'year', '[]')
     ) {
       props.className += ' rdtBetween';
+    }
+
+    // 如果已经选择了开始时间和结束时间，那么中间的时间都不应该高亮
+    if (startDate && endDate && props.className.includes('rdtActive')) {
+      props.className = props.className.replace('rdtActive', '');
+    }
+
+    if (startDate && currentDate.isSame(startDate, 'year')) {
+      props.className += ' rdtActive rdtStart';
+    }
+
+    if (endDate && currentDate.isSame(endDate, 'year')) {
+      props.className += ' rdtActive rdtEnd';
     }
 
     const {className, ...others} = this.getDisabledElementProps(

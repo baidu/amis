@@ -518,7 +518,12 @@ export default class Drawer extends React.Component<DrawerProps> {
         className={cx(
           'Drawer-footer',
           footerClassName,
-          setThemeClassName('drawerFooterClassName', id, themeCss)
+          setThemeClassName({
+            ...this.props,
+            name: 'drawerFooterClassName',
+            id,
+            themeCss
+          })
         )}
       >
         {store.loading || store.error ? (
@@ -605,12 +610,18 @@ export default class Drawer extends React.Component<DrawerProps> {
         classPrefix={ns}
         className={className}
         style={style}
-        drawerClassName={setThemeClassName('drawerClassName', id, themeCss)}
-        drawerMaskClassName={setThemeClassName(
-          'drawerMaskClassName',
+        drawerClassName={setThemeClassName({
+          ...this.props,
+          name: 'drawerClassName',
           id,
           themeCss
-        )}
+        })}
+        drawerMaskClassName={setThemeClassName({
+          ...this.props,
+          name: 'drawerMaskClassName',
+          id,
+          themeCss
+        })}
         size={size}
         onHide={this.handleSelfClose}
         disabled={store.loading}
@@ -632,14 +643,24 @@ export default class Drawer extends React.Component<DrawerProps> {
           className={cx(
             'Drawer-header',
             headerClassName,
-            setThemeClassName('drawerHeaderClassName', id, themeCss)
+            setThemeClassName({
+              ...this.props,
+              name: 'drawerHeaderClassName',
+              id,
+              themeCss
+            })
           )}
         >
           {title ? (
             <div
               className={cx(
                 'Drawer-title',
-                setThemeClassName('drawerTitleClassName', id, themeCss)
+                setThemeClassName({
+                  ...this.props,
+                  name: 'drawerTitleClassName',
+                  id,
+                  themeCss
+                })
               )}
             >
               {render('title', title, {
@@ -665,7 +686,12 @@ export default class Drawer extends React.Component<DrawerProps> {
             className={cx(
               'Drawer-body',
               bodyClassName,
-              setThemeClassName('drawerBodyClassName', id, themeCss)
+              setThemeClassName({
+                ...this.props,
+                name: 'drawerBodyClassName',
+                id,
+                themeCss
+              })
             )}
           >
             <Spinner overlay show size="lg" loadingConfig={loadingConfig} />
@@ -676,12 +702,18 @@ export default class Drawer extends React.Component<DrawerProps> {
             className={cx(
               'Drawer-body',
               bodyClassName,
-              setThemeClassName('drawerBodyClassName', id, themeCss)
+              setThemeClassName({
+                ...this.props,
+                name: 'drawerBodyClassName',
+                id,
+                themeCss
+              })
             )}
             role="dialog-body"
           >
             {this.renderBody(body, 'body')}
             <CustomStyle
+              {...this.props}
               config={{
                 themeCss: themeCss,
                 classNames: [

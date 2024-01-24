@@ -87,7 +87,12 @@ export default class Divider extends React.Component<DividerProps, object> {
         ? `Divider--with-text-${titlePosition}`
         : '',
       title && direction !== 'vertical'
-        ? setThemeClassName('titleWrapperControlClassName', id, themeCss)
+        ? setThemeClassName({
+            ...this.props,
+            name: 'titleWrapperControlClassName',
+            id,
+            themeCss
+          })
         : '',
       className
     );
@@ -98,13 +103,19 @@ export default class Divider extends React.Component<DividerProps, object> {
           <span
             className={cx(
               `Divider-text Divider-text-${titlePosition} ${titleClassName}`,
-              setThemeClassName('titleControlClassName', id, themeCss)
+              setThemeClassName({
+                ...this.props,
+                name: 'titleControlClassName',
+                id,
+                themeCss
+              })
             )}
           >
             {render('title', title)}
           </span>
         ) : null}
         <CustomStyle
+          {...this.props}
           config={{
             themeCss: themeCss,
             classNames: [

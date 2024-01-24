@@ -265,8 +265,18 @@ export default class IFrame extends React.Component<IFrameProps, object> {
           className={cx(
             'IFrame',
             className,
-            setThemeClassName('baseControlClassName', id, themeCss),
-            setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+            setThemeClassName({
+              ...this.props,
+              name: 'baseControlClassName',
+              id,
+              themeCss
+            }),
+            setThemeClassName({
+              ...this.props,
+              name: 'wrapperCustomStyle',
+              id,
+              themeCss: wrapperCustomStyle
+            })
           )}
           frameBorder={frameBorder}
           style={style}
@@ -278,6 +288,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
           sandbox={sandbox}
         />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

@@ -113,6 +113,7 @@ export class SparkLineRenderer extends React.Component<SparkLineRendProps> {
           value={finalValue}
         />
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,
