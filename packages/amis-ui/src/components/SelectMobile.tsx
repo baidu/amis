@@ -23,6 +23,7 @@ interface Props extends SelectProps {
   isOpen: boolean;
   highlightedIndex: any;
   selectedItem: any;
+  visibleItemCount?: number;
   getInputProps: (...params: any) => any;
   getItemProps: (...params: any) => any;
   onClose: () => void;
@@ -265,6 +266,7 @@ export default class SelectMobile extends React.Component<Props, SelectState> {
       searchable,
       disabled,
       searchPromptText,
+      visibleItemCount,
       translate: __,
       hideSelected,
       renderMenu,
@@ -513,6 +515,7 @@ export default class SelectMobile extends React.Component<Props, SelectState> {
             labelField={labelField}
             valueField={valueField}
             itemHeight={40}
+            visibleItemCount={visibleItemCount}
             value={[selection[0]?.[valueField]]}
           />
         )}
