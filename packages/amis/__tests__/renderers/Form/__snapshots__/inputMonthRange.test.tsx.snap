@@ -192,7 +192,7 @@ exports[`Renderer:inputMonthRange with embed 1`] = `
                             </tr>
                             <tr>
                               <td
-                                class="rdtMonth rdtActive rdtBetween"
+                                class="rdtMonth  rdtBetween rdtActive rdtStart"
                                 data-value="9"
                               >
                                 <span>
@@ -343,7 +343,7 @@ exports[`Renderer:inputMonthRange with embed 1`] = `
                                 </span>
                               </td>
                               <td
-                                class="rdtMonth rdtActive rdtBetween"
+                                class="rdtMonth  rdtBetween rdtActive rdtEnd"
                                 data-value="10"
                               >
                                 <span>

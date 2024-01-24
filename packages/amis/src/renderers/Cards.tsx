@@ -1020,8 +1020,18 @@ export default class Cards extends React.Component<GridProps, object> {
           {
             'Cards--unsaved': !!store.modified || !!store.moved
           },
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={buildStyle(style, data)}
       >
@@ -1056,6 +1066,7 @@ export default class Cards extends React.Component<GridProps, object> {
         <Spinner loadingConfig={loadingConfig} overlay show={loading} />
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,

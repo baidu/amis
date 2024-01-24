@@ -138,8 +138,18 @@ export default class Each extends React.Component<EachProps> {
         className={cx(
           'Each',
           className,
-          setThemeClassName('baseControlClassName', id, themeCss),
-          setThemeClassName('wrapperCustomStyle', id, wrapperCustomStyle)
+          setThemeClassName({
+            ...this.props,
+            name: 'baseControlClassName',
+            id,
+            themeCss
+          }),
+          setThemeClassName({
+            ...this.props,
+            name: 'wrapperCustomStyle',
+            id,
+            themeCss: wrapperCustomStyle
+          })
         )}
         style={buildStyle(style, data)}
       >
@@ -164,6 +174,7 @@ export default class Each extends React.Component<EachProps> {
         )}
 
         <CustomStyle
+          {...this.props}
           config={{
             wrapperCustomStyle,
             id,
