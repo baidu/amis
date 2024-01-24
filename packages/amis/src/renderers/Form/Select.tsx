@@ -156,6 +156,8 @@ export interface SelectControlSchema
      * 检索函数
      */
     filterOption?: 'string';
+
+    testid?: string;
   };
 }
 
