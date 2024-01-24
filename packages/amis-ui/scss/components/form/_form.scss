@@ -809,12 +809,6 @@
     margin-bottom: 0;
   }
 
-  .#{$ns}Form-item:nth-last-of-type(1) {
-    &::after {
-      display: none;
-    }
-  }
-
   .#{$ns}Form-item.is-placeholder::after {
     display: none;
   }
