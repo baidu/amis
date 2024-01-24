@@ -6,6 +6,7 @@ import {
   RendererEvent,
   RendererProps,
   autobind,
+  setVariable,
   traceProps
 } from 'amis-core';
 import {Action} from '../Action';
@@ -157,15 +158,10 @@ export class TableRow extends React.PureComponent<
     }
 
     const {item, onQuickChange} = this.props;
+    const data: any = {};
+    setVariable(data, name, value);
 
-    onQuickChange?.(
-      item,
-      {
-        [name]: value
-      },
-      submit,
-      changePristine
-    );
+    onQuickChange?.(item, data, submit, changePristine);
   }
 
   render() {
