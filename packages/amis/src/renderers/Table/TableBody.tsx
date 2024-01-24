@@ -9,7 +9,7 @@ import {trace, reaction} from 'mobx';
 import {createObject, flattenTree} from 'amis-core';
 import {LocaleProps} from 'amis-core';
 import {ActionSchema} from '../Action';
-import type {IColumn, IRow, ITableStore} from 'amis-core';
+import type {IColumn, IRow, ITableStore, TestIdBuilder} from 'amis-core';
 
 export interface TableBodyProps extends LocaleProps {
   store: ITableStore;
@@ -60,6 +60,7 @@ export interface TableBodyProps extends LocaleProps {
   prefixRow?: Array<any>;
   affixRow?: Array<any>;
   itemAction?: ActionSchema;
+  testIdBuilder?: TestIdBuilder;
 }
 
 @observer
@@ -92,7 +93,8 @@ export class TableBody extends React.Component<TableBodyProps> {
       onRowDbClick,
       onRowMouseEnter,
       onRowMouseLeave,
-      store
+      store,
+      testIdBuilder
     } = this.props;
 
     return rows.map((item: IRow, rowIndex: number) => {
@@ -100,6 +102,7 @@ export class TableBody extends React.Component<TableBodyProps> {
       const doms = [
         <TableRow
           {...itemProps}
+          testIdBuilder={testIdBuilder?.getChild(`row${rowIndex}`)}
           store={store}
           itemAction={itemAction}
           classnames={cx}

@@ -5,6 +5,7 @@ import {
   ITableStore,
   RendererEvent,
   RendererProps,
+  TestIdBuilder,
   autobind,
   traceProps
 } from 'amis-core';
@@ -43,6 +44,7 @@ interface TableRowProps extends Pick<RendererProps, 'render'> {
   regionPrefix?: string;
   checkOnItemClick?: boolean;
   ignoreFootableContent?: boolean;
+  testIdBuilder?: TestIdBuilder;
   [propName: string]: any;
 }
 
@@ -202,7 +204,7 @@ export class TableRow extends React.PureComponent<
       checkdisable,
       trRef,
       isNested,
-
+      testIdBuilder,
       ...rest
     } = this.props;
 
@@ -318,6 +320,7 @@ export class TableRow extends React.PureComponent<
           },
           `Table-tr--${depth}th`
         )}
+        {...testIdBuilder?.getTestId()}
       >
         {columns.map(column =>
           appeard ? (
@@ -328,7 +331,8 @@ export class TableRow extends React.PureComponent<
               key: column.id,
               onAction: this.handleAction,
               onQuickChange: this.handleQuickChange,
-              onChange: this.handleChange
+              onChange: this.handleChange,
+              testIdBuilder: testIdBuilder?.getChild(`col${column.index}`)
             })
           ) : column.name && item.rowSpans[column.name] === 0 ? null : (
             <td key={column.id}>

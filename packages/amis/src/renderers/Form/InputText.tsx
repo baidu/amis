@@ -19,9 +19,7 @@ import {
   createObject,
   setVariable,
   ucFirst,
-  isEffectiveApi,
-  getTestId,
-  buildTestId
+  isEffectiveApi
 } from 'amis-core';
 import {Icon, SpinnerExtraProps, Input, Spinner, OverflowTpl} from 'amis-ui';
 import {ActionSchema} from '../Action';
@@ -119,8 +117,6 @@ export interface TextControlSchema extends FormOptionsSchema {
 
   /** 在内容为空的时候清除值 */
   clearValueOnEmpty?: boolean;
-
-  testid?: string;
 }
 
 export type InputTextRendererEvent =
@@ -725,8 +721,8 @@ export default class TextControl extends React.PureComponent<
       themeCss,
       css,
       id,
-      testid,
-      nativeAutoComplete
+      nativeAutoComplete,
+      testIdBuilder
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
 
@@ -805,7 +801,7 @@ export default class TextControl extends React.PureComponent<
                 }
               )}
               onClick={this.handleClick}
-              {...buildTestId(testid, data)}
+              {...testIdBuilder.getTestId()}
             >
               <>
                 {filteredPlaceholder &&
@@ -983,8 +979,8 @@ export default class TextControl extends React.PureComponent<
       themeCss,
       css,
       id,
-      testid,
-      nativeAutoComplete
+      nativeAutoComplete,
+      testIdBuilder
     } = this.props;
 
     const type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -1012,7 +1008,7 @@ export default class TextControl extends React.PureComponent<
           inputControlClassName,
           inputOnly ? className : ''
         )}
-        {...buildTestId(testid, data)}
+        {...testIdBuilder.getTestId()}
       >
         {prefix ? (
           <span className={cx('TextControl-inputPrefix')}>
@@ -1040,7 +1036,7 @@ export default class TextControl extends React.PureComponent<
           className={cx(nativeInputClassName, {
             'TextControl-input-password': type === 'password' && revealPassword
           })}
-          {...buildTestId(testid && `${testid}-input`)}
+          {...testIdBuilder.getChild('input').getTestId()}
         />
         {clearable && !disabled && !readOnly && value ? (
           <a onClick={this.clearValue} className={cx('TextControl-clear')}>

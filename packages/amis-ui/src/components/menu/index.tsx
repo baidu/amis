@@ -18,7 +18,8 @@ import {
   autobind,
   filterTree,
   findTree,
-  getTreeAncestors
+  getTreeAncestors,
+  TestIdBuilder
 } from 'amis-core';
 import {ClassNamesFn, themeable} from 'amis-core';
 
@@ -63,7 +64,7 @@ export interface MenuProps extends Omit<RcMenuProps, 'mode'> {
    */
   navigations: Array<NavigationItem>;
 
-  testid?: string;
+  testIdBuilder?: TestIdBuilder;
 
   /**
    * 导航排列方式 stacked为true垂直 默认为false
@@ -580,7 +581,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       overflowedIndicator,
       overflowMaxCount,
       popupClassName,
-      testid
+      testIdBuilder
     } = this.props;
 
     return list.map((item: NavigationItem, index: number) => {
@@ -616,7 +617,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
             badge={badge}
             renderLink={renderLink}
             depth={level || 1}
-            testid={testid}
+            testIdBuilder={testIdBuilder?.getChild(
+              link.testid || index.toString()
+            )}
             popupClassName={popupClassName}
           >
             {this.renderMenuContent(item.children || [], item.depth + 1)}
@@ -638,7 +641,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           renderLink={renderLink}
           badge={badge}
           data={data}
-          testid={testid}
+          testIdBuilder={testIdBuilder?.getChild(
+            link.testid || index.toString()
+          )}
           depth={level || 1}
           order={index}
           overflowedIndicator={overflowedIndicator}
