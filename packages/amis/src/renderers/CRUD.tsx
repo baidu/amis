@@ -1819,10 +1819,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   clearSelection() {
     const {store} = this.props;
     const selected = store.selectedItems.concat();
-    const unSelected = store.unSelectedItems.concat();
+    const unSelected = store.unSelectedItems.concat(selected);
 
     store.setSelectedItems([]);
-    store.setUnSelectedItems(unSelected.concat(selected));
+    store.setUnSelectedItems(unSelected);
   }
 
   hasBulkActionsToolbar() {
