@@ -1892,13 +1892,12 @@ export const TableStore = iRendererStore
 
     function getPersistDataKey(columns: any[]) {
       // 这里的columns使用除了__开头的所有列
-      // sort保证存储和读取的key值保持一致
       return (
         location.pathname +
         self.path +
-        sortBy(
-          columns.map((item, index) => item.name || item.label || index)
-        ).join('-')
+        // 不能 sort 因为原始列的顺序设计器是可能改变的，此时如果缓存了打开会失效
+        // 还是缓存的顺序，不符合用户调整列顺序的预期
+        columns.map((item, index) => item.name || item.label || index).join('-')
       );
     }
 
