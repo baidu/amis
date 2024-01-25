@@ -5,7 +5,13 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {RendererProps, getRendererByName, noop, setVariable} from 'amis-core';
+import {
+  RendererProps,
+  getPropValue,
+  getRendererByName,
+  noop,
+  setVariable
+} from 'amis-core';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {ActionObject} from 'amis-core';
 import keycode from 'keycode';
@@ -587,7 +593,7 @@ export const HocQuickEdit =
         ) {
           return render('inline-form-item', schema.body[0], {
             mode: 'normal',
-            value: value ?? '',
+            value: getPropValue(this.props) ?? '',
             onChange: this.handleFormItemChange,
             ref: this.formItemRef,
             defaultStatic: false
