@@ -9,6 +9,7 @@ import type {
   RendererPluginAction,
   RendererPluginEvent
 } from 'amis-editor-core';
+import {isExpression} from 'amis-core';
 
 export class SwitchControlPlugin extends BasePlugin {
   static id = 'SwitchControlPlugin';
@@ -203,7 +204,7 @@ export class SwitchControlPlugin extends BasePlugin {
                 },
                 pipeOut: (value: any, origin: any, data: any) => {
                   // 如果是表达式，直接返回
-                  if (/\${.*}/.test(value)) return value;
+                  if (isExpression(value)) return value;
                   const {trueValue = true, falseValue = false} = data || {};
                   return value ? trueValue : falseValue;
                 }
