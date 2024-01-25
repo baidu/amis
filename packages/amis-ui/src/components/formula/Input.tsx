@@ -210,7 +210,7 @@ const FormulaInput: React.FC<FormulaInputProps> = props => {
       <ResultBox
         className={cx(`FormulaPicker-input-variable`)}
         allowInput={allowInput}
-        value={resultValue}
+        // value={resultValue}
         result={
           resultValue == null
             ? void 0

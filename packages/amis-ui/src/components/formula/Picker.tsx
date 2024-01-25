@@ -1,4 +1,5 @@
 import {
+  anyChanged,
   isExpression,
   resolveVariableAndFilterForAsync,
   uncontrollable
@@ -191,7 +192,22 @@ export class FormulaPicker extends React.Component<
     };
   }
 
-  componentDidUpdate(prevProps: FormulaPickerProps) {
+  async componentDidMount() {
+    const {variables, data} = this.props;
+    if (typeof variables === 'function') {
+      const list = await variables(this.props);
+      this.setState({variables: list});
+    } else if (typeof variables === 'string' && isExpression(variables)) {
+      const result = await resolveVariableAndFilterForAsync(
+        variables,
+        data,
+        '|raw'
+      );
+      this.setState({variables: result});
+    }
+  }
+
+  async componentDidUpdate(prevProps: FormulaPickerProps) {
     const {value} = this.props;
 
     if (value !== prevProps.value) {
@@ -199,6 +215,21 @@ export class FormulaPicker extends React.Component<
         value: typeof value === 'string' || !this.isTextInput() ? value : '',
         editorValue: this.value2EditorValue(this.props)
       });
+    }
+
+    if (anyChanged(['variables', 'data'], this.props, prevProps)) {
+      const {variables, data} = this.props;
+      if (typeof variables === 'function') {
+        const list = await variables(this.props);
+        this.setState({variables: list});
+      } else if (typeof variables === 'string' && isExpression(variables)) {
+        const result = await resolveVariableAndFilterForAsync(
+          variables,
+          data,
+          '|raw'
+        );
+        this.setState({variables: result});
+      }
     }
   }
 
@@ -337,17 +368,6 @@ export class FormulaPicker extends React.Component<
   @autobind
   async handleClick() {
     const {variables, data} = this.props;
-    if (typeof variables === 'function') {
-      const list = await variables(this.props);
-      this.setState({variables: list});
-    } else if (typeof variables === 'string' && isExpression(variables)) {
-      const result = await resolveVariableAndFilterForAsync(
-        variables,
-        data,
-        '|raw'
-      );
-      this.setState({variables: result});
-    }
 
     const state = {
       ...(await this.props.onPickerOpen?.(this.props)),
