@@ -265,8 +265,18 @@ export function Icon({
   onClick = () => {},
   onMouseEnter = () => {},
   onMouseLeave = () => {},
-  style,
-  ...rest
+  onMouseOver = () => {},
+  onMouseOut = () => {},
+  onMouseDown = () => {},
+  onMouseUp = () => {},
+  onMouseMove = () => {},
+  onBlur = () => {},
+  onFocus = () => {},
+  onTouchStart = () => {},
+  onTouchMove = () => {},
+  onTouchEnd = () => {},
+  onTouchCancel = () => {},
+  style
 }: {
   icon: string;
   iconContent?: string;
@@ -281,13 +291,23 @@ export function Icon({
     return null;
   }
 
-  // 获取全部事件
-  let events: any = {};
-  Object.keys(rest).forEach(key => {
-    if (key.startsWith('on') && key.length > 2) {
-      events[key] = rest[key];
-    }
-  });
+  // 支持的事件
+  let events: any = {
+    onClick,
+    onMouseEnter,
+    onMouseLeave,
+    onMouseOver,
+    onMouseOut,
+    onMouseDown,
+    onMouseUp,
+    onMouseMove,
+    onBlur,
+    onFocus,
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
+    onTouchCancel
+  };
 
   // 直接的icon dom
   if (React.isValidElement(icon)) {
@@ -298,9 +318,7 @@ export function Icon({
         (icon.props as any).className
       ),
       style,
-      onClick,
-      onMouseEnter,
-      onMouseLeave
+      ...events
     });
   }
 
@@ -327,9 +345,6 @@ export function Icon({
     return (
       <div
         {...events}
-        onClick={onClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
         className={cx(iconContent, className, classNameProp)}
         ref={refFn}
         style={style}
@@ -343,9 +358,6 @@ export function Icon({
     return (
       <Component
         {...events}
-        onClick={onClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
         className={cx(className, `icon-${icon}`, classNameProp)}
         // @ts-ignore
         icon={icon}
@@ -378,9 +390,6 @@ export function Icon({
       return (
         <svg
           {...events}
-          onClick={onClick}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
           className={cx('icon', 'icon-object', className, classNameProp)}
           style={style}
         >
@@ -395,9 +404,6 @@ export function Icon({
     const svgStr = /<svg .*?>(.*?)<\/svg>/.exec(icon);
     const svgHTML = createElement('svg', {
       ...events,
-      onClick,
-      onMouseEnter,
-      onMouseLeave,
       className: cx('icon', className, classNameProp),
       style,
       dangerouslySetInnerHTML: {__html: svgStr ? svgStr[1] : ''},
@@ -412,9 +418,6 @@ export function Icon({
     return (
       <img
         {...events}
-        onClick={onClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
         className={cx(`${classPrefix}Icon`, className, classNameProp)}
         src={icon}
         style={style}
@@ -440,9 +443,6 @@ export function Icon({
     return (
       <i
         {...events}
-        onClick={onClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
         className={cx(icon, className, classNameProp, iconPrefix)}
         style={style}
       />
