@@ -471,7 +471,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
       searchable,
       searchConfig = {},
       heightAuto,
-      mobileUI
+      mobileUI,
+      testIdBuilder
     } = this.props;
     let {highlightTxt} = this.props;
     const {filteredOptions, keyword} = this.state;
@@ -535,6 +536,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
         mobileUI={mobileUI}
+        testIdBuilder={testIdBuilder.getChild('tree')}
       />
     );
 
@@ -544,6 +546,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
           'is-sticky': searchable && searchConfig?.sticky,
           'h-auto': heightAuto
         })}
+        {...testIdBuilder.getChild('control').getTestId()}
       >
         <Spinner
           size="sm"
@@ -564,6 +567,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
               {...omit(searchConfig, 'className', 'sticky')}
               onSearch={this.handleSearch}
               mobileUI={mobileUI}
+              testIdBuilder={testIdBuilder.getChild('search')}
             />
             {TreeCmpt}
           </>

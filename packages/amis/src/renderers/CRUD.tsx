@@ -1976,7 +1976,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       render,
       classnames: cx,
       alwaysShowPagination,
-      perPageAvailable
+      perPageAvailable,
+      testIdBuilder
     } = this.props;
     const {page, lastPage} = store;
 
@@ -2024,7 +2025,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         {render(
           'pagination',
           {
-            type: 'pagination'
+            type: 'pagination',
+            testIdBuilder: testIdBuilder.getChild('pagination')
           },
           {
             ...extraProps,
@@ -2071,7 +2073,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageAvailable,
       classnames: cx,
       classPrefix: ns,
-      translate: __
+      translate: __,
+      testIdBuilder
     } = this.props;
 
     const items = childProps.items;
@@ -2102,13 +2105,20 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           onChange={(value: any) => this.handleChangePage(1, value.value)}
           clearable={false}
           popOverContainer={this.parentContainer}
+          testIdBuilder={testIdBuilder.getChild('perPage')}
         />
       </div>
     );
   }
 
   renderLoadMore() {
-    const {store, classPrefix: ns, classnames: cx, translate: __} = this.props;
+    const {
+      store,
+      classPrefix: ns,
+      classnames: cx,
+      translate: __,
+      testIdBuilder
+    } = this.props;
     const {page, lastPage} = store;
 
     return (
@@ -2121,6 +2131,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             this.search({page: page + 1, loadDataMode: 'load-more'})
           }
           size="sm"
+          {...testIdBuilder.getChild('loadMore').getTestId()}
         >
           {__('CRUD.loadMore')}
         </Button>
@@ -2199,7 +2210,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
-    const {render, store, mobileUI, translate: __} = this.props;
+    const {render, store, mobileUI, translate: __, testIdBuilder} = this.props;
     const type = (toolbar as Schema).type || toolbar;
 
     if (type === 'bulkActions' || type === 'bulk-actions') {
@@ -2244,7 +2255,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const cx = this.props.classnames;
       if (len) {
         return (
-          <div className={cx('Crud-toolbar')} key={index}>
+          <div
+            className={cx('Crud-toolbar')}
+            key={index}
+            {...testIdBuilder.getChild('toolbar').getTestId()}
+          >
             {children.map(({toolbar, dom: child}, index) => {
               const type = (toolbar as Schema).type || toolbar;
               let align =
@@ -2522,7 +2537,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'is-mobile': isMobile()
         })}
         style={style}
-        {...testIdBuilder.getTestId()}
+        {...testIdBuilder.getChild('wrapper').getTestId()}
       >
         {filter && (!store.filterTogggable || store.filterVisible)
           ? render(
@@ -2560,7 +2575,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'body',
           {
             ...rest,
-            testIdBuilder: testIdBuilder.getChild('body'),
             // 通用事件 例如cus-event 如果直接透传给table 则会被触发2次
             // 因此只将下层组件table、cards中自定义事件透传下去 否则通过crud配置了也不会执行
             onEvent: this.filterOnEvent(onEvent),
