@@ -1139,6 +1139,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             <span
               className={cx('Select-option-content')}
               title={typeof label === 'string' ? label : ''}
+              {...optTestIdBudr?.getChild('content').getTestId()}
             >
               {item.disabled
                 ? label

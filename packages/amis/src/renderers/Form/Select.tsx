@@ -14,7 +14,8 @@ import {
   isEffectiveApi,
   isApiOutdated,
   createObject,
-  autobind
+  autobind,
+  TestIdBuilder
 } from 'amis-core';
 import {TransferDropDown, Spinner, Select, SpinnerExtraProps} from 'amis-ui';
 import {FormOptionsSchema, SchemaApi} from '../../Schema';
@@ -155,6 +156,8 @@ export interface SelectControlSchema
      */
     filterOption?: 'string';
   };
+
+  testIdBuilder?: TestIdBuilder;
 }
 
 export interface SelectProps extends OptionsControlProps, SpinnerExtraProps {
@@ -409,12 +412,13 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
   @autobind
   renderMenu(option: Option, state: any) {
-    const {menuTpl, render, data, optionClassName} = this.props;
+    const {menuTpl, render, data, optionClassName, testIdBuilder} = this.props;
 
     return render(`menu/${state.index}`, menuTpl, {
       showNativeTitle: true,
       className: cx('Select-option-content', optionClassName),
-      data: createObject(createObject(data, state), option)
+      data: createObject(createObject(data, state), option),
+      testIdBuilder: testIdBuilder?.getChild('option-' + state.index)
     });
   }
 
