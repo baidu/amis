@@ -1060,7 +1060,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       }
 
       let label = labelToString(item[labelField]);
-      let optTestIdBudr = testIdBuilder?.getChild('option');
+      let optTestIdBudr = testIdBuilder?.getChild(`option-${index}`);
 
       return (
         <div

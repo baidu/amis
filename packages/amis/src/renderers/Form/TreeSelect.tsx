@@ -679,7 +679,8 @@ export default class TreeSelectControl extends React.Component<
       itemHeight,
       menuTpl,
       enableDefaultIcon,
-      mobileUI
+      mobileUI,
+      testIdBuilder
     } = this.props;
 
     let filtedOptions =
@@ -743,6 +744,7 @@ export default class TreeSelectControl extends React.Component<
         itemRender={menuTpl ? this.renderOptionItem : undefined}
         enableDefaultIcon={enableDefaultIcon}
         mobileUI={mobileUI}
+        testIdBuilder={testIdBuilder}
       />
     );
   }
@@ -770,7 +772,8 @@ export default class TreeSelectControl extends React.Component<
       overflowTagPopover,
       translate: __,
       env,
-      loadingConfig
+      loadingConfig,
+      testIdBuilder
     } = this.props;
     const {isOpened} = this.state;
     const resultValue = multiple
@@ -780,7 +783,11 @@ export default class TreeSelectControl extends React.Component<
       : '';
 
     return (
-      <div ref={this.container} className={cx(`TreeSelectControl`, className)}>
+      <div
+        ref={this.container}
+        className={cx(`TreeSelectControl`, className)}
+        {...testIdBuilder.getTestId()}
+      >
         <ResultBox
           popOverContainer={popOverContainer || env.getModalContainer}
           maxTagCount={maxTagCount}
