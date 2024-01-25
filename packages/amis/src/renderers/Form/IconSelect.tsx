@@ -119,48 +119,23 @@ export default class IconSelectControl extends React.PureComponent<
     const {
       classPrefix: ns,
       disabled,
-      value: valueTemp,
+      value,
       placeholder,
       clearable
     } = this.props;
-    const value =
-      typeof valueTemp === 'string' ? this.getValueBySvg(valueTemp) : valueTemp;
-    const SvgStr =
-      typeof valueTemp === 'string' && valueTemp.match(/(<svg.{1,}\/svg>)/);
 
-    const pureValue =
-      (value?.id && String(value.id).replace(/^svg-/, '')) || '';
-    const iconName = value?.name || pureValue;
+    const iconName = value?.name || value;
 
     return (
       <div className={cx(`${ns}IconSelectControl-input-area`)}>
-        {pureValue ? (
-          <div className={cx(`${ns}IconSelectControl-input-icon-show`)}>
-            <svg>
-              <use xlinkHref={`#${pureValue}`}></use>
-            </svg>
-          </div>
-        ) : valueTemp ? (
-          SvgStr ? (
-            <div
-              className={cx(`${ns}IconSelectControl-input-area-str-svg`)}
-              dangerouslySetInnerHTML={{__html: SvgStr[0].replace(/\\"/g, '"')}}
-            ></div>
-          ) : (
-            <Icon
-              icon={valueTemp}
-              className={cx(
-                `${ns}IconSelectControl-input-area-iconfont`,
-                'icon'
-              )}
-            />
-          )
-        ) : null}
+        <div className={cx(`${ns}IconSelectControl-input-icon-show`)}>
+          <Icon icon={value} className="icon" />
+        </div>
         <span className={cx(`${ns}IconSelectControl-input-icon-id`)}>
           {iconName}
         </span>
 
-        {clearable && !disabled && (pureValue || valueTemp) ? (
+        {clearable && !disabled && value ? (
           <a
             onClick={this.handleClear}
             className={cx(`${ns}IconSelectControl-clear`)}
