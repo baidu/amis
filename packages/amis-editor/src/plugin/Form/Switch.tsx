@@ -202,12 +202,10 @@ export class SwitchControlPlugin extends BasePlugin {
                     : value;
                 },
                 pipeOut: (value: any, origin: any, data: any) => {
+                  // 如果是表达式，直接返回
+                  if (/\${.*}/.test(value)) return value;
                   const {trueValue = true, falseValue = false} = data || {};
-                  return value && value === trueValue
-                    ? trueValue
-                    : value && value !== falseValue
-                    ? value
-                    : falseValue;
+                  return value ? trueValue : falseValue;
                 }
               }),
               getSchemaTpl('labelRemark'),
