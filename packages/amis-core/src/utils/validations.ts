@@ -18,6 +18,7 @@ const makeRegexp = (reg: string | RegExp) => {
 };
 import memoize from 'lodash/memoize';
 import isPlainObject from 'lodash/isPlainObject';
+import {isId, isId15, isId18} from './validateId';
 
 const makeUrlRegexp = memoize(function (options: any) {
   options = {
@@ -99,10 +100,12 @@ export interface ValidateFn {
     arg3?: any,
     arg4?: any,
     arg5?: any
-  ): boolean | {
-    error: boolean;
-    msg?: string;
-  };
+  ):
+    | boolean
+    | {
+        error: boolean;
+        msg?: string;
+      };
 }
 
 export const validations: {
@@ -261,13 +264,13 @@ export const validations: {
     return !isExisty(value) || isEmpty(value) || /^\d{6}$/.test(value);
   },
   isId: function (values, value) {
-    return (
-      !isExisty(value) ||
-      isEmpty(value) ||
-      /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}$)/.test(
-        value
-      )
-    );
+    return !isExisty(value) || isEmpty(value) || isId(String(value));
+  },
+  isId18: function (values, value) {
+    return !isExisty(value) || isEmpty(value) || isId18(String(value));
+  },
+  isId15: function (values, value) {
+    return !isExisty(value) || isEmpty(value) || isId15(String(value));
   },
   notEmptyString: function (values, value) {
     return !isExisty(value) || !(String(value) && String(value).trim() === '');
@@ -488,6 +491,8 @@ export const validateMessages: {
   isTelNumber: 'validate.isTelNumber',
   isZipcode: 'validate.isZipcode',
   isId: 'validate.isId',
+  isId18: 'validate.isId',
+  isId15: 'validate.isId',
   isDateTimeSame: 'validate.isDateTimeSame',
   isDateTimeBefore: 'validate.isDateTimeBefore',
   isDateTimeAfter: 'validate.isDateTimeAfter',
@@ -518,7 +523,6 @@ export function validate(
     msg: string;
   }> = [];
 
-
   if (rules) {
     const ruleNames = Object.keys(rules);
     const length = ruleNames.length;
@@ -547,10 +551,7 @@ export function validate(
       //   {error: true, msg: '错误提示'}
       // 格式的信息来灵活展示错误
       let fnResErrorMsg = '';
-      if (
-        typeof validateRes === 'object' &&
-        validateRes.error === true
-      ) {
+      if (typeof validateRes === 'object' && validateRes.error === true) {
         fnResErrorMsg = validateRes?.msg ?? '';
       }
 
@@ -560,20 +561,22 @@ export function validate(
           msgRuleName = `${ruleName}Array`;
         }
 
-        return [{
-          rule: ruleName,
-          msg: filter(
-            __(
+        return [
+          {
+            rule: ruleName,
+            msg: filter(
+              __(
                 (messages && messages[ruleName]) ||
-                fnResErrorMsg ||
-                validateMessages[msgRuleName] ||
-                validateMessages[ruleName]
-            ),
-            {
-              ...[''].concat(args)
-            }
-          )
-        }];
+                  fnResErrorMsg ||
+                  validateMessages[msgRuleName] ||
+                  validateMessages[ruleName]
+              ),
+              {
+                ...[''].concat(args)
+              }
+            )
+          }
+        ];
       }
     }
   }
