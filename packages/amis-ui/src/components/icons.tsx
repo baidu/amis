@@ -262,20 +262,20 @@ export function Icon({
   iconContent,
   vendor,
   cx: iconCx,
-  onClick = () => {},
-  onMouseEnter = () => {},
-  onMouseLeave = () => {},
-  onMouseOver = () => {},
-  onMouseOut = () => {},
-  onMouseDown = () => {},
-  onMouseUp = () => {},
-  onMouseMove = () => {},
-  onBlur = () => {},
-  onFocus = () => {},
-  onTouchStart = () => {},
-  onTouchMove = () => {},
-  onTouchEnd = () => {},
-  onTouchCancel = () => {},
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  onMouseOver,
+  onMouseOut,
+  onMouseDown,
+  onMouseUp,
+  onMouseMove,
+  onBlur,
+  onFocus,
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
+  onTouchCancel,
   style
 }: {
   icon: string;
@@ -312,13 +312,13 @@ export function Icon({
   // 直接的icon dom
   if (React.isValidElement(icon)) {
     return React.cloneElement(icon, {
+      ...events,
       ...((icon.props as any) || {}),
       className: cxClass(
         cx(className, classNameProp),
         (icon.props as any).className
       ),
-      style,
-      ...events
+      style
     });
   }
 
