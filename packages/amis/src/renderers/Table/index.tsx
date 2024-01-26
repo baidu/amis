@@ -40,7 +40,8 @@ import {
   resolveVariableAndFilter,
   resizeSensor,
   offset,
-  getStyleNumber
+  getStyleNumber,
+  getPropValue
 } from 'amis-core';
 import {
   Button,
@@ -684,14 +685,18 @@ export default class Table extends React.Component<TableProps, object> {
     prevProps?: TableProps
   ) {
     const source = props.source;
-    const value = props.value || props.items;
+    const value = getPropValue(props, (props: TableProps) => props.items);
     let rows: Array<object> = [];
     let updateRows = false;
 
     // 要严格比较前后的value值，否则某些情况下会导致循环update无限渲染
     if (
       Array.isArray(value) &&
-      (!prevProps || !isEqual(prevProps.value || prevProps.items, value))
+      (!prevProps ||
+        !isEqual(
+          getPropValue(prevProps, (props: TableProps) => props.items),
+          value
+        ))
     ) {
       updateRows = true;
       rows = value;
@@ -1369,7 +1374,12 @@ export default class Table extends React.Component<TableProps, object> {
 
           const parent = e.to as HTMLElement;
           if (e.oldIndex < parent.childNodes.length - 1) {
-            parent.insertBefore(e.item, parent.childNodes[e.oldIndex]);
+            parent.insertBefore(
+              e.item,
+              parent.childNodes[
+                e.oldIndex > e.newIndex ? e.oldIndex + 1 : e.oldIndex
+              ]
+            );
           } else {
             parent.appendChild(e.item);
           }

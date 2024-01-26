@@ -161,11 +161,14 @@ export class Log extends React.Component<LogProps, LogState> {
       );
     }
     if (this.props.source) {
-      const ret = resolveVariableAndFilter(
-        this.props.source,
-        this.props.data,
-        '| raw'
-      );
+      const ret =
+        typeof this.props.source === 'string'
+          ? resolveVariableAndFilter(
+              this.props.source,
+              this.props.data,
+              '| raw'
+            )
+          : this.props.source;
       if (ret && isEffectiveApi(ret)) {
         this.loadLogs();
       } else if (
@@ -187,11 +190,10 @@ export class Log extends React.Component<LogProps, LogState> {
       return;
     }
 
-    const ret = resolveVariableAndFilter(
-      this.props.source,
-      this.props.data,
-      '| raw'
-    );
+    const ret =
+      typeof this.props.source === 'string'
+        ? resolveVariableAndFilter(this.props.source, this.props.data, '| raw')
+        : this.props.source;
 
     if (ret && isEffectiveApi(ret)) {
       // todo 如果原来的请求还在，应该先取消
