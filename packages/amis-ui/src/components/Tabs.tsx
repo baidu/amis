@@ -388,8 +388,8 @@ export class Tabs extends React.Component<TabsProps, any> {
     }
     const {activeKey, children} = this.props;
     const currentKey = key !== undefined ? key : activeKey;
-    const currentIndex = (children as any[])?.findIndex(
-      (item: any) => item.props.eventKey === currentKey
+    const currentIndex = (children as any[])?.findIndex((item: any) =>
+      item === null ? false : item.props.eventKey === currentKey
     );
     const li = this.navMain.current?.children || [];
     const currentLi = li[currentIndex] as HTMLElement;
