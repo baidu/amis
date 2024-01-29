@@ -2141,7 +2141,8 @@ export class EditorManager {
     }
 
     while (scope) {
-      const [id, type] = scope.id.split('-');
+      const [id] = scope.id.split('-');
+      const type = scope.id.substring(id.length + 1); // replace(`${id}-`, '');
       const scopeNode = this.store.getNodeById(id, type);
 
       if (scopeNode && !scopeNode.info?.isListComponent) {
