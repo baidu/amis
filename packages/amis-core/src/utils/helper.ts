@@ -2325,4 +2325,12 @@ export class TestIdBuilder {
       [TEST_ID_KEY]: data ? filter(this.testId, data) : this.testId
     };
   }
+
+  getTestIdValue(data?: object) {
+    if (this.testId == null) {
+      return undefined;
+    }
+
+    return data ? filter(this.testId, data) : this.testId;
+  }
 }

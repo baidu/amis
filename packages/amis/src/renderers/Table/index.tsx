@@ -2076,7 +2076,8 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       canAccessSuperData,
       itemBadge,
-      translate
+      translate,
+      testIdBuilder
     } = this.props;
 
     return (
@@ -2100,6 +2101,9 @@ export default class Table extends React.Component<TableProps, object> {
         quickEditFormRef={this.subFormRef}
         onImageEnlarge={this.handleImageEnlarge}
         translate={translate}
+        testIdBuilder={testIdBuilder.getChild(
+          `cell-${props.rowPath}-${column.index}`
+        )}
       />
     );
   }

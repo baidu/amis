@@ -763,7 +763,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       collapseBtnLabel,
       disabled,
       mobileUI,
-      swipeable
+      swipeable,
+      testIdBuilder
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -809,6 +810,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 : unmountOnExit
             }
             onSelect={this.handleSelect}
+            testIdBuilder={testIdBuilder.getChild(
+              `tab-${typeof tab.title === 'string' ? tab.title : index}`
+            )}
           >
             {render(
               `item/${index}`,
@@ -850,6 +854,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 : unmountOnExit
             }
             onSelect={this.handleSelect}
+            testIdBuilder={testIdBuilder.getChild(
+              `tab-${typeof tab.title === 'string' ? tab.title : index}`
+            )}
           >
             {this.renderTab
               ? this.renderTab(tab, this.props, index)
@@ -897,6 +904,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         collapseOnExceed={collapseOnExceed}
         collapseBtnLabel={collapseBtnLabel}
         mobileUI={mobileUI}
+        testIdBuilder={testIdBuilder}
       >
         {children}
       </CTabs>
