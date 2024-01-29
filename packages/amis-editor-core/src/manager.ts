@@ -956,6 +956,10 @@ export class EditorManager {
       // 当前节点是布局类容器节点
       regionNodeId = curActiveId;
       regionNodeRegion = 'items';
+    } else if (node.schema.fields && node.schema.type === 'doc-entity') {
+      // 当前节点是表单视图
+      regionNodeId = curActiveId;
+      regionNodeRegion = 'fields';
     } else if (node.schema.body) {
       // 当前节点是容器节点
       regionNodeId = curActiveId;
