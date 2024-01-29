@@ -105,6 +105,12 @@
     }
   }
 
+  .#{$ns}Spinner-icon--darkBg {
+    svg.icon path {
+      fill: var(--loading-dark-bg-color);
+    }
+  }
+
   .#{$ns}Spinner-tip {
     margin: px2rem(12px) 0 0 0;
     word-break: keep-all;
