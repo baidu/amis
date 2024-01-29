@@ -72,7 +72,8 @@ export class TableBody extends React.Component<TableBodyProps> {
   renderRows(
     rows: Array<any>,
     columns = this.props.columns,
-    rowProps: any = {}
+    rowProps: any = {},
+    indexPath?: string
   ): any {
     const {
       rowClassName,
@@ -99,16 +100,20 @@ export class TableBody extends React.Component<TableBodyProps> {
 
     return rows.map((item: IRow, rowIndex: number) => {
       const itemProps = buildItemProps ? buildItemProps(item, rowIndex) : null;
+      const rowPath = `${indexPath ? indexPath + '/' : ''}${rowIndex}`;
+      const rowTestBuidr = testIdBuilder?.getChild(`row-${rowPath}`);
+
       const doms = [
         <TableRow
           {...itemProps}
-          testIdBuilder={testIdBuilder?.getChild(`row${rowIndex}`)}
+          testIdBuilder={rowTestBuidr}
           store={store}
           itemAction={itemAction}
           classnames={cx}
           checkOnItemClick={checkOnItemClick}
           key={item.id}
           itemIndex={rowIndex}
+          rowPath={rowPath}
           item={item}
           itemClassName={cx(
             rowClassNameExpr
@@ -147,6 +152,7 @@ export class TableBody extends React.Component<TableBodyProps> {
               checkOnItemClick={checkOnItemClick}
               key={`foot-${item.id}`}
               itemIndex={rowIndex}
+              rowPath={rowPath}
               item={item}
               itemClassName={cx(
                 rowClassNameExpr
@@ -167,16 +173,22 @@ export class TableBody extends React.Component<TableBodyProps> {
               onQuickChange={onQuickChange}
               ignoreFootableContent={ignoreFootableContent}
               {...rowProps}
+              testIdBuilder={rowTestBuidr}
             />
           );
         }
       } else if (item.children.length && item.expanded) {
         // 嵌套表格
         doms.push(
-          ...this.renderRows(item.children, columns, {
-            ...rowProps,
-            parent: item
-          })
+          ...this.renderRows(
+            item.children,
+            columns,
+            {
+              ...rowProps,
+              parent: item
+            },
+            rowPath
+          )
         );
       }
       return doms;

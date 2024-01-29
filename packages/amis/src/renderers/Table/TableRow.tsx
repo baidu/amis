@@ -45,6 +45,7 @@ interface TableRowProps extends Pick<RendererProps, 'render'> {
   checkOnItemClick?: boolean;
   ignoreFootableContent?: boolean;
   testIdBuilder?: TestIdBuilder;
+  rowPath: string; // 整体行的路径，树形时需要父行序号/当前展开层级下的行序号
   [propName: string]: any;
 }
 
@@ -205,6 +206,7 @@ export class TableRow extends React.PureComponent<
       trRef,
       isNested,
       testIdBuilder,
+      rowPath,
       ...rest
     } = this.props;
 
@@ -267,6 +269,7 @@ export class TableRow extends React.PureComponent<
                               width: null,
                               rowIndex: itemIndex,
                               colIndex: column.index,
+                              rowPath,
                               key: column.index,
                               onAction: this.handleAction,
                               onQuickChange: this.handleQuickChange,
@@ -328,11 +331,11 @@ export class TableRow extends React.PureComponent<
               ...rest,
               rowIndex: itemIndex,
               colIndex: column.index,
+              rowPath,
               key: column.id,
               onAction: this.handleAction,
               onQuickChange: this.handleQuickChange,
-              onChange: this.handleChange,
-              testIdBuilder: testIdBuilder?.getChild(`col${column.index}`)
+              onChange: this.handleChange
             })
           ) : column.name && item.rowSpans[column.name] === 0 ? null : (
             <td key={column.id}>
