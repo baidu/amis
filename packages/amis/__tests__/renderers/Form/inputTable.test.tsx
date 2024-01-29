@@ -647,3 +647,165 @@ test('Renderer:input-table init display', async () => {
   replaceReactAriaIds(container);
   expect(container).toMatchSnapshot();
 });
+
+// 对应 github issue: https://github.com/baidu/amis/issues/8263
+test('Renderer:input-table formula', async () => {
+  const onSubmit = jest.fn();
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        title: '测试3',
+        body: [
+          {
+            type: 'form',
+            title: '表单',
+            submitText: 'Submit',
+            body: [
+              {
+                type: 'input-number',
+                label: '数字',
+                name: 'number',
+                keyboard: true
+              },
+              {
+                type: 'table-view',
+                trs: [
+                  {
+                    background: '#F7F7F7',
+                    tds: [
+                      {
+                        body: {
+                          type: 'tpl',
+                          wrapperComponent: '',
+                          tpl: '保费信息'
+                        }
+                      },
+                      {
+                        body: {
+                          type: 'tpl',
+                          wrapperComponent: '',
+                          tpl: '首年保费'
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    tds: [
+                      {
+                        rowspan: 1,
+                        body: {
+                          type: 'tpl',
+                          wrapperComponent: '',
+                          tpl: '美元'
+                        }
+                      },
+                      {
+                        body: [
+                          {
+                            type: 'input-number',
+                            name: 'dollar',
+                            keyboard: true,
+                            step: 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                type: 'input-table',
+                name: 'table',
+                label: '表格表单',
+                columns: [
+                  {
+                    label: '名称',
+                    name: 'name',
+                    type: 'input-text'
+                  },
+                  {
+                    label: '分数1',
+                    name: 'score1',
+                    type: 'input-number'
+                  },
+                  {
+                    label: '分数',
+                    type: 'input-number',
+                    name: 'score',
+                    value: '${score1 * dollar}'
+                  }
+                ],
+                strictMode: false,
+                needConfirm: false,
+                canAccessSuperData: true
+              }
+            ]
+          }
+        ],
+        regions: ['body', 'header'],
+        data: {
+          table: [
+            {
+              name: 'aaa',
+              score1: 1
+            },
+            {
+              name: 'bbb',
+              score1: 2
+            },
+            {
+              name: 'ccc',
+              score1: 3
+            }
+          ]
+        }
+      },
+      {
+        onSubmit: onSubmit
+      },
+      makeEnv({})
+    )
+  );
+
+  await wait(200);
+  const dollor = container.querySelector('input[name=dollar]');
+  expect(dollor).toBeInTheDocument();
+
+  fireEvent.change(dollor!, {target: {value: '22'}});
+
+  await wait(400);
+
+  const inputs = container.querySelectorAll('input[name=score]');
+  expect(inputs.length).toBe(3);
+
+  expect(inputs[0]).toHaveValue('22');
+  expect(inputs[1]).toHaveValue('44');
+  expect(inputs[2]).toHaveValue('66');
+
+  const submitBtn = container.querySelector('button[type=submit]');
+  fireEvent.click(submitBtn!);
+  await wait(200);
+
+  expect(onSubmit).toBeCalled();
+  expect(onSubmit.mock.calls[0][0]).toEqual({
+    dollar: 22,
+    table: [
+      {
+        name: 'aaa',
+        score1: 1,
+        score: 22
+      },
+      {
+        name: 'bbb',
+        score1: 2,
+        score: 44
+      },
+      {
+        name: 'ccc',
+        score1: 3,
+        score: 66
+      }
+    ]
+  });
+});

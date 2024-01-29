@@ -1874,6 +1874,7 @@ exports[`Renderer:checkboxes with creatable & createBtnLabel & addControls & add
                     <input
                       autocomplete="off"
                       class="cxd-Number-input"
+                      name="value"
                       role="spinbutton"
                       step="1"
                       value=""

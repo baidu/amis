@@ -15,6 +15,7 @@ import {ThemeProps, themeable, isNumeric, autobind, ucFirst} from 'amis-core';
 export type ValueType = string | number;
 
 export interface NumberProps extends ThemeProps {
+  name?: string;
   placeholder?: string;
   max?: ValueType;
   min?: ValueType;
@@ -317,7 +318,8 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
       inputRef,
       keyboard,
       inputControlClassName,
-      mobileUI
+      mobileUI,
+      name
     } = this.props;
     const precisionProps: any = {
       precision: NumberInput.normalizePrecision(precision, step)
@@ -325,6 +327,7 @@ export class NumberInput extends React.Component<NumberProps, NumberState> {
 
     return (
       <InputNumber
+        name={name}
         className={cx(
           className,
           showSteps === false ? 'no-steps' : '',
