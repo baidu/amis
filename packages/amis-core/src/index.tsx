@@ -44,7 +44,7 @@ import {
 } from './locale';
 import type {LocaleProps, TranslateFn} from './locale';
 
-import Scoped, {ScopedContext, filterTarget} from './Scoped';
+import Scoped, {ScopedContext, filterTarget, splitTarget} from './Scoped';
 import type {ScopedComponentType, IScopedContext} from './Scoped';
 
 import {
@@ -203,6 +203,7 @@ export {
   OnEventProps,
   FormSchemaBase,
   filterTarget,
+  splitTarget,
   CustomStyle,
   enableDebug,
   disableDebug
@@ -313,7 +314,11 @@ function AMISRenderer({
   schema = React.useMemo(() => {
     schema = envOverwrite(schema, locale);
     // todo 和 envOverwrite 一起处理，减少循环次数
-    schema = replaceText(schema, options.replaceText, env.replaceTextIgnoreKeys)
+    schema = replaceText(
+      schema,
+      options.replaceText,
+      env.replaceTextIgnoreKeys
+    );
     return schema;
   }, [schema, locale]);
 
