@@ -1498,6 +1498,8 @@ setSchemaTpl(
     direction?: string;
     justify?: string;
     alignItems?: string;
+    pipeIn?: (value: any, data: any) => void;
+    pipeOut?: (value: any, data: any) => void;
   }) => {
     return {
       type: 'flex-layout-setting',
@@ -1507,7 +1509,9 @@ setSchemaTpl(
       visibleOn: config?.visibleOn,
       direction: config?.direction,
       justify: config?.justify,
-      alignItems: config?.alignItems
+      alignItems: config?.alignItems,
+      pipeIn: config?.pipeIn,
+      pipeOut: config?.pipeOut
     };
   }
 );
