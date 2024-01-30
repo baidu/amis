@@ -76,9 +76,6 @@ exports[`Renderers:Action MenuItem display icon 2`] = `
 >
   <i
     className="fa fa-cloud cxd-Button-icon fa fa-cloud"
-    onClick={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
   />
   <span>
     123

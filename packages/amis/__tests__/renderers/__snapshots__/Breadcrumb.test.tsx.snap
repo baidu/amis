@@ -356,9 +356,6 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 1`] = `
               >
                 <i
                   className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onMouseLeave={[Function]}
                 />
                 <span
                   className="cxd-TplField"
@@ -447,9 +444,6 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 2`] = `
               >
                 <i
                   className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onMouseLeave={[Function]}
                 />
                 <span
                   className="cxd-TplField"
@@ -538,9 +532,6 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 3`] = `
               >
                 <i
                   className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onMouseLeave={[Function]}
                 />
                 <span
                   className="cxd-TplField"
@@ -629,9 +620,6 @@ exports[`Renderer:breadcrumb tooltip labelMaxLength 4`] = `
               >
                 <i
                   className="fa fa-home cxd-Icon cxd-Breadcrumb-icon fa fa-home"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onMouseLeave={[Function]}
                 />
                 <span
                   className="cxd-TplField"
