@@ -149,6 +149,7 @@
   }
 
   .#{$ns}PopOver.#{$ns}Select-popover {
+    min-width: px2rem(120px);
     &.#{$ns}PopOver--v-top {
       margin-top: px2rem(4px);
     }
