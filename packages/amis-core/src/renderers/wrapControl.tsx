@@ -241,39 +241,7 @@ export function wrapControl<
               model.changeTmpValue(propValue, 'controlled');
               model.setIsControlled(true);
             } else {
-              const isExp = isExpression(value);
-
-              if (isExp) {
-                model.changeTmpValue(
-                  FormulaExec['formula'](value, data), // 对组件默认值进行运算
-                  'formulaChanged'
-                );
-              } else {
-                let initialValue = model.extraName
-                  ? [
-                      getVariable(data, model.name, form?.canAccessSuperData),
-                      getVariable(
-                        data,
-                        model.extraName,
-                        form?.canAccessSuperData
-                      )
-                    ]
-                  : getVariable(data, model.name, form?.canAccessSuperData);
-
-                if (
-                  model.extraName &&
-                  initialValue.every((item: any) => item === undefined)
-                ) {
-                  initialValue = undefined;
-                }
-
-                model.changeTmpValue(
-                  initialValue ?? replaceExpression(value),
-                  typeof initialValue !== 'undefined'
-                    ? 'initialValue'
-                    : 'defaultValue'
-                );
-              }
+              this.setInitialValue(value);
             }
 
             if (
@@ -350,6 +318,7 @@ export function wrapControl<
 
             changedEffect(
               [
+                'name',
                 'id',
                 'validations',
                 'validationErrors',
@@ -383,6 +352,10 @@ export function wrapControl<
                   isValueSchemaExp: isExpression(props.$schema.value),
                   inputGroupControl: props?.inputGroupControl
                 } as any);
+
+                if (changes.hasOwnProperty('name')) {
+                  this.setInitialValue(this.props.$schema.value);
+                }
               }
             );
 
@@ -491,6 +464,40 @@ export function wrapControl<
             this.lazyEmitChange.cancel();
             this.reaction?.();
             this.disposeModel();
+          }
+
+          setInitialValue(value: any) {
+            const model = this.model!;
+            const {formStore: form, data} = this.props;
+            const isExp = isExpression(value);
+
+            if (isExp) {
+              model.changeTmpValue(
+                FormulaExec['formula'](value, data), // 对组件默认值进行运算
+                'formulaChanged'
+              );
+            } else {
+              let initialValue = model.extraName
+                ? [
+                    getVariable(data, model.name, form?.canAccessSuperData),
+                    getVariable(data, model.extraName, form?.canAccessSuperData)
+                  ]
+                : getVariable(data, model.name, form?.canAccessSuperData);
+
+              if (
+                model.extraName &&
+                initialValue.every((item: any) => item === undefined)
+              ) {
+                initialValue = undefined;
+              }
+
+              model.changeTmpValue(
+                initialValue ?? replaceExpression(value),
+                typeof initialValue !== 'undefined'
+                  ? 'initialValue'
+                  : 'defaultValue'
+              );
+            }
           }
 
           disposeModel() {

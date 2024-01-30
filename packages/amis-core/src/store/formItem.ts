@@ -319,6 +319,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     let loadAutoUpdateCancel: Function | null = null;
 
     function config({
+      name,
       extraName,
       required,
       unique,
@@ -345,6 +346,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       inputGroupControl,
       pagination
     }: {
+      name?: string;
       extraName?: string;
       required?: boolean;
       unique?: boolean;
@@ -383,6 +385,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         rules = str2rules(rules);
       }
 
+      typeof name !== 'undefined' && (self.name = name);
       typeof extraName !== 'undefined' && (self.extraName = extraName);
       typeof type !== 'undefined' && (self.type = type);
       typeof id !== 'undefined' && (self.itemId = id);
