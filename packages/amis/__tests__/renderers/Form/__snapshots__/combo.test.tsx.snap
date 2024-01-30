@@ -959,6 +959,7 @@ exports[`Renderer:combo with conditions: add button open 1`] = `
                                           aria-valuenow="0"
                                           autocomplete="off"
                                           class="cxd-Number-input"
+                                          name="number"
                                           role="spinbutton"
                                           step="1"
                                           value="1239"

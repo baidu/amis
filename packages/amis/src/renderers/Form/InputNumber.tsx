@@ -445,7 +445,8 @@ export default class NumberControl extends React.Component<
       themeCss,
       inputControlClassName,
       id,
-      env
+      env,
+      name
     } = this.props;
     const {unit} = this.state;
     const finalPrecision = this.filterNum(precision);
@@ -486,6 +487,7 @@ export default class NumberControl extends React.Component<
         )}
       >
         <NumberInput
+          name={name}
           inputControlClassName={cx(
             inputControlClassName,
             setThemeClassName({
