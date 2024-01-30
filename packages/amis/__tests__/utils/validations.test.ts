@@ -1327,3 +1327,93 @@ describe('validation:Time', () => {
     });
   });
 });
+
+/** ============================ 身份证相关 ============================= */
+describe('validation: isId', () => {
+  test('validation: isId18 valid', () => {
+    expect(
+      validate(
+        '371422196603104039',
+        {},
+        {
+          isId18: true
+        }
+      )
+    ).toMatchObject([]);
+  });
+
+  test('validation: isId18 invalid', () => {
+    expect(
+      validate(
+        '141129199309090012',
+        {},
+        {
+          isId18: true
+        }
+      )
+    ).toMatchObject([
+      {
+        msg: 'validate.isId',
+        rule: 'isId18'
+      }
+    ]);
+  });
+
+  test('validation: isId15 valid', () => {
+    expect(
+      validate(
+        '340524800101001',
+        {},
+        {
+          isId15: true
+        }
+      )
+    ).toMatchObject([]);
+  });
+
+  test('validation: isId15 invalid', () => {
+    expect(
+      validate(
+        '340524801301001',
+        {},
+        {
+          isId15: true
+        }
+      )
+    ).toMatchObject([
+      {
+        msg: 'validate.isId',
+        rule: 'isId15'
+      }
+    ]);
+  });
+
+  test('validation: isId valid', () => {
+    expect(
+      validate(
+        '371422196603104039',
+        {},
+        {
+          isId: true
+        }
+      )
+    ).toMatchObject([]);
+  });
+
+  test('validation: isId invalid', () => {
+    expect(
+      validate(
+        '141129199309090012',
+        {},
+        {
+          isId: true
+        }
+      )
+    ).toMatchObject([
+      {
+        msg: 'validate.isId',
+        rule: 'isId'
+      }
+    ]);
+  });
+});

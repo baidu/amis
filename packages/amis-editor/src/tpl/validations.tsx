@@ -80,8 +80,12 @@ setSchemaTpl('validations', function () {
       value: 'isZipcode'
     },
     {
-      label: '身份证号码',
+      label: '身份证号码(18/15位)',
       value: 'isId'
+    },
+    {
+      label: '身份证号码(18位)',
+      value: 'isId18'
     },
     {
       label: 'JSON格式',

@@ -367,8 +367,17 @@ registerValidator(
     }
   },
   {
-    label: '身份证号码',
+    label: '身份证号码(18/15位)',
     name: 'isId',
+    group: ValidationGroup.Pattern,
+    message: '请输入合法的身份证号',
+    tag: {
+      [ValidatorTag.Text]: ValidTagMatchType.isMore
+    }
+  },
+  {
+    label: '身份证号码(18位)',
+    name: 'isId18',
     group: ValidationGroup.Pattern,
     message: '请输入合法的身份证号',
     tag: {
