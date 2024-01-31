@@ -364,7 +364,7 @@ export class BaseTransferRenderer<
   async handleSearch(
     term: string,
     cancelExecutor: Function,
-    targePage?: {page: number; perPage?: number}
+    targetPage?: {page: number; perPage?: number}
   ) {
     const {
       searchApi,
@@ -381,7 +381,7 @@ export class BaseTransferRenderer<
       try {
         const payload = await env.fetcher(
           searchApi,
-          createObject(data, {term, ...(targePage ? targePage : {})}),
+          createObject(data, {term, ...(targetPage ? targetPage : {})}),
           {
             cancelExecutor
           }
@@ -398,10 +398,10 @@ export class BaseTransferRenderer<
         }
 
         let currentPage = {};
-        if (targePage) {
+        if (targetPage) {
           currentPage = {
             page: payload.data.page,
-            perPage: targePage.perPage,
+            perPage: targetPage.perPage,
             total: payload.data.count
           };
         }

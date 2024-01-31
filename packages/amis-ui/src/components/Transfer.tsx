@@ -80,7 +80,7 @@ export interface TransferProps
   onSearch?: (
     term: string,
     setCancel: (cancel: () => void) => void,
-    targePage?: {page: number; perPage?: number}
+    targetPage?: {page: number; perPage?: number}
   ) => Promise<{
     items: Options;
     page?: number;
