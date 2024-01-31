@@ -149,7 +149,6 @@
   }
 
   .#{$ns}PopOver.#{$ns}Select-popover {
-    min-width: px2rem(120px);
     &.#{$ns}PopOver--v-top {
       margin-top: px2rem(4px);
     }
@@ -591,7 +590,7 @@
   border: var(--Form-select-outer-borderWidth) solid
     var(--Form-select-outer-borderColor);
   box-shadow: var(--Form-select-outer-boxShadow);
-  // min-width: px2rem(100px);
+  min-width: px2rem(120px);
 
   // PopOver 上已经配置了，这个要是配置就会覆盖，所以先干掉好了
   // z-index: 10;
