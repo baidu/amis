@@ -29,11 +29,21 @@ export default class MiniEditor extends Editor {
   }
 
   render() {
-    const {preview, className, theme, data, isMobile, autoFocus, previewProps} =
-      this.props;
+    const {
+      preview,
+      appLocale,
+      className,
+      theme,
+      data,
+      isMobile,
+      autoFocus,
+      amisEnv,
+      previewProps
+    } = this.props;
 
     return (
       <div
+        ref={this.mainRef}
         className={cx(
           'ae-Editor',
           {
@@ -53,6 +63,9 @@ export default class MiniEditor extends Editor {
               theme={theme}
               data={data}
               autoFocus={autoFocus}
+              appLocale={appLocale}
+              amisEnv={amisEnv}
+              toolbarContainer={this.getToolbarContainer}
             ></Preview>
           </div>
         </div>
