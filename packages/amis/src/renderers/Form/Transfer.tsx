@@ -187,7 +187,7 @@ export interface TransferControlSchema
     /** 是否左侧选项分页，默认不开启 */
     enable: SchemaExpression;
     /** 分页组件CSS类名 */
-    className?: string;
+    className?: SchemaClassName;
     /** 是否开启前端分页 */
     loadDataOnce?: boolean;
   } & Pick<

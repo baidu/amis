@@ -164,11 +164,11 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           overflowTagPopover={overflowTagPopover}
           pagination={{
             ...pick(pagination, [
-              'className',
               'layout',
               'perPageAvailable',
               'popOverContainerSelector'
             ]),
+            className: pagination?.className as any,
             enable:
               (pagination && pagination.enable !== undefined
                 ? !!(typeof pagination.enable === 'string'
