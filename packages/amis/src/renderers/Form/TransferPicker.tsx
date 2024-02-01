@@ -1,4 +1,9 @@
-import {OptionsControlProps, OptionsControl, resolveEventData} from 'amis-core';
+import {
+  OptionsControlProps,
+  OptionsControl,
+  resolveEventData,
+  evalExpression
+} from 'amis-core';
 import React from 'react';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
@@ -97,6 +102,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       overflowTagPopover,
       pagination,
       formItem,
+      data,
       popOverContainer,
       placeholder,
       autoCheckChildren = true,
@@ -164,7 +170,11 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
               'popOverContainerSelector'
             ]),
             enable:
-              !!formItem?.enableSourcePagination &&
+              (pagination && pagination.enable !== undefined
+                ? !!(typeof pagination.enable === 'string'
+                    ? evalExpression(pagination.enable, data)
+                    : pagination.enable)
+                : !!formItem?.enableSourcePagination) &&
               (!selectMode ||
                 selectMode === 'list' ||
                 selectMode === 'table') &&

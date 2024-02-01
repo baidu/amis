@@ -24,7 +24,8 @@ import {
   optionValueCompare,
   resolveVariable,
   ActionObject,
-  toNumber
+  toNumber,
+  evalExpression
 } from 'amis-core';
 import {SpinnerExtraProps, Transfer, Spinner, ResultList} from 'amis-ui';
 import {
@@ -184,7 +185,7 @@ export interface TransferControlSchema
    */
   pagination?: {
     /** 是否左侧选项分页，默认不开启 */
-    enable: boolean;
+    enable: SchemaExpression;
     /** 分页组件CSS类名 */
     className?: string;
     /** 是否开启前端分页 */
@@ -634,6 +635,7 @@ export class BaseTransferRenderer<
       formItem,
       env,
       popOverContainer,
+      data,
       autoCheckChildren = true,
       initiallyOpen = true
     } = this.props;
@@ -707,7 +709,11 @@ export class BaseTransferRenderer<
               'popOverContainerSelector'
             ]),
             enable:
-              !!formItem?.enableSourcePagination &&
+              (pagination && pagination.enable !== undefined
+                ? !!(typeof pagination.enable === 'string'
+                    ? evalExpression(pagination.enable, data)
+                    : pagination.enable)
+                : !!formItem?.enableSourcePagination) &&
               (!selectMode ||
                 selectMode === 'list' ||
                 selectMode === 'table') &&
