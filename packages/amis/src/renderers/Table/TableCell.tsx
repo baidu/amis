@@ -98,7 +98,8 @@ export class TableCell extends React.Component<TableCellProps> {
 
     if (isTableCell) {
       // table Cell 会用 colGroup 来设置宽度，这里不需要再设置
-      style.width && (style = omit(style, ['width']));
+      // 同时剔除style中的定位相关样式，避免表格样式异常
+      style = omit(style, ['width', 'position', 'display']);
     } else if (width) {
       style = {
         ...style,

@@ -300,7 +300,7 @@ export default class Head extends React.PureComponent<Props> {
                         colIndex === data.length - 1
                     })}
                     depth={item.depth}
-                    col={cIndex > -1 ? cIndex.toString() : undefined}
+                    col={String(colIndex)}
                   >
                     {typeof item.title === 'function'
                       ? item.title(children)

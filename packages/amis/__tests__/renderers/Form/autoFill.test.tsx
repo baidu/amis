@@ -399,3 +399,206 @@ test('Form:options:autoFill:validation', async () => {
   expect(screen.queryByText(validationMsg1)).not.toBeInTheDocument();
   expect(screen.queryByText(validationMsg2)).not.toBeInTheDocument();
 });
+
+test('6. AutoFill initAutoFill fillIfNotSet', async () => {
+  const onSubmit = jest.fn();
+  const {debug, container, getByText, findByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'form',
+            title: 'The form',
+            controls: [
+              {
+                type: 'hidden',
+                name: 'aId',
+                value: 123
+              },
+              {
+                type: 'hidden',
+                name: 'bId'
+              },
+              {
+                type: 'radios',
+                name: 'a',
+                autoFill: {
+                  aValue: '${value}',
+                  aLabel: '${label}',
+                  aId: '${id}',
+                  bId: '${id}'
+                },
+                value: 'a',
+                options: [
+                  {
+                    label: 'OptionA',
+                    value: 'a',
+                    id: 233
+                  },
+                  {
+                    label: 'OptionB',
+                    value: 'b'
+                  }
+                ]
+              }
+            ],
+            submitText: 'Submit'
+          }
+        ]
+      },
+      {
+        onSubmit: onSubmit
+      },
+      makeEnv()
+    )
+  );
+
+  await wait(200);
+  fireEvent.click(getByText(/Submit/));
+  await wait(200);
+
+  expect(onSubmit).toBeCalledTimes(1);
+  expect(onSubmit.mock.calls[0][0]).toMatchObject({
+    aId: 123,
+    a: 'a',
+    aValue: 'a',
+    aLabel: 'OptionA',
+    bId: 233
+  });
+});
+
+test('7. AutoFill initAutoFill false', async () => {
+  const onSubmit = jest.fn();
+  const {debug, container, getByText, findByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'form',
+            title: 'The form',
+            controls: [
+              {
+                type: 'hidden',
+                name: 'aId',
+                value: 123
+              },
+              {
+                type: 'hidden',
+                name: 'bId'
+              },
+              {
+                type: 'radios',
+                name: 'a',
+                autoFill: {
+                  aValue: '${value}',
+                  aLabel: '${label}',
+                  aId: '${id}',
+                  bId: '${id}'
+                },
+                initAutoFill: false,
+                value: 'a',
+                options: [
+                  {
+                    label: 'OptionA',
+                    value: 'a',
+                    id: 233
+                  },
+                  {
+                    label: 'OptionB',
+                    value: 'b'
+                  }
+                ]
+              }
+            ],
+            submitText: 'Submit'
+          }
+        ]
+      },
+      {
+        onSubmit: onSubmit
+      },
+      makeEnv()
+    )
+  );
+
+  await wait(200);
+  fireEvent.click(getByText(/Submit/));
+  await wait(200);
+
+  expect(onSubmit).toBeCalledTimes(1);
+  expect(onSubmit.mock.calls[0][0]).toMatchObject({
+    aId: 123,
+    a: 'a'
+  });
+});
+
+test('8. AutoFill initAutoFill true', async () => {
+  const onSubmit = jest.fn();
+  const {debug, container, getByText, findByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            type: 'form',
+            title: 'The form',
+            controls: [
+              {
+                type: 'hidden',
+                name: 'aId',
+                value: 123
+              },
+              {
+                type: 'hidden',
+                name: 'bId'
+              },
+              {
+                type: 'radios',
+                name: 'a',
+                autoFill: {
+                  aValue: '${value}',
+                  aLabel: '${label}',
+                  aId: '${id}',
+                  bId: '${id}'
+                },
+                initAutoFill: true,
+                value: 'a',
+                options: [
+                  {
+                    label: 'OptionA',
+                    value: 'a',
+                    id: 233
+                  },
+                  {
+                    label: 'OptionB',
+                    value: 'b'
+                  }
+                ]
+              }
+            ],
+            submitText: 'Submit'
+          }
+        ]
+      },
+      {
+        onSubmit: onSubmit
+      },
+      makeEnv()
+    )
+  );
+
+  await wait(200);
+  fireEvent.click(getByText(/Submit/));
+  await wait(200);
+
+  expect(onSubmit).toBeCalledTimes(1);
+  expect(onSubmit.mock.calls[0][0]).toMatchObject({
+    aId: 233,
+    a: 'a',
+    aValue: 'a',
+    aLabel: 'OptionA',
+    bId: 233
+  });
+});

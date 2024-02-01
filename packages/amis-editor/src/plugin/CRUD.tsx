@@ -697,6 +697,17 @@ export class CRUDPlugin extends BasePlugin {
         }
         return {
           ...value,
+          ...(value.mode !== 'table'
+            ? {
+                columns:
+                  value.columns ||
+                  this.transformByMode({
+                    from: value.mode,
+                    to: 'table',
+                    schema: value
+                  })
+              }
+            : {}),
           __filterColumnCount: value?.filter?.columnCount || 3,
           __features: __features,
           __LastFeatures: [...__features]
@@ -858,7 +869,30 @@ export class CRUDPlugin extends BasePlugin {
             .concat(operButtons);
         }
 
-        return valueSchema;
+        const {card, columns, listItem, ...rest} = valueSchema;
+
+        return {
+          ...rest,
+          ...(valueSchema.mode === 'table' ? {columns} : {}),
+          ...(valueSchema.mode === 'cards'
+            ? {
+                card: this.transformByMode({
+                  from: 'table',
+                  to: 'cards',
+                  schema: valueSchema
+                })
+              }
+            : {}),
+          ...(valueSchema.mode === 'list'
+            ? {
+                listItem: this.transformByMode({
+                  from: 'table',
+                  to: 'list',
+                  schema: valueSchema
+                })
+              }
+            : {})
+        };
       },
       canRebuild: true
     };

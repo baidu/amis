@@ -580,8 +580,8 @@ export class EditorManager {
     let id = curRendererId || this.store.activeId;
     let panels: Array<BasicPanelItem> = [];
 
-    if (!id && this.store?.schema) {
-      id = this.store?.schema.$$id; // 默认使用根节点id
+    if (!id && this.store?.filteredSchema) {
+      id = this.store?.filteredSchema.$$id; // 默认使用根节点id
     }
 
     if (id || this.store.selections.length) {
@@ -956,6 +956,10 @@ export class EditorManager {
       // 当前节点是布局类容器节点
       regionNodeId = curActiveId;
       regionNodeRegion = 'items';
+    } else if (node.schema.fields && node.schema.type === 'doc-entity') {
+      // 当前节点是表单视图
+      regionNodeId = curActiveId;
+      regionNodeRegion = 'fields';
     } else if (node.schema.body) {
       // 当前节点是容器节点
       regionNodeId = curActiveId;
@@ -2141,7 +2145,8 @@ export class EditorManager {
     }
 
     while (scope) {
-      const [id, type] = scope.id.split('-');
+      const [id] = scope.id.split('-');
+      const type = scope.id.substring(id.length + 1); // replace(`${id}-`, '');
       const scopeNode = this.store.getNodeById(id, type);
 
       if (scopeNode && !scopeNode.info?.isListComponent) {

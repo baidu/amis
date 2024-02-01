@@ -506,6 +506,8 @@ export default class TagControl extends React.PureComponent<
       this.setState({
         inputValue: ''
       });
+    } else if (!value && evt.key === 'Enter') {
+      this.handleBlur(evt);
     }
   }
 

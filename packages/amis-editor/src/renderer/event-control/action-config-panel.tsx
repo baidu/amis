@@ -3,11 +3,10 @@
  */
 
 import {RendererProps, Schema} from 'amis-core';
-import {defaultValue, RendererPluginAction} from 'amis-editor-core';
+import {RendererPluginAction} from 'amis-editor-core';
 import React from 'react';
 import cx from 'classnames';
 import {COMMON_ACTION_SCHEMA_MAP, renderCmptActionSelect} from './helper';
-import {Button} from 'amis';
 
 export default class ActionConfigPanel extends React.Component<RendererProps> {
   render() {

@@ -21,7 +21,7 @@ import {
 } from './utils/helper';
 import {RendererData, ActionObject} from './types';
 import {isPureVariable} from './utils/isPureVariable';
-import {createObject, createRendererEvent, filter} from './utils';
+import {createObject, createRendererEvent, filter, memoParse} from './utils';
 import {ListenerAction, runActions} from './actions';
 
 /**
@@ -39,6 +39,45 @@ export function filterTarget(target: string, data: Record<string, any>) {
   }
 
   return filter(target, data, '| raw');
+}
+
+/**
+ * 分割目标，如果里面有表达式，不要跟表达式里面的逗号冲突。
+ * @param target
+ * @returns
+ */
+export function splitTarget(target: string): Array<string> {
+  try {
+    const ast = memoParse(target);
+    const pos: Array<number> = [];
+    ast.body.forEach((item: any) => {
+      // 不要处理表达式里面的东西。
+      if (item.type === 'raw') {
+        const parts = (item.value as string).split(',');
+        if (parts.length > 1) {
+          parts.pop();
+          let start = item.start.index;
+          parts.forEach(part => {
+            pos.push(start + part.length);
+            start += part.length + 1;
+          });
+        }
+      }
+    });
+    if (pos.length) {
+      let parts: Array<string> = [];
+
+      pos.reduceRight((arr: Array<string>, index) => {
+        arr.unshift(target.slice(index + 1));
+        target = target.slice(0, index);
+        return arr;
+      }, parts);
+      parts.unshift(target);
+
+      return parts;
+    }
+  } catch (e) {}
+  return [target];
 }
 
 export interface ScopedComponentType extends React.Component<RendererProps> {
@@ -241,8 +280,7 @@ function createScopedTools(
     reload(target: string | Array<string>, ctx: any) {
       const scoped = this;
 
-      let targets =
-        typeof target === 'string' ? target.split(/\s*,\s*/) : target;
+      let targets = typeof target === 'string' ? splitTarget(target) : target;
       targets.forEach(name => {
         const idx2 = name.indexOf('?');
         let query = null;
@@ -288,7 +326,7 @@ function createScopedTools(
     send(receive: string | Array<string>, values: object) {
       const scoped = this;
       let receives =
-        typeof receive === 'string' ? receive.split(/\s*,\s*/) : receive;
+        typeof receive === 'string' ? splitTarget(receive) : receive;
 
       // todo 没找到做提示！
       receives.forEach(name => {
@@ -339,8 +377,7 @@ function createScopedTools(
 
       if (typeof target === 'string') {
         // 过滤已经关掉的，当用户 close 配置多个弹框 name 时会出现这种情况
-        target
-          .split(/\s*,\s*/)
+        splitTarget(target)
           .map(name => scoped.getComponentByName(name))
           .filter(component => component && component.props.show)
           .forEach(closeDialog);

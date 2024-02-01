@@ -10,7 +10,9 @@ import {
   getSchemaTpl,
   registerEditorPlugin,
   diff,
-  JSONPipeOut
+  JSONPipeOut,
+  EditorNodeType,
+  jsonToJsonSchema
 } from 'amis-editor-core';
 
 export class SubFormControlPlugin extends BasePlugin {
@@ -207,6 +209,29 @@ export class SubFormControlPlugin extends BasePlugin {
         manager.panelChangeValue(newValue, diff(value, newValue));
       }
     });
+  }
+
+  async buildDataSchemas(
+    node: EditorNodeType,
+    region: EditorNodeType,
+    trigger?: EditorNodeType
+  ) {
+    // 渲染出来才能取到孩子，所以现在subform现在是拿不到的，so这里只提供基本类型，不展开
+    let dataSchema: any = {
+      type: 'object',
+      title: node.schema?.label || node.schema?.name,
+      originalValue: node.schema?.value // 记录原始值，循环引用检测需要
+    };
+
+    if (node.schema?.multiple) {
+      dataSchema = {
+        type: 'array',
+        title: node.schema?.label || node.schema?.name,
+        originalValue: dataSchema.originalValue
+      };
+    }
+
+    return dataSchema;
   }
 }
 

@@ -543,13 +543,13 @@ export class EventControl extends React.Component<
         }
         // 换回来
         const parent = e.to as HTMLElement;
-        if (
-          e.newIndex < e.oldIndex &&
-          e.oldIndex < parent.childNodes.length - 1
-        ) {
-          parent.insertBefore(e.item, parent.childNodes[e.oldIndex + 1]);
-        } else if (e.oldIndex < parent.childNodes.length - 1) {
-          parent.insertBefore(e.item, parent.childNodes[e.oldIndex]);
+        if (e.oldIndex < parent.childNodes.length - 1) {
+          parent.insertBefore(
+            e.item,
+            parent.childNodes[
+              e.oldIndex > e.newIndex ? e.oldIndex + 1 : e.oldIndex
+            ]
+          );
         } else {
           parent.appendChild(e.item);
         }
@@ -557,22 +557,7 @@ export class EventControl extends React.Component<
         const newEvent = onEventConfig[eventKey];
         let options = newEvent?.actions.concat();
         // 从后往前移
-        if (e.oldIndex > e.newIndex) {
-          options = [
-            ...options.slice(0, e.newIndex),
-            options[e.oldIndex],
-            ...options.slice(e.newIndex, e.oldIndex),
-            ...options.slice(e.oldIndex + 1, options.length)
-          ];
-        } else if (e.oldIndex < e.newIndex) {
-          // 从前往后
-          options = [
-            ...(e.oldIndex === 0 ? [] : options.slice(0, e.oldIndex)),
-            ...options.slice(e.oldIndex + 1, e.newIndex),
-            options[e.oldIndex],
-            ...options.slice(e.newIndex, options.length)
-          ];
-        }
+        options.splice(e.newIndex, 0, options.splice(e.oldIndex, 1)[0]);
         onEventConfig[eventKey] = {
           ...onEventConfig[eventKey],
           actions: options

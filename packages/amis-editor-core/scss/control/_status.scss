@@ -6,10 +6,13 @@
   }
   &-tip-icon {
     margin-left: 0.25rem;
-    line-height: 16px;
+    line-height: 14px;
+    display: inline-block;
+    cursor: pointer;
+
     .icon {
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       fill: #84868c;
     }
   }
