@@ -469,7 +469,7 @@ export const Row = types
       self.loaded = false;
     },
 
-    setDeferData({children, ...rest}: any) {
+    updateData({children, ...rest}: any) {
       self.data = {
         ...self.data,
         ...rest
