@@ -468,7 +468,7 @@ export function wrapControl<
 
           setInitialValue(value: any) {
             const model = this.model!;
-            const {formStore: form, data} = this.props;
+            const {formStore: form, canAccessSuperData, data} = this.props;
             const isExp = isExpression(value);
 
             if (isExp) {
@@ -479,10 +479,22 @@ export function wrapControl<
             } else {
               let initialValue = model.extraName
                 ? [
-                    getVariable(data, model.name, form?.canAccessSuperData),
-                    getVariable(data, model.extraName, form?.canAccessSuperData)
+                    getVariable(
+                      data,
+                      model.name,
+                      canAccessSuperData ?? form?.canAccessSuperData
+                    ),
+                    getVariable(
+                      data,
+                      model.extraName,
+                      canAccessSuperData ?? form?.canAccessSuperData
+                    )
                   ]
-                : getVariable(data, model.name, form?.canAccessSuperData);
+                : getVariable(
+                    data,
+                    model.name,
+                    canAccessSuperData ?? form?.canAccessSuperData
+                  );
 
               if (
                 model.extraName &&
