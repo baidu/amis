@@ -873,7 +873,6 @@ export class CRUDPlugin extends BasePlugin {
 
         return {
           ...rest,
-          ...(valueSchema.mode === 'table' ? {columns} : {}),
           ...(valueSchema.mode === 'cards'
             ? {
                 card: this.transformByMode({
@@ -882,8 +881,7 @@ export class CRUDPlugin extends BasePlugin {
                   schema: valueSchema
                 })
               }
-            : {}),
-          ...(valueSchema.mode === 'list'
+            : valueSchema.mode === 'list'
             ? {
                 listItem: this.transformByMode({
                   from: 'table',
@@ -891,6 +889,8 @@ export class CRUDPlugin extends BasePlugin {
                   schema: valueSchema
                 })
               }
+            : columns
+            ? {columns}
             : {})
         };
       },
