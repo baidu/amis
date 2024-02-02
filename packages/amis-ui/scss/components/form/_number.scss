@@ -378,7 +378,7 @@
   .#{$ns}NumberControl-single-unit {
     cursor: default;
     text-align: center;
-    min-width: unset;
+    min-width: unset !important;
     padding: 0 var(--inputNumber-base-default-unit-paddingLeft);
   }
 }

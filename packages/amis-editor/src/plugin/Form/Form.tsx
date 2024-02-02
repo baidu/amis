@@ -1086,7 +1086,7 @@ export class FormPlugin extends BasePlugin {
           title: '外观',
           body: getSchemaTpl('collapseGroup', [
             {
-              title: '布局',
+              title: '基本',
               body: [
                 getSchemaTpl('formItemMode', {
                   isForm: true,
@@ -1117,12 +1117,7 @@ export class FormPlugin extends BasePlugin {
                       return undefined;
                     }
                   }
-                }
-              ]
-            },
-            {
-              title: '其他',
-              body: [
+                },
                 getSchemaTpl('switch', {
                   name: 'wrapWithPanel',
                   label: tipedLabel(
@@ -1141,33 +1136,40 @@ export class FormPlugin extends BasePlugin {
                 })
               ]
             },
-            ...getSchemaTpl('theme:common', {
-              classname: 'formControlClassName',
-              baseTitle: 'form样式',
-              exclude: ['layout'],
-              extra: [
-                getSchemaTpl('theme:base', {
-                  classname: 'panelControlClassName',
-                  title: 'Panel样式',
-                  visibleOn: isWrapped
-                }),
-                getSchemaTpl('theme:base', {
-                  classname: 'headerControlClassName',
-                  title: '标题区样式',
-                  visibleOn: isWrapped
-                }),
-                getSchemaTpl('theme:base', {
-                  classname: 'bodyControlClassName',
-                  title: '内容区样式',
-                  visibleOn: isWrapped
-                }),
-                getSchemaTpl('theme:base', {
-                  classname: 'actionsControlClassName',
-                  title: '操作区样式',
-                  visibleOn: isWrapped
-                })
-              ]
+            getSchemaTpl('theme:base', {
+              classname: 'panelControlClassName',
+              title: 'Panel样式',
+              visibleOn: isWrapped
             }),
+            getSchemaTpl('theme:base', {
+              classname: 'headerControlClassName',
+              title: '标题区样式',
+              visibleOn: isWrapped
+            }),
+            getSchemaTpl('theme:base', {
+              classname: 'bodyControlClassName',
+              title: '内容区样式',
+              visibleOn: isWrapped
+            }),
+            getSchemaTpl('theme:base', {
+              classname: 'actionsControlClassName',
+              title: '操作区样式',
+              visibleOn: isWrapped
+            }),
+            getSchemaTpl('theme:base', {
+              classname: 'formControlClassName',
+              title: '表单样式',
+              hiddenOn: isWrapped
+            }),
+            {
+              title: '自定义样式',
+              body: [
+                {
+                  type: 'theme-cssCode',
+                  label: false
+                }
+              ]
+            },
             /** */
             getSchemaTpl('style:classNames', {
               isFormItem: false,

@@ -118,7 +118,8 @@ setSchemaTpl(
         body: [
           getSchemaTpl('leftFixed'),
           getSchemaTpl('leftRate'),
-          getSchemaTpl('labelAlign')
+          getSchemaTpl('labelAlign'),
+          {}
         ]
       })
     ];

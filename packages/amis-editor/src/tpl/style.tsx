@@ -591,6 +591,7 @@ setSchemaTpl(
     classname?: string;
     title?: string;
     hiddenOn?: string;
+    visibleOn?: string;
     hidePaddingAndMargin?: boolean;
   }) => {
     const {
@@ -599,6 +600,7 @@ setSchemaTpl(
       classname = 'baseControlClassName',
       title = '基本样式',
       hiddenOn,
+      visibleOn,
       hidePaddingAndMargin
     } = option;
     const curHidePaddingAndMargin = hidePaddingAndMargin ?? false;
@@ -612,11 +614,6 @@ setSchemaTpl(
         getSchemaTpl('theme:radius', {
           visibleOn: visibleOn,
           name: `themeCss.${classname}.radius:${state}`,
-          state
-        }),
-        getSchemaTpl('theme:paddingAndMargin', {
-          visibleOn: visibleOn,
-          name: `themeCss.${classname}.padding-and-margin:${state}`,
           state
         }),
         !curHidePaddingAndMargin
@@ -690,7 +687,8 @@ setSchemaTpl(
       title,
       collapsed,
       body: styles,
-      hiddenOn
+      hiddenOn,
+      visibleOn
     };
   }
 );
