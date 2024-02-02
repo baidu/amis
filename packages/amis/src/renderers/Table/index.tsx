@@ -779,7 +779,7 @@ export default class Table extends React.Component<TableProps, object> {
         throw new Error(response.msg);
       }
 
-      row.setDeferData(response.data);
+      row.updateData(response.data);
       row.markLoaded(true);
       row.setError('');
     } catch (e) {
@@ -2888,7 +2888,6 @@ export class TableRenderer extends Table {
     condition?: any
   ) {
     const {store} = this.props;
-    const len = store.data.rows.length;
 
     if (index !== undefined) {
       let items = [...store.data.rows];
@@ -2901,6 +2900,7 @@ export class TableRenderer extends Table {
       return store.updateData({rows: items}, undefined, replace);
     } else if (condition !== undefined) {
       let items = [...store.data.rows];
+      const len = items.length;
       for (let i = 0; i < len; i++) {
         const item = items[i];
         const isUpdate = await evalExpressionWithConditionBuilder(
