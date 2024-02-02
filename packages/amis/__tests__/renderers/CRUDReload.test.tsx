@@ -193,7 +193,8 @@ test('CRUD reload dialog1', async () => {
       }
     });
   });
-  const {container, getByText}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -244,6 +245,8 @@ test('CRUD reload dialog1', async () => {
       makeEnv({fetcher: mockFetcher, getModalContainer: () => container})
     )
   );
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
   await wait(200);
   const saveBtn = container.querySelectorAll('tbody>tr button')[0];
   expect(saveBtn).toBeTruthy();
@@ -287,7 +290,8 @@ test('CRUD reload dialog2', async () => {
       }
     });
   });
-  const {container, getByText}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -339,6 +343,8 @@ test('CRUD reload dialog2', async () => {
       makeEnv({fetcher: mockFetcher, getModalContainer: () => container})
     )
   );
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
   await wait(200);
   const saveBtn = container.querySelectorAll('tbody>tr button')[0];
   expect(saveBtn).toBeTruthy();
@@ -378,7 +384,8 @@ test('CRUD reload drawer1', async () => {
       }
     });
   });
-  const {container, getByText}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -429,6 +436,8 @@ test('CRUD reload drawer1', async () => {
       makeEnv({fetcher: mockFetcher, getModalContainer: () => container})
     )
   );
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
   await wait(200);
   const saveBtn = container.querySelectorAll('tbody>tr button')[0];
   expect(saveBtn).toBeTruthy();
@@ -472,7 +481,8 @@ test('CRUD reload drawer2', async () => {
       }
     });
   });
-  const {container, getByText}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -524,6 +534,8 @@ test('CRUD reload drawer2', async () => {
       makeEnv({fetcher: mockFetcher, getModalContainer: () => container})
     )
   );
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
   await wait(200);
   const saveBtn = container.querySelectorAll('tbody>tr button')[0];
   expect(saveBtn).toBeTruthy();

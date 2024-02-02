@@ -5,7 +5,8 @@ import {makeEnv, wait} from '../helper';
 
 test('1. EventAction:dialog args', async () => {
   const notify = jest.fn();
-  const {getByText, container}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -142,6 +143,8 @@ test('1. EventAction:dialog args', async () => {
       })
     )
   );
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
 
   // events
   fireEvent.click(getByText('打开弹窗'));
@@ -222,7 +225,8 @@ test('1. EventAction:dialog args', async () => {
 
 test('2. EventAction:dialog', async () => {
   const notify = jest.fn();
-  const {getByText, container}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -356,6 +360,9 @@ test('2. EventAction:dialog', async () => {
     )
   );
 
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
+
   // events
   fireEvent.click(getByText('打开弹窗'));
   expect(container).toMatchSnapshot();
@@ -434,7 +441,8 @@ test('2. EventAction:dialog', async () => {
 }, 7000);
 
 test('3. EventAction:dialog data', async () => {
-  const {getByText, container}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -480,7 +488,8 @@ test('3. EventAction:dialog data', async () => {
       })
     )
   );
-
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
   // events
   fireEvent.click(getByText('打开弹窗'));
   await waitFor(() => {
@@ -491,7 +500,8 @@ test('3. EventAction:dialog data', async () => {
 }, 7000);
 
 test('4. EventAction:dialog data2', async () => {
-  const {getByText, container}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -535,6 +545,8 @@ test('4. EventAction:dialog data2', async () => {
       })
     )
   );
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
 
   // events
   fireEvent.click(getByText('打开弹窗'));
