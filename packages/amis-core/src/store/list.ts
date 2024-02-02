@@ -80,6 +80,16 @@ export const Item = types
     reset() {
       self.newIndex = self.index;
       self.data = self.pristine;
+    },
+    updateData({children, ...rest}: any) {
+      self.data = {
+        ...self.data,
+        ...rest
+      };
+
+      // if (Array.isArray(children)) {
+
+      // }
     }
   }));
 
