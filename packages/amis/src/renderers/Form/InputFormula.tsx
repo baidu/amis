@@ -153,6 +153,11 @@ export interface InputFormulaControlSchema extends FormBaseControlSchema {
    * 是否同步父级数据
    */
   syncSuperData?: boolean;
+
+  /**
+   * 内置默认变量
+   */
+  variablesDefault?: [];
 }
 
 interface InputFormulaState {
@@ -259,7 +264,8 @@ export class InputFormulaRenderer extends React.Component<
       mobileUI,
       labelField,
       valueField,
-      syncSuperData
+      syncSuperData,
+      variablesDefault
     } = this.props;
 
     let {variables, functions, options} = this.props;
@@ -317,6 +323,7 @@ export class InputFormulaRenderer extends React.Component<
         mobileUI={mobileUI}
         syncSuperData={syncSuperData}
         variableRaw={this.state.variableRaw}
+        variablesDefault={variablesDefault}
       />
     );
   }

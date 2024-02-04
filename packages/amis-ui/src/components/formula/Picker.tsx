@@ -171,6 +171,11 @@ export interface FormulaPickerProps
   variableRaw?: string;
 
   /**
+   * 内置默认变量
+   */
+  variablesDefault?: [];
+
+  /**
    * 公式弹出的时候，可以外部设置 variables 和 functions
    */
   onPickerOpen?: (props: FormulaPickerProps) => any;
@@ -226,7 +231,7 @@ export class FormulaPicker extends React.Component<
   }
 
   async componentDidMount() {
-    const {variables, data} = this.props;
+    const {variables, data, variablesDefault} = this.props;
     if (typeof variables === 'function') {
       const list = await variables(this.props);
       this.setState({variables: list});
@@ -236,7 +241,13 @@ export class FormulaPicker extends React.Component<
         data,
         '|raw'
       );
-      this.setState({variables: result});
+
+      if (variablesDefault && variablesDefault.length > 0) {
+        let resultArray = [...variablesDefault, ...result];
+        this.setState({variables: resultArray});
+      } else {
+        this.setState({variables: result});
+      }
     }
   }
 
@@ -399,14 +410,26 @@ export class FormulaPicker extends React.Component<
 
   @autobind
   async handleClick() {
-    const {variables, data, syncSuperData, variableRaw, store} = this.props;
+    const {
+      variables,
+      data,
+      syncSuperData,
+      variableRaw,
+      store,
+      variablesDefault
+    } = this.props;
 
     if (syncSuperData && variableRaw) {
       const variableRawData = variableRaw.replace(/\$\{|\}$/g, '');
       if (variableRawData) {
         const formVariable = store.data[variableRawData];
         if (formVariable) {
-          this.setState({variables: formVariable});
+          if (variablesDefault && variablesDefault?.length > 0) {
+            let variable = [...variablesDefault, ...formVariable];
+            this.setState({variables: variable});
+          } else {
+            this.setState({variables: formVariable});
+          }
         }
       }
     }

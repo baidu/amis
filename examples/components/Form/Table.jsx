@@ -119,7 +119,15 @@ export default {
         label: '公式',
         evalMode: true,
         value: 'SUM(1 , 2)',
-        variables: '${tabletree}'
+        variables: '${tabletree}',
+        variablesDefault: [
+          {
+            label: 'hello'
+          },
+          {
+            label: 'goods'
+          }
+        ]
       },
 
       {
