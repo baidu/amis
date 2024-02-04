@@ -81,7 +81,8 @@ export class ColumnTogglerRenderer extends React.Component<ColumnTogglerRenderer
             className={cx('ColumnToggler-menuItem')}
             key={'selectAll'}
             onClick={() => {
-              toggleAllColumns && toggleAllColumns();
+              toggleAllColumns &&
+                toggleAllColumns(activeToggaleColumns?.length <= 0);
             }}
           >
             <Checkbox
