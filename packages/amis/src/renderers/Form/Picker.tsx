@@ -451,6 +451,44 @@ export default class PickerControl extends React.PureComponent<
     return merge(PickerControl.defaultProps.overflowConfig, overflowConfig);
   }
 
+  @autobind
+  handleSelect(selectedItems: Array<any>, unSelectedItems: Array<any>) {
+    const {selectedOptions, valueField} = this.props;
+    // 选择行后，crud 会给出连续多次事件，且selectedItems会变化，会导致初始化和点击无效
+    // 过滤掉一些无用事件，否则会导致 value 错误
+    if (
+      !Array.isArray(selectedItems) ||
+      !Array.isArray(unSelectedItems) ||
+      (!selectedItems.length && !unSelectedItems.length)
+    ) {
+      return;
+    }
+
+    // 取交集，判断是否是无效事件，需要考虑顺序问题
+    const intersections = intersectionWith(
+      selectedItems,
+      selectedOptions,
+      (a: any, b: any) => {
+        // 需要考虑没有配置 valueField，而且值里面又没有 value 字段的情况
+        const aValue = a[valueField || 'value'];
+        const bValue = b[valueField || 'value'];
+        return aValue || bValue
+          ? aValue === bValue
+          : // selectedOptions 中有 Options 自动添加的 value 字段，所以去掉后才能比较
+            isEqual(omit(a, 'value'), omit(b, 'value'));
+      }
+    );
+    if (
+      // 前后数量都一样说明是重复事件
+      intersections.length === selectedItems.length &&
+      intersections.length === selectedOptions.length
+    ) {
+      return;
+    }
+
+    this.handleChange(selectedItems);
+  }
+
   renderTag(item: Option, index: number) {
     const {
       classPrefix: ns,
@@ -641,43 +679,7 @@ export default class PickerControl extends React.PureComponent<
       options: source ? [] : options,
       multiple,
       strictMode,
-      onSelect: embed
-        ? (selectedItems: Array<any>, unSelectedItems: Array<any>) => {
-            // 选择行后，crud 会给出连续多次事件，且selectedItems会变化，会导致初始化和点击无效
-            // 过滤掉一些无用事件，否则会导致 value 错误
-            if (
-              !Array.isArray(selectedItems) ||
-              !Array.isArray(unSelectedItems) ||
-              (!selectedItems.length && !unSelectedItems.length)
-            ) {
-              return;
-            }
-
-            // 取交集，判断是否是无效事件，需要考虑顺序问题
-            const intersections = intersectionWith(
-              selectedItems,
-              selectedOptions,
-              (a: any, b: any) => {
-                // 需要考虑没有配置 valueField，而且值里面又没有 value 字段的情况
-                const aValue = a[valueField || 'value'];
-                const bValue = b[valueField || 'value'];
-                return aValue || bValue
-                  ? aValue === bValue
-                  : // selectedOptions 中有 Options 自动添加的 value 字段，所以去掉后才能比较
-                    isEqual(omit(a, 'value'), omit(b, 'value'));
-              }
-            );
-            if (
-              // 前后数量都一样说明是重复事件
-              intersections.length === selectedItems.length &&
-              intersections.length === selectedOptions.length
-            ) {
-              return;
-            }
-
-            this.handleChange(selectedItems);
-          }
-        : undefined,
+      onSelect: embed ? this.handleSelect : undefined,
       ref: this.crudRef,
       popOverContainer,
       ...(embed ||

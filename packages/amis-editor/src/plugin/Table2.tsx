@@ -628,7 +628,8 @@ export class Table2Plugin extends BasePlugin {
   async buildDataSchemas(
     node: EditorNodeType,
     region?: EditorNodeType,
-    trigger?: EditorNodeType
+    trigger?: EditorNodeType,
+    parent?: EditorNodeType
   ) {
     const itemsSchema: any = {
       $id: 'tableRow',
@@ -638,6 +639,32 @@ export class Table2Plugin extends BasePlugin {
     const columns: EditorNodeType = node.children.find(
       item => item.isRegion && item.region === 'columns'
     );
+
+    const parentScopeId = `${parent?.id}-${parent?.type}${
+      node.parent?.type === 'cell' ? '-currentRow' : ''
+    }`;
+
+    // 追加当前行scope
+    let isColumnChild = false;
+    if (trigger) {
+      isColumnChild = someTree(
+        columns?.children,
+        item => item.id === trigger.id
+      );
+
+      if (isColumnChild) {
+        const scopeId = `${node.id}-${node.type}-currentRow`;
+        if (this.manager.dataSchema.getScope(scopeId)) {
+          this.manager.dataSchema.removeScope(scopeId);
+        }
+        if (this.manager.dataSchema.getScope(parentScopeId)) {
+          this.manager.dataSchema.switchTo(parentScopeId);
+        }
+        this.manager.dataSchema.addScope([], scopeId);
+        this.manager.dataSchema.current.tag = '当前行记录';
+        this.manager.dataSchema.current.group = '组件上下文';
+      }
+    }
 
     if (columns) {
       for (let current of columns.children) {
@@ -657,21 +684,24 @@ export class Table2Plugin extends BasePlugin {
       }
     }
 
-    let cellProperties = {};
     if (trigger) {
       const isColumnChild = someTree(
         columns?.children,
         item => item.id === trigger.id
       );
 
-      isColumnChild && (cellProperties = itemsSchema.properties);
+      // 追加当前行数据
+      if (isColumnChild) {
+        const scopeId = `${node.id}-${node.type}-currentRow`;
+        const scope = this.manager.dataSchema.getScope(scopeId);
+        scope?.addSchema(itemsSchema);
+      }
     }
 
     const result: any = {
-      $id: 'table2',
+      $id: `${node.id}-${node.type}`,
       type: 'object',
       properties: {
-        ...cellProperties,
         rows: {
           type: 'array',
           title: '数据列表',

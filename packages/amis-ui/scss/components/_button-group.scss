@@ -50,6 +50,11 @@
   }
   &-button--active {
     z-index: 1;
+
+    &.is-disabled {
+      color: var(--text-color);
+      border: var(--borderWidth) solid var(--borderColor);
+    }
   }
 }
 

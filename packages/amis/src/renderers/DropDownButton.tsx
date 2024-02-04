@@ -237,8 +237,12 @@ export default class DropDownButton extends React.Component<
         isOpened: false
       });
     }, 200);
-    // PopOver hide会直接调用close方法
-    e && e.preventDefault();
+
+    // 如果是下拉菜单，并且是下载链接，则不阻止默认事件
+    if (!(e?.target as any)?.getAttribute?.('download')) {
+      // PopOver hide会直接调用close方法
+      e && e.preventDefault();
+    }
   }
 
   keepOpen() {

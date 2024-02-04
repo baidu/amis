@@ -236,7 +236,6 @@ export class FormulaEditor extends React.Component<
     } = {};
 
     eachTree(variables, item => {
-      console.log('item======1222=', item);
       if (item.value) {
         const key = item.value;
         varMap[key] = item.path ?? item.label;

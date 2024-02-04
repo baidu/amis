@@ -31,7 +31,8 @@ import {
   filterTarget,
   changedEffect,
   evalExpressionWithConditionBuilder,
-  normalizeApi
+  normalizeApi,
+  getPropValue
 } from 'amis-core';
 import {Icon, Table, BadgeObject, SpinnerExtraProps} from 'amis-ui';
 import type {
@@ -604,13 +605,14 @@ export default class Table2 extends React.Component<Table2Props, object> {
     prevProps?: Table2Props
   ) {
     const source = props.source;
-    const value = props.value || props.items;
+    const value = getPropValue(props, (props: Table2Props) => props.items);
     let rows: Array<object> = [];
     let updateRows = false;
 
     if (
       Array.isArray(value) &&
-      (!prevProps || (prevProps.value || prevProps.items) !== value)
+      (!prevProps ||
+        getPropValue(prevProps, (props: Table2Props) => props.items) !== value)
     ) {
       updateRows = true;
       rows = value;

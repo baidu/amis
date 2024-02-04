@@ -2,7 +2,7 @@ import {observer} from 'mobx-react';
 import React from 'react';
 import {PanelProps} from '../../plugin';
 import cx from 'classnames';
-import {autobind} from '../../util';
+import {autobind, translateSchema} from '../../util';
 import {Icon, InputBox, Tab, Tabs} from 'amis';
 import {EditorNodeType} from '../../store/node';
 import {isAlive} from 'mobx-state-tree';
@@ -234,13 +234,14 @@ export class OutlinePanel extends React.Component<PanelProps> {
     }
     if (option.type === 'dialog' || option.type === 'drawer') {
       if (!isNode || (isNode && !option.region)) {
+        const titleStr = translateSchema(option[title]);
         if (option.type === 'drawer') {
-          rendererTitle = `${option[title] || '抽屉式弹窗'}（抽屉式弹窗）`;
+          rendererTitle = `${titleStr || '抽屉式弹窗'}（抽屉式弹窗）`;
         } else {
           if (option.dialogType === 'confirm') {
-            rendererTitle = `${option[title] || '确认对话框'}（确认对话框）`;
+            rendererTitle = `${titleStr || '确认对话框'}（确认对话框）`;
           } else {
-            rendererTitle = `${option[title] || '弹窗'}（弹窗）`;
+            rendererTitle = `${titleStr || '弹窗'}（弹窗）`;
           }
         }
       }

@@ -54,7 +54,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import {normalizeOptions} from '../utils/normalizeOptions';
 import {optionValueCompare} from '../utils/optionValueCompare';
 import type {Option} from '../types';
-import {resolveEventData} from '../utils';
+import {deleteVariable, resolveEventData} from '../utils';
 
 export {Option};
 
@@ -203,6 +203,12 @@ export interface FormOptionsControl extends FormBaseControl {
   autoFill?: {
     [propName: string]: string;
   };
+
+  /**
+   * @default fillIfNotSet
+   * 初始化时是否把其他字段同步到表单内部。
+   */
+  initAutoFill?: boolean | 'fillIfNotSet';
 }
 
 export interface OptionsBasicConfig extends FormItemBasicConfig {
@@ -303,6 +309,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       placeholder: 'Select.placeholder',
       resetValue: '',
       deleteConfirmText: 'deleteConfirm',
+      initAutoFill: 'fillIfNotSet',
       ...Control.defaultProps
     };
     static propsList: any = (Control as any).propsList
@@ -314,6 +321,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
     input: any;
     mounted = false;
+    initedFilled = false;
 
     constructor(props: OptionsProps) {
       super(props);
@@ -356,16 +364,27 @@ export function registerOptionsControl(config: OptionsConfig) {
               JSON.stringify(formItem.getSelectedOptions(formItem.tmpValue)),
             () =>
               this.mounted &&
+              this.initedFilled &&
               this.syncAutoFill(formItem.getSelectedOptions(formItem.tmpValue))
           )
         );
 
-        if (
-          options &&
-          formItem.tmpValue &&
-          formItem.getSelectedOptions(formItem.tmpValue).length
-        ) {
-          this.syncAutoFill(formItem.getSelectedOptions(formItem.tmpValue));
+        if (formInited || !addHook) {
+          this.initedFilled = true;
+          this.props.initAutoFill !== false &&
+            this.syncAutoFill(
+              formItem.getSelectedOptions(formItem.tmpValue),
+              this.props.initAutoFill === 'fillIfNotSet'
+            );
+        } else if (addHook) {
+          addHook(() => {
+            this.initedFilled = true;
+            this.props.initAutoFill !== false &&
+              this.syncAutoFill(
+                formItem.getSelectedOptions(formItem.tmpValue),
+                this.props.initAutoFill === 'fillIfNotSet'
+              );
+          }, 'init');
         }
 
         // 默认全选。这里会和默认值\回填值逻辑冲突，所以如果有配置source则不执行默认全选
@@ -530,7 +549,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
     }
 
-    syncAutoFill(selectedOptions: Array<any>) {
+    syncAutoFill(selectedOptions: Array<any>, skipIfExits = false) {
       const {autoFill, multiple, onBulkChange, data} = this.props;
       const formItem = this.props.formItem as IFormItemStore;
       // 参照录入｜自动填充
@@ -576,18 +595,30 @@ export function registerOptionsControl(config: OptionsConfig) {
         );
         const tmpData = {...data};
         const result = {...toSync};
+
         Object.keys(autoFill).forEach(key => {
           const keys = keyToPath(key);
+          let value = getVariable(toSync, key);
+
+          if (skipIfExits) {
+            const originValue = getVariable(data, key);
+            if (typeof originValue !== 'undefined') {
+              value = originValue;
+            }
+          }
+
+          setVariable(result, key, value);
+
           // 如果左边的 key 是一个路径
           // 这里不希望直接把原始对象都给覆盖没了
           // 而是保留原始的对象，只修改指定的属性
           if (keys.length > 1 && isPlainObject(tmpData[keys[0]])) {
-            const value = getVariable(toSync, key);
             // 存在情况：依次更新同一子路径的多个key，eg: a.b.c1 和 a.b.c2，所以需要同步更新data
             setVariable(tmpData, key, value);
             result[keys[0]] = tmpData[keys[0]];
           }
         });
+
         onBulkChange(result);
       }
     }

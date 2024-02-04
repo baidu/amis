@@ -283,6 +283,7 @@ test('options:autoFill-merge', async () => {
       makeEnv({})
     )
   );
+  await wait(200);
 
   fireEvent.click(getByText('选项1'));
   await wait(300);

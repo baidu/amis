@@ -1,6 +1,6 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {Renderer, RendererProps, buildStyle} from 'amis-core';
+import {Renderer, RendererProps, buildStyle, getPropValue} from 'amis-core';
 import {SchemaNode, Schema, ActionObject} from 'amis-core';
 import {Button, Spinner, SpinnerExtraProps} from 'amis-ui';
 import {ListStore, IListStore} from 'amis-core';
@@ -266,13 +266,14 @@ export default class Cards extends React.Component<GridProps, object> {
 
   static syncItems(store: IListStore, props: GridProps, prevProps?: GridProps) {
     const source = props.source;
-    const value = props.value || props.items;
+    const value = getPropValue(props, (props: GridProps) => props.items);
     let items: Array<object> = [];
     let updateItems = false;
 
     if (
       Array.isArray(value) &&
-      (!prevProps || (prevProps.value || prevProps.items) !== value)
+      (!prevProps ||
+        getPropValue(prevProps, (props: GridProps) => props.items) !== value)
     ) {
       items = value;
       updateItems = true;
@@ -560,7 +561,12 @@ export default class Cards extends React.Component<GridProps, object> {
 
           const parent = e.to as HTMLElement;
           if (e.oldIndex < parent.childNodes.length - 1) {
-            parent.insertBefore(e.item, parent.childNodes[e.oldIndex]);
+            parent.insertBefore(
+              e.item,
+              parent.childNodes[
+                e.oldIndex > e.newIndex ? e.oldIndex + 1 : e.oldIndex
+              ]
+            );
           } else {
             parent.appendChild(e.item);
           }

@@ -273,7 +273,12 @@ export default class ColumnToggler extends React.Component<
 
           const parent = e.to as HTMLElement;
           if (e.oldIndex < parent.childNodes.length - 1) {
-            parent.insertBefore(e.item, parent.childNodes[e.oldIndex]);
+            parent.insertBefore(
+              e.item,
+              parent.childNodes[
+                e.oldIndex > e.newIndex ? e.oldIndex + 1 : e.oldIndex
+              ]
+            );
           } else {
             parent.appendChild(e.item);
           }
