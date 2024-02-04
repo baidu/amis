@@ -73,7 +73,6 @@ function normalizeValue(value: any, language?: string) {
 export class DiffEditor extends React.Component<DiffEditorProps, any> {
   static defaultProps: Partial<DiffEditorProps> = {
     language: 'javascript',
-    theme: 'vs',
     options: {
       automaticLayout: false,
       selectOnLineNumbers: true,

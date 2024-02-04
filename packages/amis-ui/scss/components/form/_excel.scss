@@ -24,10 +24,10 @@
     padding: var(--gap-md);
     border-width: 2px;
     border-radius: 2px;
-    border-color: #eeeeee;
+    border-color: var(--colors-neutral-line-8);
     border-style: dashed;
-    background-color: #fafafa;
-    color: #bdbdbd;
+    background-color: var(--colors-neutral-fill-10);
+    color: var(--colors-neutral-text-6);
     outline: none;
     transition: border 0.24s ease-in-out;
   }
