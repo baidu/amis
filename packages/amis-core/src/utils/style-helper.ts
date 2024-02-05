@@ -111,7 +111,8 @@ export function formatStyle(
   themeCss: any,
   classNames?: CustomStyleClassName[],
   id?: string,
-  defaultData?: any
+  defaultData?: any,
+  customStyleClassPrefix?: string
 ) {
   // 没有具体的样式，或者没有对应的classname
   if (!themeCss || !classNames) {
@@ -209,7 +210,9 @@ export function formatStyle(
         const inner = weights?.inner || '';
         res.push({
           className: cx + status2string[status] + inner,
-          content: `.${cx + status2string[status]} ${inner}{\n  ${styles.join(
+          content: `${
+            customStyleClassPrefix ? customStyleClassPrefix + ' ' : ''
+          }.${cx + status2string[status]} ${inner}{\n  ${styles.join(
             '\n  '
           )}\n}`
         });
@@ -251,8 +254,13 @@ export function insertCustomStyle(
     return;
   }
 
-  let {value} = formatStyle(themeCss, classNames, id, defaultData);
-  value = customStyleClassPrefix ? `${customStyleClassPrefix} ${value}` : value;
+  let {value} = formatStyle(
+    themeCss,
+    classNames,
+    id,
+    defaultData,
+    customStyleClassPrefix
+  );
   insertStyle(value, id.replace('u:', ''), doc);
 }
 
@@ -299,6 +307,7 @@ function traverseStyle(style: any, path: string, result: any) {
 export function insertEditCustomStyle(
   customStyle: any,
   id?: string,
+  customStyleClassPrefix?: string,
   doc?: Document
 ) {
   let styles: any = {};
@@ -306,20 +315,22 @@ export function insertEditCustomStyle(
 
   let content = '';
   if (!isEmpty(styles)) {
-    const className = `wrapperCustomStyle-${id?.replace('u:', '')}`;
+    const className = `${
+      customStyleClassPrefix ? customStyleClassPrefix + ' ' : ''
+    }.wrapperCustomStyle-${id?.replace('u:', '')}`;
     Object.keys(styles).forEach((key: string) => {
       if (!isObject(styles[key])) {
-        content += `\n.${className} {\n  ${key}: ${styles[key]}\n}`;
+        content += `\n${className} {\n  ${key}: ${styles[key]}\n}`;
       } else if (key === 'root') {
         const res = map(styles[key], (value, key) => `${key}: ${value};`);
-        content += `\n.${className} {\n  ${res.join('\n  ')}\n}`;
+        content += `\n${className} {\n  ${res.join('\n  ')}\n}`;
       } else if (/^root:/.test(key)) {
         const res = map(styles[key], (value, key) => `${key}: ${value};`);
         const nowKey = key.replace('root', '');
-        content += `\n.${className} ${nowKey} {\n  ${res.join('\n  ')}\n}`;
+        content += `\n${className} ${nowKey} {\n  ${res.join('\n  ')}\n}`;
       } else {
         const res = map(styles[key], (value, key) => `${key}: ${value};`);
-        content += `\n.${className} ${key} {\n  ${res.join('\n  ')}\n}`;
+        content += `\n${className} ${key} {\n  ${res.join('\n  ')}\n}`;
       }
     });
   }
