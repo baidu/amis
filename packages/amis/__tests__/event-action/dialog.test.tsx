@@ -654,6 +654,7 @@ test('4. EventAction:dialog data2', async () => {
 
 test('5. EventAction:dialog formitem without form', async () => {
   const onAction = jest.fn();
+  let portal: any = null;
   const {getByText, container}: any = render(
     amisRender(
       {
@@ -701,11 +702,13 @@ test('5. EventAction:dialog formitem without form', async () => {
       },
       {},
       makeEnv({
-        getModalContainer: () => container
+        getModalContainer: () => portal
       })
     )
   );
 
+  portal = container;
+  await wait(200);
   const button = getByText('Dialog');
   fireEvent.click(button);
   await wait(200);
