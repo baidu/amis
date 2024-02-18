@@ -1420,7 +1420,8 @@ test('Renderer:Wizard target', async () => {
 });
 
 test('Renderer:Wizard dialog', async () => {
-  const {getByText, container}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -1477,6 +1478,8 @@ test('Renderer:Wizard dialog', async () => {
       })
     )
   );
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
 
   await waitFor(() => {
     expect(getByText(/OpenDialog/)).toBeInTheDocument();
@@ -1545,5 +1548,4 @@ test('Renderer:Wizard mode', async () => {
     expect(steps[0].className).toBe('is-finish');
     expect(steps[1].className).toBe('is-process');
   });
-
 });
