@@ -809,3 +809,66 @@ test('Renderer:input-table formula', async () => {
     ]
   });
 });
+
+// 对应 github issue: https://github.com/baidu/amis/issues/9537
+test('Renderer:input-table item confirm validate', async () => {
+  const onSubmit = jest.fn();
+  const {container, findByRole, findByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'form',
+          data: {
+            table: [
+              {
+                a: 'a1',
+                b: 'b1'
+              }
+            ]
+          },
+          api: '/amis/api/mock2/form/saveForm',
+          body: [
+            {
+              showIndex: true,
+              type: 'input-table',
+              name: 'table',
+              addable: true,
+              columns: [
+                {
+                  name: 'a',
+                  label: 'A',
+                  quickEdit: {
+                    type: 'input-text',
+                    required: true
+                  }
+                },
+                {
+                  name: 'b',
+                  label: 'B'
+                }
+              ],
+              needConfirm: true
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  await wait(200);
+  const addBtn = container.querySelector('.cxd-OperationField button');
+  expect(addBtn).toBeInTheDocument();
+  fireEvent.click(addBtn!);
+
+  await wait(200);
+  const confirmBtn = container.querySelector('.cxd-OperationField button');
+  expect(confirmBtn).toBeInTheDocument();
+  fireEvent.click(confirmBtn!);
+
+  await wait(200);
+
+  expect(container.querySelector('.has-error--isRequired')).toBeInTheDocument();
+});

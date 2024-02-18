@@ -787,7 +787,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     });
 
     const results = await Promise.all(
-      validateForms.map(item => item.validate())
+      validateForms
+        .map(item => item.validate())
+        .concat(subFormItems.map(item => item.props.onValidate()))
     );
 
     // 有校验不通过的
