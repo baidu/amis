@@ -23,10 +23,23 @@ export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
   popOverContainer?: any;
 }
 
-export class TransferPicker extends React.Component<TransferPickerProps> {
+export interface TransferPickerState {
+  tempValue?: any;
+}
+
+export class TransferPicker extends React.Component<
+  TransferPickerProps,
+  TransferPickerState
+> {
+  state: TransferPickerState = {
+    tempValue: null
+  };
   optionModified = false;
   @autobind
   handleConfirm(value: any) {
+    this.setState({
+      tempValue: null
+    });
     this.props.onChange?.(value, this.optionModified);
     this.optionModified = false;
   }
@@ -38,6 +51,9 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
 
   @autobind
   onBlur() {
+    this.setState({
+      tempValue: null
+    });
     this.props.onBlur?.();
   }
 
@@ -56,8 +72,18 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
       popOverContainer,
       maxTagCount,
       overflowTagPopover,
+      placeholder,
       ...rest
     } = this.props;
+
+    const tp = {
+      value: this.state.tempValue || value,
+      onChange: (value: any) => {
+        this.setState({
+          tempValue: value
+        });
+      }
+    };
 
     return (
       <PickerContainer
@@ -84,13 +110,13 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
                   this.optionModified = true;
                   setState({options, value});
                 } else {
-                  onChange(value);
+                  tp.onChange(value);
                 }
               }}
             />
           );
         }}
-        value={value}
+        value={tp.value}
         onConfirm={this.handleConfirm}
         size={size}
       >
@@ -105,7 +131,7 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
             result={value}
             onResultChange={onChange}
             onResultClick={onClick}
-            placeholder={__('Select.placeholder')}
+            placeholder={placeholder ?? __('Select.placeholder')}
             disabled={disabled}
             borderMode={borderMode}
             itemRender={option => (
