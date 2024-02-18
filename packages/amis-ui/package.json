@@ -123,12 +123,7 @@
       "js"
     ],
     "transform": {
-      "\\.(ts|tsx)$": [
-        "ts-jest",
-        {
-          "diagnostics": false
-        }
-      ]
+      "^.+\\.(t|j)sx?$": "@swc/jest"
     },
     "setupFiles": [
       "jest-canvas-mock"

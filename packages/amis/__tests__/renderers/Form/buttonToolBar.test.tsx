@@ -16,7 +16,8 @@ afterEach(() => {
 });
 
 test('Renderer:button-toolbar', async () => {
-  const {getByText, container}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'form',
@@ -55,6 +56,8 @@ test('Renderer:button-toolbar', async () => {
       })
     )
   );
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/OpenDialog/));
   await wait(300);

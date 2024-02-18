@@ -6,7 +6,7 @@
   "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\"",
+    "test": "echo \"Warnings: no test specified\"",
     "build": "npm run clean-dist && NODE_ENV=production rollup -c ",
     "clean-dist": "rimraf lib/** esm/**",
     "i18n:update": "npx i18n update --config=./i18nConfig.js",

@@ -5,7 +5,8 @@ import {makeEnv, wait} from '../helper';
 
 test('EventAction:drawer args', async () => {
   const notify = jest.fn();
-  const {getByText, container}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -142,6 +143,8 @@ test('EventAction:drawer args', async () => {
       })
     )
   );
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
 
   // events
   fireEvent.click(getByText('打开抽屉'));
@@ -222,7 +225,8 @@ test('EventAction:drawer args', async () => {
 
 test('EventAction:drawer', async () => {
   const notify = jest.fn();
-  const {getByText, container}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -356,6 +360,9 @@ test('EventAction:drawer', async () => {
     )
   );
 
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
+
   // events
   fireEvent.click(getByText('打开抽屉'));
   expect(container).toMatchSnapshot();
@@ -434,7 +441,8 @@ test('EventAction:drawer', async () => {
 }, 7000);
 
 test('EventAction:drawer data', async () => {
-  const {getByText, container}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -480,6 +488,8 @@ test('EventAction:drawer data', async () => {
       })
     )
   );
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
 
   // events
   fireEvent.click(getByText('打开抽屉'));
@@ -491,7 +501,8 @@ test('EventAction:drawer data', async () => {
 }, 7000);
 
 test('EventAction:drawer data2', async () => {
-  const {getByText, container}: any = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -535,6 +546,9 @@ test('EventAction:drawer data2', async () => {
       })
     )
   );
+
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
 
   // events
   fireEvent.click(getByText('打开抽屉'));

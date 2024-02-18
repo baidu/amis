@@ -63,7 +63,13 @@ npm test --workspaces
 
 # 测试某个用例
 # <spec-name>为用例名称，比如inputImage
-npm test --workspace amis <spec-name>
+npm test --workspace amis -- -t <spec-name>
+
+# 运行某个单测文件
+./node_modules/.bin/jest packages/amis/__tests__/renderers/Form/buttonToolBar.test.tsx
+
+# 运行某个单测文件里的某个例子
+./node_modules/.bin/jest packages/amis/__tests__/renderers/Form/buttonToolBar.test.tsx -t 'Renderer:button-toolbar'
 
 # 查看测试用例覆盖率
 npm run coverage
@@ -73,7 +79,7 @@ npm run update-snapshot
 
 # 更新单个 snapshot
 # <spec-name>为用例名称，比如inputImage
-npm run update-snapshot --workspace amis <spec-name>
+npm run update-snapshot --workspace amis -- -t  <spec-name>
 ```
 
 ### 发布版本
