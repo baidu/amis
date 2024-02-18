@@ -6,6 +6,7 @@ import {ServerError} from '../utils/errors';
 import {normalizeApiResponseData} from '../utils/api';
 import {replaceText} from '../utils/replaceText';
 import {concatData} from '../utils/concatData';
+import {envOverwrite} from '../envOverwrite';
 
 export const ServiceStore = iRendererStore
   .named('ServiceStore')
@@ -445,6 +446,7 @@ export const ServiceStore = iRendererStore
         } else {
           if (json.data) {
             const env = getEnv(self);
+            json.data = envOverwrite(json.data, env.locale);
             json.data = replaceText(
               json.data,
               env.replaceText,
