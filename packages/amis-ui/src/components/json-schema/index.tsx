@@ -29,6 +29,8 @@ export interface InputJSONSchemaItemProps extends ThemeProps, LocaleProps {
   ) => JSX.Element;
   collapsable?: boolean;
   placeholder?: string;
+  required?: boolean;
+  addButtonText?: string;
 }
 
 export interface InputJSONSchemaProps

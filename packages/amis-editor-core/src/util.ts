@@ -1393,18 +1393,56 @@ export const scrollToActive = debounce((selector: string) => {
   }
 }, 200);
 
+export function addModal(schema: any, modal: any) {
+  schema = {...schema, definitions: {...schema.definitions}};
+
+  let idx = 1;
+  while (true) {
+    if (!schema.definitions[`modal-ref-${idx}`]) {
+      break;
+    }
+    idx++;
+  }
+  modal = {
+    type: 'dialog',
+    body: [{type: 'tpl', tpl: '这是一个弹窗'}],
+    title: `未命名弹窗${idx}`,
+    ...modal,
+    $$id: guid()
+  } as any;
+  schema.definitions[`modal-ref-${idx}`] = JSONPipeIn(modal);
+
+  return [schema, `modal-ref-${idx}`];
+}
+
 /**
  * 获取弹窗事件
  * @param schema 遍历的schema
  * @param listType 列表形式，弹窗list或label value形式的数据源
  * @param filterId 要过滤弹窗的id
  */
-export const getDialogActions = (
+export const getDialogListBySchema = (
   schema: Schema,
   listType: 'list' | 'source',
   filterId?: string
 ) => {
-  let dialogActions: any[] = [];
+  let items: any[] = [];
+  const dialogMap: any = {
+    dialog: {
+      title: '弹窗',
+      body: 'dialog'
+    },
+    drawer: {
+      title: '抽屉式弹窗',
+      body: 'drawer'
+    },
+    confirmDialog: {
+      title: '确认对话框',
+      // 兼容历史args参数
+      body: ['dialog', 'args']
+    }
+  };
+
   JSONTraverse(
     schema,
     (value: any, key: string, object: any) => {
@@ -1415,16 +1453,11 @@ export const getDialogActions = (
           Object.keys(definitions).forEach(key => {
             if (key.includes('ref-')) {
               if (listType === 'list') {
-                dialogActions.push(definitions[key]);
+                items.push(definitions[key]);
               } else {
                 const dialog = definitions[key];
-                const dialogTypeName =
-                  dialog.type === 'drawer'
-                    ? '抽屉式弹窗'
-                    : dialog.dialogType
-                    ? '确认对话框'
-                    : '弹窗';
-                dialogActions.push({
+                const dialogTypeName = dialogMap[dialog.type].title;
+                items.push({
                   label: `${dialog.title || '-'}（${dialogTypeName}）`,
                   value: dialog.$$id
                 });
@@ -1432,58 +1465,30 @@ export const getDialogActions = (
             }
           });
         }
-      }
-      if (
+      } else if (
         (key === 'actionType' && value === 'dialog') ||
         (key === 'actionType' && value === 'drawer') ||
         (key === 'actionType' && value === 'confirmDialog')
       ) {
-        const dialogBodyMap = new Map([
-          [
-            'dialog',
-            {
-              title: '弹窗',
-              body: 'dialog'
-            }
-          ],
-          [
-            'drawer',
-            {
-              title: '抽屉式弹窗',
-              body: 'drawer'
-            }
-          ],
-          [
-            'confirmDialog',
-            {
-              title: '确认对话框',
-              // 兼容历史args参数
-              body: ['dialog', 'args']
-            }
-          ]
-        ]);
-        let dialogBody = dialogBodyMap.get(value)?.body!;
+        let dialogBody = dialogMap[value].body!;
         let dialogBodyContent = Array.isArray(dialogBody)
           ? object[dialogBody[0]] || object[dialogBody[1]]
           : object[dialogBody];
 
-        if (
-          dialogBodyMap.has(value) &&
-          dialogBodyContent &&
-          !dialogBodyContent.$ref
-        ) {
+        // 有 $ref 的弹窗在definitions中
+        if (dialogMap[value] && dialogBodyContent && !dialogBodyContent.$ref) {
           if (listType == 'list') {
             // 没有 type: dialog的历史数据兼容一下
-            dialogActions.push({
+            items.push({
               ...dialogBodyContent,
               type: Array.isArray(dialogBody) ? 'dialog' : dialogBody
             });
           } else {
             // 新建弹窗切换到现有弹窗把自身过滤掉
             if (!filterId || (filterId && filterId !== dialogBodyContent.id)) {
-              dialogActions.push({
+              items.push({
                 label: `${dialogBodyContent?.title || '-'}（${
-                  dialogBodyMap.get(value)?.title
+                  dialogMap[value].title
                 }）`,
                 value: dialogBodyContent.$$id
               });
@@ -1494,7 +1499,7 @@ export const getDialogActions = (
     },
     (value, key) => key.toString().startsWith('__')
   );
-  return dialogActions;
+  return items;
 };
 
 /**

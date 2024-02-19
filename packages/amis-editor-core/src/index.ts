@@ -36,6 +36,7 @@ import type {EditorStoreType} from './store/editor';
 import {AvailableRenderersPlugin} from './plugin/AvailableRenderers';
 import ShortcutKey from './component/base/ShortcutKey';
 import WidthDraggableContainer from './component/base/WidthDraggableContainer';
+import {SchemaFrom} from './component/base/SchemaForm';
 
 export const version = '__buildVersion';
 
@@ -59,5 +60,6 @@ export {
   ContainerWrapper,
   AvailableRenderersPlugin,
   ShortcutKey,
+  SchemaFrom,
   WidthDraggableContainer
 };

@@ -47,7 +47,7 @@ export interface SelectControlSchema
   /**
    * 当在value值未匹配到当前options中的选项时，是否value值对应文本飘红显示
    */
-  showInvalidMatch: boolean;
+  showInvalidMatch?: boolean;
 
   /**
    * 边框模式，全边框，还是半边框，或者没边框。

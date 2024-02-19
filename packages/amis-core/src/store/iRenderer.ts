@@ -155,7 +155,21 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         self.data = data;
       },
 
-      setCurrentAction(action: object) {
+      setCurrentAction(action: any, resolveDefinitions?: (schema: any) => any) {
+        // 处理 $ref
+        resolveDefinitions &&
+          ['dialog', 'drawer'].forEach(key => {
+            if (action[key]?.$ref) {
+              action = {
+                ...action,
+                [key]: {
+                  ...resolveDefinitions(action[key].$ref),
+                  ...action[key]
+                }
+              };
+            }
+          });
+
         self.action = action;
         self.dialogData = false;
         self.drawerOpen = false;
@@ -174,11 +188,11 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         }
 
         const data = createObjectFromChain(chain);
-
-        if (self.action.dialog && self.action.dialog.data) {
+        const mappingData = self.action.data ?? self.action.dialog?.data;
+        if (mappingData) {
           self.dialogData = createObjectFromChain([
             top?.context,
-            dataMapping(self.action.dialog.data, data)
+            dataMapping(mappingData, data)
           ]);
 
           const clonedAction = {
@@ -223,10 +237,11 @@ export const iRendererStore = StoreNode.named('iRendererStore')
 
         const data = createObjectFromChain(chain);
 
-        if (self.action.drawer.data) {
+        const mappingData = self.action.data ?? self.action.drawer.data;
+        if (mappingData) {
           self.drawerData = createObjectFromChain([
             top?.context,
-            dataMapping(self.action.drawer.data, data)
+            dataMapping(mappingData, data)
           ]);
 
           const clonedAction = {

@@ -79,29 +79,6 @@ export default class Preview extends Component<PreviewProps> {
     this.currentDom.addEventListener('mousedown', this.handeMouseDown);
 
     this.props.manager.on('after-update', this.handlePanelChange);
-
-    const store = this.props.store;
-    // 添加弹窗事件或弹窗列表进行弹窗切换后自动选中对应的弹窗
-    this.dialogReaction = reactionWithOldValue(
-      () =>
-        store.root.children?.length
-          ? `${store.root.children[0]?.type}:${store.root.children[0]?.id}`
-          : '',
-      (info, preInfo) => {
-        if (preInfo !== '') {
-          // 如果为'' 说明是从预览切换回来的，不需要调整activId
-          const type = info.split(':')[0];
-          if (type === 'dialog' || type === 'drawer') {
-            const dialogId = info.split(':')[1];
-            store.changeOutlineTabsKey('dialog-outline');
-            store.setPreviewDialogId(dialogId);
-            store.setActiveId(dialogId);
-          } else {
-            store.setActiveId(store.getRootId());
-          }
-        }
-      }
-    );
   }
 
   componentWillUnmount() {

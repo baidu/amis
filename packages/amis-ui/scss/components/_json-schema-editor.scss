@@ -61,10 +61,17 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: var(--gap-sm);
+    gap: var(--gap-xs);
+    font-size: var(--fonts-size-8);
 
     align-items: stretch;
     position: relative;
+
+    &--mini {
+      > button {
+        padding: 0 4px;
+      }
+    }
   }
 
   &Item + &Item {
@@ -76,13 +83,13 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: var(--gap-sm);
+    gap: var(--gap-xs);
     align-items: flex-start;
     width: 100%;
   }
 
   &-itemsLabel {
-    margin-top: calc((var(--Form-input-height) - var(--Switch-height)) / 2);
+    line-height: px2rem(32px);
   }
 
   &-caret {
@@ -122,5 +129,19 @@
     > input {
       flex-basis: 0;
     }
+  }
+
+  &-info {
+    @include input-input();
+    @include input-border();
+
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &-typeLabel {
+    color: var(--Form-input-placeholderColor);
   }
 }

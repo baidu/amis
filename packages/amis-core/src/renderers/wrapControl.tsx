@@ -63,7 +63,7 @@ export interface ControlOutterProps extends RendererProps {
   submitOnChange?: boolean;
   validate?: (value: any, values: any, name: string) => any;
   formItem?: IFormItemStore;
-  addHook?: (fn: () => any, type?: 'validate' | 'init' | 'flush') => void;
+  addHook?: (fn: () => any, type?: 'validate' | 'init' | 'flush') => () => void;
   removeHook?: (fn: () => any, type?: 'validate' | 'init' | 'flush') => void;
   $schema: {
     pipeIn?: (value: any, data: any) => any;

@@ -158,52 +158,51 @@ export class ActionPlugin extends BasePlugin {
           showLoading: true
         }),
         asFormItem: true,
-        children: ({value, onChange, data}: any) =>
-          data.actionType === 'dialog' ? (
-            <Button
-              size="sm"
-              level="danger"
-              className="m-b"
-              onClick={() =>
-                this.manager.openSubEditor({
-                  title: '配置弹框内容',
-                  value: {type: 'dialog', ...value},
-                  onChange: value => onChange(value)
-                })
-              }
-              block
-            >
-              配置弹框内容
-            </Button>
-          ) : null
+        visibleOn: '${actionType == "dialog"}',
+        children: ({value, onChange, data}: any) => (
+          <Button
+            size="sm"
+            level="danger"
+            className="m-b"
+            onClick={() =>
+              this.manager.openSubEditor({
+                title: '配置弹框内容',
+                value: {type: 'dialog', ...value},
+                onChange: value => onChange(value)
+              })
+            }
+            block
+          >
+            配置弹框内容
+          </Button>
+        )
       },
 
       {
-        visibleOn: 'data.actionType == "drawer"',
         name: 'drawer',
         pipeIn: defaultValue({
           title: '弹框标题',
           body: '对，你刚刚点击了'
         }),
         asFormItem: true,
-        children: ({value, onChange, data}: any) =>
-          data.actionType == 'drawer' ? (
-            <Button
-              size="sm"
-              level="danger"
-              className="m-b"
-              onClick={() =>
-                this.manager.openSubEditor({
-                  title: '配置抽出式弹框内容',
-                  value: {type: 'drawer', ...value},
-                  onChange: value => onChange(value)
-                })
-              }
-              block
-            >
-              配置抽出式弹框内容
-            </Button>
-          ) : null
+        visibleOn: '${actionType == "drawer"}',
+        children: ({value, onChange, data}: any) => (
+          <Button
+            size="sm"
+            level="danger"
+            className="m-b"
+            onClick={() =>
+              this.manager.openSubEditor({
+                title: '配置抽出式弹框内容',
+                value: {type: 'drawer', ...value},
+                onChange: value => onChange(value)
+              })
+            }
+            block
+          >
+            配置抽出式弹框内容
+          </Button>
+        )
       },
 
       getSchemaTpl('api', {
@@ -218,35 +217,35 @@ export class ActionPlugin extends BasePlugin {
           body: '内容'
         }),
         asFormItem: true,
-        children: ({onChange, value, data}: any) =>
-          data.actionType == 'ajax' ? (
-            <div className="m-b">
+        visibleOn: '${actionType == "ajax"}',
+        children: ({onChange, value, data}: any) => (
+          <div className="m-b">
+            <Button
+              size="sm"
+              level={value ? 'danger' : 'info'}
+              onClick={() =>
+                this.manager.openSubEditor({
+                  title: '配置反馈弹框详情',
+                  value: {type: 'dialog', ...value},
+                  onChange: value => onChange(value)
+                })
+              }
+            >
+              配置反馈弹框内容
+            </Button>
+
+            {value ? (
               <Button
                 size="sm"
-                level={value ? 'danger' : 'info'}
-                onClick={() =>
-                  this.manager.openSubEditor({
-                    title: '配置反馈弹框详情',
-                    value: {type: 'dialog', ...value},
-                    onChange: value => onChange(value)
-                  })
-                }
+                level="link"
+                className="m-l"
+                onClick={() => onChange('')}
               >
-                配置反馈弹框内容
+                清空设置
               </Button>
-
-              {value ? (
-                <Button
-                  size="sm"
-                  level="link"
-                  className="m-l"
-                  onClick={() => onChange('')}
-                >
-                  清空设置
-                </Button>
-              ) : null}
-            </div>
-          ) : null
+            ) : null}
+          </div>
+        )
       },
 
       {

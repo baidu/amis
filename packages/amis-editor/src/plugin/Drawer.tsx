@@ -124,6 +124,35 @@ export class DrawerPlugin extends BasePlugin {
           {
             title: '基本',
             body: [
+              {
+                type: 'input-text',
+                label: '组件名称',
+                name: 'editorSetting.displayName'
+              },
+
+              {
+                type: 'radios',
+                label: '弹出方式',
+                name: 'actionType',
+                pipeIn: (value: any, store: any, data: any) =>
+                  value ?? data.type,
+                inline: false,
+                options: [
+                  {
+                    label: '弹窗',
+                    value: 'dialog'
+                  },
+                  {
+                    label: '抽屉',
+                    value: 'drawer'
+                  },
+                  {
+                    label: '确认对话框',
+                    value: 'confirmDialog'
+                  }
+                ]
+              },
+
               getSchemaTpl('layout:originPosition', {value: 'left-top'}),
               {
                 label: '标题',

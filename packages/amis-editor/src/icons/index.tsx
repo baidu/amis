@@ -158,6 +158,7 @@ import layout_fixed_top from './layout/layout-fixed-top.svg';
 // 其他类 icon
 import inputAddFx from './other/+fx.svg';
 import inputFx from './other/fx.svg';
+import modalSetting from './other/modal-setting.svg';
 
 // 属性配置面板/显示类型
 import block from './display/block.svg';
@@ -313,6 +314,7 @@ registerIcon('formula-plugin', formula);
 registerIcon('property-sheet-plugin', propertySheet);
 registerIcon('tooltip-plugin', tooltip);
 registerIcon('divider-plugin', divider);
+registerIcon('modal-setting', modalSetting);
 
 // 常见布局组件 icon x 13
 registerIcon('layout-absolute-plugin', layout_absolute);
