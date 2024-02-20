@@ -1729,6 +1729,339 @@ exports[`Renderer:select group mode with virtual 1`] = `
 </div>
 `;
 
+exports[`Renderer:select group mode with virtual 2`] = `
+<div>
+  <div
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+  >
+    <div
+      class="cxd-Panel-heading"
+    >
+      <h3
+        class="cxd-Panel-title"
+      >
+        <span
+          class="cxd-TplField"
+        >
+          <span>
+            表单
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="cxd-Panel-body"
+    >
+      <form
+        class="cxd-Form cxd-Form--normal"
+        novalidate=""
+      >
+        <input
+          style="display: none;"
+          type="submit"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label"
+          >
+            <span>
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  分组
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="cxd-SelectControl cxd-Form-control has-popover"
+          >
+            <div
+              class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-opened is-clickable"
+              style="position: relative;"
+              tabindex="-1"
+            >
+              <div
+                class="cxd-ResultBox-value-wrap"
+              >
+                <span
+                  class="cxd-ResultBox-placeholder"
+                >
+                  请选择
+                </span>
+              </div>
+              <div
+                class="cxd-ResultBox-actions"
+              >
+                <span
+                  class="cxd-ResultBox-pc-arrow"
+                >
+                  <icon-mock
+                    classname="icon icon-right-arrow-bold"
+                    icon="right-arrow-bold"
+                  />
+                </span>
+              </div>
+              <div
+                class="resize-sensor"
+                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+  
+                <div
+                  class="resize-sensor-expand"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-shrink"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-appear"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                />
+              </div>
+            </div>
+            <div
+              class="cxd-PopOver cxd-TransferDropDown-popover cxd-PopOver--leftBottomLeftTop cxd-PopOver--v-top"
+              role="popover"
+              style="display: block; min-width: 100px; left: 0px; top: 0px; position: relative;"
+              theme="cxd"
+            >
+              <div
+                class="cxd-PopOver-overlay"
+              />
+              <div
+                class="cxd-TransferDropDown-content"
+              >
+                <div
+                  class="cxd-GroupedSelection cxd-Transfer-selection"
+                >
+                  <div
+                    style="display: block; position: relative; width: 100%; height: 100%; min-height: 266px;"
+                  >
+                    <div
+                      style="overflow: auto; will-change: transform; height: 0px; width: 100%;"
+                    >
+                      <div
+                        style="position: relative; width: auto; white-space: nowrap; min-height: 100%; height: 8360px;"
+                      >
+                        <div
+                          class="cxd-GroupedSelection-group"
+                          style="position: absolute; top: 0px; left: 0px; width: 100%; height: 38px;"
+                        >
+                          <div
+                            class="cxd-GroupedSelection-itemLabel"
+                          >
+                            <span
+                              class=" cxd-Selection-ellipsis-line"
+                              title="group-1 "
+                            >
+                              group-1
+                            </span>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-GroupedSelection-group"
+                          style="position: absolute; top: 38px; left: 0px; width: 100%; height: 38px;"
+                        >
+                          <div
+                            class="cxd-GroupedSelection-items"
+                          >
+                            <div
+                              class="cxd-GroupedSelection-item"
+                            >
+                              <div
+                                class="cxd-GroupedSelection-itemLabel"
+                              >
+                                <span
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="option-1 "
+                                >
+                                  option-1
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-GroupedSelection-group"
+                          style="position: absolute; top: 76px; left: 0px; width: 100%; height: 38px;"
+                        >
+                          <div
+                            class="cxd-GroupedSelection-items"
+                          >
+                            <div
+                              class="cxd-GroupedSelection-item"
+                            >
+                              <div
+                                class="cxd-GroupedSelection-itemLabel"
+                              >
+                                <span
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="option-2 "
+                                >
+                                  option-2
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-GroupedSelection-group"
+                          style="position: absolute; top: 114px; left: 0px; width: 100%; height: 38px;"
+                        >
+                          <div
+                            class="cxd-GroupedSelection-items"
+                          >
+                            <div
+                              class="cxd-GroupedSelection-item"
+                            >
+                              <div
+                                class="cxd-GroupedSelection-itemLabel"
+                              >
+                                <span
+                                  class=" cxd-Selection-ellipsis-line"
+                                  title="option-3 "
+                                >
+                                  option-3
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="resize-sensor"
+                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+  
+                      <div
+                        class="resize-sensor-expand"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+    
+                        <div
+                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                        />
+                        
+  
+                      </div>
+                      
+  
+                      <div
+                        class="resize-sensor-shrink"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+    
+                        <div
+                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                        />
+                        
+  
+                      </div>
+                      
+  
+                      <div
+                        class="resize-sensor-appear"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="resize-sensor"
+                style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+  
+                <div
+                  class="resize-sensor-expand"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-shrink"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+    
+                  <div
+                    style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                  />
+                  
+  
+                </div>
+                
+  
+                <div
+                  class="resize-sensor-appear"
+                  style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary cxd-Button--size-default"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer:select menutpl 1`] = `
 <div>
   <div
