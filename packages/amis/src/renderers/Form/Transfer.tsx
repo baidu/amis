@@ -24,7 +24,8 @@ import {
   optionValueCompare,
   resolveVariable,
   ActionObject,
-  toNumber
+  toNumber,
+  evalExpression
 } from 'amis-core';
 import {SpinnerExtraProps, Transfer, Spinner, ResultList} from 'amis-ui';
 import {
@@ -168,6 +169,15 @@ export interface TransferControlSchema
    * 树形模式下，仅选中子节点
    */
   onlyChildren?: boolean;
+
+  /**
+   * 是否默认都展开
+   */
+  initiallyOpen?: boolean;
+  /**
+   * ui级联关系，true代表级联选中，false代表不级联，默认为true
+   */
+  autoCheckChildren?: boolean;
 
   /**
    * 分页配置，selectMode为默认和table才会生效
@@ -352,7 +362,11 @@ export class BaseTransferRenderer<
   }
 
   @autobind
-  async handleSearch(term: string, cancelExecutor: Function) {
+  async handleSearch(
+    term: string,
+    cancelExecutor: Function,
+    targetPage?: {page: number; perPage?: number}
+  ) {
     const {
       searchApi,
       options,
@@ -368,7 +382,7 @@ export class BaseTransferRenderer<
       try {
         const payload = await env.fetcher(
           searchApi,
-          createObject(data, {term}),
+          createObject(data, {term, ...(targetPage ? targetPage : {})}),
           {
             cancelExecutor
           }
@@ -384,29 +398,46 @@ export class BaseTransferRenderer<
           throw new Error(__('CRUD.invalidArray'));
         }
 
-        return mapTree(result, item => {
-          let resolved: any = null;
-          const value = item[valueField || 'value'];
+        let currentPage = {};
+        if (targetPage) {
+          currentPage = {
+            page: payload.data.page,
+            perPage: targetPage.perPage,
+            total: payload.data.count
+          };
+        }
+        return {
+          items: mapTree(result, item => {
+            let resolved: any = null;
+            const value = item[valueField || 'value'];
 
-          // 只有 value 值有意义的时候，再去找；否则直接返回
-          if (Array.isArray(options) && value !== null && value !== undefined) {
-            resolved = find(options, optionValueCompare(value, valueField));
-            if (item?.children) {
-              resolved = {
-                ...resolved,
-                children: item.children
-              };
+            // 只有 value 值有意义的时候，再去找；否则直接返回
+            if (
+              Array.isArray(options) &&
+              value !== null &&
+              value !== undefined
+            ) {
+              resolved = find(options, optionValueCompare(value, valueField));
+              if (item?.children) {
+                resolved = {
+                  ...resolved,
+                  children: item.children
+                };
+              }
             }
-          }
 
-          return resolved || item;
-        });
+            return resolved || item;
+          }),
+          ...currentPage
+        };
       } catch (e) {
         if (!env.isCancel(e) && !searchApi.silent) {
           env.notify('error', e.message);
         }
 
-        return [];
+        return {
+          items: []
+        };
       }
     } else if (term) {
       const labelKey = (labelField as string) || 'label';
@@ -416,29 +447,36 @@ export class BaseTransferRenderer<
       if (filterOption) {
         const customFilterOption = getCustomFilterOption(filterOption);
         if (customFilterOption) {
-          return customFilterOption(options, term, option);
+          return {items: customFilterOption(options, term, option)};
         } else {
           env.notify('error', '自定义检索函数不符合要求');
-          return [];
+          return {items: []};
         }
       }
 
-      return filterTree(
-        options,
-        (option: Option, key: number, level: number, paths: Array<Option>) => {
-          return !!(
-            (Array.isArray(option.children) && option.children.length) ||
-            !!matchSorter([option].concat(paths), term, {
-              keys: [labelField || 'label', valueField || 'value'],
-              threshold: matchSorter.rankings.CONTAINS
-            }).length
-          );
-        },
-        0,
-        true
-      );
+      return {
+        items: filterTree(
+          options,
+          (
+            option: Option,
+            key: number,
+            level: number,
+            paths: Array<Option>
+          ) => {
+            return !!(
+              (Array.isArray(option.children) && option.children.length) ||
+              !!matchSorter([option].concat(paths), term, {
+                keys: [labelField || 'label', valueField || 'value'],
+                threshold: matchSorter.rankings.CONTAINS
+              }).length
+            );
+          },
+          0,
+          true
+        )
+      };
     } else {
-      return options;
+      return {items: options};
     }
   }
 
@@ -596,7 +634,10 @@ export class BaseTransferRenderer<
       pagination,
       formItem,
       env,
-      popOverContainer
+      popOverContainer,
+      data,
+      autoCheckChildren = true,
+      initiallyOpen = true
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -668,7 +709,11 @@ export class BaseTransferRenderer<
               'popOverContainerSelector'
             ]),
             enable:
-              !!formItem?.enableSourcePagination &&
+              (pagination && pagination.enable !== undefined
+                ? !!(typeof pagination.enable === 'string'
+                    ? evalExpression(pagination.enable, data)
+                    : pagination.enable)
+                : !!formItem?.enableSourcePagination) &&
               (!selectMode ||
                 selectMode === 'list' ||
                 selectMode === 'table') &&
@@ -682,8 +727,9 @@ export class BaseTransferRenderer<
             popOverContainer: popOverContainer ?? env?.getModalContainer
           }}
           onPageChange={this.handlePageChange}
+          initiallyOpen={initiallyOpen}
+          autoCheckChildren={autoCheckChildren}
         />
-
         <Spinner
           overlay
           key="info"

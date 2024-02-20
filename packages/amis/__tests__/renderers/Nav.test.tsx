@@ -585,7 +585,8 @@ test('Renderer:Nav with icons', async () => {
 
 // 9.Nav在Dialog里
 test('Renderer:Nav with Dialog', async () => {
-  const {container, getByText} = render(
+  let container: HTMLElement;
+  const renderResult: any = render(
     amisRender(
       {
         type: 'page',
@@ -678,6 +679,8 @@ test('Renderer:Nav with Dialog', async () => {
       })
     )
   );
+  const getByText = renderResult.getByText;
+  container = renderResult.container;
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText('点击弹框'));

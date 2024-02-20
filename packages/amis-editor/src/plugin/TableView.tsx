@@ -233,13 +233,15 @@ export class TableViewPlugin extends BasePlugin {
                   name: 'border',
                   type: 'switch',
                   mode: 'row',
+                  pipeIn: defaultValue(true),
                   inputClassName: 'inline-flex justify-between flex-row-reverse'
                 },
                 {
                   label: '边框颜色',
                   type: 'input-color',
                   name: 'borderColor',
-                  visibleOn: 'this.border',
+                  visibleOn:
+                    'this.border || typeof this.border === "undefined"',
                   pipeIn: defaultValue('#eceff8')
                 }
               ]

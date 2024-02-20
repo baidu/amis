@@ -282,7 +282,7 @@ export class ParseThemeData {
 
   // 解析组件通用方法
   parseComponentCommon(component: any) {
-    if (component.token) {
+    if (component.token && component.body) {
       // 有token时结束递归
       const token = component.token;
       for (let key in component.body) {
