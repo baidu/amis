@@ -140,7 +140,7 @@ export const HocQuickEdit =
         this.handleInit = this.handleInit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleFormItemChange = this.handleFormItemChange.bind(this);
-
+        this.handleBulkChange = this.handleBulkChange.bind(this);
         this.state = {
           isOpened: false
         };
@@ -379,6 +379,18 @@ export const HocQuickEdit =
         );
       }
 
+      // autoFill 是通过 onBulkChange 触发的
+      // quickEdit 需要拦截这个，否则修改的数据就是错的
+      handleBulkChange(values: any) {
+        const {onQuickChange, quickEdit} = this.props;
+        onQuickChange(
+          values,
+          (quickEdit as QuickEditConfig).saveImmediately,
+          false,
+          quickEdit as QuickEditConfig
+        );
+      }
+
       openQuickEdit() {
         currentOpened = this;
         this.setState({
@@ -595,6 +607,7 @@ export const HocQuickEdit =
             mode: 'normal',
             value: getPropValue(this.props) ?? '',
             onChange: this.handleFormItemChange,
+            onBulkChange: this.handleBulkChange,
             ref: this.formItemRef,
             defaultStatic: false
           });
@@ -608,6 +621,7 @@ export const HocQuickEdit =
           simpleMode: true,
           onInit: this.handleInit,
           onChange: this.handleChange,
+          onBulkChange: this.handleBulkChange,
           formLazyChange: false,
           canAccessSuperData,
           disabled,
