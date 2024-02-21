@@ -51,6 +51,7 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
       popOverContainer,
       maxTagCount,
       overflowTagPopover,
+      placeholder,
       ...rest
     } = this.props;
 
@@ -100,7 +101,7 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
             result={value}
             onResultChange={onChange}
             onResultClick={onClick}
-            placeholder={__('Select.placeholder')}
+            placeholder={placeholder ?? __('Select.placeholder')}
             disabled={disabled}
             itemRender={option => (
               <span>{(option && option[labelField]) || 'undefiend'}</span>

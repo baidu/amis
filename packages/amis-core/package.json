@@ -85,12 +85,7 @@
       "js"
     ],
     "transform": {
-      "\\.(ts|tsx)$": [
-        "ts-jest",
-        {
-          "diagnostics": false
-        }
-      ]
+      "^.+\\.(t|j)sx?$": "@swc/jest"
     },
     "setupFiles": [
       "jest-canvas-mock"
@@ -108,5 +103,5 @@
       "/.rollup.cache/"
     ]
   },
-  "gitHead": "61bb97aa7253e13ec6d4ad290f0dbda6fd3e449b"
+  "gitHead": "37d23b4a8eb1c663bc38e8dd9040889ea1526ec4"
 }

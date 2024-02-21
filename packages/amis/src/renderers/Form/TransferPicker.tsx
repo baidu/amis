@@ -1,4 +1,9 @@
-import {OptionsControlProps, OptionsControl, resolveEventData} from 'amis-core';
+import {
+  OptionsControlProps,
+  OptionsControl,
+  resolveEventData,
+  evalExpression
+} from 'amis-core';
 import React from 'react';
 import {Spinner, SpinnerExtraProps} from 'amis-ui';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
@@ -7,6 +12,7 @@ import {autobind, createObject} from 'amis-core';
 import {ActionObject, toNumber} from 'amis-core';
 import {supportStatic} from './StaticHoc';
 import {isMobile} from 'amis-core';
+import pick from 'lodash/pick';
 
 /**
  * TransferPicker 穿梭器的弹框形态
@@ -93,7 +99,14 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       mobileUI,
       env,
       maxTagCount,
-      overflowTagPopover
+      overflowTagPopover,
+      pagination,
+      formItem,
+      data,
+      popOverContainer,
+      placeholder,
+      autoCheckChildren = true,
+      initiallyOpen = true
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -115,6 +128,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
     return (
       <div className={cx('TransferControl', className)}>
         <TransferPicker
+          placeholder={placeholder}
           borderMode={borderMode}
           selectMode={selectMode}
           value={selectedOptions}
@@ -148,6 +162,34 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           popOverContainer={env?.getModalContainer}
           maxTagCount={maxTagCount}
           overflowTagPopover={overflowTagPopover}
+          pagination={{
+            ...pick(pagination, [
+              'layout',
+              'perPageAvailable',
+              'popOverContainerSelector'
+            ]),
+            className: pagination?.className as any,
+            enable:
+              (pagination && pagination.enable !== undefined
+                ? !!(typeof pagination.enable === 'string'
+                    ? evalExpression(pagination.enable, data)
+                    : pagination.enable)
+                : !!formItem?.enableSourcePagination) &&
+              (!selectMode ||
+                selectMode === 'list' ||
+                selectMode === 'table') &&
+              options.length > 0,
+            maxButtons: Number.isInteger(pagination?.maxButtons)
+              ? pagination?.maxButtons
+              : 5,
+            page: formItem?.sourcePageNum,
+            perPage: formItem?.sourcePerPageNum,
+            total: formItem?.sourceTotalNum,
+            popOverContainer: popOverContainer ?? env?.getModalContainer
+          }}
+          onPageChange={this.handlePageChange}
+          autoCheckChildren={autoCheckChildren}
+          initiallyOpen={initiallyOpen}
         />
 
         <Spinner
